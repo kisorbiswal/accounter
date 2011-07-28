@@ -16,7 +16,7 @@ public abstract class ParentCanvas<T> extends VerticalPanel implements
 	private Action action;
 	public boolean isSave = false;
 	public boolean isContiueExecution = true;
-	protected long id;
+	// protected long id;
 	// public boolean isContinueValidattion = true;
 
 	/**
@@ -151,15 +151,13 @@ public abstract class ParentCanvas<T> extends VerticalPanel implements
 
 	}
 
-	@Override
-	public long getID() {
-		return this.id;
-	}
-
-	@Override
-	public void setID(long id) {
-		this.id = id;
-	}
+	// public long getID() {
+	// return this.id;
+	// }
+	//
+	// public void setID(long id) {
+	// this.id = id;
+	// }
 
 	public abstract void onEdit();
 

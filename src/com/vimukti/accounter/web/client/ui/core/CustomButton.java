@@ -18,14 +18,14 @@ import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseView;
  */
 public class CustomButton extends Button {
 
-	protected AccounterExecute execute;
+	// protected AccounterExecute execute;
 	int vals = 0;
 
 	/**
 	 * Creating CustomButton, for Save And Close, SaveNew , Add, Edit, Delete
 	 * 
 	 */
-	
+
 	public CustomButton(CustomButtonType type, AbstractBaseView canvas) {
 
 		super(type.getValue());
@@ -46,7 +46,6 @@ public class CustomButton extends Button {
 
 	}
 
-	
 	private void setDefaultBehaviour(CustomButtonType type,
 			AbstractBaseView view) {
 
@@ -63,7 +62,6 @@ public class CustomButton extends Button {
 
 	}
 
-	
 	private void addClickHandler(final AbstractBaseView canvas,
 			final CustomButtonType type) {
 
@@ -74,7 +72,7 @@ public class CustomButton extends Button {
 				try {
 					// CustomButton.this.getParent().setVisible(false);
 					if (type == CustomButtonType.CANCEL) {
-						
+
 						ViewManager.getInstance().closeCurrentView();
 						return;
 					}
@@ -84,13 +82,14 @@ public class CustomButton extends Button {
 					if (!canvas.saveAndClose)
 						canvas.isSaveAndNew = true;
 					canvas.isRegister = type == CustomButtonType.REGISTER;
-					if(canvas instanceof EmployeeExpenseView && type == CustomButtonType.APPROVE) {
+					if (canvas instanceof EmployeeExpenseView
+							&& type == CustomButtonType.APPROVE) {
 						((EmployeeExpenseView) canvas).status = ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED;
 					}
 					CustomButton.this.validateAndSave(canvas);
 				} catch (Exception e) {
-					if (execute != null)
-						execute.stop();
+					// if (execute != null)
+					// execute.stop();
 				}
 
 			}
@@ -98,7 +97,6 @@ public class CustomButton extends Button {
 
 	}
 
-	
 	protected void validateAndSave(final AbstractBaseView view)
 			throws Exception {
 		// view.errorOccured = false;
@@ -106,8 +104,9 @@ public class CustomButton extends Button {
 		// BaseView.commentPanel.setVisible(false);
 		MainFinanceWindow.getViewManager().restoreErrorBox();
 		view.errorOccured = false;
-		AccounterExecute execute = new AccounterExecute(view, this);
-		execute.run();
-		Accounter.setTimer(execute);
+		view.validate();
+		// AccounterExecute execute = new AccounterExecute(view, this);
+		// execute.run();
+		// Accounter.setTimer(execute);
 	}
 }

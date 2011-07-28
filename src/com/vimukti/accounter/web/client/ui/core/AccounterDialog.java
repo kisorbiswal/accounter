@@ -102,7 +102,7 @@ public class AccounterDialog extends CustomDialog {
 				@Override
 				public void onClick(ClickEvent event) {
 					okClicked();
-					Accounter.stopExecution();
+					// Accounter.stopExecution();
 				}
 
 			});
@@ -123,7 +123,7 @@ public class AccounterDialog extends CustomDialog {
 				public void onClick(ClickEvent event) {
 					try {
 						yesClicked();
-					} catch (InvalidEntryException e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -199,7 +199,7 @@ public class AccounterDialog extends CustomDialog {
 			}
 	}
 
-	protected void yesClicked() throws InvalidEntryException {
+	protected void yesClicked() throws Exception {
 		if (dialogHandler != null) {
 			if (dialogHandler.onYesClick())
 				removeFromParent();

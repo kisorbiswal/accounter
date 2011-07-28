@@ -98,12 +98,17 @@ public class ViewManager extends DockPanel {
 
 	private VerticalPanel rightCanvas;
 
-	
-	/* This reference var. holds currently opened view */
-	private AbstractBaseView<?> currentCanvas;
+	/**
+	 * This reference var. holds currently opened view. it is not only
+	 * AbstractBaseView, it is may be AbstractReportView also
+	 */
+	private ParentCanvas<?> currentCanvas;
 
-	/* This reference var. holds currently opened dialog */
-//	private BaseDialog<?> currentDialog;
+	/**
+	 * This reference var. holds currently opened dialog. And it is used to
+	 * update the saved data in currently opened dialog
+	 */
+	private BaseDialog<?> currentDialog;
 
 	public final static int CMD_Sucess = 1;
 	public final static int CMD_SAVEFAILED = 2;
@@ -116,7 +121,7 @@ public class ViewManager extends DockPanel {
 	 * request to server .
 	 */
 
-	private PopupPanel dialog;
+	private PopupPanel processDialog;
 
 	private ScrollPanel scrollPanel;
 
@@ -126,12 +131,10 @@ public class ViewManager extends DockPanel {
 	public final static int TOP_MENUBAR = 75;
 	private final int BORDER = 15;
 
-	
 	private ParentCanvas canvas;
 
 	private boolean isShowWarningDialog;
 
-	
 	private ParentCanvas presentView;
 
 	private Object presentDate;
@@ -378,10 +381,9 @@ public class ViewManager extends DockPanel {
 		statusLayout.add(buttonLayout);
 
 		rightCanvas = new VerticalPanel() {
-			
+
 			VerticalPanel tempPanel;
 
-			
 			@Override
 			public void add(Widget w) {
 				if (w instanceof BaseView) {
@@ -417,7 +419,7 @@ public class ViewManager extends DockPanel {
 		rightCanvas.add(commentPanel);
 
 		scrollPanel = new ScrollPanel() {
-			
+
 			@Override
 			public void add(Widget w) {
 				ParentCanvas canvas = (ParentCanvas) w;
@@ -447,7 +449,6 @@ public class ViewManager extends DockPanel {
 
 	}
 
-	
 	public void closeCurrentView() {
 		// History history = getHistoryForView(currentCanvas);
 		// final ParentCanvas view = history.getView();
@@ -466,14 +467,12 @@ public class ViewManager extends DockPanel {
 		}
 	}
 
-	
 	public BaseView getContentPanel() {
 		return this.currentCanvas instanceof BaseView ? (BaseView) this.currentCanvas
 				: null;
 	}
 
-	
-	public ParentCanvas getParentCanvas() {
+	public ParentCanvas<?> getParentCanvas() {
 		return this.currentCanvas;
 	}
 
@@ -501,7 +500,7 @@ public class ViewManager extends DockPanel {
 	 * 
 	 * @param action
 	 */
-	
+
 	public void showView(Action action) throws Exception {
 
 		// SC.logWarn("ViewManager Show View Called for Action" + action);
@@ -540,8 +539,7 @@ public class ViewManager extends DockPanel {
 		}
 
 		boolean enablePrint = (input != null && (input instanceof ClientInvoice || input instanceof ClientCustomerCreditMemo))
-				|| action.getCatagory().equals(
-						Accounter.constants().report());
+				|| action.getCatagory().equals(Accounter.constants().report());
 
 		print1Button.setVisible(enablePrint);
 		exportButton.setVisible(action.getCatagory().equals(
@@ -562,7 +560,7 @@ public class ViewManager extends DockPanel {
 	 * @param action
 	 * @param dependent
 	 */
-	
+
 	public void showView(ParentCanvas view, Object input, boolean dependent,
 			Action action) throws Exception {
 
@@ -592,7 +590,6 @@ public class ViewManager extends DockPanel {
 
 	}
 
-	
 	public void showPresentView(ParentCanvas view, Object input,
 			boolean dependent, Action action) throws Exception {
 		// Checking for any duplication of Company Home Page. due to should save
@@ -644,7 +641,6 @@ public class ViewManager extends DockPanel {
 		refreshStatusBar();
 	}
 
-	
 	private void showWarningDialog(final ParentCanvas view, final Object input,
 			final boolean dependent, final Action action) {
 		Accounter.showWarning(AccounterWarningType.saveOrClose,
@@ -668,18 +664,19 @@ public class ViewManager extends DockPanel {
 					}
 
 					@Override
-					public boolean onYesClick() throws InvalidEntryException {
+					public boolean onYesClick() throws Exception {
 
 						((AbstractBaseView) currentCanvas).errorOccured = false;
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
 						restoreErrorBox();
-						AccounterExecute execute = new AccounterExecute(
-								(AbstractBaseView) currentCanvas,
-								((AbstractBaseView) currentCanvas)
-										.getSaveAndCloseButton());
-						execute.run();
-						Accounter.setTimer(execute);
+						// AccounterExecute execute = new AccounterExecute(
+						// (AbstractBaseView) currentCanvas,
+						// ((AbstractBaseView) currentCanvas)
+						// .getSaveAndCloseButton());
+						// execute.run();
+						// Accounter.setTimer(execute);
+						((AbstractBaseView) currentCanvas).validate();
 						// try {
 						// showPresentView(view, input, dependent, action);
 						// } catch (Exception e) {
@@ -745,18 +742,14 @@ public class ViewManager extends DockPanel {
 			currentCanvas.setWidth("100%");
 			scrollPanel.add(currentCanvas);
 			rightCanvas.add(scrollPanel);
-			statusLabel
-					.setText(history.getAction().catagory
-							+ " > "
-							+ (currentCanvas.isEditMode() ? history
-									.getAction()
-									.getText()
-									.replace(
-											Accounter.constants()
-													.New(),
-											Accounter.constants()
-													.viewEdit()) : history
-									.getAction().getText()));
+			statusLabel.setText(history.getAction().catagory
+					+ " > "
+					+ (currentCanvas.isEditMode() ? history
+							.getAction()
+							.getText()
+							.replace(Accounter.constants().New(),
+									Accounter.constants().viewEdit()) : history
+							.getAction().getText()));
 			fitToSize(this.height, this.width);
 			statusLabel.setText(history.getAction().catagory + " > "
 					+ history.getAction().getText());
@@ -782,7 +775,7 @@ public class ViewManager extends DockPanel {
 	 * 
 	 * @param view
 	 */
-	
+
 	private void hideView(ParentCanvas view) {
 
 		// SC.logWarn("ViewManager hide View Called." + view);
@@ -802,7 +795,6 @@ public class ViewManager extends DockPanel {
 	 * @param history
 	 */
 
-	
 	private void saveAndHideCurrentView() {
 		// check history is null
 		// if not null, then get input from view, and update the history
@@ -827,7 +819,6 @@ public class ViewManager extends DockPanel {
 
 	}
 
-	
 	private void saveAndCloseCurrentView() {
 
 		// SC.logWarn("ViewManager Called saveAndCloseCurrentView()");
@@ -844,7 +835,7 @@ public class ViewManager extends DockPanel {
 
 		if (historyList.size() != 0) {
 			removeCurrentView();
-			
+
 			ParentCanvas view = getCurrentView();
 			// if (view != null) {
 			// view.destroy();
@@ -971,7 +962,7 @@ public class ViewManager extends DockPanel {
 	 * Delete all Nonsavable Objects from History if Current View is Non
 	 * Dependable
 	 */
-	
+
 	private void closeAllNonSavableViews() {
 
 		// SC
@@ -1026,7 +1017,7 @@ public class ViewManager extends DockPanel {
 	 * 
 	 * @param canvas
 	 */
-	
+
 	private void setCurrentView(final ParentCanvas canvas) throws Exception {
 
 		if (currentCanvas == null) {
@@ -1105,7 +1096,7 @@ public class ViewManager extends DockPanel {
 	 * 
 	 * @return
 	 */
-	
+
 	public ParentCanvas getCurrentView() {
 		return currentCanvas;
 	}
@@ -1127,7 +1118,6 @@ public class ViewManager extends DockPanel {
 		return null;
 	}
 
-	
 	private History getHistoryForView(ParentCanvas view) {
 
 		for (History history : historyList) {
@@ -1179,7 +1169,6 @@ public class ViewManager extends DockPanel {
 		}
 	}
 
-	
 	private void displayView(History history, Object viewOutPutData) {
 
 		if (history == null)
@@ -1213,8 +1202,8 @@ public class ViewManager extends DockPanel {
 						.getAction()
 						.getText()
 						.replace(Accounter.constants().New(),
-								Accounter.constants().viewEdit())
-						: history.getAction().getText()));
+								Accounter.constants().viewEdit()) : history
+						.getAction().getText()));
 		refreshStatusBar();
 	}
 
@@ -1266,7 +1255,6 @@ public class ViewManager extends DockPanel {
 		historyList = tempHistoryList;
 	}
 
-	
 	private void showWarning(final ParentCanvas view) {
 		Accounter.showWarning(AccounterWarningType.saveOrClose,
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
@@ -1284,25 +1272,25 @@ public class ViewManager extends DockPanel {
 					}
 
 					@Override
-					public boolean onYesClick() throws InvalidEntryException {
+					public boolean onYesClick() throws Exception {
 
 						((AbstractBaseView) view).errorOccured = false;
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
 						restoreErrorBox();
-						AccounterExecute execute = new AccounterExecute(
-								(AbstractBaseView) view,
-								((AbstractBaseView) view)
-										.getSaveAndCloseButton());
-						execute.run();
-						Accounter.setTimer(execute);
+						// AccounterExecute execute = new AccounterExecute(
+						// (AbstractBaseView) view,
+						// ((AbstractBaseView) view)
+						// .getSaveAndCloseButton());
+						// execute.run();
+						// Accounter.setTimer(execute);
+						((AbstractBaseView) view).validate();
 						return true;
 					}
 
 				});
 	}
 
-	
 	public static void updateComboDataInViews(SelectItemType selectItemType,
 			IAccounterCore accounterCoreObject) {
 
@@ -1315,7 +1303,6 @@ public class ViewManager extends DockPanel {
 		}
 	}
 
-	
 	public static void updateComboDataInViews(SelectItemType selectItemType,
 			IAccounterCore accounterCoreObject, ParentCanvas canvas) {
 
@@ -1358,39 +1345,46 @@ public class ViewManager extends DockPanel {
 
 	public void operationFailed(AccounterException exception) {
 
-		if (dialog != null)
-			dialog.removeFromParent();
-		long id = exception.getID();
-		if (currentrequestedWidget == null) {
-			return;
+		if (processDialog != null)
+			processDialog.removeFromParent();
+		// long id = exception.getID();
+		// if (currentrequestedWidget == null) {
+		// return;
+		// }
+		// if (currentrequestedWidget.getID() != exception.getID())
+		// return;
+
+		IAccounterWidget currentWidget = null;
+		if (currentDialog != null) {
+			currentWidget = currentDialog;
+		} else if (currentCanvas != null) {
+			currentWidget = currentCanvas;
 		}
-		if (currentrequestedWidget.getID() != exception.getID())
-			return;
 
 		switch (exception.getErrorCode()) {
 		case ErrorCode.DELETE_FAILED:
-			currentrequestedWidget.deleteFailed(exception);
+			currentWidget.deleteFailed(exception);
 			break;
 		case ErrorCode.UPDATE_FAILED:
 		case ErrorCode.CREATE_FAILED:
-			currentrequestedWidget.saveFailed(exception);
+			currentWidget.saveFailed(exception);
 		default:
 			break;
 		}
 
-		currentrequestedWidget = null;
-		Accounter.stopExecution();
+		// currentrequestedWidget = null;
+		// Accounter.stopExecution();
 	}
 
 	public void operationSuccessFull(AccounterCommand cmd) {
 		try {
-			if (dialog != null)
-				dialog.removeFromParent();
-
-			long objectID = cmd.getID();
+			if (processDialog != null) {
+				processDialog.removeFromParent();
+			}
 
 			if (currentCanvas instanceof BaseListView<?>
-					&& currentDialog == null && cmd.getData() != null) {
+					&& cmd.getData() != null) {
+				// && currentDialog == null && cmd.getData() != null) {
 				currentCanvas.processupdateView(cmd.getData(), cmd.command);
 			} else if (currentDialog instanceof GroupDialog<?>) {
 				if (currentDialog != null) {
@@ -1398,18 +1392,25 @@ public class ViewManager extends DockPanel {
 				}
 			}
 
-			if (currentrequestedWidget == null) {
-				return;
+			// if (currentrequestedWidget == null) {
+			// return;
+			// }
+
+			// if (objectID != currentrequestedWidget.getID())
+			// return;
+
+			if (currentDialog != null) {
+				currentDialog.saveSuccess(cmd.getData() == null ? cmd : cmd
+						.getData());
+			} else if (currentCanvas != null) {
+				currentCanvas.saveSuccess(cmd.getData() == null ? cmd : cmd
+						.getData());
 			}
+			// currentrequestedWidget.saveSuccess(cmd.getData() == null ? cmd
+			// : cmd.getData());
 
-			if (objectID != currentrequestedWidget.getID())
-				return;
-
-			currentrequestedWidget.saveSuccess(cmd.getData() == null ? cmd
-					: cmd.getData());
-
-			Accounter.stopExecution();
-			currentrequestedWidget = null;
+			// Accounter.stopExecution();
+			// currentrequestedWidget = null;
 			// if (currentCanvas != null) {
 
 			// }
@@ -1431,8 +1432,8 @@ public class ViewManager extends DockPanel {
 	 */
 	public void deleteSuccess(IAccounterCore accounterCoreObject) {
 		try {
-			if (dialog != null) {
-				dialog.removeFromParent();
+			if (processDialog != null) {
+				processDialog.removeFromParent();
 			}
 			if (currentCanvas instanceof BaseListView<?>
 					&& currentDialog == null) {
@@ -1445,13 +1446,17 @@ public class ViewManager extends DockPanel {
 							AccounterCommand.DELETION_SUCCESS);
 
 			}
-			if (currentrequestedWidget != null
-					&& currentrequestedWidget.getID() == (accounterCoreObject
-							.getID())) {
+			// if (currentrequestedWidget != null
+			// && currentrequestedWidget.getID() == (accounterCoreObject
+			// .getID())) {
 
-				currentrequestedWidget.deleteSuccess(true);
-				currentrequestedWidget = null;
+			if (currentDialog != null) {
+				currentDialog.deleteSuccess(true);
+			} else if (currentCanvas != null) {
+				currentCanvas.deleteSuccess(true);
 			}
+			// currentrequestedWidget = null;
+			// }
 		} catch (Exception e) {
 			Accounter.showInformation(((JavaScriptException) e)
 					.getDescription());
@@ -1461,35 +1466,36 @@ public class ViewManager extends DockPanel {
 	public <T extends IAccounterCore, P extends IAccounterCore> void createObject(
 			final P core, final IAccounterWidget widget) {
 
-		dialog = UIUtils.getLoadingMessageDialog(Accounter
-				.constants().processingRequest());
+		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
+				.processingRequest());
 
-		dialog.center();
+		processDialog.center();
 
-		currentrequestedWidget = widget;
+		// currentrequestedWidget = widget;
 
 		final AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
 
 			public void onFailure(Throwable caught) {
 
-				if (!GWT.isScript()) {
+				if (caught instanceof AccounterException) {
 					AccounterException exception = (AccounterException) caught;
-					exception.setID(currentrequestedWidget.getID());
-					getCompany().processCommand(exception);
+					// exception.setID(currentrequestedWidget.getID());
+					// getCompany().processCommand(exception);
+					operationFailed(exception);
 					exception.printStackTrace();
 				}
 			}
 
 			public void onSuccess(Long result) {
 
-				if (!GWT.isScript()) {
-					AccounterCommand cmd = new AccounterCommand();
-					cmd.setCommand(AccounterCommand.CREATION_SUCCESS);
-					cmd.setData(core);
-					cmd.setID(core.getID());
-					cmd.setObjectType(core.getObjectType());
-					Accounter.getCompany().processCommand(cmd);
-				}
+				// if (!GWT.isScript()) {
+				AccounterCommand cmd = new AccounterCommand();
+				cmd.setCommand(AccounterCommand.CREATION_SUCCESS);
+				cmd.setData(core);
+				cmd.setID(result);
+				cmd.setObjectType(core.getObjectType());
+				Accounter.getCompany().processCommand(cmd);
+				// }
 			}
 
 		};
@@ -1501,20 +1507,21 @@ public class ViewManager extends DockPanel {
 	public <T extends IAccounterCore, P extends IAccounterCore> void alterObject(
 			final P core, final IAccounterWidget widget) {
 
-		if (!((widget instanceof ExpenseClaimView) || (widget instanceof AwaitingAuthorisationView))) {
-			dialog = UIUtils.getLoadingMessageDialog(Accounter
-					.constants().processingRequest());
+		// if (!((widget instanceof ExpenseClaimView) || (widget instanceof
+		// AwaitingAuthorisationView))) {
+		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
+				.processingRequest());
 
-			dialog.center();
-		} else {
-			if (!isprocessingRequestAdd(widget)) {
-				dialog = UIUtils.getLoadingMessageDialog(Accounter
-						.constants().processingRequest());
-
-				dialog.center();
-			}
-		}
-		currentrequestedWidget = widget;
+		processDialog.center();
+		// } else {
+		// if (!isprocessingRequestAdd(widget)) {
+		// processDialog = UIUtils.getLoadingMessageDialog(Accounter
+		// .constants().processingRequest());
+		//
+		// processDialog.center();
+		// }
+		// }
+		// currentrequestedWidget = widget;
 		AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
 
 			public void onFailure(Throwable caught) {
@@ -1522,27 +1529,28 @@ public class ViewManager extends DockPanel {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					if (!GWT.isScript()) {
+					if (caught instanceof AccounterException) {
 						AccounterException exception = (AccounterException) caught;
-						exception.setID(currentrequestedWidget.getID());
-						getCompany().processCommand(exception);
+						// exception.setID(currentrequestedWidget.getID());
+						// getCompany().processCommand(exception);
+						operationFailed(exception);
 					}
 				}
 			}
 
 			public void onSuccess(Long result) {
 
-				if (!GWT.isScript()) {
-					AccounterCommand cmd = new AccounterCommand();
-					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
-					cmd.setData(core);
-					cmd.setID(widget.getID());
-					cmd.setObjectType(core.getObjectType());
-					getCompany().processCommand(cmd);
-				}
+				// if (!GWT.isScript()) {
+				AccounterCommand cmd = new AccounterCommand();
+				cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
+				cmd.setData(core);
+				cmd.setID(result);
+				cmd.setObjectType(core.getObjectType());
+				getCompany().processCommand(cmd);
+				// }
 			}
 		};
-		widget.setID(core.getID());
+		// widget.setID(core.getID());
 		// when you edit transaction, previous transactionitems and related
 		// objects has to delete, below code is to clear lists that transaction
 		// item has, those no longer need after editing transactions
@@ -1560,38 +1568,38 @@ public class ViewManager extends DockPanel {
 		return Accounter.getCompany();
 	}
 
-	private boolean isprocessingRequestAdd(final IAccounterWidget widget) {
-		if (widget instanceof ExpenseClaimView) {
-			if (((ExpenseClaimView) widget).isProcessingAdded) {
-				return true;
-			} else {
-				((ExpenseClaimView) widget).isProcessingAdded = true;
-				return false;
-			}
-		}
-		if (widget instanceof AwaitingAuthorisationView) {
-			if (((AwaitingAuthorisationView) widget).isProcessingAdded) {
-				return true;
-			} else {
-				((AwaitingAuthorisationView) widget).isProcessingAdded = true;
-				return false;
-			}
-		}
-		return false;
-	}
+	// private boolean isprocessingRequestAdd(final IAccounterWidget widget) {
+	// if (widget instanceof ExpenseClaimView) {
+	// if (((ExpenseClaimView) widget).isProcessingAdded) {
+	// return true;
+	// } else {
+	// ((ExpenseClaimView) widget).isProcessingAdded = true;
+	// return false;
+	// }
+	// }
+	// if (widget instanceof AwaitingAuthorisationView) {
+	// if (((AwaitingAuthorisationView) widget).isProcessingAdded) {
+	// return true;
+	// } else {
+	// ((AwaitingAuthorisationView) widget).isProcessingAdded = true;
+	// return false;
+	// }
+	// }
+	// return false;
+	// }
 
 	public <T extends IAccounterCore, P extends IAccounterCore> void voidTransaction(
-			final AccounterCoreType type, long transactionID,
+			final AccounterCoreType type, final long transactionID,
 			final IAccounterWidget widget) {
 
-		currentrequestedWidget = widget;
+		// currentrequestedWidget = widget;
 		AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				if (!GWT.isScript()) {
 					AccounterException exception = (AccounterException) caught;
-					exception.setID(currentrequestedWidget.getID());
+					// exception.setID(currentrequestedWidget.getID());
 					getCompany().processCommand(exception);
 				}
 			}
@@ -1603,7 +1611,7 @@ public class ViewManager extends DockPanel {
 						AccounterCommand cmd = new AccounterCommand();
 						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 						cmd.setData(null);
-						cmd.setID(widget.getID());
+						cmd.setID(transactionID);
 						cmd.setObjectType(type);
 						getCompany().processCommand(cmd);
 					}
@@ -1611,7 +1619,7 @@ public class ViewManager extends DockPanel {
 
 			}
 		};
-		widget.setID(transactionID);
+		// widget.setID(transactionID);
 		Accounter.createCRUDService().voidTransaction(type, transactionID,
 				callback);
 	}
@@ -1629,41 +1637,40 @@ public class ViewManager extends DockPanel {
 	public void updateCompany(final ClientCompany clientCompany,
 			final IAccounterWidget widget) {
 
-		dialog = UIUtils.getLoadingMessageDialog(Accounter
-				.constants().processingRequest());
+		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
+				.processingRequest());
 
-		dialog.center();
-		currentrequestedWidget = widget;
+		processDialog.center();
+		// currentrequestedWidget = widget;
 
 		AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
 
 			public void onFailure(Throwable caught) {
 
-				if (!GWT.isScript()) {
+				if (caught instanceof AccounterException) {
 					AccounterException exception = (AccounterException) caught;
-					exception.setID(currentrequestedWidget.getID());
-					getCompany().processCommand(exception);
+					// exception.setID(currentrequestedWidget.getID());
+					// getCompany().processCommand(exception);
+					operationFailed(exception);
 				}
 			}
 
 			public void onSuccess(Long result) {
 
-				if (!GWT.isScript()) {
-					if (result != 0) {
-						AccounterCommand cmd = new AccounterCommand();
-						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
-						cmd.setData(clientCompany);
-						cmd.setID(widget.getID());
-						cmd.setObjectType(clientCompany.getObjectType());
-						getCompany().processCommand(cmd);
-					} else {
-						onFailure(null);
-					}
+				// if (!GWT.isScript()) {
+				if (result != 0) {
+					AccounterCommand cmd = new AccounterCommand();
+					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
+					cmd.setData(clientCompany);
+					cmd.setID(result);
+					cmd.setObjectType(clientCompany.getObjectType());
+					getCompany().processCommand(cmd);
 				}
+				// }
 			}
 
 		};
-		widget.setID(clientCompany.getID());
+		// widget.setID(clientCompany.getID());
 		Accounter.createCRUDService().updateCompany(clientCompany,
 				transactionCallBack);
 
@@ -1672,20 +1679,21 @@ public class ViewManager extends DockPanel {
 	public void updateCompanyPreferences(
 			final ClientCompanyPreferences preferences,
 			final IAccounterWidget widget) {
-		dialog = UIUtils.getLoadingMessageDialog(Accounter
-				.constants().processingRequest());
+		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
+				.processingRequest());
 
-		dialog.center();
-		currentrequestedWidget = widget;
+		processDialog.center();
+		// currentrequestedWidget = widget;
 
 		AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
 
 			public void onFailure(Throwable caught) {
 
-				if (!GWT.isScript()) {
+				if (caught instanceof AccounterException) {
 					AccounterException exception = (AccounterException) caught;
-					exception.setID(currentrequestedWidget.getID());
-					getCompany().processCommand(exception);
+					// exception.setID(currentrequestedWidget.getID());
+					// getCompany().processCommand(exception);
+					operationFailed(exception);
 				}
 			}
 
@@ -1706,7 +1714,7 @@ public class ViewManager extends DockPanel {
 			}
 
 		};
-		widget.setID(getCompany().getID());
+		// widget.setID(getCompany().getID());
 		Accounter.createCRUDService().updateCompanyPreferences(preferences,
 				transactionCallBack);
 
@@ -1715,11 +1723,11 @@ public class ViewManager extends DockPanel {
 	public <A extends IAccounterCore> void deleteObject(final A core,
 			AccounterCoreType coreType, final IAccounterWidget widget) {
 
-		dialog = UIUtils.getLoadingMessageDialog(Accounter
-				.constants().processingRequest());
+		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
+				.processingRequest());
 
-		dialog.center();
-		currentrequestedWidget = widget;
+		processDialog.center();
+		// currentrequestedWidget = widget;
 
 		AsyncCallback<Boolean> transactionCallBack = new AsyncCallback<Boolean>() {
 
@@ -1728,10 +1736,11 @@ public class ViewManager extends DockPanel {
 					Accounter
 							.showMessage("Your session expired, Please login again to continue");
 				} else {
-					if (!GWT.isScript()) {
+					if (caught instanceof AccounterException) {
 						AccounterException exception = (AccounterException) caught;
-						exception.setID(currentrequestedWidget.getID());
-						getCompany().processCommand(exception);
+						// exception.setID(currentrequestedWidget.getID());
+						// getCompany().processCommand(exception);
+						operationFailed(exception);
 					}
 				}
 			}
@@ -1740,12 +1749,12 @@ public class ViewManager extends DockPanel {
 
 				// if (!GWT.isScript()) {
 				// if (result != null && result) {
-				// AccounterCommand cmd = new AccounterCommand();
-				// cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
-				// cmd.setData(core);
-				// cmd.setID(widget.getID());
-				// cmd.setObjectType(core.getObjectType());
-				// FinanceApplication.getCompany().processCommand(cmd);
+				AccounterCommand cmd = new AccounterCommand();
+				cmd.setCommand(AccounterCommand.DELETION_SUCCESS);
+				cmd.setData(core);
+				cmd.setID(core.getID());
+				cmd.setObjectType(core.getObjectType());
+				getCompany().processCommand(cmd);
 				// } else {
 				// onFailure(null);
 				// }
@@ -1753,7 +1762,7 @@ public class ViewManager extends DockPanel {
 			}
 
 		};
-		widget.setID(core.getID());
+		// widget.setID(core.getID());
 		Accounter.createCRUDService().delete(coreType, core.getID(),
 				transactionCallBack);
 	}
@@ -1774,7 +1783,6 @@ public class ViewManager extends DockPanel {
 		}
 	}
 
-	
 	public void fitToSize(int height, int width) {
 
 		this.height = 500;
@@ -1815,7 +1823,6 @@ public class ViewManager extends DockPanel {
 	public BaseDialog<?> getCurrentDialog() {
 		return this.currentDialog;
 	}
-
 
 	public void showError(String message) {
 		errordata.setHTML("<li> " + message + ".");

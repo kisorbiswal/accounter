@@ -146,7 +146,7 @@ public class AccounterValidator {
 	 * 
 	 * @param view
 	 */
-	
+
 	public static boolean onCreditCardAccountSaved(final AbstractBaseView view) {
 
 		Accounter.showWarning(AccounterWarningType.on_CreditCardSave,
@@ -176,7 +176,7 @@ public class AccounterValidator {
 	}
 
 	// creating necessary fiscalYears
-	
+
 	public static boolean createNecessaryFiscalYears(
 			final ClientFiscalYear fiscalYear1,
 			final ClientFinanceDate asOfDate, final AbstractBaseView view) {
@@ -193,7 +193,6 @@ public class AccounterValidator {
 		}
 	}
 
-	
 	public static boolean validateClosedFiscalYear(ClientFinanceDate asofDate) {
 		List<ClientFiscalYear> closedFiscalYears = getClosedFiscalYears();
 		for (ClientFiscalYear fiscalYear : closedFiscalYears) {
@@ -233,7 +232,6 @@ public class AccounterValidator {
 
 	}
 
-	
 	public static boolean createFiscalYears(final AbstractBaseView view,
 			final ClientFinanceDate asofDate) {
 		Accounter.showWarning(AccounterWarningType.Create_FiscalYear,
@@ -246,7 +244,7 @@ public class AccounterValidator {
 
 					@Override
 					public boolean onNoClick() throws InvalidEntryException {
-						Accounter.stopExecution();
+						// Accounter.stopExecution();
 						return true;
 
 					}
@@ -366,7 +364,7 @@ public class AccounterValidator {
 	// }
 
 	// this is to save or close the current view from viewManager.
-	
+
 	public static void saveOrClose(final AbstractBaseView view,
 			final ViewManager viewManager) {
 		Accounter.showWarning(AccounterWarningType.saveOrClose,
@@ -567,7 +565,6 @@ public class AccounterValidator {
 
 	}
 
-	
 	public static boolean validate_IncomeAccount(final AbstractBaseView view,
 			ClientAccount income_account) {
 		if (!AbstractBaseView.errorOccured
@@ -585,7 +582,7 @@ public class AccounterValidator {
 
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
-							Accounter.stopExecution();
+							// Accounter.stopExecution();
 							return true;
 						}
 
@@ -604,7 +601,6 @@ public class AccounterValidator {
 		return false;
 	}
 
-	
 	public static boolean validate_ExpenseAccount(final AbstractBaseView view,
 			ClientAccount expense_account) {
 		if (!AbstractBaseView.errorOccured
@@ -623,7 +619,7 @@ public class AccounterValidator {
 
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
-							Accounter.stopExecution();
+							// Accounter.stopExecution();
 							return true;
 						}
 
@@ -642,7 +638,6 @@ public class AccounterValidator {
 
 	}
 
-	
 	public static boolean validate_SalesPrice(final AbstractBaseView view,
 			Double salesprice) {
 
@@ -659,7 +654,7 @@ public class AccounterValidator {
 
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
-							Accounter.stopExecution();
+							// Accounter.stopExecution();
 							return true;
 						}
 
@@ -678,7 +673,6 @@ public class AccounterValidator {
 
 	}
 
-	
 	public static boolean validate_PurchasePrice(final AbstractBaseView view,
 			Double purchaseprice) {
 		if (DecimalUtil.isEquals(purchaseprice, 0.0D)) {
@@ -694,7 +688,7 @@ public class AccounterValidator {
 
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
-							Accounter.stopExecution();
+							// Accounter.stopExecution();
 							return true;
 						}
 
@@ -753,7 +747,6 @@ public class AccounterValidator {
 
 	}
 
-	
 	public static void validate_TaxAgency_LiabilityAccount(
 			final ParentCanvas view, ClientAccount liabilityAccount) {
 		if (liabilityAccount.getName().equalsIgnoreCase("Sales Tax Payable")) {
@@ -813,13 +806,13 @@ public class AccounterValidator {
 
 	public static void void_Transaction() {
 		Accounter.showError(AccounterErrorType.taxAgency_FinanceAcount);
-		Accounter.stopExecution();
+		// Accounter.stopExecution();
 
 	}
 
 	public static void canVoidOrEdit(ClientTransaction transaction) {
 		Accounter.showError(AccounterErrorType.canVoidOrEdit);
-		Accounter.stopExecution();
+		// Accounter.stopExecution();
 
 	}
 
@@ -854,7 +847,7 @@ public class AccounterValidator {
 
 		if (DecimalUtil.isLessThan(price, 0.00)) {
 			Accounter.showError(AccounterErrorType.unitPrice);
-			Accounter.stopExecution();
+			// Accounter.stopExecution();
 		}
 
 	}
@@ -863,7 +856,7 @@ public class AccounterValidator {
 
 		if (DecimalUtil.isLessThan(discountAmount, 0.00)) {
 			Accounter.showError(AccounterErrorType.discountAmount);
-			Accounter.stopExecution();
+			// Accounter.stopExecution();
 		}
 
 	}
@@ -873,7 +866,7 @@ public class AccounterValidator {
 
 		if (DecimalUtil.isLessThan(total, 0.00)) {
 			Accounter.showError(AccounterErrorType.lineTotalAmount);
-			Accounter.stopExecution();
+			// Accounter.stopExecution();
 			return false;
 		}
 		return true;
@@ -895,7 +888,7 @@ public class AccounterValidator {
 				MainFinanceWindow.getViewManager().appendError(
 						"The" + " " + dateConstant + " "
 								+ " cannot be earlier than transaction date");
-				Accounter.stopExecution();
+				// Accounter.stopExecution();
 			}
 
 		}
@@ -982,7 +975,7 @@ public class AccounterValidator {
 			Double paymentsTotal) {
 		if (DecimalUtil.isGreaterThan(paymentsTotal, amount)) {
 			Accounter.showError(AccounterErrorType.recievePayment_TotalAmount);
-			Accounter.stopExecution();
+			// Accounter.stopExecution();
 			return false;
 		}
 
@@ -1012,7 +1005,7 @@ public class AccounterValidator {
 
 					@Override
 					public boolean onNoClick() throws InvalidEntryException {
-						Accounter.stopExecution();
+						// Accounter.stopExecution();
 						return true;
 					}
 
@@ -1032,18 +1025,17 @@ public class AccounterValidator {
 			double totalValue, String errormessg) {
 		if (DecimalUtil.isLessThan(totalValue, 0.00)) {
 			Accounter.showError(AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
-			Accounter.stopExecution();
+			// Accounter.stopExecution();
 			return false;
 		} else if (DecimalUtil.isGreaterThan(totalValue, amountDue)
 				|| DecimalUtil.isEquals(totalValue, 0)) {
 			Accounter.showError(errormessg);
-			Accounter.stopExecution();
+			// Accounter.stopExecution();
 			return false;
 		}
 		return true;
 	}
 
-	
 	public static boolean validate_Total_Exceeds_BankBalance(
 			double bankBalance, double amount, boolean isIncrease,
 			final AbstractBaseView view) {
@@ -1063,7 +1055,7 @@ public class AccounterValidator {
 
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
-							Accounter.stopExecution();
+							// Accounter.stopExecution();
 							return true;
 						}
 
@@ -1150,7 +1142,7 @@ public class AccounterValidator {
 
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
-							Accounter.stopExecution();
+							// Accounter.stopExecution();
 							return true;
 						}
 
@@ -1386,7 +1378,6 @@ public class AccounterValidator {
 
 	}
 
-	
 	public static boolean validateCustomerRefundAmount(
 			final AbstractBaseView view, Double amount,
 			ClientAccount payFromAccount) {
@@ -1407,7 +1398,7 @@ public class AccounterValidator {
 
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
-							Accounter.stopExecution();
+							// Accounter.stopExecution();
 							return true;
 						}
 
@@ -1456,7 +1447,7 @@ public class AccounterValidator {
 	// * @return
 	// * @throws InvalidTransactionEntryException
 	// */
-	
+
 	public static boolean isBlankTransaction(
 			AbstractTransactionGrid transactionGrid)
 			throws InvalidTransactionEntryException {
@@ -1476,7 +1467,6 @@ public class AccounterValidator {
 	 * @throws InvalidTransactionEntryException
 	 */
 
-	
 	public static boolean validateGrid(AbstractTransactionGrid transactionGrid)
 			throws InvalidTransactionEntryException {
 		if (transactionGrid == null || transactionGrid.getRecords().isEmpty()
@@ -1592,7 +1582,7 @@ public class AccounterValidator {
 	public static boolean validateWriteCheckAmount(double amount, double total) {
 		if (!DecimalUtil.isEquals(total, amount)) {
 			Accounter.showError(AccounterErrorType.writeCheck_TotalAmount);
-			Accounter.stopExecution();
+			// Accounter.stopExecution();
 			return false;
 		}
 
@@ -1622,7 +1612,7 @@ public class AccounterValidator {
 						}
 
 						public boolean onNoClick() throws InvalidEntryException {
-							Accounter.stopExecution();
+							// Accounter.stopExecution();
 							return true;
 						}
 
@@ -1639,7 +1629,6 @@ public class AccounterValidator {
 
 	}
 
-	
 	public static boolean isPriorAsOfDate(ClientFinanceDate asOfDate,
 			final AbstractBaseView view) throws InvalidEntryException {
 
@@ -1667,7 +1656,7 @@ public class AccounterValidator {
 
 						@Override
 						public boolean onNoClick() throws InvalidEntryException {
-							Accounter.stopExecution();
+							// Accounter.stopExecution();
 							return true;
 						}
 
@@ -1693,7 +1682,6 @@ public class AccounterValidator {
 		return false;
 	}
 
-	
 	public static boolean isBlankTransactionGrid(
 			AbstractTransactionGrid transactionGrid)
 			throws InvalidTransactionEntryException {
@@ -1705,7 +1693,6 @@ public class AccounterValidator {
 
 	}
 
-	
 	public static boolean validateReceivePaymentGrid(
 			AbstractTransactionGrid transactionGrid)
 			throws InvalidTransactionEntryException {
