@@ -606,7 +606,7 @@ public class ItemView extends BaseView<ClientItem> {
 	 *            reset values to new View
 	 */
 	protected ClientItem getItem(boolean isSaveClose) {
-		@SuppressWarnings("unused")
+		
 		final boolean isSaveOrReset = isSaveClose;
 		ClientItem item;
 		if (takenItem == null)

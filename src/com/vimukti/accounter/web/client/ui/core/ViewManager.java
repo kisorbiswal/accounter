@@ -379,7 +379,7 @@ public class ViewManager extends DockPanel {
 		statusLayout.add(buttonLayout);
 
 		rightCanvas = new VerticalPanel() {
-			@SuppressWarnings("unused")
+			
 			VerticalPanel tempPanel;
 
 			
@@ -803,7 +803,7 @@ public class ViewManager extends DockPanel {
 	 * @param history
 	 */
 
-	@SuppressWarnings("unused")
+	
 	private void saveAndHideCurrentView() {
 		// check history is null
 		// if not null, then get input from view, and update the history
@@ -845,7 +845,7 @@ public class ViewManager extends DockPanel {
 
 		if (historyList.size() != 0) {
 			removeCurrentView();
-			@SuppressWarnings("unused")
+			
 			ParentCanvas view = getCurrentView();
 			// if (view != null) {
 			// view.destroy();

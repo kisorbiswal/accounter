@@ -160,7 +160,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected ClientAccount depositInAccount;
 
-	@SuppressWarnings("unused")
+	
 	private List<ClientShippingMethod> shippingMethods;
 
 	protected ClientShippingMethod shippingMethod;

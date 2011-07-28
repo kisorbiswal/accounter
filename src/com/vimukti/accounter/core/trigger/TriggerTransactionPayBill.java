@@ -34,7 +34,7 @@ public class TriggerTransactionPayBill implements Trigger {
 		Long newEnterBillId = (newRow != null) ? ((newRow[3] != null) ? (Long) newRow[3]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldEnterBillId = (oldRow != null) ? ((oldRow[3] != null) ? (Long) oldRow[3]
 				: null)
 				: null;
@@ -42,7 +42,7 @@ public class TriggerTransactionPayBill implements Trigger {
 		Long newDiscountAccountId = (newRow != null) ? ((newRow[6] != null) ? (Long) newRow[6]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldDiscountAccountId = (oldRow != null) ? ((oldRow[6] != null) ? (Long) oldRow[6]
 				: null)
 				: null;
@@ -54,7 +54,7 @@ public class TriggerTransactionPayBill implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double newAppliedCreditsAmount = (newRow != null) ? ((newRow[8] != null) ? (Double) newRow[8]
 				: null)
 				: null;
@@ -79,7 +79,7 @@ public class TriggerTransactionPayBill implements Trigger {
 		Boolean newIsVoid = (newRow != null) ? ((newRow[11] != null) ? (Boolean) newRow[11]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Boolean oldIsVoid = (oldRow != null) ? ((oldRow[11] != null) ? (Boolean) oldRow[11]
 				: null)
 				: null;
@@ -87,7 +87,7 @@ public class TriggerTransactionPayBill implements Trigger {
 		Long newTransactionMakeDepositId = (newRow != null) ? ((newRow[12] != null) ? (Long) newRow[12]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldTransactionMakeDepositId = (oldRow != null) ? ((oldRow[12] != null) ? (Long) oldRow[12]
 				: null)
 				: null;
@@ -100,7 +100,7 @@ public class TriggerTransactionPayBill implements Trigger {
 		Long newVendorId = (newRow != null) ? ((newRow[14] != null) ? (Long) newRow[14]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldVendorId = (oldRow != null) ? ((oldRow[14] != null) ? (Long) oldRow[14]
 				: null)
 				: null;
@@ -113,7 +113,7 @@ public class TriggerTransactionPayBill implements Trigger {
 				: null;
 
 		Long newAccountsPayableId = null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountsPayableId = null;
 
 		Boolean isIncrease = Boolean.FALSE;

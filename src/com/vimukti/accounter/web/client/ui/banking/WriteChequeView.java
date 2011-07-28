@@ -206,7 +206,7 @@ public class WriteChequeView extends
 
 	public void changeGrid(ListGrid<ClientTransactionItem> gridView) {
 		if (gridView instanceof CustomerTransactionUSGrid) {
-			@SuppressWarnings("unused")
+			
 			CustomerTransactionUSGrid customerGrid = (CustomerTransactionUSGrid) gridView;
 			setMenuRequired(true);
 			// mainVLay.remove(customerGrid);
@@ -220,7 +220,7 @@ public class WriteChequeView extends
 		// mainVLay.remove(vendorGrid);
 		// mainVLay.add(vendorGrid);
 		// } else if (gridView instanceof TaxAgencyTransactionGrid) {
-		// @SuppressWarnings("unused")
+		// 
 		// TaxAgencyTransactionGrid taxAgencyGrid = (TaxAgencyTransactionGrid)
 		// gridView;
 		// setMenuRequired(false);

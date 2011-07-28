@@ -30,14 +30,14 @@ public class TriggerEnterBill implements Trigger {
 		Long oldEnterBillId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long newVendorId = (newRow != null) ? ((newRow[1] != null) ? (Long) newRow[1]
 				: null)
 				: null;
 		Long oldVendorId = (oldRow != null) ? ((oldRow[1] != null) ? (Long) oldRow[1]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double newTotal = (newRow != null) ? ((newRow[10] != null) ? (Double) newRow[10]
 				: null)
 				: null;
@@ -53,7 +53,7 @@ public class TriggerEnterBill implements Trigger {
 		Long newAccountsPayableId = (newRow != null) ? ((newRow[15] != null) ? (Long) newRow[15]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountsPayableId = (oldRow != null) ? ((oldRow[15] != null) ? (Long) oldRow[15]
 				: null)
 				: null;

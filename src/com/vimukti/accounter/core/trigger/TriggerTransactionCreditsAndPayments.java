@@ -27,7 +27,7 @@ public class TriggerTransactionCreditsAndPayments implements Trigger {
 		Double newAmoutToUse = (newRow != null) ? ((newRow[4] != null) ? (Double) newRow[4]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldAmoutToUse = (oldRow != null) ? ((oldRow[4] != null) ? (Double) oldRow[4]
 				: null)
 				: null;
@@ -35,7 +35,7 @@ public class TriggerTransactionCreditsAndPayments implements Trigger {
 		Long newTransactionReceivePaymentId = (newRow != null) ? ((newRow[5] != null) ? (Long) newRow[5]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldTransactionReceivePaymentId = (oldRow != null) ? ((oldRow[5] != null) ? (Long) oldRow[5]
 				: null)
 				: null;
@@ -43,7 +43,7 @@ public class TriggerTransactionCreditsAndPayments implements Trigger {
 		Long newTransactionPayBillId = (newRow != null) ? ((newRow[6] != null) ? (Long) newRow[6]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldTransactionPayBillId = (oldRow != null) ? ((oldRow[6] != null) ? (Long) oldRow[6]
 				: null)
 				: null;
@@ -51,7 +51,7 @@ public class TriggerTransactionCreditsAndPayments implements Trigger {
 		Long newCreditsAndPaymentsId = (newRow != null) ? ((newRow[7] != null) ? (Long) newRow[7]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCreditsAndPaymentsId = (oldRow != null) ? ((oldRow[7] != null) ? (Long) oldRow[7]
 				: null)
 				: null;
@@ -59,7 +59,7 @@ public class TriggerTransactionCreditsAndPayments implements Trigger {
 		Boolean newIsVoid = (newRow != null) ? ((newRow[8] != null) ? (Boolean) newRow[8]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Boolean oldIsVoid = (oldRow != null) ? ((oldRow[8] != null) ? (Boolean) oldRow[8]
 				: null)
 				: null;

@@ -63,7 +63,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	private HTML reportTypeTitle;
 
-	@SuppressWarnings("unused")
+	
 	private HTML dateRange;
 
 	protected boolean isShowTotal = true;
@@ -263,7 +263,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		cmpyname = cmpyname != null && !cmpyname.isEmpty() ? cmpyname
 				: getCompany().getTradingName();
 
-		@SuppressWarnings("unused")
+		
 		HTML companyLabel = new HTML("<strong>" + cmpyname + "</strong");
 		HTML title = new HTML("<strong>" + "<h3>" + this.getAction().getText()
 				+ "</h3>" + "</strong");
@@ -334,7 +334,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		cmpyname = cmpyname != null && !cmpyname.isEmpty() ? cmpyname
 				: getCompany().getTradingName();
 
-		@SuppressWarnings("unused")
+		
 		HTML companyLabel = new HTML("<strong>" + cmpyname + "</strong");
 
 		// topLayout.add(companyLabel);

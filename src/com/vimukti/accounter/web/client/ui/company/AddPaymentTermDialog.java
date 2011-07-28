@@ -39,7 +39,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 			Accounter.constants().currentYear() };
 	private List<String> listOfDueValues;
 	private Label dayLabel;
-	@SuppressWarnings("unused")
+	
 	private DynamicForm paymentForm;
 	private IntegerRangeValidator integerRangeValidator;
 	private DynamicForm dueForm;

@@ -28,18 +28,18 @@ public class TriggerCreditCardCharge implements Trigger {
 		Long newCreditCardChargeId = (newRow != null) ? ((newRow[0] != null) ? (Long) newRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCreditCardChargeId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long newPayFromAccountId = (newRow != null) ? ((newRow[6] != null) ? (Long) newRow[6]
 				: null)
 				: null;
 		Long oldPayFromAccountId = (oldRow != null) ? ((oldRow[6] != null) ? (Long) oldRow[6]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double newTotal = (newRow != null) ? ((newRow[11] != null) ? (Double) newRow[11]
 				: null)
 				: null;

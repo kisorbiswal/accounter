@@ -32,11 +32,11 @@ public class TriggerTransactionMakeDeposit implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long newPaymentMethodId = (newRow != null) ? ((newRow[4] != null) ? (Long) newRow[4]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldPaymentMethodId = (oldRow != null) ? ((oldRow[4] != null) ? (Long) oldRow[4]
 				: null)
 				: null;
@@ -44,7 +44,7 @@ public class TriggerTransactionMakeDeposit implements Trigger {
 		Integer newEntryType = (newRow != null) ? ((newRow[5] != null) ? (Integer) newRow[5]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Integer oldEntryType = (oldRow != null) ? ((oldRow[5] != null) ? (Integer) oldRow[5]
 				: null)
 				: null;
@@ -52,7 +52,7 @@ public class TriggerTransactionMakeDeposit implements Trigger {
 		Long newAccountId = (newRow != null) ? ((newRow[6] != null) ? (Long) newRow[6]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountId = (oldRow != null) ? ((oldRow[6] != null) ? (Long) oldRow[6]
 				: null)
 				: null;
@@ -60,7 +60,7 @@ public class TriggerTransactionMakeDeposit implements Trigger {
 		Long newVendorId = (newRow != null) ? ((newRow[7] != null) ? (Long) newRow[7]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldVendorId = (oldRow != null) ? ((oldRow[7] != null) ? (Long) oldRow[7]
 				: null)
 				: null;
@@ -68,7 +68,7 @@ public class TriggerTransactionMakeDeposit implements Trigger {
 		Long newCustomerId = (newRow != null) ? ((newRow[8] != null) ? (Long) newRow[8]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCustomerId = (oldRow != null) ? ((oldRow[8] != null) ? (Long) oldRow[8]
 				: null)
 				: null;
@@ -76,7 +76,7 @@ public class TriggerTransactionMakeDeposit implements Trigger {
 		Double newAmount = (newRow != null) ? ((newRow[10] != null) ? (Double) newRow[10]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldAmount = (oldRow != null) ? ((oldRow[10] != null) ? (Double) oldRow[10]
 				: null)
 				: null;
@@ -84,16 +84,16 @@ public class TriggerTransactionMakeDeposit implements Trigger {
 		Boolean newIsNewEntry = (newRow != null) ? ((newRow[11] != null) ? (Boolean) newRow[11]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Boolean oldIsNewEntry = (oldRow != null) ? ((oldRow[11] != null) ? (Boolean) oldRow[11]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long newCashAccountId = (newRow != null) ? ((newRow[12] != null) ? (Long) newRow[12]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCashDiscountId = (oldRow != null) ? ((oldRow[12] != null) ? (Long) oldRow[12]
 				: null)
 				: null;
@@ -108,7 +108,7 @@ public class TriggerTransactionMakeDeposit implements Trigger {
 		Long newAccountsReceivableId = (newRow != null) ? ((newRow[16] != null) ? (Long) newRow[16]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountsReceivableId = (oldRow != null) ? ((oldRow[16] != null) ? (Long) oldRow[16]
 				: null)
 				: null;
@@ -116,16 +116,16 @@ public class TriggerTransactionMakeDeposit implements Trigger {
 		Long newAccountsPayableId = (newRow != null) ? ((newRow[17] != null) ? (Long) newRow[17]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountsPayableId = (oldRow != null) ? ((oldRow[17] != null) ? (Long) oldRow[17]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long newDepositedTransactionId = (newRow != null) ? ((newRow[18] != null) ? (Long) newRow[18]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldDepositedTransactionId = (oldRow != null) ? ((oldRow[18] != null) ? (Long) oldRow[18]
 				: null)
 				: null;
@@ -138,7 +138,7 @@ public class TriggerTransactionMakeDeposit implements Trigger {
 				: null;
 
 		int count = 0;
-		@SuppressWarnings("unused")
+		
 		Long depositNumber = null;
 
 		// Condition for checking whether this Trigger call is for new Row

@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 public class NewPayeeAction extends Action {
 
-	@SuppressWarnings("unused")
+	
 	private boolean isEdit;
 	
 	private AbstractBaseView baseView;

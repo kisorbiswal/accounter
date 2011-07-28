@@ -33,7 +33,7 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 	private List<PurchaseOrdersList> purchaseOrderList;
 	private AccounterConstants financeConstants = GWT
 			.create(AccounterConstants.class);
-	@SuppressWarnings("unused")
+	
 	private PurchaseOrdersList selectedPurchaseOrder;
 	private DialogGrid grid;
 

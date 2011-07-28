@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class CreateStatementAction extends Action {
 
-	@SuppressWarnings("unused")
+	
 	private boolean isEdit;
 
 	public CreateStatementAction(String text) {

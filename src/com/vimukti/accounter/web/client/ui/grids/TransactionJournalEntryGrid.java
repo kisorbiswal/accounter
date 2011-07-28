@@ -53,7 +53,7 @@ public class TransactionJournalEntryGrid extends
 	 * holds actual voucher number that taken from server
 	 */
 	private String tempVoucherNumber;
-	@SuppressWarnings("unused")
+	
 	private int voucherType;
 
 	public TransactionJournalEntryGrid(boolean isEdit) {
@@ -229,7 +229,7 @@ public class TransactionJournalEntryGrid extends
 		}
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void initTaxCodesCombo() {
 		List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 		if (taxCodes != null)

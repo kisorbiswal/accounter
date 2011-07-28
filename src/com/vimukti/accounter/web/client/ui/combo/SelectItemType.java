@@ -72,7 +72,7 @@ public enum SelectItemType {
 	TAX_CODE(CustomersActionFactory.getAddEditSalesTaxCodeAction()), SHIP_TO, PHONE, EMAIL, FAX;
 
 	private Action action;
-	@SuppressWarnings("unused")
+	
 	private AsyncCallback<IsSerializable> callback;
 	
 	private BaseDialog dialog;

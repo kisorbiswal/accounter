@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.VATUncategorisedAmounts
 public class VATUncategorisedAmountsReport extends
 		AbstractReportView<UncategorisedAmountsReport> {
 
-	@SuppressWarnings("unused")
+	
 	private double balance = 0.0;
 
 	public VATUncategorisedAmountsReport() {

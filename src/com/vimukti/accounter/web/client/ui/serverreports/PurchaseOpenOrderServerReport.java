@@ -9,7 +9,7 @@ public class PurchaseOpenOrderServerReport extends
 		AbstractFinaneReport<OpenAndClosedOrders> {
 
 	private String sectionName;
-	@SuppressWarnings("unused")
+	
 	private boolean isPurchases;
 
 	public PurchaseOpenOrderServerReport(long startDate, long endDate,int generationType) {

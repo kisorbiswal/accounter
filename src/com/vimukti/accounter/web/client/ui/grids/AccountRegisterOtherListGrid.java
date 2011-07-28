@@ -210,7 +210,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 		return 0;
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void showWarningDialog(final AccountRegister obj) {
 		Accounter.showWarning("Do you want to Void the Transaction",
 				AccounterType.WARNING, new ErrorDialogHandler() {

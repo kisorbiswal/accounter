@@ -30,7 +30,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 	private void getListFiscalYear() {
 
-		@SuppressWarnings("unused")
+		
 		AsyncCallback<List<ClientFiscalYear>> callback = new AsyncCallback<List<ClientFiscalYear>>() {
 
 			public void onFailure(Throwable caught) {
@@ -48,7 +48,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	}
 
 	protected void fillFiscalYear(List<ClientFiscalYear> result) {
-		@SuppressWarnings("unused")
+		
 		String period, status;
 		// if (result != null) {
 		// // ListGridRecord[] records = new ListGridRecord[result.size()];

@@ -15,7 +15,7 @@ public class CashFlowStatementServerReport extends
 	private List<String> types = new ArrayList<String>();
 	private List<String> sectiontypes = new ArrayList<String>();
 	private String curentParent;
-	@SuppressWarnings("unused")
+	
 	private Double netIncome;
 	private double cashBegigginperiod;
 

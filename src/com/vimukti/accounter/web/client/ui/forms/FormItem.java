@@ -36,7 +36,7 @@ public abstract class FormItem {
 	private List<Validator> validator = new ArrayList<Validator>();
 	private boolean required;
 	private Label label;
-	@SuppressWarnings("unused")
+	
 	private int width;
 	protected boolean isDisabled = false;
 	private boolean showTitle = true;

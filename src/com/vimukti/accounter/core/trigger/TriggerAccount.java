@@ -33,7 +33,7 @@ public class TriggerAccount implements Trigger {
 		Integer newAccountType = (newRow != null) ? ((newRow[2] != null) ? (Integer) newRow[2]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Integer oldAccountType = (oldRow != null) ? ((oldRow[2] != null) ? (Integer) oldRow[2]
 				: null)
 				: null;
@@ -483,7 +483,7 @@ public class TriggerAccount implements Trigger {
 		return accountName;
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void initializeVariables(Object[] oldRow, Object[] newRow) {
 
 	}

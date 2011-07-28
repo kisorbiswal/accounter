@@ -15,7 +15,7 @@ public class FinanceDashboard extends BaseHomeView {
 
 	ArrayList<String> addablePortletList = new ArrayList<String>();
 
-	@SuppressWarnings("unused")
+	
 	private FinanceDashboard dashboard = null;
 	private String dashboardPreference;
 	private PortalLayout portalLayout;
@@ -73,7 +73,7 @@ public class FinanceDashboard extends BaseHomeView {
 		widgetOnSectionPage = dashboardPreference.split(",");
 		portlet = new Portlet[widgetOnSectionPage.length];
 		for (int i = 0; i < widgetOnSectionPage.length; i++) {
-			@SuppressWarnings("unused")
+			
 			final int index = i;
 			if (widgetOnSectionPage[i].equals("")) {
 

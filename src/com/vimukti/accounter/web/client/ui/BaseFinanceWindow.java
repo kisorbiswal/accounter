@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class BaseFinanceWindow extends VerticalPanel {
 
-	@SuppressWarnings("unused")
+	
 	private BaseFinanceWindow parent;
 	protected ArrayList<IWindowListener> listeners = new ArrayList<IWindowListener>();
 

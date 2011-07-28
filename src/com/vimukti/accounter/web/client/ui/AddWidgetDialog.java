@@ -26,12 +26,12 @@ public class AddWidgetDialog extends AbstractBaseDialog {
 	private CustomerSectionHomeView customerParent;
 	private VendorSectionHomeView vendorParent;
 	private BankingSectionHomeView bankingParent;
-	@SuppressWarnings("unused")
+	
 	private PortalLayout portalLayout;
-	@SuppressWarnings("unused")
+	
 	private Portlet portlet;
 	private VerticalPanel bodyLayout;
-	@SuppressWarnings("unused")
+	
 	private WidgetCreator creator;
 
 	public AddWidgetDialog(AbstractBaseView parent) {
@@ -94,7 +94,7 @@ public class AddWidgetDialog extends AbstractBaseDialog {
 		// bodyLayout.setBorder("1px solid silver");
 
 		for (int i = 0; i < addablePortletList.toArray().length; i++) {
-			@SuppressWarnings("unused")
+			
 			final String portalName = addablePortletList.get(i);
 			// if (portalName.equals("BANKING_SUMMARY")) {
 			// getBankingSummary(portalName);
@@ -750,7 +750,7 @@ public class AddWidgetDialog extends AbstractBaseDialog {
 	// bodyLayout.add(bankingSummaryRow);
 	// }
 
-	@SuppressWarnings("unused")
+	
 	private class WidgetRow extends HorizontalPanel {
 
 		private Label imageLabel;

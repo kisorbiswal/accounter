@@ -23,7 +23,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 	private Double total = 0.00;
 	private ClientItem toBeDeletedItem;
 	private List<ClientItem> listOfItems;
-	@SuppressWarnings("unused")
+	
 	private int actionType;
 	private String catageory;
 

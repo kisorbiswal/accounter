@@ -84,7 +84,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	HorizontalPanel hpanel;
 	DynamicForm amountsForm;
 
-	@SuppressWarnings("unused")
+	
 	private ClientCompany company = Accounter.getCompany();
 
 	@Override
@@ -802,7 +802,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private ClientInvoice convertToInvoice(ClientEstimate selectedEstimate) {
 
 		ClientInvoice invoice = new ClientInvoice(selectedEstimate);

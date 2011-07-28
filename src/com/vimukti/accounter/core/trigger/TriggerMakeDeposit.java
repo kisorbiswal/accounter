@@ -27,14 +27,14 @@ public class TriggerMakeDeposit implements Trigger {
 		Long newMakeDepositId = (newRow != null) ? ((newRow[0] != null) ? (Long) newRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldMakeDepositId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
 		Long newDepositInAccountId = (newRow != null) ? ((newRow[1] != null) ? (Long) newRow[1]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldDepositInAccountId = (oldRow != null) ? ((oldRow[1] != null) ? (Long) oldRow[1]
 				: null)
 				: null;
@@ -42,21 +42,21 @@ public class TriggerMakeDeposit implements Trigger {
 		Long newCashBackAccountId = (newRow != null) ? ((newRow[4] != null) ? (Long) newRow[4]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCashBackAccountId = (oldRow != null) ? ((oldRow[4] != null) ? (Long) oldRow[4]
 				: null)
 				: null;
 		Double newCashBackAmount = (newRow != null) ? ((newRow[6] != null) ? (Double) newRow[6]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldCashBackAmount = (oldRow != null) ? ((oldRow[6] != null) ? (Double) oldRow[6]
 				: null)
 				: null;
 		Double newTotal = (newRow != null) ? ((newRow[7] != null) ? (Double) newRow[7]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldTotal = (oldRow != null) ? ((oldRow[7] != null) ? (Double) oldRow[7]
 				: null)
 				: null;

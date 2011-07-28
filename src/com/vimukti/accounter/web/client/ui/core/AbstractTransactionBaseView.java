@@ -81,7 +81,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected AccounterButton menuButton;
 	private PopupPanel popupPanel;
 	private CustomMenuBar popupMenuBar;
-	@SuppressWarnings("unused")
+	
 	private Event event;
 	private boolean isMenuRequired = true;
 
@@ -702,7 +702,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 		if (this.formItems != null) {
 
-			for (@SuppressWarnings("unused")
+			for (
 			FormItem item : formItems) {
 				// item.disable();
 			}

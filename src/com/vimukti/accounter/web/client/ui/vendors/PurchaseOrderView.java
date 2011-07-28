@@ -72,10 +72,10 @@ public class PurchaseOrderView extends
 	private TextAreaItem billtoAreaItem;
 	private ShipToForm shipToAddress;
 	private DateField dueDateItem;
-	@SuppressWarnings("unused")
+	
 	private long dueDate;
 	private long despatchDate;
-	@SuppressWarnings("unused")
+	
 	private long deliveryDate;
 	DynamicForm amountsForm;
 
@@ -681,7 +681,7 @@ public class PurchaseOrderView extends
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void initDeliveryDate() {
 
 		if (transactionObject != null) {

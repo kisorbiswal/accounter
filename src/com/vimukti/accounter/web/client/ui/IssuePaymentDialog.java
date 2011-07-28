@@ -335,7 +335,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private boolean validateCheckNo() {
 		boolean valid = true;
 		try {

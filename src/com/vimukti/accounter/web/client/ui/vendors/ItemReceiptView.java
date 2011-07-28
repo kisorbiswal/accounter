@@ -47,7 +47,7 @@ public class ItemReceiptView extends
 	private AmountField transactionTotalItem;
 	private LinkItem purchaseLabel;
 	private VendorPurchaseListDialog dialog;
-	@SuppressWarnings("unused")
+	
 	private long deliveryDate;
 	private long selectedPurchaseOrder;
 

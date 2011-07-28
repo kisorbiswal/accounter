@@ -59,7 +59,7 @@ public class PercentageField extends TextItem {
 
 		BlurHandler blurHandler = new BlurHandler() {
 
-			@SuppressWarnings("unused")
+			
 			Object value = null;
 
 			public void onBlur(BlurEvent event) {

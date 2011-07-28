@@ -33,9 +33,9 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	private AccountRegisterListGrid grid2;
 	private VerticalPanel mainVLay;
 	private HorizontalPanel hlayTop, gridLayout;
-	@SuppressWarnings("unused")
+	
 	private Label lab1;
-	@SuppressWarnings("unused")
+	
 	private List<ClientAccount> listOfAccounts;
 	private double total = 0.0;
 	private boolean isBankActGrid = true;

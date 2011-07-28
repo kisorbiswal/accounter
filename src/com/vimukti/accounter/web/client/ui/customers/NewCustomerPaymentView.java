@@ -60,7 +60,7 @@ public class NewCustomerPaymentView extends
 	protected String paymentMethod = UIUtils
 			.getpaymentMethodCheckBy_CompanyType(Accounter
 					.constants().check());
-	@SuppressWarnings("unused")
+	
 	private CheckboxItem thisisVATinclusive;
 
 	private ArrayList<DynamicForm> listforms;

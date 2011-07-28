@@ -32,7 +32,7 @@ public class WriteOffDialog extends BaseDialog {
 	private ClientAccount selectedWriteOffAccount;
 	private AmountField discAmtText;
 	private Double writeOffAmount;
-	@SuppressWarnings("unused")
+	
 	private ClientTransactionReceivePayment record;
 	private static AccounterConstants customerConstants = Accounter.constants();
 	public DynamicForm form;

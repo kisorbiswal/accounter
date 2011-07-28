@@ -18,9 +18,9 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class NewVendorAction extends Action {
 
-	@SuppressWarnings("unused")
+	
 	private boolean isEdit;
-	@SuppressWarnings("unused")
+	
 	private ClientVendor vendor;
 	protected VendorView view;
 	public final static int FROM_CREDIT_CARD_EXPENSE = 119;

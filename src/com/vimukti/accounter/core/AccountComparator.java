@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-@SuppressWarnings( { "serial", "unchecked" })
+
 public class AccountComparator implements Comparator, IsSerializable,
 		Serializable {
 

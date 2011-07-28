@@ -28,7 +28,7 @@ public class ShipToForm extends DynamicForm {
 
 	public ShipToForm(Set<ClientAddress> addresses) {
 
-		@SuppressWarnings("unused")
+		
 		Label l1 = new Label(Accounter.constants()
 				.enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();

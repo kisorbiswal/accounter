@@ -27,14 +27,14 @@ public class PortalColumn extends VerticalPanel {
 		// setCanAcceptDrop(true);
 		// setDropLineThickness(10);
 
-		@SuppressWarnings("unused")
+		
 		HorizontalPanel dropLineProperties = new HorizontalPanel();
 		// dropLineProperties.setBackgroundColor("pink");
 		// setDropLineProperties(dropLineProperties);
 
 		// setShowDragPlaceHolder(true);
 
-		@SuppressWarnings("unused")
+		
 		SimplePanel placeHolderProperties = new SimplePanel();
 		// placeHolderProperties.setBorder("2px solid #8289A6");
 		// setPlaceHolderProperties(placeHolderProperties);

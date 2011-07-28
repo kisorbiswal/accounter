@@ -23,7 +23,7 @@ public abstract class Action {
 
 	private String iconString;
 
-	@SuppressWarnings("unused")
+	
 	private AsyncCallback<Object> callbackObject;
 
 	public String catagory = "";

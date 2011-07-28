@@ -42,9 +42,9 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	private List<IsSerializable> recordsList = new ArrayList<IsSerializable>();
 
-	@SuppressWarnings("unused")
+	
 	private RecordAddhandler recordAddhandler;
-	@SuppressWarnings("unused")
+	
 	private boolean isEdit;
 
 	public GroupDialog(String title, String descript) {

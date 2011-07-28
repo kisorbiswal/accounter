@@ -142,7 +142,7 @@ public class CustomerCreditMemoView extends
 		phoneForm.setStyleName("align-form");
 		forms.add(phoneForm);
 
-		@SuppressWarnings("unused")
+		
 		Label lab2 = new Label(customerConstants.productAndService());
 
 		memoTextAreaItem = createMemoTextAreaItem();

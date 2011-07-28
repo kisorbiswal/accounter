@@ -65,7 +65,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 					// .constants().pleaseSelectItemType());
 					return false;
 				}
-				@SuppressWarnings("unused")
+				
 				ItemView itemView;
 
 				if (typeRadio.getValue() != null) {

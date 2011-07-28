@@ -4,14 +4,14 @@ package com.vimukti.accounter.web.client.core;
 @SuppressWarnings("serial")
 public class ClientCompanyPreferences implements IAccounterCore {
 
-	@SuppressWarnings("unused")
+	
 	private static int GENERAL_TIME_FORMAT_MINUTES;
-	@SuppressWarnings("unused")
+	
 	private static int GENERAL_TIME_FORMAT_DECIMAL;
 
-	@SuppressWarnings("unused")
+	
 	private static final int SHOW_SUMMARY = 10;
-	@SuppressWarnings("unused")
+	
 	private static final int SHOW_LIST = 20;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;

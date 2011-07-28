@@ -51,7 +51,7 @@ public class NewVendorPaymentView extends
 	protected boolean isClose;
 	protected String paymentMethod = UIUtils
 			.getpaymentMethodCheckBy_CompanyType(Accounter.constants().check());
-	@SuppressWarnings("unused")
+	
 	private CheckboxItem thisisVATinclusive;
 
 	boolean isChecked = false;

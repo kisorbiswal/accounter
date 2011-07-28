@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 public class AmountsDueToVendorServerReport extends
 		AbstractFinaneReport<AmountsDueToVendor> {
 
-	@SuppressWarnings("unused")
+	
 	private String sectionName = "";
 
 	public AmountsDueToVendorServerReport(

@@ -17,7 +17,7 @@ public class TriggerIssuePayment implements Trigger {
 	public void fire(Connection conn, Object[] oldRow, Object[] newRow)
 			throws SQLException {
 
-		@SuppressWarnings("unused")
+		
 		Statement stat = conn.createStatement();
 
 		if (newRow != null && oldRow == null) {

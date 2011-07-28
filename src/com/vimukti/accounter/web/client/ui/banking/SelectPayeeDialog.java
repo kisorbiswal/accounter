@@ -23,14 +23,14 @@ public class SelectPayeeDialog extends BaseDialog {
 	FormItem actionSource;
 	RadioGroupItem typeRadio;
 	// private ClientCompany company;
-	@SuppressWarnings("unused")
+	
 	private final String VENDOR_PAY = UIUtils.getVendorString(Accounter
 			.constants().supplierpay(), Accounter.constants()
 			.vendorpay());
-	@SuppressWarnings("unused")
+	
 	private final String CUST_REFUND = Accounter.constants()
 			.custrefund();
-	@SuppressWarnings("unused")
+	
 	private final String EMP_REIMB = Accounter.constants().empreimb();
 
 	public SelectPayeeDialog(AbstractBaseView parent) {
@@ -61,7 +61,7 @@ public class SelectPayeeDialog extends BaseDialog {
 		typeRadio.setShowTitle(false);
 		typeRadio.setRequired(true);
 
-		@SuppressWarnings("unused")
+		
 		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
 
 		typeRadio.setValueMap(Accounter.constants().customer(),

@@ -63,9 +63,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private AccounterButton helpButt;
 	private AccounterButton ok;
 	private AccounterButton cancel;
-	@SuppressWarnings("unused")
+	
 	private IAccounterGETServiceAsync getService;
-	@SuppressWarnings("unused")
+	
 	private IAccounterCRUDServiceAsync crudService;
 	private CheckboxItem useAccountscheckbox, useCustomertID, useVendorId,
 			allowDocumentNos, doupaySalesChecBox, playsounds;
@@ -96,14 +96,14 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	DynamicForm companyDetailsForm, phoneAndFaxForm, taxIDForm,
 			RegistrationNumberForm;
 
-	@SuppressWarnings("unused")
+	
 	private TextAreaItem address;
-	@SuppressWarnings("unused")
+	
 	private LinkedHashMap<String, ClientAddress> addresses = new LinkedHashMap<String, ClientAddress>();
 
 	protected String str;
 
-	@SuppressWarnings("unused")
+	
 	private String string;
 
 	private TextAreaItem textareaItem, textareaItem2;
@@ -242,7 +242,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private void createControls() {
 		tabSet = new DecoratedTabPanel();
 		tabSet.setWidth("100%");
-		@SuppressWarnings("unused")
+		
 		DeckPanel deckPanel = tabSet.getDeckPanel();
 		// deckPanel.setSize("450px", "400px");
 		tabSet.add(getCompanyInfo(), "Company Info");

@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerRepo
  */
 
 public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
-	@SuppressWarnings("unused")
+	
 	private String sectionName = "";
 	private List<String> sectiontypes = new ArrayList<String>();
 

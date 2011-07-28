@@ -15,7 +15,7 @@ public class EmailField extends TextItem {
 		// addBlurHandler(getBlurHandler());
 	}
 
-	@SuppressWarnings("unused")
+	
 	private BlurHandler getBlurHandler() {
 		BlurHandler blurHandler = new BlurHandler() {
 

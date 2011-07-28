@@ -9,7 +9,7 @@ public class SalesOpenOrderServerReport extends
 		AbstractFinaneReport<OpenAndClosedOrders> {
 
 	private String sectionName;
-	@SuppressWarnings("unused")
+	
 	private boolean isSales;
 
 	public SalesOpenOrderServerReport(long startDate, long endDate,int generationType) {

@@ -24,48 +24,48 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	int version;
 
-	@SuppressWarnings("unused")
+	
 	private static final int TYPE_SOLE_PROPRIETORSHIP = 1;
-	@SuppressWarnings("unused")
+	
 	private static final int TYPE_PARTNERSHIP_OR_LLP = 2;
-	@SuppressWarnings("unused")
+	
 	private static final int TYPE_LLC_SINGLE_MEMBER = 3;
-	@SuppressWarnings("unused")
+	
 	private static final int TYPE_LLC_MULTI_MEMBER = 4;
-	@SuppressWarnings("unused")
+	
 	private static final int TYPE_CORPORATION = 5;
-	@SuppressWarnings("unused")
+	
 	private static final int TYPE_S_CORPORATION = 6;
-	@SuppressWarnings("unused")
+	
 	private static final int TYPE_NON_PROFIT = 7;
 	public static final int TYPE_BASIC = 8;
-	@SuppressWarnings("unused")
+	
 	private static final int TYPE_OTHER_NONE = 99999;
 
-	@SuppressWarnings("unused")
+	
 	private static final int INDUSTRY_ACCOUNTING_OR_BOOKKEEPING = 11;
-	@SuppressWarnings("unused")
+	
 	private static final int ADVERTISING_OR_private_RELATIONS = 12;
-	@SuppressWarnings("unused")
+	
 	private static final int AGRICULTURE_RANCHING_OR_FARMING = 13;
-	@SuppressWarnings("unused")
+	
 	private static final int ARTWRITING_OR_PHOTOGRAPHY = 14;
-	@SuppressWarnings("unused")
+	
 	private static final int AUTOMOTICE_SALES_OR_REPAIR = 15;
 
-	@SuppressWarnings("unused")
+	
 	private static final int CUSTOMER_TYPE_CLIENTS = 45;
-	@SuppressWarnings("unused")
+	
 	private static final int CUSTOMER_TYPE_CUSTOMERS = 46;
-	@SuppressWarnings("unused")
+	
 	private static final int CUSTOMER_TYPE_DONORS = 47;
-	@SuppressWarnings("unused")
+	
 	private static final int CUSTOMER_TYPE_GUESTS = 48;
-	@SuppressWarnings("unused")
+	
 	private static final int CUSTOMER_TYPE_MEMBERS = 49;
-	@SuppressWarnings("unused")
+	
 	private static final int CUSTOMER_TYPE_PATIENTS = 50;
-	@SuppressWarnings("unused")
+	
 	private static final int CUSTOMER_TYPE_TENANTS = 51;
 
 	public static final int ACCOUNTING_TYPE_US = 0;

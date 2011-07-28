@@ -25,9 +25,9 @@ public class PayTypeListDialog extends GroupDialog {
 
 		setSize("30%", "50%");
 
-		@SuppressWarnings("unused")
+		
 		final String title;
-		@SuppressWarnings("unused")
+		
 		final String description;
 
 		title = Accounter.constants().addOrEditPayType();

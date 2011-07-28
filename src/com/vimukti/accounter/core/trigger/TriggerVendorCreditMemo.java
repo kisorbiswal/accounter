@@ -26,7 +26,7 @@ public class TriggerVendorCreditMemo implements Trigger {
 		Long newVendorCreditMemoId = (newRow != null) ? ((newRow[0] != null) ? (Long) newRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldVendorCreditMemoId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
@@ -34,12 +34,12 @@ public class TriggerVendorCreditMemo implements Trigger {
 		Long newVendorId = (newRow != null) ? ((newRow[4] != null) ? (Long) newRow[4]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldVendorId = (oldRow != null) ? ((oldRow[4] != null) ? (Long) oldRow[4]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double newTotalAmount = (newRow != null) ? ((newRow[3] != null) ? (Double) newRow[3]
 				: null)
 				: null;
@@ -57,18 +57,18 @@ public class TriggerVendorCreditMemo implements Trigger {
 		Long newAccountsPayableId = (newRow != null) ? ((newRow[8] != null) ? (Long) newRow[8]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountsPayableId = (oldRow != null) ? ((oldRow[8] != null) ? (Long) oldRow[8]
 				: null)
 				: null;
 
 		Statement stat = conn.createStatement();
 
-		@SuppressWarnings("unused")
+		
 		Long transactionId = null;
-		@SuppressWarnings("unused")
+		
 		Date transactionDate = null;
-		@SuppressWarnings("unused")
+		
 		Long companyId = null;
 
 		// Condition for checking whether this Trigger call is for new Row

@@ -29,9 +29,9 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	private PortalLayout portalLayout;
 	private String customerSectionPreference;
 	private String[] widgetOnSectionPage;
-	@SuppressWarnings("unused")
+	
 	private Portlet[] portlet;
-	@SuppressWarnings("unused")
+	
 	private WidgetCreator creator;
 	private AccounterConstants customerConstants = Accounter.constants();
 	private String[] secondColumn;
@@ -89,7 +89,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 			widgetOnSectionPage = portletArray;
 			portlet = new Portlet[portletArray.length];
 			for (int i = 0; i < portletArray.length; i++) {
-				@SuppressWarnings("unused")
+				
 				final int index = i;
 				if (portletArray[i].equals("")) {
 
@@ -137,7 +137,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 				portlet = new Portlet[firstColumn.length];
 			}
 			for (int i = 0; i < firstColumn.length; i++) {
-				@SuppressWarnings("unused")
+				
 				final int index = i;
 				if (firstColumn[i].equals("")) {
 
@@ -159,7 +159,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 			if (portletArray.length > 1) {
 				for (int i = 0; i < secondColumn.length; i++) {
-					@SuppressWarnings("unused")
+					
 					final int index = i + firstColumn.length;
 					if (secondColumn[i].equals("")) {
 

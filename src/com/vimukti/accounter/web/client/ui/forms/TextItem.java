@@ -144,7 +144,7 @@ public class TextItem extends FormItem {
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void setBorder() {
 
 	}

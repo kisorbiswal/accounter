@@ -324,7 +324,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		// .getAmountAsString(cashDiscount), 5);
 	}
 
-	@SuppressWarnings("unused")
+	
 	private ClientVendor getVendorById(long id) {
 		for (ClientVendor temp : vendors) {
 			if (temp.getID() == id)

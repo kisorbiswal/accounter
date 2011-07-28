@@ -27,7 +27,7 @@ public class TriggerTransferFund implements Trigger {
 		Long newTransferFundId = (newRow != null) ? ((newRow[0] != null) ? (Long) newRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldTransferFundId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
@@ -35,7 +35,7 @@ public class TriggerTransferFund implements Trigger {
 		Long newTransferFromAccountId = (newRow != null) ? ((newRow[2] != null) ? (Long) newRow[2]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldTransferFromAccountId = (oldRow != null) ? ((oldRow[2] != null) ? (Long) oldRow[2]
 				: null)
 				: null;
@@ -43,7 +43,7 @@ public class TriggerTransferFund implements Trigger {
 		Long newTransferToAccountId = (newRow != null) ? ((newRow[3] != null) ? (Long) newRow[3]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldTransferToAccountId = (oldRow != null) ? ((oldRow[3] != null) ? (Long) oldRow[3]
 				: null)
 				: null;
@@ -51,7 +51,7 @@ public class TriggerTransferFund implements Trigger {
 		Double newTransferAmount = (newRow != null) ? ((newRow[4] != null) ? (Double) newRow[4]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldTransferAmount = (oldRow != null) ? ((oldRow[4] != null) ? (Double) oldRow[4]
 				: null)
 				: null;

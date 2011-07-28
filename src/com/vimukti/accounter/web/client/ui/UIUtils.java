@@ -984,7 +984,7 @@ public class UIUtils {
 	}
 
 	public static void addStyleToElement(String name, Element element) {
-		@SuppressWarnings("unused")
+		
 		DynamicForm form = new DynamicForm();
 
 	}

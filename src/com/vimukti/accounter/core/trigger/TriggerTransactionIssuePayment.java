@@ -26,7 +26,7 @@ public class TriggerTransactionIssuePayment implements Trigger {
 		Long newWriteCheckId = (newRow != null) ? ((newRow[3] != null) ? (Long) newRow[3]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldWriteCheckId = (oldRow != null) ? ((oldRow[3] != null) ? (Long) oldRow[3]
 				: null)
 				: null;
@@ -34,7 +34,7 @@ public class TriggerTransactionIssuePayment implements Trigger {
 		Long newCustomerRefundId = (newRow != null) ? ((newRow[10] != null) ? (Long) newRow[10]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCustomerRefundId = (oldRow != null) ? ((oldRow[10] != null) ? (Long) oldRow[10]
 				: null)
 				: null;

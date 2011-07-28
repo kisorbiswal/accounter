@@ -28,18 +28,18 @@ public class TriggerCustomerCreditMemo implements Trigger {
 		Long newCustomerCreditMemoId = (newRow != null) ? ((newRow[0] != null) ? (Long) newRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCustomerCreditMemoId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long newCustomerId = (newRow != null) ? ((newRow[1] != null) ? (Long) newRow[1]
 				: null)
 				: null;
 		Long oldCustomerId = (oldRow != null) ? ((oldRow[1] != null) ? (Long) oldRow[1]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long newTaxGroupId = (newRow != null) ? ((newRow[9] != null) ? (Long) newRow[9]
 				: null)
 				: null;
@@ -47,18 +47,18 @@ public class TriggerCustomerCreditMemo implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double newTotal = (newRow != null) ? ((newRow[12] != null) ? (Double) newRow[12]
 				: null)
 				: null;
 		Double oldTotal = (oldRow != null) ? ((oldRow[12] != null) ? (Double) oldRow[12]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double newAllLineTotal = (newRow != null) ? ((newRow[13] != null) ? (Double) newRow[13]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldAllLineTotal = (oldRow != null) ? ((oldRow[13] != null) ? (Double) oldRow[13]
 				: null)
 				: null;
@@ -74,7 +74,7 @@ public class TriggerCustomerCreditMemo implements Trigger {
 		Boolean oldIsVoid = (oldRow != null) ? ((oldRow[16] != null) ? (Boolean) oldRow[16]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long newAccountsReceivableId = (newRow != null) ? ((newRow[17] != null) ? (Long) newRow[17]
 				: null)
 				: null;
@@ -241,7 +241,7 @@ public class TriggerCustomerCreditMemo implements Trigger {
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void insertTaxGroupDetailsIntoTaxRateCalculationTable(
 			Statement stat, Long newCustomerCreditMemoId, Long newTaxGroupId,
 			Double newTotal, Double newAllTaxableLineTotal,
@@ -273,7 +273,7 @@ public class TriggerCustomerCreditMemo implements Trigger {
 				.append(") GROUP BY TR1.TAXCODE_ID))").toString());
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void insertCustomerCreditMemoIntoCreditsAndPayments(Statement stat,
 			Date transactionDate, Long companyId, Long transactionNumber,
 			Double newTotal, Long newCustomerCreditMemoId, Long newCustomerId)

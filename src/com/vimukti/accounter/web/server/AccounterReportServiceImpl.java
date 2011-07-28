@@ -460,7 +460,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public List<ClientTransaction> getRegister(long accountId) {
 		List<ClientTransaction> clientTransactionList = new ArrayList<ClientTransaction>();
-		@SuppressWarnings("unused")
+		
 		List<Transaction> serverTransactionList = null;
 
 		try {

@@ -42,14 +42,14 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 
 	public CreditsandPaymentsGrid grid;
 
-	@SuppressWarnings("unused")
+	
 	private String amountDue;
-	@SuppressWarnings("unused")
+	
 	private String cashDiscount;
 
-	@SuppressWarnings("unused")
+	
 	private int key;
-	@SuppressWarnings("unused")
+	
 	private ClientCustomer customer;
 
 	public Double totalBalances = 0.0D;
@@ -71,7 +71,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 
 	private List<ClientCreditsAndPayments> updatedCreditsAndPayments;
 
-	@SuppressWarnings("unused")
+	
 	private ClientVendor vendor;
 
 	private ClientTransactionPayBill transactionPaybill;

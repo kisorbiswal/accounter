@@ -52,7 +52,7 @@ public class CreditCardChargeView extends
 	protected TextItem phoneSelect;
 
 	VendorCombo vendorNameSelect;
-	@SuppressWarnings("unused")
+	
 	private TextAreaItem addrArea;
 
 	protected String selectPaymentMethod;
@@ -62,10 +62,10 @@ public class CreditCardChargeView extends
 	// protected ClientVendor selectedVendor;
 
 	private DynamicForm totForm;
-	@SuppressWarnings("unused")
+	
 	private HorizontalPanel botPanel, addLinkPanel;
 	HorizontalPanel totPanel;
-	@SuppressWarnings("unused")
+	
 	private VerticalPanel leftVLay, botVLay;
 
 	private ArrayList<DynamicForm> listforms;
@@ -266,7 +266,7 @@ public class CreditCardChargeView extends
 		}
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void setDisableStaeForFormItems() {
 
 		for (FormItem formItem : formItems) {

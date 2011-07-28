@@ -111,7 +111,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	@Override
 	protected void onClick(ClientFixedAsset obj, int row, int col) {
-		@SuppressWarnings("unused")
+		
 		List<ClientFixedAsset> records = getRecords();
 		switch (col) {
 		case 6:
@@ -155,7 +155,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	}
 
 	private void executeUpdate(ClientFixedAsset asset, String value) {
-		@SuppressWarnings("unused")
+		
 		List<ClientFixedAssetNote> noteList = asset.getFixedAssetNotes();
 		ClientFixedAssetNote note = new ClientFixedAssetNote();
 		note.setNote(value);

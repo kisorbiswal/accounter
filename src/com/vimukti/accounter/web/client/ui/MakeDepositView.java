@@ -83,19 +83,19 @@ public class MakeDepositView extends
 
 	private ClientAccount selectedDepositInAccount;
 	private ClientAccount selectedCashBackAccount;
-	@SuppressWarnings("unused")
+	
 	private ClientAccount selectedFinanceAccount;
-	@SuppressWarnings("unused")
+	
 	private ClientCustomer selectedCustomer;
-	@SuppressWarnings("unused")
+	
 	private ClientVendor selectedVendor;
 
 	private List<ClientAccount> allAccounts;
-	@SuppressWarnings("unused")
+	
 	private List<ClientCustomer> allCustomers;
-	@SuppressWarnings("unused")
+	
 	private List<ClientVendor> allVendors;
-	@SuppressWarnings("unused")
+	
 	private List<String> paymentMethods;
 	// protected Double totallinetotal;
 	private String selectedItemId;
@@ -112,17 +112,17 @@ public class MakeDepositView extends
 
 	private Double calculatedTotal;
 
-	@SuppressWarnings("unused")
+	
 	private boolean isListEmpty;
 
 	protected boolean isSelected;
 	// private MakeDeposit transactionObject;
-	@SuppressWarnings("unused")
+	
 	private String transactionNumber;
 
 	private List<ClientAccount> listOfAccounts;
 
-	@SuppressWarnings("unused")
+	
 	private HorizontalPanel bot1Panel;
 
 	private ArrayList<DynamicForm> listforms;
@@ -170,7 +170,7 @@ public class MakeDepositView extends
 
 	private void addTransactionMakeDepositsToGrid(
 			List<ClientTransactionMakeDeposit> transactionMakeDepositList) {
-		@SuppressWarnings("unused")
+		
 		ClientCompany company = getCompany();
 
 		ClientTransactionMakeDeposit records[] = new ClientTransactionMakeDeposit[transactionMakeDepositList
@@ -442,7 +442,7 @@ public class MakeDepositView extends
 
 		calculatedTotal = 0D;
 		for (ClientTransactionMakeDeposit rec : gridView.getRecords()) {
-			@SuppressWarnings("unused")
+			
 			ClientTransactionMakeDeposit record = (ClientTransactionMakeDeposit) rec;
 			// FIXME--need to implement
 			// if (record.getAttributeAsBoolean(ATTR_CHECK)) {
@@ -527,7 +527,7 @@ public class MakeDepositView extends
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private List<ClientTransactionMakeDeposit> getTransactionMakeDepositsList() {
 		List<ClientTransactionMakeDeposit> transactionMakeDepositsList = new ArrayList<ClientTransactionMakeDeposit>();
 		ClientTransactionMakeDeposit entry;

@@ -66,7 +66,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 					// .constants().pleaseSelecPaymentType());
 					return false;
 				}
-				@SuppressWarnings("unused")
+				
 				ItemView itemView;
 
 				if (typeRadio.getValue() != null) {

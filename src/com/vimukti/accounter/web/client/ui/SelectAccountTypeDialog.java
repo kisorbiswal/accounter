@@ -27,7 +27,7 @@ public class SelectAccountTypeDialog extends BaseDialog {
 
 	private LinkedHashMap<String, String> accountTypes;
 	private List<Integer> options;
-	@SuppressWarnings("unused")
+	
 	private ViewConfiguration configuration;
 	private String defaultId;
 
@@ -97,7 +97,7 @@ public class SelectAccountTypeDialog extends BaseDialog {
 				String typeName = Utility.getAccountTypeString(type);
 				typeName = UIUtils.unbsp(typeName);
 
-				@SuppressWarnings("unused")
+				
 				NewAccountView accountView = new NewAccountView();
 				try {
 					// FIX ME

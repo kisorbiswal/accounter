@@ -30,7 +30,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
-		@SuppressWarnings("unused")
+		
 		String[] reportBasisArray = { Accounter.constants().cash(),
 				Accounter.constants().accrual() };
 		String[] dateRangeArray = { Accounter.constants().all(),

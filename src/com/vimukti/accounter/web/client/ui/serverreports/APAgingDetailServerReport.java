@@ -17,11 +17,11 @@ import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 public class APAgingDetailServerReport extends
 		AbstractFinaneReport<AgedDebtors> {
 
-	@SuppressWarnings("unused")
+	
 	private String sectionName = "";
 	private List<String> types = new ArrayList<String>();
 	private List<String> sectiontypes = new ArrayList<String>();
-	@SuppressWarnings("unused")
+	
 	private String curentParent;
 	private int precategory;
 
@@ -193,7 +193,7 @@ public class APAgingDetailServerReport extends
 	// }
 	// }
 
-	@SuppressWarnings("unused")
+	
 	private void addCurrent(AgedDebtors record) {
 		if (!sectiontypes.contains("Current")) {
 			// closeAllSection();

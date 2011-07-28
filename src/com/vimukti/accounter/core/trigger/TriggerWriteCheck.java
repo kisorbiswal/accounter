@@ -26,7 +26,7 @@ public class TriggerWriteCheck implements Trigger {
 		Long newWriteCheckId = (newRow != null) ? ((newRow[0] != null) ? (Long) newRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldWriteCheckId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
@@ -34,7 +34,7 @@ public class TriggerWriteCheck implements Trigger {
 		Long newAccountId = (newRow != null) ? ((newRow[2] != null) ? (Long) newRow[2]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountId = (oldRow != null) ? ((oldRow[2] != null) ? (Long) oldRow[2]
 				: null)
 				: null;
@@ -42,7 +42,7 @@ public class TriggerWriteCheck implements Trigger {
 		Double newAmount = (newRow != null) ? ((newRow[8] != null) ? (Double) newRow[8]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldAmount = (oldRow != null) ? ((oldRow[8] != null) ? (Double) oldRow[8]
 				: null)
 				: null;

@@ -67,7 +67,7 @@ public class PaySalesTaxView extends
 	private List<ClientAccount> payFromAccounts;
 	private List<ClientTransactionPaySalesTax> filterByDateList;
 
-	@SuppressWarnings("unused")
+	
 	private List<ClientTAXItem> taxItems;
 	private List<ClientPaySalesTaxEntries> entries;
 	List<ClientTAXAgency> taxAgencies = new ArrayList<ClientTAXAgency>();

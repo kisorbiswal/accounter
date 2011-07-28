@@ -18,7 +18,7 @@ public class PortalLayout extends VerticalPanel {
 	private DashBoardView dashboardParent;
 	private CustomerSectionHomeView customerParent;
 	private VendorSectionHomeView vendorParent;
-	@SuppressWarnings("unused")
+	
 	private BankingSectionHomeView bankingParent;
 	// private Timer timer;
 	ClientUser user;

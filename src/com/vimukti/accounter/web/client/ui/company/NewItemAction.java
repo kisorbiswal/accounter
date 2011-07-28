@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class NewItemAction extends Action {
 
-	@SuppressWarnings("unused")
+	
 	private boolean isEdit;
 	private ClientItem item;
 	int type;

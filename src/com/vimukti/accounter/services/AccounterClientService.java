@@ -932,7 +932,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// .get(Calendar.YEAR);
 	//
 	// cal.setTime(existingHighestEndDate);
-	// @SuppressWarnings("unused")
+	// 
 	// Integer existingHighestYear = cal
 	// .get(Calendar.YEAR);
 	// if (modifiedStartDate
@@ -1112,7 +1112,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// new Object[] { journalEntry.getID() });
 	//
 	// if (list.size() > 0) {
-	// @SuppressWarnings("unused")
+	// 
 	// JournalEntry serveObject = (JournalEntry) list.get(0);
 	// return (ClientJournalEntry) updateObject(JournalEntry.class,
 	// journalEntry);

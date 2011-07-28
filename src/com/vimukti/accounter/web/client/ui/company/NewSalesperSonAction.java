@@ -15,9 +15,9 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
  */
 public class NewSalesperSonAction extends Action {
 
-	@SuppressWarnings("unused")
+	
 	private ClientSalesPerson salesPerson;
-	@SuppressWarnings("unused")
+	
 	private boolean isEdit;
 
 	public NewSalesperSonAction(String icon) {

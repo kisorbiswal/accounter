@@ -31,32 +31,32 @@ public class TriggerInvoice implements Trigger {
 		Long oldInvoiceId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long newCustomerId = (newRow != null) ? ((newRow[1] != null) ? (Long) newRow[1]
 				: null)
 				: null;
 		Long oldCustomerId = (oldRow != null) ? ((oldRow[1] != null) ? (Long) oldRow[1]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double newAllLineTotal = (newRow != null) ? ((newRow[12] != null) ? (Double) newRow[12]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldAllLineTotal = (oldRow != null) ? ((oldRow[12] != null) ? (Double) oldRow[12]
 				: null)
 				: null;
 		Double newAllTaxableLineTotal = (newRow != null) ? ((newRow[13] != null) ? (Double) newRow[13]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldAllTaxableLineTotal = (oldRow != null) ? ((oldRow[13] != null) ? (Double) oldRow[13]
 				: null)
 				: null;
 		Long newTaxGroupId = (newRow != null) ? ((newRow[17] != null) ? (Long) newRow[17]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldTaxGroupId = (oldRow != null) ? ((oldRow[17] != null) ? (Long) oldRow[17]
 				: null)
 				: null;
@@ -75,7 +75,7 @@ public class TriggerInvoice implements Trigger {
 		Long newAccountsReceivableId = (newRow != null) ? ((newRow[25] != null) ? (Long) newRow[25]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountsReceivableId = (oldRow != null) ? ((oldRow[25] != null) ? (Long) oldRow[25]
 				: null)
 				: null;
@@ -266,7 +266,7 @@ public class TriggerInvoice implements Trigger {
 				.append(invoiceId).append(" )").toString());
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void insertTaxGroupDetailsIntoTaxRateCalculationTable(
 			Statement stat, Long newInvoiceId, Long newTaxGroupId,
 			Double newTotal, Double newAllTaxableLineTotal,

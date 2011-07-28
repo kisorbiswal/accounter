@@ -25,7 +25,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	private List<Integer> cellsWidth = new ArrayList<Integer>();
 
 	private GridRecordClickHandler recordClickHandler;
-	@SuppressWarnings("unused")
+	
 	private RecordDeleteHandler recordDeleteHandler;
 	
 	private RecordDoubleClickHandler doubleClickHandler;

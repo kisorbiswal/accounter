@@ -23,15 +23,15 @@ import com.vimukti.accounter.web.client.ui.grids.VendorListGrid;
 public class VendorSectionHomeView extends BaseHomeView {
 
 	ArrayList<String> addablePortletList = new ArrayList<String>();
-	@SuppressWarnings("unused")
+	
 	private VendorSectionHomeView vendorSectionView = null;
 	private PortalLayout portalLayout;
-	@SuppressWarnings("unused")
+	
 	private String vendorSectionPreference;
 	private String[] widgetOnSectionPage;
-	@SuppressWarnings("unused")
+	
 	private Portlet[] portlet;
-	@SuppressWarnings("unused")
+	
 	private WidgetCreator creator;
 	private String[] secondColumn;
 
@@ -84,7 +84,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 			widgetOnSectionPage = portletArray;
 			portlet = new Portlet[portletArray.length];
 			for (int i = 0; i < portletArray.length; i++) {
-				@SuppressWarnings("unused")
+				
 				final int index = i;
 				if (portletArray[i].equals("")) {
 
@@ -131,7 +131,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 				portlet = new Portlet[firstColumn.length];
 			}
 			for (int i = 0; i < firstColumn.length; i++) {
-				@SuppressWarnings("unused")
+				
 				final int index = i;
 				if (firstColumn[i].equals("")) {
 
@@ -153,7 +153,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 			if (portletArray.length > 1) {
 				for (int i = 0; i < secondColumn.length; i++) {
-					@SuppressWarnings("unused")
+					
 					final int index = i + firstColumn.length;
 					if (secondColumn[i].equals("")) {
 

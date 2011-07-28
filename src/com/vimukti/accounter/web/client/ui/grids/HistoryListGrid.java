@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
 
 public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 
-	@SuppressWarnings("unused")
+	
 	private NoteDialog noteDialog;
 
 	public HistoryListGrid(boolean isMultiSelectionEnable) {

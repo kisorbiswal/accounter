@@ -23,7 +23,7 @@ public class ReportSectionView extends BaseHomeView {
 
 	private VerticalPanel createControl() {
 		VerticalPanel mainLayout = new VerticalPanel();
-		@SuppressWarnings("unused")
+		
 		BalanceSheetServerReport report = new BalanceSheetServerReport(0, 0, 0);
 		// report.setSize("80%", "80%");
 		// report.setParentLayout(mainLayout);

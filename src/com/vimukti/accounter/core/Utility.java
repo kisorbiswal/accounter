@@ -894,11 +894,11 @@ public class Utility {
 		}
 		subStringArray[j] = lhs.substring(0, i + 1);
 		String placeValue = "";
-		@SuppressWarnings("unused")
+		
 		String faceValue = "";
-		@SuppressWarnings("unused")
+		
 		String subPlaceValue = "";
-		@SuppressWarnings("unused")
+		
 		String subFaceValue = "";
 		if (subStringArray.length > 1) {
 			for (i = 0; i < subStringArray.length; i++) {

@@ -32,7 +32,7 @@ public class TriggerPayBill implements Trigger {
 		Long oldPayBillId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long newPayFromAccountId = (newRow != null) ? ((newRow[1] != null) ? (Long) newRow[1]
 				: null)
 				: null;
@@ -43,7 +43,7 @@ public class TriggerPayBill implements Trigger {
 		Long newVendorId = (newRow != null) ? ((newRow[4] != null) ? (Long) newRow[4]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldVendorId = (oldRow != null) ? ((oldRow[4] != null) ? (Long) oldRow[4]
 				: null)
 				: null;
@@ -64,7 +64,7 @@ public class TriggerPayBill implements Trigger {
 		Long newAccountsPayableId = (newRow != null) ? ((newRow[9] != null) ? (Long) newRow[9]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountsPayableId = (oldRow != null) ? ((oldRow[9] != null) ? (Long) oldRow[9]
 				: null)
 				: null;
@@ -77,7 +77,7 @@ public class TriggerPayBill implements Trigger {
 		Integer newPayBillType = (newRow != null) ? ((newRow[11] != null) ? (Integer) newRow[11]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Integer oldPayBillType = (oldRow != null) ? ((oldRow[11] != null) ? (Integer) oldRow[11]
 				: null)
 				: null;
@@ -261,7 +261,7 @@ public class TriggerPayBill implements Trigger {
 		}
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void updatePayBillStatus(Statement stat, int status,
 			Long newPayBillId) throws SQLException {
 		stat.execute(new StringBuilder()
@@ -298,7 +298,7 @@ public class TriggerPayBill implements Trigger {
 				.append(" WHERE V.ID = ").append(vendorId).toString());
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void insertVendorPaymentIntoCreditsAndPayments(Statement stat,
 			Date transactionDate, Long companyId, Long transactionNumber,
 			Double unUsedAmount, Long payBillId, Long vendorId)

@@ -14,7 +14,7 @@ public class InvalidTransactionEntryException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unused")
+	
 	private Throwable cause;
 
 	private String message;

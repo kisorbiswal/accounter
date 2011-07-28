@@ -156,7 +156,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 							.endThisFiscalQuarterToDate())) {
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;
-				@SuppressWarnings("unused")
+				
 				int endMonth = startMonth + 2;
 				startDate = new ClientFinanceDate(date.getYear(), startMonth, 1);
 				endDate = Accounter.getCompany()

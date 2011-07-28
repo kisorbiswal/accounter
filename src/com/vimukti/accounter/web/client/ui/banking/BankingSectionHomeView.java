@@ -25,9 +25,9 @@ public class BankingSectionHomeView extends BaseHomeView {
 	private PortalLayout portalLayout;
 	private String bankingSectionPreference;
 	private String[] widgetOnSectionPage;
-	@SuppressWarnings("unused")
+	
 	private Portlet[] portlet;
-	@SuppressWarnings("unused")
+	
 	private WidgetCreator creator;
 	private String[] secondColumn;
 	ChartOfAccountsListGrid accounts;

@@ -35,7 +35,7 @@ public class MakeDepositTransactionGrid extends
 	private CustomerCombo customersCombo;
 	private Double totallinetotal = 0.0;
 	private Double grandTotal = 0.0;
-	@SuppressWarnings("unused")
+	
 	private SelectItem typeCombo;
 
 	public MakeDepositTransactionGrid() {

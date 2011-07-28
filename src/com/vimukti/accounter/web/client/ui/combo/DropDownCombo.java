@@ -477,7 +477,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void setSelectedIndex(int i) {
 
 	}

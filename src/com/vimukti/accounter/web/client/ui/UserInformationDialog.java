@@ -46,7 +46,7 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		((ServiceDefTarget) getService)
 				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
 
-		@SuppressWarnings("unused")
+		
 		final AsyncCallback<ClientUser> getUserCallBack = new AsyncCallback<ClientUser>() {
 			public void onFailure(Throwable caught) {
 				Accounter.showInformation(Accounter.constants()
@@ -140,7 +140,7 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		if (createDate.getValue() != null) {
 			Object obj = createDate.getValue();
 			if (obj instanceof java.util.Date) {
-				@SuppressWarnings("unused")
+				
 				java.util.Date date = (java.util.Date) obj;
 
 			}
@@ -149,7 +149,7 @@ public class UserInformationDialog extends AbstractBaseDialog {
 		if (lastLogin.getValue() != null) {
 			Object obj = lastLogin.getValue();
 			if (obj instanceof java.util.Date) {
-				@SuppressWarnings("unused")
+				
 				java.util.Date date = (java.util.Date) obj;
 
 			}

@@ -27,11 +27,11 @@ public class TriggerCashSales implements Trigger {
 		Long newCashSaleId = (newRow != null) ? ((newRow[0] != null) ? (Long) newRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCashSaleId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long newDepositInAccountId = (newRow != null) ? ((newRow[8] != null) ? (Long) newRow[8]
 				: null)
 				: null;
@@ -41,29 +41,29 @@ public class TriggerCashSales implements Trigger {
 		Long newTaxGroupId = (newRow != null) ? ((newRow[14] != null) ? (Long) newRow[14]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldTaxGroupId = (oldRow != null) ? ((oldRow[14] != null) ? (Long) oldRow[14]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double newTotal = (newRow != null) ? ((newRow[17] != null) ? (Double) newRow[17]
 				: null)
 				: null;
 		Double oldTotal = (oldRow != null) ? ((oldRow[17] != null) ? (Double) oldRow[17]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double newAllLineTotal = (newRow != null) ? ((newRow[18] != null) ? (Double) newRow[18]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldAllLineTotal = (oldRow != null) ? ((oldRow[18] != null) ? (Double) oldRow[18]
 				: null)
 				: null;
 		Double newAllTaxableLineTotal = (newRow != null) ? ((newRow[19] != null) ? (Double) newRow[19]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldAllTaxableLineTotal = (oldRow != null) ? ((oldRow[19] != null) ? (Double) oldRow[19]
 				: null)
 				: null;

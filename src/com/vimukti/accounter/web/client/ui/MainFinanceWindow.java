@@ -89,7 +89,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 
-	@SuppressWarnings("unused")
+	
 	private Widget getSalesMenuBar() {
 		// currently not using anywhere
 		return null;
@@ -1112,7 +1112,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 	public void fitToSize(int height, int width) {
-		@SuppressWarnings("unused")
+		
 		BaseView<?> view = viewManager.getContentPanel();
 
 		this.height = height;
@@ -1132,7 +1132,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	@Override
 	public void onLoad() {
 		// ClientCometManager.getInstance().initComet();
-		// @SuppressWarnings("unused")
+		// 
 		// BaseView<?> view = viewManager.getContentPanel();
 		// viewManager.fitToSize(height, width);
 

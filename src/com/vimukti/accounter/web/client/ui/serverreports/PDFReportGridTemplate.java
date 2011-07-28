@@ -144,7 +144,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	@Override
 	public void addDepthStyle(int row, int column, int depth) {
 		boolean canAdd = (reportView instanceof ProfitAndLossServerReport || reportView instanceof BalanceSheetServerReport);
-		@SuppressWarnings("unused")
+		
 		boolean flag = false;
 
 		if (column == 0 && !canAdd) {

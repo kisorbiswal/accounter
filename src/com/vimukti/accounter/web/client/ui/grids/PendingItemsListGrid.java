@@ -118,7 +118,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	@Override
 	protected void onClick(ClientFixedAsset obj, int row, int col) {
-		@SuppressWarnings("unused")
+		
 		List<ClientFixedAsset> records = getRecords();
 		switch (col) {
 		case 5:

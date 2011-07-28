@@ -7,7 +7,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
-@SuppressWarnings("unused")
+
 public class DynamicForm extends FlexTable {
 
 	private int noOfColumns = 2;

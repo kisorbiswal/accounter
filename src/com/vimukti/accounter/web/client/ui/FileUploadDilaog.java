@@ -47,11 +47,11 @@ public class FileUploadDilaog extends CustomDialog {
 	private HorizontalPanel buttonHlay;
 	private boolean closeAfterUploaded;
 	private static ClientBrandingTheme brandingTheme;
-	@SuppressWarnings("unused")
+	
 	private String title;
 	private HTML detailsHtml, helpHtml, chooseHtml;
 
-	@SuppressWarnings("static-access")
+	
 	public FileUploadDilaog(String title, String parentID,
 			ValueCallBack<ClientBrandingTheme> callback, String[] fileTypes,
 			ClientBrandingTheme theme) {

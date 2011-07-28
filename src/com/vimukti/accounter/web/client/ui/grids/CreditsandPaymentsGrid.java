@@ -32,7 +32,7 @@ public class CreditsandPaymentsGrid extends
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX,
 			ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
-	@SuppressWarnings("unused")
+	
 	private ClientTransactionReceivePayment traReceivePayment;
 	public LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>> creditsMap = new LinkedHashMap<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>>();
 

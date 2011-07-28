@@ -145,7 +145,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore,
 		// Query query = session.getNamedQuery("getNextTransactionNumber");
 		// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
 		// List list = query.list();
-		// // @SuppressWarnings("unused")
+		// // 
 		// long nextVoucherNumber = 1;
 		// if (list != null && list.size() > 0) {
 		// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;

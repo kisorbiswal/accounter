@@ -33,7 +33,7 @@ public class AccountRegisterOthersView extends
 	private SelectCombo showTransactionSelect;
 
 	private ClientAccount takenaccount;
-	@SuppressWarnings("unused")
+	
 	private ClientAccount account;
 	protected List<AccountRegister> accountRegister;
 	private AccountRegister accRegister;

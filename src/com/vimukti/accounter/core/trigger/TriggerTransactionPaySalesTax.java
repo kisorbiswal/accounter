@@ -20,7 +20,7 @@ public class TriggerTransactionPaySalesTax implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long oldTransactionPaySalesTaxId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
@@ -29,17 +29,17 @@ public class TriggerTransactionPaySalesTax implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long oldTaxAgencyId = (newRow != null) ? ((newRow[2] != null) ? (Long) newRow[2]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long newTaxCodeId = (newRow != null) ? ((newRow[3] != null) ? (Long) newRow[3]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long oldTaxCodeId = (newRow != null) ? ((newRow[3] != null) ? (Long) newRow[3]
 				: null)
 				: null;
@@ -48,17 +48,17 @@ public class TriggerTransactionPaySalesTax implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double oldAmountToPay = (newRow != null) ? ((newRow[4] != null) ? (Double) newRow[4]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double newTaxDue = (newRow != null) ? ((newRow[5] != null) ? (Double) newRow[5]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double oldTaxDue = (newRow != null) ? ((newRow[5] != null) ? (Double) newRow[5]
 				: null)
 				: null;
@@ -66,7 +66,7 @@ public class TriggerTransactionPaySalesTax implements Trigger {
 		Long newTransactionId = (newRow != null) ? ((newRow[6] != null) ? (Long) newRow[6]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldTransactionId = (oldRow != null) ? ((oldRow[6] != null) ? (Long) oldRow[6]
 				: null)
 				: null;

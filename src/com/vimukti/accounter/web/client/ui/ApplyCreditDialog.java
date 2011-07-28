@@ -27,19 +27,19 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 
 public class ApplyCreditDialog extends BaseDialog {
-	@SuppressWarnings("unused")
+	
 	private static final String ATTR_CREDIT_AMOUNT = Accounter.constants()
 			.credit();
-	@SuppressWarnings("unused")
+	
 	private final String ATTR_DATE = Accounter.constants().date();
-	@SuppressWarnings("unused")
+	
 	private final String ATTR_MEMO = Accounter.constants().memo();
-	@SuppressWarnings("unused")
+	
 	private final String ATTR_BALANCE = Accounter.constants().balance();
-	@SuppressWarnings("unused")
+	
 	private final String ATTR_AMOUNT_TO_USE = Accounter.constants()
 			.amounttouse();
-	@SuppressWarnings("unused")
+	
 	private final String ATTR_ID = Accounter.constants().Id();
 	AmountField amtDueText, totCredAmtText, cashDiscText, totBalText,
 			adjPayText, totAmtUseText;
@@ -51,11 +51,11 @@ public class ApplyCreditDialog extends BaseDialog {
 	// private ListGridField creditAmountField;
 	// private ListGridField balanceField;
 	// private ListGridField amountToUseField;
-	@SuppressWarnings("unused")
+	
 	private List<ClientCreditsAndPayments> creditsAndPayments;
-	@SuppressWarnings("unused")
+	
 	private LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap;
-	@SuppressWarnings("unused")
+	
 	private int key;
 	private IGenericCallback<String> callback;
 
@@ -243,10 +243,10 @@ public class ApplyCreditDialog extends BaseDialog {
 			}
 
 			public boolean onOkClick() {
-				@SuppressWarnings("unused")
+				
 				ClientCreditsAndPayments selectedRecords = (ClientCreditsAndPayments) grid
 						.getSelection();
-				@SuppressWarnings("unused")
+				
 				List<ClientTransactionCreditsAndPayments> creditsAndPaymentsSet = new ArrayList<ClientTransactionCreditsAndPayments>();
 				// for (ListGridRecord rec : selectedRecords) {
 				// ClientTransactionCreditsAndPayments customerPaymentCredits11
@@ -321,7 +321,7 @@ public class ApplyCreditDialog extends BaseDialog {
 
 	@Override
 	public Object getGridColumnValue(IsSerializable accounterCore, int col) {
-		@SuppressWarnings("unused")
+		
 		ClientCustomer customer = (ClientCustomer) accounterCore;
 		switch (col) {
 		case 0:

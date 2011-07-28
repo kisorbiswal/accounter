@@ -54,14 +54,14 @@ public class CompanyInfoDialog extends BaseDialog {
 	DynamicForm companyDetailsForm, phoneAndFaxForm, taxIDForm,
 			RegistrationNumberForm;
 
-	@SuppressWarnings("unused")
+	
 	private TextAreaItem address;
-	@SuppressWarnings("unused")
+	
 	private LinkedHashMap<String, ClientAddress> addresses = new LinkedHashMap<String, ClientAddress>();
 
 	protected String str;
 
-	@SuppressWarnings("unused")
+	
 	private String string;
 
 	private TextAreaItem textareaItem, textareaItem2;

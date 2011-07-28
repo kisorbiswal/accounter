@@ -50,7 +50,7 @@ public class TransactionPayBillGrid extends
 	public Stack<Map<Integer, Object>> creditsStack;
 	public Stack<Map<Integer, Object>> revertedCreditsStack;
 
-	@SuppressWarnings("unused")
+	
 	private boolean hasRecords;
 	private Stack<Map<Integer, Map<Integer, Object>>> tobeReverCredittStk = new Stack<Map<Integer, Map<Integer, Object>>>();
 	private ArrayList<Map<Integer, Object>> pendingRevertedCredit = new ArrayList<Map<Integer, Object>>();

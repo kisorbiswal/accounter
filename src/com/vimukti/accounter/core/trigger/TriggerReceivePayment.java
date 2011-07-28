@@ -36,7 +36,7 @@ public class TriggerReceivePayment implements Trigger {
 		Long newCustomerId = (newRow != null) ? ((newRow[1] != null) ? (Long) newRow[1]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCustomerId = (oldRow != null) ? ((oldRow[1] != null) ? (Long) oldRow[1]
 				: null)
 				: null;
@@ -46,7 +46,7 @@ public class TriggerReceivePayment implements Trigger {
 		Double oldAmount = (oldRow != null) ? ((oldRow[2] != null) ? (Double) oldRow[2]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long newDepositInAccountId = (newRow != null) ? ((newRow[7] != null) ? (Long) newRow[7]
 				: null)
 				: null;
@@ -71,29 +71,29 @@ public class TriggerReceivePayment implements Trigger {
 		Double newTotalCashDiscount = (newRow != null) ? ((newRow[11] != null) ? (Double) newRow[11]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldTotalCashDiscount = (oldRow != null) ? ((oldRow[11] != null) ? (Double) oldRow[11]
 				: null)
 				: null;
 		Double newTotalWriteOff = (newRow != null) ? ((newRow[12] != null) ? (Double) newRow[12]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldTotalWriteOff = (oldRow != null) ? ((oldRow[12] != null) ? (Double) oldRow[12]
 				: null)
 				: null;
 		Long newAccountsReceivableId = (newRow != null) ? ((newRow[14] != null) ? (Long) newRow[14]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountsReceivableId = (oldRow != null) ? ((oldRow[14] != null) ? (Long) oldRow[14]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double newTotalAppliedCredits = (newRow != null) ? ((newRow[15] != null) ? (Double) newRow[15]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldTotalAppliedCredits = (oldRow != null) ? ((oldRow[15] != null) ? (Double) oldRow[15]
 				: null)
 				: null;
@@ -299,7 +299,7 @@ public class TriggerReceivePayment implements Trigger {
 		}
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void updateReceivePaymentStatus(Statement stat,
 			Double newUnUsedPayments, Double newAmount,
 			Double newTotalCashDiscount, Double newTotalWriteOff,

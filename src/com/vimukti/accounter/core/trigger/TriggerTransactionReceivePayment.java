@@ -34,7 +34,7 @@ public class TriggerTransactionReceivePayment implements Trigger {
 		Long newInvoiceId = (newRow != null) ? ((newRow[3] != null) ? (Long) newRow[3]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldInvoiceId = (oldRow != null) ? ((oldRow[3] != null) ? (Long) oldRow[3]
 				: null)
 				: null;
@@ -42,7 +42,7 @@ public class TriggerTransactionReceivePayment implements Trigger {
 		Long newDiscountAccountId = (newRow != null) ? ((newRow[6] != null) ? (Long) newRow[6]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldDiscountAccountId = (oldRow != null) ? ((oldRow[6] != null) ? (Long) oldRow[6]
 				: null)
 				: null;
@@ -57,7 +57,7 @@ public class TriggerTransactionReceivePayment implements Trigger {
 		Long newWriteOffAccountId = (newRow != null) ? ((newRow[8] != null) ? (Long) newRow[8]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldWriteOffAccountId = (oldRow != null) ? ((oldRow[8] != null) ? (Long) oldRow[8]
 				: null)
 				: null;
@@ -69,7 +69,7 @@ public class TriggerTransactionReceivePayment implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double newAppliedCreditsAmount = (newRow != null) ? ((newRow[10] != null) ? (Double) newRow[10]
 				: null)
 				: null;
@@ -77,7 +77,7 @@ public class TriggerTransactionReceivePayment implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double newPaymentAmount = (newRow != null) ? ((newRow[11] != null) ? (Double) newRow[11]
 				: null)
 				: null;
@@ -95,7 +95,7 @@ public class TriggerTransactionReceivePayment implements Trigger {
 		Boolean newIsVoid = (newRow != null) ? ((newRow[13] != null) ? (Boolean) newRow[13]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Boolean oldIsVoid = (oldRow != null) ? ((oldRow[13] != null) ? (Boolean) oldRow[13]
 				: null)
 				: null;
@@ -103,7 +103,7 @@ public class TriggerTransactionReceivePayment implements Trigger {
 		Long newCustomerRefundId = (newRow != null) ? ((newRow[14] != null) ? (Long) newRow[14]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCustomerRefundId = (oldRow != null) ? ((oldRow[14] != null) ? (Long) oldRow[14]
 				: null)
 				: null;
@@ -121,7 +121,7 @@ public class TriggerTransactionReceivePayment implements Trigger {
 				: null;
 
 		Long newAccountsReceivableId = null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountsReceivableId = null;
 		Boolean isIncrease = Boolean.FALSE;
 

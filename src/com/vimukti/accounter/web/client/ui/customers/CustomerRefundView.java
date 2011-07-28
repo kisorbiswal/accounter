@@ -52,7 +52,7 @@ public class CustomerRefundView extends
 	private AmountField endBalText, custBalText;
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
-	@SuppressWarnings("unused")
+	
 	private Double refundAmount;
 	private Double endingBalance;
 	private boolean isChecked = false;

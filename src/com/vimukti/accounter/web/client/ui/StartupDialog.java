@@ -298,7 +298,7 @@ public class StartupDialog extends DialogBox {
 	// // userEmailText.getValue().toString(), getUserCallBack);
 	// }
 
-	@SuppressWarnings("unused")
+	
 	private void getUserByEmail(String mail) {
 		final AsyncCallback<ClientUser> getUserCallBack = new AsyncCallback<ClientUser>() {
 			public void onFailure(Throwable caught) {
@@ -318,7 +318,7 @@ public class StartupDialog extends DialogBox {
 		// FinanceApplication.createGETService().getUser(mail, getUserCallBack);
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void getCompanyList() {
 		AsyncCallback<List<ClientCompany>> getCompanyListCallback = new AsyncCallback<List<ClientCompany>>() {
 
@@ -342,7 +342,7 @@ public class StartupDialog extends DialogBox {
 	}
 
 	private void getCompany() {
-		@SuppressWarnings("unused")
+		
 		AsyncCallback<List<ClientCompany>> getCompanyListCallback = new AsyncCallback<List<ClientCompany>>() {
 
 			public void onFailure(Throwable caught) {

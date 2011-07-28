@@ -53,7 +53,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	private ClientTAXAgency clientTAXAgency;
 
 	private ClientTAXAdjustment taxAdjustment;
-	@SuppressWarnings("unused")
+	
 	private AsyncCallback<Boolean> refreshFileVat;
 	private ClientTAXAgency taxAgency;
 	// private static TextItem vatLine, vatLinetxt, vatAccounttxt, vatAccount;
@@ -305,7 +305,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	protected void refreshVatAccountLabel(LabelItem vatAccountLabel,
 			ClientTAXItem selectItem) {
 
-		@SuppressWarnings("unused")
+		
 		String str = "";
 		if (this.clientTAXAgency != null) {
 

@@ -99,7 +99,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<ClientEnterBill> getBillsOwed() {
 
 		List<ClientEnterBill> clientEnterBills = new ArrayList<ClientEnterBill>();
-		@SuppressWarnings("unused")
+		
 		List<EnterBill> serverEnterBills = null;
 		try {
 

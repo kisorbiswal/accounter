@@ -207,7 +207,7 @@ public class DataUtils {
 
 		StringBuffer buffer = null;
 
-		@SuppressWarnings("unused")
+		
 		boolean isNagative = false;
 
 		if (!DecimalUtil.isLessThan(amount, 0))

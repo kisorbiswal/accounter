@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 
-	@SuppressWarnings("unused")
+	
 	private String sectionName;
 
 	public ECSalesListServerReport(IFinanceReport<ECSalesList> reportView) {

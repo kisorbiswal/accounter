@@ -87,7 +87,7 @@ public class ReceivePaymentView extends
 
 	protected Boolean vatInclude = false;
 
-	@SuppressWarnings("unused")
+	
 	private boolean gotCreditsAndPayments;
 
 	private ArrayList<DynamicForm> listforms;
@@ -339,7 +339,7 @@ public class ReceivePaymentView extends
 		return null;
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void adjustPaymentValue(ClientTransactionReceivePayment rec) {
 		Double amountDue = rec.getAmountDue();
 		Double cashDiscount = rec.getCashDiscount();
@@ -634,7 +634,7 @@ public class ReceivePaymentView extends
 		topHLay.setCellWidth(leftVLay, "50%");
 		topHLay.setCellWidth(rightVLay, "39%");
 
-		@SuppressWarnings("unused")
+		
 		VerticalPanel gridAndBalances = new VerticalPanel();
 
 		// HorizontalPanel hLay2 = new HorizontalPanel();
@@ -697,9 +697,9 @@ public class ReceivePaymentView extends
 	 */
 	public void calculateVatFraction(Double amount) {
 		if (selectedTaxCode != null) {
-			@SuppressWarnings("unused")
+			
 			ClientTAXCode code = (ClientTAXCode) selectedTaxCode;
-			@SuppressWarnings("unused")
+			
 			double amt = 0.0d;
 			try {
 				amt = DataUtils.getAmountStringAsDouble(amtText.getValue()
@@ -732,7 +732,7 @@ public class ReceivePaymentView extends
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void distributeEnteredAmount(Double amount) {
 
 		Double unusedAmounts = 0.0;

@@ -145,7 +145,7 @@ public class PasswordItem extends FormItem {
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void setBorder() {
 
 	}

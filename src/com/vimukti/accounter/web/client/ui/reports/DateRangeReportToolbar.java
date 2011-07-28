@@ -21,10 +21,10 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 	public DateItem fromItem;
 	public DateItem toItem;
-	@SuppressWarnings("unused")
+	
 	private SelectCombo reportBasisItemCombo;
 	private SelectCombo dateRangeItemCombo;
-	@SuppressWarnings("unused")
+	
 	private List<String> reportBasisItemList, dateRangeItemList;
 
 	private AccounterButton updateButton;
@@ -35,7 +35,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
-		@SuppressWarnings("unused")
+		
 		String[] reportBasisArray = { Accounter.constants().cash(),
 				Accounter.constants().accrual() };
 
@@ -138,7 +138,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		@SuppressWarnings("unused")
+		
 		ClientFinanceDate date = Accounter.getCompany()
 				.getLastandOpenedFiscalYearEndDate();
 

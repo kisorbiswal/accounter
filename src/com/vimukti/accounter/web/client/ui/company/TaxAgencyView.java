@@ -330,7 +330,7 @@
 //		memoArea.setTitle(FinanceApplication.constants().memo());
 //		memoArea.setWidth(100);
 //
-//		@SuppressWarnings("unused")
+//		
 //		Button addLinksButt = new Button(companyConstants.addLinks());
 //		linksText = new TextItem(companyConstants.links());
 //		linksText.setColSpan(3);
@@ -394,7 +394,7 @@
 //			ClientContact records[] = new ClientContact[contactsOfEditableTaxAgency
 //					.size()];
 //			int i = 0;
-//			@SuppressWarnings("unused")
+//			
 //			ClientContact temp = null;
 //			for (ClientContact contact : contactsOfEditableTaxAgency) {
 //				records[i] = new ClientContact();

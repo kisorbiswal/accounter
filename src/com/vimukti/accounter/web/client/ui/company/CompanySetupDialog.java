@@ -54,7 +54,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 	int currentStep;
 
-	@SuppressWarnings("unused")
+	
 	private static final String[] typeRecords = new String[] {
 			Accounter.constants().basic(),
 			Accounter.constants().healthcareProfessional(),
@@ -209,7 +209,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		Accounter.createCRUDService().create(company, createCompanyCallBack);
 	}
 
-	@SuppressWarnings("unused")
+	
 	public ClientCompany getCompany() {
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
 				.create(IAccounterGETService.class);
@@ -551,7 +551,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		step2Canvas.add(mainVLay);
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void createStep3Canvas() {
 		setTitle(Accounter.constants().companySetup());
 

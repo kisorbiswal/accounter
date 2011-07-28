@@ -205,7 +205,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// String assetNum = assetNumberTxt.getValue().toString();
 		// if (assetNum.length() != 0) {
 		// try {
-		// @SuppressWarnings("unused")
+		// 
 		// long assetNumber = Long.parseLong(assetNum);
 		// } catch (Exception e) {
 		// assetNumberTxt.focusInItem();

@@ -23,7 +23,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 	private DateItem fromItem;
 	private DateItem toItem;
-	@SuppressWarnings("unused")
+	
 	private SelectCombo reportBasisItem, dateRangeItem;
 	private TAXAgencyCombo vatAgencyCombo;
 	protected String selectedEndDate;
@@ -214,7 +214,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 	}
 
 	// set the Default Date Range to End this Calendar quarter to date
-	@SuppressWarnings("unused")
+	
 	private void setDefaultDateRange(String[] dateRangeArray) {
 
 		dateRangeItem.setDefaultValue(dateRangeArray[9]);

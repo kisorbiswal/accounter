@@ -33,7 +33,7 @@ public class AddressForm extends DynamicForm {
 
 	public AddressForm(Set<ClientAddress> addresses) {
 
-		@SuppressWarnings("unused")
+		
 		Label l1 = new Label(Accounter.constants()
 				.enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();

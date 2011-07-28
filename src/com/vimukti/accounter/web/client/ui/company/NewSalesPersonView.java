@@ -372,7 +372,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void reload() {
 		try {
 			CompanyActionFactory.getNewSalesperSonAction().run(null, true);

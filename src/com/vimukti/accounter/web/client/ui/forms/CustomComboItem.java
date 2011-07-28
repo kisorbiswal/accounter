@@ -206,7 +206,7 @@ public class CustomComboItem extends FormItem {
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void setBorder() {
 
 	}

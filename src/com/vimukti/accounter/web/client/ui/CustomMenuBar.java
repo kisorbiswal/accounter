@@ -53,7 +53,7 @@ public class CustomMenuBar extends MenuBar {
 		// + ") no-repeat scroll 0 0 transparent");
 	}
 
-	// @SuppressWarnings("unused")
+	// 
 	// protected CustomMenuItem findItem(Element hItem) {
 	// for (CustomMenuItem item : menuItems) {
 	// if (DOM.isOrHasChild(item.getElement(), hItem)) {

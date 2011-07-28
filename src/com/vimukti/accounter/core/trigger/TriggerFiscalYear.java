@@ -20,38 +20,38 @@ public class TriggerFiscalYear implements Trigger {
 	public void fire(Connection conn, Object[] oldRow, Object[] newRow)
 			throws SQLException {
 
-		@SuppressWarnings("unused")
+		
 		Long newFiscalYearId = (newRow != null) ? ((newRow[0] != null) ? (Long) newRow[0]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldFiscalYearId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long newCompanyId = (newRow != null) ? ((newRow[1] != null) ? (Long) newRow[1]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCompanyId = (oldRow != null) ? ((oldRow[1] != null) ? (Long) oldRow[1]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Date newStartDate = (newRow != null) ? ((newRow[2] != null) ? (Date) newRow[2]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Date oldStartDate = (oldRow != null) ? ((oldRow[2] != null) ? (Date) oldRow[2]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Date newEndDate = (newRow != null) ? ((newRow[3] != null) ? (Date) newRow[3]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Date oldEndDate = (oldRow != null) ? ((oldRow[3] != null) ? (Date) oldRow[3]
 				: null)
 				: null;
@@ -63,25 +63,25 @@ public class TriggerFiscalYear implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Boolean newIsCurrentFiscalYear = (newRow != null) ? ((newRow[5] != null) ? (Boolean) newRow[5]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Boolean oldIsCurrentFiscalYear = (oldRow != null) ? ((oldRow[5] != null) ? (Boolean) oldRow[5]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Date newPreviousStartDate = (newRow != null) ? ((newRow[6] != null) ? (Date) newRow[6]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Date oldPreviousStartDate = (oldRow != null) ? ((oldRow[6] != null) ? (Date) oldRow[6]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Statement stat = conn.createStatement();
 		// Condition for checking whether this Trigger call is for new Row
 		// Insertion

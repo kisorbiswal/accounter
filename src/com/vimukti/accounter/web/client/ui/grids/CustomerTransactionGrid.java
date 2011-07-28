@@ -53,7 +53,7 @@ public abstract class CustomerTransactionGrid extends
 	private ClientPriceLevel priceLevel;
 	private ClientTransactionItem selectedRecord;
 
-	@SuppressWarnings("unused")
+	
 	private List<ClientAccount> gridAccounts;
 	private double taxableTotal;
 
@@ -579,7 +579,7 @@ public abstract class CustomerTransactionGrid extends
 		if (calculatedUnitPrice == null)
 			return;
 
-		@SuppressWarnings("unused")
+		
 		int index = getSelectedRecordIndex();
 
 		int col = 4;

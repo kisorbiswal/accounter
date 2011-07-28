@@ -74,7 +74,7 @@ public class RecieveVATView extends
 	private ArrayList<ClientReceiveVATEntries> filterList;
 	private ArrayList<ClientReceiveVATEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
-	@SuppressWarnings("unused")
+	
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
 	private AccounterConstants companyConstants = Accounter.constants();

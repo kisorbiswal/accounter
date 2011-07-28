@@ -48,7 +48,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ContactGrid;
 
-@SuppressWarnings("unused")
+
 public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	AccounterConstants companyConstants = Accounter.constants();

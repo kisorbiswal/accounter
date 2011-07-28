@@ -73,7 +73,7 @@ public class ProfitAndLossReport extends AbstractReportView<TrialBalance> {
 				.valueOf(endDate.getTime())), 111, "", "");
 	}
 
-	// @SuppressWarnings("unused")
+	// 
 	// private void printDataForIEBrowser() {
 	// String gridhtml = grid.toString();
 	// String headerhtml = grid.getHeader();
@@ -114,7 +114,7 @@ public class ProfitAndLossReport extends AbstractReportView<TrialBalance> {
 	// UIUtils.generateReportPDF(this.getTitle(), gridhtml, dateRangeHtml);
 	// }
 	//
-	// @SuppressWarnings("unused")
+	// 
 	// private void printDataForOtherBrowser() {
 	// String gridhtml = grid.toString();
 	// String headerhtml = grid.getHeader();

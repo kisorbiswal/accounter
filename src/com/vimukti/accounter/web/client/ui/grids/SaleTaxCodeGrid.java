@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class SaleTaxCodeGrid extends ListGrid<ClientTaxRates> {
-	@SuppressWarnings("unused")
+	
 	private List<Integer> cellsWidth = new ArrayList<Integer>();
 	private AddEditSalesTaxCodeView saleTaxCodeView;
 

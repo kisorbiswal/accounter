@@ -42,7 +42,7 @@ public abstract class AbstractBankTransactionView<T> extends
 	// protected int transactionType;
 	protected DateItem deliveryDate;
 
-	@SuppressWarnings("unused")
+	
 	private AbstractBankTransactionView<?> bankingTransactionViewInstance;
 
 	// protected TextItem refText;

@@ -12,9 +12,9 @@ import com.vimukti.accounter.web.client.ui.serverreports.VAT100ServerReport;
 
 
 public class VAT100Report extends AbstractReportView<VATSummary> {
-	@SuppressWarnings("unused")
+	
 	private String sectionName = "";
-	@SuppressWarnings("unused")
+	
 	private int row = -1;
 	private long vatAgency;
 

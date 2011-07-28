@@ -74,7 +74,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		setBodyLayout(mainVlayout);
 		addInputDialogHandler(new InputDialogHandler() {
 
-			@SuppressWarnings("unused")
+			
 			private ArrayList<ClientFiscalYear> listofNewFiscalYears = new ArrayList<ClientFiscalYear>();
 
 			@Override
@@ -140,7 +140,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				callback);
 	}
 
-	@SuppressWarnings("unused")
+	
 	private List<ClientFiscalYear> getModifiedFiscalYears() {
 		// AccounterValidator.createNecessaryFiscalYears(fiscalYear1, asOfDate,
 		// view)

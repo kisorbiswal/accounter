@@ -23,7 +23,7 @@ public class ContactGrid extends ListGrid<ClientContact> {
 	public void initContacts(Set<ClientContact> contactsList) {
 		ClientContact rec[] = new ClientContact[contactsList.size()];
 		int i = 0;
-		@SuppressWarnings("unused")
+		
 		ClientContact temp = null;
 		for (ClientContact cont : contactsList) {
 

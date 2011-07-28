@@ -35,29 +35,29 @@ public class TriggerCustomerRefund implements Trigger {
 		Long newCustomerId = (newRow != null) ? ((newRow[2] != null) ? (Long) newRow[2]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldCustomerId = (oldRow != null) ? ((oldRow[2] != null) ? (Long) oldRow[2]
 				: null)
 				: null;
 		Long newPayFromAccountId = (newRow != null) ? ((newRow[4] != null) ? (Long) newRow[4]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldPayFromAccountId = (oldRow != null) ? ((oldRow[4] != null) ? (Long) oldRow[4]
 				: null)
 				: null;
 		Double newAmount = (newRow != null) ? ((newRow[5] != null) ? (Double) newRow[5]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Double oldAmount = (oldRow != null) ? ((oldRow[5] != null) ? (Double) oldRow[5]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long newPaymentMethodId = (newRow != null) ? ((newRow[6] != null) ? (Long) newRow[6]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldPaymentMethodId = (oldRow != null) ? ((oldRow[6] != null) ? (Long) oldRow[6]
 				: null)
 				: null;
@@ -70,7 +70,7 @@ public class TriggerCustomerRefund implements Trigger {
 		Long newAccountsReceivableId = (newRow != null) ? ((newRow[15] != null) ? (Long) newRow[15]
 				: null)
 				: null;
-		@SuppressWarnings("unused")
+		
 		Long oldAccountsReceivableId = (oldRow != null) ? ((oldRow[15] != null) ? (Long) oldRow[15]
 				: null)
 				: null;
@@ -207,7 +207,7 @@ public class TriggerCustomerRefund implements Trigger {
 				.append(oldCustomerRefundId).toString());
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void updateStatusOfNewCustomerRefund(Statement stat,
 			Long newPaymentMethodId, Long newCustomerRefundId)
 			throws SQLException {

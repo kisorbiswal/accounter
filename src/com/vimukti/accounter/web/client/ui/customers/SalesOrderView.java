@@ -60,9 +60,9 @@ import com.vimukti.accounter.web.client.ui.grids.SalesOrderUSGrid;
 public class SalesOrderView extends
 		AbstractCustomerTransactionView<ClientSalesOrder> {
 
-	@SuppressWarnings("unused")
+	
 	private Double payments = 0.0;
-	@SuppressWarnings("unused")
+	
 	private Double balanceDue = 0.0;
 	private DateField dueDateItem;
 	private LabelItem quoteLabel;
@@ -665,7 +665,7 @@ public class SalesOrderView extends
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void initPayments() {
 
 		if (transactionObject != null) {

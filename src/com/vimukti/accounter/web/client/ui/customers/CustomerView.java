@@ -110,7 +110,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private ClientCustomer takenCustomer;
 
-	@SuppressWarnings("unused")
+	
 	private DynamicForm customerForm, vatinfo;
 	private DynamicForm accInfoForm;
 	private AddressForm addrsForm;
@@ -136,7 +136,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	private boolean wait;
 
 	AccounterConstants customerConstants;
-	@SuppressWarnings("unused")
+	
 	private static AccounterConstants actionsConstants;
 	private ClientCompany company = getCompany();
 	private ArrayList<DynamicForm> listforms;

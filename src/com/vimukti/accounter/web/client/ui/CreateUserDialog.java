@@ -41,7 +41,7 @@ public class CreateUserDialog extends AbstractBaseDialog {
 	}
 
 	private void getUser() {
-		@SuppressWarnings("unused")
+		
 		final AsyncCallback<ClientUser> getUserCallBack = new AsyncCallback<ClientUser>() {
 			public void onFailure(Throwable caught) {
 				// //UIUtils.log(caught.toString());
@@ -101,7 +101,7 @@ public class CreateUserDialog extends AbstractBaseDialog {
 		((ServiceDefTarget) crudService)
 				.setServiceEntryPoint(Accounter.CRUD_SERVICE_ENTRY_POINT);
 
-		@SuppressWarnings("unused")
+		
 		final AsyncCallback<IsSerializable> createUserCallback = new AsyncCallback<IsSerializable>() {
 			public void onFailure(Throwable caught) {
 				// //UIUtils.log(caught.toString());
@@ -117,7 +117,7 @@ public class CreateUserDialog extends AbstractBaseDialog {
 			}
 		};
 
-		@SuppressWarnings("unused")
+		
 		ClientUser user = getUserObject();
 		// crudService.createUser(user, createUserCallback);
 	}

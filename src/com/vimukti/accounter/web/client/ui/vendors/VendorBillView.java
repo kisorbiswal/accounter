@@ -56,14 +56,14 @@ public class VendorBillView extends
 	private ClientPaymentTerms selectedPaymentTerm;
 	private DateField dueDateItem;
 	private ClientEnterBill enterBillToBeEdited;
-	@SuppressWarnings("unused")
+	
 	private CheckboxItem euVATexempVendor;
-	@SuppressWarnings("unused")
+	
 	private CheckboxItem showPricesWithVAT;
 	private AmountLabel netAmount;
-	@SuppressWarnings("unused")
+	
 	private AmountField total;
-	@SuppressWarnings("unused")
+	
 	private DynamicForm vendorForm, vatForm;
 	private LinkItem purchaseLabel;
 	private VendorBillListDialog dialog;
@@ -89,7 +89,7 @@ public class VendorBillView extends
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void resetGlobalVariables() {
 
 		this.vendor = null;

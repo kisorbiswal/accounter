@@ -215,7 +215,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 	public CashSales getCashSales(final long companyId, final long cashSalesId)
 			throws DAOException {
 		try {
-			@SuppressWarnings("unused")
+			
 			int a = 0;
 			HibernateTemplate template = getHibernateTemplate();
 			CashSales cashSales = (CashSales) template

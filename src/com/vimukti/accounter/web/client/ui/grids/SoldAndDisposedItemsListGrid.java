@@ -124,7 +124,7 @@ public class SoldAndDisposedItemsListGrid extends
 
 	@Override
 	protected void onClick(ClientFixedAsset obj, int row, int col) {
-		@SuppressWarnings("unused")
+		
 		List<ClientFixedAsset> records = getRecords();
 		switch (col) {
 		case 6:

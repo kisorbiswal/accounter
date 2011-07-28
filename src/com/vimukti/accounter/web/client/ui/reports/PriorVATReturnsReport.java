@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerRe
 
 public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 
-	@SuppressWarnings("unused")
+	
 	private int row = -1;
 	private long vatAgency;
 

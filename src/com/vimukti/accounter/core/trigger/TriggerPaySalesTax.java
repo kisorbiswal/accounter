@@ -24,22 +24,22 @@ public class TriggerPaySalesTax implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long oldPaySalesTaxId = (oldRow != null) ? ((oldRow[0] != null) ? (Long) oldRow[0]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long newPaymentMethodId = (newRow != null) ? ((newRow[2] != null) ? (Long) newRow[2]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long oldPaymentMethodId = (oldRow != null) ? ((oldRow[2] != null) ? (Long) oldRow[2]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long newPayFromAccountId = (newRow != null) ? ((newRow[3] != null) ? (Long) newRow[3]
 				: null)
 				: null;
@@ -48,27 +48,27 @@ public class TriggerPaySalesTax implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long newTaxAgencyId = (newRow != null) ? ((newRow[4] != null) ? (Long) newRow[4]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Long oldTaxAgencyId = (oldRow != null) ? ((oldRow[4] != null) ? (Long) oldRow[4]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Date newBillsDueOnOrBeforeDate = (newRow != null) ? ((newRow[1] != null) ? (Date) newRow[1]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Date oldBillsDueOnOrBeforeDate = (oldRow != null) ? ((oldRow[1] != null) ? (Date) oldRow[1]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double newTotal = (newRow != null) ? ((newRow[7] != null) ? (Double) newRow[7]
 				: null)
 				: null;
@@ -77,22 +77,22 @@ public class TriggerPaySalesTax implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double newAmount = (newRow != null) ? ((newRow[5] != null) ? (Double) newRow[5]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double oldAmount = (oldRow != null) ? ((oldRow[5] != null) ? (Double) oldRow[5]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double newEndingbalance = (newRow != null) ? ((newRow[6] != null) ? (Double) newRow[6]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Double oldEndingbalance = (oldRow != null) ? ((oldRow[6] != null) ? (Double) oldRow[6]
 				: null)
 				: null;
@@ -105,12 +105,12 @@ public class TriggerPaySalesTax implements Trigger {
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Boolean newIsEdited = (newRow != null) ? ((newRow[9] != null) ? (Boolean) newRow[9]
 				: null)
 				: null;
 
-		@SuppressWarnings("unused")
+		
 		Boolean oldIsEdited = (oldRow != null) ? ((oldRow[9] != null) ? (Boolean) oldRow[9]
 				: null)
 				: null;
@@ -158,7 +158,7 @@ public class TriggerPaySalesTax implements Trigger {
 
 	}
 
-	@SuppressWarnings("unused")
+	
 	private void updateStatusOfNewPaySalesTax(Statement stat,
 			Long newPaymentMethodId, Long newPaySalesTaxId) throws SQLException {
 

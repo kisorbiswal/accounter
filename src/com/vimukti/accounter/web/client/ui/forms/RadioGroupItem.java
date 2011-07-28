@@ -137,7 +137,7 @@ public class RadioGroupItem extends FormItem {
 	@Override
 	public Widget getMainWidget() {
 		if (this.isShowTitle()) {
-			@SuppressWarnings("unused")
+			
 			String title = this.getTitle();
 			// radioGroupTitle.setText(title);
 			this.vPanel.add(radioGroupTitle);
