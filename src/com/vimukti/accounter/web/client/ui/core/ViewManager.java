@@ -100,10 +100,10 @@ public class ViewManager extends DockPanel {
 
 	
 	/* This reference var. holds currently opened view */
-	private ParentCanvas currentCanvas;
+	private AbstractBaseView<?> currentCanvas;
 
 	/* This reference var. holds currently opened dialog */
-	private BaseDialog<?> currentDialog;
+//	private BaseDialog<?> currentDialog;
 
 	public final static int CMD_Sucess = 1;
 	public final static int CMD_SAVEFAILED = 2;
@@ -115,7 +115,6 @@ public class ViewManager extends DockPanel {
 	 * This variable hold reference of Dialog or View which sent Crud service
 	 * request to server .
 	 */
-	private IAccounterWidget currentrequestedWidget;
 
 	private PopupPanel dialog;
 

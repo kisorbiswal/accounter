@@ -1256,16 +1256,7 @@ public class ClientCompany implements IAccounterCore {
 				break;
 			}
 
-		} else if (accounterCoreObject instanceof AccounterException) {
-			AccounterException e = (AccounterException) accounterCoreObject;
-			if (e.getErrorCode() != 819) {
-				MainFinanceWindow.getViewManager().operationFailed(e);
-			} else {
-				processRequest(e);
-			}
-			return;
-
-		}
+		} 
 
 	}
 
