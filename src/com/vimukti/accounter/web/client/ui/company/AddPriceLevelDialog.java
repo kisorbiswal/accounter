@@ -44,12 +44,12 @@ public class AddPriceLevelDialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 				setIncrOrDecrPercentValue(levelRadio.getValue().toString());
 			}
-		}, Accounter.constants().decreasePriceLevelPercentage(), Accounter
-				.constants().increasePriceLevelPercentage());
+		}, Accounter.constants().decreasePriceLevelByThisPercentage(), Accounter
+				.constants().increasePriceLevelByThisPercentage());
 		levelRadio.setDefaultValue(Accounter.constants()
-				.increasePriceLevelPercentage());
+				.increasePriceLevelByThisPercentage());
 		setIncrOrDecrPercentValue(Accounter.constants()
-				.increasePriceLevelPercentage());
+				.increasePriceLevelByThisPercentage());
 		nameDescForm = new DynamicForm();
 		nameDescForm.setFields(levelText, percentText, levelRadio);
 		nameDescForm.setSize("100%", "100%");

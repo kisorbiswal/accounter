@@ -341,7 +341,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .DuplicationOfSalesPesonNotAllowed());
 			MainFinanceWindow.getViewManager().showError(
-					Accounter.constants().DuplicationOfSalesPesonNotAllowed());
+					Accounter.constants().duplicationOfSalesPesonNotAllowed());
 		else
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .salesPersonUpdationFailed());

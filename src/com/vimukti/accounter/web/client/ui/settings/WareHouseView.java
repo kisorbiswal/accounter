@@ -64,7 +64,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		contactNameItem.setTitle(settingsConstants.contactName());
 
 		contactNumberItem = new TextItem();
-		contactNumberItem.setTitle(settingsConstants.contactNo());
+		contactNumberItem.setTitle(settingsConstants.contactNumber());
 
 		mobileNumberItem = new TextItem();
 		mobileNumberItem.setTitle(settingsConstants.mobileNumber());

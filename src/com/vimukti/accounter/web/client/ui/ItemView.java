@@ -181,7 +181,7 @@ public class ItemView extends BaseView<ClientItem> {
 		weightText.setWidth(100);
 		weightText.setValidators(integerRangeValidator);
 		commodityCode = new ItemGroupCombo(Accounter.constants()
-				.commmodityCode());
+				.commodityCode());
 		commodityCode.setHelpInformation(true);
 		itemForm = new DynamicForm();
 		itemForm.setWidth("98%");

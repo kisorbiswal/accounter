@@ -286,7 +286,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		} catch (NumberFormatException e) {
 			valid = false;
 			Accounter.showError(Accounter.constants()
-					.invalidCheckNumber());
+					.invalidChequeNumber());
 		}
 
 		return valid;

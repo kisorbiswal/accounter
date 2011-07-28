@@ -123,7 +123,7 @@ public class StartupDialog extends DialogBox {
 		companyGrid = new DialogGrid(false);
 		// companyGrid.hide();
 		companyGrid.addColumns(new String[] {
-				Accounter.constants().Id(),
+				Accounter.constants().id(),
 				Accounter.constants().name(),
 				Accounter.constants().legalName() });
 

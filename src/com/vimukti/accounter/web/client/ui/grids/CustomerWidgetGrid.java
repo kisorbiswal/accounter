@@ -71,9 +71,9 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { "",
-				Accounter.constants().Days3(),
-				Accounter.constants().Days2(),
-				Accounter.constants().Days1(),
+				Accounter.constants().days3(),
+				Accounter.constants().days2(),
+				Accounter.constants().days1(),
 				Accounter.constants().older(),
 				Accounter.constants().totalBalance() };
 	}

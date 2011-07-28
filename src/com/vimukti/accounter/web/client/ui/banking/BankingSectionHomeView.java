@@ -207,7 +207,7 @@ public class BankingSectionHomeView extends BaseHomeView {
 		String[] totalWidget = {
 				Accounter.constants().bankingSummary(),
 				Accounter.constants().checkIssued(),
-				Accounter.constants().deposite(),
+				Accounter.constants().deposit(),
 				Accounter.constants().fundTransfered(),
 				Accounter.constants().creditCardCharges() };
 		boolean isAvailable = false;

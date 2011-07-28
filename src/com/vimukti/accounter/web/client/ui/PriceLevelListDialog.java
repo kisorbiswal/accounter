@@ -97,7 +97,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 			String increaseOrDecrease = priceLevel
 					.isPriceLevelDecreaseByThisPercentage() ? Accounter
-					.constants().decreasePriceLevelByThisPerc()
+					.constants().decreasePriceLevelByThisPercentage()
 					: Accounter.constants()
 							.increasePriceLevelByThisPerc();
 
@@ -152,7 +152,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 			if (val != null) {
 				priceLevel.setPriceLevelDecreaseByThisPercentage(val
 						.equals(Accounter.constants()
-								.decreasePriceLevelByThisPerc()));
+								.decreasePriceLevelByThisPercentage()));
 			}
 			alterObject(priceLevel);
 		}
@@ -177,7 +177,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 			if (val != null) {
 				priceLevel.setPriceLevelDecreaseByThisPercentage(val
 						.equals(Accounter.constants()
-								.decreasePriceLevelByThisPerc()));
+								.decreasePriceLevelByThisPercentage()));
 			}
 			createObject(priceLevel);
 		}

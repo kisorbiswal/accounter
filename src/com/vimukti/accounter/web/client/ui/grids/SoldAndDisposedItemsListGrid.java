@@ -200,7 +200,7 @@ public class SoldAndDisposedItemsListGrid extends
 				Accounter.constants().account(),
 				Accounter.constants().disposalDate(),
 				Accounter.constants().disposalPrice(),
-				Accounter.constants().GainsOrLosses(),
+				Accounter.constants().gainsOrLosses(),
 				Accounter.constants().showHistory(),
 				Accounter.constants().addNote(), "" };
 	}

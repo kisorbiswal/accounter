@@ -29,7 +29,7 @@ public class SelectPayeeDialog extends BaseDialog {
 			.vendorpay());
 	
 	private final String CUST_REFUND = Accounter.constants()
-			.custrefund();
+			.custRefund();
 	
 	private final String EMP_REIMB = Accounter.constants().empreimb();
 

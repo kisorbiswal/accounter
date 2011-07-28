@@ -248,14 +248,14 @@ public abstract class ReportToolbar extends HorizontalPanel {
 						.endPreviousFiscalQuarter());
 				getCurrentQuarter();
 			} else if (!getSelectedDateRange().equals(
-					Accounter.constants().endLastCalenderQuarter())
+					Accounter.constants().endLastCalendarQuarter())
 					&& dateRange.equals(Accounter.constants()
-							.endLastCalenderQuarter())) {
+							.endLastCalendarQuarter())) {
 				startDate = new ClientFinanceDate();
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
 				setSelectedDateRange(Accounter.constants()
-						.endLastCalenderQuarter());
+						.endLastCalendarQuarter());
 				getCurrentQuarter();
 			} else if (!getSelectedDateRange().equals(
 					Accounter.constants()

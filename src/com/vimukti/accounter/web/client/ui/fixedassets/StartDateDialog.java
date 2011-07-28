@@ -126,7 +126,7 @@ public class StartDateDialog extends BaseDialog {
 	private void changeStartDate() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
 		ClientFinanceDate date = UIUtils.stringToDate(dateString,
-				(Accounter.constants().ddMMMyyyy()));
+				(Accounter.constants().ddMMyyyy()));
 
 		AsyncCallback callBack = new AsyncCallback() {
 

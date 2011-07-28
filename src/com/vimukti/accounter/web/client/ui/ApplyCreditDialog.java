@@ -25,22 +25,21 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
  * 
  */
 
-
 public class ApplyCreditDialog extends BaseDialog {
-	
+
 	private static final String ATTR_CREDIT_AMOUNT = Accounter.constants()
 			.credit();
-	
+
 	private final String ATTR_DATE = Accounter.constants().date();
-	
+
 	private final String ATTR_MEMO = Accounter.constants().memo();
-	
+
 	private final String ATTR_BALANCE = Accounter.constants().balance();
-	
+
 	private final String ATTR_AMOUNT_TO_USE = Accounter.constants()
-			.amounttouse();
-	
-	private final String ATTR_ID = Accounter.constants().Id();
+			.amountToUse();
+
+	private final String ATTR_ID = Accounter.constants().id();
 	AmountField amtDueText, totCredAmtText, cashDiscText, totBalText,
 			adjPayText, totAmtUseText;
 	DialogGrid grid;
@@ -51,11 +50,11 @@ public class ApplyCreditDialog extends BaseDialog {
 	// private ListGridField creditAmountField;
 	// private ListGridField balanceField;
 	// private ListGridField amountToUseField;
-	
+
 	private List<ClientCreditsAndPayments> creditsAndPayments;
-	
+
 	private LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap;
-	
+
 	private int key;
 	private IGenericCallback<String> callback;
 
@@ -243,10 +242,10 @@ public class ApplyCreditDialog extends BaseDialog {
 			}
 
 			public boolean onOkClick() {
-				
+
 				ClientCreditsAndPayments selectedRecords = (ClientCreditsAndPayments) grid
 						.getSelection();
-				
+
 				List<ClientTransactionCreditsAndPayments> creditsAndPaymentsSet = new ArrayList<ClientTransactionCreditsAndPayments>();
 				// for (ListGridRecord rec : selectedRecords) {
 				// ClientTransactionCreditsAndPayments customerPaymentCredits11
@@ -321,7 +320,7 @@ public class ApplyCreditDialog extends BaseDialog {
 
 	@Override
 	public Object getGridColumnValue(IsSerializable accounterCore, int col) {
-		
+
 		ClientCustomer customer = (ClientCustomer) accounterCore;
 		switch (col) {
 		case 0:

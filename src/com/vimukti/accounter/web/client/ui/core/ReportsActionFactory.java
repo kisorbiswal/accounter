@@ -269,12 +269,12 @@ public class ReportsActionFactory extends AbstractActionFactory {
 
 	public static ECSalesListAction getECSalesListAction() {
 		return new ECSalesListAction(Accounter.constants()
-				.ECSalesList(), "/images/icons/report/reports.png");
+				.ecSalesList(), "/images/icons/report/reports.png");
 	}
 
 	public static ECSalesListDetailAction getECSalesListDetailAction() {
 		return new ECSalesListDetailAction(Accounter
-				.constants().ECSalesListDetailReport(),
+				.constants().ecSalesListDetailReport(),
 				"/images/icons/report/reports.png");
 	}
 

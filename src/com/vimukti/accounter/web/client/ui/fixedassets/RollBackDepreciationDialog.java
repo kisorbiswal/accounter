@@ -155,7 +155,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	private void rollBackDepreciation() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
 		ClientFinanceDate date = UIUtils.stringToDate(dateString,
-				(Accounter.constants().ddMMMyyyy()));
+				(Accounter.constants().ddMMyyyy()));
 
 		AsyncCallback callBack = new AsyncCallback() {
 

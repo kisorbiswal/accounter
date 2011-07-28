@@ -60,7 +60,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 			Accounter.constants().healthcareProfessional(),
 			Accounter.constants().homeBasedSales(),
 			Accounter.constants().insuranceAgency(),
-			Accounter.constants().ITServices(),
+			Accounter.constants().itServices(),
 			Accounter.constants().lawFirm(),
 			Accounter.constants().manufacturing(),
 			Accounter.constants().manufacturingRepresentative(),

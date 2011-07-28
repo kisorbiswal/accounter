@@ -319,7 +319,7 @@ public class VendorBillView extends
 		transactionNumber = createTransactionNumberItem();
 		// transactionNumber.setTitle(UIUtils.getVendorString("Supplier Bill no",
 		// "Vendor Bill No"));
-		transactionNumber.setTitle(Accounter.constants().INVno());
+		transactionNumber.setTitle(Accounter.constants().invNo());
 		listforms = new ArrayList<DynamicForm>();
 
 		DynamicForm dateNoForm = new DynamicForm();
