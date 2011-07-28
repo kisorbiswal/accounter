@@ -70,7 +70,7 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	@ReffereredObject
 	Set<TransactionCreditsAndPayments> transactionCreditsAndPayments = new HashSet<TransactionCreditsAndPayments>();
 
-	// TODO no use of this property.
+	// no use of this property.
 	int version;
 
 	transient private boolean isOnSaveProccessed;
