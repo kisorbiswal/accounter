@@ -61,11 +61,11 @@ public class CustomerRefundsAction extends Action {
 
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+//	
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.view;
+//	}
 
 	public ImageResource getBigImage() {
 		return null;
@@ -74,11 +74,11 @@ public class CustomerRefundsAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().customerRefundsList();
 	}
-	@Override
-	public String getImageUrl() {
-		
-		return "/images/customer_refunds_list.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		
+//		return "/images/customer_refunds_list.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

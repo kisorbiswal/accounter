@@ -71,10 +71,10 @@ public class InvoicesAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.view;
+//	}
 
 	public ImageResource getBigImage() {
 		return null;
@@ -84,10 +84,10 @@ public class InvoicesAction extends Action {
 		return Accounter.getFinanceMenuImages().invoices();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/invoices.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/invoices.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

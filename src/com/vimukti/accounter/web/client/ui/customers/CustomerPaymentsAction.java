@@ -57,11 +57,11 @@ public class CustomerPaymentsAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		// NOTHING TO DO
-		return null;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		// NOTHING TO DO
+//		return null;
+//	}
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO
@@ -72,10 +72,10 @@ public class CustomerPaymentsAction extends Action {
 		return Accounter.getFinanceMenuImages().newVendorPayment();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/vendor_payments.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/vendor_payments.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

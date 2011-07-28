@@ -23,12 +23,12 @@ public class CreateStatementAction extends Action {
 		super(text, iconString);
 	}
 
-	
-	@Override
-	public ParentCanvas getView() {
-		// its not using any where
-		return null;
-	}
+//	
+//	@Override
+//	public ParentCanvas getView() {
+//		// its not using any where
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

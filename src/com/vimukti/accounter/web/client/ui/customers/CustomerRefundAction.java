@@ -26,7 +26,7 @@ public class CustomerRefundAction extends Action {
 
 	public CustomerRefundAction(String text, String iconString,
 			ClientCustomerRefund customerRefund, AsyncCallback<Object> callBack) {
-		super(text, iconString, customerRefund, callBack);
+		super(text, iconString);
 		this.catagory = Accounter.constants().customer();
 	}
 
@@ -60,10 +60,10 @@ public class CustomerRefundAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.view;
+//	}
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO
@@ -74,10 +74,10 @@ public class CustomerRefundAction extends Action {
 		return Accounter.getFinanceMenuImages().newCustomerRefund();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/customer_refunds.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/customer_refunds.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {
