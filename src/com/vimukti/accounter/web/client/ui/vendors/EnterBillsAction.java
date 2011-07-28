@@ -71,10 +71,10 @@ public class EnterBillsAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.view;
+//	}
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO
@@ -88,10 +88,10 @@ public class EnterBillsAction extends Action {
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */
-	@Override
-	public String getImageUrl() {
-		return "/images/enter_bills.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/enter_bills.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

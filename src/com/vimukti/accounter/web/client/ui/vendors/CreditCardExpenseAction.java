@@ -23,7 +23,7 @@ public class CreditCardExpenseAction extends Action {
 
 	public CreditCardExpenseAction(String text, String icon,
 			ClientVendor vendor, AsyncCallback<Object> callback) {
-		super(text, icon, vendor, callback);
+		super(text, icon);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
@@ -64,11 +64,11 @@ public class CreditCardExpenseAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//
+//		return this.view;
+//	}
 
 	@Override
 	public ImageResource getBigImage() {
@@ -76,10 +76,10 @@ public class CreditCardExpenseAction extends Action {
 		return null;
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/credit_card_charge.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/credit_card_charge.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

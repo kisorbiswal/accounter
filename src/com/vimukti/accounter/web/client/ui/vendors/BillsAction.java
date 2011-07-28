@@ -32,10 +32,10 @@ public class BillsAction extends Action {
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas<?> getView() {
+//		return this.view;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -82,10 +82,10 @@ public class BillsAction extends Action {
 		return Accounter.getFinanceMenuImages().bills();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "images/bills.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "images/bills.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

@@ -23,7 +23,7 @@ public class EmployeeExpenseAction extends Action {
 
 	public EmployeeExpenseAction(String text, String icon, ClientVendor vendor,
 			AsyncCallback<Object> callback) {
-		super(text, icon, vendor, callback);
+		super(text, icon);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
@@ -64,10 +64,10 @@ public class EmployeeExpenseAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.view;
+//	}
 
 	@Override
 	public ImageResource getBigImage() {
@@ -75,10 +75,10 @@ public class EmployeeExpenseAction extends Action {
 		return null;
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/new_cash_purchase.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/new_cash_purchase.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

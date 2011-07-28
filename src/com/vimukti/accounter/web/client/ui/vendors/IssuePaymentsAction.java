@@ -23,11 +23,11 @@ public class IssuePaymentsAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		// NOTHING TO DO.
-		return null;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		// NOTHING TO DO.
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -47,10 +47,10 @@ public class IssuePaymentsAction extends Action {
 		return Accounter.getFinanceMenuImages().issuePayment();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/issue_payment.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/issue_payment.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

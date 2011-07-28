@@ -23,7 +23,7 @@ public class CashExpenseAction extends Action {
 
 	public CashExpenseAction(String text, String icon, ClientVendor vendor,
 			AsyncCallback<Object> callback) {
-		super(text, icon, vendor, callback);
+		super(text, icon);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
@@ -64,21 +64,21 @@ public class CashExpenseAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//
+//		return this.view;
+//	}
 
 	@Override
 	public ImageResource getBigImage() {
 		return null;
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/new_cash_purchase.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/new_cash_purchase.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {
