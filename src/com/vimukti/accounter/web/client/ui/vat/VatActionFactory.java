@@ -25,7 +25,7 @@ public class VatActionFactory extends AbstractActionFactory {
 	}
 
 	public static VatItemListAction getVatItemListAction() {
-		return new VatItemListAction(actionsConstants.vatitemList());
+		return new VatItemListAction(actionsConstants.VATItemList());
 	}
 
 	public static VatGroupAction getVatGroupAction() {

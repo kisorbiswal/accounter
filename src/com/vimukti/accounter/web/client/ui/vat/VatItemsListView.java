@@ -94,7 +94,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().vatitemList();
+		return Accounter.constants().VATItemList();
 	}
 
 }
