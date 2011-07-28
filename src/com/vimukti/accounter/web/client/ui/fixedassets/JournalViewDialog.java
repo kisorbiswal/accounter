@@ -66,26 +66,24 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	 */
 
 	private void createControls() {
-		Label disposalSummarylabel = new Label(Accounter
-				.constants().disposalSummary());
-		disposalSummarylabel.setStyleName(Accounter.constants()
-				.lableTitle());
+		Label disposalSummarylabel = new Label(Accounter.constants()
+				.disposalSummary());
+		disposalSummarylabel.setStyleName(Accounter.constants().labelTitle());
 		disposalSummarylabel.addStyleName("title-color");
 		disposalSummaryForm = getDisposalSummaryForm();
 
 		disposalSummaryForm.setWidth("100%");
-		Label disposalJOurnallabel = new Label(Accounter
-				.constants().disposalJournal());
-		disposalJOurnallabel.setStyleName(Accounter.constants()
-				.lableTitle());
+		Label disposalJOurnallabel = new Label(Accounter.constants()
+				.disposalJournal());
+		disposalJOurnallabel.setStyleName(Accounter.constants().labelTitle());
 		disposalJOurnallabel.addStyleName("title-color");
 		totalGainItem = createTotalGainCombo();
 		totalGainItem.setRequired(true);
-		lossOnDisposal = createLossorGainAccount(Accounter
-				.constants().lossOnDisposal());
+		lossOnDisposal = createLossorGainAccount(Accounter.constants()
+				.lossOnDisposal());
 		lossOnDisposal.setRequired(true);
-		gainOnDisposal = createLossorGainAccount(Accounter
-				.constants().gainOnDisposal());
+		gainOnDisposal = createLossorGainAccount(Accounter.constants()
+				.gainOnDisposal());
 		gainOnDisposal.setRequired(true);
 
 		disposalJournalForm = getDisposalJournalForm();
@@ -211,18 +209,15 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	 * This method for getting corresponding Combo to display in DisposalJournal
 	 * Form
 	 */
-	
+
 	private CustomCombo getCombo(String keyValue) {
-		if (keyValue
-				.equals(Accounter.constants().lossOnDisposal())) {
+		if (keyValue.equals(Accounter.constants().lossOnDisposal())) {
 			setLossorGainAmount(this.disposalJOurnal.get(keyValue));
 			return lossOnDisposal;
-		} else if (keyValue.equals(Accounter.constants()
-				.gainOnDisposal())) {
+		} else if (keyValue.equals(Accounter.constants().gainOnDisposal())) {
 			setLossorGainAmount(this.disposalJOurnal.get(keyValue));
 			return gainOnDisposal;
-		} else if (keyValue.equals(Accounter.constants()
-				.totalCapitalGain())) {
+		} else if (keyValue.equals(Accounter.constants().totalCapitalGain())) {
 			setTotalCapitalGainAmount(this.disposalJOurnal.get(keyValue));
 			return totalGainItem;
 		}
@@ -339,8 +334,7 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	 */
 
 	private String[] getComboNames() {
-		return new String[] {
-				Accounter.constants().lossOnDisposal(),
+		return new String[] { Accounter.constants().lossOnDisposal(),
 				Accounter.constants().gainOnDisposal(),
 				Accounter.constants().totalCapitalGain() };
 

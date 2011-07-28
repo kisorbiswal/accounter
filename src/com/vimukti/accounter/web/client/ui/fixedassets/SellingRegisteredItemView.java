@@ -86,13 +86,13 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 		listforms = new ArrayList<DynamicForm>();
 		detailsLabel = new Label(Accounter.constants().details());
-		detailsLabel.setStyleName(Accounter.constants().lableTitle());
+		detailsLabel.setStyleName(Accounter.constants().labelTitle());
 
 		detailsForm = getDetailForm();
 
 		depriciationForFinancialyearLabel = new Label();
 		depriciationForFinancialyearLabel.setStyleName(Accounter.constants()
-				.lableTitle());
+				.labelTitle());
 
 		depriciationForFinancialyearLabel.setText(Accounter.constants()
 				.depriciationForThe()
@@ -318,7 +318,6 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	 * @return yearlist
 	 */
 
-	
 	public String[] getlastDates() {
 		dateValueMap.clear();
 		String months[] = getMonthStrings();
@@ -360,7 +359,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	/**
 	 * Calculate the valid Dates based on the Depreciation Start Date
 	 */
-	
+
 	private void calucateDateCombo() {
 		monthsKey.clear();
 		int monthvalue = 0, year = 0;
