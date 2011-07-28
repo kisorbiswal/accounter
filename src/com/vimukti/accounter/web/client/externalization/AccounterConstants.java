@@ -3865,4 +3865,18 @@ public interface AccounterConstants extends Constants {
 	public String zipCode();
 
 	public String zipPostalCode();
+
+	public String measurementName();
+
+	public String measurementDescription();
+
+	public String getAddUnitButton();
+
+	public String getdefaultUnit();
+
+	public String getUnitName();
+
+	public String getFactorName();
+
+	public String addMeasurementButton();
 }
