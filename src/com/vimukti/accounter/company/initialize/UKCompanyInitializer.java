@@ -2557,7 +2557,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	@Override
 	public void init() {
 		Session session = HibernateUtil.getCurrentSession();
-		createUKDefaultVATCodesAndVATAgency(session);
+		initDefaultUKAccounts(session);
+		// createUKDefaultVATCodesAndVATAgency(session);
 
 	}
 
