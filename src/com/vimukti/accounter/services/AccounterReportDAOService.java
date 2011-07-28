@@ -52,10 +52,12 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	private long getLongIdForGivenid(AccounterCoreType entity, String account) {
 
 		Session session = Utility.getCurrentSession();
-		String hqlQuery = "select entity.id from "
-				+ entity.getServerClassSimpleName()
-				+ " entity where entity.id=?";
-		Query query = session.createQuery(hqlQuery).setString(0, account);
+		// String hqlQuery = "select entity.id from "
+		// + entity.getServerClassSimpleName()
+		// + " entity where entity.id=?";
+		Query query = session.getNamedQuery(
+				"get.entity.from." + entity.getServerClassSimpleName())
+				.setString(0, account);
 		List l = query.list();
 		if (l != null && l.get(0) != null) {
 			return (Long) l.get(0);

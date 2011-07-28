@@ -73,9 +73,8 @@ public class AccounterService extends HibernateDaoSupport implements
 	public <T extends IAccounterServerCore> T getObjectById(Class clazz,
 			String id) throws DAOException {
 		Session session = Utility.getCurrentSession();
-		Query query = session.createQuery(
-				"from " + clazz.getName() + " entity where entity.id = ?")
-				.setParameter(0, id);
+		Query query = session.getNamedQuery(
+				"get.entity.from." + clazz.getSimpleName()).setParameter(0, id);
 		List l = query.list();
 		T entity = null;
 		if (l != null && l.size() > 0 && l.get(0) != null) {
@@ -89,9 +88,9 @@ public class AccounterService extends HibernateDaoSupport implements
 	public <T extends IAccounterServerCore> T getObjectByName(Class clazz,
 			String name) throws DAOException {
 		Session session = Utility.getCurrentSession();
-		Query query = session.createQuery(
-				"from " + clazz.getName() + " entity where entity.name = ?")
-				.setParameter(0, name);
+		Query query = session.getNamedQuery(
+				"get.entity.from." + clazz.getSimpleName()).setParameter(0,
+				name);
 		List l = query.list();
 		T entity = null;
 		if (l != null && l.size() > 0 && l.get(0) != null) {
@@ -105,8 +104,8 @@ public class AccounterService extends HibernateDaoSupport implements
 	public <T extends IAccounterServerCore> List<T> getObjects(Class clazz)
 			throws DAOException {
 		Session session = Utility.getCurrentSession();
-		Query query = session.createQuery("from " + clazz.getName()
-				+ " entity ");
+		Query query = session.getNamedQuery("get.entityObject.from."
+				+ clazz.getSimpleName());
 		List<T> entity = query.list();
 		if (entity != null && entity.size() > 0) {
 			return entity;
@@ -139,9 +138,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	private long getLongIdForGivenid(Class clazz, String id) {
 
 		Session session = Utility.getCurrentSession();
-		String hqlQuery = "select entity.id from " + clazz.getName()
-				+ " entity where entity.id=?";
-		Query query = session.createQuery(hqlQuery).setString(0, id);
+		// String hqlQuery = "select entity.id from " + clazz.getName()
+		// + " entity where entity.id=?";
+		Query query = session.getNamedQuery(
+				"get.entity.from." + clazz.getSimpleName()).setString(0, id);
 		List l = query.list();
 		if (l != null && l.get(0) != null) {
 			return (Long) l.get(0);

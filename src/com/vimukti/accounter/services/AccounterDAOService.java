@@ -151,8 +151,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List<Account> list = template
-					.find(
-							" from Account a where a.company.id = ? order by a.type, a.number",
+					.find(" from Account a where a.company.id = ? order by a.type, a.number",
 							new Object[] { companyId });
 
 			if (list != null) {
@@ -173,8 +172,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List<Account> list = template
-					.find(
-							" from Account a where a.company.id = ? and a.type = ?  order by a.type, a.number",
+					.find(" from Account a where a.company.id = ? and a.type = ?  order by a.type, a.number",
 							new Object[] { companyId, type });
 
 			if (list != null) {
@@ -195,8 +193,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from CashPurchase cp where cp.id = ? and cp.company.id = ? ",
+					.find("from CashPurchase cp where cp.id = ? and cp.company.id = ? ",
 							new Object[] { cashPurchaseId, companyId });
 
 			if (list.size() > 0) {
@@ -225,10 +222,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 						public Object doInHibernate(Session session)
 								throws HibernateException, SQLException {
 							return session
-									.createQuery(
-											"from CashSales cs where cs.id = :id and cs.company.id = :companyID ")
-									.setLong("id", cashSalesId).setLong(
-											"companyID", companyId)
+									.getNamedQuery("getCasgsales.by.CompanyId")
+									.setLong("id", cashSalesId)
+									.setLong("companyID", companyId)
 									.uniqueResult();
 						}
 					});
@@ -274,8 +270,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from PayExpense cs where cs.id = ? and cs.company.id = ? ",
+					.find("from PayExpense cs where cs.id = ? and cs.company.id = ? ",
 							new Object[] { payExpenseId, companyId });
 
 			if (list.size() > 0) {
@@ -550,8 +545,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List<Company> list = template
-					.find(
-							"select comp from Company comp, User u where comp in(select i from u.companies i) and  u.id=?  ",
+					.find("select comp from Company comp, User u where comp in(select i from u.companies i) and  u.id=?  ",
 							new Object[] { user });
 
 			if (list != null) {
@@ -583,8 +577,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 		} catch (DataAccessException e) {
 			e.printStackTrace();
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e, e
-					.getMessage()));
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e,
+					e.getMessage()));
 		}
 	}
 
@@ -596,8 +590,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List<Company> list = template
-					.find(
-							"from Company comp where comp.id = (select u.company.id from User u where u.id = ?)",
+					.find("from Company comp where comp.id = (select u.company.id from User u where u.id = ?)",
 							new Object[] { user });
 
 			if (list != null && list.size() > 0) {
@@ -610,8 +603,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 		} catch (DataAccessException e) {
 			e.printStackTrace();
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e, e
-					.getMessage()));
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e,
+					e.getMessage()));
 		}
 
 	}
@@ -636,8 +629,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 		} catch (DataAccessException e) {
 			e.printStackTrace();
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e, e
-					.getMessage()));
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e,
+					e.getMessage()));
 		}
 
 	}
@@ -651,8 +644,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from CreditRating cr where cr.creditRatingName = ? and cr.company.id = ? ",
+					.find("from CreditRating cr where cr.creditRatingName = ? and cr.company.id = ? ",
 							new Object[] { creditRatingName, companyId });
 
 			if (list.size() > 0) {
@@ -677,8 +669,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from CreditRating cr where cr.id = ? and cr.company.id = ? ",
+					.find("from CreditRating cr where cr.id = ? and cr.company.id = ? ",
 							new Object[] { creditRatingId, companyId });
 
 			if (list.size() > 0) {
@@ -726,8 +717,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from CreditCardCharge cr where cr.id = ? and cr.company.id = ? ",
+					.find("from CreditCardCharge cr where cr.id = ? and cr.company.id = ? ",
 							new Object[] { creditCardChargeId, companyId });
 
 			if (list.size() > 0) {
@@ -774,8 +764,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from Currency c where c.currencyName = ? and cr.company.id = ? ",
+					.find("from Currency c where c.currencyName = ? and cr.company.id = ? ",
 							new Object[] { currencyName, companyId });
 
 			if (list.size() > 0) {
@@ -871,8 +860,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from CustomerCreditMemo cm where cm.id = ? and cm.company.id = ? ",
+					.find("from CustomerCreditMemo cm where cm.id = ? and cm.company.id = ? ",
 							new Object[] { customerCreditMemoId, companyId });
 
 			if (list.size() > 0) {
@@ -938,8 +926,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from CustomerGroup cg where cg.name = ? and cg.company.id = ? ",
+					.find("from CustomerGroup cg where cg.name = ? and cg.company.id = ? ",
 							new Object[] { customerGroupName, companyId });
 
 			if (list.size() > 0) {
@@ -963,8 +950,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from CustomerGroup cg where cg.id = ? and cg.company.id = ? ",
+					.find("from CustomerGroup cg where cg.id = ? and cg.company.id = ? ",
 							new Object[] { customerGroupId, companyId });
 			if (list.size() > 0) {
 				CustomerGroup group = new CustomerGroup();
@@ -1007,8 +993,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from CustomerRefund cr where cr.id = ? and cr.company.id = ? ",
+					.find("from CustomerRefund cr where cr.id = ? and cr.company.id = ? ",
 							new Object[] { customerRefundsId, companyId });
 			if (list.size() > 0) {
 				CustomerRefund customerRefunds = new CustomerRefund();
@@ -1195,8 +1180,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from Item item where item.name = ? and item.company.id = ? ",
+					.find("from Item item where item.name = ? and item.company.id = ? ",
 							new Object[] { itemName, companyId });
 
 			if (list.size() > 0) {
@@ -1218,8 +1202,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from Item item where item.id = ? and item.company.id = ? ",
+					.find("from Item item where item.id = ? and item.company.id = ? ",
 							new Object[] { itemId, companyId });
 
 			if (list.size() > 0) {
@@ -1242,8 +1225,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from ItemGroup ig where ig.name = ? and ig.company.id = ? ",
+					.find("from ItemGroup ig where ig.name = ? and ig.company.id = ? ",
 							new Object[] { itemGroupName, companyId });
 
 			if (list.size() > 0) {
@@ -1330,8 +1312,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from MakeDeposit md where md.id = ? and md.company.id = ? ",
+					.find("from MakeDeposit md where md.id = ? and md.company.id = ? ",
 							new Object[] { makeDepositId, companyId });
 
 			if (list.size() > 0) {
@@ -1379,8 +1360,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from PaymentTerms st where st.name = ? and st.company.id = ? ",
+					.find("from PaymentTerms st where st.name = ? and st.company.id = ? ",
 							new Object[] { paymentTermsName, companyId });
 
 			if (list.size() > 0) {
@@ -1403,8 +1383,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from PaymentTerms st where st.id = ? and st.company.id = ? ",
+					.find("from PaymentTerms st where st.id = ? and st.company.id = ? ",
 							new Object[] { paymentTermsId, companyId });
 
 			if (list.size() > 0) {
@@ -1449,8 +1428,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from PriceLevel pl where pl.name = ? and pl.company.id = ? ",
+					.find("from PriceLevel pl where pl.name = ? and pl.company.id = ? ",
 							new Object[] { priceLevelName, companyId });
 
 			if (list.size() > 0) {
@@ -1473,8 +1451,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from PriceLevel pl where pl.id = ? and pl.company.id = ? ",
+					.find("from PriceLevel pl where pl.id = ? and pl.company.id = ? ",
 							new Object[] { priceLevelId, companyId });
 
 			if (list.size() > 0) {
@@ -1519,8 +1496,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from PurchaseOrder p where p.id = ? and p.company.id = ? ",
+					.find("from PurchaseOrder p where p.id = ? and p.company.id = ? ",
 							new Object[] { purchaseOrderId, companyId });
 
 			if (list.size() > 0) {
@@ -1566,8 +1542,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from ReceivePayment rp where rp.id = ? and rp.company.id = ? ",
+					.find("from ReceivePayment rp where rp.id = ? and rp.company.id = ? ",
 							new Object[] { receivePaymentId, companyId });
 
 			if (list.size() > 0) {
@@ -1640,8 +1615,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from SalesPerson sr where sr.firstName = ? and sr.company.id = ? ",
+					.find("from SalesPerson sr where sr.firstName = ? and sr.company.id = ? ",
 							new Object[] { salesPersonName, companyId });
 
 			if (list.size() > 0) {
@@ -1664,8 +1638,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from SalesPerson sr where sr.id = ? and sr.company.id = ? ",
+					.find("from SalesPerson sr where sr.id = ? and sr.company.id = ? ",
 							new Object[] { salesPersonId, companyId });
 
 			if (list.size() > 0) {
@@ -1709,8 +1682,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from ShippingMethod sm where sm.name = ? and sm.company.id = ? ",
+					.find("from ShippingMethod sm where sm.name = ? and sm.company.id = ? ",
 							new Object[] { shippingMethodName, companyId });
 
 			if (list.size() > 0) {
@@ -1733,8 +1705,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from ShippingMethod sm where sm.id = ? and sm.company.id = ? ",
+					.find("from ShippingMethod sm where sm.id = ? and sm.company.id = ? ",
 							new Object[] { shippingMethodId, companyId });
 
 			if (list.size() > 0) {
@@ -1778,8 +1749,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from ShippingTerms sm where sm.name = ? and sm.company.id = ? ",
+					.find("from ShippingTerms sm where sm.name = ? and sm.company.id = ? ",
 							new Object[] { shippingTermsName, companyId });
 
 			if (list.size() > 0) {
@@ -1802,8 +1772,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from ShippingTerms sm where sm.id = ? and sm.company.id = ? ",
+					.find("from ShippingTerms sm where sm.id = ? and sm.company.id = ? ",
 							new Object[] { shippingTermsId, companyId });
 
 			if (list.size() > 0) {
@@ -1867,8 +1836,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from TAXAgency ta where ta.name = ? and ta.company.id = ? ",
+					.find("from TAXAgency ta where ta.name = ? and ta.company.id = ? ",
 							new Object[] { taxAgencyName, companyId });
 
 			if (list.size() > 0) {
@@ -1960,8 +1928,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from TAXGroup tg where tg.name = ? and tg.company.id = ? ",
+					.find("from TAXGroup tg where tg.name = ? and tg.company.id = ? ",
 							new Object[] { taxGroupName, companyId });
 
 			if (list.size() > 0) {
@@ -2007,8 +1974,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from TaxRates tg where tg.rate = ? and tg.company.id = ? ",
+					.find("from TaxRates tg where tg.rate = ? and tg.company.id = ? ",
 							new Object[] { rate, companyId });
 
 			if (list.size() > 0) {
@@ -2054,8 +2020,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from TransferFund tf where tf.id = ? and tf.company.id = ? ",
+					.find("from TransferFund tf where tf.id = ? and tf.company.id = ? ",
 							new Object[] { transferFundId, companyId });
 
 			if (list.size() > 0) {
@@ -2078,8 +2043,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from UnitOfMeasure u where u.name = ? and u.company.id = ? ",
+					.find("from UnitOfMeasure u where u.name = ? and u.company.id = ? ",
 							new Object[] { unitOfMeasureName, companyId });
 
 			if (list.size() > 0) {
@@ -2102,8 +2066,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from UnitOfMeasure u where u.id = ? and u.company.id = ? ",
+					.find("from UnitOfMeasure u where u.id = ? and u.company.id = ? ",
 							new Object[] { unitOfMeasureId, companyId });
 
 			if (list.size() > 0) {
@@ -2269,8 +2232,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from VendorCreditMemo v where v.id = ? and v.company.id = ? ",
+					.find("from VendorCreditMemo v where v.id = ? and v.company.id = ? ",
 							new Object[] { vendorrCreditMemoId, companyId });
 
 			if (list.size() > 0) {
@@ -2293,8 +2255,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from VendorGroup v where v.name = ? and v.company.id = ? ",
+					.find("from VendorGroup v where v.name = ? and v.company.id = ? ",
 							new Object[] { vendorGroupName, companyId });
 
 			if (list.size() > 0) {
@@ -2381,8 +2342,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from WriteCheck wc where wc.id = ? and wc.company.id = ? ",
+					.find("from WriteCheck wc where wc.id = ? and wc.company.id = ? ",
 							new Object[] { writeCheckId, companyId });
 
 			if (list.size() > 0) {
@@ -2827,8 +2787,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List<CreditsAndPayments> list = template
-					.find(
-							"from CreditsAndPayments cp where cp.transaction.company.id = ? ",
+					.find("from CreditsAndPayments cp where cp.transaction.company.id = ? ",
 							new Object[] { companyId });
 
 			if (list != null) {
@@ -2878,8 +2837,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from CreditsAndPayments cp where cp.id = ? and cp.transaction.company.id = ? ",
+					.find("from CreditsAndPayments cp where cp.id = ? and cp.transaction.company.id = ? ",
 							new Object[] { id, companyId });
 
 			if (list.size() > 0) {
@@ -2969,8 +2927,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from Expense e where e.company.id = ? and (e.status = ? or (e.status = ? and e.isAuthorised = true) ",
+					.find("from Expense e where e.company.id = ? and (e.status = ? or (e.status = ? and e.isAuthorised = true) ",
 							new Object[] { companyId,
 									Expense.STATUS_PARTIALLY_PAID,
 									Expense.STATUS_APPROVED });
@@ -3002,9 +2959,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		// .add(Projections.groupProperty("type"))
 		// ).addOrder(Order.desc("type"));
 		// List l = criteria.list();
-		//				
+		//
 		// List l2 = criteria.setFirstResult(1).setMaxResults(5).list();
-		//				
+		//
 		// return l;
 		// }});
 
@@ -3012,8 +2969,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			@Override
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
-				Query query = session.createQuery("from ? entiy ")
-						.setParameter(0, "TAXAgency");
+				Query query = session.getNamedQuery("getentiy").setParameter(0,
+						"TAXAgency");
 				return query.list();
 			}
 		});
@@ -3030,8 +2987,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			HibernateTemplate template = getHibernateTemplate();
 
 			List list = template
-					.find(
-							"from FixedAsset fa where fa.id = ? and fa.company.id = ? ",
+					.find("from FixedAsset fa where fa.id = ? and fa.company.id = ? ",
 							new Object[] { fixedAssetID, companyId });
 
 			if (list.size() > 0) {
