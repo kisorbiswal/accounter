@@ -25,14 +25,14 @@ public class CompanyHomeAction extends Action {
 
 	public CompanyHomeAction(String text, String iconString,
 			IsSerializable editableObject, AsyncCallback<Object> callbackObject) {
-		super(text, iconString, editableObject, callbackObject);
+		super(text, iconString);
 		this.catagory = Accounter.constants().company();
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas<?> getView() {
+//		return this.view;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

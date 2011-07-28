@@ -27,10 +27,10 @@ public class AddEditSalesTaxCodeAction extends Action {
 		title = Accounter.constants().taxCode();
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas<?> getView() {
+//		return this.view;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

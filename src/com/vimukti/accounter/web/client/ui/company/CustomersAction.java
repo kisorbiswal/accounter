@@ -52,10 +52,10 @@ public class CustomersAction extends Action {
 
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas<?> getView() {
+//		return this.view;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -71,10 +71,10 @@ public class CustomersAction extends Action {
 		return Accounter.getFinanceMenuImages().customers();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/customers.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/customers.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

@@ -15,11 +15,11 @@ public class IntegrateWithBusinessContactManagerAction extends Action {
 		super(text, iconString);
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		// NOTHING TO DO.
-		return null;
-	}
+//	@Override
+//	public ParentCanvas<?> getView() {
+//		// NOTHING TO DO.
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

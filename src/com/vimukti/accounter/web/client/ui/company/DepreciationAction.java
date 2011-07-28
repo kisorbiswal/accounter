@@ -23,7 +23,7 @@ public class DepreciationAction extends Action {
 
 	public DepreciationAction(String text, String iconString,
 			Object editableObject, AsyncCallback<Object> callbackObject) {
-		super(text, iconString, editableObject, callbackObject);
+		super(text, iconString);
 		this.catagory = Accounter.constants().fixedAssets();
 	}
 
@@ -38,16 +38,16 @@ public class DepreciationAction extends Action {
 		return Accounter.getFinanceMenuImages().Depreciation();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/Depreciation.png";
-	}
-
-	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/Depreciation.png";
+//	}
+//
+//	
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.view;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

@@ -15,10 +15,10 @@ public class MakeInActiveAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

@@ -19,11 +19,11 @@ public class ManageItemTaxAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		// NOTHING TO DO.
-		return null;
-	}
+//	@Override
+//	public ParentCanvas<?> getView() {
+//		// NOTHING TO DO.
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

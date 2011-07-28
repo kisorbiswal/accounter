@@ -62,10 +62,10 @@ public class ChartOfAccountsAction extends Action {
 		});
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas<?> getView() {
+//		return this.view;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -80,10 +80,10 @@ public class ChartOfAccountsAction extends Action {
 		return Accounter.getFinanceMenuImages().cahrtOfAccounts();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/chart_of_accounts.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/chart_of_accounts.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

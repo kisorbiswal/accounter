@@ -24,11 +24,11 @@ public class CreditRatingListAction extends Action {
 		super(text, iconString);
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		// NOTHING TO DO
-		return null;
-	}
+//	@Override
+//	public ParentCanvas<?> getView() {
+//		// NOTHING TO DO
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -70,10 +70,10 @@ public class CreditRatingListAction extends Action {
 		return Accounter.getFinanceMenuImages().creditRatingList();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/Creadit_rating_List.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/Creadit_rating_List.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

@@ -21,11 +21,11 @@ public class ChangePasswordAction extends Action {
 	public ImageResource getSmallImage() {
 		return null;
 	}
-
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+//
+//	@Override
+//	public ParentCanvas getView() {
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

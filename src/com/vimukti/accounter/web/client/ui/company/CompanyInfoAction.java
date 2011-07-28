@@ -17,11 +17,11 @@ public class CompanyInfoAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		// its not usiong any where
-		return null;
-	}
+//	@Override
+//	public ParentCanvas<?> getView() {
+//		// its not usiong any where
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -37,10 +37,10 @@ public class CompanyInfoAction extends Action {
 		return Accounter.getFinanceImages().companyInformation();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/information-icon-new.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/information-icon-new.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

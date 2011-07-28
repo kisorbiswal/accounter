@@ -35,10 +35,10 @@ public class FinanceLogAction extends Action {
 		return null;
 	}
 
-	@Override
-	public ParentCanvas getView() {
-		return view;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return view;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

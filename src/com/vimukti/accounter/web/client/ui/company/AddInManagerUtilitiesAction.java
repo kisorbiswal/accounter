@@ -14,10 +14,10 @@ public class AddInManagerUtilitiesAction extends Action {
 		super(text, iconString);
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		return null;
-	}
+//	@Override
+//	public ParentCanvas<?> getView() {
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
