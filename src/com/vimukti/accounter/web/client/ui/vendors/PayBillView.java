@@ -450,7 +450,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		payForm = new DynamicForm();
 		payForm.setWidth("80%");
 		payForm.setIsGroup(true);
-		payForm.setGroupTitle(Accounter.constants().Payment());
+		payForm.setGroupTitle(Accounter.constants().payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
 		amtText = new AmountField(Accounter.constants().Amount());

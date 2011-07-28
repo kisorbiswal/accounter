@@ -178,7 +178,7 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 	public void setEmptyMessage() {
 		flexTable.clear();
 		flexTable.setWidget(0, 0, new HTML(Accounter.constants()
-				.selectaTaskNotetoseethedetails()));
+				.selectATaskNotetoSeeTheDetails()));
 		cellFormatter.setHeight(0, 0, "300px");
 		cellFormatter.setAlignment(0, 0, ALIGN_CENTER, ALIGN_MIDDLE);
 	}

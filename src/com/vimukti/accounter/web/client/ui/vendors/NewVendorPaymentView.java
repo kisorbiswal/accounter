@@ -180,7 +180,7 @@ public class NewVendorPaymentView extends
 
 		vendorBalText = new AmountField(UIUtils.getVendorString(Accounter
 				.constants().supplierBalance(), Accounter.constants()
-				.Vendorbalance()));
+				.VendorBalance()));
 		vendorBalText.setHelpInformation(true);
 		vendorBalText.setDisabled(true);
 		vendorBalText.setWidth(100);
@@ -268,7 +268,7 @@ public class NewVendorPaymentView extends
 			}
 		});
 
-		payForm = UIUtils.form(Accounter.constants().Payment());
+		payForm = UIUtils.form(Accounter.constants().payment());
 		payForm.setWidth("80%");
 		payForm.setHeight("90%");
 		memoTextAreaItem = createMemoTextAreaItem();
