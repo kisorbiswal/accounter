@@ -63,9 +63,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private AccounterButton helpButt;
 	private AccounterButton ok;
 	private AccounterButton cancel;
-	
+
 	private IAccounterGETServiceAsync getService;
-	
+
 	private IAccounterCRUDServiceAsync crudService;
 	private CheckboxItem useAccountscheckbox, useCustomertID, useVendorId,
 			allowDocumentNos, doupaySalesChecBox, playsounds;
@@ -96,14 +96,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	DynamicForm companyDetailsForm, phoneAndFaxForm, taxIDForm,
 			RegistrationNumberForm;
 
-	
 	private TextAreaItem address;
-	
+
 	private LinkedHashMap<String, ClientAddress> addresses = new LinkedHashMap<String, ClientAddress>();
 
 	protected String str;
 
-	
 	private String string;
 
 	private TextAreaItem textareaItem, textareaItem2;
@@ -238,11 +236,10 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	}
 
-	
 	private void createControls() {
 		tabSet = new DecoratedTabPanel();
 		tabSet.setWidth("100%");
-		
+
 		DeckPanel deckPanel = tabSet.getDeckPanel();
 		// deckPanel.setSize("450px", "400px");
 		tabSet.add(getCompanyInfo(), "Company Info");
@@ -438,7 +435,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 					.areYouRegisteredForVAT());
 		}
 		vatRegNumber = new TextItem(UIUtils.getVendorString(Accounter
-				.constants().vatRegNo(), Accounter.constants().taxRegNo()));
+				.constants().VATRegistrationNumber(), Accounter.constants()
+				.taxRegNo()));
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
@@ -1057,7 +1055,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		retainedEarningsCombo.setWidth(150);
 		pendingItemrecicptsCombo = new OtherAccountsCombo(Accounter.constants()
-				.pendingItemreceipts());
+				.pendingItemReceipts());
 		pendingItemrecicptsCombo.initCombo(accounts);
 		pendingItemrecicptsCombo.setWidth(150);
 		// pendingItemrecicptsCombo.setWrapTitle(false);

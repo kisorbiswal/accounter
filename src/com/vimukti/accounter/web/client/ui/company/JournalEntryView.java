@@ -323,7 +323,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		lab1 = new Label(Accounter.constants().journalEntryNew());
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(Accounter.constants().lableTitle());
+		lab1.addStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		jourNoText = new TextItem(Accounter.constants().no());

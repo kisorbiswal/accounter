@@ -54,14 +54,12 @@ public class CompanyInfoDialog extends BaseDialog {
 	DynamicForm companyDetailsForm, phoneAndFaxForm, taxIDForm,
 			RegistrationNumberForm;
 
-	
 	private TextAreaItem address;
-	
+
 	private LinkedHashMap<String, ClientAddress> addresses = new LinkedHashMap<String, ClientAddress>();
 
 	protected String str;
 
-	
 	private String string;
 
 	private TextAreaItem textareaItem, textareaItem2;
@@ -257,7 +255,8 @@ public class CompanyInfoDialog extends BaseDialog {
 			doupaySalesChecBox.setTitle(Accounter.constants()
 					.areYouRegisteredForVAT());
 		vatRegNumber = new TextItem(UIUtils.getVendorString(Accounter
-				.constants().vatRegNo(), Accounter.constants().taxRegNo()));
+				.constants().VATRegistrationNumber(), Accounter.constants()
+				.taxRegNo()));
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);

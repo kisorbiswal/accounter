@@ -81,13 +81,11 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setSize("100%", "");
 
-		Label titleLabel = new Label(Accounter.constants()
-				.depreciation());
-		titleLabel.setStyleName(Accounter.constants().lableTitle());
+		Label titleLabel = new Label(Accounter.constants().depreciation());
+		titleLabel.setStyleName(Accounter.constants().labelTitle());
 		mainPanel.add(titleLabel);
 
-		startDateButton = new AccounterButton(Accounter.constants()
-				.startDate());
+		startDateButton = new AccounterButton(Accounter.constants().startDate());
 		startDateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -98,7 +96,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		});
 
 		AccounterButton rollBackDepreciation = new AccounterButton(Accounter
-				.constants().rollbackDepreciation());
+				.constants().rollBackDepreciation());
 		rollBackDepreciation.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -117,8 +115,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 		fromLabel = new Label(Accounter.constants().depricatiedFrom());
 
-		format = DateTimeFormat.getFormat(Accounter.constants()
-				.ddMMyyyy());
+		format = DateTimeFormat.getFormat(Accounter.constants().ddMMyyyy());
 		// fromLabel.setText("Depreciate from:  "
 		// + format.format(depreciationStartDate));
 		depreciatedToCombo = new ListBox();
@@ -180,7 +177,6 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			}
 
-			
 			public void onSuccess(ClientFinanceDate date) {
 				if (date == null) {
 					ClientFinanceDate date2 = new ClientFinanceDate(
@@ -246,8 +242,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		// }
 		// }
 
-		DateTimeFormat format = DateTimeFormat.getFormat(Accounter
-				.constants().ddMMyyyy());
+		DateTimeFormat format = DateTimeFormat.getFormat(Accounter.constants()
+				.ddMMyyyy());
 		List<String> dates = new ArrayList<String>();
 		Calendar fromDateCal = Calendar.getInstance();
 		fromDateCal.setTime(depreciationStartDate.getDateAsObject());
@@ -290,7 +286,6 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		return dates;
 	}
 
-	
 	private boolean validateDate(ClientFinanceDate date) {
 
 		boolean validDate = true;

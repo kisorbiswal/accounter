@@ -580,6 +580,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().newSalesperson();
+		return Accounter.constants().newSalesPerson();
 	}
 }

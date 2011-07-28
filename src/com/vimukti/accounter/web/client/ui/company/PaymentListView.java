@@ -33,7 +33,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	private static String NOT_ISSUED = Accounter.constants().notIssued();
 	private static String ISSUED = Accounter.constants().issued();
-	private static String VOID = Accounter.constants().Voided();
+	private static String VOID = Accounter.constants().voided();
 	private static String ALL = Accounter.constants().all();
 	// private static String DELETED = "Deleted";
 
@@ -57,7 +57,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().addanewPayment();
+		return Accounter.constants().addNewPayment();
 	}
 
 	@Override
@@ -123,7 +123,6 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 		return viewSelect;
 	}
 
-	
 	private void filterList(String text) {
 
 		grid.removeAllRecords();

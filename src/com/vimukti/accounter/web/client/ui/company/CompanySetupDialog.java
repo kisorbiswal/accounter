@@ -54,7 +54,6 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 	int currentStep;
 
-	
 	private static final String[] typeRecords = new String[] {
 			Accounter.constants().basic(),
 			Accounter.constants().healthcareProfessional(),
@@ -209,7 +208,6 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		Accounter.createCRUDService().create(company, createCompanyCallBack);
 	}
 
-	
 	public ClientCompany getCompany() {
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
 				.create(IAccounterGETService.class);
@@ -316,14 +314,14 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		street1Text = new TextItem(Accounter.constants().streetAddress1());
 		street1Text.setColSpan(3);
 
-		street2Text = new TextItem(Accounter.constants().streetaddress2());
+		street2Text = new TextItem(Accounter.constants().streetAddress2());
 		street2Text.setColSpan(3);
 		// street2Text.setShowTitle(false);
 
 		cityText = new TextItem(Accounter.constants().city());
 		cityText.setColSpan(3);
 
-		stateText = new TextItem(Accounter.constants().stateProvince());
+		stateText = new TextItem(Accounter.constants().stateOrProvince());
 		stateText.setColSpan(1);
 
 		zipText = new TextItem(Accounter.constants().zipPostalCode());
@@ -551,7 +549,6 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		step2Canvas.add(mainVLay);
 	}
 
-	
 	private void createStep3Canvas() {
 		setTitle(Accounter.constants().companySetup());
 
@@ -599,14 +596,14 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		street1Text = new TextItem(Accounter.constants().streetAddress1());
 		street1Text.setColSpan(3);
 
-		street2Text = new TextItem(Accounter.constants().streetaddress2());
+		street2Text = new TextItem(Accounter.constants().streetAddress2());
 		street2Text.setColSpan(3);
 		// street2Text.setShowTitle(false);
 
 		cityText = new TextItem(Accounter.constants().city());
 		cityText.setColSpan(3);
 
-		stateText = new TextItem(Accounter.constants().stateProvince());
+		stateText = new TextItem(Accounter.constants().stateOrProvince());
 		stateText.setColSpan(1);
 
 		zipText = new TextItem(Accounter.constants().zipPostalCode());

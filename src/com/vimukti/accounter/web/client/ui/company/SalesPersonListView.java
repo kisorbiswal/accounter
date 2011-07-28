@@ -152,7 +152,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().SalesPersons();
+		return Accounter.constants().salesPersons();
 	}
 
 }
