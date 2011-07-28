@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
@@ -63,8 +62,6 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	AmountLabel creditTotalText, deditTotalText;
 
 	private ClientJournalEntry takenJournalEntry;
-	private CompanyMessages companyConstants = GWT
-			.create(CompanyMessages.class);
 	// private HorizontalPanel lablPanel;
 	private VerticalPanel gridPanel;
 
@@ -152,8 +149,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		MainFinanceWindow.getViewManager().showError(
-				Accounter.constants()
-						.duplicationOfJournalEntriesNotAllowed());
+				Accounter.constants().duplicationOfJournalEntriesNotAllowed());
 	}
 
 	@Override
@@ -330,7 +326,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		lab1.addStyleName(Accounter.constants().lableTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
-		jourNoText = new TextItem(companyConstants.no());
+		jourNoText = new TextItem(Accounter.constants().no());
 		jourNoText.setHelpInformation(true);
 		jourNoText.setRequired(true);
 		jourNoText.addChangeHandler(new ChangeHandler() {
@@ -346,7 +342,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			}
 		});
 
-		memoText = new TextAreaItem(companyConstants.memo());
+		memoText = new TextAreaItem(Accounter.constants().memo());
 		memoText.setMemo(true);
 		memoText.setHelpInformation(true);
 
@@ -530,8 +526,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 								Accounter
 										.showMessage("Your session expired, Please login again to continue");
 							} else {
-								Accounter.showError(Accounter
-										.constants()
+								Accounter.showError(Accounter.constants()
 										.failedToGetTransactionNumber());
 							}
 						}

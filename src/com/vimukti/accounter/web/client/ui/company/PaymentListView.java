@@ -3,14 +3,12 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.SelectPaymentTypeDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.banking.BankingMessages;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -31,11 +29,9 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	DynamicForm form;
 	Action action;
 	List<PaymentsList> allPayments;
-	BankingMessages bankingConstants = GWT.create(BankingMessages.class);
 	private List<PaymentsList> listOfPayments;
 
-	private static String NOT_ISSUED = Accounter.constants()
-			.notIssued();
+	private static String NOT_ISSUED = Accounter.constants().notIssued();
 	private static String ISSUED = Accounter.constants().issued();
 	private static String VOID = Accounter.constants().Voided();
 	private static String ALL = Accounter.constants().all();
@@ -61,7 +57,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return bankingConstants.addanewPayment();
+		return Accounter.constants().addanewPayment();
 	}
 
 	@Override
@@ -98,8 +94,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants()
-				.currentView());
+		viewSelect = new SelectCombo(Accounter.constants().currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(NOT_ISSUED);

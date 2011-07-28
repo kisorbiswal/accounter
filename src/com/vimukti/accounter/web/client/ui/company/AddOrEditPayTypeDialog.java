@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -18,7 +17,6 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 	// private AccountCombo account;
 	private AccountCombo account;
 
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 
 	public AddOrEditPayTypeDialog(String title, String desc) {
 		super(title, desc);
@@ -43,29 +41,29 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 		DynamicForm form2 = new DynamicForm();
 
 		TextItem payType = new TextItem();
-		payType.setTitle(companyConstants.payType());
+		payType.setTitle(Accounter.constants().payType());
 		payType.setRequired(true);
 		// payType.setSelectOnFocus(true);
 
 		TextItem description = new TextItem();
-		description.setTitle(companyConstants.description());
+		description.setTitle(Accounter.constants().description());
 
 		form.setFields(payType, description);
 
 		ComboBoxItem type = new ComboBoxItem();
-		type.setTitle(companyConstants.type());
+		type.setTitle(Accounter.constants().type());
 		// type.setType("comboBox");
 		type.setRequired(true);
 		type.setValueMap(Accounter.constants().earning(), Accounter
 				.constants().deduction());
 		type.setDefaultValue(Accounter.constants().earning());
 
-		// account = new AccountCombo(companyConstants.account());
+		// account = new AccountCombo(Accounter.constants().account());
 
 		form1.setFields(type, account);
 
 		CheckboxItem active = new CheckboxItem();
-		active.setTitle(companyConstants.active());
+		active.setTitle(Accounter.constants().active());
 		// active.setDefaultValue(true);
 
 		form2.setFields(active);

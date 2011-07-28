@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -43,7 +42,6 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  */
 public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 	private DynamicForm salesPersonForm;
 
 	private DynamicForm expenseAccountForm;
@@ -64,10 +62,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	private EmailForm emailForm;
 	protected String gender;
 	private List<String> listOfgenders;
-	private String[] genderTypes = {
-			Accounter.constants().unspecified(),
-			Accounter.constants().male(),
-			Accounter.constants().female() };
+	private String[] genderTypes = { Accounter.constants().unspecified(),
+			Accounter.constants().male(), Accounter.constants().female() };
 	private List<ClientAccount> listOfAccounts;
 
 	private ArrayList<DynamicForm> listforms;
@@ -83,11 +79,11 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		employeeNameText = new TextItem(companyConstants.salesPersonName());
+		employeeNameText = new TextItem(Accounter.constants().salesPersonName());
 		employeeNameText.setWidth("205px");
 		employeeNameText.setRequired(true);
 
-		fileAsText = new TextItem(companyConstants.fileAs());
+		fileAsText = new TextItem(Accounter.constants().fileAs());
 		fileAsText.setWidth("205px");
 		employeeNameText.addChangeHandler(new ChangeHandler() {
 
@@ -100,17 +96,19 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			}
 		});
 
-		jobTitleText = new TextItem(companyConstants.jobTitle());
+		jobTitleText = new TextItem(Accounter.constants().jobTitle());
 		jobTitleText.setWidth("205px");
 
-		salesPersonForm = UIUtils.form(companyConstants.salesPerson());
+		salesPersonForm = UIUtils.form(Accounter.constants().salesPerson());
 		salesPersonForm.setWidth("90%");
 		salesPersonForm.setFields(employeeNameText, fileAsText, jobTitleText);
 		salesPersonForm.getCellFormatter().setWidth(0, 0, "280px");
 
-		expenseAccountForm = UIUtils.form(companyConstants.expenseAccount());
+		expenseAccountForm = UIUtils.form(Accounter.constants()
+				.expenseAccount());
 		expenseAccountForm.setWidth("90%");
-		expenseSelect = new GridAccountsCombo(companyConstants.expenseAccount());
+		expenseSelect = new GridAccountsCombo(Accounter.constants()
+				.expenseAccount());
 		expenseSelect.setWidth("180px");
 		expenseSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -135,13 +133,13 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		// memoForm.getCellFormatter().getElement(0, 1).getStyle().setWidth(239,
 		// Unit.PX);
 		memoForm.getCellFormatter().setWidth(0, 0, "232");
-		salesPersonInfoForm = UIUtils.form(companyConstants
+		salesPersonInfoForm = UIUtils.form(Accounter.constants()
 				.salesPersonInformation());
 		salesPersonInfoForm.setStyleName("align-form");
 		salesPersonInfoForm.setWidth("100%");
-		statusCheck = new CheckboxItem(companyConstants.active());
+		statusCheck = new CheckboxItem(Accounter.constants().active());
 		statusCheck.setValue(true);
-		genderSelect = new SelectCombo(companyConstants.gender());
+		genderSelect = new SelectCombo(Accounter.constants().gender());
 		// genderSelect.setWidth(45);
 		listOfgenders = new ArrayList<String>();
 		for (int i = 0; i < genderTypes.length; i++) {
@@ -157,7 +155,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 					}
 				});
 
-		dateOfBirth = new DateField(companyConstants.dateofBirth());
+		dateOfBirth = new DateField(Accounter.constants().dateofBirth());
 		// dateOfBirth.setEndDate(new ClientFinanceDate(19910101));
 		// dateOfBirth.setStartDate(new ClientFinanceDate(18910101));
 		dateOfBirth.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -173,13 +171,14 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			}
 		});
 
-		dateOfHire = new DateField(companyConstants.dateofHire());
+		dateOfHire = new DateField(Accounter.constants().dateofHire());
 		// dateOfHire.setUseTextField(true);
 
-		dateOfLastReview = new DateField(companyConstants.dateofLastReview());
+		dateOfLastReview = new DateField(Accounter.constants()
+				.dateofLastReview());
 		// dateOfLastReview.setUseTextField(true);
 
-		dateOfRelease = new DateField(companyConstants.dateofRelease());
+		dateOfRelease = new DateField(Accounter.constants().dateofRelease());
 		// dateOfRelease.setUseTextField(true);
 
 		salesPersonInfoForm.setFields(statusCheck, genderSelect, dateOfBirth,
@@ -342,8 +341,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .DuplicationOfSalesPesonNotAllowed());
 			MainFinanceWindow.getViewManager().showError(
-					Accounter.constants()
-							.DuplicationOfSalesPesonNotAllowed());
+					Accounter.constants().DuplicationOfSalesPesonNotAllowed());
 		else
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .salesPersonUpdationFailed());
@@ -402,8 +400,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 				if (dateOfBirth.getValue().getDateAsObject()
 						.after(new ClientFinanceDate().getDateAsObject())) {
-					throw new InvalidEntryException(Accounter
-							.constants().invalidDateOfBirth());
+					throw new InvalidEntryException(Accounter.constants()
+							.invalidDateOfBirth());
 
 				}
 				salesPerson.setDateOfBirth(UIUtils.toDate(dateOfBirth
@@ -467,27 +465,15 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
 
-		addrsForm
-				.getCellFormatter()
-				.getElement(0, 0)
-				.setAttribute(Accounter.constants().width(),
-						titlewidth + "");
-		addrsForm
-				.getCellFormatter()
-				.getElement(0, 1)
-				.setAttribute(Accounter.constants().width(),
-						listBoxWidth + "");
+		addrsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), titlewidth + "");
+		addrsForm.getCellFormatter().getElement(0, 1)
+				.setAttribute(Accounter.constants().width(), listBoxWidth + "");
 
-		fonFaxForm
-				.getCellFormatter()
-				.getElement(0, 0)
-				.setAttribute(Accounter.constants().width(),
-						titlewidth + "");
-		fonFaxForm
-				.getCellFormatter()
-				.getElement(0, 1)
-				.setAttribute(Accounter.constants().width(),
-						listBoxWidth + "");
+		fonFaxForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), titlewidth + "");
+		fonFaxForm.getCellFormatter().getElement(0, 1)
+				.setAttribute(Accounter.constants().width(), listBoxWidth + "");
 
 		salesPersonForm.getCellFormatter().getElement(0, 0).getStyle()
 				.setWidth(titlewidth + listBoxWidth, Unit.PX);

@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -25,7 +24,6 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	SelectItem viewSelect;
 	DynamicForm form;
 	List<ClientJournalEntry> allEntries;
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 	private SelectCombo currentView;
 
 	public JournalEntryListView() {
@@ -41,13 +39,13 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	@Override
 	protected String getAddNewLabelString() {
 
-		return companyConstants.addNewJournalEntry();
+		return Accounter.constants().addNewJournalEntry();
 	}
 
 	@Override
 	protected String getListViewHeading() {
 
-		return companyConstants.journalEntryList();
+		return Accounter.constants().journalEntryList();
 	}
 
 	@Override

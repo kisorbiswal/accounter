@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -11,8 +10,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 @SuppressWarnings("unchecked")
 public class ChangeStartDateDialog extends BaseDialog {
-
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 
 	public ChangeStartDateDialog(String title, String desc) {
 		super(title, desc);
@@ -29,7 +26,7 @@ public class ChangeStartDateDialog extends BaseDialog {
 		DynamicForm form = new DynamicForm();
 		// form.setWidth(250);
 		DateItem dateItem = new DateItem();
-		dateItem.setTitle(companyConstants.startDate());
+		dateItem.setTitle(Accounter.constants().startDate());
 		dateItem.setRequired(true);
 		// dateItem.setUseTextField(true);
 		form.setFields(dateItem);

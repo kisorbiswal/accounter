@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 	private TextItem bankNameText;
 
 	public AddBankDialog(AbstractBaseView<ClientBank> parent) {
@@ -33,16 +32,16 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 
 	private void createControls() {
 
-		setText(companyConstants.addBank());
+		setText(Accounter.constants().addBank());
 
-		bankNameText = new TextItem(companyConstants.bankName());
+		bankNameText = new TextItem(Accounter.constants().bankName());
 		bankNameText.setRequired(true);
 		final DynamicForm bankForm = new DynamicForm();
 		bankForm.setFields(bankNameText);
 
-		AccounterButton helpButt = new AccounterButton(companyConstants.help());
-		AccounterButton okButt = new AccounterButton(companyConstants.ok());
-		AccounterButton canButt = new AccounterButton(companyConstants.cancel());
+		AccounterButton helpButt = new AccounterButton(Accounter.constants().help());
+		AccounterButton okButt = new AccounterButton(Accounter.constants().ok());
+		AccounterButton canButt = new AccounterButton(Accounter.constants().cancel());
 
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.setWidth("50%");
@@ -118,6 +117,6 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 
 	}
 
-	// companyConstants.addBank()
+	// Accounter.constants().addBank()
 
 }

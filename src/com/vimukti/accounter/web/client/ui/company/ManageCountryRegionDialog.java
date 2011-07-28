@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
@@ -13,8 +12,6 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 public class ManageCountryRegionDialog extends GroupDialog {
 	protected GroupDialogButtonsHandler groupDialogButtonHandler;
 
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
-
 	public ManageCountryRegionDialog(String title, String description) {
 		super(title, description);
 		initialise();
@@ -24,7 +21,7 @@ public class ManageCountryRegionDialog extends GroupDialog {
 	public void initialise() {
 
 		getGrid().addColumn(ListGrid.COLUMN_TYPE_TEXT,
-				companyConstants.countryRegion());
+				Accounter.constants().countryRegion());
 		// ListGridField country_or_RegionField=new ListGridField("country",);
 		// country_or_RegionField.setWidth(220);
 		// addField(country_or_RegionField);
@@ -38,16 +35,14 @@ public class ManageCountryRegionDialog extends GroupDialog {
 			}
 
 			public void onFirstButtonClick() {
-				new CountryRegionDialog(Accounter.constants()
-						.addCountry(), Accounter.constants()
-						.enterNameOfCountry()).show();
+				new CountryRegionDialog(Accounter.constants().addCountry(),
+						Accounter.constants().enterNameOfCountry()).show();
 
 			}
 
 			public void onSecondButtonClick() {
-				new CountryRegionDialog(Accounter.constants()
-						.editCountry(), Accounter.constants()
-						.enterNameOfCountry()).show();
+				new CountryRegionDialog(Accounter.constants().editCountry(),
+						Accounter.constants().enterNameOfCountry()).show();
 
 			}
 

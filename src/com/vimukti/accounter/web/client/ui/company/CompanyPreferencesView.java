@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -58,7 +57,6 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private DecoratedTabPanel tabSet;
 	private VerticalPanel companyLayOut, sysAccountsLayOut, generalLayOut;
-	private CompanyMessages companyMessges;
 	private ClientCompany company;
 	private List<ClientAccount> accounts = new ArrayList<ClientAccount>();
 	private HorizontalPanel hlLayout;
@@ -89,7 +87,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private boolean isCancel = false;
 	public static final int TYPE_AGEING_FROM_DUEDATE = 2;
 	public static final int TYPE_AGEING_FROM_TRANSACTIONDATE = 1;
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 
 	TextItem websiteText, taxIDText, companyNameText, trandigNameText,
 			sortCodeText;
@@ -243,7 +240,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	@SuppressWarnings("deprecation")
 	private void createControls() {
-		companyMessges = (CompanyMessages) GWT.create(CompanyMessages.class);
 		tabSet = new DecoratedTabPanel();
 		tabSet.setWidth("100%");
 		@SuppressWarnings("unused")
@@ -251,8 +247,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// deckPanel.setSize("450px", "400px");
 		tabSet.add(getCompanyInfo(), "Company Info");
 		tabSet.add(getCompanyTab(), "Preferences");
-		// tabSet.add(getSystemAccountsTab(), companyMessges.systemAccounts());
-		// tabSet.add(getGerneralTab(), companyMessges.general());
+		// tabSet.add(getSystemAccountsTab(),
+		// Accounter.constants().systemAccounts());
+		// tabSet.add(getGerneralTab(), Accounter.constants().general());
 		tabSet.selectTab(0);
 
 		hlLayout = new HorizontalPanel();
@@ -265,7 +262,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// hlLayout.setLayoutLeftMargin(5);
 		// hlLayout.setLayoutRightMargin(5);
 
-		helpButt = new AccounterButton(companyMessges.help());
+		helpButt = new AccounterButton(Accounter.constants().help());
 		// helpButt.setHeight("30");
 		// helpButt.setAutoFit(true);
 		helpButt.addClickHandler(new ClickHandler() {
@@ -287,7 +284,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// okCancelayout.setMembersMargin(10);
 		// okCancelayout.setAlign(Alignment.RIGHT);
 
-		ok = new AccounterButton(companyMessges.ok());
+		ok = new AccounterButton(Accounter.constants().ok());
 		// ok.setAutoFit(true);
 		ok.addClickHandler(new ClickHandler() {
 
@@ -298,7 +295,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			}
 		});
 
-		cancel = new AccounterButton(companyMessges.cancel());
+		cancel = new AccounterButton(Accounter.constants().cancel());
 		// cancel.setAutoFit(true);
 		cancel.addClickHandler(new ClickHandler() {
 
@@ -334,18 +331,19 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	private HorizontalPanel getCompanyInfo() {
 		VerticalPanel mainVLay = new VerticalPanel();
-		// setTitle(companyConstants.companyInformation());
+		// setTitle(Accounter.constants().companyInformation());
 		LinkItem emptylabel = new LinkItem();
 		emptylabel.setLinkTitle("");
 		emptylabel.setShowTitle(false);
 
-		companyNameText = new TextItem(companyConstants.registeredName());
+		companyNameText = new TextItem(Accounter.constants().registeredName());
 		companyNameText.setHelpInformation(true);
 		companyNameText.setRequired(true);
 		companyNameText.setWidth(100);
 		string = "[a-zA-Z0-9 /s]";
 
-		textareaItem = new TextAreaItem(companyConstants.registeredAddress());
+		textareaItem = new TextAreaItem(Accounter.constants()
+				.registeredAddress());
 		textareaItem.setHelpInformation(true);
 		textareaItem.setRequired(false);
 		textareaItem.addClickHandler(new ClickHandler() {
@@ -356,12 +354,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			}
 		});
 
-		trandigNameText = new TextItem(companyConstants.tradingName());
+		trandigNameText = new TextItem(Accounter.constants().tradingName());
 		trandigNameText.setHelpInformation(true);
 		trandigNameText.setRequired(true);
 		trandigNameText.setWidth(100);
 
-		textareaItem2 = new TextAreaItem(companyConstants.tradingAddress());
+		textareaItem2 = new TextAreaItem(Accounter.constants().tradingAddress());
 		textareaItem2.setHelpInformation(true);
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
@@ -377,27 +375,28 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		TextItem emptyText = new TextItem();
 		emptyText.setVisible(false);
 
-		companyDetailsForm = UIUtils.form(companyConstants.companyDetails());
+		companyDetailsForm = UIUtils.form(Accounter.constants()
+				.companyDetails());
 
 		VerticalPanel mainVLay2 = new VerticalPanel();
 
-		phoneText = new IntegerField(companyConstants.businessPhone());
+		phoneText = new IntegerField(Accounter.constants().businessPhone());
 		phoneText.setHelpInformation(true);
 
-		faxText = new IntegerField(companyConstants.businessFax());
+		faxText = new IntegerField(Accounter.constants().businessFax());
 		faxText.setHelpInformation(true);
 
 		emailText = new EmailField(Accounter.constants().email());
 		emailText.setHelpInformation(true);
 
-		websiteText = new TextItem(companyConstants.webPageAddress());
+		websiteText = new TextItem(Accounter.constants().webPageAddress());
 		websiteText.setHelpInformation(true);
 
-		registrationNumberText = new IntegerField(
-				companyConstants.companyRegistrationNumber());
+		registrationNumberText = new IntegerField(Accounter.constants()
+				.companyRegistrationNumber());
 		registrationNumberText.setHelpInformation(true);
 
-		taxIDText = new TextItem(companyConstants.federalTaxId());
+		taxIDText = new TextItem(Accounter.constants().federalTaxId());
 		taxIDText.setHelpInformation(true);
 
 		bankAccountText = new IntegerField(Accounter.constants()
@@ -409,7 +408,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		sortCodeText.setTitle(Accounter.constants().sortCode());
 		sortCodeText.setHelpInformation(true);
 
-		phoneAndFaxForm = UIUtils.form(companyConstants.phoneAndFaxNumbers());
+		phoneAndFaxForm = UIUtils.form(Accounter.constants()
+				.phoneAndFaxNumbers());
 
 		emailText.setRequired(true);
 
@@ -424,20 +424,21 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// // taxesForm.setWidth100();
 		// // taxesForm.setHeight("*");
 		// taxesForm.setIsGroup(true);
-		// taxesForm.setGroupTitle(companyMessges.taxes());
+		// taxesForm.setGroupTitle(Accounter.constants().taxes());
 		// taxesForm.setTitleOrientation(TitleOrientation.TOP);
 		// taxesForm.setPadding(10);
 
 		doupaySalesChecBox = new CheckboxItem();
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			doupaySalesChecBox.setTitle(companyMessges.doYoupaySalesTaxes());
+			doupaySalesChecBox.setTitle(Accounter.constants()
+					.doYoupaySalesTaxes());
 
 		} else {
-			doupaySalesChecBox
-					.setTitle(companyMessges.areYouRegisteredForVAT());
+			doupaySalesChecBox.setTitle(Accounter.constants()
+					.areYouRegisteredForVAT());
 		}
-		vatRegNumber = new TextItem(UIUtils.getVendorString(
-				companyMessges.vatRegNo(), companyMessges.taxRegNo()));
+		vatRegNumber = new TextItem(UIUtils.getVendorString(Accounter
+				.constants().vatRegNo(), Accounter.constants().taxRegNo()));
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
@@ -482,7 +483,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		}
 		vatRegNumber.setValue(getCompany().getpreferences()
 				.getVATregistrationNumber());
-		taxgroupBtn = new AccounterButton(companyMessges.taxgroups());
+		taxgroupBtn = new AccounterButton(Accounter.constants().taxgroups());
 		// taxgroupBtn.setColSpan("*");
 		taxgroupBtn.addClickHandler(new ClickHandler() {
 
@@ -491,7 +492,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			}
 		});
 		paysalesTaxgroupItem = new RadioGroupItem();
-		paysalesTaxgroupItem.setTitle(companyMessges
+		paysalesTaxgroupItem.setTitle(Accounter.constants()
 				.onWhatbasisdoUpaySalesTaxes());
 		// paysalesTaxgroupItem.setColSpan("*");
 		// paysalesTaxgroupItem.setVertical(false);
@@ -500,8 +501,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
 
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("1", companyMessges.accrualBasis());
-		map.put("2", companyMessges.cashBasis());
+		map.put("1", Accounter.constants().accrualBasis());
+		map.put("2", Accounter.constants().cashBasis());
 		paysalesTaxgroupItem.setValueMap(map);
 
 		// if(!FinanceApplication.getCompany().getpreferences().getDoYouPaySalesTax())
@@ -627,8 +628,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 						.getValue()
 						.toString()
 						.equalsIgnoreCase(
-								Accounter.constants()
-										.ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
+								Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
 			companyPreferences.setPreventPostingBeforeDate(dateItem.getValue()
@@ -677,8 +677,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 						.getValue()
 						.toString()
 						.equalsIgnoreCase(
-								Accounter.constants()
-										.ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
+								Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
 			companyPreferences.setPreventPostingBeforeDate(dateItem.getValue()
@@ -789,28 +788,28 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		/**
 		 * Numbers and IDs Group
 		 */
-		DynamicForm numbersIdsvForm = UIUtils.form(companyMessges
+		DynamicForm numbersIdsvForm = UIUtils.form(Accounter.constants()
 				.getNumbersandIdsTitle());
 
 		useAccountscheckbox = new CheckboxItem();
-		useAccountscheckbox.setTitle(companyMessges.useAccountNos());
+		useAccountscheckbox.setTitle(Accounter.constants().useAccountNos());
 
 		useCustomertID = new CheckboxItem();
-		useCustomertID.setTitle(companyMessges.useCustomerId());
+		useCustomertID.setTitle(Accounter.constants().useCustomerId());
 
 		useVendorId = new CheckboxItem();
-		useVendorId.setTitle(companyMessges.useVendorId());
+		useVendorId.setTitle(Accounter.constants().useVendorId());
 		ageingFromTransactionDateORDueDate = new RadioGroupItem(Accounter
 				.constants().ageingDetails());
 
 		ageingFromTransactionDateORDueDate.setValues(getClickHandler(),
-				Accounter.constants().ageingforduedate(), Accounter
-						.constants().ageingfortransactiondate());
+				Accounter.constants().ageingforduedate(), Accounter.constants()
+						.ageingfortransactiondate());
 		// ageingFromTransactionDateORDueDate.setDefaultValue(FinanceApplication
 		// .constants().ageingfortransactiondate());
 
 		allowDocumentNos = new CheckboxItem();
-		allowDocumentNos.setTitle(companyMessges.allowDocNos());
+		allowDocumentNos.setTitle(Accounter.constants().allowDocNos());
 
 		numbersIdsvForm.setItems(useAccountscheckbox, useCustomertID,
 				useVendorId, ageingFromTransactionDateORDueDate);
@@ -821,12 +820,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		/**
 		 * Fiscal YearGroup
 		 * */
-		DynamicForm fiscalYrForm = UIUtils.form(companyMessges.fiscalYear());
+		DynamicForm fiscalYrForm = UIUtils.form(Accounter.constants()
+				.fiscalYear());
 		// fiscalYrForm.setPadding(10);
 
 		dateItem = new DateItem();
 		dateItem.setHelpInformation(true);
-		dateItem.setTitle(companyMessges.preventPostBefore());
+		dateItem.setTitle(Accounter.constants().preventPostBefore());
 		// dateItem.setUseTextField(true);
 
 		fiscalYrForm.setItems(dateItem);
@@ -835,20 +835,20 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		/**
 		 * Account Transfer Group
 		 */
-		DynamicForm accountantTransferForm = UIUtils.form((companyMessges
-				.accountantTransfer()));
+		DynamicForm accountantTransferForm = UIUtils.form((Accounter
+				.constants().accountantTransfer()));
 		// accountantTransferForm.setWidth(100);
 		// accountantTransferForm.setTitleOrientation(TitleOrientation.TOP);
 		// accountantTransferForm.setPadding(10);
 
 		whowillrunAccTransfer = new RadioGroupItem();
-		// whowillrunAccTransfer.setTitle(companyMessges
+		// whowillrunAccTransfer.setTitle(Accounter.constants()
 		// .whowillrunwhenaccoutantTransfer());
 		// whowillrunAccTransfer.setColSpan("*");
 		whowillrunAccTransfer.setVertical(false);
 		LinkedHashMap<String, String> hashMap = new LinkedHashMap<String, String>();
-		hashMap.put("1", companyMessges.myAccountantwillrun());
-		hashMap.put("2", companyMessges.iwouldliketoberunPayroll());
+		hashMap.put("1", Accounter.constants().myAccountantwillrun());
+		hashMap.put("2", Accounter.constants().iwouldliketoberunPayroll());
 		whowillrunAccTransfer.setValueMap(hashMap);
 		Boolean value = company.getPreferences() != null ? company
 				.getPreferences().getIsMyAccountantWillrunPayroll() : false;
@@ -866,7 +866,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// taxesForm.setWidth100();
 		// taxesForm.setHeight("*");
 		taxesForm.setIsGroup(true);
-		taxesForm.setGroupTitle(companyMessges.taxes());
+		taxesForm.setGroupTitle(Accounter.constants().taxes());
 		// taxesForm.setTitleOrientation(TitleOrientation.TOP);
 		// taxesForm.setPadding(10);
 
@@ -876,12 +876,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// .vertical(), false);
 		// if (FinanceApplication.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_US) {
-		// doupaySalesChecBox.setTitle(companyMessges.doYoupaySalesTaxes());
+		// doupaySalesChecBox.setTitle(Accounter.constants().doYoupaySalesTaxes());
 		// } else
 		// doupaySalesChecBox
-		// .setTitle(companyMessges.areYouRegisteredForVAT());
+		// .setTitle(Accounter.constants().areYouRegisteredForVAT());
 		//
-		// vatRegNumber = new TextItem(companyMessges.vatRegNo());
+		// vatRegNumber = new TextItem(Accounter.constants().vatRegNo());
 		// vatRegNumber.setHelpInformation(true);
 		// vatRegNumber.setDisabled(false);
 		//
@@ -913,7 +913,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// }
 		// vatRegNumber.setValue(FinanceApplication.getCompany().getpreferences()
 		// .getVATregistrationNumber());
-		// taxgroupBtn = new AccounterButton(companyMessges.taxgroups());
+		// taxgroupBtn = new AccounterButton(Accounter.constants().taxgroups());
 		// // taxgroupBtn.setColSpan("*");
 		// taxgroupBtn.addClickHandler(new ClickHandler() {
 		//
@@ -922,7 +922,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// }
 		// });
 		// paysalesTaxgroupItem = new RadioGroupItem();
-		// paysalesTaxgroupItem.setTitle(companyMessges
+		// paysalesTaxgroupItem.setTitle(Accounter.constants()
 		// .onWhatbasisdoUpaySalesTaxes());
 		// // paysalesTaxgroupItem.setColSpan("*");
 		// // paysalesTaxgroupItem.setVertical(false);
@@ -932,8 +932,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		//
 		// LinkedHashMap<String, String> map = new LinkedHashMap<String,
 		// String>();
-		// map.put("1", companyMessges.accrualBasis());
-		// map.put("2", companyMessges.cashBasis());
+		// map.put("1", Accounter.constants().accrualBasis());
+		// map.put("2", Accounter.constants().cashBasis());
 		// paysalesTaxgroupItem.setValueMap(map);
 		//
 		// taxesForm.setItems(doupaySalesChecBox, vatRegNumber,
@@ -997,80 +997,81 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// systemAccountForm.setWidth100();
 		// systemAccountForm.setHeight100();
 		systemAccountForm.setIsGroup(true);
-		systemAccountForm.setGroupTitle(companyMessges.systemAccounts());
+		systemAccountForm.setGroupTitle(Accounter.constants().systemAccounts());
 		// systemAccountForm.setPadding(30);
 
-		openinBalcombo = new OtherAccountsCombo(
-				companyMessges.openingBalances());
+		openinBalcombo = new OtherAccountsCombo(Accounter.constants()
+				.openingBalances());
 
 		openinBalcombo.initCombo(accounts);
 
 		openinBalcombo.setWidth(150);
 		// openinBalcombo.setWrapTitle(false);
-		accountsreceivablecombo = new OtherAccountsCombo(
-				companyMessges.accountsReceivable());
+		accountsreceivablecombo = new OtherAccountsCombo(Accounter.constants()
+				.accountsReceivable());
 		accountsreceivablecombo.initCombo(accounts);
 
 		accountsreceivablecombo.setWidth(150);
 		// accountsreceivablecombo.setWrapTitle(false);
-		accountsPayablecombo = new OtherAccountsCombo(
-				companyMessges.accountsPayable());
+		accountsPayablecombo = new OtherAccountsCombo(Accounter.constants()
+				.accountsPayable());
 		accountsPayablecombo.initCombo(accounts);
 		accountsPayablecombo.setWidth(150);
 		// accountsPayablecombo.setWrapTitle(false);
-		salesTaxPayablecombo = new OtherAccountsCombo(
-				companyMessges.salesTaxPayable());
+		salesTaxPayablecombo = new OtherAccountsCombo(Accounter.constants()
+				.salesTaxPayable());
 		salesTaxPayablecombo.initCombo(accounts);
 
 		salesTaxPayablecombo.setWidth(150);
 		// salesTaxPayablecombo.setWrapTitle(false);
-		cashDiscountGivencombo = new OtherAccountsCombo(
-				companyMessges.cashDiscountGiven());
+		cashDiscountGivencombo = new OtherAccountsCombo(Accounter.constants()
+				.cashDiscountGiven());
 		cashDiscountGivencombo.initCombo(accounts);
 
 		cashDiscountGivencombo.setWidth(150);
 		// cashDiscountGivencombo.setWrapTitle(false);
-		cashDiscountTakencombo = new OtherAccountsCombo(
-				companyMessges.cashDiscountTaken());
+		cashDiscountTakencombo = new OtherAccountsCombo(Accounter.constants()
+				.cashDiscountTaken());
 
 		cashDiscountTakencombo.initCombo(accounts);
 		cashDiscountTakencombo.setWidth(150);
 		// cashDiscountTakencombo.setWrapTitle(false);
 
-		payrollLiabilitycombo = new OtherAccountsCombo(
-				companyMessges.payrollLiability());
+		payrollLiabilitycombo = new OtherAccountsCombo(Accounter.constants()
+				.payrollLiability());
 		payrollLiabilitycombo.initCombo(accounts);
 		payrollLiabilitycombo.setWidth(150);
-		undepositedFoundscombo = new OtherAccountsCombo(
-				companyMessges.undepositedFounds());
+		undepositedFoundscombo = new OtherAccountsCombo(Accounter.constants()
+				.undepositedFounds());
 
 		undepositedFoundscombo.initCombo(accounts);
 		undepositedFoundscombo.setWidth(150);
-		bankChargecombo = new OtherAccountsCombo(companyMessges.bankCharge());
+		bankChargecombo = new OtherAccountsCombo(Accounter.constants()
+				.bankCharge());
 
 		bankChargecombo.initCombo(accounts);
 		bankChargecombo.setWidth(150);
-		retainedEarningsCombo = new OtherAccountsCombo(
-				companyMessges.retainedEarnings());
+		retainedEarningsCombo = new OtherAccountsCombo(Accounter.constants()
+				.retainedEarnings());
 		retainedEarningsCombo.initCombo(accounts);
 
 		retainedEarningsCombo.setWidth(150);
-		pendingItemrecicptsCombo = new OtherAccountsCombo(
-				companyMessges.pendingItemreceipts());
+		pendingItemrecicptsCombo = new OtherAccountsCombo(Accounter.constants()
+				.pendingItemreceipts());
 		pendingItemrecicptsCombo.initCombo(accounts);
 		pendingItemrecicptsCombo.setWidth(150);
 		// pendingItemrecicptsCombo.setWrapTitle(false);
-		jobresellAccountCombo = new OtherAccountsCombo(
-				companyMessges.jobresellAccount());
+		jobresellAccountCombo = new OtherAccountsCombo(Accounter.constants()
+				.jobresellAccount());
 		jobresellAccountCombo.initCombo(accounts);
 
 		jobresellAccountCombo.setWidth(150);
-		writeOffAccountCombo = new OtherAccountsCombo(
-				companyMessges.writeOffAccount());
+		writeOffAccountCombo = new OtherAccountsCombo(Accounter.constants()
+				.writeOffAccount());
 		writeOffAccountCombo.initCombo(accounts);
 		writeOffAccountCombo.setWidth(150);
-		defaultCashCombo = new OtherAccountsCombo(
-				companyMessges.defaultAccounts());
+		defaultCashCombo = new OtherAccountsCombo(Accounter.constants()
+				.defaultAccounts());
 
 		defaultCashCombo.initCombo(accounts);
 		defaultCashCombo.setWidth(150);
@@ -1097,12 +1098,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// userPreferenceForm.setWidth100();
 		userPreferenceForm.setIsGroup(true);
 		// userPreferenceForm.setTitleOrientation(TitleOrientation.TOP);
-		userPreferenceForm.setGroupTitle(companyMessges.userPreference());
+		userPreferenceForm
+				.setGroupTitle(Accounter.constants().userPreference());
 		playsounds = new CheckboxItem();
 		// playsounds.setTitleOrientation(TitleOrientation.TOP);
-		playsounds.setTitle(companyMessges.playsoundswithActions());
+		playsounds.setTitle(Accounter.constants().playsoundswithActions());
 
-		buttonItem = new AccounterButton(companyMessges.restoreDefault());
+		buttonItem = new AccounterButton(Accounter.constants().restoreDefault());
 		// buttonItem.setAutoFit(true);
 		buttonItem.addClickHandler(new ClickHandler() {
 
@@ -1113,7 +1115,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// DynamicForm legalCompanyNameForm = new DynamicForm();
 		// legalCompanyNameForm.setWidth("100%");
 		//
-		// legalCompanyName = new TextItem(companyMessges.legalCompanyName());
+		// legalCompanyName = new
+		// TextItem(Accounter.constants().legalCompanyName());
 		//
 		// VerticalPanel legalCompanyPanel = new VerticalPanel();
 		// legalCompanyNameForm.setFields(legalCompanyName);
@@ -1133,17 +1136,18 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// filingRecordNameForm.setWidth("100%");
 		filingRecordNameForm.setIsGroup(true);
 		// filingRecordNameForm.setAlign(Alignment.CENTER);
-		filingRecordNameForm.setGroupTitle(companyMessges.filingRecordsName());
+		filingRecordNameForm.setGroupTitle(Accounter.constants()
+				.filingRecordsName());
 
 		defautFileAsSettings = new SelectItem();
 		// defautFileAsSettings.setWidth(200);
 		// defautFileAsSettings.setHeight("20");
-		defautFileAsSettings.setDefaultValue(Accounter.constants()
-				.company());
-		defautFileAsSettings.setTitle(companyMessges.defaultFileAsSettings());
-		defautFileAsSettings.setValueMap(Accounter.constants()
-				.company(), Accounter.constants().firstLast(),
-				Accounter.constants().lastFirst());
+		defautFileAsSettings.setDefaultValue(Accounter.constants().company());
+		defautFileAsSettings.setTitle(Accounter.constants()
+				.defaultFileAsSettings());
+		defautFileAsSettings.setValueMap(Accounter.constants().company(),
+				Accounter.constants().firstLast(), Accounter.constants()
+						.lastFirst());
 		filingRecordNameForm.setItems(defautFileAsSettings);
 		// filingRecordNameForm.setPadding(10);
 
@@ -1153,12 +1157,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		DynamicForm serviceMapForm = new DynamicForm();
 		// serviceMapForm.setWidth100();
 		serviceMapForm.setIsGroup(true);
-		serviceMapForm.setGroupTitle(companyMessges.serviceMapping());
+		serviceMapForm.setGroupTitle(Accounter.constants().serviceMapping());
 		// serviceMapForm.setPadding(10);
 
 		// --Previusly 'mangeServiceMappingsBtn' is ButtonItem
-		mangeServiceMappingsBtn = new AccounterButton(
-				companyMessges.manageServiceMappings());
+		mangeServiceMappingsBtn = new AccounterButton(Accounter.constants()
+				.manageServiceMappings());
 		mangeServiceMappingsBtn.setHeight("30");
 
 		/**
@@ -1169,7 +1173,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// supportLogging.setHeight("30%");
 		supportLogging.setIsGroup(true);
 		// supportLogging.setTitleOrientation(TitleOrientation.TOP);
-		supportLogging.setGroupTitle(companyMessges.supportLogging());
+		supportLogging.setGroupTitle(Accounter.constants().supportLogging());
 		// supportLogging.setTop(20);
 		// supportLogging.setPadding(20);
 
@@ -1182,20 +1186,19 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 				return null;
 			}
 		};
-		logspaceTxt.setTitle(companyMessges.logSpace());
+		logspaceTxt.setTitle(Accounter.constants().logSpace());
 
 		clearlogBtn = new AccounterButton();
-		clearlogBtn.setTitle(companyMessges.clearLog());
+		clearlogBtn.setTitle(Accounter.constants().clearLog());
 
 		logContentSelect = new SelectItem();
 		logContentSelect.setWidth(100);
-		logContentSelect.setTitle(companyMessges.logContent());
-		logContentSelect.setDefaultValue(Accounter.constants()
-				.doNotLog());
+		logContentSelect.setTitle(Accounter.constants().logContent());
+		logContentSelect.setDefaultValue(Accounter.constants().doNotLog());
 		logContentSelect.setValueMap(Accounter.constants().doNotLog(),
 				Accounter.constants().criticalErrorsOnly(), Accounter
-						.constants().allErrors(), Accounter
-						.constants().allErrorsAndMessages());
+						.constants().allErrors(), Accounter.constants()
+						.allErrorsAndMessages());
 
 		supportLogging.setItems(logspaceTxt, logContentSelect);
 		VerticalPanel suportLogPanel = new VerticalPanel();

@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -14,11 +13,9 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
-import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 
 public class SalesPersonListView extends BaseListView<ClientPayee> {
 
-	CustomersMessages salesPersonConstants;
 	private List<ClientSalesPerson> listOfsalesPerson;
 
 	public SalesPersonListView() {
@@ -35,7 +32,6 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 
 	@Override
 	public void init() {
-		salesPersonConstants = GWT.create(CustomersMessages.class);
 		super.init();
 
 	}
@@ -53,7 +49,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return salesPersonConstants.addaNewsalesPerson();
+			return Accounter.constants().addaNewsalesPerson();
 		else
 			return "";
 	}
@@ -61,7 +57,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	@Override
 	protected String getListViewHeading() {
 
-		return salesPersonConstants.salesPersonList();
+		return Accounter.constants().salesPersonList();
 	}
 
 	// @Override

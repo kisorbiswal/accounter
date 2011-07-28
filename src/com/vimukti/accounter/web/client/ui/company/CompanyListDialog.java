@@ -27,8 +27,6 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 	DialogGrid companyGrid;
 
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
-
 	// String[] fieldNames = { "id;ID", "name;Name", "legal_name;Legal Name" };
 
 	public CompanyListDialog(AbstractBaseView<ClientCompany> parent) {
@@ -39,16 +37,16 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 
 	private void createControls() {
 		companyGrid = new DialogGrid(false);
-		companyGrid.addColumn(ListGrid.COLUMN_TYPE_TEXTBOX,
-				companyConstants.id());
+		companyGrid.addColumn(ListGrid.COLUMN_TYPE_TEXTBOX, Accounter
+				.constants().id());
 
-		companyGrid.addColumn(ListGrid.COLUMN_TYPE_TEXTBOX,
-				companyConstants.name());
-		companyGrid.addColumn(ListGrid.COLUMN_TYPE_TEXTBOX,
-				companyConstants.legalName());
+		companyGrid.addColumn(ListGrid.COLUMN_TYPE_TEXTBOX, Accounter
+				.constants().name());
+		companyGrid.addColumn(ListGrid.COLUMN_TYPE_TEXTBOX, Accounter
+				.constants().legalName());
 
-		AccounterButton closeButt = new AccounterButton(
-				companyConstants.close());
+		AccounterButton closeButt = new AccounterButton(Accounter.constants()
+				.close());
 		// closeButt.setLayoutAlign(Alignment.RIGHT);
 
 		closeButt.addClickHandler(new ClickHandler() {
@@ -64,13 +62,10 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 					@Override
 					public void OnCellDoubleClick(ClientCompany core, int column) {
 						ClientCompany company = core;
-						UIUtils.say(Accounter.constants()
-								.fetchingCompany()
-								+ company.getID()
-								+ "\n"
+						UIUtils.say(Accounter.constants().fetchingCompany()
+								+ company.getID() + "\n"
 								+ Accounter.constants().name()
-								+ company.getName()
-								+ "\n"
+								+ company.getName() + "\n"
 								+ Accounter.constants().legalName()
 								+ company.getTradingName());
 
@@ -83,13 +78,10 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 					@Override
 					public void OnCellDoubleClick(ClientCompany core, int column) {
 						ClientCompany company = core;
-						UIUtils.say(Accounter.constants()
-								.fetchingCompany()
-								+ company.getID()
-								+ "\n"
+						UIUtils.say(Accounter.constants().fetchingCompany()
+								+ company.getID() + "\n"
 								+ Accounter.constants().name()
-								+ company.getName()
-								+ "\n"
+								+ company.getName() + "\n"
 								+ Accounter.constants().legalName()
 								+ company.getTradingName());
 

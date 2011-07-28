@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -17,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 
 public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 	protected GroupDialogButtonsHandler groupDialogButtonHandler;
 	protected List<ClientFiscalYear> savedFiscalYear;
 	private AddEditFiscalYearDialog addEditFiscalYear;
@@ -76,11 +74,13 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	public void initialise() {
 		// setHeight(450);
 		// setWidth(450);
-		// ListGridField period = new ListGridField("period", companyConstants
+		// ListGridField period = new ListGridField("period",
+		// Accounter.constants()
 		// .period());
 		// period.setWidth(90);
 		// addField(period);
-		// ListGridField status = new ListGridField("status", companyConstants
+		// ListGridField status = new ListGridField("status",
+		// Accounter.constants()
 		// .status());
 		// status.setWidth(130);
 		// addField(status);
@@ -88,7 +88,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		closeButton = new AccounterButton();
 		openButton = new AccounterButton();
 		changeButton = new AccounterButton();
-		closeButton.setTitle(companyConstants.closeFiscalYear());
+		closeButton.setTitle(Accounter.constants().closeFiscalYear());
 		addButton(closeButton);
 		closeButton.addClickHandler(new ClickHandler() {
 
@@ -96,20 +96,19 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 			}
 		});
-		openButton.setTitle(companyConstants.openFiscalYear());
+		openButton.setTitle(Accounter.constants().openFiscalYear());
 		addButton(openButton);
 		openButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
 			}
 		});
-		changeButton.setTitle(companyConstants.changeStartDate());
+		changeButton.setTitle(Accounter.constants().changeStartDate());
 		addButton(changeButton);
 		changeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				new ChangeStartDateDialog(Accounter.constants()
-						.title(), Accounter.constants().description())
-						.show();
+				new ChangeStartDateDialog(Accounter.constants().title(),
+						Accounter.constants().description()).show();
 			}
 		});
 		// setHeight(250);
@@ -121,15 +120,13 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 			}
 
 			public void onFirstButtonClick() {
-				showAddEditFiscalYear(Accounter.constants()
-						.createFascalYear(), Accounter.constants()
-						.description(), null);
+				showAddEditFiscalYear(Accounter.constants().createFascalYear(),
+						Accounter.constants().description(), null);
 			}
 
 			public void onSecondButtonClick() {
-				showAddEditFiscalYear(Accounter.constants()
-						.editFiscalYear(), Accounter.constants()
-						.description(), null);
+				showAddEditFiscalYear(Accounter.constants().editFiscalYear(),
+						Accounter.constants().description(), null);
 			}
 
 			public void onThirdButtonClick() {

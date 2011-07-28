@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.core.AbstractActionFactory;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
@@ -33,8 +33,8 @@ public class ChangePasswordAction extends Action {
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
-		view = new ChangePasswordDialog(
-				AbstractActionFactory.actionsConstants.changePassword(), null);
+		view = new ChangePasswordDialog(Accounter.constants().changePassword(),
+				null);
 		try {
 			view.show();
 			view.center();

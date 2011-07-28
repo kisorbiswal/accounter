@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.Set;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -14,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
-import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -78,12 +76,11 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	@Override
 	protected String[] getColumns() {
-		salesPersonConstants = GWT.create(CustomersMessages.class);
-		return new String[] { salesPersonConstants.active(),
-				salesPersonConstants.salesPerson(),
-				salesPersonConstants.address(), salesPersonConstants.city(),
-				salesPersonConstants.state(), salesPersonConstants.zipCode(),
-				salesPersonConstants.phone(), salesPersonConstants.fax(), " " };
+		return new String[] { Accounter.constants().active(),
+				Accounter.constants().salesPerson(),
+				Accounter.constants().address(), Accounter.constants().city(),
+				Accounter.constants().state(), Accounter.constants().zipCode(),
+				Accounter.constants().phone(), Accounter.constants().fax(), " " };
 
 	}
 

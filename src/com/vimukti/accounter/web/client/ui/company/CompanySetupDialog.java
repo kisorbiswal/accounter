@@ -54,8 +54,6 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 	int currentStep;
 
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
-
 	@SuppressWarnings("unused")
 	private static final String[] typeRecords = new String[] {
 			Accounter.constants().basic(),
@@ -73,8 +71,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 			Accounter.constants().photographer(),
 			Accounter.constants().propertyManagement(),
 			Accounter.constants().realEstateAgent(),
-			Accounter.constants().restaurant(),
-			Accounter.constants().retail(),
+			Accounter.constants().restaurant(), Accounter.constants().retail(),
 			Accounter.constants().shippingAndPostalService(),
 			Accounter.constants().webBasedSales() };
 
@@ -244,7 +241,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		switch (currentStep) {
 		case STEP3:
 			currentStep = STEP2;
-			
+
 			break;
 		case STEP2:
 			currentStep = STEP1;
@@ -264,7 +261,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 			break;
 		case STEP2:
 			currentStep = STEP3;
-			
+
 			break;
 		}
 	}
@@ -273,13 +270,12 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		companyPrefLabel = new Label();
 		// companyPrefLabel.setAutoFit(true);
 		// companyPrefLabel.setIcon("");
-		companyPrefLabel.setText(Accounter.constants()
-				.companyAndPreferences());
+		companyPrefLabel.setText(Accounter.constants().companyAndPreferences());
 		// companyPrefLabel.setWrap(false);
 
-		step1Label = new Label(companyConstants.companyDetails());
-		step2Label = new Label(companyConstants.typeofBusiness());
-		step3Label = new Label(companyConstants.companyFile());
+		step1Label = new Label(Accounter.constants().companyDetails());
+		step2Label = new Label(Accounter.constants().typeofBusiness());
+		step3Label = new Label(Accounter.constants().companyFile());
 
 		// step1Label.setAutoFit(true);
 		// step2Label.setAutoFit(true);
@@ -304,60 +300,58 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		// );
 		descLabel.setText(Accounter.constants().typeCompanyInfo());
 
-		companyNameText = new TextItem(companyConstants.companyName());
+		companyNameText = new TextItem(Accounter.constants().companyName());
 		companyNameText.setRequired(true);
 		// companyNameText.setColSpan(3);
 
-		accountType = new SelectItem(Accounter.constants()
-				.accountType());
+		accountType = new SelectItem(Accounter.constants().accountType());
 		accountType.setValueMap(Accounter.constants().UK(), Accounter
 				.constants().US());
 		accountType.setDefaultValue(Accounter.constants().US());
 
-		legalNameText = new TextItem(companyConstants.legalName());
+		legalNameText = new TextItem(Accounter.constants().legalName());
 		legalNameText.setRequired(true);
 		legalNameText.setColSpan(3);
 
-		street1Text = new TextItem(companyConstants.streetAddress1());
+		street1Text = new TextItem(Accounter.constants().streetAddress1());
 		street1Text.setColSpan(3);
 
-		street2Text = new TextItem(companyConstants.streetaddress2());
+		street2Text = new TextItem(Accounter.constants().streetaddress2());
 		street2Text.setColSpan(3);
 		// street2Text.setShowTitle(false);
 
-		cityText = new TextItem(companyConstants.city());
+		cityText = new TextItem(Accounter.constants().city());
 		cityText.setColSpan(3);
 
-		stateText = new TextItem(companyConstants.stateProvince());
+		stateText = new TextItem(Accounter.constants().stateProvince());
 		stateText.setColSpan(1);
 
-		zipText = new TextItem(companyConstants.zipPostalCode());
+		zipText = new TextItem(Accounter.constants().zipPostalCode());
 		zipText.setColSpan(1);
 		zipText.setValidators(DataUtils.zipValidator());
 
-		countrySelect = new SelectItem(companyConstants.countryRegion());
-		countrySelect.setValueMap(Accounter.constants().india(),
-				Accounter.constants().UK(), Accounter
-						.constants().US());
+		countrySelect = new SelectItem(Accounter.constants().countryRegion());
+		countrySelect.setValueMap(Accounter.constants().india(), Accounter
+				.constants().UK(), Accounter.constants().US());
 		countrySelect.setColSpan(3);
 
-		phoneText = new TextItem(companyConstants.phone());
+		phoneText = new TextItem(Accounter.constants().phone());
 		phoneText.setColSpan(1);
 		phoneText.setValidators(DataUtils.phoneValidator());
 
-		faxText = new TextItem(companyConstants.fax());
+		faxText = new TextItem(Accounter.constants().fax());
 		faxText.setColSpan(1);
 		faxText.setValidators(DataUtils.faxValidator());
 
-		emailText = new TextItem(companyConstants.email());
+		emailText = new TextItem(Accounter.constants().email());
 		emailText.setColSpan(3);
 		emailText.setValidators(DataUtils.emailValidator());
 
-		websiteText = new TextItem(companyConstants.webSite());
+		websiteText = new TextItem(Accounter.constants().webSite());
 		websiteText.setColSpan(3);
 		websiteText.setValidators(DataUtils.webValidator());
 
-		taxIDText = new TextItem(companyConstants.federalTaxId());
+		taxIDText = new TextItem(Accounter.constants().federalTaxId());
 		taxIDText.setColSpan(1);
 
 		companyForm = new DynamicForm();
@@ -369,15 +363,15 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 				countrySelect, phoneText, faxText, emailText, websiteText,
 				taxIDText);
 
-		helpButt = new AccounterButton(companyConstants.help());
+		helpButt = new AccounterButton(Accounter.constants().help());
 		helpButt.setAccessKey('H');
-		backButt = new AccounterButton(companyConstants.back());
+		backButt = new AccounterButton(Accounter.constants().back());
 		backButt.setAccessKey('B');
-		nextButt = new AccounterButton(companyConstants.next());
+		nextButt = new AccounterButton(Accounter.constants().next());
 		nextButt.setAccessKey('N');
-		finButt = new AccounterButton(companyConstants.finish());
+		finButt = new AccounterButton(Accounter.constants().finish());
 		finButt.setAccessKey('F');
-		canButt = new AccounterButton(companyConstants.cancel());
+		canButt = new AccounterButton(Accounter.constants().cancel());
 		canButt.setAccessKey('C');
 
 		backButt.setEnabled(true);
@@ -441,13 +435,12 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		companyPrefLabel = new Label();
 		// companyPrefLabel.setAutoFit(true);
 		// companyPrefLabel.setIcon("");
-		companyPrefLabel.setText(Accounter.constants()
-				.companyAndPreferences());
+		companyPrefLabel.setText(Accounter.constants().companyAndPreferences());
 		// companyPrefLabel.setWrap(false);
 
-		step1Label = new Label(companyConstants.companyDetails());
-		step2Label = new Label(companyConstants.typeofBusiness());
-		step3Label = new Label(companyConstants.companyFile());
+		step1Label = new Label(Accounter.constants().companyDetails());
+		step2Label = new Label(Accounter.constants().typeofBusiness());
+		step3Label = new Label(Accounter.constants().companyFile());
 
 		// step1Label.setAutoFit(true);
 		// step2Label.setAutoFit(true);
@@ -466,16 +459,16 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		// "<div style='font-size: 20px;'>Choose a Business type</div>");
 		typeLabel.setText(Accounter.constants().chooseBusinessType());
 
-		descLabel.setText(Accounter.constants()
-				.preConfigureAccountingCompany());
+		descLabel
+				.setText(Accounter.constants().preConfigureAccountingCompany());
 
 		typeGrid = new DialogGrid(false);
 		// typeGrid.setAutoFitData(Autofit.BOTH);
 		// typeGrid.setOverflow(Overflow.SCROLL);
 		typeGrid.setSize("100%", "100%");
 		// typeGrid.setShowAllRecords(true);
-		typeGrid.addColumn(ListGrid.COLUMN_TYPE_LABEL,
-				companyConstants.businessTypes());
+		typeGrid.addColumn(ListGrid.COLUMN_TYPE_LABEL, Accounter.constants()
+				.businessTypes());
 
 		// businessTypeField.setAlign(Alignment.CENTER);
 		// typeGrid.setCanResizeFields(true);
@@ -484,20 +477,20 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		// typeGrid.setDisabled(true);
 		typeGrid.selectRecord(0);
 
-		addBusinessTypeButt = new AccounterButton(companyConstants.add());
+		addBusinessTypeButt = new AccounterButton(Accounter.constants().add());
 		addBusinessTypeButt.addClickHandler(UIUtils.todoClick());
 
-		helpButt = new AccounterButton(companyConstants.help());
+		helpButt = new AccounterButton(Accounter.constants().help());
 		helpButt.setAccessKey('H');
-		backButt = new AccounterButton(companyConstants.back());
+		backButt = new AccounterButton(Accounter.constants().back());
 		backButt.setAccessKey('B');
 		backButt.setEnabled(false);
-		nextButt = new AccounterButton(companyConstants.next());
+		nextButt = new AccounterButton(Accounter.constants().next());
 		nextButt.setAccessKey('N');
 		nextButt.setEnabled(true);
-		finButt = new AccounterButton(companyConstants.finish());
+		finButt = new AccounterButton(Accounter.constants().finish());
 		finButt.setAccessKey('F');
-		canButt = new AccounterButton(companyConstants.cancel());
+		canButt = new AccounterButton(Accounter.constants().cancel());
 		canButt.setAccessKey('C');
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -565,13 +558,12 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		companyPrefLabel = new Label();
 		// companyPrefLabel.setAutoFit(true);
 		// companyPrefLabel.setIcon("");
-		companyPrefLabel.setText(Accounter.constants()
-				.companyAndPreferences());
+		companyPrefLabel.setText(Accounter.constants().companyAndPreferences());
 		// companyPrefLabel.setWrap(false);
 
-		step1Label = new Label(companyConstants.companyDetails());
-		step2Label = new Label(companyConstants.typeofBusiness());
-		step3Label = new Label(companyConstants.companyFile());
+		step1Label = new Label(Accounter.constants().companyDetails());
+		step2Label = new Label(Accounter.constants().typeofBusiness());
+		step3Label = new Label(Accounter.constants().companyFile());
 
 		// step1Label.setAutoFit(true);
 		// step2Label.setAutoFit(true);
@@ -595,50 +587,49 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		// );
 		descLabel.setText(Accounter.constants().typeCompanyInfo());
 
-		companyNameText = new TextItem(companyConstants.companyName());
+		companyNameText = new TextItem(Accounter.constants().companyName());
 		companyNameText.setColSpan(3);
 
-		legalNameText = new TextItem(companyConstants.legalName());
+		legalNameText = new TextItem(Accounter.constants().legalName());
 		// legalNameText.setColSpan(3);
 
 		accountType = new SelectItem("Account Type");
 		accountType.setValueMap("UK", "US");
 
-		street1Text = new TextItem(companyConstants.streetAddress1());
+		street1Text = new TextItem(Accounter.constants().streetAddress1());
 		street1Text.setColSpan(3);
 
-		street2Text = new TextItem(companyConstants.streetaddress2());
+		street2Text = new TextItem(Accounter.constants().streetaddress2());
 		street2Text.setColSpan(3);
 		// street2Text.setShowTitle(false);
 
-		cityText = new TextItem(companyConstants.city());
+		cityText = new TextItem(Accounter.constants().city());
 		cityText.setColSpan(3);
 
-		stateText = new TextItem(companyConstants.stateProvince());
+		stateText = new TextItem(Accounter.constants().stateProvince());
 		stateText.setColSpan(1);
 
-		zipText = new TextItem(companyConstants.zipPostalCode());
+		zipText = new TextItem(Accounter.constants().zipPostalCode());
 		zipText.setColSpan(1);
 
-		countrySelect = new SelectItem(companyConstants.countryRegion());
-		countrySelect.setValueMap(Accounter.constants().india(),
-				Accounter.constants().UK(), Accounter
-						.constants().US());
+		countrySelect = new SelectItem(Accounter.constants().countryRegion());
+		countrySelect.setValueMap(Accounter.constants().india(), Accounter
+				.constants().UK(), Accounter.constants().US());
 		countrySelect.setColSpan(3);
 
-		phoneText = new TextItem(companyConstants.phone());
+		phoneText = new TextItem(Accounter.constants().phone());
 		phoneText.setColSpan(1);
 
-		faxText = new TextItem(companyConstants.fax());
+		faxText = new TextItem(Accounter.constants().fax());
 		faxText.setColSpan(1);
 
-		emailText = new TextItem(companyConstants.email());
+		emailText = new TextItem(Accounter.constants().email());
 		emailText.setColSpan(3);
 
-		websiteText = new TextItem(companyConstants.webSite());
+		websiteText = new TextItem(Accounter.constants().webSite());
 		websiteText.setColSpan(3);
 
-		taxIDText = new TextItem(companyConstants.federalTaxId());
+		taxIDText = new TextItem(Accounter.constants().federalTaxId());
 		taxIDText.setColSpan(1);
 
 		companyForm = new DynamicForm();
@@ -649,13 +640,13 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 				street2Text, cityText, stateText, zipText, countrySelect,
 				phoneText, faxText, emailText, websiteText, taxIDText);
 
-		helpButt = new AccounterButton(companyConstants.help());
-		backButt = new AccounterButton(companyConstants.back());
+		helpButt = new AccounterButton(Accounter.constants().help());
+		backButt = new AccounterButton(Accounter.constants().back());
 		backButt.setEnabled(false);
-		nextButt = new AccounterButton(companyConstants.next());
+		nextButt = new AccounterButton(Accounter.constants().next());
 		nextButt.setEnabled(true);
-		finButt = new AccounterButton(companyConstants.finish());
-		canButt = new AccounterButton(companyConstants.cancel());
+		finButt = new AccounterButton(Accounter.constants().finish());
+		canButt = new AccounterButton(Accounter.constants().cancel());
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		// leftVLay.setSize("20%", "*");
@@ -721,7 +712,6 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		
 
 	}
 
@@ -735,5 +725,5 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 	// }
 	// return result;
 	// }
-	// companyConstants.companySetup()
+	// Accounter.constants().companySetup()
 }

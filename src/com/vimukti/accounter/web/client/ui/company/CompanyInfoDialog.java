@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -46,8 +45,6 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  */
 @SuppressWarnings("unchecked")
 public class CompanyInfoDialog extends BaseDialog {
-
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 
 	TextItem websiteText, taxIDText, companyNameText, trandigNameText,
 			registrationNumberText, bankAccountText, sortCodeText;
@@ -159,18 +156,19 @@ public class CompanyInfoDialog extends BaseDialog {
 
 	private void createControls() {
 		VerticalPanel mainVLay = new VerticalPanel();
-		// setTitle(companyConstants.companyInformation());
+		// setTitle(Accounter.constants().companyInformation());
 		LinkItem emptylabel = new LinkItem();
 		emptylabel.setLinkTitle("");
 		emptylabel.setShowTitle(false);
 
-		companyNameText = new TextItem(companyConstants.registeredName());
+		companyNameText = new TextItem(Accounter.constants().registeredName());
 		companyNameText.setHelpInformation(true);
 		companyNameText.setRequired(true);
 		companyNameText.setWidth(100);
 		string = "[a-zA-Z0-9 /s]";
 
-		textareaItem = new TextAreaItem(companyConstants.registeredAddress());
+		textareaItem = new TextAreaItem(Accounter.constants()
+				.registeredAddress());
 		textareaItem.setHelpInformation(true);
 		textareaItem.setRequired(false);
 		textareaItem.addClickHandler(new ClickHandler() {
@@ -181,12 +179,12 @@ public class CompanyInfoDialog extends BaseDialog {
 			}
 		});
 
-		trandigNameText = new TextItem(companyConstants.tradingName());
+		trandigNameText = new TextItem(Accounter.constants().tradingName());
 		trandigNameText.setHelpInformation(true);
 		trandigNameText.setRequired(true);
 		trandigNameText.setWidth(100);
 
-		textareaItem2 = new TextAreaItem(companyConstants.tradingAddress());
+		textareaItem2 = new TextAreaItem(Accounter.constants().tradingAddress());
 		textareaItem2.setHelpInformation(true);
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
@@ -202,39 +200,40 @@ public class CompanyInfoDialog extends BaseDialog {
 		TextItem emptyText = new TextItem();
 		emptyText.setVisible(false);
 
-		companyDetailsForm = UIUtils.form(companyConstants.companyDetails());
+		companyDetailsForm = UIUtils.form(Accounter.constants()
+				.companyDetails());
 
 		VerticalPanel mainVLay2 = new VerticalPanel();
 
-		phoneText = new IntegerField(companyConstants.businessPhone());
+		phoneText = new IntegerField(Accounter.constants().businessPhone());
 		phoneText.setHelpInformation(true);
 
-		faxText = new IntegerField(companyConstants.businessFax());
+		faxText = new IntegerField(Accounter.constants().businessFax());
 		faxText.setHelpInformation(true);
 
 		emailText = new EmailField(Accounter.constants().email());
 		emailText.setHelpInformation(true);
 
-		websiteText = new TextItem(companyConstants.webPageAddress());
+		websiteText = new TextItem(Accounter.constants().webPageAddress());
 		websiteText.setHelpInformation(true);
 
-		registrationNumberText = new TextItem(
-				companyConstants.companyRegistrationNumber());
+		registrationNumberText = new TextItem(Accounter.constants()
+				.companyRegistrationNumber());
 		registrationNumberText.setHelpInformation(true);
 
-		taxIDText = new TextItem(companyConstants.federalTaxId());
+		taxIDText = new TextItem(Accounter.constants().federalTaxId());
 		taxIDText.setHelpInformation(true);
 
 		bankAccountText = new TextItem();
-		bankAccountText
-				.setTitle(Accounter.constants().bankAccountNo());
+		bankAccountText.setTitle(Accounter.constants().bankAccountNo());
 		bankAccountText.setHelpInformation(true);
 
 		sortCodeText = new TextItem();
 		sortCodeText.setTitle(Accounter.constants().sortCode());
 		sortCodeText.setHelpInformation(true);
 
-		phoneAndFaxForm = UIUtils.form(companyConstants.phoneAndFaxNumbers());
+		phoneAndFaxForm = UIUtils.form(Accounter.constants()
+				.phoneAndFaxNumbers());
 
 		phoneAndFaxForm.setFields(phoneText, faxText, websiteText, emailText,
 				registrationNumberText, taxIDText, bankAccountText,
@@ -245,19 +244,20 @@ public class CompanyInfoDialog extends BaseDialog {
 		// taxesForm.setWidth100();
 		// taxesForm.setHeight("*");
 		taxesForm.setIsGroup(true);
-		taxesForm.setGroupTitle(companyMessges.taxes());
+		taxesForm.setGroupTitle(Accounter.constants().taxes());
 		// taxesForm.setTitleOrientation(TitleOrientation.TOP);
 		// taxesForm.setPadding(10);
 
 		doupaySalesChecBox = new CheckboxItem();
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			doupaySalesChecBox.setTitle(companyMessges.doYoupaySalesTaxes());
+			doupaySalesChecBox.setTitle(Accounter.constants()
+					.doYoupaySalesTaxes());
 
 		} else
-			doupaySalesChecBox
-					.setTitle(companyMessges.areYouRegisteredForVAT());
-		vatRegNumber = new TextItem(UIUtils.getVendorString(
-				companyMessges.vatRegNo(), companyMessges.taxRegNo()));
+			doupaySalesChecBox.setTitle(Accounter.constants()
+					.areYouRegisteredForVAT());
+		vatRegNumber = new TextItem(UIUtils.getVendorString(Accounter
+				.constants().vatRegNo(), Accounter.constants().taxRegNo()));
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);
@@ -302,7 +302,7 @@ public class CompanyInfoDialog extends BaseDialog {
 		}
 		vatRegNumber.setValue(getCompany().getpreferences()
 				.getVATregistrationNumber());
-		taxgroupBtn = new AccounterButton(companyMessges.taxgroups());
+		taxgroupBtn = new AccounterButton(Accounter.constants().taxgroups());
 		// taxgroupBtn.setColSpan("*");
 		taxgroupBtn.addClickHandler(new ClickHandler() {
 
@@ -311,7 +311,7 @@ public class CompanyInfoDialog extends BaseDialog {
 			}
 		});
 		paysalesTaxgroupItem = new RadioGroupItem();
-		paysalesTaxgroupItem.setTitle(companyMessges
+		paysalesTaxgroupItem.setTitle(Accounter.constants()
 				.onWhatbasisdoUpaySalesTaxes());
 		// paysalesTaxgroupItem.setColSpan("*");
 		// paysalesTaxgroupItem.setVertical(false);
@@ -320,8 +320,8 @@ public class CompanyInfoDialog extends BaseDialog {
 		// .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
 
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("1", companyMessges.accrualBasis());
-		map.put("2", companyMessges.cashBasis());
+		map.put("1", Accounter.constants().accrualBasis());
+		map.put("2", Accounter.constants().cashBasis());
 		paysalesTaxgroupItem.setValueMap(map);
 
 		// if(!FinanceApplication.getCompany().getpreferences().getDoYouPaySalesTax())

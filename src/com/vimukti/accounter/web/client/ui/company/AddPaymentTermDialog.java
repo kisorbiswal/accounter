@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -34,13 +33,11 @@ public class AddPaymentTermDialog extends BaseDialog {
 	private DynamicForm discForm;
 	public DynamicForm nameDescForm;
 	public IntegerField dayText;
-	public String[] dueValues = {
-			Accounter.constants().currentMonth(),
+	public String[] dueValues = { Accounter.constants().currentMonth(),
 			Accounter.constants().currentQuarter(),
 			Accounter.constants().currentHalfYear(),
 			Accounter.constants().currentYear() };
 	private List<String> listOfDueValues;
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 	private Label dayLabel;
 	@SuppressWarnings("unused")
 	private DynamicForm paymentForm;
@@ -57,13 +54,13 @@ public class AddPaymentTermDialog extends BaseDialog {
 
 		integerRangeValidator = new IntegerRangeValidator();
 
-		payTermText = new TextItem(companyConstants.paymentTerm());
+		payTermText = new TextItem(Accounter.constants().paymentTerm());
 		payTermText.setHelpInformation(true);
 		payTermText.setRequired(true);
 
-		descText = new TextItem(companyConstants.description());
+		descText = new TextItem(Accounter.constants().description());
 		descText.setHelpInformation(true);
-		dueSelect = new SelectCombo(companyConstants.due());
+		dueSelect = new SelectCombo(Accounter.constants().due());
 		dueSelect.setHelpInformation(true);
 		// dueSelect.setWidth(90);
 		listOfDueValues = new ArrayList<String>();
@@ -94,7 +91,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 		nameDescForm.setFields(payTermText, descText);
 		nameDescForm.setSize("100%", "100%");
 
-		discText = new PercentageField(companyConstants.discount());
+		discText = new PercentageField(Accounter.constants().discount());
 		discText.setHelpInformation(true);
 		discText.setColSpan(1);
 		discText.setWidth(90);
@@ -128,7 +125,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 		discForm.setWidth("100%");
 		discForm.setNumCols(4);
 		discForm.setIsGroup(true);
-		discForm.setGroupTitle(companyConstants.cashDiscount());
+		discForm.setGroupTitle(Accounter.constants().cashDiscount());
 		discForm.setFields(discText, discDayText);
 		discForm.setSize("100%", "100%");
 

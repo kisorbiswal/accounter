@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
@@ -14,8 +13,6 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 public class PayTypeListDialog extends GroupDialog {
 
 	protected GroupDialogButtonsHandler groupDialogButtonHandler;
-
-	CompanyMessages companyConstants = GWT.create(CompanyMessages.class);
 
 	public PayTypeListDialog(String title, String descript) {
 		super(title, descript);
@@ -36,9 +33,10 @@ public class PayTypeListDialog extends GroupDialog {
 		title = Accounter.constants().addOrEditPayType();
 		description = Accounter.constants().toAddPayType();
 		DialogGrid grid = getGrid();
-		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, companyConstants.active());
-		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT,
-				companyConstants.description());
+		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, Accounter.constants()
+				.active());
+		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, Accounter.constants()
+				.description());
 
 		groupDialogButtonHandler = new GroupDialogButtonsHandler() {
 
