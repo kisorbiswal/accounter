@@ -50,7 +50,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 
 		checkDetailCombo = new ComboBoxItem();
 		checkDetailCombo.setTitle(Accounter.constants()
-				.Paymentmethod());
+				.paymentMethod());
 		checkDetailCombo.setValueMap(statusArray);
 		checkDetailCombo.setDefaultValue(statusArray[0]);
 		checkDetailCombo.addChangeHandler(new ChangeHandler() {

@@ -79,7 +79,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	public AbstractReportView() {
 		companyType = getCompany().getAccountingType();
 		ReportUtility.companyType = companyType;
-		emptyMsg = Accounter.constants().norecordstoshow();
+		emptyMsg = Accounter.constants().noRecordsToShow();
 	}
 
 	public AbstractReportView(boolean showGridFooter, String emptyMsg) {
