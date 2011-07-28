@@ -18,41 +18,17 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
-@SuppressWarnings("serial")
 public class ClientCompany implements IAccounterCore {
 
-	private static final int TYPE_SOLE_PROPRIETORSHIP = 1;
-	private static final int TYPE_PARTNERSHIP_OR_LLP = 2;
-	private static final int TYPE_LLC_SINGLE_MEMBER = 3;
-	private static final int TYPE_LLC_MULTI_MEMBER = 4;
-	private static final int TYPE_CORPORATION = 5;
-	private static final int TYPE_S_CORPORATION = 6;
-	private static final int TYPE_NON_PROFIT = 7;
-	public static final int TYPE_BASIC = 8;
-	private static final int TYPE_OTHER_NONE = 99999;
-
-	private static final int INDUSTRY_ACCOUNTING_OR_BOOKKEEPING = 11;
-	private static final int ADVERTISING_OR_private_RELATIONS = 12;
-	private static final int AGRICULTURE_RANCHING_OR_FARMING = 13;
-	private static final int ARTWRITING_OR_PHOTOGRAPHY = 14;
-	private static final int AUTOMOTICE_SALES_OR_REPAIR = 15;
-
-	private static final int CUSTOMER_TYPE_CLIENTS = 45;
-	private static final int CUSTOMER_TYPE_CUSTOMERS = 46;
-	private static final int CUSTOMER_TYPE_DONORS = 47;
-	private static final int CUSTOMER_TYPE_GUESTS = 48;
-	private static final int CUSTOMER_TYPE_MEMBERS = 49;
-	private static final int CUSTOMER_TYPE_PATIENTS = 50;
-	private static final int CUSTOMER_TYPE_TENANTS = 51;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int ACCOUNTING_TYPE_US = 0;
 	public static final int ACCOUNTING_TYPE_UK = 1;
 	public static final int ACCOUNTING_TYPE_INDIA = 2;
-
-	public static final String CHECK = "Check";
-	public static final String CHECK_FOR_UK = "Cheque";
-	public static final String CREDIT_CARD = "Credit Card";
-	public static final String CASH = "Cash";
+	public static final int ACCOUNTING_TYPE_OTHER = 3;
 
 	private Map<String, String> paymentMethods = new HashMap<String, String>();
 
@@ -60,59 +36,59 @@ public class ClientCompany implements IAccounterCore {
 
 	public long companyID;
 
-	String name;
+	private String name;
 
-	String legalName;
+	private String legalName;
 
 	private String registrationNumber;
 
-	String companyEmail;
+	private String companyEmail;
 
-	String companyEmailForCustomers;
+	private String companyEmailForCustomers;
 
 	boolean isConfigured;
 
-	String ein;
+	private String ein;
 
-	int firstMonthOfFiscalYear;
+	private int firstMonthOfFiscalYear;
 
-	int firstMonthOfIncomeTaxYear;
+	private int firstMonthOfIncomeTaxYear;
 
-	int taxForm;
+	private int taxForm;
 
-	long booksClosingDate;
+	private long booksClosingDate;
 
-	int closingDateWarningType;
+	private int closingDateWarningType;
 
-	boolean enableAccountNumbers;
+	private boolean enableAccountNumbers;
 
-	int customerType;
+	private int customerType;
 
-	boolean enableAutoRecall;
+	private boolean enableAutoRecall;
 
 	boolean restartSetupInterviews;
 
-	String taxId;
+	private String taxId;
 
-	int fiscalYearStarting;
+	private int fiscalYearStarting;
 
-	int industry;
+	private int industry;
 
-	long accountsReceivableAccount;
+	private long accountsReceivableAccount;
 
-	long accountsPayableAccount;
+	private long accountsPayableAccount;
 
-	long openingBalancesAccount;
+	private long openingBalancesAccount;
 
-	long retainedEarningsAccount;
+	private long retainedEarningsAccount;
 
-	long otherCashIncomeAccount;
+	private long otherCashIncomeAccount;
 
-	long otherCashExpenseAccount;
+	private long otherCashExpenseAccount;
 
-	long VATliabilityAccount;
+	private long VATliabilityAccount;
 
-	long pendingItemReceiptsAccount;
+	private long pendingItemReceiptsAccount;
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
@@ -142,8 +118,6 @@ public class ClientCompany implements IAccounterCore {
 	String ukNonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
 
 	ClientCompanyPreferences preferences = new ClientCompanyPreferences();
-
-	private List<ClientAddress> addresses;
 
 	private List<ClientAccount> accounts;
 
@@ -973,14 +947,6 @@ public class ClientCompany implements IAccounterCore {
 		return this.companyEmail;
 	}
 
-	public List<ClientAddress> getAddresses() {
-		return this.addresses;
-	}
-
-	// public String getContact() {
-	// return contact;
-	// }
-
 	public void setName(String stringValue) {
 		this.name = stringValue;
 	}
@@ -1007,11 +973,6 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setWebSite(String stringValue) {
 		this.webSite = stringValue;
-	}
-
-	public void setAddresses(List<ClientAddress> addresss) {
-
-		this.addresses = addresss;
 	}
 
 	public void setIndustry(int typeBasic) {
@@ -1110,11 +1071,6 @@ public class ClientCompany implements IAccounterCore {
 	public ClientAccount getAccountByName(String accountName) {
 
 		return Utility.getObjectByName(this.accounts, accountName);
-	}
-
-	public ClientAddress getAddress(long addressId) {
-
-		return Utility.getObject(this.addresses, addressId);
 	}
 
 	public ClientTAXGroup getTaxGroup(long taxGroupId) {
@@ -1238,10 +1194,6 @@ public class ClientCompany implements IAccounterCore {
 
 	public void deleteAccount(long accountId) {
 		this.accounts.remove(this.getAccount(accountId));
-	}
-
-	public void deleteAddress(long addressID) {
-		this.addresses.remove(this.getAddress(addressID));
 	}
 
 	public void deleteTaxGroup(long taxGroup) {
@@ -2043,7 +1995,6 @@ public class ClientCompany implements IAccounterCore {
 	public void getToClientCompany(ClientCompany clientCompany) {
 
 		this.name = clientCompany.name;
-		this.addresses = clientCompany.addresses;
 		this.phone = clientCompany.phone;
 		this.companyEmail = clientCompany.companyEmail;
 		this.legalName = clientCompany.legalName;
