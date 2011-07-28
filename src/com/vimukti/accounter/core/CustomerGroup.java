@@ -102,8 +102,7 @@ public class CustomerGroup extends CreatableObject implements
 		Session session = HibernateUtil.getCurrentSession();
 		CustomerGroup customerGroup = (CustomerGroup) clientObject;
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.CustomerGroup C where C.name=?")
+				.getNamedQuery("getListofNames.from.customerGroup") 
 				.setParameter(0, customerGroup.name);
 		List list = query.list();
 		if (list.size() > 0 && list != null) {

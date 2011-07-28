@@ -987,8 +987,8 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	 */
 	public static void updateEntryMemo(Session session, String oldName,
 			String newName) {
-		session.createQuery(
-				"update com.vimukti.accounter.core.Entry set memo=:newName where memo=:oldName")
+		session.getNamedQuery(
+				"update.Entry.oldNameTo.newName")
 				.setParameter("newName", newName)
 				.setParameter("oldName", oldName).executeUpdate();
 	}

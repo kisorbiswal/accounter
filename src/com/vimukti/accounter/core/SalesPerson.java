@@ -283,8 +283,8 @@ public class SalesPerson extends Payee implements Lifecycle {
 			throws InvalidOperationException {
 		Session session = HibernateUtil.getCurrentSession();
 		SalesPerson salesPerson = (SalesPerson) clientObject;
-		Query query = session.createQuery(
-				"from com.vimukti.accounter.core.SalesPerson S where S.name=?")
+		Query query = session.getNamedQuery(
+				"getName.by.SalesPerson")
 				.setParameter(0, salesPerson.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {

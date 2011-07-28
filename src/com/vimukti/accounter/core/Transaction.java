@@ -1109,9 +1109,8 @@ public abstract class Transaction extends CreatableObject implements
 					"This Transaction  is already voided or Deleted, can't Modify");
 		}
 
-		String query = " from com.vimukti.accounter.core.TAXRateCalculation vr where vr.transactionItem.transaction.id=? and vr.vatReturn is not null";
 		Session session = HibernateUtil.getCurrentSession();
-		Query query2 = session.createQuery(query);
+		Query query2 = session.getNamedQuery("getTaxrate.by.TransactioId.and.Vatreturn");
 		query2.setParameter(0, this.getID());
 		List list = query2.list();
 		if (list != null && list.size() > 0)

@@ -207,8 +207,8 @@ public class TAXAgency extends Payee implements Lifecycle {
 			throws InvalidOperationException {
 		Session session = HibernateUtil.getCurrentSession();
 		TAXAgency taxAgency = (TAXAgency) clientObject;
-		Query query = session.createQuery(
-				"from com.vimukti.accounter.core.TAXAgency V where V.name=?")
+		Query query = session.getNamedQuery(
+				"getTaxAgency.by.Name")
 				.setParameter(0, taxAgency.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {

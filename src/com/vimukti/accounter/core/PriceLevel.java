@@ -132,8 +132,8 @@ public class PriceLevel extends CreatableObject implements
 			throws InvalidOperationException {
 		Session session = HibernateUtil.getCurrentSession();
 		PriceLevel priceLevel = (PriceLevel) clientObject;
-		Query query = session.createQuery(
-				"from com.vimukti.accounter.core.PriceLevel P where P.name=?")
+		Query query = session.getNamedQuery(
+				"getPriceLevel.by.Name")
 				.setParameter(0, priceLevel.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {

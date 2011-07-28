@@ -113,8 +113,8 @@ public class ShippingTerms extends CreatableObject implements
 		Session session = HibernateUtil.getCurrentSession();
 		ShippingTerms shippingTerms = (ShippingTerms) clientObject;
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.ShippingTerms S where S.name=?")
+				.getNamedQuery(
+						"getShippingTerms.by.Name")
 				.setParameter(0, shippingTerms.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {

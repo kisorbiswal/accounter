@@ -124,8 +124,8 @@ public class ShippingMethod extends CreatableObject implements
 		Session session = HibernateUtil.getCurrentSession();
 		ShippingMethod shippingMethod = (ShippingMethod) clientObject;
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.ShippingMethod S where S.name=?")
+				.getNamedQuery(
+						"getShippingmethod.by.Name")
 				.setParameter(0, shippingMethod.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {

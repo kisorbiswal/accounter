@@ -141,8 +141,8 @@ public class TAXGroup extends TAXItemGroup {
 				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 
 			Query query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.TAXCode t where t.id =:id")
+					.getNamedQuery(
+							"getTaxCode.by.id")
 					.setParameter("id", this.id);
 			TAXCode taxCode = (TAXCode) query.uniqueResult();
 			if (taxCode != null) {

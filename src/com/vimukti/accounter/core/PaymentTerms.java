@@ -161,8 +161,8 @@ public class PaymentTerms extends CreatableObject implements
 		Session session = HibernateUtil.getCurrentSession();
 		PaymentTerms paymentTerms = (PaymentTerms) clientObject;
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.PaymentTerms P where P.name=?")
+				.getNamedQuery(
+						"getPaymentTerms.by.Name")
 				.setParameter(0, paymentTerms.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {

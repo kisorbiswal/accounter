@@ -327,8 +327,8 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		super.onSave(session);
 		this.balanceDue = this.total;
 
-		Account pendingItemReceipt = (Account) session.createQuery(
-				"from com.vimukti.accounter.core.Account a where a.name = ?")
+		Account pendingItemReceipt = (Account) session.getNamedQuery(
+				"getNameofAccount.by.Name")
 				.setParameter(0, AccounterConstants.PENDING_ITEM_RECEIPTS)
 				.uniqueResult();
 		if (pendingItemReceipt != null) {

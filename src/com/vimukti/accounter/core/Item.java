@@ -433,8 +433,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			throws InvalidOperationException {
 		Session session = HibernateUtil.getCurrentSession();
 		Item item = (Item) clientObject;
-		Query query = session.createQuery(
-				"from com.vimukti.accounter.core.Item I where I.name=?")
+		Query query = session.getNamedQuery(
+				"getItem.by.Name")
 				.setParameter(0, item.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {

@@ -73,8 +73,7 @@ public class Bank implements IAccounterServerCore {
 			throws InvalidOperationException {
 		Session session = HibernateUtil.getCurrentSession();
 		Bank bank = (Bank) clientObject;
-		Query query = session.createQuery(
-				"from com.vimukti.accounter.core.Bank B where B.name=?")
+		Query query = session.getNamedQuery("getNameofBank.from.Bank")
 				.setParameter(0, bank.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
