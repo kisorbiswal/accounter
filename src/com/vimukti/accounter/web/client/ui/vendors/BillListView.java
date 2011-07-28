@@ -101,7 +101,7 @@ public class BillListView extends BaseListView<BillsList> {
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(Accounter.constants().open());
-		listOfTypes.add(Accounter.constants().Voided());
+		listOfTypes.add(Accounter.constants().voided());
 		listOfTypes.add(Accounter.constants().overDue());
 		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);

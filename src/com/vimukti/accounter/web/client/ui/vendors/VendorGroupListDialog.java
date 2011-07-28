@@ -102,7 +102,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 		inputDlg = new InputDialog(UIUtils.getVendorString(Accounter
 				.constants().supplierGroup(), Accounter.constants()
 				.vendorGroup()), "", UIUtils.getVendorString(Accounter
-				.constants().supplieRGroup(), Accounter.constants()
+				.constants().supplierGroup(), Accounter.constants()
 				.vendorGroup())) {
 			@Override
 			protected String getViewTitle() {

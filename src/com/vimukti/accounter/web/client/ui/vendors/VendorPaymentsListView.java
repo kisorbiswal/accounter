@@ -91,7 +91,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(Accounter.constants().notIssued());
 		listOfTypes.add(Accounter.constants().issued());
-		listOfTypes.add(Accounter.constants().Voided());
+		listOfTypes.add(Accounter.constants().voided());
 		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);
 		if (UIUtils.isMSIEBrowser())

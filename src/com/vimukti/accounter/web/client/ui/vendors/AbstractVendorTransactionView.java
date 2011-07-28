@@ -198,7 +198,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	protected AmountLabel createVATTotalNonEditableItem() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().vat());
+		AmountLabel amountItem = new AmountLabel(Accounter.constants().VAT());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -526,7 +526,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	protected DateField createTransactionDeliveryDateItem() {
 
 		final DateField dateItem = new DateField(Accounter.constants()
-				.deliverydate());
+				.deliveryDate());
 		dateItem.setHelpInformation(true);
 		// dateItem.setTitle("Delivery Date");
 		// dateItem.setUseTextField(true);

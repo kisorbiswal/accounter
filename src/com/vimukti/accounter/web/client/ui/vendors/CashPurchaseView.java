@@ -64,7 +64,7 @@ public class CashPurchaseView extends
 		// setTitle(UIUtils.title(vendorConstants.cashPurchase()));
 
 		titlelabel = new Label(Accounter.constants().cashPurchase());
-		titlelabel.setStyleName(Accounter.constants().lableTitle());
+		titlelabel.setStyleName(Accounter.constants().labelTitle());
 		// titlelabel.setHeight("50px");
 		listforms = new ArrayList<DynamicForm>();
 
@@ -141,11 +141,11 @@ public class CashPurchaseView extends
 		formItems.add(contactCombo);
 		formItems.add(billToCombo);
 
-		payFromCombo = createPayFromCombo(Accounter.constants().Payfrom());
+		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
 		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo() : Accounter.constants().checkno());
+				.constants().chequeNo() : Accounter.constants().checkNo());
 		checkNo.setDisabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
@@ -358,7 +358,7 @@ public class CashPurchaseView extends
 					public void onFailure(Throwable t) {
 						// //UIUtils.logError(
 						// "Failed to get the next check number!!", t);
-						checkNo.setValue(Accounter.constants().Tobeprinted());
+						checkNo.setValue(Accounter.constants().toBePrinted());
 						return;
 					}
 
@@ -601,7 +601,7 @@ public class CashPurchaseView extends
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,
-					Accounter.constants().deliverydate());
+					Accounter.constants().deliveryDate());
 		case 2:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 1:

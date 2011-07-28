@@ -324,7 +324,6 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		// .getAmountAsString(cashDiscount), 5);
 	}
 
-	
 	private ClientVendor getVendorById(long id) {
 		for (ClientVendor temp : vendors) {
 			if (temp.getID() == id)
@@ -338,11 +337,11 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab = new Label(Accounter.constants().PayBill());
+		Label lab = new Label(Accounter.constants().payBill());
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(Accounter.constants().lableTitle());
+		lab.addStyleName(Accounter.constants().labelTitle());
 		// lab.setHeight("50px");
-		date = new DateField(Accounter.constants().Date());
+		date = new DateField(Accounter.constants().date());
 		date.setHelpInformation(true);
 		// date.setUseTextField(true);
 		date.setEnteredDate(new ClientFinanceDate());
@@ -384,7 +383,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 					}
 				});
 
-		payFromCombo = createPayFromCombo(Accounter.constants().Payfrom());
+		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
 		payFromCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		// paymentMethodCombo.setWidth(100);
@@ -453,13 +452,13 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		payForm.setGroupTitle(Accounter.constants().payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
-		amtText = new AmountField(Accounter.constants().Amount());
+		amtText = new AmountField(Accounter.constants().amount());
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		amtText.setDisabled(true);
 
-		endBalText = new AmountField(Accounter.constants().Endingbalance());
+		endBalText = new AmountField(Accounter.constants().endingBalance());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -468,7 +467,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		DynamicForm balForm = new DynamicForm();
 		balForm.setWidth("100%");
 		balForm.setIsGroup(true);
-		balForm.setGroupTitle(Accounter.constants().Balances());
+		balForm.setGroupTitle(Accounter.constants().balances());
 		balForm.setFields(amtText, endBalText);
 
 		Label lab1 = new Label(Accounter.constants().billsDue());

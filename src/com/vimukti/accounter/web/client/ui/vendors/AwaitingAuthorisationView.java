@@ -67,7 +67,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 								.pleaseSelectPayFromAccount());
 				} else {
 					Accounter.showInformation(Accounter.constants()
-							.norecordstoshow());
+							.noRecordsToShow());
 				}
 
 			}
@@ -88,7 +88,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
 				} else {
 					Accounter.showInformation(Accounter.constants()
-							.norecordstoshow());
+							.noRecordsToShow());
 				}
 			}
 		});
@@ -108,7 +108,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 				} else {
 					Accounter.showInformation(Accounter.constants()
-							.norecordstoshow());
+							.noRecordsToShow());
 				}
 			}
 		});

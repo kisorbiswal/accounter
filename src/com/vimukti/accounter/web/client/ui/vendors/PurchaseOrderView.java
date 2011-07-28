@@ -72,10 +72,10 @@ public class PurchaseOrderView extends
 	private TextAreaItem billtoAreaItem;
 	private ShipToForm shipToAddress;
 	private DateField dueDateItem;
-	
+
 	private long dueDate;
 	private long despatchDate;
-	
+
 	private long deliveryDate;
 	DynamicForm amountsForm;
 
@@ -98,10 +98,10 @@ public class PurchaseOrderView extends
 		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .purchaseOrder()));
 		lab1 = new HTML(Accounter.constants().purchaseOrder());
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 
-		statusSelect = new SelectCombo(Accounter.constants().statuS());
+		statusSelect = new SelectCombo(Accounter.constants().status());
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
 		listOfTypes.add(COMPLETED);
@@ -200,7 +200,7 @@ public class PurchaseOrderView extends
 		}
 
 		vendorCombo = new VendorCombo(UIUtils.getVendorString(Accounter
-				.constants().supplieR(), Accounter.constants().vendoR()), true);
+				.constants().supplier(), Accounter.constants().vendor()), true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setHelpInformation(true);
 
@@ -292,7 +292,7 @@ public class PurchaseOrderView extends
 							.getValue();
 					setDueDate(newDate.getTime());
 				} catch (Exception e) {
-					Accounter.showError(Accounter.constants().InvalidDueDate());
+					Accounter.showError(Accounter.constants().invalidDueDate());
 				}
 
 			}
@@ -681,7 +681,6 @@ public class PurchaseOrderView extends
 
 	}
 
-	
 	private void initDeliveryDate() {
 
 		if (transactionObject != null) {

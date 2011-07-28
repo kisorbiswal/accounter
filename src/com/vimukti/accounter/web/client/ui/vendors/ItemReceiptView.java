@@ -587,7 +587,7 @@ public class ItemReceiptView extends
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,
-					Accounter.constants().deliverydate());
+					Accounter.constants().deliveryDate());
 		case 4:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 5:

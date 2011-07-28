@@ -116,7 +116,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		// }
 		// });
 
-		employee = new EmployeeCombo(Accounter.constants().employEe());
+		employee = new EmployeeCombo(Accounter.constants().employee());
 		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
@@ -213,7 +213,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,
-					Accounter.constants().deliverydate());
+					Accounter.constants().deliveryDate());
 		case 2:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 1:

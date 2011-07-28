@@ -659,7 +659,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				.setAttribute(Accounter.constants().width(), "136px");
 
 		vatRegistrationNumber = new TextItem(Accounter.constants()
-				.vatRegistrationNumber());
+				.VATRegistrationNumber());
 		vatRegistrationNumber.setHelpInformation(true);
 		vatRegistrationNumber.setWidth(100);
 		vendorTaxCode = new TAXCodeCombo(UIUtils.getVendorString(Accounter
@@ -679,7 +679,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		DynamicForm vatform = new DynamicForm();
 		vatform.setIsGroup(true);
 		vatform.setWidth("50%");
-		vatform.setGroupTitle(Accounter.constants().vatDetails());
+		vatform.setGroupTitle(Accounter.constants().VATDetails());
 		vatform.setFields(vatRegistrationNumber, vendorTaxCode);
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setSize("100%", "100%");

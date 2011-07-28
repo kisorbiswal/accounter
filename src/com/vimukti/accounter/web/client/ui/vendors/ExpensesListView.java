@@ -78,7 +78,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 		listOfTypes.add(Accounter.constants().cash());
 		listOfTypes.add(Accounter.constants().creditCard());
 		listOfTypes.add(Accounter.constants().employee());
-		listOfTypes.add(Accounter.constants().Voided());
+		listOfTypes.add(Accounter.constants().voided());
 		listOfTypes.add(Accounter.constants().all());
 		currentView.initCombo(listOfTypes);
 

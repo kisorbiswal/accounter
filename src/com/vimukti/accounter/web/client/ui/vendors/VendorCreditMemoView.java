@@ -114,7 +114,7 @@ public class VendorCreditMemoView extends
 				.supplierCredit(), Accounter.constants().vendorCredit())
 				+ "(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		if (transactionObject == null
 				|| transactionObject.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 			lab1 = new Label(UIUtils.getVendorString(Accounter.constants()
@@ -125,7 +125,7 @@ public class VendorCreditMemoView extends
 					.supplierCredit(), Accounter.constants().vendorCredit())
 					+ "(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 
@@ -169,7 +169,7 @@ public class VendorCreditMemoView extends
 		phoneSelect.setWidth(100);
 
 		DynamicForm phoneForm = UIUtils.form(Accounter.constants()
-				.phonenumber());
+				.phoneNumber());
 		phoneForm.setFields(phoneSelect);
 		if (this.transactionObject != null) {
 			// FiXME--The form need to be disabled

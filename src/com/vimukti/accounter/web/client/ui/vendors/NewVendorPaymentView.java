@@ -51,7 +51,7 @@ public class NewVendorPaymentView extends
 	protected boolean isClose;
 	protected String paymentMethod = UIUtils
 			.getpaymentMethodCheckBy_CompanyType(Accounter.constants().check());
-	
+
 	private CheckboxItem thisisVATinclusive;
 
 	boolean isChecked = false;
@@ -140,7 +140,7 @@ public class NewVendorPaymentView extends
 						.vendorPrePayment())
 		// + "(" + getTransactionStatus() + ") "
 		);
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("50px");
 		// transaction date and number
 
@@ -173,14 +173,14 @@ public class NewVendorPaymentView extends
 		billToCombo = createBillToComboItem();
 
 		// Ending and Vendor Balance
-		endBalText = new AmountField(Accounter.constants().Endingbalance());
+		endBalText = new AmountField(Accounter.constants().endingBalance());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
 		vendorBalText = new AmountField(UIUtils.getVendorString(Accounter
 				.constants().supplierBalance(), Accounter.constants()
-				.VendorBalance()));
+				.vendorBalance()));
 		vendorBalText.setHelpInformation(true);
 		vendorBalText.setDisabled(true);
 		vendorBalText.setWidth(100);
@@ -192,9 +192,9 @@ public class NewVendorPaymentView extends
 		forms.add(balForm);
 
 		// Payment
-		payFromCombo = createPayFromCombo(Accounter.constants().Payfrom());
+		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
 		payFromCombo.setPopupWidth("500px");
-		amountText = new AmountField(Accounter.constants().Amount());
+		amountText = new AmountField(Accounter.constants().amount());
 		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
 		amountText.setRequired(true);
@@ -226,7 +226,7 @@ public class NewVendorPaymentView extends
 				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
 						.check()));
 
-		printCheck = new CheckboxItem(Accounter.constants().Tobeprinted());
+		printCheck = new CheckboxItem(Accounter.constants().toBePrinted());
 		printCheck.setValue(true);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -236,12 +236,12 @@ public class NewVendorPaymentView extends
 				if (isChecked) {
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
-						checkNo.setValue(Accounter.constants().Tobeprinted());
+						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
 						if (payFromAccount == null)
 							checkNo.setValueField(Accounter.constants()
-									.Tobeprinted());
+									.toBePrinted());
 						else if (transactionObject != null) {
 							checkNo.setValue(((ClientPayBill) transactionObject)
 									.getCheckNumber());
@@ -256,8 +256,8 @@ public class NewVendorPaymentView extends
 			}
 		});
 		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo() : Accounter.constants().checkno());
-		checkNo.setValue(Accounter.constants().Tobeprinted());
+				.constants().chequeNo() : Accounter.constants().checkNo());
+		checkNo.setValue(Accounter.constants().toBePrinted());
 		checkNo.setWidth(100);
 		checkNo.setDisabled(true);
 		checkNo.addChangeHandler(new ChangeHandler() {
@@ -363,7 +363,7 @@ public class NewVendorPaymentView extends
 			String value;
 			if (checkNo.getValue().toString()
 					.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
-				value = String.valueOf(Accounter.constants().Tobeprinted());
+				value = String.valueOf(Accounter.constants().toBePrinted());
 			} else {
 				value = String.valueOf(checkNo.getValue());
 			}
@@ -459,7 +459,7 @@ public class NewVendorPaymentView extends
 					public void onFailure(Throwable t) {
 						// //UIUtils.logError(
 						// "Failed to get the next check number!!", t);
-						checkNo.setValue(Accounter.constants().Tobeprinted());
+						checkNo.setValue(Accounter.constants().toBePrinted());
 						return;
 					}
 
@@ -700,7 +700,7 @@ public class NewVendorPaymentView extends
 		paymentMethodCombo.setDisabled(isEdit);
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNo.setValue(Accounter.constants().Tobeprinted());
+			checkNo.setValue(Accounter.constants().toBePrinted());
 			checkNo.setDisabled(true);
 		}
 		memoTextAreaItem.setDisabled(false);

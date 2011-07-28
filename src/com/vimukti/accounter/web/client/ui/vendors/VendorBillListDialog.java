@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 
-
 public class VendorBillListDialog extends AbstractBaseDialog {
 
 	private VendorBillView view;
@@ -65,7 +64,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
-		grid.addColumns(Accounter.constants().Date(), Accounter.constants()
+		grid.addColumns(Accounter.constants().date(), Accounter.constants()
 				.no(), Accounter.constants().type(), UIUtils.getVendorString(
 				Accounter.constants().supplierName(), Accounter.constants()
 						.vendorName()), Accounter.constants().total(),
@@ -257,7 +256,7 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 				grid.addData(rec);
 			}
 		} else
-			grid.addEmptyMessage(Accounter.constants().norecordstoshow());
+			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
 	}
 
 	public Object getGridColumnValue(IsSerializable obj, int index) {

@@ -300,7 +300,7 @@ public class VendorBillView extends
 		// else
 		// lab1 = new Label("Enter Bill(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(Accounter.constants().lableTitle());
+		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem.setTitle(Accounter.constants().billDate());

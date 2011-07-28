@@ -171,7 +171,7 @@ public class CashExpenseView extends CashPurchaseView {
 		case 3:
 			return AccounterValidator.validate_dueOrDelivaryDates(
 					deliveryDateItem.getEnteredDate(), this.transactionDate,
-					Accounter.constants().deliverydate());
+					Accounter.constants().deliveryDate());
 		case 2:
 			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
 		case 1:

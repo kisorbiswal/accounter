@@ -80,7 +80,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
 				} else {
 					Accounter.showInformation(Accounter.constants()
-							.norecordstoshow());
+							.noRecordsToShow());
 				}
 
 			}
@@ -100,7 +100,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 				} else {
 					Accounter.showInformation(Accounter.constants()
-							.norecordstoshow());
+							.noRecordsToShow());
 				}
 			}
 		});
@@ -187,7 +187,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 								grid.addData(list);
 						} else {
 							grid.addEmptyMessage(Accounter.constants()
-									.norecordstoshow());
+									.noRecordsToShow());
 						}
 
 					}
