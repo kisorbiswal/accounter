@@ -28,11 +28,9 @@ public class TransactionIssuePaymentGrid extends
 	@Override
 	protected String[] getColumns() {
 		// addFooterValue("Total", 3);
-		return new String[] { Accounter.constants().Date(),
-				Accounter.constants().number(),
-				Accounter.constants().name(),
-				Accounter.constants().memo(),
-				Accounter.constants().amount(),
+		return new String[] { Accounter.constants().date(),
+				Accounter.constants().number(), Accounter.constants().name(),
+				Accounter.constants().memo(), Accounter.constants().amount(),
 				Accounter.constants().paymentMethod() };
 	}
 
@@ -81,8 +79,7 @@ public class TransactionIssuePaymentGrid extends
 			return DataUtils.getAmountAsString(issuepayment.getAmount());
 		case 5:
 			return issuepayment.getPaymentMethod() != null ? issuepayment
-					.getPaymentMethod() : Accounter.constants()
-					.check();
+					.getPaymentMethod() : Accounter.constants().check();
 		default:
 			return null;
 		}

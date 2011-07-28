@@ -71,8 +71,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 				colArray[index] = Accounter.constants().active();
 				break;
 			case 1:
-				colArray[index] = Accounter.constants()
-						.customeRName();
+				colArray[index] = Accounter.constants().customerName();
 				break;
 			case 2:
 				colArray[index] = Accounter.constants().currentMonth();
@@ -115,7 +114,6 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 	}
 
-	
 	private int getCurrentMonth() {
 		return new ClientFinanceDate().getMonth();
 	}
@@ -242,7 +240,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	public boolean validateGrid() {
-		//NOTHING TO DO
+		// NOTHING TO DO
 		return true;
 	}
 

@@ -33,9 +33,8 @@ public class DepreciationTreeGrid extends
 		case 1:
 			return DataUtils.getAmountAsString(obj.getAmountToBeDepreciated());
 		case 2:
-			return obj.getAssetAccount() != 0 ? Accounter
-					.getCompany().getAccount(obj.getAssetAccount()).getName()
-					: "";
+			return obj.getAssetAccount() != 0 ? Accounter.getCompany()
+					.getAccount(obj.getAssetAccount()).getName() : "";
 		default:
 			return "";
 		}
@@ -43,12 +42,9 @@ public class DepreciationTreeGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] {
-				Accounter.constants().Account(),
-				Accounter.constants()
-						.AmounttobeDepreciated(),
-				Accounter.constants()
-						.AccumulatedDepreciationAccount() };
+		return new String[] { Accounter.constants().account(),
+				Accounter.constants().amounttobeDepreciated(),
+				Accounter.constants().accumulatedDepreciationAccount() };
 	}
 
 	@Override
@@ -59,8 +55,8 @@ public class DepreciationTreeGrid extends
 	/* This method sets the columnvalues for parent row */
 	public void addParentOrEdit(int col, int row, String string) {
 		if (col == 0) {
-			addParent(string, Accounter.getFinanceMenuImages()
-					.newAccount().getURL());
+			addParent(string, Accounter.getFinanceMenuImages().newAccount()
+					.getURL());
 		} else {
 			this.setText(row, col, string);
 		}

@@ -112,7 +112,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	protected String[] getColumns() {
 		customerConstants = Accounter.constants();
 		return new String[] { customerConstants.date(), customerConstants.no(),
-				customerConstants.customeRName(), customerConstants.phone(),
+				customerConstants.customerName(), customerConstants.phone(),
 				customerConstants.salesPerson(),
 				customerConstants.expirationDate(),
 				customerConstants.deliveryDate(),

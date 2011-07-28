@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class SaleTaxCodeGrid extends ListGrid<ClientTaxRates> {
-	
+
 	private List<Integer> cellsWidth = new ArrayList<Integer>();
 	private AddEditSalesTaxCodeView saleTaxCodeView;
 
@@ -58,7 +58,7 @@ public class SaleTaxCodeGrid extends ListGrid<ClientTaxRates> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().rate(),
-				Accounter.constants().asof(), "" };
+				Accounter.constants().asOf(), "" };
 	}
 
 	@Override

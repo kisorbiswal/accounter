@@ -126,8 +126,8 @@ public class VendorTransactionUSGrid extends
 		setSize("100%", "200px");
 
 		// Passing 1 for Customer, 2 For Vendor For Item View- Raj Vimal
-		serviceItemCombo = new ServiceCombo(Accounter.constants()
-				.item(), 2, isAddNewRequired);
+		serviceItemCombo = new ServiceCombo(Accounter.constants().item(), 2,
+				isAddNewRequired);
 		serviceItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItem>() {
 
@@ -164,8 +164,8 @@ public class VendorTransactionUSGrid extends
 				});
 		serviceItemCombo.setGrid(this);
 
-		productItemCombo = new ProductCombo(Accounter.constants()
-				.product(), 2, isAddNewRequired);
+		productItemCombo = new ProductCombo(Accounter.constants().product(), 2,
+				isAddNewRequired);
 		productItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItem>() {
 
@@ -202,8 +202,8 @@ public class VendorTransactionUSGrid extends
 				});
 		productItemCombo.setGrid(this);
 
-		accountsCombo = new PurchaseAccountsCombo(Accounter
-				.constants().Accounts(), isAddNewRequired);
+		accountsCombo = new PurchaseAccountsCombo(Accounter.constants()
+				.accounts(), isAddNewRequired);
 		accountsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -986,7 +986,6 @@ public class VendorTransactionUSGrid extends
 		return true;
 	}
 
-	
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionItem obj,
 			int colIndex) {

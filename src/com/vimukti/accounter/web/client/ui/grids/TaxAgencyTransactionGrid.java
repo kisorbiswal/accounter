@@ -24,7 +24,6 @@ public class TaxAgencyTransactionGrid extends
 		super(false, true);
 	}
 
-	
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionItem obj,
 			int colIndex) {
@@ -95,7 +94,7 @@ public class TaxAgencyTransactionGrid extends
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().taxItem(),
 				Accounter.constants().taxAgency(),
-				Accounter.constants().amounttopay(), "" };
+				Accounter.constants().amountToPay(), "" };
 	}
 
 	@Override
@@ -240,7 +239,6 @@ public class TaxAgencyTransactionGrid extends
 		updateData(item);
 	}
 
-	
 	public void updateTotals() {
 
 		List<ClientTransactionItem> allrecords = (List<ClientTransactionItem>) (ArrayList) getRecords();

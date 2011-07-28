@@ -65,7 +65,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		customerConstants = Accounter.constants();
 		return new String[] { customerConstants.type(),
 				customerConstants.paymentDate(), customerConstants.no(),
-				customerConstants.customeRName(),
+				customerConstants.customerName(),
 				customerConstants.paymentMethod(),
 				customerConstants.amountPaid(), customerConstants.voided()
 		// , ""
@@ -104,8 +104,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	private void showWarningDialog(final ReceivePaymentsList obj, final int col) {
 		String msg = null;
 		if (col == 6 && !obj.isVoided()) {
-			msg = Accounter.constants()
-					.doyouwanttoVoidtheTransaction();
+			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 7) {
 		// msg = "Do you want to Delete the Transaction";

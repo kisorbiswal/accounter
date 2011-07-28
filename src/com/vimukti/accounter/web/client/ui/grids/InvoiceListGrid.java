@@ -86,7 +86,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		customerConstants = Accounter.constants();
 		return new String[] { customerConstants.type(),
 				customerConstants.date(), customerConstants.no(),
-				customerConstants.customeRName(), customerConstants.dueDate(),
+				customerConstants.customerName(), customerConstants.dueDate(),
 				customerConstants.netPrice(), customerConstants.totalPrice(),
 				customerConstants.balance(), customerConstants.voided()
 		// , ""
@@ -96,8 +96,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	@Override
 	public void onDoubleClick(InvoicesList obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(obj.getType(), obj
-					.getTransactionId());
+			ReportsRPC.openTransactionView(obj.getType(),
+					obj.getTransactionId());
 	}
 
 	protected void onClick(InvoicesList obj, int row, int col) {
@@ -118,8 +118,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	private void showWarningDialog(final InvoicesList obj, final int col) {
 		String msg = null;
 		if (!obj.isVoided() && col == 8) {
-			msg = Accounter.constants()
-					.doyouwanttoVoidtheTransaction();
+			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";

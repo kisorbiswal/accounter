@@ -31,7 +31,7 @@ public class VatCodeGrid extends ListGrid<ClientTaxRates> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().rate(),
-				Accounter.constants().asof() };
+				Accounter.constants().asOf() };
 	}
 
 	/**

@@ -38,8 +38,8 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 	}
 
 	private void createControls() {
-		accountsCombo = new FixedAssetAccountCombo(Accounter
-				.constants().accounts());
+		accountsCombo = new FixedAssetAccountCombo(Accounter.constants()
+				.accounts());
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
 		accountsCombo
@@ -101,11 +101,9 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] {
-				Accounter.constants().account(),
-				Accounter.constants().AmounttobeDepreciated(),
-				Accounter.constants()
-						.AccumulatedDepreciationAccount() };
+		return new String[] { Accounter.constants().account(),
+				Accounter.constants().amounttobeDepreciated(),
+				Accounter.constants().accumulatedDepreciationAccount() };
 	}
 
 	@Override
@@ -155,7 +153,6 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 		// NOTHING TO DO
 	}
 
-	
 	@Override
 	protected void addOrEditSelectBox(ClientDepreciationDummyEntry obj,
 			Object value) {
@@ -167,7 +164,6 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 			super.addOrEditSelectBox(obj, value);
 	}
 
-	
 	private CustomCombo getCustomCombo(ClientDepreciationDummyEntry obj,
 			int currentCol) {
 		if (currentCol == 2)
