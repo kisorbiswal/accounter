@@ -899,11 +899,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			String className = this.getClass().getName();
 			if (this.flow == null) {
 				if (this.parent == null) {
-					List l = session.createQuery(
-							"select a.flow from " + className
-									+ " a where a.id= (select max(a1.id) from "
-									+ className
-									+ " a1 where a1.parent is null)").list();
+					List l = session.getNamedQuery(
+							"getFlow.by.Id.from.Account").list();
 					if (l != null && l.size() > 0) {
 						int count = Integer.parseInt((String) l.get(0));
 						count++;
@@ -914,9 +911,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 					}
 				} else {
 					List l = session
-							.createQuery(
-									"select count(*) from " + className
-											+ " a where a.parent=:parent")
+							.getNamedQuery(
+									"getCount.from.Account.and.parent")
 							.setParameter("parent", this.parent).list();
 					if (l != null) {
 						long count = (Long) l.get(0);
@@ -1069,8 +1065,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				// this.oldParent.getID()).setParameter("flow", oldFlow);
 
 				Query query1 = session
-						.createQuery(
-								"from com.vimukti.accounter.core.Account a where a.parent=:parent and a.flow !=:flow order by a.id")
+						.getNamedQuery("getFlowList.form.Account.byId") 
 						.setParameter("parent", this.oldParent)
 						.setParameter("flow", oldFlow);
 				List<Account> l2 = query1.list();
@@ -1279,8 +1274,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	protected void updateEntryMemo(Session session) {
 
 		Query query = session
-				.createQuery(
-						"select a.name from com.vimukti.accounter.core.Account a where a.id=:id")
+				.getNamedQuery("get.name.fromAccount.byId") 
 				.setParameter("id", this.getID());
 		String accountName = (String) query.uniqueResult();
 
