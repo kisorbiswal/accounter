@@ -128,8 +128,7 @@ public class TextItem extends FormItem {
 	}
 
 	public void setDefaultValue(int i) {
-		// TODO currently not using this method
-
+		// NOTHING TO DO.
 	}
 
 	// void helpimformationsetposition(){
