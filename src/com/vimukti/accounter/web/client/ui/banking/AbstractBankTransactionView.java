@@ -121,8 +121,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	public AmountField createBalanceText() {
 
-		AmountField balText = new AmountField(Accounter.constants()
-				.balance());
+		AmountField balText = new AmountField(Accounter.constants().balance());
 		// balText.setWidth("*");
 
 		balText.setDisabled(isEdit);
@@ -134,21 +133,18 @@ public abstract class AbstractBankTransactionView<T> extends
 	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().accounts(),
-					Accounter.constants().service(), Accounter
-							.constants().product());
+			setMenuItems(button, Accounter.constants().accounts(), Accounter
+					.constants().service(), Accounter.constants().product());
 		else
-			setMenuItems(button, Accounter.constants().accounts(),
-					Accounter.constants().service(), Accounter
-							.constants().product());
+			setMenuItems(button, Accounter.constants().accounts(), Accounter
+					.constants().service(), Accounter.constants().product());
 		// FinanceApplication.constants().comment());
 
 	}
 
 	public AmountField createAmountText() {
 
-		AmountField amtText = new AmountField(Accounter.constants()
-				.amount());
+		AmountField amtText = new AmountField(Accounter.constants().amount());
 		// amtText.setWidth("*");
 
 		amtText.setColSpan(1);
@@ -163,8 +159,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter
-				.constants().vat());
+		AmountField amountItem = new AmountField(Accounter.constants().vat());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -173,8 +168,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter
-				.constants().vat());
+		AmountLabel amountItem = new AmountLabel(Accounter.constants().vat());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -190,7 +184,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 		payFrmSelect.initCombo(listOfAccounts);
 		payFrmSelect.setAccountTypes(UIUtils
-		 .getOptionsByType(AccountCombo.PAY_FROM_COMBO));
+				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
 		payFrmSelect.setAccounts();
 		payFrmSelect.setDisabled(isEdit);
 
@@ -206,8 +200,8 @@ public abstract class AbstractBankTransactionView<T> extends
 	}
 
 	public PayFromAccountsCombo createPayFromselectItem() {
-		PayFromAccountsCombo payFrmSelect = new PayFromAccountsCombo(
-				bankingConstants.paymentFrom());
+		PayFromAccountsCombo payFrmSelect = new PayFromAccountsCombo(Accounter
+				.constants().paymentFrom());
 		payFrmSelect.setHelpInformation(true);
 		payFrmSelect.setRequired(true);
 		// payFrmSelect.setWidth("*");
@@ -233,8 +227,8 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	public AddressCombo createBillToComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(Accounter
-				.constants().billTo(), false);
+		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
+				.billTo(), false);
 
 		addressCombo.setHelpInformation(true);
 
@@ -310,8 +304,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected AmountField createTransactionTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter
-				.constants().total());
+		AmountField amountItem = new AmountField(Accounter.constants().total());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -320,8 +313,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected AmountLabel createTransactionTotalNonEditableLabel() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter
-				.constants().total());
+		AmountLabel amountItem = new AmountLabel(Accounter.constants().total());
 		amountItem.setDisabled(true);
 
 		return amountItem;
