@@ -83,7 +83,7 @@ public class InvoiceBrandingView<T> extends
 		titleLabel = new Label(messages.invoiceBrandingLabel());
 		titleLabel.removeStyleName("gwt-Label");
 
-		titleLabel.setStyleName(Accounter.constants().lableTitle());
+		titleLabel.setStyleName(Accounter.constants().labelTitle());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override

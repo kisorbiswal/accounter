@@ -124,7 +124,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 		titleLabel = new Label(Accounter.constants().usersTitle());
 
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.setStyleName(Accounter.constants().lableTitle());
+		titleLabel.setStyleName(Accounter.constants().labelTitle());
 
 		inviteUserButton = new AccounterButton("Invite a User");
 		inviteUserButton.addClickHandler(new ClickHandler() {

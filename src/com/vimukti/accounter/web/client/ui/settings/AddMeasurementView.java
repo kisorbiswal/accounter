@@ -99,9 +99,9 @@ public class AddMeasurementView extends BaseView {
 		addMeasurmentForm = new DynamicForm();
 		defaultForm = new DynamicForm();
 		initGrid();
-		nameItem = new TextItem(settingsMessages.getMeasurmentName());
+		nameItem = new TextItem(settingsMessages.measurementName());
 		nameItem.setRequired(true);
-		description = new TextItem(settingsMessages.getMeasurmentDescription());
+		description = new TextItem(settingsMessages.measurementDescription());
 		AccounterButton addUnitButton = new AccounterButton();
 		addUnitButton.setText(settingsMessages.getAddUnitButton());
 		addUnitButton.addClickHandler(new ClickHandler() {

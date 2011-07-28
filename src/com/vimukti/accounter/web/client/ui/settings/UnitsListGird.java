@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -18,8 +17,8 @@ public class UnitsListGird extends ListGrid<Measurement> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.getMeasurmentName(),
-				messages.getMeasurmentDescription(), messages.getUnitName() };
+		return new String[] { messages.measurementName(),
+				messages.measurementDescription(), messages.getUnitName() };
 	}
 
 	@Override
