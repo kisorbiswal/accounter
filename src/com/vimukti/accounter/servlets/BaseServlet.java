@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Activation;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -76,9 +78,25 @@ public class BaseServlet extends HttpServlet {
 
 	}
 
-	protected void dispatchMessage(String string, HttpServletRequest req,
+	protected void dispatchMessage(String message, HttpServletRequest req,
 			HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 
 	}
+
+	protected void saveEntry(Object object) {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void deleteEntry(Activation activation) {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected Client getClient(String emailId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
