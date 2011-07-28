@@ -1,5 +1,9 @@
 package com.vimukti.accounter.servlets;
 
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +30,8 @@ public class BaseServlet extends HttpServlet {
 	 */
 	protected static final long serialVersionUID = 1L;
 	protected static final String LOCAL_DATABASE = "accounter";
+	private static final int MAIL_ID = 0;
+	private static final int NAME = 1;
 
 	protected String getCompanyName(HttpServletRequest req) {
 		return null;
@@ -66,31 +72,42 @@ public class BaseServlet extends HttpServlet {
 		return null;
 	}
 
-	protected boolean isValidInputs(String... inputs) {
-		// TODO Auto-generated method stub
+	protected boolean isValidInputs(int inputType, String value) {
+		switch(inputType){
+		case MAIL_ID: //TODO
+			break;
+		case NAME: //TODO
+			break;
+			
+		}
 		return false;
 	}
 
 	protected void redirect(HttpServletRequest req, HttpServletResponse resp,
-			String page) {
-		// TODO Auto-generated method stub
+			String page) throws ServletException, IOException {
+		RequestDispatcher reqDispatcher = getServletContext()
+				.getRequestDispatcher(page);
+		reqDispatcher.forward(req, resp);
 
 	}
 
 	protected void dispatchMessage(String message, HttpServletRequest req,
-			HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-
+			HttpServletResponse resp, String page) throws ServletException, IOException {
+		req.setAttribute("message", message);
+		redirect(req, resp, page);
 	}
 
 	protected void saveEntry(Object object) {
-		// TODO Auto-generated method stub
-
+		Session session = HibernateUtil.getCurrentSession();
+		session.save(object);
+		session.close();
 	}
 
 	protected Client getClient(String emailId) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = HibernateUtil.getCurrentSession();
+		Client client = (Client) session.getNamedQuery("getClient.by.mailId").setString(EMAIL_ID, emailId).uniqueResult();
+		session.close();
+		return client;
 	}
 
 }
