@@ -57,7 +57,7 @@ public class CheckDetailReportView extends
 		return new String[] { "", Accounter.constants().number(),
 				Accounter.constants().date(),
 				Accounter.constants().name(),
-				Accounter.constants().acount(),
+				Accounter.constants().account(),
 				Accounter.constants().amount() };
 	}
 
