@@ -61,10 +61,11 @@ public class TransferFundsDialog extends BaseDialog {
 
 	private Double transferAmount = 0D;
 	private AccounterButton editButton;
+	public boolean isValidatedTransferAmount = false;
 
 	public TransferFundsDialog(Object data) {
-		super(Accounter.constants().transferFunds(), Accounter
-				.constants().toTransferFunds());
+		super(Accounter.constants().transferFunds(), Accounter.constants()
+				.toTransferFunds());
 		createControls();
 		addAccountsNameToList();
 		addAccountsName2ToList();
