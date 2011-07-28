@@ -275,7 +275,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		return true;
 	}
 
-	
 	private VerticalPanel getGeneralTab() {
 		vendorNameText = new TextItem(
 				UIUtils.getVendorString(Accounter.constants().supplierName(),
@@ -308,7 +307,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
 		accInfoForm.setWidth("100%");
-		accInfoForm.setGroupTitle(Accounter.constants().accountinformation());
+		accInfoForm.setGroupTitle(Accounter.constants().accountInformation());
 
 		statusCheck = new CheckboxItem(Accounter.constants().active());
 		statusCheck.setValue(true);
@@ -321,7 +320,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		balanceText = new AmountField(Accounter.constants().balance());
 		balanceText.setHelpInformation(true);
-		balanceDate = new DateField(Accounter.constants().balanceasof());
+		balanceDate = new DateField(Accounter.constants().balanceAsOf());
 		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
 		todaydate.setDate(todaydate.getDate());
@@ -553,7 +552,7 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 				});
 
-		creditLimitText = new AmountField(Accounter.constants().creditlimit());
+		creditLimitText = new AmountField(Accounter.constants().creditLimit());
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 
@@ -591,10 +590,10 @@ public class VendorView extends BaseView<ClientVendor> {
 						selectPaymentTermFromDetailsTab = selectItem;
 					}
 				});
-		accountText = new TextItem(Accounter.constants().accountno());
+		accountText = new TextItem(Accounter.constants().accountNo());
 		accountText.setHelpInformation(true);
 
-		bankNameText = new TextItem(Accounter.constants().bankname());
+		bankNameText = new TextItem(Accounter.constants().bankName());
 		bankNameText.setHelpInformation(true);
 		bankBranchText = new TextItem(Accounter.constants().bankBranch());
 		bankBranchText.setHelpInformation(true);
