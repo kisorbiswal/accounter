@@ -24,10 +24,10 @@ public class BankingHomeAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.view;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -50,10 +50,10 @@ public class BankingHomeAction extends Action {
 		return Accounter.getFinanceMenuImages().bankingHome();
 	}
 
-	@Override
-	public String getImageUrl() {		
-		return "/images/banking_home.png";
-	}
+//	@Override
+//	public String getImageUrl() {		
+//		return "/images/banking_home.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

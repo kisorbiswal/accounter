@@ -24,7 +24,7 @@ public class MakeDepositAction extends Action {
 
 	public MakeDepositAction(String text, String iconString,
 			ClientMakeDeposit makeDeposit, AsyncCallback<Object> callback) {
-		super(text, iconString, makeDeposit, callback);
+		super(text, iconString);
 		this.catagory = Accounter.constants().banking();
 
 	}
@@ -58,10 +58,10 @@ public class MakeDepositAction extends Action {
 		});
 	}
 
-	@Override
-	public ParentCanvas<?> getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas<?> getView() {
+//		return this.view;
+//	}
 
 	public ImageResource getBigImage() {
 		return null;
@@ -71,11 +71,11 @@ public class MakeDepositAction extends Action {
 		return Accounter.getFinanceMenuImages().makeDeposit();
 	}
 
-	@Override
-	public String getImageUrl() {
-
-		return "/images/make_deposit.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//
+//		return "/images/make_deposit.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {
