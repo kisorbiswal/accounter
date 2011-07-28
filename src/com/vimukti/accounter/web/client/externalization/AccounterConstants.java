@@ -19,8 +19,6 @@ public interface AccounterConstants extends Constants {
 
 	public String account();
 
-	public String Account();
-
 	public String accountantTransfer();
 
 	public String accounter();
@@ -34,8 +32,6 @@ public interface AccounterConstants extends Constants {
 	public String accountInformation();
 
 	public String accountName();
-
-	public String AccountName();
 
 	public String accountno();
 
@@ -95,8 +91,6 @@ public interface AccounterConstants extends Constants {
 
 	public String accumulatedDepreciationAccount();
 
-	public String AccumulatedDepreciationAccount();
-
 	public String accumulatedDepreciationTo();
 
 	public String acount();
@@ -106,8 +100,6 @@ public interface AccounterConstants extends Constants {
 	public String active();
 
 	public String add();
-
-	public String Add();
 
 	public String addanewAccount();
 
@@ -199,8 +191,6 @@ public interface AccounterConstants extends Constants {
 	public String addNewExpense();
 
 	public String addNewItem();
-
-	public String addNewItm();
 
 	public String addNewJournalEntry();
 
@@ -308,8 +298,6 @@ public interface AccounterConstants extends Constants {
 
 	public String amount();
 
-	public String Amount();
-
 	public String amountCanNotBeNegative();
 
 	// -----------
@@ -335,15 +323,11 @@ public interface AccounterConstants extends Constants {
 
 	public String amountShouldNotBeNegative();
 
-	public String AmounttobeDepreciated();
-
-	public String amounttopay();
+	public String amounttobeDepreciated();
 
 	public String amountToPay();
 
 	public String amountToReceive();
-
-	public String amounttouse();
 
 	public String amountToUse();
 
@@ -367,11 +351,7 @@ public interface AccounterConstants extends Constants {
 
 	public String appliedCredits();
 
-	public String applyCreditAndPayments();
-
 	public String applyCreditsandPayments();
-
-	public String applyCreditsAndPayments();
 
 	public String applyCreditsAndPaymentsFor();
 
@@ -397,11 +377,7 @@ public interface AccounterConstants extends Constants {
 
 	public String arrangeBy();
 
-	public String asof();
-
 	public String asOf();
-
-	public String Asof();
 
 	public String asset();
 
@@ -447,23 +423,17 @@ public interface AccounterConstants extends Constants {
 
 	public String balance();
 
-	public String balanceasof();
-
 	public String balanceAsOf();
 
 	public String balanceDue();
 
 	public String balances();
 
-	public String Balances();
-
 	public String balanceSheet();
 
 	public String balanceShouldBeInTheRange();
 
 	public String bank();
-
-	public String bankaccount();
 
 	public String bankAccount();
 
