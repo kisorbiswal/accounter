@@ -266,7 +266,6 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		// TODO
 
 	}
 
