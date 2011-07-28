@@ -3,12 +3,20 @@ package com.vimukti.accounter.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+
 /**
  * 
  * @author Srikanth.J
  * 
  */
-public class Measurement {
+public class Measurement implements IAccounterCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7577766657090924655L;
 
 	private Unit defaultUnit;
 
@@ -18,10 +26,6 @@ public class Measurement {
 
 	private String name;
 	private Set<Unit> units;
-
-	public void setUnits(Set<Unit> units) {
-		this.units = units;
-	}
 
 	public Measurement() {
 		units = new HashSet<Unit>();
@@ -126,6 +130,38 @@ public class Measurement {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+	@Override
+	public String getClientClassSimpleName() {
+		// TODO Auto-generated method stub
+		return "Measurement";
+	}
+
+	@Override
+	public void setID(long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long getID() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
