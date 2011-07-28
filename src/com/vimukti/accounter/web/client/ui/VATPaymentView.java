@@ -109,7 +109,7 @@ public class VATPaymentView extends
 		amount.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// amount.setTextAlign(Alignment.RIGHT);
 
-		vatBalance = new AmountField(Accounter.constants().vatBalance());
+		vatBalance = new AmountField(Accounter.constants().VATBalance());
 		// vatBalance.setWidth("*");
 		// vatBalance.setTextAlign(Alignment.RIGHT);
 		vatBalance.setDisabled(true);

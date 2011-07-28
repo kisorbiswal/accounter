@@ -241,7 +241,7 @@ public class ReportsActionFactory extends AbstractActionFactory {
 
 	public static VATDetailsReportAction getVATDetailsReportAction() {
 		return new VATDetailsReportAction(Accounter
-				.constants().vatDetail());
+				.constants().VATDetail());
 	}
 
 	public static VATSummaryReportAction getVATSummaryReportAction() {

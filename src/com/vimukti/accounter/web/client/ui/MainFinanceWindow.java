@@ -266,7 +266,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		}
 		vatmenu.addSeparator();
 
-		vatmenu.addItem(Accounter.constants().vatList(),
+		vatmenu.addItem(Accounter.constants().VATList(),
 				getVATsListMenu());
 
 		return vatmenu;

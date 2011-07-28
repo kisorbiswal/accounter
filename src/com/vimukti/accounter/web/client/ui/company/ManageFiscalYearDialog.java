@@ -317,7 +317,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			// }
 		} else {
 			Accounter.showInformation(Accounter.constants()
-					.SelectAnyOfTheFiscalYearFromList());
+					.selectAnyOfTheFiscalYearFromList());
 		}
 	}
 

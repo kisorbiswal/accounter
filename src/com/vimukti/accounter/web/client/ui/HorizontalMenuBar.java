@@ -449,7 +449,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		}
 		vatmenu.addSeparator();
 
-		vatmenu.addItem(Accounter.constants().vatList(),
+		vatmenu.addItem(Accounter.constants().VATList(),
 				getVATsListMenu());
 
 		return vatmenu;
