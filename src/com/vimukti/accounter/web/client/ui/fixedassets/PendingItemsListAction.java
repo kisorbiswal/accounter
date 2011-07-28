@@ -36,7 +36,7 @@ public class PendingItemsListAction extends Action {
 		return Accounter.getFinanceMenuImages().pendingItemsList();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.view;

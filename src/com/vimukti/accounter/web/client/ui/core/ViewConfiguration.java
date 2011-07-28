@@ -46,7 +46,7 @@ public class ViewConfiguration {
 		return title != null ? title : "";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	List<AbstractBaseView> historyList = new ArrayList<AbstractBaseView>();
 
 	/**
@@ -145,7 +145,7 @@ public class ViewConfiguration {
 	/**
 	 * @return the historyList
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public List<AbstractBaseView> getHistoryList() {
 		return historyList;
 	}
@@ -154,7 +154,7 @@ public class ViewConfiguration {
 	 * @param historyList
 	 *            the historyList to set
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public void setHistoryList(List<AbstractBaseView> historyList) {
 		this.historyList = historyList;
 	}

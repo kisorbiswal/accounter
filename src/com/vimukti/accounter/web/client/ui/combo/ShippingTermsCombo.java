@@ -28,7 +28,7 @@ public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 			return "";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void onAddNew() {
 		ShippingTermListDialog shippingTermDialog = new ShippingTermListDialog(

@@ -23,7 +23,7 @@ public class PortalLayout extends VerticalPanel {
 	// private Timer timer;
 	ClientUser user;
 
-	@SuppressWarnings("unchecked")
+	
 	public PortalLayout(AbstractBaseView parent, int numColumns) {
 		setSize("100%", "100%");
 		if (parent instanceof CustomerSectionHomeView) {

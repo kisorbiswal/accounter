@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.VATDetailServerReportVi
  * @author Murali.A
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class VATDetailReportView extends AbstractReportView<VATDetail> {
 
 	public VATDetailReportView() {

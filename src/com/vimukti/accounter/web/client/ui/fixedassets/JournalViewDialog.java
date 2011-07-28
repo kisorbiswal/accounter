@@ -211,7 +211,7 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 	 * This method for getting corresponding Combo to display in DisposalJournal
 	 * Form
 	 */
-	@SuppressWarnings("unchecked")
+	
 	private CustomCombo getCombo(String keyValue) {
 		if (keyValue
 				.equals(Accounter.constants().lossOnDisposal())) {

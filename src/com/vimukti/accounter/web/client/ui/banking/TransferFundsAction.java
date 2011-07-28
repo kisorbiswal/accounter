@@ -47,7 +47,7 @@ public class TransferFundsAction extends Action {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 

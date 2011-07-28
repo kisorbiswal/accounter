@@ -49,7 +49,7 @@ public class SalesTaxLiabilityAction extends Action {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 

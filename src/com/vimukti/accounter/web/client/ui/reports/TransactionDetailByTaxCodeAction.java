@@ -51,7 +51,7 @@ public class TransactionDetailByTaxCodeAction extends Action {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// not required for this class

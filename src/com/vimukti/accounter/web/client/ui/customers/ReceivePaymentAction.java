@@ -61,7 +61,7 @@ public class ReceivePaymentAction extends Action {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.view;

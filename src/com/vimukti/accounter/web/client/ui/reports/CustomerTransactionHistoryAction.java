@@ -55,7 +55,7 @@ public class CustomerTransactionHistoryAction extends Action {
 		runAsync(data, dependent);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.report;

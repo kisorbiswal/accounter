@@ -53,7 +53,7 @@ public class BalanceSheetAction extends Action {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// its not using any where return null;

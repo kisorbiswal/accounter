@@ -56,7 +56,7 @@ public class NewCustomerAction extends Action {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.view;

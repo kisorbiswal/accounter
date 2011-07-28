@@ -28,7 +28,7 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandl
  * 
  */
 
-@SuppressWarnings("unchecked")
+
 public class SalesTaxGroupDialog extends BaseDialog {
 
 	protected InputDialogHandler addInputDialogHandler;

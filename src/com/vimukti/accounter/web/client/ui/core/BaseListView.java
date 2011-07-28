@@ -45,7 +45,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
 public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		IAccounterList<T>, AsyncCallback<List<T>> {
 	protected List<String> listOfTypes;
-	@SuppressWarnings("unchecked")
+	
 	protected BaseListGrid grid;
 
 	public BaseListGrid getGrid() {
@@ -314,7 +314,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected abstract void initGrid();
 
-	@SuppressWarnings("unchecked")
+	
 	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
 
 		return null;
@@ -322,7 +322,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected abstract String getListViewHeading();
 
-	@SuppressWarnings("unchecked")
+	
 	public void addToGrid(T objectToBeAdded) {
 		grid.addData(objectToBeAdded);
 		if (totalLabel != null) {
@@ -400,7 +400,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		grid.removeLoadingImage();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void onSuccess(List<T> result) {
 		grid.removeLoadingImage();
@@ -484,7 +484,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		this.viewSelect.setDisabled(true);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void updateGrid(IAccounterCore core) {
 		if (core.getObjectType() == grid.getType()
 				|| core.getObjectType() == AccounterCoreType.TAXAGENCY) {

@@ -228,7 +228,7 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionItem obj,
 			int colIndex) {

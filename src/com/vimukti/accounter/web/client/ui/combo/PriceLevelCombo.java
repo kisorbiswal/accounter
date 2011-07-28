@@ -22,7 +22,7 @@ public class PriceLevelCombo extends CustomCombo<ClientPriceLevel> {
 			return "";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void onAddNew() {
 		PriceLevelListDialog priceLevelDialog = new PriceLevelListDialog("", "");

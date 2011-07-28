@@ -27,7 +27,7 @@ public class AmountsDueToVendorsAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.report;

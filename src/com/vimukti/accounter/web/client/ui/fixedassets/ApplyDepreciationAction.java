@@ -24,7 +24,7 @@ public class ApplyDepreciationAction extends Action {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO

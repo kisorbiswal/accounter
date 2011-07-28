@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Mandeep Singh
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class AdjustSalesTaxDueDialog extends BaseDialog {
 	public AdjustSalesTaxDueDialog(String title, String description) {
 		super(title, description);

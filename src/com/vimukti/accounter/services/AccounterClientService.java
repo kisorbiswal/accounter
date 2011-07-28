@@ -842,7 +842,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientFiscalYear alterFiscalYear(final long company,
 	// final ClientFiscalYear clientFiscalYear) throws DAOException {
@@ -1100,7 +1100,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// }
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientJournalEntry alterJournalEntry(long company,
 	// ClientJournalEntry journalEntry) throws DAOException {
@@ -1363,7 +1363,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// return (ClientVendorGroup) updateObject(VendorGroup.class, vendorGroup);
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// public IAccounterCore updateObject(final Class class1,
 	// final IAccounterCore accounterCore) {
 	//
@@ -1397,7 +1397,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientAccount createAccount(final long company,
 	// final ClientAccount clientAccount) throws DAOException {
@@ -1425,7 +1425,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientBank createBank(final long company, final ClientBank
 	// clientBank)
@@ -1548,7 +1548,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// clientCreditRating);
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientCurrency createCurrency(final long company,
 	// final ClientCurrency clientCurrency) throws DAOException {
@@ -1640,7 +1640,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientCustomerGroup createCustomerGroup(final long company,
 	// final ClientCustomerGroup clientCustomerGroup) throws DAOException {
@@ -1800,7 +1800,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientItem createItem(final long company, final ClientItem
 	// clientItem)
@@ -1824,7 +1824,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// }
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientItemGroup createItemGroup(final long company,
 	// final ClientItemGroup clientItemGroup) throws DAOException {
@@ -1888,7 +1888,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientPaymentTerms createPaymentTerms(final long company,
 	// final ClientPaymentTerms clientPaymentTerms) throws DAOException {
@@ -1913,7 +1913,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientPriceLevel createPriceLevel(final long company,
 	// final ClientPriceLevel clientPriceLevel) throws DAOException {
@@ -1967,7 +1967,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientSalesPerson createSalesPerson(final long company,
 	// final ClientSalesPerson clientSalesPerson) throws DAOException {
@@ -1995,7 +1995,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientShippingMethod createShippingMethod(final long company,
 	// final ClientShippingMethod clientShippingMethod)
@@ -2022,7 +2022,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientShippingTerms createShippingTerms(final long company,
 	// final ClientShippingTerms clientShippingTerms) throws DAOException {
@@ -2049,7 +2049,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientTaxAgency createTaxAgency(final long company,
 	// final ClientTaxAgency clientTaxAgency) throws DAOException {
@@ -2076,7 +2076,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientTaxCode createTaxCode(final long company,
 	// final ClientTaxCode clientTaxCode) throws DAOException {
@@ -2126,7 +2126,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientTaxGroup createTaxGroup(final long company,
 	// final ClientTaxGroup clientTaxGroup) throws DAOException {
@@ -2150,7 +2150,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientTaxRates createTaxRates(final long company,
 	// final ClientTaxRates clientTaxRates) throws DAOException {
@@ -2185,7 +2185,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientUnitOfMeasure createUnitOfMeasure(final long company,
 	// final ClientUnitOfMeasure clientUnitOfMeasure) throws DAOException {
@@ -2233,7 +2233,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientVendor createVendor(final long company,
 	// final ClientVendor clientVendor) throws DAOException {
@@ -2271,7 +2271,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// clientVendorCreditMemo);
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public ClientVendorGroup createVendorGroup(final long company,
 	// final ClientVendorGroup clientVendorGroup) throws DAOException {
@@ -2307,7 +2307,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public Boolean deleteObject(final Class class1, final long Id)
 	// throws DAOException {

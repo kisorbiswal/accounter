@@ -114,7 +114,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 		return viewSelect;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void filterList(String text) {
 
 		grid.removeAllRecords();

@@ -447,7 +447,7 @@ public class PaySalesTaxView extends
 			}
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	protected List<ClientPaySalesTaxEntries> getfilterRecordsByDate(
 			ClientFinanceDate fillterdate,
 			List<ClientPaySalesTaxEntries> entrylist) {

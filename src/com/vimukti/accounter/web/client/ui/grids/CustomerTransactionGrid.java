@@ -609,7 +609,7 @@ public abstract class CustomerTransactionGrid extends
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void updateTotals() {
 
 		List<ClientTransactionItem> allrecords = (List<ClientTransactionItem>) (ArrayList) getRecords();
@@ -1174,7 +1174,7 @@ public abstract class CustomerTransactionGrid extends
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionItem obj,
 			int colIndex) {

@@ -157,7 +157,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 		return colArray;
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	private int getCurrentMonth() {
 		return new ClientFinanceDate().getMonth();
 	}

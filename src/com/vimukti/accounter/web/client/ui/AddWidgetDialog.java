@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorSectionHomeView;
  * 
  */
 
-@SuppressWarnings("unchecked")
+
 public class AddWidgetDialog extends AbstractBaseDialog {
 
 	ArrayList<String> addablePortletList;

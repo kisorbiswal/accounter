@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.VendorTransactionHistor
  * 
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class VendorTransactionHistoryReport extends
 		AbstractReportView<TransactionHistory> {
 

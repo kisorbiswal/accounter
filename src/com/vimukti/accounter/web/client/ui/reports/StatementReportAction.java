@@ -46,7 +46,7 @@ public class StatementReportAction extends Action {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.report;

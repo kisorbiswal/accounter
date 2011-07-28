@@ -189,7 +189,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		return dateRangeSelector;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void filterList(String text) {
 
 		grid.removeAllRecords();
@@ -392,7 +392,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	public void getPreviousQuarter() {
 
 		ClientFinanceDate date = new ClientFinanceDate();

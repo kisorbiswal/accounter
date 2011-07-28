@@ -28,7 +28,7 @@ public class ShippingMethodsCombo extends CustomCombo<ClientShippingMethod> {
 			return "";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void onAddNew() {
 		ShippingMethodListDialog shippingMethod = new ShippingMethodListDialog(

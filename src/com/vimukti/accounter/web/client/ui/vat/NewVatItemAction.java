@@ -33,7 +33,7 @@ public class NewVatItemAction extends Action {
 		return Accounter.getFinanceMenuImages().newVatItem();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return view;

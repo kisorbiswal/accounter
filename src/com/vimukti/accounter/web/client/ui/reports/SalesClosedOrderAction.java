@@ -43,7 +43,7 @@ public class SalesClosedOrderAction extends Action {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO.

@@ -17,14 +17,9 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
@@ -52,23 +47,16 @@ import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
 /**
  * 
- * @author Raj Vimal
  * 
  */
 
 public class MainFinanceWindow extends VerticalPanel {
 
-	public static int index;
-	private static ScrollPanel rightCanvas;
-	private static MainFinanceWindow financeWindow;
 	private static ViewManager viewManager;
 	private Header header;
-	private static boolean isNotDetachableTab;
 	private int height;
 	private int width;
-	public static boolean iscancelEvent;
 	private HelpItem item;
-	private HorizontalPanel downpanel;
 	public Map<String, Action> actions;
 
 	private static Accounter accounter;
@@ -76,10 +64,9 @@ public class MainFinanceWindow extends VerticalPanel {
 	public static String oldToken;
 	public static boolean shouldExecuteRun = true;
 
-	public MainFinanceWindow(BaseFinanceWindow parent) {
+	public MainFinanceWindow() {
 		initializeActionsWithTokens();
 		createControls();
-		financeWindow = this;
 		sinkEvents(Event.ONMOUSEOVER);
 		if (GWT.isScript())
 			removeLoadingImage();
@@ -101,64 +88,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		handleBackSpaceEvent();
 	}
 
-	public MainFinanceWindow(boolean isSales) {
-		if (isSales) {
-			createSalesControls();
-		} else {
-			createPurchasesControls();
-		}
-		if (GWT.isScript())
-			removeLoadingImage();
-		financeWindow = this;
-	}
-
-	private void createPurchasesControls() {
-		// setTitle(FinanceApplication.constants().bizantraPurchases());
-
-		VerticalPanel vlay = new VerticalPanel();
-		// vlay.setSize("100%", "100%");
-		vlay.setWidth("100%");
-
-		viewManager = ViewManager.getInstance(true);
-
-		// CompanyActionFactory.getCompanyHomeAction().run(null, false);
-		VendorsActionFactory.getPurchaseOrderListAction().run(null, true);
-		/**
-		 * commented for defiz
-		 */
-		// RootPanel.get().add(vlay);
-
-		// add(getSalesMenuBar());
-		add(viewManager);
-
-		setSize("100%", "100%");
-		addStyleName("financeWindow");
-
-	}
-
-	private void createSalesControls() {
-
-		// setTitle(FinanceApplication.constants().bizantraSales());
-
-		VerticalPanel vlay = new VerticalPanel();
-		vlay.setSize("100%", "100%");
-
-		viewManager = ViewManager.getInstance(true);
-
-		// CompanyActionFactory.getCompanyHomeAction().run(null, false);
-		CustomersActionFactory.getSalesOrderListAction().run(null, true);
-		/**
-		 * commented for defiz
-		 */
-		// RootPanel.get().add(vlay);
-
-		// add(getSalesMenuBar());
-		add(viewManager);
-
-		setSize("100%", "100%");
-		addStyleName("financeWindow");
-
-	}
 
 	@SuppressWarnings("unused")
 	private Widget getSalesMenuBar() {
@@ -172,19 +101,11 @@ public class MainFinanceWindow extends VerticalPanel {
 	}-*/;
 
 	private void createControls() {
-		// setTitle(FinanceApplication.constants().bizantraFinance());
-
-		VerticalPanel vlay = new VerticalPanel();
-		vlay.setSize("100%", "100%");
 
 		viewManager = ViewManager.getInstance();
 
 		header = new Header();
 		CompanyActionFactory.getCompanyHomeAction().run(null, false);
-		/**
-		 * // * commented for defiz
-		 */
-		// RootPanel.get().add(vlay);
 
 		VerticalPanel vpanel = new VerticalPanel();
 		vpanel.addStyleName("header");
@@ -199,54 +120,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (item == null) {
 			item = new HelpItem();
 		}
-		if (downpanel == null) {
-			downpanel = new HorizontalPanel();
-			downpanel.setWidth("100%");
-			downpanel.getElement().getStyle().setMarginTop(25, Unit.PX);
-			Image image = new Image("images/Copyright_synbol.png");
-			image.setStyleName("copy-img");
-			// Label copyrightLabel = new Label("Copyright");
-			HTML companyName = new HTML(
-					"<a href='http://www.vimukti.com' target='_new'>Vimukti Technologies Pvt. Ltd.</font></a>");
-			// Anchor companyName = new
-			// Anchor(" Vimukti Technologies Pvt. Ltd.",
-			// true, "www.vimukti.com");
-			Label allrightsLabel = new Label("All rights are reserved.");
-			// copyrightLabel.setStyleName("down-panel1");
-			allrightsLabel.setStyleName("down-panel1");
-			companyName.addStyleName("down-panel1");
-			Anchor support = new Anchor("Support", true, "/site/support",
-					"_blank");
-			support.getElement().getStyle().setMarginLeft(6, Unit.PX);
-			// downpanel.add(copyrightLabel);
-			downpanel.add(image);
-			downpanel.add(companyName);
-			downpanel.add(allrightsLabel);
-			downpanel.add(support);
-
-			// downpanel.setCellWidth(copyrightLabel, "1%");
-			// downpanel.setCellWidth(image, "1%");
-			// downpanel.setCellWidth(companyNameLabel, "13%");
-			downpanel.setCellHorizontalAlignment(companyName, ALIGN_CENTER);
-			// downpanel.setCellWidth(allrightsLabel, "10%");
-			downpanel.setCellHorizontalAlignment(allrightsLabel, ALIGN_CENTER);
-			// downpanel.setCellWidth(support, "1%");
-			downpanel.setCellHorizontalAlignment(support, ALIGN_CENTER);
-			// downpanel.setCellWidth(feedback, "8%");
-			downpanel.setWidth("535px");
-		}
-		VerticalPanel helppanel = new VerticalPanel();
-		helppanel.setWidth("100%");
-		helppanel.setStyleName("help-panel");
-		// helppanel.add(help);
-		// helppanel.add(item);
-		helppanel.setSpacing(10);
-		helppanel.add(downpanel);
-		helppanel.setCellHorizontalAlignment(downpanel, ALIGN_CENTER);
-		add(helppanel);
-		setCellHorizontalAlignment(helppanel, ALIGN_CENTER);
-		// setSize("100%", "100%");
-		addStyleName(accounter.constants().financeWindow());
+		addStyleName(Accounter.constants().financeWindow());
 
 		if (UIUtils.isMSIEBrowser()) {
 			this.getElement().getStyle().setPaddingTop(0, Unit.PX);
@@ -260,9 +134,6 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	}
 
-	public static MainFinanceWindow getInstance() {
-		return financeWindow;
-	}
 
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
@@ -1304,7 +1175,6 @@ public class MainFinanceWindow extends VerticalPanel {
 	protected void onAttach() {
 		this.getParent().addStyleName("noScroll");
 		super.onAttach();
-		isNotDetachableTab = false;
 	}
 
 	@Override
@@ -1312,13 +1182,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		this.getParent().removeStyleName("noScroll");
 		super.onDetach();
 
-		if (!isNotDetachableTab) {
-			// make all static instances to null in finance
-			ViewManager.makeAllStaticInstancesNull();
-			MainFinanceWindow.makeAllStaticInstancesNull();
-			accounter.makeAllStaticInstancesNull();
-		}
-		isNotDetachableTab = false;
 
 	}
 
@@ -1326,29 +1189,10 @@ public class MainFinanceWindow extends VerticalPanel {
 	protected void onUnload() {
 		super.onUnload();
 		AccounterCometClient.cometStop();
-		MainFinanceWindow.makeAllViewsStaticstoNull();
 	}
 
-	public static void makeAllStaticInstancesNull() {
-		financeWindow = null;
-		viewManager = null;
-		rightCanvas = null;
-	}
 
-	public static void setIsnotDetachableTab(boolean b) {
-		isNotDetachableTab = b;
-	}
 
-	public static void makeAllViewsStaticstoNull() {
-		ViewManager.makeAllStaticInstancesNull();
-		MainFinanceWindow.makeAllStaticInstancesNull();
-		accounter.makeAllStaticInstancesNull();
-		MainFinanceWindow.setIsnotDetachableTab(true);
-	}
-
-	public void cancelonMouseoverevent(boolean iscancelEvent) {
-		MainFinanceWindow.iscancelEvent = iscancelEvent;
-	}
 
 	private void handleBackSpaceEvent() {
 		Event.addNativePreviewHandler(new NativePreviewHandler() {

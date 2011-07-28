@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
-@SuppressWarnings("unchecked")
+
 public class CopyThemeDialog extends BaseDialog {
 
 	private ClientBrandingTheme theme;

@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author kumar kasimala
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class InputDialog extends BaseDialog {
 
 	/**

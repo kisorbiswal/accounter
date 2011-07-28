@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
  * 
  */
 
-@SuppressWarnings("deprecation")
+
 public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 
 	private FlexTable flexTable;

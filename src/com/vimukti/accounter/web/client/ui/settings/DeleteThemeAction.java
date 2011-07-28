@@ -22,13 +22,13 @@ public class DeleteThemeAction extends Action {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		try {

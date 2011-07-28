@@ -29,7 +29,7 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-@SuppressWarnings("unchecked")
+
 public class CustomerQuoteListDialog extends AbstractBaseDialog {
 	public DialogGrid grid;
 	private InvoiceView invoiceView;

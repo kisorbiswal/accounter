@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
 
-@SuppressWarnings("unchecked")
+
 public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 
 	public APAgingSummaryReport() {

@@ -510,7 +510,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	// @SuppressWarnings("unchecked")
+	// 
 	// private Company toServerCompany(Company company, ClientCompany
 	// clientCompany) {
 	// company.setName(clientCompany.getName());
@@ -611,7 +611,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
 			long id) throws DAOException {
@@ -660,7 +660,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return clazz;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
 			String name) throws DAOException {
@@ -691,7 +691,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public <T extends IAccounterCore> T getServerObjectByName(
 			AccounterCoreType type, String name) throws DAOException {
 
@@ -719,7 +719,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <T extends IAccounterCore> List<T> getObjects(AccounterCoreType type)
 			throws DAOException {
@@ -972,7 +972,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 * =====================
 	 */
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<EnterBill> getBillsOwed() throws DAOException {
 		// Session session = getSessionFactory().openSession();
@@ -1009,7 +1009,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<BillsList> getBillsList(boolean isExpensesList)
 			throws DAOException {
@@ -1061,7 +1061,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<IssuePaymentTransactionsList> getChecks() throws DAOException {
 
@@ -1242,7 +1242,7 @@ public class FinanceTool implements IFinanceDAOService {
 					null));
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<IssuePaymentTransactionsList> getChecks(long account)
 			throws DAOException {
@@ -1542,7 +1542,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<CreditCardCharge> getCreditCardChargesThisMonth(final long date)
 			throws DAOException {
@@ -1580,7 +1580,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<CreditsAndPayments> getCustomerCreditsAndPayments(long customer)
 			throws DAOException {
@@ -1603,7 +1603,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<CustomerRefundsList> getCustomerRefundsList()
 			throws DAOException {
@@ -1683,7 +1683,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Entry> getEntries(long journalEntryId) throws DAOException {
 		try {
@@ -1706,7 +1706,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Estimate> getEstimates() throws DAOException {
 		try {
@@ -1726,7 +1726,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Estimate> getEstimates(long customer) throws DAOException {
 		try {
@@ -1749,7 +1749,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<InvoicesList> getInvoiceList() throws DAOException {
 		try {
@@ -1796,7 +1796,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<JournalEntry> getJournalEntries() throws DAOException {
 		try {
@@ -1817,7 +1817,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public JournalEntry getJournalEntry(long journalEntryId)
 			throws DAOException {
@@ -1841,7 +1841,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Estimate> getLatestQuotes() throws DAOException {
 		// SELECT E1.* FROM ESTIMATE E1 WHERE 10>(SELECT COUNT(*) FROM
@@ -1881,7 +1881,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Long getNextIssuePaymentCheckNumber(long account)
 			throws DAOException {
@@ -1903,7 +1903,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public Long getNextTransactionNumber(int transactionType)
 	// throws DAOException {
@@ -1924,7 +1924,7 @@ public class FinanceTool implements IFinanceDAOService {
 	// }
 	// }
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public String getNextFixedAssetNumber() throws DAOException {
 		// try {
@@ -1945,7 +1945,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public String getNextVoucherNumber() throws DAOException {
 		// try {
@@ -1976,7 +1976,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return NumberUtils.getNextVoucherNumber();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<OverDueInvoicesList> getOverDueInvoices() throws DAOException {
 		// try {
@@ -2041,7 +2041,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PaymentsList> getPaymentsList() throws DAOException {
 		List<PaymentsList> queryResult = new ArrayList<PaymentsList>();
@@ -2093,7 +2093,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Item> getPurchaseItems() throws DAOException {
 
@@ -2115,7 +2115,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Item> getSalesItems() throws DAOException {
 
@@ -2137,7 +2137,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PayBillTransactionList> getTransactionPayBills()
 			throws DAOException {
@@ -2203,7 +2203,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PayBillTransactionList> getTransactionPayBills(
 			final long vendorId) throws DAOException {
@@ -2278,7 +2278,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
 			long customerId, long paymentDate1) throws DAOException,
@@ -2371,7 +2371,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<CreditsAndPayments> getVendorCreditsAndPayments(long vendor)
 			throws DAOException {
@@ -2391,7 +2391,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PaymentsList> getVendorPaymentsList() throws DAOException {
 		try {
@@ -2450,7 +2450,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean isSalesTaxPayableAccount(long accountId) throws DAOException {
 
@@ -2478,7 +2478,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean isSalesTaxPayableAccountByName(String accountName)
 			throws DAOException {
@@ -2507,7 +2507,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean isTaxAgencyAccount(long account) throws DAOException {
 
@@ -2534,7 +2534,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canVoidOrEdit(long invoiceOrVendorBillId)
 			throws DAOException {
@@ -3226,7 +3226,7 @@ public class FinanceTool implements IFinanceDAOService {
 	// }
 	// }
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<InvoicesList> getLatestInvoices() throws DAOException {
 		try {
@@ -3270,7 +3270,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Item> getLatestPurchaseItems() throws DAOException {
 
@@ -3296,7 +3296,7 @@ public class FinanceTool implements IFinanceDAOService {
 					null));
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<ReceivePayment> getLatestReceivePayments() throws DAOException {
 
@@ -3327,7 +3327,7 @@ public class FinanceTool implements IFinanceDAOService {
 					null));
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Item> getLatestSalesItems() throws DAOException {
 
@@ -3356,7 +3356,7 @@ public class FinanceTool implements IFinanceDAOService {
 					null));
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PaymentsList> getLatestVendorPayments() throws DAOException {
 		try {
@@ -3419,7 +3419,7 @@ public class FinanceTool implements IFinanceDAOService {
 		// }
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
 			long billsDueOnOrBefore) throws DAOException {
@@ -3566,7 +3566,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
 			long customerId) throws DAOException {
@@ -3599,7 +3599,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return esl;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			long vendorId) throws DAOException {
@@ -3633,7 +3633,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return pil;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<SalesOrdersList> getSalesOrdersList() throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3665,7 +3665,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return esl;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<PurchaseOrdersList> getPurchaseOrdersList() throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3697,7 +3697,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return pil;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
 			long vendorID) throws DAOException {
@@ -3730,7 +3730,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return pil;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<FixedAssetList> getFixedAssets(int status) throws DAOException {
 
@@ -4855,7 +4855,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 * ================
 	 */
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<AccountBalance> getAccountBalances() throws DAOException {
 		try {
@@ -4894,7 +4894,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<TrialBalance> getTrialBalance(final long startDate,
 			final long endDate) throws DAOException {
@@ -4961,7 +4961,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			final long startDate, final long endDate) throws DAOException {
@@ -5851,7 +5851,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return queryResult;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<MostProfitableCustomers> getMostProfitableCustomers(
 			final long startDate, final long endDate) throws DAOException {
@@ -5924,7 +5924,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return queryResult;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<MostProfitableCustomers> getProfitabilityByCustomerDetail(
 			final long customer, long startDate, long endDate)
 			throws DAOException {
@@ -10397,7 +10397,7 @@ public class FinanceTool implements IFinanceDAOService {
 				.executeUpdate();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PayeeList> getPayeeList(int transactionCategory)
 			throws DAOException {
@@ -10835,7 +10835,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PayeeStatementsList> getPayeeStatementsList(long id,
 			long transactionDate, long fromDate, long toDate, int noOfDays,
@@ -10923,7 +10923,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Double> getGraphPointsforAccount(int chartType, long accountNo)
 			throws DAOException {
@@ -11411,7 +11411,7 @@ public class FinanceTool implements IFinanceDAOService {
 		session.saveOrUpdate(this);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<BillsList> getEmployeeExpensesByStatus(String employeeName,
 			int status) throws DAOException {
@@ -11457,7 +11457,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return billsList;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean changeMyPassword(String emailId, String oldPassword,
 			String newPassword) throws DAOException {

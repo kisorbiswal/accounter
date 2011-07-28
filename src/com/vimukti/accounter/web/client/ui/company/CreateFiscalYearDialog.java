@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-@SuppressWarnings("unchecked")
+
 public class CreateFiscalYearDialog extends BaseDialog {
 
 	private HTML createFiscalYearLabel;
@@ -39,7 +39,7 @@ public class CreateFiscalYearDialog extends BaseDialog {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	private void initNewFiscalYearData() {
 		ClientFinanceDate startdate = null, presentDate, endDate;
 		if (listOfFiscalYear.getRecords() != null

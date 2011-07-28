@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerRepo
  * Modified By Ravi Kiran.G
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 
 	public long byCustomerDetail;

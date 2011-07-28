@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * @Implementation Fernandez
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class WriteOffDialog extends BaseDialog {
 
 	List<ClientAccount> allAccounts;

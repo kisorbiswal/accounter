@@ -17,7 +17,7 @@ public class CreateTaxesAction extends Action {
 		this.catagory = Accounter.constants().VAT();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// its not using any where

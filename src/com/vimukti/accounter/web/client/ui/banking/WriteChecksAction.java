@@ -57,7 +57,7 @@ public class WriteChecksAction extends Action {
 		super.setToolTip(toolTip);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		

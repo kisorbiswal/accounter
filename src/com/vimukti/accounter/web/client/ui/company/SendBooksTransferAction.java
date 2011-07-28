@@ -14,7 +14,7 @@ public class SendBooksTransferAction extends Action {
 		super(text, iconString);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO.

@@ -61,7 +61,7 @@ public class SelectItem extends FormItem {
 		// NOTHING TO DO.
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	public void setMultiple(boolean b) {
 		this.listBox.setMultipleSelect(b);
 

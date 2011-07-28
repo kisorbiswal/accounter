@@ -132,7 +132,7 @@ public class UIUtils {
 			return false;
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	public static boolean hasAlphaNumericCharacters(String string) {
 		if (string == null || string.equals(""))
 			return true;
@@ -514,7 +514,7 @@ public class UIUtils {
 		return formate;
 	}-*/;
 
-	@SuppressWarnings("unchecked")
+	
 	public static <T extends IAccounterCore> AsyncCallback<Boolean> getGeneralizedUpdateCallBack(
 			final AbstractBaseView view, final T object) {
 
@@ -539,7 +539,7 @@ public class UIUtils {
 
 	}
 
-	// @SuppressWarnings("unchecked")
+	// 
 	// public static <T extends IAccounterCore> AsyncCallback<String>
 	// getGeneralizedSaveCallBack(
 	// final AbstractBaseView view, final T object) {
@@ -567,7 +567,7 @@ public class UIUtils {
 	//
 	// }
 
-	@SuppressWarnings("unchecked")
+	
 	public static AsyncCallback<Boolean> getGeneralizedDeleteCallBack(
 			final AbstractBaseView view) {
 
@@ -593,7 +593,7 @@ public class UIUtils {
 
 	}
 
-	// @SuppressWarnings("unchecked")
+	// 
 	// public static <T extends IAccounterCore> AsyncCallback<String>
 	// getGeneralizedSaveCallBack(
 	// final AbstractBaseDialog view, final T object) {
@@ -1112,7 +1112,7 @@ public class UIUtils {
 			return ClientEmail.TYPE_EMAIL_1;
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	public static String getDateStringFormat(ClientFinanceDate cFdate) {
 		Date date = cFdate.getDateAsObject();
 		String formate = "";

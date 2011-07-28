@@ -73,7 +73,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		this.transactionTemplate = template;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Boolean checkLogin(String email, String password)
 			throws DAOException {
@@ -95,7 +95,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Account getAccount(long companyId, String accountName)
 			throws DAOException {
@@ -120,7 +120,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Deprecated
 	@Override
 	public Account getAccount(long companyId, long accountId)
@@ -144,7 +144,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Account> getAccounts(long companyId) throws DAOException {
 		try {
@@ -165,7 +165,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Account> getAccounts(long companyId, int type)
 			throws DAOException {
@@ -187,7 +187,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public CashPurchase getCashPurchase(long companyId, long cashPurchaseId)
 			throws DAOException {
@@ -243,7 +243,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Expense getExpense(long companyId, long expenseId)
 			throws DAOException {
@@ -266,7 +266,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public PayExpense getPayExpense(long companyId, long payExpenseId)
 			throws DAOException {
@@ -290,7 +290,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public PaySalesTax getPaySalesTax(long companyId, long id)
 			throws DAOException {
 
@@ -310,7 +310,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<PaySalesTax> getPaySalesTaxes(long companyId)
 			throws DAOException {
 
@@ -328,7 +328,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<CashSales> getCashSales(long companyId) throws DAOException {
 		try {
@@ -351,7 +351,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<CustomerRefund> getCustomerRefunds(long companyId)
 			throws DAOException {
@@ -372,7 +372,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<EnterBill> getEnterBills(long companyId) throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -394,7 +394,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<CashPurchase> getCashPurchases(long companyId)
 			throws DAOException {
 		try {
@@ -417,7 +417,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<PayBill> getPayBills(long companyId) throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -439,7 +439,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<MakeDeposit> getMakeDeposits(long companyId)
 			throws DAOException {
 		try {
@@ -462,7 +462,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<WriteCheck> getWriteChecks(long companyId) throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -481,7 +481,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<TAXCode> getTaxCodes(long companyId) throws DAOException {
 		try {
@@ -501,7 +501,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<CreditCardCharge> getCreditCardCharges(long companyId)
 			throws DAOException {
@@ -522,7 +522,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<TransferFund> getTransferFunds(long companyId)
 			throws DAOException {
@@ -543,7 +543,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Company> getCompanies(long user) throws DAOException {
 		try {
@@ -564,7 +564,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public User getUserByCompany(long userId, long company) throws DAOException {
 
@@ -588,7 +588,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Company getCompany(long user) throws DAOException {
 
@@ -616,7 +616,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Company getCompany(String name) throws DAOException {
 
@@ -642,7 +642,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public CreditRating getCreditRating(long companyId, String creditRatingName)
 			throws DAOException {
@@ -668,7 +668,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public CreditRating getCreditRating(long companyId, long creditRatingId)
 			throws DAOException {
@@ -694,7 +694,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<CreditRating> getCreditRatings(long companyId)
 			throws DAOException {
@@ -717,7 +717,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public CreditCardCharge getCreditCardCharge(long companyId,
 			long creditCardChargeId) throws DAOException {
@@ -743,7 +743,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Currency> getCurrencies(long companyId) throws DAOException {
 
@@ -765,7 +765,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Currency getCurrency(long companyId, String currencyName)
 			throws DAOException {
@@ -791,7 +791,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Currency getCurrency(long companyId, long currencyId)
 			throws DAOException {
@@ -816,7 +816,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Customer getCustomer(long companyId, String customerName)
 			throws DAOException {
@@ -840,7 +840,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Customer getCustomer(long companyId, long customerId)
 			throws DAOException {
@@ -863,7 +863,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public CustomerCreditMemo getCustomerCreditMemo(long companyId,
 			long customerCreditMemoId) throws DAOException {
@@ -887,7 +887,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<VendorCreditMemo> getVendorCreditMemos(long companyId)
 			throws DAOException {
@@ -909,7 +909,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<CustomerCreditMemo> getCustomerCreditMemos(long companyId)
 			throws DAOException {
@@ -930,7 +930,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public CustomerGroup getCustomerGroup(long companyId,
 			String customerGroupName) throws DAOException {
@@ -955,7 +955,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public CustomerGroup getCustomerGroup(long companyId, long customerGroupId)
 			throws DAOException {
@@ -978,7 +978,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<CustomerGroup> getCustomerGroups(long companyId)
 			throws DAOException {
@@ -999,7 +999,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public CustomerRefund getCustomerRefunds(long companyId,
 			long customerRefundsId) throws DAOException {
@@ -1022,7 +1022,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Customer> getCustomers(long companyId) throws DAOException {
 
@@ -1044,7 +1044,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public EnterBill getEnterBill(long companyId, long enterBillId)
 			throws DAOException {
@@ -1069,7 +1069,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Estimate getEstimate(long companyId, long estimateId)
 			throws DAOException {
@@ -1094,7 +1094,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<TAXGroup> getTaxGroups(long companyId) throws DAOException {
 
@@ -1116,7 +1116,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Invoice getInvoice(long companyId, long invoiceId)
 			throws DAOException {
@@ -1141,7 +1141,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Invoice> getInvoices(long companyId) throws DAOException {
 
@@ -1163,7 +1163,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public IssuePayment getIssuePayment(long companyId, long issuePaymentId)
 			throws DAOException {
@@ -1188,7 +1188,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Item getItem(long companyId, String itemName) throws DAOException {
 		try {
@@ -1211,7 +1211,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Item getItem(long companyId, long itemId) throws DAOException {
 		try {
@@ -1234,7 +1234,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ItemGroup getItemGroup(long companyId, String itemGroupName)
 			throws DAOException {
@@ -1258,7 +1258,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ItemGroup getItemGroup(long companyId, long itemGroupId)
 			throws DAOException {
@@ -1281,7 +1281,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<ItemGroup> getItemGroups(long companyId) throws DAOException {
 		try {
@@ -1301,7 +1301,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Item> getItems(long companyId) throws DAOException {
 
@@ -1322,7 +1322,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public MakeDeposit getMakeDeposit(long companyId, long makeDepositId)
 			throws DAOException {
@@ -1346,7 +1346,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public PayBill getPayBill(long companyId, long payBillId)
 			throws DAOException {
@@ -1371,7 +1371,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public PaymentTerms getPaymentTerms(long companyId, String paymentTermsName)
 			throws DAOException {
@@ -1395,7 +1395,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public PaymentTerms getPaymentTerms(long companyId, long paymentTermsId)
 			throws DAOException {
@@ -1419,7 +1419,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PaymentTerms> getPaymentTerms(long companyId)
 			throws DAOException {
@@ -1441,7 +1441,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public PriceLevel getPriceLevel(long companyId, String priceLevelName)
 			throws DAOException {
@@ -1465,7 +1465,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public PriceLevel getPriceLevel(long companyId, long priceLevelId)
 			throws DAOException {
@@ -1489,7 +1489,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<PriceLevel> getPriceLevels(long companyId) throws DAOException {
 		try {
@@ -1510,7 +1510,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public PurchaseOrder getPurchaseOrder(long companyId, long purchaseOrderId)
 			throws DAOException {
@@ -1536,7 +1536,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<TaxRates> getRates(long companyId) throws DAOException {
 		try {
@@ -1557,7 +1557,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ReceivePayment getReceivePayment(long companyId,
 			long receivePaymentId) throws DAOException {
@@ -1583,7 +1583,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<ReceivePayment> getReceivePayments(long companyId)
 			throws DAOException {
 
@@ -1607,7 +1607,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public SalesOrder getSalesOrder(long companyId, long salesOrderId)
 			throws DAOException {
@@ -1632,7 +1632,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public SalesPerson getSalesPerson(long companyId, String salesPersonName)
 			throws DAOException {
@@ -1656,7 +1656,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public SalesPerson getSalesPerson(long companyId, long salesPersonId)
 			throws DAOException {
@@ -1680,7 +1680,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<SalesPerson> getSalesPersons(long companyId)
 			throws DAOException {
@@ -1701,7 +1701,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ShippingMethod getShippingMethod(long companyId,
 			String shippingMethodName) throws DAOException {
@@ -1725,7 +1725,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ShippingMethod getShippingMethod(long companyId,
 			long shippingMethodId) throws DAOException {
@@ -1749,7 +1749,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<ShippingMethod> getShippingMethods(long companyId)
 			throws DAOException {
@@ -1770,7 +1770,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ShippingTerms getShippingTerms(long companyId,
 			String shippingTermsName) throws DAOException {
@@ -1794,7 +1794,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ShippingTerms getShippingTerms(long companyId, long shippingTermsId)
 			throws DAOException {
@@ -1818,7 +1818,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<ShippingTerms> getShippingTerms(long companyId)
 			throws DAOException {
@@ -1839,7 +1839,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<TAXAgency> getTaxAgencies(long companyId) throws DAOException {
 		try {
@@ -1859,7 +1859,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public TAXAgency getTaxAgency(long companyId, String taxAgencyName)
 			throws DAOException {
@@ -1883,7 +1883,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public TAXAgency getTaxAgency(long companyId, long taxAgencyID)
 			throws DAOException {
@@ -1906,7 +1906,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public TAXCode getTaxCode(long companyId, String taxCodeName)
 			throws DAOException {
@@ -1929,7 +1929,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public TAXCode getTaxCode(long companyId, long taxCodeID)
 			throws DAOException {
@@ -1952,7 +1952,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public TAXGroup getTaxGroup(long companyId, String taxGroupName)
 			throws DAOException {
@@ -1976,7 +1976,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public TAXGroup getTaxGroup(long companyId, long taxGroupID)
 			throws DAOException {
@@ -1999,7 +1999,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public TaxRates getTaxRates(long companyId, Double rate)
 			throws DAOException {
@@ -2023,7 +2023,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public TaxRates getTaxRates(long companyId, long taxRateID)
 			throws DAOException {
@@ -2046,7 +2046,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public TransferFund getTransferFund(long companyId, long transferFundId)
 			throws DAOException {
@@ -2070,7 +2070,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public UnitOfMeasure getUnitOfMeasure(long companyId,
 			String unitOfMeasureName) throws DAOException {
@@ -2094,7 +2094,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public UnitOfMeasure getUnitOfMeasure(long companyId, long unitOfMeasureId)
 			throws DAOException {
@@ -2118,7 +2118,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<UnitOfMeasure> getUnitOfMeasures(long companyId)
 			throws DAOException {
@@ -2139,7 +2139,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public User getUser(long userID) throws DAOException {
 		try {
@@ -2158,7 +2158,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public User getUser(String userName) throws DAOException {
 		try {
@@ -2177,7 +2177,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public User getUserByDomainURL(String domainURL) throws DAOException {
 		try {
@@ -2196,7 +2196,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<User> getUsers(long companyId) throws DAOException {
 		try {
@@ -2216,7 +2216,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Vendor getVendor(long companyId, String vendorName)
 			throws DAOException {
@@ -2239,7 +2239,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Vendor getVendor(long companyId, long vendorId) throws DAOException {
 		try {
@@ -2261,7 +2261,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public VendorCreditMemo getVendorCreditMemo(long companyId,
 			long vendorrCreditMemoId) throws DAOException {
@@ -2285,7 +2285,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public VendorGroup getVendorGroup(long companyId, String vendorGroupName)
 			throws DAOException {
@@ -2309,7 +2309,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public VendorGroup getVendorGroup(long companyId, long vendorGroupId)
 			throws DAOException {
@@ -2332,7 +2332,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<VendorGroup> getVendorGroups(long companyId)
 			throws DAOException {
@@ -2353,7 +2353,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Vendor> getVendors(long companyId) throws DAOException {
 		try {
@@ -2373,7 +2373,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public WriteCheck getwriterCheck(long companyId, long writeCheckId)
 			throws DAOException {
@@ -2401,7 +2401,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 	 * Report Related
 	 */
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteAccount(long account) throws DAOException {
 
@@ -2422,7 +2422,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteCompany(long companyId) throws DAOException {
 		try {
@@ -2441,7 +2441,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteCreditRating(CreditRating creditRating)
 			throws DAOException {
@@ -2461,7 +2461,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteCustomer(Customer customer) throws DAOException {
 
@@ -2482,7 +2482,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteCustomerGroup(CustomerGroup customerGroup)
 			throws DAOException {
@@ -2502,7 +2502,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteItem(Item item) throws DAOException {
 		try {
@@ -2521,7 +2521,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteItemGroup(ItemGroup itemGroup) throws DAOException {
 		try {
@@ -2540,7 +2540,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeletePaymentTerms(PaymentTerms paymentTerms)
 			throws DAOException {
@@ -2560,7 +2560,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeletePriceLevel(PriceLevel priceLevel)
 			throws DAOException {
@@ -2580,7 +2580,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteSalesPerson(SalesPerson salesPerson)
 			throws DAOException {
@@ -2600,7 +2600,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteShippingMethod(ShippingMethod shippingMethod)
 			throws DAOException {
@@ -2620,7 +2620,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteShippingTerms(ShippingTerms shippingTerms)
 			throws DAOException {
@@ -2640,7 +2640,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteTaxAgency(TAXAgency TAXAgency) throws DAOException {
 		try {
@@ -2659,7 +2659,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteTaxCode(TAXCode taxCode) throws DAOException {
 		try {
@@ -2678,7 +2678,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteTaxGroup(TAXGroup taxGroup) throws DAOException {
 		try {
@@ -2698,7 +2698,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteTaxRates(TaxRates taxRates) throws DAOException {
 		try {
@@ -2717,7 +2717,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteUnitOfMeasure(UnitOfMeasure unitOfMeasure)
 			throws DAOException {
@@ -2737,7 +2737,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteUser(long user) throws DAOException {
 		try {
@@ -2756,7 +2756,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteVendor(Vendor vendor) throws DAOException {
 
@@ -2777,7 +2777,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean canDeleteVendorGroup(VendorGroup vendorGroup)
 			throws DAOException {
@@ -2797,7 +2797,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Bank> getBanks(long companyId) throws DAOException {
 
@@ -2818,7 +2818,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<CreditsAndPayments> getCreditsAndPayments(long companyId)
 			throws DAOException {
@@ -2842,7 +2842,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public CreditsAndPayments getCreditAndPayment(long companyId, String
 	// memo)
@@ -2869,7 +2869,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 	//
 	// }
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public CreditsAndPayments getCreditAndPayment(long companyId, long id)
 			throws DAOException {
@@ -2895,7 +2895,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Payee> getPayee(long companyId) throws DAOException {
 
@@ -2917,7 +2917,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<FiscalYear> getFiscalYears(long companyId) throws DAOException {
 
@@ -2939,7 +2939,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public FiscalYear getFiscalYear(long companyId, long yearId)
 			throws DAOException {
@@ -2962,7 +2962,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Expense> getUnPaidExpense(long companyId) throws DAOException {
 		try {
@@ -2985,7 +2985,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List getTestResult() throws Exception {
 
 		HibernateTemplate template = getHibernateTemplate();
@@ -3021,7 +3021,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		return l;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public FixedAsset getFixedAsset(long companyId, long fixedAssetID)
 			throws DAOException {

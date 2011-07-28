@@ -52,7 +52,7 @@ public class TransactionDetailByTaxItemAction extends Action {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// not required for this view.

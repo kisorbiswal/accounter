@@ -21,7 +21,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
-@SuppressWarnings("unchecked")
+
 public class RollBackDepreciationDialog extends BaseDialog {
 
 	protected ClientFinanceDate lastDepreciationDate;

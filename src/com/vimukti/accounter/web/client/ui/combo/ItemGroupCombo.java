@@ -20,7 +20,7 @@ public class ItemGroupCombo extends CustomCombo<ClientItemGroup> {
 				: "" : "";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void onAddNew() {
 		ItemGroupListDialog itemGroupDialog = new ItemGroupListDialog("", "");

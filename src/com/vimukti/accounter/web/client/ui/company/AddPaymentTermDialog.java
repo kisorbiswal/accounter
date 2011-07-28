@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-@SuppressWarnings("unchecked")
+
 public class AddPaymentTermDialog extends BaseDialog {
 
 	public TextItem payTermText;

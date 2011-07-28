@@ -266,7 +266,7 @@
 //	}
 //
 //	// validating the "as of" field for each record
-//	@SuppressWarnings("deprecation")
+//	
 //	protected void validateDateField(String selectedRecord) {
 //		String invalidRatealert = " ";
 //		// if (isRateInValid) {
@@ -387,7 +387,7 @@
 //
 //	}
 //
-//	@SuppressWarnings("unchecked")
+//	
 //	@Override
 //	public void initData() {
 //		this.selectedVatCode = (ClientTaxCode) this.getData();

@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.CustomerTransactionHistoryServerReport;
 
-@SuppressWarnings("unchecked")
+
 public final class CustomerTransactionHistoryReport1 extends
 		AbstractReportView<TransactionHistory> {
 

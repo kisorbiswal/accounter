@@ -128,7 +128,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 		filterList(true);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();

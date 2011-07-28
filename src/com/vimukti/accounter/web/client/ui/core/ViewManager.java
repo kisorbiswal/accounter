@@ -64,10 +64,10 @@ import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
 
 /**
  * 
- * @modified by Raj Vimal
+
  * 
  */
-@SuppressWarnings("deprecation")
+
 public class ViewManager extends DockPanel {
 
 	private int index;
@@ -98,7 +98,7 @@ public class ViewManager extends DockPanel {
 
 	private VerticalPanel rightCanvas;
 
-	@SuppressWarnings("unchecked")
+	
 	/* This reference var. holds currently opened view */
 	private ParentCanvas currentCanvas;
 
@@ -127,12 +127,12 @@ public class ViewManager extends DockPanel {
 	public final static int TOP_MENUBAR = 75;
 	private final int BORDER = 15;
 
-	@SuppressWarnings("unchecked")
+	
 	private ParentCanvas canvas;
 
 	private boolean isShowWarningDialog;
 
-	@SuppressWarnings("unchecked")
+	
 	private ParentCanvas presentView;
 
 	private Object presentDate;
@@ -382,7 +382,7 @@ public class ViewManager extends DockPanel {
 			@SuppressWarnings("unused")
 			VerticalPanel tempPanel;
 
-			@SuppressWarnings("unchecked")
+			
 			@Override
 			public void add(Widget w) {
 				if (w instanceof BaseView) {
@@ -418,7 +418,7 @@ public class ViewManager extends DockPanel {
 		rightCanvas.add(commentPanel);
 
 		scrollPanel = new ScrollPanel() {
-			@SuppressWarnings("unchecked")
+			
 			@Override
 			public void add(Widget w) {
 				ParentCanvas canvas = (ParentCanvas) w;
@@ -448,7 +448,7 @@ public class ViewManager extends DockPanel {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void closeCurrentView() {
 		// History history = getHistoryForView(currentCanvas);
 		// final ParentCanvas view = history.getView();
@@ -467,13 +467,13 @@ public class ViewManager extends DockPanel {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public BaseView getContentPanel() {
 		return this.currentCanvas instanceof BaseView ? (BaseView) this.currentCanvas
 				: null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public ParentCanvas getParentCanvas() {
 		return this.currentCanvas;
 	}
@@ -502,7 +502,7 @@ public class ViewManager extends DockPanel {
 	 * 
 	 * @param action
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public void showView(Action action) throws Exception {
 
 		// SC.logWarn("ViewManager Show View Called for Action" + action);
@@ -563,7 +563,7 @@ public class ViewManager extends DockPanel {
 	 * @param action
 	 * @param dependent
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public void showView(ParentCanvas view, Object input, boolean dependent,
 			Action action) throws Exception {
 
@@ -593,7 +593,7 @@ public class ViewManager extends DockPanel {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void showPresentView(ParentCanvas view, Object input,
 			boolean dependent, Action action) throws Exception {
 		// Checking for any duplication of Company Home Page. due to should save
@@ -645,7 +645,7 @@ public class ViewManager extends DockPanel {
 		refreshStatusBar();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void showWarningDialog(final ParentCanvas view, final Object input,
 			final boolean dependent, final Action action) {
 		Accounter.showWarning(AccounterWarningType.saveOrClose,
@@ -783,7 +783,7 @@ public class ViewManager extends DockPanel {
 	 * 
 	 * @param view
 	 */
-	@SuppressWarnings("unchecked")
+	
 	private void hideView(ParentCanvas view) {
 
 		// SC.logWarn("ViewManager hide View Called." + view);
@@ -828,7 +828,7 @@ public class ViewManager extends DockPanel {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void saveAndCloseCurrentView() {
 
 		// SC.logWarn("ViewManager Called saveAndCloseCurrentView()");
@@ -972,7 +972,7 @@ public class ViewManager extends DockPanel {
 	 * Delete all Nonsavable Objects from History if Current View is Non
 	 * Dependable
 	 */
-	@SuppressWarnings("unchecked")
+	
 	private void closeAllNonSavableViews() {
 
 		// SC
@@ -1027,7 +1027,7 @@ public class ViewManager extends DockPanel {
 	 * 
 	 * @param canvas
 	 */
-	@SuppressWarnings("unchecked")
+	
 	private void setCurrentView(final ParentCanvas canvas) throws Exception {
 
 		if (currentCanvas == null) {
@@ -1106,7 +1106,7 @@ public class ViewManager extends DockPanel {
 	 * 
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public ParentCanvas getCurrentView() {
 		return currentCanvas;
 	}
@@ -1128,7 +1128,7 @@ public class ViewManager extends DockPanel {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private History getHistoryForView(ParentCanvas view) {
 
 		for (History history : historyList) {
@@ -1180,7 +1180,7 @@ public class ViewManager extends DockPanel {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void displayView(History history, Object viewOutPutData) {
 
 		if (history == null)
@@ -1267,7 +1267,7 @@ public class ViewManager extends DockPanel {
 		historyList = tempHistoryList;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void showWarning(final ParentCanvas view) {
 		Accounter.showWarning(AccounterWarningType.saveOrClose,
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
@@ -1303,7 +1303,7 @@ public class ViewManager extends DockPanel {
 				});
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static void updateComboDataInViews(SelectItemType selectItemType,
 			IAccounterCore accounterCoreObject) {
 
@@ -1316,7 +1316,7 @@ public class ViewManager extends DockPanel {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static void updateComboDataInViews(SelectItemType selectItemType,
 			IAccounterCore accounterCoreObject, ParentCanvas canvas) {
 
@@ -1775,7 +1775,7 @@ public class ViewManager extends DockPanel {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void fitToSize(int height, int width) {
 
 		this.height = 500;
@@ -1817,9 +1817,6 @@ public class ViewManager extends DockPanel {
 		return this.currentDialog;
 	}
 
-	public static void makeAllStaticInstancesNull() {
-		viewManagerInstance = null;
-	}
 
 	public void showError(String message) {
 		errordata.setHTML("<li> " + message + ".");

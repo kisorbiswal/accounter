@@ -61,7 +61,7 @@ public class NewBankAccountAction extends Action {
 		this.accountTypes = accountTypes;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO.

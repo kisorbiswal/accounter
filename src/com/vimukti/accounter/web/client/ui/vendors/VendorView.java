@@ -275,7 +275,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		return true;
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	private VerticalPanel getGeneralTab() {
 		vendorNameText = new TextItem(
 				UIUtils.getVendorString(Accounter.constants().supplierName(),

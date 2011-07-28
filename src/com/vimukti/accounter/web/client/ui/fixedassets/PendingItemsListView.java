@@ -36,7 +36,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 		return Accounter.constants().pendingItemsList();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void initGrid() {
 		grid = new PendingItemsListGrid(false);
@@ -58,7 +58,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 	}
 
 	/* updates the grid after editing the selected record(asset) */
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void updateGrid(IAccounterCore core) {
 		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_PENDING,

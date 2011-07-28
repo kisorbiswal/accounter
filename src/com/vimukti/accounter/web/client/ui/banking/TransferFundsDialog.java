@@ -44,7 +44,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Mandeep Singh
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class TransferFundsDialog extends BaseDialog {
 
 	private DateField transferDate;

@@ -63,7 +63,7 @@ public class CashExpenseAction extends Action {
 		return Accounter.getFinanceMenuImages().newCashPurchage();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 

@@ -43,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @modified By kumar kasimala
  * @modified By Ravi Kiran.G
  */
-@SuppressWarnings("unchecked")
+
 public class CompanyInfoDialog extends BaseDialog {
 
 	TextItem websiteText, taxIDText, companyNameText, trandigNameText,

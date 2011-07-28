@@ -238,7 +238,7 @@ public class DropDownTable<T> extends CellTable<T> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<T> getDummyRecords() {
 		List<T> Dummy = new ArrayList<T>();
 		Dummy.add((T) "emptyRow");

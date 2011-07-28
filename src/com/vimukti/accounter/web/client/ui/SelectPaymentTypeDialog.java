@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
  * @author Mandeep Singh
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class SelectPaymentTypeDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 

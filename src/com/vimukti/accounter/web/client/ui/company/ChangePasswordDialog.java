@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
 
-@SuppressWarnings("unchecked")
+
 public class ChangePasswordDialog extends BaseDialog {
 
 	private PasswordItem oldPasswordTextItem, newPasswordTextItem,

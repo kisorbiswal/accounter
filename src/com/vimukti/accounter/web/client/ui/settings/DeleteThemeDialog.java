@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
-@SuppressWarnings("unchecked")
+
 public class DeleteThemeDialog extends BaseDialog {
 
 	private HTML deleteHtml, undoneHtml;

@@ -62,7 +62,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 		return customerConstants.customerList();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
 		// grid.addFooterValue(FinanceApplication.constants().total(),
@@ -91,7 +91,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 		// getTotalLayout(grid);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();

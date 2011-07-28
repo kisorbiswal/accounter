@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-@SuppressWarnings("unchecked")
+
 public class UserInformationDialog extends AbstractBaseDialog {
 
 	TextItem fullName, legalName, street1Text, street2Text, cityText,

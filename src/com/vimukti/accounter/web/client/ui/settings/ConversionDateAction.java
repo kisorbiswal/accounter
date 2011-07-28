@@ -22,7 +22,7 @@ public class ConversionDateAction extends Action {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return null;

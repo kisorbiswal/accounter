@@ -28,7 +28,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 	private List<String> dateRangeItemList;
 	private com.vimukti.accounter.web.client.ui.core.AccounterButton updateButton;
 
-	@SuppressWarnings("unchecked")
+	
 	public CreateStatementToolBar(AbstractReportView reportView) {
 		this.reportview = reportView;
 		createControls();

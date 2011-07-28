@@ -21,7 +21,7 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandl
  * @author V.L.Pavani
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	private GroupDialogButtonsHandler dialogButtonsHandler;

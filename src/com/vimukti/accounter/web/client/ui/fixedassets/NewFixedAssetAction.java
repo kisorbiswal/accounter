@@ -28,7 +28,7 @@ public class NewFixedAssetAction extends Action {
 		return Accounter.getFinanceMenuImages().newFixedAsset();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.view;

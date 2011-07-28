@@ -150,7 +150,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 		return viewSelect;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void filterList(String text) {
 		grid.removeAllRecords();
 		if (listOfPurchaseOrders != null) {

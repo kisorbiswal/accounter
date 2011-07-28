@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
  */
 public class History {
 
-	@SuppressWarnings("unchecked")
+	
 	ParentCanvas view;
 
 	Action action;
@@ -23,7 +23,7 @@ public class History {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public History(ParentCanvas view, Object input, Action action,
 			boolean dependent) {
 
@@ -39,7 +39,7 @@ public class History {
 	/**
 	 * @return view
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public ParentCanvas getView() {
 		return view;
 	}
@@ -50,7 +50,7 @@ public class History {
 	 * @param view
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public void setView(ParentCanvas viewOrData) {
 		this.view = viewOrData;
 	}

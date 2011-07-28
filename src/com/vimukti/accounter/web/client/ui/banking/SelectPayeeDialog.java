@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
-@SuppressWarnings("unchecked")
+
 public class SelectPayeeDialog extends BaseDialog {
 
 	FormItem actionSource;

@@ -15,7 +15,7 @@ public class NewCompanyAction extends Action {
 		super(text, icon);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO.

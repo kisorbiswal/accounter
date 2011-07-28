@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 
-@SuppressWarnings("unchecked")
+
 public class CreateTaxesDialog extends BaseDialog {
 
 	DialogGrid listGridView;;

@@ -14,6 +14,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
@@ -44,17 +45,12 @@ import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
  * 
  * 
  */
-public class Accounter extends VerticalPanel implements EntryPoint {
+public class Accounter implements EntryPoint {
 
 	private MainFinanceWindow mainWindow;
-	private static ClientFinanceDate startDate;
-	private static ClientFinanceDate endDate;
 	protected Widget loadingDialog;
 	protected ValueCallBack<Accounter> callback;
-	private VerticalPanel mainPanel;
-	private HorizontalPanel helpPanel, corners;
-	private HTML vimukti, feedback, leftcorner, midrepeat, rightcorner,
-			footerleft, footerright;
+	private ClientFinanceDate endDate;
 
 	private static ClientUser user = null;
 	private static ClientCompany company = null;
@@ -74,145 +70,12 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 	private static FinanceImages financeImages;
 	private static FinanceMenuImages financeMenuImages;
 
-	private static boolean isSales;
-	private static boolean isPurchases;
 	private static ThemeImages themeImages;
+	private static ClientFinanceDate startDate;
 
-	// public FinanceApplication(String email,
-	// ValueCallBack<FinanceApplication> callback) {
-	// this.callback = callback;
-	// MainFinanceWindow.makeAllViewsStaticstoNull();
-	//
-	// getCompany("");
-	// }
 
-	public Accounter(String email, ClientUser user,
-			ValueCallBack<Accounter> callback) {
-		Accounter.user = user;
-		this.callback = callback;
-		MainFinanceWindow.makeAllViewsStaticstoNull();
+	
 
-		getCompany("");
-	}
-
-	public Accounter(final boolean isSales,
-			final ValueCallBack<Accounter> callback) {
-		this.callback = callback;
-		MainFinanceWindow.makeAllViewsStaticstoNull();
-		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
-				.create(IAccounterGETService.class);
-		((ServiceDefTarget) getService)
-				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
-
-		final AsyncCallback<ClientCompany> getCompanyCallback = new AsyncCallback<ClientCompany>() {
-			public void onFailure(Throwable caught) {
-				// //UIUtils.log(caught.toString());
-				loadingDialog.removeFromParent();
-			}
-
-			public void onSuccess(ClientCompany company) {
-				if (company != null) {
-					// We got the company, set it for all further references.
-					Accounter.setCompany(company);
-					// Close the startup dialog...
-					loadingDialog.removeFromParent();
-					// and, now we are ready to start the application.
-					initGUI();
-					mainPanel = new VerticalPanel();
-
-					mainPanel.add(mainWindow = new MainFinanceWindow(isSales));
-					add(mainPanel);
-					add(bottomCorners());
-					add(helpPanel());
-					setWidth("100%");
-
-					// add(FinanceApplication.this);
-					if (callback != null) {
-						callback.execute(Accounter.this);
-					}
-
-				} else {
-					// //UIUtils.log("Company: null!");
-				}
-			}
-
-		};
-		getService.getCompany(getCompanyCallback);
-		// this.hide();
-		if (isSales)
-			loadingDialog = UIUtils.getLoadingDialog(constants().loadingSalesPleaseWait());
-
-		else
-			loadingDialog = UIUtils.getLoadingDialog(constants().loadingPurchasePleaseWait());
-
-	}
-
-	public HorizontalPanel helpPanel() {
-		helpPanel = new HorizontalPanel();
-		helpPanel.setStyleName("XTRA_HELP_PANEL");
-
-		footerleft = new HTML();
-		footerleft.addStyleName("footer-left");
-		feedback = new HTML(
-				"<div class='vimukti-name'><a href='http://www.vimukti.com/' target='/blank'>Vimukti Technologies Pvt Ltd.</a> All rights reserved</div><div class='feedback-name'>Send your feedback to: <a href='/site/support' target='_blank'>support@accounterlive.com</a></div>");
-		feedback.addStyleName("feedback-option");
-		footerright = new HTML();
-		footerright.addStyleName("footer-right");
-		helpPanel.add(footerleft);
-		helpPanel.add(feedback);
-		helpPanel.setCellWidth(feedback, "99%");
-		helpPanel.add(footerright);
-		return helpPanel;
-	}
-
-	public HorizontalPanel bottomCorners() {
-		corners = new HorizontalPanel();
-		corners.setStyleName("bottom-corners");
-		leftcorner = new HTML();
-		leftcorner.addStyleName("left-corner");
-		midrepeat = new HTML();
-		midrepeat.addStyleName("mid-repeat");
-		rightcorner = new HTML();
-		rightcorner.addStyleName("right-corner");
-		corners.add(leftcorner);
-		corners.add(midrepeat);
-		corners.setCellWidth(midrepeat, "98%");
-		corners.add(rightcorner);
-		return corners;
-	}
-
-	public Accounter() {
-		MainFinanceWindow.makeAllViewsStaticstoNull();
-		initGUI();
-		mainPanel = new VerticalPanel();
-		mainPanel.add(mainWindow = new MainFinanceWindow(null));
-		add(mainPanel);
-		add(bottomCorners());
-		add(helpPanel());
-		setWidth("100%");
-	}
-
-	// @SuppressWarnings("unused")
-	// private void getUserByEmail(String mail) {
-	// final AsyncCallback<ClientUser> getUserCallBack = new
-	// AsyncCallback<ClientUser>() {
-	// public void onFailure(Throwable caught) {
-	// // //UIUtils.log(caught.toString());
-	// }
-	//
-	// public void onSuccess(ClientUser user) {
-	// if (user != null) {
-	// Accounter.setUser(user);
-	// getCompany("DefBiz");
-	// } else {
-	// // //UIUtils.log("Get User Came But Failed!");
-	// }
-	// }
-	//
-	// };
-	// Accounter.createGETService().getObjectById(AccounterCoreType.EMAIL,
-	// mail, getUserCallBack);
-	// }
 
 	public void getCompany(String name) {
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
@@ -232,43 +95,9 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 					// We got the company, set it for all further references.
 					// company.setAccountingType(ClientCompany.ACCOUNTING_TYPE_US);
 					Accounter.setCompany(company);
-					// Accounter.setUser(company.getUser(Accounter
-					// .getClientIdentity().getID()));
-					// Close the startup dialog...
 
 					// and, now we are ready to start the application.
 					initGUI();
-					/*
-					 * The timer is used here becoz,the rpc's response used for
-					 * getting the initialDates in initDates() is coming after
-					 * the view is loaded,but while loading the view we need
-					 * startdate in dashboard's widgets,so it is giving
-					 * nullpointer exception(since dates are not yet initialized
-					 * becoz of delay in rpc response
-					 */
-					Timer timer = new Timer() {
-						@Override
-						public void run() {
-							mainPanel = new VerticalPanel();
-							mainPanel.add(mainWindow = new MainFinanceWindow(
-									null) {
-								public void onLoad() {
-									super.onLoad();
-									loadingDialog.removeFromParent();
-								};
-							});
-							add(mainPanel);
-							add(bottomCorners());
-							add(helpPanel());
-							setWidth("100%");
-							if (callback != null) {
-								callback.execute(Accounter.this);
-							}
-						}
-					};
-					timer.schedule(200);
-
-					// add(FinanceApplication.this);
 
 				} else {
 					// //UIUtils.log("Company: null!");
@@ -300,35 +129,11 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 	}
 
 	private void initGUI() {
-		initDates();
+		//TODO remove the loading screen
+		this.mainWindow=new MainFinanceWindow();
+		RootPanel.get("accounter").add(this.mainWindow);
 	}
 
-	private void initDates() {
-		createReportService().getMinimumAndMaximumTransactionDate(
-				new AsyncCallback<List<ClientFinanceDate>>() {
-
-					public void onFailure(Throwable caught) {
-					}
-
-					public void onSuccess(List<ClientFinanceDate> result) {
-						if (result != null) {
-							startDate = result.get(0) == null ? new ClientFinanceDate()
-									: result.get(0);
-							endDate = result.get(1) == null ? new ClientFinanceDate()
-									: result.get(1);
-							if (WidgetCreator.getDebitorsWidget() != null)
-								WidgetCreator.getDebitorsWidget()
-										.refreshClicked();
-						}
-					}
-
-				});
-
-	}
-
-	public MainFinanceWindow getBackgroundCanvas() {
-		return mainWindow;
-	}
 
 	public static IAccounterCRUDServiceAsync createCRUDService() {
 		if (crudService == null) {
@@ -434,19 +239,6 @@ public class Accounter extends VerticalPanel implements EntryPoint {
 	}
 
 
-	public void makeAllStaticInstancesNull() {
-		endDate = null;
-		user = null;
-		company = null;
-		crudService = null;
-		getService = null;
-		homeViewService = null;
-		reportService = null;
-		messages = null;
-		constants = null;
-		financeImages = null;
-		financeMenuImages = null;
-	}
 
 	@Override
 	public void onModuleLoad() {

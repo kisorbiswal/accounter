@@ -54,7 +54,7 @@ public class SalesByCustomerSummaryAction extends Action {
 		runAsync(data, isDependent);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return null;

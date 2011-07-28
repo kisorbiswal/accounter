@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
 
-@SuppressWarnings("unchecked")
+
 public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 
 	@SuppressWarnings("unused")

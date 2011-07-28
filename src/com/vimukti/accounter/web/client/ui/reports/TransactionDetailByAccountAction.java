@@ -54,7 +54,7 @@ public class TransactionDetailByAccountAction extends Action {
 		runAsync(data, isDependent);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// not required for this class

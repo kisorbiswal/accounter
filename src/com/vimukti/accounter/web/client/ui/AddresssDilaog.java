@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-@SuppressWarnings("unchecked")
+
 public class AddresssDilaog extends AbstractBaseDialog {
 
 	private TextItem streetText1;

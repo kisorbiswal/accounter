@@ -74,7 +74,7 @@ public enum SelectItemType {
 	private Action action;
 	@SuppressWarnings("unused")
 	private AsyncCallback<IsSerializable> callback;
-	@SuppressWarnings("unchecked")
+	
 	private BaseDialog dialog;
 
 	SelectItemType() {
@@ -93,13 +93,13 @@ public enum SelectItemType {
 		return action;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	SelectItemType(BaseDialog dialog) {
 
 		this.dialog = dialog;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public BaseDialog getDialog() {
 		return dialog;
 	}

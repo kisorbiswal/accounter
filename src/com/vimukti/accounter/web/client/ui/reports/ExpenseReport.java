@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.ExpenseServerReport;
 
-@SuppressWarnings("unchecked")
+
 public class ExpenseReport extends AbstractReportView<ExpenseList> {
 
 	private String currentsectionName = "";

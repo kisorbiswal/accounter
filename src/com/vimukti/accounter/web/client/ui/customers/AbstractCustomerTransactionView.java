@@ -590,7 +590,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	protected void initShipToCombo() {
 
 		if (shipToCombo == null || addressListOfCustomer == null)
@@ -621,7 +621,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	protected void initBillToCombo() {
 
 		if (billToCombo == null || addressListOfCustomer == null)

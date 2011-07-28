@@ -51,7 +51,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	/*
 	 * @see com.vimukti.accounter.web.client.ui.core.BaseListView#initGrid()
 	 */
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void initGrid() {
 		grid = new RegisteredItemsListGrid(false);
@@ -80,7 +80,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void updateGrid(IAccounterCore core) {
 		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_REGISTERED,

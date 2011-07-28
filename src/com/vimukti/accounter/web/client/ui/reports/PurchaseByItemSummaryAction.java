@@ -40,7 +40,7 @@ public class PurchaseByItemSummaryAction extends Action {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.report;

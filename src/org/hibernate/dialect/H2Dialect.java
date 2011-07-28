@@ -23,7 +23,7 @@ public class H2Dialect extends Dialect {
 
 	private String querySequenceString;
 
-	@SuppressWarnings("unchecked")
+	
 	public H2Dialect() {
 		super();
 

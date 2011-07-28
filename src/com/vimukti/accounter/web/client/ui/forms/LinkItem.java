@@ -35,7 +35,7 @@ public class LinkItem extends FormItem {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
+	
 	public void addClickHandler(ClickHandler clickHandler) {
 		this.hyperlink.addClickHandler(clickHandler);
 

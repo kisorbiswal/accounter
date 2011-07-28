@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
-@SuppressWarnings("unchecked")
+
 public class ConversionBalancesView extends AbstractBaseView {
 	private HTML superHeaderHtml, headerHtml, footerCommentHtml;
 	private VerticalPanel headerPanel, bodyPanel, mainPanel, tabBodyPanel,
@@ -54,14 +54,14 @@ public class ConversionBalancesView extends AbstractBaseView {
 		createControls();
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	public void addNewTab(String endingDate, String year) {
 		createControls();
 		tabPanel.add(getBodyControls(), messages.january01() + year + " _ "
 				+ endingDate);
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	private void createControls() {
 		initControls();
 

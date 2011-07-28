@@ -230,7 +230,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		this.dialogHandler = handler;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static BaseDialog newInstance() {
 		return null;
 	}

@@ -48,7 +48,7 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 		this.accounterDao = accounterDao;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private long getLongIdForGivenid(AccounterCoreType entity, String account) {
 
 		Session session = Utility.getCurrentSession();

@@ -90,7 +90,7 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	public abstract List<ClientTransactionItem> getallTransactions(
 			ClientTransaction object) throws InvalidEntryException;
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void addOrEditSelectBox(T obj, Object value) {
 		CustomCombo box = getCustomCombo(obj, currentCol);

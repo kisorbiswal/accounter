@@ -56,7 +56,7 @@
 //	 * This method invoked when "CurrentView" combo value changed.And it filters
 //	 * the records based on the type slected(Active/InActive)
 //	 */
-//	@SuppressWarnings("unchecked")
+//	
 //	@Override
 //	protected void filterList(boolean isActive) {
 //		grid.removeAllRecords();
@@ -74,7 +74,7 @@
 //				grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 //
 //	}
-//	@SuppressWarnings("unchecked")
+//	
 //	@Override
 //	protected void initGrid() {
 //		grid = new ManageSalesTaxCodeListGrid(false);
@@ -169,7 +169,7 @@
 ////	 * This method invoked when "CurrentView" combo value changed.And it filters
 ////	 * the records based on the type slected(Active/InActive)
 ////	 */
-////	@SuppressWarnings("unchecked")
+////	
 ////	@Override
 ////	protected void filterList(boolean isActive) {
 ////		grid.removeAllRecords();
@@ -187,7 +187,7 @@
 ////				grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 ////
 ////	}
-////	@SuppressWarnings("unchecked")
+////	
 ////	@Override
 ////	protected void initGrid() {
 ////		grid = new ManageSalesTaxCodeListGrid(false);

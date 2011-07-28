@@ -21,7 +21,7 @@ public class PaymentDialogAction extends Action {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 

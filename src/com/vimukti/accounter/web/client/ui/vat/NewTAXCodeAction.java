@@ -32,7 +32,7 @@ public class NewTAXCodeAction extends Action {
 		return Accounter.getFinanceMenuImages().salesTaxCode();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.view;

@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-@SuppressWarnings("unchecked")
+
 public class VendorPurchaseListDialog extends AbstractBaseDialog {
 
 	private ItemReceiptView itemReceiptView;

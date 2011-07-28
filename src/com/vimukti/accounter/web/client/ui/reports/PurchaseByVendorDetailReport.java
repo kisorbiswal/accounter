@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByVendorDetailServerReport;
 
-@SuppressWarnings("unchecked")
+
 public class PurchaseByVendorDetailReport extends
 		AbstractReportView<SalesByCustomerDetail> {
 

@@ -135,7 +135,7 @@ public class AccountRegisterOthersView extends
 
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	protected void dateRangeChanged() {
 		todaydate = new ClientFinanceDate();
 		selectedOption = showTransactionSelect.getSelectedValue();

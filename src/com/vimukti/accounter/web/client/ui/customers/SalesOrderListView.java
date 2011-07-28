@@ -148,7 +148,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 		return viewSelect;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void filterList(String text) {
 		grid.removeAllRecords();
 		if (listOfSalesOrder != null) {

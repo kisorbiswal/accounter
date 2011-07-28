@@ -86,7 +86,7 @@ public class ShipToForm extends DynamicForm {
 		setFields(businessSelect, addrArea);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void setAddresses(Set<ClientAddress> addresses) {
 		if (addresses != null) {
 			Iterator it = addresses.iterator();
@@ -103,7 +103,7 @@ public class ShipToForm extends DynamicForm {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public Set<ClientAddress> getAddresss() {
 		ClientAddress selectedAddress = allAddresses.get(UIUtils
 				.getAddressType(businessSelect.getSelectedValue()));
@@ -125,7 +125,7 @@ public class ShipToForm extends DynamicForm {
 		return toBeSet;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<ClientAddress> getAddresssList() {
 		ClientAddress selectedAddress = allAddresses.get(businessSelect
 				.getSelectedValue());

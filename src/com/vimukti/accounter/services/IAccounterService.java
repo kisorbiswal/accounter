@@ -19,17 +19,17 @@ public interface IAccounterService {
 			throws DAOException; // /////
 
 	// /////
-	@SuppressWarnings("unchecked")
+	
 	public <T extends IAccounterServerCore> T getObjectById(Class clazz, // /////
 			String id) throws DAOException; // /////
 
 	// /////
-	@SuppressWarnings("unchecked")
+	
 	public <T extends IAccounterServerCore> T getObjectByName(Class clazz, // /////
 			String name) throws DAOException; // /////
 
 	// /////
-	@SuppressWarnings("unchecked")
+	
 	public <T extends IAccounterServerCore> List<T> getObjects(Class clazz) // /////
 			throws DAOException; // /////
 
@@ -46,7 +46,7 @@ public interface IAccounterService {
 	 *         otherwise return false.
 	 * @throws DAOException
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public <T extends IAccounterServerCore> Boolean canDelete(Class clazz,
 			String id) throws DAOException;
 	// /////

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
-@SuppressWarnings("unchecked")
+
 public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 
 	public PDFReportGridTemplate(String[] columns, boolean ishowGridFooter) {

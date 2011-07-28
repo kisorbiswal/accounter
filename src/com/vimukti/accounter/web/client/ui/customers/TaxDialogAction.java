@@ -15,7 +15,7 @@ public class TaxDialogAction extends Action {
 		super(text, iconString);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return null;

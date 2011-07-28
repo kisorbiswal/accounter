@@ -50,7 +50,7 @@ public class VendorTransactionHistoryAction extends Action {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return null;

@@ -20,7 +20,7 @@ public class EnterPaymentsAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO

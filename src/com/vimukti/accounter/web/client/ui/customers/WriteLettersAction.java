@@ -21,7 +21,7 @@ public class WriteLettersAction extends Action {
 		
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		

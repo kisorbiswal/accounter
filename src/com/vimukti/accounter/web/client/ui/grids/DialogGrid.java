@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 public class DialogGrid extends ListGrid<IsSerializable> {
 
-	@SuppressWarnings("unchecked")
+	
 	protected AbstractBaseDialog view;
 	private String name;
 
@@ -27,7 +27,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	private GridRecordClickHandler recordClickHandler;
 	@SuppressWarnings("unused")
 	private RecordDeleteHandler recordDeleteHandler;
-	@SuppressWarnings("unchecked")
+	
 	private RecordDoubleClickHandler doubleClickHandler;
 
 	/* This var. tells the core type currently the grid holds */
@@ -215,7 +215,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 				boolean isChecked);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void addOrEditSelectBox(IsSerializable obj, Object value) {
 		CustomCombo box = getCustomCombo(obj, currentCol);
@@ -265,7 +265,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	// super.addFooterValues(values);
 	// }
 
-	@SuppressWarnings("unchecked")
+	
 	public void setView(AbstractBaseDialog view) {
 		this.view = view;
 	}
@@ -278,7 +278,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 		this.name = name;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void addRecordDoubleClickHandler(
 			RecordDoubleClickHandler doubleClickHandler) {
 		this.doubleClickHandler = doubleClickHandler;
@@ -306,7 +306,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 		this.selectionChangedHandler = handler;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void onDoubleClick(IsSerializable obj, int row, int index) {
 		if (this.doubleClickHandler != null)

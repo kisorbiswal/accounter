@@ -22,7 +22,7 @@ public class CreditRatingCombo extends CustomCombo<ClientCreditRating> {
 			return "";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void onAddNew() {
 		CreditRatingListDialog creditRatingDialog = new CreditRatingListDialog(

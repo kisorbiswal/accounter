@@ -68,7 +68,7 @@ public class AccounterService extends HibernateDaoSupport implements
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <T extends IAccounterServerCore> T getObjectById(Class clazz,
 			String id) throws DAOException {
@@ -84,7 +84,7 @@ public class AccounterService extends HibernateDaoSupport implements
 		return entity;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <T extends IAccounterServerCore> T getObjectByName(Class clazz,
 			String name) throws DAOException {
@@ -100,7 +100,7 @@ public class AccounterService extends HibernateDaoSupport implements
 		return entity;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <T extends IAccounterServerCore> List<T> getObjects(Class clazz)
 			throws DAOException {
@@ -135,7 +135,7 @@ public class AccounterService extends HibernateDaoSupport implements
 		// 20- 9000347779
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private long getLongIdForGivenid(Class clazz, String id) {
 
 		Session session = Utility.getCurrentSession();
@@ -150,7 +150,7 @@ public class AccounterService extends HibernateDaoSupport implements
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <T extends IAccounterServerCore> Boolean canDelete(Class clazz,
 			String id) throws DAOException {
@@ -164,7 +164,7 @@ public class AccounterService extends HibernateDaoSupport implements
 		return executeQuery(query);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private Boolean executeQuery(Query query) {
 
 		List queryResult = query.list();

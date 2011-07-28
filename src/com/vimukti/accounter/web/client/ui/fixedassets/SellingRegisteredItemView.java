@@ -318,7 +318,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	 * @return yearlist
 	 */
 
-	@SuppressWarnings("deprecation")
+	
 	public String[] getlastDates() {
 		dateValueMap.clear();
 		String months[] = getMonthStrings();
@@ -360,7 +360,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	/**
 	 * Calculate the valid Dates based on the Depreciation Start Date
 	 */
-	@SuppressWarnings("deprecation")
+	
 	private void calucateDateCombo() {
 		monthsKey.clear();
 		int monthvalue = 0, year = 0;

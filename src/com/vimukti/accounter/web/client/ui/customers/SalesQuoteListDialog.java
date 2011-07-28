@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 
-@SuppressWarnings("unchecked")
+
 public class SalesQuoteListDialog extends AbstractBaseDialog {
 
 	private SalesOrderView salesView;

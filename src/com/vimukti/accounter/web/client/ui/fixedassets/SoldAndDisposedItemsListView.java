@@ -49,7 +49,7 @@ public class SoldAndDisposedItemsListView extends
 	/*
 	 * @see com.vimukti.accounter.web.client.ui.core.BaseListView#initGrid()
 	 */
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void initGrid() {
 		grid = new SoldAndDisposedItemsListGrid(false);
@@ -75,7 +75,7 @@ public class SoldAndDisposedItemsListView extends
 	 * com.vimukti.accounter.web.client.ui.core.IAccounterList#updateInGrid(
 	 * java.lang.Object)
 	 */
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void updateInGrid(ClientFixedAsset objectTobeModified) {
 		grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_PENDING,

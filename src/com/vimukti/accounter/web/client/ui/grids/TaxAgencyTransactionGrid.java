@@ -24,7 +24,7 @@ public class TaxAgencyTransactionGrid extends
 		super(false, true);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionItem obj,
 			int colIndex) {
@@ -240,7 +240,7 @@ public class TaxAgencyTransactionGrid extends
 		updateData(item);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void updateTotals() {
 
 		List<ClientTransactionItem> allrecords = (List<ClientTransactionItem>) (ArrayList) getRecords();

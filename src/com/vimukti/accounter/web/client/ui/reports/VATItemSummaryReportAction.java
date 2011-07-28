@@ -30,7 +30,7 @@ public class VATItemSummaryReportAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 

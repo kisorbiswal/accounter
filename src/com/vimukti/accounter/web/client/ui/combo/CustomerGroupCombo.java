@@ -22,7 +22,7 @@ public class CustomerGroupCombo extends CustomCombo<ClientCustomerGroup> {
 			return "";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void onAddNew() {
 		CustomerGroupListDialog customerGroupDialog = new CustomerGroupListDialog(

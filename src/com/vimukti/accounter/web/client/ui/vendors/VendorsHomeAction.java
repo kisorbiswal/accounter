@@ -28,7 +28,7 @@ public class VendorsHomeAction extends Action {
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 

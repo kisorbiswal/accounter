@@ -165,7 +165,7 @@
 //	 * @param richText
 //	 *            the rich text area to be controlled
 //	 */
-//	@SuppressWarnings("deprecation")
+//	
 //	public RichTextToolbar(RichTextArea richText) {
 //
 //		messages = GWT.create(Messages.class);
@@ -303,7 +303,7 @@
 //	/**
 //	 * Updates the status of all the stateful buttons.
 //	 */
-//	@SuppressWarnings("deprecation")
+//	
 //	private void updateStatus() {
 //		if (basic != null) {
 //			bold.setDown(basic.isBold());

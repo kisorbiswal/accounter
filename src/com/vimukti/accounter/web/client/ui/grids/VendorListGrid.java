@@ -86,7 +86,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	private int getCurrentMonth() {
 		return new ClientFinanceDate().getMonth();
 	}

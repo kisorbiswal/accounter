@@ -281,7 +281,7 @@ public class TransactionPayBillGrid extends
 			return 109;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public CustomCombo getCustomCombo(int colIndex) {
 		return null;
 	}

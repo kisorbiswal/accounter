@@ -84,7 +84,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 		getTotalLayout(grid);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();

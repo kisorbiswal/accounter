@@ -180,7 +180,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			}
 
-			@SuppressWarnings("deprecation")
+			
 			public void onSuccess(ClientFinanceDate date) {
 				if (date == null) {
 					ClientFinanceDate date2 = new ClientFinanceDate(
@@ -290,7 +290,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		return dates;
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	private boolean validateDate(ClientFinanceDate date) {
 
 		boolean validDate = true;

@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.VAT100ServerReport;
 
-@SuppressWarnings("unchecked")
+
 public class VAT100Report extends AbstractReportView<VATSummary> {
 	@SuppressWarnings("unused")
 	private String sectionName = "";

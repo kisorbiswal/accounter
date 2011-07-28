@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-@SuppressWarnings("unchecked")
+
 public class BrandingThemeComboDialog extends BaseDialog {
 	private BrandingThemeCombo brandingThemeTypeCombo;
 	private ClientTransaction clientTransaction;

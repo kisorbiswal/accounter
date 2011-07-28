@@ -29,7 +29,7 @@ public class VatGroupAction extends Action {
 		return Accounter.getFinanceMenuImages().vatGroup();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO.

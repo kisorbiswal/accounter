@@ -22,7 +22,7 @@ public class ReportsHomeAction extends Action {
 		super(text, iconString);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 

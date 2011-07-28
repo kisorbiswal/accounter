@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
-@SuppressWarnings("unchecked")
+
 public class PaymentDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 	private AccounterConstants customerConstants = Accounter.constants();

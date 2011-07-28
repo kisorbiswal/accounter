@@ -23,7 +23,7 @@ public class CreateStatementAction extends Action {
 		super(text, iconString);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// its not using any where

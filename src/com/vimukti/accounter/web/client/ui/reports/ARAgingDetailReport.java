@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerRepo
  * Modified By Ravi Kiran.G
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 	@SuppressWarnings("unused")
 	private String sectionName = "";

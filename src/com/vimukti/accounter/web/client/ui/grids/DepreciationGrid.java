@@ -155,7 +155,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 		// NOTHING TO DO
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void addOrEditSelectBox(ClientDepreciationDummyEntry obj,
 			Object value) {
@@ -167,7 +167,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 			super.addOrEditSelectBox(obj, value);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private CustomCombo getCustomCombo(ClientDepreciationDummyEntry obj,
 			int currentCol) {
 		if (currentCol == 2)

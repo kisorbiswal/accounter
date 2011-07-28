@@ -55,7 +55,7 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 	/*
 	 * @see com.vimukti.accounter.web.client.ui.core.BaseListView#initGrid()
 	 */
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void initGrid() {
 		grid = new HistoryListGrid(false);

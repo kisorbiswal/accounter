@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
-@SuppressWarnings("unchecked")
+
 public class SelectExpenseType extends BaseDialog {
 	RadioGroupItem typeRadio;
 	private final String CHECK = Accounter.constants().check();

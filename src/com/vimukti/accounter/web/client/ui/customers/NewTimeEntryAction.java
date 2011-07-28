@@ -22,7 +22,7 @@ public class NewTimeEntryAction extends Action {
 		this.catagory = Accounter.constants().customer();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO.

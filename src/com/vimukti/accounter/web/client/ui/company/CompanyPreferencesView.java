@@ -238,7 +238,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	private void createControls() {
 		tabSet = new DecoratedTabPanel();
 		tabSet.setWidth("100%");

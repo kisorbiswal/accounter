@@ -146,7 +146,7 @@ public class AccounterValidator {
 	 * 
 	 * @param view
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public static boolean onCreditCardAccountSaved(final AbstractBaseView view) {
 
 		Accounter.showWarning(AccounterWarningType.on_CreditCardSave,
@@ -176,7 +176,7 @@ public class AccounterValidator {
 	}
 
 	// creating necessary fiscalYears
-	@SuppressWarnings("unchecked")
+	
 	public static boolean createNecessaryFiscalYears(
 			final ClientFiscalYear fiscalYear1,
 			final ClientFinanceDate asOfDate, final AbstractBaseView view) {
@@ -193,7 +193,7 @@ public class AccounterValidator {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	public static boolean validateClosedFiscalYear(ClientFinanceDate asofDate) {
 		List<ClientFiscalYear> closedFiscalYears = getClosedFiscalYears();
 		for (ClientFiscalYear fiscalYear : closedFiscalYears) {
@@ -233,7 +233,7 @@ public class AccounterValidator {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static boolean createFiscalYears(final AbstractBaseView view,
 			final ClientFinanceDate asofDate) {
 		Accounter.showWarning(AccounterWarningType.Create_FiscalYear,
@@ -366,7 +366,7 @@ public class AccounterValidator {
 	// }
 
 	// this is to save or close the current view from viewManager.
-	@SuppressWarnings("unchecked")
+	
 	public static void saveOrClose(final AbstractBaseView view,
 			final ViewManager viewManager) {
 		Accounter.showWarning(AccounterWarningType.saveOrClose,
@@ -567,7 +567,7 @@ public class AccounterValidator {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static boolean validate_IncomeAccount(final AbstractBaseView view,
 			ClientAccount income_account) {
 		if (!AbstractBaseView.errorOccured
@@ -604,7 +604,7 @@ public class AccounterValidator {
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static boolean validate_ExpenseAccount(final AbstractBaseView view,
 			ClientAccount expense_account) {
 		if (!AbstractBaseView.errorOccured
@@ -642,7 +642,7 @@ public class AccounterValidator {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static boolean validate_SalesPrice(final AbstractBaseView view,
 			Double salesprice) {
 
@@ -678,7 +678,7 @@ public class AccounterValidator {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static boolean validate_PurchasePrice(final AbstractBaseView view,
 			Double purchaseprice) {
 		if (DecimalUtil.isEquals(purchaseprice, 0.0D)) {
@@ -753,7 +753,7 @@ public class AccounterValidator {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static void validate_TaxAgency_LiabilityAccount(
 			final ParentCanvas view, ClientAccount liabilityAccount) {
 		if (liabilityAccount.getName().equalsIgnoreCase("Sales Tax Payable")) {
@@ -1043,7 +1043,7 @@ public class AccounterValidator {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static boolean validate_Total_Exceeds_BankBalance(
 			double bankBalance, double amount, boolean isIncrease,
 			final AbstractBaseView view) {
@@ -1386,7 +1386,7 @@ public class AccounterValidator {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static boolean validateCustomerRefundAmount(
 			final AbstractBaseView view, Double amount,
 			ClientAccount payFromAccount) {
@@ -1456,7 +1456,7 @@ public class AccounterValidator {
 	// * @return
 	// * @throws InvalidTransactionEntryException
 	// */
-	@SuppressWarnings("unchecked")
+	
 	public static boolean isBlankTransaction(
 			AbstractTransactionGrid transactionGrid)
 			throws InvalidTransactionEntryException {
@@ -1476,7 +1476,7 @@ public class AccounterValidator {
 	 * @throws InvalidTransactionEntryException
 	 */
 
-	@SuppressWarnings("unchecked")
+	
 	public static boolean validateGrid(AbstractTransactionGrid transactionGrid)
 			throws InvalidTransactionEntryException {
 		if (transactionGrid == null || transactionGrid.getRecords().isEmpty()
@@ -1639,7 +1639,7 @@ public class AccounterValidator {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static boolean isPriorAsOfDate(ClientFinanceDate asOfDate,
 			final AbstractBaseView view) throws InvalidEntryException {
 
@@ -1693,7 +1693,7 @@ public class AccounterValidator {
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static boolean isBlankTransactionGrid(
 			AbstractTransactionGrid transactionGrid)
 			throws InvalidTransactionEntryException {
@@ -1705,7 +1705,7 @@ public class AccounterValidator {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static boolean validateReceivePaymentGrid(
 			AbstractTransactionGrid transactionGrid)
 			throws InvalidTransactionEntryException {

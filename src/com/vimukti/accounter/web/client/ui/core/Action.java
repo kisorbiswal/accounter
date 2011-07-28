@@ -174,7 +174,7 @@ public abstract class Action {
 
 	public abstract ImageResource getSmallImage();
 
-	@SuppressWarnings("unchecked")
+	
 	public abstract ParentCanvas getView();
 
 	public String getImageUrl() {

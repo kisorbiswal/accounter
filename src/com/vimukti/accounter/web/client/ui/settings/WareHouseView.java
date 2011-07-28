@@ -134,7 +134,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void saveAndUpdateView() throws Exception {
 

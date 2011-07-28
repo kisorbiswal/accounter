@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-@SuppressWarnings("unchecked")
+
 // // its not using any where
 public class CustomerRefundIssuedView extends AbstractBaseView {
 	AccounterConstants customerConstants = Accounter.constants();

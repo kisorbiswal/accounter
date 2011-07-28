@@ -43,7 +43,7 @@ public class DepreciationAction extends Action {
 		return "/images/Depreciation.png";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.view;

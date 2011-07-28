@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author venki.p
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class AddressDialog extends BaseDialog {
 
 	ClientAddress addNew;

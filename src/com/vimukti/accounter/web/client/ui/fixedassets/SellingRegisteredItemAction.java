@@ -28,7 +28,7 @@ public class SellingRegisteredItemAction extends Action {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.view;

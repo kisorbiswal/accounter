@@ -57,7 +57,7 @@ public abstract class AbstractFinaneReport<R> implements IFinanceReport<R> {
 	protected String navigateObjectName;
 	private int companyType;
 
-	@SuppressWarnings("unchecked")
+	
 	public AbstractFinaneReport() {
 		this.columns = this.getColunms();
 		if (generationType == 1001) {

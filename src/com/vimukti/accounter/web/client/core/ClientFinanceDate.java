@@ -72,7 +72,7 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 		return this.time;
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	public Date getDateAsObject() {
 		Date date = new Date((Integer.parseInt(this.year)) - 1900,
 				(Integer.parseInt(this.month) - 1),

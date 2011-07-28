@@ -18,7 +18,7 @@ public class BuyChecksAndFormsAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return null;

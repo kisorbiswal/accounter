@@ -20,7 +20,7 @@ public class DateUtil {
 	 *            Number of day to add
 	 * @return The modified Date object
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public static Date addDays(Date date, int days) {
 		return new Date(date.getYear(), date.getMonth(), date.getDate() + days);
 	}
@@ -34,7 +34,7 @@ public class DateUtil {
 	 *            Number of month to add
 	 * @return The modified Date object
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public static Date addMonths(Date date, int months) {
 		return new Date(date.getYear(), date.getMonth() + months, date
 				.getDate());
@@ -50,7 +50,7 @@ public class DateUtil {
 	 *            Second Date
 	 * @return true if the days are the same
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public static boolean areEquals(Date date1, Date date2) {
 		return date1.getDate() == date2.getDate()
 				&& date1.getMonth() == date2.getMonth()
@@ -65,7 +65,7 @@ public class DateUtil {
 	 *            The Date containing the month
 	 * @return The first day of the month
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public static Date getMonthFirstDay(Date date) {
 		Date current = date;
 		while (current.getDate() != 1) {
@@ -83,7 +83,7 @@ public class DateUtil {
 	 *            The day
 	 * @return The place of the day
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public static int getWeekDayIndex(Date day) {
 		int dayIndex = day.getDay();
 		for (int i = 0; i < 7; i++) {
@@ -110,7 +110,7 @@ public class DateUtil {
 	 *            The Date
 	 * @return The Date pointing to the first day
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public static Date getWeekFirstDay(Date date) {
 		Date current = date;
 		int firstDay = DAYS_ORDER[0];
@@ -128,7 +128,7 @@ public class DateUtil {
 	 *            The Date to test
 	 * @return true if the Date is a weekend day
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public static boolean isInWeekEnd(Date day) {
 		int dayIndex = day.getDay();
 		return (dayIndex == 0 | dayIndex == 6) ? true : false;

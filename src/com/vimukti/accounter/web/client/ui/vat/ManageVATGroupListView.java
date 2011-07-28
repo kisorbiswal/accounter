@@ -38,7 +38,7 @@ public class ManageVATGroupListView extends BaseListView<ClientTAXGroup> {
 		getTotalLayout(grid);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();

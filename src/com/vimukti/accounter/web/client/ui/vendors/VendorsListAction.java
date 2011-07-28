@@ -30,7 +30,7 @@ public class VendorsListAction extends Action {
 				.constants().vendor());
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		

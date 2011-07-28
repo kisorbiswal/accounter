@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
-@SuppressWarnings("unchecked")
+
 public class BaseHomeView extends AbstractBaseView {
 	private VerticalPanel widgetLayout;
 

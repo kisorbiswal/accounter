@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 
-@SuppressWarnings("unchecked")
+
 public class CustomThemeDialog extends BaseDialog {
 
 	private HTML titleHTML;

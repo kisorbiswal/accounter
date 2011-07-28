@@ -53,7 +53,7 @@ public class HelpItem extends HorizontalPanel {
 		hyperlink.setText(helpLink.getTitle());
 		hyperlink.addClickHandler(new ClickHandler() {
 
-			@SuppressWarnings("deprecation")
+			
 			@Override
 			public void onClick(ClickEvent event) {
 

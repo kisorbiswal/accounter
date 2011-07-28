@@ -394,7 +394,7 @@ public class Calendar implements Cloneable {
 	 * @param property
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public int get(int property) {
 
 		switch (property) {
@@ -444,7 +444,7 @@ public class Calendar implements Cloneable {
 	 * @param property
 	 * @param i
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public void add(int property, int i) {
 		switch (property) {
 		case MONTH:
@@ -489,7 +489,7 @@ public class Calendar implements Cloneable {
 	 * @param property
 	 * @param i
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public void set(int property, int i) {
 		switch (property) {
 		case MONTH:
@@ -550,7 +550,7 @@ public class Calendar implements Cloneable {
 		return false;
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	public int getActualMaximum(int field) {
 		switch (field) {
 		case DAY_OF_MONTH:
@@ -566,7 +566,7 @@ public class Calendar implements Cloneable {
 		return 0;
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	private int maxMonthDay(int month) {
 		switch (month) {
 		case 0:

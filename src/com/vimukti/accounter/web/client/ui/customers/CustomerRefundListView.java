@@ -119,7 +119,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 		return viewSelect;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void filterList(String text) {
 
 		grid.removeAllRecords();

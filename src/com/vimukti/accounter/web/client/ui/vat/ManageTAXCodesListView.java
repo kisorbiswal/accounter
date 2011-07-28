@@ -46,7 +46,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();

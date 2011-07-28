@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByCustomerSummaryServerReport;
 
-@SuppressWarnings("unchecked")
+
 public class SalesByCustomerSummaryReport extends
 		AbstractReportView<SalesByCustomerDetail> {
 

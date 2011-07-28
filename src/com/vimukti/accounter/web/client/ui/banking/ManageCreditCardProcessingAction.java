@@ -22,7 +22,7 @@ public class ManageCreditCardProcessingAction extends Action {
 	 * in <code>Action</code> does nothing.
 	 */
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO.

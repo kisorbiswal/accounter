@@ -125,7 +125,7 @@ public class CompanyListDialog extends AbstractBaseDialog<ClientCompany> {
 				.getObjects(AccounterCoreType.COMPANY, getCompanyListCallback);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void fillGrid(List<ClientCompany> result) {
 		// ListGridRecord[] records = new ListGridRecord[result.size()];
 		// ClientCompany c;

@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
  * 
  */
 
-@SuppressWarnings("unchecked")
+
 public class ApplyCreditDialog extends BaseDialog {
 	@SuppressWarnings("unused")
 	private static final String ATTR_CREDIT_AMOUNT = Accounter.constants()

@@ -63,7 +63,7 @@ public class CreditCardExpenseAction extends Action {
 		return Accounter.getFinanceMenuImages().newCreditCardCharge();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 

@@ -410,7 +410,7 @@ public interface IAccounterDAOService {
 
 	public User getUserByDomainURL(String domainURL) throws DAOException;
 
-	@SuppressWarnings("unchecked")
+	
 	public List getTestResult() throws Exception;
 
 }

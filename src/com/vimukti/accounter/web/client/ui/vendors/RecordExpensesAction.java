@@ -20,7 +20,7 @@ public class RecordExpensesAction extends Action {
 		super(text, iconString);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 

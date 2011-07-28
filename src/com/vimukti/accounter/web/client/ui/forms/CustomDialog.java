@@ -96,7 +96,7 @@ public class CustomDialog extends DialogBox {
 		return caption.getHTML();
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	@Override
 	public void onBrowserEvent(Event event) {
 

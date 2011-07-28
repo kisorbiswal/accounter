@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseClosedOrderServerReport;
 
-@SuppressWarnings("unchecked")
+
 public class PurchaseClosedOrderReport extends
 		AbstractReportView<OpenAndClosedOrders> {
 

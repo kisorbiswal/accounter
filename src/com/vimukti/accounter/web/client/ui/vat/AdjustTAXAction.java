@@ -31,7 +31,7 @@ public class AdjustTAXAction extends Action {
 		return Accounter.getFinanceMenuImages().vatAdjustment();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return null;

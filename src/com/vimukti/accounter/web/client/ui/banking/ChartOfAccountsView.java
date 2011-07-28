@@ -52,7 +52,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void deleteSuccess(Boolean result) {
 		grid.deleteRecord(toBeDelete);
@@ -111,7 +111,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		filterList(true);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void filterList(final boolean isActive) {
 		grid.removeAllRecords();
@@ -157,7 +157,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void updateGrid(IAccounterCore core) {
 		if (core.getObjectType() == grid.getType()) {
@@ -184,7 +184,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void updateAccountsInSortedOrder(List<ClientAccount> accountsList,
 			ClientAccount toBeAddedAccount) {
 		String firstNumber = "";

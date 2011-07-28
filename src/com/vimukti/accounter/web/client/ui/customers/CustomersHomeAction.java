@@ -25,7 +25,7 @@ public class CustomersHomeAction extends Action {
 		this.catagory = Accounter.constants().customer();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.view;

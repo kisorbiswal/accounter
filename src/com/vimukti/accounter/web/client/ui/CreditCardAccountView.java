@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-@SuppressWarnings("unchecked")
+
 public class CreditCardAccountView extends AbstractBaseView {
 
 	TextItem accTypeText;

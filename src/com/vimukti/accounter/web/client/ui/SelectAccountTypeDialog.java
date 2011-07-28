@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
  * @modified by Ravi kiran.G
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class SelectAccountTypeDialog extends BaseDialog {
 
 	DynamicForm incomeAndExpenseForm;

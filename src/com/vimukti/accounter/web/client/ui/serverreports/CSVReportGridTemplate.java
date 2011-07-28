@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
-@SuppressWarnings("unchecked")
+
 public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 
 	public CSVReportGridTemplate(String[] columns, boolean ishowGridFooter) {

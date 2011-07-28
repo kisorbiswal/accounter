@@ -529,7 +529,7 @@ public class TransactionJournalEntryGrid extends
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientEntry obj, int colIndex) {
 		switch (colIndex) {

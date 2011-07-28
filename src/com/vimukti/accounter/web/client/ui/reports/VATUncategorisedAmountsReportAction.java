@@ -33,7 +33,7 @@ public class VATUncategorisedAmountsReportAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		

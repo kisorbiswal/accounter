@@ -22,7 +22,7 @@ public class VendorGroupCombo extends CustomCombo<ClientVendorGroup> {
 			return "";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void onAddNew() {
 		VendorGroupListDialog vendorGroup = new VendorGroupListDialog("", "");

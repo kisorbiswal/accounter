@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * @author venki.p
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class CashDiscountDialog extends BaseDialog {
 	List<ClientAccount> allAccounts;
 	private int key;

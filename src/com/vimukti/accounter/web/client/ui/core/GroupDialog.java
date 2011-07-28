@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
  * 
  * 
  */
-@SuppressWarnings("unchecked")
+
 public abstract class GroupDialog<T> extends BaseDialog {
 
 	private VerticalPanel buttonsLayout;

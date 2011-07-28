@@ -16,12 +16,12 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 public class AccounterExecute extends Timer {
 
 	private CustomButton button;
-	@SuppressWarnings("unchecked")
+	
 	private AbstractBaseView view;
 	private int validationCount;
 	private int actualCount;
 
-	@SuppressWarnings("unchecked")
+	
 	public AccounterExecute(AbstractBaseView view, CustomButton button) {
 		this.button = button;
 		this.view = view;
@@ -82,7 +82,7 @@ public class AccounterExecute extends Timer {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void stop() {
 		// button.getParent().setVisible(true);
 		button.setEnabled(true);

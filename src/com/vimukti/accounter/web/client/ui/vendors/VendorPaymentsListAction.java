@@ -30,7 +30,7 @@ public class VendorPaymentsListAction extends Action {
 	/**
 	 * THIS METHOD NOT USING ANY WHERE IN THE PROJECT.
 	 */
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return null;

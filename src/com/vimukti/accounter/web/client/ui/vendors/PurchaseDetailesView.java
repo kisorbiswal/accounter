@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.ui.customers.ItemsGrid;
  * 
  */
 
-@SuppressWarnings("deprecation")
+
 public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 
 	private FlexTable flexTable;

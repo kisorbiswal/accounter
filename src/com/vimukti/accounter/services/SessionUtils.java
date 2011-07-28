@@ -23,7 +23,7 @@ public class SessionUtils {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static <T> void execute(T previousObject, T obj, Session session,
 			Boolean incrementCount) {
 

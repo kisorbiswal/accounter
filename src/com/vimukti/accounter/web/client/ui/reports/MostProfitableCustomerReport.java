@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerS
  * 
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class MostProfitableCustomerReport extends
 		AbstractReportView<MostProfitableCustomers> {
 

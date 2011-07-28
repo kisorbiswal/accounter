@@ -174,7 +174,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 				Accounter.constants().description() };
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected List getRecords() {
 		return getCompany().getShippingTerms();

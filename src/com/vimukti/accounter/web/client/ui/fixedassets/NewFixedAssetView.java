@@ -712,7 +712,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	 * The AccumulatedDepreciationAmount field need to be added when given date
 	 * is before the depreciation startdate
 	 */
-	@SuppressWarnings("deprecation")
+	
 	private void showAccumultdDepAmountForm(ClientFinanceDate enteredDate) {
 		if (getDepreciationStartDate() != null) {
 			if (!enteredDate.equals(getDepreciationStartDate())

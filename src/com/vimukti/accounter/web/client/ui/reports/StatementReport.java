@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 
-@SuppressWarnings("unchecked")
+
 public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public int precategory = 1001;
 	public long customerId;

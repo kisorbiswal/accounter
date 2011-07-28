@@ -80,7 +80,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 				});
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	private void createControls() {
 
 		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {

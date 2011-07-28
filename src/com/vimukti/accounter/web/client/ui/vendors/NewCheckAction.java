@@ -33,7 +33,7 @@ public class NewCheckAction extends Action {
 				.constants().vendor());
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return null;

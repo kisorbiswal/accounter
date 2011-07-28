@@ -12,24 +12,24 @@ public class NewPayeeAction extends Action {
 
 	@SuppressWarnings("unused")
 	private boolean isEdit;
-	@SuppressWarnings("unchecked")
+	
 	private AbstractBaseView baseView;
 
-	@SuppressWarnings("unchecked")
+	
 	public NewPayeeAction(String text, AbstractBaseView baseView) {
 		super(text);
 		this.baseView = baseView;
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public NewPayeeAction(String text, String iconString,
 			AbstractBaseView baseView) {
 		super(text, iconString);
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO.

@@ -54,20 +54,8 @@ public class Server implements Runnable {
 	@Override
 	public void run() {
 
-		try {
-
-			// starting reminder thread
-			afterStartBasicConfigurations();
-
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			LOG.error("Exception", e1);
-		}
 	}
 
-	protected void afterStartBasicConfigurations() {
-
-	}
 
 	/**
 	 * Returns the ID of the server

@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionReceivePaymentGrid;
  * 
  * 
  */
-@SuppressWarnings("unchecked")
+
 public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 
 	AmountField amtDueText, totCredAmtText, cashDiscText, totBalText,

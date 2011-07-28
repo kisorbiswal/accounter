@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListServerReport;
 
-@SuppressWarnings("unchecked")
+
 public class ReverseChargeListReport extends
 		AbstractReportView<ReverseChargeList> {
 

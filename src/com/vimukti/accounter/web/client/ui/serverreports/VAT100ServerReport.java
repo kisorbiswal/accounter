@@ -105,7 +105,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	protected void iniHandler() {
 
 		this.handler = new ISectionHandler() {

@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 
-@SuppressWarnings("unchecked")
+
 public class ManageVATView extends AbstractBaseView {
 
 	AccounterButton vatButton;

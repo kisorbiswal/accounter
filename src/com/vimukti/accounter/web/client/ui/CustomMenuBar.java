@@ -27,7 +27,7 @@ public class CustomMenuBar extends MenuBar {
 		super(true, resource);
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	public CustomMenuBar(MenuBarImages resource) {
 		super(true, resource);
 	}

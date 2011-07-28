@@ -301,7 +301,7 @@ public interface IAccounterClientService {
 	public ClientPaySalesTax alterPaySalesTax(long company,
 			ClientPaySalesTax paySalesTax) throws DAOException;
 
-	@SuppressWarnings("unchecked")
+	
 	public Boolean deleteObject(final Class class1, final long Id)
 			throws DAOException;
 

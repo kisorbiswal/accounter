@@ -65,7 +65,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		init();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void createControls(String title, boolean isAddNewRequire,
 			int noOfcols) {
 		this.isAddNewRequire = isAddNewRequire;
@@ -155,7 +155,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				super.onLoad();
 			}
 
-			@SuppressWarnings("deprecation")
+			
 			@Override
 			public void onBrowserEvent(Event event) {
 				switch (DOM.eventGetType(event)) {
@@ -195,7 +195,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		this.removeStyleName("gwt-TextBox");
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	protected void showPopup() {
 		if (DropDownCombo.this.getDisabled())
 			return;
@@ -417,7 +417,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 * 
 	 * @param obj
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public void addItemThenfireEvent(T obj) {
 		boolean usTaxCode = Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& obj instanceof ClientTAXItemGroup;
@@ -729,12 +729,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		return "";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void setGrid(ListGrid grid) {
 		this.grid = grid;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void removeComboItem(T coreObject) {
 
 		int index = comboItems.indexOf(Utility.getObject(

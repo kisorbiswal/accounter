@@ -196,7 +196,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 	 * @param parent
 	 * @param node
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public void addNode(String parent, T node) {
 		int rowIndex = getParentIndex(parent);
 		if (rowIndex > -1) {
@@ -316,7 +316,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 	 * 
 	 * @param cell
 	 */
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void cellClicked(int row, int col) {
 		rowFormatter.removeStyleName(currentRow, "selected");
@@ -381,7 +381,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 		return getChildNodesByParent(name, this.objects);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<T> getChildNodesByParent(String name, List<?> objects) {
 		List<T> childs = new ArrayList<T>();
 		// int row = objects.indexOf(name);
@@ -430,7 +430,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<T> getNodes() {
 		List<T> list = new ArrayList<T>();
 		for (Object obj : this.objects) {
@@ -489,7 +489,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 	public <S extends Object> List<S> sort(List<S> list, final int colIndex) {
 		Collections.sort(list, new Comparator<S>() {
 
-			@SuppressWarnings("unchecked")
+			
 			@Override
 			public int compare(S o1, S o2) {
 				int ret = 0;
@@ -632,7 +632,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void cellDoubleClicked(int row, int col) {
 		Object obj = this.objects.get(row);

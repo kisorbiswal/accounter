@@ -49,7 +49,7 @@ public class TrialBalanceAction extends Action {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 

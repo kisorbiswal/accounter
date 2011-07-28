@@ -30,7 +30,7 @@ public class AcceptCreditCardsAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO.

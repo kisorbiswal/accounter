@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * @author Uday kumar
  * 
  */
-@SuppressWarnings("deprecation")
+
 public class ExpenseClaims extends BaseView<BillsList> {
 	DecoratedTabPanel tabset;
 	public int selectTab;

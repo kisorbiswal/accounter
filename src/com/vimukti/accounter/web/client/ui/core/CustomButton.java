@@ -25,7 +25,7 @@ public class CustomButton extends Button {
 	 * Creating CustomButton, for Save And Close, SaveNew , Add, Edit, Delete
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public CustomButton(CustomButtonType type, AbstractBaseView canvas) {
 
 		super(type.getValue());
@@ -46,7 +46,7 @@ public class CustomButton extends Button {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void setDefaultBehaviour(CustomButtonType type,
 			AbstractBaseView view) {
 
@@ -63,7 +63,7 @@ public class CustomButton extends Button {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void addClickHandler(final AbstractBaseView canvas,
 			final CustomButtonType type) {
 
@@ -98,7 +98,7 @@ public class CustomButton extends Button {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	protected void validateAndSave(final AbstractBaseView view)
 			throws Exception {
 		// view.errorOccured = false;

@@ -39,7 +39,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 		filterList(true);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();

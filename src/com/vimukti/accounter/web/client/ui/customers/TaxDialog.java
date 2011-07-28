@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
-@SuppressWarnings("unchecked")
+
 public class TaxDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 	private final String TAXGROUP = Accounter.constants().taxGroup();

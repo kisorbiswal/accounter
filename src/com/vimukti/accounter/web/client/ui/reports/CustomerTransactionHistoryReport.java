@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.serverreports.CustomerTransactionHistoryServerReport;
 
-@SuppressWarnings("unchecked")
+
 public final class CustomerTransactionHistoryReport extends
 		AbstractReportView<TransactionHistory> {
 

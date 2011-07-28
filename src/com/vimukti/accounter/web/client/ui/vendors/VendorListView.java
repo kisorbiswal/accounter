@@ -100,7 +100,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 		+ DataUtils.getAmountAsString(total) + "");
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
 
@@ -130,7 +130,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 		// getTotalLayout(grid);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();

@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-@SuppressWarnings("unchecked")
+
 public class AddEditFiscalYearDialog extends BaseDialog {
 
 	public AddEditFiscalYearDialog(String title, String desc,

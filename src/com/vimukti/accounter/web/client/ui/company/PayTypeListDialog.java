@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-@SuppressWarnings("unchecked")
+
 public class PayTypeListDialog extends GroupDialog {
 
 	protected GroupDialogButtonsHandler groupDialogButtonHandler;

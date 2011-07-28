@@ -73,7 +73,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 	/*
 	 * Reset the password and send mail to user
 	 */
-	@SuppressWarnings("unchecked")
+	
 	private void sendLinkToUser(Session session, User user, String companyName) {
 
 		List<ResetPasswordToken> existtokens = session

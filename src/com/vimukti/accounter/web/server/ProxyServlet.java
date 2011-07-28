@@ -185,7 +185,7 @@ public class ProxyServlet extends HttpServlet {
 	 *            The {@link HttpServletRequest} that contains the mutlipart
 	 *            POST data to be sent via the {@link PostMethod}
 	 */
-	@SuppressWarnings("unchecked")
+	
 	private void handleMultipartPost(PostMethod postMethodProxyRequest,
 			HttpServletRequest httpServletRequest) throws ServletException {
 		// Create a factory for disk-based file items
@@ -260,7 +260,7 @@ public class ProxyServlet extends HttpServlet {
 	 *            The {@link HttpServletRequest} that contains the POST data to
 	 *            be sent via the {@link PostMethod}
 	 */
-	@SuppressWarnings("unchecked")
+	
 	private void handleStandardPost(PostMethod postMethodProxyRequest,
 			HttpServletRequest httpServletRequest) {
 		System.out.println("Handling post request"
@@ -416,7 +416,7 @@ public class ProxyServlet extends HttpServlet {
 	 * @param httpMethodProxyRequest
 	 *            The request that we are about to send to the proxy host
 	 */
-	@SuppressWarnings("unchecked")
+	
 	private void setProxyRequestHeaders(HttpServletRequest httpServletRequest,
 			HttpMethod httpMethodProxyRequest) {
 		// Get an Enumeration of all of the header names sent by the client

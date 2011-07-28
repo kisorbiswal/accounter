@@ -28,7 +28,7 @@ public class DisposingRegisteredItemAction extends Action {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return view;

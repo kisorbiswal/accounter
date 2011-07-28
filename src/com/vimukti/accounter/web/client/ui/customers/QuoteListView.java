@@ -127,7 +127,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 		return viewSelect;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void filterList(String text) {
 
 		grid.removeAllRecords();

@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
 
-@SuppressWarnings("unchecked")
+
 public class TransactionDetailByAccountReport extends
 		AbstractReportView<TransactionDetailByAccount> {
 	private String currentsectionName = "";

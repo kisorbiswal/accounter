@@ -58,7 +58,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	protected abstract String getViewTitle();
 
-	@SuppressWarnings("unchecked")
+	
 	private Map<SelectItemType, List<CustomCombo>> comboMap = new HashMap<SelectItemType, List<CustomCombo>>();
 
 	/**
@@ -81,7 +81,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void setPrevoiusOutput(Object preObject) {
 
@@ -125,7 +125,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	protected List<DynamicForm> forms = new ArrayList<DynamicForm>();
 
 	protected List<FormItem> formItems = new ArrayList<FormItem>() {
-		@SuppressWarnings("unchecked")
+		
 		@Override
 		public boolean add(FormItem e) {
 			if (super.add(e)) {
@@ -312,7 +312,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 		return saveAndNewButton;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<CustomCombo> getComboItems() {
 
 		ArrayList<CustomCombo> items = new ArrayList<CustomCombo>();
@@ -328,7 +328,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void addComboItemToMap(CustomCombo comboItem) {
 		// FIXED --replaced comboItem.getComboType() with
 		// comboItem.getSelectItemType()
@@ -348,7 +348,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<CustomCombo> getComboList(SelectItemType type) {
 
 		return comboMap.get(type);
@@ -368,7 +368,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	}
 
-	// @SuppressWarnings("unchecked")
+	// 
 	// @Override
 	// public void saveSuccess(IAccounterCore object) {
 	// saveSuccess((T) object);

@@ -24,7 +24,7 @@ public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 			return "";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void onAddNew() {
 		Action action = CompanyActionFactory.getManageSalesTaxGroupsAction();

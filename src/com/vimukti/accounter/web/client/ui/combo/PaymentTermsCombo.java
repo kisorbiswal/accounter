@@ -38,7 +38,7 @@ public class PaymentTermsCombo extends CustomCombo<ClientPaymentTerms> {
 			return "";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public void onAddNew() {
 		PaymentTermListDialog paymentTermsDialog = new PaymentTermListDialog();

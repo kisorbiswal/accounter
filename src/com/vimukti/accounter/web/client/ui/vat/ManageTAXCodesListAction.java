@@ -56,7 +56,7 @@ public class ManageTAXCodesListAction extends Action {
 	/*
 	 * @see com.vimukti.accounter.web.client.ui.core.Action#getView()
 	 */
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		return this.view;

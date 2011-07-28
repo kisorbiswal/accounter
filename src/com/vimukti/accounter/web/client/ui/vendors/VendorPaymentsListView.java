@@ -112,7 +112,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		return currentView;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (currentView.getSelectedValue().equalsIgnoreCase("Not Issued")) {

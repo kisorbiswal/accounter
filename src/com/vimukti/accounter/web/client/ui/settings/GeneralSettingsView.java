@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
-@SuppressWarnings("unchecked")
+
 public class GeneralSettingsView extends AbstractBaseView {
 	private VerticalPanel mainPanel, conversationPanel, invoiceBrandingPanel,
 			userPanel, companyPanel;

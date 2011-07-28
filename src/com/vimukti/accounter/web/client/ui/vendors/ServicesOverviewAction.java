@@ -20,7 +20,7 @@ public class ServicesOverviewAction extends Action {
 	}
 
 	// its not using any where
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO.

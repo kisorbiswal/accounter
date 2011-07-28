@@ -31,7 +31,7 @@ public class PurchaseClosedOrderAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// Nothing to do

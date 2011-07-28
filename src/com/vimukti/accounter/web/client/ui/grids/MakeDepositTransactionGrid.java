@@ -502,7 +502,7 @@ public class MakeDepositTransactionGrid extends
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionMakeDeposit obj,
 			int colIndex) {

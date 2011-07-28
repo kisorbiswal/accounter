@@ -257,7 +257,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getDepreciationLastDate(
 			AsyncCallback<ClientFinanceDate> callback);
 
-	@SuppressWarnings("unchecked")
+	
 	public void rollBackDepreciation(long rollBackDepreciationTo,
 			AsyncCallback callback);
 
@@ -267,7 +267,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getAllDepreciationFromDates(
 			AsyncCallback<List<ClientFinanceDate>> callback);
 
-	@SuppressWarnings("unchecked")
+	
 	public void changeDepreciationStartDateTo(long newStartDate,
 			AsyncCallback callback);
 
@@ -292,7 +292,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void changeFiscalYearsStartDateTo(long newStartDate,
 			AsyncCallback<Boolean> callback);
 
-	@SuppressWarnings("unchecked")
+	
 	public void runDepreciation(long depreciationFrom, long depreciationTo,
 			FixedAssetLinkedAccountMap linkedAccounts, AsyncCallback callBack);
 

@@ -29,7 +29,7 @@ import com.vimukti.accounter.web.client.ui.core.ViewManager;
  * @param <I>
  * @param <R>
  */
-@SuppressWarnings("unchecked")
+
 public abstract class AbstractReportView<R> extends ParentCanvas implements
 		ISorting<R>, IFinanceReport<R> {
 
@@ -389,7 +389,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	}
 
 	/*
-	 * @SuppressWarnings("deprecation") private void updateDateRangeLayout(Date
+	 *  private void updateDateRangeLayout(Date
 	 * startDate, Date endDate) { this.dateRange.setHTML("<strong> Date Range: "
 	 * + UIUtils.getDateStringByDate(startDate.toGMTString()) + " - " +
 	 * UIUtils.getDateStringByDate(endDate.toGMTString()) + "</strong> "); }

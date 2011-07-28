@@ -47,7 +47,7 @@ public class DepositDetailAction extends Action {
 		runAsync(data, isDependent);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public ParentCanvas getView() {
 		// NOTHING TO DO

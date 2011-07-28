@@ -361,7 +361,7 @@ public class StartupDialog extends DialogBox {
 		// getCompanyListCallback);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private void fillGrid(List<ClientCompany> result) {
 		// ListGridRecord[] records = new ListGridRecord[result.size()];
 		// ClientCompany c;
