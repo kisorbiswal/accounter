@@ -53,8 +53,8 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 				Accounter.constants().quantity(),
 				Accounter.constants().unitPrice(),
 				Accounter.constants().totalPrice(),
-				Accounter.constants().vATRate(),
-				Accounter.constants().vATAmount() };
+				Accounter.constants().VATRate(),
+				Accounter.constants().VATAmount() };
 	}
 
 	@Override
