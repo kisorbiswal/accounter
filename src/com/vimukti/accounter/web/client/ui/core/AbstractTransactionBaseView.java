@@ -81,7 +81,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	protected AccounterButton menuButton;
 	private PopupPanel popupPanel;
 	private CustomMenuBar popupMenuBar;
-	
+
 	private Event event;
 	private boolean isMenuRequired = true;
 
@@ -299,8 +299,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected DateField createTransactionDateItem() {
 
-		final DateField dateItem = new DateField(Accounter.constants()
-				.date());
+		final DateField dateItem = new DateField(Accounter.constants().date());
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -370,8 +369,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected TextItem createRefereceText() {
 
-		TextItem refText = new TextItem(Accounter.constants()
-				.reference());
+		TextItem refText = new TextItem(Accounter.constants().reference());
 		refText.setHelpInformation(true);
 		formItems.add(refText);
 
@@ -380,8 +378,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	protected AmountField createNetAmountField() {
-		AmountField netAmountField = new AmountField(Accounter
-				.constants().netAmount());
+		AmountField netAmountField = new AmountField(Accounter.constants()
+				.netAmount());
 		netAmountField.setHelpInformation(true);
 		netAmountField.setDefaultValue("£0.00");
 		netAmountField.setDisabled(true);
@@ -389,8 +387,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	protected AmountLabel createNetAmountLabel() {
-		AmountLabel netAmountLabel = new AmountLabel(Accounter
-				.constants().netAmount());
+		AmountLabel netAmountLabel = new AmountLabel(Accounter.constants()
+				.netAmount());
 		netAmountLabel.setTitle(Accounter.constants().netAmount());
 		netAmountLabel.setDefaultValue("£0.00");
 		return netAmountLabel;
@@ -398,16 +396,14 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected AmountLabel createTransactionTotalNonEditableLabelforPurchase() {
 
-		AmountLabel amountLabel = new AmountLabel(Accounter
-				.constants().total());
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants().total());
 
 		return amountLabel;
 
 	}
 
 	protected AmountLabel createVATTotalNonEditableLabelforPurchase() {
-		AmountLabel amountLabel = new AmountLabel(Accounter
-				.constants().vat());
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants().VAT());
 
 		return amountLabel;
 	}
@@ -549,8 +545,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	public AccounterButton createAddNewButton() {
-		menuButton = new AccounterButton(Accounter.constants()
-				.addNewItem());
+		menuButton = new AccounterButton(Accounter.constants().addNewItem());
 		menuButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -636,7 +631,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		}
 
 		final SelectCombo paymentMethodSelect = new SelectCombo(Accounter
-				.constants().Paymentmethod());
+				.constants().paymentMethod());
 		paymentMethodSelect.setHelpInformation(true);
 
 		paymentMethodSelect.setRequired(true);
@@ -702,8 +697,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 		if (this.formItems != null) {
 
-			for (
-			FormItem item : formItems) {
+			for (FormItem item : formItems) {
 				// item.disable();
 			}
 		}

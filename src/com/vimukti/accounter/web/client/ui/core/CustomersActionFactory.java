@@ -62,7 +62,7 @@ public class CustomersActionFactory extends AbstractActionFactory {
 	public static AddEditSalesTaxCodeAction getAddEditSalesTaxCodeAction() {
 		String constant = null;
 		if (Accounter.getCompany().getAccountingType() == 1)
-			constant = actionsConstants.newVatCode();
+			constant = actionsConstants.newVATCode();
 		else
 			constant = actionsConstants.newTaxCode();
 		return new AddEditSalesTaxCodeAction(constant);
@@ -207,7 +207,7 @@ public class CustomersActionFactory extends AbstractActionFactory {
 	}
 
 	public static NewSalesperSonAction getNewSalesperSonAction() {
-		return new NewSalesperSonAction(actionsConstants.newSalesperson(),
+		return new NewSalesperSonAction(actionsConstants.newSalesPerson(),
 				"/images/icons/customers/new_salesPerson.png");
 	}
 

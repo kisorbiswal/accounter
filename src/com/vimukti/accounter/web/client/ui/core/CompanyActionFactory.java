@@ -126,7 +126,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 
 	public static MergeFinancialAccountsAction getMergeFinancialAccountsAction() {
 		return new MergeFinancialAccountsAction(
-				actionsConstants.mergeFinacialAccounts());
+				actionsConstants.mergeFinancialAccounts());
 	}
 
 	public static ManageSalesTaxGroupsAction getManageSalesTaxGroupsAction() {
@@ -225,7 +225,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static SalesPersonListsAction getSalesPersonListAction() {
-		return new SalesPersonListsAction(actionsConstants.SalesPersons(),
+		return new SalesPersonListsAction(actionsConstants.salesPersons(),
 				"/images/icons/vendors/pay_bills.png");
 	}
 
@@ -242,7 +242,7 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static NewSalesperSonAction getNewSalesperSonAction() {
-		return new NewSalesperSonAction(actionsConstants.newSalesperson(),
+		return new NewSalesperSonAction(actionsConstants.newSalesPerson(),
 				"/images/icons/company/new_sales_person.png");
 	}
 
@@ -263,8 +263,8 @@ public class CompanyActionFactory extends AbstractActionFactory {
 	}
 
 	public static DepreciationAction getDepriciationAction() {
-		return new DepreciationAction(Accounter.constants()
-				.depreciation(), null);
+		return new DepreciationAction(Accounter.constants().depreciation(),
+				null);
 
 	}
 

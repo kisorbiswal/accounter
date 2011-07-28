@@ -129,7 +129,7 @@ public class ReportsActionFactory extends AbstractActionFactory {
 
 	public static SalesByCustomerSummaryAction getSalesByCustomerSummaryAction() {
 		return new SalesByCustomerSummaryAction(Accounter
-				.constants().salesByCustomerSumary(),
+				.constants().salesByCustomerSummary(),
 				"/images/icons/report/reports.png");
 	}
 
@@ -141,13 +141,13 @@ public class ReportsActionFactory extends AbstractActionFactory {
 
 	public static SalesByItemSummaryAction getSalesByItemSummmaryAction() {
 		return new SalesByItemSummaryAction(Accounter
-				.constants().SalesByItemSummary(),
+				.constants().salesByItemSummary(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static SalesByItemDetailAction getSalesByItemDetailAction() {
 		return new SalesByItemDetailAction(Accounter
-				.constants().SalesByItemDetail(),
+				.constants().salesByItemDetail(),
 				"/images/icons/report/reports.png");
 	}
 
@@ -183,7 +183,7 @@ public class ReportsActionFactory extends AbstractActionFactory {
 
 	public static SalesByItemSummaryAction getSalesByItemSummaryAction() {
 		return new SalesByItemSummaryAction(Accounter
-				.constants().SalesByItemSummary(),
+				.constants().salesByItemSummary(),
 				"/images/icons/report/reports.png");
 	}
 
