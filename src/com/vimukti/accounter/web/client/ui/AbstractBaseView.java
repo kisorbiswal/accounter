@@ -418,4 +418,9 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 		return Accounter.getCompany();
 
 	}
+
+	protected void initConstants() {
+		// TODO Auto-generated method stub
+		
+	}
 }
