@@ -511,7 +511,7 @@ public class Utility_R {
 		return transactionDate;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	// To calculate and return the SalesTax for a particular transaction for the
 	// given date, taxable line total and tax group id
 	public static double getCalculatedSalesTax(FinanceDate transactionDate,
@@ -549,7 +549,7 @@ public class Utility_R {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private static double getLatestTaxRate(TAXCode taxCode,
 			FinanceDate transactionDate) {
 
@@ -610,7 +610,7 @@ public class Utility_R {
 	// PayBill, Vendor Payment, Cash Purchase, Credit Card Charge,Write Check
 	// and Issue Payment
 
-	@SuppressWarnings("unchecked")
+	
 	public static List<Account> getPayFromAccounts(Company company) {
 
 		List<Account> payFromAccounts = new ArrayList<Account>();
@@ -633,7 +633,7 @@ public class Utility_R {
 
 	// To display the DepositIn Account combo box of Creating Cash Sale,
 	// ReceivePayment
-	@SuppressWarnings("unchecked")
+	
 	public static List<Account> getDepositInAccounts(Company company) {
 
 		List<Account> depositInAccounts = new ArrayList<Account>();
@@ -653,7 +653,7 @@ public class Utility_R {
 	}
 
 	// To Display the Account Combo box of Transaction Item Lines.
-	@SuppressWarnings("unchecked")
+	
 	public static List<Account> getGridAccounts(Company company) {
 		List<Account> gridAccounts = new ArrayList<Account>();
 
@@ -672,7 +672,7 @@ public class Utility_R {
 		return gridAccounts;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static List<Account> getCashBackAccounts(Company company) {
 		List<Account> cashBackAccounts = new ArrayList<Account>();
 
@@ -689,7 +689,7 @@ public class Utility_R {
 		return cashBackAccounts;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static List<Account> getIncomeAndExpenseAccounts(Company company) {
 		List<Account> incomeAndExpenseAccounts = new ArrayList<Account>();
 
@@ -706,7 +706,7 @@ public class Utility_R {
 		return incomeAndExpenseAccounts;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static List<Account> getTaxAgencyAccounts(Company company) {
 		List<Account> taxAgencyAccounts = new ArrayList<Account>();
 
@@ -727,7 +727,7 @@ public class Utility_R {
 	}
 
 	// To display the Bank Account combo box of Creating Make Deposit
-	@SuppressWarnings("unchecked")
+	
 	public static List<Account> getBankAccounts(Company company) {
 
 		List<Account> bankAccounts = new ArrayList<Account>();
@@ -744,7 +744,7 @@ public class Utility_R {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static List<Account> getBankingAccountSummary(Company company) {
 
 		List<Account> bankingAccountSummary = new ArrayList<Account>();
@@ -763,7 +763,7 @@ public class Utility_R {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static Account getAccount(Company company, long id) {
 
 		Account account = null;
@@ -780,7 +780,7 @@ public class Utility_R {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static List<Account> getAccounts(Company company, int type) {
 
 		List<Account> accounts = new ArrayList<Account>();
@@ -797,7 +797,7 @@ public class Utility_R {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static List<Account> getAccounts(Company company) {
 
 		List<Account> accounts = new ArrayList<Account>();
@@ -1406,7 +1406,7 @@ public class Utility_R {
 		return valueTobesend;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static ClientFinanceDate getCurrentFiscalYearStartDate() {
 		Session session = HibernateUtil.getCurrentSession();
 		List<FiscalYear> clientFiscalYears = new ArrayList<FiscalYear>(session

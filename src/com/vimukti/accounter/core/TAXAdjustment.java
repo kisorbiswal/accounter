@@ -132,7 +132,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore,
 		return this.adjustmentAccount;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 

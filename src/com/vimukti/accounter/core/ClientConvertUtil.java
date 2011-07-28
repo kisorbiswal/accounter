@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.core.SpecialReference;
 
 public class ClientConvertUtil extends ObjectConvertUtil {
 
-	@SuppressWarnings("unchecked")
+	
 	private <T, R> R getClientAfterCheckingInCache(T obj, Class<R> destType) {
 		Map<Object, Object> localCache = getCache();
 
@@ -30,7 +30,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		return ret;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private <T, R> R getClientwithidAfterCheckingInCache(T obj, R destType) {
 		Map<Object, Object> localCache = getCache();
 
@@ -59,7 +59,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 	 *            Client Object
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
+	
 	private <S, D> D toClientObjectInternal(S src, Class<D> dstType) {
 		try {
 			if (src == null)
@@ -290,7 +290,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public <S extends IAccounterServerCore, D extends IAccounterCore> Collection<D> toCollection(
 			Collection<S> collection, Collection dstCollection) {
 		Collection collection2 = null;
@@ -323,7 +323,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public Set<?> toClientSet(Set<?> set) {
 		if (set == null)
 			return null;
@@ -349,7 +349,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private Object toClientList(List<?> list) {
 		if (list == null)
 			return null;

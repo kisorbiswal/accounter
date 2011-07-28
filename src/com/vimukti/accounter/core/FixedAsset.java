@@ -756,7 +756,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
@@ -1003,7 +1003,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 	 * The purpose of this method is to run the depreciation for every month
 	 * from the given start date till the end date.
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public void createJournalEntriesForDepreciationAtTheEndOfEveryMonthFromStartDateToEndDate(
 			Calendar fromCal1, Calendar toCal, Session session) {
 
@@ -1250,7 +1250,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public static double getCalculatedRollBackDepreciationAmount(
 			Date rollBackDepreciationTo) throws Exception {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility

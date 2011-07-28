@@ -580,7 +580,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	 *             Depreciations till the given date.
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public static void rollBackDepreciation(FinanceDate rollBackDepreciationTo)
 			throws Exception {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
@@ -604,7 +604,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static void rollBackDepreciation(long fixedAssetID,
 			FinanceDate rollBackDepreciationTo) throws Exception {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
@@ -633,7 +633,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	 * This method is to get the last Depreciation Date till which the
 	 * Depreciation run.
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public static FinanceDate getDepreciationLastDate() {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();

@@ -375,7 +375,7 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 		return onUpdate(session);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		// if (previousCustomer != null) {

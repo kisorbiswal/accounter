@@ -304,7 +304,7 @@ public abstract class Payee extends CreatableObject implements
 		this.payeeSince = payeeSince;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void updateBalance(Session session, Transaction transaction,
 			double amount) {
 
@@ -321,7 +321,7 @@ public abstract class Payee extends CreatableObject implements
 	 *            method for reverse back effect on the Account related to this
 	 *            Payee
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public void updateBalance(Session session, Transaction transaction,
 			double amount, TAXRateCalculation object) {
 

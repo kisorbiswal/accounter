@@ -99,14 +99,14 @@ public class ObjectConvertUtil {
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	protected boolean isDate(Class class1) {
 		if (class1.getName().equals("java.util.Date"))
 			return true;
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	protected boolean isFinanceDate(Class class1) {
 		if (class1.getName().equals("com.vimukti.accounter.core.FinanceDate"))
 			return true;
@@ -199,7 +199,7 @@ public class ObjectConvertUtil {
 	 * @param class1
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public static <D extends IAccounterCore, S extends IAccounterServerCore> Class<S> getServerEqivalentClass(
 			Class<?> class1) {
 
@@ -241,7 +241,7 @@ public class ObjectConvertUtil {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static Field getFieldByName(Class<?> class1, String name) {
 		for (Class obj = class1; !obj.equals(Object.class); obj = obj
 				.getSuperclass()) {
@@ -383,7 +383,7 @@ public class ObjectConvertUtil {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public Object loadObjectByid(Session session, String serverClassName,
 			long id) {
 

@@ -147,7 +147,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 

@@ -110,7 +110,7 @@ public class FinanceDate {
 		return this.time;
 	}
 
-	@SuppressWarnings("deprecation")
+	
 	public Date getAsDateObject() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set((Integer.parseInt(this.year)), (Integer

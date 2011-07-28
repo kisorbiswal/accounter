@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class CloneUtil extends ObjectConvertUtil {
-	@SuppressWarnings("unchecked")
+	
 	private <D extends IAccounterServerCore, S extends IAccounterServerCore> Object toCloneList(
 			List<?> set) {
 		if (set == null)
@@ -23,7 +23,7 @@ public class CloneUtil extends ObjectConvertUtil {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private <D extends IAccounterServerCore, S extends IAccounterServerCore> Object toCloneSet(
 			Set<?> set) {
 		if (set == null)
@@ -54,7 +54,7 @@ public class CloneUtil extends ObjectConvertUtil {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private <D extends IAccounterServerCore, S extends IAccounterServerCore> void cloneSet(
 			Field desField, Field srcField, Object dst, Object src) {
 		try {
@@ -77,7 +77,7 @@ public class CloneUtil extends ObjectConvertUtil {
 		return ret;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private <D extends IAccounterServerCore, S extends IAccounterServerCore> D cloneObject(
 			D dst, S src) {
 
@@ -166,7 +166,7 @@ public class CloneUtil extends ObjectConvertUtil {
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private <D extends IAccounterServerCore, S extends IAccounterServerCore> D getAfterCheckingInCache(
 			D dst, S src) {
 		Map<Object, Object> localCache = getCache();

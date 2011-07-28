@@ -47,7 +47,7 @@ public class NumberUtils {
 		return "0";
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static String getNextVoucherNumber() {
 
 		Session session = HibernateUtil.getCurrentSession();

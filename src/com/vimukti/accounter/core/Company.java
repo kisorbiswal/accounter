@@ -2491,7 +2491,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * }
 	 */
 
-	@SuppressWarnings("deprecation")
+	
 	/*
 	 * private void setDefaultsUKValues(Session session) {
 	 * 
@@ -3016,7 +3016,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * 
 	 * @param session
 	 */
-	@SuppressWarnings("deprecation")
+	
 	/*
 	 * private void setDefaultsUSValues(Session session) {
 	 * 
@@ -4349,7 +4349,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.taxId = taxId;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public void toCompany(ClientCompany clientCompany) {
 		this.fullName = clientCompany.getName();
 		if (this.addresses != null) {
@@ -4379,7 +4379,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 				HibernateUtil.getCurrentSession());
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public ClientCompany toClientCompany() {
 		ClientCompany clientCompany = new ClientCompany();
 		clientCompany.setName(this.fullName);

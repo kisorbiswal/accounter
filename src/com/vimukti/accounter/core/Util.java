@@ -14,7 +14,7 @@ public class Util {
 
 	private static ThreadLocal<Map<Object, Object>> cache = new ThreadLocal<Map<Object, Object>>();
 
-	@SuppressWarnings("unchecked")
+	
 	private static Map<String, Field> getAllFields(Class<?> cls) {
 		Map<String, Field> mapFields = new HashMap<String, Field>();
 
@@ -94,7 +94,7 @@ public class Util {
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private static boolean isDate(Class class1) {
 		if (class1.getName().equals("java.util.Date"))
 			return true;
@@ -172,7 +172,7 @@ public class Util {
 		return fieldType.isPrimitive();
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static Object loadObjectByid(Session session,
 			String serverClassName, long id) {
 		try {

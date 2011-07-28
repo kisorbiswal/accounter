@@ -22,7 +22,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 	private HashMap<Field, Object> fieldValues;
 	private Session currentSession;
 
-	@SuppressWarnings("unchecked")
+	
 	public <D extends IAccounterServerCore, S extends IAccounterCore> Object toServerList(
 			List<?> set, Session session) {
 		if (set == null)
@@ -43,7 +43,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public <D extends IAccounterServerCore, S extends IAccounterCore> Object toServerSet(
 			Set<?> set, Session session) {
 		if (set == null)
@@ -68,7 +68,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private <D extends IAccounterServerCore, S extends IAccounterCore> void modifyList(
 			Field desField, Field srcField, Object dst, Object src,
 			Session session) {
@@ -103,7 +103,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private <D extends IAccounterServerCore, S extends IAccounterCore> void modifySet(
 			Field desField, Field srcField, Object dst, Object src,
 			Session session) {
@@ -146,7 +146,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		return ret;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public <D extends IAccounterServerCore, S extends IAccounterCore> D toServerObject(
 			D dst, S src, Session session) {
 		cache.set(null);
@@ -195,7 +195,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		return ret;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private <D extends IAccounterServerCore, S extends IAccounterCore> D toServerObjectInternal(
 			D dst, S src, Session session) {
 
@@ -398,7 +398,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		return imprtedMap;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	private <D extends IAccounterServerCore, S extends IAccounterCore> D getServerAfterCheckingInCache(
 			D dst, S src, Session session) {
 		Map<Object, Object> localCache = getCache();
@@ -468,7 +468,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 
 	private static ThreadLocal<Comparable<?>[]> mergeSortTemp = new ThreadLocal<Comparable<?>[]>();
 
-	@SuppressWarnings("unchecked")
+	
 	public static <T extends Comparable<? super T>> void mergeSort(T[] src) {
 		int length = src.length;
 		Comparable<?>[] temp = mergeSortTemp.get();

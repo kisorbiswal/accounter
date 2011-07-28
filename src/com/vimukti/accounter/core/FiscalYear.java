@@ -197,7 +197,7 @@ public class FiscalYear extends CreatableObject implements
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 

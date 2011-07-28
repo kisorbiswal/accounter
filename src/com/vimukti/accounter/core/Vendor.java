@@ -354,7 +354,7 @@ public class Vendor extends Payee implements Lifecycle {
 		return onUpdate(session);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
