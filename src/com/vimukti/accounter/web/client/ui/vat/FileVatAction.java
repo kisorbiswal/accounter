@@ -32,10 +32,10 @@ public class FileVatAction extends Action {
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */
 	
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -71,10 +71,10 @@ public class FileVatAction extends Action {
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */
-	@Override
-	public String getImageUrl() {
-		return "/images/File_vat.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/File_vat.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

@@ -49,10 +49,10 @@ public class ManageVATGroupListAction extends Action {
 	 * @see com.vimukti.accounter.web.client.ui.core.Action#getView()
 	 */
 	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.view;
+//	}
 
 	/*
 	 * @see
@@ -83,10 +83,10 @@ public class ManageVATGroupListAction extends Action {
 		});
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/Manage_Sales_Tax_Group.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/Manage_Sales_Tax_Group.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

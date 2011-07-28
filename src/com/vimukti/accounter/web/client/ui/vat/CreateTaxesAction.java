@@ -18,11 +18,11 @@ public class CreateTaxesAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		// its not using any where
-		return null;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		// its not using any where
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -38,10 +38,10 @@ public class CreateTaxesAction extends Action {
 		return Accounter.getFinanceMenuImages().createTaxes();
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/Creating_taxes.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/Creating_taxes.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

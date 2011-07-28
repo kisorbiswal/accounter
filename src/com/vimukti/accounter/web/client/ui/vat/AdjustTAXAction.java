@@ -32,10 +32,10 @@ public class AdjustTAXAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return null;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return null;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -71,10 +71,10 @@ public class AdjustTAXAction extends Action {
 
 	}
 
-	@Override
-	public String getImageUrl() {
-		return "/images/Vat_adjustment.png";
-	}
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/Vat_adjustment.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {
