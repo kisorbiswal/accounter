@@ -124,8 +124,8 @@ public class VendorGroup extends CreatableObject implements
 			throws InvalidOperationException {
 		Session session = HibernateUtil.getCurrentSession();
 		VendorGroup vendorGroup = (VendorGroup) clientObject;
-		Query query = session.createQuery(
-				"from com.vimukti.accounter.core.VendorGroup V where V.name=?")
+		Query query = session.getNamedQuery(
+				"getVendorGroup.by.name")
 				.setParameter(0, vendorGroup.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {

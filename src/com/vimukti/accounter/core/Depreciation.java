@@ -586,8 +586,8 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.Depreciation d where d.depreciateFrom >= ? and d.status=? ")
+				.getNamedQuery(
+						"getDepreciation.from.DepreciationFom.andStatus")
 				.setParameter(0, rollBackDepreciationTo).setParameter(1,
 						Depreciation.APPROVE);
 		List<Depreciation> list = query.list();
@@ -610,8 +610,8 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery(
-						"select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.id=?")
+				.getNamedQuery(
+						"getDepreciation.from.depreciateFrom.byFixedassetId")
 				.setParameter(0, rollBackDepreciationTo).setParameter(1,
 						Depreciation.APPROVE).setParameter(2, fixedAssetID);
 		List<Depreciation> list = query.list();
@@ -638,8 +638,8 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.Depreciation d where d.id=((select max(d1.id) from com.vimukti.accounter.core.Depreciation d1 where d1.depreciationFor = ? and d1.status=?))")
+				.getNamedQuery(
+						"getMaxDepreciation.from.Depreciation.byStatus")
 				.setParameter(0, Depreciation.DEPRECIATION_FOR_ALL_FIXEDASSET)
 				.setParameter(1, Depreciation.APPROVE);
 		List<Depreciation> list = query.list();
