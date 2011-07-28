@@ -371,9 +371,9 @@ public class FinanceTool implements IFinanceDAOService {
 		Class<?> serverClass = ObjectConvertUtil
 				.getServerEqivalentClass(clientClass);
 
-		String query = "from " + serverClass.getName() + " a where a.id =:id";
+		String query = "unique.id." + serverClass.getSimpleName();
 
-		Query hibernateQuery = session.createQuery(query).setParameter("id",
+		Query hibernateQuery = session.getNamedQuery(query).setParameter(0,
 				arg1);
 
 		List objects = hibernateQuery.list();
@@ -623,11 +623,11 @@ public class FinanceTool implements IFinanceDAOService {
 					Util.getClientEqualentClass(serverObject.getClass()));
 			if (t instanceof ClientTransaction
 					&& this.company.getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
-				String query = " from com.vimukti.accounter.core.TAXRateCalculation vr where vr.transactionItem.transaction.id=? and vr.vatReturn is not null";
 				Session session = HibernateUtil.getCurrentSession();
-				Query query2 = session.createQuery(query);
+				Query query2 = session
+						.getNamedQuery("getTAXRateCalculation.by.check.idandvatReturn");
 				query2.setParameter(0, t.getID());
-				List list = query2.list();
+				List<?> list = query2.list();
 				if (list != null && list.size() > 0)
 					((ClientTransaction) t).setCanEdit(false);
 			}
@@ -872,7 +872,7 @@ public class FinanceTool implements IFinanceDAOService {
 				FinanceDate existingLeastStartDate = modifiedStartDate;
 				FinanceDate existingHighestEndDate = modifiedStartDate;
 				Boolean exist = Boolean.FALSE;
-				list = session.createQuery("from FiscalYear f").list();
+				list = session.getNamedQuery("getFiscalYearf").list();
 				if (list.size() > 0) {
 					Iterator i = list.iterator();
 					if (i.hasNext()) {
@@ -1077,9 +1077,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new ArrayList<IssuePaymentTransactionsList>();
-		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.WriteCheck wc where wc.status = ?")
+		Query query = session.getNamedQuery("getWriteCheck.by.status")
 				.setParameter(0,
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		List list = query.list();
@@ -1104,9 +1102,7 @@ public class FinanceTool implements IFinanceDAOService {
 				issuePaymentTransactionsList.add(issuePaymentTransaction);
 			}
 		}
-		query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.CustomerRefund cr where cr.isVoid=false and cr.status=?")
+		query = session.getNamedQuery("getCustomerRefund.by.isvoidandstatus")
 				.setParameter(0,
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		list = query.list();
@@ -1130,11 +1126,8 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.PaySalesTax pst where pst.status = ?")
-				.setParameter(0,
-						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+		query = session.getNamedQuery("getPaySalesTax.by.status").setParameter(
+				0, Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		list = query.list();
 
 		if (list != null) {
@@ -1261,8 +1254,7 @@ public class FinanceTool implements IFinanceDAOService {
 			Session session = HibernateUtil.getCurrentSession();
 			List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new ArrayList<IssuePaymentTransactionsList>();
 			Query query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.WriteCheck wc where wc.bankAccount.id = ? and wc.isVoid=false and wc.status = ?")
+					.getNamedQuery("getWriteCheck.by.bankacountIdandstatus")
 					.setParameter(0, account)
 					.setParameter(
 							1,
@@ -1294,8 +1286,8 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.CustomerRefund cr where cr.payFrom.id = ? and cr.isVoid=false and cr.status=?")
+					.getNamedQuery(
+							"getCustomerRefund.by.payFromand.isvoid.status")
 					.setParameter(0, account)
 					.setParameter(
 							1,
@@ -1325,8 +1317,7 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.PaySalesTax pst where pst.payFrom.id = ? and pst.isVoid=false and pst.status = ?")
+					.getNamedQuery("getPaySalesTax.by.payFromand.isvoid.status")
 					.setParameter(0, account)
 					.setParameter(
 							1,
@@ -1587,9 +1578,8 @@ public class FinanceTool implements IFinanceDAOService {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
-			Query query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.CreditsAndPayments cp where cp.payee.id = ? and cp.balance > 0.0")
+			Query query = session.getNamedQuery(
+					"getCreditsAndPayments.by.check.payeeidandbalanceid")
 					.setParameter(0, customer);
 			List list = query.list();
 
@@ -1612,8 +1602,7 @@ public class FinanceTool implements IFinanceDAOService {
 			Session session = HibernateUtil.getCurrentSession();
 
 			List<CustomerRefundsList> customerRefundsList = new ArrayList<CustomerRefundsList>();
-			Query query = session
-					.createQuery("from com.vimukti.accounter.core.CustomerRefund cr ");
+			Query query = session.getNamedQuery("getCustomerRefund");
 			List list = query.list();
 
 			if (list != null) {
@@ -1640,9 +1629,7 @@ public class FinanceTool implements IFinanceDAOService {
 					customerRefundsList.add(customerRefund);
 				}
 			}
-			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.WriteCheck wc where wc.payToType=?")
+			query = session.getNamedQuery("getWriteCheck.by.payToType")
 					.setParameter(0, WriteCheck.TYPE_CUSTOMER);
 			list = query.list();
 
@@ -1690,10 +1677,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 
-			Query query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.Entry e inner join e.journalEntry  where je.id =? ")
-					.setParameter(0, journalEntryId);
+			Query query = session.getNamedQuery("getEntry.by.id").setParameter(
+					0, journalEntryId);
 			List<Entry> list = query.list();
 
 			if (list != null) {
@@ -1712,8 +1697,7 @@ public class FinanceTool implements IFinanceDAOService {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
-			Query query = session
-					.createQuery(" from com.vimukti.accounter.core.Estimate e ");
+			Query query = session.getNamedQuery("getEstimate");
 			List<Estimate> list = query.list();
 
 			if (list != null) {
@@ -1733,10 +1717,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 
-			Query query = session
-					.createQuery(
-							" from com.vimukti.accounter.core.Estimate e  where e.customer.id = ? and e.status = 0")
-					.setParameter(0, customer);
+			Query query = session.getNamedQuery(
+					"getEstimate.by.check.id.status").setParameter(0, customer);
 			List<Estimate> list = query.list();
 
 			if (list != null) {
@@ -1803,8 +1785,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 
-			Query query = session
-					.createQuery(" from com.vimukti.accounter.core.JournalEntry j ");
+			Query query = session.getNamedQuery("getJournalEntry");
 			List<JournalEntry> list = query.list();
 
 			if (list != null) {
@@ -1825,9 +1806,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 
-			Query query = session
-					.createQuery(
-							" from com.vimukti.accounter.core.JournalEntry j where j.id = ?")
+			Query query = session.getNamedQuery("getJournalEntry.by.id")
 					.setParameter(0, journalEntryId);
 			List<JournalEntry> list = query.list();
 
@@ -2102,7 +2081,7 @@ public class FinanceTool implements IFinanceDAOService {
 			Session session = HibernateUtil.getCurrentSession();
 
 			List<Item> list = (List<Item>) session
-					.createQuery(" from com.vimukti.accounter.core.Item item where item.isIBuyThisItem = true");
+					.getNamedQuery("getItem.by.check.isIBuyThisItemisTrue");
 
 			if (list != null) {
 				return list;
@@ -2124,7 +2103,7 @@ public class FinanceTool implements IFinanceDAOService {
 			Session session = HibernateUtil.getCurrentSession();
 
 			List<Item> list = (List<Item>) session
-					.createQuery(" from com.vimukti.accounter.core.Item item where item.isISellThisItem = true");
+					.getNamedQuery("getItem.by.checkisISellThisItemisTrue");
 
 			if (list != null) {
 				return list;
@@ -2152,8 +2131,7 @@ public class FinanceTool implements IFinanceDAOService {
 			List<PayBillTransactionList> queryResult = new ArrayList<PayBillTransactionList>();
 
 			query = session
-					.createQuery("select je from com.vimukti.accounter.core.Entry e "
-							+ "inner join e.journalEntry je where e.debit!=0.0 and je.balanceDue>0.0 order by je.id");
+					.getNamedQuery("getEntry.by.debitand.balanceDue.orderbyid");
 			List<JournalEntry> openingBalanceEntries = query.list();
 
 			for (JournalEntry je : openingBalanceEntries) {
@@ -2210,9 +2188,8 @@ public class FinanceTool implements IFinanceDAOService {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session
-					.createQuery(
-							"select je from com.vimukti.accounter.core.Entry e inner join e.journalEntry je where e.vendor.id=:vendorId and e.credit!=0.0 and je.balanceDue>0.0 order by je.id")
+			Query query = session.getNamedQuery(
+					"getEntry.by.vendorId.creditand.balanceDue.orderbyid")
 					.setParameter("vendorId", vendorId);
 
 			List<JournalEntry> openingBalanceEntries = query.list();
@@ -2301,9 +2278,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			List<ReceivePaymentTransactionList> queryResult = new ArrayList<ReceivePaymentTransactionList>();
 
-			query = session
-					.createQuery(
-							"select je from com.vimukti.accounter.core.Entry e inner join e.journalEntry je where e.customer.id=:customerId and e.debit !=0.0 and je.balanceDue>0.0 order by je.id")
+			query = session.getNamedQuery(
+					"getEntry.by.customerId.debitand.balanceDue.orderbyid")
 					.setParameter("customerId", customerId);
 
 			List<JournalEntry> openingBalanceEntries = query.list();
@@ -2539,9 +2515,8 @@ public class FinanceTool implements IFinanceDAOService {
 	public boolean canVoidOrEdit(long invoiceOrVendorBillId)
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session
-				.createQuery(
-						"select t.canVoidOrEdit from com.vimukti.accounter.core.Transaction t where t.id = ? ")
+		Query query = session.getNamedQuery(
+				"get.canVoidOrEditTransaction.from.transactionID")
 				.setParameter(0, invoiceOrVendorBillId);
 		List list = query.list();
 
@@ -3032,9 +3007,7 @@ public class FinanceTool implements IFinanceDAOService {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session
-					.createQuery(
-							" from com.vimukti.accounter.core.Account a where a.type not in (?,?,?) ")
+			Query query = session.getNamedQuery("getAccount")
 					.setParameter(0, Account.TYPE_INCOME)
 					.setParameter(1, Account.TYPE_EXPENSE)
 					.setParameter(2, Account.TYPE_COST_OF_GOODS_SOLD);
@@ -3056,10 +3029,9 @@ public class FinanceTool implements IFinanceDAOService {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session
-					.createQuery(
-							" from com.vimukti.accounter.core.TransactionMakeDeposit tmd where tmd.id = ?)")
-					.setParameter(0, transactionMakeDepositId);
+			Query query = session.getNamedQuery(
+					"getTransactionMakeDeposit.by.id").setParameter(0,
+					transactionMakeDepositId);
 			List list = query.list();
 
 			if (list != null) {
@@ -3123,8 +3095,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session
-				.createQuery("from com.vimukti.accounter.core.TransactionMakeDepositEntries at where "
-						+ "at.transaction.isDeposited = 'false' and at.transaction.isVoid = 'false' ");
+				.getNamedQuery("getTransactionMakeDeposit.by.checking.isDepositedandisVoid");
 
 		List<TransactionMakeDepositEntries> listing = query.list();
 		return TransactionMakeDepositEntries
@@ -3427,7 +3398,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session
-				.createQuery("from com.vimukti.accounter.core.TAXRateCalculation pst where pst.taxAgency.salesLiabilityAccount.name != 'Un Deposited Funds' and pst.transactionItem.transaction != null and pst.taxDue != 0 order by pst.taxAgency.id");
+				.getNamedQuery("getTAXRateCalculation.checkingby.salesLiabilityAccountName.taxDue");
 
 		List<TAXRateCalculation> list = query.list();
 		List<PaySalesTaxEntries> resultPaySalesTaxEntries = new ArrayList<PaySalesTaxEntries>();
@@ -3454,7 +3425,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 
 		query = session
-				.createQuery("from com.vimukti.accounter.core.TAXAdjustment t where t.taxAgency.salesLiabilityAccount.name != 'Un Deposited Funds' and t.journalEntry.balanceDue != 0 order by t.taxAgency.id");
+				.getNamedQuery("getTAXAdjustment.checkingby.salesLiabilityAccount.nameandbalanceDue");
 
 		List<TAXAdjustment> taxAdjustments = query.list();
 		if (list != null) {
@@ -3738,9 +3709,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.FixedAsset f where f.status = :status")
+		Query query = session.getNamedQuery("getFixedAsset.by.status")
 				.setParameter("status", status);
 
 		List<FixedAsset> list = query.list();
@@ -3770,8 +3739,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query query = session
-				.createQuery("from com.vimukti.accounter.core.FixedAsset f where f.status = 3");
+		Query query = session.getNamedQuery("getFixedAsset.by.checkingstatus");
 
 		List<FixedAsset> list = query.list();
 		for (FixedAsset fixedAsset : list) {
@@ -3846,10 +3814,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		DecimalFormat decimalFormat = new DecimalFormat("##.##");
-		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.FixedAsset f where f.status = 2 and f.purchaseDate <= ?")
-				.setParameter(0, (new FinanceDate(depreciationTo)));
+		Query query = session.getNamedQuery(
+				"getFixedAsset.by.checkStatusand.purchaseDate").setParameter(0,
+				(new FinanceDate(depreciationTo)));
 		List<FixedAsset> fixedAssets = query.list();
 
 		List<Long> fixedAssetIDs = new ArrayList<Long>();
@@ -3914,8 +3881,8 @@ public class FinanceTool implements IFinanceDAOService {
 	public ClientFinanceDate getDepreciationLastDate() throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.Depreciation d where d.id=((select max(d1.id) from com.vimukti.accounter.core.Depreciation d1 where d1.depreciationFor = ? and d1.status=?))")
+				.getNamedQuery(
+						"getDepreciation.by.check.idandStatus.depreciationFor")
 				.setParameter(0, Depreciation.DEPRECIATION_FOR_ALL_FIXEDASSET)
 				.setParameter(1, Depreciation.APPROVE);
 		List<Depreciation> list = query.list();
@@ -4151,8 +4118,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.Depreciation d where d.depreciateFrom >= ? and d.status=? ")
+				.getNamedQuery("getDepreciation.by.depreciateFrom")
 				.setParameter(0, (new FinanceDate(rollBackDepreciationTo)))
 				.setParameter(1, Depreciation.APPROVE);
 		List<Depreciation> list = query.list();
@@ -4207,9 +4173,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 
-		Query query = session
-				.createQuery(
-						"select f from com.vimukti.accounter.core.FixedAsset f where f.id=?")
+		Query query = session.getNamedQuery("getFixedAsset.from.id")
 				.setParameter(0, fixedAssetID);
 		// "select d from com.vimukti.accounter.core.Depreciation d inner join d.fixedAsset where d.depreciateFrom >= ? and d.status=? and d.fixedAsset.id=?").setParameter(0,
 		// rollBackDepreciationTo).setParameter(1,Depreciation.APPROVE).setParameter(2,
@@ -4243,9 +4207,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 
-		Query query = session.createQuery(
-
-		"select f from com.vimukti.accounter.core.FixedAsset f where f.id=?")
+		Query query = session.getNamedQuery("getFixedAsset.from.id")
 
 		.setParameter(0, fixedAssetID);
 
@@ -4555,8 +4517,7 @@ public class FinanceTool implements IFinanceDAOService {
 		FinanceDate startDate = company.getPreferences()
 				.getDepreciationStartDate();
 		FinanceDate depreciationFirstDate = null;
-		Query query = session
-				.createQuery("from com.vimukti.accounter.core.Depreciation d where d.id =(select min(d1.id) from com.vimukti.accounter.core.Depreciation d1)");
+		Query query = session.getNamedQuery("getDepreciation");
 		List<Depreciation> list = query.list();
 		if (list != null && list.size() > 0 && list.get(0) != null) {
 			Depreciation dep = list.get(0);
@@ -4568,9 +4529,7 @@ public class FinanceTool implements IFinanceDAOService {
 			rollBackDepreciation(depreciationFirstDate);
 		}
 
-		query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.FixedAsset fa where fa.purchaseDate <= ?")
+		query = session.getNamedQuery("getFixedAsset.by.purchaseDate")
 				.setParameter(0, (newStartDate));
 		List<FixedAsset> assetsList = query.list();
 		for (FixedAsset fixedAsset : assetsList) {
@@ -4654,7 +4613,7 @@ public class FinanceTool implements IFinanceDAOService {
 		depStartDateCal.setTime(depreciationStartDate.getAsDateObject());
 
 		Query query = session
-				.createQuery("from com.vimukti.accounter.core.FiscalYear fy where fy.status = 1 order by fy.startDate");
+				.getNamedQuery("getFiscalYear.by.check.status.startDate");
 		List<FiscalYear> list = query.list();
 		for (FiscalYear fs : list) {
 			FinanceDate date = fs.getStartDate();
@@ -4686,12 +4645,7 @@ public class FinanceTool implements IFinanceDAOService {
 		// .createQuery(
 		// "select distinct(t.transactionDate) from com.vimukti.accounter.core.Transaction t where t.isVoid='false'"
 		// );
-
-		Query query = session
-				.createQuery(
-						"select distinct(t.transactionDate) from com.vimukti.accounter.core.Transaction t where "
-								+ "t.transactionDate >= (select c.preferences.depreciationStartDate from com.vimukti.accounter.core.Company c where c.id is not null) and "
-								+ "t.transactionDate <= (select max(d.depreciateTo) from com.vimukti.accounter.core.Depreciation d where d.status=?) order by t.transactionDate")
+		Query query = session.getNamedQuery("getdistnct.from.traction.by.date")
 				.setParameter(0, Depreciation.APPROVE);
 		List list = query.list();
 		for (Object dep : list) {
@@ -5082,9 +5036,7 @@ public class FinanceTool implements IFinanceDAOService {
 			int intervalDays, int throughDaysPassOut) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.Transaction t where t.type in (4,5,8,10) and t.transactionDate between :startDate and :endDate")
+		Query query = session.getNamedQuery("getTransactionDate.by.dates")
 				.setParameter("startDate", (new FinanceDate(startDate)))
 				.setParameter("endDate", (new FinanceDate(endDate)));
 		return null;
@@ -5896,8 +5848,7 @@ public class FinanceTool implements IFinanceDAOService {
 			queryResult.add(mostProfitableCustomers);
 		}
 
-		query = session
-				.createQuery("select je from com.vimukti.accounter.core.Entry e inner join e.journalEntry je where e.journalEntryType=3 order by je.id");
+		query = session.getNamedQuery("getEntry.from.journalEntryType");
 
 		List<JournalEntry> nonInvoicedLines = (List<JournalEntry>) query.list();
 
@@ -5930,9 +5881,7 @@ public class FinanceTool implements IFinanceDAOService {
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session
-				.createQuery(
-						"select je from com.vimukti.accounter.core.Entry e inner join e.journalEntry je where e.customer.id=:customer order by je.id")
+		Query query = session.getNamedQuery("getEntry.orderedby.id")
 				.setParameter("customer", customer);
 		List<JournalEntry> nonInvoicedLines = (List<JournalEntry>) query.list();
 
@@ -6599,7 +6548,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		long startDate1 = ((FinanceDate) ((session
-				.createQuery("select f.startDate from com.vimukti.accounter.core.FiscalYear f where f.isCurrentFiscalYear=true"))
+				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
 				.list().get(0))).getTime();
 
 		/*
@@ -6943,12 +6892,8 @@ public class FinanceTool implements IFinanceDAOService {
 			FinanceDate fromDate, FinanceDate toDate) {
 
 		Session session = HibernateUtil.getCurrentSession();
-
 		Query query = session
-				.createQuery(
-
-						"from com.vimukti.accounter.core.TAXAdjustment v where v.taxItem.taxAgency.id=:vatAgency and v.transactionDate between :fromDate and :toDate and v.isFiled = false")
-
+				.getNamedQuery("getTAXAdjustments.by.taxAgencyIdand.Date")
 				.setParameter("fromDate", fromDate)
 				.setParameter("toDate", toDate)
 				.setParameter("vatAgency", vatAgency.getID());
@@ -7028,8 +6973,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem is not null and vr.taxItem.taxAgency.id=:vatAgency and vr.transactionDate <= :toDate and vr.vatReturn is null")
+				.getNamedQuery("getTAXRateCalculations.by.taxAgencyIdand.Date")
 				.setParameter("toDate", toDate)
 				.setParameter("vatAgency", vatAgency.getID());
 		List<TAXRateCalculation> vrc = query.list();
@@ -7237,11 +7181,9 @@ public class FinanceTool implements IFinanceDAOService {
 		FinanceDate endDate = new FinanceDate(endDate1);
 		FinanceDate startDate;
 		{
-			Query q1 = session
-					.createQuery(
-							"from com.vimukti.accounter.core.VATReturn v where v.VATperiodEndDate = :endDate")
+			Query q1 = session.getNamedQuery("getVATReturn.by.enddate")
 
-					.setParameter("endDate", (new FinanceDate(endDate1)));
+			.setParameter("endDate", (new FinanceDate(endDate1)));
 
 			VATReturn vatReturn = (VATReturn) q1.uniqueResult();
 			if (vatReturn == null) {
@@ -7911,8 +7853,7 @@ public class FinanceTool implements IFinanceDAOService {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		FinanceDate endDate = new FinanceDate((endDate1));
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.VATReturn vt where vt.taxAgency.id=:taxAgency and vt.VATperiodEndDate=:endDate")
+				.getNamedQuery("getVATReturn.by.taxagencyandenddate")
 				.setParameter("taxAgency", taxAgency.getID())
 				.setParameter("endDate", (new FinanceDate(endDate1)));
 
@@ -7976,10 +7917,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List<VATSummary> vatSummaries = createRows(taxAgency);
 
-		Query query = session
-				.createQuery(
-						"select min(v.VATperiodStartDate), max(v.VATperiodEndDate) from com.vimukti.accounter.core.VATReturn v where v.taxAgency.id =:taxAgency")
-				.setParameter("taxAgency", taxAgency.getID());
+		Query query = session.getNamedQuery(
+				"getVATReturn.checkingby.taxagencyidand.dates").setParameter(
+				"taxAgency", taxAgency.getID());
 
 		Object object[] = null;
 		List list = query.list();
@@ -8020,8 +7960,8 @@ public class FinanceTool implements IFinanceDAOService {
 		if (leastStartDate != null && highestEndDate != null) {
 
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem is not null and v.transactionDate between :startDate and :endDate and v.vatReturn is null order by v.taxItem")
+					.getNamedQuery(
+							"getTAXRateCalculation.by.datesand.vatReturn")
 					.setParameter("startDate", (new FinanceDate(fromDate)))
 					.setParameter("endDate", (new FinanceDate(toDate)));
 			// .setParameter("startDate1",
@@ -8029,9 +7969,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// highestEndDate);
 			// v.transactionDate not between :startDate1 and :endDate1")
 		} else {
-			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem is not null and v.transactionDate between :startDate and :endDate order by v.taxItem")
+			query = session.getNamedQuery("getTAXRateCalculation.by.dates")
 					.setParameter("startDate", (new FinanceDate(fromDate)))
 					.setParameter("endDate", (new FinanceDate(toDate)));
 		}
@@ -8103,12 +8041,11 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		query = session
-				.createQuery(
+		query = session.getNamedQuery(
 
-						"from com.vimukti.accounter.core.TAXAdjustment v where v.taxItem.taxAgency.id=:taxAgency and v.transactionDate between :fromDate and :toDate and v.isFiled = false order by v.taxItem")
+		"")
 
-				.setParameter("fromDate", (new FinanceDate(fromDate)))
+		.setParameter("fromDate", (new FinanceDate(fromDate)))
 				.setParameter("toDate", (new FinanceDate(toDate)))
 				.setParameter("taxAgency", taxAgency.getID());
 
@@ -8265,7 +8202,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session
-				.createQuery("from com.vimukti.accounter.core.VATReturn where balance>0");
+				.getNamedQuery("getVATReturn.by.check.lessZeroBalance");
 
 		List<VATReturn> vatReturns = query.list();
 
@@ -8286,7 +8223,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session
-				.createQuery("from com.vimukti.accounter.core.VATReturn where balance<0");
+				.getNamedQuery("getVATReturn.by.check.lessZeroBalance balance<0");
 
 		List<VATReturn> vatReturns = query.list();
 
@@ -8475,10 +8412,9 @@ public class FinanceTool implements IFinanceDAOService {
 			uncategorisedAmounts.add(u);
 		}
 
-		query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.TAXAdjustment v where v.transactionDate <= :endDate")
-				.setParameter("endDate", (new FinanceDate(toDate)));
+		query = session.getNamedQuery(
+				"getTAXAdjustment.checkingby.transactionDate").setParameter(
+				"endDate", (new FinanceDate(toDate)));
 
 		List<TAXAdjustment> vatAdjustments = query.list();
 
@@ -8536,10 +8472,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 		// Entries from VATReturn;
 
-		query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.VATReturn v where v.VATperiodEndDate <= :endDate")
-				.setParameter("endDate", (new FinanceDate(toDate)));
+		query = session.getNamedQuery(
+				"getTAXAdjustment.checkingby.VATperiodEndDate").setParameter(
+				"endDate", (new FinanceDate(toDate)));
 
 		List<VATReturn> vatReturns = query.list();
 		for (VATReturn v : vatReturns) {
@@ -8583,8 +8518,7 @@ public class FinanceTool implements IFinanceDAOService {
 		// Entries from the VATRate calculation
 
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.TAXRateCalculation v where v.transactionDate between :startDate and :endDate and v.isVATGroupEntry=false order by v.taxItem.name, v.transactionItem.transaction.transactionDate")
+				.getNamedQuery("getTAXAdjustment.by.taxAgencyidanddates")
 				.setParameter("startDate", (new FinanceDate(fromDate)))
 				.setParameter("endDate", (new FinanceDate(toDate)));
 
@@ -8610,8 +8544,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		// Entries from the VATAdjustment
 		query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.TAXAdjustment v where v.transactionDate between :startDate and :endDate order by v.taxItem.name, v.journalEntry.transactionDate")
+				.getNamedQuery(
+						"getTAXAdjustment.by.dates.orderby.taxItemNameand.TransactionDate")
 				.setParameter("startDate", (new FinanceDate(fromDate)))
 				.setParameter("endDate", (new FinanceDate(toDate)));
 
@@ -8651,8 +8585,8 @@ public class FinanceTool implements IFinanceDAOService {
 		// Entries from the VATRate calculation
 
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem.name=:taxItemName and v.transactionDate between :startDate and :endDate group by v.id, v.transactionItem order by v.transactionItem")
+				.getNamedQuery(
+						"getTAXAdjustment.by.dates.groupedByIdtransactionItem")
 				.setParameter("startDate", (new FinanceDate(fromDate)))
 				.setParameter("endDate", (new FinanceDate(toDate)))
 				.setParameter("taxItemName", taxItemName);
@@ -8719,8 +8653,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		// Entries from the VATAdjustment
 		query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.TAXAdjustment v where v.taxItem.name=:taxItemName and v.transactionDate between :startDate and :endDate order by v.taxItem.name, v.journalEntry.transactionDate")
+				.getNamedQuery(
+						"getTAXRateCalculation.by.dates.groupedByIdtransactionItem")
 				.setParameter("startDate", (new FinanceDate(fromDate)))
 				.setParameter("endDate", (new FinanceDate(toDate)))
 				.setParameter("taxItemName", taxItemName);
@@ -8759,10 +8693,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		// Getting entries from VATRateCalculation
-		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem is not null and (v.isVATGroupEntry = true and v.taxItem != 4 and v.taxItem != 12 and "
-								+ " v.taxItem != 14) or (v.isVATGroupEntry = false) and v.transactionDate between :startDate and :endDate group by v.id, v.transactionItem order by v.taxItem.name")
+		Query query = session.getNamedQuery("getTAXRateCalculation.by.dates")
 				.setParameter("startDate", (new FinanceDate(fromDate)))
 				.setParameter("endDate", (new FinanceDate(toDate)));
 
@@ -8820,8 +8751,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		// Getting entries from VATRateCalculation
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem is not null and v.transactionDate between :startDate and :endDate and v.transactionItem.taxCode.isECSalesEntry = true group by v.id, v.transactionItem order by v.transactionItem")
+				.getNamedQuery(
+						"getTAXRateCalculation.by.check.taxItemandDates.orderBy.transactionItem")
 				.setParameter("startDate", (new FinanceDate(fromDate)))
 				.setParameter("endDate", (new FinanceDate(toDate)));
 
@@ -8931,8 +8862,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		// Getting entries from VATRateCalculation
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.TAXRateCalculation v where v.taxItem is not null and v.transactionDate between :startDate and :endDate and v.transactionItem.taxCode.isECSalesEntry = true group by v.id, v.transactionItem")
+				.getNamedQuery("getTAXRateCalculation.by.check.taxItemandDates")
 				.setParameter("startDate", (new FinanceDate(fromDate)))
 				.setParameter("endDate", (new FinanceDate(toDate)));
 
@@ -9098,8 +9028,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		// Getting entries from VATRateCalculation
 		Query query = session
-				.createQuery(
-						"from com.vimukti.accounter.core.TAXRateCalculation v where v.vatItem is not null and v.transactionDate between :startDate and :endDate group by v.id, v.transactionItem  order by v.transactionItem")
+				.getNamedQuery(
+						"getTAXRateCalculation.by.datesand.orderby.transactionItem")
 				.setParameter("startDate", (new FinanceDate(fromDate)))
 				.setParameter("endDate", (new FinanceDate(toDate)));
 
@@ -10002,7 +9932,7 @@ public class FinanceTool implements IFinanceDAOService {
 		if (id == -1) {
 
 			Query query = session
-					.createQuery("from com.vimukti.accounter.core.FinanceLogger order by id desc");
+					.getNamedQuery("getFinanceLogger.orderby.id.desc");
 			query = query.setMaxResults(20);
 
 			logList = query.list();
@@ -10023,8 +9953,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			i++;
 			Query query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.FinanceLogger f where f.id > :lowerRange and f.id <= :upperRange order by f.id desc")
+					.getNamedQuery(
+							"getFinanceLogger.by.checkidwith.lowerrangeandupperrange")
 					.setParameter("lowerRange", i)
 					.setParameter("upperRange", id);
 			query = query.setMaxResults(20);
@@ -10244,10 +10174,8 @@ public class FinanceTool implements IFinanceDAOService {
 	public String getPreviousTransactionNumber(int transactionType,
 			long maxCount) {
 
-		Query query = HibernateUtil
-				.getCurrentSession()
-				.createQuery(
-						"select t.number from com.vimukti.accounter.core.Transaction t where t.type =:transactionType and t.id=:id")
+		Query query = HibernateUtil.getCurrentSession()
+				.getNamedQuery("getTransaction.from.typeandId")
 				.setParameter("transactionType", transactionType)
 				.setParameter("id", maxCount);
 
@@ -10295,8 +10223,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 				Query query = HibernateUtil
 						.getCurrentSession()
-						.createQuery(
-								" from com.vimukti.accounter.core.Transaction t where t.type =? and t.number =? and t.id !=?")
+						.getNamedQuery("getTransaction.by.check.type.number.id")
 						.setParameter(0, clientObject.getType())
 						.setParameter(1, clientObject.getNumber())
 						.setParameter(2, clientObject.getID());
@@ -10813,22 +10740,19 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	public void deleteTaxCodeOfTaxItemGroupIfUSversion(Session session,
-			AccounterCoreType clazz, String id) {
+			AccounterCoreType clazz, long id) {
 
 		if (this.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US
 				&& (clazz.getServerClassSimpleName().equals("TAXItem") || clazz
 						.getServerClassSimpleName().equals("TAXGroup"))) {
 
-			Query query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.TransactionItem ti where ti.taxCode.id =:id")
+			Query query = session.getNamedQuery("getTransactionItem.by.id")
 					.setParameter("id", id);
 			List list = query.list();
 
 			if (list.size() == 0)
-				session.createQuery(
-						"delete from com.vimukti.accounter.core.TAXCode t where t.id = '"
-								+ id + "'").executeUpdate();
+				session.getNamedQuery("deleteTAXCode").setParameter(0, id)
+						.executeUpdate();
 		}
 		return;
 	}
@@ -11419,15 +11343,14 @@ public class FinanceTool implements IFinanceDAOService {
 		Query query = null;
 		if (employeeName != null)
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.CashPurchase cp where cp.employeeName=:employeeName and cp.expenseStatus=:expenseStatus and cp.type=:type and cp.isVoid=false")
+					.getNamedQuery(
+							"getCashPurchase.by.employeeNmae.expenseStatusandtype")
 					.setParameter("employeeName", employeeName)
 					.setParameter("expenseStatus", status)
 					.setParameter("type", Transaction.TYPE_EMPLOYEE_EXPENSE);
 		else
 			query = session
-					.createQuery(
-							"from com.vimukti.accounter.core.CashPurchase cp where cp.expenseStatus=:expenseStatus and cp.type=:type and cp.isVoid=false")
+					.getNamedQuery("getCashPurchase.by.expenseStatusandtype")
 					.setParameter("expenseStatus", status)
 					.setParameter("type", Transaction.TYPE_EMPLOYEE_EXPENSE);
 
