@@ -29,10 +29,10 @@ public class DisposingRegisteredItemAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return view;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return view;
+//	}
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

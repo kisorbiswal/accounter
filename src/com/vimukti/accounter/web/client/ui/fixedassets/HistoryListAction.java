@@ -26,10 +26,10 @@ public class HistoryListAction extends Action {
 	}
 
 	
-	@Override
-	public ParentCanvas getView() {
-		return this.view;
-	}
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.view;
+//	}
 
 	@Override
 	public void run(final Object data, final Boolean isDependent) {
