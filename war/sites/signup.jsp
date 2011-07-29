@@ -154,7 +154,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 								<tr>
 									
 									<td class="signup-box">
-									<h3 style="color:#3299A4">Admin Details</h3>
+									<h3 style="color:#3299A4;float:left">Admin Details</h3><span class="mandatory">All fields are mandatory</span>
 									<table>
 										<tr>
 									 <td style="width : 155px;padding-bottom: 9px"><span>First Name</span> <span id=red>*</span> </td>
