@@ -62,6 +62,16 @@
 	</servlet>
 	
 	<servlet-mapping>
+		<servlet-name>CompanySetup</servlet-name>
+		<url-pattern>/companysetup</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>CompanySetup</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.SetupServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
 		<servlet-name>Activation</servlet-name>
 		<url-pattern>/activation</url-pattern>
 	</servlet-mapping>
