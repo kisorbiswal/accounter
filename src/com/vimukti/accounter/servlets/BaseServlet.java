@@ -1,7 +1,9 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.io.Serializable;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
@@ -95,8 +98,13 @@ public class BaseServlet extends HttpServlet {
 	protected void redirect(HttpServletRequest req, HttpServletResponse resp,
 			String page) {
 		try {
-			resp.sendRedirect(page);
+			RequestDispatcher reqDispatcher = getServletContext().getRequestDispatcher(page);
+			reqDispatcher.forward(req, resp);
+			
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -115,8 +123,16 @@ public class BaseServlet extends HttpServlet {
 	}
 
 	protected void saveEntry(IAccounterServerCore object) {
+	
 		Session currentSession = HibernateUtil.getCurrentSession();
-		currentSession.save(object);
+		Transaction transaction = currentSession.beginTransaction();
+		Serializable ob = currentSession.save(object);
+		try{
+		transaction.commit();
+		}catch (Exception e) {
+			transaction.rollback();
+		}
+		
 	}
 
 	protected Client getClient(String emailId) {
