@@ -15,12 +15,12 @@ public class Activation {
 		this.emailId = emailId;
 	}
 
-	public String getTocken() {
+	public String getToken() {
 		return token;
 	}
 
-	public void setTocken(String tocken) {
-		this.token = tocken;
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public Date getSignUpDate() {
