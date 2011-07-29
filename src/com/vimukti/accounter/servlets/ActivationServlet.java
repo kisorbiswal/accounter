@@ -44,7 +44,7 @@ public class ActivationServlet extends BaseServlet {
 				req.setAttribute("emailId", activation.getEmailId());
 			}
 			// redirect To ActivationPage.
-			redirect(req, resp, "resetpassword.jsp");
+			redirect(req, resp, "site/resetpassword.jsp");
 		} catch (Exception e) {
 		} finally {
 			if (hibernateSession != null) {
