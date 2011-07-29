@@ -32,17 +32,6 @@ public class DepreciationAction extends Action {
 		return Accounter.getFinanceMenuImages().Depreciation();
 	}
 
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/Depreciation.png";
-	// }
-	//
-	//
-	// @Override
-	// public ParentCanvas getView() {
-	// return this.view;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		view = new DepreciationView();
