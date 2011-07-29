@@ -10,6 +10,27 @@ package com.vimukti.accounter.web.client.exception;
 @SuppressWarnings("serial")
 public class AccounterException extends Exception {
 
+	/**
+	 * Used to tell that same number is already used for another Transaction or
+	 * Core object
+	 */
+	public static final int ERROR_NUMBER_CONFLICT = 1;
+	/**
+	 * Used to tell that same name is already used for another core object
+	 */
+	public static final int ERROR_NAME_CONFLICT = 2;
+	/**
+	 * Used to tell that this transaction is already done, and can not be done
+	 * again
+	 */
+	public static final int ERROR_TRAN_CONFLICT = 3;
+
+	/**
+	 * Sent when user does not have sufficient permission to do this operation
+	 */
+	public static final int ERROR_PERMISSION_DENIED = 4;
+	
+
 	protected int errorCode;
 
 	// private long id;
