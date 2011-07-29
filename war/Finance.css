@@ -2090,3 +2090,37 @@ input[type="text"],textarea {
 .header ul li a:HOVER {
 	text-decoration:underline;
 }
+
+/* error.jsp css start here*/
+.error_vimukti_logo{
+	background:url(".. /images/Accounter_logo_title.png")no-repeat scroll 0 0 transparent;
+	width:230px;
+	width:50px;
+	margin:10px 0 0 100px;
+}
+.exception_box{
+	 border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px;
+	-webkit-radius-border: 10px;
+	background: none repeat scroll 0 0 white;
+    margin: 0 auto;
+    padding: 10px;
+    width: 800px;
+}
+.main_data_box{
+	 border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px;
+	-webkit-radius-border: 10px;
+	margin:10px;
+	border:1px solid;
+	background:#FFFFCD;
+	padding:10px;
+}
+.main_data_box h4{
+	color:#ED5C15;
+	padding:0px;
+	margin:0px;
+}
+.main_data_box a{
+	float:right;
+}
