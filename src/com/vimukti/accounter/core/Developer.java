@@ -1,7 +1,8 @@
 package com.vimukti.accounter.core;
 
+import com.vimukti.accounter.web.client.InvalidOperationException;
 
-public class Developer {
+public class Developer implements IAccounterServerCore {
 
 	private long id;
 	private Client client;
@@ -101,5 +102,18 @@ public class Developer {
 
 	public void setContact(String contact) {
 		this.contact = contact;
+	}
+
+	@Override
+	public long getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws InvalidOperationException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
