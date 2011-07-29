@@ -60,6 +60,8 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	    $('#mid-box2').click(function(){
 	    $('.indication-box').remove();
 	        $('#email_id_box').append('<div class="indication-box"><div class="left-arrow"></div><div class="box-data">Enter a valid email address. A mail will be sent to this email to confirm your account and also in case you forgot your password</div></div>');
+	    }).blur(funtion(){
+	        $('.indication-box').remove();
 	    });
 	   
 		$('#submitButton').click(function() {
@@ -454,7 +456,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 								   <tr>
 								     <td width="155px"></td>
 								     <td>
-								        <div class="newsletter"><inputid="newsletter" type="checkbox" name="newsletter">Yes, Subscribe me to Accounter Newsletter </input><b>(Optional)</b></div>
+								        <div class="newsletter"><input id="newsletter" type="checkbox" name="newsletter">Yes, Subscribe me to Accounter Newsletter </input><b>(Optional)</b></div>
 								     </td>
 								  </tr>
 								  <tr>
