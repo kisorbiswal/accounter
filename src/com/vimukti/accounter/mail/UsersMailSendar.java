@@ -533,4 +533,31 @@ public class UsersMailSendar {
 		EmailManager.getInstance().addJob(job);
 	}
 
+	public static void sendActivationMail(String link, String recipient) {
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Email is being sent to default user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		String subject = propertyParser.getProperty("subjectForActivation",
+				"");
+
+		String content = propertyParser.getProperty("contentForActivation",
+				"");
+		content = content.replaceAll("%LINK%", link);
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(recipient);
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
+
+		EmailManager.getInstance().addJob(job);
+	}
 }
