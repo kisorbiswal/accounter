@@ -29,6 +29,8 @@ public class ClientCompany implements IAccounterCore {
 	public static final int ACCOUNTING_TYPE_INDIA = 2;
 	public static final int ACCOUNTING_TYPE_OTHER = 3;
 
+	public static final int TYPE_BASIC = 8;
+
 	private Map<String, String> paymentMethods = new HashMap<String, String>();
 
 	int accountingType = 0;

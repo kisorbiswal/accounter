@@ -145,6 +145,7 @@ import com.vimukti.accounter.web.client.ui.reports.VATSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VATUncategorisedAmountsReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VaTItemDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.VendorTransactionHistoryAction;
+import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
 import com.vimukti.accounter.web.client.ui.settings.AutomaticSequenceAction;
 import com.vimukti.accounter.web.client.ui.settings.ConversionBalancesAction;
 import com.vimukti.accounter.web.client.ui.settings.ConversionDateAction;
@@ -154,6 +155,7 @@ import com.vimukti.accounter.web.client.ui.settings.DeleteThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.GeneralSettingsAction;
 import com.vimukti.accounter.web.client.ui.settings.InviteUserAction;
 import com.vimukti.accounter.web.client.ui.settings.InvoiceBrandingAction;
+import com.vimukti.accounter.web.client.ui.settings.MeasurementAction;
 import com.vimukti.accounter.web.client.ui.settings.NewBrandThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.UsersAction;
 import com.vimukti.accounter.web.client.ui.settings.WareHouseTransferAction;
@@ -270,20 +272,16 @@ public class ActionFactory {
 		return new WarehouseTransferListAction(messages.warehouseTransferList());
 	}
 
-	//Banking action factory 
-	
-
+	// Banking action factory
 
 	public static BankingHomeAction getBankingHomeAction() {
-		return new BankingHomeAction(actionsConstants.bankingHome(),
-				Accounter.getFinanceMenuImages().bankingHome()
-						.getURL());
+		return new BankingHomeAction(actionsConstants.bankingHome(), Accounter
+				.getFinanceMenuImages().bankingHome().getURL());
 	}
 
 	public static NewBankAccountAction getNewBankAccountAction() {
 		return new NewBankAccountAction(actionsConstants.newBankCategory(),
-				Accounter.getFinanceMenuImages().newBankAccount()
-						.getURL());
+				Accounter.getFinanceMenuImages().newBankAccount().getURL());
 	}
 
 	public static AccountRegisterAction getAccountRegisterAction() {
@@ -293,8 +291,8 @@ public class ActionFactory {
 	}
 
 	public static WriteChecksAction getWriteChecksAction() {
-		return new WriteChecksAction(actionsConstants.writeCheck(),
-				Accounter.getFinanceMenuImages().newCheck().getURL());
+		return new WriteChecksAction(actionsConstants.writeCheck(), Accounter
+				.getFinanceMenuImages().newCheck().getURL());
 	}
 
 	public static WriteChecksAction getWriteChecksAction(
@@ -366,9 +364,7 @@ public class ActionFactory {
 		return new MatchTrasactionsAction(actionsConstants.matchTrasactions());
 	}
 
-	//ActionFactory
-	
-
+	// ActionFactory
 
 	public static CompanyHomeAction getCompanyHomeAction() {
 		return new CompanyHomeAction(actionsConstants.home());
@@ -549,7 +545,6 @@ public class ActionFactory {
 		return new ManageItemTaxAction(actionsConstants.newItemTax(), "");
 	}
 
-
 	public static NewItemAction getNewItemAction() {
 		return new NewItemAction(actionsConstants.newItem(),
 				"/images/icons/vendors/new_item.png");
@@ -625,8 +620,7 @@ public class ActionFactory {
 	//
 	// }
 
-	//Customers actions Factory
-	
+	// Customers actions Factory
 
 	public static NewCustomerAction getNewCustomerAction() {
 		return new NewCustomerAction(actionsConstants.newCustomer(),
@@ -758,8 +752,8 @@ public class ActionFactory {
 
 	public static ItemsAction getItemsAction() {
 		return new ItemsAction(actionsConstants.items(),
-				"/images/icons/customers/items.png", Accounter
-						.constants().customer());
+				"/images/icons/customers/items.png", Accounter.constants()
+						.customer());
 	}
 
 	public static QuotesAction getQuotesAction() {
@@ -817,20 +811,20 @@ public class ActionFactory {
 		return new PaymentDialogAction(actionsConstants.payments());
 	}
 
-//Fixed Assests action factory
-	
+	// Fixed Assests action factory
+
 	public static NewFixedAssetAction getNewFixedAssetAction() {
 		return new NewFixedAssetAction(actionsConstants.newFixedAsset());
 	}
 
 	public static SellingRegisteredItemAction getSellingRegisteredItemAction() {
-		return new SellingRegisteredItemAction(actionsConstants
-				.sellingRegisteredItem());
+		return new SellingRegisteredItemAction(
+				actionsConstants.sellingRegisteredItem());
 	}
 
 	public static DisposingRegisteredItemAction getDiposingRegisteredItemAction() {
-		return new DisposingRegisteredItemAction(actionsConstants
-				.disposingRegisteredItem());
+		return new DisposingRegisteredItemAction(
+				actionsConstants.disposingRegisteredItem());
 	}
 
 	public static PendingItemsListAction getPendingItemsListAction() {
@@ -839,39 +833,37 @@ public class ActionFactory {
 	}
 
 	public static Action getRegisteredItemsListAction() {
-		return new RegisteredItemsListAction(actionsConstants
-				.registeredItemsList());
+		return new RegisteredItemsListAction(
+				actionsConstants.registeredItemsList());
 	}
 
 	public static Action getSoldDisposedListAction() {
-		return new SoldDisposedFixedAssetsListAction(actionsConstants
-				.soldDisposedItems());
+		return new SoldDisposedFixedAssetsListAction(
+				actionsConstants.soldDisposedItems());
 	}
 
 	public static Action getHistoryListAction() {
 		return new HistoryListAction(actionsConstants.historyList());
 	}
 
-//Purchase order action
-	
-//	public static PurchaseOrderAction getPurchaseOrderAction() {
-//		return new PurchaseOrderAction("Purchase Order",
-//				"/images/Purchase-order.png");
-//	}
+	// Purchase order action
 
-//	public static PurchaseOrderListAction getPurchaseOrderListAction() {
-//		return new PurchaseOrderListAction("PurchaseOrder List",
-//				"/images/Purchase-order-list.png");
-//	}
+	// public static PurchaseOrderAction getPurchaseOrderAction() {
+	// return new PurchaseOrderAction("Purchase Order",
+	// "/images/Purchase-order.png");
+	// }
+
+	// public static PurchaseOrderListAction getPurchaseOrderListAction() {
+	// return new PurchaseOrderListAction("PurchaseOrder List",
+	// "/images/Purchase-order-list.png");
+	// }
 
 	public static PurchaseOpenOrderAction getPurchaseOpenOrderListAction() {
 		return new PurchaseOpenOrderAction("PurchaseOrder Report",
 				"/images/icons/report/reports.png");
 	}
 
-	//reports action factory 
-	
-
+	// reports action factory
 
 	public static ReportsHomeAction getReportsHomeAction() {
 		return new ReportsHomeAction(actionsConstants.reportsHome(),
@@ -880,47 +872,44 @@ public class ActionFactory {
 
 	public static VendorsListAction getVendorListAction() {
 		return new VendorsListAction(UIUtils.getVendorString(Accounter
-				.constants().suppliersList(), Accounter
-				.constants().vendorsList()),
-				"/images/icons/report/reports.png");
+				.constants().suppliersList(), Accounter.constants()
+				.vendorsList()), "/images/icons/report/reports.png");
 	}
 
 	public static BalanceSheetAction getBalanceSheetAction() {
-		return new BalanceSheetAction(Accounter.constants()
-				.balanceSheet(), "/images/icons/report/reports.png");
-	}
-
-	public static CashFlowStatementAction getCashFlowStatementAction() {
-		return new CashFlowStatementAction(Accounter
-				.constants().cashFlowReport(),
+		return new BalanceSheetAction(Accounter.constants().balanceSheet(),
 				"/images/icons/report/reports.png");
 	}
 
+	public static CashFlowStatementAction getCashFlowStatementAction() {
+		return new CashFlowStatementAction(Accounter.constants()
+				.cashFlowReport(), "/images/icons/report/reports.png");
+	}
+
 	public static TrialBalanceAction getTrialBalanceAction() {
-		return new TrialBalanceAction(Accounter.constants()
-				.trialBalance(), "/images/icons/report/reports.png");
+		return new TrialBalanceAction(Accounter.constants().trialBalance(),
+				"/images/icons/report/reports.png");
 	}
 
 	public static TransactionDetailByAccountAction getTransactionDetailByAccountAction() {
-		return new TransactionDetailByAccountAction(Accounter
-				.constants().transactionDetailByAccount(),
+		return new TransactionDetailByAccountAction(Accounter.constants()
+				.transactionDetailByAccount(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static GLReportAction getGlReportAction() {
-		return new GLReportAction(Accounter.constants()
-				.generalLedgerReport(), "/images/icons/report/reports.png");
-	}
-
-	public static SalesTaxLiabilityAction getSalesTaxLiabilityAction() {
-		return new SalesTaxLiabilityAction(Accounter
-				.constants().salesTaxLiability(),
+		return new GLReportAction(Accounter.constants().generalLedgerReport(),
 				"/images/icons/report/reports.png");
 	}
 
+	public static SalesTaxLiabilityAction getSalesTaxLiabilityAction() {
+		return new SalesTaxLiabilityAction(Accounter.constants()
+				.salesTaxLiability(), "/images/icons/report/reports.png");
+	}
+
 	public static TransactionDetailByTaxItemAction getTransactionDetailByTaxItemAction() {
-		return new TransactionDetailByTaxItemAction(Accounter
-				.constants().transactionDetailByTaxItem(),
+		return new TransactionDetailByTaxItemAction(Accounter.constants()
+				.transactionDetailByTaxItem(),
 				"/images/icons/report/reports.png");
 	}
 
@@ -931,44 +920,39 @@ public class ActionFactory {
 	// }
 
 	public static ARAgingDetailAction getArAgingDetailAction() {
-		return new ARAgingDetailAction(Accounter.constants()
-				.ARAgeingDetail(), "/images/icons/report/reports.png");
+		return new ARAgingDetailAction(Accounter.constants().ARAgeingDetail(),
+				"/images/icons/report/reports.png");
 	}
 
 	public static CustomerTransactionHistoryAction getCustomerTransactionHistoryAction() {
-		return new CustomerTransactionHistoryAction(Accounter
-				.constants().customerTransactionHistory(),
+		return new CustomerTransactionHistoryAction(Accounter.constants()
+				.customerTransactionHistory(),
 				"/images/icons/report/reports.png");
 	}
 
 	public static MostProfitableCustomersAction getMostProfitableCustomersAction() {
-		return new MostProfitableCustomersAction(Accounter
-				.constants().mostProfitableCustomers(),
-				"/images/icons/report/reports.png");
+		return new MostProfitableCustomersAction(Accounter.constants()
+				.mostProfitableCustomers(), "/images/icons/report/reports.png");
 	}
 
 	public static SalesByCustomerSummaryAction getSalesByCustomerSummaryAction() {
-		return new SalesByCustomerSummaryAction(Accounter
-				.constants().salesByCustomerSummary(),
-				"/images/icons/report/reports.png");
+		return new SalesByCustomerSummaryAction(Accounter.constants()
+				.salesByCustomerSummary(), "/images/icons/report/reports.png");
 	}
 
 	public static SalesByCustomerDetailAction getSalesByCustomerDetailAction() {
-		return new SalesByCustomerDetailAction(Accounter
-				.constants().salesByCustomerDetail(),
-				"/images/icons/report/reports.png");
+		return new SalesByCustomerDetailAction(Accounter.constants()
+				.salesByCustomerDetail(), "/images/icons/report/reports.png");
 	}
 
 	public static SalesByItemSummaryAction getSalesByItemSummmaryAction() {
-		return new SalesByItemSummaryAction(Accounter
-				.constants().salesByItemSummary(),
-				"/images/icons/report/reports.png");
+		return new SalesByItemSummaryAction(Accounter.constants()
+				.salesByItemSummary(), "/images/icons/report/reports.png");
 	}
 
 	public static SalesByItemDetailAction getSalesByItemDetailAction() {
-		return new SalesByItemDetailAction(Accounter
-				.constants().salesByItemDetail(),
-				"/images/icons/report/reports.png");
+		return new SalesByItemDetailAction(Accounter.constants()
+				.salesByItemDetail(), "/images/icons/report/reports.png");
 	}
 
 	// public static YtdSalesComparedToLastYearAction
@@ -978,14 +962,13 @@ public class ActionFactory {
 	// }
 
 	public static APAgingDetailAction getAorpAgingDetailAction() {
-		return new APAgingDetailAction(Accounter.constants()
-				.APAgeingDetail(), "/images/icons/report/reports.png");
+		return new APAgingDetailAction(Accounter.constants().APAgeingDetail(),
+				"/images/icons/report/reports.png");
 	}
 
 	public static VendorTransactionHistoryAction getVendorTransactionHistoryAction() {
 		return new VendorTransactionHistoryAction(UIUtils.getVendorString(
-				Accounter.constants()
-						.supplierTransactionHistory(), Accounter
+				Accounter.constants().supplierTransactionHistory(), Accounter
 						.constants().vendorTransactionHistory()),
 				"/images/icons/report/reports.png");
 	}
@@ -1002,111 +985,96 @@ public class ActionFactory {
 	}
 
 	public static SalesByItemSummaryAction getSalesByItemSummaryAction() {
-		return new SalesByItemSummaryAction(Accounter
-				.constants().salesByItemSummary(),
-				"/images/icons/report/reports.png");
+		return new SalesByItemSummaryAction(Accounter.constants()
+				.salesByItemSummary(), "/images/icons/report/reports.png");
 	}
 
 	public static PurchaseByVendorSummaryAction getPurchaseByVendorSummaryAction() {
 		return new PurchaseByVendorSummaryAction(UIUtils.getVendorString(
-				Accounter.constants()
-						.purchaseBySupplierSummary(), Accounter
+				Accounter.constants().purchaseBySupplierSummary(), Accounter
 						.constants().purchaseByVendorSummary()),
 				"/images/icons/report/reports.png");
 	}
 
 	public static PurchaseByVendorDetailsAction getPurchaseByVendorDetailAction() {
 		return new PurchaseByVendorDetailsAction(UIUtils.getVendorString(
-				Accounter.constants()
-						.purchaseBySupplierDetail(), Accounter
+				Accounter.constants().purchaseBySupplierDetail(), Accounter
 						.constants().purchaseByVendorDetail()),
 				"/images/icons/report/reports.png");
 	}
 
 	public static PurchaseByItemSummaryAction getPurchaseByItemSummaryAction() {
-		return new PurchaseByItemSummaryAction(Accounter
-				.constants().purchaseByItemSummary(),
-				"/images/icons/report/reports.png");
+		return new PurchaseByItemSummaryAction(Accounter.constants()
+				.purchaseByItemSummary(), "/images/icons/report/reports.png");
 	}
 
 	public static PurchaseByItemDetailsAction getPurchaseByItemAction() {
-		return new PurchaseByItemDetailsAction(Accounter
-				.constants().purchaseByItemDetail(),
-				"/images/icons/report/reports.png");
+		return new PurchaseByItemDetailsAction(Accounter.constants()
+				.purchaseByItemDetail(), "/images/icons/report/reports.png");
 	}
 
 	public static PurchaseOpenOrderAction getPurchaseOpenOrderAction() {
-		return new PurchaseOpenOrderAction(Accounter
-				.constants().purchaseOrderReport(),
-				"/images/icons/report/reports.png");
+		return new PurchaseOpenOrderAction(Accounter.constants()
+				.purchaseOrderReport(), "/images/icons/report/reports.png");
 	}
 
 	public static PurchaseClosedOrderAction getPurchaseClosedOrderAction() {
-		return new PurchaseClosedOrderAction(Accounter
-				.constants().purchaseClosedOrder(),
-				"/images/icons/report/reports.png");
+		return new PurchaseClosedOrderAction(Accounter.constants()
+				.purchaseClosedOrder(), "/images/icons/report/reports.png");
 	}
 
 	public static SalesOpenOrderAction getSalesOpenOrderAction() {
-		return new SalesOpenOrderAction(Accounter
-				.constants().salesOrderReport(),
-				"/images/icons/report/reports.png");
+		return new SalesOpenOrderAction(Accounter.constants()
+				.salesOrderReport(), "/images/icons/report/reports.png");
 	}
 
 	public static SalesClosedOrderAction getSalesCloseOrderAction() {
-		return new SalesClosedOrderAction(Accounter
-				.constants().salesCloseOrder(),
-				"/images/icons/report/reports.png");
+		return new SalesClosedOrderAction(Accounter.constants()
+				.salesCloseOrder(), "/images/icons/report/reports.png");
 	}
 
 	public static VATDetailsReportAction getVATDetailsReportAction() {
-		return new VATDetailsReportAction(Accounter
-				.constants().VATDetail());
+		return new VATDetailsReportAction(Accounter.constants().VATDetail());
 	}
 
 	public static VATSummaryReportAction getVATSummaryReportAction() {
-		return new VATSummaryReportAction(Accounter
-				.constants().priorVATReturns(),
-				"/images/icons/report/reports.png");
+		return new VATSummaryReportAction(Accounter.constants()
+				.priorVATReturns(), "/images/icons/report/reports.png");
 	}
 
 	public static VAT100ReportAction getVAT100ReportAction() {
-		return new VAT100ReportAction(Accounter.constants()
-				.VAT100(), "/images/icons/report/reports.png");
+		return new VAT100ReportAction(Accounter.constants().VAT100(),
+				"/images/icons/report/reports.png");
 	}
 
 	public static VATUncategorisedAmountsReportAction getVATUncategorisedAmountsReportAction() {
-		return new VATUncategorisedAmountsReportAction(Accounter
-				.constants().uncategorisedVATAmounts(),
-				"/images/icons/report/reports.png");
+		return new VATUncategorisedAmountsReportAction(Accounter.constants()
+				.uncategorisedVATAmounts(), "/images/icons/report/reports.png");
 	}
 
 	public static VATItemSummaryReportAction getVATItemSummaryReportAction() {
-		return new VATItemSummaryReportAction(Accounter
-				.constants().VATItemSummary(),
-				"/images/icons/report/reports.png");
+		return new VATItemSummaryReportAction(Accounter.constants()
+				.VATItemSummary(), "/images/icons/report/reports.png");
 	}
 
 	public static ECSalesListAction getECSalesListAction() {
-		return new ECSalesListAction(Accounter.constants()
-				.ecSalesList(), "/images/icons/report/reports.png");
+		return new ECSalesListAction(Accounter.constants().ecSalesList(),
+				"/images/icons/report/reports.png");
 	}
 
 	public static ECSalesListDetailAction getECSalesListDetailAction() {
-		return new ECSalesListDetailAction(Accounter
-				.constants().ecSalesListDetailReport(),
-				"/images/icons/report/reports.png");
+		return new ECSalesListDetailAction(Accounter.constants()
+				.ecSalesListDetailReport(), "/images/icons/report/reports.png");
 	}
 
 	public static ReverseChargeListAction getReverseChargeListAction() {
-		return new ReverseChargeListAction(Accounter
-				.constants().reverseChargeList(),
-				"/images/icons/report/reports.png");
+		return new ReverseChargeListAction(Accounter.constants()
+				.reverseChargeList(), "/images/icons/report/reports.png");
 	}
 
 	public static ReverseChargeListDetailAction getReverseChargeListDetailAction() {
-		return new ReverseChargeListDetailAction(Accounter
-				.constants().reverseChargeListDetailReport(),
+		return new ReverseChargeListDetailAction(Accounter.constants()
+				.reverseChargeListDetailReport(),
 				"/images/icons/report/reports.png");
 	}
 
@@ -1116,60 +1084,53 @@ public class ActionFactory {
 	}
 
 	public static ARAgingSummaryReportAction getArAgingSummaryReportAction() {
-		return new ARAgingSummaryReportAction(Accounter
-				.constants().ARAgeingSummary(),
-				"/images/icons/report/reports.png");
+		return new ARAgingSummaryReportAction(Accounter.constants()
+				.ARAgeingSummary(), "/images/icons/report/reports.png");
 	}
 
 	public static Action getAorpAgingSummaryReportAction() {
-		return new APAgingSummaryReportAction(Accounter
-				.constants().APAgeingSummary(),
-				"/images/icons/report/reports.png");
+		return new APAgingSummaryReportAction(Accounter.constants()
+				.APAgeingSummary(), "/images/icons/report/reports.png");
 	}
 
 	public static ExpenseReportAction getExpenseReportAction() {
-		return new ExpenseReportAction(Accounter.constants()
-				.expenseReport(), "/images/icons/report/reports.png");
-	}
-
-	public static DepositDetailAction getDetailReportAction() {
-		return new DepositDetailAction(Accounter.constants()
-				.depositDetail(), "");
-	}
-
-	public static CheckDetailReportAction getCheckDetailReport() {
-		return new CheckDetailReportAction(Accounter
-				.constants().checkDetail(), "");
-	}
-
-	public static Action getStatementReport() {
-		return new StatementReportAction(Accounter
-				.constants().customerStatement(),
+		return new ExpenseReportAction(Accounter.constants().expenseReport(),
 				"/images/icons/report/reports.png");
 	}
 
-//sales order action factory
-	
+	public static DepositDetailAction getDetailReportAction() {
+		return new DepositDetailAction(Accounter.constants().depositDetail(),
+				"");
+	}
 
+	public static CheckDetailReportAction getCheckDetailReport() {
+		return new CheckDetailReportAction(Accounter.constants().checkDetail(),
+				"");
+	}
 
-//	public static SalesOrderAction getSalesOrderAction() {
-//		return new SalesOrderAction("Sales Order",
-//				"/images/Sales-order.png");
-//	}
+	public static Action getStatementReport() {
+		return new StatementReportAction(Accounter.constants()
+				.customerStatement(), "/images/icons/report/reports.png");
+	}
 
-//	public static SalesOrderListAction getSalesOrderListAction() {
-//		return new SalesOrderListAction("SalesOrder List",
-//				"/images/Sales-order-list.png");
-//	}
+	// sales order action factory
 
-//	public static SalesOpenOrderAction getSalesOpenOrderAction() {
-//		return new SalesOpenOrderAction("SalesOrder Report",
-//				"/images/icons/report/reports.png");
-//	}
+	// public static SalesOrderAction getSalesOrderAction() {
+	// return new SalesOrderAction("Sales Order",
+	// "/images/Sales-order.png");
+	// }
 
-	
-	//vat action factory
-	
+	// public static SalesOrderListAction getSalesOrderListAction() {
+	// return new SalesOrderListAction("SalesOrder List",
+	// "/images/Sales-order-list.png");
+	// }
+
+	// public static SalesOpenOrderAction getSalesOpenOrderAction() {
+	// return new SalesOpenOrderAction("SalesOrder Report",
+	// "/images/icons/report/reports.png");
+	// }
+
+	// vat action factory
 
 	public static NewVatItemAction getNewVatItemAction() {
 		String flag;
@@ -1208,9 +1169,9 @@ public class ActionFactory {
 	// return new ManageVATCodeAction("Manage VAT");
 	// }
 
-//	public static NewTAXAgencyAction getNewTAXAgencyAction() {
-//		return new NewTAXAgencyAction(actionsConstants.newVATAgency());
-//	}
+	// public static NewTAXAgencyAction getNewTAXAgencyAction() {
+	// return new NewTAXAgencyAction(actionsConstants.newVATAgency());
+	// }
 
 	public static ManageVATGroupListAction getManageVATGroupListAction() {
 		return new ManageVATGroupListAction(actionsConstants.VATGroupList());
@@ -1229,7 +1190,6 @@ public class ActionFactory {
 	public static Action getreceiveVATAction() {
 		return new ReceiveVATAction(Accounter.constants().receiveVAT());
 	}
-
 
 	public static VendorsHomeAction getVendorsHomeAction() {
 		return new VendorsHomeAction(
@@ -1415,5 +1375,12 @@ public class ActionFactory {
 				"/images/icons/vendors/record_expense.png", selectedTab);
 	}
 
-	
+	public static MeasurementAction getMeasurementsAction() {
+		return new MeasurementAction(messages.measurement());
+	}
+
+	public static AddMeasurementAction getAddMeasurementAction() {
+		return new AddMeasurementAction(messages.getAddMeasurementName());
+	}
+
 }

@@ -17,7 +17,7 @@ public class TransferFundsAction extends Action {
 
 	public TransferFundsAction(String text, String iconString,
 			ClientTransferFund transferFund, AsyncCallback<Object> callback) {
-		super(text, iconString, transferFund, callback);
+		super(text, iconString);
 		this.catagory = Accounter.constants().banking();
 	}
 

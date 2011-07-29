@@ -1,4 +1,3 @@
-
 package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Constants;
@@ -3523,9 +3522,9 @@ public interface AccounterConstants extends Constants {
 	public String unableToGetCustomers();
 
 	public String unableToLoadCompany();
-	
-	public String unableToLoadRequiredCreditCardCharge(); 
-	
+
+	public String unableToLoadRequiredCreditCardCharge();
+
 	public String unableToLoadRequiredQuote();
 
 	public String unabletoLoadTheRequiredDeposit();
@@ -3877,4 +3876,6 @@ public interface AccounterConstants extends Constants {
 	public String getFactorName();
 
 	public String addMeasurementButton();
+
+	public String getAddMeasurementName();
 }
