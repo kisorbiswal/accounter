@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -93,7 +93,7 @@ public abstract class AbstractFinaneReport<R> implements IFinanceReport<R> {
 	 */
 	@Override
 	public void onFailure(Throwable caught) {
-		ReportsActionFactory.getReportsHomeAction();
+		ActionFactory.getReportsHomeAction();
 	}
 
 	/**

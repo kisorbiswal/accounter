@@ -26,12 +26,12 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.DebitAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.CustomButton;
 import com.vimukti.accounter.web.client.ui.core.CustomButtonType;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -527,9 +527,9 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			// .constants().fixedAssetItemHasBeenSold());
 			saveAndClose = true;
 			super.saveSuccess(result);
-			History.newItem(FixedAssetsActionFactory
+			History.newItem(ActionFactory
 					.getSoldDisposedListAction().getHistoryToken());
-			// FixedAssetsActionFactory.getSoldDisposedListAction().run(null,
+			// ActionFactory.getSoldDisposedListAction().run(null,
 			// false);
 		} else
 			saveFailed(new Exception(Accounter.constants().failed()));

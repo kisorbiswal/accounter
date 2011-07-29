@@ -1,6 +1,5 @@
 package com.vimukti.accounter.company.initialize;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;

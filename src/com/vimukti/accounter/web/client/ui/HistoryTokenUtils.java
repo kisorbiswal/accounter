@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.History;
 
 /**
@@ -203,7 +203,7 @@ public class HistoryTokenUtils {
 		if (history != null) {
 			setPresentToken(history.getAction(), null);
 		} else {
-			setPresentToken(CompanyActionFactory.getCompanyHomeAction(), null);
+			setPresentToken(ActionFactory.getCompanyHomeAction(), null);
 		}
 	}
 

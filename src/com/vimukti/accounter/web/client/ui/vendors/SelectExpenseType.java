@@ -4,10 +4,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
@@ -57,11 +56,11 @@ public class SelectExpenseType extends BaseDialog {
 				if (typeRadio.getValue() != null) {
 					String radio = typeRadio.getValue().toString();
 					if (radio.equals(EMPLOYEE)) {
-						VendorsActionFactory.EmployeeExpenseAction().run(null,
+						ActionFactory.EmployeeExpenseAction().run(null,
 								false);
 					} else if (radio.equals(CHECK)) {
 						try {
-							BankingActionFactory.getWriteChecksAction().run(
+							ActionFactory.getWriteChecksAction().run(
 									null, false);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter.constants()
@@ -73,7 +72,7 @@ public class SelectExpenseType extends BaseDialog {
 
 					} else if (radio.equals(CREDIT_CARD)) {
 						try {
-							VendorsActionFactory.CreditCardExpenseAction().run(
+							ActionFactory.CreditCardExpenseAction().run(
 									null, false);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter.constants()
@@ -84,7 +83,7 @@ public class SelectExpenseType extends BaseDialog {
 
 					} else if (radio.equals(CASH)) {
 						try {
-							VendorsActionFactory.CashExpenseAction().run(null,
+							ActionFactory.CashExpenseAction().run(null,
 									false);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter.constants()
@@ -93,7 +92,7 @@ public class SelectExpenseType extends BaseDialog {
 						}
 					} else if (radio.equals(EMPLOYEE)) {
 						try {
-							VendorsActionFactory.EmployeeExpenseAction().run(
+							ActionFactory.EmployeeExpenseAction().run(
 									null, false);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter.constants()

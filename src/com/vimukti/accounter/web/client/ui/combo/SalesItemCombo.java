@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class SalesItemCombo extends AccountCombo {
 	private ArrayList<ClientAccount> filtrdAccounts;
@@ -46,7 +46,7 @@ public class SalesItemCombo extends AccountCombo {
 
 	@Override
 	public void onAddNew() {
-		NewAccountAction action = CompanyActionFactory.getNewAccountAction();
+		NewAccountAction action = ActionFactory.getNewAccountAction();
 		action.setActionSource(this);
 		action.setAccountTypes(Arrays.asList(ClientAccount.TYPE_INCOME));
 		

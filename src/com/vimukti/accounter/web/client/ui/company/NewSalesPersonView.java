@@ -26,8 +26,8 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -375,7 +375,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	
 	private void reload() {
 		try {
-			CompanyActionFactory.getNewSalesperSonAction().run(null, true);
+			ActionFactory.getNewSalesperSonAction().run(null, true);
 		} catch (Throwable e) {
 
 			e.printStackTrace();

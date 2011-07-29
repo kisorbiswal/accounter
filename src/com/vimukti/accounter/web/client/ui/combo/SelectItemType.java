@@ -6,13 +6,8 @@ package com.vimukti.accounter.web.client.ui.combo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
-import com.vimukti.accounter.web.client.ui.settings.SettingsActionFactory;
-import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
 /**
  * @author Fernandez
@@ -20,56 +15,56 @@ import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
  */
 public enum SelectItemType {
 
-	CUSTOMER(CustomersActionFactory.getNewCustomerAction()),
+	CUSTOMER(ActionFactory.getNewCustomerAction()),
 
-	VENDOR(VendorsActionFactory.getNewVendorAction()),
+	VENDOR(ActionFactory.getNewVendorAction()),
 
-	ACCOUNT(CompanyActionFactory.getNewAccountAction()),
+	ACCOUNT(ActionFactory.getNewAccountAction()),
 
-	BANK_ACCOUNT(BankingActionFactory.getNewBankAccountAction()),
+	BANK_ACCOUNT(ActionFactory.getNewBankAccountAction()),
 
-	ADDRESS, BRANDING_THEME(SettingsActionFactory.getNewBrandThemeAction()),
+	ADDRESS, BRANDING_THEME(ActionFactory.getNewBrandThemeAction()),
 
-	BANK_NAME(CompanyActionFactory.getNewbankAction()),
+	BANK_NAME(ActionFactory.getNewbankAction()),
 
 	CONTACTS,
 
-	CREDIT_RATING(CompanyActionFactory.getCreditRatingListAction()),
+	CREDIT_RATING(ActionFactory.getCreditRatingListAction()),
 
-	CUSTOMER_GROUP(CompanyActionFactory.getCustomerGroupListAction()),
+	CUSTOMER_GROUP(ActionFactory.getCustomerGroupListAction()),
 
-	SALES_PERSON(CompanyActionFactory.getNewSalesperSonAction()),
+	SALES_PERSON(ActionFactory.getNewSalesperSonAction()),
 
-	ITEM(CompanyActionFactory.getNewItemAction()),
+	ITEM(ActionFactory.getNewItemAction()),
 
-	ITEM_GROUP(CompanyActionFactory.getItemGroupListAction()),
+	ITEM_GROUP(ActionFactory.getItemGroupListAction()),
 
-	ITEM_TAX(CompanyActionFactory.getNewItemTaxAction()),
+	ITEM_TAX(ActionFactory.getNewItemTaxAction()),
 
-	PAYEE(CompanyActionFactory.getNewPayeeAction()),
+	PAYEE(ActionFactory.getNewPayeeAction()),
 
 	PAYMENT_METHODS,
 
-	PAYMENT_TERMS(CompanyActionFactory.getPaymentTermListAction()),
+	PAYMENT_TERMS(ActionFactory.getPaymentTermListAction()),
 
-	PRICE_LEVEL(CompanyActionFactory.getPriceLevelListAction()),
+	PRICE_LEVEL(ActionFactory.getPriceLevelListAction()),
 
-	SHIPPING_METHOD(CompanyActionFactory.getShippingMethodListAction()),
+	SHIPPING_METHOD(ActionFactory.getShippingMethodListAction()),
 
-	SHIPPING_TERMS(CompanyActionFactory.getShippingTermListAction()),
+	SHIPPING_TERMS(ActionFactory.getShippingTermListAction()),
 
-	TAX_AGENCY(CompanyActionFactory.getNewTAXAgencyAction()),
+	TAX_AGENCY(ActionFactory.getNewTAXAgencyAction()),
 
-	// TAX_CODE(CompanyActionFactory.getManageSalesTaxCodesAction()),
-	TAXITEM(CompanyActionFactory.getManageSalesTaxItemsAction()),
+	// TAX_CODE(ActionFactory.getManageSalesTaxCodesAction()),
+	TAXITEM(ActionFactory.getManageSalesTaxItemsAction()),
 
-	TAX_GROUP(CompanyActionFactory.getManageSalesTaxGroupsAction()),
+	TAX_GROUP(ActionFactory.getManageSalesTaxGroupsAction()),
 
-	VENDOR_GROUP(CompanyActionFactory.getVendorGroupListAction()),
+	VENDOR_GROUP(ActionFactory.getVendorGroupListAction()),
 
-	VAT_ITEM(VatActionFactory.getNewVatItemAction()),
+	VAT_ITEM(ActionFactory.getNewVatItemAction()),
 
-	TAX_CODE(CustomersActionFactory.getAddEditSalesTaxCodeAction()), SHIP_TO, PHONE, EMAIL, FAX;
+	TAX_CODE(ActionFactory.getAddEditSalesTaxCodeAction()), SHIP_TO, PHONE, EMAIL, FAX;
 
 	private Action action;
 	

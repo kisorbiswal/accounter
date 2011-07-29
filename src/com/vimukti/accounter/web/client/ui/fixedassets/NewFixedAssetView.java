@@ -36,11 +36,11 @@ import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -433,7 +433,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 					selectedOption = assetOptions.getValue().toString();
 					if (selectedOption.equalsIgnoreCase(Accounter.constants()
 							.sell())) {
-						Action action = FixedAssetsActionFactory
+						Action action = ActionFactory
 								.getSellingRegisteredItemAction();
 						action.catagory = Accounter.constants()
 								.fixedAssetsNewFixedAsset();
@@ -441,7 +441,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						action.run(fixedAsset, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
 							.constants().dispose())) {
-						Action action = FixedAssetsActionFactory
+						Action action = ActionFactory
 								.getDiposingRegisteredItemAction();
 						action.catagory = Accounter.constants()
 								.fixedAssetsNewFixedAsset();
@@ -449,7 +449,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						action.run(fixedAsset, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
 							.constants().showHistory())) {
-						Action action = FixedAssetsActionFactory
+						Action action = ActionFactory
 								.getHistoryListAction();
 						action.catagory = Accounter.constants()
 								.fixedAssetsNewFixedAsset();

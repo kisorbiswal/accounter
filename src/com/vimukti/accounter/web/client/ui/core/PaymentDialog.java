@@ -55,7 +55,7 @@ public class PaymentDialog extends BaseDialog {
 					String radio = typeRadio.getValue().toString();
 					if (radio.equals(RECEIVE_PAYMENT)) {
 						try {
-							CustomersActionFactory.getReceivePaymentAction()
+							ActionFactory.getReceivePaymentAction()
 									.run(null, false);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter.constants()
@@ -67,7 +67,7 @@ public class PaymentDialog extends BaseDialog {
 
 					} else if (radio.equals(CUSTOMER_PREPAYMENT)) {
 						try {
-							CustomersActionFactory
+							ActionFactory
 									.getNewCustomerPaymentAction().run(null,
 											false);
 						} catch (Throwable e) {

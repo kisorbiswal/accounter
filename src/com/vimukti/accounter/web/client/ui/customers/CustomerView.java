@@ -54,9 +54,9 @@ import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.TaxGroupCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -356,7 +356,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	protected void clearFields() {
 
-		CustomersActionFactory.getNewCustomerAction().run(null, false);
+		ActionFactory.getNewCustomerAction().run(null, false);
 
 	}
 

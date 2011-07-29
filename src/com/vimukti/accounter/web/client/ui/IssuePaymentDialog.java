@@ -24,11 +24,11 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -382,7 +382,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		// .createdSuccessfully());
 		IssuePaymentDialog.this.removeFromParent();
 		super.saveSuccess(object);
-		VendorsActionFactory.getExpensesAction(null).run(null, true);
+		ActionFactory.getExpensesAction(null).run(null, true);
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class VATAgencyAccountCombo extends AccountCombo {
 
@@ -31,7 +31,7 @@ public class VATAgencyAccountCombo extends AccountCombo {
 
 	@Override
 	public void onAddNew() {
-		Action action = CompanyActionFactory.getNewAccountAction();
+		Action action = ActionFactory.getNewAccountAction();
 		action.setActionSource(this);
 		
 		action.run(null, true);

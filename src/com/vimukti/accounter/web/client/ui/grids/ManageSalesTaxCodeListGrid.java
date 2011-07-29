@@ -11,7 +11,7 @@
 //import com.vimukti.accounter.web.client.core.IAccounterCore;
 //import com.vimukti.accounter.web.client.ui.FinanceApplication;
 //import com.vimukti.accounter.web.client.ui.UIUtils;
-//import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+//import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 //import com.vimukti.accounter.web.client.ui.core.ViewManager;
 //
 ///**
@@ -65,7 +65,7 @@
 //
 //	@Override
 //	public void onDoubleClick(ClientTaxCode obj) {
-//		CustomersActionFactory.getAddEditSalesTaxCodeAction().run(obj, true);
+//		ActionFactory.getAddEditSalesTaxCodeAction().run(obj, true);
 //
 //	}
 //

@@ -5,7 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 
@@ -54,7 +54,7 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 
 	@Override
 	public void onAddNew() {
-		Action action = CompanyActionFactory.getNewAccountAction();
+		Action action = ActionFactory.getNewAccountAction();
 		action.setActionSource(this);
 		
 		action.run(null, true);

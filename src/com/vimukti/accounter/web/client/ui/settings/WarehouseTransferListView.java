@@ -1,11 +1,11 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
 public class WarehouseTransferListView extends
@@ -74,7 +74,7 @@ public class WarehouseTransferListView extends
 	public void saveSuccess(IAccounterCore object) {
 		if (object != null) {
 			super.saveSuccess(object);
-			SettingsActionFactory.getInvoiceBrandingAction().run(null, false);
+			ActionFactory.getInvoiceBrandingAction().run(null, false);
 		} else
 			saveFailed(new Exception(Accounter.constants().failed()));
 	}

@@ -5,9 +5,9 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.grids.ManageSalesTaxItemListGrid;
-import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
 public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	private List<ClientTAXItem> listOfTaxItems;
@@ -16,7 +16,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	protected Action getAddNewAction() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return VatActionFactory.getNewVatItemAction();
+			return ActionFactory.getNewVatItemAction();
 		else
 			return null;
 	}

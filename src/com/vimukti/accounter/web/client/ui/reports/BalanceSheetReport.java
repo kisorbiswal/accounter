@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.BalanceSheetServerReport;
 
 
@@ -24,10 +24,10 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (record.getAccountId() != 0) {
 			UIUtils.runAction(record,
-					ReportsActionFactory.getTransactionDetailByAccountAction());
+					ActionFactory.getTransactionDetailByAccountAction());
 		} else {
 			UIUtils.runAction(record,
-					ReportsActionFactory.getProfitAndLossAction());
+					ActionFactory.getProfitAndLossAction());
 		}
 
 	}

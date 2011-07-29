@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.grids.VATItemsListGrid;
 
@@ -17,7 +18,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return VatActionFactory.getNewVatItemAction();
+		return ActionFactory.getNewVatItemAction();
 	}
 
 	@Override

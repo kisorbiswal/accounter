@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByVendorSummaryServerReport;
 
 
@@ -22,7 +22,7 @@ public class PurchaseByVendorSummaryReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
-				ReportsActionFactory.getPurchaseByVendorDetailAction());
+				ActionFactory.getPurchaseByVendorDetailAction());
 	}
 
 	@Override

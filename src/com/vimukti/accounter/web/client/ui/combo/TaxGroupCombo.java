@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 
@@ -27,7 +27,7 @@ public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 	
 	@Override
 	public void onAddNew() {
-		Action action = CompanyActionFactory.getManageSalesTaxGroupsAction();
+		Action action = ActionFactory.getManageSalesTaxGroupsAction();
 		action.setActionSource(this);
 		
 		action.run(null, true);

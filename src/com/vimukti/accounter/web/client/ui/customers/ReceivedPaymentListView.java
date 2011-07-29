@@ -12,8 +12,8 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.ReceivedPaymentListGrid;
 
 /**
@@ -42,7 +42,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return CustomersActionFactory.getPaymentDialogAction();
+		return ActionFactory.getPaymentDialogAction();
 	}
 
 	@Override

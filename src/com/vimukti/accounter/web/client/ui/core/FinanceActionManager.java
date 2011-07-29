@@ -35,17 +35,17 @@ package com.vimukti.accounter.web.client.ui.core;
 //	private MenuManager getFileMenu() {
 //		MenuManager fileMenu = new MenuManager(actionsConstants.file());
 //		fileMenu.setWidth("10%");
-//		fileMenu.add(CompanyActionFactory.getNewCompanyAction());
-//		fileMenu.add(CompanyActionFactory.getOpenCompanyAction());
-//		fileMenu.add(CompanyActionFactory.getCloseCompanyAction());
+//		fileMenu.add(ActionFactory.getNewCompanyAction());
+//		fileMenu.add(ActionFactory.getOpenCompanyAction());
+//		fileMenu.add(ActionFactory.getCloseCompanyAction());
 //		fileMenu.addSeparator();
 //		// fileMenu.add(openSelectedItemsAction);
-//		fileMenu.add(CompanyActionFactory.getQuickStartAction());
+//		fileMenu.add(ActionFactory.getQuickStartAction());
 //		fileMenu.addSeparator();
-//		fileMenu.add(CompanyActionFactory.getPageSetupAction());
-//		fileMenu.add(CompanyActionFactory.getPrintPreviewAction());
-//		fileMenu.add(CompanyActionFactory.getPrintAction());
-//		ExitAction exit = CompanyActionFactory.getExitAction();
+//		fileMenu.add(ActionFactory.getPageSetupAction());
+//		fileMenu.add(ActionFactory.getPrintPreviewAction());
+//		fileMenu.add(ActionFactory.getPrintAction());
+//		ExitAction exit = ActionFactory.getExitAction();
 //		exit.isEdit(window, null);
 //		fileMenu.add(exit);
 //		return fileMenu;
@@ -54,10 +54,10 @@ package com.vimukti.accounter.web.client.ui.core;
 //	private MenuManager getEditMenu() {
 //		MenuManager editMenu = new MenuManager(actionsConstants.edit());
 //		editMenu.setWidth("10%");
-//		editMenu.add(CompanyActionFactory.getDeleteAction());
-//		editMenu.add(CompanyActionFactory.getSelectAllAction());
-//		editMenu.add(CompanyActionFactory.getMakeActiveAction());
-//		editMenu.add(CompanyActionFactory.getMakeInActiveAction());
+//		editMenu.add(ActionFactory.getDeleteAction());
+//		editMenu.add(ActionFactory.getSelectAllAction());
+//		editMenu.add(ActionFactory.getMakeActiveAction());
+//		editMenu.add(ActionFactory.getMakeInActiveAction());
 //
 //		return editMenu;
 //
@@ -66,11 +66,11 @@ package com.vimukti.accounter.web.client.ui.core;
 //	private MenuManager getViewMenu() {
 //		MenuManager viewMenu = new MenuManager(actionsConstants.view());
 //		viewMenu.setWidth("10%");
-//		viewMenu.add(CompanyActionFactory.getArrangeByAction());
-//		viewMenu.add(CompanyActionFactory.getFilterByAction());
-//		viewMenu.add(CompanyActionFactory.getRefreshAction());
-//		viewMenu.add(CompanyActionFactory.getSwitchViewAction());
-//		viewMenu.add(CompanyActionFactory.getAddRemoveContentAction());
+//		viewMenu.add(ActionFactory.getArrangeByAction());
+//		viewMenu.add(ActionFactory.getFilterByAction());
+//		viewMenu.add(ActionFactory.getRefreshAction());
+//		viewMenu.add(ActionFactory.getSwitchViewAction());
+//		viewMenu.add(ActionFactory.getAddRemoveContentAction());
 //
 //		return viewMenu;
 //
@@ -85,37 +85,37 @@ package com.vimukti.accounter.web.client.ui.core;
 //		MenuManager customerListsMenu = new MenuManager(actionsConstants
 //				.cutomerList());
 //
-//		Action[] newAction = { CustomersActionFactory.getNewCustomerAction(),
-//				CustomersActionFactory.getNewItemAction(),
-//				CustomersActionFactory.getNewQuoteAction(),
-//				CustomersActionFactory.getNewInvoiceAction(),
-//				CustomersActionFactory.getNewCashSaleAction(),
-//				CustomersActionFactory.getNewCreditsAndRefundsAction() };
+//		Action[] newAction = { ActionFactory.getNewCustomerAction(),
+//				ActionFactory.getNewItemAction(),
+//				ActionFactory.getNewQuoteAction(),
+//				ActionFactory.getNewInvoiceAction(),
+//				ActionFactory.getNewCashSaleAction(),
+//				ActionFactory.getNewCreditsAndRefundsAction() };
 //
 //		// Action[] creditCardAction = { signupForCreditcardProcessingAction,
 //		// manageCreditCardProcessingAction };
 //
 //		Action[] customerListsAction = {
-//				CustomersActionFactory.getCustomersAction(),
-//				CustomersActionFactory.getItemsAction(),
-//				CustomersActionFactory.getQuotesAction(),
-//				CustomersActionFactory.getInvoicesAction(),
-//				CustomersActionFactory.getReceivedPaymentsAction(),
-//				CustomersActionFactory.getCustomerRefundsAction() };
-//		customerMenu.add(CustomersActionFactory.getCustomersHomeAction());
+//				ActionFactory.getCustomersAction(),
+//				ActionFactory.getItemsAction(),
+//				ActionFactory.getQuotesAction(),
+//				ActionFactory.getInvoicesAction(),
+//				ActionFactory.getReceivedPaymentsAction(),
+//				ActionFactory.getCustomerRefundsAction() };
+//		customerMenu.add(ActionFactory.getCustomersHomeAction());
 //		// customerMenu.addSeparator();
 //		// newMenu.add(newAction);
 //		// customerMenu.addSubMenu(newMenu);
 //		// customerMenu.addSeparator();
-//		customerMenu.add(CustomersActionFactory.getReceivedPaymentsAction());
-//		customerMenu.add(CustomersActionFactory.getCustomerRefundAction());
-//		customerMenu.add(CustomersActionFactory.getCreateStatementAction());
+//		customerMenu.add(ActionFactory.getReceivedPaymentsAction());
+//		customerMenu.add(ActionFactory.getCustomerRefundAction());
+//		customerMenu.add(ActionFactory.getCreateStatementAction());
 //		// customerMenu.addSeparator();
 //		// creditcardMenu.add(creditCardAction);
 //		// customerMenu.addSubMenu(creditcardMenu);
 //		// customerMenu.addSeparator();
-//		customerMenu.add(CompanyActionFactory.getPriceLevelListAction());
-//		// customerMenu.add(CustomersActionFactory.get);
+//		customerMenu.add(ActionFactory.getPriceLevelListAction());
+//		// customerMenu.add(ActionFactory.get);
 //		// customerMenu.add(manageWordTemplatesAction);
 //		// customerMenu.add(manageEMailCoverLettersAction);
 //		// customerMenu.addSeparator();
@@ -140,81 +140,81 @@ package com.vimukti.accounter.web.client.ui.core;
 //		MenuManager companyListsMenu = new MenuManager(actionsConstants
 //				.companyLists());
 //
-//		// businessServicesMenu.add(VendorsActionFactory
+//		// businessServicesMenu.add(ActionFactory
 //		// .getServicesOverviewAction());
-//		// businessServicesMenu.add(VendorsActionFactory
+//		// businessServicesMenu.add(ActionFactory
 //		// .getBuyChecksAndFormsAction());
-//		// businessServicesMenu.add(VendorsActionFactory.
+//		// businessServicesMenu.add(ActionFactory.
 //		// getacceptCreditCardsAction);
-//		// businessServicesMenu.add(VendorsActionFactory.getBankOnlineAction());
+//		// businessServicesMenu.add(ActionFactory.getBankOnlineAction());
 //		//
-//		//mergerAccountsMenu.add(CompanyActionFactory.getMergeCustomersAction())
+//		//mergerAccountsMenu.add(ActionFactory.getMergeCustomersAction())
 //		// ;
-//		// mergerAccountsMenu.add(CompanyActionFactory.getMergeVendorsAction());
-//		// mergerAccountsMenu.add(CompanyActionFactory.getMergeItemsAction());
-//		// mergerAccountsMenu.add(CompanyActionFactory
+//		// mergerAccountsMenu.add(ActionFactory.getMergeVendorsAction());
+//		// mergerAccountsMenu.add(ActionFactory.getMergeItemsAction());
+//		// mergerAccountsMenu.add(ActionFactory
 //		// .getMergeFinancialAccountsAction());
 //
-//		salesTaxMenu.add(CompanyActionFactory.getManageSalesTaxGroupsAction());
-//		salesTaxMenu.add(CompanyActionFactory.getManageSalesTaxCodesAction());
-//		salesTaxMenu.add(CompanyActionFactory.getManageItemTaxAction());
-//		salesTaxMenu.add(CompanyActionFactory.getPaySalesTaxAction());
-//		salesTaxMenu.add(CompanyActionFactory.getViewSalesTaxLiabilityAction());
-//		salesTaxMenu.add(CompanyActionFactory.getNewTaxAgencyAction());
+//		salesTaxMenu.add(ActionFactory.getManageSalesTaxGroupsAction());
+//		salesTaxMenu.add(ActionFactory.getManageSalesTaxCodesAction());
+//		salesTaxMenu.add(ActionFactory.getManageItemTaxAction());
+//		salesTaxMenu.add(ActionFactory.getPaySalesTaxAction());
+//		salesTaxMenu.add(ActionFactory.getViewSalesTaxLiabilityAction());
+//		salesTaxMenu.add(ActionFactory.getNewTaxAgencyAction());
 //
-//		manageSupportListsMenu.add(CompanyActionFactory
+//		manageSupportListsMenu.add(ActionFactory
 //				.getCustomerGroupListAction());
-//		manageSupportListsMenu.add(CompanyActionFactory
+//		manageSupportListsMenu.add(ActionFactory
 //				.getVendorGroupListAction());
-//		manageSupportListsMenu.add(CompanyActionFactory
+//		manageSupportListsMenu.add(ActionFactory
 //				.getPaymentTermListAction());
-//		manageSupportListsMenu.add(CompanyActionFactory
+//		manageSupportListsMenu.add(ActionFactory
 //				.getShippingMethodListAction());
-//		manageSupportListsMenu.add(CompanyActionFactory
+//		manageSupportListsMenu.add(ActionFactory
 //				.getShippingTermListAction());
-//		manageSupportListsMenu.add(CompanyActionFactory
+//		manageSupportListsMenu.add(ActionFactory
 //				.getPriceLevelListAction());
-//		manageSupportListsMenu.add(CompanyActionFactory
+//		manageSupportListsMenu.add(ActionFactory
 //				.getItemGroupListAction());
-//		manageSupportListsMenu.add(CompanyActionFactory
+//		manageSupportListsMenu.add(ActionFactory
 //				.getCreditRatingListAction());
-//		manageSupportListsMenu.add(CompanyActionFactory
+//		manageSupportListsMenu.add(ActionFactory
 //				.getCountryRegionListAction());
-//		// manageSupportListsMenu.add(CompanyActionFactory
+//		// manageSupportListsMenu.add(ActionFactory
 //		// .getFormLayoutsListAction());
-//		//manageSupportListsMenu.add(CompanyActionFactory.getPayTypeListAction()
+//		//manageSupportListsMenu.add(ActionFactory.getPayTypeListAction()
 //		// );
 //
-//		companyListsMenu.add(CompanyActionFactory.getChartOfAccountsAction());
-//		companyListsMenu.add(CompanyActionFactory.getJournalEntriesAction());
-//		companyListsMenu.add(CustomersActionFactory.getItemsAction());
-//		companyListsMenu.add(CustomersActionFactory.getCustomersAction());
-//		companyListsMenu.add(VendorsActionFactory.getVendorsAction());
-//		companyListsMenu.add(BankingActionFactory.getPaymentsAction());
+//		companyListsMenu.add(ActionFactory.getChartOfAccountsAction());
+//		companyListsMenu.add(ActionFactory.getJournalEntriesAction());
+//		companyListsMenu.add(ActionFactory.getItemsAction());
+//		companyListsMenu.add(ActionFactory.getCustomersAction());
+//		companyListsMenu.add(ActionFactory.getVendorsAction());
+//		companyListsMenu.add(ActionFactory.getPaymentsAction());
 //		companyListsMenu
-//				.add(CompanyActionFactory.getNewSalesPersonListAction());
+//				.add(ActionFactory.getNewSalesPersonListAction());
 //
 //		// companyMenu.addSubMenu(businessServicesMenu);
-//		companyMenu.add(CompanyActionFactory.getCompanyInformationAction());
-//		companyMenu.add(CompanyActionFactory.getPreferencesAction());
-//		companyMenu.add(CompanyActionFactory
+//		companyMenu.add(ActionFactory.getCompanyInformationAction());
+//		companyMenu.add(ActionFactory.getPreferencesAction());
+//		companyMenu.add(ActionFactory
 //				.getIntegrateWithBusinessContactManagerAction());
 //		companyMenu.addSeparator();
-//		companyMenu.add(CompanyActionFactory.getNewJournalEntryAction());
-//		companyMenu.add(CompanyActionFactory
+//		companyMenu.add(ActionFactory.getNewJournalEntryAction());
+//		companyMenu.add(ActionFactory
 //				.getNewCashBasisJournalEntryAction());
-//		companyMenu.add(CompanyActionFactory.getNewAccountAction());
+//		companyMenu.add(ActionFactory.getNewAccountAction());
 //		// companyMenu.addSubMenu(mergerAccountsMenu);
 //		companyMenu.addSeparator();
 //
 //		companyMenu.addSubMenu(salesTaxMenu);
 //		companyMenu.addSubMenu(manageSupportListsMenu);
-//		companyMenu.add(CompanyActionFactory.getManageFiscalYearAction());
+//		companyMenu.add(ActionFactory.getManageFiscalYearAction());
 //		companyMenu.addSeparator();
-//		// companyMenu.add(VendorsActionFactory.getWriteLettersAction());
-//		// companyMenu.add(VendorsActionFactory.getManageWordTemplatesAction());
+//		// companyMenu.add(ActionFactory.getWriteLettersAction());
+//		// companyMenu.add(ActionFactory.getManageWordTemplatesAction());
 //		// companyMenu
-//		// .add(VendorsActionFactory.getManageEMailCoverLettersAction());
+//		// .add(ActionFactory.getManageEMailCoverLettersAction());
 //		companyMenu.addSeparator();
 //		companyMenu.addSubMenu(companyListsMenu);
 //
@@ -232,36 +232,36 @@ package com.vimukti.accounter.web.client.ui.core;
 //		MenuManager vendorListsMenu = new MenuManager(actionsConstants
 //				.vendorLists());
 //
-//		newMenu.add(VendorsActionFactory.getNewVendorAction());
-//		newMenu.add(VendorsActionFactory.getNewItemAction());
-//		newMenu.add(VendorsActionFactory.getNewCashPurchaseAction());
-//		newMenu.add(VendorsActionFactory.getNewCreditMemoAction());
-//		newMenu.add(VendorsActionFactory.getNewCheckAction());
+//		newMenu.add(ActionFactory.getNewVendorAction());
+//		newMenu.add(ActionFactory.getNewItemAction());
+//		newMenu.add(ActionFactory.getNewCashPurchaseAction());
+//		newMenu.add(ActionFactory.getNewCreditMemoAction());
+//		newMenu.add(ActionFactory.getNewCheckAction());
 //
 //		// vendorServicesMenu
-//		// .add(VendorsActionFactory.getServicesOverviewAction());
-//		// vendorServicesMenu.add(VendorsActionFactory
+//		// .add(ActionFactory.getServicesOverviewAction());
+//		// vendorServicesMenu.add(ActionFactory
 //		// .getBuyChecksAndFormsAction());
-//		// vendorServicesMenu.add(VendorsActionFactory.getBankOnlineAction());
+//		// vendorServicesMenu.add(ActionFactory.getBankOnlineAction());
 //
-//		vendorListsMenu.add(VendorsActionFactory.getVendorsAction());
-//		vendorListsMenu.add(CustomersActionFactory.getItemsAction());
-//		vendorListsMenu.add(VendorsActionFactory.getBillsAction());
-//		vendorListsMenu.add(VendorsActionFactory.getVendorPaymentsAction());
+//		vendorListsMenu.add(ActionFactory.getVendorsAction());
+//		vendorListsMenu.add(ActionFactory.getItemsAction());
+//		vendorListsMenu.add(ActionFactory.getBillsAction());
+//		vendorListsMenu.add(ActionFactory.getVendorPaymentsAction());
 //
-//		vendorMenu.add(VendorsActionFactory.getVendorsHomeAction());
+//		vendorMenu.add(ActionFactory.getVendorsHomeAction());
 //		// vendorMenu.addSeparator();
 //		// vendorMenu.addSubMenu(newMenu);
 //		// vendorMenu.addSeparator();
-//		vendorMenu.add(VendorsActionFactory.getEnterBillsAction());
-//		vendorMenu.add(VendorsActionFactory.getPayBillsAction());
-//		vendorMenu.add(VendorsActionFactory.getIssuePaymentsAction());
-//		// vendorMenu.add(VendorsActionFactory.getNewVendorPaymentAction());
-//		vendorMenu.add(VendorsActionFactory.getRecordExpensesAction());
+//		vendorMenu.add(ActionFactory.getEnterBillsAction());
+//		vendorMenu.add(ActionFactory.getPayBillsAction());
+//		vendorMenu.add(ActionFactory.getIssuePaymentsAction());
+//		// vendorMenu.add(ActionFactory.getNewVendorPaymentAction());
+//		vendorMenu.add(ActionFactory.getRecordExpensesAction());
 //		// vendorMenu.addSeparator();
-//		// vendorMenu.add(VendorsActionFactory.getWriteLettersAction());
-//		// vendorMenu.add(VendorsActionFactory.getManageWordTemplatesAction());
-//		//vendorMenu.add(VendorsActionFactory.getManageEMailCoverLettersAction()
+//		// vendorMenu.add(ActionFactory.getWriteLettersAction());
+//		// vendorMenu.add(ActionFactory.getManageWordTemplatesAction());
+//		//vendorMenu.add(ActionFactory.getManageEMailCoverLettersAction()
 //		// );
 //		// vendorMenu.addSeparator();
 //		// vendorMenu.addSubMenu(vendorServicesMenu);
@@ -286,31 +286,31 @@ package com.vimukti.accounter.web.client.ui.core;
 //				.bankingLists());
 //
 //		// Action[] bankingServices = {
-//		// VendorsActionFactory.getServicesOverviewAction(),
-//		// VendorsActionFactory.getBuyChecksAndFormsAction() };
+//		// ActionFactory.getServicesOverviewAction(),
+//		// ActionFactory.getBuyChecksAndFormsAction() };
 //		Action[] bankingLists = {
-//				CompanyActionFactory.getChartOfAccountsAction(),
-//				BankingActionFactory.getPaymentsAction() };
+//				ActionFactory.getChartOfAccountsAction(),
+//				ActionFactory.getPaymentsAction() };
 //
-//		bankingMenu.add(BankingActionFactory.getBankingHomeAction());
+//		bankingMenu.add(ActionFactory.getBankingHomeAction());
 //		// bankingMenu.addSeparator();
-//		bankingMenu.add(BankingActionFactory.getNewBankAccountAction());
+//		bankingMenu.add(ActionFactory.getNewBankAccountAction());
 //		// bankingMenu.addSeparator();
 //
-//		bankingMenu.add(BankingActionFactory.getAccountRegisterAction());
-//		bankingMenu.add(BankingActionFactory.getWriteChecksAction());
-//		bankingMenu.add(BankingActionFactory.getMakeDepositAction());
-//		bankingMenu.add(VendorsActionFactory.getPayBillsAction());
-//		bankingMenu.add(BankingActionFactory.getEnterPaymentsAction());
+//		bankingMenu.add(ActionFactory.getAccountRegisterAction());
+//		bankingMenu.add(ActionFactory.getWriteChecksAction());
+//		bankingMenu.add(ActionFactory.getMakeDepositAction());
+//		bankingMenu.add(ActionFactory.getPayBillsAction());
+//		bankingMenu.add(ActionFactory.getEnterPaymentsAction());
 //		// // bankingMenu.addSeparator();
 //		// // bankingMenu.addSubMenu(bankOnlineMenu);
 //		// // bankingMenu.addSeparator();
 //		// // bankingMenu.addSubMenu(creditcardProcessingMenu);
-//		// bankingMenu.add(BankingActionFactory.getMatchTrasactionsAction());
-//		// bankingMenu.add(BankingActionFactory.getCreditCardChargeAction());
-//		// bankingMenu.add(BankingActionFactory.getReconcileAccountAction);
+//		// bankingMenu.add(ActionFactory.getMatchTrasactionsAction());
+//		// bankingMenu.add(ActionFactory.getCreditCardChargeAction());
+//		// bankingMenu.add(ActionFactory.getReconcileAccountAction);
 //		// bankingMenu.addSeparator();
-//		bankingMenu.add(BankingActionFactory.getPrintChecksAction());
+//		bankingMenu.add(ActionFactory.getPrintChecksAction());
 //		// bankingMenu.addSeparator();
 //		// bankingServicesMenu.add(bankingServices);
 //		// // bankingMenu.addSubMenu(bankingServicesMenu);
@@ -343,73 +343,73 @@ package com.vimukti.accounter.web.client.ui.core;
 //				.incomeTax());
 //
 //		// Action[] analysisTools = {
-//		// ReportsActionFactory.getSalesAnalysisAction(),
-//		// ReportsActionFactory.getPurchaseAnalysisAction(),
-//		// ReportsActionFactory.getVendorListAction(),
-//		// ReportsActionFactory.getPaymentListAction(),
-//		// ReportsActionFactory.getItemListAction(),
-//		// ReportsActionFactory.getInvoiceListAction(),
-//		// CustomersActionFactory.getCustomersAction(),
-//		// ReportsActionFactory.getProfitAndLossAction() };
+//		// ActionFactory.getSalesAnalysisAction(),
+//		// ActionFactory.getPurchaseAnalysisAction(),
+//		// ActionFactory.getVendorListAction(),
+//		// ActionFactory.getPaymentListAction(),
+//		// ActionFactory.getItemListAction(),
+//		// ActionFactory.getInvoiceListAction(),
+//		// ActionFactory.getCustomersAction(),
+//		// ActionFactory.getProfitAndLossAction() };
 //
 //		Action[] companyandFinancial = {
-//				ReportsActionFactory.getProfitAndLossAction(),
-//				ReportsActionFactory.getBalanceSheetAction(),
-//				ReportsActionFactory.getCashFlowStatementAction(),
-//				ReportsActionFactory.getTrialBalanceAction(),
-//				ReportsActionFactory.getTransactionDetailByAccountAction(),
-//				ReportsActionFactory.getGlReportAction(),
-//				ReportsActionFactory.getSalesTaxLiabilityAction(),
-//				ReportsActionFactory.getTransactionDetailByTaxCodeAction(), };
-//		// ReportsActionFactory.getSalesTaxCollectedThisQuarterAction() };
+//				ActionFactory.getProfitAndLossAction(),
+//				ActionFactory.getBalanceSheetAction(),
+//				ActionFactory.getCashFlowStatementAction(),
+//				ActionFactory.getTrialBalanceAction(),
+//				ActionFactory.getTransactionDetailByAccountAction(),
+//				ActionFactory.getGlReportAction(),
+//				ActionFactory.getSalesTaxLiabilityAction(),
+//				ActionFactory.getTransactionDetailByTaxCodeAction(), };
+//		// ActionFactory.getSalesTaxCollectedThisQuarterAction() };
 //
 //		Action[] companiesReceivable = {
-//				ReportsActionFactory.getArAgingDetailAction(),
-//				ReportsActionFactory.getCustomerTransactionHistoryAction(),
-//				// ReportsActionFactory.getOpenInvoicesbyDueDateAction(),
-//				ReportsActionFactory.getMostProfitableCustomersAction() };
+//				ActionFactory.getArAgingDetailAction(),
+//				ActionFactory.getCustomerTransactionHistoryAction(),
+//				// ActionFactory.getOpenInvoicesbyDueDateAction(),
+//				ActionFactory.getMostProfitableCustomersAction() };
 //		Action[] sales = {
-//				ReportsActionFactory.getSalesByCustomerSummaryAction(),
-//				ReportsActionFactory.getSalesByCustomerDetailAction(),
-//				ReportsActionFactory.getSalesByItemSummmaryAction(),
-//				ReportsActionFactory.getSalesByItemDetailAction(),
-//		// ReportsActionFactory.getOnlineSalesByCustomerSummaryAction(),
-//		// ReportsActionFactory.getOnlineSalesByItemSummaryAction(),
-//		// ReportsActionFactory.getTodaysSalesByCustomerAction(),
-//		// ReportsActionFactory.getYtdSalesComparedToLastYearAction()
+//				ActionFactory.getSalesByCustomerSummaryAction(),
+//				ActionFactory.getSalesByCustomerDetailAction(),
+//				ActionFactory.getSalesByItemSummmaryAction(),
+//				ActionFactory.getSalesByItemDetailAction(),
+//		// ActionFactory.getOnlineSalesByCustomerSummaryAction(),
+//		// ActionFactory.getOnlineSalesByItemSummaryAction(),
+//		// ActionFactory.getTodaysSalesByCustomerAction(),
+//		// ActionFactory.getYtdSalesComparedToLastYearAction()
 //		};
 //
 //		Action[] purchases = {
-//				ReportsActionFactory.getPurchaseByVendorSummaryAction(),
-//				ReportsActionFactory.getPurchaseByVendorDetailAction(),
-//				ReportsActionFactory.getPurchaseByItemSummaryAction(),
-//				ReportsActionFactory.getPurchaseByItemAction(), };
+//				ActionFactory.getPurchaseByVendorSummaryAction(),
+//				ActionFactory.getPurchaseByVendorDetailAction(),
+//				ActionFactory.getPurchaseByItemSummaryAction(),
+//				ActionFactory.getPurchaseByItemAction(), };
 //		Action[] vendorpayable = {
-//				ReportsActionFactory.getAorpAgingDetailAction(),
-//				ReportsActionFactory.getVendorTransactionHistoryAction(),
-//				// ReportsActionFactory.getTodaysVendorPaymentsAction(),
-//				ReportsActionFactory.getAmountsDueToVendorsAction() };
-//		Action[] banking = { BankingActionFactory.getPaymentsAction(),
-//		// ReportsActionFactory.getFailedPaymentsAction(),
-//		// ReportsActionFactory.getUndepositedFundsCollectedTodayAction()
+//				ActionFactory.getAorpAgingDetailAction(),
+//				ActionFactory.getVendorTransactionHistoryAction(),
+//				// ActionFactory.getTodaysVendorPaymentsAction(),
+//				ActionFactory.getAmountsDueToVendorsAction() };
+//		Action[] banking = { ActionFactory.getPaymentsAction(),
+//		// ActionFactory.getFailedPaymentsAction(),
+//		// ActionFactory.getUndepositedFundsCollectedTodayAction()
 //		};
 //
-//		// Action[] cashBasis = { ReportsActionFactory.getBalanceSheetAction(),
-//		// ReportsActionFactory.getProfitAndLossAction(),
-//		// ReportsActionFactory.getTransactionDetailByAccountAction(),
-//		// ReportsActionFactory.getGlReportAction(),
-//		// ReportsActionFactory.getSalesTaxLiabilityAction(),
-//		// ReportsActionFactory.getTransactionDetailByTaxCodeAction(),
-//		// ReportsActionFactory.getSalesByCustomerSummaryAction(),
-//		// ReportsActionFactory.getSalesByCustomerDetailAction(),
-//		// ReportsActionFactory.getSalesByItemSummaryAction(),
-//		// ReportsActionFactory.getSalesByItemDetailAction(),
-//		// ReportsActionFactory.getOnlineSalesByCustomerSummaryAction(),
-//		// ReportsActionFactory.getOnlineSalesByItemSummaryAction()
+//		// Action[] cashBasis = { ActionFactory.getBalanceSheetAction(),
+//		// ActionFactory.getProfitAndLossAction(),
+//		// ActionFactory.getTransactionDetailByAccountAction(),
+//		// ActionFactory.getGlReportAction(),
+//		// ActionFactory.getSalesTaxLiabilityAction(),
+//		// ActionFactory.getTransactionDetailByTaxCodeAction(),
+//		// ActionFactory.getSalesByCustomerSummaryAction(),
+//		// ActionFactory.getSalesByCustomerDetailAction(),
+//		// ActionFactory.getSalesByItemSummaryAction(),
+//		// ActionFactory.getSalesByItemDetailAction(),
+//		// ActionFactory.getOnlineSalesByCustomerSummaryAction(),
+//		// ActionFactory.getOnlineSalesByItemSummaryAction()
 //		//
 //		// };
 //
-//		reportMenu.add(ReportsActionFactory.getReportsHomeAction());
+//		reportMenu.add(ActionFactory.getReportsHomeAction());
 //
 //		// analysisToolsMenu.add(analysisTools);
 //		// reportMenu.addSubMenu(analysisToolsMenu);
@@ -432,14 +432,14 @@ package com.vimukti.accounter.web.client.ui.core;
 //		// bankingMenu.add(banking);
 //		// reportMenu.addSubMenu(bankingMenu);
 //
-//		// employeepayrollMenu.add(ReportsActionFactory.getTimeReportAction());
+//		// employeepayrollMenu.add(ActionFactory.getTimeReportAction());
 //		// reportMenu.addSubMenu(employeepayrollMenu);
 //
 //		// cashBasisMenu.add(cashBasis);
 //		// reportMenu.addSubMenu(cashBasisMenu);
 //		//
-//		// incomeTaxMenu.add(ReportsActionFactory.getTaxSummaryAction());
-//		//incomeTaxMenu.add(ReportsActionFactory.getTaxSummaryCashBasisAction())
+//		// incomeTaxMenu.add(ActionFactory.getTaxSummaryAction());
+//		//incomeTaxMenu.add(ActionFactory.getTaxSummaryCashBasisAction())
 //		// ;
 //		// reportMenu.addSubMenu(incomeTaxMenu);
 //
@@ -581,14 +581,14 @@ package com.vimukti.accounter.web.client.ui.core;
 //		ToolBarManager toolBarManager = new ToolBarManager();
 //		// toolBarManager.setBackgroundImage("");
 //
-//		Action[] menuActions = { CustomersActionFactory.getNewCustomerAction(),
-//				VendorsActionFactory.getNewVendorAction(),
-//				CustomersActionFactory.getNewQuoteAction(),
-//				CustomersActionFactory.getNewInvoiceAction(),
-//				CustomersActionFactory.getNewItemAction(),
-//				VendorsActionFactory.getNewCheckAction(),
-//				VendorsActionFactory.getPayBillsAction(),
-//				CompanyActionFactory.getJournalEntriesAction()
+//		Action[] menuActions = { ActionFactory.getNewCustomerAction(),
+//				ActionFactory.getNewVendorAction(),
+//				ActionFactory.getNewQuoteAction(),
+//				ActionFactory.getNewInvoiceAction(),
+//				ActionFactory.getNewItemAction(),
+//				ActionFactory.getNewCheckAction(),
+//				ActionFactory.getPayBillsAction(),
+//				ActionFactory.getJournalEntriesAction()
 //
 //		};
 //		toolBarManager.addMenuItem(menuActions, actionsConstants.New(),
@@ -603,11 +603,11 @@ package com.vimukti.accounter.web.client.ui.core;
 //		//
 //		// });
 //
-//		toolBarManager.add(CompanyActionFactory.getPrintAction());
-//		toolBarManager.add(CompanyActionFactory.getDeleteAction());
-//		toolBarManager.add(CompanyActionFactory.getRefreshAction());
+//		toolBarManager.add(ActionFactory.getPrintAction());
+//		toolBarManager.add(ActionFactory.getDeleteAction());
+//		toolBarManager.add(ActionFactory.getRefreshAction());
 //		toolBarManager.addSeparator();
-//		toolBarManager.add(CompanyActionFactory.getQuickStartAction());
+//		toolBarManager.add(ActionFactory.getQuickStartAction());
 //		toolBarManager.addSeparator();
 //		toolBarManager.add("", "/images/icons/find.png", "25",
 //				new com.smartgwt.client.widgets.events.ClickHandler() {

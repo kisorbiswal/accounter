@@ -21,8 +21,7 @@ import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.ColumnChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
-import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 
 public class MoneyComingPortlet extends DashBoardPortlet {
@@ -52,7 +51,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		BankingActionFactory.getAccountRegisterAction().run(debitors, true);
+		ActionFactory.getAccountRegisterAction().run(debitors, true);
 	}
 
 	@Override
@@ -80,7 +79,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CustomersActionFactory.getNewInvoiceAction().run(null, true);
+				ActionFactory.getNewInvoiceAction().run(null, true);
 			}
 		});
 
@@ -204,10 +203,10 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 						.setTextDecoration(TextDecoration.NONE);
 				if (title
 						.equals(Accounter.constants().draftInvoices())) {
-					CustomersActionFactory.getInvoicesAction(null).run(null,
+					ActionFactory.getInvoicesAction(null).run(null,
 							true);
 				} else {
-					CustomersActionFactory.getInvoicesAction(
+					ActionFactory.getInvoicesAction(
 							InvoiceListView.OVER_DUE).run(null, true);
 				}
 
@@ -228,7 +227,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		BankingActionFactory.getAccountRegisterAction().run(debitors, true);
+		ActionFactory.getAccountRegisterAction().run(debitors, true);
 	}
 
 	@Override

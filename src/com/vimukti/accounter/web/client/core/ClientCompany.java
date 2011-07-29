@@ -13,7 +13,6 @@ import java.util.Set;
 import com.google.gwt.core.client.JavaScriptException;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;

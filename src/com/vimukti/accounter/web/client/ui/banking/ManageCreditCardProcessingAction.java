@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.banking;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 
 public class ManageCreditCardProcessingAction extends Action {
 

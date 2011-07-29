@@ -19,8 +19,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class AwaitingAuthorisationView extends BaseView<BillsList> {
@@ -54,7 +54,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 			public void onClick(ClickEvent event) {
 				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
-				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
+				setAction(ActionFactory.getAwaitingAuthorisationAction());
 				// boolean isErrorOccured = checkPayFromAccount();
 				List<BillsList> records = getRecordsToApprove();
 				// if (!isErrorOccured)
@@ -81,7 +81,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 			public void onClick(ClickEvent event) {
 				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
-				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
+				setAction(ActionFactory.getAwaitingAuthorisationAction());
 				List<BillsList> records = getRecordsToApprove();
 				if (records.size() > 0) {
 					updateRecords(grid.getSelectedRecords(),
@@ -101,7 +101,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 			public void onClick(ClickEvent event) {
 				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
-				setAction(VendorsActionFactory.getAwaitingAuthorisationAction());
+				setAction(ActionFactory.getAwaitingAuthorisationAction());
 				List<BillsList> records = getRecordsToApprove();
 				if (records.size() > 0) {
 					updateRecords(grid.getSelectedRecords(),
@@ -183,7 +183,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 						@Override
 						public void onSuccess(ClientCashPurchase result) {
 							result.setExpenseStatus(expenceStatus);
-							setAction(VendorsActionFactory
+							setAction(ActionFactory
 									.getExpenseClaimsAction(2));
 							updateTransactionItems(result);
 							alterObject(result);

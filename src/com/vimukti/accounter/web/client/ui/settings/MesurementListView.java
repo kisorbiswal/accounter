@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -11,6 +10,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 
 public class MesurementListView extends BaseView {
@@ -86,7 +86,7 @@ public class MesurementListView extends BaseView {
 		addMeasurementButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getAddMeasurementAction()
+				ActionFactory.getAddMeasurementAction()
 						.run(null, false);
 				;
 			}

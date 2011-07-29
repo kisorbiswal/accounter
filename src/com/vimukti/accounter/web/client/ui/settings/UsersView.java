@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -117,7 +118,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getGeneralSettingsAction().run(null,
+				ActionFactory.getGeneralSettingsAction().run(null,
 						false);
 			}
 		});
@@ -131,7 +132,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getInviteUserAction().run(null, true);
+				ActionFactory.getInviteUserAction().run(null, true);
 			}
 		});
 		tabPanel = new DecoratedTabPanel();

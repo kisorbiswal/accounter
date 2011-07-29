@@ -12,10 +12,10 @@ import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -133,7 +133,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			CustomersActionFactory.getNewQuoteAction().run(obj, true);
+			ActionFactory.getNewQuoteAction().run(obj, true);
 		}
 	}
 

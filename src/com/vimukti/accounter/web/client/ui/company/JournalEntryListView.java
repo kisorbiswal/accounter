@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.JournalEntriesListGrid;
@@ -33,7 +33,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	@Override
 	protected Action getAddNewAction() {
 
-		return CompanyActionFactory.getNewJournalEntryAction();
+		return ActionFactory.getNewJournalEntryAction();
 	}
 
 	@Override

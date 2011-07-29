@@ -4,10 +4,9 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
@@ -82,7 +81,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 
 					if (radio.equals(paymentType)) {
 						try {
-							VendorsActionFactory.getNewVendorPaymentAction()
+							ActionFactory.getNewVendorPaymentAction()
 									.run(null, false);
 							;
 						} catch (Throwable e) {
@@ -93,7 +92,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 							.customerRefund())) {
 
 						try {
-							CustomersActionFactory.getCustomerRefundAction()
+							ActionFactory.getCustomerRefundAction()
 									.run(null, false);
 							;
 						} catch (Throwable e) {

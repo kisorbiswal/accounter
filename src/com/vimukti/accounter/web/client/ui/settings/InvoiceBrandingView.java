@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -27,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
@@ -88,7 +88,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getGeneralSettingsAction().run(null,
+				ActionFactory.getGeneralSettingsAction().run(null,
 						false);
 			}
 		});
@@ -102,7 +102,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getNewBrandThemeAction().run(null, false);
+				ActionFactory.getNewBrandThemeAction().run(null, false);
 			}
 		});
 		// newBrandButton.addMouseOverHandler(new MouseOverHandler() {
@@ -123,7 +123,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getAutomaticSequenceAction().run(null,
+				ActionFactory.getAutomaticSequenceAction().run(null,
 						false);
 
 			}
@@ -462,18 +462,18 @@ public class InvoiceBrandingView<T> extends
 				panel.hide();
 				switch (type) {
 				case 1:
-					SettingsActionFactory.getNewBrandThemeAction().run(theme,
+					ActionFactory.getNewBrandThemeAction().run(theme,
 							false);
 					break;
 				case 2:
-					SettingsActionFactory.getCopyThemeAction()
+					ActionFactory.getCopyThemeAction()
 							.run(theme, false);
 					break;
 				case 3:
 					changeLogo(theme);
 					break;
 				case 4:
-					SettingsActionFactory.getDeleteThemeAction().run(theme,
+					ActionFactory.getDeleteThemeAction().run(theme,
 							false);
 					break;
 				case 5:
@@ -529,11 +529,11 @@ public class InvoiceBrandingView<T> extends
 	// panel.hide();
 	// switch (i) {
 	// case 1:
-	// SettingsActionFactory.getNewBrandThemeAction().run(null,
+	// ActionFactory.getNewBrandThemeAction().run(null,
 	// false);
 	// break;
 	// case 2:
-	// SettingsActionFactory.getCustomThemeAction().run(null,
+	// ActionFactory.getCustomThemeAction().run(null,
 	// false);
 	// break;
 	// }
@@ -598,7 +598,7 @@ public class InvoiceBrandingView<T> extends
 	public void saveSuccess(IAccounterCore object) {
 		if (object != null) {
 			super.saveSuccess(object);
-			SettingsActionFactory.getInvoiceBrandingAction().run(null, false);
+			ActionFactory.getInvoiceBrandingAction().run(null, false);
 		} else
 			saveFailed(new Exception(Accounter.constants().failed()));
 	}

@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorListGrid;
 
@@ -41,7 +41,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	public Action getAddNewAction() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return VendorsActionFactory.getNewVendorAction();
+			return ActionFactory.getNewVendorAction();
 		else
 			return null;
 	}

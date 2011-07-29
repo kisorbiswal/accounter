@@ -3,10 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
-import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class BaseHomeView extends AbstractBaseView {
 	private VerticalPanel widgetLayout;
@@ -77,39 +74,39 @@ public class BaseHomeView extends AbstractBaseView {
 
 		ImageButton invoiceButton = new ImageButton(Accounter.constants()
 				.enterInvoice(), "/images/new_invoice.png");
-		invoiceButton.setAction(CustomersActionFactory.getNewInvoiceAction());
+		invoiceButton.setAction(ActionFactory.getNewInvoiceAction());
 
 		ImageButton receivePaymentButton = new ImageButton(Accounter
 				.constants().receivePayments(),
 				"/images/recived_payment_list.png");
-		receivePaymentButton.setAction(CustomersActionFactory
+		receivePaymentButton.setAction(ActionFactory
 				.getReceivePaymentAction());
 
 		ImageButton refundAnsCredits = new ImageButton(Accounter.constants()
 				.customerCredit(), "/images/customer_refunds_list.png");
-		refundAnsCredits.setAction(CustomersActionFactory
+		refundAnsCredits.setAction(ActionFactory
 				.getNewCreditsAndRefundsAction());
 
 		ImageButton bankDeposit = new ImageButton(Accounter.constants()
 				.bankDeposite(), "/images/make_deposit.png");
-		bankDeposit.setAction(BankingActionFactory.getMakeDepositAction());
+		bankDeposit.setAction(ActionFactory.getMakeDepositAction());
 		ImageButton fileVat = new ImageButton(Accounter.constants().fileVAT(),
 				"/images/File_vat.png");
-		fileVat.setAction(VatActionFactory.getFileVatAction());
+		fileVat.setAction(ActionFactory.getFileVatAction());
 
 		// ImageButton vat = new ImageButton(FinanceApplication
 		// .constants().vatItem(), images.Accounts());
-		// vat.setAction(VatActionFactory.getNewVatItemAction());
+		// vat.setAction(ActionFactory.getNewVatItemAction());
 		// ImageButton newitem = new ImageButton(FinanceApplication
 		// .constants().newItem(), images.newItem());
-		// newitem.setAction(CustomersActionFactory.getNewItemAction());
+		// newitem.setAction(ActionFactory.getNewItemAction());
 
-		// statementButton.setAction(CustomersActionFactory.getNewInvoiceAction());
+		// statementButton.setAction(ActionFactory.getNewInvoiceAction());
 
 		// ImageButton chartofAccounts = new ImageButton(FinanceApplication
 		// .constants().chartOfAccount(), images
 		// .cahrtOfAccounts());
-		// chartofAccounts.setAction(CompanyActionFactory
+		// chartofAccounts.setAction(ActionFactory
 		// .getChartOfAccountsAction());
 
 		// ImageButton statementButton = new ImageButton(FinanceApplication
@@ -137,28 +134,28 @@ public class BaseHomeView extends AbstractBaseView {
 
 		ImageButton enterBillButton = new ImageButton(Accounter.constants()
 				.enterBill(), "/images/enter_bills.png");
-		enterBillButton.setAction(VendorsActionFactory.getEnterBillsAction());
+		enterBillButton.setAction(ActionFactory.getEnterBillsAction());
 
 		ImageButton payBill = new ImageButton(Accounter.constants().payBill(),
 				"/images/pay_bills.png");
-		payBill.setAction(VendorsActionFactory.getPayBillsAction());
+		payBill.setAction(ActionFactory.getPayBillsAction());
 
 		ImageButton vendorcredit = new ImageButton(UIUtils.getVendorString(
 				Accounter.constants().supplierCredit(), Accounter.constants()
 						.vendorCreditMemo()), "/images/new_credit_memo.png");
-		vendorcredit.setAction(VendorsActionFactory.getNewCreditMemoAction());
+		vendorcredit.setAction(ActionFactory.getNewCreditMemoAction());
 
 		ImageButton expenses = new ImageButton(Accounter.constants()
 				.enterExpenses(), "/images/record_expenses.png");
-		expenses.setAction(VendorsActionFactory.getRecordExpensesAction());
+		expenses.setAction(ActionFactory.getRecordExpensesAction());
 		ImageButton creditCardCharge = new ImageButton(Accounter.constants()
 				.creaditCardCharges(), "/images/credit_card_charge.png");
-		creditCardCharge.setAction(BankingActionFactory
+		creditCardCharge.setAction(ActionFactory
 				.getCreditCardChargeAction());
 
 		// ImageButton recoincile = new ImageButton(" Reconcile", images
 		// .newCheck());
-		// recoincile.setAction(BankingActionFactory.getMakeDepositAction());
+		// recoincile.setAction(ActionFactory.getMakeDepositAction());
 
 		secondRowPanel.add(enterBillButton.getImagePanel());
 		secondRowPanel.add(payBill.getImagePanel());
@@ -236,7 +233,7 @@ public class BaseHomeView extends AbstractBaseView {
 	// public void onClick(ClickEvent event) {
 	// try {
 	//
-	// CustomersActionFactory.getNewInvoiceAction().run(null,
+	// ActionFactory.getNewInvoiceAction().run(null,
 	// false);
 	//
 	// } catch (Throwable e) {
@@ -258,7 +255,7 @@ public class BaseHomeView extends AbstractBaseView {
 	//
 	// public void onClick(ClickEvent event) {
 	// try {
-	// CustomersActionFactory.getNewQuoteAction().run(null, false);
+	// ActionFactory.getNewQuoteAction().run(null, false);
 	// } catch (Throwable e) {
 	//
 	// e.printStackTrace();
@@ -278,7 +275,7 @@ public class BaseHomeView extends AbstractBaseView {
 	//
 	// public void onClick(ClickEvent event) {
 	// try {
-	// VendorsActionFactory.getEnterBillsAction().run(null, false);
+	// ActionFactory.getEnterBillsAction().run(null, false);
 	// } catch (Throwable e) {
 	//
 	// e.printStackTrace();

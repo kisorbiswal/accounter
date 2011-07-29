@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -57,7 +57,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
-				setAction(VendorsActionFactory.getPreviousClaimAction());
+				setAction(ActionFactory.getPreviousClaimAction());
 				updateSelectedRecords(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_NOT_TO_SHOW);
 			}
 		});
@@ -104,7 +104,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 							public void onSuccess(ClientCashPurchase result) {
 								result.setExpenseStatus(expenceStatus);
 								updateTransactionItems(result);
-								setAction(VendorsActionFactory
+								setAction(ActionFactory
 										.getExpenseClaimsAction(1));
 								alterObject(result);
 							}

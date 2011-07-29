@@ -21,8 +21,7 @@ import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
-import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class MoneyGoingPortlet extends DashBoardPortlet {
 
@@ -52,8 +51,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 	@Override
 	public void goToClicked() {
 		HistoryTokenUtils.setPresentToken(
-				BankingActionFactory.getAccountRegisterAction(), creditors);
-		BankingActionFactory.getAccountRegisterAction().run(creditors, true);
+				ActionFactory.getAccountRegisterAction(), creditors);
+		ActionFactory.getAccountRegisterAction().run(creditors, true);
 	}
 
 	@Override
@@ -81,8 +80,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			@Override
 			public void onClick(ClickEvent event) {
 				HistoryTokenUtils.setPresentToken(
-						VendorsActionFactory.getEnterBillsAction(), null);
-				VendorsActionFactory.getEnterBillsAction().run(null, true);
+						ActionFactory.getEnterBillsAction(), null);
+				ActionFactory.getEnterBillsAction().run(null, true);
 			}
 		});
 
@@ -207,10 +206,10 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 						.setTextDecoration(TextDecoration.NONE);
 				if (title
 						.equals(Accounter.constants().draftInvoices())) {
-					VendorsActionFactory.getBillsAction().run(null, true,
+					ActionFactory.getBillsAction().run(null, true,
 							Accounter.constants().open());
 				} else {
-					VendorsActionFactory.getBillsAction().run(null, true,
+					ActionFactory.getBillsAction().run(null, true,
 							Accounter.constants().overDue());
 				}
 			}
@@ -231,8 +230,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 	@Override
 	public void titleClicked() {
 		HistoryTokenUtils.setPresentToken(
-				BankingActionFactory.getAccountRegisterAction(), creditors);
-		BankingActionFactory.getAccountRegisterAction().run(creditors, true);
+				ActionFactory.getAccountRegisterAction(), creditors);
+		ActionFactory.getAccountRegisterAction().run(creditors, true);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class CustomerListGrid extends BaseListGrid<PayeeList> {
@@ -195,7 +195,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 			public void onSuccess(ClientCustomer result) {
 				if (result != null) {
-					CustomersActionFactory.getNewCustomerAction().run(result,
+					ActionFactory.getNewCustomerAction().run(result,
 							true);
 				}
 			}

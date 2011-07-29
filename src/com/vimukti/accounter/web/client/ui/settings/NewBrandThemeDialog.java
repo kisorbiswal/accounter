@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -29,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -708,7 +708,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 	public void saveSuccess(IAccounterCore object) {
 		NewBrandThemeDialog.this.removeFromParent();
 		super.saveSuccess(object);
-		SettingsActionFactory.getInvoiceBrandingAction().run(null, true);
+		ActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
 
 	@Override

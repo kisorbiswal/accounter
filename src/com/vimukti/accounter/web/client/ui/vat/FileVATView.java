@@ -29,9 +29,9 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.VATBoxGrid;
@@ -129,9 +129,9 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			public void onClick(ClickEvent event) {
 				if (selectedVatAgency != null) {
 					HistoryTokenUtils.setPresentToken(
-							VatActionFactory.getVatAdjustmentAction(),
+							ActionFactory.getVatAdjustmentAction(),
 							selectedVatAgency);
-					VatActionFactory.getVatAdjustmentAction().run(
+					ActionFactory.getVatAdjustmentAction().run(
 							selectedVatAgency, true);
 				}
 
@@ -489,7 +489,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 			}
 		};
-		report.setAction(ReportsActionFactory.getVAT100ReportAction());
+		report.setAction(ActionFactory.getVAT100ReportAction());
 		report.init();
 		report.initData();
 		report.makeReportRequest(selectedVatAgency.getID(),

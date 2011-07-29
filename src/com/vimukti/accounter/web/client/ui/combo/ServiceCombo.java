@@ -2,8 +2,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ServiceCombo extends CustomCombo<ClientItem> {
 	// Type For Checking Request is from Customer View Or Vendor View
@@ -41,9 +40,9 @@ public class ServiceCombo extends CustomCombo<ClientItem> {
 	public void onAddNew() {
 		NewItemAction action;
 		if (type == 1) {
-			action = CustomersActionFactory.getNewItemAction();
+			action = ActionFactory.getNewItemAction();
 		} else {
-			action = VendorsActionFactory.getNewItemAction();
+			action = ActionFactory.getNewItemAction();
 		}
 		action.setActionSource(this);
 		action.setType(1);

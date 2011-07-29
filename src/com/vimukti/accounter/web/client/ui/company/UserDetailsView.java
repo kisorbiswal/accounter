@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	private VerticalPanel mainPanel;
@@ -37,7 +37,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CompanyActionFactory.getChangePasswordAction().run(null, false);
+				ActionFactory.getChangePasswordAction().run(null, false);
 			}
 		});
 		mainPanel.add(userNameLabel);

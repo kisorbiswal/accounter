@@ -17,8 +17,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class VendorListGrid extends BaseListGrid<PayeeList> {
@@ -204,13 +203,13 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			public void onSuccess(ClientPayee result) {
 				if (result != null) {
 					if (result instanceof ClientVendor) {
-						VendorsActionFactory.getNewVendorAction().run(result,
+						ActionFactory.getNewVendorAction().run(result,
 								true);
 						// } else if (result instanceof ClientTaxAgency) {
-						// UIUtils.runAction(result, CompanyActionFactory
+						// UIUtils.runAction(result, ActionFactory
 						// .getNewTaxAgencyAction());
 					} else if (result instanceof ClientTAXAgency) {
-						CompanyActionFactory.getNewTAXAgencyAction().run(
+						ActionFactory.getNewTAXAgencyAction().run(
 								result, true);
 					}
 

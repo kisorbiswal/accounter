@@ -19,8 +19,8 @@ import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -55,8 +55,8 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				HistoryTokenUtils.setPresentToken(
-						VendorsActionFactory.EmployeeExpenseAction(), null);
-				VendorsActionFactory.EmployeeExpenseAction().run(null, false);
+						ActionFactory.EmployeeExpenseAction(), null);
+				ActionFactory.EmployeeExpenseAction().run(null, false);
 			}
 		});
 		initGrid();
@@ -71,7 +71,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 			public void onClick(ClickEvent event) {
 				MainFinanceWindow.getViewManager().restoreErrorBox();
 				isProcessingAdded = false;
-				setAction(VendorsActionFactory.getExpenseClaimsAction(0));
+				setAction(ActionFactory.getExpenseClaimsAction(0));
 
 				List<BillsList> records = grid.getSelectedRecords();
 				if (records.size() > 0) {
@@ -93,7 +93,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
-				setAction(VendorsActionFactory.getExpenseClaimsAction(0));
+				setAction(ActionFactory.getExpenseClaimsAction(0));
 				List<BillsList> records = grid.getSelectedRecords();
 				if (records.size() > 0) {
 					updateSelectedRecords(records,
@@ -152,7 +152,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 						public void onSuccess(ClientCashPurchase result) {
 							result.setExpenseStatus(expenceStatus);
 							updateTransactionItems(result);
-							setAction(VendorsActionFactory
+							setAction(ActionFactory
 									.getExpenseClaimsAction(0));
 							alterObject(result);
 						}
@@ -201,7 +201,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 	@Override
 	public void setAction(Action action) {
-		// action = VendorsActionFactory.getExpenseClaimListAction();
+		// action = ActionFactory.getExpenseClaimListAction();
 		super.setAction(action);
 	}
 

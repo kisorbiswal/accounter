@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
@@ -119,7 +119,7 @@ public class SoldAndDisposedItemsListGrid extends
 	 */
 	@Override
 	public void onDoubleClick(ClientFixedAsset obj) {
-		FixedAssetsActionFactory.getNewFixedAssetAction().run(obj, true);
+		ActionFactory.getNewFixedAssetAction().run(obj, true);
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public class SoldAndDisposedItemsListGrid extends
 	}
 
 	private void openHistoryView(ClientFixedAsset obj) {
-		Action action = FixedAssetsActionFactory.getHistoryListAction();
+		Action action = ActionFactory.getHistoryListAction();
 		action.catagory = Accounter.constants()
 				.fixedAssetsPendingItemsList();
 		action.run(obj, true);

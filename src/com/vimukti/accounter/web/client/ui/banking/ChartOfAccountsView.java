@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.Iterator;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
@@ -15,8 +14,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.ChartOfAccountsListGrid;
 
 /**
@@ -69,7 +68,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return CompanyActionFactory.getNewAccountAction();
+			return ActionFactory.getNewAccountAction();
 		else
 			return null;
 

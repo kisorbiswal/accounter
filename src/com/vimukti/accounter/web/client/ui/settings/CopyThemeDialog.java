@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -130,7 +131,7 @@ public class CopyThemeDialog extends BaseDialog {
 	public void saveSuccess(IAccounterCore object) {
 		removeFromParent();
 		super.saveSuccess(object);
-		SettingsActionFactory.getInvoiceBrandingAction().run(null, true);
+		ActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
 
 	@Override

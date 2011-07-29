@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -20,6 +19,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -69,7 +69,7 @@ public class ConversionBalancesView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getGeneralSettingsAction().run(null,
+				ActionFactory.getGeneralSettingsAction().run(null,
 						false);
 			}
 		});
@@ -79,7 +79,7 @@ public class ConversionBalancesView extends AbstractBaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				try {
-					SettingsActionFactory.getConversionDateAction().run(null,
+					ActionFactory.getConversionDateAction().run(null,
 							false);
 				} catch (Exception e) {
 					e.printStackTrace();

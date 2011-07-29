@@ -32,15 +32,13 @@ import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
-import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -848,7 +846,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// + " is updated successfully");
 
 		if (this.yesClicked && accountType == ClientAccount.TYPE_CREDIT_CARD) {
-			VendorsActionFactory.getNewVendorAction().run(null, false);
+			ActionFactory.getNewVendorAction().run(null, false);
 		}
 
 		super.saveSuccess(result);
@@ -857,9 +855,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	public void reload() {
 		if (isNewBankAccount)
-			BankingActionFactory.getNewBankAccountAction().run(null, true);
+			ActionFactory.getNewBankAccountAction().run(null, true);
 		else
-			CompanyActionFactory.getNewAccountAction().run(null, true);
+			ActionFactory.getNewAccountAction().run(null, true);
 	}
 
 	@Override

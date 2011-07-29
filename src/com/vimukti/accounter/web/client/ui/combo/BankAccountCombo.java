@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
-import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class BankAccountCombo extends AccountCombo {
 
@@ -32,7 +32,7 @@ public class BankAccountCombo extends AccountCombo {
 
 	@Override
 	public void onAddNew() {
-		NewBankAccountAction action = BankingActionFactory
+		NewBankAccountAction action = ActionFactory
 				.getNewBankAccountAction();
 		action.setActionSource(this);
 		action.setAccountTypes(UIUtils

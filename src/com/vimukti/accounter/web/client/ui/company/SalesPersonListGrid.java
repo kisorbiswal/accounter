@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -116,7 +116,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	@Override
 	public void onDoubleClick(ClientSalesPerson obj) {
-		CustomersActionFactory.getNewSalesperSonAction().run(obj, true);
+		ActionFactory.getNewSalesperSonAction().run(obj, true);
 	}
 
 	protected void executeDelete(ClientSalesPerson object) {

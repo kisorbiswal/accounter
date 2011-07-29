@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -18,7 +17,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 
 public class GeneralSettingsView extends AbstractBaseView {
@@ -98,7 +97,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getConversionBalancesAction().run(null,
+				ActionFactory.getConversionBalancesAction().run(null,
 						false);
 			}
 		});
@@ -106,7 +105,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		conversionHTML.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getConversionBalancesAction().run(null,
+				ActionFactory.getConversionBalancesAction().run(null,
 						false);
 			}
 		});
@@ -138,7 +137,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getInvoiceBrandingAction().run(null,
+				ActionFactory.getInvoiceBrandingAction().run(null,
 						false);
 			}
 		});
@@ -146,7 +145,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getInvoiceBrandingAction().run(null,
+				ActionFactory.getInvoiceBrandingAction().run(null,
 						false);
 				invoiceBrandingHTML.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
@@ -182,14 +181,14 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getUsersAction().run(null, false);
+				ActionFactory.getUsersAction().run(null, false);
 			}
 		});
 		userHtml.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getUsersAction().run(null, false);
+				ActionFactory.getUsersAction().run(null, false);
 				userHtml.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
 			}
@@ -220,7 +219,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CompanyActionFactory.getPreferencesAction().run(null, false);
+				ActionFactory.getPreferencesAction().run(null, false);
 
 			}
 		});
@@ -228,7 +227,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CompanyActionFactory.getPreferencesAction().run(null, false);
+				ActionFactory.getPreferencesAction().run(null, false);
 				companySettingsHtml.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
 

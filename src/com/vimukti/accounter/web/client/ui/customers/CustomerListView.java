@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerListGrid;
 
@@ -42,7 +42,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	protected Action getAddNewAction() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return CustomersActionFactory.getNewCustomerAction();
+			return ActionFactory.getNewCustomerAction();
 		else
 			return null;
 	}

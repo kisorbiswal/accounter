@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
-import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
 /**
  * 
@@ -47,7 +47,7 @@ public class ManageVATGroupListGrid extends BaseListGrid<ClientTAXGroup> {
 
 	@Override
 	public void onDoubleClick(ClientTAXGroup obj) {
-		VatActionFactory.getVatGroupAction().run(obj, true);
+		ActionFactory.getVatGroupAction().run(obj, true);
 	}
 
 	@Override

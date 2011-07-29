@@ -8,8 +8,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
@@ -68,7 +67,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 		if (col == getColumns().length - 1)
 			showWarnDialog(obj);
 		if (col == 5) {
-			BankingActionFactory.getAccountRegisterAction().run(obj, true);
+			ActionFactory.getAccountRegisterAction().run(obj, true);
 		}
 	}
 
@@ -79,7 +78,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			return;
 		else if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
-		CompanyActionFactory.getNewAccountAction().run(account, true);
+		ActionFactory.getNewAccountAction().run(account, true);
 
 	}
 

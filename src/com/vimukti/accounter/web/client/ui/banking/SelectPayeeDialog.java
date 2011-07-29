@@ -9,10 +9,9 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -86,7 +85,7 @@ public class SelectPayeeDialog extends BaseDialog {
 						// new VendorPaymentsAction("Not Issued").run();
 
 						try {
-							Action action = VendorsActionFactory
+							Action action = ActionFactory
 									.getNewVendorAction();
 							action.setActionSource(actionSource);
 
@@ -99,7 +98,7 @@ public class SelectPayeeDialog extends BaseDialog {
 
 					} else if (radio.equals(Accounter.constants().customer())) {
 						try {
-							Action action = CustomersActionFactory
+							Action action = ActionFactory
 									.getNewCustomerAction();
 							action.setActionSource(actionSource);
 

@@ -20,8 +20,7 @@ import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.LineChart;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
-import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class BankingPortlet extends DashBoardPortlet {
 
@@ -38,7 +37,7 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
+		ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
 				.run(null, true);
 	}
 
@@ -77,7 +76,7 @@ public class BankingPortlet extends DashBoardPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					BankingActionFactory.getNewBankAccountAction().run(null,
+					ActionFactory.getNewBankAccountAction().run(null,
 							true);
 				}
 			});
@@ -125,7 +124,7 @@ public class BankingPortlet extends DashBoardPortlet {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						BankingActionFactory.getAccountRegisterAction().run(
+						ActionFactory.getAccountRegisterAction().run(
 								account, true);
 					}
 				});
@@ -212,7 +211,7 @@ public class BankingPortlet extends DashBoardPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					BankingActionFactory.getNewBankAccountAction().run(null,
+					ActionFactory.getNewBankAccountAction().run(null,
 							true);
 				}
 			});
@@ -221,7 +220,7 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		CompanyActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
+		ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
 				.run(null, true);
 	}
 

@@ -42,7 +42,7 @@ import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -1421,7 +1421,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	@Override
 	public void print() {
-		CustomersActionFactory.getBrandingThemeComboAction().run(
+		ActionFactory.getBrandingThemeComboAction().run(
 				getInvoiceObject(), false);
 	}
 

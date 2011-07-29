@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.CashFlowStatementServerReport;
 
 
@@ -21,7 +21,7 @@ public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
-				ReportsActionFactory.getTransactionDetailByAccountAction());
+				ActionFactory.getTransactionDetailByAccountAction());
 	}
 
 	@Override

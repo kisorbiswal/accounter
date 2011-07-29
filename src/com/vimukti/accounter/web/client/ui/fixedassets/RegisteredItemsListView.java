@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.FixedAssetsActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.RegisteredItemsListGrid;
 
 /**
@@ -27,7 +27,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 	 */
 	@Override
 	protected Action getAddNewAction() {
-		return FixedAssetsActionFactory.getNewFixedAssetAction();
+		return ActionFactory.getNewFixedAssetAction();
 	}
 
 	/*

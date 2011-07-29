@@ -16,9 +16,9 @@ import com.vimukti.accounter.web.client.core.ISorting;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
-import com.vimukti.accounter.web.client.ui.core.ReportsActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
@@ -97,7 +97,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 			Accounter
 					.showMessage("Your session expired, Please login again to continue");
 		}
-		ReportsActionFactory.getReportsHomeAction();
+		ActionFactory.getReportsHomeAction();
 		grid.removeLoadingImage();
 	}
 

@@ -11,9 +11,8 @@ import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.TaxDialogAction;
-import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
 public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	private boolean isSales;
@@ -76,12 +75,12 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	@Override
 	public void onAddNew() {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			Action action = VatActionFactory.getNewTAXCodeAction();
+			Action action = ActionFactory.getNewTAXCodeAction();
 			action.setActionSource(this);
 
 			action.run(null, true);
 		} else {
-			TaxDialogAction action1 = CustomersActionFactory.getTaxAction();
+			TaxDialogAction action1 = ActionFactory.getTaxAction();
 			action1.setActionSource(this);
 			action1.run(createAddNewCallBack(), this, null, true);
 		}

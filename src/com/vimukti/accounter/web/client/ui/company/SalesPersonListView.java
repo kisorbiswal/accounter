@@ -11,8 +11,8 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 
 public class SalesPersonListView extends BaseListView<ClientPayee> {
 
@@ -40,7 +40,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	protected Action getAddNewAction() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return CustomersActionFactory.getNewSalesperSonAction();
+			return ActionFactory.getNewSalesperSonAction();
 		else
 			return null;
 	}

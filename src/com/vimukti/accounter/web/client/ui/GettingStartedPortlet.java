@@ -7,11 +7,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.core.BankingActionFactory;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
-import com.vimukti.accounter.web.client.ui.settings.SettingsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class GettingStartedPortlet extends DashBoardPortlet {
 	private VerticalPanel mainPanel;
@@ -196,38 +192,38 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 				if (title.equals(Accounter.constants()
 						.accountReceivable())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
-						CustomersActionFactory.getNewInvoiceAction().run(null,
+						ActionFactory.getNewInvoiceAction().run(null,
 								true);
 				} else if (title.equals(Accounter.constants()
 						.accountPayable())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
-						VendorsActionFactory.getEnterBillsAction().run(null,
+						ActionFactory.getEnterBillsAction().run(null,
 								true);
 				} else if (title.equals(Accounter.constants()
 						.bankingTransactions()))
-					CompanyActionFactory.getChartOfAccountsAction(
+					ActionFactory.getChartOfAccountsAction(
 							ClientAccount.TYPE_BANK).run(null, true);
 				else if (title.equals(Accounter.constants()
 						.expenseClaims())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
-						VendorsActionFactory.getExpensesAction(null).run(null,
+						ActionFactory.getExpensesAction(null).run(null,
 								true);
 				} else if (title.equals("customers"))
-					CustomersActionFactory.getNewCustomerAction().run(null,
+					ActionFactory.getNewCustomerAction().run(null,
 							true);
 				else if (title.equals("vendors"))
-					VendorsActionFactory.getNewVendorAction().run(null, true);
+					ActionFactory.getNewVendorAction().run(null, true);
 				else if (title.equals("Invite Other User")) {
 					if (Accounter.getUser().isCanDoUserManagement())
-						SettingsActionFactory.getInviteUserAction().run(null,
+						ActionFactory.getInviteUserAction().run(null,
 								true);
 				} else if (title.equals("Create any additional bank accounts")) {
 					if (Accounter.getUser().canDoBanking())
-						BankingActionFactory.getNewBankAccountAction().run(
+						ActionFactory.getNewBankAccountAction().run(
 								null, true);
 				} else if (title.equals("finance categories")) {
 					if (Accounter.getUser().canSeeInvoiceTransactions())
-						CompanyActionFactory.getChartOfAccountsAction().run(
+						ActionFactory.getChartOfAccountsAction().run(
 								null, true);
 				}
 

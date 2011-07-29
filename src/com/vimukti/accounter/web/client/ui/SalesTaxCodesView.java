@@ -6,7 +6,7 @@
 //import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 //import com.vimukti.accounter.web.client.ui.core.Action;
 //import com.vimukti.accounter.web.client.ui.core.BaseListView;
-//import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+//import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 //import com.vimukti.accounter.web.client.ui.grids.ManageSalesTaxCodeListGrid;
 //
 ///**
@@ -26,7 +26,7 @@
 //	@Override
 //	protected Action getAddNewAction() {
 //
-//		return CustomersActionFactory.getAddEditSalesTaxCodeAction();
+//		return ActionFactory.getAddEditSalesTaxCodeAction();
 //	}
 //
 //	@Override
@@ -118,7 +118,7 @@
 ////import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 ////import com.vimukti.accounter.web.client.ui.core.Action;
 ////import com.vimukti.accounter.web.client.ui.core.BaseListView;
-////import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+////import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 ////import com.vimukti.accounter.web.client.ui.customers.CustomersMessages;
 ////import com.vimukti.accounter.web.client.ui.grids.ManageSalesTaxCodeListGrid;
 ////
@@ -139,7 +139,7 @@
 ////	@Override
 ////	protected Action getAddNewAction() {
 ////
-////		return CustomersActionFactory.getAddEditSalesTaxCodeAction();
+////		return ActionFactory.getAddEditSalesTaxCodeAction();
 ////	}
 ////
 ////	@Override

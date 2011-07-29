@@ -37,8 +37,8 @@ import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -740,7 +740,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			super.saveSuccess(result);
 			Header.companyName.setText(this.companyNameText.getValue()
 					.toString());
-			CompanyActionFactory.getCompanyHomeAction().run(null, false);
+			ActionFactory.getCompanyHomeAction().run(null, false);
 
 		} else {
 			saveFailed(new Exception(Accounter.constants().failed()));

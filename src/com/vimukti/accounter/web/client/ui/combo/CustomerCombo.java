@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
@@ -33,7 +33,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	@Override
 	public void onAddNew() {
-		Action action = CustomersActionFactory.getNewCustomerAction();
+		Action action = ActionFactory.getNewCustomerAction();
 		action.setActionSource(this);
 
 		action.run(null, true);

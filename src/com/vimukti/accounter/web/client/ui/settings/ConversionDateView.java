@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
@@ -17,6 +16,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 
@@ -132,7 +132,7 @@ public class ConversionDateView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getConversionBalancesAction().run(null,
+				ActionFactory.getConversionBalancesAction().run(null,
 						false);
 			}
 		});
@@ -146,7 +146,7 @@ public class ConversionDateView extends AbstractBaseView {
 						yearCombo.getSelectedValue())
 						+ getYear(monthCombo.getSelectedValue(),
 								yearCombo.getSelectedValue());
-				SettingsActionFactory.getConversionBalancesAction().run(null,
+				ActionFactory.getConversionBalancesAction().run(null,
 						false
 				/*
 				 * ,endindDate, getYear(monthCombo.getSelectedValue(), yearCombo
@@ -159,7 +159,7 @@ public class ConversionDateView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SettingsActionFactory.getConversionBalancesAction().run(null,
+				ActionFactory.getConversionBalancesAction().run(null,
 						false);
 			}
 		});

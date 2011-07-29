@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.settings.SettingsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
@@ -51,7 +51,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
 	@Override
 	public void onAddNew() {
-		Action action = SettingsActionFactory.getNewBrandThemeAction();
+		Action action = ActionFactory.getNewBrandThemeAction();
 		action.setActionSource(this);
 
 		action.run(null, true);

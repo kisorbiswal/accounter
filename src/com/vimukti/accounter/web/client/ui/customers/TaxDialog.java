@@ -6,13 +6,12 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
-import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
 
 
 public class TaxDialog extends BaseDialog {
@@ -70,7 +69,7 @@ public class TaxDialog extends BaseDialog {
 					String radio = typeRadio.getValue().toString();
 					if (radio.equals(TAXGROUP)) {
 						try {
-							Action action = CompanyActionFactory
+							Action action = ActionFactory
 									.getManageSalesTaxGroupsAction();
 							action.setActionSource(actionSource);
 
@@ -86,12 +85,12 @@ public class TaxDialog extends BaseDialog {
 
 					} else if (radio.equals(TAXITEM)) {
 						try {
-							Action action = VatActionFactory
+							Action action = ActionFactory
 									.getNewVatItemAction();
 							action.setActionSource(actionSource);
 
 							action.run(null, true);
-							// VatActionFactory.getNewVatItemAction().run(null,
+							// ActionFactory.getNewVatItemAction().run(null,
 							// true);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter

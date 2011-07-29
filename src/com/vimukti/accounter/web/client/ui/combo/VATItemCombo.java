@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.vat.VatActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 /**
  * @author Murali.A
@@ -137,7 +137,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	 */
 	@Override
 	public void onAddNew() {
-		Action action = VatActionFactory.getNewVatItemAction();
+		Action action = ActionFactory.getNewVatItemAction();
 		action.setActionSource(this);
 
 		action.run(null, true);

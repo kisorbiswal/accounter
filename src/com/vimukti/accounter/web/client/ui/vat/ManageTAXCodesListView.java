@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.grids.ManageTAXCodeListGrid;
 
@@ -22,7 +23,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected Action getAddNewAction() {
-		return VatActionFactory.getNewTAXCodeAction();
+		return ActionFactory.getNewTAXCodeAction();
 	}
 
 	@Override

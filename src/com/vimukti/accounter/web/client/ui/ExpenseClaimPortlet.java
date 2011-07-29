@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ExpenseClaimPortlet extends DashBoardPortlet {
 
@@ -47,7 +47,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		VendorsActionFactory.getExpensesAction(null).run(null, true);
+		ActionFactory.getExpensesAction(null).run(null, true);
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				VendorsActionFactory.getRecordExpensesAction().run(null, true);
+				ActionFactory.getRecordExpensesAction().run(null, true);
 			}
 		});
 
@@ -171,22 +171,22 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
 				if (title.equals(Accounter.constants().cashExpenses())) {
-					VendorsActionFactory.getExpensesAction(
+					ActionFactory.getExpensesAction(
 							Accounter.constants().cash()).run(null,
 							true);
 				} else if (title.equals(Accounter.constants()
 						.creditCardExpenses())) {
-					VendorsActionFactory.getExpensesAction(
+					ActionFactory.getExpensesAction(
 							Accounter.constants().creditCard()).run(
 							null, true);
 				} else if (title.equals(Accounter.constants()
 						.employeeExpenses())) {
-					VendorsActionFactory.getExpensesAction(
+					ActionFactory.getExpensesAction(
 							Accounter.constants().employee()).run(
 							null, true);
 				} else if (title.equals(Accounter.constants()
 						.allExpenses())) {
-					VendorsActionFactory.getExpensesAction(null)
+					ActionFactory.getExpensesAction(null)
 							.run(null, true);
 				}
 			}
@@ -205,7 +205,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		VendorsActionFactory.getExpensesAction(null).run(null, true);
+		ActionFactory.getExpensesAction(null).run(null, true);
 	}
 
 	@Override

@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class Header extends HorizontalPanel {
 
@@ -63,15 +63,15 @@ public class Header extends HorizontalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					String historyToken = CompanyActionFactory
+					String historyToken = ActionFactory
 							.getUserDetailsAction().getHistoryToken();
 					if (!History.getToken().equals(historyToken)) {
 						MainFinanceWindow.oldToken = History.getToken();
 						HistoryTokenUtils.setPresentToken(
-								CompanyActionFactory.getUserDetailsAction(),
+								ActionFactory.getUserDetailsAction(),
 								null);
 					}
-					CompanyActionFactory.getUserDetailsAction()
+					ActionFactory.getUserDetailsAction()
 							.run(null, false);
 				}
 			});
@@ -93,7 +93,7 @@ public class Header extends HorizontalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				CompanyActionFactory.getCompanyHomeAction().run(null, false);
+				ActionFactory.getCompanyHomeAction().run(null, false);
 			}
 		});
 		Image image = new Image();

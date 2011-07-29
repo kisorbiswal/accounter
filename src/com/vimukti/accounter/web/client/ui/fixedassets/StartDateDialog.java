@@ -16,8 +16,8 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.CompanyActionFactory;
 
 
 public class StartDateDialog extends BaseDialog {
@@ -138,9 +138,9 @@ public class StartDateDialog extends BaseDialog {
 
 			@Override
 			public void onSuccess(Object result) {
-				History.newItem(CompanyActionFactory.getDepriciationAction()
+				History.newItem(ActionFactory.getDepriciationAction()
 						.getHistoryToken());
-				// CompanyActionFactory.getDepriciationAction().run(null, true);
+				// ActionFactory.getDepriciationAction().run(null, true);
 			}
 
 		};

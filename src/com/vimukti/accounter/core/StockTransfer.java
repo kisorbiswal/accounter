@@ -2,8 +2,6 @@ package com.vimukti.accounter.core;
 
 import java.util.Set;
 
-import org.hibernate.classic.Lifecycle;
-
 /**
  * Transfers items from one warehouse to another.
  * 

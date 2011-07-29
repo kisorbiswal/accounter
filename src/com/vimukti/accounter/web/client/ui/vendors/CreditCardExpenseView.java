@@ -23,9 +23,9 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 
 public class CreditCardExpenseView extends CreditCardChargeView {
 
@@ -70,7 +70,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 			@Override
 			public void onAddNew() {
-				NewVendorAction action = VendorsActionFactory
+				NewVendorAction action = ActionFactory
 						.getNewVendorAction();
 
 				action.setActionSource(this);

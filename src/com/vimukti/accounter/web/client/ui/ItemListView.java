@@ -7,10 +7,9 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.CustomersActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.ItemsListGrid;
 
 /**
@@ -76,17 +75,17 @@ public class ItemListView extends BaseListView<ClientItem> {
 		else {
 			NewItemAction action;
 			if (this.catageory.equals(Accounter.constants().customer())) {
-				action = CustomersActionFactory.getNewItemAction();
+				action = ActionFactory.getNewItemAction();
 				action.setType(3);
 				return action;
 			} else if (this.catageory.equals(Accounter.constants().supplier())
 					|| this.catageory.equals(Accounter.constants().vendor())) {
-				action = VendorsActionFactory.getNewItemAction();
+				action = ActionFactory.getNewItemAction();
 				action.setType(3);
 				return action;
 			}
 
-			action = CustomersActionFactory.getNewItemAction();
+			action = ActionFactory.getNewItemAction();
 			action.setType(3);
 			return action;
 		}

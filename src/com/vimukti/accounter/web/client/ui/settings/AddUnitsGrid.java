@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;

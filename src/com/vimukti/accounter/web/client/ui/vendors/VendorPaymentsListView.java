@@ -13,8 +13,8 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.VendorsActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.VendorPaymentsListGrid;
 
 /**
@@ -40,7 +40,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 	@Override
 	protected Action getAddNewAction() {
 
-		return VendorsActionFactory.getNewVendorPaymentAction();
+		return ActionFactory.getNewVendorPaymentAction();
 	}
 
 	@Override
