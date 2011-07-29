@@ -44,4 +44,21 @@
 
 
 	</class>
+
+	<class name="Developer" table="DEVELOPER">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="client" column="CLIENT"></property>
+		<property name="apiKey" column="API_KEY"></property>
+		<property name="secretKey" column="SECRET_KEY"></property>
+		<property name="applicationName" column="APPLICATION_NAME"></property>
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="integrationUrl" column="INTEGRATIONURL"></property>
+		<property name="applicationType" column="APPLICATIONTYPE"></property>
+		<property name="applicationUse" column="APPLICATIONUSE"></property>
+		<property name="developerEmailId" column="DEVELOPER_EMAIL_ID"></property>
+		<property name="contact" column="CONTACT"></property>
+
+	</class>
 </hibernate-mapping>
