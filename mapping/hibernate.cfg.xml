@@ -81,7 +81,8 @@
 		<mapping resource="mapping/finance-hql.xml" />
 		<mapping resource="mapping/finance-reports.xml" />
 		<mapping resource="mapping/finance-views.xml" />
-
+		<mapping resource="mapping/finance-new-mapping.xml"/>
+		<mapping resource="mapping/finance-new-queries.xml"/>
 
 
 	</session-factory>
