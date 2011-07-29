@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> -->
 
 <html>
-  <head><title>Accounter</title></head>
+  <head><title>Registration</title></head>
   <body>
   <table>
   <!--<tr>
@@ -59,6 +59,7 @@
    <td>Contact Number:</td>
    <td><input type="text" /></td>
    </tr>
-	</table>   
+	</table> 
+	  <div><input type="submit" name="Add Application" value="Add Application"/></div>
   </body>
 </html>
