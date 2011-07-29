@@ -2,13 +2,15 @@ package com.vimukti.accounter.core;
 
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.InvalidOperationException;
+
 /**
  * This Client Saved in ServerDatabase
  * 
  * @author nagaraju.p
  * 
  */
-public class Client {
+public class Client implements IAccounterServerCore {
 	private long id;
 	private String firstName;
 	private String lastName;
@@ -70,16 +72,12 @@ public class Client {
 
 	public void setPhoneNo(String phoneNumber) {
 		this.setPhoneNumber(phoneNumber);
-		
+
 	}
 
 	public void setCountry(String country) {
 		this.country = country;
-		
-	}
 
-	public long getId() {
-		return id;
 	}
 
 	public void setId(long id) {
@@ -104,5 +102,17 @@ public class Client {
 
 	public void setSubscribedToNewsLetters(boolean isSubscribedToNewsLetters) {
 		this.isSubscribedToNewsLetters = isSubscribedToNewsLetters;
+	}
+
+	@Override
+	public long getID() {
+		return id;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws InvalidOperationException {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }

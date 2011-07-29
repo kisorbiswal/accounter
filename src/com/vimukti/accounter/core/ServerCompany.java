@@ -2,7 +2,9 @@ package com.vimukti.accounter.core;
 
 import java.util.Date;
 
-public class ServerCompany {
+import com.vimukti.accounter.web.client.InvalidOperationException;
+
+public class ServerCompany implements IAccounterServerCore {
 	private long id;
 	private String companyName;
 	private Date createdDate;
@@ -41,11 +43,19 @@ public class ServerCompany {
 		this.companyType = companyType;
 	}
 
-	public long getId() {
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	@Override
+	public long getID() {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws InvalidOperationException {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }

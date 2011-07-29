@@ -2,7 +2,9 @@ package com.vimukti.accounter.core;
 
 import java.util.Date;
 
-public class Activation {
+import com.vimukti.accounter.web.client.InvalidOperationException;
+
+public class Activation implements IAccounterServerCore {
 	private long id;
 	private String emailId;
 	private String token;
@@ -32,12 +34,20 @@ public class Activation {
 		this.signUpDate = sighnUpDate;
 	}
 
-	public long getId() {
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	@Override
+	public long getID() {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws InvalidOperationException {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }
