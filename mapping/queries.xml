@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping default-access="field" package="com.vimukti.accounter.core">
+<hibernate-mapping default-access="field">
 
 
 	<query name="getCompany.by.CompanyID">
@@ -1311,7 +1311,7 @@
 	</query>
 
 	<query name="getAccount.by.id.and.type">
-		from com.vimukti.accounter.core.Account a a.id = ?
+		from com.vimukti.accounter.core.Account a where a.id = ?
 		and a.type = ?
 	</query>
 
@@ -1738,9 +1738,9 @@
 		from com.vimukti.accounter.core.TAXItemGroup entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.Box1099">
+	<query name="get.entityObject.from.Box1099">
 		from com.vimukti.accounter.core.Box1099 entity
-	</query> -->
+	</query> 
 
 	<query name="get.entityObject.from.TAXCode">
 		from com.vimukti.accounter.core.TAXCode entity
@@ -1750,10 +1750,10 @@
 		from com.vimukti.accounter.core.TAXItem entity
 	</query>
 
-	<query name="get.entityObject.from.ItemTax">
+	<!-- <query name="get.entityObject.from.ItemTax">
 		from com.vimukti.accounter.core.ItemTax entity
-	</query>
-
+	</query> -->
+	
 	<query name="get.entityObject.from.CustomerGroup">
 		from com.vimukti.accounter.core.CustomerGroup
 		entity
@@ -1805,22 +1805,22 @@
 		from com.vimukti.accounter.core.Transaction entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.Address">
+	<query name="get.entityObject.from.Address">
 		from com.vimukti.accounter.core.Address entity
-	</query> -->
+	</query>
 
 	<query name="get.entityObject.from.Bank">
 		from com.vimukti.accounter.core.Bank entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.CompanyPreferences">
+	<query name="get.entityObject.from.CompanyPreferences">
 		from com.vimukti.accounter.core.CompanyPreferences
 		entity
-	</query> -->
+	</query>
 
-	<!-- <query name="get.entityObject.from.Contact">
+	<query name="get.entityObject.from.Contact">
 		from com.vimukti.accounter.core.Contact entity
-	</query> -->
+	</query>
 
 	<query name="get.entityObject.from.CreditsAndPayments">
 		from com.vimukti.accounter.core.CreditsAndPayments
@@ -1831,9 +1831,9 @@
 		from com.vimukti.accounter.core.Currency entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.Email">
+	<query name="get.entityObject.from.Email">
 		from com.vimukti.accounter.core.Email entity
-	</query> -->
+	</query>
 
 	<query name="get.entityObject.from.Entry">
 		from com.vimukti.accounter.core.Entry entity
@@ -1848,9 +1848,9 @@
 		entity
 	</query>
 
-	<!-- <query name="get.entityObject.from.Phone">
+	<query name="get.entityObject.from.Phone">
 		from com.vimukti.accounter.core.Phone entity
-	</query> -->
+	</query>
 
 	<query name="get.entityObject.from.TaxRates">
 		from com.vimukti.accounter.core.TaxRates entity
@@ -2077,10 +2077,10 @@
 		entity
 	</query>
 
-	<query name="get.entityObject.from.EmployeeDetail">
+	<!-- <query name="get.entityObject.from.EmployeeDetail">
 		from com.vimukti.accounter.core.EmployeeDetail
 		entity
-	</query>
+	</query> -->
 
 	<query name="get.entityObject.from.StockTransfer">
 		from com.vimukti.accounter.core.StockTransfer
