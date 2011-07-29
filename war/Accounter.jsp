@@ -209,7 +209,54 @@
 	<!--include the application JS-->
 	<script type="text/javascript">document.getElementById('loadingMsg');</script>
 	
+	<table class="header">
+	   <tr>
+	      <td width="25%"><img src="/images/Accounter_logo_title.png" /></td>
+	      <td width="50%"><div class="companyName">${companyName}</div></td>
+	      <td width="25%">
+	        <ul>
+	           <li><img src="images/User.png" /><a href="">${userName}</a></li>
+	           <li><img src="images/Help.png" /><a href='http://help.accounter.com'>Help</a></li>
+	           <li><img src="images/logout.png" /><a href='/do/logout'>Logout</a></li>
+	        </ul>
+	      </td>
+	   </tr>
+	</table>
 	<script type="text/javascript" language="javascript" src="/accounter/accounter.nocache.js"></script>
+	<table width="100%">
+	   <tr>
+	      <td>
+		     <table width="100%">
+		       <tr>
+			      <td><div class="left-corner"></div></td>
+			      <td width="98%"><div class="mid-repeat"></div></td>
+			      <td><div class="right-corner"></div></td>
+			    </tr>
+		     </table>
+		   </td>
+	   </tr>
+	   <tr>
+	     <td>
+	      <table width="100%">
+	       <tr>
+		      <td><div class="footer-left"></div></td>
+		      <td width="99%">
+		         <div class="feedback-option">
+		             <div class="vimukti-name">
+		               <a target="/blank" href="http://www.vimukti.com/">Vimukti Technologies Pvt Ltd.</a> All rights reserved
+		         </div>
+		         <div class="feedback-name">
+		             Send your feedback to: <a target="_blank" href="/site/support">support@accounterlive.com</a>
+		         </div>
+		         </div>
+		      </td>
+		      <td><div class="footer-right"></div></td>
+		    </tr>
+	     </table>
+	    </td>
+	   </tr>
+	</table>
+	
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
     <iframe id="__printingFrame" style="width: 0; height: 0; border: 0"></iframe>
