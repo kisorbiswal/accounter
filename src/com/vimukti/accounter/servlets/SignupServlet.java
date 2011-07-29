@@ -22,9 +22,18 @@ public class SignupServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private String view = "/sites/signup.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
+		redirect(req, resp, view);
+
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// Take userName from request
 		String emailId = req.getParameter("emailId").trim().toLowerCase();
@@ -74,6 +83,7 @@ public class SignupServlet extends BaseServlet {
 	}
 
 	private void sendActivationEmail(String emailId, String tocken) {
-		UsersMailSendar.sendActivationMail("activation?code=" + tocken, emailId);
+		UsersMailSendar
+				.sendActivationMail("activation?code=" + tocken, emailId);
 	}
 }
