@@ -29,20 +29,29 @@ public class SetupServlet extends BaseServlet {
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		if (session == null) {
-			dispatchMessage("Session was expired", req, resp,
-					"companieslist.jsp");
+			dispatchMessage("Session was expired", req, resp, "/site/error.jsp");
 			return;
 		}
+
 		String emailId = (String) session.getAttribute("emailId");
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
 			Client client = getClient(emailId);
 			if (client == null) {
-				dispatchMessage("User is not exists", req, resp,
-						"companieslist.jsp");
+				dispatchMessage("Invalid User", req, resp,
+						"/site/error.jsp");
 				return;
 			}
-
+			String companyName = req.getParameter("companyName");
+			if (companyName != null) {
+				if (openAcounterApplication(client, companyName)) {
+					return;
+				}else{
+					dispatchMessage("Company is not available", req, resp,
+							"/site/error.jsp");
+					return;
+				}
+			}
 			Set<ServerCompany> companies = client.getCompanies();
 			if (companies.isEmpty()) {
 				openCompaneySetup(client, req, resp);
@@ -50,19 +59,16 @@ public class SetupServlet extends BaseServlet {
 				int size = companies.size();
 				if (size == 1) {
 					Iterator<ServerCompany> iterator = companies.iterator();
-					if (iterator.hasNext()) {
-						ServerCompany next = iterator.next();
-						openAcounterApplication(client, next.getCompanyName());
-					} else {
-						openCompaneySetup(client, req, resp);
-					}
+					ServerCompany next = iterator.next();
+					openAcounterApplication(client, next.getCompanyName());
+
 				} else {
 					List<String> companyList = new ArrayList<String>();
 					for (ServerCompany company : companies) {
 						companyList.add(company.getCompanyName());
 					}
 					req.setAttribute("companeyList", companyList);
-					resp.sendRedirect("companieslist.jsp");
+					resp.sendRedirect("/site/companylist.jsp");
 				}
 			}
 		} catch (Exception e) {
@@ -71,6 +77,7 @@ public class SetupServlet extends BaseServlet {
 				hibernateSession.close();
 			}
 		}
+
 	}
 
 	@Override
@@ -106,9 +113,9 @@ public class SetupServlet extends BaseServlet {
 
 	}
 
-	private void openAcounterApplication(Client client, String string) {
+	private boolean openAcounterApplication(Client client, String string) {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 }

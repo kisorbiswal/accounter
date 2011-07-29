@@ -21,6 +21,7 @@ public class ActivationServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private String view = "resetpassword.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -35,6 +36,7 @@ public class ActivationServlet extends BaseServlet {
 			// If it is null
 			if (activation == null) {
 				// set Error "Token has expired"
+				
 				req.setAttribute("message", "Token has expired.");
 			} else {
 				// otherwise
@@ -68,7 +70,7 @@ public class ActivationServlet extends BaseServlet {
 		String token = (String) session.getAttribute("activationToken");
 		if (token.isEmpty()) {
 			dispatchMessage("Token has expired.", req, resp,
-					"resetpassword.jsp");
+					view);
 			return;
 		}
 		// get activation record from table
@@ -78,7 +80,8 @@ public class ActivationServlet extends BaseServlet {
 			// if it is null
 			if (activation == null) {
 				// dispatch withr "Token has expired".
-				dispatchMessage("Token has expired.", req, resp, "");
+				//TODO ::: check error page name
+				dispatchMessage("Token has expired.", req, resp, "/site/error.jsp");
 				return;
 			}
 			// otherwise
@@ -89,7 +92,7 @@ public class ActivationServlet extends BaseServlet {
 			// compare if not equal send error message
 			// otherwise
 			if (!password.equals(confirm)) {
-				dispatchMessage("Passwords are not matched.", req, resp, "");
+				dispatchMessage("Password mismatch. Please reenter the password", req, resp, view);
 				return;
 			}
 
@@ -99,13 +102,15 @@ public class ActivationServlet extends BaseServlet {
 			// update password and set isActive true
 			client.setPassword(HexUtil.bytesToHex(Security.makeHash(activation
 					.getEmailId() + password.trim())));
+			client.setActive(true);
 			// and save Client, delete activation record
 			saveEntry(client);
+			
 			deleteActivationTokens(activation.getEmailId());
 
 			// Send to login page with emailId
 			session.setAttribute("emailId", activation.getEmailId());
-			redirect(req, resp, "companysetup");
+			redirect(req, resp, "/site/companysetup");
 		} catch (Exception e) {
 		} finally {
 			if (hibernateSession != null) {
