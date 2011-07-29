@@ -345,7 +345,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	private String[] getMonthStrings() {
 		return new String[] { Accounter.constants().JAN(),
 				Accounter.constants().FEB(), Accounter.constants().MAR(),
-				Accounter.constants().APR(), Accounter.constants().MAY(),
+				Accounter.constants().APR(), Accounter.constants().may(),
 				Accounter.constants().JUN(), Accounter.constants().JUL(),
 				Accounter.constants().AUG(), Accounter.constants().SEPT(),
 				Accounter.constants().OCT(), Accounter.constants().NOV(),

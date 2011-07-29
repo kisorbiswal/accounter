@@ -2067,8 +2067,6 @@ public interface AccounterConstants extends Constants {
 
 	public String may();
 
-	public String MAY();
-
 	public String measure();
 
 	public String measurement();
