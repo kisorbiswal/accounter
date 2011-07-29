@@ -50,7 +50,27 @@
 		<servlet-class>com.vimukti.accounter.servlets.LiveLoginServlet
 		</servlet-class>
 	</servlet>
-
+	
+	<servlet-mapping>
+		<servlet-name>new signup</servlet-name>
+		<url-pattern>/signup</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>new signup</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.SignupServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Activation</servlet-name>
+		<url-pattern>/activation</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Activation</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.ActivationServlet
+		</servlet-class>
+	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>signup</servlet-name>
 		<url-pattern>/site/signup</url-pattern>
