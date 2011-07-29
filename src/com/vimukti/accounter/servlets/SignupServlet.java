@@ -39,10 +39,11 @@ public class SignupServlet extends BaseServlet {
 		String emailId = req.getParameter("emailId").trim().toLowerCase();
 		String firstName = req.getParameter("firstName").trim().toLowerCase();
 		String lastName = req.getParameter("lastName").trim().toLowerCase();
-		// TODO::: get phone number and country and do validation of these
-		// values
-		if (!isValidInputs(NAME, firstName, lastName)
-				|| !isValidInputs(MAIL_ID, emailId)) {
+		String phoneNumber = req.getParameter("phoneNumber").trim().toLowerCase();
+		String country = req.getParameter("country").trim().toLowerCase();
+		
+		if (!isValidInputs(NAME, firstName, lastName, country)
+				|| !isValidInputs(MAIL_ID, emailId) || !isValidInputs(PHONE_NO, phoneNumber)) {
 			dispatchMessage("Given Inputs are wrong.", req, resp, view);
 			return;
 		}
@@ -74,7 +75,8 @@ public class SignupServlet extends BaseServlet {
 				client.setEmailId(emailId);
 				client.setFirstName(firstName);
 				client.setLastName(lastName);
-				//TODO::: set phone no and country to the client 
+				client.setPhoneNo(phoneNumber);
+				client.setCountry(country);
 				saveEntry(client);
 
 				// Email to that user.
