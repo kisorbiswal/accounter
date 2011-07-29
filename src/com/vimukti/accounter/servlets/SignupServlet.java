@@ -43,7 +43,7 @@ public class SignupServlet extends BaseServlet {
 		String country = req.getParameter("country").trim().toLowerCase();
 		
 		if (!isValidInputs(NAME, firstName, lastName, country)
-				|| !isValidInputs(MAIL_ID, emailId) || !isValidInputs(PHONE_NO, phoneNumber)) {
+				|| !isValidInputs(MAIL_ID, emailId)) {
 			dispatchMessage("Given Inputs are wrong.", req, resp, view);
 			return;
 		}
