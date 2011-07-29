@@ -39,24 +39,31 @@ public class SignupServlet extends BaseServlet {
 		String emailId = req.getParameter("emailId").trim().toLowerCase();
 		String firstName = req.getParameter("firstName").trim().toLowerCase();
 		String lastName = req.getParameter("lastName").trim().toLowerCase();
+		// TODO::: get phone number and country and do validation of these
+		// values
 		if (!isValidInputs(NAME, firstName, lastName)
 				|| !isValidInputs(MAIL_ID, emailId)) {
-			dispatchMessage("Given Inputs are wrong.", req, resp, "");
+			dispatchMessage("Given Inputs are wrong.", req, resp, view);
 			return;
 		}
+
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
 			// Have to check UserExistence
 			if (getClient(emailId) != null) {
 				// If Exists then send to login password with username
+				// TODO::: in login.jsp check for email id in the request if it
+				// is available set this email id in the email id field of login
+				// page
 				redirect(req, resp, "/sites/login");
+
 			} else {
 				// else
 				// Generate Token and create Activation and save. then send
-				String tocken = SecureUtils.createID();
+				String token = SecureUtils.createID();
 				Activation activation = new Activation();
 				activation.setEmailId(emailId);
-				activation.setTocken(tocken);
+				activation.setToken(token);
 				activation.setSignUpDate(new Date());
 				saveEntry(activation);
 
@@ -67,12 +74,14 @@ public class SignupServlet extends BaseServlet {
 				client.setEmailId(emailId);
 				client.setFirstName(firstName);
 				client.setLastName(lastName);
+				//TODO::: set phone no and country to the client 
 				saveEntry(client);
 
 				// Email to that user.
-				sendActivationEmail(emailId, tocken);
+				sendActivationEmail(token, client);
 				// Send to SignUp Success View
-				redirect(req, resp, "");
+				req.setAttribute("successmessage", "Thanks for registering with Accounter!");
+				redirect(req, resp, view);
 			}
 		} catch (Exception e) {
 		} finally {
@@ -82,8 +91,7 @@ public class SignupServlet extends BaseServlet {
 		}
 	}
 
-	private void sendActivationEmail(String emailId, String tocken) {
-		UsersMailSendar
-				.sendActivationMail("activation?code=" + tocken, emailId);
+	private void sendActivationEmail(String token, Client client) {
+		UsersMailSendar.sendActivationMail(token, client);
 	}
 }
