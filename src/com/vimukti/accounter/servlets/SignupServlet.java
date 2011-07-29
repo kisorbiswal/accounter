@@ -42,7 +42,7 @@ public class SignupServlet extends BaseServlet {
 		String phoneNumber = req.getParameter("phoneNumber").trim();
 		String country = req.getParameter("country").trim();
 		boolean isSubscribedToNewsLetter = false;
-		if(req.getParameter("subscribeNewsLetter") != null && req.getParameter("subscribeNewsLetter").equals("on"))
+		if(req.getParameter("newsletter") != null && req.getParameter("newsletter").equals("on"))
 			isSubscribedToNewsLetter = true;
 		
 		boolean isAgreed = false;
