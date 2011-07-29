@@ -39,7 +39,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>webLogin</servlet-name>
-		<servlet-class>com.vimukti.accounter.servlets.LiveLoginServlet
+		<servlet-class>com.vimukti.accounter.servlets.NewLoginServlet
 		</servlet-class>
 	</servlet>
 
