@@ -122,7 +122,7 @@ public class BaseServlet extends HttpServlet {
 		Session session = HibernateUtil.getCurrentSession();
 		Client client = (Client) session.getNamedQuery("getClient.by.mailId")
 				.setString(EMAIL_ID, emailId).uniqueResult();
-		session.close();
+		//session.close();
 		return client;
 	}
 

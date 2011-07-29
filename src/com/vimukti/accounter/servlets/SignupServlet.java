@@ -41,7 +41,17 @@ public class SignupServlet extends BaseServlet {
 		String lastName = req.getParameter("lastName").trim();
 		String phoneNumber = req.getParameter("phoneNumber").trim();
 		String country = req.getParameter("country").trim();
+		boolean isSubscribedToNewsLetter = false;
+		if(req.getParameter("subscribeNewsLetter") != null && req.getParameter("subscribeNewsLetter").equals("on"))
+			isSubscribedToNewsLetter = true;
 		
+		boolean isAgreed = false;
+		if(req.getParameter("agree") != null && req.getParameter("agree").equals("on"))
+			isAgreed = true;
+		if(!isAgreed){
+			dispatchMessage("Please accept Terms of use", req, resp, view);
+		}
+			
 		if (!isValidInputs(NAME, firstName, lastName, country)
 				|| !isValidInputs(MAIL_ID, emailId)) {
 			dispatchMessage("Given Inputs are wrong.", req, resp, view);
@@ -77,6 +87,7 @@ public class SignupServlet extends BaseServlet {
 				client.setLastName(lastName);
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
+				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
 				saveEntry(client);
 
 				// Email to that user.
@@ -86,9 +97,11 @@ public class SignupServlet extends BaseServlet {
 				redirect(req, resp, view);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (hibernateSession != null) {
-				hibernateSession.close();
+				if(hibernateSession.isOpen())
+					hibernateSession.close();
 			}
 		}
 	}
