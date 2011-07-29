@@ -80,7 +80,6 @@ public class ActivationServlet extends BaseServlet {
 			// if it is null
 			if (activation == null) {
 				// dispatch withr "Token has expired".
-				//TODO ::: check error page name
 				dispatchMessage("Token has expired.", req, resp, "/site/error.jsp");
 				return;
 			}
