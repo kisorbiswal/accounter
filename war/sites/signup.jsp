@@ -56,6 +56,12 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		       $('#checkbox').focus();
 		    } 
 	    });
+	   
+	    $('#mid-box2').click(function(){
+	    $('.indication-box').remove();
+	        $('#email_id_box').append('<div class="indication-box"><div class="left-arrow"></div><div class="box-data">Enter a valid email address. A mail will be sent to this email to confirm your account and also in case you forgot your password</div></div>');
+	    });
+	   
 		$('#submitButton').click(function() {
 			$("#accounterForm").validate({
 		rules: {
@@ -127,39 +133,13 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	<%@ include file="./header.jsp" %>
 		<div class="middle-part" id="cen">
 			<div class="middle-signup-box" id="mid">
+			  <div class="back-signup-box">
 				<c:if test="${successmessage==null}">
-				<h2>Create Company</h2>
+				<h2>Sign up</h2>
 				</c:if>
 					
 							<c:if test="${successmessage!=null}">
-							<table id="signup-fields" class="signup-fields-box success-box">
-							<tr>
-									<td ><div class="signup-box-left-top"></div></td>
-									<td ><div  class="signup-box-top-middle"></div></td>
-									<td ><div class="signup-box-right-top"></div></td>
-								</tr>
-								<tr>
-									<td class="signup-box-left-middle" ></td>
-									<td class="signup-box">
-								<div id="successDiv" class="successDiv"><b style="color: #3299A4; font-size: 17px;">${successmessage}</b></div>
-								</td>
-									<td class="signup-box-right-middle"></td>
-									</tr>
-								<tr>
-									<td ><div class="signup-box-left-bottom"></div></td>
-									<td ><div class="signup-box-bottom-middle"></div></td>
-									<td ><div class="signup-box-right-bottom"></div></td>
-								</tr>
-			                    <tr>
-			                        <td></td>
-			                        <td><div class="remaining-header-part-login success_login">
-										<ul>
-										   <li><a href="/site/login" id="login-id" >Login</a></li>
-										</ul>
-									</div></td>
-			                        <td></td>
-			                    </tr>
-							</table>
+							   <div class="success_box"></div>
 							</c:if>
 							<div id="hiddenLoaderDiv" class="hiddenDiv">
 								<img src="/images/icons/loading-indicator.gif" height="50" width="50">
@@ -169,94 +149,35 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 							<div id="signup" class="left-side-box">
 								<form id="accounterForm" method="post" action="/site/signup"">
 								<fieldset class="fieldset"">
-								<table id="signup-fields" class="signup-fields-box">
-								<c:if test="${errormessage != null}">
-								<span style="color: red; line-height: 1.5;">
-								${errormessage} </span>
-								<br><br>
-								</c:if>
+                           <table id="signup-fields" class="signup-fields-box" width="100%">
+								
 								<tr>
-									<td ><div class="signup-box-left-top"></div></td>
-									<td ><div  class="signup-box-top-middle"></div></td>
-									<td ><div class="signup-box-right-top"></div></td>
-								</tr>
-								<tr>
-									<td class="signup-box-left-middle" ></td>
-									<td class="signup-box">
-									<h3 style="color:#3299A4">Company Details</h3>
-
-									<table>
-										<tr>
-											 <td style="width : 155px">Company Full Name <span id=red>*</span> </td>
-											 <td class="company-full-name">
-												 <input id="mid-box3"  type="text" tabindex="1" name="companyFullName">
-											 </td>
-										</tr>
-										<tr style="height:10px">
-											<td></td>
-									 		<td><h6 class="text-style" style="font-size: 10px;color:#A0A0A0; margin-bottom: 2px;margin-top:-4px\0">ex: Vimukti Technologies Pvt Ltd</h6></td>
-										</tr>
-										<tr>
-											 <td style="width : 155px">Company ID <span id=red>*</span> </td>
-											 <td class="company-id-class">
-												 <input id="mid-box7"  type="text" tabindex="2" name="companyName" >
-											 </td>
-										</tr>
-										<tr style="height:10px">
-											<td></td>
-									 		<td><h6 class="text-style" style="font-size: 10px; margin-bottom: 2px;color:#A0A0A0;margin-top:-4px\0">ex: vimukti</h6></td>
-										</tr>
-								  		<tr>
-									 		<td style="width : 155px">Company Type <span id=red>*</span> </td>
-									 		<td>
-										 		<select id="select-box" tabindex="3" name="companyType">
-										 			<option value="1">UK</option>
-													<option value="0">US</option>
-												</select>
-									 		</td>
-								  		</tr>
-								  	</table>
-									</td>
-									<td class="signup-box-right-middle"></td>
-								</tr>
-								<tr>
-									<td ><div class="signup-box-left-bottom"></div></td>
-									<td ><div class="signup-box-bottom-middle"></div></td>
-									<td ><div class="signup-box-right-bottom"></div></td>
-								</tr>
-                           </table>
-                           <table id="signup-fields" class="signup-fields-box">
-								<tr>
-									<td ><div class="signup-box-left-top"></div></td>
-									<td ><div  class="signup-box-top-middle"></div></td>
-									<td ><div class="signup-box-right-top"></div></td>
-								</tr>
-								<tr>
-									<td class="signup-box-left-middle" ></td>
+									
 									<td class="signup-box">
 									<h3 style="color:#3299A4">Admin Details</h3>
 									<table>
 										<tr>
-									 <td style="width : 155px">First Name <span id=red>*</span> </td>
-									 <td>
-										<input id="mid-box"  type="text" tabindex="4" name="firstName">
-					
+									 <td style="width : 155px;padding-bottom: 9px"><span>First Name</span> <span id=red>*</span> </td>
+									 <td style="padding-bottom: 9px">
+										<input id="mid-box"  type="text" tabindex="4" name="firstName">					
 									 </td>
 								  </tr>
 								  <tr>
-									<td style="width : 155px">Last Name <span id=red>*</span> </td>
+									<td style="width : 155px"><span>Last Name </span><span id=red>*</span> </td>
 									<td>
 										 <input id="mid-box1"  type="text" tabindex="5" name="lastName">
 										</td>
 								  </tr>
 								  <tr>
-									 <td style="width : 155px">Email ID <span id=red>*</span> </td>
-									 <td>
+									 <td style="width : 155px"><span>Email ID </span><span id=red>*</span> </td>
+									 <td style="padding: 9px 0">
 										<input id="mid-box2"  type="text" tabindex="6" name="emailId">
-										</td>
+									 </td>
+									 <td id="email_id_box">
+									 </td>
 								  </tr>
-								  <tr>
-									 <td style="width : 155px">Password <span id=red>*</span> </td>
+								  <!--<tr>
+									 <td style="width : 155px"><span>Password</span> <span id=red>*</span> </td>
 									 <td>
 										 <input id="mid-box4"  type="password" tabindex="7" name="password">
 									 </td>
@@ -266,16 +187,16 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 									 <td>
 										 <input id="mid-box5"  type="password" tabindex="8" name="confirmPassword">
 									 </td>
-								  </tr>
+								  </tr>-->
 								  <tr>
-									 <td style="width : 155px">Phone Number </td>
+									 <td style="width : 155px"><span>Phone Number</span> </td>
 									 <td>
 										 <input id="mid-box6"  type="text" tabindex="9" name="phoneNumber">
 										</td>
 								  </tr>
 								  <tr>
-									 <td style="width : 155px">Country </td>
-									 <td>
+									 <td style="width : 155px;padding-top: 11px"><span>Country</span> </td>
+									 <td style="padding-top: 5px;">
 										 <select id="select-box" tabindex="10" name="country">
 										 	<option value="United Kingdom">United Kingdom</option>
 											<option value="United States">United States</option>
@@ -519,29 +440,41 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 									 </td>
 								  </tr>
 								  	</table>
+								  	<div class="signup-box">
+								  	  <h3>Terms of Service</h3>
+								  	  <table>
+								  	      <tr>
+								     <td width="155px"></td>
+								     <td>
+								        <div class="terms-error">
+								          <span style="margin-left:13px;color:#000">I have read and I accept the</span> <a href="/site/termsandconditions" tabindex="12">Terms of Use</a><input id="checkbox" type="checkbox" name="agree" tabindex="11" ></input>
+							            </div>
+								     </td>
+								  </tr>
+								   <tr>
+								     <td width="155px"></td>
+								     <td>
+								        <div class="newsletter"><input type="checkbox" >Yes, Subscribe me to Accounter Newsletter </input><b>(Optional)</b></div>
+								     </td>
+								  </tr>
+								  <tr>
+								     <td width="155px"></td>
+								     <td>
+								        <ul class="getstarted-submit-button">
+										     <li><span class="signup-submit-left"></span></li>
+										     <li><input id="submitButton" type="submit" class="signup-submit-mid" name="getstarted" value="Sign Up" tabindex="13" ></input></li>
+										     <li><span class="signup-submit-right"></span></li>
+										 </ul>
+								     </td>
+								  </tr>
+								  	  </table>
+								  	</div>
 									</td>
-									<td class="signup-box-right-middle"></td>
+									
 								</tr>
-								<tr>
-									<td ><div class="signup-box-left-bottom"></div></td>
-									<td ><div class="signup-box-bottom-middle"></div></td>
-									<td ><div class="signup-box-right-bottom"></div></td>
-								</tr>
+								
 								</table>
-							   <!--<h5>Got a promo code? <a href="test.htm" tabindex="10">Enter it now</a></h5><br>-->
-							   <div class="terms-error" style="margin-left: 30px;height:35px;">
-							   <!--<div class="sign-up-divider"></div>-->
-								<span style="margin-left:13px;color:#000">I have read and I accept the</span> <a href="/site/termsandconditions" tabindex="12">Terms of Use</a><input id="checkbox" type="checkbox" name="agree" tabindex="11" ></input></div>
-								
-								<ul class="getstarted-submit-button">
-								     <li><span class="signup-submit-left"></span></li>
-								     <li><input id="submitButton" type="submit" class="signup-submit-mid" name="getstarted" value="Get Started" tabindex="13" ></input></li>
-								     <li><span class="signup-submit-right"></span></li>
-								 </ul>
-								
-								
-								<!--<input id="submitButton" type="submit" class="signup-but" name="getstarted" value="Get Started" tabindex="13" ></input>-->
-								<div style="margin-top: 70px; margin-left: 35px;"><span style="font-size: 13px;color:#000">Note : You can invite more users after you login</span></div>
+					
 								</table>
 								</fieldset>
 								</form>
@@ -550,50 +483,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 							</c:if>
 					
 				<div class="signup-box-left-bot"></div>
-				<div id="vertical-line" class="vertical-line" ></div>
-				<div id="right-side-options" class="right-side-options">
-						<div class="first-list">
-							<div class="try">
-									<h4>Signup Free</h4>
-							</div>
-							<div class="try-list">
-								  <ul>
-									<li>No setup fees</li></br>
-									<li>No contracts</li></br>
-									<li>No credit card is required</li></br>
-									<li>Pay only when ready</li>
-								  </ul>
-							</div>
-						</div>
-						<div class ="second-list" >
-							<div class="ben">
-								<h4>Benefits</h4>
-							</div>
-							<div class="ben-list">
-								  <ul>
-									<li>Automatic bank feeds</li></br>
-									<li>Powerful invoicing solution</li></br>
-									<li>Interactive real-time reporting</li></br>
-									<li>Automatic currency conversions</li></br>
-									<li>Works on PC,Mac,and mobile devices</li>
-								  </ul>
-							</div>
-						</div>
-						<div class ="third-lists">
-							<div class="price">
-								<h4>Pricing Plans</h4>
-							</div>
-							<div class="price-list">
-								  <ul>
-									<li>Unlimited support 24/7</li></br>
-									<li>Unlimited users</li></br>
-									<li>Automatic back-ups</li></br>
-									<li>Free updates and new features</li>									
-								  </ul>
-							</div>
-						</div>
-				
-			</div>	
+				</div>
 			</div><div class="box-shadow"></div>
 		</div>
 		

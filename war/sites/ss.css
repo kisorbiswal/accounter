@@ -153,8 +153,8 @@ a:link {
 }
 
 #mid {
-	background-color: #f4f4f4;
-	border: 1px solid #CCCCCC;
+	background-color: #ffffff;
+	border: 1px solid #929292;
 	clear: both;
 	float: left;
 	width: 845px !important;
@@ -722,7 +722,7 @@ ul li a:HOVER {
 }
 
 .middle-signup-box h2 {
-	margin:10px 0px 10px 20px;
+	margin:0px 0px 10px 20px;
 	color: #3299A4;
 }
 
@@ -790,12 +790,12 @@ input[type="text"]{
 }
 
 .left-side-box {
-	float: left;
 	/*margin-bottom: 65px;
 	margin-bottom: 25px\0;
 	margin-left: -64px;
 	margin-top: 25px;*/
-	width: 550px;
+	width: 760px;
+	margin:0 auto;
 }
 
 .try,.ben,.price,.left-side-box a {
@@ -843,7 +843,9 @@ input[type="text"]{
     outline:0 none;       
 }
 .left-side-box {
-	color: #A0A0A0;
+	background: none repeat scroll 0 0 white;
+    border: 1px solid #929292;
+    color: #A0A0A0;
 }
 
 #checkbox1 {
@@ -1209,7 +1211,7 @@ ul li {
 		transparent;
 	clear: both;
 	height: 6px;
-	margin: 0 56px;
+	margin: 0 53px 0 56px;
 }
 
 .login-box-shadow {
@@ -1547,6 +1549,7 @@ ul li {
 
 .terms-error {
 	font-size: 13px;
+	padding-top:5px;
 }
 
 /* These styles for opera*/
@@ -1661,8 +1664,7 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
    margin:20px 48px 0 0;
 }
 .getstarted-submit-button{
-   float:right;
-   margin: 0 8px 0 0;
+   margin: 10px 8px 0 0;
 }
 .forgot-cancel-button,.forgot-ok-button{
   float:right;
@@ -1696,11 +1698,9 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right{
 input[type="submit"]:FOCUS {
 	outline:none;
 }
-#signup-fields{
-    width:520px;
-}
 .signup-box table{
-    margin:0px 12px 12px 40px;
+    margin:10px 12px 12px 0px;
+    width:100%;
 }
 #accounterForm .error{
    display:block;
@@ -1734,4 +1734,61 @@ input[type="submit"]:FOCUS {
 
 .menu-bar li .active{
     color:#3299A4 !important;
+}
+
+
+.back-signup-box{
+	background: none repeat scroll 0 0 #F4F4F4;
+    height: 500px;
+    margin: 5px;
+    width: 835px;
+}
+.newsletter{
+   color:black;	
+   font-size:12px;
+   clear:both;
+}
+.newsletter b{
+	color:#837D83;
+}
+.signup-box td:FIRST-CHILD{
+	text-align:right;
+	padding-right:30px;
+}
+.signup-box h3{
+	border-bottom:1px solid #DBDBDB;
+    color: #3299A4;
+    margin: 0;
+    padding: 5px 0 0 0;
+}
+.left-arrow{
+	 background: url("../images/Pop-up.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 15px;
+    margin-left: -13px;
+    margin-top: 14px;
+    width: 13px;
+}
+.indication-box{
+	background: none repeat scroll 0 0 #DFF1F5;
+    border: 1px solid #A1BFC8;
+    border-radius: 5px 5px 5px 5px;
+    width: 257px;
+    position:relative;
+    left:0;
+}
+.box-data{
+	padding: 2px 5px 0;
+}
+.terms-error a{
+	text-decoration:underline !important;
+}
+.success_box{
+	border:1px solid #929292;
+	height:100px;
+	text-align:center;
+	color:#3299A4;
+	padding:10px;
+	margin:0 auto;
+	clear:both;
 }
