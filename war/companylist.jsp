@@ -5,7 +5,7 @@
   <body>
     <div>
      <form action="/companysetup" method="post">
-     <% java.util.List<String> list=(java.util.List<String>)req.getAttribute("message") %>
+     <% java.util.List<String> list=(java.util.List<String>)req.getAttribute("companeyList") %>
      <% for(String name:list){ %>
      <input type="text" value=<%= name %>/>
       <% } %>
