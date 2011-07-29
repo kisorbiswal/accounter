@@ -2085,5 +2085,10 @@
 		from com.vimukti.accounter.core.StockTransfer
 		entity
 	</query>
+	
+	<query name="get.developer.by.client">
+		<query-param name="client" type="com.vimukti.accounter.core.Client" />
+		from com.vimukti.accounter.core.Developer d where d.client =:client
+	</query>
 
 </hibernate-mapping>
