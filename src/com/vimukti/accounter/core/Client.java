@@ -15,6 +15,8 @@ public class Client {
 	private String password;
 	private boolean isActive;
 	private Set<ServerCompany> companies;
+	private String phoneNumber;
+	private String country;
 
 	public String getFirstName() {
 		return firstName;
@@ -62,5 +64,15 @@ public class Client {
 
 	public void setCompanies(Set<ServerCompany> companies) {
 		this.companies = companies;
+	}
+
+	public void setPhoneNo(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+		
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+		
 	}
 }
