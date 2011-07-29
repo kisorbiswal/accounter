@@ -6,16 +6,6 @@
   <head><title>Registration</title></head>
   <body>
   <table>
-  <!--<tr>
-  <td> <h3>Company Information</h3></td>
- </tr>
-   
-    <td>Company:<select >
-   <% java.util.List<String> list=(java.util.List<String>)req.getAttribute("message") %>
-     <% for(String name:list){ %>
-     <option<%= name %>/>
-      <% } %></select></td>-->
-	
    
    <tr>
    <td><h3>Application Information</h3></td>
@@ -23,19 +13,20 @@
    
    <tr>
    <td>Application Name:</td>
-   <td><input type="text"/></td>
+   <td><input type="text" value="${param.applicationName}"></input></td>
    </tr>
    <tr>
    <td>Description:</td>
-   <td><input type="text" /></td>
+   <td><input type="text" value="${param.description}"/></td>
    </tr>
    <tr>
    <td>Integration URL:</td>
-   <td><input type="text"/></td>
+   <td><input type="text" value="${param.integrationUrl}"/></td>
    </tr>
    <tr>
    <td>Application Type:</td>
-   <td><select>
+   <td><select >
+   		<option>value="${param.applicationType}"</option>
    		<option>Web Application </option>
    		<option>Desktop Application</option>
    		<option>Mobile Application</option>
@@ -43,7 +34,7 @@
 	</tr>
 	<tr>
    <td>Application Use:</td>
-   <td><input type="text"/></td>
+   <td><input type="text" value="${param.applicationUse}"/></td>
    </tr>
    
    		
@@ -53,11 +44,11 @@
    
    <tr>
    <td>Developer Contact Email:</td>
-   <td><input type="text"/></td>
+   <td><input type="text" value="${param.developerEmailId}"/></td>
    </tr>
    <tr>
    <td>Contact Number:</td>
-   <td><input type="text" /></td>
+   <td><input type="text" value="${param.contact}"/></td>
    </tr>
 	</table> 
 	  <div><input type="submit" name="Add Application" value="Add Application"/></div>
