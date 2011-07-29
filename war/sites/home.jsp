@@ -76,21 +76,21 @@
 				
 					<ol>
 						<li><img class="icon1" src="/images/On-offline.png"/><p class="header_p_style"><b>Online and Offline</b></p>
-					 	<p>You can now use our software online or offline. Download our software and start using it within your organization or create an online account and share the data with anyone you choose.</p>
+					 	<p>You can now use our software online or off line. Download our software and start using it within your organization or create an online account and share the data with anyone you choose.</p>
 					  </li>
 					  <li><img class="icon2" src="/images/Invoice.png"/><p class="header_p_style"><b>Invoicing</b></p>
 					 	<p>Customize and send invoices for payments and record bills and expenses.</p>
 					  </li>
 						<li><img class="icon3" src="/images/Sharing.png"/><p class="header_p_style"><b>Easy Sharing</b></p>
-					 	<p>Let your accountant, financial adviser or employee have acces to your datd by sharing or delegating the accounting duties to them. You can set different permission to different users.</p>
+					 	<p>Let your accountant, financial adviser or employee have access to your data by sharing or delegating the accounting duties to them. You can set different permission to different users.</p>
 					 </li>
 				    </ol>
 				    <ol>
 						<li><img class="icon4" src="/images/Decide.png"/><p class="header_p_style"><b>Make Quick Decisions</b></p>
-					 	<p>With a glance of the dashboard you can quickly understand whats working and what not working with your business. The insigtful reports available in the software makes it easy for you to take quick decisions.</p>
+					 	<p>With a glance of the dash board you can quickly understand whats working and what not working with your business. The insightful reports available in the software makes it easy for you to take quick decisions.</p>
 					 </li>
 						<li><img class="icon5" src="/images/Contacts.png"/><p class="header_p_style"><b>Contacts and Inventory</b></p>
-					 	<p>Manage and review your customers, suppliers and inventory items detials easily.</p>
+					 	<p>Manage and review your customers, suppliers and inventory items details easily.</p>
 					  </li>
 						<li><img class="icon6" src="/images/Credit-card.png"/><p class="header_p_style"><b>Bank and Credit card transactions</b></p>
 					 	<p>Track your bank deposits, fund transfers, credit card charges and refunds. </p>
