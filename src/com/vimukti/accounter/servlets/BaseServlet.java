@@ -12,6 +12,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -113,7 +114,7 @@ public class BaseServlet extends HttpServlet {
 
 	}
 
-	protected void saveEntry(Object object) {
+	protected void saveEntry(IAccounterServerCore object) {
 		Session currentSession = HibernateUtil.getCurrentSession();
 		currentSession.save(object);
 	}
