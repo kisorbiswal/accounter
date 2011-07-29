@@ -159,19 +159,19 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 									<h3 style="color:#3299A4;float:left">Admin Details</h3><span class="mandatory">All fields are mandatory</span>
 									<table>
 										<tr>
-									 <td style="width : 155px;padding-bottom: 9px"><span>First Name</span> <span id=red>*</span> </td>
+									 <td style="width : 155px;padding-bottom: 9px"><span>First Name</span>  </td>
 									 <td style="padding-bottom: 9px">
 										<input id="mid-box"  type="text" tabindex="4" name="firstName">					
 									 </td>
 								  </tr>
 								  <tr>
-									<td style="width : 155px"><span>Last Name </span><span id=red>*</span> </td>
+									<td style="width : 155px"><span>Last Name </span> </td>
 									<td>
 										 <input id="mid-box1"  type="text" tabindex="5" name="lastName">
 										</td>
 								  </tr>
 								  <tr>
-									 <td style="width : 155px"><span>Email ID </span><span id=red>*</span> </td>
+									 <td style="width : 155px"><span>Email ID </span> </td>
 									 <td style="padding: 9px 0">
 										<input id="mid-box2"  type="text" tabindex="6" name="emailId">
 									 </td>
@@ -179,13 +179,13 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 									 </td>
 								  </tr>
 								  <!--<tr>
-									 <td style="width : 155px"><span>Password</span> <span id=red>*</span> </td>
+									 <td style="width : 155px"><span>Password</span>  </td>
 									 <td>
 										 <input id="mid-box4"  type="password" tabindex="7" name="password">
 									 </td>
 								  </tr>
 								  <tr>
-									 <td style="width : 155px">Confirm Password <span id=red>*</span> </td>
+									 <td style="width : 155px">Confirm Password  </td>
 									 <td>
 										 <input id="mid-box5"  type="password" tabindex="8" name="confirmPassword">
 									 </td>
