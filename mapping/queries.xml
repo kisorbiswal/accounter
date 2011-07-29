@@ -440,14 +440,6 @@
 		where entity.id=?
 	</sql-query>
 
-	<sql-query name="get.entity.from.PaySalesTax">
-		select entity.id from
-		PaySalesTax
-		entity
-		where
-		entity.id=?
-	</sql-query>
-
 	<sql-query name="get.entity.from.Company">
 		select entity.id from
 		Company
@@ -1805,10 +1797,6 @@
 		from com.vimukti.accounter.core.CreditRating entity
 	</query>
 
-	<query name="get.entityObject.from.PaySalesTax">
-		from com.vimukti.accounter.core.PaySalesTax entity
-	</query>
-
 	<query name="get.entityObject.from.Company">
 		from com.vimukti.accounter.core.Company entity
 	</query>
@@ -1851,9 +1839,9 @@
 		from com.vimukti.accounter.core.Entry entity
 	</query>
 
-	<query name="get.entityObject.from.Fax">
+	<!-- <query name="get.entityObject.from.Fax">
 		from com.vimukti.accounter.core.Fax entity
-	</query>
+	</query> -->
 
 	<query name="get.entityObject.from.PaySalesTaxEntries">
 		from com.vimukti.accounter.core.PaySalesTaxEntries
@@ -1873,18 +1861,6 @@
 		entity
 	</query>
 
-	<query name="get.entityObject.from.UserPreferences">
-		from com.vimukti.accounter.core.UserPreferences
-		entity
-	</query>
-
-	<query name="get.entityObject.from.JournalEntry">
-		from com.vimukti.accounter.core.JournalEntry entity
-	</query>
-
-	<query name="get.entityObject.from.Estimate">
-		from com.vimukti.accounter.core.Estimate entity
-	</query>
 
 	<query name="get.entityObject.from.TransactionMakeDeposit">
 		from

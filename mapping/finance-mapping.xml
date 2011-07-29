@@ -37,9 +37,11 @@
 			<one-to-many class="Budget" />
 		</set>
 		<property name="flow" column="FLOW"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -87,8 +89,10 @@
 		<property name="amount" column="AMOUNT"></property>
 		<property name="closingFYEntry" column="IS_CLOSING_FISCALYEAR_ENTRY"></property>
 		<property name="cashBasisEntry" column="IS_CASH_BASIS_ENTRY"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -106,8 +110,10 @@
 		<property name="status" column="STATUS"></property>
 		<property name="isCurrentFiscalYear" column="IS_CURRENT_FISCAL_YEAR"></property>
 		<property name="version" column="VERSION"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -136,7 +142,8 @@
 			<generator class="native" />
 		</id>
 		<property name="accountingType" column="ACCOUNTING_TYPE"></property>
-		<property name="fullName" unique="true" not-null="true" column="FULL_NAME"></property>
+		<property name="fullName" unique="true" not-null="true"
+			column="FULL_NAME"></property>
 		<property name="companyID" column="COMPANY_ID"></property>
 		<set name="users" lazy="false" cascade="save-update,delete">
 			<key column="COMPANY_ID"></key>
@@ -147,25 +154,7 @@
 		<!-- <key column="COMPANY_ID"></key> -->
 		<!-- <one-to-many class="PaySalesTaxEntries" /> -->
 		<!-- </set> -->
-		<set name="addresses" table="COMPANY_ADDRESS" lazy="false"
-			cascade="save-update">
-			<key column="COMPANY_ID" not-null="true" />
-			<composite-element class="Address">
-				<property name="type" column="TYPE" not-null="true"></property>
-				<property name="address1" column="ADDRESS1" not-null="true"
-					length="100"></property>
-				<property name="street" column="STREET" not-null="true"
-					length="100"></property>
-				<property name="city" column="CITY" not-null="true" length="100"></property>
-				<property name="stateOrProvinence" column="STATE" not-null="true"
-					length="100"></property>
-				<property name="zipOrPostalCode" column="ZIP" not-null="true"
-					length="100"></property>
-				<property name="countryOrRegion" column="COUNTRY" not-null="true"
-					length="100"></property>
-				<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
-			</composite-element>
-		</set>
+
 		<set name="nominalCodeRange" table="COMPANY_NOMINAL_CODE_RANGE"
 			lazy="false" cascade="save-update">
 			<key column="COMPANY_ID" not-null="true" />
@@ -329,17 +318,53 @@
 			column="UK_NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
 		<property name="ukNonInventoryItemDefaultExpenseAccount"
 			column="UK_NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 
-
-
-
 		<property name="registrationNumber" column="REGISTRATION_NUMBER"></property>
+
+		<component name="tradingAddress" class="Address" lazy="false">
+			<property name="type" column="TRADING_ADDRESS_TYPE" not-null="true"></property>
+			<property name="address1" column="TRADING_ADDRESS1"
+				not-null="true" length="100"></property>
+			<property name="street" column="TRADING_STREET" not-null="true"
+				length="100"></property>
+			<property name="city" column="TRADING_CITY" not-null="true"
+				length="100"></property>
+			<property name="stateOrProvinence" column="TRADING_STATE"
+				not-null="true" length="100"></property>
+			<property name="zipOrPostalCode" column="TRADING_ZIP"
+				not-null="true" length="100"></property>
+			<property name="countryOrRegion" column="TRADING_COUNTRY"
+				not-null="true" length="100"></property>
+			<property name="isSelected" column="TRADING_IS_SELECTED"
+				not-null="true"></property>
+		</component>
+
+		<component name="registeredAddress" class="Address" lazy="false">
+			<property name="type" column="REGISTRED_ADDRESS_TYPE" not-null="true"></property>
+			<property name="address1" column="REGISTRED_ADDRESS1"
+				not-null="true" length="100"></property>
+			<property name="street" column="REGISTRED_STREET" not-null="true"
+				length="100"></property>
+			<property name="city" column="REGISTRED_CITY" not-null="true"
+				length="100"></property>
+			<property name="stateOrProvinence" column="REGISTRED_STATE"
+				not-null="true" length="100"></property>
+			<property name="zipOrPostalCode" column="REGISTRED_ZIP"
+				not-null="true" length="100"></property>
+			<property name="countryOrRegion" column="REGISTRED_COUNTRY"
+				not-null="true" length="100"></property>
+			<property name="isSelected" column="REGISTRED_IS_SELECTED"
+				not-null="true"></property>
+		</component>
+
 
 
 	</class>
@@ -379,8 +404,10 @@
 		</id>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -402,8 +429,10 @@
 		</id>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -462,8 +491,10 @@
 		<property name="vendorItemNumber" column="VENDOR_ITEM_NUMBER"></property>
 		<property name="standardCost" column="SATNDARD_COST"></property>
 		<property name="version" column="VERSION"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -478,8 +509,10 @@
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="isSalesType" column="IS_SALES_TYPE"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -513,8 +546,10 @@
 		</id>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -592,8 +627,10 @@
 		<property name="webPageAddress" column="WEB_PAGE_ADDRESS"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="memo" column="MEMO"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -733,8 +770,10 @@
 		<property name="discountPercent" column="DISCOUNT_PERCENT"></property>
 		<property name="ifPaidWithIn" column="IF_PAID_WITHIN"></property>
 		<property name="version" column="VERSION"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -753,8 +792,10 @@
 		<property name="percentage" column="PERCENTAGE"></property>
 		<property name="isPriceLevelDecreaseByThisPercentage" column="IS_P_DECREASE_BY_THIS_PERCENT"></property>
 		<property name="version" column="VERSION"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -768,8 +809,10 @@
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -783,8 +826,10 @@
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -951,8 +996,10 @@
 		</id>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -1020,8 +1067,10 @@
 			<list-index column="IDX" />
 			<one-to-many class="FixedAssetHistory" />
 		</list>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -1076,8 +1125,10 @@
 			<generator class="native" />
 		</id>
 		<property name="note" column="NOTE"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -1188,8 +1239,10 @@
 		<property name="Terms_And_Payment_Advice" column="TERMS_AND_PAYMENT_ADVICE">
 		</property>
 
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -1212,34 +1265,36 @@
 		</id>
 		<property name="name" column="NAME" unique="true" not-null="true" />
 
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 
-	<!-- <many-to-one name="contact" column="CONTACT_ID" class="Contact" lazy="false" 
-		/> -->
-		<!-- <many-to-one name="address" column="ADDRESS_ID" class="Address"
-			lazy="false" /> -->
-			
+		<!-- <many-to-one name="contact" column="CONTACT_ID" class="Contact" lazy="false" 
+			/> -->
+		<!-- <many-to-one name="address" column="ADDRESS_ID" class="Address" lazy="false" 
+			/> -->
+
 		<component name="address" class="Address" lazy="false">
 			<property name="type" column="TYPE" not-null="true"></property>
-				<property name="address1" column="ADDRESS1" not-null="true"
-					length="100"></property>
-				<property name="street" column="STREET" not-null="true"
-					length="100"></property>
-				<property name="city" column="CITY" not-null="true" length="100"></property>
-				<property name="stateOrProvinence" column="STATE" not-null="true"
-					length="100"></property>
-				<property name="zipOrPostalCode" column="ZIP" not-null="true"
-					length="100"></property>
-				<property name="countryOrRegion" column="COUNTRY" not-null="true"
-					length="100"></property>
-				<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
+			<property name="address1" column="ADDRESS1" not-null="true"
+				length="100"></property>
+			<property name="street" column="STREET" not-null="true"
+				length="100"></property>
+			<property name="city" column="CITY" not-null="true" length="100"></property>
+			<property name="stateOrProvinence" column="STATE" not-null="true"
+				length="100"></property>
+			<property name="zipOrPostalCode" column="ZIP" not-null="true"
+				length="100"></property>
+			<property name="countryOrRegion" column="COUNTRY" not-null="true"
+				length="100"></property>
+			<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
 		</component>
-		
+
 		<component name="contact" class="Contact" lazy="false">
 			<property name="isPrimary" column="COMPANY_CONTACT__IS_PRIMARY"
 				not-null="true"></property>
@@ -1261,12 +1316,11 @@
 				<many-to-one name="item" column="ITEM_ID" class="Item"
 					lazy="false">
 				</many-to-one>
-				<!-- <many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-				<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
-				<property name="createdDate" column="CREATED_DATE"
-					type="com.vimukti.accounter.core.LongUseType" />
-				<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-					type="com.vimukti.accounter.core.LongUseType" /> -->
+				<!-- <many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one> 
+					<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one> 
+					<property name="createdDate" column="CREATED_DATE" type="com.vimukti.accounter.core.LongUseType" 
+					/> <property name="lastModifiedDate" column="LAST_MODIFIED_DATE" type="com.vimukti.accounter.core.LongUseType" 
+					/> -->
 
 				<nested-composite-element name="quantity"
 					class="Quantity">
@@ -1288,12 +1342,11 @@
 		<many-to-one name="item" column="ITEM_ID" class="Item"
 			lazy="false">
 		</many-to-one>
-		<!-- <many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE"
-			type="com.vimukti.accounter.core.LongUseType" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-			type="com.vimukti.accounter.core.LongUseType" /> -->
+		<!-- <many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one> 
+			<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one> 
+			<property name="createdDate" column="CREATED_DATE" type="com.vimukti.accounter.core.LongUseType" 
+			/> <property name="lastModifiedDate" column="LAST_MODIFIED_DATE" type="com.vimukti.accounter.core.LongUseType" 
+			/> -->
 
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE" />
@@ -1308,8 +1361,10 @@
 		</id>
 		<property name="section" column="SECTION" />
 		<property name="name" column="NAME" />
-		<many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one>		
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -1386,8 +1441,8 @@
 
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE" />
-			<many-to-one name="unit" column="QTY_UNIT" class="Unit" lazy="false"
-				cascade="save-update" />
+			<many-to-one name="unit" column="QTY_UNIT" class="Unit"
+				lazy="false" cascade="save-update" />
 		</component>
 
 		<property name="memo" type="java.lang.String">
@@ -1396,28 +1451,28 @@
 
 	</class>
 
-	 <class name="StockTransfer" table="STOCK_TRANSFER">
-		<id name="id" column="ID"/>
-		
+	<class name="StockTransfer" table="STOCK_TRANSFER">
+		<id name="id" column="ID" />
+
 		<many-to-one name="createdBy" class="User" column="CREATED_BY" />
 		<many-to-one name="lastModifier" class="User" column="LAST_MODIFIER" />
-		<property name="createdDate" type="timestamp" column="CREATED_ON"/>
-		<property name="lastModifiedDate" type="timestamp" column="LAST_MODIFIED_ON"/>
-		
-		
-		<many-to-one name="fromWarehouse" column="FROM_WAREHOUSE"
-				class="Warehouse" lazy="false">
-			</many-to-one>
-			<many-to-one name="toWarehouse" column="TO_WAREHOUSE"
-				class="Warehouse" lazy="false">
-			</many-to-one>
+		<property name="createdDate" type="timestamp" column="CREATED_ON" />
+		<property name="lastModifiedDate" type="timestamp" column="LAST_MODIFIED_ON" />
 
-			<set name="stockTransferItems" inverse="true"
-				cascade="save-update,delete-orphan" lazy="false" table="STOCK_TRANSFER_MAPPING">
-				<key column="STOCK_TRANSFER"></key>
-				<one-to-many class="StockTransferItem" />
-			</set>
-		
+
+		<many-to-one name="fromWarehouse" column="FROM_WAREHOUSE"
+			class="Warehouse" lazy="false">
+		</many-to-one>
+		<many-to-one name="toWarehouse" column="TO_WAREHOUSE"
+			class="Warehouse" lazy="false">
+		</many-to-one>
+
+		<set name="stockTransferItems" inverse="true" cascade="save-update,delete-orphan"
+			lazy="false" table="STOCK_TRANSFER_MAPPING">
+			<key column="STOCK_TRANSFER"></key>
+			<one-to-many class="StockTransferItem" />
+		</set>
+
 	</class>
 
 

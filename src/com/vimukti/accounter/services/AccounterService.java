@@ -68,7 +68,6 @@ public class AccounterService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public <T extends IAccounterServerCore> T getObjectById(Class clazz,
 			String id) throws DAOException {
@@ -83,7 +82,6 @@ public class AccounterService extends HibernateDaoSupport implements
 		return entity;
 	}
 
-	
 	@Override
 	public <T extends IAccounterServerCore> T getObjectByName(Class clazz,
 			String name) throws DAOException {
@@ -97,20 +95,6 @@ public class AccounterService extends HibernateDaoSupport implements
 			entity = (T) l.get(0);
 		}
 		return entity;
-	}
-
-	
-	@Override
-	public <T extends IAccounterServerCore> List<T> getObjects(Class clazz)
-			throws DAOException {
-		Session session = Utility.getCurrentSession();
-		Query query = session.getNamedQuery("get.entityObject.from."
-				+ clazz.getSimpleName());
-		List<T> entity = query.list();
-		if (entity != null && entity.size() > 0) {
-			return entity;
-		}
-		return null;
 	}
 
 	@Override
@@ -134,7 +118,6 @@ public class AccounterService extends HibernateDaoSupport implements
 		// 20- 9000347779
 	}
 
-	
 	private long getLongIdForGivenid(Class clazz, String id) {
 
 		Session session = Utility.getCurrentSession();
@@ -150,7 +133,6 @@ public class AccounterService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public <T extends IAccounterServerCore> Boolean canDelete(Class clazz,
 			String id) throws DAOException {
@@ -164,7 +146,6 @@ public class AccounterService extends HibernateDaoSupport implements
 		return executeQuery(query);
 	}
 
-	
 	private Boolean executeQuery(Query query) {
 
 		List queryResult = query.list();

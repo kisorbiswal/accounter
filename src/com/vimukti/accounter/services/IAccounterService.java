@@ -1,7 +1,5 @@
 package com.vimukti.accounter.services;
 
-import java.util.List;
-
 import com.vimukti.accounter.core.IAccounterServerCore;
 
 public interface IAccounterService {
@@ -19,21 +17,15 @@ public interface IAccounterService {
 			throws DAOException; // /////
 
 	// /////
-	
+
 	public <T extends IAccounterServerCore> T getObjectById(Class clazz, // /////
 			String id) throws DAOException; // /////
 
 	// /////
-	
+
 	public <T extends IAccounterServerCore> T getObjectByName(Class clazz, // /////
 			String name) throws DAOException; // /////
 
-	// /////
-	
-	public <T extends IAccounterServerCore> List<T> getObjects(Class clazz) // /////
-			throws DAOException; // /////
-
-	// /////
 	/**
 	 * /////// This method is to check whether an Object is deletable or not.
 	 * ///////
@@ -46,7 +38,7 @@ public interface IAccounterService {
 	 *         otherwise return false.
 	 * @throws DAOException
 	 */
-	
+
 	public <T extends IAccounterServerCore> Boolean canDelete(Class clazz,
 			String id) throws DAOException;
 	// /////

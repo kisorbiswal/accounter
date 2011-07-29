@@ -28,11 +28,12 @@ public class ServerMain extends Main {
 		ServerConfiguration.init(configFile);
 		initLogger();
 
-		EmailManager.getInstance().start();
-
 		Session session = HibernateUtil
 				.openSession(Server.LOCAL_DATABASE, true);
 		session.close();
+
+		EmailManager.getInstance().start();
+
 		Server server = new Server();
 
 		server.start();
