@@ -118,6 +118,8 @@ public class LiveLoginServlet extends BaseServlet {
 			// user.incrementLoginCountAndStatus();
 			request.getSession().setAttribute(USER_ID,
 					String.valueOf(user.getID()));
+			request.getSession().setAttribute("userName",
+					String.valueOf(user.getName()));
 			request.getSession().setAttribute(COMPANY_NAME, user.getCompany());
 			Server.addSeesionIdOfIdentity(String.valueOf(user.getID()), request
 					.getSession().getId());
