@@ -11,6 +11,12 @@ public class BankAccount extends Account {
 
 	private FinanceDate lastReconcilationDate;
 
+	/**
+	 * Creates new Instance
+	 */
+	public BankAccount() {
+	}
+
 	public BankAccount(int type, String number, String name, boolean isActive,
 			Account parent, int cashFlowCategory, double openingBalance,
 			boolean isConsiderAsCashAccount, String comment, Bank bank,
