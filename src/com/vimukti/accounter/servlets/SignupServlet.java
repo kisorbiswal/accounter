@@ -36,11 +36,11 @@ public class SignupServlet extends BaseServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// Take userName from request
-		String emailId = req.getParameter("emailId").trim().toLowerCase();
-		String firstName = req.getParameter("firstName").trim().toLowerCase();
-		String lastName = req.getParameter("lastName").trim().toLowerCase();
-		String phoneNumber = req.getParameter("phoneNumber").trim().toLowerCase();
-		String country = req.getParameter("country").trim().toLowerCase();
+		String emailId = req.getParameter("emailId").trim();
+		String firstName = req.getParameter("firstName").trim();
+		String lastName = req.getParameter("lastName").trim();
+		String phoneNumber = req.getParameter("phoneNumber").trim();
+		String country = req.getParameter("country").trim();
 		
 		if (!isValidInputs(NAME, firstName, lastName, country)
 				|| !isValidInputs(MAIL_ID, emailId)) {
