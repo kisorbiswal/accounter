@@ -11,14 +11,14 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.LineChart;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
@@ -37,8 +37,8 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
-				.run(null, true);
+		ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK).run(
+				null, true);
 	}
 
 	@Override
@@ -62,8 +62,8 @@ public class BankingPortlet extends DashBoardPortlet {
 			bankAccounts = getCompany().getActiveBankAccounts(
 					ClientAccount.TYPE_BANK);
 		}
-		AccounterButton addAccount = new AccounterButton(Accounter
-				.constants().addBankAccount());
+		AccounterButton addAccount = new AccounterButton(Accounter.constants()
+				.addBankAccount());
 		addAccount.addStyleName("addAccountPortlet");
 		if (Accounter.getUser().canDoBanking()) {
 			body.add(addAccount);
@@ -76,8 +76,7 @@ public class BankingPortlet extends DashBoardPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					ActionFactory.getNewBankAccountAction().run(null,
-							true);
+					ActionFactory.getNewBankAccountAction().run(null, true);
 				}
 			});
 			Runnable runnable = new Runnable() {
@@ -124,8 +123,8 @@ public class BankingPortlet extends DashBoardPortlet {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						ActionFactory.getAccountRegisterAction().run(
-								account, true);
+						ActionFactory.getAccountRegisterAction().run(account,
+								true);
 					}
 				});
 				Label amountLabel = new Label(String.valueOf(account
@@ -140,17 +139,12 @@ public class BankingPortlet extends DashBoardPortlet {
 						HasHorizontalAlignment.ALIGN_RIGHT);
 				hPanel.setWidth("100%");
 				body.add(hPanel);
-				AsyncCallback<List<Double>> callBack = new AsyncCallback<List<Double>>() {
+				AccounterAsyncCallback<List<Double>> callBack = new AccounterAsyncCallback<List<Double>>() {
 
 					@Override
-					public void onFailure(Throwable caught) {
-						if (caught instanceof InvocationException) {
-							Accounter
-									.showMessage("Your session expired, Please login again to continue");
-						} else {
-							Accounter
-									.showError("Failed to get Bank account chart values");
-						}
+					public void onException(AccounterException caught) {
+						Accounter
+								.showError("Failed to get Bank account chart values");
 					}
 
 					@Override
@@ -211,8 +205,7 @@ public class BankingPortlet extends DashBoardPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					ActionFactory.getNewBankAccountAction().run(null,
-							true);
+					ActionFactory.getNewBankAccountAction().run(null, true);
 				}
 			});
 		}
@@ -220,8 +213,8 @@ public class BankingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
-				.run(null, true);
+		ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK).run(
+				null, true);
 	}
 
 	@Override

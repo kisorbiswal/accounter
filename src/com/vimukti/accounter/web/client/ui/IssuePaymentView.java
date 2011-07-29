@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -76,9 +77,9 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 		rpcUtilService.getNextTransactionNumber(
 				ClientTransaction.TYPE_ISSUE_PAYMENT,
-				new AsyncCallback<String>() {
+				new AccounterAsyncCallback<String>() {
 
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 						// UIUtils.logError(
 						// "Failed to get the Transaction Number..",
 						// caught);
@@ -106,9 +107,9 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	private void fillGrid() {
 
 		rpcUtilService
-				.getChecks(new AsyncCallback<List<IssuePaymentTransactionsList>>() {
+				.getChecks(new AccounterAsyncCallback<List<IssuePaymentTransactionsList>>() {
 
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 
 					}
 
@@ -167,8 +168,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		setWidth("80");
 		mainPanel.setSpacing(10);
 
-		payMethodSelect = new SelectItem(Accounter.constants()
-				.paymentMethod());
+		payMethodSelect = new SelectItem(Accounter.constants().paymentMethod());
 		payMethodSelect.setRequired(true);
 		payMethodSelect.setValueMap(new String[] { "",
 				AccounterConstants.PAYMENT_METHOD_CHECK });
@@ -181,8 +181,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 			}
 		});
 
-		accountCombo = new PayFromAccountsCombo(Accounter
-				.constants().account());
+		accountCombo = new PayFromAccountsCombo(Accounter.constants().account());
 		accountCombo.setRequired(true);
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -245,9 +244,9 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 
 		if (checkNoText != null) {
 			rpcUtilService.getNextCheckNumber(account.getID(),
-					new AsyncCallback<Long>() {
+					new AccounterAsyncCallback<Long>() {
 
-						public void onFailure(Throwable caught) {
+						public void onException(AccounterException caught) {
 
 						}
 
@@ -277,7 +276,6 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 			return false;
 	}
 
-	
 	private boolean validateCheckNo() {
 		boolean valid = true;
 		try {
@@ -285,8 +283,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 			setCheckNo(number);
 		} catch (NumberFormatException e) {
 			valid = false;
-			Accounter.showError(Accounter.constants()
-					.invalidChequeNumber());
+			Accounter.showError(Accounter.constants().invalidChequeNumber());
 		}
 
 		return valid;
@@ -330,33 +327,35 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	 */
 	protected void changeGridData(ClientAccount selectedPayFromAccount2) {
 
-		rpcUtilService.getChecks(selectedPayFromAccount2.getID(),
-				new AsyncCallback<List<IssuePaymentTransactionsList>>() {
+		rpcUtilService
+				.getChecks(
+						selectedPayFromAccount2.getID(),
+						new AccounterAsyncCallback<List<IssuePaymentTransactionsList>>() {
 
-					public void onFailure(Throwable t) {
+							public void onException(AccounterException t) {
 
-						// UIUtils
-						// .logError(
-						// "Failed to get the IssuePaymentTransactionsList..",
-						// t);
+								// UIUtils
+								// .logError(
+								// "Failed to get the IssuePaymentTransactionsList..",
+								// t);
 
-					}
+							}
 
-					public void onSuccess(
-							List<IssuePaymentTransactionsList> result) {
+							public void onSuccess(
+									List<IssuePaymentTransactionsList> result) {
 
-						if (result == null) {
-							onFailure(null);
-							return;
-						}
-						removeGridData();
-						for (IssuePaymentTransactionsList entry : result) {
-							addRecord(entry);
-						}
+								if (result == null) {
+									onFailure(null);
+									return;
+								}
+								removeGridData();
+								for (IssuePaymentTransactionsList entry : result) {
+									addRecord(entry);
+								}
 
-					}
+							}
 
-				});
+						});
 
 	}
 
@@ -400,9 +399,8 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(
 					getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-							.constants().startingCheckNo()
-							: Accounter.constants()
-									.startingChequeNo());
+							.constants().startingCheckNo() : Accounter
+							.constants().startingChequeNo());
 			checkNoText.setWidth(100);
 			checkNoText.setRequired(true);
 			if (selectedPayFromAccount != null)

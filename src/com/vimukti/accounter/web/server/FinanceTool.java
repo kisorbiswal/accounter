@@ -177,8 +177,7 @@ import com.vimukti.accounter.web.client.core.reports.VATDetailReport;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.exception.AccounterOperationException;
-import com.vimukti.accounter.web.client.exception.ErrorCode;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.CompanyPreferencesView;
@@ -235,10 +234,10 @@ public class FinanceTool implements IFinanceDAOService {
 	 * @param createContext
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
+	 * @throws AccounterException
 	 */
 	public long create(OperationContext createContext)
-			throws AccounterOperationException, InstantiationException,
-			IllegalAccessException {
+			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -246,13 +245,19 @@ public class FinanceTool implements IFinanceDAOService {
 		long userID = createContext.getUserID();
 
 		if (data == null) {
-			throw new AccounterOperationException(ErrorCode.CREATE_FAILED,
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
 					"Operation Data Found Null...." + createContext);
 		}
 
 		Class<IAccounterServerCore> serverClass = ObjectConvertUtil
 				.getServerEqivalentClass(data.getClass());
-		IAccounterServerCore serverObject = serverClass.newInstance();
+		IAccounterServerCore serverObject;
+		try {
+			serverObject = serverClass.newInstance();
+		} catch (Exception e1) {
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
+		}
 
 		serverObject = new ServerConvertUtil().toServerObject(serverObject,
 				(IAccounterCore) data, session);
@@ -267,14 +272,9 @@ public class FinanceTool implements IFinanceDAOService {
 			((CreatableObject) serverObject).setCreatedDate(createContext
 					.getDate());
 		}
+		canEdit(serverObject, data);
 
-		try {
-			serverObject.canEdit(serverObject);
-
-			isTransactionNumberExist((IAccounterCore) data);
-		} catch (InvalidOperationException e) {
-			throw new AccounterOperationException(e);
-		}
+		isTransactionNumberExist((IAccounterCore) data);
 
 		session.save(serverObject);
 
@@ -287,14 +287,16 @@ public class FinanceTool implements IFinanceDAOService {
 	 * 
 	 * @param createContext
 	 * @throws InvalidOperationException
+	 * @throws AccounterException
 	 */
 	public long update(OperationContext updateContext)
-			throws AccounterOperationException, InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		IAccounterCore data = updateContext.getData();
 
 		if (data == null) {
-			throw new AccounterOperationException(ErrorCode.UPDATE_FAILED,
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
 					"Operation Data Found Null...." + updateContext);
 		}
 		IAccounterServerCore serverObject = (IAccounterServerCore) Util
@@ -303,10 +305,7 @@ public class FinanceTool implements IFinanceDAOService {
 		IAccounterServerCore clonedObject = new CloneUtil().clone(null,
 				serverObject);
 
-		if (!canEdit(clonedObject, (IAccounterCore) data)) {
-			throw new AccounterOperationException(ErrorCode.UPDATE_FAILED,
-					"Access Denied on " + clonedObject);
-		}
+		canEdit(clonedObject, (IAccounterCore) data);
 
 		isTransactionNumberExist((IAccounterCore) data);
 
@@ -352,9 +351,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 * @throws InvalidOperationException
 	 * @throws HibernateException
 	 */
-	public boolean delete(OperationContext context)
-			throws AccounterOperationException, HibernateException,
-			InvalidOperationException {
+	public boolean delete(OperationContext context) throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -362,7 +359,8 @@ public class FinanceTool implements IFinanceDAOService {
 		String arg2 = (context).getArg2();
 
 		if (arg1 == null || arg2 == null) {
-			throw new AccounterOperationException(ErrorCode.DELETE_FAILED,
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
 					"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
 							+ context);
 		}
@@ -386,12 +384,16 @@ public class FinanceTool implements IFinanceDAOService {
 
 			if (serverObject != null)
 				if (serverObject instanceof FiscalYear) {
-					if (((FiscalYear) serverObject)
-							.canDelete((FiscalYear) serverObject)) {
-						session.delete(serverObject);
-						return true;
-						// ChangeTracker.put(serverObject);
+					try {
+						((FiscalYear) serverObject)
+								.canDelete((FiscalYear) serverObject);
+					} catch (InvalidOperationException e) {
+						throw new AccounterException(
+								AccounterException.ERROR_PERMISSION_DENIED, e);
 					}
+					session.delete(serverObject);
+					return true;
+					// ChangeTracker.put(serverObject);
 				} else {
 					session.delete(serverObject);
 					return true;
@@ -404,14 +406,15 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	public long updateCompanyPreferences(OperationContext context)
-			throws AccounterOperationException {
+			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		IAccounterCore data = context.getData();
 
 		if (data == null) {
-			throw new AccounterOperationException(
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
 					"Update Company Preferences, as the Source Object could not be Found....");
 		}
 
@@ -433,11 +436,11 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	public long updateCompany(OperationContext context)
-			throws AccounterOperationException {
+			throws AccounterException {
 		IAccounterCore data = context.getData();
 		if (data == null) {
-
-			throw new AccounterOperationException(
+			throw new AccounterException(
+					AccounterException.ERROR_PERMISSION_DENIED,
 					"Update Company , as the Source Object could not be Found....");
 
 		}
@@ -453,10 +456,11 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	public void updateCompanyStartDate(OperationContext context)
-			throws AccounterOperationException {
+			throws AccounterException {
 		String arg1 = context.getArg1();
 		if (arg1 == null || arg1.isEmpty()) {
-			throw new AccounterOperationException(
+			throw new AccounterException(
+					AccounterException.ERROR_PERMISSION_DENIED,
 					"Cann't Update the Compamy StartData with Null or Empty");
 		}
 		FinanceDate modifiedStartDate = new FinanceDate(Long.parseLong(arg1));
@@ -478,11 +482,11 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	public void updateDeprecationStartDate(OperationContext context)
-			throws AccounterOperationException, DAOException {
+			throws AccounterException {
 		String arg1 = context.getArg1();
 
 		if (arg1 == null || arg1.isEmpty()) {
-			throw new AccounterOperationException(
+			throw new AccounterException(
 					"Cann't Update Deprecation Strart Date with Null or Empty");
 		}
 		FinanceDate newStartDate = new FinanceDate(Long.parseLong(arg1));
@@ -501,13 +505,19 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	public static boolean canEdit(IAccounterServerCore clonedObject,
-			IAccounterCore clientObject) throws InvalidOperationException {
+			IAccounterCore clientObject) throws AccounterException {
 
 		IAccounterServerCore serverObject = new ServerConvertUtil()
 				.toServerObject(null, clientObject,
 						HibernateUtil.getCurrentSession());
 
-		return serverObject.canEdit(clonedObject);
+		try {
+			serverObject.canEdit(clonedObject);
+		} catch (InvalidOperationException e) {
+			throw new AccounterException(
+					AccounterException.ERROR_PERMISSION_DENIED, e);
+		}
+		return true;
 
 	}
 
@@ -3840,12 +3850,12 @@ public class FinanceTool implements IFinanceDAOService {
 
 	// SURESH
 	public void rollBackDepreciation(long rollBackDepreciationTo)
-			throws DAOException {
+			throws AccounterException {
 		rollBackDepreciation(new FinanceDate(rollBackDepreciationTo));
 	}
 
 	public void rollBackDepreciation(FinanceDate rollBackDepreciationTo)
-			throws DAOException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getDepreciation.by.ToandStatus")
 				.setParameter(0, (rollBackDepreciationTo))
@@ -4449,7 +4459,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	private void changeDepreciationStartDateTo(FinanceDate newStartDate)
-			throws DAOException {
+			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = Company.getCompany();
@@ -10142,7 +10152,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	private boolean isTransactionNumberExist(IAccounterCore object)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		FlushMode flushMode = HibernateUtil.getCurrentSession().getFlushMode();
 		HibernateUtil.getCurrentSession().setFlushMode(FlushMode.COMMIT);
@@ -10181,7 +10191,8 @@ public class FinanceTool implements IFinanceDAOService {
 						&& list.get(0) != null
 						&& !(this.getCompany().getPreferences()
 								.getAllowDuplicateDocumentNumbers())) {
-					throw new InvalidOperationException(
+					throw new AccounterException(
+							AccounterException.ERROR_NUMBER_CONFLICT,
 							" A Transaction already exists with this number. Please give another one. ");
 				}
 

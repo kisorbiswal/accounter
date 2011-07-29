@@ -11,11 +11,11 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -146,10 +147,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	private void initAssetNumber() {
 		this.rpcUtilService
-				.getNextFixedAssetNumber(new AsyncCallback<String>() {
+				.getNextFixedAssetNumber(new AccounterAsyncCallback<String>() {
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 						// TODO Auto-generated method stub
 
 					}
@@ -786,10 +787,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 									depRate, purchasePrice,
 									purchaseDate.getDate(),
 									depStartDate.getDate(),
-									new AsyncCallback<Double>() {
+									new AccounterAsyncCallback<Double>() {
 
 										@Override
-										public void onFailure(Throwable caught) {
+										public void onException(AccounterException caught) {
 
 										}
 

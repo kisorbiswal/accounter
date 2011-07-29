@@ -54,14 +54,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		OperationContext context = new OperationContext(coreObject, getUserID());
 		context.setArg2(clientClassSimpleName);
 
-		try {
-			return tool.create(context);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		return 0;
+		return tool.create(context);
 	}
 
 	@Override
@@ -75,12 +68,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				getUserID(), String.valueOf(coreObject.getID()),
 				clientClassSimpleName);
 
-		try {
-			return tool.update(context);
-		} catch (InvalidOperationException e) {
-			e.printStackTrace();
-		}
-		return 0;
+		return tool.update(context);
 	}
 
 	@Override

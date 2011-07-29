@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTaxRates;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -73,9 +74,9 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	protected void updateCompany() {
 
 		rpcGetService.getObjectById(AccounterCoreType.COMPANY, company.getID(),
-				new AsyncCallback<ClientCompany>() {
+				new AccounterAsyncCallback<ClientCompany>() {
 
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 						Accounter.showError(Accounter.constants()
 								.failedToUpdateCompany());
 

@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
 
-public abstract class AbstractFinaneReport<R> implements IFinanceReport<R> {
+public abstract class AbstractFinaneReport<R> extends
+		AccounterAsyncCallback<List<R>> implements IFinanceReport<R> {
 
 	protected int sectionDepth = 0;
 	private String[] columns;
@@ -57,7 +60,6 @@ public abstract class AbstractFinaneReport<R> implements IFinanceReport<R> {
 	protected String navigateObjectName;
 	private int companyType;
 
-	
 	public AbstractFinaneReport() {
 		this.columns = this.getColunms();
 		if (generationType == 1001) {
@@ -92,7 +94,7 @@ public abstract class AbstractFinaneReport<R> implements IFinanceReport<R> {
 	 * for the report view.
 	 */
 	@Override
-	public void onFailure(Throwable caught) {
+	public void onException(AccounterException caught) {
 		ActionFactory.getReportsHomeAction();
 	}
 

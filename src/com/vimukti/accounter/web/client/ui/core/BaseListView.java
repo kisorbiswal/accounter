@@ -8,16 +8,17 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -45,7 +46,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
 public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		IAccounterList<T>, AsyncCallback<List<T>> {
 	protected List<String> listOfTypes;
-	
+
 	protected BaseListGrid grid;
 
 	public BaseListGrid getGrid() {
@@ -125,8 +126,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		viewSelect = getSelectItem();
 
 		if (viewSelect == null) {
-			viewSelect = new SelectCombo(Accounter.constants()
-					.currentView());
+			viewSelect = new SelectCombo(Accounter.constants().currentView());
 			viewSelect.setHelpInformation(true);
 			viewSelect.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
@@ -154,16 +154,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		dateRangeSelector = getDateRangeSelectItem();
 
 		if (dateRangeSelector == null) {
-			dateRangeSelector = new SelectCombo(Accounter
-					.constants().date());
+			dateRangeSelector = new SelectCombo(Accounter.constants().date());
 			dateRangeSelector.setHelpInformation(true);
 			dateRangeSelector.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
 			typeList.add(Accounter.constants().active());
 			typeList.add(Accounter.constants().inActive());
 			dateRangeSelector.initCombo(typeList);
-			dateRangeSelector.setDefaultValue(Accounter.constants()
-					.active());
+			dateRangeSelector.setDefaultValue(Accounter.constants().active());
 			dateRangeSelector.addChangeHandler(new ChangeHandler() {
 
 				@Override
@@ -187,15 +185,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		toItem.setDatethanFireEvent(Accounter.getCompany()
 				.getLastandOpenedFiscalYearEndDate());
 
-		updateButton = new AccounterButton(Accounter.constants()
-				.update());
+		updateButton = new AccounterButton(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 
-				dateRangeSelector.setDefaultValue(Accounter
-						.constants().custom());
+				dateRangeSelector.setDefaultValue(Accounter.constants()
+						.custom());
 				customManage();
 
 			}
@@ -314,7 +311,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected abstract void initGrid();
 
-	
 	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
 
 		return null;
@@ -322,7 +318,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected abstract String getListViewHeading();
 
-	
 	public void addToGrid(T objectToBeAdded) {
 		grid.addData(objectToBeAdded);
 		if (totalLabel != null) {
@@ -364,12 +359,13 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		grid.addLoadingImagePanel();
 	}
 
-	protected AsyncCallback<Boolean> getGeneralizedDeleteCallBack(final T object) {
+	protected AccounterAsyncCallback<Boolean> getGeneralizedDeleteCallBack(
+			final T object) {
 
-		AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				deleteFailed(caught);
 			}
 
@@ -389,18 +385,15 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	}
 
 	@Override
-	public void onFailure(Throwable caught) {
-		if (caught instanceof InvocationException) {
-			Accounter
-					.showMessage("Your session expired, Please login again to continue");
-		} else {
+	public void onFailure(Throwable exception) {
+		if (exception instanceof AccounterException) {
 			Accounter.showError(AccounterErrorType.FAILEDREQUEST);
+			return;
 		}
-
-		grid.removeLoadingImage();
+		Accounter
+				.showMessage("Your session expired, Please login again to continue");
 	}
 
-	
 	@Override
 	public void onSuccess(List<T> result) {
 		grid.removeLoadingImage();
@@ -484,7 +477,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		this.viewSelect.setDisabled(true);
 	}
 
-	
 	public void updateGrid(IAccounterCore core) {
 		if (core.getObjectType() == grid.getType()
 				|| core.getObjectType() == AccounterCoreType.TAXAGENCY) {

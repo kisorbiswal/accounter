@@ -2,7 +2,7 @@
 ////
 ////import java.util.List;
 ////
-////import com.google.gwt.user.client.rpc.AsyncCallback;
+////import com.google.gwt.user.client.rpc.AccounterAsyncCallback;
 ////import com.google.gwt.user.client.rpc.IsSerializable;
 ////import com.smartgwt.client.util.SC;
 ////import com.smartgwt.client.widgets.grid.ListGridRecord;
@@ -40,9 +40,9 @@
 //////			}
 //////			addRecords(records);
 //////		}
-//////		AsyncCallback<List<ClientItemTax>> callback = new AsyncCallback<List<ClientItemTax>>() {
+//////		AccounterAsyncCallback<List<ClientItemTax>> callback = new AccounterAsyncCallback<List<ClientItemTax>>() {
 //////
-//////			public void onFailure(Throwable caught) {
+//////			public void onException(AccounterException caught) {
 //////				//UIUtils.log(caught.toString());
 //////			}
 //////
@@ -97,9 +97,9 @@
 ////			public void onThirdButtonClick() {
 ////				FinanceApplication.createCRUDService().deleteItemTax(
 ////						getSelectedItemTaxes().getID(),
-////						new AsyncCallback<Boolean>() {
+////						new AccounterAsyncCallback<Boolean>() {
 ////
-////							public void onFailure(Throwable caught) {
+////							public void onException(AccounterException caught) {
 ////								//UIUtils.log(caught.toString());
 ////							}
 ////
@@ -128,7 +128,7 @@
 //
 //import java.util.List;
 //
-//import com.google.gwt.user.client.rpc.AsyncCallback;
+//import com.google.gwt.user.client.rpc.AccounterAsyncCallback;
 //import com.google.gwt.user.client.rpc.IsSerializable;
 //import com.smartgwt.client.util.SC;
 //import com.smartgwt.client.widgets.grid.ListGridRecord;
@@ -178,9 +178,9 @@
 ////			String val = dialog.taxableRadio.getValue().toString();
 ////			itemTax.setTaxable(val.equals("Taxable"));
 ////		}
-////		AsyncCallback<IsSerializable> createItemCallback = new AsyncCallback<IsSerializable>() {
+////		AccounterAsyncCallback<IsSerializable> createItemCallback = new AccounterAsyncCallback<IsSerializable>() {
 ////
-////			public void onFailure(Throwable caught) {
+////			public void onException(AccounterException caught) {
 ////				//UIUtils.log(caught.toString());
 ////			}
 ////
@@ -248,9 +248,9 @@
 ////		selectedItemTax.setName(dialog.taxText.getValue().toString());
 ////
 ////		FinanceApplication.createCRUDService().alterItemTax(selectedItemTax,
-////				new AsyncCallback<IsSerializable>() {
+////				new AccounterAsyncCallback<IsSerializable>() {
 ////
-////					public void onFailure(Throwable caught) {
+////					public void onException(AccounterException caught) {
 ////						Accounter.showError("Failed to edit Item Tax ");
 ////					}
 ////
@@ -307,9 +307,9 @@
 //			public void onThirdButtonClick() {
 //				FinanceApplication.createCRUDService().deleteItemTax(
 //						getSelectedItemTaxes().getID(),
-//						new AsyncCallback<Boolean>() {
+//						new AccounterAsyncCallback<Boolean>() {
 //
-//							public void onFailure(Throwable caught) {
+//							public void onException(AccounterException caught) {
 //								//UIUtils.log(caught.toString());
 //							}
 //
@@ -348,9 +348,9 @@
 //			String val = dialog.taxableRadio.getValue().toString();
 //			itemTax.setTaxable(val.equals("Taxable"));
 //		}
-//		AsyncCallback<IsSerializable> createItemCallback = new AsyncCallback<IsSerializable>() {
+//		AccounterAsyncCallback<IsSerializable> createItemCallback = new AccounterAsyncCallback<IsSerializable>() {
 //
-//			public void onFailure(Throwable caught) {
+//			public void onException(AccounterException caught) {
 //				//UIUtils.log(caught.toString());
 //			}
 //
@@ -417,9 +417,9 @@
 //		selectedItemTax.setName(dialog.taxText.getValue().toString());
 //
 //		FinanceApplication.createCRUDService().alterItemTax(selectedItemTax,
-//				new AsyncCallback<IsSerializable>() {
+//				new AccounterAsyncCallback<IsSerializable>() {
 //
-//					public void onFailure(Throwable caught) {
+//					public void onException(AccounterException caught) {
 //						Accounter.showError("Failed to edit Item Tax ");
 //					}
 //

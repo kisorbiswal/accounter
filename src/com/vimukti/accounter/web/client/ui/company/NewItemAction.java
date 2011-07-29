@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ItemView;
@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.SelectItemTypeDialog;
 import com.vimukti.accounter.web.client.ui.combo.ServiceCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * 
@@ -39,7 +39,7 @@ public class NewItemAction extends Action {
 	}
 
 	public NewItemAction(String text, ClientItem item,
-			AsyncCallback<Object> callback, boolean isGeneratedFromCustomer) {
+			AccounterAsyncCallback<Object> callback, boolean isGeneratedFromCustomer) {
 		super(text);
 		this.catagory = Accounter.constants().company();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
@@ -52,7 +52,7 @@ public class NewItemAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreateFailed(Throwable t) {
 				// //UIUtils.logError("Failed To Load Item", t);

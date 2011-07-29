@@ -8,13 +8,11 @@ import java.util.Set;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -32,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -206,7 +205,7 @@ public class WriteChequeView extends
 
 	public void changeGrid(ListGrid<ClientTransactionItem> gridView) {
 		if (gridView instanceof CustomerTransactionUSGrid) {
-			
+
 			CustomerTransactionUSGrid customerGrid = (CustomerTransactionUSGrid) gridView;
 			setMenuRequired(true);
 			// mainVLay.remove(customerGrid);
@@ -220,7 +219,7 @@ public class WriteChequeView extends
 		// mainVLay.remove(vendorGrid);
 		// mainVLay.add(vendorGrid);
 		// } else if (gridView instanceof TaxAgencyTransactionGrid) {
-		// 
+		//
 		// TaxAgencyTransactionGrid taxAgencyGrid = (TaxAgencyTransactionGrid)
 		// gridView;
 		// setMenuRequired(false);
@@ -416,10 +415,10 @@ public class WriteChequeView extends
 	// return;
 	// }
 	//
-	// AsyncCallback<String> transactionNumberCallback = new
-	// AsyncCallback<String>() {
+	// AccounterAsyncCallback<String> transactionNumberCallback = new
+	// AccounterAsyncCallback<String>() {
 	//
-	// public void onFailure(Throwable caught) {
+	// public void onException(AccounterException caught) {
 	// Accounter.showError(FinanceApplication.constants()
 	// .failedToGetTransactionNumber());
 	//
@@ -1063,7 +1062,7 @@ public class WriteChequeView extends
 	// protected void setCheckNumber() {
 	//
 	// rpcUtilService.getNextCheckNumber(selectBankAcc.getID(),
-	// new AsyncCallback<Long>() {
+	// new AccounterAsyncCallback<Long>() {
 	//
 	// public void onFailure(Throwable t) {
 	// // //UIUtils.logError(
@@ -1350,17 +1349,11 @@ public class WriteChequeView extends
 	}
 
 	public void onEdit() {
-		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(((InvalidOperationException) (caught))
-							.getDetailedMessage());
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override

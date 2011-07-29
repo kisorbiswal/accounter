@@ -15,7 +15,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -27,6 +26,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -43,13 +43,13 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.ErrorCode;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.DashBoardView;
 import com.vimukti.accounter.web.client.ui.FinanceDashboard;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
 import com.vimukti.accounter.web.client.ui.company.CompanyHomeAction;
@@ -1477,9 +1477,9 @@ public class ViewManager extends DockPanel {
 
 		// currentrequestedWidget = widget;
 
-		final AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
+		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 
 				if (caught instanceof AccounterException) {
 					AccounterException exception = (AccounterException) caught;
@@ -1526,20 +1526,13 @@ public class ViewManager extends DockPanel {
 		// }
 		// }
 		// currentrequestedWidget = widget;
-		AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
+		AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
 
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					if (caught instanceof AccounterException) {
-						AccounterException exception = (AccounterException) caught;
-						// exception.setID(currentrequestedWidget.getID());
-						// getCompany().processCommand(exception);
-						operationFailed(exception);
-					}
-				}
+			public void onException(AccounterException caught) {
+				AccounterException exception = (AccounterException) caught;
+				// exception.setID(currentrequestedWidget.getID());
+				// getCompany().processCommand(exception);
+				operationFailed(exception);
 			}
 
 			public void onSuccess(Long result) {
@@ -1597,10 +1590,10 @@ public class ViewManager extends DockPanel {
 			final IAccounterWidget widget) {
 
 		// currentrequestedWidget = widget;
-		AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				if (!GWT.isScript()) {
 					AccounterException exception = (AccounterException) caught;
 					// exception.setID(currentrequestedWidget.getID());
@@ -1647,9 +1640,9 @@ public class ViewManager extends DockPanel {
 		processDialog.center();
 		// currentrequestedWidget = widget;
 
-		AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
+		AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 
 				if (caught instanceof AccounterException) {
 					AccounterException exception = (AccounterException) caught;
@@ -1689,9 +1682,9 @@ public class ViewManager extends DockPanel {
 		processDialog.center();
 		// currentrequestedWidget = widget;
 
-		AsyncCallback<Long> transactionCallBack = new AsyncCallback<Long>() {
+		AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 
 				if (caught instanceof AccounterException) {
 					AccounterException exception = (AccounterException) caught;
@@ -1739,20 +1732,13 @@ public class ViewManager extends DockPanel {
 		processDialog.center();
 		// currentrequestedWidget = widget;
 
-		AsyncCallback<Boolean> transactionCallBack = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
 
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					if (caught instanceof AccounterException) {
-						AccounterException exception = (AccounterException) caught;
-						// exception.setID(currentrequestedWidget.getID());
-						// getCompany().processCommand(exception);
-						operationFailed(exception);
-					}
-				}
+			public void onException(AccounterException caught) {
+				AccounterException exception = (AccounterException) caught;
+				// exception.setID(currentrequestedWidget.getID());
+				// getCompany().processCommand(exception);
+				operationFailed(exception);
 			}
 
 			public void onSuccess(Boolean result) {

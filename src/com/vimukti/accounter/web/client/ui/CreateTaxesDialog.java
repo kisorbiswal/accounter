@@ -2,12 +2,13 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -60,9 +61,9 @@ public class CreateTaxesDialog extends BaseDialog {
 					i++;
 				}
 
-				AsyncCallback<Long> createTaxesCallback = new AsyncCallback<Long>() {
+				AccounterAsyncCallback<Long> createTaxesCallback = new AccounterAsyncCallback<Long>() {
 
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 
 					}
 

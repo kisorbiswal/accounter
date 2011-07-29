@@ -1,13 +1,13 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * 
@@ -24,7 +24,7 @@ public class ReceivePaymentAction extends Action {
 	}
 
 	public ReceivePaymentAction(String text,
-			ClientReceivePayment receivePayment, AsyncCallback<Object> callback) {
+			ClientReceivePayment receivePayment, AccounterAsyncCallback<Object> callback) {
 		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
@@ -37,7 +37,7 @@ public class ReceivePaymentAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
 				try {

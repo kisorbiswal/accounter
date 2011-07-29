@@ -5,12 +5,11 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -23,10 +22,11 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -595,9 +595,9 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 	private void getTransactionPayBills(ClientVendor vendor) {
 		this.rpcUtilService.getTransactionPayBills(vendor.getID(),
-				new AsyncCallback<List<PayBillTransactionList>>() {
+				new AccounterAsyncCallback<List<PayBillTransactionList>>() {
 
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 						// SC
 						// .say("Failed to Get List of Transaction Recieve Payments for this Vendor"
 						// + vendor.getName());
@@ -884,17 +884,13 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 						}
 
 						private void voidTransaction() {
-							AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+							AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
 								@Override
-								public void onFailure(Throwable caught) {
-									if (caught instanceof InvocationException) {
-										Accounter
-												.showMessage("Your session expired, Please login again to continue");
-									} else {
-										Accounter
-												.showError("Failed to void Pay Bill");
-									}
+								public void onException(
+										AccounterException caught) {
+									Accounter
+											.showError("Failed to void Pay Bill");
 
 								}
 

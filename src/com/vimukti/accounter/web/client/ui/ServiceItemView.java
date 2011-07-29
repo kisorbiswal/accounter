@@ -4,7 +4,7 @@
 //import java.util.LinkedHashMap;
 //import java.util.List;
 //
-//import com.google.gwt.user.client.rpc.AsyncCallback;
+//import com.google.gwt.user.client.rpc.AccounterAsyncCallback;
 //import com.google.gwt.user.client.rpc.IsSerializable;
 //import com.smartgwt.client.types.Alignment;
 //import com.smartgwt.client.util.SC;
@@ -77,10 +77,10 @@
 //		accountCombo.initCombo(result);
 //		expAccCombo.initCombo(result);
 //
-//		// AsyncCallback<List<ClientAccount>> accountsCallback = new
-//		// AsyncCallback<List<ClientAccount>>() {
+//		// AccounterAsyncCallback<List<ClientAccount>> accountsCallback = new
+//		// AccounterAsyncCallback<List<ClientAccount>>() {
 //		//
-//		// public void onFailure(Throwable caught) {
+//		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
@@ -91,10 +91,10 @@
 //		//
 //		// };
 //		//itemTaxCombo.initCombo(FinanceApplication.getCompany().getItemTaxs());
-//		// AsyncCallback<List<ClientItemTax>> taxsCallback = new
-//		// AsyncCallback<List<ClientItemTax>>() {
+//		// AccounterAsyncCallback<List<ClientItemTax>> taxsCallback = new
+//		// AccounterAsyncCallback<List<ClientItemTax>>() {
 //		//
-//		// public void onFailure(Throwable caught) {
+//		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
@@ -104,10 +104,10 @@
 //		//
 //		// };
 //		prefVendorCombo.initCombo(FinanceApplication.getCompany().getVendors());
-//		// AsyncCallback<List<ClientVendor>> vendorsCallBack = new
-//		// AsyncCallback<List<ClientVendor>>() {
+//		// AccounterAsyncCallback<List<ClientVendor>> vendorsCallBack = new
+//		// AccounterAsyncCallback<List<ClientVendor>>() {
 //		//
-//		// public void onFailure(Throwable caught) {
+//		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
@@ -116,9 +116,9 @@
 //		// }
 //		//
 //		// };
-//		AsyncCallback<List<ClientItemGroup>> itemGroupsCallBack = new AsyncCallback<List<ClientItemGroup>>() {
+//		AccounterAsyncCallback<List<ClientItemGroup>> itemGroupsCallBack = new AccounterAsyncCallback<List<ClientItemGroup>>() {
 //
-//			public void onFailure(Throwable caught) {
+//			public void onException(AccounterException caught) {
 //				Accounter.showError("Result: null");
 //			}
 //
@@ -363,9 +363,9 @@
 //			}
 //			if (isPurchaseformValidated && isSalesFormValidated) {
 //				FinanceApplication.createCRUDService().createItem(item,
-//						new AsyncCallback<IsSerializable>() {
+//						new AccounterAsyncCallback<IsSerializable>() {
 //
-//							public void onFailure(Throwable caught) {
+//							public void onException(AccounterException caught) {
 //								Accounter.showError("Could not able to create Item..");
 //							}
 //

@@ -3,13 +3,14 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -116,10 +117,10 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 	protected void createFiscalYear(ClientFinanceDate changedFiscalStartDate) {
 		final long convertedStartDate = changedFiscalStartDate.getDate();
-		AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				Accounter.showInformation("Fiscalyears Creation Failed");
 			}
 

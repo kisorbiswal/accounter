@@ -15,7 +15,6 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -26,8 +25,10 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
@@ -196,9 +197,9 @@ public class FileUploadDilaog extends CustomDialog {
 	}
 
 	protected void getFileInfo() {
-		getFileInfo(parentID, new AsyncCallback<ClientBrandingTheme>() {
+		getFileInfo(parentID, new AccounterAsyncCallback<ClientBrandingTheme>() {
 			@Override
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				// TODO Auto-generated method stub
 			}
 
@@ -338,23 +339,23 @@ public class FileUploadDilaog extends CustomDialog {
 	}-*/;
 
 	public void getFileInfo(String parentID,
-			final AsyncCallback<ClientBrandingTheme> callback) {
+			final AccounterAsyncCallback<ClientBrandingTheme> callback) {
 		post("/do/uploadfile?parentId=" + parentID,
-				new AsyncCallback<ClientBrandingTheme>() {
+				new AccounterAsyncCallback<ClientBrandingTheme>() {
 
 					public void onSuccess(ClientBrandingTheme value) {
 						callback.onSuccess(value);
 					}
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 						// TODO Auto-generated method stub
 					}
 				}, parentID);
 	}
 
 	public static <E, T> Object post(String url,
-			final AsyncCallback<ClientBrandingTheme> callback, String parentId) {
+			final AccounterAsyncCallback<ClientBrandingTheme> callback, String parentId) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
 		builder.setHeader("Accept", "text/html");
 		// Create a callback object to handle the result

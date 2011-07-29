@@ -3,12 +3,13 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -94,7 +95,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	}
 
 	public void onClick(SalesOrdersList obj) {
-		AsyncCallback<IAccounterCore> callbackforsalesOrder = new AsyncCallback<IAccounterCore>() {
+		AccounterAsyncCallback<IAccounterCore> callbackforsalesOrder = new AccounterAsyncCallback<IAccounterCore>() {
 
 			@Override
 			public void onSuccess(IAccounterCore result) {
@@ -103,7 +104,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 			}
 
 			@Override
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 
 			}
 		};
@@ -235,7 +236,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	@Override
 	protected void onLoad() {
 		if (grid.getSelection() != null) {
-			AsyncCallback<IAccounterCore> callbackforsalesOrder = new AsyncCallback<IAccounterCore>() {
+			AccounterAsyncCallback<IAccounterCore> callbackforsalesOrder = new AccounterAsyncCallback<IAccounterCore>() {
 
 				@Override
 				public void onSuccess(IAccounterCore result) {
@@ -244,7 +245,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 				}
 
 				@Override
-				public void onFailure(Throwable caught) {
+				public void onException(AccounterException caught) {
 					// TODO Auto-generated method stub
 
 				}

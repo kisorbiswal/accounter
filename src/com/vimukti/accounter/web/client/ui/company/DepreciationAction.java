@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -16,7 +16,7 @@ public class DepreciationAction extends Action {
 	}
 
 	public DepreciationAction(String text, Object editableObject,
-			AsyncCallback<Object> callbackObject) {
+			AccounterAsyncCallback<Object> callbackObject) {
 		super(text);
 		this.catagory = Accounter.constants().fixedAssets();
 	}
@@ -37,7 +37,7 @@ public class DepreciationAction extends Action {
 	// return "/images/Depreciation.png";
 	// }
 	//
-	//	
+	//
 	// @Override
 	// public ParentCanvas getView() {
 	// return this.view;

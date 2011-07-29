@@ -16,13 +16,11 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientEntry;
@@ -31,6 +29,7 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -518,17 +517,12 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		} else {
 			rpcUtilService.getNextTransactionNumber(
 					ClientTransaction.TYPE_JOURNAL_ENTRY,
-					new AsyncCallback<String>() {
+					new AccounterAsyncCallback<String>() {
 
 						@Override
-						public void onFailure(Throwable caught) {
-							if (caught instanceof InvocationException) {
-								Accounter
-										.showMessage("Your session expired, Please login again to continue");
-							} else {
-								Accounter.showError(Accounter.constants()
-										.failedToGetTransactionNumber());
-							}
+						public void onException(AccounterException caught) {
+							Accounter.showError(Accounter.constants()
+									.failedToGetTransactionNumber());
 						}
 
 						@Override
@@ -545,27 +539,23 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	}
 
 	private void initVocherNumer() {
-		rpcUtilService.getNextVoucherNumber(new AsyncCallback<String>() {
+		rpcUtilService
+				.getNextVoucherNumber(new AccounterAsyncCallback<String>() {
 
-			@Override
-			public void onSuccess(String result) {
-				voucharNocame = true;
-				vouchNo = result;
-				grid.setVoucherNumber(vouchNo);
-			}
+					@Override
+					public void onSuccess(String result) {
+						voucharNocame = true;
+						vouchNo = result;
+						grid.setVoucherNumber(vouchNo);
+					}
 
-			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(Accounter.constants()
-							.failedToGetVocherNumber());
-				}
+					@Override
+					public void onException(AccounterException caught) {
+						Accounter.showError(Accounter.constants()
+								.failedToGetVocherNumber());
 
-			}
-		});
+					}
+				});
 	}
 
 	public void VoucherNoreset() {
@@ -652,17 +642,11 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	}
 
 	public void onEdit() {
-		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(((InvalidOperationException) (caught))
-							.getDetailedMessage());
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override

@@ -6,13 +6,14 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -128,9 +129,9 @@ public class StartDateDialog extends BaseDialog {
 		ClientFinanceDate date = UIUtils.stringToDate(dateString,
 				(Accounter.constants().ddMMyyyy()));
 
-		AsyncCallback callBack = new AsyncCallback() {
+		AccounterAsyncCallback callBack = new AccounterAsyncCallback() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				saveFailed(caught);
 				return;
 
@@ -155,9 +156,9 @@ public class StartDateDialog extends BaseDialog {
 	}
 
 	private void getStartdates() {
-		AsyncCallback<List<ClientFinanceDate>> callBack = new AsyncCallback<List<ClientFinanceDate>>() {
+		AccounterAsyncCallback<List<ClientFinanceDate>> callBack = new AccounterAsyncCallback<List<ClientFinanceDate>>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				saveFailed(caught);
 				return;
 

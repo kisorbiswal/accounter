@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class DisposingRegisteredItemAction extends Action {
 	private DisposingRegisteredItemView view;;
@@ -40,7 +40,7 @@ public class DisposingRegisteredItemAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
 

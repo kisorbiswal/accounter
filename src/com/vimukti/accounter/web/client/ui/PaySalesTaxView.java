@@ -5,11 +5,10 @@ import java.util.List;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -21,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -98,17 +98,11 @@ public class PaySalesTaxView extends
 
 		rpcUtilService.getNextTransactionNumber(
 				ClientTransaction.TYPE_PAY_SALES_TAX,
-				new AsyncCallback<String>() {
+				new AccounterAsyncCallback<String>() {
 
-					public void onFailure(Throwable caught) {
-						if (caught instanceof InvocationException) {
-							Accounter
-									.showMessage("Your session expired, Please login again to continue");
-						} else {
-							Accounter
-									.showError("Failed to get the transaction number");
-						}
-						return;
+					public void onException(AccounterException caught) {
+						Accounter
+								.showError("Failed to get the transaction number");
 					}
 
 					public void onSuccess(String result) {
@@ -127,20 +121,13 @@ public class PaySalesTaxView extends
 		grid.addLoadingImagePanel();
 		rpcUtilService.getPaySalesTaxEntries(billsDue.getEnteredDate()
 				.getDate(),
-				new AsyncCallback<List<ClientPaySalesTaxEntries>>() {
+				new AccounterAsyncCallback<List<ClientPaySalesTaxEntries>>() {
 
-					public void onFailure(Throwable caught) {
-						if (caught instanceof InvocationException) {
-							Accounter
-									.showMessage("Your session expired, Please login again to continue");
-						} else {
-							Accounter
-									.showError("Failed to get the TransactionPaySalesTaxList");
-							grid.addEmptyMessage(Accounter.constants()
-									.noRecordsToShow());
-						}
-
-						return;
+					public void onException(AccounterException caught) {
+						Accounter
+								.showError("Failed to get the TransactionPaySalesTaxList");
+						grid.addEmptyMessage(Accounter.constants()
+								.noRecordsToShow());
 
 					}
 
@@ -612,18 +599,13 @@ public class PaySalesTaxView extends
 						}
 
 						private void voidTransaction() {
-							AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+							AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
 								@Override
-								public void onFailure(Throwable caught) {
-									if (caught instanceof InvocationException) {
-										Accounter
-												.showMessage("Your session expired, Please login again to continue");
-									} else {
-										Accounter
-												.showError("Failed to void Pay Sales Tax");
-									}
-
+								public void onException(
+										AccounterException caught) {
+									Accounter
+											.showError("Failed to void Pay Sales Tax");
 								}
 
 								@Override

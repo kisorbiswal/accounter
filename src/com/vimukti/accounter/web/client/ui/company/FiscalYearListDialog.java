@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddEditFiscalYearDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -31,9 +32,9 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	private void getListFiscalYear() {
 
 		
-		AsyncCallback<List<ClientFiscalYear>> callback = new AsyncCallback<List<ClientFiscalYear>>() {
+		AccounterAsyncCallback<List<ClientFiscalYear>> callback = new AccounterAsyncCallback<List<ClientFiscalYear>>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 
 			}
 

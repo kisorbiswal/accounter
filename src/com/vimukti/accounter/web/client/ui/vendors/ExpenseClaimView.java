@@ -5,15 +5,16 @@ import java.util.List;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -141,10 +142,10 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.CASHPURCHASE, record.getTransactionId(),
 
-					new AsyncCallback<ClientCashPurchase>() {
+					new AccounterAsyncCallback<ClientCashPurchase>() {
 
 						@Override
-						public void onFailure(Throwable caught) {
+						public void onException(AccounterException caught) {
 
 						}
 
@@ -178,7 +179,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		}
 		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
 				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE,
-				new AsyncCallback<List<BillsList>>() {
+				new AccounterAsyncCallback<List<BillsList>>() {
 
 					@Override
 					public void onSuccess(List<BillsList> result) {
@@ -193,7 +194,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 					}
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 
 					}
 				});

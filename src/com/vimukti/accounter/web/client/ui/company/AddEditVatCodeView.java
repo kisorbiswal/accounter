@@ -7,7 +7,7 @@
 //
 //import com.google.gwt.event.dom.client.ClickEvent;
 //import com.google.gwt.event.dom.client.ClickHandler;
-//import com.google.gwt.user.client.rpc.AsyncCallback;
+//import com.google.gwt.user.client.rpc.AccounterAsyncCallback;
 //import com.google.gwt.user.client.ui.Button;
 //import com.google.gwt.user.client.ui.HorizontalPanel;
 //import com.google.gwt.user.client.ui.Label;
@@ -66,9 +66,9 @@
 //	protected void updateCompany() {
 //
 //		rpcGetService.getObjectById(AccounterCoreType.COMPANY, company
-//				.getID(), new AsyncCallback<ClientCompany>() {
+//				.getID(), new AccounterAsyncCallback<ClientCompany>() {
 //
-//			public void onFailure(Throwable caught) {
+//			public void onException(AccounterException caught) {
 //				Accounter.showError(FinanceApplication.constants()
 //						.failedToUpdateCompany());
 //				// SC.logWarn("Failed to Update the Company...");

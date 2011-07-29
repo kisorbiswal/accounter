@@ -8,12 +8,11 @@ import java.util.Set;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -22,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.DebitAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -437,16 +437,11 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	 */
 
 	protected void getJournalViewObjet(TempFixedAsset tempObject) {
-		AsyncCallback<FixedAssetSellOrDisposeReviewJournal> callback = new AsyncCallback<FixedAssetSellOrDisposeReviewJournal>() {
+		AccounterAsyncCallback<FixedAssetSellOrDisposeReviewJournal> callback = new AccounterAsyncCallback<FixedAssetSellOrDisposeReviewJournal>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError("Review Journal is Failed");
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError("Review Journal is Failed");
 			}
 
 			@Override
@@ -527,8 +522,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			// .constants().fixedAssetItemHasBeenSold());
 			saveAndClose = true;
 			super.saveSuccess(result);
-			History.newItem(ActionFactory
-					.getSoldDisposedListAction().getHistoryToken());
+			History.newItem(ActionFactory.getSoldDisposedListAction()
+					.getHistoryToken());
 			// ActionFactory.getSoldDisposedListAction().run(null,
 			// false);
 		} else

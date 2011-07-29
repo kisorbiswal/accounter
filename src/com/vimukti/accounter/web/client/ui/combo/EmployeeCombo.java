@@ -3,9 +3,9 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class EmployeeCombo extends CustomCombo<ClientEmployee> {
@@ -16,7 +16,7 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 	public EmployeeCombo(String title) {
 		super(title, false, 1);
 		Accounter.createHomeService().getAllEmployees(
-				new AsyncCallback<List<ClientEmployee>>() {
+				new AccounterAsyncCallback<List<ClientEmployee>>() {
 					@Override
 					public void onSuccess(List<ClientEmployee> result) {
 						users = result;
@@ -35,14 +35,8 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 					}
 
 					@Override
-					public void onFailure(Throwable caught) {
-						if (caught instanceof InvocationException) {
-							Accounter
-									.showMessage("Your session expired, Please login again to continue");
-						} else {
-							Accounter
-									.showError("Failed to load Employees list");
-						}
+					public void onException(AccounterException caught) {
+						Accounter.showError("Failed to load Employees list");
 					}
 				});
 	}

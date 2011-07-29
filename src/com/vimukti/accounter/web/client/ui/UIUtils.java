@@ -11,7 +11,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -19,6 +18,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -513,12 +514,12 @@ public class UIUtils {
 		return formate;
 	}-*/;
 
-	public static <T extends IAccounterCore> AsyncCallback<Boolean> getGeneralizedUpdateCallBack(
+	public static <T extends IAccounterCore> AccounterAsyncCallback<Boolean> getGeneralizedUpdateCallBack(
 			final AbstractBaseView view, final T object) {
 
-		AsyncCallback<Boolean> callBack = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> callBack = new AccounterAsyncCallback<Boolean>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				view.saveFailed(caught);
 			}
 
@@ -538,13 +539,13 @@ public class UIUtils {
 	}
 
 	//
-	// public static <T extends IAccounterCore> AsyncCallback<String>
+	// public static <T extends IAccounterCore> AccounterAsyncCallback<String>
 	// getGeneralizedSaveCallBack(
 	// final AbstractBaseView view, final T object) {
 	//
-	// AsyncCallback<String> callBack = new AsyncCallback<String>() {
+	// AccounterAsyncCallback<String> callBack = new AccounterAsyncCallback<String>() {
 	//
-	// public void onFailure(Throwable caught) {
+	// public void onException(AccounterException caught) {
 	// view.saveFailed(caught);
 	// }
 	//
@@ -565,12 +566,12 @@ public class UIUtils {
 	//
 	// }
 
-	public static AsyncCallback<Boolean> getGeneralizedDeleteCallBack(
+	public static AccounterAsyncCallback<Boolean> getGeneralizedDeleteCallBack(
 			final AbstractBaseView view) {
 
-		AsyncCallback<Boolean> callBack = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> callBack = new AccounterAsyncCallback<Boolean>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				view.deleteFailed(caught);
 			}
 
@@ -591,13 +592,13 @@ public class UIUtils {
 	}
 
 	//
-	// public static <T extends IAccounterCore> AsyncCallback<String>
+	// public static <T extends IAccounterCore> AccounterAsyncCallback<String>
 	// getGeneralizedSaveCallBack(
 	// final AbstractBaseDialog view, final T object) {
 	//
-	// AsyncCallback<String> callBack = new AsyncCallback<String>() {
+	// AccounterAsyncCallback<String> callBack = new AccounterAsyncCallback<String>() {
 	//
-	// public void onFailure(Throwable caught) {
+	// public void onException(AccounterException caught) {
 	// view.saveFailed(caught);
 	// }
 	//
@@ -618,12 +619,12 @@ public class UIUtils {
 	// return callBack;
 	// }
 
-	// public static AsyncCallback<Boolean> getGeneralizedUpdateCallBack(
+	// public static AccounterAsyncCallback<Boolean> getGeneralizedUpdateCallBack(
 	// final AbstractBaseDialog view, final Object object) {
 	//
-	// AsyncCallback<Boolean> callBack = new AsyncCallback<Boolean>() {
+	// AccounterAsyncCallback<Boolean> callBack = new AccounterAsyncCallback<Boolean>() {
 	//
-	// public void onFailure(Throwable caught) {
+	// public void onException(AccounterException caught) {
 	// view.saveFailed(caught);
 	// }
 	//
@@ -801,7 +802,7 @@ public class UIUtils {
 	}
 
 	// public static void processAction(Action action, IsSerializable object,
-	// AsyncCallback<Object> callback) {
+	// AccounterAsyncCallback<Object> callback) {
 	// try {
 	//
 	// // action.run();

@@ -9,13 +9,11 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -27,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.CashBackAccountsCombo;
@@ -83,19 +82,19 @@ public class MakeDepositView extends
 
 	private ClientAccount selectedDepositInAccount;
 	private ClientAccount selectedCashBackAccount;
-	
+
 	private ClientAccount selectedFinanceAccount;
-	
+
 	private ClientCustomer selectedCustomer;
-	
+
 	private ClientVendor selectedVendor;
 
 	private List<ClientAccount> allAccounts;
-	
+
 	private List<ClientCustomer> allCustomers;
-	
+
 	private List<ClientVendor> allVendors;
-	
+
 	private List<String> paymentMethods;
 	// protected Double totallinetotal;
 	private String selectedItemId;
@@ -112,17 +111,15 @@ public class MakeDepositView extends
 
 	private Double calculatedTotal;
 
-	
 	private boolean isListEmpty;
 
 	protected boolean isSelected;
 	// private MakeDeposit transactionObject;
-	
+
 	private String transactionNumber;
 
 	private List<ClientAccount> listOfAccounts;
 
-	
 	private HorizontalPanel bot1Panel;
 
 	private ArrayList<DynamicForm> listforms;
@@ -142,9 +139,9 @@ public class MakeDepositView extends
 	}
 
 	private void setTransactionNumberToMakeDepositObject() {
-		AsyncCallback<String> getTransactionNumberCallback = new AsyncCallback<String>() {
+		AccounterAsyncCallback<String> getTransactionNumberCallback = new AccounterAsyncCallback<String>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 
 			}
 
@@ -170,7 +167,7 @@ public class MakeDepositView extends
 
 	private void addTransactionMakeDepositsToGrid(
 			List<ClientTransactionMakeDeposit> transactionMakeDepositList) {
-		
+
 		ClientCompany company = getCompany();
 
 		ClientTransactionMakeDeposit records[] = new ClientTransactionMakeDeposit[transactionMakeDepositList
@@ -267,18 +264,12 @@ public class MakeDepositView extends
 
 		gridView.addLoadingImagePanel();
 
-		AsyncCallback<List<ClientTransactionMakeDeposit>> callback = new AsyncCallback<List<ClientTransactionMakeDeposit>>() {
+		AccounterAsyncCallback<List<ClientTransactionMakeDeposit>> callback = new AccounterAsyncCallback<List<ClientTransactionMakeDeposit>>() {
 
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(Accounter.constants()
-							.makeDepostTransationsListFailed());
-					gridView.removeAllRecords();
-				}
-				// gridView.addEmptyMessage("No records to show");
+			public void onException(AccounterException caught) {
+				Accounter.showError(Accounter.constants()
+						.makeDepostTransationsListFailed());
+				gridView.removeAllRecords();
 			}
 
 			public void onSuccess(List<ClientTransactionMakeDeposit> result) {
@@ -442,7 +433,7 @@ public class MakeDepositView extends
 
 		calculatedTotal = 0D;
 		for (ClientTransactionMakeDeposit rec : gridView.getRecords()) {
-			
+
 			ClientTransactionMakeDeposit record = (ClientTransactionMakeDeposit) rec;
 			// FIXME--need to implement
 			// if (record.getAttributeAsBoolean(ATTR_CHECK)) {
@@ -527,7 +518,6 @@ public class MakeDepositView extends
 
 	}
 
-	
 	private List<ClientTransactionMakeDeposit> getTransactionMakeDepositsList() {
 		List<ClientTransactionMakeDeposit> transactionMakeDepositsList = new ArrayList<ClientTransactionMakeDeposit>();
 		ClientTransactionMakeDeposit entry;
@@ -1160,10 +1150,11 @@ public class MakeDepositView extends
 		// }
 		//
 		// private void voidTransaction() {
-		// AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+		// AccounterAsyncCallback<Boolean> callback = new
+		// AccounterAsyncCallback<Boolean>() {
 		//
 		// @Override
-		// public void onFailure(Throwable caught) {
+		// public void onException(AccounterException caught) {
 		// Accounter
 		// .showError("Failed to void Make Deposit");
 		//
@@ -1204,17 +1195,11 @@ public class MakeDepositView extends
 		// }
 		// });
 		// }
-		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(((InvalidOperationException) (caught))
-							.getDetailedMessage());
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override

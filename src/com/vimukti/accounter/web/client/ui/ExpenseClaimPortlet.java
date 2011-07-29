@@ -11,11 +11,11 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
@@ -76,15 +76,11 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 			}
 		});
 
-		Label allExpLabel = getLabel(Accounter.constants()
-				.allExpenses());
-		Label cashExpLabel = getLabel(Accounter.constants()
-				.cashExpenses());
+		Label allExpLabel = getLabel(Accounter.constants().allExpenses());
+		Label cashExpLabel = getLabel(Accounter.constants().cashExpenses());
 		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		Label empExpLabel = getLabel(Accounter.constants()
-				.employeeExpenses());
-		Label ccExpLabel = getLabel(Accounter.constants()
-				.creditCardExpenses());
+		Label empExpLabel = getLabel(Accounter.constants().employeeExpenses());
+		Label ccExpLabel = getLabel(Accounter.constants().creditCardExpenses());
 		ccExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
 		updateAmounts();
@@ -119,16 +115,11 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	}
 
 	private void updateAmounts() {
-		AsyncCallback<List<Double>> callBack = new AsyncCallback<List<Double>>() {
+		AccounterAsyncCallback<List<Double>> callBack = new AccounterAsyncCallback<List<Double>>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError("Failed to get Expense totals");
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError("Failed to get Expense totals");
 			}
 
 			@Override
@@ -172,22 +163,17 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 						.setTextDecoration(TextDecoration.NONE);
 				if (title.equals(Accounter.constants().cashExpenses())) {
 					ActionFactory.getExpensesAction(
-							Accounter.constants().cash()).run(null,
-							true);
+							Accounter.constants().cash()).run(null, true);
 				} else if (title.equals(Accounter.constants()
 						.creditCardExpenses())) {
 					ActionFactory.getExpensesAction(
-							Accounter.constants().creditCard()).run(
-							null, true);
+							Accounter.constants().creditCard()).run(null, true);
 				} else if (title.equals(Accounter.constants()
 						.employeeExpenses())) {
 					ActionFactory.getExpensesAction(
-							Accounter.constants().employee()).run(
-							null, true);
-				} else if (title.equals(Accounter.constants()
-						.allExpenses())) {
-					ActionFactory.getExpensesAction(null)
-							.run(null, true);
+							Accounter.constants().employee()).run(null, true);
+				} else if (title.equals(Accounter.constants().allExpenses())) {
+					ActionFactory.getExpensesAction(null).run(null, true);
 				}
 			}
 		});

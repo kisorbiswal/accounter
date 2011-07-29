@@ -267,9 +267,9 @@
 //		initAllCombos(accounts);
 //
 //		// FinanceApplication.createGETService().getAccounts(
-//		// new AsyncCallback<List<ClientAccount>>() {
+//		// new AccounterAsyncCallback<List<ClientAccount>>() {
 //		//
-//		// public void onFailure(Throwable caught) {
+//		// public void onException(AccounterException caught) {
 //		//
 //		// }
 //		//

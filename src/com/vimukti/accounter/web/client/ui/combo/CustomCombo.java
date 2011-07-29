@@ -3,10 +3,11 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /*
@@ -39,11 +40,11 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 		return comboItems;
 	}
 
-	protected AsyncCallback<T> createAddNewCallBack() {
+	protected AccounterAsyncCallback<T> createAddNewCallBack() {
 
-		AsyncCallback<T> callBack = new AsyncCallback<T>() {
+		AccounterAsyncCallback<T> callBack = new AccounterAsyncCallback<T>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 
 				if (!GWT.isScript()) {
 					caught.printStackTrace();

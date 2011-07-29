@@ -3,11 +3,10 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -18,11 +17,12 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayVAT;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -360,20 +360,14 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	private void fillGrid() {
 		grid.addLoadingImagePanel();
 		rpcUtilService
-				.getPayVATEntries(new AsyncCallback<List<ClientPayVATEntries>>() {
+				.getPayVATEntries(new AccounterAsyncCallback<List<ClientPayVATEntries>>() {
 
 					@Override
-					public void onFailure(Throwable caught) {
-						if (caught instanceof InvocationException) {
-							Accounter
-									.showMessage("Your session expired, Please login again to continue");
-						} else {
-							Accounter
-									.showError("Failed to get the Transaction PayVAT List");
-							grid.addEmptyMessage(Accounter.constants()
-									.noRecordsToShow());
-						}
-						return;
+					public void onException(AccounterException caught) {
+						Accounter
+								.showError("Failed to get the Transaction PayVAT List");
+						grid.addEmptyMessage(Accounter.constants()
+								.noRecordsToShow());
 
 					}
 
@@ -381,7 +375,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 					public void onSuccess(List<ClientPayVATEntries> result) {
 						if (result == null) {
 
-							onFailure(null);
+							onException(null);
 						}
 						entries = result;
 						if (result.size() == 0) {
@@ -429,17 +423,11 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	protected void initTransactionNumber() {
 
 		rpcUtilService.getNextTransactionNumber(ClientTransaction.TYPE_PAY_VAT,
-				new AsyncCallback<String>() {
+				new AccounterAsyncCallback<String>() {
 
-					public void onFailure(Throwable caught) {
-						if (caught instanceof InvocationException) {
-							Accounter
-									.showMessage("Your session expired, Please login again to continue");
-						} else {
-							Accounter
-									.showError("Failed to get the transaction number");
-						}
-						return;
+					public void onException(AccounterException caught) {
+						Accounter
+								.showError("Failed to get the transaction number");
 					}
 
 					public void onSuccess(String result) {
@@ -601,10 +589,11 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						}
 
 						private void voidTransaction() {
-							AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+							AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
 								@Override
-								public void onFailure(Throwable caught) {
+								public void onException(
+										AccounterException caught) {
 									Accounter
 											.showError("Failed to void Pay VAT");
 

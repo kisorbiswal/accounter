@@ -6,15 +6,16 @@ import java.util.List;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -86,9 +87,9 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	}
 
 	private void getLastDepreciationDate() {
-		AsyncCallback<ClientFinanceDate> callBack = new AsyncCallback<ClientFinanceDate>() {
+		AccounterAsyncCallback<ClientFinanceDate> callBack = new AccounterAsyncCallback<ClientFinanceDate>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				saveFailed(caught);
 				return;
 
@@ -157,9 +158,9 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		ClientFinanceDate date = UIUtils.stringToDate(dateString,
 				(Accounter.constants().ddMMyyyy()));
 
-		AsyncCallback callBack = new AsyncCallback() {
+		AccounterAsyncCallback callBack = new AccounterAsyncCallback() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				saveFailed(caught);
 				return;
 

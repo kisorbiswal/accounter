@@ -6,17 +6,18 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.company.CompanySetupDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
@@ -170,8 +171,8 @@ public class StartupDialog extends DialogBox {
 		((ServiceDefTarget) getService)
 				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
 
-		final AsyncCallback<ClientCompany> getCompanyCallback = new AsyncCallback<ClientCompany>() {
-			public void onFailure(Throwable caught) {
+		final AccounterAsyncCallback<ClientCompany> getCompanyCallback = new AccounterAsyncCallback<ClientCompany>() {
+			public void onException(AccounterException caught) {
 				// //UIUtils.log(caught.toString());
 				// loadingDialog.destroy();
 				StartupDialog.this.show();
@@ -219,8 +220,8 @@ public class StartupDialog extends DialogBox {
 
 	private void checkUserLogin() {
 
-		final AsyncCallback<ClientUser> checkLoginCallback = new AsyncCallback<ClientUser>() {
-			public void onFailure(Throwable caught) {
+		final AccounterAsyncCallback<ClientUser> checkLoginCallback = new AccounterAsyncCallback<ClientUser>() {
+			public void onException(AccounterException caught) {
 				UIUtils.say("Could not authenticate!");
 			}
 
@@ -259,9 +260,9 @@ public class StartupDialog extends DialogBox {
 	}
 
 	// private void getUser() {
-	// final AsyncCallback<ClientUser> getUserCallBack = new
-	// AsyncCallback<ClientUser>() {
-	// public void onFailure(Throwable caught) {
+	// final AccounterAsyncCallback<ClientUser> getUserCallBack = new
+	// AccounterAsyncCallback<ClientUser>() {
+	// public void onException(AccounterException caught) {
 	// Accounter.showError("Unable to login");
 	// }
 	//
@@ -296,8 +297,8 @@ public class StartupDialog extends DialogBox {
 	// }
 
 	private void getUserByEmail(String mail) {
-		final AsyncCallback<ClientUser> getUserCallBack = new AsyncCallback<ClientUser>() {
-			public void onFailure(Throwable caught) {
+		final AccounterAsyncCallback<ClientUser> getUserCallBack = new AccounterAsyncCallback<ClientUser>() {
+			public void onException(AccounterException caught) {
 				UIUtils.say(caught.toString());
 			}
 
@@ -315,9 +316,9 @@ public class StartupDialog extends DialogBox {
 	}
 
 	private void getCompanyList() {
-		AsyncCallback<List<ClientCompany>> getCompanyListCallback = new AsyncCallback<List<ClientCompany>>() {
+		AccounterAsyncCallback<List<ClientCompany>> getCompanyListCallback = new AccounterAsyncCallback<List<ClientCompany>>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				// //UIUtils.log("Get Company List Failed!");
 			}
 
@@ -338,9 +339,9 @@ public class StartupDialog extends DialogBox {
 
 	private void getCompany() {
 
-		AsyncCallback<List<ClientCompany>> getCompanyListCallback = new AsyncCallback<List<ClientCompany>>() {
+		AccounterAsyncCallback<List<ClientCompany>> getCompanyListCallback = new AccounterAsyncCallback<List<ClientCompany>>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				UIUtils.say("Get Company List Failed!");
 			}
 

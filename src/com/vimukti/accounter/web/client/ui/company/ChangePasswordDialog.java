@@ -2,9 +2,10 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -88,10 +89,10 @@ public class ChangePasswordDialog extends BaseDialog {
 		if (!(newPassword.toString().length() < 6)) {
 			if (newPassword.equals(confirmNewPassword)) {
 				Accounter.createHomeService().changePassWord(emailID,
-						oldPassword, newPassword, new AsyncCallback<Boolean>() {
+						oldPassword, newPassword, new AccounterAsyncCallback<Boolean>() {
 
 							@Override
-							public void onFailure(Throwable caught) {
+							public void onException(AccounterException caught) {
 
 							}
 

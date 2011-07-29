@@ -84,6 +84,7 @@ import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 
 /**
@@ -367,7 +368,7 @@ public interface IFinanceDAOService {
 	public ClientFinanceDate getDepreciationLastDate() throws DAOException;
 
 	public void rollBackDepreciation(long rollBackDepreciationTo)
-			throws DAOException;
+			throws AccounterException;
 
 	public double getCalculatedDepreciatedAmount(int depreciationMethod,
 			double depreciationRate, double purchasePrice,

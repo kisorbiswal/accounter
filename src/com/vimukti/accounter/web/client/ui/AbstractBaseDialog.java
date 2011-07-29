@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -16,7 +16,7 @@ public abstract class AbstractBaseDialog<T> extends CustomDialog implements
 
 	protected AbstractBaseView<T> abstractParent;
 	protected AbstractBaseView<T> parent;
-	protected AsyncCallback<T> callBack;
+	protected AccounterAsyncCallback<T> callBack;
 	protected IAccounterGETServiceAsync rpcGetService;
 	protected ClientCompany company;
 
@@ -44,7 +44,7 @@ public abstract class AbstractBaseDialog<T> extends CustomDialog implements
 		initRPCService();
 	}
 
-	public void addCallBack(AsyncCallback<T> callback) {
+	public void addCallBack(AccounterAsyncCallback<T> callback) {
 		this.callBack = callback;
 
 	}

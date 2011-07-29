@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -421,10 +422,10 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 			return;
 
 		else {
-			AsyncCallback<List<ClientFinanceDate>> callback = new AsyncCallback<List<ClientFinanceDate>>() {
+			AccounterAsyncCallback<List<ClientFinanceDate>> callback = new AccounterAsyncCallback<List<ClientFinanceDate>>() {
 
 				@Override
-				public void onFailure(Throwable caught) {
+				public void onException(AccounterException caught) {
 					return;
 				}
 

@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -13,11 +13,12 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsDialog;
 import com.vimukti.accounter.web.client.ui.customers.CustomerView;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
@@ -255,11 +256,10 @@ public class AccounterValidator {
 						Accounter.createHomeService()
 								.changeFiscalYearsStartDateTo(
 										convertedasOfDate,
-										new AsyncCallback<Boolean>() {
+										new AccounterAsyncCallback<Boolean>() {
 
-											public void onFailure(
-													Throwable caught) {
-
+											public void onException(
+													AccounterException caught) {
 												Accounter
 														.showError("Failed to alter the fiscal year");
 											}

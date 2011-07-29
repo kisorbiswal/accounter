@@ -1,16 +1,17 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -172,10 +173,10 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	}
 
 	// protected void voidTransaction(final ClientJournalEntry obj) {
-	// AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+	// AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 	//
 	// @Override
-	// public void onFailure(Throwable caught) {
+	// public void onException(AccounterException caught) {
 	//
 	// }
 	//
@@ -200,10 +201,10 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	}
 
 	protected void deleteTransaction(final ClientJournalEntry obj) {
-		AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 
 			}
 

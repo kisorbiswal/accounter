@@ -6,7 +6,7 @@
 //import com.google.gwt.event.dom.client.ClickEvent;
 //import com.google.gwt.event.dom.client.ClickHandler;
 //import com.google.gwt.user.client.Window;
-//import com.google.gwt.user.client.rpc.AsyncCallback;
+//import com.google.gwt.user.client.rpc.AccounterAsyncCallback;
 //import com.google.gwt.user.client.rpc.ServiceDefTarget;
 //import com.google.gwt.user.client.ui.Button;
 //import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -123,8 +123,8 @@
 //		.create(IAccounterHomeViewService.class);
 //		((ServiceDefTarget) getService).setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 //		
-//		getService.getLatestQuotes(new AsyncCallback<List<ClientEstimate>>() {
-//			public void onFailure(Throwable caught) {
+//		getService.getLatestQuotes(new AccounterAsyncCallback<List<ClientEstimate>>() {
+//			public void onException(AccounterException caught) {
 //				Window.alert("Get Failed:"+caught);
 //			}
 //

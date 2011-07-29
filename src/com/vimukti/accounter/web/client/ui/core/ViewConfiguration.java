@@ -3,8 +3,8 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 
@@ -17,7 +17,7 @@ public class ViewConfiguration {
 
 	IsSerializable object;
 
-	AsyncCallback<Object> callback;
+	AccounterAsyncCallback<Object> callback;
 
 	boolean disableSaveAndNew;
 
@@ -68,7 +68,7 @@ public class ViewConfiguration {
 	/**
 	 * @return the callback
 	 */
-	public AsyncCallback<Object> getCallback() {
+	public AccounterAsyncCallback<Object> getCallback() {
 		return callback;
 	}
 
@@ -76,7 +76,7 @@ public class ViewConfiguration {
 	 * @param callback
 	 *            the callback to set
 	 */
-	public void setCallback(AsyncCallback<Object> callback) {
+	public void setCallback(AccounterAsyncCallback<Object> callback) {
 		this.callback = callback;
 		if (callback != null)
 			setDisableSaveAndNew(true);

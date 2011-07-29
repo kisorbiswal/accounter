@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.web.client.exception;
 
+
 /**
  * @author Prasanna Kumar G
  * 
@@ -29,7 +30,16 @@ public class AccounterException extends Exception {
 	 * Sent when user does not have sufficient permission to do this operation
 	 */
 	public static final int ERROR_PERMISSION_DENIED = 4;
-	
+
+	/**
+	 * Used to tell that Exception in Database
+	 */
+	public static final int ERROR_INTERNAL = 5;
+
+	/**
+	 * Sent When Arguments given by the Client is Wrong
+	 */
+	public static final int ERROR_ILLEGAL_ARGUMENT = 6;
 
 	protected int errorCode;
 
@@ -58,6 +68,14 @@ public class AccounterException extends Exception {
 	/**
 	 * Creates new Instance
 	 */
+	public AccounterException(int errorCode, String message) {
+		super(message);
+		this.errorCode = errorCode;
+	}
+
+	/**
+	 * Creates new Instance
+	 */
 	public AccounterException(Throwable t, String message) {
 		super(message, t);
 	}
@@ -67,6 +85,14 @@ public class AccounterException extends Exception {
 	 */
 	public AccounterException(Throwable t) {
 		super(t);
+	}
+
+	/**
+	 * Creates new Instance
+	 */
+	public AccounterException(int errorCode, Throwable e) {
+		super(e);
+		this.errorCode = errorCode;
 	}
 
 	/**

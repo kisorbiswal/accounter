@@ -9,13 +9,11 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -34,6 +32,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -915,9 +914,9 @@ public class SalesOrderView extends
 			Accounter.showError(Accounter.constants().pleaseSelectCustomer());
 		} else {
 			this.rpcUtilService.getEstimates(customer.getID(),
-					new AsyncCallback<List<ClientEstimate>>() {
+					new AccounterAsyncCallback<List<ClientEstimate>>() {
 
-						public void onFailure(Throwable caught) {
+						public void onException(AccounterException caught) {
 							// Accounter.showError(FinanceApplication
 							// .constants()
 							// .noQuotesForCustomer()
@@ -1093,18 +1092,11 @@ public class SalesOrderView extends
 		if (transactionObject.getStatus() == ClientTransaction.STATUS_COMPLETED)
 			Accounter.showError("Completed sales order can't be edited.");
 		else {
-			AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+			AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 				@Override
-				public void onFailure(Throwable caught) {
-					if (caught instanceof InvocationException) {
-						Accounter
-								.showMessage("Your session expired, Please login again to continue");
-					} else {
-						Accounter
-								.showError(((InvalidOperationException) (caught))
-										.getDetailedMessage());
-					}
+				public void onException(AccounterException caught) {
+					Accounter.showError(caught.getMessage());
 				}
 
 				@Override

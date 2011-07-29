@@ -1,14 +1,14 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * 
@@ -28,7 +28,7 @@ public class NewCreditMemoAction extends Action {
 
 	public NewCreditMemoAction(String newCreditMemo,
 			ClientVendorCreditMemo vendorCreditMemo,
-			AsyncCallback<Object> callBack) {
+			AccounterAsyncCallback<Object> callBack) {
 		super(newCreditMemo);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
@@ -42,7 +42,7 @@ public class NewCreditMemoAction extends Action {
 
 	private void runAsync(final Object data, final boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreateFailed(Throwable t) {
 

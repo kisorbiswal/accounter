@@ -4,13 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -188,9 +189,9 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	public void onDoubleClick(PayeeList obj) {
-		AsyncCallback<ClientCustomer> callback = new AsyncCallback<ClientCustomer>() {
+		AccounterAsyncCallback<ClientCustomer> callback = new AccounterAsyncCallback<ClientCustomer>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 			}
 
 			public void onSuccess(ClientCustomer result) {
@@ -206,9 +207,9 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	}
 
 	protected void executeDelete(final PayeeList recordToBeDeleted) {
-		AsyncCallback<ClientCustomer> callback = new AsyncCallback<ClientCustomer>() {
+		AccounterAsyncCallback<ClientCustomer> callback = new AccounterAsyncCallback<ClientCustomer>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 			}
 
 			public void onSuccess(ClientCustomer result) {

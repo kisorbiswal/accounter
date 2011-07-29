@@ -5,7 +5,8 @@ import com.google.gwt.core.client.RunAsyncCallback;
 
 public class AccounterAsync {
 
-	public static void createAsync(final CreateViewAsyncCallBack callback) {
+	public static void createAsync(
+			final CreateViewAsyncCallback callback) {
 
 		GWT.runAsync(new RunAsyncCallback() {
 

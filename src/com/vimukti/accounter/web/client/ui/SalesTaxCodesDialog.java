@@ -4,7 +4,7 @@
 //import java.util.List;
 //import java.util.Set;
 //
-//import com.google.gwt.user.client.rpc.AsyncCallback;
+//import com.google.gwt.user.client.rpc.AccounterAsyncCallback;
 //import com.google.gwt.user.client.rpc.IsSerializable;
 //import com.vimukti.accounter.web.client.core.ClientTaxCode;
 //import com.vimukti.accounter.web.client.core.ClientTaxRates;
@@ -72,9 +72,9 @@
 //			public void onThirdButtonClick() {
 //				FinanceApplication.createCRUDService().deleteTaxCode(
 //						getSelectedTaxCode().getID(),
-//						new AsyncCallback<Boolean>() {
+//						new AccounterAsyncCallback<Boolean>() {
 //
-//							public void onFailure(Throwable caught) {
+//							public void onException(AccounterException caught) {
 //
 //							}
 //
@@ -118,9 +118,9 @@
 //	// deletes the selected Tax Code from the database.
 //	private void deleteSeletedTaxCode(ClientTaxCode selectedTaxCode) {
 //
-//		AsyncCallback<Boolean> deleteTaxCodeCallback = new AsyncCallback<Boolean>() {
+//		AccounterAsyncCallback<Boolean> deleteTaxCodeCallback = new AccounterAsyncCallback<Boolean>() {
 //
-//			public void onFailure(Throwable caught) {
+//			public void onException(AccounterException caught) {
 //				// //UIUtils.log(caught.toString());
 //				// Accounter.showError("Failed to remove");
 //				Accounter.showError("Tax Code Participated in some Transactions");
@@ -265,9 +265,9 @@
 //	protected void createOrEditTaxCode() {
 //
 //		ClientTaxCode taxCode = getTaxCode();
-//		AsyncCallback<IsSerializable> taxCodeCallback = new AsyncCallback<IsSerializable>() {
+//		AccounterAsyncCallback<IsSerializable> taxCodeCallback = new AccounterAsyncCallback<IsSerializable>() {
 //
-//			public void onFailure(Throwable caught) {
+//			public void onException(AccounterException caught) {
 //				Accounter.showError("Duplication of TaxCode are not allowed...");
 //			}
 //

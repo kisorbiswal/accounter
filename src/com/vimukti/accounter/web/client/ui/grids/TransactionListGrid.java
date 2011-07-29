@@ -125,10 +125,10 @@
 //		// salesTaxCombo.initCombo(listTaxCodes);
 //		// nameField.setEditorType(salesTaxCombo);
 //		//
-//		// AsyncCallback<List<ClientTaxCode>> taxcodesCallBack = new
-//		// AsyncCallback<List<ClientTaxCode>>() {
+//		// AccounterAsyncCallback<List<ClientTaxCode>> taxcodesCallBack = new
+//		// AccounterAsyncCallback<List<ClientTaxCode>>() {
 //		//
-//		// public void onFailure(Throwable caught) {
+//		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Failed to Get TaxCode List...");
 //		// }
 //		//

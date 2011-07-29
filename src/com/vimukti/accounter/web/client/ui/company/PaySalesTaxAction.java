@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.PaySalesTaxView;
 import com.vimukti.accounter.web.client.ui.VATPaymentView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class PaySalesTaxAction extends Action {
 
@@ -28,7 +28,7 @@ public class PaySalesTaxAction extends Action {
 	}
 
 	private void runAsync(final Object data, Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreateFailed(Throwable t) {
 				// //UIUtils.logError("Failed to load PaySalesTax..", t);

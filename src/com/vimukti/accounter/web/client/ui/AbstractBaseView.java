@@ -14,8 +14,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
@@ -158,7 +158,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	 * Boxes Like say, Post, creating a Customer, the Customer object should be
 	 * added back to the Combo list.
 	 */
-	public AsyncCallback<Object> callback;
+	public AccounterAsyncCallback<Object> callback;
 
 	protected IAccounterReportServiceAsync rpcReportService;
 
@@ -173,7 +173,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	 * 
 	 * @param callBack
 	 */
-	public final void setCallBack(AsyncCallback<Object> callBack) {
+	public final void setCallBack(AccounterAsyncCallback<Object> callBack) {
 
 		this.callback = callBack;
 

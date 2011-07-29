@@ -12,14 +12,14 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
@@ -86,8 +86,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		});
 
 		draftLabel = getLabel(Accounter.constants().draftInvoices());
-		overDueLabel = getLabel(Accounter.constants()
-				.overDueInvoices());
+		overDueLabel = getLabel(Accounter.constants().overDueInvoices());
 		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
 		updateAmounts();
@@ -110,17 +109,11 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 		body.add(hPanel);
 
-		AsyncCallback<List<Double>> callBack = new AsyncCallback<List<Double>>() {
+		AccounterAsyncCallback<List<Double>> callBack = new AccounterAsyncCallback<List<Double>>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter
-							.showError("Failed to get money going portlet values");
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError("Failed to get money going portlet values");
 			}
 
 			@Override
@@ -204,8 +197,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			public void onClick(ClickEvent event) {
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
-				if (title
-						.equals(Accounter.constants().draftInvoices())) {
+				if (title.equals(Accounter.constants().draftInvoices())) {
 					ActionFactory.getBillsAction().run(null, true,
 							Accounter.constants().open());
 				} else {

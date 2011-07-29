@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CreditRatingListDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
@@ -27,7 +27,7 @@ public class CreditRatingListAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreateFailed(Throwable t) {
 				// //UIUtils.logError("Failed To Load Credit rating", t);

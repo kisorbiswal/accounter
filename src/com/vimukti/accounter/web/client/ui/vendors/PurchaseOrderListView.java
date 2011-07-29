@@ -3,12 +3,13 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -96,7 +97,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	}
 
 	public void onClick(PurchaseOrdersList obj) {
-		AsyncCallback<IAccounterCore> callbackforsalesOrder = new AsyncCallback<IAccounterCore>() {
+		AccounterAsyncCallback<IAccounterCore> callbackforsalesOrder = new AccounterAsyncCallback<IAccounterCore>() {
 
 			@Override
 			public void onSuccess(IAccounterCore result) {
@@ -106,7 +107,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 			}
 
 			@Override
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 
 			}
 		};
@@ -226,7 +227,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	@Override
 	protected void onLoad() {
 		if (grid.getSelection() != null) {
-			AsyncCallback<IAccounterCore> callbackforpurchaseOrder = new AsyncCallback<IAccounterCore>() {
+			AccounterAsyncCallback<IAccounterCore> callbackforpurchaseOrder = new AccounterAsyncCallback<IAccounterCore>() {
 
 				@Override
 				public void onSuccess(IAccounterCore result) {
@@ -236,7 +237,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 				}
 
 				@Override
-				public void onFailure(Throwable caught) {
+				public void onException(AccounterException caught) {
 
 				}
 			};

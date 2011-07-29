@@ -1,8 +1,8 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DashBoardView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -18,15 +18,10 @@ public class CompanyHomeAction extends Action {
 	}
 
 	public CompanyHomeAction(String text, IsSerializable editableObject,
-			AsyncCallback<Object> callbackObject) {
+			AccounterAsyncCallback<Object> callbackObject) {
 		super(text);
 		this.catagory = Accounter.constants().company();
 	}
-
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// return this.view;
-	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

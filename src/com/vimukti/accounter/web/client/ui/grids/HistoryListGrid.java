@@ -1,12 +1,12 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetHistory;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
 
 public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 
-	
 	private NoteDialog noteDialog;
 
 	public HistoryListGrid(boolean isMultiSelectionEnable) {
@@ -77,24 +76,19 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.JOURNALENTRY,
 					asset.getPostedJournalEntry(),
-					new AsyncCallback<ClientJournalEntry>() {
+					new AccounterAsyncCallback<ClientJournalEntry>() {
 
 						@Override
-						public void onFailure(Throwable caught) {
-							if (caught instanceof InvocationException) {
-								Accounter
-										.showMessage("Your session expired, Please login again to continue");
-							} else {
-								Accounter
-										.showError(AccounterErrorType.FAILED_GET_JOURNALENTRIES);
-							}
+						public void onException(AccounterException caught) {
+							Accounter
+									.showError(AccounterErrorType.FAILED_GET_JOURNALENTRIES);
 						}
 
 						@Override
 						public void onSuccess(ClientJournalEntry journalEntry) {
 							if (journalEntry != null) {
-								ActionFactory.getNewJournalEntryAction()
-										.run(journalEntry, true);
+								ActionFactory.getNewJournalEntryAction().run(
+										journalEntry, true);
 							}
 
 						}
@@ -111,8 +105,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().changes(),
-				Accounter.constants().date(),
-				Accounter.constants().user(),
+				Accounter.constants().date(), Accounter.constants().user(),
 				Accounter.constants().details() };
 	}
 

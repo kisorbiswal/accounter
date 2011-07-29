@@ -6,11 +6,11 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBox;
@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -298,10 +299,10 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 		this.rpcUtilService.getTAXReturn(this.selectedVatAgency,
 				fromDate.getDate(), toDate.getDate(),
-				new AsyncCallback<ClientVATReturn>() {
+				new AccounterAsyncCallback<ClientVATReturn>() {
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 						// gridView.clear();
 						gridView.addEmptyMessage(Accounter.constants()
 								.norecordstoshowinbetweentheselecteddates());

@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -27,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -56,14 +55,14 @@ public class VendorBillView extends
 	private ClientPaymentTerms selectedPaymentTerm;
 	private DateField dueDateItem;
 	private ClientEnterBill enterBillToBeEdited;
-	
+
 	private CheckboxItem euVATexempVendor;
-	
+
 	private CheckboxItem showPricesWithVAT;
 	private AmountLabel netAmount;
-	
+
 	private AmountField total;
-	
+
 	private DynamicForm vendorForm, vatForm;
 	private LinkItem purchaseLabel;
 	private VendorBillListDialog dialog;
@@ -89,7 +88,6 @@ public class VendorBillView extends
 
 	}
 
-	
 	private void resetGlobalVariables() {
 
 		this.vendor = null;
@@ -751,10 +749,10 @@ public class VendorBillView extends
 					&& dialog.preVendor == this.vendor) {
 				return;
 			}
-			AsyncCallback<List<PurchaseOrdersAndItemReceiptsList>> callback = new AsyncCallback<List<PurchaseOrdersAndItemReceiptsList>>() {
+			AccounterAsyncCallback<List<PurchaseOrdersAndItemReceiptsList>> callback = new AccounterAsyncCallback<List<PurchaseOrdersAndItemReceiptsList>>() {
 
 				@Override
-				public void onFailure(Throwable caught) {
+				public void onException(AccounterException caught) {
 					// Accounter.showError(FinanceApplication.constants()
 					// .noPurchaseOrderAndItemReceiptForVendor()
 					// + vendor.getName());
@@ -952,17 +950,11 @@ public class VendorBillView extends
 	}
 
 	public void onEdit() {
-		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(((InvalidOperationException) (caught))
-							.getDetailedMessage());
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override

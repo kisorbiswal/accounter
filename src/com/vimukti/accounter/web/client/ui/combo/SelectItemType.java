@@ -3,8 +3,8 @@
  */
 package com.vimukti.accounter.web.client.ui.combo;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -68,7 +68,7 @@ public enum SelectItemType {
 
 	private Action action;
 	
-	private AsyncCallback<IsSerializable> callback;
+	private AccounterAsyncCallback<IsSerializable> callback;
 	
 	private BaseDialog dialog;
 
@@ -80,7 +80,7 @@ public enum SelectItemType {
 		this.action = action;
 	}
 
-	SelectItemType(AsyncCallback<IsSerializable> callback) {
+	SelectItemType(AccounterAsyncCallback<IsSerializable> callback) {
 		this.callback = callback;
 	}
 

@@ -2,10 +2,9 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
-public interface IFinanceReport<R> extends AsyncCallback<List<R>> {
+public interface IFinanceReport<R> {
 
 	boolean isServerSide();
 

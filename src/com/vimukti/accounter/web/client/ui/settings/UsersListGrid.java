@@ -170,7 +170,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	public void deleteFailed(Throwable caught) {
 		if (caught instanceof InvalidOperationException)
 			Accounter.showError(((InvalidOperationException) caught)
-					.getDetailedMessage());
+					.getMessage());
 		else
 			Accounter.showError("You can't delete this user");
 		caught.fillInStackTrace();

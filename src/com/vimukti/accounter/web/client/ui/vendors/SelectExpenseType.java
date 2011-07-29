@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -28,7 +28,7 @@ public class SelectExpenseType extends BaseDialog {
 		center();
 	}
 
-	public SelectExpenseType(AsyncCallback<IAccounterCore> callBack) {
+	public SelectExpenseType(AccounterAsyncCallback<IAccounterCore> callBack) {
 		super(Accounter.constants().recordExpenses(), "");
 		this.callBack = callBack;
 		setText(Accounter.constants().recordExpenses());

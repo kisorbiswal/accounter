@@ -6,7 +6,7 @@
 //import com.vimukti.accounter.web.client.ui.SalesTaxCodesView;
 //import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 //import com.vimukti.accounter.web.client.ui.core.Action;
-//import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
+//import com.vimukti.accounter.web.client.ui.core.CreateViewAccounterAsyncCallback;
 //import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 //
 //public class ManageSalesTaxCodesAction extends Action {
@@ -35,7 +35,7 @@
 //	}
 //
 //	private void runAsync(final Object data, final Boolean isDependent) {
-//		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
+//		AccounterAsync.createAsync(new CreateViewAccounterAsyncCallback() {
 //
 //			public void onCreateFailed(Throwable t) {
 //				// //UIUtils.logError("Failed To Load Manage Sales Tax Codes View",

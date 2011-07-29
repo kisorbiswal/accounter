@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -15,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -41,8 +40,7 @@ public class CashExpenseView extends CashPurchaseView {
 		vendorForm.clear();
 		vendorForm.removeFromParent();
 		termsForm.clear();
-		petycash = new AccountCombo(Accounter.constants()
-				.cashExpense()) {
+		petycash = new AccountCombo(Accounter.constants().cashExpense()) {
 
 			@Override
 			public SelectItemType getSelectItemType() {
@@ -184,17 +182,11 @@ public class CashExpenseView extends CashPurchaseView {
 
 	@Override
 	public void onEdit() {
-		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(((InvalidOperationException) (caught))
-							.getDetailedMessage());
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override
@@ -219,11 +211,11 @@ public class CashExpenseView extends CashPurchaseView {
 	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().accounts(),
-					Accounter.constants().service());
+			setMenuItems(button, Accounter.constants().accounts(), Accounter
+					.constants().service());
 		else
-			setMenuItems(button, Accounter.constants().accounts(),
-					Accounter.constants().service());
+			setMenuItems(button, Accounter.constants().accounts(), Accounter
+					.constants().service());
 	}
 
 	@Override

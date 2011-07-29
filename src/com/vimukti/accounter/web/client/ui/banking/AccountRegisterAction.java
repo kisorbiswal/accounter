@@ -1,13 +1,13 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class AccountRegisterAction extends Action {
 
@@ -36,7 +36,7 @@ public class AccountRegisterAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isEditable) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
 
@@ -69,7 +69,7 @@ public class AccountRegisterAction extends Action {
 	 * Runs this action with call back.The default implementation of this method
 	 * in <code>Action</code> does nothing.
 	 */
-	public void run(AsyncCallback<Object> asyncCallback) {
+	public void run(AccounterAsyncCallback<Object> AccounterAsyncCallback) {
 	}
 
 	@Override

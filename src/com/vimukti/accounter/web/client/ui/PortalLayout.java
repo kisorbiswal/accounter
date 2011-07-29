@@ -1,8 +1,9 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.banking.BankingSectionHomeView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerSectionHomeView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorSectionHomeView;
@@ -205,9 +206,9 @@ public class PortalLayout extends VerticalPanel {
 	 */
 	private void savePreferences() {
 
-		AsyncCallback<Long> alterUserCallback = new AsyncCallback<Long>() {
+		AccounterAsyncCallback<Long> alterUserCallback = new AccounterAsyncCallback<Long>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				// TODO Auto-generated method stub
 
 			}

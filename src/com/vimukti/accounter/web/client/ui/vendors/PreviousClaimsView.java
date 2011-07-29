@@ -4,15 +4,16 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -93,10 +94,10 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 						AccounterCoreType.CASHPURCHASE,
 						record.getTransactionId(),
 
-						new AsyncCallback<ClientCashPurchase>() {
+						new AccounterAsyncCallback<ClientCashPurchase>() {
 
 							@Override
-							public void onFailure(Throwable caught) {
+							public void onException(AccounterException caught) {
 
 							}
 
@@ -133,7 +134,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 		}
 		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
 				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED,
-				new AsyncCallback<List<BillsList>>() {
+				new AccounterAsyncCallback<List<BillsList>>() {
 
 					@Override
 					public void onSuccess(List<BillsList> result) {
@@ -143,14 +144,14 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 					}
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 
 					}
 				});
 
 		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
 				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED,
-				new AsyncCallback<List<BillsList>>() {
+				new AccounterAsyncCallback<List<BillsList>>() {
 
 					@Override
 					public void onSuccess(List<BillsList> result) {
@@ -159,7 +160,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 					}
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 
 					}
 				});
@@ -169,7 +170,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 				.getEmployeeExpensesByStatus(
 						userName,
 						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL,
-						new AsyncCallback<List<BillsList>>() {
+						new AccounterAsyncCallback<List<BillsList>>() {
 
 							@Override
 							public void onSuccess(List<BillsList> result) {
@@ -178,7 +179,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 							}
 
 							@Override
-							public void onFailure(Throwable caught) {
+							public void onException(AccounterException caught) {
 
 							}
 						});

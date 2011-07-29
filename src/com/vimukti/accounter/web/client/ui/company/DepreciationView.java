@@ -9,13 +9,12 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientDepreciation;
 import com.vimukti.accounter.web.client.core.ClientDepreciationDummyEntry;
@@ -27,6 +26,7 @@ import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsEntry;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.LinkAccount;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -169,9 +169,9 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	private void getDepriciationLastDate() {
 
-		AsyncCallback<ClientFinanceDate> callBack = new AsyncCallback<ClientFinanceDate>() {
+		AccounterAsyncCallback<ClientFinanceDate> callBack = new AccounterAsyncCallback<ClientFinanceDate>() {
 
-			public void onFailure(Throwable caught) {
+			public void onException(AccounterException caught) {
 				saveFailed(caught);
 				return;
 
@@ -339,16 +339,12 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			createObject(depreciation);
 			Accounter.createHomeService().runDepreciation(
 					depreciationStartDate.getDate(),
-					depreciationEndDate.getDate(), map, new AsyncCallback() {
+					depreciationEndDate.getDate(), map,
+					new AccounterAsyncCallback() {
 
 						@Override
-						public void onFailure(Throwable caught) {
-							if (caught instanceof InvocationException) {
-								Accounter
-										.showMessage("Your session expired, Please login again to continue");
-							} else {
-								Accounter.showError("Depreciation failed!");
-							}
+						public void onException(AccounterException caught) {
+							Accounter.showError("Depreciation failed!");
 
 						}
 
@@ -405,9 +401,9 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			depreciationEndDate = UIUtils.stringToDate(dateString, Accounter
 					.constants().ddMMyyyy());
 
-			AsyncCallback<DepreciableFixedAssetsList> callBack = new AsyncCallback<DepreciableFixedAssetsList>() {
+			AccounterAsyncCallback<DepreciableFixedAssetsList> callBack = new AccounterAsyncCallback<DepreciableFixedAssetsList>() {
 
-				public void onFailure(Throwable caught) {
+				public void onException(AccounterException caught) {
 					saveFailed(caught);
 					return;
 

@@ -79,7 +79,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.exception.AccounterOperationException;
 
 /**
  * @author Fernandez
@@ -1268,29 +1267,18 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public void rollBackDepreciation(long rollBackDepreciationTo)
 			throws AccounterException {
-		try {
-			FinanceTool tool = getFinanceTool();
-			tool.rollBackDepreciation(rollBackDepreciationTo);
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
+		FinanceTool tool = getFinanceTool();
+		tool.rollBackDepreciation(rollBackDepreciationTo);
 
 	}
 
 	@Override
 	public void changeDepreciationStartDateTo(long newStartDate)
 			throws AccounterException {
-		try {
-			FinanceTool tool = getFinanceTool();
-			OperationContext opContext = new OperationContext(newStartDate);
+		FinanceTool tool = getFinanceTool();
+		OperationContext opContext = new OperationContext(newStartDate);
 
-			tool.updateDeprecationStartDate(opContext);
-		} catch (DAOException e) {
-			e.printStackTrace();
-		} catch (AccounterOperationException e) {
-			e.printStackTrace();
-			throw new AccounterException(e.getMessage());
-		}
+		tool.updateDeprecationStartDate(opContext);
 	}
 
 	@Override

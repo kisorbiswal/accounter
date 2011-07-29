@@ -3,12 +3,11 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -20,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -54,7 +54,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	private ClientTAXAdjustment taxAdjustment;
 
-	private AsyncCallback<Boolean> refreshFileVat;
+	private AccounterAsyncCallback<Boolean> refreshFileVat;
 	private ClientTAXAgency taxAgency;
 	// private static TextItem vatLine, vatLinetxt, vatAccounttxt, vatAccount;
 	private LabelItem vatLine, vatLinetxt, vatAccounttxt, vatAccount;
@@ -258,16 +258,11 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	private void initEntryNumber() {
 
-		AsyncCallback<String> transactionNumberCallback = new AsyncCallback<String>() {
+		AccounterAsyncCallback<String> transactionNumberCallback = new AccounterAsyncCallback<String>() {
 
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(Accounter.constants()
-							.failedToGetTransactionNumber());
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError(Accounter.constants()
+						.failedToGetTransactionNumber());
 			}
 
 			public void onSuccess(String result) {

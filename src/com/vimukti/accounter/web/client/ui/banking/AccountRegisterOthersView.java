@@ -3,15 +3,15 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -31,7 +31,7 @@ public class AccountRegisterOthersView extends
 	private SelectCombo showTransactionSelect;
 
 	private ClientAccount takenaccount;
-	
+
 	private ClientAccount account;
 	protected List<AccountRegister> accountRegister;
 	private AccountRegister accRegister;
@@ -133,7 +133,6 @@ public class AccountRegisterOthersView extends
 
 	}
 
-	
 	protected void dateRangeChanged() {
 		todaydate = new ClientFinanceDate();
 		selectedOption = showTransactionSelect.getSelectedValue();
@@ -203,17 +202,12 @@ public class AccountRegisterOthersView extends
 
 		this.rpcReportService.getAccountRegister(startDate, endDate,
 				takenaccount.getID(),
-				new AsyncCallback<List<AccountRegister>>() {
+				new AccounterAsyncCallback<List<AccountRegister>>() {
 
-					public void onFailure(Throwable caught) {
-						if (caught instanceof InvocationException) {
-							Accounter
-									.showMessage("Your session expired, Please login again to continue");
-						} else {
-							Accounter.showError(Accounter.constants()
-									.failedtoGetListofAccounts()
-									+ takenaccount.getName());
-						}
+					public void onException(AccounterException caught) {
+						Accounter.showError(Accounter.constants()
+								.failedtoGetListofAccounts()
+								+ takenaccount.getName());
 
 					}
 

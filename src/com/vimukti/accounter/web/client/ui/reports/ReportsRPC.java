@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -27,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -36,13 +36,11 @@ public class ReportsRPC {
 
 	protected static <T extends IAccounterCore, A extends Action> void initCallBack(
 			T c, final A a, final long id) {
-		AsyncCallback<T> callback = new AsyncCallback<T>() {
+		AccounterAsyncCallback<T> callback = new AccounterAsyncCallback<T>() {
 
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				}
+			public void onException(AccounterException caught) {
+				Accounter
+						.showMessage("Your session expired, Please login again to continue");
 			}
 
 			public void onSuccess(T result) {
@@ -76,13 +74,12 @@ public class ReportsRPC {
 					ActionFactory.getPayBillsAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_PAY_VAT:
-			initCallBack(new ClientPayVAT(),
-					ActionFactory.getpayVATAction(), transactionId);
+			initCallBack(new ClientPayVAT(), ActionFactory.getpayVATAction(),
+					transactionId);
 			break;
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
 			initCallBack(new ClientPayBill(),
-					ActionFactory.getNewVendorPaymentAction(),
-					transactionId);
+					ActionFactory.getNewVendorPaymentAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:
 			initCallBack(new ClientMakeDeposit(),
@@ -94,13 +91,11 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_CASH_PURCHASE:
 			initCallBack(new ClientCashPurchase(),
-					ActionFactory.getNewCashPurchaseAction(),
-					transactionId);
+					ActionFactory.getNewCashPurchaseAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_CASH_SALES:
 			initCallBack(new ClientCashSales(),
-					ActionFactory.getNewCashSaleAction(),
-					transactionId);
+					ActionFactory.getNewCashSaleAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_WRITE_CHECK:
 			initCallBack(new ClientWriteCheck(),
@@ -108,8 +103,7 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
 			initCallBack(new ClientCustomerRefund(),
-					ActionFactory.getCustomerRefundAction(),
-					transactionId);
+					ActionFactory.getCustomerRefundAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
 			initCallBack(new ClientCustomerCreditMemo(),
@@ -118,8 +112,7 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
 			initCallBack(new ClientReceivePayment(),
-					ActionFactory.getReceivePaymentAction(),
-					transactionId);
+					ActionFactory.getReceivePaymentAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_INVOICE:
 			initCallBack(new ClientInvoice(),
@@ -127,8 +120,7 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
 			initCallBack(new ClientCreditCardCharge(),
-					ActionFactory.getCreditCardChargeAction(),
-					transactionId);
+					ActionFactory.getCreditCardChargeAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
 			initCallBack(new ClientEstimate(),
@@ -136,19 +128,16 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_ISSUE_PAYMENT:
 			initCallBack(new ClientIssuePayment(),
-					ActionFactory.getIssuePaymentsAction(),
-					transactionId);
+					ActionFactory.getIssuePaymentsAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_TRANSFER_FUND:
 			initCallBack(new ClientTransferFund(),
-					ActionFactory.getTransferFundsAction(),
-					transactionId);
+					ActionFactory.getTransferFundsAction(), transactionId);
 
 			break;
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
 			initCallBack(new ClientVendorCreditMemo(),
-					ActionFactory.getNewCreditMemoAction(),
-					transactionId);
+					ActionFactory.getNewCreditMemoAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_PAY_SALES_TAX:
 			initCallBack(new ClientPaySalesTax(),
@@ -156,8 +145,7 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			initCallBack(new ClientJournalEntry(),
-					ActionFactory.getNewJournalEntryAction(),
-					transactionId);
+					ActionFactory.getNewJournalEntryAction(), transactionId);
 			break;
 
 		case ClientTransaction.TYPE_SALES_ORDER:
@@ -167,8 +155,7 @@ public class ReportsRPC {
 
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
 			initCallBack(new ClientPurchaseOrder(),
-					ActionFactory.getPurchaseOrderAction(),
-					transactionId);
+					ActionFactory.getPurchaseOrderAction(), transactionId);
 			break;
 
 		case ClientTransaction.TYPE_ITEM_RECEIPT:
@@ -183,8 +170,7 @@ public class ReportsRPC {
 
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
 			initCallBack(new ClientCreditCardCharge(),
-					ActionFactory.CreditCardExpenseAction(),
-					transactionId);
+					ActionFactory.CreditCardExpenseAction(), transactionId);
 			break;
 
 		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
@@ -194,8 +180,7 @@ public class ReportsRPC {
 
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			initCallBack(new ClientCustomerPrePayment(),
-					ActionFactory.getNewCustomerPaymentAction(),
-					transactionId);
+					ActionFactory.getNewCustomerPaymentAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_RECEIVE_VAT:
 			initCallBack(new ClientReceiveVAT(),

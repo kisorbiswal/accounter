@@ -7,10 +7,11 @@ import java.util.List;
 
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.grids.CompanyFinancialWidgetGrid;
@@ -124,7 +125,7 @@ public class WidgetCreator {
 	public void reloadKeyIndicators(final CompanyFinancialWidgetGrid widgetGrid) {
 
 		Accounter.createGETService().getKeyFinancialIndicators(
-				new AsyncCallback<KeyFinancialIndicators>() {
+				new AccounterAsyncCallback<KeyFinancialIndicators>() {
 
 					@Override
 					public void onSuccess(KeyFinancialIndicators result) {
@@ -146,7 +147,7 @@ public class WidgetCreator {
 					}
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 						// Accounter.showInformation("Request Failed");
 					}
 				});
@@ -183,8 +184,8 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getBillsOwed(new AsyncCallback<List<ClientEnterBill>>() {
-	 * public void onFailure(Throwable caught) { Window.alert("Get Failed:" +
+	 * getService.getBillsOwed(new AccounterAsyncCallback<List<ClientEnterBill>>() {
+	 * public void onException(AccounterException caught) { Window.alert("Get Failed:" +
 	 * caught); }
 	 * 
 	 * public void onSuccess(List<ClientEnterBill> result) {
@@ -263,7 +264,7 @@ public class WidgetCreator {
 		if (Accounter.getStartDate() != null)
 			Accounter.createReportService().getDebitors(
 					new ClientFinanceDate(), new ClientFinanceDate(),
-					new AsyncCallback<List<DummyDebitor>>() {
+					new AccounterAsyncCallback<List<DummyDebitor>>() {
 
 						@Override
 						public void onSuccess(List<DummyDebitor> result) {
@@ -288,7 +289,7 @@ public class WidgetCreator {
 						}
 
 						@Override
-						public void onFailure(Throwable caught) {
+						public void onException(AccounterException caught) {
 							grid.clear();
 							grid.removeLoadingImage();
 
@@ -337,8 +338,8 @@ public class WidgetCreator {
 	 * accounts.add(account); } }
 	 * 
 	 * // FinanceApplication.createGETService().getAccounts( // new
-	 * AsyncCallback<List<ClientAccount>>() { // // public void
-	 * onFailure(Throwable caught) { // UIUtils //
+	 * AccounterAsyncCallback<List<ClientAccount>>() { // // public void
+	 * onException(AccounterException caught) { // UIUtils //
 	 * .logError("Failed to get the Accounts..", // caught); // // } // //
 	 * public void onSuccess(List<ClientAccount> result) { // if (result ==
 	 * null) { // onFailure(null); // return; // } // // for (ClientAccount
@@ -392,8 +393,8 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getBillsOwed(new AsyncCallback<List<ClientEnterBill>>() {
-	 * public void onFailure(Throwable caught) { Window.alert("Get Failed:" +
+	 * getService.getBillsOwed(new AccounterAsyncCallback<List<ClientEnterBill>>() {
+	 * public void onException(AccounterException caught) { Window.alert("Get Failed:" +
 	 * caught); }
 	 * 
 	 * public void onSuccess(List<ClientEnterBill> result) {
@@ -447,8 +448,8 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getOverDueInvoices(new
-	 * AsyncCallback<List<OverDueInvoicesList>>() { public void
-	 * onFailure(Throwable caught) { Window.alert("Get Failed:" + caught); }
+	 * AccounterAsyncCallback<List<OverDueInvoicesList>>() { public void
+	 * onException(AccounterException caught) { Window.alert("Get Failed:" + caught); }
 	 * 
 	 * public void onSuccess(List<OverDueInvoicesList> result) {
 	 * fillDebitOverviewGrid(result, debitOverviewGrid);
@@ -502,8 +503,8 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getLatestQuotes(new AsyncCallback<List<ClientEstimate>>() {
-	 * public void onFailure(Throwable caught) { Window.alert("Get Failed:" +
+	 * getService.getLatestQuotes(new AccounterAsyncCallback<List<ClientEstimate>>() {
+	 * public void onException(AccounterException caught) { Window.alert("Get Failed:" +
 	 * caught); }
 	 * 
 	 * public void onSuccess(List<ClientEstimate> result) {
@@ -556,7 +557,7 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); // ((ServiceDefTarget) //
 	 * getService).setServiceEntryPoint(FinanceApplication //
 	 * .HOME_SERVICE_ENTRY_POINT); // // getService.get(new //
-	 * AsyncCallback<List<Invoice>>() { // public void onFailure(Throwable
+	 * AccounterAsyncCallback<List<Invoice>>() { // public void onFailure(Throwable
 	 * caught) { // Window.alert("Get Failed:"+caught); // } // // public void
 	 * onSuccess(List<Invoice> result) { // fillExpensesGrid(result); //
 	 * expensesGrid.show(); // } // // }); }
@@ -605,10 +606,10 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService .getLatestCustomers(new AsyncCallback<List<ClientCustomer>>()
+	 * getService .getLatestCustomers(new AccounterAsyncCallback<List<ClientCustomer>>()
 	 * {
 	 * 
-	 * public void onFailure(Throwable caught) { //
+	 * public void onException(AccounterException caught) { //
 	 * 
 	 * 
 	 * }
@@ -660,10 +661,10 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService .getLatestPurchaseItems(new AsyncCallback<List<ClientItem>>()
+	 * getService .getLatestPurchaseItems(new AccounterAsyncCallback<List<ClientItem>>()
 	 * {
 	 * 
-	 * public void onFailure(Throwable caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -715,9 +716,9 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getSalesItems(new AsyncCallback<List<ClientItem>>() {
+	 * getService.getSalesItems(new AccounterAsyncCallback<List<ClientItem>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -770,9 +771,9 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestReceivePayments(new
-	 * AsyncCallback<List<ClientReceivePayment>>() {
+	 * AccounterAsyncCallback<List<ClientReceivePayment>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -825,10 +826,10 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService .getLatestCashSales(new AsyncCallback<List<ClientCashSales>>()
+	 * getService .getLatestCashSales(new AccounterAsyncCallback<List<ClientCashSales>>()
 	 * {
 	 * 
-	 * public void onFailure(Throwable caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -882,9 +883,9 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestCustomerRefunds(new
-	 * AsyncCallback<List<ClientCustomerRefund>>() {
+	 * AccounterAsyncCallback<List<ClientCustomerRefund>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -938,9 +939,9 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getLatestVendors(new AsyncCallback<List<ClientVendor>>() {
+	 * getService.getLatestVendors(new AccounterAsyncCallback<List<ClientVendor>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -991,9 +992,9 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestVendorPayments(new
-	 * AsyncCallback<List<PaymentsList>>() {
+	 * AccounterAsyncCallback<List<PaymentsList>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -1049,9 +1050,9 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestCashPurchases(new
-	 * AsyncCallback<List<ClientCashPurchase>>() {
+	 * AccounterAsyncCallback<List<ClientCashPurchase>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -1104,9 +1105,9 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getLatestChecks(new AsyncCallback<List<ClientWriteCheck>>() {
+	 * getService.getLatestChecks(new AccounterAsyncCallback<List<ClientWriteCheck>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -1160,9 +1161,9 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestDeposits(new
-	 * AsyncCallback<List<ClientMakeDeposit>>() {
+	 * AccounterAsyncCallback<List<ClientMakeDeposit>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 
@@ -1217,9 +1218,9 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestFundsTransfer(new
-	 * AsyncCallback<List<ClientTransferFund>>() {
+	 * AccounterAsyncCallback<List<ClientTransferFund>>() {
 	 * 
-	 * public void onFailure(Throwable caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated method stub
 	 * 
 	 * }
 	 * 

@@ -13,16 +13,16 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -59,7 +59,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 	public void initData() {
 		super.initData();
 		Accounter.createHomeService().getAllUsers(
-				new AsyncCallback<List<ClientUserInfo>>() {
+				new AccounterAsyncCallback<List<ClientUserInfo>>() {
 
 					@Override
 					public void onSuccess(List<ClientUserInfo> result) {
@@ -69,19 +69,13 @@ public class UsersView extends BaseView<ClientUserInfo> {
 					}
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 						usersListGrid.removeLoadingImage();
-						if (caught instanceof InvocationException) {
-							Accounter
-									.showMessage("Your session expired, Please login again to continue");
-						} else {
-							Accounter.showError("Failed to load users list");
-						}
+						Accounter.showError("Failed to load users list");
 					}
 				});
 	}
 
-	
 	private void createControls() {
 
 		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
@@ -118,8 +112,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getGeneralSettingsAction().run(null,
-						false);
+				ActionFactory.getGeneralSettingsAction().run(null, false);
 			}
 		});
 		titleLabel = new Label(Accounter.constants().usersTitle());

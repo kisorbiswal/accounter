@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -145,6 +145,7 @@ import com.vimukti.accounter.web.client.ui.reports.VATSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VATUncategorisedAmountsReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VaTItemDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.VendorTransactionHistoryAction;
+import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
 import com.vimukti.accounter.web.client.ui.settings.AutomaticSequenceAction;
 import com.vimukti.accounter.web.client.ui.settings.ConversionBalancesAction;
 import com.vimukti.accounter.web.client.ui.settings.ConversionDateAction;
@@ -154,6 +155,7 @@ import com.vimukti.accounter.web.client.ui.settings.DeleteThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.GeneralSettingsAction;
 import com.vimukti.accounter.web.client.ui.settings.InviteUserAction;
 import com.vimukti.accounter.web.client.ui.settings.InvoiceBrandingAction;
+import com.vimukti.accounter.web.client.ui.settings.MeasurementAction;
 import com.vimukti.accounter.web.client.ui.settings.NewBrandThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.UsersAction;
 import com.vimukti.accounter.web.client.ui.settings.WareHouseTransferAction;
@@ -290,7 +292,8 @@ public class ActionFactory {
 	}
 
 	public static WriteChecksAction getWriteChecksAction(
-			ClientWriteCheck writeCheck, AsyncCallback<Object> callBackObject) {
+			ClientWriteCheck writeCheck,
+			AccounterAsyncCallback<Object> callBackObject) {
 		return new WriteChecksAction(actionsConstants.writeCheck(), writeCheck,
 				callBackObject);
 	}
@@ -300,7 +303,8 @@ public class ActionFactory {
 	}
 
 	public static MakeDepositAction getMakeDepositAction(
-			ClientMakeDeposit makeDeposit, AsyncCallback<Object> callBackObject) {
+			ClientMakeDeposit makeDeposit,
+			AccounterAsyncCallback<Object> callBackObject) {
 		return new MakeDepositAction(actionsConstants.makeDeposit(),
 				makeDeposit, callBackObject);
 	}
@@ -311,7 +315,7 @@ public class ActionFactory {
 
 	public static TransferFundsAction getTransferFundsAction(
 			ClientTransferFund transferFund,
-			AsyncCallback<Object> callBackObject) {
+			AccounterAsyncCallback<Object> callBackObject) {
 		return new TransferFundsAction(actionsConstants.transferFunds(),
 				transferFund, callBackObject);
 	}
@@ -377,8 +381,8 @@ public class ActionFactory {
 	}
 
 	public static IntegrateWithBusinessContactManagerAction getIntegrateWithBusinessContactManagerAction() {
-		return new IntegrateWithBusinessContactManagerAction(actionsConstants
-				.integrateWithBusinessContactManager());
+		return new IntegrateWithBusinessContactManagerAction(
+				actionsConstants.integrateWithBusinessContactManager());
 	}
 
 	public static NewJournalEntryAction getNewJournalEntryAction() {
@@ -386,8 +390,8 @@ public class ActionFactory {
 	}
 
 	public static NewCashBasisJournalEntryAction getNewCashBasisJournalEntryAction() {
-		return new NewCashBasisJournalEntryAction(actionsConstants
-				.newCashBasisJournalEntry());
+		return new NewCashBasisJournalEntryAction(
+				actionsConstants.newCashBasisJournalEntry());
 	}
 
 	public static NewAccountAction getNewAccountAction() {
@@ -407,8 +411,8 @@ public class ActionFactory {
 	}
 
 	public static MergeFinancialAccountsAction getMergeFinancialAccountsAction() {
-		return new MergeFinancialAccountsAction(actionsConstants
-				.mergeFinancialAccounts());
+		return new MergeFinancialAccountsAction(
+				actionsConstants.mergeFinancialAccounts());
 	}
 
 	public static ManageSalesTaxGroupsAction getManageSalesTaxGroupsAction() {
@@ -449,8 +453,8 @@ public class ActionFactory {
 
 	public static VendorGroupListAction getVendorGroupListAction() {
 		return new VendorGroupListAction(UIUtils.getVendorString(
-				actionsConstants.supplierGroupList(), actionsConstants
-						.vendorGroupList()));
+				actionsConstants.supplierGroupList(),
+				actionsConstants.vendorGroupList()));
 	}
 
 	public static PaymentTermListAction getPaymentTermListAction() {
@@ -458,8 +462,8 @@ public class ActionFactory {
 	}
 
 	public static ShippingMethodListAction getShippingMethodListAction() {
-		return new ShippingMethodListAction(actionsConstants
-				.shippingMethodList());
+		return new ShippingMethodListAction(
+				actionsConstants.shippingMethodList());
 	}
 
 	public static ShippingTermListAction getShippingTermListAction() {
@@ -495,13 +499,13 @@ public class ActionFactory {
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction() {
-		return new ChartOfAccountsAction(actionsConstants
-				.accounterCategoryList());
+		return new ChartOfAccountsAction(
+				actionsConstants.accounterCategoryList());
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction(int accountType) {
-		return new ChartOfAccountsAction(actionsConstants
-				.accounterCategoryList(), accountType);
+		return new ChartOfAccountsAction(
+				actionsConstants.accounterCategoryList(), accountType);
 	}
 
 	public static SalesPersonListsAction getSalesPersonListAction() {
@@ -525,7 +529,7 @@ public class ActionFactory {
 	}
 
 	// public static NewItemAction getNewItemAction(ClientItem item,
-	// AsyncCallback<Object> callback) {
+	// AccounterAsyncCallback<Object> callback) {
 	// return new NewItemAction(actionsConstants.newItem(),
 	// "/images/icons/vendors/new_item.png", item, callback);
 	// }
@@ -600,7 +604,8 @@ public class ActionFactory {
 	}
 
 	public static NewCustomerAction getNewCustomerAction(
-			ClientCustomer customer, AsyncCallback<Object> callBackObject) {
+			ClientCustomer customer,
+			AccounterAsyncCallback<Object> callBackObject) {
 		return new NewCustomerAction(actionsConstants.newCustomer(), customer,
 				callBackObject);
 	}
@@ -623,7 +628,7 @@ public class ActionFactory {
 	}
 
 	public static NewQuoteAction getNewQuoteAction(ClientEstimate quote,
-			AsyncCallback<Object> callBackObject) {
+			AccounterAsyncCallback<Object> callBackObject) {
 		return new NewQuoteAction(actionsConstants.newQuote(), quote,
 				callBackObject);
 	}
@@ -633,7 +638,7 @@ public class ActionFactory {
 	}
 
 	// public static NewItemAction getNewItemAction(ClientItem item,
-	// AsyncCallback<Object> callBackObject) {
+	// AccounterAsyncCallback<Object> callBackObject) {
 	// return new NewItemAction(actionsConstants.newItem(),
 	// "/images/icons/customers/new_item.png", item, callBackObject);
 	// }
@@ -647,7 +652,7 @@ public class ActionFactory {
 	}
 
 	public static NewInvoiceAction getNewInvoiceAction(ClientInvoice invoice,
-			AsyncCallback<Object> callBackObject) {
+			AccounterAsyncCallback<Object> callBackObject) {
 		return new NewInvoiceAction(actionsConstants.newInvoice(), invoice,
 				callBackObject);
 	}
@@ -657,7 +662,8 @@ public class ActionFactory {
 	}
 
 	public static NewCashSaleAction getNewCashSaleAction(
-			ClientCashSales cashSales, AsyncCallback<Object> callBackObject) {
+			ClientCashSales cashSales,
+			AccounterAsyncCallback<Object> callBackObject) {
 		return new NewCashSaleAction(actionsConstants.newCashSale(), cashSales,
 				callBackObject);
 	}
@@ -668,9 +674,10 @@ public class ActionFactory {
 
 	public static NewCreditsAndRefundsAction getNewCreditsAndRefundsAction(
 			ClientCustomerCreditMemo creditMemo,
-			AsyncCallback<Object> callBackObject) {
-		return new NewCreditsAndRefundsAction(actionsConstants
-				.newCreditsAndRefunds(), creditMemo, callBackObject);
+			AccounterAsyncCallback<Object> callBackObject) {
+		return new NewCreditsAndRefundsAction(
+				actionsConstants.newCreditsAndRefunds(), creditMemo,
+				callBackObject);
 	}
 
 	public static ReceivePaymentAction getReceivePaymentAction() {
@@ -679,7 +686,7 @@ public class ActionFactory {
 
 	public static ReceivePaymentAction getReceivePaymentAction(
 			ClientReceivePayment receivePayment,
-			AsyncCallback<Object> callBackObject) {
+			AccounterAsyncCallback<Object> callBackObject) {
 		return new ReceivePaymentAction("Receive Payment", receivePayment,
 				callBackObject);
 	}
@@ -690,7 +697,7 @@ public class ActionFactory {
 
 	// public static CustomerRefundAction getCustomerRefundAction(
 	// ClientCustomerRefund customerRefund,
-	// AsyncCallback<Object> callBackObject) {
+	// AccounterAsyncCallback<Object> callBackObject) {
 	// return new CustomerRefundAction(actionsConstants.customerRefund(),
 	// "/images/icons/customers/customer_refunds.png", customerRefund,
 	// callBackObject);
@@ -746,8 +753,8 @@ public class ActionFactory {
 	}
 
 	public static BrandingThemeComboAction getBrandingThemeComboAction() {
-		return new BrandingThemeComboAction(actionsConstants
-				.brandingThemeCombo());
+		return new BrandingThemeComboAction(
+				actionsConstants.brandingThemeCombo());
 	}
 
 	public static PaymentDialogAction getPaymentDialogAction() {
@@ -761,13 +768,13 @@ public class ActionFactory {
 	}
 
 	public static SellingRegisteredItemAction getSellingRegisteredItemAction() {
-		return new SellingRegisteredItemAction(actionsConstants
-				.sellingRegisteredItem());
+		return new SellingRegisteredItemAction(
+				actionsConstants.sellingRegisteredItem());
 	}
 
 	public static DisposingRegisteredItemAction getDiposingRegisteredItemAction() {
-		return new DisposingRegisteredItemAction(actionsConstants
-				.disposingRegisteredItem());
+		return new DisposingRegisteredItemAction(
+				actionsConstants.disposingRegisteredItem());
 	}
 
 	public static PendingItemsListAction getPendingItemsListAction() {
@@ -776,13 +783,13 @@ public class ActionFactory {
 	}
 
 	public static Action getRegisteredItemsListAction() {
-		return new RegisteredItemsListAction(actionsConstants
-				.registeredItemsList());
+		return new RegisteredItemsListAction(
+				actionsConstants.registeredItemsList());
 	}
 
 	public static Action getSoldDisposedListAction() {
-		return new SoldDisposedFixedAssetsListAction(actionsConstants
-				.soldDisposedItems());
+		return new SoldDisposedFixedAssetsListAction(
+				actionsConstants.soldDisposedItems());
 	}
 
 	public static Action getHistoryListAction() {
@@ -1116,8 +1123,8 @@ public class ActionFactory {
 	}
 
 	public static VendorsHomeAction getVendorsHomeAction() {
-		return new VendorsHomeAction(UIUtils
-				.getVendorString(Accounter.constants().supplierhome(),
+		return new VendorsHomeAction(
+				UIUtils.getVendorString(Accounter.constants().supplierhome(),
 						Accounter.constants().vendorHome()));
 	}
 
@@ -1127,16 +1134,16 @@ public class ActionFactory {
 	}
 
 	public static NewVendorAction getNewVendorAction(ClientVendor vendor,
-			AsyncCallback<Object> callback) {
+			AccounterAsyncCallback<Object> callback) {
 		return new NewVendorAction(UIUtils.getVendorString(Accounter
 				.constants().newSupplier(), Accounter.constants().newVendor()),
 				vendor, callback);
 	}
 
 	public static PurchaseItemsAction getPurchaseItemsAction() {
-		return new PurchaseItemsAction(actionsConstants.items(), UIUtils
-				.getVendorString(Accounter.constants().supplier(), Accounter
-						.constants().vendor()));
+		return new PurchaseItemsAction(actionsConstants.items(),
+				UIUtils.getVendorString(Accounter.constants().supplier(),
+						Accounter.constants().vendor()));
 	}
 
 	// public static NewItemAction getNewItemAction() {
@@ -1145,7 +1152,7 @@ public class ActionFactory {
 	// }
 	//
 	// public static NewItemAction getNewItemAction(Item item,
-	// AsyncCallback<Object> callback, AbstractBaseView view) {
+	// AccounterAsyncCallback<Object> callback, AbstractBaseView view) {
 	// return new NewItemAction(actionsConstants.newItem(),
 	// "/images/icons/vendors/new_item.png", view, item, callback);
 	// }
@@ -1155,7 +1162,8 @@ public class ActionFactory {
 	}
 
 	public static NewCashPurchaseAction getNewCashPurchaseAction(
-			ClientCashPurchase cashPurchase, AsyncCallback<Object> callback) {
+			ClientCashPurchase cashPurchase,
+			AccounterAsyncCallback<Object> callback) {
 		return new NewCashPurchaseAction(actionsConstants.newCashPurchase(),
 				cashPurchase, callback);
 	}
@@ -1172,7 +1180,7 @@ public class ActionFactory {
 
 	public static NewCreditMemoAction getNewCreditMemoAction(
 			ClientVendorCreditMemo vendorCreditMemo,
-			AsyncCallback<Object> callBack) {
+			AccounterAsyncCallback<Object> callBack) {
 		return new NewCreditMemoAction(actionsConstants.newCreditMemo(),
 				vendorCreditMemo, callBack);
 	}
@@ -1275,6 +1283,14 @@ public class ActionFactory {
 	public static ExpenseClaimsAction getExpenseClaimsAction(int selectedTab) {
 		return new ExpenseClaimsAction(Accounter.constants().expenseClaims(),
 				selectedTab);
+	}
+
+	public static MeasurementAction getMeasurementsAction() {
+		return new MeasurementAction(messages.measurement());
+	}
+
+	public static AddMeasurementAction getAddMeasurementAction() {
+		return new AddMeasurementAction(messages.getAddMeasurementName());
 	}
 
 }

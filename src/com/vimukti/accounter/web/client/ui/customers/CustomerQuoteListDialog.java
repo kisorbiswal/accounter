@@ -5,13 +5,12 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -19,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -26,8 +26,8 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
+import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class CustomerQuoteListDialog extends AbstractBaseDialog {
 	public DialogGrid grid;
@@ -162,17 +162,12 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 	}
 
 	private void getSalesOrder(EstimatesAndSalesOrdersList record) {
-		AsyncCallback<ClientSalesOrder> callback = new AsyncCallback<ClientSalesOrder>() {
+		AccounterAsyncCallback<ClientSalesOrder> callback = new AccounterAsyncCallback<ClientSalesOrder>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(Accounter.constants()
-							.errorLoadingSalesOrder());
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError(Accounter.constants()
+						.errorLoadingSalesOrder());
 
 			}
 
@@ -190,17 +185,11 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 	}
 
 	private void getEstimate(EstimatesAndSalesOrdersList record) {
-		AsyncCallback<ClientEstimate> callback = new AsyncCallback<ClientEstimate>() {
+		AccounterAsyncCallback<ClientEstimate> callback = new AccounterAsyncCallback<ClientEstimate>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(Accounter.constants()
-							.errorLoadingQuote());
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError(Accounter.constants().errorLoadingQuote());
 
 			}
 

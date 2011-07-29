@@ -9,7 +9,7 @@
 //import com.google.gwt.core.client.GWT;
 //import com.google.gwt.event.dom.client.ClickEvent;
 //import com.google.gwt.event.dom.client.ClickHandler;
-//import com.google.gwt.user.client.rpc.AsyncCallback;
+//import com.google.gwt.user.client.rpc.AccounterAsyncCallback;
 //import com.google.gwt.user.client.rpc.IsSerializable;
 //import com.google.gwt.user.client.ui.Button;
 //import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -96,9 +96,9 @@
 //
 //	private void getAccounts() {
 //
-//		new AccountDataSource(new AsyncCallback<List<ClientAccount>>() {
+//		new AccountDataSource(new AccounterAsyncCallback<List<ClientAccount>>() {
 //
-//			public void onFailure(Throwable caught) {
+//			public void onException(AccounterException caught) {
 //				// //UIUtils.log(caught.toString());
 //			}
 //
@@ -222,9 +222,9 @@
 //
 //	protected void createAccount() {
 //
-//		AsyncCallback<IsSerializable> callback = new AsyncCallback<IsSerializable>() {
+//		AccounterAsyncCallback<IsSerializable> callback = new AccounterAsyncCallback<IsSerializable>() {
 //
-//			public void onFailure(Throwable caught) {
+//			public void onException(AccounterException caught) {
 //				// //UIUtils.log("New Account: Failed!" + "\n" +
 //				// caught.toString());
 //			}

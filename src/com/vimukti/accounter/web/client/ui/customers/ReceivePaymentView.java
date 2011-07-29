@@ -8,13 +8,12 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -31,10 +30,11 @@ import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -154,43 +154,40 @@ public class ReceivePaymentView extends
 
 		long paymentDate = transactionDateItem.getDate().getDate();
 
-		this.rpcUtilService.getTransactionReceivePayments(
-				selectedCustomer.getID(), paymentDate,
-				new AsyncCallback<List<ReceivePaymentTransactionList>>() {
+		this.rpcUtilService
+				.getTransactionReceivePayments(
+						selectedCustomer.getID(),
+						paymentDate,
+						new AccounterAsyncCallback<List<ReceivePaymentTransactionList>>() {
 
-					public void onFailure(Throwable caught) {
-						if (caught instanceof InvocationException) {
-							Accounter
-									.showMessage("Your session expired, Please login again to continue");
-						} else {
-							Accounter.showError(Accounter.constants()
-									.failedToGetRecievePayments()
-									+ selectedCustomer.getName());
-							gridView.addEmptyMessage(Accounter.constants()
-									.noRecordsToShow());
-						}
-					}
+							public void onException(AccounterException caught) {
+								Accounter.showError(Accounter.constants()
+										.failedToGetRecievePayments()
+										+ selectedCustomer.getName());
+								gridView.addEmptyMessage(Accounter.constants()
+										.noRecordsToShow());
+							}
 
-					public void onSuccess(
-							List<ReceivePaymentTransactionList> result) {
+							public void onSuccess(
+									List<ReceivePaymentTransactionList> result) {
 
-						receivePaymentTransactionList = result;
+								receivePaymentTransactionList = result;
 
-						if (result.size() > 0) {
-							gridView.removeAllRecords();
-							gridView.initCreditsAndPayments(selectedCustomer);
-							addTransactionRecievePayments(result);
-						} else {
-							gridView.addEmptyMessage(Accounter.constants()
-									.noRecordsToShow());
-							totalInoiceAmt = 0.00d;
-							totalDueAmt = 0.00d;
-							transactionTotal = 0.00d;
-							// updateFooterValues();
-						}
-					}
+								if (result.size() > 0) {
+									gridView.removeAllRecords();
+									gridView.initCreditsAndPayments(selectedCustomer);
+									addTransactionRecievePayments(result);
+								} else {
+									gridView.addEmptyMessage(Accounter
+											.constants().noRecordsToShow());
+									totalInoiceAmt = 0.00d;
+									totalDueAmt = 0.00d;
+									transactionTotal = 0.00d;
+									// updateFooterValues();
+								}
+							}
 
-				});
+						});
 	}
 
 	public void calculateUnusedCredits() {
@@ -1308,16 +1305,11 @@ public class ReceivePaymentView extends
 	}
 
 	private void voidTransaction() {
-		AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError("Failed to void Receive Payment");
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError("Failed to void Receive Payment");
 			}
 
 			@Override
@@ -1359,9 +1351,9 @@ public class ReceivePaymentView extends
 
 		// this.rpcUtilService.getTransactionReceivePayments(customer
 		// .getID(),
-		// new AsyncCallback<List<ReceivePaymentTransactionList>>() {
+		// new AccounterAsyncCallback<List<ReceivePaymentTransactionList>>() {
 		//
-		// public void onFailure(Throwable caught) {
+		// public void onException(AccounterException caught) {
 		// Accounter.showError(FinanceApplication
 		// .constants()
 		// .failedToGetRecievePayments()

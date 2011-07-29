@@ -15,9 +15,8 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -26,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
@@ -254,22 +254,16 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			return;
 		}
 
-		AsyncCallback<String> transactionNumberCallback = new AsyncCallback<String>() {
+		AccounterAsyncCallback<String> transactionNumberCallback = new AccounterAsyncCallback<String>() {
 
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter
-							.showError("Failed to Get the Transaction Number..");
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError("Failed to Get the Transaction Number..");
 
 			}
 
 			public void onSuccess(String result) {
 				if (result == null) {
-					onFailure(new Exception());
+					onException(null);
 				}
 
 				// transactionNumber.setValue(String.valueOf(result));

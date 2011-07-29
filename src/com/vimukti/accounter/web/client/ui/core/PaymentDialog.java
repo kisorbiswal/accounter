@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -23,7 +23,7 @@ public class PaymentDialog extends BaseDialog {
 		center();
 	}
 
-	public PaymentDialog(AsyncCallback<IAccounterCore> callBack) {
+	public PaymentDialog(AccounterAsyncCallback<IAccounterCore> callBack) {
 		super(Accounter.constants().payments(), "");
 		setText(Accounter.constants().payments());
 		createControls();

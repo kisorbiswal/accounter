@@ -3,11 +3,11 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -190,8 +191,8 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 	private void createCompany() {
 		// UIUtils.log("Creating company for ["
 		// + FinanceApplication.getUser().getEmail() + "]");
-		final AsyncCallback<Long> createCompanyCallBack = new AsyncCallback<Long>() {
-			public void onFailure(Throwable caught) {
+		final AccounterAsyncCallback<Long> createCompanyCallBack = new AccounterAsyncCallback<Long>() {
+			public void onException(AccounterException caught) {
 			}
 
 			public void onSuccess(Long result) {
@@ -215,8 +216,8 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		((ServiceDefTarget) getService)
 				.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
 
-		final AsyncCallback<ClientCompany> getCompanyCallBack = new AsyncCallback<ClientCompany>() {
-			public void onFailure(Throwable caught) {
+		final AccounterAsyncCallback<ClientCompany> getCompanyCallBack = new AccounterAsyncCallback<ClientCompany>() {
+			public void onException(AccounterException caught) {
 				UIUtils.say(Accounter.constants().getCompanyFailed());
 
 			}

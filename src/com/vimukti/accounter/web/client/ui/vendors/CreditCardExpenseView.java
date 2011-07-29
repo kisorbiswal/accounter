@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -16,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CreditCardChargeView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -46,8 +45,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 		vendorForm.clear();
 		termsForm.clear();
-		Ccard = new VendorCombo(Accounter.constants().cCCompany(),
-				true) {
+		Ccard = new VendorCombo(Accounter.constants().cCCompany(), true) {
 			@Override
 			public void initCombo(List<ClientVendor> list) {
 				Iterator<ClientVendor> iterator = list.iterator();
@@ -70,8 +68,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 			@Override
 			public void onAddNew() {
-				NewVendorAction action = ActionFactory
-						.getNewVendorAction();
+				NewVendorAction action = ActionFactory.getNewVendorAction();
 
 				action.setActionSource(this);
 				action.setOpenedFrom(viewFrom);
@@ -113,9 +110,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		HorizontalPanel hPanel = (HorizontalPanel) termsForm.getParent();
 		termsForm.removeFromParent();
 		termsForm.setWidth("100%");
-		termsForm
-				.getCellFormatter()
-				.getElement(0, 0)
+		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
 		hPanel.add(termsForm);
 
@@ -242,17 +237,11 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 	@Override
 	public void onEdit() {
-		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(((InvalidOperationException) (caught))
-							.getDetailedMessage());
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override
@@ -276,11 +265,11 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	@Override
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().accounts(),
-					Accounter.constants().service());
+			setMenuItems(button, Accounter.constants().accounts(), Accounter
+					.constants().service());
 		else
-			setMenuItems(button, Accounter.constants().accounts(),
-					Accounter.constants().service());
+			setMenuItems(button, Accounter.constants().accounts(), Accounter
+					.constants().service());
 	}
 
 	@Override

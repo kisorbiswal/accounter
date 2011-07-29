@@ -3,11 +3,11 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
@@ -42,8 +43,8 @@ public class CreateUserDialog extends AbstractBaseDialog {
 
 	private void getUser() {
 		
-		final AsyncCallback<ClientUser> getUserCallBack = new AsyncCallback<ClientUser>() {
-			public void onFailure(Throwable caught) {
+		final AccounterAsyncCallback<ClientUser> getUserCallBack = new AccounterAsyncCallback<ClientUser>() {
+			public void onException(AccounterException caught) {
 				// //UIUtils.log(caught.toString());
 
 			}
@@ -102,8 +103,8 @@ public class CreateUserDialog extends AbstractBaseDialog {
 				.setServiceEntryPoint(Accounter.CRUD_SERVICE_ENTRY_POINT);
 
 		
-		final AsyncCallback<IsSerializable> createUserCallback = new AsyncCallback<IsSerializable>() {
-			public void onFailure(Throwable caught) {
+		final AccounterAsyncCallback<IsSerializable> createUserCallback = new AccounterAsyncCallback<IsSerializable>() {
+			public void onException(AccounterException caught) {
 				// //UIUtils.log(caught.toString());
 			}
 

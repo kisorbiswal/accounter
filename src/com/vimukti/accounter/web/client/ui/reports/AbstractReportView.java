@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.rpc.InvocationException;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ISorting;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
@@ -31,7 +32,7 @@ import com.vimukti.accounter.web.client.ui.core.ViewManager;
  */
 
 public abstract class AbstractReportView<R> extends ParentCanvas implements
-		ISorting<R>, IFinanceReport<R> {
+		ISorting<R>, IFinanceReport<R>, AsyncCallback<List<R>> {
 
 	public static final int TOOLBAR_TYPE_DATE_RANGE = 1;
 	public static final int TOOLBAR_TYPE_AS_OF = 2;
@@ -63,7 +64,6 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 
 	private HTML reportTypeTitle;
 
-	
 	private HTML dateRange;
 
 	protected boolean isShowTotal = true;
@@ -92,13 +92,15 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	 * Called when there is a problem in the server side in returning the data
 	 * for the report view.
 	 */
-	public void onFailure(Throwable caught) {
-		if (caught instanceof InvocationException) {
-			Accounter
-					.showMessage("Your session expired, Please login again to continue");
+	@Override
+	public void onFailure(Throwable exception) {
+		if (exception instanceof AccounterException) {
+			ActionFactory.getReportsHomeAction();
+			grid.removeLoadingImage();
+			return;
 		}
-		ActionFactory.getReportsHomeAction();
-		grid.removeLoadingImage();
+		Accounter
+				.showMessage("Your session expired, Please login again to continue");
 	}
 
 	/**
@@ -263,7 +265,6 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		cmpyname = cmpyname != null && !cmpyname.isEmpty() ? cmpyname
 				: getCompany().getTradingName();
 
-		
 		HTML companyLabel = new HTML("<strong>" + cmpyname + "</strong");
 		HTML title = new HTML("<strong>" + "<h3>" + this.getAction().getText()
 				+ "</h3>" + "</strong");
@@ -334,7 +335,6 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		cmpyname = cmpyname != null && !cmpyname.isEmpty() ? cmpyname
 				: getCompany().getTradingName();
 
-		
 		HTML companyLabel = new HTML("<strong>" + cmpyname + "</strong");
 
 		// topLayout.add(companyLabel);
@@ -389,9 +389,9 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	}
 
 	/*
-	 *  private void updateDateRangeLayout(Date
-	 * startDate, Date endDate) { this.dateRange.setHTML("<strong> Date Range: "
-	 * + UIUtils.getDateStringByDate(startDate.toGMTString()) + " - " +
+	 * private void updateDateRangeLayout(Date startDate, Date endDate) {
+	 * this.dateRange.setHTML("<strong> Date Range: " +
+	 * UIUtils.getDateStringByDate(startDate.toGMTString()) + " - " +
 	 * UIUtils.getDateStringByDate(endDate.toGMTString()) + "</strong> "); }
 	 */
 	@Override

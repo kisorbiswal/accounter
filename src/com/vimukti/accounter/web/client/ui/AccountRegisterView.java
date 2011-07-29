@@ -3,17 +3,17 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
@@ -233,17 +233,12 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 		this.rpcReportService.getAccountRegister(Accounter.getStartDate(),
 				endDate, takenaccount.getID(),
-				new AsyncCallback<List<AccountRegister>>() {
+				new AccounterAsyncCallback<List<AccountRegister>>() {
 
-					public void onFailure(Throwable caught) {
-						if (caught instanceof InvocationException) {
-							Accounter
-									.showMessage("Your session expired, Please login again to continue");
-						} else {
-							Accounter.showError(Accounter.constants()
-									.failedtoGetListofAccounts()
-									+ takenaccount.getName());
-						}
+					public void onException(AccounterException caught) {
+						Accounter.showError(Accounter.constants()
+								.failedtoGetListofAccounts()
+								+ takenaccount.getName());
 
 					}
 

@@ -5,11 +5,12 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
@@ -196,7 +197,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_CUSTOMER,
-				new AsyncCallback<List<PayeeList>>() {
+				new AccounterAsyncCallback<List<PayeeList>>() {
 
 					@Override
 					public void onSuccess(List<PayeeList> result) {
@@ -205,7 +206,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 					}
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 					}
 				});
 		leftLayout.setSpacing(10);
@@ -268,7 +269,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_CUSTOMER,
-				new AsyncCallback<List<PayeeList>>() {
+				new AccounterAsyncCallback<List<PayeeList>>() {
 
 					@Override
 					public void onSuccess(List<PayeeList> result) {
@@ -277,7 +278,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 					}
 
 					@Override
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 					}
 				});
 	}

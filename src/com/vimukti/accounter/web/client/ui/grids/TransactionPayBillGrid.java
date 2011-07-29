@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
@@ -297,9 +298,9 @@ public class TransactionPayBillGrid extends
 
 		Accounter.createHomeService().getVendorCreditsAndPayments(
 				vendor.getID(),
-				new AsyncCallback<List<ClientCreditsAndPayments>>() {
+				new AccounterAsyncCallback<List<ClientCreditsAndPayments>>() {
 
-					public void onFailure(Throwable caught) {
+					public void onException(AccounterException caught) {
 						Accounter
 								.showInformation("Failed to Get List of Credits and Payments for "
 										+ vendor.getName());

@@ -114,10 +114,10 @@
 //		itemCombo.initCombo(result);
 //		nameField.setEditorType(itemCombo);
 //
-//		// AsyncCallback<List<ClientAccount>> accountsCallback = new
-//		// AsyncCallback<List<ClientAccount>>() {
+//		// AccounterAsyncCallback<List<ClientAccount>> accountsCallback = new
+//		// AccounterAsyncCallback<List<ClientAccount>>() {
 //		//
-//		// public void onFailure(Throwable caught) {
+//		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
@@ -127,10 +127,10 @@
 //		// }
 //		//
 //		// };
-//		// AsyncCallback<List<ClientItem>> itemsCallback = new
-//		// AsyncCallback<List<ClientItem>>() {
+//		// AccounterAsyncCallback<List<ClientItem>> itemsCallback = new
+//		// AccounterAsyncCallback<List<ClientItem>>() {
 //		//
-//		// public void onFailure(Throwable caught) {
+//		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
@@ -147,10 +147,10 @@
 //		salesTaxCombo.initCombo(listTaxCodes);
 //		nameField.setEditorType(salesTaxCombo);
 //
-//		// AsyncCallback<List<ClientTaxCode>> taxcodesCallBack = new
-//		// AsyncCallback<List<ClientTaxCode>>() {
+//		// AccounterAsyncCallback<List<ClientTaxCode>> taxcodesCallBack = new
+//		// AccounterAsyncCallback<List<ClientTaxCode>>() {
 //		//
-//		// public void onFailure(Throwable caught) {
+//		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
@@ -166,10 +166,10 @@
 //		// itemtaxList = listItemTax;
 //		taxSelectItem.setValueMap("Taxable", "Non-Taxable");
 //		taxField.setEditorType(taxSelectItem);
-//		// AsyncCallback<List<ClientItemTax>> taxsCallback = new
-//		// AsyncCallback<List<ClientItemTax>>() {
+//		// AccounterAsyncCallback<List<ClientItemTax>> taxsCallback = new
+//		// AccounterAsyncCallback<List<ClientItemTax>>() {
 //		//
-//		// public void onFailure(Throwable caught) {
+//		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
@@ -187,10 +187,10 @@
 //		// FinanceApplication.createGETService().getItemTaxes(taxsCallback);
 //	}
 //
-//	// AsyncCallback<List<ClientAccount>> accountsCallback = new
-//	// AsyncCallback<List<ClientAccount>>() {
+//	// AccounterAsyncCallback<List<ClientAccount>> accountsCallback = new
+//	// AccounterAsyncCallback<List<ClientAccount>>() {
 //	//
-//	// public void onFailure(Throwable caught) {
+//	// public void onException(AccounterException caught) {
 //	// Accounter.showError("Result: null");
 //	// }
 //	//
@@ -200,10 +200,10 @@
 //	//
 //	// };
 //
-//	// AsyncCallback<List<ClientItem>> itemsCallback = new
-//	// AsyncCallback<List<ClientItem>>() {
+//	// AccounterAsyncCallback<List<ClientItem>> itemsCallback = new
+//	// AccounterAsyncCallback<List<ClientItem>>() {
 //	//
-//	// public void onFailure(Throwable caught) {
+//	// public void onException(AccounterException caught) {
 //	// Accounter.showError("Result: null");
 //	// }
 //	//
@@ -213,10 +213,10 @@
 //	//
 //	// };
 //
-//	// AsyncCallback<List<ClientTaxCode>> taxcodesCallBack = new
-//	// AsyncCallback<List<ClientTaxCode>>() {
+//	// AccounterAsyncCallback<List<ClientTaxCode>> taxcodesCallBack = new
+//	// AccounterAsyncCallback<List<ClientTaxCode>>() {
 //	//
-//	// public void onFailure(Throwable caught) {
+//	// public void onException(AccounterException caught) {
 //	// Accounter.showError("Result: null");
 //	// }
 //	//
@@ -225,10 +225,10 @@
 //	// }
 //	//
 //	// };
-//	// AsyncCallback<List<ClientItemTax>> taxsCallback = new
-//	// AsyncCallback<List<ClientItemTax>>() {
+//	// AccounterAsyncCallback<List<ClientItemTax>> taxsCallback = new
+//	// AccounterAsyncCallback<List<ClientItemTax>>() {
 //	//
-//	// public void onFailure(Throwable caught) {
+//	// public void onException(AccounterException caught) {
 //	// Accounter.showError("Result: null");
 //	// }
 //	//

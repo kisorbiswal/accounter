@@ -5,13 +5,11 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -24,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -47,7 +46,7 @@ public class ItemReceiptView extends
 	private AmountField transactionTotalItem;
 	private LinkItem purchaseLabel;
 	private VendorPurchaseListDialog dialog;
-	
+
 	private long deliveryDate;
 	private long selectedPurchaseOrder;
 
@@ -495,9 +494,9 @@ public class ItemReceiptView extends
 		} else {
 			this.rpcUtilService.getNotReceivedPurchaseOrdersList(
 					vendor.getID(),
-					new AsyncCallback<List<PurchaseOrdersList>>() {
+					new AccounterAsyncCallback<List<PurchaseOrdersList>>() {
 
-						public void onFailure(Throwable caught) {
+						public void onException(AccounterException caught) {
 							// Accounter.showError(UIUtils.getVendorString(
 							// "No Purchase Orders For Supplier",
 							// "No Purchase Orders For Vendor")
@@ -623,17 +622,11 @@ public class ItemReceiptView extends
 	}
 
 	public void onEdit() {
-		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(((InvalidOperationException) (caught))
-							.getDetailedMessage());
-				}
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
 			}
 
 			@Override

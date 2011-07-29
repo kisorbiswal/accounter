@@ -1,8 +1,8 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -25,7 +25,7 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 	}
 
 	public AddOrEditPayTypeDialog(String title, String desc,
-			AsyncCallback<IsSerializable> data) {
+			AccounterAsyncCallback<IsSerializable> data) {
 		super(title, desc);
 		createControls();
 		center();

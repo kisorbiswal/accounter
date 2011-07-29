@@ -333,8 +333,8 @@ public interface IAccounterHomeViewServiceAsync {
 	void getAllUsers(AsyncCallback<List<ClientUserInfo>> callback);
 
 	/**
-	 * @param asyncCallback
+	 * @param AsyncCallback
 	 */
 	public void getAllEmployees(
-			AsyncCallback<List<ClientEmployee>> asyncCallback);
+			AsyncCallback<List<ClientEmployee>> AsyncCallback);
 }

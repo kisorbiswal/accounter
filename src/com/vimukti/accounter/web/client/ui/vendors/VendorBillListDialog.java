@@ -5,13 +5,12 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItemReceipt;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
@@ -20,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -191,18 +191,12 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 	}
 
 	private void getItemReceipt(PurchaseOrdersAndItemReceiptsList record) {
-		AsyncCallback<ClientItemReceipt> callback = new AsyncCallback<ClientItemReceipt>() {
+		AccounterAsyncCallback<ClientItemReceipt> callback = new AccounterAsyncCallback<ClientItemReceipt>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(Accounter.constants()
-							.errorLoadingItemReceipt());
-				}
-
+			public void onException(AccounterException caught) {
+				Accounter.showError(Accounter.constants()
+						.errorLoadingItemReceipt());
 			}
 
 			@Override
@@ -219,18 +213,12 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 	}
 
 	private void getPurchaseOrder(PurchaseOrdersAndItemReceiptsList record) {
-		AsyncCallback<ClientPurchaseOrder> callback = new AsyncCallback<ClientPurchaseOrder>() {
+		AccounterAsyncCallback<ClientPurchaseOrder> callback = new AccounterAsyncCallback<ClientPurchaseOrder>() {
 
 			@Override
-			public void onFailure(Throwable caught) {
-				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
-				} else {
-					Accounter.showError(Accounter.constants()
-							.errorLoadingPurchaseOrder());
-				}
-
+			public void onException(AccounterException caught) {
+				Accounter.showError(Accounter.constants()
+						.errorLoadingPurchaseOrder());
 			}
 
 			@Override

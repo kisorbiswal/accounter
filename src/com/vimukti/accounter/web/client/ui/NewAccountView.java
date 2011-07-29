@@ -1256,10 +1256,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	// private void getNextAccountNumber() {
 	// rpcUtilService.getNextNominalCode(this.accountType,
-	// new AsyncCallback<Long>() {
+	// new AccounterAsyncCallback<Long>() {
 	//
 	// @Override
-	// public void onFailure(Throwable caught) {
+	// public void onException(AccounterException caught) {
 	//
 	// }
 	//

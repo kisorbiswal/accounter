@@ -7,7 +7,7 @@
 //import com.google.gwt.event.dom.client.ChangeEvent;
 //import com.google.gwt.event.dom.client.ChangeHandler;
 //import com.google.gwt.layout.client.Layout.Alignment;
-//import com.google.gwt.user.client.rpc.AsyncCallback;
+//import com.google.gwt.user.client.rpc.AccounterAsyncCallback;
 //import com.google.gwt.user.client.rpc.IsSerializable;
 //import com.vimukti.accounter.web.client.core.ClientAccount;
 //import com.vimukti.accounter.web.client.core.ClientItem;
@@ -146,9 +146,9 @@
 //		salesTaxCombo.initCombo(listTaxCodes);
 //		nameField.setEditorType(salesTaxCombo);
 //
-//		AsyncCallback<List<ClientTaxCode>> taxcodesCallBack = new AsyncCallback<List<ClientTaxCode>>() {
+//		AccounterAsyncCallback<List<ClientTaxCode>> taxcodesCallBack = new AccounterAsyncCallback<List<ClientTaxCode>>() {
 //
-//			public void onFailure(Throwable caught) {
+//			public void onException(AccounterException caught) {
 //				Accounter.showError("Failed to Get TaxCode List...");
 //			}
 //
