@@ -136,8 +136,8 @@ public class RegistrationServlet extends BaseServlet {
 						resp);
 				return;
 			}
-			String apiKey = SecureUtils.createID();
-			String secretKey = SecureUtils.createID();
+			String apiKey = SecureUtils.createID(8);
+			String secretKey = SecureUtils.createID(16);
 
 			developer = new Developer();
 			developer.setApiKey(apiKey);
