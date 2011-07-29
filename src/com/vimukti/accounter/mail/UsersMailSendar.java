@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.PropertyParser;
 
@@ -533,7 +534,8 @@ public class UsersMailSendar {
 		EmailManager.getInstance().addJob(job);
 	}
 
-	public static void sendActivationMail(String link, String recipient) {
+	public static void sendActivationMail(String token, Client client) {
+		
 		try {
 			initPropertyParserToInviteUser();
 			LOG.info("Email is being sent to default user");
@@ -545,17 +547,18 @@ public class UsersMailSendar {
 			return;
 		}
 
-		String subject = propertyParser.getProperty("subjectForActivation",
-				"");
+		String subject = propertyParser.getProperty("subjectForActivation", "");
 
-		String content = propertyParser.getProperty("contentForActivation",
-				"");
-		content = content.replaceAll("%LINK%", link);
+		StringBuffer content = new StringBuffer();
+		content.append("Hello " + client.getFirstName() + " "
+				+ client.getLastName() + ",\n");
+		content.append(propertyParser.getProperty("contentForActivation", ""));
+		String contentStr = content.toString().replaceAll("%TOKEN%", token);
 
 		EMailMessage emailMsg = new EMailMessage();
-		emailMsg.setContent(content);
+		emailMsg.setContent(contentStr);
 		emailMsg.setSubject(subject);
-		emailMsg.setRecepeant(recipient);
+		emailMsg.setRecepeant(client.getEmailId());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
 
 		EmailManager.getInstance().addJob(job);
