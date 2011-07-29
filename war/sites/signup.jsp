@@ -141,7 +141,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 				</c:if>
 					
 							<c:if test="${successmessage!=null}">
-							   <div class="success_box"></div>
+							   <div class="success_box"><b style="color: #3299A4; font-size: 17px;">${successmessage}</b></div>
 							</c:if>
 							<div id="hiddenLoaderDiv" class="hiddenDiv">
 								<img src="/images/icons/loading-indicator.gif" height="50" width="50">
