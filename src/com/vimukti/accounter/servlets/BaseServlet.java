@@ -71,14 +71,17 @@ public class BaseServlet extends HttpServlet {
 		return null;
 	}
 
-	protected boolean isValidInputs(int inputType, String value) {
-		switch(inputType){
-		case MAIL_ID: 
-				return value.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$");
-			
-		case NAME: 
+	protected boolean isValidInputs(int inputType, String... values) {
+		for (String value : values) {
+			switch (inputType) {
+			case MAIL_ID:
+				return value
+						.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$");
+
+			case NAME:
 				return value.matches("^[a-zA-Z]+$");
-			
+
+			}
 		}
 		return false;
 	}
@@ -112,7 +115,8 @@ public class BaseServlet extends HttpServlet {
 
 	protected Client getClient(String emailId) {
 		Session session = HibernateUtil.getCurrentSession();
-		Client client = (Client) session.getNamedQuery("getClient.by.mailId").setString(EMAIL_ID, emailId).uniqueResult();
+		Client client = (Client) session.getNamedQuery("getClient.by.mailId")
+				.setString(EMAIL_ID, emailId).uniqueResult();
 		session.close();
 		return client;
 	}
