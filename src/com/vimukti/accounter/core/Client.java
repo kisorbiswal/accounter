@@ -9,6 +9,7 @@ import java.util.Set;
  * 
  */
 public class Client {
+	private long id;
 	private String firstName;
 	private String lastName;
 	private String emailId;
@@ -17,6 +18,7 @@ public class Client {
 	private Set<ServerCompany> companies;
 	private String phoneNumber;
 	private String country;
+	private boolean isSubscribedToNewsLetters;
 
 	public String getFirstName() {
 		return firstName;
@@ -67,12 +69,40 @@ public class Client {
 	}
 
 	public void setPhoneNo(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+		this.setPhoneNumber(phoneNumber);
 		
 	}
 
 	public void setCountry(String country) {
 		this.country = country;
 		
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public boolean isSubscribedToNewsLetters() {
+		return isSubscribedToNewsLetters;
+	}
+
+	public void setSubscribedToNewsLetters(boolean isSubscribedToNewsLetters) {
+		this.isSubscribedToNewsLetters = isSubscribedToNewsLetters;
 	}
 }

@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.util.Date;
 
 public class ServerCompany {
+	private long id;
 	private String companyName;
 	private Date createdDate;
 	private int companyType;
@@ -38,5 +39,13 @@ public class ServerCompany {
 
 	public void setCompanyType(int companyType) {
 		this.companyType = companyType;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }

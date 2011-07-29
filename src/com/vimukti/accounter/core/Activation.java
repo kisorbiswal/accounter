@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.util.Date;
 
 public class Activation {
+	private long id;
 	private String emailId;
 	private String token;
 	private Date signUpDate;
@@ -29,6 +30,14 @@ public class Activation {
 
 	public void setSignUpDate(Date sighnUpDate) {
 		this.signUpDate = sighnUpDate;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }
