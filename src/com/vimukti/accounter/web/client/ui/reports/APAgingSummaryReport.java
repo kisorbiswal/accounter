@@ -33,8 +33,8 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getCreditors(start.getTime(),
-				new ClientFinanceDate().getTime(), this);
+		Accounter.createReportService().getCreditors(start,
+				new ClientFinanceDate(), this);
 
 	}
 
@@ -47,8 +47,8 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 127, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 127, "",
 				"");
 
 	}
@@ -118,8 +118,8 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 127, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 127, "",
 				"");
 	}
 

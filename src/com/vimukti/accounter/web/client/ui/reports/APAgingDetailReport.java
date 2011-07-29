@@ -25,12 +25,12 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		DummyDebitor byCustomerDetail = (DummyDebitor) this.data;
 		if (byCustomerDetail == null) {
-			Accounter.createReportService().getAgedCreditors(start.getTime(),
-					new ClientFinanceDate().getTime(), this);
+			Accounter.createReportService().getAgedCreditors(start,
+					new ClientFinanceDate(), this);
 		} else if (byCustomerDetail.getDebitorName() != null) {
 			Accounter.createReportService().getAgedCreditors(
-					byCustomerDetail.getDebitorName(), start.getTime(),
-					new ClientFinanceDate().getTime(), this);
+					byCustomerDetail.getDebitorName(), start,
+					new ClientFinanceDate(), this);
 		}
 		this.byCustomerDetail = byCustomerDetail.getTransactionId();
 	}
@@ -59,13 +59,13 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 	public void print() {
 		if (byCustomerDetail == 0) {
 			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getTime())),
-					Integer.parseInt(String.valueOf(endDate.getTime())), 128,
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 128,
 					"", "");
 		} else {
 			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getTime())),
-					Integer.parseInt(String.valueOf(endDate.getTime())), 128,
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 128,
 					"", "", byCustomerDetail);
 		}
 
@@ -110,13 +110,13 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 	public void exportToCsv() {
 		if (byCustomerDetail == 0) {
 			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getTime())),
-					Integer.parseInt(String.valueOf(endDate.getTime())), 128,
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 128,
 					"", "");
 		} else {
 			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getTime())),
-					Integer.parseInt(String.valueOf(endDate.getTime())), 128,
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 128,
 					"", "", byCustomerDetail);
 		}
 	}

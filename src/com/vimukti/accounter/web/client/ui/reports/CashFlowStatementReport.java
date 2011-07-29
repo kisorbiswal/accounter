@@ -31,8 +31,7 @@ public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getCashFlowReport(start.getTime(),
-				end.getTime(), this);
+		Accounter.createReportService().getCashFlowReport(start, end, this);
 
 	}
 
@@ -50,8 +49,8 @@ public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 148, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 148, "",
 				"");
 	}
 
@@ -62,8 +61,8 @@ public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 148, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 148, "",
 				"");
 	}
 

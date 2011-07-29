@@ -3,12 +3,11 @@ package com.vimukti.accounter.core;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+
 public class FinanceDate {
 
-	String stringDate;
-	StringBuffer stringBuffer;
-	String year, month, date, dates;
-	long time;
+	int year, month, day;
 
 	public FinanceDate(long date) {
 		initDate(date);
@@ -33,15 +32,10 @@ public class FinanceDate {
 	}
 
 	public void initDate(long date) {
-		if (date == 0) {
-			this.time = date;
-			return;
-		}
-		this.time = date;
-		stringBuffer = new StringBuffer(Long.toString(date));
-		this.year = stringBuffer.substring(0, 4);
-		this.month = stringBuffer.substring(4, 6);
-		this.date = stringBuffer.substring(6, 8);
+		String stringValue = String.valueOf(date);
+		this.year = Integer.parseInt(stringValue.substring(0, 4));
+		this.month = Integer.parseInt(stringValue.substring(4, 6));
+		this.day = Integer.parseInt(stringValue.substring(6, 8));
 	}
 
 	public FinanceDate(Date date) {
@@ -49,37 +43,32 @@ public class FinanceDate {
 	}
 
 	public void initDate(Date date) {
-		if (date != null) {
-			this.year = "" + (date.getYear() + 1900);
-			this.month = "" + (date.getMonth() + 1);
-			this.date = "" + date.getDate();
+		this.year = date.getYear() + 1900;
+		this.month = date.getMonth() + 1;
+		this.day = date.getDate();
 
-			this.month = this.month.length() == 1 ? "0" + this.month
-					: this.month;
-			this.date = this.date.length() == 1 ? "0" + this.date : this.date;
+		// this.month = this.month.length() == 1 ? "0" + this.month
+		// : this.month;
+		// this.day = this.day.length() == 1 ? "0" + this.day : this.day;
 
-			this.time = Long.parseLong(this.year + this.month + this.date);
-		}
 	}
 
 	public int getYear() {
-		return Integer.parseInt(this.year) - 1900;
+		return this.year - 1900;
 	}
 
-	public void setYear(long year) {
-		this.year = String.valueOf(year + 1900);
-		synchornizeTime();
+	public void setYear(int year) {
+		this.year = year + 1900;
 	}
 
 	public int getMonth() {
-		return (Integer.parseInt(this.month) - 1);
+		return this.month - 1;
 	}
 
-	public void setMonth(long month) {
-		this.month = String.valueOf(month);
-		Date dt = new Date(Integer.parseInt(this.year) - 1900, 0, Integer
-				.parseInt(this.date));
-		dt.setMonth(Integer.parseInt(this.month));
+	public void setMonth(int month) {
+		this.month = month;
+		Date dt = new Date(this.year - 1900, 0, this.day);
+		dt.setMonth(this.month);
 
 		synchornizeDate(dt);
 	}
@@ -88,33 +77,25 @@ public class FinanceDate {
 		return getAsDateObject().getDay();
 	}
 
-	public void setDate(long day) {
-		this.date = String.valueOf(day);
+	public void setDate(int day) {
+		this.day = day;
 
-		Date dt = new Date(Integer.parseInt(this.year) - 1900, Integer
-				.parseInt(this.month), 0);
-		dt.setDate(Integer.parseInt(this.date));
+		Date dt = new Date(this.year - 1900, this.month, 0);
+		dt.setDate(this.day);
 
 		synchornizeDate(dt);
 	}
 
 	private void synchornizeDate(Date dt) {
-		this.year = "" + (dt.getYear() + 1900);
-		this.month = "" + (dt.getMonth() + 1);
-		this.date = "" + dt.getDate();
+		this.year = dt.getYear() + 1900;
+		this.month = dt.getMonth() + 1;
+		this.day = dt.getDate();
 
-		synchornizeTime();
 	}
 
-	public long getDate() {
-		return this.time;
-	}
-
-	
 	public Date getAsDateObject() {
 		Calendar calendar = Calendar.getInstance();
-		calendar.set((Integer.parseInt(this.year)), (Integer
-				.parseInt(this.month) - 1), (Integer.parseInt(this.date)));
+		calendar.set(this.year, this.month - 1, this.day);
 		Date financeDate = calendar.getTime();
 		financeDate.setHours(00);
 		financeDate.setMinutes(00);
@@ -204,6 +185,15 @@ public class FinanceDate {
 	// private static long parse(String s) {
 	// return 0;
 	// }
+
+	/**
+	 * Creates new Instance
+	 */
+	public FinanceDate(ClientFinanceDate clientDate) {
+		this.year = clientDate.getYear();
+		this.month = clientDate.getMonth();
+		this.day = clientDate.getDay();
+	}
 
 	/**
 	 * Determines the date and time based on the arguments. The arguments are
@@ -358,7 +348,7 @@ public class FinanceDate {
 	 *                if <code>when</code> is null.
 	 */
 	public boolean before(FinanceDate when) {
-		return this.time < when.time;
+		return getDate() < when.getDate();
 	}
 
 	/**
@@ -373,7 +363,7 @@ public class FinanceDate {
 	 *                if <code>when</code> is null.
 	 */
 	public boolean after(FinanceDate when) {
-		return this.time > when.time;
+		return this.getDate() > when.getDate();
 	}
 
 	/**
@@ -410,48 +400,48 @@ public class FinanceDate {
 	 *                if <code>anotherDate</code> is null.
 	 */
 	public int compareTo(FinanceDate anotherDate) {
-		return (this.time < anotherDate.time ? -1
-				: (this.time == anotherDate.time ? 0 : 1));
+		return (this.getDate() < anotherDate.getDate() ? -1
+				: (this.getDate() == anotherDate.getDate() ? 0 : 1));
 
 	}
 
 	public int hashCode() {
-		return (int) this.time;
+		return (int) this.getDate();
 	}
 
 	public String toString() {
-		return this.date + "/" + this.month + "/" + this.year;
+		return this.day + "/" + this.month + "/" + this.year;
 	}
 
-	public void setTime(FinanceDate time) {
-		this.time = time.time;
+	public void set(FinanceDate time) {
 		this.year = time.year;
 		this.month = time.month;
-		this.date = time.date;
+		this.day = time.day;
 
 	}
 
-	public long getTime() {
-		return this.time;
+	public long getDate() {
+		return (year * 10000) + (month * 100) + day;
 	}
 
-	public void initDate(long year, long month, long day) {
-		this.year = String.valueOf(year);
-		this.month = String.valueOf(month);
-		this.date = String.valueOf(day);
-		synchornizeTime();
+	public void initDate(int year, int month, int day) {
+		this.year = year;
+		this.month = month;
+		this.day = day;
 	}
 
 	public final void clear() {
-		this.time = 0l;
+		this.year = 0;
+		this.month = 0;
+		this.day = 0;
 	}
 
-	private void synchornizeTime() {
-
-		this.month = this.month.length() == 1 ? "0" + this.month : this.month;
-		this.date = this.date.length() == 1 ? "0" + this.date : this.date;
-
-		this.time = Long.parseLong(this.year + this.month + this.date);
+	public ClientFinanceDate toClientFinanceDate() {
+		ClientFinanceDate clientFinanceDate = new ClientFinanceDate();
+		clientFinanceDate.setYear(year);
+		clientFinanceDate.setMonth(month);
+		clientFinanceDate.setDay(day);
+		return clientFinanceDate;
 	}
 
 }

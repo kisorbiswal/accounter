@@ -1,7 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +10,6 @@ import org.hibernate.Session;
 import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.InvalidOperationException;
-import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
@@ -97,7 +95,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	/**
 	 * this can hold a Set of {@link Address}
 	 */
-	Set<Address> addresses = new HashSet<Address>();
+	// Set<Address> addresses = new HashSet<Address>();
+
+	Address tradingAddress;
+
+	Address registeredAddress;
 
 	String companyEmail;
 
@@ -731,7 +733,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	public Company(int accountingType) {
 		this.accountingType = accountingType;
 	}
-	public void initialize(){
+
+	public void initialize() {
 
 		CompanyInitializedFactory.getInitializer(this).init();
 		/*
@@ -3379,17 +3382,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.pendingItemReceiptsAccount = pendingItemReceiptsAccount;
 	}
 
-	/**
-	 * @return the addresses
-	 */
-	public Set<Address> getAddresses() {
-		return addresses;
-	}
-
-	public void setAddresses(Set<Address> addresses) {
-		this.addresses = addresses;
-	}
-
 	public Account getVATFiledLiabilityAccount() {
 		return VATFiledLiabilityAccount;
 	}
@@ -4218,7 +4210,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 		cmp.legalName = this.getTradingName();
 		cmp.companyEmail = this.getCompanyEmail();
-		cmp.addresses = this.getAddresses();
+		cmp.setRegisteredAddress(this.getRegisteredAddress());
+		cmp.setTradingAddress(this.getTradingAddress());
 		cmp.companyEmailForCustomers = this.getCompanyEmailForCustomers();
 		cmp.contact = this.getContact();
 		cmp.ein = this.getEin();
@@ -4351,18 +4344,16 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	
 	public void toCompany(ClientCompany clientCompany) {
+
+		ServerConvertUtil serverConvertUtil = new ServerConvertUtil();
 		this.fullName = clientCompany.getName();
-		if (this.addresses != null) {
-			this.addresses.clear();
 
-		} else {
-			this.addresses = new HashSet<Address>();
-
-		}
-		this.addresses
-				.addAll((Collection<? extends Address>) new ServerConvertUtil()
-						.toServerList(clientCompany.getAddresses(),
-								HibernateUtil.getCurrentSession()));
+		this.tradingAddress = serverConvertUtil.toServerObject(
+				this.tradingAddress, clientCompany.getTradingAddress(),
+				HibernateUtil.getCurrentSession());
+		this.registeredAddress = serverConvertUtil.toServerObject(
+				this.registeredAddress, clientCompany.getRegisteredAddress(),
+				HibernateUtil.getCurrentSession());
 
 		this.companyEmail = clientCompany.getCompanyEmail();
 		// RegisteredName=legalName
@@ -4374,8 +4365,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.webSite = clientCompany.getWebSite();
 		this.bankAccountNo = clientCompany.getBankAccountNo();
 		this.sortCode = clientCompany.getSortCode();
-		this.preferences = new ServerConvertUtil().toServerObject(
-				this.preferences, clientCompany.getpreferences(),
+		this.preferences = serverConvertUtil.toServerObject(this.preferences,
+				clientCompany.getpreferences(),
 				HibernateUtil.getCurrentSession());
 	}
 
@@ -4383,18 +4374,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	public ClientCompany toClientCompany() {
 		ClientCompany clientCompany = new ClientCompany();
 		clientCompany.setName(this.fullName);
-		clientCompany.setID(this.getID());
-		List<ClientAddress> list = clientCompany.getAddresses();
-
-		if (list != null) {
-			list.clear();
-		} else {
-			list = new ArrayList<ClientAddress>();
-
-		}
-		list.addAll((Collection<? extends ClientAddress>) new ClientConvertUtil()
-				.toClientSet(this.addresses));
-		clientCompany.setAddresses(list);
+		clientCompany.setID(this.id);
 		clientCompany.setCompanyEmail(this.companyEmail);
 		clientCompany.setPhone(this.phone);
 		clientCompany.setFax(this.fax);
@@ -4452,6 +4432,36 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	public void setCompanyID(String companyID) {
 		this.companyID = companyID;
+	}
+
+	/**
+	 * @return the tradingAddress
+	 */
+	public Address getTradingAddress() {
+		return tradingAddress;
+	}
+
+	/**
+	 * @param tradingAddress
+	 *            the tradingAddress to set
+	 */
+	public void setTradingAddress(Address tradingAddress) {
+		this.tradingAddress = tradingAddress;
+	}
+
+	/**
+	 * @return the registeredAddress
+	 */
+	public Address getRegisteredAddress() {
+		return registeredAddress;
+	}
+
+	/**
+	 * @param registeredAddress
+	 *            the registeredAddress to set
+	 */
+	public void setRegisteredAddress(Address registeredAddress) {
+		this.registeredAddress = registeredAddress;
 	}
 
 }

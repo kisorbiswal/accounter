@@ -144,7 +144,7 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 								.getTransaction().getID());
 				clientTransactionMakeDeposit
 						.setDate(transactionMakeDepositEntry.getTransaction()
-								.getDate().getTime());
+								.getDate().getDate());
 				clientTransactionMakeDeposit
 						.setNumber(transactionMakeDepositEntry.getTransaction()
 								.getNumber());

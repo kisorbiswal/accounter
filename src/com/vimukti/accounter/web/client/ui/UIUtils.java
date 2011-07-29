@@ -126,7 +126,7 @@ public class UIUtils {
 			ClientFinanceDate compareDate2) {
 		if (compareDate1.getYear() + 1900 == compareDate2.getYear() + 1900
 				&& compareDate1.getMonth() == compareDate2.getMonth()
-				&& compareDate1.getDate() == compareDate2.getDate())
+				&& compareDate1.getDay() == compareDate2.getDay())
 			return true;
 		else
 			return false;

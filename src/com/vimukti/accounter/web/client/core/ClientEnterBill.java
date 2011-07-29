@@ -203,11 +203,11 @@ public class ClientEnterBill extends ClientTransaction {
 	}
 
 	public void setDueDate(ClientFinanceDate dueDate2) {
-		this.dueDate = dueDate2.getTime();
+		this.dueDate = dueDate2.getDate();
 	}
 
 	public void setDeliveryDate(ClientFinanceDate enteredDate) {
-		this.deliveryDate = enteredDate.getTime();
+		this.deliveryDate = enteredDate.getDate();
 	}
 
 	public void setBalanceDue(double balanceDue) {

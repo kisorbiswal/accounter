@@ -186,7 +186,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 							date2.getYear(), date2.getMonth(), 1);
 				} else {
 					depreciationStartDate = new ClientFinanceDate(
-							date.getYear(), date.getMonth(), date.getDate() + 1);
+							date.getYear(), date.getMonth(), date.getDay() + 1);
 				}
 				fromLabel
 						.setText("Depreciate from:  "
@@ -295,7 +295,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			 * The below code will increment the fiscal year end date by 1, this
 			 * will be helpful when the date and fiscal year end date are same.
 			 **/
-			endDate.setDate(endDate.getDate() + 1);
+			endDate.setDay(endDate.getDay() + 1);
 			int before = date.compareTo(openFiscalYear.getStartDate());
 			int after = date.compareTo(endDate);
 
@@ -311,8 +311,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	public void saveAndUpdateView() throws Exception {
 		try {
 			ClientDepreciation depreciation = new ClientDepreciation();
-			depreciation.setDepreciateFrom(depreciationStartDate.getTime());
-			depreciation.setDepreciateTo(depreciationEndDate.getTime());
+			depreciation.setDepreciateFrom(depreciationStartDate.getDate());
+			depreciation.setDepreciateTo(depreciationEndDate.getDate());
 			// depreciation
 			// .setDepreciationFor(ClientDepreciation.DEPRECIATION_FOR_ALL_FIXEDASSET);
 			// depreciation.setFixedAsset(getAssetsList())
@@ -338,8 +338,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			createObject(depreciation);
 			Accounter.createHomeService().runDepreciation(
-					depreciationStartDate.getTime(),
-					depreciationEndDate.getTime(), map, new AsyncCallback() {
+					depreciationStartDate.getDate(),
+					depreciationEndDate.getDate(), map, new AsyncCallback() {
 
 						@Override
 						public void onFailure(Throwable caught) {
@@ -423,8 +423,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 				grid.removeAllRows();
 			grid.addLoadingImagePanel();
 			Accounter.createHomeService().getDepreciableFixedAssets(
-					depreciationStartDate.getTime(),
-					depreciationEndDate.getTime(), callBack);
+					depreciationStartDate.getDate(),
+					depreciationEndDate.getDate(), callBack);
 		}
 	}
 

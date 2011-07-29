@@ -139,7 +139,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 			IssuePaymentTransactionsList entry) {
 
 		if (entry.getDate() != null)
-			record.setDate(entry.getDate().getTime());
+			record.setDate(entry.getDate().getDate());
 		if (entry.getNumber() != null)
 			record.setNumber(entry.getNumber());
 		record.setName(entry.getName() != null ? entry.getName() : "");
@@ -399,7 +399,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 		issuePayment.setNumber(transactionNumber);
 
-		issuePayment.setDate(new ClientFinanceDate().getTime());
+		issuePayment.setDate(new ClientFinanceDate().getDate());
 
 		issuePayment.setPaymentMethod(selectedpaymentMethod);
 

@@ -32,8 +32,8 @@ public class PurchaseByItemSummaryReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getPurchasesByItemSummary(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getPurchasesByItemSummary(start, end,
+				this);
 	}
 
 	@Override
@@ -50,8 +50,8 @@ public class PurchaseByItemSummaryReport extends
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 132, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 132, "",
 				"");
 
 	}
@@ -81,8 +81,8 @@ public class PurchaseByItemSummaryReport extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 132, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 132, "",
 				"");
 	}
 }

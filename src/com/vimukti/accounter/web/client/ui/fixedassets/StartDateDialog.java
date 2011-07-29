@@ -145,7 +145,7 @@ public class StartDateDialog extends BaseDialog {
 
 		};
 		Accounter.createHomeService().changeDepreciationStartDateTo(
-				date.getTime(), callBack);
+				date.getDate(), callBack);
 	}
 
 	protected void helpClick() {

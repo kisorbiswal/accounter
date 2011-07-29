@@ -55,10 +55,8 @@ public class CheckDetailReportView extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { "", Accounter.constants().number(),
-				Accounter.constants().date(),
-				Accounter.constants().name(),
-				Accounter.constants().account(),
-				Accounter.constants().amount() };
+				Accounter.constants().date(), Accounter.constants().name(),
+				Accounter.constants().account(), Accounter.constants().amount() };
 	}
 
 	@Override
@@ -90,7 +88,7 @@ public class CheckDetailReportView extends
 	public void makeReportRequest(long paymentmethod,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		Accounter.createReportService().getCheckDetailReport(paymentmethod,
-				startDate.getTime(), endDate.getTime(), this);
+				startDate, endDate, this);
 
 	}
 

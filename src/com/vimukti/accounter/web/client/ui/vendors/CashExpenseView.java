@@ -146,7 +146,7 @@ public class CashExpenseView extends CashPurchaseView {
 		// Setting Delivery date
 		if (deliveryDateItem.getEnteredDate() != null)
 			cashPurchase.setDeliveryDate(deliveryDateItem.getEnteredDate()
-					.getTime());
+					.getDate());
 
 		// Setting Total
 		cashPurchase.setTotal(vendorTransactionGrid.getTotal());

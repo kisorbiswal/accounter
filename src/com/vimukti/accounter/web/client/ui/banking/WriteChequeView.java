@@ -578,7 +578,7 @@ public class WriteChequeView extends
 
 			writeCheck.setCheckNumber(checkNo);
 
-			writeCheck.setTransactionDate(transactionDate.getTime());
+			writeCheck.setTransactionDate(transactionDate.getDate());
 
 			// Setting Bank account
 			writeCheck.setBankAccount(selectBankAcc.getID());
@@ -636,7 +636,7 @@ public class WriteChequeView extends
 			// Setting Date
 			if (date != null)
 				writeCheck.setDate(((ClientFinanceDate) date.getValue())
-						.getTime());
+						.getDate());
 			// setting transactoin number
 			writeCheck.setNumber(transactionNumber.getValue().toString());
 

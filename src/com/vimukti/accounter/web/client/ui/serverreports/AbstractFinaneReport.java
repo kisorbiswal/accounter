@@ -69,7 +69,7 @@ public abstract class AbstractFinaneReport<R> implements IFinanceReport<R> {
 		this.grid.setReportView(this);
 	}
 
-	@SuppressWarnings( { "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public AbstractFinaneReport(long startDate, long endDate, int generationType) {
 		this.startDate = new ClientFinanceDate(startDate);
 		this.endDate = new ClientFinanceDate(endDate);
@@ -660,8 +660,9 @@ public abstract class AbstractFinaneReport<R> implements IFinanceReport<R> {
 	}
 
 	@Override
-	public void setStartAndEndDates(long startDate2, long endDate2) {
-		this.startDate = new ClientFinanceDate(startDate2);
-		this.endDate = new ClientFinanceDate(endDate2);
+	public void setStartAndEndDates(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 }

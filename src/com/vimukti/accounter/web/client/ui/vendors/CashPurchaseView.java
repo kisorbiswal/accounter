@@ -547,7 +547,7 @@ public class CashPurchaseView extends
 		// Setting Delivery date
 		if (deliveryDateItem.getEnteredDate() != null)
 			cashPurchase.setDeliveryDate(deliveryDateItem.getEnteredDate()
-					.getTime());
+					.getDate());
 
 		// Setting Total
 		cashPurchase.setTotal(vendorTransactionGrid.getTotal());

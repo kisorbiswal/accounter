@@ -7,7 +7,7 @@ package com.vimukti.accounter.web.client.core;
  * @author Prasanna Kumar G
  * 
  */
-public class ClientUserInfo {
+public class ClientUserInfo implements IAccounterCore {
 
 	private long id;
 
@@ -32,13 +32,6 @@ public class ClientUserInfo {
 	private int loginCount;
 
 	private long lastLogin;
-
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
 
 	/**
 	 * @param id
@@ -211,6 +204,38 @@ public class ClientUserInfo {
 	 */
 	public void setLastLogin(long lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+
+	@Override
+	public String getName() {
+		if (getFirstName() == null && getLastName() == null)
+			return "";
+		else if (getFirstName() == null)
+			return getLastName();
+		else if (getLastName() == null)
+			return getFirstName();
+		return getFirstName() + " " + getLastName();
+
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.USER;
+	}
+
+	@Override
+	public void setID(long id) {
+		this.id = id;
+	}
+
+	@Override
+	public long getID() {
+		return this.id;
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+		return "ClientUserInfo";
 	}
 
 }

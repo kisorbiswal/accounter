@@ -13,10 +13,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 		IsSerializable {
 
-	String stringDate;
-	String stringBuffer;
-	String year, month, date, dates;
-	long time;
+	int year, month, day;
 
 	public ClientFinanceDate(Date date) {
 		initDate(date);
@@ -24,15 +21,14 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 
 	private void initDate(Date date) {
 		if (date != null) {
-			this.year = "" + (date.getYear() + 1900);
-			this.month = "" + (date.getMonth() + 1);
-			this.date = "" + date.getDate();
+			this.year = (date.getYear() + 1900);
+			this.month = (date.getMonth() + 1);
+			this.day = date.getDate();
 
-			this.month = this.month.length() == 1 ? "0" + this.month
-					: this.month;
-			this.date = this.date.length() == 1 ? "0" + this.date : this.date;
+			// this.month = this.month.length() == 1 ? "0" + this.month
+			// : this.month;
+			// this.day = this.day.length() == 1 ? "0" + this.day : this.day;
 
-			this.time = Long.parseLong(this.year + this.month + this.date);
 		}
 	}
 
@@ -45,38 +41,27 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	}
 
 	private void initDate(long date) {
-		if (date == 0) {
-			this.time = date;
-			return;
-		}
-		this.time = date;
-		stringBuffer = Long.toString(date);
-		this.year = stringBuffer.substring(0, 4);
-		this.month = stringBuffer.substring(4, 6);
-		this.date = stringBuffer.substring(6, 8);
+		String stringValue = String.valueOf(date);
+		this.year = Integer.parseInt(stringValue.substring(0, 4));
+		this.month = Integer.parseInt(stringValue.substring(4, 6));
+		this.day = Integer.parseInt(stringValue.substring(6, 8));
 	}
 
 	public int getYear() {
-		return Integer.parseInt(this.year) - 1900;
+		return this.year - 1900;
 	}
 
 	public int getMonth() {
-		return Integer.parseInt(this.month) - 1;
+		return this.month - 1;
 	}
 
-	public int getDay() {
-		return getDateAsObject().getDay();
-	}
-
-	public long getTime() {
-		return this.time;
+	public long getDate() {
+		return (year * 10000) + (month * 100) + day;
 	}
 
 	
 	public Date getDateAsObject() {
-		Date date = new Date((Integer.parseInt(this.year)) - 1900,
-				(Integer.parseInt(this.month) - 1),
-				(Integer.parseInt(this.date)));
+		Date date = new Date(this.year - 1900, this.month - 1, this.day);
 		date.setHours(00);
 		date.setMinutes(00);
 		date.setSeconds(00);
@@ -178,7 +163,7 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	 *                if <code>when</code> is null.
 	 */
 	public boolean before(ClientFinanceDate when) {
-		return this.time < when.time;
+		return this.getDate() < when.getDate();
 	}
 
 	/**
@@ -193,7 +178,7 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	 *                if <code>when</code> is null.
 	 */
 	public boolean after(ClientFinanceDate when) {
-		return this.time > when.time;
+		return this.getDate() > when.getDate();
 	}
 
 	/**
@@ -230,61 +215,55 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	 *                if <code>anotherDate</code> is null.
 	 */
 	public int compareTo(ClientFinanceDate anotherDate) {
-		return (this.time < anotherDate.time ? -1
-				: (this.time == anotherDate.time ? 0 : 1));
+		return (this.getDate() < anotherDate.getDate() ? -1
+				: (this.getDate() == anotherDate.getDate() ? 0 : 1));
 
 	}
 
 	public int hashCode() {
-		return (int) this.time;
+		return (int) this.getDate();
 	}
 
 	public String toString() {
-		return this.date + "/" + this.month + "/" + this.year;
+		return this.day + "/" + this.month + "/" + this.year;
 	}
 
 	public void setMonth(int month) {
-		this.month = String.valueOf(month);
-		Date dt = new Date(Integer.parseInt(this.year) - 1900, 0,
-				Integer.parseInt(this.date));
-		dt.setMonth(Integer.parseInt(this.month));
+		this.month = month;
+		Date dt = new Date(this.year - 1900, 0, this.day);
+		dt.setMonth(this.month);
 
 		synchornizeDate(dt);
 	}
 
-	public void setDate(int date) {
-		this.date = String.valueOf(date);
+	public void setDay(int date) {
+		this.day = date;
 
-		Date dt = new Date(Integer.parseInt(this.year) - 1900,
-				Integer.parseInt(this.month), 0);
-		dt.setDate(Integer.parseInt(this.date));
+		Date dt = new Date(this.year - 1900, this.month, 0);
+		dt.setDate(this.day);
 
 		synchornizeDate(dt);
 	}
 
 	private void synchornizeDate(Date dt) {
-		this.year = "" + (dt.getYear() + 1900);
-		this.month = "" + (dt.getMonth() + 1);
-		this.date = "" + dt.getDate();
-
-		synchornizeTime();
+		this.year = dt.getYear() + 1900;
+		this.month = dt.getMonth() + 1;
+		this.day = dt.getDate();
 	}
 
-	public int getDate() {
-		return Integer.parseInt(this.date);
-	}
-
-	private void synchornizeTime() {
-
-		this.month = this.month.length() == 1 ? "0" + this.month : this.month;
-		this.date = this.date.length() == 1 ? "0" + this.date : this.date;
-
-		this.time = Long.parseLong(this.year + this.month + this.date);
+	public int getDay() {
+		return day;
 	}
 
 	public void setYear(int year) {
-		this.year = String.valueOf(year + 1900);
-		synchornizeTime();
+		this.year = year + 1900;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isEmpty() {
+		return year == 0 && month == 0 && day == 0;
 	}
 
 }

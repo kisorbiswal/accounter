@@ -41,8 +41,8 @@ public class VATUncategorisedAmountsReport extends
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		balance = 0.0;
-		Accounter.createReportService().getUncategorisedAmountsReport(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getUncategorisedAmountsReport(start,
+				end, this);
 
 	}
 
@@ -60,8 +60,8 @@ public class VATUncategorisedAmountsReport extends
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 140, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 140, "",
 				"");
 	}
 
@@ -97,8 +97,8 @@ public class VATUncategorisedAmountsReport extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 140, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 140, "",
 				"");
 	}
 

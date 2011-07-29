@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossServerReport;
 
-
 public class ProfitAndLossReport extends AbstractReportView<TrialBalance> {
 	// private ClientFinanceDate start, end;
 
@@ -23,8 +22,8 @@ public class ProfitAndLossReport extends AbstractReportView<TrialBalance> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, ActionFactory
-				.getTransactionDetailByAccountAction());
+		UIUtils.runAction(record,
+				ActionFactory.getTransactionDetailByAccountAction());
 	}
 
 	@Override
@@ -34,8 +33,8 @@ public class ProfitAndLossReport extends AbstractReportView<TrialBalance> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getProfitAndLossReport(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService()
+				.getProfitAndLossReport(start, end, this);
 		// this.start = start;
 		// this.end = end;
 		// this.serverReport = new ProfitAndLossServerReport(
@@ -57,9 +56,10 @@ public class ProfitAndLossReport extends AbstractReportView<TrialBalance> {
 
 	@Override
 	public void print() {
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 111, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 111, "",
+				"");
 	}
 
 	@Override
@@ -68,12 +68,13 @@ public class ProfitAndLossReport extends AbstractReportView<TrialBalance> {
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 111, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 111, "",
+				"");
 	}
 
-	// 
+	//
 	// private void printDataForIEBrowser() {
 	// String gridhtml = grid.toString();
 	// String headerhtml = grid.getHeader();
@@ -114,7 +115,7 @@ public class ProfitAndLossReport extends AbstractReportView<TrialBalance> {
 	// UIUtils.generateReportPDF(this.getTitle(), gridhtml, dateRangeHtml);
 	// }
 	//
-	// 
+	//
 	// private void printDataForOtherBrowser() {
 	// String gridhtml = grid.toString();
 	// String headerhtml = grid.getHeader();

@@ -17,8 +17,7 @@ public class AmountsDueToVendorReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getAmountsDueToVendor(start.getTime(),
-				end.getTime(), this);
+		Accounter.createReportService().getAmountsDueToVendor(start, end, this);
 	}
 
 	@Override
@@ -40,8 +39,8 @@ public class AmountsDueToVendorReport extends
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 149, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 149, "",
 				"");
 	}
 
@@ -57,8 +56,8 @@ public class AmountsDueToVendorReport extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 149, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 149, "",
 				"");
 	}
 

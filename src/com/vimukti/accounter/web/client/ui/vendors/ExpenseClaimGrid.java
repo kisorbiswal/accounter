@@ -79,9 +79,9 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 		case 0:
 			return billsList.getVendorName();
 		case 1:
-			return new ClientFinanceDate(billsList.getDate().getTime());
+			return new ClientFinanceDate(billsList.getDate().getDate());
 		case 2:
-			return new ClientFinanceDate(billsList.getDueDate().getTime());
+			return new ClientFinanceDate(billsList.getDueDate().getDate());
 		case 3:
 			return getstatus(billsList.getExpenseStatus());
 

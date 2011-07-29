@@ -36,201 +36,248 @@ import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 
 public interface IAccounterReportServiceAsync {
 
-	public void getSalesByCustomerSummary(final long startDate,
-			final long endDate,
+	public void getSalesByCustomerSummary(final ClientFinanceDate startDate,
+			final ClientFinanceDate endDate,
 			AsyncCallback<List<SalesByCustomerDetail>> callBackResult);
 
-	public void getTrialBalance(long startDate, long endDate,
+	public void getTrialBalance(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<TrialBalance>> callBackResult);
 
-	public void getAgedDebtors(long startDate, long endDate,
+	public void getAgedDebtors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<AgedDebtors>> callBackResult);
 
-	public void getAgedCreditors(long startDate, long endDate,
+	public void getAgedCreditors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<AgedDebtors>> callBackResult);
 
-	public void getSalesByCustomerDetailReport(long startDate, long endDate,
+	public void getSalesByCustomerDetailReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<SalesByCustomerDetail>> callBackResult);
 
-	public void getSalesByItemDetail(long startDate, long endDate,
+	public void getSalesByItemDetail(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<SalesByCustomerDetail>> callBackResult);
 
-	public void getSalesByItemSummary(long startDate, long endDate,
+	public void getSalesByItemSummary(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<SalesByCustomerDetail>> callBackResult);
 
-	public void getCustomerTransactionHistory(long startDate, long endDate,
+	public void getCustomerTransactionHistory(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<TransactionHistory>> callBackResult);
 
-	public void getPurchasesByVendorDetail(long startDate, long endDate,
+	public void getPurchasesByVendorDetail(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<SalesByCustomerDetail>> callBackResult);
 
-	public void getPurchasesByVendorSummary(long startDate, long endDate,
+	public void getPurchasesByVendorSummary(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<SalesByCustomerDetail>> callBackResult);
 
-	public void getPurchasesByItemDetail(long startDate, long endDate,
+	public void getPurchasesByItemDetail(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<SalesByCustomerDetail>> callBackResult);
 
-	public void getPurchasesByItemSummary(long startDate, long endDate,
+	public void getPurchasesByItemSummary(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<SalesByCustomerDetail>> callBackResult);
 
-	public void getVendorTransactionHistory(long startDate, long endDate,
+	public void getVendorTransactionHistory(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<TransactionHistory>> callBackResult);
 
-	public void getAmountsDueToVendor(long startDate, long endDate,
+	public void getAmountsDueToVendor(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<AmountsDueToVendor>> callBackResult);
 
-	public void getMostProfitableCustomers(long startDate, long endDate,
+	public void getMostProfitableCustomers(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<MostProfitableCustomers>> callBackResult);
 
-	public void getTransactionDetailByTaxItem(long startDate, long endDate,
+	public void getTransactionDetailByTaxItem(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<TransactionDetailByTaxItem>> callBackResult);
 
 	public void getRegister(long accountId,
 			AsyncCallback<List<ClientTransaction>> callBackResult);
 
-	public void getAccountRegister(long startDate, long endDate,
-			long accountId, AsyncCallback<List<AccountRegister>> callBackResult);
+	public void getAccountRegister(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long accountId,
+			AsyncCallback<List<AccountRegister>> callBackResult);
 
-	public void getTransactionHistoryCustomers(long startDate, long endDate,
+	public void getTransactionHistoryCustomers(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<ClientCustomer>> callBackResult);
 
-	public void getTransactionHistoryVendors(long startDate, long endDate,
+	public void getTransactionHistoryVendors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<ClientVendor>> callBackResult);
 
-	public void getSalesReportItems(long startDate, long endDate,
+	public void getSalesReportItems(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<ClientItem>> callBackResult);
 
-	public void getPurchaseReportItems(long startDate, long endDate,
+	public void getPurchaseReportItems(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<ClientItem>> callBackResult);
 
-	public void getTransactionDetailByAccount(final long startDate,
-			final long endDate,
+	public void getTransactionDetailByAccount(
+			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
 			AsyncCallback<List<TransactionDetailByAccount>> callBackResult);
 
-	public void getSalesTaxLiabilityReport(final long startDate,
-			final long endDate, AsyncCallback<List<SalesTaxLiability>> callBack);
+	public void getSalesTaxLiabilityReport(final ClientFinanceDate startDate,
+			final ClientFinanceDate endDate,
+			AsyncCallback<List<SalesTaxLiability>> callBack);
 
 	public void getSalesByCustomerDetailReport(String customerName,
-			long startDate, long endDate,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<List<SalesByCustomerDetail>> callBack);
 
-	public void getSalesByItemDetail(String itemName, long startDate,
-			long endDate, AsyncCallback<List<SalesByCustomerDetail>> callBack);
+	public void getSalesByItemDetail(String itemName,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			AsyncCallback<List<SalesByCustomerDetail>> callBack);
 
-	public void getPurchasesByVendorDetail(String vendorName, long startDate,
-			long endDate, AsyncCallback<List<SalesByCustomerDetail>> callBack);
+	public void getPurchasesByVendorDetail(String vendorName,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			AsyncCallback<List<SalesByCustomerDetail>> callBack);
 
-	public void getPurchasesByItemDetail(String itemName, long startDate,
-			long endDate, AsyncCallback<List<SalesByCustomerDetail>> callBack);
+	public void getPurchasesByItemDetail(String itemName,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			AsyncCallback<List<SalesByCustomerDetail>> callBack);
 
 	public void getTransactionDetailByAccount(String accountName,
-			final long startDate, final long endDate,
+			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
 			AsyncCallback<List<TransactionDetailByAccount>> callBack);
 
 	public void getMinimumAndMaximumTransactionDate(
 			AsyncCallback<List<ClientFinanceDate>> callBack);
 
 	public void getTransactionDetailByTaxItem(String taxItemname,
-			long startDate, long endDate,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<List<TransactionDetailByTaxItem>> callBackResult);
 
-	public void getBalanceSheetReport(long startDate, long endDate,
+	public void getBalanceSheetReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<TrialBalance>> callBack);
 
-	public void getProfitAndLossReport(long startDate, long endDate,
+	public void getProfitAndLossReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<TrialBalance>> callBack);
 
-	public void getCashFlowReport(long startDate, long endDate,
+	public void getCashFlowReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<TrialBalance>> callBack);
 
-	public void getPurchaseOpenOrderReport(long startDate, long endDate,
+	public void getPurchaseOpenOrderReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseCompletedOrderReport(long startDate, long endDate,
+	public void getPurchaseCompletedOrderReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseCancelledOrderReport(long startDate, long endDate,
+	public void getPurchaseCancelledOrderReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseOrderReport(long startDate, long endDate,
+	public void getPurchaseOrderReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseClosedOrderReport(long startDate, long endDate,
+	public void getPurchaseClosedOrderReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	public void getSalesOpenOrderReport(long startDate, long endDate,
+	public void getSalesOpenOrderReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	public void getSalesCompletedOrderReport(long startDate, long endDate,
+	public void getSalesCompletedOrderReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	public void getSalesOrderReport(long startDate, long endDate,
+	public void getSalesOrderReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	public void getSalesCancelledOrderReport(long startDate, long endDate,
+	public void getSalesCancelledOrderReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	public void getSalesClosedOrderReport(long startDate, long endDate,
+	public void getSalesClosedOrderReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<OpenAndClosedOrders>> callBack);
 
-	void getPriorVATReturnVATDetailReport(long startDate, long endDate,
+	void getPriorVATReturnVATDetailReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, AsyncCallback<List<VATDetail>> callback);
+
+	void getPriorVATReturnReport(long vatAgancy, ClientFinanceDate endDate,
 			AsyncCallback<List<VATDetail>> callback);
 
-	void getPriorVATReturnReport(long vatAgancy, long endDate,
-			AsyncCallback<List<VATDetail>> callback);
+	public void getPriorReturnVATSummary(long vatAgency,
+			ClientFinanceDate endDate, AsyncCallback<List<VATSummary>> callback);
 
-	public void getPriorReturnVATSummary(long vatAgency, long endDate,
-			AsyncCallback<List<VATSummary>> callback);
+	public void getVAT100Report(long vatAgncy, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate, AsyncCallback<List<VATSummary>> callback);
 
-	public void getVAT100Report(long vatAgncy, long fromDate, long toDate,
-			AsyncCallback<List<VATSummary>> callback);
-
-	public void getUncategorisedAmountsReport(long fromDate, long toDate,
+	public void getUncategorisedAmountsReport(ClientFinanceDate fromDate,
+			ClientFinanceDate toDate,
 			AsyncCallback<List<UncategorisedAmountsReport>> callback);
 
-	public void getECSalesListReport(long fromDate, long toDate,
-			AsyncCallback<List<ECSalesList>> callback);
+	public void getECSalesListReport(ClientFinanceDate fromDate,
+			ClientFinanceDate toDate, AsyncCallback<List<ECSalesList>> callback);
 
-	public void getECSalesListDetailReport(String payeeName, long fromDate,
-			long toDate, AsyncCallback<List<ECSalesListDetail>> callback);
+	public void getECSalesListDetailReport(String payeeName,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			AsyncCallback<List<ECSalesListDetail>> callback);
 
 	public void getReverseChargeListDetailReport(String payeeName,
-			long fromDate, long toDate,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			AsyncCallback<List<ReverseChargeListDetail>> callback);
 
-	public void getReverseChargeListReport(long fromDate, long toDate,
+	public void getReverseChargeListReport(ClientFinanceDate fromDate,
+			ClientFinanceDate toDate,
 			AsyncCallback<List<ReverseChargeList>> callback);
 
-	public void getDebitors(long startDate, long endDate,
+	public void getDebitors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<DummyDebitor>> callback);
 
-	public void getCreditors(long startDate, long endDate,
+	public void getCreditors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<List<DummyDebitor>> callback);
 
-	public void getAgedDebtors(String Name, long startDate, long endDate,
+	public void getAgedDebtors(String Name, ClientFinanceDate startDate,
+			ClientFinanceDate endDate, AsyncCallback<List<AgedDebtors>> callback);
+
+	public void getAgedCreditors(String debitorName,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			AsyncCallback<List<AgedDebtors>> callback);
 
-	public void getAgedCreditors(String debitorName, long fromDate,
-			long toDate, AsyncCallback<List<AgedDebtors>> callback);
-
-	public void getVATItemSummaryReport(long fromDate, long toDate,
+	public void getVATItemSummaryReport(ClientFinanceDate fromDate,
+			ClientFinanceDate toDate,
 			AsyncCallback<List<VATItemSummary>> callback);
 
-	public void getVATItemDetailReport(String vatItemName, long fromDate,
-			long toDate, AsyncCallback<List<VATItemDetail>> callback);
+	public void getVATItemDetailReport(String vatItemName,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			AsyncCallback<List<VATItemDetail>> callback);
 
-	public void getExpenseReportByType(int status, long startDate,
-			long endDate, AsyncCallback<List<ExpenseList>> callback);
+	public void getExpenseReportByType(int status, ClientFinanceDate startDate,
+			ClientFinanceDate endDate, AsyncCallback<List<ExpenseList>> callback);
 
-	public void getDepositDetail(final long startDate, final long endDate,
+	public void getDepositDetail(final ClientFinanceDate startDate,
+			final ClientFinanceDate endDate,
 			AsyncCallback<List<DepositDetail>> callBackResult);
 
-	public void getCheckDetailReport(long paymentmethod, final long startDate,
-			final long endDate,
+	public void getCheckDetailReport(long paymentmethod,
+			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
 			AsyncCallback<List<CheckDetailReport>> callBackResult);
 
-	public void getStatements(long id, long transactionDate, long fromDate,
-			long toDate, int noOfDays, boolean isEnabledOfZeroBalBox,
+	public void getStatements(long id, long transactionDate,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate, int noOfDays,
+			boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessThanZeroBalBox,
 			double lessThanZeroBalanceValue,
 			boolean isEnabledOfNoAccountActivity,

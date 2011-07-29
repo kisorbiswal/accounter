@@ -13,7 +13,7 @@ public class GeneralLedgerReport extends TransactionDetailByAccountReport {
 
 	public GeneralLedgerReport() {
 		this.serverReport = new GeneralLedgerServerReport(new ClientFinanceDate()
-				.getTime(), new ClientFinanceDate().getTime(), 0, this);
+				.getDate(), new ClientFinanceDate().getDate(), 0, this);
 	}
 
 }

@@ -256,11 +256,11 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	protected ClientFixedAsset getSellOrDisposeObject() {
 		ClientFixedAsset sellorDisposeAsset = (ClientFixedAsset) data;
 		sellorDisposeAsset.setSoldOrDisposedDate(getSoldorDisposedDateField()
-				.getEnteredDate().getTime());
+				.getEnteredDate().getDate());
 		ClientFinanceDate date = dateValueMap.get(dateItemCombo.getValue()
 				.toString());
 		if (date != null)
-			sellorDisposeAsset.setDepreciationTillDate(date.getTime());
+			sellorDisposeAsset.setDepreciationTillDate(date.getDate());
 
 		if (sellorDisposeAsset != null) {
 			sellorDisposeAsset

@@ -35,11 +35,10 @@ public class SalesByCustomerDetailReport extends
 		SalesByCustomerDetail byCustomerDetail = (SalesByCustomerDetail) this.data;
 		if (byCustomerDetail == null) {
 			Accounter.createReportService().getSalesByCustomerDetailReport(
-					start.getTime(), end.getTime(), this);
+					start, end, this);
 		} else if (byCustomerDetail.getName() != null) {
 			Accounter.createReportService().getSalesByCustomerDetailReport(
-					byCustomerDetail.getName(), start.getTime(), end.getTime(),
-					this);
+					byCustomerDetail.getName(), start, end, this);
 		}
 	}
 
@@ -57,8 +56,8 @@ public class SalesByCustomerDetailReport extends
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 122, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 122, "",
 				"");
 	}
 
@@ -96,8 +95,8 @@ public class SalesByCustomerDetailReport extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 122, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 122, "",
 				"");
 	}
 

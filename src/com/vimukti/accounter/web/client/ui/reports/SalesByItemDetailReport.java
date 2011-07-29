@@ -37,12 +37,11 @@ public class SalesByItemDetailReport extends
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		SalesByCustomerDetail byCustomerDetail = (SalesByCustomerDetail) this.data;
 		if (byCustomerDetail == null) {
-			Accounter.createReportService().getSalesByItemDetail(
-					start.getTime(), end.getTime(), this);
+			Accounter.createReportService().getSalesByItemDetail(start, end,
+					this);
 		} else if (byCustomerDetail.getItemName() != null) {
 			Accounter.createReportService().getSalesByItemDetail(
-					byCustomerDetail.getItemName(), start.getTime(),
-					end.getTime(), this);
+					byCustomerDetail.getItemName(), start, end, this);
 		}
 		this.bycustomerDetail = byCustomerDetail.getTransactionId();
 	}
@@ -61,13 +60,13 @@ public class SalesByItemDetailReport extends
 	public void print() {
 		if (bycustomerDetail == 0) {
 			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getTime())),
-					Integer.parseInt(String.valueOf(endDate.getTime())), 124,
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 124,
 					"", "");
 		} else {
 			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getTime())),
-					Integer.parseInt(String.valueOf(endDate.getTime())), 124,
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 124,
 					"", "", bycustomerDetail);
 		}
 
@@ -125,13 +124,13 @@ public class SalesByItemDetailReport extends
 	public void exportToCsv() {
 		if (bycustomerDetail == 0) {
 			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getTime())),
-					Integer.parseInt(String.valueOf(endDate.getTime())), 124,
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 124,
 					"", "");
 		} else {
 			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getTime())),
-					Integer.parseInt(String.valueOf(endDate.getTime())), 124,
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 124,
 					"", "", bycustomerDetail);
 		}
 	}

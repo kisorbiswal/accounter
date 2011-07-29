@@ -28,8 +28,8 @@ public class MostProfitableCustomerReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getMostProfitableCustomers(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getMostProfitableCustomers(start, end,
+				this);
 	}
 
 	@Override
@@ -51,8 +51,8 @@ public class MostProfitableCustomerReport extends
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 147, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 147, "",
 				"");
 	}
 
@@ -83,8 +83,8 @@ public class MostProfitableCustomerReport extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 147, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 147, "",
 				"");
 	}
 

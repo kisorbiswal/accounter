@@ -58,7 +58,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	}
 
 	public ClientFinanceDate getStartDate() {
-		return startDate != null && startDate.getTime() == 0 ? new ClientFinanceDate()
+		return startDate != null && startDate.getDate() == 0 ? new ClientFinanceDate()
 				: startDate;
 	}
 
@@ -67,7 +67,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	}
 
 	public ClientFinanceDate getEndDate() {
-		return (endDate != null && endDate.getTime() == 0) ? new ClientFinanceDate()
+		return (endDate != null && endDate.getDate() == 0) ? new ClientFinanceDate()
 				: endDate;
 	}
 
@@ -234,7 +234,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				endDate = Accounter.getCompany()
 						.getLastandOpenedFiscalYearEndDate();
 				int day = endDate.getDay();
-				endDate.setDate(day - 1);
+				endDate.setDay(day - 1);
 				setSelectedDateRange((Accounter.constants()
 						.endYesterday()));
 			} else if (!getSelectedDateRange().equals(
@@ -272,9 +272,9 @@ public abstract class ReportToolbar extends HorizontalPanel {
 							.previousFiscalYearSameDates())) {
 
 				startDate = new ClientFinanceDate(this.startDate.getYear() - 1,
-						this.startDate.getMonth(), this.startDate.getDate());
+						this.startDate.getMonth(), this.startDate.getDay());
 				endDate = new ClientFinanceDate(this.endDate.getYear() - 1,
-						this.endDate.getMonth(), this.endDate.getDate());
+						this.endDate.getMonth(), this.endDate.getDay());
 				// startDate = new ClientFinanceDate(date.getYear() - 1, 0, 1);
 				// endDate = new ClientFinanceDate(date.getYear() - 1, 11, 1);
 				setSelectedDateRange(Accounter.constants()
@@ -438,9 +438,9 @@ public abstract class ReportToolbar extends HorizontalPanel {
 							.lastWeek())) {
 
 				endDate = getWeekStartDate();
-				endDate.setDate(endDate.getDate() - 1);
-				startDate = new ClientFinanceDate(endDate.getTime());
-				startDate.setDate(startDate.getDate() - 6);
+				endDate.setDay(endDate.getDay() - 1);
+				startDate = new ClientFinanceDate(endDate.getDate());
+				startDate.setDay(startDate.getDay() - 6);
 
 				setSelectedDateRange(Accounter.constants().lastWeek());
 
@@ -687,7 +687,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		ClientFinanceDate date = new ClientFinanceDate();
 		int day = date.getDay();
 		ClientFinanceDate newDate = new ClientFinanceDate();
-		newDate.setDate(Math.abs(date.getDate() - day));
+		newDate.setDay(Math.abs(date.getDay() - day));
 		return newDate;
 	}
 

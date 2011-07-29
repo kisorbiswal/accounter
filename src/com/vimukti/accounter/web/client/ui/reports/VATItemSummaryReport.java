@@ -37,8 +37,8 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getVATItemSummaryReport(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getVATItemSummaryReport(start, end,
+				this);
 
 	}
 
@@ -55,8 +55,8 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 	@Override
 	public void print() {
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 141, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 141, "",
 				"");
 
 	}
@@ -85,8 +85,8 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 141, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 141, "",
 				"");
 	}
 

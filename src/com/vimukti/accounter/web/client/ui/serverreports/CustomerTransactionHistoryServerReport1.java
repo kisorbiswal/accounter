@@ -44,8 +44,8 @@ public class CustomerTransactionHistoryServerReport1 extends
 
 	@Override
 	public void makeReportRequest(long start, long end) {
-		Accounter.createReportService().getCustomerTransactionHistory(start,
-				end, this);
+		Accounter.createReportService().getCustomerTransactionHistory(
+				new ClientFinanceDate(start), new ClientFinanceDate(end), this);
 	}
 
 	@Override
@@ -85,9 +85,8 @@ public class CustomerTransactionHistoryServerReport1 extends
 			addSection(sectionName, "", new int[0]);
 		} else if (sectionDepth == 2) {
 			// Inside fist section
-			addSection(Accounter.constants().beginingBalance(),
-					Accounter.constants().endingBalance(), new int[] {
-							3, 5, 8, 9 });
+			addSection(Accounter.constants().beginingBalance(), Accounter
+					.constants().endingBalance(), new int[] { 3, 5, 8, 9 });
 		} else if (sectionDepth == 3) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {

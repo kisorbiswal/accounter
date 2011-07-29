@@ -48,11 +48,10 @@ public class TransactionDetailByAccountReport extends
 		TrialBalance accountdetails = (TrialBalance) data;
 		if (accountdetails == null) {
 			Accounter.createReportService().getTransactionDetailByAccount(
-					start.getTime(), end.getTime(), this);
+					start, end, this);
 		} else if (accountdetails.getAccountName() != null) {
 			Accounter.createReportService().getTransactionDetailByAccount(
-					accountdetails.getAccountName(), start.getTime(),
-					end.getTime(), this);
+					accountdetails.getAccountName(), start, end, this);
 		}
 	}
 
@@ -70,8 +69,8 @@ public class TransactionDetailByAccountReport extends
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 115, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 115, "",
 				"");
 
 	}
@@ -129,8 +128,8 @@ public class TransactionDetailByAccountReport extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 115, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 115, "",
 				"");
 	}
 

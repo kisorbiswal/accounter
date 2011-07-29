@@ -269,7 +269,7 @@ public class VATPaymentView extends
 
 		paySalesTax
 				.setDate(((ClientFinanceDate) transactionDateItem.getValue())
-						.getTime());
+						.getDate());
 
 		paySalesTax.setTotal(amount.getAmount());
 

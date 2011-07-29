@@ -50,10 +50,10 @@ public class CreateFiscalYearDialog extends BaseDialog {
 				if (startdate.before(fiscalYear.getEndDate()))
 					startdate = fiscalYear.getEndDate();
 			}
-			startdate.setDate(startdate.getDate() + 1);
-			endDate = new ClientFinanceDate(startdate.getTime());
+			startdate.setDay(startdate.getDay() + 1);
+			endDate = new ClientFinanceDate(startdate.getDate());
 			endDate.setYear(endDate.getYear() + 1);
-			endDate.setDate(endDate.getDate() - 1);
+			endDate.setDay(endDate.getDay() - 1);
 		} else {
 			presentDate = new ClientFinanceDate();
 			startdate = new ClientFinanceDate(presentDate.getYear(), 00, 01);
@@ -166,16 +166,16 @@ public class CreateFiscalYearDialog extends BaseDialog {
 		ClientFiscalYear selectedFiscalYear = listOfFiscalYear.getSelection();
 		if (selectedFiscalYear != null) {
 			selectedFiscalYear.setStartDate(startOfFiscalYear.getDate()
-					.getTime());
-			selectedFiscalYear.setEndDate(endOfFiscalYear.getDate().getTime());
+					.getDate());
+			selectedFiscalYear.setEndDate(endOfFiscalYear.getDate().getDate());
 		}
 		return selectedFiscalYear;
 	}
 
 	public ClientFiscalYear getNewFiscalYear() {
 		ClientFiscalYear clientFiscalYear = new ClientFiscalYear();
-		clientFiscalYear.setStartDate(startOfFiscalYear.getDate().getTime());
-		clientFiscalYear.setEndDate(endOfFiscalYear.getDate().getTime());
+		clientFiscalYear.setStartDate(startOfFiscalYear.getDate().getDate());
+		clientFiscalYear.setEndDate(endOfFiscalYear.getDate().getDate());
 		clientFiscalYear.setStatus(ClientFiscalYear.STATUS_OPEN);
 		return clientFiscalYear;
 	}

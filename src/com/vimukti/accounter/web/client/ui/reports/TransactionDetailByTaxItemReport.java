@@ -32,11 +32,10 @@ public class TransactionDetailByTaxItemReport extends
 		SalesTaxLiability taxLiability = (SalesTaxLiability) data;
 		if (taxLiability == null) {
 			Accounter.createReportService().getTransactionDetailByTaxItem(
-					start.getTime(), end.getTime(), this);
+					start, end, this);
 		} else if (taxLiability.getTaxAgencyName() != null) {
 			Accounter.createReportService().getTransactionDetailByTaxItem(
-					taxLiability.getTaxAgencyName(), start.getTime(),
-					end.getTime(), this);
+					taxLiability.getTaxAgencyName(), start, end, this);
 
 		}
 	}
@@ -54,13 +53,13 @@ public class TransactionDetailByTaxItemReport extends
 	@Override
 	public void print() {
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 114, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 114, "",
 				"");
 
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 114, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 114, "",
 				"");
 	}
 

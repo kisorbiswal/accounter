@@ -114,7 +114,7 @@ public class DateItem extends FormItem {
 
 	public long getTime() {
 		return new ClientFinanceDate(this.datePicker.getSelectedDate())
-				.getTime();
+				.getDate();
 	}
 
 	public void setDatethanFireEvent(ClientFinanceDate date) {

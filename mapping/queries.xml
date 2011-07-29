@@ -1546,8 +1546,7 @@
 	</query>
 
 	<query name="getVATReturn.by.check.lessZeroBalance">
-		from com.vimukti.accounter.core.VATReturn where
-		balance &gt;0
+		from com.vimukti.accounter.core.VATReturn v where v.balance &gt;0
 	</query>
 
 	<query name="getVATReturn.by.taxagencyandenddate">
@@ -1702,8 +1701,7 @@
 
 	<query name="getFixedAsset.by.purchaseDate">
 		from com.vimukti.accounter.core.FixedAsset fa where
-		fa.purchaseDate &lt;=
-		?
+		fa.purchaseDate &lt;=?
 	</query>
 
 	<query name="getFiscalYearf">

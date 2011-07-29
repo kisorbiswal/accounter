@@ -69,7 +69,8 @@ public class ARAgingSummaryServerReport extends
 		// Get the report service and get the debitors using the given start and
 		// end time.
 		// The result is set to the view using the callback onSuccess()
-		Accounter.createReportService().getDebitors(start, end, this);
+		Accounter.createReportService().getDebitors(
+				new ClientFinanceDate(start), new ClientFinanceDate(end), this);
 		/*
 		 * FinanceApplication.createReportService().getDebitors(start.getTime(),
 		 * new ClientFinanceDate().getTime(), this);

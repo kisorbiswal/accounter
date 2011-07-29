@@ -42,7 +42,7 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 		if (this.serverReport instanceof PriorVATReturnsServerReport)
 			((PriorVATReturnsServerReport) this.serverReport).row = -1;
 		Accounter.createReportService().getPriorReturnVATSummary(vatAgency,
-				end.getTime(), this);
+				end, this);
 		this.vatAgency = vatAgency;
 	}
 
@@ -67,8 +67,8 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 136, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 136, "",
 				"", vatAgency);
 	}
 
@@ -91,8 +91,8 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 147, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 147, "",
 				"");
 	}
 

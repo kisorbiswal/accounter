@@ -1,8 +1,6 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -96,20 +94,12 @@ public class CompanyInfoDialog extends BaseDialog {
 			this.emailText.setValue(company.getCompanyEmail());
 			this.bankAccountText.setValue(company.getBankAccountNo());
 			this.sortCodeText.setValue(company.getSortCode());
-			List<ClientAddress> companyAddress = company.getAddresses();
-			for (ClientAddress address : companyAddress) {
-				if (address.getType() == ClientAddress.TYPE_COMPANY) {
-					setAddressToTextItem(textareaItem, address);
-					allAddresses
-							.put(UIUtils.getAddressType("company"), address);
-				}
-				if (address.getType() == ClientAddress.TYPE_COMPANY_REGISTRATION) {
-					setAddressToTextItem(textareaItem2, address);
-					allAddresses.put(
-							UIUtils.getAddressType("companyregistration"),
-							address);
-				}
-			}
+			allAddresses.put(ClientAddress.TYPE_COMPANY,
+					company.getTradingAddress());
+			setAddressToTextItem(textareaItem, company.getTradingAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION,
+					company.getRegisteredAddress());
+			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
 			doupaySalesChecBox.setValue(getCompany().getPreferences()
@@ -411,12 +401,16 @@ public class CompanyInfoDialog extends BaseDialog {
 
 		clientCompany.setpreferences(companyPreferences);
 
-		List<ClientAddress> list2 = new ArrayList<ClientAddress>(
-				allAddresses.values());
-		if (!list2.isEmpty())
-			clientCompany.setAddresses(list2);
-		else
-			clientCompany.setAddresses(getCompany().getAddresses());
+		if (!allAddresses.isEmpty()) {
+			clientCompany.setTradingAddress(allAddresses
+					.get(ClientAddress.TYPE_COMPANY));
+			clientCompany.setRegisteredAddress(allAddresses
+					.get(ClientAddress.TYPE_COMPANY_REGISTRATION));
+		} else {
+			clientCompany.setTradingAddress(getCompany().getTradingAddress());
+			clientCompany.setRegisteredAddress(getCompany()
+					.getRegisteredAddress());
+		}
 
 		clientCompany
 				.setRegistrationNumber(getStringValue(registrationNumberText));

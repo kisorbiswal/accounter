@@ -69,17 +69,15 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 	public void initHeader() {
 
 		String cmpAdd = "<br/><br/><br/><br/><br/>";
-		for (Address cmpTrad : company.getAddresses()) {
-			if (cmpTrad.getType() == Address.TYPE_COMPANY_REGISTRATION) {
-				if (cmpTrad != null)
-					cmpAdd = ("<br><font style=\"font-family:sans-serif; color:#504040;\">&nbsp;"
-							+ forUnusedAddress(cmpTrad.getAddress1())
-							+ forUnusedAddress(cmpTrad.getStreet())
-							+ forUnusedAddress(cmpTrad.getCity())
-							+ forUnusedAddress(cmpTrad.getStateOrProvinence())
-							+ forUnusedAddress(cmpTrad.getZipOrPostalCode())
-							+ forUnusedAddress(cmpTrad.getCountryOrRegion()) + "</font></br>");
-			}
+		Address registeredAddress = company.getRegisteredAddress();
+		if (registeredAddress != null) {
+			cmpAdd = ("<br><font style=\"font-family:sans-serif; color:#504040;\">&nbsp;"
+					+ forUnusedAddress(registeredAddress.getAddress1())
+					+ forUnusedAddress(registeredAddress.getStreet())
+					+ forUnusedAddress(registeredAddress.getCity())
+					+ forUnusedAddress(registeredAddress.getStateOrProvinence())
+					+ forUnusedAddress(registeredAddress.getZipOrPostalCode())
+					+ forUnusedAddress(registeredAddress.getCountryOrRegion()) + "</font></br>");
 		}
 
 		cmpAdd = ("<p><font style=\"font-family:sans-serif;\" size=\"6px\"><strong> "

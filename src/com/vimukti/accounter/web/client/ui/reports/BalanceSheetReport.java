@@ -39,8 +39,7 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getBalanceSheetReport(start.getTime(),
-				end.getTime(), this);
+		Accounter.createReportService().getBalanceSheetReport(start, end, this);
 	}
 
 	@Override
@@ -57,16 +56,16 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 112, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 112, "",
 				"");
 
 	}
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 112, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 112, "",
 				"");
 	}
 }

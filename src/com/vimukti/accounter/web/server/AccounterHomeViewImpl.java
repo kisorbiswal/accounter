@@ -17,6 +17,7 @@ import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FinanceLogger;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
@@ -40,6 +41,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -99,7 +101,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public List<ClientEnterBill> getBillsOwed() {
 
 		List<ClientEnterBill> clientEnterBills = new ArrayList<ClientEnterBill>();
-		
+
 		List<EnterBill> serverEnterBills = null;
 		try {
 
@@ -255,7 +257,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				paySalesTxEntry.setTransaction(salesTaxEntry.getTransaction()
 						.getID());
 				paySalesTxEntry.setTransactionDate(salesTaxEntry
-						.getTransactionDate().getTime());
+						.getTransactionDate().getDate());
 				clientPaySlesTaxEntries.add(paySalesTxEntry);
 				// paySalesTxEntry
 				// .setVoid(salesTaxEntry.getTransaction().isVoid());
@@ -1182,7 +1184,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ClientVATReturn getTAXReturn(ClientTAXAgency taxAgency,
-			long fromDate, long toDate) throws AccounterException {
+			ClientFinanceDate fromDate, ClientFinanceDate toDate)
+			throws AccounterException {
 
 		try {
 			FinanceTool tool = getFinanceTool();
@@ -1190,9 +1193,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			TAXAgency serverVatAgency = new ServerConvertUtil().toServerObject(
 					new TAXAgency(), taxAgency, getSession());
 
-			return new ClientConvertUtil()
-					.toClientObject(tool.getVATReturnDetails(serverVatAgency,
-							fromDate, toDate), ClientVATReturn.class);
+			return new ClientConvertUtil().toClientObject(tool
+					.getVATReturnDetails(serverVatAgency, new FinanceDate(
+							fromDate), new FinanceDate(toDate)),
+					ClientVATReturn.class);
 
 		} catch (Exception e) {
 			throw new AccounterException(e);
@@ -1412,7 +1416,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			clientLog.setDescription(log.getDescription());
 			clientLog.setLogMessge(log.getLogMessge());
 			clientLog.setCreatedBy(log.getCreatedBy());
-			clientLog.setCreatedDate(log.getCreatedDate().getTime());
+			clientLog.setCreatedDate(log.getCreatedDate().getDate());
 			clientLog.setID(log.getID());
 
 			clientLogs.add(clientLog);
@@ -1439,7 +1443,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			clientLog.setID(log.getID());
 			clientLog.setDescription(log.getDescription());
 			clientLog.setLogMessge(log.getLogMessge());
-			clientLog.setCreatedDate(log.getCreatedDate().getTime());
+			clientLog.setCreatedDate(log.getCreatedDate().getDate());
 			clientLog.setCreatedBy(log.getCreatedBy());
 
 			clientLogs.add(clientLog);
@@ -1553,6 +1557,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			return tool.getAllUsers();
+		}
+		return null;
+	}
+
+	@Override
+	public List<ClientEmployee> getAllEmployees() throws AccounterException {
+		FinanceTool tool = getFinanceTool();
+		if (tool != null) {
+			return tool.getAllEmployees();
 		}
 		return null;
 	}

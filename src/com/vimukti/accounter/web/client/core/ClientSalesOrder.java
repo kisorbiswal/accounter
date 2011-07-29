@@ -60,7 +60,7 @@ public class ClientSalesOrder extends ClientTransaction {
 		this.total = estimate.getTotal();
 		// this.deliverydate = estimate.getDeliveryDate();
 
-		this.transactionDate = estimate.getDate().getTime();
+		this.transactionDate = estimate.getDate().getDate();
 		this.transactionItems = estimate.getTransactionItems();
 
 		this.memo = estimate.getMemo();

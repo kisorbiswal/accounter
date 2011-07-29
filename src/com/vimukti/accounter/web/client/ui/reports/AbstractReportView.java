@@ -411,8 +411,8 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		} else {
 			toolbar.setDefaultDateRange(getDefaultDateRange());
 			toolbar.setSelectedDateRange(getDefaultDateRange());
-			this.serverReport.setStartAndEndDates(toolbar.getStartDate()
-					.getTime(), toolbar.getEndDate().getTime());
+			this.serverReport.setStartAndEndDates(toolbar.getStartDate(),
+					toolbar.getEndDate());
 
 		}
 		// makeReportRequest(toolbar.getStartDate(), toolbar.getEndDate());
@@ -505,8 +505,8 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 		grid.addLoadingImagePanel();
 		// if (UIUtils.isMSIEBrowser())
 		fitToSize(fitHeight, 0);
-		this.serverReport.setStartAndEndDates(toolbar.getStartDate().getTime(),
-				toolbar.getEndDate().getTime());
+		this.serverReport.setStartAndEndDates(toolbar.getStartDate(),
+				toolbar.getEndDate());
 		setHeaderTitle();
 		makeReportRequest(startDate, endDate);
 	}
@@ -805,9 +805,10 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	}
 
 	@Override
-	public void setStartAndEndDates(long startDate2, long endDate2) {
-		this.startDate = new ClientFinanceDate(startDate2);
-		this.endDate = new ClientFinanceDate(endDate2);
+	public void setStartAndEndDates(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
 	@Override

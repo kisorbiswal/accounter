@@ -1286,12 +1286,12 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 		TempFixedAsset fixedAsset = new TempFixedAsset();
 		fixedAsset.setFixedAssetID(this.getID());
 		fixedAsset.setPurchaseDate(new ClientFinanceDate(this.getPurchaseDate()
-				.getTime()));
+				.getDate()));
 		fixedAsset.setNoDepreciation(this.isNoDepreciation());
 		fixedAsset.setSoldOrDisposedDate(new ClientFinanceDate(
-				this.soldOrDisposedDate.getTime()));
+				this.soldOrDisposedDate.getDate()));
 		fixedAsset.setDepreciationTillDate(new ClientFinanceDate(this
-				.getDepreciationTillDate().getTime()));
+				.getDepreciationTillDate().getDate()));
 		fixedAsset.setPurchasePrice(this.getPurchasePrice());
 		fixedAsset.setSalesPrice(this.getSalePrice());
 		fixedAsset.setBookValue(this.getBookValue());
@@ -1371,7 +1371,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 				ClientFinanceDate depFrom = fixedAsset.getPurchaseDate()
 						.compareTo(
 								new ClientFinanceDate(lastDepreciationDate
-										.getTime())) <= 0 ? (new ClientFinanceDate(
+										.getDate())) <= 0 ? (new ClientFinanceDate(
 						lastDepreciationDateCal.getTime())) : (fixedAsset
 						.getPurchaseDate());
 				depreciationTobePosted += format.format(depFrom);
@@ -1384,7 +1384,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 						fixedAsset.getDepreciationMethod(),
 						fixedAsset.getDepreciationRate(),
 						fixedAsset.getPurchasePrice(),
-						new FinanceDate(depFrom.getTime()), new FinanceDate(
+						new FinanceDate(depFrom.getDate()), new FinanceDate(
 								soldYearStartDateCal.getTime()));
 				depreciationToBePostedAmount = Double.parseDouble(decimalFormat
 						.format(depreciationToBePostedAmount));
@@ -1410,19 +1410,19 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 		} else {
 
 			depreciationTillDate = new FinanceDate(fixedAsset
-					.getDepreciationTillDate().getTime());
+					.getDepreciationTillDate().getDate());
 
 			if (fixedAsset.getPurchaseDate().compareTo(
-					new ClientFinanceDate(depreciationTillDate.getTime())) <= 0) {
+					new ClientFinanceDate(depreciationTillDate.getDate())) <= 0) {
 
 				if (lastDepreciationDate.compareTo(depreciationTillDate) < 0) {
 					FinanceDate depFrom = fixedAsset.getPurchaseDate()
 							.compareTo(
 									new ClientFinanceDate(lastDepreciationDate
-											.getTime())) <= 0 ? (new FinanceDate(
+											.getDate())) <= 0 ? (new FinanceDate(
 							lastDepreciationDateCal.getTime()))
 							: new FinanceDate(fixedAsset.getPurchaseDate()
-									.getTime());
+									.getDate());
 
 					depreciationTobePosted += format.format(depFrom);
 					depreciationTobePosted += " to";

@@ -10,9 +10,9 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeCombo;
@@ -78,7 +78,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		// Setting Delivery date
 		if (deliveryDateItem.getEnteredDate() != null)
 			cashPurchase.setDeliveryDate(deliveryDateItem.getEnteredDate()
-					.getTime());
+					.getDate());
 
 		// Setting Total
 		cashPurchase.setTotal(vendorTransactionGrid.getTotal());
@@ -121,10 +121,10 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
-		employee.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientUser>() {
+		employee.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientEmployee>() {
 
 			@Override
-			public void selectedComboBoxItem(ClientUser selectItem) {
+			public void selectedComboBoxItem(ClientEmployee selectItem) {
 
 			}
 		});

@@ -78,7 +78,11 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ClientCompany getCompany() throws AccounterException {
 		FinanceTool tool = (FinanceTool) getFinanceTool();
-		return tool.getClientCompany();
+		try {
+			return tool.getClientCompany(getUserID());
+		} catch (DAOException e) {
+			throw new AccounterException(e);
+		}
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class UsersListGrid extends BaseListGrid<ClientUser> {
+public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	private UsersView usersView;
 
 	public UsersListGrid(boolean isMultiSelectionEnable) {
@@ -35,7 +35,7 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	}
 
 	@Override
-	public void addRecords(List<ClientUser> list) {
+	public void addRecords(List<ClientUserInfo> list) {
 		super.addRecords(list);
 	}
 
@@ -78,10 +78,10 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	}
 
 	@Override
-	protected Object getColumnValue(ClientUser obj, int index) {
+	protected Object getColumnValue(ClientUserInfo obj, int index) {
 		switch (index) {
 		case 0:
-			return obj.getName();
+			return obj.getDisplayName();
 		case 1:
 			// if (obj.isCanDoUserManagement())
 			// return obj.getUserRole() + " + Manage Users";
@@ -107,17 +107,17 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	}
 
 	@Override
-	protected String[] getSelectValues(ClientUser obj, int index) {
+	protected String[] getSelectValues(ClientUserInfo obj, int index) {
 		return null;
 	}
 
 	@Override
-	protected boolean isEditable(ClientUser obj, int row, int index) {
+	protected boolean isEditable(ClientUserInfo obj, int row, int index) {
 		return false;
 	}
 
 	@Override
-	protected void onClick(ClientUser obj, int row, int index) {
+	protected void onClick(ClientUserInfo obj, int row, int index) {
 
 		if (index == 4) {
 			if (Accounter.getUser().isCanDoUserManagement()) {
@@ -134,24 +134,24 @@ public class UsersListGrid extends BaseListGrid<ClientUser> {
 	}
 
 	@Override
-	public void onDoubleClick(ClientUser obj) {
+	public void onDoubleClick(ClientUserInfo obj) {
 		if (Accounter.getUser().isCanDoUserManagement()) {
 			ActionFactory.getInviteUserAction().run(obj, true);
 		}
 	}
 
 	@Override
-	protected void onValueChange(ClientUser obj, int index, Object value) {
+	protected void onValueChange(ClientUserInfo obj, int index, Object value) {
 
 	}
 
 	@Override
-	protected int sort(ClientUser obj1, ClientUser obj2, int index) {
+	protected int sort(ClientUserInfo obj1, ClientUserInfo obj2, int index) {
 		return 0;
 	}
 
 	@Override
-	protected void executeDelete(ClientUser object) {
+	protected void executeDelete(ClientUserInfo object) {
 		ViewManager.getInstance().deleteObject(object, AccounterCoreType.USER,
 				this);
 	}

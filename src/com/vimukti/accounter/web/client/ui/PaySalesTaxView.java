@@ -126,7 +126,7 @@ public class PaySalesTaxView extends
 		grid.removeAllRecords();
 		grid.addLoadingImagePanel();
 		rpcUtilService.getPaySalesTaxEntries(billsDue.getEnteredDate()
-				.getTime(),
+				.getDate(),
 				new AsyncCallback<List<ClientPaySalesTaxEntries>>() {
 
 					public void onFailure(Throwable caught) {
@@ -260,7 +260,7 @@ public class PaySalesTaxView extends
 		paySalesTax.setType(ClientTransaction.TYPE_PAY_SALES_TAX);
 		if (date.getEnteredDate() != null)
 
-			paySalesTax.setDate(date.getEnteredDate().getTime());
+			paySalesTax.setDate(date.getEnteredDate().getDate());
 
 		paySalesTax.setPayFrom(selectedPayFromAccount.getID());
 
@@ -268,7 +268,7 @@ public class PaySalesTaxView extends
 		if (billsDue.getValue() != null)
 
 			paySalesTax.setBillsDueOnOrBefore(((ClientFinanceDate) billsDue
-					.getValue()).getTime());
+					.getValue()).getDate());
 
 		if (selectedTaxAgency != null)
 			paySalesTax.setTaxAgency(selectedTaxAgency.getID());

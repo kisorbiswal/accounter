@@ -11,6 +11,7 @@ import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterConstants;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -251,8 +252,9 @@ public class CreditCardChargeView extends
 	protected void paymentMethodSelected(String paymentMethod2) {
 		super.paymentMethodSelected(paymentMethod2);
 		if (paymentMethod != null
-				&& (paymentMethod.equals(ClientCompany.CHECK) || paymentMethod
-						.equals(ClientCompany.CHECK_FOR_UK))) {
+				&& (paymentMethod
+						.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || paymentMethod
+						.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 			if (creditCardChargeTaken != null) {
 				cheqNoText
 						.setValue(creditCardChargeTaken.getCheckNumber() != null ? creditCardChargeTaken
@@ -646,7 +648,7 @@ public class CreditCardChargeView extends
 
 		// setting date
 		if (transactionDateItem != null)
-			creditCardCharge.setDate(transactionDateItem.getValue().getTime());
+			creditCardCharge.setDate(transactionDateItem.getValue().getDate());
 		// setting number
 		if (transactionNumber != null)
 			creditCardCharge.setNumber(transactionNumber.getValue().toString());

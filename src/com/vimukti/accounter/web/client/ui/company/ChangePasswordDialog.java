@@ -6,14 +6,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
-
 
 public class ChangePasswordDialog extends BaseDialog {
 
@@ -34,8 +32,8 @@ public class ChangePasswordDialog extends BaseDialog {
 				.oldPassword());
 		newPasswordTextItem = new PasswordItem(Accounter.constants()
 				.newPassword());
-		confirmNewPasswordTextItem = new PasswordItem(Accounter
-				.constants().confirmNewPassword());
+		confirmNewPasswordTextItem = new PasswordItem(Accounter.constants()
+				.confirmNewPassword());
 
 		oldPasswordTextItem.setRequired(true);
 		newPasswordTextItem.setRequired(true);
@@ -75,10 +73,6 @@ public class ChangePasswordDialog extends BaseDialog {
 
 				// MainFinanceWindow.getViewManager().closeCurrentView();
 				removeFromParent();
-				HistoryTokenUtils.setPresentToken(MainFinanceWindow
-						.getViewManager().getCurrentView().getAction(),
-						MainFinanceWindow.getViewManager().getCurrentView()
-								.getData());
 			}
 		});
 

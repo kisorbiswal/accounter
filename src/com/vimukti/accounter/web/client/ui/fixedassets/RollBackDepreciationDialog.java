@@ -115,26 +115,26 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		ClientFinanceDate depreciationStartDate = new ClientFinanceDate(
 				getCompany().getpreferences().getDepreciationStartDate());
 		ClientFinanceDate tempDate = new ClientFinanceDate(
-				depreciationStartDate.getTime());
+				depreciationStartDate.getDate());
 
 		depreciationDate = new ArrayList<ClientFinanceDate>();
 
 		if (lastDepreciationDate != null) {
 
 			ClientFinanceDate tempLastDate = new ClientFinanceDate(
-					lastDepreciationDate.getTime());
-			tempLastDate.setDate(1);
+					lastDepreciationDate.getDate());
+			tempLastDate.setDay(1);
 
-			while (!(tempDate.getDate() == tempLastDate.getDate()
+			while (!(tempDate.getDay() == tempLastDate.getDay()
 					&& tempDate.getMonth() == tempLastDate.getMonth() && tempDate
 						.getYear() == tempLastDate.getYear())) {
 
-				depreciationDate.add(new ClientFinanceDate(tempDate.getTime()));
+				depreciationDate.add(new ClientFinanceDate(tempDate.getDate()));
 				int month = tempDate.getMonth();
 				tempDate.setMonth(month + 1);
 
 			}
-			depreciationDate.add(new ClientFinanceDate(tempDate.getTime()));
+			depreciationDate.add(new ClientFinanceDate(tempDate.getDate()));
 		}
 
 	}
@@ -173,7 +173,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			}
 
 		};
-		Accounter.createHomeService().rollBackDepreciation(date.getTime(),
+		Accounter.createHomeService().rollBackDepreciation(date.getDate(),
 				callBack);
 	}
 

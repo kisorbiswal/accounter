@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 
-public class EmployeeDetail extends CreatableObject implements
+public class Employee extends CreatableObject implements
 		IAccounterServerCore, Lifecycle {
 
 	/**
@@ -384,7 +384,7 @@ public class EmployeeDetail extends CreatableObject implements
 			throws InvalidOperationException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		EmployeeDetail employeeDetail = (EmployeeDetail) clientObject;
+		Employee employeeDetail = (Employee) clientObject;
 
 		Query query = session.getNamedQuery("getEmployeeDetails")
 				.setParameter("name", this.employeeName)

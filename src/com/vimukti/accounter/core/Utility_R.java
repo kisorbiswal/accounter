@@ -511,7 +511,6 @@ public class Utility_R {
 		return transactionDate;
 	}
 
-	
 	// To calculate and return the SalesTax for a particular transaction for the
 	// given date, taxable line total and tax group id
 	public static double getCalculatedSalesTax(FinanceDate transactionDate,
@@ -549,7 +548,6 @@ public class Utility_R {
 
 	}
 
-	
 	private static double getLatestTaxRate(TAXCode taxCode,
 			FinanceDate transactionDate) {
 
@@ -610,7 +608,6 @@ public class Utility_R {
 	// PayBill, Vendor Payment, Cash Purchase, Credit Card Charge,Write Check
 	// and Issue Payment
 
-	
 	public static List<Account> getPayFromAccounts(Company company) {
 
 		List<Account> payFromAccounts = new ArrayList<Account>();
@@ -633,7 +630,7 @@ public class Utility_R {
 
 	// To display the DepositIn Account combo box of Creating Cash Sale,
 	// ReceivePayment
-	
+
 	public static List<Account> getDepositInAccounts(Company company) {
 
 		List<Account> depositInAccounts = new ArrayList<Account>();
@@ -653,7 +650,7 @@ public class Utility_R {
 	}
 
 	// To Display the Account Combo box of Transaction Item Lines.
-	
+
 	public static List<Account> getGridAccounts(Company company) {
 		List<Account> gridAccounts = new ArrayList<Account>();
 
@@ -672,7 +669,6 @@ public class Utility_R {
 		return gridAccounts;
 	}
 
-	
 	public static List<Account> getCashBackAccounts(Company company) {
 		List<Account> cashBackAccounts = new ArrayList<Account>();
 
@@ -689,7 +685,6 @@ public class Utility_R {
 		return cashBackAccounts;
 	}
 
-	
 	public static List<Account> getIncomeAndExpenseAccounts(Company company) {
 		List<Account> incomeAndExpenseAccounts = new ArrayList<Account>();
 
@@ -706,7 +701,6 @@ public class Utility_R {
 		return incomeAndExpenseAccounts;
 	}
 
-	
 	public static List<Account> getTaxAgencyAccounts(Company company) {
 		List<Account> taxAgencyAccounts = new ArrayList<Account>();
 
@@ -727,7 +721,7 @@ public class Utility_R {
 	}
 
 	// To display the Bank Account combo box of Creating Make Deposit
-	
+
 	public static List<Account> getBankAccounts(Company company) {
 
 		List<Account> bankAccounts = new ArrayList<Account>();
@@ -744,7 +738,6 @@ public class Utility_R {
 
 	}
 
-	
 	public static List<Account> getBankingAccountSummary(Company company) {
 
 		List<Account> bankingAccountSummary = new ArrayList<Account>();
@@ -766,7 +759,6 @@ public class Utility_R {
 
 	}
 
-	
 	public static Account getAccount(Company company, long id) {
 
 		Account account = null;
@@ -783,7 +775,6 @@ public class Utility_R {
 
 	}
 
-	
 	public static List<Account> getAccounts(Company company, int type) {
 
 		List<Account> accounts = new ArrayList<Account>();
@@ -800,7 +791,6 @@ public class Utility_R {
 
 	}
 
-	
 	public static List<Account> getAccounts(Company company) {
 
 		List<Account> accounts = new ArrayList<Account>();
@@ -899,11 +889,11 @@ public class Utility_R {
 		}
 		subStringArray[j] = lhs.substring(0, i + 1);
 		String placeValue = "";
-		
+
 		String faceValue = "";
-		
+
 		String subPlaceValue = "";
-		
+
 		String subFaceValue = "";
 		if (subStringArray.length > 1) {
 			for (i = 0; i < subStringArray.length; i++) {
@@ -1409,7 +1399,6 @@ public class Utility_R {
 		return valueTobesend;
 	}
 
-	
 	public static ClientFinanceDate getCurrentFiscalYearStartDate() {
 		Session session = HibernateUtil.getCurrentSession();
 		List<FiscalYear> clientFiscalYears = new ArrayList<FiscalYear>(session
@@ -1418,8 +1407,8 @@ public class Utility_R {
 		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
 			if (clientFiscalYears.get(i).status == FiscalYear.STATUS_OPEN
 					&& clientFiscalYears.get(i).getIsCurrentFiscalYear()) {
-				return new ClientFinanceDate(clientFiscalYears.get(i)
-						.getStartDate().getTime());
+				return clientFiscalYears.get(i).getStartDate()
+						.toClientFinanceDate();
 			}
 		}
 
@@ -1433,8 +1422,8 @@ public class Utility_R {
 		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
 			if (clientFiscalYears.get(i).status == ClientFiscalYear.STATUS_OPEN
 					&& clientFiscalYears.get(i).getIsCurrentFiscalYear()) {
-				return new ClientFinanceDate(clientFiscalYears.get(i)
-						.getEndDate().getTime());
+				return clientFiscalYears.get(i).getEndDate()
+						.toClientFinanceDate();
 			}
 		}
 

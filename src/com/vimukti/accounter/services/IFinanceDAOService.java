@@ -17,6 +17,7 @@ import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Entry;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
@@ -405,205 +406,215 @@ public interface IFinanceDAOService {
 
 	public List<AccountBalance> getAccountBalances() throws DAOException;
 
-	public List<TrialBalance> getTrialBalance(long startDate, long endDate)
+	public List<TrialBalance> getTrialBalance(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
+
+	public List<AgedDebtors> getAgedDebtors(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
+
+	public List<AgedDebtors> getAgedDebtors(FinanceDate startDate,
+			FinanceDate endDate, int intervalDays, int throughDaysPassOut)
 			throws DAOException;
 
-	public List<AgedDebtors> getAgedDebtors(long startDate, long endDate)
-			throws DAOException;
-
-	public List<AgedDebtors> getAgedDebtors(long startDate, long endDate,
-			int intervalDays, int throughDaysPassOut) throws DAOException;
-
-	public List<AgedDebtors> getAgedCreditors(long startDate, long endDate)
-			throws DAOException;
+	public List<AgedDebtors> getAgedCreditors(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
 
 	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			long startDate, long endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<SalesByCustomerDetail> getSalesByCustomerSummary(
-			long startDate, long endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getSalesByItemDetail(long startDate,
-			long endDate) throws DAOException;
+	public List<SalesByCustomerDetail> getSalesByItemDetail(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getSalesByItemSummary(long startDate,
-			long endDate) throws DAOException;
+	public List<SalesByCustomerDetail> getSalesByItemSummary(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<TransactionHistory> getCustomerTransactionHistory(
-			long startDate, long endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			long startDate, long endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<SalesByCustomerDetail> getPurchasesByVendorSummary(
-			long startDate, long endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getPurchasesByItemDetail(long startDate,
-			long endDate) throws DAOException;
+	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<SalesByCustomerDetail> getPurchasesByItemSummary(
-			long startDate, long endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<TransactionHistory> getVendorTransactionHistory(long startDate,
-			long endDate) throws DAOException;
+	public List<TransactionHistory> getVendorTransactionHistory(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<AmountsDueToVendor> getAmountsDueToVendor(long startDate,
-			long endDate) throws DAOException;
+	public List<AmountsDueToVendor> getAmountsDueToVendor(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<MostProfitableCustomers> getMostProfitableCustomers(
-			long startDate, long endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<MostProfitableCustomers> getProfitabilityByCustomerDetail(
-			long customer, long startDate, long endDate) throws DAOException;
+			long customer, FinanceDate startDate, FinanceDate endDate)
+			throws DAOException;
 
 	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			long startDate, long endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<Transaction> getRegister(Account account) throws DAOException;
 
-	public List<AccountRegister> getAccountRegister(long startDate,
-			long endDate, long accountId) throws DAOException;
+	public List<AccountRegister> getAccountRegister(FinanceDate startDate,
+			FinanceDate endDate, long accountId) throws DAOException;
 
 	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
-			final long startDate, final long endDate) throws DAOException;
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException;
 
 	public List<SalesTaxLiability> getSalesTaxLiabilityReport(
-			final long startDate, final long endDate) throws DAOException;
-
-	public List<Customer> getTransactionHistoryCustomers(long startDate,
-			long endDate) throws DAOException;
-
-	public List<Vendor> getTransactionHistoryVendors(long startDate,
-			long endDate) throws DAOException;
-
-	public List<Item> getSalesReportItems(long startDate, long endDate)
+			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException;
 
-	public List<Item> getPurchaseReportItems(long startDate, long endDate)
-			throws DAOException;
+	public List<Customer> getTransactionHistoryCustomers(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
+
+	public List<Vendor> getTransactionHistoryVendors(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
+
+	public List<Item> getSalesReportItems(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
+
+	public List<Item> getPurchaseReportItems(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
 
 	public ClientFinanceDate[] getMinimumAndMaximumTransactionDate()
 			throws DAOException;
 
-	public List<TrialBalance> getBalanceSheetReport(long startDate, long endDate)
-			throws DAOException;
+	public List<TrialBalance> getBalanceSheetReport(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
 
-	public List<TrialBalance> getProfitAndLossReport(long startDate,
-			long endDate) throws DAOException;
+	public List<TrialBalance> getProfitAndLossReport(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
 
-	public List<TrialBalance> getCashFlowReport(long startDate, long endDate)
-			throws DAOException;
+	public List<TrialBalance> getCashFlowReport(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
 
 	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			String customerName, long startDate, long endDate)
+			String customerName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException;
 
 	public List<SalesByCustomerDetail> getSalesByItemDetail(String itemName,
-			long startDate, long endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			String vendorName, long startDate, long endDate)
+			String vendorName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException;
 
 	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
-			String itemName, long startDate, long endDate) throws DAOException;
+			String itemName, FinanceDate startDate, FinanceDate endDate)
+			throws DAOException;
 
 	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, final long startDate, final long endDate)
-			throws DAOException;
+			String accountName, final FinanceDate startDate,
+			final FinanceDate endDate) throws DAOException;
 
 	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			final String taxItemName, final long startDate, final long endDate)
-			throws DAOException;
+			final String taxItemName, final FinanceDate startDate,
+			final FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getOpenSalesOrders(long startDate,
-			long endDate) throws DAOException;
+	public List<OpenAndClosedOrders> getOpenSalesOrders(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getClosedSalesOrders(long startDate,
-			long endDate) throws DAOException;
+	public List<OpenAndClosedOrders> getClosedSalesOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getCompletedSalesOrders(long startDate,
-			long endDate) throws DAOException;
+	public List<OpenAndClosedOrders> getCompletedSalesOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getPurchaseOrders(long startDate,
-			long endDate) throws DAOException;
+	public List<OpenAndClosedOrders> getPurchaseOrders(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getSalesOrders(long startDate, long endDate)
-			throws DAOException;
+	public List<OpenAndClosedOrders> getSalesOrders(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getCanceledSalesOrders(long startDate,
-			long endDate) throws DAOException;
+	public List<OpenAndClosedOrders> getCanceledSalesOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getOpenPurchaseOrders(long startDate,
-			long endDate) throws DAOException;
+	public List<OpenAndClosedOrders> getOpenPurchaseOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getClosedPurchaseOrders(long startDate,
-			long endDate) throws DAOException;
+	public List<OpenAndClosedOrders> getClosedPurchaseOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getCompletedPurchaseOrders(long startDate,
-			long endDate) throws DAOException;
+	public List<OpenAndClosedOrders> getCompletedPurchaseOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getCanceledPurchaseOrders(long startDate,
-			long endDate) throws DAOException;
+	public List<OpenAndClosedOrders> getCanceledPurchaseOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	// For UK
 
-	public Map<String, Double> getVATReturnBoxes(long startDate, long endDate)
-			throws DAOException;
+	public Map<String, Double> getVATReturnBoxes(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException;
 
-	public VATReturn getVATReturnDetails(TAXAgency vatAgency, long fromDate,
+	public VATReturn getVATReturnDetails(TAXAgency vatAgency,
+			FinanceDate fromDate,
 
-	long toDate) throws DAOException, InvalidOperationException;
+			FinanceDate toDate) throws DAOException, InvalidOperationException;
 
 	public List<VATSummary> getPriorReturnVATSummary(TAXAgency vatAgency,
-			long endDate) throws DAOException, ParseException;
+			FinanceDate endDate) throws DAOException, ParseException;
 
 	public List<VATDetail> getPriorVATReturnVATDetailReport(
-			TAXAgency vatAgency, long endDate) throws DAOException,
+			TAXAgency vatAgency, FinanceDate endDate) throws DAOException,
 			ParseException;
 
-	public List<VATDetail> getVATDetailReport(long startDate, long endDate)
-			throws DAOException, ParseException;
+	public List<VATDetail> getVATDetailReport(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException, ParseException;
 
-	public List<VATSummary> getVAT100Report(TAXAgency vatAgency, long fromDate,
-			long toDate) throws DAOException, ParseException;
+	public List<VATSummary> getVAT100Report(TAXAgency vatAgency,
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException;
 
 	public List<UncategorisedAmountsReport> getUncategorisedAmountsReport(
-			long fromDate, long toDate) throws DAOException, ParseException;
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException;
 
-	public List<VATItemDetail> getVATItemDetailReport(long fromDate, long toDate)
-			throws DAOException, ParseException;
+	public List<VATItemDetail> getVATItemDetailReport(FinanceDate fromDate,
+			FinanceDate toDate) throws DAOException, ParseException;
 
-	public List<VATItemSummary> getVATItemSummaryReport(long fromDate,
-			long toDate) throws DAOException, ParseException;
+	public List<VATItemSummary> getVATItemSummaryReport(FinanceDate fromDate,
+			FinanceDate toDate) throws DAOException, ParseException;
 
 	public List<PayVATEntries> getPayVATEntries();
 
 	public List<ReceiveVATEntries> getReceiveVATEntries();
 
 	public List<ECSalesListDetail> getECSalesListDetailReport(String payeeName,
-			long fromDate, long toDate) throws DAOException, ParseException;
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException;
 
 	public KeyFinancialIndicators getKeyFinancialIndicators()
 			throws DAOException;
 
-	public List<ECSalesList> getECSalesListReport(long fromDate, long toDate)
-			throws DAOException, ParseException;
+	public List<ECSalesList> getECSalesListReport(FinanceDate fromDate,
+			FinanceDate toDate) throws DAOException, ParseException;
 
 	public List<ReverseChargeListDetail> getReverseChargeListDetailReport(
-			String payeeName, long fromDate, long toDate) throws DAOException,
-			ParseException;
+			String payeeName, FinanceDate fromDate, FinanceDate toDate)
+			throws DAOException, ParseException;
 
-	public List<ReverseChargeList> getReverseChargeListReport(long fromDate,
-			long toDate) throws DAOException, ParseException;
+	public List<ReverseChargeList> getReverseChargeListReport(
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException;
 
 	public void createTaxes(int[] vatReturnType) throws DAOException;
 
 	public List<PayeeList> getPayeeList(int transactionCategory)
 			throws DAOException;
 
-	public List<ExpenseList> getExpenseReportByType(int status, long startDate,
-			long endDate) throws DAOException;
+	public List<ExpenseList> getExpenseReportByType(int status,
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	/*
 	 * 
@@ -616,18 +627,20 @@ public interface IFinanceDAOService {
 	 */
 
 	public List<VATItemDetail> getVATItemDetailReport(String vatItemId,
-			long fromDate, long toDate) throws DAOException, ParseException;
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException;
 
 	public String getNextCustomerNumber() throws DAOException;
 
-	public List<DepositDetail> getDepositDetail(long startDate, long endDate);
+	public List<DepositDetail> getDepositDetail(FinanceDate startDate,
+			FinanceDate endDate);
 
 	public List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
-			long startDate, long endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<PayeeStatementsList> getPayeeStatementsList(long id,
-			long transactionDate, long fromDate, long toDate, int noOfDays,
-			boolean isEnabledOfZeroBalBox,
+			long transactionDate, FinanceDate fromDate, FinanceDate toDate,
+			int noOfDays, boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessthanZeroBalBox,
 			double lessThanZeroBalanceValue,
 			boolean isEnabledOfNoAccountActivity,

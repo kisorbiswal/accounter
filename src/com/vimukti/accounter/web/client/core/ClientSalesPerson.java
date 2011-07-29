@@ -291,19 +291,19 @@ public class ClientSalesPerson extends ClientPayee {
 	}
 
 	public void setDateOfHire(ClientFinanceDate date) {
-		this.dateOfHire = date.getTime();
+		this.dateOfHire = date.getDate();
 	}
 
 	public void setDateOfBirth(ClientFinanceDate date) {
-		this.dateOfBirth = date.getTime();
+		this.dateOfBirth = date.getDate();
 	}
 
 	public void setDateOfLastReview(ClientFinanceDate date) {
-		this.dateOfLastReview = date.getTime();
+		this.dateOfLastReview = date.getDate();
 	}
 
 	public void setDateOfRelease(ClientFinanceDate date) {
-		this.dateOfRelease = date.getTime();
+		this.dateOfRelease = date.getDate();
 	}
 
 	@Override

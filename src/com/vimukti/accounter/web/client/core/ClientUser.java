@@ -451,4 +451,22 @@ public class ClientUser implements IAccounterCore {
 		userInfo.setLoginCount(loginCount);
 		return userInfo;
 	}
+
+	/**
+	 * Converts ClientUser to ClientEmployee
+	 * 
+	 * @return
+	 */
+	public ClientEmployee toEmplyee() {
+		ClientEmployee employee = new ClientEmployee();
+		employee.setID(id);
+		employee.setEmail(email);
+		employee.setFirstName(fullName);
+		employee.setLastName(lastName);
+		employee.setFullName(fullName);
+		employee.setActive(isActive);
+		employee.setUserRole(userRole);
+		employee.setPermissions(permissions);
+		return employee;
+	}
 }

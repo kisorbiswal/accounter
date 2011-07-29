@@ -13,8 +13,6 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 
 /**
@@ -42,9 +40,8 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	private List<IsSerializable> recordsList = new ArrayList<IsSerializable>();
 
-	
 	private RecordAddhandler recordAddhandler;
-	
+
 	private boolean isEdit;
 
 	public GroupDialog(String title, String descript) {
@@ -133,7 +130,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 			public void onCancelClick() {
 				closeWindow();
 				ViewManager.getInstance().setCurrentDialog(null);
-				//Action.cancle();
+				// Action.cancle();
 			}
 
 			public boolean onOkClick() {
@@ -148,10 +145,6 @@ public abstract class GroupDialog<T> extends BaseDialog {
 																	// not
 																	// working
 																	// properly_suresh
-				HistoryTokenUtils.setPresentToken(MainFinanceWindow
-						.getViewManager().getCurrentView().getAction(),
-						MainFinanceWindow.getViewManager().getCurrentView()
-								.getData());
 				return true;
 			}
 		};

@@ -185,11 +185,9 @@ public enum AccounterCoreType implements IsSerializable {
 
 	BRANDINGTHEME("ClientBrandingTheme", "BrandingTheme"),
 
-	EMPLOYEE("ClientEmployeeDetail", "EmployeeDetail"),
+	EMPLOYEE("ClientEmployee", "Employee"),
 
-	WAREHOUSE("ClientWarehouse", "Warehouse"),
-
-	STOCK_TRANSFER("StockTransfer", "ClientStockTransfer");
+	WAREHOUSE("ClientWarehouse", "Warehouse");
 
 	private String clientName;
 	private String serverName;

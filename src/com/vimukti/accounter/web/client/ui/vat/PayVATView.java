@@ -490,13 +490,13 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		payVAT.setType(ClientTransaction.TYPE_PAY_VAT);
 
 		if (transactionDateItem.getEnteredDate() != null)
-			payVAT.setDate(transactionDateItem.getEnteredDate().getTime());
+			payVAT.setDate(transactionDateItem.getEnteredDate().getDate());
 
 		payVAT.setPayFrom(selectedPayFromAccount.getID());
 		payVAT.setPaymentMethod(paymentMethod);
 
 		if (billsDue.getValue() != null)
-			payVAT.setReturnsDueOnOrBefore((billsDue.getValue()).getTime());
+			payVAT.setReturnsDueOnOrBefore((billsDue.getValue()).getDate());
 
 		if (selectedTaxAgency != null)
 			payVAT.setVatAgency(selectedTaxAgency.getID());

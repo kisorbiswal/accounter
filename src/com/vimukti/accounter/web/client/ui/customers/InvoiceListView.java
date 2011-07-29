@@ -84,8 +84,8 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getInvoiceList(startDate.getTime(),
-				endDate.getTime(), this);
+		Accounter.createHomeService().getInvoiceList(startDate.getDate(),
+				endDate.getDate(), this);
 	}
 
 	@Override
@@ -252,9 +252,9 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		}
 		if (dateRange.equals(Accounter.constants().lastWeek())) {
 			endDate = getWeekStartDate();
-			endDate.setDate(endDate.getDate() - 1);
-			startDate = new ClientFinanceDate(endDate.getTime());
-			startDate.setDate(startDate.getDate() - 6);
+			endDate.setDay(endDate.getDay() - 1);
+			startDate = new ClientFinanceDate(endDate.getDate());
+			startDate.setDay(startDate.getDay() - 6);
 
 		}
 		if (dateRange.equals(Accounter.constants().lastMonth())) {
@@ -312,7 +312,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 		ClientFinanceDate date = new ClientFinanceDate();
 		int day = date.getDay();
 		ClientFinanceDate newDate = new ClientFinanceDate();
-		newDate.setDate(date.getDate() - day);
+		newDate.setDay(date.getDay() - day);
 		return newDate;
 	}
 

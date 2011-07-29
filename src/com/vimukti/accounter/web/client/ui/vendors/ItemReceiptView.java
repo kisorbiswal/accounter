@@ -415,7 +415,7 @@ public class ItemReceiptView extends
 				itemReceipt.setPaymentTerm(paymentTerm.getID());
 			if (deliveryDateItem != null)
 				itemReceipt.setDeliveryDate(deliveryDateItem.getEnteredDate()
-						.getTime());
+						.getDate());
 
 			itemReceipt.setMemo(getMemoTextAreaItem());
 			// itemReceipt.setReference(getRefText());

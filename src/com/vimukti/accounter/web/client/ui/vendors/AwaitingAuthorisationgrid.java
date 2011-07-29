@@ -47,7 +47,7 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 		case 1:
 			return billsList.getVendorName();
 		case 2:
-			return new ClientFinanceDate(billsList.getDate().getTime());
+			return new ClientFinanceDate(billsList.getDate().getDate());
 		case 3:
 			return billsList.getOriginalAmount();
 		}

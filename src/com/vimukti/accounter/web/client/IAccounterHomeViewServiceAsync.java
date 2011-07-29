@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -257,7 +258,6 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getDepreciationLastDate(
 			AsyncCallback<ClientFinanceDate> callback);
 
-	
 	public void rollBackDepreciation(long rollBackDepreciationTo,
 			AsyncCallback callback);
 
@@ -267,12 +267,12 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getAllDepreciationFromDates(
 			AsyncCallback<List<ClientFinanceDate>> callback);
 
-	
 	public void changeDepreciationStartDateTo(long newStartDate,
 			AsyncCallback callback);
 
-	public void getTAXReturn(ClientTAXAgency taxAgency, long fromDate,
-			long toDate, AsyncCallback<ClientVATReturn> callback);
+	public void getTAXReturn(ClientTAXAgency taxAgency,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			AsyncCallback<ClientVATReturn> callback);
 
 	void getReviewJournal(TempFixedAsset fixedAsset,
 			AsyncCallback<FixedAssetSellOrDisposeReviewJournal> callback);
@@ -292,7 +292,6 @@ public interface IAccounterHomeViewServiceAsync {
 	public void changeFiscalYearsStartDateTo(long newStartDate,
 			AsyncCallback<Boolean> callback);
 
-	
 	public void runDepreciation(long depreciationFrom, long depreciationTo,
 			FixedAssetLinkedAccountMap linkedAccounts, AsyncCallback callBack);
 
@@ -332,4 +331,10 @@ public interface IAccounterHomeViewServiceAsync {
 			String newPassword, AsyncCallback<Boolean> callback);
 
 	void getAllUsers(AsyncCallback<List<ClientUserInfo>> callback);
+
+	/**
+	 * @param asyncCallback
+	 */
+	public void getAllEmployees(
+			AsyncCallback<List<ClientEmployee>> asyncCallback);
 }

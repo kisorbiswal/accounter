@@ -30,8 +30,8 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 			ClientFinanceDate endDate) {
 		// resetReport(endDate, endDate);
 		Accounter.createReportService().getStatements(customer,
-				new ClientFinanceDate().getTime(), startDate.getTime(),
-				endDate.getTime(), 0, false, false, 0.00, false, false, this);
+				new ClientFinanceDate().getDate(), startDate, endDate, 0,
+				false, false, 0.00, false, false, this);
 		customerId = customer;
 	}
 
@@ -59,15 +59,15 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 150, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 150, "",
 				"", customerId);
 	}
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 150, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 150, "",
 				"", customerId);
 	}
 

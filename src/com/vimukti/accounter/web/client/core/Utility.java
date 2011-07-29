@@ -1227,7 +1227,7 @@ public class Utility implements IsSerializable, Serializable {
 
 	public static long getTime(ClientFinanceDate date) {
 
-		return date != null ? date.getTime() : 0l;
+		return date != null ? date.getDate() : 0l;
 	}
 
 	public static <T extends IAccounterCore> void updateClientList(

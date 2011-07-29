@@ -595,10 +595,10 @@ public class VendorBillView extends
 		if (transactionObject != null) {
 			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
 			setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
-					selectedPaymentTerm).getTime());
+					selectedPaymentTerm).getDate());
 		} else {
 			setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
-					selectedPaymentTerm).getTime());
+					selectedPaymentTerm).getDate());
 		}
 	}
 
@@ -629,7 +629,7 @@ public class VendorBillView extends
 
 		// Setting Due date
 		if (dueDateItem.getEnteredDate() != null)
-			enterBill.setDueDate((dueDateItem.getEnteredDate()).getTime());
+			enterBill.setDueDate((dueDateItem.getEnteredDate()).getDate());
 
 		// Setting Delivery date
 		if (deliveryDateItem.getEnteredDate() != null)
@@ -645,7 +645,7 @@ public class VendorBillView extends
 
 		ClientFinanceDate discountDate = Utility.getCalculatedDiscountDate(
 				transactionDateItem.getEnteredDate(), selectedPaymentTerm);
-		enterBill.setDiscountDate(discountDate.getTime());
+		enterBill.setDiscountDate(discountDate.getDate());
 
 		if (selectedItemReceipt != 0)
 			enterBill.setItemReceipt(selectedItemReceipt);

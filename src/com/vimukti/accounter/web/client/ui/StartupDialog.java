@@ -11,7 +11,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
@@ -32,7 +31,7 @@ public class StartupDialog extends DialogBox {
 	private TextItem userPassText;
 	private DialogGrid companyGrid;
 	DynamicForm form;
-	private ValueCallBack<Accounter> defbizcallback;
+	private ValueCallBack<MainFinanceWindow> defbizcallback;
 	// protected BaseWidget loadingDialog;
 	public static StartupDialog startUp;
 
@@ -40,7 +39,7 @@ public class StartupDialog extends DialogBox {
 		createControls();
 	}
 
-	public StartupDialog(ValueCallBack<Accounter> callback) {
+	public StartupDialog(ValueCallBack<MainFinanceWindow> callback) {
 		super();
 		this.defbizcallback = callback;
 		// getUserByEmail(email);
@@ -188,7 +187,7 @@ public class StartupDialog extends DialogBox {
 					// loadingDialog.destroy();
 					// and, now we are ready to start the application.
 
-					Accounter financeApplication = new Accounter();
+					MainFinanceWindow financeApplication = new MainFinanceWindow();
 					if (defbizcallback != null)
 						defbizcallback.execute(financeApplication);
 					add(financeApplication);
@@ -227,16 +226,16 @@ public class StartupDialog extends DialogBox {
 
 			public void onSuccess(ClientUser result) {
 				if (result != null) {
-					Accounter application = new Accounter("", result,
-							new ValueCallBack<Accounter>() {
-
-								@Override
-								public void execute(Accounter value) {
-									StartupDialog.this.removeFromParent();
-									RootPanel.get().add(value);
-
-								}
-							});
+					// Accounter application = new Accounter("", result,
+					// new ValueCallBack<Accounter>() {
+					//
+					// @Override
+					// public void execute(Accounter value) {
+					// StartupDialog.this.removeFromParent();
+					// RootPanel.get().add(value);
+					//
+					// }
+					// });
 				} else {
 
 					UIUtils.say("Login failed!");

@@ -1417,12 +1417,12 @@ public class Utility {
 
 		boolean isCurrentOne = false;
 
-		long date = new FinanceDate().getTime();
+		long date = new FinanceDate().getDate();
 
 		while (iterator.hasNext()) {
 			FiscalYear fiscalYear = iterator.next();
-			long startDate = fiscalYear.getStartDate().getTime();
-			long endDate = fiscalYear.getEndDate().getTime();
+			long startDate = fiscalYear.getStartDate().getDate();
+			long endDate = fiscalYear.getEndDate().getDate();
 
 			isCurrentOne = (date >= startDate) && (date <= endDate);
 			if (isCurrentOne) {

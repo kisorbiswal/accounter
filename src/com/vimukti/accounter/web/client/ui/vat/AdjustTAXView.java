@@ -428,7 +428,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 		TAXadjust.setNumber(entryNo.getValue().toString());
 
-		TAXadjust.setTransactionDate(adjustDate.getDate().getTime());
+		TAXadjust.setTransactionDate(adjustDate.getDate().getDate());
 
 		// vatAdjustment.setVatAgency(clientVATAgency.getID());s
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)

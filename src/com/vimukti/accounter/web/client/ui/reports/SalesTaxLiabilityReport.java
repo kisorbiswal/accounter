@@ -29,8 +29,8 @@ public class SalesTaxLiabilityReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getSalesTaxLiabilityReport(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getSalesTaxLiabilityReport(start, end,
+				this);
 	}
 
 	@Override
@@ -47,8 +47,8 @@ public class SalesTaxLiabilityReport extends
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 144, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 144, "",
 				"");
 	}
 
@@ -59,8 +59,8 @@ public class SalesTaxLiabilityReport extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 144, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 144, "",
 				"");
 	}
 

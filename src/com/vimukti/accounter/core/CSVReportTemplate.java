@@ -45,18 +45,19 @@ public class CSVReportTemplate extends TemplateBuilder implements ITemplate {
 	@Override
 	public void initHeader() {
 		String cmpAdd = "";
-		for (Address cmpTrad : company.getAddresses()) {
-			if (cmpTrad.getType() == Address.TYPE_COMPANY_REGISTRATION) {
-				if (cmpTrad != null)
-					cmpAdd = (forUnusedAddress(cmpTrad.getAddress1()) + ","
-							+ forUnusedAddress(cmpTrad.getStreet()) + ","
-							+ forUnusedAddress(cmpTrad.getCity()) + ","
-							+ forUnusedAddress(cmpTrad.getStateOrProvinence())
-							+ ","
-							+ forUnusedAddress(cmpTrad.getZipOrPostalCode())
-							+ ","
-							+ forUnusedAddress(cmpTrad.getCountryOrRegion()) + "</font></br>");
-			}
+		Address registeredAddress = company.getRegisteredAddress();
+		if (registeredAddress != null) {
+			cmpAdd = (forUnusedAddress(registeredAddress.getAddress1())
+					+ ","
+					+ forUnusedAddress(registeredAddress.getStreet())
+					+ ","
+					+ forUnusedAddress(registeredAddress.getCity())
+					+ ","
+					+ forUnusedAddress(registeredAddress.getStateOrProvinence())
+					+ ","
+					+ forUnusedAddress(registeredAddress.getZipOrPostalCode())
+					+ ","
+					+ forUnusedAddress(registeredAddress.getCountryOrRegion()) + "</font></br>");
 		}
 
 		cmpAdd = (forNullValue(TemplateBuilder.getCmpName()));

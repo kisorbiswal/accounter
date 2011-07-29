@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
@@ -24,7 +23,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
 import com.vimukti.accounter.web.client.commet.AccounterCometClient;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -79,8 +77,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		handleBackSpaceEvent();
 	}
 
-
-	
 	private Widget getSalesMenuBar() {
 		// currently not using anywhere
 		return null;
@@ -125,7 +121,6 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	}
 
-
 	private MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
 		// MenuItem dashBoardMenuitem = menuBar.addItem("DashBoard",
@@ -134,8 +129,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		// dashBoardMenuitem.getElement().setTitle(
 		// "Click here to download this plugin");
 
-		MenuItem menuitem = menuBar.addItem(Accounter.constants()
-				.company(), getCompanyMenu());
+		MenuItem menuitem = menuBar.addItem(Accounter.constants().company(),
+				getCompanyMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -144,19 +139,18 @@ public class MainFinanceWindow extends VerticalPanel {
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
-		menuitem = menuBar
-				.addItem(Accounter.constants().customer(),
-						getCustomerMenu());
+		menuitem = menuBar.addItem(Accounter.constants().customer(),
+				getCustomerMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		menuitem = menuBar.addItem(UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter
-				.constants().vendor()), getVendorMenu());
+				.constants().supplier(), Accounter.constants().vendor()),
+				getVendorMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (Accounter.getUser().canDoBanking()) {
-			menuitem = menuBar.addItem(Accounter.constants()
-					.banking(), getBankingMenu());
+			menuitem = menuBar.addItem(Accounter.constants().banking(),
+					getBankingMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
@@ -169,15 +163,15 @@ public class MainFinanceWindow extends VerticalPanel {
 		// menuBar.addItem(FinanceApplication.constants()
 		// .fixedAssets(), getFixedAssetsMenu());
 		if (Accounter.getUser().canViewReports()) {
-			menuitem = menuBar.addItem(Accounter.constants()
-					.reports(), getReportMenu());
+			menuitem = menuBar.addItem(Accounter.constants().reports(),
+					getReportMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 		// menuBar.addItem(FinanceApplication.constants().help(),
 		// getHelpMenu());
 		if (Accounter.getUser().canChangeSettings()) {
-			menuitem = menuBar.addItem(Accounter.constants()
-					.settings(), getSettingsMenu());
+			menuitem = menuBar.addItem(Accounter.constants().settings(),
+					getSettingsMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 		//
@@ -201,7 +195,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		return settingsMenuBar;
 	}
 
-
 	private Command getDashBoardCommand() {
 		Command dashBoardcmd = new Command() {
 
@@ -220,7 +213,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		return dashBoardcmd;
 	}
 
-
 	private CustomMenuBar getFixedAssetsMenu() {
 		CustomMenuBar fixedAssetMenu = new CustomMenuBar();
 		fixedAssetMenu.addItem(ActionFactory
@@ -230,8 +222,8 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		fixedAssetMenu.addSeparator();
 
-		fixedAssetMenu.addItem(Accounter.constants()
-				.fixedAssetsList(), getFixedAssetsListMenu());
+		fixedAssetMenu.addItem(Accounter.constants().fixedAssetsList(),
+				getFixedAssetsListMenu());
 
 		return fixedAssetMenu;
 	}
@@ -257,8 +249,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		}
 		vatmenu.addSeparator();
 
-		vatmenu.addItem(Accounter.constants().VATList(),
-				getVATsListMenu());
+		vatmenu.addItem(Accounter.constants().VATList(), getVATsListMenu());
 
 		return vatmenu;
 	}
@@ -301,16 +292,14 @@ public class MainFinanceWindow extends VerticalPanel {
 		CustomMenuBar reportMenuBar = getSubMenu();
 		// reportMenuBar.addItem(ActionFactory.getReportsHomeAction());
 		// reportMenuBar.addSeparator();
-		reportMenuBar.addItem(Accounter.constants()
-				.companyAndFinancial(), getCompanyAndFinancialMenu());
-		reportMenuBar.addItem(Accounter.constants()
-				.customersAndReceivable(), getCustomersAndReceivableMenu());
-		reportMenuBar.addItem(Accounter.constants().sales(),
-				getSalesMenu());
-		reportMenuBar.addItem(UIUtils.getVendorString(Accounter
-				.constants().suppliersAndPayables(), Accounter
-				.constants().vendorsAndPayables()),
-				getVendorAndPayablesMenu());
+		reportMenuBar.addItem(Accounter.constants().companyAndFinancial(),
+				getCompanyAndFinancialMenu());
+		reportMenuBar.addItem(Accounter.constants().customersAndReceivable(),
+				getCustomersAndReceivableMenu());
+		reportMenuBar.addItem(Accounter.constants().sales(), getSalesMenu());
+		reportMenuBar.addItem(UIUtils.getVendorString(Accounter.constants()
+				.suppliersAndPayables(), Accounter.constants()
+				.vendorsAndPayables()), getVendorAndPayablesMenu());
 		reportMenuBar.addItem(Accounter.constants().purchase(),
 				getPurchaseMenu());
 		// if (FinanceApplication.getCompany().getAccountingType() ==
@@ -531,9 +520,9 @@ public class MainFinanceWindow extends VerticalPanel {
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}
-		vendorMenuBar.addItem(UIUtils.getVendorString(Accounter
-				.constants().supplierLists(), Accounter
-				.constants().vendorLists()), getVendorListMenu());
+		vendorMenuBar.addItem(UIUtils.getVendorString(Accounter.constants()
+				.supplierLists(), Accounter.constants().vendorLists()),
+				getVendorListMenu());
 		return vendorMenuBar;
 	}
 
@@ -590,8 +579,8 @@ public class MainFinanceWindow extends VerticalPanel {
 					.getCustomerRefundAction());
 			customerMenuBar.addSeparator();
 		}
-		customerMenuBar.addItem(Accounter.constants()
-				.customerLists(), getCustomerListMenu());
+		customerMenuBar.addItem(Accounter.constants().customerLists(),
+				getCustomerListMenu());
 		return customerMenuBar;
 	}
 
@@ -641,7 +630,6 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private CustomMenuBar getSubMenu() {
 		CustomMenuBar subMenu = new CustomMenuBar();
-		
 
 		return subMenu;
 	}
@@ -669,14 +657,13 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			companyMenuBar.addItem(Accounter.constants().itemTax(),
 					getSalesTaxSubmenu());
-		companyMenuBar.addItem(Accounter.constants()
-				.manageSupportLists(), getManageSupportListSubmenu());
+		companyMenuBar.addItem(Accounter.constants().manageSupportLists(),
+				getManageSupportListSubmenu());
 		if (Accounter.getUser().canManageFiscalYears())
 			companyMenuBar.addItem(ActionFactory
 					.getManageFiscalYearAction());
 		companyMenuBar.addSeparator();
-		companyMenuBar.addItem(
-				Accounter.constants().companyLists(),
+		companyMenuBar.addItem(Accounter.constants().companyLists(),
 				getCompanyListMenu());
 
 		return companyMenuBar;
@@ -756,7 +743,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	}
 
 	public void fitToSize(int height, int width) {
-		
+
 		BaseView<?> view = viewManager.getContentPanel();
 
 		this.height = height;
@@ -776,7 +763,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	@Override
 	public void onLoad() {
 		// ClientCometManager.getInstance().initComet();
-		// 
+		//
 		// BaseView<?> view = viewManager.getContentPanel();
 		// viewManager.fitToSize(height, width);
 
@@ -826,7 +813,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		this.getParent().removeStyleName("noScroll");
 		super.onDetach();
 
-
 	}
 
 	@Override
@@ -834,9 +820,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		super.onUnload();
 		AccounterCometClient.cometStop();
 	}
-
-
-
 
 	private void handleBackSpaceEvent() {
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
@@ -865,25 +848,17 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (actions == null || value == null)
 			return;
 
-		String historyToken = null;
-		long id = 0;
-
-		AccounterCoreType type = null;
-
-		List<Object> list = HistoryTokenUtils.getObject(value);
-		historyToken = (String) list.get(0);
-		if (list.size() == 3) {
-			type = (AccounterCoreType) list.get(1);
-			id = Long.parseLong((String) list.get(2));
-
-			// historyToken = value.substring(0, value.indexOf("?"));
-			// stringID = value.substring(value.indexOf("?") + 1);
+		HistoryToken historyToken;
+		try {
+			historyToken = new HistoryToken(value);
+		} catch (Exception e) {
+			return;
 		}
 
-		final Action action = actions.get(historyToken);
+		final Action action = actions.get(historyToken.getToken());
 		if (action != null) {
 
-			if (type != null && id != 0) {
+			if (historyToken.getType() != null && historyToken.getValue() != 0) {
 				AsyncCallback<T> callback = new AsyncCallback<T>() {
 
 					public void onFailure(Throwable caught) {
@@ -903,7 +878,9 @@ public class MainFinanceWindow extends VerticalPanel {
 
 				};
 
-				Accounter.createGETService().getObjectById(type, id, callback);
+				Accounter.createGETService().getObjectById(
+						historyToken.getType(), historyToken.getValue(),
+						callback);
 
 			} else {
 				action.run(null, false);

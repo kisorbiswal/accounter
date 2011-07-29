@@ -251,7 +251,7 @@ public class AccounterValidator {
 
 					@Override
 					public boolean onYesClick() throws InvalidEntryException {
-						long convertedasOfDate = asofDate.getTime();
+						long convertedasOfDate = asofDate.getDate();
 						Accounter.createHomeService()
 								.changeFiscalYearsStartDateTo(
 										convertedasOfDate,

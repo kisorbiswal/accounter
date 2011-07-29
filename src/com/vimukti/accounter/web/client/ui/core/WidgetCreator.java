@@ -261,8 +261,8 @@ public class WidgetCreator {
 	public void reloadDebitors(final CustomerWidgetGrid grid) {
 
 		if (Accounter.getStartDate() != null)
-			Accounter.createReportService().getDebitors(0,
-					new ClientFinanceDate().getTime(),
+			Accounter.createReportService().getDebitors(
+					new ClientFinanceDate(), new ClientFinanceDate(),
 					new AsyncCallback<List<DummyDebitor>>() {
 
 						@Override

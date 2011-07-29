@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -378,12 +379,11 @@ public class InviteUserView extends BaseView<ClientUser> {
 	}
 
 	private boolean isExist(ClientUser object) {
-		List<ClientUser> list = getCompany().getUsersList();
+		List<ClientEmployee> list = getCompany().getUsersList();
 		if (list == null || list.isEmpty())
 			return false;
-		for (ClientUser user : list) {
-			if (user.getID() != object.getID() && user.getEmail() != null
-					&& user.getEmail().equals(object.getEmail())) {
+		for (ClientEmployee user : list) {
+			if (user.getID() != object.getID()) {
 				return true;
 			}
 		}

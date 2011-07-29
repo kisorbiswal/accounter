@@ -713,7 +713,7 @@ public class SalesOrderView extends
 			if (shippingMethod != null)
 				salesOrder.setShippingMethod(shippingMethod.getID());
 			if (dueDateItem.getEnteredDate() != null)
-				salesOrder.setDueDate(dueDateItem.getEnteredDate().getTime());
+				salesOrder.setDueDate(dueDateItem.getEnteredDate().getDate());
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
 				if (taxCode != null) {

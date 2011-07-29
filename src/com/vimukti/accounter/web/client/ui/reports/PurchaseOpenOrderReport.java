@@ -20,16 +20,14 @@ public class PurchaseOpenOrderReport extends
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions(Accounter.constants().all(),
-				Accounter.constants().thisWeek(), Accounter
-						.constants().thisMonth(), Accounter
-						.constants().lastWeek(), Accounter
-						.constants().lastMonth(), Accounter
-						.constants().thisFinancialYear(), Accounter
-						.constants().lastFinancialYear(), Accounter
-						.constants().thisFinancialQuarter(), Accounter
-						.constants().lastFinancialQuarter(), Accounter
-						.constants().custom());
+		toolbar.setDateRanageOptions(Accounter.constants().all(), Accounter
+				.constants().thisWeek(), Accounter.constants().thisMonth(),
+				Accounter.constants().lastWeek(), Accounter.constants()
+						.lastMonth(),
+				Accounter.constants().thisFinancialYear(), Accounter
+						.constants().lastFinancialYear(), Accounter.constants()
+						.thisFinancialQuarter(), Accounter.constants()
+						.lastFinancialQuarter(), Accounter.constants().custom());
 	}
 
 	@Override
@@ -55,17 +53,17 @@ public class PurchaseOpenOrderReport extends
 	public void makeReportRequest(int status, ClientFinanceDate start,
 			ClientFinanceDate end) {
 		if (status == 1)
-			Accounter.createReportService().getPurchaseOpenOrderReport(
-					start.getTime(), end.getTime(), this);
+			Accounter.createReportService().getPurchaseOpenOrderReport(start,
+					end, this);
 		else if (status == 2)
 			Accounter.createReportService().getPurchaseCompletedOrderReport(
-					start.getTime(), end.getTime(), this);
+					start, end, this);
 		else if (status == 3)
 			Accounter.createReportService().getPurchaseCancelledOrderReport(
-					start.getTime(), end.getTime(), this);
+					start, end, this);
 		else
-			Accounter.createReportService().getPurchaseOrderReport(
-					start.getTime(), end.getTime(), this);
+			Accounter.createReportService().getPurchaseOrderReport(start, end,
+					this);
 		this.status = status;
 	}
 
@@ -82,8 +80,8 @@ public class PurchaseOpenOrderReport extends
 	@Override
 	public void print() {
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 134, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 134, "",
 				"", status);
 	}
 
@@ -129,8 +127,8 @@ public class PurchaseOpenOrderReport extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 134, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 134, "",
 				"", status);
 	}
 }

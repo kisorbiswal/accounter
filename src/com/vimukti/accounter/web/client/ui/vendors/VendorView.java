@@ -323,7 +323,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		balanceDate = new DateField(Accounter.constants().balanceAsOf());
 		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
-		todaydate.setDate(todaydate.getDate());
+		todaydate.setDay(todaydate.getDay());
 		balanceDate.setDatethanFireEvent(todaydate);
 		balanceDate.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -897,7 +897,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendor.setActive((Boolean) statusCheck.getValue());
 
 		// Setting Vendor Since
-		vendor.setPayeeSince(vendorSinceDate.getEnteredDate().getTime());
+		vendor.setPayeeSince(vendorSinceDate.getEnteredDate().getDate());
 
 		// Setting Balance
 		if (takenVendor == null) {
@@ -913,7 +913,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		// Setting Balance As of
 		if (balanceDate.getEnteredDate() != null)
-			vendor.setBalanceAsOf(balanceDate.getEnteredDate().getTime());
+			vendor.setBalanceAsOf(balanceDate.getEnteredDate().getDate());
 		// Setting Contacts
 		List<ClientContact> allGivenRecords = gridView.getRecords();
 

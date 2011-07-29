@@ -185,7 +185,7 @@ public class NewCustomerPaymentView extends
 			transactionObject = customerPrePayment;
 
 			if (transactionDate != null)
-				transactionObject.setDate(transactionDate.getTime());
+				transactionObject.setDate(transactionDate.getDate());
 			customerPrePayment.setMemo(getMemoTextAreaItem());
 			// customerPrePayment.setReference(getRefText());
 

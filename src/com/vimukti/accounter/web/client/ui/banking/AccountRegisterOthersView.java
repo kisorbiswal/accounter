@@ -157,7 +157,7 @@ public class AccountRegisterOthersView extends
 				&& selectedOption.equals(Accounter.constants().last30Days())) {
 			selectedDateRange = Accounter.constants().last30Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(),
-					todaydate.getMonth() - 1, todaydate.getDate());
+					todaydate.getMonth() - 1, todaydate.getDay());
 			endDate = todaydate;
 
 		} else if (!selectedDateRange
@@ -166,7 +166,7 @@ public class AccountRegisterOthersView extends
 
 			selectedDateRange = Accounter.constants().last45Days();
 			startDate = new ClientFinanceDate(todaydate.getYear(),
-					todaydate.getMonth() - 2, todaydate.getDate() + 16);
+					todaydate.getMonth() - 2, todaydate.getDay() + 16);
 			endDate = todaydate;
 		}
 		accountSelected(takenaccount);
@@ -201,8 +201,8 @@ public class AccountRegisterOthersView extends
 
 		this.account = takenaccount;
 
-		this.rpcReportService.getAccountRegister(startDate.getTime(),
-				endDate.getTime(), takenaccount.getID(),
+		this.rpcReportService.getAccountRegister(startDate, endDate,
+				takenaccount.getID(),
 				new AsyncCallback<List<AccountRegister>>() {
 
 					public void onFailure(Throwable caught) {

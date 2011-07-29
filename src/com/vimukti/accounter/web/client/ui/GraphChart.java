@@ -213,7 +213,7 @@ public class GraphChart {
 				 * x-axis label are combination of date and month. We using date
 				 * values at each two intervals like date 1, 3, 5..
 				 */
-				labelDateVal = ((date.getDate()) - (i));
+				labelDateVal = ((date.getDay()) - (i));
 
 				if (labelDateVal > 0)
 					labelMonthVal = date.getMonth();
@@ -249,7 +249,7 @@ public class GraphChart {
 		// Graph for Accounts Payable
 		if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE) {
 
-			int labelDateVal = date.getDate();
+			int labelDateVal = date.getDay();
 			int labelMonthVal = date.getMonth();
 
 			for (int i = 0; i < 30; i++) {
@@ -264,7 +264,7 @@ public class GraphChart {
 						labelDateVal = 1;
 					else
 						labelDateVal = labelDateVal
-								- (date.getDate() + ((i - 1) * 2));
+								- (date.getDay() + ((i - 1) * 2));
 
 				} else if ((labelMonthVal == 3 || labelMonthVal == 5
 						|| labelMonthVal == 8 || labelMonthVal == 10)
@@ -275,7 +275,7 @@ public class GraphChart {
 						labelDateVal = 1;
 					else
 						labelDateVal = labelDateVal
-								- (date.getDate() + ((i - 1) * 2));
+								- (date.getDay() + ((i - 1) * 2));
 
 				} else if (labelMonthVal == 1 && date.getYear() % 4 == 0
 						&& labelDateVal > 29) {
@@ -285,7 +285,7 @@ public class GraphChart {
 						labelDateVal = 1;
 					else
 						labelDateVal = labelDateVal
-								- (date.getDate() + ((i - 1) * 2));
+								- (date.getDay() + ((i - 1) * 2));
 
 				} else if (labelMonthVal == 1 && date.getYear() % 4 != 0
 						&& labelDateVal > 28) {
@@ -295,7 +295,7 @@ public class GraphChart {
 						labelDateVal = 1;
 					else
 						labelDateVal = labelDateVal
-								- (date.getDate() + ((i - 1) * 2));
+								- (date.getDay() + ((i - 1) * 2));
 				}
 
 				// creating x-axis labels. Ex: 1-Jan, 3-Jan, 5-Jan, ...

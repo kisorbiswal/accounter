@@ -484,7 +484,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting customer Since
 		if (customerSinceDate != null
 				&& customerSinceDate.getEnteredDate() != null)
-			customer.setPayeeSince(customerSinceDate.getEnteredDate().getTime());
+			customer.setPayeeSince(customerSinceDate.getEnteredDate().getDate());
 
 		// Setting Balance
 		// Setting Balance
@@ -499,7 +499,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				customer.setBalance(balanceText.getAmount());
 		}
 		// Setting Balance As of
-		customer.setBalanceAsOf(balanceDate.getEnteredDate().getTime());
+		customer.setBalanceAsOf(balanceDate.getEnteredDate().getDate());
 
 		// Setting Contacts
 		List<ClientContact> allGivenRecords = (List<ClientContact>) gridView
@@ -659,7 +659,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		balanceDate = new DateField(customerConstants.balanceAsOf());
 		balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
-		todaydate.setDate(todaydate.getDate());
+		todaydate.setDay(todaydate.getDay());
 		balanceDate.setDatethanFireEvent(todaydate);
 		balanceDate.addDateValueChangeHandler(new DateValueChangeHandler() {
 

@@ -121,7 +121,7 @@ public class ClientPayBill extends ClientTransaction {
 	}
 
 	public void setBillDueOnOrBefore(ClientFinanceDate enteredDate) {
-		this.billDueOnOrBefore = enteredDate.getTime();
+		this.billDueOnOrBefore = enteredDate.getDate();
 
 	}
 

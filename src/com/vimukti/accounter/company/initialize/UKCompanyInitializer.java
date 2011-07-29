@@ -190,7 +190,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
 
 			FinanceDate depreciationStartDateCal = new FinanceDate();
-			depreciationStartDateCal.setTime(fiscalYearStartDate);
+			depreciationStartDateCal.set(fiscalYearStartDate);
 			// depreciationStartDateCal.set(Calendar.DAY_OF_MONTH, 01);
 			preferences.setDepreciationStartDate(depreciationStartDateCal);
 

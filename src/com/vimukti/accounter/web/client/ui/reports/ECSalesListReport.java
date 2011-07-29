@@ -30,8 +30,7 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getECSalesListReport(start.getTime(),
-				end.getTime(), this);
+		Accounter.createReportService().getECSalesListReport(start, end, this);
 
 	}
 
@@ -49,8 +48,8 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 142, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 142, "",
 				"");
 
 	}
@@ -73,8 +72,8 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 142, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 142, "",
 				"");
 	}
 }

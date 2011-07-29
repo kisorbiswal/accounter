@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -234,7 +235,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 			throws AccounterException;
 
 	public ClientVATReturn getTAXReturn(ClientTAXAgency taxAgency,
-			long fromDate, long toDate) throws AccounterException;
+			ClientFinanceDate fromDate, ClientFinanceDate toDate)
+			throws AccounterException;
 
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
 			TempFixedAsset fixedAsset) throws AccounterException;
@@ -287,4 +289,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 			int status);
 
 	public List<ClientUserInfo> getAllUsers() throws AccounterException;
+
+	public List<ClientEmployee> getAllEmployees() throws AccounterException;
 }

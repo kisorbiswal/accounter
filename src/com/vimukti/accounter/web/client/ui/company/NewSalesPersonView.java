@@ -162,7 +162,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 			@Override
 			public void onDateValueChange(ClientFinanceDate date) {
-				long mustdate = new ClientFinanceDate().getTime() - 180000;
+				long mustdate = new ClientFinanceDate().getDate() - 180000;
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
 					MainFinanceWindow.getViewManager().showError(
@@ -290,7 +290,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		switch (this.validationCount) {
 		case 3:
-			long mustdate = new ClientFinanceDate().getTime() - 180000;
+			long mustdate = new ClientFinanceDate().getDate() - 180000;
 			return !(new ClientFinanceDate(mustdate).before(dateOfBirth
 					.getEnteredDate()));
 		case 2:
@@ -317,7 +317,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		ClientSalesPerson salesPerson = getSalesPersonObject();
 		try {
 			if (takenSalesperson == null) {
-				long mustdate = new ClientFinanceDate().getTime() - 180000;
+				long mustdate = new ClientFinanceDate().getDate() - 180000;
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
 					MainFinanceWindow.getViewManager().showError(
@@ -395,7 +395,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			salesPerson.setExpenseAccount(selectedExpenseAccount.getID());
 		salesPerson.setJobTitle(jobTitleText.getValue().toString());
 		salesPerson.setFileAs(fileAsText.getValue().toString());
-		if (dateOfBirth.getValue().getTime() != 0) {
+		if (dateOfBirth.getValue().getDate() != 0) {
 			try {
 
 				if (dateOfBirth.getValue().getDateAsObject()

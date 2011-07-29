@@ -209,8 +209,8 @@ public class FiscalYear extends CreatableObject implements
 
 			Query query = session
 					.getNamedQuery("getNetIncome")
-					.setParameter("startDate", this.previousStartDate.getTime())
-					.setParameter("endDate", this.endDate.getTime());
+					.setParameter("startDate", this.previousStartDate.getDate())
+					.setParameter("endDate", this.endDate.getDate());
 
 			List list = query.list();
 			double netIncome = 0;
@@ -298,7 +298,7 @@ public class FiscalYear extends CreatableObject implements
 				company.getPreferences().setPreventPostingBeforeDate(
 						this.startDate);
 				session.saveOrUpdate(company);
-				this.setEndDate(getEndDateForStartDate(this.startDate.getTime()));
+				this.setEndDate(getEndDateForStartDate(this.startDate.getDate()));
 				checkIsCurrentFY(this);
 				session.saveOrUpdate(this);
 				addOrUpdateFiscalYears(this);
@@ -458,7 +458,7 @@ public class FiscalYear extends CreatableObject implements
 
 			FinanceDate startDate = new FinanceDate(cal.getTime());
 			fYear.setStartDate(startDate);
-			fYear.setEndDate(getEndDateForStartDate(startDate.getTime()));
+			fYear.setEndDate(getEndDateForStartDate(startDate.getDate()));
 			checkIsCurrentFY(fYear);
 			s.saveOrUpdate(fYear);
 			ChangeTracker.put(fYear);
@@ -477,7 +477,7 @@ public class FiscalYear extends CreatableObject implements
 			cal.set(Calendar.MONTH, tempCal.get(Calendar.MONTH) + 12);
 			FinanceDate startDate = new FinanceDate(cal.getTime());
 			fYear.setStartDate(startDate);
-			fYear.setEndDate(getEndDateForStartDate(startDate.getTime()));
+			fYear.setEndDate(getEndDateForStartDate(startDate.getDate()));
 			checkIsCurrentFY(fYear);
 			s.saveOrUpdate(fYear);
 			ChangeTracker.put(fYear);
@@ -522,11 +522,11 @@ public class FiscalYear extends CreatableObject implements
 		Calendar modifiedDateCal = Calendar.getInstance();
 		modifiedDateCal.setTime(transactionDate.getAsDateObject());
 
-		if (transactionDate.getTime() >= existingLeastStartDate.getTime()
-				&& transactionDate.getTime() <= existingHighestEndDate
-						.getTime()) {
+		if (transactionDate.getDate() >= existingLeastStartDate.getDate()
+				&& transactionDate.getDate() <= existingHighestEndDate
+						.getDate()) {
 			return;
-		} else if (transactionDate.getTime() < existingLeastStartDate.getTime()) {
+		} else if (transactionDate.getDate() < existingLeastStartDate.getDate()) {
 
 			Calendar tempCal = Calendar.getInstance();
 			tempCal.setTime(leastStartDateCal.getTime());
@@ -561,14 +561,14 @@ public class FiscalYear extends CreatableObject implements
 
 			}
 
-		} else if (transactionDate.getTime() > existingHighestEndDate.getTime()) {
+		} else if (transactionDate.getDate() > existingHighestEndDate.getDate()) {
 
 			Calendar tempCal = Calendar.getInstance();
 			tempCal.setTime(highestEndDateCal.getTime());
 
 			FinanceDate tempDate = existingHighestEndDate;
 
-			while (tempDate.getTime() < transactionDate.getTime()) {
+			while (tempDate.getDate() < transactionDate.getDate()) {
 
 				Calendar cal = Calendar.getInstance();
 
@@ -598,8 +598,8 @@ public class FiscalYear extends CreatableObject implements
 
 	public void checkIsCurrentFY(FiscalYear fiscalYear) {
 		FinanceDate presentDate = new FinanceDate();
-		if (presentDate.getTime() >= fiscalYear.getStartDate().getTime()
-				&& presentDate.getTime() <= fiscalYear.getEndDate().getTime())
+		if (presentDate.getDate() >= fiscalYear.getStartDate().getDate()
+				&& presentDate.getDate() <= fiscalYear.getEndDate().getDate())
 			fiscalYear.setIsCurrentFiscalYear(true);
 		else
 			fiscalYear.setIsCurrentFiscalYear(false);

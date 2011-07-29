@@ -152,7 +152,7 @@ public class ReceivePaymentView extends
 	private void getTransactionReceivePayments(
 			final ClientCustomer selectedCustomer) {
 
-		long paymentDate = transactionDateItem.getDate().getTime();
+		long paymentDate = transactionDateItem.getDate().getDate();
 
 		this.rpcUtilService.getTransactionReceivePayments(
 				selectedCustomer.getID(), paymentDate,
@@ -231,7 +231,7 @@ public class ReceivePaymentView extends
 			ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
 
 			record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
-					.getDueDate().getTime() : 0);
+					.getDueDate().getDate() : 0);
 			record.setNumber(receivePaymentTransaction.getNumber());
 
 			record.setInvoiceAmount(receivePaymentTransaction
@@ -241,7 +241,7 @@ public class ReceivePaymentView extends
 			record.setAmountDue(receivePaymentTransaction.getAmountDue());
 			record.setDummyDue(receivePaymentTransaction.getAmountDue());
 			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
-					.getDiscountDate().getTime() : 0);
+					.getDiscountDate().getDate() : 0);
 
 			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
 
@@ -361,7 +361,7 @@ public class ReceivePaymentView extends
 		ClientReceivePayment receivePayment = (transactionObject != null) ? (ClientReceivePayment) transactionObject
 				: new ClientReceivePayment();
 
-		receivePayment.setDate(transactionDateItem.getValue().getTime());
+		receivePayment.setDate(transactionDateItem.getValue().getDate());
 		if (paymentMethod != null)
 			receivePayment.setPaymentMethod(paymentMethod);
 		if (depositInAccount != null)

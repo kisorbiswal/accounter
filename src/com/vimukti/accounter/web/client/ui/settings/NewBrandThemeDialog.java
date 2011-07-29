@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -68,7 +67,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 	private FlexTable textBoxTable;
 	private List<String> listOfFontNames, listOfFontSizes;
 	private ClientBrandingTheme takenTheme;
-	private AccounterConstants messages=Accounter.constants();
+	private AccounterConstants messages = Accounter.constants();
 	private Label addLogoLabel;
 	private ValueCallBack<ClientBrandingTheme> callback;
 	private String[] fileTypes;
@@ -84,7 +83,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 	@Override
 	protected void initConstants() {
 		super.initConstants();
-		
+
 	}
 
 	public NewBrandThemeDialog(String title, String desc,
@@ -162,11 +161,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 								ViewManager.getInstance()
 										.createObject(brandingTheme,
 												NewBrandThemeDialog.this);
-								HistoryTokenUtils.setPresentToken(
-										MainFinanceWindow.getViewManager()
-												.getCurrentView().getAction(),
-										MainFinanceWindow.getViewManager()
-												.getCurrentView().getData());
 							} else {
 								MainFinanceWindow.getViewManager()
 										.showErrorInCurrectDialog(
@@ -187,7 +181,6 @@ public class NewBrandThemeDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
-				//Action.cancle();
 			}
 
 		});
@@ -203,9 +196,11 @@ public class NewBrandThemeDialog extends BaseDialog {
 		topMarginBox.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent event) {
-				if(!UIUtils.isDouble(topMarginBox.getValue())){
+				if (!UIUtils.isDouble(topMarginBox.getValue())) {
 					Accounter.showError(messages.numberForTopMarginField());
-					 MainFinanceWindow.getViewManager().showErrorInCurrectDialog(messages.errorForTopMarginField());
+					MainFinanceWindow.getViewManager()
+							.showErrorInCurrectDialog(
+									messages.errorForTopMarginField());
 					topMarginBox.setValue("");
 				}
 			}
@@ -213,24 +208,27 @@ public class NewBrandThemeDialog extends BaseDialog {
 		bottomMarginBox.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent event) {
-				if(!UIUtils.isDouble(bottomMarginBox.getValue())){
+				if (!UIUtils.isDouble(bottomMarginBox.getValue())) {
 					Accounter.showError(messages.numberForbottomMarginField());
-					 MainFinanceWindow.getViewManager().showErrorInCurrectDialog(messages.errorForbottomMarginField());
+					MainFinanceWindow.getViewManager()
+							.showErrorInCurrectDialog(
+									messages.errorForbottomMarginField());
 					bottomMarginBox.setValue("");
 				}
 			}
 		});
-		 addressPadBox.addBlurHandler(new BlurHandler() {
+		addressPadBox.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent event) {
-				if(!UIUtils.isDouble(addressPadBox.getValue())){
+				if (!UIUtils.isDouble(addressPadBox.getValue())) {
 					Accounter.showError(messages.numberForAddresspadField());
-					 MainFinanceWindow.getViewManager().showErrorInCurrectDialog(messages.errorForaddresspadField());
+					MainFinanceWindow.getViewManager()
+							.showErrorInCurrectDialog(
+									messages.errorForaddresspadField());
 					addressPadBox.setValue("");
 				}
 			}
 		});
-		 
 
 	}
 

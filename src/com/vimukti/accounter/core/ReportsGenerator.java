@@ -96,8 +96,8 @@ public class ReportsGenerator {
 	private static int companyType;
 
 	private int reportType;
-	private long startDate;
-	private long endDate;
+	private FinanceDate startDate;
+	private FinanceDate endDate;
 	private String navigateObjectName;
 	private String status;
 
@@ -107,16 +107,16 @@ public class ReportsGenerator {
 	public ReportsGenerator(int reportType, long starDate, long endDate,
 			String navigateObjectName, int generationType) {
 		this.reportType = reportType;
-		this.startDate = starDate;
-		this.endDate = endDate;
+		this.startDate = new FinanceDate(starDate);
+		this.endDate = new FinanceDate(endDate);
 		this.navigateObjectName = navigateObjectName;
 	}
 
 	public ReportsGenerator(int reportType, long starDate, long endDate,
 			String navigateObjectName, int generationType, String status) {
 		this.reportType = reportType;
-		this.startDate = starDate;
-		this.endDate = endDate;
+		this.startDate = new FinanceDate(starDate);
+		this.endDate = new FinanceDate(endDate);
 		this.navigateObjectName = navigateObjectName;
 		this.status = status;
 	}
@@ -143,7 +143,7 @@ public class ReportsGenerator {
 		case REPORT_TYPE_PROFITANDLOSS:
 
 			ProfitAndLossServerReport profitAndLossServerReport = new ProfitAndLossServerReport(
-					startDate, endDate, generationType1) {
+					startDate.getDate(), endDate.getDate(), generationType1) {
 
 				@Override
 				public ClientFinanceDate getCurrentFiscalYearEndDate() {
@@ -167,14 +167,17 @@ public class ReportsGenerator {
 			profitAndLossServerReport.resetVariables();
 			try {
 				profitAndLossServerReport.onSuccess(reportsSerivce
-						.getProfitAndLossReport(startDate, endDate));
+						.getProfitAndLossReport(
+								startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return profitAndLossServerReport.getGridTemplate();
 		case REPORT_TYPE_BALANCESHEET:
 			BalanceSheetServerReport balanceSheetServerReport = new BalanceSheetServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -186,14 +189,16 @@ public class ReportsGenerator {
 			balanceSheetServerReport.resetVariables();
 			try {
 				balanceSheetServerReport.onSuccess(reportsSerivce
-						.getBalanceSheetReport(startDate, endDate));
+						.getBalanceSheetReport(startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return balanceSheetServerReport.getGridTemplate();
 		case REPORT_TYPE_TRIALBALANCE:
 			TrialBalanceServerReport trialBalanceServerReport = new TrialBalanceServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -205,14 +210,16 @@ public class ReportsGenerator {
 			trialBalanceServerReport.resetVariables();
 			try {
 				trialBalanceServerReport.onSuccess(reportsSerivce
-						.getTrialBalance(startDate, endDate));
+						.getTrialBalance(startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return trialBalanceServerReport.getGridTemplate();
 		case REPORT_TYPE_TRANSACTIONDETAILBYTAXITEM:
 			TransactionDetailByTaxItemServerReport transactionDetailByTaxItemServerReport = new TransactionDetailByTaxItemServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -231,7 +238,8 @@ public class ReportsGenerator {
 			return transactionDetailByTaxItemServerReport.getGridTemplate();
 		case REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT:
 			TransactionDetailByAccountServerReport transactionDetailByAccountServerReport = new TransactionDetailByAccountServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -243,14 +251,17 @@ public class ReportsGenerator {
 			transactionDetailByAccountServerReport.resetVariables();
 			try {
 				transactionDetailByAccountServerReport.onSuccess(reportsSerivce
-						.getTransactionDetailByAccount(startDate, endDate));
+						.getTransactionDetailByAccount(
+								startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return transactionDetailByAccountServerReport.getGridTemplate();
 		case REPORT_TYPE_EXPENSE:
 			ExpenseServerReport expenseServerReport = new ExpenseServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -263,14 +274,16 @@ public class ReportsGenerator {
 			try {
 				expenseServerReport.onSuccess(reportsSerivce
 						.getExpenseReportByType(Integer.parseInt(status),
-								startDate, endDate));
+								startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return expenseServerReport.getGridTemplate();
 		case REPORT_TYPE_AR_AGEINGSUMMARY:
 			ARAgingSummaryServerReport arAgingSummaryServerReport = new ARAgingSummaryServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -282,14 +295,16 @@ public class ReportsGenerator {
 			arAgingSummaryServerReport.resetVariables();
 			try {
 				arAgingSummaryServerReport.onSuccess(reportsSerivce
-						.getDebitors(startDate, endDate));
+						.getDebitors(startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return arAgingSummaryServerReport.getGridTemplate();
 		case REPORT_TYPE_AR_AGEINGDETAIL:
 			ARAgingDetailServerReport arAgingDetailServerReport = new ARAgingDetailServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -308,7 +323,8 @@ public class ReportsGenerator {
 			return arAgingDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_CUSTOMERTRANSACTIONHISTORY:
 			CustomerTransactionHistoryServerReport customerTransactionHistoryServerReport = new CustomerTransactionHistoryServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -327,7 +343,8 @@ public class ReportsGenerator {
 			return customerTransactionHistoryServerReport.getGridTemplate();
 		case REPORT_TYPE_CUSTOMERTRANSACTIONHISTORY1:
 			CustomerTransactionHistoryServerReport1 customerTransactionHistoryServerReport1 = new CustomerTransactionHistoryServerReport1(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -346,7 +363,8 @@ public class ReportsGenerator {
 			return customerTransactionHistoryServerReport1.getGridTemplate();
 		case REPORT_TYPE_SALESBYCUSTOMERSUMMARY:
 			SalesByCustomerSummaryServerReport salesByCustomerSummaryServerReport = new SalesByCustomerSummaryServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -365,7 +383,8 @@ public class ReportsGenerator {
 			return salesByCustomerSummaryServerReport.getGridTemplate();
 		case REPORT_TYPE_SALESBYCUSTOMERDETAIL:
 			SalesByCustomerDetailServerReport salesByCustomerDetailServerReport = new SalesByCustomerDetailServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -384,7 +403,8 @@ public class ReportsGenerator {
 			return salesByCustomerDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_SALESBYITEMSUMMARY:
 			SalesByItemSummaryServerReport salesByItemSummaryServerReport = new SalesByItemSummaryServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -403,7 +423,8 @@ public class ReportsGenerator {
 			return salesByItemSummaryServerReport.getGridTemplate();
 		case REPORT_TYPE_SALESBYITEMDETAIL:
 			SalesByItemDetailServerReport salesByItemDetailServerReport = new SalesByItemDetailServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -428,7 +449,8 @@ public class ReportsGenerator {
 			return salesByItemDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_SALESORDER_OPEN:
 			SalesOpenOrderServerReport salesOpenOrderServerReport = new SalesOpenOrderServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -441,16 +463,24 @@ public class ReportsGenerator {
 			try {
 				if (Integer.parseInt(status) == 1) {
 					salesOpenOrderServerReport.onSuccess(reportsSerivce
-							.getSalesOpenOrderReport(startDate, endDate));
+							.getSalesOpenOrderReport(
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate()));
 				} else if (Integer.parseInt(status) == 2) {
 					salesOpenOrderServerReport.onSuccess(reportsSerivce
-							.getSalesCompletedOrderReport(startDate, endDate));
+							.getSalesCompletedOrderReport(
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate()));
 				} else if (Integer.parseInt(status) == 3) {
 					salesOpenOrderServerReport.onSuccess(reportsSerivce
-							.getSalesCancelledOrderReport(startDate, endDate));
+							.getSalesCancelledOrderReport(
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate()));
 				} else {
 					salesOpenOrderServerReport.onSuccess(reportsSerivce
-							.getSalesOrderReport(startDate, endDate));
+							.getSalesOrderReport(
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -458,7 +488,8 @@ public class ReportsGenerator {
 			return salesOpenOrderServerReport.getGridTemplate();
 		case REPORT_TYPE_SALESORDER_CLOSE:
 			SalesClosedOrderServerReport salesClosedOrderServerReport = new SalesClosedOrderServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -477,7 +508,8 @@ public class ReportsGenerator {
 			return salesClosedOrderServerReport.getGridTemplate();
 		case REPORT_TYPE_AP_AGEINGSUMMARY:
 			APAgingSummaryServerReport apAgingSummaryServerReport = new APAgingSummaryServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -489,14 +521,16 @@ public class ReportsGenerator {
 			apAgingSummaryServerReport.resetVariables();
 			try {
 				apAgingSummaryServerReport.onSuccess(reportsSerivce
-						.getCreditors(startDate, endDate));
+						.getCreditors(startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return apAgingSummaryServerReport.getGridTemplate();
 		case REPORT_TYPE_AP_AGEINGDETAIL:
 			APAgingDetailServerReport apAgingDetailServerReport = new APAgingDetailServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -512,7 +546,9 @@ public class ReportsGenerator {
 							.getAgedCreditors(startDate, endDate));
 				} else {
 					apAgingDetailServerReport.onSuccess(reportsSerivce
-							.getAgedCreditors(status, startDate, endDate));
+							.getAgedCreditors(status,
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate()));
 				}
 				// apAgingDetailServerReport.onSuccess(finaTool.getAgedCreditors(
 				// startDate, endDate));
@@ -522,7 +558,8 @@ public class ReportsGenerator {
 			return apAgingDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_VENDORTRANSACTIONHISTORY:
 			VendorTransactionHistoryServerReport vendorTransactionHistoryServerReport = new VendorTransactionHistoryServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
@@ -542,7 +579,8 @@ public class ReportsGenerator {
 			return vendorTransactionHistoryServerReport.getGridTemplate();
 		case REPORT_TYPE_PURCHASEBYVENDORSUMMARY:
 			PurchaseByVendorSummaryServerReport purchaseByVendorSummaryServerReport = new PurchaseByVendorSummaryServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -561,7 +599,8 @@ public class ReportsGenerator {
 			return purchaseByVendorSummaryServerReport.getGridTemplate();
 		case REPORT_TYPE_PURCHASEBYVENDORDETAIL:
 			PurchaseByVendorDetailServerReport purchaseByVendorDetailServerReport = new PurchaseByVendorDetailServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -587,7 +626,8 @@ public class ReportsGenerator {
 			return purchaseByVendorDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_PURCHASEBYITEMSUMMARY:
 			PurchaseByItemSummaryServerReport purchaseByItemSummaryServerReport = new PurchaseByItemSummaryServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -607,7 +647,8 @@ public class ReportsGenerator {
 			return purchaseByItemSummaryServerReport.getGridTemplate();
 		case REPORT_TYPE_PURCHASEBYITEMDETAIL:
 			PurchaseByItemDetailServerReport purchaseByItemDetailServerReport = new PurchaseByItemDetailServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -632,7 +673,8 @@ public class ReportsGenerator {
 			return purchaseByItemDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_PURCHASEORDER_OPEN:
 			PurchaseOpenOrderServerReport purchaseOpenOrderServerReport = new PurchaseOpenOrderServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -645,20 +687,24 @@ public class ReportsGenerator {
 			try {
 				if (Integer.parseInt(status) == 1) {
 					purchaseOpenOrderServerReport.onSuccess(reportsSerivce
-							.getPurchaseOpenOrderReport(startDate, endDate));
+							.getPurchaseOpenOrderReport(
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate()));
 				} else if (Integer.parseInt(status) == 2) {
-					purchaseOpenOrderServerReport
-							.onSuccess(reportsSerivce
-									.getPurchaseCompletedOrderReport(startDate,
-											endDate));
+					purchaseOpenOrderServerReport.onSuccess(reportsSerivce
+							.getPurchaseCompletedOrderReport(
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate()));
 				} else if (Integer.parseInt(status) == 3) {
-					purchaseOpenOrderServerReport
-							.onSuccess(reportsSerivce
-									.getPurchaseCancelledOrderReport(startDate,
-											endDate));
+					purchaseOpenOrderServerReport.onSuccess(reportsSerivce
+							.getPurchaseCancelledOrderReport(
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate()));
 				} else {
 					purchaseOpenOrderServerReport.onSuccess(reportsSerivce
-							.getPurchaseOrderReport(startDate, endDate));
+							.getPurchaseOrderReport(
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -666,7 +712,8 @@ public class ReportsGenerator {
 			return purchaseOpenOrderServerReport.getGridTemplate();
 		case REPORT_TYPE_PURCHASEORDER_CLOSE:
 			PurchaseClosedOrderServerReport purchaseClosedOrderServerReport = new PurchaseClosedOrderServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -685,7 +732,8 @@ public class ReportsGenerator {
 			return purchaseClosedOrderServerReport.getGridTemplate();
 		case REPORT_TYPE_PRIORVATRETURNS:
 			PriorVATReturnsServerReport priorVATReturnsServerReport = new PriorVATReturnsServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -698,7 +746,7 @@ public class ReportsGenerator {
 			try {
 				priorVATReturnsServerReport.onSuccess(reportsSerivce
 						.getPriorReturnVATSummary(Long.parseLong(status),
-								endDate));
+								endDate.toClientFinanceDate()));
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -706,7 +754,8 @@ public class ReportsGenerator {
 			return priorVATReturnsServerReport.getGridTemplate();
 		case REPORT_TYPE_VAT100:
 			VAT100ServerReport vat100ServerReport = new VAT100ServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -718,14 +767,17 @@ public class ReportsGenerator {
 			vat100ServerReport.resetVariables();
 			try {
 				vat100ServerReport.onSuccess(reportsSerivce.getVAT100Report(
-						Long.parseLong(status), startDate, endDate));
+						Long.parseLong(status),
+						startDate.toClientFinanceDate(),
+						endDate.toClientFinanceDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return vat100ServerReport.getGridTemplate();
 		case REPORT_TYPE_VATDETAIL:
 			VATDetailServerReportView vatDetailServerReportView = new VATDetailServerReportView(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -744,7 +796,8 @@ public class ReportsGenerator {
 			return vatDetailServerReportView.getGridTemplate();
 		case REPORT_TYPE_VATITEMDETAIL:
 			VATItemDetailServerReport vatItemDetailServerReport = new VATItemDetailServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -763,7 +816,8 @@ public class ReportsGenerator {
 			return vatItemDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_UNCATEGORISEDVATAMOUNT:
 			VATUncategorisedAmountsServerReport vatUncategorisedAmountsServerReport = new VATUncategorisedAmountsServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -782,7 +836,8 @@ public class ReportsGenerator {
 			return vatUncategorisedAmountsServerReport.getGridTemplate();
 		case REPORT_TYPE_VATITEMSUMMARY:
 			VATItemSummaryServerReport vatItemSummaryServerReport = new VATItemSummaryServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -801,7 +856,8 @@ public class ReportsGenerator {
 			return vatItemSummaryServerReport.getGridTemplate();
 		case REPORT_TYPE_ECSCALESLIST:
 			ECSalesListServerReport ecSalesListServerReport = new ECSalesListServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String dateFormat(ClientFinanceDate date) {
 					try {
@@ -837,7 +893,8 @@ public class ReportsGenerator {
 			return ecSalesListServerReport.getGridTemplate();
 		case REPORT_TYPE_ECSCALESLISTDETAIL:
 			ECSalesListDetailServerReport ecSalesListDetailServerReport = new ECSalesListDetailServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -857,7 +914,8 @@ public class ReportsGenerator {
 			return ecSalesListDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_SALESTAXLIABILITY:
 			SalesTaxLiabilityServerReport salesTaxLiabilityServerReport = new SalesTaxLiabilityServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -876,7 +934,8 @@ public class ReportsGenerator {
 			return salesTaxLiabilityServerReport.getGridTemplate();
 		case REPORT_TYPE_REVERSECHARGELIST:
 			ReverseChargeListServerReport reverseChargeListServerReport = new ReverseChargeListServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -895,7 +954,8 @@ public class ReportsGenerator {
 			return reverseChargeListServerReport.getGridTemplate();
 		case REPORT_TYPE_REVERSECHARGELISTDETAIL:
 			ReverseChargeListDetailServerReport reverseChargeListDetailServerReport = new ReverseChargeListDetailServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -915,7 +975,8 @@ public class ReportsGenerator {
 			return reverseChargeListDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_MOSTPROFITABLECUSTOMER:
 			MostProfitableCustomerServerReport mostProfitableCustomerServerReport = new MostProfitableCustomerServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -934,7 +995,8 @@ public class ReportsGenerator {
 			return mostProfitableCustomerServerReport.getGridTemplate();
 		case REPORT_TYPE_CASHFLOWSTATEMENT:
 			CashFlowStatementServerReport cashFlowStatementServerReport = new CashFlowStatementServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -946,14 +1008,16 @@ public class ReportsGenerator {
 			cashFlowStatementServerReport.resetVariables();
 			try {
 				cashFlowStatementServerReport.onSuccess(reportsSerivce
-						.getCashFlowReport(startDate, endDate));
+						.getCashFlowReport(startDate.toClientFinanceDate(),
+								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return cashFlowStatementServerReport.getGridTemplate();
 		case REPORT_TYPE_AMOUNTSDUETOVENDOR:
 			AmountsDueToVendorServerReport amountsDueToVendorServerReport = new AmountsDueToVendorServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -972,7 +1036,8 @@ public class ReportsGenerator {
 			return amountsDueToVendorServerReport.getGridTemplate();
 		case REPORT_TYPE_CUSTOMERSTATEMENT:
 			StatementServerReport statementReport = new StatementServerReport(
-					this.startDate, this.endDate, generationType1) {
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					ReportsGenerator.companyType = Company.getCompany().accountingType;
@@ -985,7 +1050,7 @@ public class ReportsGenerator {
 			try {
 				statementReport.onSuccess(finaTool.getPayeeStatementsList(
 						Long.parseLong(status),
-						new ClientFinanceDate().getTime(), startDate, endDate,
+						new ClientFinanceDate().getDate(), startDate, endDate,
 						0, false, false, 0.00, false, false));
 
 			} catch (Exception e) {
@@ -1002,8 +1067,10 @@ public class ReportsGenerator {
 			FinanceTool financeTool) {
 		abstractFinaneReport.setNavigatedObjectName(navigateObjectName);
 		// abstractFinaneReport.setFinaceTool(financeTool);
-		abstractFinaneReport.setStartAndEndDates(startDate, endDate);
-		abstractFinaneReport.makeReportRequest(startDate, endDate);
+		abstractFinaneReport.setStartAndEndDates(
+				startDate.toClientFinanceDate(), endDate.toClientFinanceDate());
+		abstractFinaneReport.makeReportRequest(startDate.getDate(),
+				endDate.getDate());
 		abstractFinaneReport
 				.setCompanyType(Company.getCompany().accountingType);
 		abstractFinaneReport.setCurrentFiscalYearStartDate(Utility_R

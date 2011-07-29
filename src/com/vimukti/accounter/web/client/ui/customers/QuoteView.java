@@ -155,7 +155,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 			if (quoteExpiryDate.getEnteredDate() != null)
 				quote.setExpirationDate(quoteExpiryDate.getEnteredDate()
-						.getTime());
+						.getDate());
 			if (customer != null)
 				quote.setCustomer(customer);
 			if (contact != null)
@@ -164,7 +164,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				quote.setPhone(phoneSelect.getValue().toString());
 
 			if (deliveryDate.getEnteredDate() != null)
-				quote.setDeliveryDate(deliveryDate.getEnteredDate().getTime());
+				quote.setDeliveryDate(deliveryDate.getEnteredDate().getDate());
 
 			if (salesPerson != null)
 				quote.setSalesPerson(salesPerson);

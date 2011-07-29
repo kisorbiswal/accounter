@@ -275,11 +275,11 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			journalEntry = new ClientJournalEntry();
 
 		journalEntry.setNumber(jourNoText.getValue().toString());
-		journalEntry.setDate(transactionDateItem.getEnteredDate().getTime());
+		journalEntry.setDate(transactionDateItem.getEnteredDate().getDate());
 		journalEntry.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
 		// initMemo(journalEntry);
-		journalEntry.setDate(new ClientFinanceDate().getTime());
+		journalEntry.setDate(new ClientFinanceDate().getDate());
 		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
 				grid.getTotalCredittotal())) {
 			journalEntry.setDebitTotal(grid.getTotalDebittotal());
@@ -469,7 +469,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			rec[i].setVoucherNumber(entry.getVoucherNumber());
 
 			// --The date need to be set for every record
-			rec[i].setEntryDate(takenJournalEntry.getDate().getTime());
+			rec[i].setEntryDate(takenJournalEntry.getDate().getDate());
 
 			if (entry.getType() == ClientEntry.TYPE_FINANCIAL_ACCOUNT) {
 				rec[i].setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);

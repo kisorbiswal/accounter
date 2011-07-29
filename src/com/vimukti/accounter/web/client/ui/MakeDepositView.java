@@ -471,7 +471,7 @@ public class MakeDepositView extends
 		// Setting date
 		if (date != null)
 
-			makeDeposit.setDate(date.getValue().getTime());
+			makeDeposit.setDate(date.getValue().getDate());
 
 		// Setting Deposit in
 		makeDeposit.setDepositIn(selectedDepositInAccount.getID());

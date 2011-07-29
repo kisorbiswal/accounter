@@ -513,7 +513,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			}
 			transactionObject.setType(transactionType);
 			if (transactionDate != null)
-				transactionObject.setDate(transactionDate.getTime());
+				transactionObject.setDate(transactionDate.getDate());
 			if (transactionNumber != null)
 				transactionObject.setNumber(transactionNumber.getValue()
 						.toString());

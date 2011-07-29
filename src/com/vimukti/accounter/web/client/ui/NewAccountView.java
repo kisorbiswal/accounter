@@ -299,7 +299,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// asofDate.setWidth(100);
 		asofDate.setEnteredDate(new ClientFinanceDate(
 				getCompany().getPreferences().getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
-						.getTime() : getCompany().getPreferences()
+						.getDate() : getCompany().getPreferences()
 						.getPreventPostingBeforeDate()));
 
 		catSelect = new SelectItem(Accounter.constants().category1099());
@@ -994,7 +994,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			account.setCashFlowCategory(cashFlowCatSelect.getSelectedIndex() + 1);
 		// account.setCashFlowCategory(0);
 		account.setOpeningBalance(opBalText.getAmount());
-		account.setAsOf(asofDate.getEnteredDate().getTime());
+		account.setAsOf(asofDate.getEnteredDate().getDate());
 
 		switch (accountType) {
 		case ClientAccount.TYPE_BANK:
@@ -1108,7 +1108,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		enableOpeningBalaceTxtByType();
 
 		asofDate.setValue(new ClientFinanceDate(
-				takenAccount.getAsOf() == 0 ? new ClientFinanceDate().getTime()
+				takenAccount.getAsOf() == 0 ? new ClientFinanceDate().getDate()
 						: takenAccount.getAsOf()));
 		asofDate.setDisabled(true);
 		cashAccountCheck.setValue(takenAccount.isConsiderAsCashAccount());
@@ -1226,7 +1226,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						.setEnteredDate(new ClientFinanceDate(
 								getCompany().getPreferences()
 										.getPreventPostingBeforeDate() == 0 ? new ClientFinanceDate()
-										.getTime() : getCompany()
+										.getDate() : getCompany()
 										.getPreferences()
 										.getPreventPostingBeforeDate()));
 			else if ((item instanceof AmountField))

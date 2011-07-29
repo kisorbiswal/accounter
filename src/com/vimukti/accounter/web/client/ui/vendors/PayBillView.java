@@ -144,7 +144,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		.getAccountsPayableAccount());
 
 		// Setting Date
-		payBill.setDate(date.getEnteredDate().getTime());
+		payBill.setDate(date.getEnteredDate().getDate());
 
 		// Setting Pay From
 		payBill.setPayFrom(payFromAccount);
@@ -268,10 +268,10 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 				record.setAppliedCredits(curntRec.getCredits());
 
 				record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
-						.getDiscountDate().getTime() : 0);
+						.getDiscountDate().getDate() : 0);
 
 				record.setDueDate(curntRec.getDueDate() != null ? curntRec
-						.getDueDate().getTime() : 0);
+						.getDueDate().getDate() : 0);
 
 				record.setOriginalAmount(curntRec.getOriginalAmount());
 
@@ -799,9 +799,9 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 			record.setAppliedCredits(cont.getCredits());
 			if (cont.getDiscountDate() != null)
-				record.setDiscountDate(cont.getDiscountDate().getTime());
+				record.setDiscountDate(cont.getDiscountDate().getDate());
 			if (cont.getDueDate() != null)
-				record.setDueDate(cont.getDueDate().getTime());
+				record.setDueDate(cont.getDueDate().getDate());
 
 			record.setOriginalAmount(cont.getOriginalAmount());
 

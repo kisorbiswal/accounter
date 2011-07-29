@@ -522,13 +522,13 @@ public class RecieveVATView extends
 		receiveVAT.setType(ClientTransaction.TYPE_RECEIVE_VAT);
 
 		if (transactionDateItem.getEnteredDate() != null)
-			receiveVAT.setDate(transactionDateItem.getEnteredDate().getTime());
+			receiveVAT.setDate(transactionDateItem.getEnteredDate().getDate());
 
 		receiveVAT.setDepositIn(selectedDepositInAccount.getID());
 		receiveVAT.setPaymentMethod(paymentMethod);
 
 		if (billsDue.getValue() != null)
-			receiveVAT.setReturnsDueOnOrBefore((billsDue.getValue()).getTime());
+			receiveVAT.setReturnsDueOnOrBefore((billsDue.getValue()).getDate());
 
 		if (selectedTaxAgency != null)
 			receiveVAT.setVatAgency(selectedTaxAgency.getID());

@@ -75,9 +75,9 @@ public class ClientInvoice extends ClientTransaction {
 		this.salesTaxAmount = estimate.getSalesTax();
 		this.total = estimate.getTotal();
 		this.deliverydate = estimate.getDeliveryDate();
-		this.dueDate = estimate.getDate().getTime();
+		this.dueDate = estimate.getDate().getDate();
 
-		this.transactionDate = estimate.getDate().getTime();
+		this.transactionDate = estimate.getDate().getDate();
 		this.transactionItems = estimate.getTransactionItems();
 
 		this.memo = estimate.getMemo();

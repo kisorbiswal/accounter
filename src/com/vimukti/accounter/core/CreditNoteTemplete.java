@@ -21,20 +21,18 @@ public class CreditNoteTemplete extends TemplateBuilder implements ITemplate {
 	public void initHeader() {
 
 		String cmpAdd = "<br/><br/><br/><br/><br/>";
-		for (Address cmpTrad : company.getAddresses()) {
-			if (cmpTrad.getType() == Address.TYPE_COMPANY_REGISTRATION) {
-				if (cmpTrad != null)
-					cmpAdd = ("<br><font style=\"font-family:sans-serif; color:#504040;\">&nbsp;"
-							+ forUnusedAddress(cmpTrad.getAddress1(), false)
-							+ forUnusedAddress(cmpTrad.getStreet(), false)
-							+ forUnusedAddress(cmpTrad.getCity(), false)
-							+ forUnusedAddress(cmpTrad.getStateOrProvinence(),
-									false)
-							+ forUnusedAddress(cmpTrad.getZipOrPostalCode(),
-									false)
-							+ forUnusedAddress(cmpTrad.getCountryOrRegion(),
-									false) + "</font></br>");
-			}
+		Address registeredAddress = company.getRegisteredAddress();
+		if (registeredAddress != null) {
+			cmpAdd = ("<br><font style=\"font-family:sans-serif; color:#504040;\">&nbsp;"
+					+ forUnusedAddress(registeredAddress.getAddress1(), false)
+					+ forUnusedAddress(registeredAddress.getStreet(), false)
+					+ forUnusedAddress(registeredAddress.getCity(), false)
+					+ forUnusedAddress(
+							registeredAddress.getStateOrProvinence(), false)
+					+ forUnusedAddress(registeredAddress.getZipOrPostalCode(),
+							false)
+					+ forUnusedAddress(registeredAddress.getCountryOrRegion(),
+							false) + "</font></br>");
 		}
 
 		cmpAdd = ("<p><font style=\"font-family:sans-serif;\" size=\"6px\"><strong> "
@@ -128,17 +126,16 @@ public class CreditNoteTemplete extends TemplateBuilder implements ITemplate {
 
 		String regAdd = "&nbsp;";
 
-		for (Address reg : company.getAddresses()) {
-			if (reg.getType() == Address.TYPE_COMPANY) {
-				if (reg != null)
-					regAdd = (",&nbsp;Register Address: "
-							+ forUnusedAddress(reg.getAddress1(), true)
-							+ forUnusedAddress(reg.getStreet(), true)
-							+ forUnusedAddress(reg.getCity(), true)
-							+ forUnusedAddress(reg.getStateOrProvinence(), true)
-							+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-							+ reg.getCountryOrRegion() + ".");
-			}
+		Address tradingAddress = company.getTradingAddress();
+		if (tradingAddress != null) {
+			regAdd = (",&nbsp;Register Address: "
+					+ forUnusedAddress(tradingAddress.getAddress1(), true)
+					+ forUnusedAddress(tradingAddress.getStreet(), true)
+					+ forUnusedAddress(tradingAddress.getCity(), true)
+					+ forUnusedAddress(tradingAddress.getStateOrProvinence(),
+							true)
+					+ forUnusedAddress(tradingAddress.getZipOrPostalCode(),
+							true) + tradingAddress.getCountryOrRegion() + ".");
 		}
 
 		regAdd = (company.geFulltName() + regAdd + ((company

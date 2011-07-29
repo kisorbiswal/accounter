@@ -992,9 +992,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			invoice.setCustomer(customer.getID());
 
 			if (dueDateItem.getEnteredDate() != null)
-				invoice.setDueDate((dueDateItem.getEnteredDate()).getTime());
+				invoice.setDueDate((dueDateItem.getEnteredDate()).getDate());
 			if (deliveryDate.getEnteredDate() != null)
-				invoice.setDeliverydate(deliveryDate.getEnteredDate().getTime());
+				invoice.setDeliverydate(deliveryDate.getEnteredDate().getDate());
 			if (Accounter.getCompany().getAccountingType() == 0)
 				invoice.setSalesTaxAmount(salesTaxTextNonEditable.getAmount());
 
@@ -1049,7 +1049,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 			ClientFinanceDate discountDate = Utility.getCalculatedDiscountDate(
 					transactionDateItem.getEnteredDate(), paymentTerm);
-			invoice.setDiscountDate(discountDate.getTime());
+			invoice.setDiscountDate(discountDate.getDate());
 
 			if (selectedEstimateId != 0)
 				invoice.setEstimate(selectedEstimateId);
@@ -1097,9 +1097,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			invoice.setCustomer(customer.getID());
 
 		if (dueDateItem.getEnteredDate() != null)
-			invoice.setDueDate((dueDateItem.getEnteredDate()).getTime());
+			invoice.setDueDate((dueDateItem.getEnteredDate()).getDate());
 		if (deliveryDate.getEnteredDate() != null)
-			invoice.setDeliverydate(deliveryDate.getEnteredDate().getTime());
+			invoice.setDeliverydate(deliveryDate.getEnteredDate().getDate());
 		if (Accounter.getCompany().getAccountingType() == 0)
 			invoice.setSalesTaxAmount(salesTaxTextNonEditable.getAmount());
 		if (contact != null)
@@ -1151,7 +1151,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		ClientFinanceDate discountDate = Utility.getCalculatedDiscountDate(
 				transactionDateItem.getEnteredDate(), paymentTerm);
-		invoice.setDiscountDate(discountDate.getTime());
+		invoice.setDiscountDate(discountDate.getDate());
 
 		if (selectedEstimateId != 0)
 			invoice.setEstimate(selectedEstimateId);

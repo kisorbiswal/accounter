@@ -22,8 +22,8 @@ public final class CustomerTransactionHistoryReport1 extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getCustomerTransactionHistory(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getCustomerTransactionHistory(start,
+				end, this);
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public final class CustomerTransactionHistoryReport1 extends
 	@Override
 	public void print() {
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 120, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 120, "",
 				"");
 
 	}
@@ -58,8 +58,8 @@ public final class CustomerTransactionHistoryReport1 extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 120, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 120, "",
 				"");
 	}
 }

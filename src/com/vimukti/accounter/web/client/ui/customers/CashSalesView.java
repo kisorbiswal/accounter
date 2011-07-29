@@ -406,7 +406,7 @@ public class CashSalesView extends
 				cashSale.setShippingMethod(shippingMethod.getID());
 			if (deliveryDate != null && deliveryDate.getEnteredDate() != null)
 				cashSale.setDeliverydate(deliveryDate.getEnteredDate()
-						.getTime());
+						.getDate());
 
 			if (priceLevel != null)
 				cashSale.setPriceLevel(priceLevel.getID());

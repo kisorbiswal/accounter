@@ -547,7 +547,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public void setEndOfFiscalYear(ClientFinanceDate value) {
-		this.endOfFiscalYear = value.getTime();
+		this.endOfFiscalYear = value.getDate();
 	}
 
 	public long getDepreciationStartDate() {

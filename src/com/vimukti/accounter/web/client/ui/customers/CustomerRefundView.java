@@ -393,7 +393,7 @@ public class CustomerRefundView extends
 			else
 				refund = (ClientCustomerRefund) transactionObject;
 
-			refund.setDate(transactionDateItem.getEnteredDate().getTime());
+			refund.setDate(transactionDateItem.getEnteredDate().getDate());
 
 			refund.setNumber(transactionNumber.getValue().toString());
 

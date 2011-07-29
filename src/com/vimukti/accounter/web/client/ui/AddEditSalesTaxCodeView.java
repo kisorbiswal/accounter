@@ -213,7 +213,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			@Override
 			public void onClick(ClickEvent event) {
 				ClientTaxRates taxRates = new ClientTaxRates();
-				taxRates.setAsOf(new ClientFinanceDate().getTime());
+				taxRates.setAsOf(new ClientFinanceDate().getDate());
 				validateDateField(new ClientFinanceDate(),
 						gridView.getRecords());
 				gridView.addData(taxRates);
@@ -504,7 +504,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 			ClientFinanceDate selectedRecordDate) {
 		if ((date.getYear() == selectedRecordDate.getYear())
 				&& date.getMonth() == selectedRecordDate.getMonth()
-				&& date.getDate() == selectedRecordDate.getDate()) {
+				&& date.getDay() == selectedRecordDate.getDay()) {
 			return true;
 		} else
 			return false;

@@ -5,28 +5,27 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.vimukti.accounter.web.client.core.ClientUserInfo;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
-public class EmployeeCombo extends CustomCombo<ClientUserInfo> {
+public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 
-	public List<ClientUserInfo> users = new ArrayList<ClientUserInfo>();
+	public List<ClientEmployee> users = new ArrayList<ClientEmployee>();
 	private boolean isAdmin;
 
 	public EmployeeCombo(String title) {
 		super(title, false, 1);
-		Accounter.createHomeService().getAllUsers(
-				new AsyncCallback<List<ClientUserInfo>>() {
-
+		Accounter.createHomeService().getAllEmployees(
+				new AsyncCallback<List<ClientEmployee>>() {
 					@Override
-					public void onSuccess(List<ClientUserInfo> result) {
+					public void onSuccess(List<ClientEmployee> result) {
 						users = result;
 						if (isAdmin) {
 							initCombo(users);
 						} else {
-							for (ClientUserInfo user : users) {
-								if (user.getId() == Accounter.getUser().getID()) {
-									List<ClientUserInfo> tempUsers = new ArrayList<ClientUserInfo>();
+							for (ClientEmployee user : users) {
+								if (user.getID() == Accounter.getUser().getID()) {
+									List<ClientEmployee> tempUsers = new ArrayList<ClientEmployee>();
 									tempUsers.add(user);
 									initCombo(tempUsers);
 									break;
@@ -41,7 +40,8 @@ public class EmployeeCombo extends CustomCombo<ClientUserInfo> {
 							Accounter
 									.showMessage("Your session expired, Please login again to continue");
 						} else {
-							Accounter.showError("Failed to load users list");
+							Accounter
+									.showError("Failed to load Employees list");
 						}
 					}
 				});
@@ -53,15 +53,16 @@ public class EmployeeCombo extends CustomCombo<ClientUserInfo> {
 	}
 
 	@Override
-	protected String getDisplayName(ClientUserInfo object) {
+	protected String getDisplayName(ClientEmployee object) {
 		if (object != null)
-			return object.getDisplayName() != null ? object.getDisplayName(): "";
+			return object.getDisplayName() != null ? object.getDisplayName()
+					: "";
 		else
 			return "";
 	}
 
 	@Override
-	protected String getColumnData(ClientUserInfo object, int row, int col) {
+	protected String getColumnData(ClientEmployee object, int row, int col) {
 		switch (col) {
 		case 0:
 			return object.getDisplayName();
@@ -86,9 +87,9 @@ public class EmployeeCombo extends CustomCombo<ClientUserInfo> {
 		if (isAdmin) {
 			initCombo(users);
 		} else {
-			for (ClientUserInfo user : users) {
-				if (user.getId() == Accounter.getUser().getID()) {
-					List<ClientUserInfo> tempUsers = new ArrayList<ClientUserInfo>();
+			for (ClientEmployee user : users) {
+				if (user.getID() == Accounter.getUser().getID()) {
+					List<ClientEmployee> tempUsers = new ArrayList<ClientEmployee>();
 					tempUsers.add(user);
 					initCombo(tempUsers);
 					break;

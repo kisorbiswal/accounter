@@ -10,12 +10,11 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
  */
 public class History {
 
-	
 	ParentCanvas view;
 
 	Action action;
 
-	Object data;
+	IAccounterCore data;
 
 	boolean isDependent;
 
@@ -23,15 +22,11 @@ public class History {
 
 	}
 
-	
-	public History(ParentCanvas view, Object input, Action action,
+	public History(ParentCanvas view, IAccounterCore input, Action action,
 			boolean dependent) {
 
 		setView(view);
-		if (input instanceof IAccounterCore)
-			setData(input);
-		else
-			setData(input);
+		setData(input);
 		setAction(action);
 		setDependent(dependent);
 	}
@@ -39,7 +34,7 @@ public class History {
 	/**
 	 * @return view
 	 */
-	
+
 	public ParentCanvas getView() {
 		return view;
 	}
@@ -50,7 +45,7 @@ public class History {
 	 * @param view
 	 * 
 	 */
-	
+
 	public void setView(ParentCanvas viewOrData) {
 		this.view = viewOrData;
 	}
@@ -95,7 +90,7 @@ public class History {
 	 * 
 	 * @param data
 	 */
-	public void setData(Object data) {
+	public void setData(IAccounterCore data) {
 		this.data = data;
 	}
 
@@ -104,7 +99,7 @@ public class History {
 	 * 
 	 * @return
 	 */
-	public Object getData() {
+	public IAccounterCore getData() {
 		return data;
 	}
 
@@ -115,12 +110,8 @@ public class History {
 	 * @param input
 	 */
 	public void updateHistory(Object input) {
-		// if (input != null) {
-		// if (input instanceof IAccounterCore) {
-		// setData(input);
-		// } else {
-		setData(input);
-		// }
-		// }
+		if (input instanceof IAccounterCore) {
+			setData((IAccounterCore) input);
+		}
 	}
 }

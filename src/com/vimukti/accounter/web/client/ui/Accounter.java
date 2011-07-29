@@ -12,7 +12,6 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETService;
@@ -42,7 +41,6 @@ import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 public class Accounter implements EntryPoint {
 
 	private MainFinanceWindow mainWindow;
-	protected Widget loadingDialog;
 	protected ValueCallBack<Accounter> callback;
 	private ClientFinanceDate endDate;
 
@@ -67,10 +65,6 @@ public class Accounter implements EntryPoint {
 	private static ThemeImages themeImages;
 	private static ClientFinanceDate startDate;
 
-
-	
-
-
 	public void getCompany(String name) {
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
 				.create(IAccounterGETService.class);
@@ -79,8 +73,8 @@ public class Accounter implements EntryPoint {
 
 		final AsyncCallback<ClientCompany> getCompanyCallback = new AsyncCallback<ClientCompany>() {
 			public void onFailure(Throwable caught) {
+				showError(constants.unableToLoadCompany());
 				// //UIUtils.log(caught.toString());
-				loadingDialog.removeFromParent();
 				caught.printStackTrace();
 			}
 
@@ -89,6 +83,10 @@ public class Accounter implements EntryPoint {
 					// We got the company, set it for all further references.
 					// company.setAccountingType(ClientCompany.ACCOUNTING_TYPE_US);
 					Accounter.setCompany(company);
+
+					Accounter.setUser(company.getLoggedInUser());
+					startDate = company.getTransactionStartDate();
+					endDate = company.getTransactionStartDate();
 
 					// and, now we are ready to start the application.
 					initGUI();
@@ -100,9 +98,6 @@ public class Accounter implements EntryPoint {
 
 		};
 		getService.getCompany(getCompanyCallback);
-		// this.hide();
-		if (!GWT.isScript())
-			loadingDialog = UIUtils.getLoadingDialog(constants().loadingFinancePleaseWait());
 
 	}
 
@@ -123,11 +118,9 @@ public class Accounter implements EntryPoint {
 	}
 
 	private void initGUI() {
-		//TODO remove the loading screen
-		this.mainWindow=new MainFinanceWindow();
+		this.mainWindow = new MainFinanceWindow();
 		RootPanel.get("accounter").add(this.mainWindow);
 	}
-
 
 	public static IAccounterCRUDServiceAsync createCRUDService() {
 		if (crudService == null) {
@@ -183,14 +176,13 @@ public class Accounter implements EntryPoint {
 		return Accounter.constants().accounter();
 	}
 
-
 	public static AccounterMessages messages() {
 		if (messages == null) {
-			messages = (AccounterMessages) GWT
-					.create(AccounterMessages.class);
+			messages = (AccounterMessages) GWT.create(AccounterMessages.class);
 		}
 		return messages;
 	}
+
 	public static AccounterConstants constants() {
 		if (constants == null) {
 			constants = (AccounterConstants) GWT
@@ -199,7 +191,6 @@ public class Accounter implements EntryPoint {
 		return constants;
 	}
 
-
 	public static AccounterConstants getFinanceConstants() {
 		if (constants == null) {
 			constants = (AccounterConstants) GWT
@@ -207,8 +198,6 @@ public class Accounter implements EntryPoint {
 		}
 		return constants;
 	}
-
-
 
 	public static FinanceImages getFinanceImages() {
 		if (financeImages == null) {
@@ -232,11 +221,9 @@ public class Accounter implements EntryPoint {
 		return themeImages;
 	}
 
-
-
 	@Override
 	public void onModuleLoad() {
-
+		// TODO Need Send Request to get Company
 	}
 
 	public String getUserDisplayName() {
@@ -289,7 +276,6 @@ public class Accounter implements EntryPoint {
 	}
 
 	private static EventBus eventBus;
-
 
 	public static void showMessage(String message) {
 		if (expireDialog != null) {

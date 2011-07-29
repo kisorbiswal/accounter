@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Customer;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.Transaction;
@@ -57,8 +58,8 @@ import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		implements IAccounterReportService {
 
-	private long transtartDate = 0;
-	private long tranendDate = 0;
+	private FinanceDate transtartDate = new FinanceDate();
+	private FinanceDate tranendDate = new FinanceDate();
 
 	/**
 	 * 
@@ -72,16 +73,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	private BaseReport setStartEndDates(BaseReport obj) {
 		// if (Utility.stringToDate(new
 		// ClientFinanceDate(transtartDate).toString()) != null)
-		obj.setStartDate(new ClientFinanceDate(transtartDate));
+		obj.setStartDate(transtartDate.toClientFinanceDate());
 		// if (Utility.stringToDate(new
 		// ClientFinanceDate(transtartDate).toString()) != null)
-		obj.setEndDate(new ClientFinanceDate(tranendDate));
+		obj.setEndDate(tranendDate.toClientFinanceDate());
 		return obj;
 	}
 
 	@Override
 	public List<SalesByCustomerDetail> getSalesByCustomerSummary(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -126,8 +127,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	// }
 
 	@Override
-	public List<AccountRegister> getAccountRegister(long startDate,
-			long endDate, long accountId) {
+	public List<AccountRegister> getAccountRegister(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long accountId) {
 		List<AccountRegister> accountRegisterList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -150,7 +152,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<AgedDebtors> getAgedCreditors(long startDate, long endDate) {
+	public List<AgedDebtors> getAgedCreditors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		List<AgedDebtors> agedDebtorsList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -188,7 +191,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<AgedDebtors> getAgedDebtors(long startDate, long endDate) {
+	public List<AgedDebtors> getAgedDebtors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		List<AgedDebtors> agedDebtorsList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -269,8 +273,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<AmountsDueToVendor> getAmountsDueToVendor(long startDate,
-			long endDate) {
+	public List<AmountsDueToVendor> getAmountsDueToVendor(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<AmountsDueToVendor> amountsDueToVendorList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -297,7 +301,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<TransactionHistory> getCustomerTransactionHistory(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TransactionHistory> transactionHistoryList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -324,7 +328,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<MostProfitableCustomers> getMostProfitableCustomers(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<MostProfitableCustomers> mostProfitableCustomersList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -351,8 +355,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getPurchasesByItemDetail(long startDate,
-			long endDate) {
+	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -379,7 +383,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<SalesByCustomerDetail> getPurchasesByItemSummary(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -406,7 +410,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -433,7 +437,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<SalesByCustomerDetail> getPurchasesByVendorSummary(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -483,7 +487,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -509,8 +513,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getSalesByItemDetail(long startDate,
-			long endDate) {
+	public List<SalesByCustomerDetail> getSalesByItemDetail(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -536,8 +540,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getSalesByItemSummary(long startDate,
-			long endDate) {
+	public List<SalesByCustomerDetail> getSalesByItemSummary(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -564,7 +568,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TransactionDetailByTaxItem> transactionDetailByTaxItemList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -591,7 +595,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<TrialBalance> getTrialBalance(long startDate, long endDate) {
+	public List<TrialBalance> getTrialBalance(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		List<TrialBalance> trialBalanceList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -616,8 +621,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<TransactionHistory> getVendorTransactionHistory(long startDate,
-			long endDate) {
+	public List<TransactionHistory> getVendorTransactionHistory(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TransactionHistory> transactionHistoryList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -643,7 +648,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientItem> getPurchaseReportItems(long startDate, long endDate) {
+	public List<ClientItem> getPurchaseReportItems(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		List<ClientItem> clientItemList = new ArrayList<ClientItem>();
 		List<Item> serverItemsList = null;
 
@@ -671,7 +677,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientItem> getSalesReportItems(long startDate, long endDate) {
+	public List<ClientItem> getSalesReportItems(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		List<ClientItem> clientItemList = new ArrayList<ClientItem>();
 		List<Item> serverItemsList = null;
 
@@ -699,8 +706,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientCustomer> getTransactionHistoryCustomers(long startDate,
-			long endDate) {
+	public List<ClientCustomer> getTransactionHistoryCustomers(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<ClientCustomer> clientCustomerList = new ArrayList<ClientCustomer>();
 		List<Customer> serverCustomerList = null;
 
@@ -725,8 +732,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientVendor> getTransactionHistoryVendors(long startDate,
-			long endDate) {
+	public List<ClientVendor> getTransactionHistoryVendors(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<ClientVendor> clientVendorList = new ArrayList<ClientVendor>();
 		List<Vendor> serverVendorList = null;
 
@@ -749,8 +756,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<SalesTaxLiability> getSalesTaxLiabilityReport(long startDate,
-			long endDate) {
+	public List<SalesTaxLiability> getSalesTaxLiabilityReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 
 		List<SalesTaxLiability> salesTaxLiabilityList = null;
 
@@ -777,7 +784,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TransactionDetailByAccount> transDetailByAccountList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -806,7 +813,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
-			String itemName, long startDate, long endDate) {
+			String itemName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomertList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -833,7 +841,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			String vendorName, long startDate, long endDate) {
+			String vendorName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomertList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -860,7 +869,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			String customerName, long startDate, long endDate) {
+			String customerName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomertList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -888,7 +898,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<SalesByCustomerDetail> getSalesByItemDetail(String itemName,
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomertList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -914,8 +924,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<AgedDebtors> getAgedDebtors(String Name, long startDate,
-			long endDate) {
+	public List<AgedDebtors> getAgedDebtors(String Name,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<AgedDebtors> agedDebtorsList = null;
 		List<AgedDebtors> agedDebtorsListForCustomer = new ArrayList<AgedDebtors>();
 
@@ -945,8 +955,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<AgedDebtors> getAgedCreditors(String Name, long startDate,
-			long endDate) {
+	public List<AgedDebtors> getAgedCreditors(String Name,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<AgedDebtors> agedDebtorsList = null;
 		List<AgedDebtors> agedCreditorsListForCustomer = new ArrayList<AgedDebtors>();
 
@@ -977,7 +987,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, long startDate, long endDate) {
+			String accountName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		List<TransactionDetailByAccount> transDetailByAccountList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1021,7 +1032,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			final String taxItemName, final long startDate, final long endDate) {
+			final String taxItemName, final ClientFinanceDate startDate,
+			final ClientFinanceDate endDate) {
 		List<TransactionDetailByTaxItem> transactionDetailByTaxItemList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1049,7 +1061,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<TrialBalance> getBalanceSheetReport(long startDate, long endDate) {
+	public List<TrialBalance> getBalanceSheetReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TrialBalance> trialbalanceList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1079,7 +1092,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<TrialBalance> getCashFlowReport(long startDate, long endDate) {
+	public List<TrialBalance> getCashFlowReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		List<TrialBalance> trialbalanceList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1101,8 +1115,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<TrialBalance> getProfitAndLossReport(long startDate,
-			long endDate) {
+	public List<TrialBalance> getProfitAndLossReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TrialBalance> trialbalanceList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1124,8 +1138,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getPurchaseOpenOrderReport(long startDate,
-			long endDate) {
+	public List<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> purchaseOrders = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1146,7 +1160,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> purchaseOrders = null;
 		getMinimumAndMaximumDates(startDate, endDate);
 		try {
@@ -1163,7 +1177,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> purchaseOrders = null;
 		getMinimumAndMaximumDates(startDate, endDate);
 		try {
@@ -1179,8 +1193,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getPurchaseOrderReport(long startDate,
-			long endDate) {
+	public List<OpenAndClosedOrders> getPurchaseOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> purchaseOrders = null;
 		getMinimumAndMaximumDates(startDate, endDate);
 		try {
@@ -1197,7 +1211,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<OpenAndClosedOrders> getPurchaseClosedOrderReport(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> purchaseOrders = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1217,8 +1231,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getSalesOpenOrderReport(long startDate,
-			long endDate) {
+	public List<OpenAndClosedOrders> getSalesOpenOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> salesOrders = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1239,7 +1253,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<OpenAndClosedOrders> getSalesCompletedOrderReport(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> salesOrders = null;
 		getMinimumAndMaximumDates(startDate, endDate);
 		try {
@@ -1255,8 +1269,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getSalesOrderReport(long startDate,
-			long endDate) {
+	public List<OpenAndClosedOrders> getSalesOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> salesOrders = null;
 		getMinimumAndMaximumDates(startDate, endDate);
 		try {
@@ -1273,7 +1287,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<OpenAndClosedOrders> getSalesCancelledOrderReport(
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> salesOrders = null;
 		getMinimumAndMaximumDates(startDate, endDate);
 		try {
@@ -1290,8 +1304,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getSalesClosedOrderReport(long startDate,
-			long endDate) {
+	public List<OpenAndClosedOrders> getSalesClosedOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> salesOrders = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1323,8 +1337,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	// }
 
 	@Override
-	public List<VATDetail> getPriorVATReturnVATDetailReport(long startDate,
-			long endDate) {
+	public List<VATDetail> getPriorVATReturnVATDetailReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<VATDetail> vatDetailReport = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1346,13 +1360,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<VATDetail> getPriorVATReturnReport(long taxAgency, long endDate) {
+	public List<VATDetail> getPriorVATReturnReport(long taxAgency,
+			ClientFinanceDate endDate) {
 		List<VATDetail> vatDetailReport = null;
 
 		// getMinimumAndMaximumDates("", endDate);
 
-		transtartDate = 0;
-		tranendDate = endDate;
+		transtartDate.clear();
+		tranendDate = new FinanceDate(endDate);
 
 		try {
 			TAXAgency vatAgncy = (TAXAgency) Util.loadObjectByid(
@@ -1371,17 +1386,17 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return vatDetailReport;
 	}
 
-	public List<VATSummary> getPriorReturnVATSummary(long taxAgncy, long endDate) {
+	public List<VATSummary> getPriorReturnVATSummary(long taxAgncy,
+			ClientFinanceDate endDate) {
 		List<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
 
-		transtartDate = 0;
-		tranendDate = endDate;
+		tranendDate = new FinanceDate(endDate);
 
 		try {
 			TAXAgency vatAgency = (TAXAgency) Util.loadObjectByid(
 					HibernateUtil.getCurrentSession(), "TAXAgency", taxAgncy);
 			vatSummaryList = getFinanceTool().getPriorReturnVATSummary(
-					vatAgency, endDate);
+					vatAgency, new FinanceDate(endDate));
 
 			VATSummary obj = new VATSummary();
 			if (vatSummaryList != null)
@@ -1400,8 +1415,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return vatSummaryList;
 	}
 
-	public List<VATSummary> getVAT100Report(long taxAgency, long fromDate,
-			long toDate) {
+	public List<VATSummary> getVAT100Report(long taxAgency,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 		List<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
 
 		getMinimumAndMaximumDates(fromDate, toDate);
@@ -1431,7 +1446,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<UncategorisedAmountsReport> getUncategorisedAmountsReport(
-			long fromDate, long toDate) {
+			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 		List<UncategorisedAmountsReport> uncategories = new ArrayList<UncategorisedAmountsReport>();
 
 		getMinimumAndMaximumDates(fromDate, toDate);
@@ -1452,8 +1467,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<VATItemSummary> getVATItemSummaryReport(long fromDate,
-			long toDate) {
+	public List<VATItemSummary> getVATItemSummaryReport(
+			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 		List<VATItemSummary> vatItems = new ArrayList<VATItemSummary>();
 
 		getMinimumAndMaximumDates(fromDate, toDate);
@@ -1474,7 +1489,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<VATItemDetail> getVATItemDetailReport(String vatItemName,
-			long fromDate, long toDate) {
+			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 
 		List<VATItemDetail> itemsList = new ArrayList<VATItemDetail>();
 
@@ -1497,7 +1512,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ECSalesList> getECSalesListReport(long fromDate, long toDate) {
+	public List<ECSalesList> getECSalesListReport(ClientFinanceDate fromDate,
+			ClientFinanceDate toDate) {
 
 		List<ECSalesList> salesList = new ArrayList<ECSalesList>();
 
@@ -1521,7 +1537,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<ECSalesListDetail> getECSalesListDetailReport(String payeeName,
-			long fromDate, long toDate) {
+			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 
 		List<ECSalesListDetail> salesList = new ArrayList<ECSalesListDetail>();
 
@@ -1545,7 +1561,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<ReverseChargeListDetail> getReverseChargeListDetailReport(
-			String payeeName, long fromDate, long toDate) {
+			String payeeName, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate) {
 
 		List<ReverseChargeListDetail> salesList = new ArrayList<ReverseChargeListDetail>();
 
@@ -1568,8 +1585,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ReverseChargeList> getReverseChargeListReport(long fromDate,
-			long toDate) {
+	public List<ReverseChargeList> getReverseChargeListReport(
+			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 
 		List<ReverseChargeList> salesList = new ArrayList<ReverseChargeList>();
 
@@ -1591,7 +1608,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	private void getMinimumAndMaximumDates(long startDate, long endDate) {
+	private void getMinimumAndMaximumDates(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 
 		// if ((startDate.equals("") || startDate == null)
 		// || (endDate.equals("") || endDate == null)) {
@@ -1602,21 +1620,21 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		ClientFinanceDate endDate2 = dates.get(1) == null ? new ClientFinanceDate()
 				: dates.get(1);
 
-		if (startDate == 0)
-			transtartDate = startDate1.getTime();
+		if (startDate.isEmpty())
+			transtartDate = new FinanceDate(startDate1);
 		else
-			transtartDate = startDate;
+			transtartDate = new FinanceDate(startDate);
 
-		if (endDate == 0)
-			tranendDate = endDate2.getTime();
+		if (endDate.isEmpty())
+			tranendDate = new FinanceDate(endDate2);
 		else
-			tranendDate = endDate;
+			tranendDate = new FinanceDate(endDate);
 
 	}
 
 	@Override
-	public List<DummyDebitor> getDebitors(long startDate, long endDate)
-			throws AccounterException {
+	public List<DummyDebitor> getDebitors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) throws AccounterException {
 
 		getMinimumAndMaximumDates(startDate, endDate);
 
@@ -1634,9 +1652,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			List<AgedDebtors> agedDebtors = getFinanceTool().getAgedDebtors(
 					transtartDate, tranendDate);
 
-			debitors = getDebtorsWidSameName(agedDebtors,
-					new ClientFinanceDate(transtartDate),
-					new ClientFinanceDate(tranendDate));
+			debitors = getDebtorsWidSameName(agedDebtors, transtartDate,
+					tranendDate);
 
 			DummyDebitor obj = new DummyDebitor();
 			if (debitors != null)
@@ -1655,8 +1672,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	 * single obj for those debtors who has same name
 	 */
 	private List<DummyDebitor> getDebtorsWidSameName(
-			List<AgedDebtors> agedDebtors, ClientFinanceDate startdate,
-			ClientFinanceDate enddate) {
+			List<AgedDebtors> agedDebtors, FinanceDate startdate,
+			FinanceDate enddate) {
 		List<DummyDebitor> listDebtors = new ArrayList<DummyDebitor>();
 		Map<Integer, List<AgedDebtors>> sameDebtorsMap = new HashMap<Integer, List<AgedDebtors>>();
 		List<AgedDebtors> sameDebtors;
@@ -1754,8 +1771,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<DummyDebitor> getCreditors(long startDate, long endDate)
-			throws AccounterException {
+	public List<DummyDebitor> getCreditors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) throws AccounterException {
 
 		getMinimumAndMaximumDates(startDate, endDate);
 
@@ -1773,9 +1790,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			List<AgedDebtors> agedCreditors = getFinanceTool()
 					.getAgedCreditors(transtartDate, tranendDate);
 
-			Creditors = getDebtorsWidSameName(agedCreditors,
-					new ClientFinanceDate(transtartDate),
-					new ClientFinanceDate(tranendDate));
+			Creditors = getDebtorsWidSameName(agedCreditors, transtartDate,
+					tranendDate);
 
 			DummyDebitor obj = new DummyDebitor();
 			if (Creditors != null)
@@ -1790,8 +1806,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ExpenseList> getExpenseReportByType(int status, long startDate,
-			long endDate) {
+	public List<ExpenseList> getExpenseReportByType(int status,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 
 		List<ExpenseList> expenseList = new ArrayList<ExpenseList>();
 
@@ -1814,7 +1830,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<DepositDetail> getDepositDetail(long startDate, long endDate) {
+	public List<DepositDetail> getDepositDetail(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		List<DepositDetail> transDetailByAccountList = null;
 
 		getMinimumAndMaximumDates(startDate, endDate);
@@ -1842,7 +1859,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
-			long startDate, long endDate) {
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 
 		List<CheckDetailReport> checkDetailReports = null;
 
@@ -1871,7 +1888,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public List<PayeeStatementsList> getStatements(long id,
-			long transactionDate, long fromDate, long toDate, int noOfDays,
+			long transactionDate, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate, int noOfDays,
 			boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessthanZeroBalBox,
 			double lessThanZeroBalanceValue,

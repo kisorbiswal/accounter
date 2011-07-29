@@ -21,15 +21,14 @@ public class SalesOpenOrderReport extends
 	public void init() {
 
 		super.init();
-		toolbar.setDateRanageOptions(Accounter.constants().all(),
-				Accounter.constants().thisWeek(), Accounter
-						.constants().thisMonth(), Accounter
-						.constants().lastWeek(), Accounter
-						.constants().lastMonth(), Accounter
-						.constants().thisFinancialYear(), Accounter
-						.constants().lastFinancialYear(), Accounter
-						.constants().thisFinancialQuarter(), Accounter
-						.constants().lastFinancialQuarter(),
+		toolbar.setDateRanageOptions(Accounter.constants().all(), Accounter
+				.constants().thisWeek(), Accounter.constants().thisMonth(),
+				Accounter.constants().lastWeek(), Accounter.constants()
+						.lastMonth(),
+				Accounter.constants().thisFinancialYear(), Accounter
+						.constants().lastFinancialYear(), Accounter.constants()
+						.thisFinancialQuarter(), Accounter.constants()
+						.lastFinancialQuarter(),
 
 				// FinanceApplication
 				// .constants().present(), FinanceApplication
@@ -64,17 +63,17 @@ public class SalesOpenOrderReport extends
 	public void makeReportRequest(int status, ClientFinanceDate start,
 			ClientFinanceDate end) {
 		if (status == 1)
-			Accounter.createReportService().getSalesOpenOrderReport(
-					start.getTime(), end.getTime(), this);
+			Accounter.createReportService().getSalesOpenOrderReport(start, end,
+					this);
 		else if (status == 2)
-			Accounter.createReportService().getSalesCompletedOrderReport(
-					start.getTime(), end.getTime(), this);
+			Accounter.createReportService().getSalesCompletedOrderReport(start,
+					end, this);
 		else if (status == 3)
-			Accounter.createReportService().getSalesCancelledOrderReport(
-					start.getTime(), end.getTime(), this);
+			Accounter.createReportService().getSalesCancelledOrderReport(start,
+					end, this);
 		else
-			Accounter.createReportService().getSalesOrderReport(
-					start.getTime(), end.getTime(), this);
+			Accounter.createReportService().getSalesOrderReport(start, end,
+					this);
 
 		this.status = status;
 	}
@@ -93,8 +92,8 @@ public class SalesOpenOrderReport extends
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 125, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 125, "",
 				"", status);
 	}
 
@@ -140,8 +139,8 @@ public class SalesOpenOrderReport extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 125, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 125, "",
 				"", status);
 	}
 }

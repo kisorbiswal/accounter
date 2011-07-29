@@ -115,7 +115,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	}
 
 	protected void createFiscalYear(ClientFinanceDate changedFiscalStartDate) {
-		final long convertedStartDate = changedFiscalStartDate.getTime();
+		final long convertedStartDate = changedFiscalStartDate.getDate();
 		AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
 
 			@Override
@@ -172,40 +172,40 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 			while (changedStartDate.before(firstStartDate)) {
 				ClientFinanceDate tempStartDate = changedStartDate;
 				ClientFinanceDate tempEndDate = new ClientFinanceDate(
-						tempStartDate.getTime());
+						tempStartDate.getDate());
 				tempEndDate.setYear(tempEndDate.getYear() + 1);
-				tempEndDate.setDate(tempEndDate.getDate() - 1);
+				tempEndDate.setDay(tempEndDate.getDay() - 1);
 				if (tempEndDate.after(firstStartDate)) {
 					tempEndDate = new ClientFinanceDate(firstStartDate
-							.getTime());
+							.getDate());
 				}
 				ClientFiscalYear newFiscalYear = new ClientFiscalYear();
-				newFiscalYear.setStartDate(tempStartDate.getTime());
-				newFiscalYear.setEndDate(tempEndDate.getTime());
+				newFiscalYear.setStartDate(tempStartDate.getDate());
+				newFiscalYear.setEndDate(tempEndDate.getDate());
 				newFiscalYear.setStatus(ClientFiscalYear.STATUS_OPEN);
 				listofNewFiscalYears.add(newFiscalYear);
 				changedStartDate = tempEndDate;
-				changedStartDate.setDate(changedStartDate.getDate() + 1);
+				changedStartDate.setDay(changedStartDate.getDay() + 1);
 
 			}
 		} else {
 			while (changedStartDate.after(latestEndDate)) {
 				ClientFinanceDate tempStartDate = latestEndDate;
 				ClientFinanceDate tempEndDate = new ClientFinanceDate(
-						tempStartDate.getTime());
+						tempStartDate.getDate());
 				tempEndDate.setYear(tempEndDate.getYear() + 1);
-				tempEndDate.setDate(tempEndDate.getDate() - 1);
+				tempEndDate.setDay(tempEndDate.getDay() - 1);
 				if (tempEndDate.after(changedStartDate)) {
 					tempEndDate = new ClientFinanceDate(changedStartDate
-							.getTime());
+							.getDate());
 				}
 				ClientFiscalYear newFiscalYear = new ClientFiscalYear();
-				newFiscalYear.setStartDate(tempStartDate.getTime());
-				newFiscalYear.setEndDate(tempEndDate.getTime());
+				newFiscalYear.setStartDate(tempStartDate.getDate());
+				newFiscalYear.setEndDate(tempEndDate.getDate());
 				newFiscalYear.setStatus(ClientFiscalYear.STATUS_OPEN);
 				listofNewFiscalYears.add(newFiscalYear);
 				changedStartDate = tempEndDate;
-				changedStartDate.setDate(changedStartDate.getDate() + 1);
+				changedStartDate.setDay(changedStartDate.getDay() + 1);
 			}
 		}
 

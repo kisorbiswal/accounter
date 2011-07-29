@@ -71,8 +71,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		Label infolabel = new Label(Accounter.constants().fileVAT());
 		infolabel.removeStyleName("gwt-Label");
 		infolabel.addStyleName(Accounter.constants().labelTitle());
-		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants()
-				.VATAgency());
+		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants().VATAgency());
 		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo.setRequired(true);
 
@@ -118,8 +117,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 		HTML adjustLabel = new HTML("<strong>"
 				+ Accounter.constants().doYouNeedToMakeAnAdjustment()
-				+ " </strong><br>"
-				+ Accounter.constants().useAdjustButton());
+				+ " </strong><br>" + Accounter.constants().useAdjustButton());
 
 		adjustButton = new AccounterButton(Accounter.constants()
 				.adjustVATReturn());
@@ -245,8 +243,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			if (lastVATReturn.getVATperiodEndDate() != 0) {
 				ClientFinanceDate date = new ClientFinanceDate(
 						lastVATReturn.getVATperiodEndDate());
-				int day = date.getDate();
-				date.setDate(day + 1);
+				int day = date.getDay();
+				date.setDay(day + 1);
 				fromDate.setDatethanFireEvent(date);
 				// date.setDate(day + 1);
 				toDate.setDatethanFireEvent(date);
@@ -298,8 +296,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		}
 		gridView.addLoadingImagePanel();
 
-		this.rpcUtilService.getTAXReturn(this.selectedVatAgency, fromDate
-				.getDate().getTime(), toDate.getDate().getTime(),
+		this.rpcUtilService.getTAXReturn(this.selectedVatAgency,
+				fromDate.getDate(), toDate.getDate(),
 				new AsyncCallback<ClientVATReturn>() {
 
 					@Override
@@ -379,7 +377,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	public void saveAndUpdateView() throws Exception {
 
 		if (this.selectedVatAgency != null && this.vatReturn != null) {
-			vatReturn.setTransactionDate(new ClientFinanceDate().getTime());
+			vatReturn.setTransactionDate(new ClientFinanceDate().getDate());
 			createObject(this.vatReturn);
 		}
 		// else {
@@ -515,10 +513,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				// .pleaseSelectValidVATAgency() + ".");
 				// BaseView.commentPanel.setVisible(true);
 				// AbstractBaseView.errorOccured = true;
-				MainFinanceWindow.getViewManager()
-						.appendError(
-								Accounter.constants()
-										.pleaseSelectValidVATAgency());
+				MainFinanceWindow.getViewManager().appendError(
+						Accounter.constants().pleaseSelectValidVATAgency());
 				// UIUtils.err(FinanceApplication.constants()
 				// .pleaseSelectValidVATAgency());
 				return false;

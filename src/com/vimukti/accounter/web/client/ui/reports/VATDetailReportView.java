@@ -39,8 +39,8 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getPriorVATReturnVATDetailReport(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getPriorVATReturnVATDetailReport(start,
+				end, this);
 	}
 
 	@Override
@@ -57,8 +57,8 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 138, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 138, "",
 				"");
 	}
 
@@ -98,8 +98,8 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 138, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 138, "",
 				"");
 	}
 

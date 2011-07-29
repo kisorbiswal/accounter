@@ -153,7 +153,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		if (transactionDateItem != null)
 
 			creditCardCharge
-					.setDate((transactionDateItem.getValue()).getTime());
+					.setDate((transactionDateItem.getValue()).getDate());
 		// setting number
 		if (transactionNumber != null)
 			creditCardCharge.setNumber(transactionNumber.getValue().toString());

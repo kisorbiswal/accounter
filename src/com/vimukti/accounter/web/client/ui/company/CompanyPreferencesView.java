@@ -163,20 +163,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			this.emailText.setValue(company.getCompanyEmail());
 			this.bankAccountText.setValue(company.getBankAccountNo());
 			this.sortCodeText.setValue(company.getSortCode());
-			List<ClientAddress> companyAddress = company.getAddresses();
-			for (ClientAddress address : companyAddress) {
-				if (address.getType() == ClientAddress.TYPE_COMPANY) {
-					setAddressToTextItem(textareaItem, address);
-					allAddresses
-							.put(UIUtils.getAddressType("company"), address);
-				}
-				if (address.getType() == ClientAddress.TYPE_COMPANY_REGISTRATION) {
-					setAddressToTextItem(textareaItem2, address);
-					allAddresses.put(
-							UIUtils.getAddressType("companyregistration"),
-							address);
-				}
-			}
+			allAddresses.put(ClientAddress.TYPE_COMPANY,
+					company.getTradingAddress());
+			setAddressToTextItem(textareaItem, company.getTradingAddress());
+
+			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION,
+					company.getRegisteredAddress());
+			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
 			doupaySalesChecBox.setValue(getCompany().getPreferences()
@@ -630,7 +623,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
 			companyPreferences.setPreventPostingBeforeDate(dateItem.getValue()
-					.getTime());
+					.getDate());
 			// companyPreferences
 			// .setEndOfFiscalYear(dateItem.getValue().getTime());
 		}
@@ -679,9 +672,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
 			companyPreferences.setPreventPostingBeforeDate(dateItem.getValue()
-					.getTime());
+					.getDate());
 			companyPreferences.setStartOfFiscalYear(dateItem.getValue()
-					.getTime());
+					.getDate());
 			// companyPreferences
 			// .setEndOfFiscalYear(dateItem.getValue().getTime());
 		}
@@ -720,12 +713,16 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		clientCompany.setpreferences(companyPreferences);
 
-		List<ClientAddress> list2 = new ArrayList<ClientAddress>(
-				allAddresses.values());
-		if (!list2.isEmpty())
-			clientCompany.setAddresses(list2);
-		else
-			clientCompany.setAddresses(getCompany().getAddresses());
+		if (!allAddresses.isEmpty()) {
+			clientCompany.setTradingAddress(allAddresses
+					.get(ClientAddress.TYPE_COMPANY));
+			clientCompany.setRegisteredAddress(allAddresses
+					.get(ClientAddress.TYPE_COMPANY_REGISTRATION));
+		} else {
+			clientCompany.setTradingAddress(getCompany().getTradingAddress());
+			clientCompany.setRegisteredAddress(getCompany()
+					.getRegisteredAddress());
+		}
 
 		clientCompany
 				.setRegistrationNumber(getStringValue(registrationNumberText));

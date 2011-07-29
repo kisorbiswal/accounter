@@ -76,12 +76,13 @@ public interface IFinanceReport<R> extends AsyncCallback<List<R>> {
 
 	public void setCompanyType(int type);
 
-	public void setStartAndEndDates(long startDate2, long endDate2);
+	public void setStartAndEndDates(ClientFinanceDate startDate2,
+			ClientFinanceDate endDate2);
 
 	public String[] getDynamicHeaders();
 
 	// public String getDateByCompanyType(ClientFinanceDate date);
 	// public ClientFinanceDate getEndDate();
-	//	
+	//
 	// public ClientFinanceDate getStartDate() ;
 }

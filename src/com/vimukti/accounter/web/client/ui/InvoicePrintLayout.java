@@ -65,17 +65,15 @@ public class InvoicePrintLayout extends VerticalPanel {
 		List<String> removeHeaderBackground = new ArrayList<String>();
 
 		String cmpAdd = "<br/><br/><br/><br/><br/>";
-		for (ClientAddress cmpTrad : getCompany().getAddresses()) {
-			if (cmpTrad.getType() == ClientAddress.TYPE_COMPANY_REGISTRATION) {
-				if (cmpTrad != null)
-					cmpAdd = "<br><font size=\"2\">&nbsp;"
-							+ cmpTrad.getAddress1() + ",<br/>&nbsp;"
-							+ cmpTrad.getStreet() + ",<br/>&nbsp;"
-							+ cmpTrad.getCity() + ",<br/>&nbsp;"
-							+ cmpTrad.getStateOrProvinence() + ",<br/>&nbsp;"
-							+ cmpTrad.getZipOrPostalCode() + ",<br/>&nbsp;"
-							+ cmpTrad.getCountryOrRegion() + ".</font></br>";
-			}
+		ClientAddress registeredAddress = getCompany().getRegisteredAddress();
+		if (registeredAddress != null) {
+			cmpAdd = "<br><font size=\"2\">&nbsp;"
+					+ registeredAddress.getAddress1() + ",<br/>&nbsp;"
+					+ registeredAddress.getStreet() + ",<br/>&nbsp;"
+					+ registeredAddress.getCity() + ",<br/>&nbsp;"
+					+ registeredAddress.getStateOrProvinence() + ",<br/>&nbsp;"
+					+ registeredAddress.getZipOrPostalCode() + ",<br/>&nbsp;"
+					+ registeredAddress.getCountryOrRegion() + ".</font></br>";
 		}
 
 		HTML compLab = new HTML();
@@ -451,15 +449,14 @@ public class InvoicePrintLayout extends VerticalPanel {
 		vatTable.setSize("100%", "100%");
 
 		String regAdd = "&nbsp;";
-		for (ClientAddress reg : getCompany().getAddresses()) {
-			if (reg.getType() == ClientAddress.TYPE_COMPANY) {
-				if (reg != null)
-					regAdd = reg.getAddress1() + ",&nbsp;" + reg.getStreet()
-							+ ",&nbsp;" + reg.getCity() + ",&nbsp;"
-							+ reg.getStateOrProvinence() + ",&nbsp;"
-							+ reg.getZipOrPostalCode() + ",&nbsp;"
-							+ reg.getCountryOrRegion() + ".";
-			}
+		ClientAddress tradingAddress = getCompany().getTradingAddress();
+		if (tradingAddress != null) {
+			regAdd = tradingAddress.getAddress1() + ",&nbsp;"
+					+ tradingAddress.getStreet() + ",&nbsp;"
+					+ tradingAddress.getCity() + ",&nbsp;"
+					+ tradingAddress.getStateOrProvinence() + ",&nbsp;"
+					+ tradingAddress.getZipOrPostalCode() + ",&nbsp;"
+					+ tradingAddress.getCountryOrRegion() + ".";
 		}
 
 		HorizontalPanel Hpanel = new HorizontalPanel();

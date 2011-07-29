@@ -23,7 +23,7 @@ public class ClientCompany implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int ACCOUNTING_TYPE_US = 0;
 	public static final int ACCOUNTING_TYPE_UK = 1;
 	public static final int ACCOUNTING_TYPE_INDIA = 2;
@@ -171,11 +171,18 @@ public class ClientCompany implements IAccounterCore {
 
 	private List<ClientBrandingTheme> brandingTheme;
 
-	private List<ClientUser> usersList;
+	private List<ClientEmployee> usersList;
 
 	// private List<ClientTAXItemGroup> vatItemGroups;
 
 	Set<ClientNominalCodeRange> nominalCodeRange = new HashSet<ClientNominalCodeRange>();
+
+	private ClientFinanceDate transactionStartDate;
+
+	private ClientFinanceDate transactionEndDate;
+
+	private ClientAddress tradingAddress;
+	private ClientAddress registeredAddress;
 
 	public void setTaxItemGroups(List<ClientTAXItemGroup> taxItemGroups) {
 		this.taxItemGroups = taxItemGroups;
@@ -405,6 +412,8 @@ public class ClientCompany implements IAccounterCore {
 	// private List<ClientTAXItem> vatItems;
 	private List<ClientVATReturnBox> vatReturnBoxes;
 	public long id;
+
+	private ClientUser loggedInUser;
 
 	// private List<ClientTaxItem> taxItems;
 
@@ -1255,7 +1264,7 @@ public class ClientCompany implements IAccounterCore {
 				break;
 			}
 
-		} 
+		}
 
 	}
 
@@ -2029,11 +2038,11 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getArrayList(brandingTheme);
 	}
 
-	public void setUsersList(List<ClientUser> users) {
+	public void setUsersList(List<ClientEmployee> users) {
 		this.usersList = users;
 	}
 
-	public List<ClientUser> getUsersList() {
+	public List<ClientEmployee> getUsersList() {
 		return usersList;
 	}
 
@@ -2109,9 +2118,9 @@ public class ClientCompany implements IAccounterCore {
 		boolean isCurrentOne = false;
 		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
 			long startDate = Math.round(clientFiscalYears.get(i).getStartDate()
-					.getTime() / 100);
+					.getDate() / 100);
 			long endDate = Math.round(clientFiscalYears.get(i).getEndDate()
-					.getTime() / 100);
+					.getDate() / 100);
 			isCurrentOne = (date >= startDate) && (date <= endDate);
 			if (isCurrentOne)
 				return true;
@@ -2127,5 +2136,76 @@ public class ClientCompany implements IAccounterCore {
 				return o1.getStartDate().compareTo(o2.getStartDate());
 			}
 		});
+	}
+
+	/**
+	 * @return the transactionStartDate
+	 */
+	public ClientFinanceDate getTransactionStartDate() {
+		return transactionStartDate;
+	}
+
+	/**
+	 * @param transactionStartDate
+	 *            the transactionStartDate to set
+	 */
+	public void setTransactionStartDate(ClientFinanceDate transactionStartDate) {
+		this.transactionStartDate = transactionStartDate;
+	}
+
+	/**
+	 * @return the transactionEndDate
+	 */
+	public ClientFinanceDate getTransactionEndDate() {
+		return transactionEndDate;
+	}
+
+	/**
+	 * @param transactionEndDate
+	 *            the transactionEndDate to set
+	 */
+	public void setTransactionEndDate(ClientFinanceDate transactionEndDate) {
+		this.transactionEndDate = transactionEndDate;
+	}
+
+	/**
+	 * @return the tradingAddress
+	 */
+	public ClientAddress getTradingAddress() {
+		return tradingAddress;
+	}
+
+	/**
+	 * @param tradingAddress
+	 *            the tradingAddress to set
+	 */
+	public void setTradingAddress(ClientAddress tradingAddress) {
+		this.tradingAddress = tradingAddress;
+	}
+
+	/**
+	 * @return the registeredAddress
+	 */
+	public ClientAddress getRegisteredAddress() {
+		return registeredAddress;
+	}
+
+	/**
+	 * @param registeredAddress
+	 *            the registeredAddress to set
+	 */
+	public void setRegisteredAddress(ClientAddress registeredAddress) {
+		this.registeredAddress = registeredAddress;
+	}
+
+	/**
+	 * @return
+	 */
+	public ClientUser getLoggedInUser() {
+		return this.loggedInUser;
+	}
+
+	public void setLoggedInUser(ClientUser user) {
+		this.loggedInUser = user;
 	}
 }

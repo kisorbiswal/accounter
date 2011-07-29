@@ -115,7 +115,7 @@ public class ClientCreditCardCharge extends ClientTransaction {
 	}
 
 	public void setDeliveryDate(ClientFinanceDate date) {
-		this.deliveryDate = date.getTime();
+		this.deliveryDate = date.getDate();
 
 	}
 

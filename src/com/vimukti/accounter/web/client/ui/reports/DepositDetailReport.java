@@ -70,8 +70,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 	@Override
 	public String[] getColunms() {
 		return new String[] { "", Accounter.constants().number(),
-				Accounter.constants().date(),
-				Accounter.constants().name(),
+				Accounter.constants().date(), Accounter.constants().name(),
 				Accounter.constants().accountName(),
 				Accounter.constants().amount() };
 	}
@@ -88,8 +87,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getDepositDetail(start.getTime(),
-				end.getTime(), this);
+		Accounter.createReportService().getDepositDetail(start, end, this);
 	}
 
 	@Override

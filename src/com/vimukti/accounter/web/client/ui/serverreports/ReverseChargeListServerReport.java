@@ -36,7 +36,7 @@ public class ReverseChargeListServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		if (getStartDate().getTime() == 0 || getEndDate().getTime() == 0) {
+		if (getStartDate().getDate() == 0 || getEndDate().getDate() == 0) {
 			return new String[] { "", " " + "-" + " " };
 		}
 		return new String[] { "", getDateByCompanyType(getEndDate()) };

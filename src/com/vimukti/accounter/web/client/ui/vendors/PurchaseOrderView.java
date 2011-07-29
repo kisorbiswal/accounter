@@ -282,7 +282,7 @@ public class PurchaseOrderView extends
 		if (transactionObject != null) {
 			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
 		} else
-			setDueDate(new ClientFinanceDate().getTime());
+			setDueDate(new ClientFinanceDate().getDate());
 		dueDateItem.addChangedHandler(new ChangeHandler() {
 
 			@Override
@@ -290,7 +290,7 @@ public class PurchaseOrderView extends
 				try {
 					ClientFinanceDate newDate = ((DateField) event.getSource())
 							.getValue();
-					setDueDate(newDate.getTime());
+					setDueDate(newDate.getDate());
 				} catch (Exception e) {
 					Accounter.showError(Accounter.constants().invalidDueDate());
 				}
@@ -302,7 +302,7 @@ public class PurchaseOrderView extends
 		despatchDateItem.setDisabled(isEdit);
 		if (transactionObject != null) {
 		} else
-			setDespatchDate(new ClientFinanceDate().getTime());
+			setDespatchDate(new ClientFinanceDate().getDate());
 		despatchDateItem.addChangedHandler(new ChangeHandler() {
 
 			@Override
@@ -310,7 +310,7 @@ public class PurchaseOrderView extends
 				try {
 					ClientFinanceDate newDate = ((DateField) event.getSource())
 							.getValue();
-					setDespatchDate(newDate.getTime());
+					setDespatchDate(newDate.getDate());
 				} catch (Exception e) {
 					Accounter.showError(Accounter.constants()
 							.InvalidDispatchDate());
@@ -856,15 +856,15 @@ public class PurchaseOrderView extends
 				purchaseOrder.setShippingMethod(shippingMethod.getID());
 			if (dueDateItem.getEnteredDate() != null) {
 				purchaseOrder
-						.setDueDate(dueDateItem.getEnteredDate().getTime());
+						.setDueDate(dueDateItem.getEnteredDate().getDate());
 			}
 			if (despatchDateItem.getEnteredDate() != null) {
 				purchaseOrder.setDespatchDate(despatchDateItem.getEnteredDate()
-						.getTime());
+						.getDate());
 			}
 			if (deliveryDateItem.getEnteredDate() != null)
 				purchaseOrder.setDeliveryDate((deliveryDateItem
-						.getEnteredDate().getTime()));
+						.getEnteredDate().getDate()));
 
 			purchaseOrder.setMemo(getMemoTextAreaItem());
 			purchaseOrder.setNetAmount(vendorTransactionGrid.getGrandTotal());

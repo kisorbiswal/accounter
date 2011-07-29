@@ -38,7 +38,7 @@ public class BalanceSheetServerReport extends
 
 	@Override
 	public void initData() {
-		this.makeReportRequest(startDate.getTime(), endDate.getTime());
+		this.makeReportRequest(startDate.getDate(), endDate.getDate());
 	}
 
 	@Override

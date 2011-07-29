@@ -36,7 +36,7 @@ public class ECSalesListDetailReport extends
 		ECSalesList bySalesDetail = (ECSalesList) this.data;
 
 		Accounter.createReportService().getECSalesListDetailReport(
-				bySalesDetail.getName(), start.getTime(), end.getTime(), this);
+				bySalesDetail.getName(), start, end, this);
 
 		this.vatAgency = bySalesDetail.getTransactionId();
 
@@ -56,8 +56,8 @@ public class ECSalesListDetailReport extends
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 143, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 143, "",
 				"", vatAgency);
 
 	}
@@ -100,8 +100,8 @@ public class ECSalesListDetailReport extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 143, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 143, "",
 				"", vatAgency);
 	}
 }

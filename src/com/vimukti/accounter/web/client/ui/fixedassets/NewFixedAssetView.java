@@ -784,8 +784,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 					Accounter.createHomeService()
 							.getAccumulatedDepreciationAmount(depMethod,
 									depRate, purchasePrice,
-									purchaseDate.getTime(),
-									depStartDate.getTime(),
+									purchaseDate.getDate(),
+									depStartDate.getDate(),
 									new AsyncCallback<Double>() {
 
 										@Override
@@ -892,7 +892,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			asset.setAssetAccount(selectedAssetAccount.getID());
 
 		}
-		asset.setPurchaseDate(purchaseDateTxt.getEnteredDate().getTime());
+		asset.setPurchaseDate(purchaseDateTxt.getEnteredDate().getDate());
 		asset.setPurchasePrice(purchasePriceTxt.getAmount());
 		asset.setDescription(descriptionTxtArea.getValue() != null ? descriptionTxtArea
 				.getValue().toString() : "");

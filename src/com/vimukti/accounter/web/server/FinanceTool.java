@@ -118,6 +118,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -1082,7 +1083,7 @@ public class FinanceTool implements IFinanceDAOService {
 				issuePaymentTransaction.setTransactionId(wc.getID());
 				issuePaymentTransaction.setType(wc.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate(wc
-						.getDate().getTime()));
+						.getDate().getDate()));
 				issuePaymentTransaction.setNumber(wc.getNumber());
 				issuePaymentTransaction.setName((wc.getCustomer() != null) ? wc
 						.getCustomer().getName()
@@ -1107,7 +1108,7 @@ public class FinanceTool implements IFinanceDAOService {
 				issuePaymentTransaction.setTransactionId(cr.getID());
 				issuePaymentTransaction.setType(cr.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate((long) cr
-						.getDate().getTime()));
+						.getDate().getDate()));
 				issuePaymentTransaction.setNumber(cr.getNumber());
 				issuePaymentTransaction.setName(cr.getPayTo().getName());
 				issuePaymentTransaction.setMemo(cr.getMemo());
@@ -1131,7 +1132,7 @@ public class FinanceTool implements IFinanceDAOService {
 				issuePaymentTransaction.setTransactionId(pst.getID());
 				issuePaymentTransaction.setType(pst.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate(
-						(long) pst.getDate().getTime()));
+						(long) pst.getDate().getDate()));
 				issuePaymentTransaction.setNumber(pst.getNumber());
 				issuePaymentTransaction.setName("TaxAgency Payment");
 				// issuePaymentTransaction.setMemo(pst.getMemo());
@@ -1156,7 +1157,7 @@ public class FinanceTool implements IFinanceDAOService {
 				issuePaymentTransaction.setTransactionId(pb.getID());
 				issuePaymentTransaction.setType(pb.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate((long) pb
-						.getDate().getTime()));
+						.getDate().getDate()));
 				issuePaymentTransaction.setNumber(pb.getNumber());
 				issuePaymentTransaction.setName(pb.getVendor() != null ? pb
 						.getVendor().getName() : null);
@@ -1182,7 +1183,7 @@ public class FinanceTool implements IFinanceDAOService {
 				issuePaymentTransaction.setTransactionId(cc.getID());
 				issuePaymentTransaction.setType(cc.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate((long) cc
-						.getDate().getTime()));
+						.getDate().getDate()));
 				issuePaymentTransaction.setNumber(cc.getNumber());
 				issuePaymentTransaction.setName(cc.getVendor() != null ? cc
 						.getVendor().getName() : null);
@@ -1208,7 +1209,7 @@ public class FinanceTool implements IFinanceDAOService {
 				issuePaymentTransaction.setTransactionId(cc.getID());
 				issuePaymentTransaction.setType(cc.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate((long) cc
-						.getDate().getTime()));
+						.getDate().getDate()));
 				issuePaymentTransaction.setNumber(cc.getNumber());
 				issuePaymentTransaction.setName(cc.getVendor() != null ? cc
 						.getVendor().getName() : null);
@@ -1260,7 +1261,7 @@ public class FinanceTool implements IFinanceDAOService {
 					issuePaymentTransaction.setTransactionId(wc.getID());
 					issuePaymentTransaction.setType(wc.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) wc.getDate().getTime()));
+							(long) wc.getDate().getDate()));
 					issuePaymentTransaction.setNumber(wc.getNumber());
 					issuePaymentTransaction
 							.setName((wc.getCustomer() != null) ? wc
@@ -1295,7 +1296,7 @@ public class FinanceTool implements IFinanceDAOService {
 					issuePaymentTransaction.setTransactionId(cr.getID());
 					issuePaymentTransaction.setType(cr.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) cr.getDate().getTime()));
+							(long) cr.getDate().getDate()));
 					issuePaymentTransaction.setNumber(cr.getNumber());
 					issuePaymentTransaction.setName(cr.getPayTo().getName());
 					issuePaymentTransaction.setMemo(cr.getMemo());
@@ -1323,7 +1324,7 @@ public class FinanceTool implements IFinanceDAOService {
 					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) pst.getDate().getTime()));
+							(long) pst.getDate().getDate()));
 					issuePaymentTransaction.setNumber(pst.getNumber());
 					issuePaymentTransaction.setName("TaxAgency Payment");
 					// issuePaymentTransaction.setMemo(pst.getMemo());
@@ -1351,7 +1352,7 @@ public class FinanceTool implements IFinanceDAOService {
 					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) pst.getDate().getTime()));
+							(long) pst.getDate().getDate()));
 					issuePaymentTransaction.setNumber(pst.getNumber());
 					issuePaymentTransaction
 							.setName(pst.getVendor() != null ? pst.getVendor()
@@ -1380,7 +1381,7 @@ public class FinanceTool implements IFinanceDAOService {
 					issuePaymentTransaction.setTransactionId(pv.getID());
 					issuePaymentTransaction.setType(pv.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) pv.getDate().getTime()));
+							(long) pv.getDate().getDate()));
 					issuePaymentTransaction.setNumber(pv.getNumber());
 					issuePaymentTransaction.setName("VAT Agency Payment");
 					issuePaymentTransaction.setMemo(null);
@@ -1407,7 +1408,7 @@ public class FinanceTool implements IFinanceDAOService {
 					issuePaymentTransaction.setTransactionId(rv.getID());
 					issuePaymentTransaction.setType(rv.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) rv.getDate().getTime()));
+							(long) rv.getDate().getDate()));
 					issuePaymentTransaction.setNumber(rv.getNumber());
 					issuePaymentTransaction.setName("VAT Agency Payment");
 					issuePaymentTransaction.setMemo(null);
@@ -1436,7 +1437,7 @@ public class FinanceTool implements IFinanceDAOService {
 					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) pst.getDate().getTime()));
+							(long) pst.getDate().getDate()));
 					issuePaymentTransaction.setNumber(pst.getNumber());
 					issuePaymentTransaction
 							.setName(pst.getVendor() != null ? pst.getVendor()
@@ -1466,7 +1467,7 @@ public class FinanceTool implements IFinanceDAOService {
 					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) pst.getDate().getTime()));
+							(long) pst.getDate().getDate()));
 					issuePaymentTransaction.setNumber(pst.getNumber());
 					issuePaymentTransaction
 							.setName(pst.getVendor() != null ? pst.getVendor()
@@ -1500,7 +1501,7 @@ public class FinanceTool implements IFinanceDAOService {
 					issuePaymentTransaction.setTransactionId(cpp.getID());
 					issuePaymentTransaction.setType(cpp.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) cpp.getDate().getTime()));
+							(long) cpp.getDate().getDate()));
 					issuePaymentTransaction.setNumber(cpp.getNumber());
 					issuePaymentTransaction
 							.setName(cpp.getCustomer() != null ? cpp
@@ -1602,9 +1603,9 @@ public class FinanceTool implements IFinanceDAOService {
 					customerRefund.setTransactionId(cr.getID());
 					customerRefund.setType(cr.getType());
 					customerRefund.setPaymentDate(new ClientFinanceDate(cr
-							.getDate().getTime()));
+							.getDate().getDate()));
 					customerRefund.setIssueDate(new ClientFinanceDate(cr
-							.getDate().getTime()));
+							.getDate().getDate()));
 					customerRefund.setPaymentNumber(cr.getNumber());
 					customerRefund.setStatus(cr.getStatus());
 					customerRefund.setName((cr.getPayTo() != null) ? cr
@@ -1631,7 +1632,7 @@ public class FinanceTool implements IFinanceDAOService {
 					customerRefund.setTransactionId(wc.getID());
 					customerRefund.setType(wc.getType());
 					customerRefund.setPaymentDate(new ClientFinanceDate(wc
-							.getDate().getTime()));
+							.getDate().getDate()));
 					customerRefund.setIssueDate(null);
 					customerRefund.setPaymentNumber(wc.getNumber());
 					customerRefund.setStatus(wc.getStatus());
@@ -2113,7 +2114,7 @@ public class FinanceTool implements IFinanceDAOService {
 				payBillTransactionList.setTransactionId(je.getID());
 				payBillTransactionList.setType(je.getType());
 				payBillTransactionList.setDueDate(new ClientFinanceDate(je
-						.getDate().getTime()));
+						.getDate().getDate()));
 				payBillTransactionList.setBillNumber(je.getNumber());
 				payBillTransactionList.setOriginalAmount(je.getDebitTotal());
 				payBillTransactionList.setAmountDue(je.getBalanceDue());
@@ -2174,12 +2175,12 @@ public class FinanceTool implements IFinanceDAOService {
 				payBillTransactionList.setTransactionId(je.getID());
 				payBillTransactionList.setType(je.getType());
 				payBillTransactionList.setDueDate(new ClientFinanceDate(je
-						.getDate().getTime()));
+						.getDate().getDate()));
 				payBillTransactionList.setBillNumber(je.getNumber());
 				payBillTransactionList.setOriginalAmount(je.getDebitTotal());
 				payBillTransactionList.setAmountDue(je.getBalanceDue());
 				payBillTransactionList.setDiscountDate(new ClientFinanceDate(je
-						.getDate().getTime()));
+						.getDate().getDate()));
 				payBillTransactionList.setVendorName(je.getEntry().get(1)
 						.getVendor().getName());
 				queryResult.add(payBillTransactionList);
@@ -2261,14 +2262,14 @@ public class FinanceTool implements IFinanceDAOService {
 				receivePaymentTransactionList.setTransactionId(je.getID());
 				receivePaymentTransactionList.setType(je.getType());
 				receivePaymentTransactionList.setDueDate(new ClientFinanceDate(
-						je.getDate().getTime()));
+						je.getDate().getDate()));
 				receivePaymentTransactionList.setNumber(je.getNumber());
 				receivePaymentTransactionList.setInvoiceAmount(je
 						.getDebitTotal());
 				receivePaymentTransactionList.setAmountDue(je.getBalanceDue());
 				receivePaymentTransactionList
 						.setDiscountDate(new ClientFinanceDate(je.getDate()
-								.getTime()));
+								.getDate()));
 				queryResult.add(receivePaymentTransactionList);
 			}
 
@@ -3671,7 +3672,7 @@ public class FinanceTool implements IFinanceDAOService {
 			fixedAssetList.setBookValue(fixedAsset.getBookValue());
 			fixedAssetList.setName(fixedAsset.getName());
 			fixedAssetList.setPurchaseDate(new ClientFinanceDate(fixedAsset
-					.getPurchaseDate().getTime()));
+					.getPurchaseDate().getDate()));
 			fixedAssetList.setPurchasePrice(fixedAsset.getPurchasePrice());
 			fal.add(fixedAssetList);
 		}
@@ -3699,7 +3700,7 @@ public class FinanceTool implements IFinanceDAOService {
 			fixedAssetList.setAssetNumber(fixedAsset.getAssetNumber());
 			fixedAssetList.setName(fixedAsset.getName());
 			fixedAssetList.setSoldOrDisposedDate(new ClientFinanceDate(
-					fixedAsset.getSoldOrDisposedDate().getTime()));
+					fixedAsset.getSoldOrDisposedDate().getDate()));
 			fixedAssetList.setSalePrice(fixedAsset.getSalePrice());
 			fixedAssetList.setLossOrGain(fixedAsset.getLossOrGain());
 			fal.add(fixedAssetList);
@@ -3832,7 +3833,7 @@ public class FinanceTool implements IFinanceDAOService {
 		List<Depreciation> list = query.list();
 		if (list != null && list.size() > 0 && list.get(0) != null) {
 			Depreciation dep = list.get(0);
-			return new ClientFinanceDate(dep.getDepreciateTo().getTime());
+			return new ClientFinanceDate(dep.getDepreciateTo().getDate());
 		}
 		return null;
 	}
@@ -3856,7 +3857,7 @@ public class FinanceTool implements IFinanceDAOService {
 			dep.setStatus(Depreciation.ROLLBACK);
 			// Rakesh
 			dep.setRollBackDepreciationDate(new FinanceDate(
-					rollBackDepreciationTo.getTime()));
+					rollBackDepreciationTo.getDate()));
 
 			org.hibernate.Transaction t = session.beginTransaction();
 			session.saveOrUpdate(dep);
@@ -4251,11 +4252,11 @@ public class FinanceTool implements IFinanceDAOService {
 				// Run depreciation from last depreciation date to sold year
 				// start date.
 				FinanceDate depFrom = new FinanceDate(fixedAsset
-						.getPurchaseDate().getTime())
+						.getPurchaseDate().getDate())
 						.compareTo(new FinanceDate(lastDepreciationDate
-								.getTime())) <= 0 ? new FinanceDate(
+								.getDate())) <= 0 ? new FinanceDate(
 						lastDepreciationDateCal.getTime()) : new FinanceDate(
-						fixedAsset.getPurchaseDate().getTime());
+						fixedAsset.getPurchaseDate().getDate());
 				depreciationTobePosted += format.format(depFrom);
 				depreciationTobePosted += " to";
 				depreciationTobePosted += format.format(soldYearStartDateCal
@@ -4265,9 +4266,9 @@ public class FinanceTool implements IFinanceDAOService {
 				depreciationToBePostedAmount = getCalculatedDepreciatedAmount(
 						fixedAsset.getDepreciationMethod(),
 						fixedAsset.getDepreciationRate(),
-						fixedAsset.getPurchasePrice(), depFrom.getTime(),
+						fixedAsset.getPurchasePrice(), depFrom.getDate(),
 						new FinanceDate(soldYearStartDateCal.getTime())
-								.getTime());
+								.getDate());
 				depreciationToBePostedAmount = Double.parseDouble(decimalFormat
 						.format(depreciationToBePostedAmount));
 
@@ -4293,23 +4294,23 @@ public class FinanceTool implements IFinanceDAOService {
 			// this is for depriciation upto given month
 
 			depreciationTillDate = new FinanceDate(fixedAsset
-					.getDepreciationTillDate().getTime());
+					.getDepreciationTillDate().getDate());
 
-			if (new FinanceDate(fixedAsset.getPurchaseDate().getTime())
-					.compareTo(new FinanceDate(depreciationTillDate.getTime())) <= 0) {
+			if (new FinanceDate(fixedAsset.getPurchaseDate().getDate())
+					.compareTo(new FinanceDate(depreciationTillDate.getDate())) <= 0) {
 
 				if (lastDepreciationDate.compareTo(depreciationTillDate) < 0) {
 					lastDepreciationDateCal.set(Calendar.MONTH,
 							lastDepreciationDateCal.get(Calendar.MONTH) - 1);
 
 					FinanceDate depFrom = new FinanceDate(fixedAsset
-							.getPurchaseDate().getTime())
+							.getPurchaseDate().getDate())
 
-					.compareTo(new FinanceDate(lastDepreciationDate.getTime())) <= 0 ? new FinanceDate(
+					.compareTo(new FinanceDate(lastDepreciationDate.getDate())) <= 0 ? new FinanceDate(
 
 					lastDepreciationDateCal.getTime())
 							: new FinanceDate(fixedAsset.getPurchaseDate()
-									.getTime());
+									.getDate());
 					depreciationTobePosted += format.format(depFrom);
 					depreciationTobePosted += " to";
 					depreciationTobePosted += format
@@ -4318,8 +4319,8 @@ public class FinanceTool implements IFinanceDAOService {
 					depreciationToBePostedAmount = getCalculatedDepreciatedAmount(
 							fixedAsset.getDepreciationMethod(),
 							fixedAsset.getDepreciationRate(),
-							fixedAsset.getPurchasePrice(), depFrom.getTime(),
-							depreciationTillDate.getTime());
+							fixedAsset.getPurchasePrice(), depFrom.getDate(),
+							depreciationTillDate.getDate());
 					depreciationToBePostedAmount = Double
 							.parseDouble(decimalFormat
 									.format(depreciationToBePostedAmount));
@@ -4655,12 +4656,12 @@ public class FinanceTool implements IFinanceDAOService {
 		Calendar modifiedDateCal = Calendar.getInstance();
 		modifiedDateCal.setTime(modifiedStartDate.getAsDateObject());
 
-		if (modifiedStartDate.getTime() >= existingLeastStartDate.getTime()
-				&& modifiedStartDate.getTime() <= existingHighestEndDate
-						.getTime()) {
+		if (modifiedStartDate.getDate() >= existingLeastStartDate.getDate()
+				&& modifiedStartDate.getDate() <= existingHighestEndDate
+						.getDate()) {
 			return;
-		} else if (modifiedStartDate.getTime() < existingLeastStartDate
-				.getTime()) {
+		} else if (modifiedStartDate.getDate() < existingLeastStartDate
+				.getDate()) {
 
 			// if (modifiedStartDate.before(existingLeastStartDate)) {
 
@@ -4699,8 +4700,8 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 			// } else if (modifiedStartDate.after(existingHighestEndDate)) {
 
-		} else if (modifiedStartDate.getTime() > existingHighestEndDate
-				.getTime()) {
+		} else if (modifiedStartDate.getDate() > existingHighestEndDate
+				.getDate()) {
 
 			Calendar tempCal = Calendar.getInstance();
 			tempCal.setTime(highestEndDateCal.getTime());
@@ -4709,7 +4710,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			// while (tempCal.compareTo(modifiedDateCal) < 0) {
 
-			while (tempDate.getTime() < modifiedStartDate.getTime()) {
+			while (tempDate.getDate() < modifiedStartDate.getDate()) {
 
 				Calendar cal = Calendar.getInstance();
 
@@ -4790,8 +4791,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<TrialBalance> getTrialBalance(final long startDate,
-			final long endDate) throws DAOException {
+	public List<TrialBalance> getTrialBalance(final FinanceDate startDate,
+			final FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTrialBalance")
@@ -4857,7 +4858,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByCustomerDetail")
@@ -4958,8 +4960,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<AgedDebtors> getAgedDebtors(final long startDate,
-			final long endDate) throws DAOException {
+	public List<AgedDebtors> getAgedDebtors(final FinanceDate startDate,
+			final FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAgedDebtors")
@@ -4971,19 +4973,20 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<AgedDebtors> getAgedDebtors(long startDate, long endDate,
-			int intervalDays, int throughDaysPassOut) throws DAOException {
+	public List<AgedDebtors> getAgedDebtors(FinanceDate startDate,
+			FinanceDate endDate, int intervalDays, int throughDaysPassOut)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTransactionDate.by.dates")
-				.setParameter("startDate", (new FinanceDate(startDate)))
-				.setParameter("endDate", (new FinanceDate(endDate)));
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate);
 		return null;
 	}
 
 	@Override
-	public List<AgedDebtors> getAgedCreditors(final long startDate,
-			final long endDate) throws DAOException {
+	public List<AgedDebtors> getAgedCreditors(final FinanceDate startDate,
+			final FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAgedCreditors")
@@ -4996,7 +4999,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	private List<AgedDebtors> prepareAgedDebotOrsorCreditors(List list,
-			final long startDate, final long endDate) {
+			final FinanceDate startDate, final FinanceDate endDate) {
 		Object[] object = null;
 		Iterator iterator = list.iterator();
 		List<AgedDebtors> queryResult = new ArrayList<AgedDebtors>();
@@ -5047,7 +5050,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	public long getAgeing(ClientFinanceDate transactionDate,
-			ClientFinanceDate dueDate, final long endDate) {
+			ClientFinanceDate dueDate, final FinanceDate endDate) {
 
 		long ageing = 0;
 
@@ -5061,11 +5064,11 @@ public class FinanceTool implements IFinanceDAOService {
 			else
 				ageingForDueorTranactionDate = transactionDate;
 
-			if (!ageingForDueorTranactionDate.after(new ClientFinanceDate(
-					endDate)))
-				ageing = UIUtils.getDays_between(
-						ageingForDueorTranactionDate.getDateAsObject(),
-						new ClientFinanceDate(endDate).getDateAsObject());
+			if (!ageingForDueorTranactionDate.after(endDate
+					.toClientFinanceDate()))
+				ageing = UIUtils.getDays_between(ageingForDueorTranactionDate
+						.getDateAsObject(), endDate.toClientFinanceDate()
+						.getDateAsObject());
 
 			// if (agedDebtors.getDueDate() != null
 			// && !agedDebtors.getDueDate().equals("")
@@ -5103,7 +5106,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getSalesByCustomerSummary(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByCustomerSummary")
@@ -5132,7 +5136,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getSalesByItemDetail(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByItemDetail")
@@ -5215,7 +5220,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getSalesByItemSummary(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByItemSummary")
@@ -5250,15 +5256,16 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<TransactionHistory> getCustomerTransactionHistory(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		ClientFinanceDate date[] = this.getMinimumAndMaximumTransactionDate();
-		long start = date[0] != null ? date[0].getTime() : startDate;
+		long start = date[0] != null ? date[0].getDate() : startDate.getDate();
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			cal.setTime(new FinanceDate(startDate).getAsDateObject());
+			cal.setTime(startDate.getAsDateObject());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -5275,7 +5282,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Query query = session.getNamedQuery("getCustomerTransactionHistory")
 				.setParameter("startDate", startDate)
 				.setParameter("endDate", endDate).setParameter("start", start)
-				.setParameter("end", new ClientFinanceDate(end).getTime());
+				.setParameter("end", new ClientFinanceDate(end).getDate());
 
 		List l = query.list();
 
@@ -5378,7 +5385,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByVendorDetail")
@@ -5437,7 +5445,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getPurchasesByVendorSummary(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByVendorSummary")
@@ -5466,7 +5475,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByItemDetail")
@@ -5522,7 +5532,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getPurchasesByItemSummary(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByItemSummary")
@@ -5557,15 +5568,16 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<TransactionHistory> getVendorTransactionHistory(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		ClientFinanceDate date[] = this.getMinimumAndMaximumTransactionDate();
-		long start = date[0] != null ? date[0].getTime() : startDate;
+		long start = date[0] != null ? date[0].getDate() : startDate.getDate();
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		cal.setTime(new FinanceDate(startDate).getAsDateObject());
+		cal.setTime(startDate.getAsDateObject());
 		cal.add(Calendar.DAY_OF_MONTH, -1);
 
 		String end = cal.get(Calendar.YEAR) + "-";
@@ -5579,7 +5591,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Query query = session.getNamedQuery("getVendorTransactionHistory")
 				.setParameter("startDate", startDate)
 				.setParameter("endDate", endDate).setParameter("start", start)
-				.setParameter("end", new ClientFinanceDate(end).getTime());
+				.setParameter("end", new ClientFinanceDate(end).getDate());
 
 		List l = query.list();
 
@@ -5700,8 +5712,9 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<AmountsDueToVendor> getAmountsDueToVendor(final long startDate,
-			final long endDate) throws DAOException {
+	public List<AmountsDueToVendor> getAmountsDueToVendor(
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAmountsDueToVendor")
@@ -5744,7 +5757,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<MostProfitableCustomers> getMostProfitableCustomers(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getMostProfitableCustomers")
@@ -5814,7 +5828,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	public List<MostProfitableCustomers> getProfitabilityByCustomerDetail(
-			final long customer, long startDate, long endDate)
+			final long customer, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -5840,7 +5854,7 @@ public class FinanceTool implements IFinanceDAOService {
 						listItem.setItemDescriptioin(entry.getMemo());
 						listItem.setItemName(entry.getAccount().getName());
 						listItem.setTransactionDate(new ClientFinanceDate(je
-								.getDate().getTime()));
+								.getDate().getDate()));
 						listItem.setTransactionNumber(je.getNumber());
 						listItem.setBilledCost(!DecimalUtil.isEquals(
 								entry.getDebit(), 0.0) ? -1 * entry.getDebit()
@@ -5902,7 +5916,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTransactionDetailByTaxItem")
@@ -5920,8 +5935,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			final String taxItemName, final long startDate, final long endDate)
-			throws DAOException {
+			final String taxItemName, final FinanceDate startDate,
+			final FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
@@ -5993,8 +6008,9 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<AccountRegister> getAccountRegister(final long startDate,
-			final long endDate, final long accountId) throws DAOException {
+	public List<AccountRegister> getAccountRegister(
+			final FinanceDate startDate, final FinanceDate endDate,
+			final long accountId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAccountRegister")
@@ -6053,7 +6069,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
-			final long startDate, final long endDate) throws DAOException {
+			final FinanceDate startDate, final FinanceDate endDate)
+			throws DAOException {
 
 		try {
 
@@ -6130,15 +6147,15 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<SalesTaxLiability> getSalesTaxLiabilityReport(long startDate,
-			long endDate) throws DAOException {
+	public List<SalesTaxLiability> getSalesTaxLiabilityReport(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		ClientFinanceDate date[] = this.getMinimumAndMaximumTransactionDate();
-		long start = date[0] != null ? date[0].getTime() : startDate;
+		long start = date[0] != null ? date[0].getDate() : startDate.getDate();
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		cal.setTime(new FinanceDate(startDate).getAsDateObject());
+		cal.setTime(startDate.getAsDateObject());
 		cal.add(Calendar.DAY_OF_MONTH, -1);
 
 		String end = cal.get(Calendar.YEAR) + "-";
@@ -6183,8 +6200,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<Item> getPurchaseReportItems(long startDate, long endDate)
-			throws DAOException {
+	public List<Item> getPurchaseReportItems(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchaseReportItems")
@@ -6210,8 +6227,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<Item> getSalesReportItems(long startDate, long endDate)
-			throws DAOException {
+	public List<Item> getSalesReportItems(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesReportItems")
@@ -6236,8 +6253,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<Customer> getTransactionHistoryCustomers(long startDate,
-			long endDate) throws DAOException {
+	public List<Customer> getTransactionHistoryCustomers(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTransactionHistoryCustomers")
@@ -6260,8 +6277,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<Vendor> getTransactionHistoryVendors(long startDate,
-			long endDate) throws DAOException {
+	public List<Vendor> getTransactionHistoryVendors(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTransactionHistoryVendors")
@@ -6308,7 +6325,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
-			String itemName, long startDate, long endDate) throws DAOException {
+			String itemName, FinanceDate startDate, FinanceDate endDate)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
@@ -6324,7 +6342,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			String vendorName, long startDate, long endDate)
+			String vendorName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -6341,7 +6359,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			String customerName, long startDate, long endDate)
+			String customerName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -6359,7 +6377,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesByCustomerDetail> getSalesByItemDetail(String itemName,
-			long startDate, long endDate) throws DAOException {
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -6376,7 +6394,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, long startDate, long endDate)
+			String accountName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
 
 		try {
@@ -6410,8 +6428,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<TrialBalance> getBalanceSheetReport(long startDate, long endDate)
-			throws DAOException {
+	public List<TrialBalance> getBalanceSheetReport(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -6479,28 +6497,26 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<TrialBalance> getProfitAndLossReport(long startDate,
-			long endDate) throws DAOException {
+	public List<TrialBalance> getProfitAndLossReport(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		long startDate1 = ((FinanceDate) ((session
+		FinanceDate startDate1 = ((FinanceDate) ((session
 				.getNamedQuery("getFiscalYear.by.check.isCurrentFiscalYearistrue"))
-				.list().get(0))).getTime();
+				.list().get(0)));
 
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value
 		 */
-		String end1 = String.valueOf(endDate);
-		int year = Integer.parseInt(end1.substring(0, 4));
-		int month = Integer.parseInt(end1.substring(4, 6)) - 1;
+		int year = endDate.getYear();
+		int month = endDate.getMonth() - 1;
 		year = (month == 0) ? year - 1 : year;
 		month = (month == 0) ? 12 : month;
-		long endDate1 = Long.valueOf(year + ""
-				+ ((month + "").length() == 1 ? "0" + month : month) + 31);
+		FinanceDate endDate1 = new FinanceDate(year, month, 31);
 
-		if (year != (new FinanceDate(startDate1)).getYear())
-			startDate1 = Long.valueOf(year + "01" + "01");
+		if (year != startDate1.getYear())
+			startDate1 = new FinanceDate(year, 01, 01);
 		// + ((month + "").length() == 1 ? "0" + month : month) + "01");
 
 		List l = ((Query) session.getNamedQuery("getProfitAndLoss")
@@ -6592,16 +6608,16 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<TrialBalance> getCashFlowReport(long startDate, long endDate)
-			throws DAOException {
+	public List<TrialBalance> getCashFlowReport(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		ClientFinanceDate date[] = this.getMinimumAndMaximumTransactionDate();
-		long start = date[0] != null ? date[0].getTime() : startDate;
+		long start = date[0] != null ? date[0].getDate() : startDate.getDate();
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		cal.setTime(new FinanceDate(startDate).getAsDateObject());
+		cal.setTime(startDate.getAsDateObject());
 
 		cal.add(Calendar.DAY_OF_MONTH, -1);
 
@@ -6616,7 +6632,7 @@ public class FinanceTool implements IFinanceDAOService {
 		List l = ((Query) session.getNamedQuery("getCashFlowStatement")
 				.setParameter("startDate", startDate)
 				.setParameter("endDate", endDate).setParameter("start", start)
-				.setParameter("end", new ClientFinanceDate(end).getTime()))
+				.setParameter("end", new ClientFinanceDate(end).getDate()))
 				.list();
 
 		double netIncome = 0.0;
@@ -6679,7 +6695,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	}
 
-	private double getNetIncome(long startDate, long endDate, String query) {
+	private double getNetIncome(FinanceDate startDate, FinanceDate endDate,
+			String query) {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -6749,8 +6766,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public Map<String, Double> getVATReturnBoxes(long startDate, long endDate)
-			throws DAOException {
+	public Map<String, Double> getVATReturnBoxes(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -6768,7 +6785,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// startDate = cal.get(Calendar.YEAR) + "-"
 			// + (cal.get(Calendar.MONTH) + 1) + "-"
 			// + cal.get(Calendar.DAY_OF_MONTH);
-			startDate = new FinanceDate(cal.getTime()).getTime();
+			startDate = new FinanceDate(cal.getTime());
 			Query query = session
 					.getNamedQuery("get_BOX1_VATdueOnSalesAndOtherOutputs")
 					.setParameter(
@@ -6788,14 +6805,9 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public VATReturn getVATReturnDetails(TAXAgency vatAgency, long fromDate1,
-			long toDate1) throws DAOException, InvalidOperationException {
-
-		FinanceDate fromDate = null;
-		FinanceDate toDate = null;
-
-		fromDate = new FinanceDate(fromDate1);
-		toDate = new FinanceDate(toDate1);
+	public VATReturn getVATReturnDetails(TAXAgency vatAgency,
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			InvalidOperationException {
 
 		if (hasFileVAT(vatAgency, fromDate, toDate)) {
 			throw new InvalidOperationException(
@@ -7110,17 +7122,15 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<VATDetail> getPriorVATReturnVATDetailReport(
-			TAXAgency vatAgency, long endDate1) throws DAOException,
+			TAXAgency vatAgency, FinanceDate endDate) throws DAOException,
 			ParseException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		FinanceDate endDate = new FinanceDate(endDate1);
 		FinanceDate startDate;
 		{
 			Query q1 = session.getNamedQuery("getVATReturn.by.enddate")
-
-			.setParameter("endDate", (new FinanceDate(endDate1)));
+					.setParameter("endDate", endDate);
 
 			VATReturn vatReturn = (VATReturn) q1.uniqueResult();
 			if (vatReturn == null) {
@@ -7211,7 +7221,7 @@ public class FinanceTool implements IFinanceDAOService {
 				vd.setTotal(amount);
 			}
 			vd.setTransactionDate(new ClientFinanceDate(v.getTransactionDate()
-					.getTime()));
+					.getDate()));
 			vd.setTransactionName(v.getTransactionItem().getTransaction()
 					.toString());
 			vd.setTransactionNumber(v.getTransactionItem().getTransaction()
@@ -7307,7 +7317,7 @@ public class FinanceTool implements IFinanceDAOService {
 					vd1.setPayeeName(v.getTransactionItem().getTransaction()
 							.getInvolvedPayee().getName());
 				vd1.setTransactionDate(new ClientFinanceDate(v
-						.getTransactionDate().getTime()));
+						.getTransactionDate().getDate()));
 				vd1.setTransactionName(v.getTransactionItem().getTransaction()
 						.toString());
 				vd1.setTransactionNumber(v.getTransactionItem()
@@ -7373,7 +7383,7 @@ public class FinanceTool implements IFinanceDAOService {
 					vd.setPayeeName(e.getAccount().getName());
 
 					vd.setTransactionDate(new ClientFinanceDate(e
-							.getEntryDate().getTime()));
+							.getEntryDate().getDate()));
 					vd.setTransactionName(e.getJournalEntry().toString());
 					vd.setTransactionNumber(e.getVoucherNumber());
 					vd.setTransactionType(e.getJournalEntryType());
@@ -7421,7 +7431,7 @@ public class FinanceTool implements IFinanceDAOService {
 				vd1.setPayeeName(e.getAccount().getName());
 
 				vd1.setTransactionDate(new ClientFinanceDate(e.getEntryDate()
-						.getTime()));
+						.getDate()));
 				vd1.setTransactionName(e.getJournalEntry().toString());
 				vd1.setTransactionNumber(e.getVoucherNumber());
 				vd1.setTransactionType(e.getJournalEntryType());
@@ -7479,7 +7489,7 @@ public class FinanceTool implements IFinanceDAOService {
 							vd.setTotal(-1 * e.getTotal());
 							vd.setPayeeName(e.getAccount().getName());
 							vd.setTransactionDate(new ClientFinanceDate(e
-									.getEntryDate().getTime()));
+									.getEntryDate().getDate()));
 							vd.setTransactionName(e.getJournalEntry()
 									.toString());
 							vd.setTransactionNumber(e.getVoucherNumber());
@@ -7503,7 +7513,7 @@ public class FinanceTool implements IFinanceDAOService {
 							}
 
 							vd.setTransactionDate(new ClientFinanceDate(e
-									.getEntryDate().getTime()));
+									.getEntryDate().getDate()));
 							vd.setTransactionName(e.getJournalEntry()
 									.toString());
 							vd.setTransactionNumber(e.getVoucherNumber());
@@ -7781,14 +7791,13 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<VATSummary> getPriorReturnVATSummary(TAXAgency taxAgency,
-			long endDate1) throws DAOException, ParseException {
+			FinanceDate endDate) throws DAOException, ParseException {
 		Session session = HibernateUtil.getCurrentSession();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		FinanceDate endDate = new FinanceDate((endDate1));
 		Query query = session
 				.getNamedQuery("getVATReturn.by.taxagencyandenddate")
 				.setParameter("taxAgency", taxAgency.getID())
-				.setParameter("endDate", (new FinanceDate(endDate1)));
+				.setParameter("endDate", endDate);
 
 		VATReturn vatReturn = (VATReturn) query.uniqueResult();
 
@@ -7797,7 +7806,7 @@ public class FinanceTool implements IFinanceDAOService {
 					new NullPointerException(
 							"No VAT Return found in database with VATAgency '"
 									+ taxAgency.getName() + "' and End date :"
-									+ endDate.toString()));
+									+ endDate));
 		}
 
 		List<VATSummary> vatSummaries = new ArrayList<VATSummary>();
@@ -7830,11 +7839,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<VATDetail> getVATDetailReport(long startDate1, long endDate1)
-			throws DAOException, ParseException {
-
-		FinanceDate startDate = new FinanceDate(startDate1);
-		FinanceDate endDate = new FinanceDate((endDate1));
+	public List<VATDetail> getVATDetailReport(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException, ParseException {
 
 		VATDetailReport vatDetailReport = new VATDetailReport();
 
@@ -7844,8 +7850,9 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<VATSummary> getVAT100Report(TAXAgency taxAgency, long fromDate,
-			long toDate) throws DAOException, ParseException {
+	public List<VATSummary> getVAT100Report(TAXAgency taxAgency,
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List<VATSummary> vatSummaries = createRows(taxAgency);
@@ -7895,16 +7902,16 @@ public class FinanceTool implements IFinanceDAOService {
 			query = session
 					.getNamedQuery(
 							"getTAXRateCalculation.by.datesand.vatReturn")
-					.setParameter("startDate", (new FinanceDate(fromDate)))
-					.setParameter("endDate", (new FinanceDate(toDate)));
+					.setParameter("startDate", fromDate)
+					.setParameter("endDate", toDate);
 			// .setParameter("startDate1",
 			// leastStartDate).setParameter("endDate1",
 			// highestEndDate);
 			// v.transactionDate not between :startDate1 and :endDate1")
 		} else {
 			query = session.getNamedQuery("getTAXRateCalculation.by.dates")
-					.setParameter("startDate", (new FinanceDate(fromDate)))
-					.setParameter("endDate", (new FinanceDate(toDate)));
+					.setParameter("startDate", fromDate)
+					.setParameter("endDate", toDate);
 		}
 
 		List<TAXRateCalculation> vats = query.list();
@@ -7974,12 +7981,8 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		query = session.getNamedQuery(
-
-		"")
-
-		.setParameter("fromDate", (new FinanceDate(fromDate)))
-				.setParameter("toDate", (new FinanceDate(toDate)))
+		query = session.getNamedQuery("").setParameter("fromDate", fromDate)
+				.setParameter("toDate", toDate)
 				.setParameter("taxAgency", taxAgency.getID());
 
 		List<TAXAdjustment> vas = query.list();
@@ -8172,8 +8175,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getOpenSalesOrders(long startDate,
-			long endDate) throws DAOException {
+	public List<OpenAndClosedOrders> getOpenSalesOrders(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8186,8 +8189,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getClosedSalesOrders(long startDate,
-			long endDate) throws DAOException {
+	public List<OpenAndClosedOrders> getClosedSalesOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getClosedSalesOrders")
@@ -8199,8 +8202,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getCompletedSalesOrders(long startDate,
-			long endDate) throws DAOException {
+	public List<OpenAndClosedOrders> getCompletedSalesOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8212,8 +8215,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getCanceledSalesOrders(long startDate,
-			long endDate) throws DAOException {
+	public List<OpenAndClosedOrders> getCanceledSalesOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8225,8 +8228,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getOpenPurchaseOrders(long startDate,
-			long endDate) throws DAOException {
+	public List<OpenAndClosedOrders> getOpenPurchaseOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getOpenPurchaseOrders")
@@ -8238,8 +8241,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getClosedPurchaseOrders(long startDate,
-			long endDate) throws DAOException {
+	public List<OpenAndClosedOrders> getClosedPurchaseOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getClosedPurchaseOrders")
@@ -8251,8 +8254,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getCompletedPurchaseOrders(long startDate,
-			long endDate) throws DAOException {
+	public List<OpenAndClosedOrders> getCompletedPurchaseOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getCompletedPurchaseOrders")
@@ -8262,8 +8265,8 @@ public class FinanceTool implements IFinanceDAOService {
 		return prepareQueryResult(l);
 	}
 
-	public List<OpenAndClosedOrders> getPurchaseOrders(long startDate,
-			long endDate) throws DAOException {
+	public List<OpenAndClosedOrders> getPurchaseOrders(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		List l = ((Query) session.getNamedQuery("getPurchaseOrders")
 				.setParameter("startDate", startDate)
@@ -8271,8 +8274,8 @@ public class FinanceTool implements IFinanceDAOService {
 		return prepareQueryResult(l);
 	}
 
-	public List<OpenAndClosedOrders> getSalesOrders(long startDate, long endDate)
-			throws DAOException {
+	public List<OpenAndClosedOrders> getSalesOrders(FinanceDate startDate,
+			FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		List l = ((Query) session.getNamedQuery("getSalesOrders")
 				.setParameter("startDate", startDate)
@@ -8281,8 +8284,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<OpenAndClosedOrders> getCanceledPurchaseOrders(long startDate,
-			long endDate) throws DAOException {
+	public List<OpenAndClosedOrders> getCanceledPurchaseOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getCanceledPurchaseOrders")
@@ -8317,7 +8320,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<UncategorisedAmountsReport> getUncategorisedAmountsReport(
-			long fromDate, long toDate) throws ParseException {
+			FinanceDate fromDate, FinanceDate toDate) throws ParseException {
 		List<UncategorisedAmountsReport> uncategorisedAmounts = new ArrayList<UncategorisedAmountsReport>();
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -8345,9 +8348,9 @@ public class FinanceTool implements IFinanceDAOService {
 			uncategorisedAmounts.add(u);
 		}
 
-		query = session.getNamedQuery(
+		query = session.createQuery(
 				"getTAXAdjustment.checkingby.transactionDate").setParameter(
-				"endDate", (new FinanceDate(toDate)));
+				"endDate", toDate);
 
 		List<TAXAdjustment> vatAdjustments = query.list();
 
@@ -8367,7 +8370,7 @@ public class FinanceTool implements IFinanceDAOService {
 						.getAccount().getName());
 				u.setMemo("VAT Adjustment");
 				u.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-						.getTime()));
+						.getDate()));
 				if (v.getTaxItem().isSalesType()) {
 					if (v.getIncreaseVATLine()) {
 
@@ -8405,9 +8408,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 		// Entries from VATReturn;
 
-		query = session.getNamedQuery(
+		query = session.createQuery(
 				"getTAXAdjustment.checkingby.VATperiodEndDate").setParameter(
-				"endDate", (new FinanceDate(toDate)));
+				"endDate", toDate);
 
 		List<VATReturn> vatReturns = query.list();
 		for (VATReturn v : vatReturns) {
@@ -8426,7 +8429,7 @@ public class FinanceTool implements IFinanceDAOService {
 						.getAccount().getName());
 				u.setMemo("Filed Uncategorised amounts");
 				u.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-						.getTime()));
+						.getDate()));
 
 				// if (amount > 0)
 				u.setAmount(-1 * (amount));
@@ -8441,8 +8444,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<VATItemDetail> getVATItemDetailReport(long fromDate, long toDate)
-			throws DAOException, ParseException {
+	public List<VATItemDetail> getVATItemDetailReport(FinanceDate fromDate,
+			FinanceDate toDate) throws DAOException, ParseException {
 
 		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
 
@@ -8452,15 +8455,15 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Query query = session
 				.getNamedQuery("getTAXAdjustment.by.taxAgencyidanddates")
-				.setParameter("startDate", (new FinanceDate(fromDate)))
-				.setParameter("endDate", (new FinanceDate(toDate)));
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 		for (TAXRateCalculation v : taxRateCalculations) {
 
 			VATItemDetail vi = new VATItemDetail();
 			vi.setAmount(v.getTransactionItem().getLineTotal());
-			vi.setDate(new ClientFinanceDate(v.getTransactionDate().getTime()));
+			vi.setDate(new ClientFinanceDate(v.getTransactionDate().getDate()));
 			vi.setName(v.getTransactionItem().getTransaction()
 					.getInvolvedPayee().getName());
 			vi.setTransactionId(v.getTransactionItem().getTransaction().getID());
@@ -8479,8 +8482,8 @@ public class FinanceTool implements IFinanceDAOService {
 		query = session
 				.getNamedQuery(
 						"getTAXAdjustment.by.dates.orderby.taxItemNameand.TransactionDate")
-				.setParameter("startDate", (new FinanceDate(fromDate)))
-				.setParameter("endDate", (new FinanceDate(toDate)));
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate);
 
 		List<TAXAdjustment> vatAdjustments = query.list();
 		for (TAXAdjustment v : vatAdjustments) {
@@ -8493,7 +8496,7 @@ public class FinanceTool implements IFinanceDAOService {
 				vi.setAmount(-1 * v.getJournalEntry().getTotal());
 			}
 			vi.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-					.getTime()));
+					.getDate()));
 			vi.setMemo("VAT Adjustment");
 			vi.setName(v.getTaxItem().getTaxAgency().getName());
 			vi.setTransactionId(v.getJournalEntry().getID());
@@ -8507,7 +8510,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<VATItemDetail> getVATItemDetailReport(String taxItemName,
-			long fromDate, long toDate) throws DAOException, ParseException {
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException {
 
 		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
 
@@ -8520,8 +8524,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Query query = session
 				.getNamedQuery(
 						"getTAXAdjustment.by.dates.groupedByIdtransactionItem")
-				.setParameter("startDate", (new FinanceDate(fromDate)))
-				.setParameter("endDate", (new FinanceDate(toDate)))
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate)
 				.setParameter("taxItemName", taxItemName);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
@@ -8541,7 +8545,7 @@ public class FinanceTool implements IFinanceDAOService {
 							.getLineTotal() : 0;
 					vi.setAmount(amount);
 					vi.setDate(new ClientFinanceDate(v.getTransactionDate()
-							.getTime()));
+							.getDate()));
 
 					if (v.getTransactionItem().getTransaction()
 							.getInvolvedPayee() != null)
@@ -8588,8 +8592,8 @@ public class FinanceTool implements IFinanceDAOService {
 		query = session
 				.getNamedQuery(
 						"getTAXRateCalculation.by.dates.groupedByIdtransactionItem")
-				.setParameter("startDate", (new FinanceDate(fromDate)))
-				.setParameter("endDate", (new FinanceDate(toDate)))
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate)
 				.setParameter("taxItemName", taxItemName);
 
 		List<TAXAdjustment> vatAdjustments = query.list();
@@ -8603,7 +8607,7 @@ public class FinanceTool implements IFinanceDAOService {
 				vi.setAmount(-1 * v.getJournalEntry().getTotal());
 			}
 			vi.setDate(new ClientFinanceDate(v.getJournalEntry().getDate()
-					.getTime()));
+					.getDate()));
 			vi.setMemo("VAT Adjustment");
 			vi.setName(v.getTaxItem().getTaxAgency().getName());
 			vi.setTransactionId(v.getJournalEntry().getID());
@@ -8616,8 +8620,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<VATItemSummary> getVATItemSummaryReport(long fromDate,
-			long toDate) throws DAOException, ParseException {
+	public List<VATItemSummary> getVATItemSummaryReport(FinanceDate fromDate,
+			FinanceDate toDate) throws DAOException, ParseException {
 
 		List<VATItemSummary> vatItemSummaries = new ArrayList<VATItemSummary>();
 
@@ -8629,8 +8633,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Query query = session
 				.getNamedQuery(
 						"getTAXRateCalculation.by.dates.orderbytaxItem.name")
-				.setParameter("startDate", (new FinanceDate(fromDate)))
-				.setParameter("endDate", (new FinanceDate(toDate)));
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -8678,7 +8682,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<ECSalesListDetail> getECSalesListDetailReport(String payeeName,
-			long fromDate, long toDate) throws DAOException, ParseException {
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException {
 
 		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
 
@@ -8688,8 +8693,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Query query = session
 				.getNamedQuery(
 						"getTAXRateCalculation.by.check.taxItemandDates.orderBy.transactionItem")
-				.setParameter("startDate", (new FinanceDate(fromDate)))
-				.setParameter("endDate", (new FinanceDate(toDate)));
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -8717,7 +8722,7 @@ public class FinanceTool implements IFinanceDAOService {
 								.getLineTotal() : 0;
 						e.setAmount(amount);
 						e.setDate(new ClientFinanceDate(v.getTransactionDate()
-								.getTime()));
+								.getDate()));
 						e.setMemo(v.getTransactionItem().getTransaction()
 								.getMemo());
 						e.setName(v.getTransactionItem().getTransaction()
@@ -8788,8 +8793,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<ECSalesList> getECSalesListReport(long fromDate, long toDate)
-			throws DAOException, ParseException {
+	public List<ECSalesList> getECSalesListReport(FinanceDate fromDate,
+			FinanceDate toDate) throws DAOException, ParseException {
 
 		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
 
@@ -8798,8 +8803,8 @@ public class FinanceTool implements IFinanceDAOService {
 		// Getting entries from VATRateCalculation
 		Query query = session
 				.getNamedQuery("getTAXRateCalculation.by.check.taxItemandDates")
-				.setParameter("startDate", (new FinanceDate(fromDate)))
-				.setParameter("endDate", (new FinanceDate(toDate)));
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -8859,8 +8864,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<ReverseChargeListDetail> getReverseChargeListDetailReport(
-			String payeeName, long fromDate, long toDate) throws DAOException,
-			ParseException {
+			String payeeName, FinanceDate fromDate, FinanceDate toDate)
+			throws DAOException, ParseException {
 		// /////
 		// ////////
 		// /////////
@@ -8951,8 +8956,9 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<ReverseChargeList> getReverseChargeListReport(long fromDate,
-			long toDate) throws DAOException, ParseException {
+	public List<ReverseChargeList> getReverseChargeListReport(
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException {
 		// /////
 		// ////////
 		// /////////
@@ -8965,8 +8971,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Query query = session
 				.getNamedQuery(
 						"getTAXRateCalculation.by.datesand.orderby.transactionItem")
-				.setParameter("startDate", (new FinanceDate(fromDate)))
-				.setParameter("endDate", (new FinanceDate(toDate)));
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate);
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
@@ -9751,7 +9757,8 @@ public class FinanceTool implements IFinanceDAOService {
 	//
 	// }
 
-	public ClientCompany getClientCompany() {
+	public ClientCompany getClientCompany(long logggeInUserId)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -9846,15 +9853,20 @@ public class FinanceTool implements IFinanceDAOService {
 		company.setBrandingTheme(new ArrayList<BrandingTheme>(session
 				.getNamedQuery("list.BrandingTheme").list()));
 
-		company.setUsersList(new ArrayList<User>(session.getNamedQuery(
-				"list.User").list()));
-
 		company = company.toCompany(company);
 
+		ClientCompany clientCompany = new ClientConvertUtil().toClientObject(
+				company, ClientCompany.class);
 		setCompany(company);
 
-		return new ClientConvertUtil().toClientObject(company,
-				ClientCompany.class);
+		ClientFinanceDate[] dates = getMinimumAndMaximumTransactionDate();
+
+		clientCompany.setTransactionStartDate(dates[0]);
+		clientCompany.setTransactionEndDate(dates[1]);
+
+		clientCompany.setUsersList(getAllEmployees());
+
+		return clientCompany;
 	}
 
 	public List<FinanceLogger> getLog(long id, boolean isNext) {
@@ -10359,51 +10371,51 @@ public class FinanceTool implements IFinanceDAOService {
 						.setParameter(
 								"currentMonthStartDateCal",
 								new FinanceDate(currentMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"currentMonthEndDateCal",
 								new FinanceDate(currentMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFirstMonthStartDateCal",
 								new FinanceDate(previousFirstMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFirstMonthEndDateCal",
 								new FinanceDate(previousFirstMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousSecondMonthStartDateCal",
 								new FinanceDate(previousSecondMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousSecondMonthEndDateCal",
 								new FinanceDate(previousSecondMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousThirdMonthStartDateCal",
 								new FinanceDate(previousThirdMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousThirdMonthEndDateCal",
 								new FinanceDate(previousThirdMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFourthMonthStartDateCal",
 								new FinanceDate(previousFourthMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFourthMonthEndDateCal",
 								new FinanceDate(previousFourthMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFifthMonthStartDateCal",
 								new FinanceDate(previousFifthMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFifthMonthEndDateCal",
 								new FinanceDate(previousFifthMonthEndDateCal
-										.getTime()).getTime());
+										.getTime()).getDate());
 
 			} else if (transactionCategory == Transaction.CATEGORY_VENDOR) {
 
@@ -10412,51 +10424,51 @@ public class FinanceTool implements IFinanceDAOService {
 						.setParameter(
 								"currentMonthStartDateCal",
 								new FinanceDate(currentMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"currentMonthEndDateCal",
 								new FinanceDate(currentMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFirstMonthStartDateCal",
 								new FinanceDate(previousFirstMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFirstMonthEndDateCal",
 								new FinanceDate(previousFirstMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousSecondMonthStartDateCal",
 								new FinanceDate(previousSecondMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousSecondMonthEndDateCal",
 								new FinanceDate(previousSecondMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousThirdMonthStartDateCal",
 								new FinanceDate(previousThirdMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousThirdMonthEndDateCal",
 								new FinanceDate(previousThirdMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFourthMonthStartDateCal",
 								new FinanceDate(previousFourthMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFourthMonthEndDateCal",
 								new FinanceDate(previousFourthMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFifthMonthStartDateCal",
 								new FinanceDate(previousFifthMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFifthMonthEndDateCal",
 								new FinanceDate(previousFifthMonthEndDateCal
-										.getTime()).getTime());
+										.getTime()).getDate());
 			}
 
 			List list = query.list();
@@ -10546,8 +10558,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<ExpenseList> getExpenseReportByType(int type, long startDate,
-			long endDate) throws DAOException {
+	public List<ExpenseList> getExpenseReportByType(int type,
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		List list = null;
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -10589,7 +10601,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
-			long startDate, long endDate) throws DAOException {
+			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getCheckDetailReport")
@@ -10624,7 +10636,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public List<DepositDetail> getDepositDetail(long startDate, long endDate) {
+	public List<DepositDetail> getDepositDetail(FinanceDate startDate,
+			FinanceDate endDate) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		List list = session.getNamedQuery("getDepositDetail")
@@ -10692,8 +10705,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<PayeeStatementsList> getPayeeStatementsList(long id,
-			long transactionDate, long fromDate, long toDate, int noOfDays,
-			boolean isEnabledOfZeroBalBox,
+			long transactionDate, FinanceDate fromDate, FinanceDate toDate,
+			int noOfDays, boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessthanZeroBalBox,
 			double lessThanZeroBalanceValue,
 			boolean isEnabledOfNoAccountActivity,
@@ -10818,13 +10831,13 @@ public class FinanceTool implements IFinanceDAOService {
 						.getNamedQuery("getPointsForBankAccount")
 						.setParameter("accountNo", accountNo)
 						.setParameter("previousThreeDaysBackDateCal",
-								new FinanceDate(dateCal[0].getTime()).getTime())
+								new FinanceDate(dateCal[0].getTime()).getDate())
 						.setParameter("previousTwoDaysBackDateCal",
-								new FinanceDate(dateCal[1].getTime()).getTime())
+								new FinanceDate(dateCal[1].getTime()).getDate())
 						.setParameter("previousOneDayBackDateCal",
-								new FinanceDate(dateCal[2].getTime()).getTime())
+								new FinanceDate(dateCal[2].getTime()).getDate())
 						.setParameter("currentDateCal",
-								new FinanceDate(dateCal[3].getTime()).getTime());
+								new FinanceDate(dateCal[3].getTime()).getDate());
 
 			}
 
@@ -10929,51 +10942,51 @@ public class FinanceTool implements IFinanceDAOService {
 						.setParameter(
 								"previousFifthMonthStartDateCal",
 								new FinanceDate(previousFifthMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFifthMonthEndDateCal",
 								new FinanceDate(previousFifthMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFourthMonthStartDateCal",
 								new FinanceDate(previousFourthMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFourthMonthEndDateCal",
 								new FinanceDate(previousFourthMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousThirdMonthStartDateCal",
 								new FinanceDate(previousThirdMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousThirdMonthEndDateCal",
 								new FinanceDate(previousThirdMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousSecondMonthStartDateCal",
 								new FinanceDate(previousSecondMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousSecondMonthEndDateCal",
 								new FinanceDate(previousSecondMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFirstMonthStartDateCal",
 								new FinanceDate(previousFirstMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"previousFirstMonthEndDateCal",
 								new FinanceDate(previousFirstMonthEndDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"currentMonthStartDateCal",
 								new FinanceDate(currentMonthStartDateCal
-										.getTime()).getTime())
+										.getTime()).getDate())
 						.setParameter(
 								"currentMonthEndDateCal",
 								new FinanceDate(currentMonthEndDateCal
-										.getTime()).getTime());
+										.getTime()).getDate());
 
 			}
 
@@ -11010,105 +11023,105 @@ public class FinanceTool implements IFinanceDAOService {
 						.setParameter("creditorsAccountID",
 								company.getAccountsPayableAccount().getID())
 						.setParameter("currentDate",
-								new FinanceDate(dateCal[0].getTime()).getTime())
+								new FinanceDate(dateCal[0].getTime()).getDate())
 						.setParameter("oneDayAfterToCurrentDate",
-								new FinanceDate(dateCal[1].getTime()).getTime())
+								new FinanceDate(dateCal[1].getTime()).getDate())
 						.setParameter("twoDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[2].getTime()).getTime())
+								new FinanceDate(dateCal[2].getTime()).getDate())
 						.setParameter("threeDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[3].getTime()).getTime())
+								new FinanceDate(dateCal[3].getTime()).getDate())
 						.setParameter("fourDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[4].getTime()).getTime())
+								new FinanceDate(dateCal[4].getTime()).getDate())
 						.setParameter("fiveDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[5].getTime()).getTime())
+								new FinanceDate(dateCal[5].getTime()).getDate())
 						.setParameter("sixDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[6].getTime()).getTime())
+								new FinanceDate(dateCal[6].getTime()).getDate())
 						.setParameter("sevenDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[7].getTime()).getTime())
+								new FinanceDate(dateCal[7].getTime()).getDate())
 						.setParameter("eightDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[8].getTime()).getTime())
+								new FinanceDate(dateCal[8].getTime()).getDate())
 						.setParameter("nineDaysAfterToCurrentDate",
-								new FinanceDate(dateCal[9].getTime()).getTime())
+								new FinanceDate(dateCal[9].getTime()).getDate())
 						.setParameter(
 								"tenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[10].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"elevenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[11].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"twelveDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[12].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"thirteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[13].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"fourteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[14].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"fifteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[15].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"sixteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[16].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"seventeenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[17].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"eighteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[18].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"nineteenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[19].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"twentyDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[20].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"twentyOneDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[21].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"twentyTwoDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[22].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"twentyThreeDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[23].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"twentyFourDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[24].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"twentyFiveDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[25].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"twentySixDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[26].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"twentySevenDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[27].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"twentyEightDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[28].getTime())
-										.getTime())
+										.getDate())
 						.setParameter(
 								"twentyNineDaysAfterToCurrentDate",
 								new FinanceDate(dateCal[29].getTime())
-										.getTime());
+										.getDate());
 				// .setParameter("thirtyDaysAfterToCurrentDate", new
 				// FinanceDate(dateCal[30].getTime()).getTime());
 				// .setParameter("thirtyOneDaysAfterToCurrentDate", new
@@ -11150,7 +11163,7 @@ public class FinanceTool implements IFinanceDAOService {
 									.getNamedQuery("getOverDueInvoicesTotal")
 									.setParameter("isInvoices", true)
 									.setParameter("presentDate",
-											(new FinanceDate()).getTime())
+											(new FinanceDate()).getDate())
 									.uniqueResult();
 							amount = res == null ? 0 : (Double) res;
 							gPoints.add(amount);
@@ -11217,7 +11230,7 @@ public class FinanceTool implements IFinanceDAOService {
 								.getNamedQuery("getOverDueInvoicesTotal")
 								.setParameter("isInvoices", false)
 								.setParameter("presentDate",
-										(new FinanceDate()).getTime())
+										(new FinanceDate()).getDate())
 								.uniqueResult();
 						amount = res == null ? 0 : (Double) res;
 						gPoints.add(amount);
@@ -11291,7 +11304,7 @@ public class FinanceTool implements IFinanceDAOService {
 			bills.setOriginalAmount(cp.getTotal());
 			bills.setVendorName(cp.getEmployee() != null ? cp.getEmployee()
 					.getName() : "");
-			bills.setDate(new ClientFinanceDate(cp.getDate().getTime()));
+			bills.setDate(new ClientFinanceDate(cp.getDate().getDate()));
 			bills.setExpenseStatus(status);
 			bills.setType(Transaction.TYPE_EMPLOYEE_EXPENSE);
 			bills.setPayFrom(cp.getPayFrom() != null ? cp.getPayFrom().getID()
@@ -11408,6 +11421,24 @@ public class FinanceTool implements IFinanceDAOService {
 	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID) {
 		// its not using any where
 		return null;
+	}
+
+	/**
+	 * @return
+	 */
+	public List<ClientEmployee> getAllEmployees() {
+		Session session = HibernateUtil.getCurrentSession();
+		List<User> financeUsers = session.getNamedQuery("list.User").list();
+		List<ClientEmployee> employees = new ArrayList<ClientEmployee>();
+		for (User user : financeUsers) {
+			if (!user.isDeleted()) {
+				ClientUser clientUser = new ClientConvertUtil().toClientObject(
+						user, ClientUser.class);
+				ClientEmployee userInfo = clientUser.toEmplyee();
+				employees.add(userInfo);
+			}
+		}
+		return employees;
 	}
 
 }

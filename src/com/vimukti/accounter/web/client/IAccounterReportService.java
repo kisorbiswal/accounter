@@ -38,182 +38,199 @@ import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 public interface IAccounterReportService extends RemoteService {
 
 	public List<SalesByCustomerDetail> getSalesByCustomerSummary(
-			final long startDate, final long endDate);
+			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
 	// public List<AccountBalance> getAccountBalances();
 
-	public List<TrialBalance> getTrialBalance(long startDate, long endDate);
+	public List<TrialBalance> getTrialBalance(ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
-	public List<AgedDebtors> getAgedDebtors(long startDate, long endDate);
+	public List<AgedDebtors> getAgedDebtors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
-	public List<AgedDebtors> getAgedCreditors(long startDate, long endDate);
+	public List<AgedDebtors> getAgedCreditors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
 	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getSalesByItemDetail(long startDate,
-			long endDate);
+	public List<SalesByCustomerDetail> getSalesByItemDetail(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getSalesByItemSummary(long startDate,
-			long endDate);
+	public List<SalesByCustomerDetail> getSalesByItemSummary(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public List<TransactionHistory> getCustomerTransactionHistory(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<DepositDetail> getDepositDetail(final long startDate,
-			final long endDate);
+	public List<DepositDetail> getDepositDetail(
+			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
 	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public List<SalesByCustomerDetail> getPurchasesByVendorSummary(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getPurchasesByItemDetail(long startDate,
-			long endDate);
+	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public List<SalesByCustomerDetail> getPurchasesByItemSummary(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<TransactionHistory> getVendorTransactionHistory(long startDate,
-			long endDate);
+	public List<TransactionHistory> getVendorTransactionHistory(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<AmountsDueToVendor> getAmountsDueToVendor(long startDate,
-			long endDate);
+	public List<AmountsDueToVendor> getAmountsDueToVendor(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public List<MostProfitableCustomers> getMostProfitableCustomers(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	List<ClientTransaction> getRegister(long accountId);
 
-	List<AccountRegister> getAccountRegister(long startDate, long endDate,
-			long accountId);
+	List<AccountRegister> getAccountRegister(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long accountId);
 
-	public List<ClientCustomer> getTransactionHistoryCustomers(long startDate,
-			long endDate);
+	public List<ClientCustomer> getTransactionHistoryCustomers(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<ClientVendor> getTransactionHistoryVendors(long startDate,
-			long endDate);
+	public List<ClientVendor> getTransactionHistoryVendors(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<ClientItem> getSalesReportItems(long startDate, long endDate);
+	public List<ClientItem> getSalesReportItems(ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
-	public List<ClientItem> getPurchaseReportItems(long startDate, long endDate);
+	public List<ClientItem> getPurchaseReportItems(ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
 	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
-			final long startDate, final long endDate);
+			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
 	public List<SalesTaxLiability> getSalesTaxLiabilityReport(
-			final long startDate, final long endDate);
+			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
 	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			String customerName, long startDate, long endDate);
+			String customerName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
 	public List<SalesByCustomerDetail> getSalesByItemDetail(String itemName,
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			String vendorName, long startDate, long endDate);
+			String vendorName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
 	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
-			String itemName, long startDate, long endDate);
+			String itemName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
 	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, final long startDate, final long endDate);
+			String accountName, final ClientFinanceDate startDate,
+			final ClientFinanceDate endDate);
 
 	public List<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
 	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			String taxItemname, long startDate, long endDate);
+			String taxItemname, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
-	public List<TrialBalance> getBalanceSheetReport(long startDate, long endDate);
+	public List<TrialBalance> getBalanceSheetReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<TrialBalance> getProfitAndLossReport(long startDate,
-			long endDate);
+	public List<TrialBalance> getProfitAndLossReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<TrialBalance> getCashFlowReport(long startDate, long endDate);
+	public List<TrialBalance> getCashFlowReport(ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
-	public List<OpenAndClosedOrders> getPurchaseOpenOrderReport(long startDate,
-			long endDate);
+	public List<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public List<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public List<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<OpenAndClosedOrders> getPurchaseOrderReport(long startDate,
-			long endDate);
+	public List<OpenAndClosedOrders> getPurchaseOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public List<OpenAndClosedOrders> getPurchaseClosedOrderReport(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<OpenAndClosedOrders> getSalesOpenOrderReport(long startDate,
-			long endDate);
+	public List<OpenAndClosedOrders> getSalesOpenOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public List<OpenAndClosedOrders> getSalesCompletedOrderReport(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<OpenAndClosedOrders> getSalesOrderReport(long startDate,
-			long endDate);
+	public List<OpenAndClosedOrders> getSalesOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public List<OpenAndClosedOrders> getSalesCancelledOrderReport(
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<OpenAndClosedOrders> getSalesClosedOrderReport(long startDate,
-			long endDate);
+	public List<OpenAndClosedOrders> getSalesClosedOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<VATDetail> getPriorVATReturnVATDetailReport(long startDate,
-			long endDate);
+	public List<VATDetail> getPriorVATReturnVATDetailReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	List<VATDetail> getPriorVATReturnReport(long vatAgancy, long endDate);
+	List<VATDetail> getPriorVATReturnReport(long vatAgancy,
+			ClientFinanceDate endDate);
 
-	List<VATSummary> getPriorReturnVATSummary(long vatAgency, long endDate);
+	List<VATSummary> getPriorReturnVATSummary(long vatAgency,
+			ClientFinanceDate endDate);
 
-	List<VATSummary> getVAT100Report(long vatAgncy, long fromDate, long toDate);
+	List<VATSummary> getVAT100Report(long vatAgncy, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate);
 
 	public List<UncategorisedAmountsReport> getUncategorisedAmountsReport(
-			long fromDate, long toDate);
+			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
-	public List<ECSalesList> getECSalesListReport(long fromDate, long toDate);
+	public List<ECSalesList> getECSalesListReport(ClientFinanceDate fromDate,
+			ClientFinanceDate toDate);
 
 	public List<ECSalesListDetail> getECSalesListDetailReport(String payeeName,
-			long fromDate, long toDate);
+			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
 	public List<ReverseChargeListDetail> getReverseChargeListDetailReport(
-			String payeeName, long fromDate, long toDate);
+			String payeeName, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate);
 
-	public List<ReverseChargeList> getReverseChargeListReport(long fromDate,
-			long toDate);
+	public List<ReverseChargeList> getReverseChargeListReport(
+			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
-	public List<DummyDebitor> getDebitors(long startDate, long endDate)
-			throws AccounterException;
+	public List<DummyDebitor> getDebitors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) throws AccounterException;
 
-	public List<DummyDebitor> getCreditors(long startDate, long endDate)
-			throws AccounterException;
+	public List<DummyDebitor> getCreditors(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) throws AccounterException;
 
-	public List<AgedDebtors> getAgedDebtors(String Name, long startDate,
-			long endDate);
+	public List<AgedDebtors> getAgedDebtors(String Name,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<AgedDebtors> getAgedCreditors(String Name, long startDate,
-			long endDate);
+	public List<AgedDebtors> getAgedCreditors(String Name,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<VATItemSummary> getVATItemSummaryReport(long fromDate,
-			long toDate);
+	public List<VATItemSummary> getVATItemSummaryReport(
+			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
 	public List<VATItemDetail> getVATItemDetailReport(String vatItemName,
-			long fromDate, long toDate);
+			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
-	public List<ExpenseList> getExpenseReportByType(int status, long startDate,
-			long endDate);
+	public List<ExpenseList> getExpenseReportByType(int status,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
-			long startDate, long endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	List<PayeeStatementsList> getStatements(long id, long transactionDate,
-			long fromDate, long toDate, int noOfDays,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate, int noOfDays,
 			boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessThanZeroBalBox,
 			double lessThanZeroBalanceValue,

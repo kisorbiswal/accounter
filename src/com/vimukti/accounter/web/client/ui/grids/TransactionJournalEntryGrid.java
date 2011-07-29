@@ -578,7 +578,7 @@ public class TransactionJournalEntryGrid extends
 				break;
 			case 1:
 				editingRecord.setEntryDate(UIUtils.stringToDate(
-						value.toString()).getTime());
+						value.toString()).getDate());
 				break;
 			case 3:
 				editingRecord.setMemo(value.toString());
@@ -612,7 +612,7 @@ public class TransactionJournalEntryGrid extends
 				editingRecord
 						.setEntryDate(editingRecord.getEntryDate() != 0 ? editingRecord
 								.getEntryDate() : new ClientFinanceDate()
-								.getTime());
+								.getDate());
 				break;
 			case 4:
 				editingRecord.setDebit(editingRecord.getDebit());

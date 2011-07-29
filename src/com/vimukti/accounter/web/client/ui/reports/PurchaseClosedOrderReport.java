@@ -18,13 +18,11 @@ public class PurchaseClosedOrderReport extends
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions("", Accounter.constants()
-				.present(), Accounter.constants().lastMonth(),
-				Accounter.constants().last3Months(), Accounter
-						.constants().last6Months(), Accounter
-						.constants().lastYear(), Accounter
-						.constants().untilEndOfYear(), Accounter
-						.constants().custom());
+		toolbar.setDateRanageOptions("", Accounter.constants().present(),
+				Accounter.constants().lastMonth(), Accounter.constants()
+						.last3Months(), Accounter.constants().last6Months(),
+				Accounter.constants().lastYear(), Accounter.constants()
+						.untilEndOfYear(), Accounter.constants().custom());
 	}
 
 	@Override
@@ -39,8 +37,8 @@ public class PurchaseClosedOrderReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getPurchaseClosedOrderReport(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getPurchaseClosedOrderReport(start,
+				end, this);
 
 	}
 
@@ -58,8 +56,8 @@ public class PurchaseClosedOrderReport extends
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 135, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 135, "",
 				"");
 
 	}
@@ -71,8 +69,8 @@ public class PurchaseClosedOrderReport extends
 
 	public void exportToCsv() {
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 135, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 135, "",
 				"");
 	}
 }

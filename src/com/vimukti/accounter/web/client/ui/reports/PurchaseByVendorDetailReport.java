@@ -36,12 +36,11 @@ public class PurchaseByVendorDetailReport extends
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		SalesByCustomerDetail byCustomerDetail = (SalesByCustomerDetail) this.data;
 		if (byCustomerDetail == null) {
-			Accounter.createReportService().getPurchasesByVendorDetail(
-					start.getTime(), end.getTime(), this);
+			Accounter.createReportService().getPurchasesByVendorDetail(start,
+					end, this);
 		} else if (byCustomerDetail.getName() != null) {
 			Accounter.createReportService().getPurchasesByVendorDetail(
-					byCustomerDetail.getName(), start.getTime(), end.getTime(),
-					this);
+					byCustomerDetail.getName(), start, end, this);
 		}
 		this.byCustomerDetail = byCustomerDetail.getName();
 	}
@@ -59,8 +58,8 @@ public class PurchaseByVendorDetailReport extends
 	@Override
 	public void print() {
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 131, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 131, "",
 				"");
 	}
 
@@ -99,8 +98,8 @@ public class PurchaseByVendorDetailReport extends
 	public void exportToCsv() {
 
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 131, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 131, "",
 				"");
 	}
 

@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.core;
 
 @SuppressWarnings("serial")
 public class ClientBankAccount extends ClientAccount {
-	
+
 	private long bank;
 
 	private int bankAccountType;

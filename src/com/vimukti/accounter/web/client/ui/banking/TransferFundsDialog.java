@@ -347,7 +347,7 @@ public class TransferFundsDialog extends BaseDialog {
 		if (transferDate != null)
 
 			transferFund.setDate(((ClientFinanceDate) transferDate.getValue())
-					.getTime());
+					.getDate());
 		transferFund.setMemo(UIUtils.toStr(memoText.getValue()));
 		transferFund.setTransferFrom(accountFrom.getID());
 		transferFund.setTransferTo(accountTo.getID());

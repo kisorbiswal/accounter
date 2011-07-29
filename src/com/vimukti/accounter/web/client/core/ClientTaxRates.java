@@ -67,7 +67,7 @@ public class ClientTaxRates implements IAccounterCore {
 	}
 
 	public void setAsOf(ClientFinanceDate date) {
-		setAsOf(date.getTime());
+		setAsOf(date.getDate());
 	}
 
 	@Override

@@ -37,8 +37,7 @@ public class ReverseChargeListDetailReport extends
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		ReverseChargeList transactionDetails = (ReverseChargeList) data;
 		Accounter.createReportService().getReverseChargeListDetailReport(
-				transactionDetails.getName(), start.getTime(), end.getTime(),
-				this);
+				transactionDetails.getName(), start, end, this);
 		this.vatAgency = transactionDetails.getName();
 	}
 
@@ -56,8 +55,8 @@ public class ReverseChargeListDetailReport extends
 	public void print() {
 
 		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 145, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 145, "",
 				"", vatAgency);
 
 	}
@@ -101,8 +100,8 @@ public class ReverseChargeListDetailReport extends
 	public void exportToCsv() {
 
 		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getTime())),
-				Integer.parseInt(String.valueOf(endDate.getTime())), 145, "",
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 145, "",
 				"", vatAgency);
 	}
 

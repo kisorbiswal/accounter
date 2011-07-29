@@ -148,7 +148,8 @@ public class ViewManager extends DockPanel {
 	public VerticalPanel commentPanel;
 
 	@SuppressWarnings("serial")
-	private ViewManager() {
+	private ViewManager(MainFinanceWindow financeWindow) {
+		viewManagerInstance = this;
 		index = -1;
 		historyList = new ArrayList<History>() {
 			@Override
@@ -162,7 +163,7 @@ public class ViewManager extends DockPanel {
 			}
 
 		};
-		createControl();
+		createControl(financeWindow);
 		com.google.gwt.user.client.History
 				.addValueChangeHandler(new ValueChangeHandler<String>() {
 
@@ -178,8 +179,10 @@ public class ViewManager extends DockPanel {
 
 	/**
 	 * Creating GUI Controls
+	 * 
+	 * @param financeWindow
 	 */
-	private void createControl() {
+	private void createControl(final MainFinanceWindow financeWindow) {
 
 		HorizontalPanel statusLayout = new HorizontalPanel();
 		statusLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -387,7 +390,7 @@ public class ViewManager extends DockPanel {
 			public void add(Widget w) {
 				if (w instanceof BaseView) {
 					// remove(tempPanel);
-					MainFinanceWindow.getInstance().onLoad();
+					financeWindow.onLoad();
 				}
 				super.add(w);
 			}
@@ -615,7 +618,13 @@ public class ViewManager extends DockPanel {
 		// }
 
 		if (!actionExistsInHistory(action)) {
-			History history = new History(view, input, action, dependent);
+			History history = null;
+			if (input instanceof IAccounterCore) {
+				history = new History(view, (IAccounterCore) input, action,
+						dependent);
+			} else {
+				history = new History(view, null, action, dependent);
+			}
 			addToHistoryList(history);
 		}
 		if (input != null) {
@@ -993,10 +1002,6 @@ public class ViewManager extends DockPanel {
 	 */
 	public static ViewManager getInstance() {
 
-		if (viewManagerInstance == null) {
-			viewManagerInstance = new ViewManager();
-		}
-
 		return viewManagerInstance;
 	}
 
@@ -1007,7 +1012,7 @@ public class ViewManager extends DockPanel {
 	 */
 	public static ViewManager getInstance(boolean isSalesOrPurchases) {
 
-		return viewManagerInstance = new ViewManager();
+		return viewManagerInstance;
 
 	}
 
@@ -1143,7 +1148,7 @@ public class ViewManager extends DockPanel {
 		return false;
 	}
 
-	private void getPreviousView(Object viewOutPutData) {
+	private void getPreviousView(IAccounterCore viewOutPutData) {
 
 		// SC.logWarn("Get getPreviousView(data) Called....");
 
@@ -1719,9 +1724,15 @@ public class ViewManager extends DockPanel {
 
 	}
 
+	/**
+	 * Deletes the Object
+	 * 
+	 * @param core
+	 * @param coreType
+	 * @param widget
+	 */
 	public <A extends IAccounterCore> void deleteObject(final A core,
 			AccounterCoreType coreType, final IAccounterWidget widget) {
-
 		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
 				.processingRequest());
 

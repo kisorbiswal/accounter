@@ -29,39 +29,37 @@ public class VendorTransactionHistoryReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getVendorTransactionHistory(
-				start.getTime(), end.getTime(), this);
+		Accounter.createReportService().getVendorTransactionHistory(start, end,
+				this);
 	}
 
 	@Override
 	public void OnRecordClick(TransactionHistory record) {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(getType(record), record
-					.getTransactionId());
+			ReportsRPC.openTransactionView(getType(record),
+					record.getTransactionId());
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
-		
 
 	}
 
 	@Override
 	public void onEdit() {
-		
 
 	}
 
 	@Override
 	public void print() {
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 129, "", "");
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 129, "",
+				"");
 	}
 
 	@Override
 	public void printPreview() {
-		
 
 	}
 
@@ -76,8 +74,8 @@ public class VendorTransactionHistoryReport extends
 	}
 
 	public int sort(TransactionHistory obj1, TransactionHistory obj2, int col) {
-		int ret = obj1.getName().toLowerCase().compareTo(
-				obj2.getName().toLowerCase());
+		int ret = obj1.getName().toLowerCase()
+				.compareTo(obj2.getName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -95,22 +93,23 @@ public class VendorTransactionHistoryReport extends
 			// return obj1.getReference().toLowerCase().compareTo(
 			// obj2.getReference().toLowerCase());
 		case 4:
-			return obj1.getAccount().toLowerCase().compareTo(
-					obj2.getAccount().toLowerCase());
+			return obj1.getAccount().toLowerCase()
+					.compareTo(obj2.getAccount().toLowerCase());
 		case 5:
 			if (DecimalUtil.isEquals(obj1.getInvoicedAmount(), 0.0))
-				return UIUtils.compareDouble(obj1.getPaidAmount(), obj2
-						.getPaidAmount());
+				return UIUtils.compareDouble(obj1.getPaidAmount(),
+						obj2.getPaidAmount());
 			else
-				return UIUtils.compareDouble(obj1.getInvoicedAmount(), obj2
-						.getInvoicedAmount());
+				return UIUtils.compareDouble(obj1.getInvoicedAmount(),
+						obj2.getInvoicedAmount());
 		}
 		return 0;
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getTime())), Integer.parseInt(String
-				.valueOf(endDate.getTime())), 129, "", "");
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 129, "",
+				"");
 	}
 }
