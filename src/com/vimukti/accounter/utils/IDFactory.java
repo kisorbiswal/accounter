@@ -19,6 +19,10 @@ public class IDFactory {
 	 * @return String
 	 */
 	public synchronized static String createID() {
+		return createID(40);
+	}
+
+	public synchronized static String createID(int numOfChars) {
 		if (prng == null) {
 			try {
 				// Initialize SecureRandom
@@ -31,7 +35,7 @@ public class IDFactory {
 		}
 		String code = "abcdefghijklmnopqrstuvwxyz0123456789";
 		StringBuffer sb = new StringBuffer(40);
-		for (int x = 0; x < 40; x++) {
+		for (int x = 0; x < numOfChars; x++) {
 			sb.append(code.charAt(prng.nextInt(36)));
 		}
 
