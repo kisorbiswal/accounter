@@ -35,7 +35,7 @@ public class ActivationServlet extends BaseServlet {
 			// If it is null
 			if (activation == null) {
 				// set Error "Token has expired"
-				req.setAttribute("error", "Token has expired.");
+				req.setAttribute("message", "Token has expired.");
 			} else {
 				// otherwise
 				// set token in session.
@@ -59,12 +59,18 @@ public class ActivationServlet extends BaseServlet {
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		if (session == null) {
-			dispatchMessage("Token has expired.", req, resp, "");
+			dispatchMessage("Token has expired.", req, resp,
+					"resetpassword.jsp");
 			return;
 		}
 
 		// get token from session
 		String token = (String) session.getAttribute("activationToken");
+		if (token.isEmpty()) {
+			dispatchMessage("Token has expired.", req, resp,
+					"resetpassword.jsp");
+			return;
+		}
 		// get activation record from table
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
@@ -98,7 +104,8 @@ public class ActivationServlet extends BaseServlet {
 			deleteActivationTokens(activation.getEmailId());
 
 			// Send to login page with emailId
-			redirect(req, resp, "setup.jsp");
+			session.setAttribute("emailId", activation.getEmailId());
+			redirect(req, resp, "companysetup");
 		} catch (Exception e) {
 		} finally {
 			if (hibernateSession != null) {
