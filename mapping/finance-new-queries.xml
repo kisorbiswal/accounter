@@ -24,5 +24,13 @@
 		=:emailId
 
 	</query>
+	
+	<query name="get.companiesList.by.emailId.and.password">
+		<query-param name="emailId" type="String" />
+		<query-param name="password" type="String" />
+		from com.vimukti.accounter.core.Client client
+		where client.emailId
+		=:emailId and client.password=:password
+	</query>
 
 </hibernate-mapping>
