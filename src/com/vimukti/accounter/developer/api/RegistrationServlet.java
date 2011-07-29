@@ -50,6 +50,7 @@ public class RegistrationServlet extends BaseServlet {
 						resp);
 				return;
 			}
+
 			Developer developer = getDeveloper(client);
 			if (developer != null) {
 				sendApiInfoPage(developer, req, resp);
@@ -72,9 +73,9 @@ public class RegistrationServlet extends BaseServlet {
 	}
 
 	private void sendApiInfoPage(Developer developer, HttpServletRequest req,
-			HttpServletResponse resp) {
-		req.setAttribute("aPIKey", developer.getApiKey());
-		
+			HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("developer", developer);
+		req.getRequestDispatcher("/api/apiinfo.jsp").forward(req, resp);
 	}
 
 	private Developer getDeveloper(Client client) {
@@ -103,7 +104,15 @@ public class RegistrationServlet extends BaseServlet {
 				req.setAttribute("error", "Session has expired");
 				req.getRequestDispatcher("/sits/error.jsp").forward(req, resp);
 			}
-
+			if (!client.isActive()) {
+				req.setAttribute("error", "User Not Activated");
+				req.getRequestDispatcher("/sits/error.jsp").forward(req, resp);
+			}
+			Developer developer = getDeveloper(client);
+			if (developer != null) {
+				sendApiInfoPage(developer, req, resp);
+				return;
+			}
 			String applicationName = req.getParameter("applicationName");
 			String description = req.getParameter("description");
 			String integrationUrl = req.getParameter("integrationUrl");
@@ -116,12 +125,13 @@ public class RegistrationServlet extends BaseServlet {
 					applicationType, applicationUse)
 					|| !isValidInputs(MAIL_ID, developerEmailId)
 					|| !isValidInputs(PHONE_NO, contact)) {
-				Set<ServerCompany> companies = client.getCompanies();
-				List<String> companyList = new ArrayList<String>();
-				for (ServerCompany company : companies) {
-					companyList.add(company.getCompanyName());
-				}
-				req.setAttribute("companyList", companyList);
+				// Set<ServerCompany> companies = client.getCompanies();
+				// List<String> companyList = new ArrayList<String>();
+				// for (ServerCompany company : companies) {
+				// companyList.add(company.getCompanyName());
+				// }
+				// req.setAttribute("companyList", companyList);
+				req.setAttribute("error", "Invalid inputs");
 				req.getRequestDispatcher("/api/registration.jsp").forward(req,
 						resp);
 				return;
@@ -129,7 +139,7 @@ public class RegistrationServlet extends BaseServlet {
 			String apiKey = SecureUtils.createID();
 			String secretKey = SecureUtils.createID();
 
-			Developer developer = new Developer();
+			developer = new Developer();
 			developer.setApiKey(apiKey);
 			developer.setApplicationName(applicationName);
 			developer.setApplicationType(applicationType);
