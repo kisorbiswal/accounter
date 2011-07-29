@@ -25,16 +25,16 @@ public class NewVendorAction extends Action {
 
 	private int openedFrom;
 
-	public NewVendorAction(String text, String iconString) {
+	public NewVendorAction(String text) {
 		super(UIUtils.getVendorString(Accounter.constants().newSupplier(),
-				Accounter.constants().newVendor()), iconString);
+				Accounter.constants().newVendor()));
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	public NewVendorAction(String text, String iconString, ClientVendor vendor,
+	public NewVendorAction(String text, ClientVendor vendor,
 			AsyncCallback<Object> callback) {
-		super(text, iconString);
+		super(text);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}

@@ -15,8 +15,8 @@ public class PurchaseItemsAction extends Action {
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public PurchaseItemsAction(String text, String iconString, String catageory) {
-		super(text, iconString);
+	public PurchaseItemsAction(String text, String catageory) {
+		super(text);
 		this.catagory = catageory;
 	}
 

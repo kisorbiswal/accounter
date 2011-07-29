@@ -19,8 +19,8 @@ public class ExpensesAction extends Action {
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	public ExpensesAction(String text, String iconString, String viewType) {
-		super(text, iconString);
+	public ExpensesAction(String text, String viewType) {
+		super(text);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 		this.viewType = viewType;
@@ -45,10 +45,10 @@ public class ExpensesAction extends Action {
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.view;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

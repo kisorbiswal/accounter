@@ -21,12 +21,6 @@ public class VendorsHomeAction extends Action {
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	public VendorsHomeAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	//

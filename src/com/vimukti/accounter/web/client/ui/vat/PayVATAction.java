@@ -14,11 +14,6 @@ public class PayVATAction extends Action {
 		this.catagory = Accounter.constants().VAT();
 	}
 
-	public PayVATAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().VAT();
-	}
-
 	@Override
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.

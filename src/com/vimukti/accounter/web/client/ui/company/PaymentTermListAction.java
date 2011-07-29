@@ -13,10 +13,6 @@ public class PaymentTermListAction extends Action {
 		super(text);
 	}
 
-	public PaymentTermListAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// @Override
 	// public ParentCanvas<?> getView() {
 	// // NOTHING TO DO.

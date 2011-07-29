@@ -14,10 +14,6 @@ public class VendorsAction extends Action {
 		super(text);
 	}
 
-	public VendorsAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */

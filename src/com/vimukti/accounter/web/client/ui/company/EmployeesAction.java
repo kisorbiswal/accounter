@@ -14,14 +14,10 @@ public class EmployeesAction extends Action {
 		super(text);
 	}
 
-	public EmployeesAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
-//	@Override
-//	public ParentCanvas<?> getView() {
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

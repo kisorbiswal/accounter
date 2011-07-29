@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class BuyChecksAndFormsAction extends Action {
 
 	public BuyChecksAndFormsAction(String text, String iconString) {
-		super(text, iconString);
+		super(text);
 	}
 
 	/**
@@ -17,11 +17,10 @@ public class BuyChecksAndFormsAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

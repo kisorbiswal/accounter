@@ -21,11 +21,6 @@ public class ReceivedPaymentsAction extends Action {
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public ReceivedPaymentsAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().customer();
-	}
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		runAsync(data, isDependent);

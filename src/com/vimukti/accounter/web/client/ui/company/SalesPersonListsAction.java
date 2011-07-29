@@ -10,11 +10,6 @@ public class SalesPersonListsAction extends Action {
 
 	public SalesPersonListsAction(String text) {
 		super(text);
-
-	}
-
-	public SalesPersonListsAction(String text, String iconString) {
-		super(text, iconString);
 		this.catagory = Accounter.constants().company();
 	}
 

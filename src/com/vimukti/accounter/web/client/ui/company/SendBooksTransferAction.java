@@ -9,10 +9,6 @@ public class SendBooksTransferAction extends Action {
 		super(text);
 	}
 
-	public SendBooksTransferAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	// // NOTHING TO DO.

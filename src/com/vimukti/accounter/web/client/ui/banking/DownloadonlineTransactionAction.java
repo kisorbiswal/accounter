@@ -10,10 +10,6 @@ public class DownloadonlineTransactionAction extends Action {
 		super(text);
 	}
 
-	public DownloadonlineTransactionAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	/**
 	 * Runs this action with call back.The default implementation of this method
 	 * in <code>Action</code> does nothing.
@@ -21,11 +17,10 @@ public class DownloadonlineTransactionAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

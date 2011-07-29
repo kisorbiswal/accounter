@@ -14,7 +14,7 @@ public class ExpenseClaimsAction extends Action {
 	ExpenseClaims view;
 	int selectedTab;
 
-	public ExpenseClaimsAction(String text, String iconString, int selectedTab) {
+	public ExpenseClaimsAction(String text, int selectedTab) {
 		super(text);
 		this.selectedTab = selectedTab;
 	}
@@ -28,11 +28,12 @@ public class ExpenseClaimsAction extends Action {
 	public ImageResource getSmallImage() {
 		return null;
 	}
-//
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+
+	//
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

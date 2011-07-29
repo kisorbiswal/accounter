@@ -18,14 +18,14 @@ public class ReceivePaymentAction extends Action {
 
 	protected ReceivePaymentView view;
 
-	public ReceivePaymentAction(String text, String iconString) {
-		super(Accounter.constants().newReceivePayment(), iconString);
+	public ReceivePaymentAction(String text) {
+		super(Accounter.constants().newReceivePayment());
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public ReceivePaymentAction(String text, String iconString,
+	public ReceivePaymentAction(String text,
 			ClientReceivePayment receivePayment, AsyncCallback<Object> callback) {
-		super(text, iconString);
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 

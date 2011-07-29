@@ -14,15 +14,15 @@ public class EmployeeExpenseAction extends Action {
 
 	EmployeeExpenseView view;
 
-	public EmployeeExpenseAction(String text, String iconString) {
-		super(text, iconString);
+	public EmployeeExpenseAction(String text) {
+		super(text);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	public EmployeeExpenseAction(String text, String icon, ClientVendor vendor,
+	public EmployeeExpenseAction(String text, ClientVendor vendor,
 			AsyncCallback<Object> callback) {
-		super(text, icon);
+		super(text);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
@@ -62,11 +62,10 @@ public class EmployeeExpenseAction extends Action {
 		return Accounter.getFinanceMenuImages().newCashPurchage();
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.view;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	@Override
 	public ImageResource getBigImage() {
@@ -74,10 +73,10 @@ public class EmployeeExpenseAction extends Action {
 		return null;
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/new_cash_purchase.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/new_cash_purchase.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

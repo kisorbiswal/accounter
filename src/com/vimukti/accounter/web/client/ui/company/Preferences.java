@@ -10,11 +10,6 @@ public class Preferences extends Action {
 
 	}
 
-	public Preferences(String text, String iconString) {
-		super(text, iconString);
-
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	// return null;

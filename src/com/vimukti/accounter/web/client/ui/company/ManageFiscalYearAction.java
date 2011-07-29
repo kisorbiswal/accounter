@@ -10,15 +10,11 @@ public class ManageFiscalYearAction extends Action {
 		super(text);
 	}
 
-	public ManageFiscalYearAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
-//	@Override
-//	public ParentCanvas<?> getView() {
-//		// NOTHING TO DO.
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -36,10 +32,10 @@ public class ManageFiscalYearAction extends Action {
 		return Accounter.getFinanceMenuImages().manageFiscalYear();
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/manage_fiscal_year.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/manage_fiscal_year.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

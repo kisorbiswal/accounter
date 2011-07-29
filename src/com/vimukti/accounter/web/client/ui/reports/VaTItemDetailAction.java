@@ -15,11 +15,6 @@ public class VaTItemDetailAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	public VaTItemDetailAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().report();
-	}
-
 	@Override
 	public ImageResource getBigImage() {
 		return null;

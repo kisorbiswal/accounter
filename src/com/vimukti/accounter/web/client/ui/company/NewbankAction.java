@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
 
 public class NewbankAction extends Action {
 
-	public NewbankAction(String text, String iconString) {
-		super(text, iconString);
+	public NewbankAction(String text) {
+		super(text);
 
 	}
 

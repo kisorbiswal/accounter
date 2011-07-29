@@ -14,11 +14,6 @@ public class PurchaseClosedOrderAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	public PurchaseClosedOrderAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().report();
-	}
-
 	@Override
 	public ImageResource getBigImage() {
 		// Nothing to do

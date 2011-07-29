@@ -15,11 +15,6 @@ public class WriteLettersAction extends Action {
 
 	}
 
-	public WriteLettersAction(String text, String iconString) {
-		super(text, iconString);
-
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	//

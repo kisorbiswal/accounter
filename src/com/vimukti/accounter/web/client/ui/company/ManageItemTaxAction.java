@@ -13,16 +13,11 @@ public class ManageItemTaxAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	public ManageItemTaxAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().company();
-	}
-
-//	@Override
-//	public ParentCanvas<?> getView() {
-//		// NOTHING TO DO.
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

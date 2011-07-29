@@ -9,10 +9,6 @@ public class StopOnlineSharingTransferAction extends Action {
 		super(text);
 	}
 
-	public StopOnlineSharingTransferAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	// // NOTHING TO DO.

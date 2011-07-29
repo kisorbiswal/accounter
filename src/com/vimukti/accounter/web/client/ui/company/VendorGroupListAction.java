@@ -15,10 +15,6 @@ public class VendorGroupListAction extends Action {
 		super(text);
 	}
 
-	public VendorGroupListAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// // its not using any where
 	// @Override
 	// public ParentCanvas<?> getView() {

@@ -16,17 +16,16 @@ public class CreditCardChargeAction extends Action {
 	// private ClientCreditCardCharge creditCardCharge;
 	protected CreditCardChargeView view;
 
-	public CreditCardChargeAction(String text, String iconString) {
-		super(Accounter.constants().newCreditCardCharge(),
-				text);
+	public CreditCardChargeAction(String text) {
+		super(Accounter.constants().newCreditCardCharge());
 		this.catagory = Accounter.constants().banking();
 
 	}
 
-	public CreditCardChargeAction(String text, String iconString,
+	public CreditCardChargeAction(String text,
 			ClientCreditCardCharge creditCardCharge,
 			AsyncCallback<Object> callback) {
-		super(text, iconString);
+		super(text);
 		this.catagory = Accounter.constants().banking();
 	}
 
@@ -60,11 +59,10 @@ public class CreditCardChargeAction extends Action {
 		});
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.view;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	public ImageResource getBigImage() {
 		return null;
@@ -74,11 +72,11 @@ public class CreditCardChargeAction extends Action {
 		return Accounter.getFinanceMenuImages().newCreditCardCharge();
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		
-//		return "/images/credit_card_charge.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	//		
+	// return "/images/credit_card_charge.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

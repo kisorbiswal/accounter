@@ -19,10 +19,6 @@ public class PriceLevelListAction extends Action {
 		super(text);
 	}
 
-	public PriceLevelListAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// @Override
 	// public ParentCanvas<?> getView() {
 	//

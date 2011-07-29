@@ -10,10 +10,6 @@ public class TaxDialogAction extends Action {
 		super(text);
 	}
 
-	public TaxDialogAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	// return null;

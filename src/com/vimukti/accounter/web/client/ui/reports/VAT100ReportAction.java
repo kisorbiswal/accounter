@@ -16,11 +16,6 @@ public class VAT100ReportAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	public VAT100ReportAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().report();
-	}
-
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */

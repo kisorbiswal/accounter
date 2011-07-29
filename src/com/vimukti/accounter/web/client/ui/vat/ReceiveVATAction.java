@@ -20,11 +20,6 @@ public class ReceiveVATAction extends Action {
 		this.catagory = Accounter.constants().VAT();
 	}
 
-	public ReceiveVATAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().VAT();
-	}
-
 	@Override
 	public ImageResource getBigImage() {
 		// its not using any where return null;

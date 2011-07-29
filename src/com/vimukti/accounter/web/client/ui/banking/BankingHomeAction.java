@@ -10,8 +10,8 @@ public class BankingHomeAction extends Action {
 
 	private BankingSectionHomeView view;
 
-	public BankingHomeAction(String text, String iconString) {
-		super(text, iconString);
+	public BankingHomeAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().banking();
 	}
 
@@ -22,11 +22,10 @@ public class BankingHomeAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.view;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -36,8 +35,8 @@ public class BankingHomeAction extends Action {
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.constants()
-					.failedToLoadBankingHome());
+			Accounter
+					.showError(Accounter.constants().failedToLoadBankingHome());
 		}
 	}
 
@@ -49,10 +48,10 @@ public class BankingHomeAction extends Action {
 		return Accounter.getFinanceMenuImages().bankingHome();
 	}
 
-//	@Override
-//	public String getImageUrl() {		
-//		return "/images/banking_home.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/banking_home.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

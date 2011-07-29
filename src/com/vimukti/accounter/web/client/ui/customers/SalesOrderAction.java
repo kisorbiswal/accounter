@@ -13,14 +13,14 @@ public class SalesOrderAction extends Action {
 
 	private SalesOrderView view;
 
-	public SalesOrderAction(String text, String icon) {
-		super(text, icon);
+	public SalesOrderAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public SalesOrderAction(String text, String icon,
-			ClientSalesOrder salesOrder, AsyncCallback<Object> callback) {
-		super(text, icon);
+	public SalesOrderAction(String text, ClientSalesOrder salesOrder,
+			AsyncCallback<Object> callback) {
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 

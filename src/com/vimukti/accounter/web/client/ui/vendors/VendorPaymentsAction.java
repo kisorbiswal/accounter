@@ -14,12 +14,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
  */
 public class VendorPaymentsAction extends Action {
 
-	public VendorPaymentsAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
-	}
-
 	public VendorPaymentsAction(String text) {
 		super(text);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()

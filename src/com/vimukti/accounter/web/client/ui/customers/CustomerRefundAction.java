@@ -18,14 +18,14 @@ public class CustomerRefundAction extends Action {
 
 	protected CustomerRefundView view;
 
-	public CustomerRefundAction(String text, String iconString) {
-		super(text, iconString);
+	public CustomerRefundAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public CustomerRefundAction(String text, String iconString,
+	public CustomerRefundAction(String text,
 			ClientCustomerRefund customerRefund, AsyncCallback<Object> callBack) {
-		super(text, iconString);
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 
@@ -58,11 +58,10 @@ public class CustomerRefundAction extends Action {
 		});
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.view;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO
@@ -73,10 +72,10 @@ public class CustomerRefundAction extends Action {
 		return Accounter.getFinanceMenuImages().newCustomerRefund();
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/customer_refunds.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/customer_refunds.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

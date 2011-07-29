@@ -16,11 +16,6 @@ public class ECSalesListAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	public ECSalesListAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().report();
-	}
-
 	@Override
 	public ImageResource getBigImage() {
 		return null;
@@ -31,11 +26,10 @@ public class ECSalesListAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.report;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.report;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -64,10 +58,10 @@ public class ECSalesListAction extends Action {
 
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/reports.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/reports.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

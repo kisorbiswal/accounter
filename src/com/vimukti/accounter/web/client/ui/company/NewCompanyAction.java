@@ -10,10 +10,6 @@ public class NewCompanyAction extends Action {
 		super(text);
 	}
 
-	public NewCompanyAction(String text, String icon) {
-		super(text, icon);
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	// // NOTHING TO DO.

@@ -26,22 +26,21 @@ public class NewItemAction extends Action {
 	public static final int TYPE_SERVICE = 1;
 	public static final int NON_INVENTORY_PART = 3;
 
-	public NewItemAction(String text, String iconString) {
-		super(text, iconString);
+	public NewItemAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().company();
 	}
 
-	public NewItemAction(String text, String iconString,
-			boolean isGeneratedFromCustomer) {
-		super(text, iconString);
+	public NewItemAction(String text, boolean isGeneratedFromCustomer) {
+		super(text);
 		this.catagory = Accounter.constants().company();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		// this.baseView = baseView;
 	}
 
-	public NewItemAction(String text, String iconString, ClientItem item,
+	public NewItemAction(String text, ClientItem item,
 			AsyncCallback<Object> callback, boolean isGeneratedFromCustomer) {
-		super(text, iconString);
+		super(text);
 		this.catagory = Accounter.constants().company();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		// this.baseView = baseView;

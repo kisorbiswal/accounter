@@ -19,16 +19,10 @@ public class CustomersHomeAction extends Action {
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public CustomersHomeAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().customer();
-	}
-
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.view;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -50,11 +44,12 @@ public class CustomersHomeAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().customersHome();
 	}
-//	@Override
-//	public String getImageUrl() {
-//		
-//		return "/images/customers_home.png";
-//	}
+
+	// @Override
+	// public String getImageUrl() {
+	//		
+	// return "/images/customers_home.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

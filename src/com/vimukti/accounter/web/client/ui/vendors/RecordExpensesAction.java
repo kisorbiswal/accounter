@@ -15,10 +15,6 @@ public class RecordExpensesAction extends Action {
 		super(text);
 	}
 
-	public RecordExpensesAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	//

@@ -11,11 +11,6 @@ public class ViewSalesTaxLiabilityAction extends Action {
 
 	}
 
-	public ViewSalesTaxLiabilityAction(String text, String iconString) {
-		super(text, iconString);
-
-	}
-
 	// @Override
 	// public ParentCanvas<?> getView() {
 	//

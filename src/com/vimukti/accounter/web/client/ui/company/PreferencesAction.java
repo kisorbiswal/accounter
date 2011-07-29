@@ -8,8 +8,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class PreferencesAction extends Action {
 	private CompanyPreferencesView view;
 
-	public PreferencesAction(String text, String iconString) {
-		super(text, iconString);
+	public PreferencesAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().company();
 	}
 

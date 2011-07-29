@@ -18,14 +18,14 @@ public class NewCashSaleAction extends Action {
 
 	protected CashSalesView view;
 
-	public NewCashSaleAction(String text, String iconString) {
-		super(text, iconString);
+	public NewCashSaleAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public NewCashSaleAction(String text, String iconString,
-			ClientCashSales cashSales, AsyncCallback<Object> callback) {
-		super(text, iconString);
+	public NewCashSaleAction(String text, ClientCashSales cashSales,
+			AsyncCallback<Object> callback) {
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 

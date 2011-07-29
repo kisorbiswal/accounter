@@ -13,14 +13,14 @@ public class AccountRegisterAction extends Action {
 
 	private ClientAccount account;
 
-	public AccountRegisterAction(String text, String icon, ClientAccount account) {
-		super(text, icon);
+	public AccountRegisterAction(String text, ClientAccount account) {
+		super(text);
 		this.account = account;
 		this.catagory = Accounter.constants().banking();
 	}
 
-	public AccountRegisterAction(String text, String icon) {
-		super(text, icon);
+	public AccountRegisterAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().banking();
 	}
 
@@ -72,12 +72,10 @@ public class AccountRegisterAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	
 	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
-
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 	public ImageResource getBigImage() {
 		return null;
 	}

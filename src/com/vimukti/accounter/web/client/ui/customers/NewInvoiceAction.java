@@ -18,14 +18,14 @@ public class NewInvoiceAction extends Action {
 
 	protected InvoiceView view;
 
-	public NewInvoiceAction(String text, String iconString) {
-		super(text, iconString);
+	public NewInvoiceAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public NewInvoiceAction(String text, String iconString,
-			ClientInvoice invoice, AsyncCallback<Object> callback) {
-		super(text, iconString);
+	public NewInvoiceAction(String text, ClientInvoice invoice,
+			AsyncCallback<Object> callback) {
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 

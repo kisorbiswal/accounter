@@ -19,12 +19,6 @@ public class NewPayeeAction extends Action {
 
 	}
 
-	public NewPayeeAction(String text, String iconString,
-			AbstractBaseView baseView) {
-		super(text, iconString);
-
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	// // NOTHING TO DO.

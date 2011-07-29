@@ -14,10 +14,6 @@ public class ServicesOverviewAction extends Action {
 		super(text);
 	}
 
-	public ServicesOverviewAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// its not using any where
 
 	// @Override

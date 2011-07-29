@@ -5,11 +5,11 @@ import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 
 public class NewCustomerItemAction extends NewItemAction {
 
-	public NewCustomerItemAction(String text, String iconString) {
-		super(text, iconString, true);
+	public NewCustomerItemAction(String text) {
+		super(text, true);
 		this.catagory = Accounter.constants().customer();
 	}
-	
+
 	@Override
 	public String getHistoryToken() {
 		return "newCustomerItem";

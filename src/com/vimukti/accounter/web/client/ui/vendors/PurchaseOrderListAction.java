@@ -18,12 +18,6 @@ public class PurchaseOrderListAction extends Action {
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	public PurchaseOrderListAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
-	}
-
 	// @Override
 	// public ParentCanvas<?> getView() {
 	// return this.view;

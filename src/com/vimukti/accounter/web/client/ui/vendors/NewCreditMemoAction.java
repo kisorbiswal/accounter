@@ -26,16 +26,10 @@ public class NewCreditMemoAction extends Action {
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	public NewCreditMemoAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
-	}
-
-	public NewCreditMemoAction(String newCreditMemo, String string,
+	public NewCreditMemoAction(String newCreditMemo,
 			ClientVendorCreditMemo vendorCreditMemo,
 			AsyncCallback<Object> callBack) {
-		super(newCreditMemo, string);
+		super(newCreditMemo);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}

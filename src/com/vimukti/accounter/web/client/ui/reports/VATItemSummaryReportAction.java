@@ -13,11 +13,6 @@ public class VATItemSummaryReportAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	public VATItemSummaryReportAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().report();
-	}
-
 	@Override
 	public ImageResource getBigImage() {
 

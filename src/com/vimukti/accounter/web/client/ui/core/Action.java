@@ -17,9 +17,8 @@ public abstract class Action {
 	 */
 	private String toolTipText;
 
-	private String iconString;
+	// private String iconString;
 
-	
 	public String catagory = "";
 
 	private FormItem formItemResponsibleForAction;
@@ -39,10 +38,10 @@ public abstract class Action {
 	 * @param text
 	 * @param iconString
 	 */
-	public Action(String text, String iconString) {
-		setText(text);
-		setIcon(iconString);
-	}
+	// public Action(String text, String iconString) {
+	// setText(text);
+	// setIcon(iconString);
+	// }
 
 	/**
 	 * Returns the text for this action.
@@ -67,9 +66,9 @@ public abstract class Action {
 	 * 
 	 * @return String
 	 */
-	public String getIconString() {
-		return iconString;
-	}
+	// public String getIconString() {
+	// return iconString;
+	// }
 
 	/**
 	 * Runs this action. Each action implementation must define the steps needed
@@ -108,9 +107,9 @@ public abstract class Action {
 	 * 
 	 * @param iconString
 	 */
-	public void setIcon(String iconString) {
-		this.iconString = iconString;
-	}
+	// public void setIcon(String iconString) {
+	// this.iconString = iconString;
+	// }
 
 	public String getCatagory() {
 		return catagory;
@@ -145,8 +144,8 @@ public abstract class Action {
 
 		else {
 
-			boolean isSameClass = object.getClass().getName()
-					.equals(this.getClass().getName());
+			boolean isSameClass = object.getClass().getName().equals(
+					this.getClass().getName());
 
 			// boolean hasSameHashCode = object.hashCode() == this.hashCode();
 

@@ -21,11 +21,6 @@ public class MostProfitableCustomersAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	public MostProfitableCustomersAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().report();
-	}
-
 	public void runAsync(final Object data, final Boolean isDependent) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
@@ -49,11 +44,10 @@ public class MostProfitableCustomersAction extends Action {
 
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.report;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.report;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -68,10 +62,10 @@ public class MostProfitableCustomersAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/reports.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/reports.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

@@ -10,14 +10,14 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
 
 public class TransferFundsAction extends Action {
 
-	public TransferFundsAction(String text, String iconString) {
-		super(text, iconString);
+	public TransferFundsAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().banking();
 	}
 
-	public TransferFundsAction(String text, String iconString,
-			ClientTransferFund transferFund, AsyncCallback<Object> callback) {
-		super(text, iconString);
+	public TransferFundsAction(String text, ClientTransferFund transferFund,
+			AsyncCallback<Object> callback) {
+		super(text);
 		this.catagory = Accounter.constants().banking();
 	}
 

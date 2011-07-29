@@ -11,8 +11,8 @@ public class PurchaseByItemSummaryAction extends Action {
 
 	protected PurchaseByItemSummaryReport report;
 
-	public PurchaseByItemSummaryAction(String text, String iconString) {
-		super(text, iconString);
+	public PurchaseByItemSummaryAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().report();
 	}
 

@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class NewItemTaxAction extends Action {
 
 	public NewItemTaxAction(String text, String iconString) {
-		super(text, iconString);
+		super(text);
 	}
 
 	// @Override

@@ -11,14 +11,14 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
 
 public class WriteChecksAction extends Action {
 
-	public WriteChecksAction(String text, String iconString) {
-		super(text, iconString);
+	public WriteChecksAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().banking();
 	}
 
-	public WriteChecksAction(String text, String iconString,
-			ClientWriteCheck writeCheck, AsyncCallback<Object> callback) {
-		super(text, iconString);
+	public WriteChecksAction(String text, ClientWriteCheck writeCheck,
+			AsyncCallback<Object> callback) {
+		super(text);
 		this.catagory = Accounter.constants().banking();
 	}
 

@@ -17,11 +17,6 @@ public class SalesPersonAction extends Action {
 		this.catagory = Accounter.constants().salesPerson();
 	}
 
-	public SalesPersonAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().salesPerson();
-	}
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		runAsync(data, isDependent);

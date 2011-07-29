@@ -9,11 +9,6 @@ public class OpenSelectedItemsAction extends Action {
 		super(text);
 	}
 
-	public OpenSelectedItemsAction(String text, String iconString) {
-		super(text, iconString);
-
-	}
-
 	// @Override
 	// public ParentCanvas<?> getView() {
 	// // NOTHING TO DO.

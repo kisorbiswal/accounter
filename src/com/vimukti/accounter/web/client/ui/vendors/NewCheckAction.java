@@ -24,12 +24,6 @@ public class NewCheckAction extends Action {
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	public NewCheckAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
-	}
-
 	//
 	// @Override
 	// public ParentCanvas getView() {

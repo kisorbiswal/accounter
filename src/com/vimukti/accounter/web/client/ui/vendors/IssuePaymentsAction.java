@@ -17,22 +17,16 @@ public class IssuePaymentsAction extends Action {
 		super(text);
 	}
 
-	public IssuePaymentsAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		// NOTHING TO DO.
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		new IssuePaymentDialog(Accounter.constants()
-				.selectPaymentsToIssue(), Accounter.constants()
-				.selectPaymentMethod()).show();
+		new IssuePaymentDialog(Accounter.constants().selectPaymentsToIssue(),
+				Accounter.constants().selectPaymentMethod()).show();
 		// MainFinanceWindow.getViewManager().showView(view, data, isDependent,
 		// IssuePaymentsAction.this);
 	}
@@ -46,10 +40,10 @@ public class IssuePaymentsAction extends Action {
 		return Accounter.getFinanceMenuImages().issuePayment();
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/issue_payment.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/issue_payment.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

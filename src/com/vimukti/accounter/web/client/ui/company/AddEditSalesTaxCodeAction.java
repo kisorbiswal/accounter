@@ -20,16 +20,10 @@ public class AddEditSalesTaxCodeAction extends Action {
 		title = Accounter.constants().taxCode();
 	}
 
-	public AddEditSalesTaxCodeAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().company();
-		title = Accounter.constants().taxCode();
-	}
-
-//	@Override
-//	public ParentCanvas<?> getView() {
-//		return this.view;
-//	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// return this.view;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

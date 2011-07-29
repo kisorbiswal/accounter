@@ -18,14 +18,14 @@ public class NewQuoteAction extends Action {
 
 	protected QuoteView view;
 
-	public NewQuoteAction(String text, String icon) {
-		super(text, icon);
+	public NewQuoteAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public NewQuoteAction(String text, String iconString, ClientEstimate quote,
+	public NewQuoteAction(String text, ClientEstimate quote,
 			AsyncCallback<Object> callback) {
-		super(text, iconString);
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 

@@ -18,13 +18,8 @@ public class NewSalesperSonAction extends Action {
 
 	private boolean isEdit;
 
-	public NewSalesperSonAction(String icon) {
-		super(Accounter.constants().newSalesPerson(), icon);
-		this.catagory = Accounter.constants().company();
-	}
-
-	public NewSalesperSonAction(String text, String iconString) {
-		super(text, iconString);
+	public NewSalesperSonAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().company();
 	}
 

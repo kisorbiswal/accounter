@@ -16,11 +16,6 @@ public class ChartsOfAccountsAction extends Action {
 		this.catagory = Accounter.constants().banking();
 	}
 
-	public ChartsOfAccountsAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().banking();
-	}
-
 	public void runAsync(final Object data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
 
@@ -44,11 +39,10 @@ public class ChartsOfAccountsAction extends Action {
 		});
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.view;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -63,10 +57,10 @@ public class ChartsOfAccountsAction extends Action {
 		return Accounter.getFinanceMenuImages().cahrtOfAccounts();
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/chart_of_accounts.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/chart_of_accounts.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

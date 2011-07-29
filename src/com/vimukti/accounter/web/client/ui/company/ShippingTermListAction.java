@@ -19,10 +19,6 @@ public class ShippingTermListAction extends Action {
 		super(text);
 	}
 
-	public ShippingTermListAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// @Override
 	// public ParentCanvas<?> getView() {
 	// return null;

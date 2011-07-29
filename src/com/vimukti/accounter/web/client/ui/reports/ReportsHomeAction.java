@@ -17,10 +17,6 @@ public class ReportsHomeAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	public ReportsHomeAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	//

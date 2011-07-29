@@ -16,11 +16,6 @@ public class PaySalesTaxAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	public PaySalesTaxAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().company();
-	}
-
 	// @Override
 	// public ParentCanvas<?> getView() {
 	// // NOTHING TO DO.

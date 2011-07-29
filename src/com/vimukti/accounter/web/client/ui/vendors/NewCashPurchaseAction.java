@@ -26,15 +26,9 @@ public class NewCashPurchaseAction extends Action {
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	public NewCashPurchaseAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
-	}
-
-	public NewCashPurchaseAction(String newCashPurchase, String string,
+	public NewCashPurchaseAction(String newCashPurchase,
 			ClientCashPurchase cashPurchase, AsyncCallback<Object> callback) {
-		super(newCashPurchase, string);
+		super(newCashPurchase);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}

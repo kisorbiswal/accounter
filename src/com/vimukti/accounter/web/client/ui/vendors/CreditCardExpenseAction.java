@@ -14,15 +14,15 @@ public class CreditCardExpenseAction extends Action {
 
 	CreditCardExpenseView view;
 
-	public CreditCardExpenseAction(String text, String iconString) {
-		super(text, iconString);
+	public CreditCardExpenseAction(String text) {
+		super(text);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	public CreditCardExpenseAction(String text, String icon,
-			ClientVendor vendor, AsyncCallback<Object> callback) {
-		super(text, icon);
+	public CreditCardExpenseAction(String text, ClientVendor vendor,
+			AsyncCallback<Object> callback) {
+		super(text);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
@@ -62,12 +62,11 @@ public class CreditCardExpenseAction extends Action {
 		return Accounter.getFinanceMenuImages().newCreditCardCharge();
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//
-//		return this.view;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	//
+	// return this.view;
+	// }
 
 	@Override
 	public ImageResource getBigImage() {
@@ -75,10 +74,10 @@ public class CreditCardExpenseAction extends Action {
 		return null;
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/credit_card_charge.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/credit_card_charge.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

@@ -12,11 +12,6 @@ public class AcceptCreditCardsAction extends Action {
 		this.catagory = Accounter.constants().banking();
 	}
 
-	public AcceptCreditCardsAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().banking();
-	}
-
 	// @Override
 	// public void run() {
 	//
@@ -29,11 +24,11 @@ public class AcceptCreditCardsAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-//	@Override
-//	public ParentCanvas getView() {
-//		// NOTHING TO DO.
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

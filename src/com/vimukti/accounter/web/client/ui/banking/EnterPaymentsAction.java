@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class EnterPaymentsAction extends Action {
 
-	public EnterPaymentsAction(String text, String iconString) {
-		super(text, iconString);
+	public EnterPaymentsAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().banking();
 	}
 
@@ -19,12 +19,11 @@ public class EnterPaymentsAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		// NOTHING TO DO
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // NOTHING TO DO
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

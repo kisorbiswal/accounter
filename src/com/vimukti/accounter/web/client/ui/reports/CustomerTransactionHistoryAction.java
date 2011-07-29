@@ -21,11 +21,6 @@ public class CustomerTransactionHistoryAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	public CustomerTransactionHistoryAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().report();
-	}
-
 	public void runAsync(final Object data, final Boolean dependent) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
@@ -54,11 +49,10 @@ public class CustomerTransactionHistoryAction extends Action {
 		runAsync(data, dependent);
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.report;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.report;
+	// }
 
 	public ImageResource getBigImage() {
 		return null;
@@ -68,10 +62,10 @@ public class CustomerTransactionHistoryAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/reports.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/reports.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

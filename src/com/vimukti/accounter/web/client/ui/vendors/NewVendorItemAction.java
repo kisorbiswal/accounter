@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 
 public class NewVendorItemAction extends NewItemAction {
 
-	public NewVendorItemAction(String text, String iconString) {
-		super(text, iconString, false);
+	public NewVendorItemAction(String text) {
+		super(text, false);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}

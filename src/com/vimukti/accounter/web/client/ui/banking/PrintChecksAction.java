@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PrintChecksAction extends Action {
 
-	public PrintChecksAction(String text, String iconString) {
-		super(text, iconString);
+	public PrintChecksAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().banking();
 	}
 

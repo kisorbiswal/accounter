@@ -11,23 +11,18 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class CreateStatementAction extends Action {
 
-	
 	private boolean isEdit;
 
 	public CreateStatementAction(String text) {
 		super(text);
 	}
 
-	public CreateStatementAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
-//	
-//	@Override
-//	public ParentCanvas getView() {
-//		// its not using any where
-//		return null;
-//	}
+	//	
+	// @Override
+	// public ParentCanvas getView() {
+	// // its not using any where
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

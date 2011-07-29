@@ -9,10 +9,6 @@ public class ReceiveBooksTransferAction extends Action {
 		super(text);
 	}
 
-	public ReceiveBooksTransferAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	// // NOTHING TO DO.

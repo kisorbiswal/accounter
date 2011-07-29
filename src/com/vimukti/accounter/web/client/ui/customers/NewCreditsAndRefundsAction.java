@@ -18,14 +18,14 @@ public class NewCreditsAndRefundsAction extends Action {
 
 	protected CustomerCreditMemoView view;
 
-	public NewCreditsAndRefundsAction(String text, String iconString) {
-		super(text, iconString);
+	public NewCreditsAndRefundsAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public NewCreditsAndRefundsAction(String text, String iconString,
+	public NewCreditsAndRefundsAction(String text,
 			ClientCustomerCreditMemo creditMemo, AsyncCallback<Object> callback) {
-		super(text, iconString);
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 

@@ -28,11 +28,6 @@ public class NewTAXAgencyAction extends Action {
 		this.catagory = flag;
 	}
 
-	public NewTAXAgencyAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().company();
-	}
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 

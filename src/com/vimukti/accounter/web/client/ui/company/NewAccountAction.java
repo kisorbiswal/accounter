@@ -21,13 +21,6 @@ public class NewAccountAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	public NewAccountAction(String text, String iconString) {
-
-		super(text, iconString);
-		this.catagory = Accounter.constants().company();
-
-	}
-
 	// public void setBaseCanvas(AbstractBaseView<?> baseView) {
 	// this.baseView = baseView;
 	//

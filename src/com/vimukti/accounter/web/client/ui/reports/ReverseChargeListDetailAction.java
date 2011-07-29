@@ -16,11 +16,6 @@ public class ReverseChargeListDetailAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	public ReverseChargeListDetailAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().report();
-	}
-
 	@Override
 	public ImageResource getBigImage() {
 		return null;

@@ -13,9 +13,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallBack;
 public class NewBankAccountAction extends Action {
 	private List<Integer> accountTypes;
 
-	public NewBankAccountAction(String text, String iconString) {
-
-		super(text, iconString);
+	public NewBankAccountAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().banking();
 
 	}

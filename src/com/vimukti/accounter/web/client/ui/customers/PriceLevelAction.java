@@ -16,11 +16,6 @@ public class PriceLevelAction extends Action {
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public PriceLevelAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().customer();
-	}
-
 	// @Override
 	// public ParentCanvas getView() {
 	// // NOTHING TO DO.

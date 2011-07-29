@@ -14,11 +14,6 @@ public class DepositDetailAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	public DepositDetailAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().report();
-	}
-
 	public void runAsync(final Object data, final Boolean isDependent) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {
@@ -47,12 +42,11 @@ public class DepositDetailAction extends Action {
 		runAsync(data, isDependent);
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		// NOTHING TO DO
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // NOTHING TO DO
+	// return null;
+	// }
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO
@@ -64,10 +58,10 @@ public class DepositDetailAction extends Action {
 
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/reports.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/reports.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

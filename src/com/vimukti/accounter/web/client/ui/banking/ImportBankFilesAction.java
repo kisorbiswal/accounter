@@ -12,11 +12,6 @@ public class ImportBankFilesAction extends Action {
 		this.catagory = Accounter.constants().banking();
 	}
 
-	public ImportBankFilesAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().banking();
-	}
-
 	/**
 	 * Runs this action with call back.The default implementation of this method
 	 * in <code>Action</code> does nothing.
@@ -24,12 +19,11 @@ public class ImportBankFilesAction extends Action {
 	public void run(AsyncCallback<Object> asyncCallback) {
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		// NOTHING TO DO.
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

@@ -19,10 +19,6 @@ public class ShippingMethodListAction extends Action {
 		super(text);
 	}
 
-	public ShippingMethodListAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// @Override
 	// public ParentCanvas<?> getView() {
 	// return null;

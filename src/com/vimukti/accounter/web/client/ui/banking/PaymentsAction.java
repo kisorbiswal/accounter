@@ -15,11 +15,6 @@ public class PaymentsAction extends Action {
 		this.catagory = Accounter.constants().banking();
 	}
 
-	public PaymentsAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().banking();
-	}
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 

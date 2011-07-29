@@ -10,10 +10,6 @@ public class ServicesOverviewAction extends Action {
 		super(text);
 	}
 
-	public ServicesOverviewAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	/**
 	 * Runs this action with call back.The default implementation of this method
 	 * in <code>Action</code> does nothing.

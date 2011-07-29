@@ -17,21 +17,16 @@ public class CompanyHomeAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	public CompanyHomeAction(String text, String iconString) {
-		super(text, iconString);
+	public CompanyHomeAction(String text, IsSerializable editableObject,
+			AsyncCallback<Object> callbackObject) {
+		super(text);
 		this.catagory = Accounter.constants().company();
 	}
 
-	public CompanyHomeAction(String text, String iconString,
-			IsSerializable editableObject, AsyncCallback<Object> callbackObject) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().company();
-	}
-
-//	@Override
-//	public ParentCanvas<?> getView() {
-//		return this.view;
-//	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// return this.view;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -41,8 +36,8 @@ public class CompanyHomeAction extends Action {
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.constants()
-					.failedToLoadCompanyHome());
+			Accounter
+					.showError(Accounter.constants().failedToLoadCompanyHome());
 		}
 	}
 

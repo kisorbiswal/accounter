@@ -11,22 +11,16 @@ public class ManageCreditCardProcessingAction extends Action {
 		this.catagory = Accounter.constants().banking();
 	}
 
-	public ManageCreditCardProcessingAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().banking();
-	}
-
 	/**
 	 * Runs this action with call back.The default implementation of this method
 	 * in <code>Action</code> does nothing.
 	 */
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		// NOTHING TO DO.
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {

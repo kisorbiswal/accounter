@@ -18,12 +18,6 @@ public class NewItemReceiptAction extends Action {
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	public NewItemReceiptAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
-	}
-
 	@Override
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.

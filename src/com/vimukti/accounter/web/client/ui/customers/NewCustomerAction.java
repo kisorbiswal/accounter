@@ -13,15 +13,15 @@ public class NewCustomerAction extends Action {
 
 	private CustomerView view;
 
-	public NewCustomerAction(String text, String icon) {
-		super(text, icon);
+	public NewCustomerAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().customer();
 		super.setToolTip(Accounter.constants().customer());
 	}
 
-	public NewCustomerAction(String text, String icon, ClientCustomer customer,
+	public NewCustomerAction(String text, ClientCustomer customer,
 			AsyncCallback<Object> callback) {
-		super(text, icon);
+		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
 

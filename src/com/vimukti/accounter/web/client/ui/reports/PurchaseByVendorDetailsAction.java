@@ -12,8 +12,8 @@ public class PurchaseByVendorDetailsAction extends Action {
 
 	protected PurchaseByVendorDetailReport report;
 
-	public PurchaseByVendorDetailsAction(String text, String iconString) {
-		super(text, iconString);
+	public PurchaseByVendorDetailsAction(String text) {
+		super(text);
 		this.catagory = Accounter.constants().report();
 	}
 

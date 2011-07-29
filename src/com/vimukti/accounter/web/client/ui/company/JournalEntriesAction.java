@@ -19,16 +19,11 @@ public class JournalEntriesAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	public JournalEntriesAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().company();
-	}
-
-//	@Override
-//	public ParentCanvas<?> getView() {
-//		// NOTHING TO DO.
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -66,10 +61,10 @@ public class JournalEntriesAction extends Action {
 		return Accounter.getFinanceMenuImages().journalEntriesList();
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/Jonoul_entries.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/Jonoul_entries.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

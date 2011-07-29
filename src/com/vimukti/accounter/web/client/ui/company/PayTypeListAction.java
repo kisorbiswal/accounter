@@ -14,10 +14,6 @@ public class PayTypeListAction extends Action {
 		super(text);
 	}
 
-	public PayTypeListAction(String text, String iconString) {
-		super(text, iconString);
-	}
-
 	// @Override
 	// public ParentCanvas<?> getView() {
 	// // NOTHING TO DO.

@@ -11,21 +11,16 @@ public class CompanyInfoAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	public CompanyInfoAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().company();
-	}
-
-//	@Override
-//	public ParentCanvas<?> getView() {
-//		// its not usiong any where
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// // its not usiong any where
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		new CompanyInfoDialog(Accounter.constants()
-				.companyInformation(), "").show();
+		new CompanyInfoDialog(Accounter.constants().companyInformation(), "")
+				.show();
 	}
 
 	public ImageResource getBigImage() {
@@ -36,10 +31,10 @@ public class CompanyInfoAction extends Action {
 		return Accounter.getFinanceImages().companyInformation();
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/information-icon-new.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/information-icon-new.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {

@@ -20,11 +20,6 @@ public class TrialBalanceAction extends Action {
 		this.catagory = Accounter.constants().report();
 	}
 
-	public TrialBalanceAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = Accounter.constants().report();
-	}
-
 	public void runAsync(final Object data, final Boolean isDependent) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallBack() {

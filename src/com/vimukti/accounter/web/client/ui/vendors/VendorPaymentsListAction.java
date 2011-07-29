@@ -21,11 +21,6 @@ public class VendorPaymentsListAction extends Action {
 		this.catagory = UIUtils.getVendorString("Supplier", "Vendor");
 	}
 
-	public VendorPaymentsListAction(String text, String iconString) {
-		super(text, iconString);
-		this.catagory = UIUtils.getVendorString("Supplier", "Vendor");
-	}
-
 	/**
 	 * THIS METHOD NOT USING ANY WHERE IN THE PROJECT.
 	 */

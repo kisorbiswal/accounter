@@ -20,8 +20,8 @@ public class ItemsAction extends Action {
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public ItemsAction(String text, String iconString, String catageory) {
-		super(text, iconString);
+	public ItemsAction(String text, String catageory) {
+		super(text);
 		this.catagory = catageory;
 	}
 
@@ -53,11 +53,11 @@ public class ItemsAction extends Action {
 		});
 	}
 
-//	@Override
-//	public ParentCanvas<?> getView() {
-//		// NOTHING TO DO.
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas<?> getView() {
+	// // NOTHING TO DO.
+	// return null;
+	// }
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
@@ -72,10 +72,10 @@ public class ItemsAction extends Action {
 		return Accounter.getFinanceMenuImages().items();
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/items.png";
-//	}
+	// @Override
+	// public String getImageUrl() {
+	// return "/images/items.png";
+	// }
 
 	@Override
 	public String getHistoryToken() {
