@@ -2079,3 +2079,14 @@ input[type="text"],textarea {
     cursor: default;
     background:none !important;
 }
+
+.header ul li,.company_lists ul li{
+	list-style-type: none;
+}
+.header ul li a{
+	color:#3299A4;
+	text-decoration: none;
+}
+.header ul li a:HOVER {
+	text-decoration:underline;
+}
