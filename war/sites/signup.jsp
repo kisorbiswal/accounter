@@ -454,7 +454,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 								   <tr>
 								     <td width="155px"></td>
 								     <td>
-								        <div class="newsletter"><input type="checkbox" >Yes, Subscribe me to Accounter Newsletter </input><b>(Optional)</b></div>
+								        <div class="newsletter"><inputid="newsletter" type="checkbox" name="newsletter">Yes, Subscribe me to Accounter Newsletter </input><b>(Optional)</b></div>
 								     </td>
 								  </tr>
 								  <tr>
