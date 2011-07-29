@@ -66,37 +66,45 @@ public class ActivationServlet extends BaseServlet {
 		// get token from session
 		String token = (String) session.getAttribute("activationToken");
 		// get activation record from table
-		Activation activation = getActivation(token);
-		// if it is null
-		if (activation == null) {
-			// dispatch withr "Token has expired".
-			dispatchMessage("Token has expired.", req, resp, "");
-			return;
+		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		try {
+			Activation activation = getActivation(token);
+			// if it is null
+			if (activation == null) {
+				// dispatch withr "Token has expired".
+				dispatchMessage("Token has expired.", req, resp, "");
+				return;
+			}
+			// otherwise
+			// getPasswords from request
+			String password = req.getParameter("password");
+			String confirm = req.getParameter("confirm");
+
+			// compare if not equal send error message
+			// otherwise
+			if (!password.equals(confirm)) {
+				dispatchMessage("Passwords are not matched.", req, resp, "");
+				return;
+			}
+
+			// getClient record with activation emailId
+			Client client = getClient(activation.getEmailId());
+
+			// update password and set isActive true
+			client.setPassword(HexUtil.bytesToHex(Security.makeHash(activation
+					.getEmailId() + password.trim())));
+			// and save Client, delete activation record
+			saveEntry(client);
+			deleteActivationTokens(activation.getEmailId());
+
+			// Send to login page with emailId
+			redirect(req, resp, "");
+		} catch (Exception e) {
+		} finally {
+			if (hibernateSession != null) {
+				hibernateSession.close();
+			}
 		}
-		// otherwise
-		// getPasswords from request
-		String password = req.getParameter("password");
-		String confirm = req.getParameter("confirm");
-
-		// compare if not equal send error message
-		// otherwise
-		if (!password.equals(confirm)) {
-			dispatchMessage("Passwords are not matched.", req, resp, "");
-			return;
-		}
-
-		// getClient record with activation emailId
-		Client client = getClient(activation.getEmailId());
-
-		// update password and set isActive true
-		client.setPassword(HexUtil.bytesToHex(Security.makeHash(activation
-				.getEmailId() + password.trim())));
-		// and save Client, delete activation record
-		saveEntry(client);
-		deleteActivationTokens(activation.getEmailId());
-
-		// Send to login page with emailId
-		redirect(req, resp, "");
 	}
 
 	private void deleteActivationTokens(String emailId) {
