@@ -31,6 +31,8 @@ public class BaseServlet extends HttpServlet {
 	protected static final String LOCAL_DATABASE = "accounter";
 	public static final int MAIL_ID = 0;
 	public static final int NAME = 1;
+	public static final int PHONE_NO = 2;
+	
 
 	protected String getCompanyName(HttpServletRequest req) {
 		return null;
@@ -80,6 +82,9 @@ public class BaseServlet extends HttpServlet {
 
 			case NAME:
 				return value.matches("^[a-zA-Z]+$");
+				
+			case PHONE_NO:
+				return value.matches("^[0-9][0-9-]+$");
 
 			}
 		}
