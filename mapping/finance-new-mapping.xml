@@ -15,6 +15,9 @@
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
+		<property name="phoneNumber" column="PHONE_NUMBER"></property>
+		<property name="country" column="COUNTRY"></property>
+		
 		<set name="companies" inverse="true" lazy="false" cascade="save-update,delete">
 			<key column="COMPANIES_LIST"></key>
 			<one-to-many class="ServerCompany" />
