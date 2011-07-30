@@ -41,7 +41,7 @@ public class ActivationServlet extends BaseServlet {
 				// If code is valid we create the user and set the session and
 				// external redirect him to <dest> param or /login
 				HttpSession session = req.getSession(true);
-				session.setAttribute("activationToken", token);
+				session.setAttribute(ACTIVATION_TOKEN, token);
 				session.setAttribute(EMAIL_ID, activation.getEmailId());
 				// redirect To ActivationPage.
 				// dispatch(req, resp, VIEW);
