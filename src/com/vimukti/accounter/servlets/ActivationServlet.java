@@ -19,7 +19,7 @@ public class ActivationServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	// private static final String VIEW = "/WEB-INF/resetpassword.jsp";
-	private static final String NEW_ACTIVATION_CODE_VIEW = "WEB-INF/resetactivationcode.jsp";
+	private static final String VALID_ACTIVATION_CODE_VIEW = "WEB-INF/resetactivationcode.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -36,7 +36,7 @@ public class ActivationServlet extends BaseServlet {
 				// set Error "Token has expired"
 				// We check him and if invalid code we show him form to enter
 				// valid code.
-				dispatch(req, resp, NEW_ACTIVATION_CODE_VIEW);
+				dispatch(req, resp, VALID_ACTIVATION_CODE_VIEW);
 			} else {
 				// If code is valid we create the user and set the session and
 				// external redirect him to <dest> param or /login
