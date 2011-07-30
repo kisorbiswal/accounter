@@ -16,7 +16,7 @@ public class SupportServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public String view = "/sites/support.jsp";
+	public String view = "/WEB-INF/support.jsp";
 
 	@Override
 	protected void doPost(HttpServletRequest request,

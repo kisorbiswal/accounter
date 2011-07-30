@@ -85,7 +85,7 @@ public class LiveLoginServlet extends BaseServlet {
 	private void redirectLogin(ServletRequest request, ServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher dispatcher = getServletContext()
-				.getRequestDispatcher("/sites/login.jsp");
+				.getRequestDispatcher("/WEB-INF/login.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -106,7 +106,7 @@ public class LiveLoginServlet extends BaseServlet {
 						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
 				request.setAttribute("emailId", request.getParameter("emailId"));
 				RequestDispatcher dispatcher = getServletContext()
-						.getRequestDispatcher("/sites/login.jsp");
+						.getRequestDispatcher("/WEB-INF/login.jsp");
 				dispatcher.forward(request, response);
 			}
 		} finally {

@@ -32,7 +32,7 @@ public class CreateCompanyServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String view = "/sites/signup.jsp";
+	private String view = "/WEB-INF/signup.jsp";
 
 	@Override
 	protected void doPost(HttpServletRequest request,

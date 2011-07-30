@@ -21,7 +21,7 @@ public class ResetPasswordServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	String view = "/sites/resetpassword.jsp";
+	String view = "/WEB-INF/resetpassword.jsp";
 	String tokenIdCompany;
 
 	@Override
@@ -62,8 +62,7 @@ public class ResetPasswordServlet extends HttpServlet {
 			ResetPasswordToken token = (ResetPasswordToken) session
 					.getNamedQuery("gettoken.by.id").setParameter(0, tokenId)
 					.uniqueResult();
-			User user = (User) session
-					.getNamedQuery("getIDentity.from.id")
+			User user = (User) session.getNamedQuery("getIDentity.from.id")
 					.setParameter("id", token.getUserId()).uniqueResult();
 			String password = req.getParameter("newPassword");
 			user.setPasswordSha1Hash(password);

@@ -22,7 +22,7 @@ public class SignupServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String view = "/sites/signup.jsp";
+	private String view = "/WEB-INF/signup.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -42,16 +42,18 @@ public class SignupServlet extends BaseServlet {
 		String phoneNumber = req.getParameter("phoneNumber").trim();
 		String country = req.getParameter("country").trim();
 		boolean isSubscribedToNewsLetter = false;
-		if(req.getParameter("newsletter") != null && req.getParameter("newsletter").equals("on"))
+		if (req.getParameter("newsletter") != null
+				&& req.getParameter("newsletter").equals("on"))
 			isSubscribedToNewsLetter = true;
-		
+
 		boolean isAgreed = false;
-		if(req.getParameter("agree") != null && req.getParameter("agree").equals("on"))
+		if (req.getParameter("agree") != null
+				&& req.getParameter("agree").equals("on"))
 			isAgreed = true;
-		if(!isAgreed){
+		if (!isAgreed) {
 			dispatchMessage("Please accept Terms of use", req, resp, view);
 		}
-			
+
 		if (!isValidInputs(NAME, firstName, lastName, country)
 				|| !isValidInputs(MAIL_ID, emailId)) {
 			dispatchMessage("Given Inputs are wrong.", req, resp, view);
@@ -66,7 +68,7 @@ public class SignupServlet extends BaseServlet {
 				// TODO::: in login.jsp check for email id in the request if it
 				// is available set this email id in the email id field of login
 				// page
-				redirect(req, resp, "/sites/login");
+				redirect(req, resp, "/WEB-INF/login");
 
 			} else {
 				// else
@@ -93,14 +95,15 @@ public class SignupServlet extends BaseServlet {
 				// Email to that user.
 				sendActivationEmail(token, client);
 				// Send to SignUp Success View
-				req.setAttribute("successmessage", "Thanks for registering with Accounter!");
+				req.setAttribute("successmessage",
+						"Thanks for registering with Accounter!");
 				redirect(req, resp, view);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			if (hibernateSession != null) {
-				if(hibernateSession.isOpen())
+				if (hibernateSession.isOpen())
 					hibernateSession.close();
 			}
 		}

@@ -19,7 +19,7 @@ import com.vimukti.accounter.utils.SecureUtils;
 @SuppressWarnings("serial")
 public class ForgetPasswordServlet extends BaseServlet {
 
-	private String view = "/sites/forgotpassword.jsp";
+	private String view = "/WEB-INF/forgotpassword.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -73,7 +73,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 	/*
 	 * Reset the password and send mail to user
 	 */
-	
+
 	private void sendLinkToUser(Session session, User user, String companyName) {
 
 		List<ResetPasswordToken> existtokens = session

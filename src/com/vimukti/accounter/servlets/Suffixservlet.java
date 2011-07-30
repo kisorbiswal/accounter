@@ -24,8 +24,8 @@ public class Suffixservlet extends HttpServlet {
 		String requestURI = request.getRequestURI();
 		if (!(requestURI.contains(".css") || requestURI.contains("."))) {
 			request.getRequestDispatcher(
-					"/sites" + request.getPathInfo() + ".jsp").forward(request,
-					response);
+					"/WEB-INF" + request.getPathInfo() + ".jsp").forward(
+					request, response);
 		} else {
 			if (requestURI.contains("site"))
 				request.getRequestDispatcher("/sites" + request.getPathInfo())

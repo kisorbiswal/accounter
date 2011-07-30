@@ -16,17 +16,17 @@ import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
 
-public class NewLoginServlet extends BaseServlet{
+public class NewLoginServlet extends BaseServlet {
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			Client client = doLogin(request, response);
 			if (client != null) {
 				intializeClient(request, client);
 
 				response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-				response.setHeader("Location", "/site/companysetup");
+				response.setHeader("Location", "/WEB-INF/companysetup");
 				return;
 			} else {
 				request.setAttribute(
@@ -34,23 +34,22 @@ public class NewLoginServlet extends BaseServlet{
 						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
 				request.setAttribute("emailId", request.getParameter("emailId"));
 				RequestDispatcher dispatcher = getServletContext()
-						.getRequestDispatcher("/sites/companysetup");
+						.getRequestDispatcher("/WEB-INF/companysetup");
 				dispatcher.forward(request, response);
 			}
 		} finally {
 		}
 	}
-	
+
 	private void intializeClient(HttpServletRequest request, Client client) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private Client doLogin(HttpServletRequest request,
 			HttpServletResponse response) {
 		String emailId = request.getParameter(EMAIL_ID);
 		String password = request.getParameter(PASSWORD);
-		
 
 		Client client = getClient(emailId, password);
 		if (client != null && request.getParameter("staySignIn") != null
@@ -61,8 +60,9 @@ public class NewLoginServlet extends BaseServlet{
 	}
 
 	private void setCookies(HttpServletResponse response, Client client) {
-		Cookie cookie = new Cookie(OUR_COOKIE,new StringBuffer(client.getEmailId()).append(",")
-						.append(client.getPassword()).append(",").toString());
+		Cookie cookie = new Cookie(OUR_COOKIE, new StringBuffer(
+				client.getEmailId()).append(",").append(client.getPassword())
+				.append(",").toString());
 		cookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		cookie.setPath("/");
 		// this.getThreadLocalResponse().addCookie(cookie);
@@ -70,13 +70,13 @@ public class NewLoginServlet extends BaseServlet{
 	}
 
 	private Client getClient(String emailId, String password) {
-		if (emailId == null || password == null ) {
+		if (emailId == null || password == null) {
 			return null;
 		}
 		emailId = emailId.trim();
 		password = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ password.trim()));
-		
+
 		Session session = HibernateUtil.getCurrentSession();
 		try {
 			Client client = null;
