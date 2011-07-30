@@ -8,29 +8,39 @@
 		where client.emailId
 		=:emailId
 	</query>
-	
+
 	<query name="get.activation.by.token">
 		<query-param name="token" type="String" />
 		from com.vimukti.accounter.core.Activation activation
-		where activation.token
+		where
+		activation.token
 		=:token
 
 	</query>
-	
+
 	<query name="delete.activation.by.emailId">
 		<query-param name="emailId" type="String" />
 		delete from com.vimukti.accounter.core.Activation activation
-		where activation.emailId
+		where
+		activation.emailId
 		=:emailId
 
 	</query>
-	
+
 	<query name="get.companiesList.by.emailId.and.password">
 		<query-param name="emailId" type="String" />
 		<query-param name="password" type="String" />
 		from com.vimukti.accounter.core.Client client
 		where client.emailId
 		=:emailId and client.password=:password
+	</query>
+
+	<query name="getclient.from.central.db.using.emailid.and.password">
+		<query-param name="emailId" type="String" />
+		<query-param name="password" type="String" />
+		from com.vimukti.accounter.core.Client client
+		where
+		client.emailId=:emailId and client.password =:password
 	</query>
 
 </hibernate-mapping>
