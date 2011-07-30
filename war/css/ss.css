@@ -1856,3 +1856,8 @@ input[type="submit"]:FOCUS {
     clear: both;
     overflow: auto;
 }
+.login-ok-button,.login-submit-button{
+	float:left;
+	margin:5px;
+}
+}
