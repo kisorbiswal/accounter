@@ -41,11 +41,14 @@
 	<classpathentry kind="lib" path="libs/jetty-util-6.1.0.jar"/>
 	<classpathentry kind="lib" path="libs/mail.jar"/>
 	<classpathentry kind="lib" path="libs/bcprov-jdk15-133.jar"/>
-	<classpathentry kind="lib" path="libs/jstl-api-1.2.jar"/>
 	<classpathentry kind="lib" path="libs/jstl-impl-1.2.jar"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="libs/jsp-2.1.jar"/>
+	<classpathentry kind="lib" path="libs/jsp-api-2.1.jar"/>
 	<classpathentry kind="lib" path="libs/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="libs/pd4ml.jar"/>
 	<classpathentry kind="lib" path="libs/cos.jar"/>
+	<classpathentry kind="lib" path="/home/rajesh/Downloads/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.3.0.r37v201106211634/gwt-2.3.0/gwt-user.jar"/>
+	<classpathentry kind="lib" path="libs/xstream-1.1.3v.jar"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
