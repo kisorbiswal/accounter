@@ -61,8 +61,8 @@ public class ResetPasswordServlet extends BaseServlet {
 			}
 			// otherwise
 			// getPasswords from request
-			String password = req.getParameter("password");
-			String confirm = req.getParameter("confirm");
+			String password = req.getParameter("newPassword");
+			String confirm = req.getParameter("confirmPassword");
 
 			// compare if not equal send error message
 			// otherwise
