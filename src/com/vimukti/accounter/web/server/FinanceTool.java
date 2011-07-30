@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.FlushMode;
@@ -83,6 +85,7 @@ import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.SalesPerson;
+import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
@@ -107,6 +110,7 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.services.IFinanceDAOService;
 import com.vimukti.accounter.utils.HexUtil;
@@ -5267,7 +5271,7 @@ public class FinanceTool implements IFinanceDAOService {
 	@Override
 	public List<TransactionHistory> getCustomerTransactionHistory(
 			final FinanceDate startDate, final FinanceDate endDate)
-			throws DAOException {
+			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		ClientFinanceDate date[] = this.getMinimumAndMaximumTransactionDate();
@@ -5579,7 +5583,7 @@ public class FinanceTool implements IFinanceDAOService {
 	@Override
 	public List<TransactionHistory> getVendorTransactionHistory(
 			final FinanceDate startDate, final FinanceDate endDate)
-			throws DAOException {
+			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -6158,7 +6162,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<SalesTaxLiability> getSalesTaxLiabilityReport(
-			FinanceDate startDate, FinanceDate endDate) throws DAOException {
+			FinanceDate startDate, FinanceDate endDate)
+			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		ClientFinanceDate date[] = this.getMinimumAndMaximumTransactionDate();
@@ -6312,7 +6317,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public ClientFinanceDate[] getMinimumAndMaximumTransactionDate()
-			throws DAOException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
 				.getNamedQuery("getMinimumAndMaximumTransactionDate");
@@ -6619,7 +6624,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public List<TrialBalance> getCashFlowReport(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException {
+			FinanceDate endDate) throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -9767,8 +9772,7 @@ public class FinanceTool implements IFinanceDAOService {
 	//
 	// }
 
-	public ClientCompany getClientCompany(long logggeInUserId)
-			throws DAOException {
+	public ClientCompany getClientCompany() throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -11450,6 +11454,31 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 		return employees;
+	}
+
+	/**
+	 * @param httpSession
+	 * @return
+	 */
+	public ClientCompany getClientCompany(HttpSession httpSession)
+			throws AccounterException {
+		// httpSession.get
+		String companyName = null;
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		ServerCompany serverCompany = (ServerCompany) session
+				.getNamedQuery("getServerCompany.by.name")
+				.setString(1, companyName).uniqueResult();
+
+		if (serverCompany == null) {
+			return null;
+		}
+
+		if (serverCompany.isConfigured()) {
+			Session companySession = HibernateUtil.openSession(companyName);
+			return getClientCompany();
+		} else {
+			return new ClientCompany();
+		}
 	}
 
 }

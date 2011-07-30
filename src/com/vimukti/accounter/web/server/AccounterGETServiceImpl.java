@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -77,12 +79,13 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ClientCompany getCompany() throws AccounterException {
-		FinanceTool tool = (FinanceTool) getFinanceTool();
-		try {
-			return tool.getClientCompany(getUserID());
-		} catch (DAOException e) {
-			throw new AccounterException(e);
+		HttpSession httpSession = getHttpSession();
+		if (httpSession == null) {
+			return null;
 		}
+
+		FinanceTool tool = (FinanceTool) getFinanceTool();
+		return tool.getClientCompany(httpSession);
 	}
 
 	@Override

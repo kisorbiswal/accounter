@@ -1,7 +1,6 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,17 +22,24 @@ public class BaseServlet extends HttpServlet {
 	public static final String USER_ID = "userID";
 	public static final String OUR_COOKIE = "_accounter_01_infinity_2711";
 
+	public static final String COMPANY_COOKIE = "cid";
+
+	public static final String USER_COOKIE = "user";
+
 	public static final String COMPANY_NAME = "companyName";
 
 	public static final String EMAIL_ID = "emailId";
 	public static final String PASSWORD = "password";
 
-	protected static final String DESTINATION = "dest";
+	protected static final String PARAM_DESTINATION = "destination";
+	protected static final String ATTR_MESSAGE = "message";
+	protected static final String ATTR_COMPANY_LIST = "companeyList";
 
 	protected static final String LOGIN_URL = "/login";
+	protected static final String ACCOUNTER_URL = "/accounter";
 
 	protected static final String RESET_PASSWORD_URL = "/resetpassword";
-	public static final String COMPANIES_URL ="/Companies";
+	public static final String COMPANIES_URL = "/companies";
 
 	/**
 	 * 
@@ -150,16 +156,12 @@ public class BaseServlet extends HttpServlet {
 		return client;
 	}
 
-	/**
-	 * Redirect to the External URL {@url} with supplied Parameters
-	 * 
-	 * @param req
-	 * @param resp
-	 * @param string
-	 */
-	protected void redirectExternal(HttpServletRequest req,
-			HttpServletResponse resp, String url, String param) {
-		// TODO
+	protected Client getClientById(long id) {
+		Session session = HibernateUtil.getCurrentSession();
+		Client client = (Client) session.getNamedQuery("getClient.by.Id")
+				.setLong(0, id).uniqueResult();
+		// session.close();
+		return client;
 	}
 
 	/**
@@ -168,7 +170,7 @@ public class BaseServlet extends HttpServlet {
 	 * @param req
 	 * @param resp
 	 * @param string
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	protected void redirectExternal(HttpServletRequest req,
 			HttpServletResponse resp, String url) throws IOException {

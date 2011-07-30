@@ -433,7 +433,8 @@ public interface IFinanceDAOService {
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<TransactionHistory> getCustomerTransactionHistory(
-			FinanceDate startDate, FinanceDate endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate)
+			throws AccounterException;
 
 	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
@@ -448,7 +449,8 @@ public interface IFinanceDAOService {
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	public List<TransactionHistory> getVendorTransactionHistory(
-			FinanceDate startDate, FinanceDate endDate) throws DAOException;
+			FinanceDate startDate, FinanceDate endDate)
+			throws AccounterException;
 
 	public List<AmountsDueToVendor> getAmountsDueToVendor(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
@@ -474,7 +476,7 @@ public interface IFinanceDAOService {
 
 	public List<SalesTaxLiability> getSalesTaxLiabilityReport(
 			final FinanceDate startDate, final FinanceDate endDate)
-			throws DAOException;
+			throws AccounterException;
 
 	public List<Customer> getTransactionHistoryCustomers(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException;
@@ -489,7 +491,7 @@ public interface IFinanceDAOService {
 			FinanceDate endDate) throws DAOException;
 
 	public ClientFinanceDate[] getMinimumAndMaximumTransactionDate()
-			throws DAOException;
+			throws AccounterException;
 
 	public List<TrialBalance> getBalanceSheetReport(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException;
@@ -498,7 +500,7 @@ public interface IFinanceDAOService {
 			FinanceDate endDate) throws DAOException;
 
 	public List<TrialBalance> getCashFlowReport(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException;
+			FinanceDate endDate) throws AccounterException;
 
 	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String customerName, FinanceDate startDate, FinanceDate endDate)

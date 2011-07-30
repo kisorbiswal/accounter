@@ -80,21 +80,25 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onSuccess(ClientCompany company) {
-				if (company != null) {
-					// We got the company, set it for all further references.
-					// company.setAccountingType(ClientCompany.ACCOUNTING_TYPE_US);
-					Accounter.setCompany(company);
-
-					Accounter.setUser(company.getLoggedInUser());
-					startDate = company.getTransactionStartDate();
-					endDate = company.getTransactionStartDate();
-
-					// and, now we are ready to start the application.
-					initGUI();
-
-				} else {
-					// //UIUtils.log("Company: null!");
+				if (company == null) {
+					// TODO Redirect to Companies Servlet
 				}
+
+				if (company.getName() == null && company.getID() == 0) {
+					// Redirect to Company SetUp
+				}
+
+				// We got the company, set it for all further references.
+				// company.setAccountingType(ClientCompany.ACCOUNTING_TYPE_US);
+				Accounter.setCompany(company);
+
+				Accounter.setUser(company.getLoggedInUser());
+				startDate = company.getTransactionStartDate();
+				endDate = company.getTransactionStartDate();
+
+				// and, now we are ready to start the application.
+				initGUI();
+
 			}
 
 		};

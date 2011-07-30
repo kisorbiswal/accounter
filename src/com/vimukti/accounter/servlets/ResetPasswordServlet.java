@@ -8,11 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import com.vimukti.accounter.core.ResetPasswordToken;
-import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.Activation;
+import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.Security;
 
 public class ResetPasswordServlet extends BaseServlet {
 
@@ -27,70 +28,91 @@ public class ResetPasswordServlet extends BaseServlet {
 
 		checkSession(req, resp);
 
-		tokenIdCompany = req.getParameter("token");
-
-		if (tokenIdCompany != null) {
-			String tokenId = tokenIdCompany.substring(0, 40);
-			String company = tokenIdCompany.substring(40);
-			String errorMessage = null;
-			Session session = HibernateUtil.openSession(company);
-			if (session == null) {
-				errorMessage = "Reset Password request was expired";
-			} else {
-				ResetPasswordToken token = (ResetPasswordToken) session
-						.getNamedQuery("gettoken.by.id")
-						.setParameter(0, tokenId).uniqueResult();
-				if (token == null) {
-					errorMessage = "Reset Password request was expired";
-				}
-			}
-			session.close();
-			req.setAttribute("errorMessage", errorMessage);
-		}
 		dispatch(req, resp, view);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		Session session = null;
+		HttpSession httpsession = req.getSession();
+		if (httpsession == null) {
+			req.setAttribute(ATTR_MESSAGE, "Session expired.");
+			redirectExternal(req, resp, LOGIN_URL);
+			return;
+		}
+
+		// get token from session
+		String token = (String) httpsession.getAttribute("activationToken");
+		if (token.isEmpty()) {
+			req.setAttribute(ATTR_MESSAGE, "Activation expired.");
+			redirectExternal(req, resp, LOGIN_URL);
+			return;
+		}
+		// get activation record from table
+		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
-			checkSession(req, resp);
+			Activation activation = getActivation(token);
+			// if it is null
+			if (activation == null) {
+				// dispatch withr "Token has expired".
+				req.setAttribute(ATTR_MESSAGE, "Activation expired.");
+				redirectExternal(req, resp, LOGIN_URL);
+				return;
+			}
+			// otherwise
+			// getPasswords from request
+			String password = req.getParameter("password");
+			String confirm = req.getParameter("confirm");
 
-			String tokenId = tokenIdCompany.substring(0, 40);
-			String company = tokenIdCompany.substring(40);
-			session = HibernateUtil.openSession(company);
-
-			Transaction tx = session.beginTransaction();
-
-			ResetPasswordToken token = (ResetPasswordToken) session
-					.getNamedQuery("gettoken.by.id").setParameter(0, tokenId)
-					.uniqueResult();
-			User user = (User) session.getNamedQuery("getIDentity.from.id")
-					.setParameter("id", token.getUserId()).uniqueResult();
-			String password = req.getParameter("newPassword");
-			user.setPasswordSha1Hash(password);
-
-			session.saveOrUpdate(user);
-			session.delete(token);
-
-			try {
-				tx.commit();
-			} finally {
-				tx.rollback();
+			// compare if not equal send error message
+			// otherwise
+			if (!password.equals(confirm)) {
+				dispatchMessage(
+						"Password mismatch. Please reenter the password", req,
+						resp, view);
+				return;
 			}
 
-			redirectExternal(req, resp, LOGIN_URL);
+			// getClient record with activation emailId
+			Client client = getClient(activation.getEmailId());
 
+			// update password and set isActive true
+			client.setPassword(HexUtil.bytesToHex(Security.makeHash(activation
+					.getEmailId() + password.trim())));
+			// set isActive true
+			client.setActive(true);
+			// make Require Password Reset False
+			client.setRequirePasswordReset(false);
+			// and save Client,
+			saveEntry(client);
+
+			// delete activation record
+			hibernateSession.getNamedQuery("delete.activation.by.Id")
+					.setLong("id", activation.getID()).executeUpdate();
+
+			// Send to login page with emailId
+			httpsession.setAttribute("emailId", activation.getEmailId());
+			redirectExternal(req, resp, LOGIN_URL);
 		} catch (Exception e) {
-			req.setAttribute("errorMessage",
-					"Password reset failed please try again");
-			dispatch(req, resp, view);
+			e.printStackTrace();
 		} finally {
-			if (session != null) {
-				session.close();
+			if (hibernateSession != null) {
+				hibernateSession.close();
 			}
 		}
+
+	}
+
+	private Activation getActivation(String token) {
+		Session session = HibernateUtil.getCurrentSession();
+		if (session != null) {
+			Activation val = (Activation) session
+					.getNamedQuery("get.activation.by.token")
+					.setString("token", token).uniqueResult();
+			return val;
+
+		}
+		return null;
 	}
 
 	/**
@@ -102,7 +124,7 @@ public class ResetPasswordServlet extends BaseServlet {
 			throws IOException {
 		HttpSession httpSession = req.getSession();
 		if (httpSession == null) {
-			String destination = req.getParameter(DESTINATION);
+			String destination = req.getParameter(PARAM_DESTINATION);
 			if (destination == null) {
 				redirectExternal(req, resp, LOGIN_URL);
 			} else {

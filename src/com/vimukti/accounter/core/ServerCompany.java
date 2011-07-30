@@ -10,6 +10,7 @@ public class ServerCompany implements IAccounterServerCore {
 	private Date createdDate;
 	private int companyType;
 	private String serverAddress;
+	private boolean isConfigured;
 
 	public String getCompanyName() {
 		return companyName;
@@ -57,5 +58,20 @@ public class ServerCompany implements IAccounterServerCore {
 			throws InvalidOperationException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	/**
+	 * @return the isConfigured
+	 */
+	public boolean isConfigured() {
+		return isConfigured;
+	}
+
+	/**
+	 * @param isConfigured
+	 *            the isConfigured to set
+	 */
+	public void setConfigured(boolean isConfigured) {
+		this.isConfigured = isConfigured;
 	}
 }

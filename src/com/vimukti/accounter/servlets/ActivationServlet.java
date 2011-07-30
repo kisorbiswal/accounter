@@ -45,13 +45,13 @@ public class ActivationServlet extends BaseServlet {
 				session.setAttribute(EMAIL_ID, activation.getEmailId());
 				// redirect To ActivationPage.
 				// dispatch(req, resp, VIEW);
-				String destUrl = req.getParameter(DESTINATION);
-				if(destUrl == null || destUrl.isEmpty()){
+				String destUrl = req.getParameter(PARAM_DESTINATION);
+				if (destUrl == null || destUrl.isEmpty()) {
 					redirectExternal(req, resp, LOGIN_URL);
-				}else{
+				} else {
 					redirectExternal(req, resp, destUrl);
 				}
-				
+
 			}
 
 		} catch (Exception e) {

@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
@@ -99,6 +100,15 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 	protected long getUserID() {
 		return (Long) getThreadLocalRequest().getSession()
 				.getAttribute(USER_ID);
+	}
+
+	/**
+	 * Returns the Current HttpSesstion
+	 * 
+	 * @return
+	 */
+	protected HttpSession getHttpSession() {
+		return getThreadLocalRequest().getSession();
 	}
 
 	public boolean isValidSession(HttpServletRequest request) {

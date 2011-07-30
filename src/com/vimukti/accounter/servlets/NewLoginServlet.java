@@ -33,7 +33,7 @@ public class NewLoginServlet extends BaseServlet {
 				if (client.isRequirePasswordReset()) {
 					client.setRequirePasswordReset(false);
 				}
-				String destUrl = request.getParameter(DESTINATION);
+				String destUrl = request.getParameter(PARAM_DESTINATION);
 				if (destUrl == null || destUrl.isEmpty()) {
 					redirectExternal(request, response, COMPANIES_URL);
 				} else {
@@ -128,7 +128,8 @@ public class NewLoginServlet extends BaseServlet {
 						// if session is there and no need to reset password
 						// then do external redirect to <dest> param or
 						// /companies
-						String destUrl = request.getParameter(DESTINATION);
+						String destUrl = request
+								.getParameter(PARAM_DESTINATION);
 						if (destUrl == null || destUrl.isEmpty()) {
 							redirectExternal(request, response, COMPANIES_URL);
 						} else {
