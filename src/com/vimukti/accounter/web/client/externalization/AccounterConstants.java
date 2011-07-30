@@ -4008,4 +4008,38 @@ public interface AccounterConstants extends Constants {
 	public SafeHtml nextHTML();
 
 	public SafeHtml logoutHTML();
+
+	public String aItemGroupAlreadyExistswiththisname();
+
+	public String failedtogetAccountReceivablechartvalues();
+
+	public SafeHtml add3dots();
+
+	public String beforesaving();
+
+	public String duplicationofServicenamearenotallowed3dots();
+
+	public String duplicationofProductnamearenotallowed3dots();
+
+	public String aftersaving();
+
+	public String incomeandDistribution();
+
+	public String helpLinks();
+
+	public SafeHtml dashBoard();
+
+	public String unableToshowtheview();
+
+	public String failedtogetmoneygoingportletvalues();
+
+	public String theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179();
+
+	public String theAccountNumberchosenisincorrectPleaschooseaNumberbetween();
+
+	public String paytermsAlreadyExists();
+
+	public String failedtogettheTransactionPaySalesTaxList();
+
+	public String failedtovoidPaySalesTax();
 }

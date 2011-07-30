@@ -113,7 +113,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError("Failed to get money going portlet values");
+				Accounter.showError(Accounter.constants().failedtogetmoneygoingportletvalues());
 			}
 
 			@Override

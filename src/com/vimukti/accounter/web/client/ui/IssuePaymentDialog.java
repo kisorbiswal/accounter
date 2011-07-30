@@ -436,7 +436,8 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 									// .logError(
 									// "Failed to get the IssuePaymentTransactionsList..",
 									// t);
-									grid.addEmptyMessage("No records to show");
+									grid.addEmptyMessage(Accounter.constants()
+											.noRecordsToShow());
 
 								}
 
@@ -453,7 +454,8 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 											addRecord(entry);
 										}
 									} else
-										grid.addEmptyMessage("No records to show");
+										grid.addEmptyMessage(Accounter
+												.constants().noRecordsToShow());
 
 								}
 

@@ -505,7 +505,7 @@ public class ItemView extends BaseView<ClientItem> {
 		if (takenItem != null) {
 			nameText.setValue(takenItem.getName());
 			name = takenItem.getName();
-			System.out.println(name + "before saving");
+			System.out.println(name + Accounter.constants().beforesaving());
 			stdCostText.setAmount(takenItem.getStandardCost());
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				skuText.setValue(takenItem.getUPCorSKU() != null ? takenItem
@@ -654,16 +654,16 @@ public class ItemView extends BaseView<ClientItem> {
 		// : "Duplication of Service name are not allowed...");
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		MainFinanceWindow
-				.getViewManager()
-				.showError(
-						this.type != TYPE_SERVICE ? "Duplication of Product name are not allowed..."
-								: "Duplication of Service name are not allowed...");
+		MainFinanceWindow.getViewManager().showError(
+				this.type != TYPE_SERVICE ? Accounter.constants()
+						.duplicationofProductnamearenotallowed3dots()
+						: Accounter.constants()
+								.duplicationofServicenamearenotallowed3dots());
 
 		ClientItem item = getItem(false);
-		if (exceptionMessage.contains("Failed")) {
+		if (exceptionMessage.contains(Accounter.constants().failed())) {
 			item.setName(name);
-			System.out.println(name + "After saving");
+			System.out.println(name + Accounter.constants().aftersaving());
 		}
 
 	}
@@ -784,8 +784,10 @@ public class ItemView extends BaseView<ClientItem> {
 							.getUkServiceItemDefaultExpenseAccount());
 
 				} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-					defaultIncomeAccount = getDefaultAccount("Income and Distribution");
-					defaultExpAccount = getDefaultAccount("Cash Discount taken");
+					defaultIncomeAccount = getDefaultAccount(Accounter
+							.constants().incomeandDistribution());
+					defaultExpAccount = getDefaultAccount(Accounter.constants()
+							.cashDiscountTaken());
 
 				}
 				selectAccount = defaultIncomeAccount;
@@ -800,8 +802,10 @@ public class ItemView extends BaseView<ClientItem> {
 					defaultExpAccount = getDefaultAccount(company
 							.getUkNonInventoryItemDefaultExpenseAccount());
 				} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-					defaultIncomeAccount = getDefaultAccount("Income and Distribution");
-					defaultExpAccount = getDefaultAccount("Cash Discount taken");
+					defaultIncomeAccount = getDefaultAccount(Accounter
+							.constants().incomeandDistribution());
+					defaultExpAccount = getDefaultAccount(Accounter.constants()
+							.cashDiscountTaken());
 
 				}
 				selectAccount = defaultIncomeAccount;
@@ -859,7 +863,8 @@ public class ItemView extends BaseView<ClientItem> {
 					// BaseView.commentPanel.setVisible(true);
 					// AbstractBaseView.errorOccured = true;
 					MainFinanceWindow.getViewManager().appendError(
-							"An Item already exists with this name");
+							Accounter.constants()
+									.aItemGroupAlreadyExistswiththisname());
 					// Accounter
 					// .showError("An Item already exists with this name");
 					return false;

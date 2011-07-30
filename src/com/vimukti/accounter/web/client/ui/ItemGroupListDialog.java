@@ -81,7 +81,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	public void createItemSGroups() {
 		if (Utility.isObjectExist(getCompany().getItemGroups(),
 				itemGroupDg.getItemGroupName())) {
-			Accounter.showError("A Item Group  Already Exists with this name");
+			Accounter.showError(Accounter.constants().aItemGroupAlreadyExistswiththisname());
 		} else {
 			createObject(itemGroupDg.createOrEditItemGroup());
 		}

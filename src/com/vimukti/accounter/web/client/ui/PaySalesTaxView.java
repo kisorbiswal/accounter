@@ -101,8 +101,8 @@ public class PaySalesTaxView extends
 				new AccounterAsyncCallback<String>() {
 
 					public void onException(AccounterException caught) {
-						Accounter
-								.showError("Failed to get the transaction number");
+						Accounter.showError(Accounter.constants()
+								.failedToGetTransactionNumber());
 					}
 
 					public void onSuccess(String result) {
@@ -124,8 +124,8 @@ public class PaySalesTaxView extends
 				new AccounterAsyncCallback<List<ClientPaySalesTaxEntries>>() {
 
 					public void onException(AccounterException caught) {
-						Accounter
-								.showError("Failed to get the TransactionPaySalesTaxList");
+						Accounter.showError(Accounter.constants()
+								.failedtogettheTransactionPaySalesTaxList());
 						grid.addEmptyMessage(Accounter.constants()
 								.noRecordsToShow());
 
@@ -604,8 +604,8 @@ public class PaySalesTaxView extends
 								@Override
 								public void onException(
 										AccounterException caught) {
-									Accounter
-											.showError("Failed to void Pay Sales Tax");
+									Accounter.showError(Accounter.constants()
+											.failedtovoidPaySalesTax());
 								}
 
 								@Override

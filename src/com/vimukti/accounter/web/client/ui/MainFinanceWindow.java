@@ -101,7 +101,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		vpanel.add(hMenuBar);
 		add(vpanel);
 		add(viewManager);
-		Label help = new Label("Help Links");
+		Label help = new Label(Accounter.constants().helpLinks());
 		help.addStyleName("down-panel");
 		if (item == null) {
 			item = new HelpItem();
@@ -153,10 +153,10 @@ public class MainFinanceWindow extends VerticalPanel {
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
-		menuitem = menuBar.addItem("Sales", getSalesSubMenu());
+		menuitem = menuBar.addItem(Accounter.constants().sales(), getSalesSubMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		menuitem = menuBar.addItem("Purchases", getPurchaseSubMenu());
+		menuitem = menuBar.addItem(Accounter.constants().purchases(), getPurchaseSubMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		// menuBar.addItem(FinanceApplication.constants()
@@ -599,7 +599,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		CustomMenuBar companyMenuBar = getSubMenu();
 
-		companyMenuBar.addItem("DashBoard", getDashBoardCommand());
+		companyMenuBar.addItem(Accounter.constants().dashBoard(), getDashBoardCommand());
 		companyMenuBar.addSeparator();
 
 		if (Accounter.getUser().canDoBanking())
@@ -814,7 +814,7 @@ public class MainFinanceWindow extends VerticalPanel {
 				AccounterAsyncCallback<T> callback = new AccounterAsyncCallback<T>() {
 
 					public void onException(AccounterException caught) {
-						Accounter.showError("Unable To show the view");
+						Accounter.showError(Accounter.constants().unableToshowtheview());
 					}
 
 					public void onSuccess(T result) {

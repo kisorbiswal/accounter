@@ -471,7 +471,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// leftLayout.add(accInfoForm);
 			reset(accInfoForm);
 			if (selectedId == null)
-				accTypeSelect.setComboItem("Income");
+				accTypeSelect.setComboItem(Accounter.constants().income());
 			accTypeSelect.setSelected(selectedId);
 			topHLay.setWidth("50%");
 
@@ -1305,7 +1305,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				MainFinanceWindow
 						.getViewManager()
 						.showError(
-								"The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179");
+								Accounter
+										.constants()
+										.theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179());
 				// Accounter
 				// .showError("The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179");
 				// accNoText.setNumber(null);
@@ -1334,10 +1336,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				// + " and "
 				// + nominalCodeRange[1] + ".");
 				// BaseView.commentPanel.setVisible(true);
-				MainFinanceWindow.getViewManager().showError(
-						"The Account Number chosen is incorrect. Please choose a Number between"
-								+ "  " + nominalCodeRange[0] + " and "
-								+ nominalCodeRange[1]);
+				MainFinanceWindow
+						.getViewManager()
+						.showError(
+								Accounter
+										.constants()
+										.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
+										+ "  "
+										+ nominalCodeRange[0]
+										+ Accounter.constants().and()
+										+ nominalCodeRange[1]);
 				// Accounter
 				// .showError("The Account Number chosen is incorrect. Please choose a Number between"
 				// + "  "

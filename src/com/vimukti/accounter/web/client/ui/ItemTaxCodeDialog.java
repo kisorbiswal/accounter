@@ -49,7 +49,7 @@ public class ItemTaxCodeDialog extends DialogBox {
 		// grid.setCanResizeFields(true);
 		// grid.setData(createListGridRecords(typeRecords));
 
-		AccounterButton addButt = new AccounterButton("Add...");
+		AccounterButton addButt = new AccounterButton(Accounter.constants().add3dots());
 		addButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showAddEditDialog();

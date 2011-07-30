@@ -114,7 +114,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 			@Override
 			public void onException(AccounterException caught) {
 				Accounter
-						.showError("Failed to get Account Receivable chart values");
+						.showError(Accounter.constants().failedtogetAccountReceivablechartvalues());
 			}
 
 			@Override

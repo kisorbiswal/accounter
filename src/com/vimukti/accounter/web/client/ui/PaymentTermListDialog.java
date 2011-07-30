@@ -86,7 +86,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	public void createPaymentTerms() {
 		if (Utility.isObjectExist(getCompany()
 				.getPaymentsTerms(), dialog.payTermText.getValue().toString())) {
-			Accounter.showError("Payterms  Already Exists");
+			Accounter.showError(Accounter.constants().paytermsAlreadyExists());
 		} else {
 			ClientPaymentTerms clientPaymentTerms = getPaymentTerms();
 			createObject(clientPaymentTerms);
