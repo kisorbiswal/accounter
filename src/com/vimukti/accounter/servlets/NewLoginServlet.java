@@ -116,7 +116,7 @@ public class NewLoginServlet extends BaseServlet {
 
 				Client client = (Client) query.uniqueResult();
 				if (client != null) {
-					if (!client.isActive()) {
+					if (client.isRequirePasswordReset()) {
 						// If session is there and he has to reset the password
 						// then do an external redirect to /resetpassword url
 						redirectExternal(request, response, RESET_PASSWORD_URL);
