@@ -68,7 +68,7 @@ public class SignupServlet extends BaseServlet {
 				// TODO::: in login.jsp check for email id in the request if it
 				// is available set this email id in the email id field of login
 				// page
-				dispatch(req, resp, "/WEB-INF/login");
+				redirectExternal(req, resp, LOGIN_URL);
 
 			} else {
 				// else
@@ -95,8 +95,9 @@ public class SignupServlet extends BaseServlet {
 				// Email to that user.
 				sendActivationEmail(token, client);
 				// Send to SignUp Success View
-				req.setAttribute("successmessage",
-						"Thanks for registering with Accounter!");
+				req.setAttribute(
+						"successmessage",
+						"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and click on the email activation link provided.");
 				dispatch(req, resp, view);
 			}
 		} catch (Exception e) {

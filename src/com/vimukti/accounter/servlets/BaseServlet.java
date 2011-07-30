@@ -133,7 +133,7 @@ public class BaseServlet extends HttpServlet {
 
 		Session currentSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = currentSession.beginTransaction();
-		Serializable ob = currentSession.save(object);
+		currentSession.save(object);
 		try {
 			transaction.commit();
 		} catch (Exception e) {

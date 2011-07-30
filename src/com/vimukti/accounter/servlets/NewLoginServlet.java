@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -17,16 +18,15 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
 
 public class NewLoginServlet extends BaseServlet {
+
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			Client client = doLogin(request, response);
 			if (client != null) {
-				intializeClient(request, client);
-
-				response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-				response.setHeader("Location", "/WEB-INF/companysetup");
+				//if valid credentials are there we redirect to <dest> param or /companies
+				redirectExternal(request, response, COMPANIES_URL);
 				return;
 			} else {
 				request.setAttribute(
@@ -39,11 +39,6 @@ public class NewLoginServlet extends BaseServlet {
 			}
 		} finally {
 		}
-	}
-
-	private void intializeClient(HttpServletRequest request, Client client) {
-		// TODO Auto-generated method stub
-
 	}
 
 	private Client doLogin(HttpServletRequest request,
@@ -97,7 +92,45 @@ public class NewLoginServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		dispatch(request, response, "/WEB-INF/login.jsp");
+		// We check if the session is already there, if it is, we check if user
+		// have to reset his password(by using a flag on the user object)
+		HttpSession httpSession = request.getSession();
+		if (httpSession != null) {
+			// Getting the mail id of the user from the session
+			String emailId = (String) httpSession.getAttribute("emailId");
+
+			// Get the Client using the mail id
+			Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+			try {
+				Query query = session.getNamedQuery("getClient.by.mailId");
+				query.setParameter("emailId", emailId);
+
+				Client client = (Client) query.uniqueResult();
+				if (client != null) {
+					if (!client.isActive()) {
+						// If session is there and he has to reset the password
+						// then do an external redirect to /resetpassword url
+						redirectExternal(request, response, RESET_PASSWORD_URL);
+					} else {
+						// if session is there and no need to reset password
+						// then do external redirect to <dest> param or
+						// /companies
+
+					}
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			} finally {
+
+			}
+
+		} else {
+			// if session is not there then we show the form and user fills it
+			// which gets submitted to same url
+			dispatch(request, response, "/WEB-INF/login.jsp");
+
+		}
+		
 	}
 
 }
