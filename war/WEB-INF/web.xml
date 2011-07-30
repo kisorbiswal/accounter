@@ -54,11 +54,11 @@
 	</servlet> -->
 
 	<servlet-mapping>
-		<servlet-name>CompanySetup</servlet-name>
+		<servlet-name>Companies</servlet-name>
 		<url-pattern>/companies</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>CompanySetup</servlet-name>
+		<servlet-name>Companies</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.CompaniesServlet
 		</servlet-class>
 	</servlet>

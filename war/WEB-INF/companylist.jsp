@@ -23,7 +23,7 @@
 	</table>
     <div class="company_lists">
        <ul>
-	     <form action="/companysetup" method="post">
+	     <form action="/companies" method="post">
 	     <% java.util.List<String> list=(java.util.List<String>)req.getAttribute("message") %>
 	     <% for(String name:list){ %>
 	       <li><a href="" ><%= name %> </a></li>
