@@ -64,11 +64,10 @@ $(document).ready(function() {
 	      <%@ include file="./header.jsp" %>
 			<div class="middle-part" id="cen">
 				<div class="middle-signup-box" id="mid-1">
-					<div class ="Welcome-Accounter-box">
-							<h2>Reset Password</h2>
-					        <div class="reset_password_box">
-							 <div class="mid-login-box" style="width: 420px;">
-								<form id="accounterForm" method="post" action="/site/resetpassword">
+					<div class ="Welcome-Accounter-box" style="padding:10px">
+							<h2 style="margin:0 0 10px 0px">Reset Password</h2>
+								<div class="reset-login-box">
+								<form id="accounterForm" method="post" action="/resetpassword">
 								<c:if test="${successMessage != null}">
 								<span style="color: #3299A4; line-height: 1.5;">
 								${successMessage} </span>
@@ -99,15 +98,15 @@ $(document).ready(function() {
 								      
 								  </td>
 								  <td>
-									  <ul class="reset-ok-button">
-											<li><span class="signup-submit-left"></span></li>
-											<li><input type="submit" tabindex="3" value="Ok" name="ok" class="signup-submit-mid forget-but" id="submitButton"></li>
-											<li><span class="signup-submit-right"></span></li>
-										 </ul>
-									  <ul class="reset-cancel-button">
-											<li><span class="signup-submit-left"></span></li>
-											<li><input type="button" tabindex="4" value="Cancel" name="cancel" class="signup-submit-mid forget-but" onClick="location.href='/site/login'"></li>
-											<li><span class="signup-submit-right"></span></li>
+								     <ul class="reset-ok-button">
+										<li><span class="signup-submit-left"></span></li>
+										<li><input type="submit" tabindex="3" value="Ok" name="ok" class="signup-submit-mid forget-but" id="submitButton"></li>
+										<li><span class="signup-submit-right"></span></li>
+									 </ul>
+								     <ul class="reset-cancel-button">
+										<li><span class="signup-submit-left"></span></li>
+										<li><input type="button" tabindex="4" value="Cancel" name="cancel" class="signup-submit-mid forget-but" onClick="location.href='/login'"></li>
+										<li><span class="signup-submit-right"></span></li>
 									 </ul>
 								  </td>
 								  </tr>
@@ -116,12 +115,10 @@ $(document).ready(function() {
 								</c:if>
 								</c:if>
 								</div>
-							<div>	
+									
 					</form>
 				
 				</div>
-			
-				</div><div class="login-box-shadow"></div>
 			</div>
 				<div class="down-test" id="down"></div>
 			<%@ include file="./footer.jsp" %>
