@@ -153,10 +153,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		grid.isEnable = false;
 		grid.init();
 		grid.setHeight("300px");
-		grid
-				.initParentAndChildIcons(Accounter.getFinanceMenuImages()
-						.newAccount(), Accounter.getFinanceMenuImages()
-						.newFixedAsset());
+		grid.initParentAndChildIcons(Accounter.getFinanceMenuImages()
+				.newAccount(), Accounter.getFinanceMenuImages().newFixedAsset());
 		gridPanel.add(grid);
 
 		mainPanel.add(gridPanel);
@@ -183,14 +181,14 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 					ClientFinanceDate date2 = new ClientFinanceDate(
 							getCompany().getPreferences()
 									.getDepreciationStartDate());
-					depreciationStartDate = new ClientFinanceDate(date2
-							.getYear(), date2.getMonth(), 1);
+					depreciationStartDate = new ClientFinanceDate(
+							date2.getYear(), date2.getMonth(), 1);
 				} else {
-					depreciationStartDate = new ClientFinanceDate(date
-							.getYear(), date.getMonth(), date.getDay() + 1);
+					depreciationStartDate = new ClientFinanceDate(
+							date.getYear(), date.getMonth(), date.getDay() + 1);
 				}
 				fromLabel
-						.setText("Depreciate from:  "
+						.setText(Accounter.constants().depreciatefrom()
 								+ format.format(depreciationStartDate
 										.getDateAsObject()));
 				for (String dateArray : getDatesArray()) {
@@ -274,8 +272,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			Calendar tempCal = Calendar.getInstance();
 			tempCal.set(Calendar.YEAR, fromDateCal.get(Calendar.YEAR));
 			tempCal.set(Calendar.MONTH, fromDateCal.get(Calendar.MONTH));
-			tempCal.set(Calendar.DAY_OF_MONTH, fromDateCal
-					.getActualMaximum(Calendar.DAY_OF_MONTH));
+			tempCal.set(Calendar.DAY_OF_MONTH,
+					fromDateCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 			if (validateDate(new ClientFinanceDate(tempCal.date)))
 				dates.add(format.format(tempCal.getTime()));
@@ -345,7 +343,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 						@Override
 						public void onException(AccounterException caught) {
-							Accounter.showError("Depreciation failed!");
+							Accounter.showError(Accounter.constants()
+									.depreciationfailed());
 
 						}
 
@@ -364,7 +363,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	@Override
 	public boolean validate() throws Exception {
 		if (!(assets.size() > 0)) {
-			Accounter.showError("Please select a Fixed Asset");
+			Accounter
+					.showError(Accounter.constants().pleaseselectaFixedAsset());
 			return false;
 		}
 		return super.validate();
@@ -388,7 +388,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		MainFinanceWindow.getViewManager().showError(
-				"Can not able to apply Deprecition");
+				Accounter.constants().cannotabletoapplyDeprecition());
 	}
 
 	protected void getDepreciableFixedAssets() {
@@ -447,13 +447,16 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 						dummyEntriesList.add(dummyEntry);
 					}
 					// grid.addParent(account != null ? account.getName() : "");
-					grid.addParentWithChilds(account != null ? account
-							.getName() : "", dummyEntriesList);
+					grid.addParentWithChilds(
+							account != null ? account.getName() : "",
+							dummyEntriesList);
 				}
 			} else
-				grid.addEmptyMessage("No Depreciable Fixed Assets to show");
+				grid.addEmptyMessage(Accounter.constants()
+						.noDepreciableFixedAssetstoshow());
 		} else
-			grid.addEmptyMessage("No Depreciable Fixed Assets to show");
+			grid.addEmptyMessage(Accounter.constants()
+					.noDepreciableFixedAssetstoshow());
 
 	}
 

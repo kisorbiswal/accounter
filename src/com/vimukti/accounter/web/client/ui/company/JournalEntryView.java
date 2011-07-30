@@ -97,7 +97,8 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 				// BaseView.commentPanel.setVisible(true);
 				// AbstractBaseView.errorOccured = true;
 				MainFinanceWindow.getViewManager().appendError(
-						"Memo Cannot Exceeds more than 255 Characters");
+						Accounter.constants()
+								.memoCannotExceedsmorethan255Characters());
 
 			}
 			return false;
@@ -169,7 +170,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			// callback.onSuccess(result);
 			// }
 		} else {
-			saveFailed(new JavaScriptException("I m failed"));
+			saveFailed(new JavaScriptException(Accounter.constants().imfailed()));
 		}
 
 	}

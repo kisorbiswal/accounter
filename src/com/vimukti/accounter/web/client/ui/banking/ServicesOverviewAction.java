@@ -40,7 +40,7 @@ public class ServicesOverviewAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "ServicesOverview";
+		return "servicesOverview";
 	}
 
 }

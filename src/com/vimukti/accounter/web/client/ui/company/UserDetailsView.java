@@ -26,11 +26,14 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	private void createControls() {
 
 		mainPanel = new VerticalPanel();
-		userNameLabel = new Label("Name : " + Accounter.getUser().getFullName());
+		userNameLabel = new Label(Accounter.constants().nameColon()
+				+ Accounter.getUser().getFullName());
 		userNameLabel.setStyleName("user-name");
-		mailIdLabel = new Label("Mail ID : " + Accounter.getUser().getEmail());
+		mailIdLabel = new Label(Accounter.constants().mailIDColon()
+				+ Accounter.getUser().getEmail());
 		mailIdLabel.setStyleName("user-name");
-		changePasswordHtml = new HTML("<a> Change Password </a>");
+		changePasswordHtml = new HTML(Accounter.constants()
+				.changePasswordHTML());
 		changePasswordHtml.setStyleName("change-password");
 		changePasswordHtml.setWidth("12%");
 		changePasswordHtml.addClickHandler(new ClickHandler() {

@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-
 public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 	private HTML enterStartDateLabel;
@@ -50,21 +49,18 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		 * clientFiscalYear.getEndDate(); } } startDateItem.setDate(startDate);
 		 * }
 		 */
-		startDateItem.setDatethanFireEvent(new ClientFinanceDate(
-				getCompany().getPreferences()
-						.getStartOfFiscalYear()));
+		startDateItem.setDatethanFireEvent(new ClientFinanceDate(getCompany()
+				.getPreferences().getStartOfFiscalYear()));
 	}
 
 	private void createControls() {
 		enterStartDateLabel = new HTML();
 		enterStartDateLabel.setHTML(Accounter.constants()
 				.pleaseEnterNewStartDate());
-		startDateItem = new DateField(Accounter.constants()
-				.startDate());
+		startDateItem = new DateField(Accounter.constants().startDate());
 		startDateItem.setHelpInformation(true);
 
-		long startdate = getCompany().getPreferences()
-				.getStartOfFiscalYear();
+		long startdate = getCompany().getPreferences().getStartOfFiscalYear();
 		startDateItem.setEnteredDate(new ClientFinanceDate(startdate));
 		// startDateItem.setTitle("Start date");
 		dynamicForm = new DynamicForm();
@@ -75,7 +71,6 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		setBodyLayout(mainVlayout);
 		addInputDialogHandler(new InputDialogHandler() {
 
-			
 			private ArrayList<ClientFiscalYear> listofNewFiscalYears = new ArrayList<ClientFiscalYear>();
 
 			@Override
@@ -90,7 +85,9 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 						.getStartDate())
 						&& firstFiscalYear.getStatus() == ClientFiscalYear.STATUS_CLOSE) {
 					Accounter
-							.showError("New fiscal year start date must begin later than the end date of the most recent, closed fiscal year");
+							.showError(Accounter
+									.constants()
+									.newfiscalyearstartdatemustbeginlaterthantheenddateofthemostrecent());
 					return false;
 				}
 				// if (changedFiscalStartDate.before(firstFiscalYear
@@ -121,7 +118,8 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showInformation("Fiscalyears Creation Failed");
+				Accounter.showInformation(Accounter.constants()
+						.fiscalyearsCreationFailed());
 			}
 
 			@Override
@@ -141,14 +139,13 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				callback);
 	}
 
-	
 	private List<ClientFiscalYear> getModifiedFiscalYears() {
 		// AccounterValidator.createNecessaryFiscalYears(fiscalYear1, asOfDate,
 		// view)
 		return null;
 	}
 
-	@SuppressWarnings( { "deprecation", "unused" })
+	@SuppressWarnings({ "deprecation", "unused" })
 	private void createNessasaryFiscalYears() {
 		ArrayList<ClientFiscalYear> listofNewFiscalYears = new ArrayList<ClientFiscalYear>();
 		ClientFinanceDate changedStartDate = startDateItem.getDate();
@@ -177,8 +174,8 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				tempEndDate.setYear(tempEndDate.getYear() + 1);
 				tempEndDate.setDay(tempEndDate.getDay() - 1);
 				if (tempEndDate.after(firstStartDate)) {
-					tempEndDate = new ClientFinanceDate(firstStartDate
-							.getDate());
+					tempEndDate = new ClientFinanceDate(
+							firstStartDate.getDate());
 				}
 				ClientFiscalYear newFiscalYear = new ClientFiscalYear();
 				newFiscalYear.setStartDate(tempStartDate.getDate());
@@ -197,8 +194,8 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				tempEndDate.setYear(tempEndDate.getYear() + 1);
 				tempEndDate.setDay(tempEndDate.getDay() - 1);
 				if (tempEndDate.after(changedStartDate)) {
-					tempEndDate = new ClientFinanceDate(changedStartDate
-							.getDate());
+					tempEndDate = new ClientFinanceDate(
+							changedStartDate.getDate());
 				}
 				ClientFiscalYear newFiscalYear = new ClientFiscalYear();
 				newFiscalYear.setStartDate(tempStartDate.getDate());
@@ -234,8 +231,8 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 		listofperiods.removeAllRecords();
 
-		for (ClientFiscalYear clientFiscalYear : Accounter
-				.getCompany().getFiscalYears()) {
+		for (ClientFiscalYear clientFiscalYear : Accounter.getCompany()
+				.getFiscalYears()) {
 			listofperiods.addData(clientFiscalYear);
 		}
 	}
@@ -254,8 +251,8 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	public void addFiscalYearsToList() {
 		listofperiods.removeAllRecords();
 
-		for (ClientFiscalYear clientFiscalYear : Accounter
-				.getCompany().getFiscalYears()) {
+		for (ClientFiscalYear clientFiscalYear : Accounter.getCompany()
+				.getFiscalYears()) {
 			listofperiods.addData(clientFiscalYear);
 		}
 	}

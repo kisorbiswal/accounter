@@ -39,7 +39,7 @@ public class SignupforCreditcardprocessingAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "SignupforCreditcard";
+		return "signupforCreditcard";
 	}
 
 }

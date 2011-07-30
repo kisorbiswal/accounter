@@ -4,6 +4,7 @@ import com.google.gwt.i18n.client.Constants;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.IsWidget;
 
 public interface AccounterConstants extends Constants {
 
@@ -4120,5 +4121,49 @@ public interface AccounterConstants extends Constants {
 	public String email3();
 
 	public PredefinedFormat dateFormatWithSlashStartsWithMonth();
+
+	public String depositTransferFunds();
+
+	public String failedtoloadEmployeeslist();
+
+	public String ifpaidwithin();
+
+	public String newfiscalyearstartdatemustbeginlaterthantheenddateofthemostrecent();
+
+	public String fiscalyearsCreationFailed();
+
+	public String passwordSuccessfullyChanged();
+
+	public String yourPresentPasswordisWrong();
+
+	public String preferences();
+
+	public SafeHtml startFiscalHTML();
+
+	public SafeHtml endFiscalHTML();
+
+	public SafeHtml fiscalStartEndCompreHTML();
+
+	public String depreciationfailed();
+
+	public String pleaseselectaFixedAsset();
+
+	public String cannotabletoapplyDeprecition();
+
+	public String noDepreciableFixedAssetstoshow();
+
+	public String depreciatefrom();
+
+	public String dateofBirthshouldshowmorethan18years();
+
+	public String memoCannotExceedsmorethan255Characters();
+
+	public String imfailed();
+
+	public String nameColon();
+
+	public String mailIDColon();
+
+	public SafeHtml changePasswordHTML();
 
 }

@@ -40,8 +40,7 @@ public class ReconcileAccountAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-
-		return null;
+		return "recouncileAccount";
 	}
 
 }

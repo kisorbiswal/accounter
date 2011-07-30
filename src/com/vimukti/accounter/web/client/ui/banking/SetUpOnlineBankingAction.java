@@ -40,7 +40,7 @@ public class SetUpOnlineBankingAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "SetUpOnlineBanking";
+		return "setUpOnlineBanking";
 	}
 
 }

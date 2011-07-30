@@ -47,7 +47,7 @@ public class AcceptCreditCardsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "AcceptCreditCards";
+		return "acceptCreditCards";
 	}
 
 }

@@ -235,8 +235,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		DeckPanel deckPanel = tabSet.getDeckPanel();
 		// deckPanel.setSize("450px", "400px");
-		tabSet.add(getCompanyInfo(), "Company Info");
-		tabSet.add(getCompanyTab(), "Preferences");
+		tabSet.add(getCompanyInfo(), Accounter.constants().companyinfo());
+		tabSet.add(getCompanyTab(), Accounter.constants().preferences());
 		// tabSet.add(getSystemAccountsTab(),
 		// Accounter.constants().systemAccounts());
 		// tabSet.add(getGerneralTab(), Accounter.constants().general());

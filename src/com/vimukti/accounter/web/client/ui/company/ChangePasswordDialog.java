@@ -89,7 +89,8 @@ public class ChangePasswordDialog extends BaseDialog {
 		if (!(newPassword.toString().length() < 6)) {
 			if (newPassword.equals(confirmNewPassword)) {
 				Accounter.createHomeService().changePassWord(emailID,
-						oldPassword, newPassword, new AccounterAsyncCallback<Boolean>() {
+						oldPassword, newPassword,
+						new AccounterAsyncCallback<Boolean>() {
 
 							@Override
 							public void onException(AccounterException caught) {
@@ -100,13 +101,16 @@ public class ChangePasswordDialog extends BaseDialog {
 							public void onSuccess(Boolean result) {
 								if (result) {
 									removeFromParent();
-									Accounter
-											.showInformation("Password Successfully Changed");
+									Accounter.showInformation(Accounter
+											.constants()
+											.passwordSuccessfullyChanged());
 								} else {
 									MainFinanceWindow
 											.getViewManager()
 											.showErrorInCurrectDialog(
-													"Your Present Password is Wrong");
+													Accounter
+															.constants()
+															.yourPresentPasswordisWrong());
 								}
 							}
 

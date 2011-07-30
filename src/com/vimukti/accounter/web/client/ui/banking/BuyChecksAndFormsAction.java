@@ -37,7 +37,7 @@ public class BuyChecksAndFormsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return null;
+		return "buyChecksandForms";
 	}
 
 }

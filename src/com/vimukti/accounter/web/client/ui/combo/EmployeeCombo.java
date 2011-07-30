@@ -36,7 +36,7 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError("Failed to load Employees list");
+						Accounter.showError(Accounter.constants().failedtoloadEmployeeslist());
 					}
 				});
 	}

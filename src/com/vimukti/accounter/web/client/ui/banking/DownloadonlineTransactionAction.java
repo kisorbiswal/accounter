@@ -37,7 +37,7 @@ public class DownloadonlineTransactionAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return null;
+		return "downloadonlineTransaction";
 	}
 
 }

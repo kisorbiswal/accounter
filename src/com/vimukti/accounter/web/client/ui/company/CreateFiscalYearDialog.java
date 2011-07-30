@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-
 public class CreateFiscalYearDialog extends BaseDialog {
 
 	private HTML createFiscalYearLabel;
@@ -31,15 +30,13 @@ public class CreateFiscalYearDialog extends BaseDialog {
 		this.listOfFiscalYear = listOfperiods;
 		createControls();
 		center();
-		if (title.equalsIgnoreCase(Accounter.constants()
-				.editFiscalYear())) {
+		if (title.equalsIgnoreCase(Accounter.constants().editFiscalYear())) {
 			initData();
 		} else {
 			initNewFiscalYearData();
 		}
 	}
 
-	
 	private void initNewFiscalYearData() {
 		ClientFinanceDate startdate = null, presentDate, endDate;
 		if (listOfFiscalYear.getRecords() != null
@@ -94,8 +91,7 @@ public class CreateFiscalYearDialog extends BaseDialog {
 
 	private void createControls() {
 		createFiscalYearLabel = new HTML();
-		createFiscalYearLabel.setHTML(Accounter.constants()
-				.createFascalYear());
+		createFiscalYearLabel.setHTML(Accounter.constants().createFascalYear());
 		descriptionLabel = new HTML();
 		descriptionLabel.setHTML(Accounter.constants()
 				.enterAppropriateFiscalYear());
@@ -103,13 +99,11 @@ public class CreateFiscalYearDialog extends BaseDialog {
 		startOfFiscalYear.setHelpInformation(true);
 		startOfFiscalYear.setRequired(true);
 		// startOfFiscalYear.setDisabled(true);
-		startOfFiscalYear.setTitle(Accounter.constants()
-				.startOfFiscalYear());
+		startOfFiscalYear.setTitle(Accounter.constants().startOfFiscalYear());
 		endOfFiscalYear = new DateItem();
 		endOfFiscalYear.setRequired(true);
 		endOfFiscalYear.setHelpInformation(true);
-		endOfFiscalYear.setTitle(Accounter.constants()
-				.endOfFiscalYear());
+		endOfFiscalYear.setTitle(Accounter.constants().endOfFiscalYear());
 		dynamicForm = new DynamicForm();
 		dynamicForm.setFields(startOfFiscalYear, endOfFiscalYear);
 		mainVlayout = new VerticalPanel();
@@ -123,31 +117,31 @@ public class CreateFiscalYearDialog extends BaseDialog {
 			@Override
 			public boolean onOkClick() {
 				if (startOfFiscalYear.getDateBox().getValue().isEmpty()) {
-					BaseDialog.errordata
-							.setHTML("<li> Please enter Start Of Fiscalyear ");
+					BaseDialog.errordata.setHTML(Accounter.constants()
+							.startFiscalHTML());
 					BaseDialog.commentPanel.setVisible(true);
 					return false;
 				} else if (endOfFiscalYear.getDateBox().getValue().isEmpty()) {
-					BaseDialog.errordata
-							.setHTML("<li> Please enter End Of FiscalYear ");
+					BaseDialog.errordata.setHTML(Accounter.constants()
+							.endFiscalHTML());
 					BaseDialog.commentPanel.setVisible(true);
 					return false;
 				} else if (endOfFiscalYear.getDate().before(
 						startOfFiscalYear.getDate())) {
-					BaseDialog.errordata
-							.setHTML("<li>End of Fiscal year is before Start of Fiscal Year");
+					BaseDialog.errordata.setHTML(Accounter.constants()
+							.fiscalStartEndCompreHTML());
 					BaseDialog.commentPanel.setVisible(true);
 
 					return false;
 				}
-				if (title.equalsIgnoreCase(Accounter
-						.constants().editFiscalYear())) {
+				if (title.equalsIgnoreCase(Accounter.constants()
+						.editFiscalYear())) {
 
 					final ClientFiscalYear updateFiscalYear = getEditFiscalYear();
 					ViewManager.getInstance().alterObject(updateFiscalYear,
 							CreateFiscalYearDialog.this);
-				} else if (title.equalsIgnoreCase(Accounter
-						.constants().createFascalYear())) {
+				} else if (title.equalsIgnoreCase(Accounter.constants()
+						.createFascalYear())) {
 					final ClientFiscalYear fiscalYear = getNewFiscalYear();
 					ViewManager.getInstance().createObject(fiscalYear,
 							CreateFiscalYearDialog.this);
@@ -193,8 +187,8 @@ public class CreateFiscalYearDialog extends BaseDialog {
 	@Override
 	public void saveSuccess(IAccounterCore object) {
 		listOfFiscalYear.removeAllRecords();
-		for (ClientFiscalYear clientFiscalYear : Accounter
-				.getCompany().getFiscalYears()) {
+		for (ClientFiscalYear clientFiscalYear : Accounter.getCompany()
+				.getFiscalYears()) {
 			listOfFiscalYear.addData(clientFiscalYear);
 		}
 		// if (Utility.getObject(this.listOfFiscalYear.getRecords(), object

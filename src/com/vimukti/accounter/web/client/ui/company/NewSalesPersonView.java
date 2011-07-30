@@ -166,7 +166,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
 					MainFinanceWindow.getViewManager().showError(
-							"Date of Birth should show more than 18 years");
+							Accounter.constants()
+									.dateofBirthshouldshowmorethan18years());
 				}
 			}
 		});
@@ -321,7 +322,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
 					MainFinanceWindow.getViewManager().showError(
-							"Date of Birth should show more than 18 years");
+							Accounter.constants()
+									.dateofBirthshouldshowmorethan18years());
 				} else {
 					this.createObject(salesPerson);
 				}
@@ -372,7 +374,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	}
 
-	
 	private void reload() {
 		try {
 			ActionFactory.getNewSalesperSonAction().run(null, true);

@@ -95,9 +95,9 @@ public class AddPaymentTermDialog extends BaseDialog {
 		discText.setHelpInformation(true);
 		discText.setColSpan(1);
 		discText.setWidth(90);
-		discText.setHint(" if paid within ");
+		discText.setHint(Accounter.constants().ifpaidwithin());
 
-		discDayText = new IntegerField("If paid within");
+		discDayText = new IntegerField(Accounter.constants().ifpaidwithin());
 		discDayText.setHelpInformation(true);
 		discDayText.setColSpan(1);
 		discDayText.setHint(Accounter.constants().days());

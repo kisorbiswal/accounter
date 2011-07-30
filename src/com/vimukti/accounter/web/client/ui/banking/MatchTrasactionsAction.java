@@ -37,7 +37,7 @@ public class MatchTrasactionsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return null;
+		return "matchTransactions";
 	}
 
 }
