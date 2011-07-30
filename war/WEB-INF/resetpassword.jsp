@@ -54,6 +54,43 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	 $('.reset_password').click(function(){
+	    $('.indication-box').remove();
+	        $('#reset_hint_box').append('<div class="indication-box"><div class="left-arrow"></div><div class="box-data">Use 3 to 60 characters, don't use your name or Zoho ID. Use mix of lower/uppercase letters, numbers and special characters</div></div>');
+	    }).blur(function() {
+	        $('.indication-box').remove();
+	 });
+	 
+	 function CheckPassword(password)
+	 {
+ 	    var strength = new Array();
+ 	    strength[0] = "Very Weak";
+ 	    strength[1] = "Weak";
+ 	    strength[2] = "Medium";
+ 	    strength[3] = "Strong";
+ 	    strength[4] = "Very Strong";
+ 	 
+ 	    var score = 1;
+ 	 
+ 	    if (password.length < 4)
+ 	        return strength[1];
+ 	 
+ 	    if (password.length >= 8)
+ 	        score++;
+ 	    if (password.length >= 12)
+ 	        score++;
+ 	    if (password.match(/\d+/))
+ 	        score++;
+ 	    if (password.match(/[a-z]/) &&
+ 	        password.match(/[A-Z]/))
+ 	        score++;
+ 	    if (password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,£,(,)]/))
+ 	        score++;
+ 	 
+ 	    return strength[score];
+ 	}
+	
 });	
 	
 </script>
@@ -83,7 +120,10 @@ $(document).ready(function() {
 							      <tr>
 								     <td>New Password </td>
 									 <td>
-										<input id="mid-box"  type="password" name="newPassword" tabindex="1" value="">								
+										<input id="mid-box"  type="password" name="newPassword" onkeyup="CheckPassword(this.value)" tabindex="1" value="" class="reset_password">								
+									 </td>
+									 <td id="reset_hint_box">
+									 
 									 </td>
 								  </tr>
 								  <tr>

@@ -2,8 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
   <head>
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <title>Accounter</title>
+        <meta content="IE=100" http-equiv="X-UA-Compatible">
+		<link rel="shortcut icon" href="../images/favicon.ico" />
+		<% String version = application.getInitParameter("version"); %>
       <link type="text/css" rel="stylesheet" href="/css/Finance.css?version=<%= version%>">
   </head>
   <body>
