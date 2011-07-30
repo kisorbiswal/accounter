@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
@@ -3864,6 +3865,7 @@ public interface AccounterConstants extends Constants {
 
 	public String zipPostalCode();
 
+	// TODAY
 	public String measurementName();
 
 	public String measurementDescription();
@@ -3896,6 +3898,7 @@ public interface AccounterConstants extends Constants {
 
 	// TODO
 	public SafeHtml upload();
+
 	public String noImageisselected();
 
 	public String accept();
@@ -3987,6 +3990,7 @@ public interface AccounterConstants extends Constants {
 	public String employeeBlah();
 
 	public String emptyexlematorymark1();
+
 	public String emptyexlematorymark2();
 
 	public String enuffexlematorymark();
@@ -4042,4 +4046,79 @@ public interface AccounterConstants extends Constants {
 	public String failedtogettheTransactionPaySalesTaxList();
 
 	public String failedtovoidPaySalesTax();
+
+	public String priceLevelAlreadyExists();
+
+	public String selectAccountType();
+
+	public String selectAnAccountType();
+
+	public String failed2exlematorymarks();
+
+	public String errorCantfindprintingframe();
+
+	public String shippingMethodAlreadyExists();
+
+	public String shippingTermAlreadyExists();
+
+	public String pleaseloginorcreateauserfirst();
+
+	public String companynull();
+
+	public String invalidemail();
+
+	public String couldnotauthenticate();
+
+	public String loginfailed();
+
+	public String getUserCameButFailed();
+
+	public String resultnull();
+
+	public String getCompanyListFailed();
+
+	public String nocompany();
+
+	public PredefinedFormat dataTimeFormat();
+
+	public PredefinedFormat dateFormat();
+
+	public PredefinedFormat dateFormatWithSlash();
+
+	public PredefinedFormat dateFormatWithDash();
+
+	public String notyetimplemented();
+
+	public String sun();
+
+	public String mon();
+
+	public String tues();
+
+	public String wednes();
+
+	public String thurs();
+
+	public String fri();
+
+	public String satur();
+
+	public String daycomma();
+
+	public String unKnownExceptionGotNull();
+
+	public String companyregistration();
+
+	public String mobile();
+
+	public String assistant();
+
+	public String email1();
+
+	public String email2();
+
+	public String email3();
+
+	public PredefinedFormat dateFormatWithSlashStartsWithMonth();
+
 }

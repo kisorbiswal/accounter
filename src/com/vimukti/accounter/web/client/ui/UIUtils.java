@@ -238,7 +238,7 @@ public class UIUtils {
 		if (company != null) {
 			compName = company.getName();
 		} else {
-			compName = "no company";
+			compName = Accounter.constants().nocompany();
 		}
 		String appName = Accounter.getAppName();
 
@@ -257,8 +257,8 @@ public class UIUtils {
 		try {
 			// SimpleDateFormat new
 			ClientFinanceDate date = new ClientFinanceDate(new Date(longFormat));
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("MMM dd, yyyy hh:mm a");
+			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
+					.constants().dataTimeFormat());
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 		} catch (Exception e) {
@@ -294,8 +294,8 @@ public class UIUtils {
 		try {
 			if (date == null)
 				return "";
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("yyyy-MM-dd");
+			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
+					.constants().dateFormat());
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 		} catch (Exception e) {
@@ -308,8 +308,8 @@ public class UIUtils {
 		try {
 			if (date == null)
 				return "";
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("dd/MM/yyyy");
+			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
+					.constants().dateFormatWithSlash());
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 
@@ -326,8 +326,8 @@ public class UIUtils {
 	public static ClientFinanceDate stringToDate(String strdate) {
 		try {
 			strdate = strdate.replace("/", "-");
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("yyyy-MM-dd");
+			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
+					.constants().dateFormatWithDash());
 			if (strdate != null) {
 				Date format = (Date) dateFormatter.parse(strdate);
 				return new ClientFinanceDate(format);
@@ -341,8 +341,8 @@ public class UIUtils {
 
 	public static String stringToDate(Date strdate) {
 		try {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("yyyy-MM-dd");
+			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
+					.constants().dateFormatWithDash());
 			String format = dateFormatter.format(strdate);
 			return format;
 		} catch (Exception e) {
@@ -354,7 +354,7 @@ public class UIUtils {
 	public static ClickHandler todoClick() {
 		return new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				say("Not yet implemented.");
+				say(Accounter.constants().notyetimplemented());
 			}
 		};
 	}
@@ -386,67 +386,67 @@ public class UIUtils {
 		var formate = "";
 		switch (date.getDay()) {
 		case 0:
-			formate += "Sun";
+			formate += Accounter.constants().sun();
 			break;
 		case 1:
-			formate += "Mon";
+			formate += Accounter.constants().mon();
 			break;
 		case 2:
-			formate += "Tues";
+			formate += Accounter.constants().tues();
 			break;
 		case 3:
-			formate += "Wednes";
+			formate += Accounter.constants().wednes();
 			break;
 		case 4:
-			formate += "Thurs";
+			formate += Accounter.constants().thurs();
 			break;
 		case 5:
-			formate += "Fri";
+			formate += Accounter.constants().fri();
 			break;
 		case 6:
-			formate += "Satur";
+			formate += Accounter.constants().satur();
 			break;
 		default:
 			null;
 			break;
 		}
-		formate += "day, ";
+		formate += Accounter.constants().daycomma();
 		switch (date.getMonth()) {
 		case 0:
-			formate += "Jan";
+			formate += Accounter.constants().JAN();
 			break;
 		case 1:
-			formate += "Feb";
+			formate += Accounter.constants().FEB();
 			break;
 		case 2:
-			formate += "Mar";
+			formate += Accounter.constants().MAR();
 			break;
 		case 3:
-			formate += "Apr";
+			formate += Accounter.constants().APR();
 			break;
 		case 4:
-			formate += "May";
+			formate += Accounter.constants().MAY();
 			break;
 		case 5:
-			formate += "Jun";
+			formate += Accounter.constants().JUN();
 			break;
 		case 6:
-			formate += "Jul";
+			formate += Accounter.constants().JUL();
 			break;
 		case 7:
-			formate += "Aug";
+			formate += Accounter.constants().AUG();
 			break;
 		case 8:
-			formate += "Sep";
+			formate += Accounter.constants().SEP();
 			break;
 		case 9:
-			formate += "Oct";
+			formate += Accounter.constants().OCT();
 			break;
 		case 10:
-			formate += "Nov";
+			formate += Accounter.constants().NOV();
 			break;
 		case 11:
-			formate += "Dec";
+			formate += Accounter.constants().DEC();
 			break;
 		}
 		formate += " " + date.getDate() + ", " + date.getFullYear();
@@ -473,42 +473,41 @@ public class UIUtils {
 		var formate = "";
 		switch (date.getMonth()) {
 		case 0:
-			formate += "Jan";
+			formate += Accounter.constants().JAN();
 			break;
 		case 1:
-			formate += "Feb";
+			formate += Accounter.constants().FEB();
 			break;
 		case 2:
-			formate += "Mar";
+			formate += Accounter.constants().MAR();
 			break;
 		case 3:
-			formate += "Apr";
+			formate += Accounter.constants().APR();
 			break;
 		case 4:
-			formate += "May";
+			formate += Accounter.constants().MAY();
 			break;
 		case 5:
-			formate += "Jun";
+			formate += Accounter.constants().JUN();
 			break;
 		case 6:
-			formate += "Jul";
+			formate += Accounter.constants().JUL();
 			break;
 		case 7:
-			formate += "Aug";
+			formate += Accounter.constants().AUG();
 			break;
 		case 8:
-			formate += "Sep";
+			formate += Accounter.constants().SEP();
 			break;
 		case 9:
-			formate += "Oct";
+			formate += Accounter.constants().OCT();
 			break;
 		case 10:
-			formate += "Nov";
+			formate += Accounter.constants().NOV();
 			break;
 		case 11:
-			formate += "Dec";
+			formate += Accounter.constants().DEC();
 			break;
-		}
 		formate += " " + date.getDate() + ", " + date.getFullYear();
 
 		return formate;
@@ -525,7 +524,8 @@ public class UIUtils {
 
 			public void onSuccess(Boolean result) {
 				if (result == null || !result) {
-					onFailure(new Exception("UnKnown Exception.... Got Null"));
+					onFailure(new Exception(Accounter.constants()
+							.unKnownExceptionGotNull()));
 					return;
 				}
 				// Accounter.stopExecution();
@@ -543,7 +543,8 @@ public class UIUtils {
 	// getGeneralizedSaveCallBack(
 	// final AbstractBaseView view, final T object) {
 	//
-	// AccounterAsyncCallback<String> callBack = new AccounterAsyncCallback<String>() {
+	// AccounterAsyncCallback<String> callBack = new
+	// AccounterAsyncCallback<String>() {
 	//
 	// public void onException(AccounterException caught) {
 	// view.saveFailed(caught);
@@ -577,7 +578,8 @@ public class UIUtils {
 
 			public void onSuccess(Boolean result) {
 				if (result == null || !result) {
-					onFailure(new Exception("UnKnown Exception.... Got Null"));
+					onFailure(new Exception(Accounter.constants()
+							.unKnownExceptionGotNull()));
 					return;
 				}
 				// Accounter.stopExecution();
@@ -596,7 +598,8 @@ public class UIUtils {
 	// getGeneralizedSaveCallBack(
 	// final AbstractBaseDialog view, final T object) {
 	//
-	// AccounterAsyncCallback<String> callBack = new AccounterAsyncCallback<String>() {
+	// AccounterAsyncCallback<String> callBack = new
+	// AccounterAsyncCallback<String>() {
 	//
 	// public void onException(AccounterException caught) {
 	// view.saveFailed(caught);
@@ -619,10 +622,12 @@ public class UIUtils {
 	// return callBack;
 	// }
 
-	// public static AccounterAsyncCallback<Boolean> getGeneralizedUpdateCallBack(
+	// public static AccounterAsyncCallback<Boolean>
+	// getGeneralizedUpdateCallBack(
 	// final AbstractBaseDialog view, final Object object) {
 	//
-	// AccounterAsyncCallback<Boolean> callBack = new AccounterAsyncCallback<Boolean>() {
+	// AccounterAsyncCallback<Boolean> callBack = new
+	// AccounterAsyncCallback<Boolean>() {
 	//
 	// public void onException(AccounterException caught) {
 	// view.saveFailed(caught);
@@ -861,7 +866,7 @@ public class UIUtils {
 	public static SelectCombo getPaymentMethodCombo() {
 		SelectCombo selectCombo = new SelectCombo(null);
 		selectCombo.setHelpInformation(true);
-		selectCombo.setTitle("Payment Method");
+		selectCombo.setTitle(Accounter.constants().paymentMethod());
 		selectCombo.setComboItem(Accounter.constants().cash());
 		List<String> listOfPaymentMethods = new ArrayList<String>();
 		listOfPaymentMethods.add(Accounter.constants().cash());
@@ -995,9 +1000,9 @@ public class UIUtils {
 	public static int getAddressType(String type) {
 		if (type.equalsIgnoreCase("1"))
 			return ClientAddress.TYPE_BUSINESS;
-		else if (type.equalsIgnoreCase("Bill to"))
+		else if (type.equalsIgnoreCase(Accounter.constants().billTo()))
 			return ClientAddress.TYPE_BILL_TO;
-		else if (type.equalsIgnoreCase("Ship to"))
+		else if (type.equalsIgnoreCase(Accounter.constants().shipTo()))
 			return ClientAddress.TYPE_SHIP_TO;
 		else if (type.equalsIgnoreCase("2"))
 			return ClientAddress.TYPE_WAREHOUSE;
@@ -1007,9 +1012,10 @@ public class UIUtils {
 			return ClientAddress.TYPE_POSTAL;
 		else if (type.equalsIgnoreCase("5"))
 			return ClientAddress.TYPE_HOME;
-		else if (type.equalsIgnoreCase("company"))
+		else if (type.equalsIgnoreCase(Accounter.constants().company()))
 			return ClientAddress.TYPE_COMPANY;
-		else if (type.equalsIgnoreCase("companyregistration"))
+		else if (type.equalsIgnoreCase(Accounter.constants()
+				.companyregistration()))
 			return ClientAddress.TYPE_COMPANY_REGISTRATION;
 
 		return ClientAddress.TYPE_OTHER;
@@ -1018,9 +1024,9 @@ public class UIUtils {
 	public static String getAddressesTypes(int type) {
 		switch (type) {
 		case ClientAddress.TYPE_BILL_TO:
-			return "Bill To";
+			return Accounter.constants().billTo();
 		case ClientAddress.TYPE_SHIP_TO:
-			return "Ship To";
+			return Accounter.constants().shipTo();
 		case ClientAddress.TYPE_BUSINESS:
 			return "1";
 		case ClientAddress.TYPE_WAREHOUSE:
@@ -1032,7 +1038,7 @@ public class UIUtils {
 		case ClientAddress.TYPE_HOME:
 			return "5";
 		default:
-			return "Bill To";
+			return Accounter.constants().billTo();
 
 		}
 
@@ -1041,43 +1047,43 @@ public class UIUtils {
 	public static String getPhoneTypes(int type) {
 		switch (type) {
 		case ClientPhone.BUSINESS_PHONE_NUMBER:
-			return "Company";
+			return Accounter.constants().company();
 		case ClientPhone.MOBILE_PHONE_NUMBER:
-			return "Mobile";
+			return Accounter.constants().mobile();
 		case ClientPhone.HOME_PHONE_NUMBER:
-			return "Home";
+			return Accounter.constants().home();
 		case ClientPhone.ASSISTANT_PHONE_NUMBER:
-			return "Assistant";
+			return Accounter.constants().assistant();
 		case ClientPhone.OTHER_PHONE_NUMBER:
-			return "Other";
+			return Accounter.constants().other();
 		default:
-			return "Company";
+			return Accounter.constants().company();
 		}
 	}
 
 	public static String getFaXTypes(int type) {
 		switch (type) {
 		case ClientFax.TYPE_BUSINESS:
-			return "Company";
+			return Accounter.constants().company();
 		case ClientFax.TYPE_HOME:
-			return "Home";
+			return Accounter.constants().home();
 		case ClientFax.TYPE_OTHER:
-			return "Other";
+			return Accounter.constants().other();
 		default:
-			return "Company";
+			return Accounter.constants().company();
 		}
 	}
 
 	public static int getPhoneType(String type) {
-		if (type.equalsIgnoreCase("Company"))
+		if (type.equalsIgnoreCase(Accounter.constants().company()))
 			return ClientPhone.BUSINESS_PHONE_NUMBER;
-		else if (type.equalsIgnoreCase("Mobile"))
+		else if (type.equalsIgnoreCase(Accounter.constants().mobile()))
 			return ClientPhone.MOBILE_PHONE_NUMBER;
-		else if (type.equalsIgnoreCase("Home"))
+		else if (type.equalsIgnoreCase(Accounter.constants().home()))
 			return ClientPhone.HOME_PHONE_NUMBER;
-		else if (type.equalsIgnoreCase("Assistant"))
+		else if (type.equalsIgnoreCase(Accounter.constants().assistant()))
 			return ClientPhone.ASSISTANT_PHONE_NUMBER;
-		else if (type.equalsIgnoreCase("Other"))
+		else if (type.equalsIgnoreCase(Accounter.constants().other()))
 			return ClientPhone.OTHER_PHONE_NUMBER;
 		else
 			return ClientPhone.OTHER_PHONE_NUMBER;
@@ -1085,22 +1091,22 @@ public class UIUtils {
 	}
 
 	public static int getFaxType(String type) {
-		if (type.equalsIgnoreCase("Company"))
+		if (type.equalsIgnoreCase(Accounter.constants().company()))
 			return ClientFax.TYPE_BUSINESS;
-		else if (type.equalsIgnoreCase("Home"))
+		else if (type.equalsIgnoreCase(Accounter.constants().home()))
 			return ClientFax.TYPE_HOME;
-		else if (type.equalsIgnoreCase("Other"))
+		else if (type.equalsIgnoreCase(Accounter.constants().other()))
 			return ClientFax.TYPE_OTHER;
 		else
 			return ClientFax.TYPE_OTHER;
 	}
 
 	public static int getEmailType(String type) {
-		if (type.equalsIgnoreCase("Email1"))
+		if (type.equalsIgnoreCase(Accounter.constants().email1()))
 			return ClientEmail.TYPE_EMAIL_1;
-		else if (type.equalsIgnoreCase("Email2"))
+		else if (type.equalsIgnoreCase(Accounter.constants().email2()))
 			return ClientEmail.TYPE_EMAIL_2;
-		else if (type.equalsIgnoreCase("Email3"))
+		else if (type.equalsIgnoreCase(Accounter.constants().email3()))
 			return ClientEmail.TYPE_EMAIL_3;
 		else
 			return ClientEmail.TYPE_EMAIL_1;
@@ -1168,14 +1174,14 @@ public class UIUtils {
 	public static String getTransactionTypeName(int type) {
 		switch (type) {
 		case ClientTransactionItem.TYPE_ACCOUNT:
-			return "Account";
+			return Accounter.constants().account();
 		case ClientTransactionItem.TYPE_ITEM:
-			return "Item";
+			return Accounter.constants().item();
 		case ClientTransactionItem.TYPE_SALESTAX:
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-				return "TaxGroup";
+				return Accounter.constants().taxGroup();
 			else
-				return "Vat Item";
+				return Accounter.constants().VATItem();
 		default:
 			break;
 		}
@@ -1385,8 +1391,8 @@ public class UIUtils {
 		if (incredNumber.length() > 0) {
 			// incredNumber = new
 			// StringBuffer(incredNumber).reverse().toString();
-			prevNumber = prevNumber.replace(incredNumber, ""
-					+ (Long.parseLong(incredNumber) + 1));
+			prevNumber = prevNumber.replace(incredNumber,
+					"" + (Long.parseLong(incredNumber) + 1));
 		}
 		return prevNumber;
 
@@ -1439,18 +1445,18 @@ public class UIUtils {
 			return "";
 		}
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("dd/MM/yyyy");
+			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
+					.constants().dateFormatWithSlash());
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("MM/dd/yyyy");
+			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
+					.constants().dateFormatWithSlashStartsWithMonth());
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 		} else {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("dd/MM/yyyy");
+			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
+					.constants().dateFormatWithSlash());
 			String format = dateFormatter.format(date.getDateAsObject());
 			return format;
 		}
@@ -1652,8 +1658,8 @@ public class UIUtils {
 
 	public static void downloadAttachment(long objectID, int type,
 			long brandingThemeId) {
-		downloadAttachment(String.valueOf(objectID), type, String
-				.valueOf(brandingThemeId));
+		downloadAttachment(String.valueOf(objectID), type,
+				String.valueOf(brandingThemeId));
 	}
 
 	/**
@@ -1739,43 +1745,43 @@ public class UIUtils {
 
 	public native static void generateStatementPDF(String reportTitle,
 			String htmlbody, String dateRangeHtml, String customerId)/*-{
-		try{
-		var submitForm = document.createElement("FORM");
-		 document.body.appendChild(submitForm);
-		 submitForm.method = "POST";
-		// submitForm.target="_blank";
+																		try{
+																		var submitForm = document.createElement("FORM");
+																		 document.body.appendChild(submitForm);
+																		 submitForm.method = "POST";
+																		// submitForm.target="_blank";
 
-		 var newElement = document.createElement("INPUT");
-		newElement.name="reporthtml";
-		newElement.type="hidden";
-		 submitForm.appendChild(newElement);
-		 newElement.value = htmlbody;
+																		 var newElement = document.createElement("INPUT");
+																		newElement.name="reporthtml";
+																		newElement.type="hidden";
+																		 submitForm.appendChild(newElement);
+																		 newElement.value = htmlbody;
 
-		var newElement1 = document.createElement("INPUT");
-		newElement1.name="reportTitle";
-		newElement1.type="hidden";
-		 submitForm.appendChild(newElement1);
-		 newElement1.value = reportTitle;
+																		var newElement1 = document.createElement("INPUT");
+																		newElement1.name="reportTitle";
+																		newElement1.type="hidden";
+																		 submitForm.appendChild(newElement1);
+																		 newElement1.value = reportTitle;
 
-		var newElement2 = document.createElement("INPUT");
-		newElement2.name="dateRangeHtml";
-		newElement2.type="hidden";
-		 submitForm.appendChild(newElement2);
-		 newElement2.value = dateRangeHtml;
+																		var newElement2 = document.createElement("INPUT");
+																		newElement2.name="dateRangeHtml";
+																		newElement2.type="hidden";
+																		 submitForm.appendChild(newElement2);
+																		 newElement2.value = dateRangeHtml;
 
-		var newElement3 = document.createElement("INPUT");
-		newElement3.name="customerId";
-		newElement3.type="hidden";
-		 submitForm.appendChild(newElement3);
-		 newElement3.value = customerId;
+																		var newElement3 = document.createElement("INPUT");
+																		newElement3.name="customerId";
+																		newElement3.type="hidden";
+																		 submitForm.appendChild(newElement3);
+																		 newElement3.value = customerId;
 
-		 submitForm.action= "/do/finance/generatePDFServlet";
-		 submitForm.submit();
+																		 submitForm.action= "/do/finance/generatePDFServlet";
+																		 submitForm.submit();
 
-		}catch(e){
-		alert(e);
-		}
-	}-*/;
+																		}catch(e){
+																		alert(e);
+																		}
+																		}-*/;
 
 	public static String stringToDate(ClientFinanceDate date) {
 		// currently not using
@@ -1787,9 +1793,9 @@ public class UIUtils {
 		if (paymentMethod.equals(Accounter.constants().cheque())
 				|| paymentMethod.equals(Accounter.constants().check())) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-				return "Cheque";
+				return Accounter.constants().cheque();
 			else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-				return "Check";
+				return Accounter.constants().check();
 		}
 
 		return paymentMethod;
@@ -1881,8 +1887,8 @@ public class UIUtils {
 
 	public static void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		exportReport(start, end, reportType, name, dateRangeHtml, String
-				.valueOf(status));
+		exportReport(start, end, reportType, name, dateRangeHtml,
+				String.valueOf(status));
 	}
 
 	public static native void exportReport(int start, int end, int reportType,
@@ -1903,8 +1909,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, long dateRangeHtml) {
-		generateReportPDF(start, end, reportType, name, String
-				.valueOf(dateRangeHtml));
+		generateReportPDF(start, end, reportType, name,
+				String.valueOf(dateRangeHtml));
 	}
 
 	public static native void generateReportPDF(int start, int end,
@@ -1925,8 +1931,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		generateReportPDF(start, end, reportType, name, dateRangeHtml, String
-				.valueOf(status));
+		generateReportPDF(start, end, reportType, name, dateRangeHtml,
+				String.valueOf(status));
 	}
 
 	public static native void generateReportPDF(int start, int end,

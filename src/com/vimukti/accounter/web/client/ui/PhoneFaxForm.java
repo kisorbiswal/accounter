@@ -35,10 +35,9 @@ public class PhoneFaxForm extends DynamicForm {
 		allFaxes = new LinkedHashMap<Integer, ClientFax>();
 		setPhonesAndFaxes(phones, faxes);
 		setIsGroup(true);
-		setGroupTitle(Accounter.constants()
-				.phoneAndFaxNumbers());
+		setGroupTitle(Accounter.constants().phoneAndFaxNumbers());
 		setNumCols(2);
-		businessPhoneSelect = new SelectCombo("Phone");
+		businessPhoneSelect = new SelectCombo(Accounter.constants().phone());
 		businessPhoneSelect.setHelpInformation(true);
 		// businessPhoneSelect.setWidth(85);
 		businessPhoneSelect.getMainWidget().removeStyleName("gwt-ListBox");
@@ -58,7 +57,7 @@ public class PhoneFaxForm extends DynamicForm {
 					}
 				});
 
-		businessPhoneText = new TextItem("Phone");
+		businessPhoneText = new TextItem(Accounter.constants().phone());
 		businessPhoneText.setHelpInformation(true);
 		// businessPhoneText.setShowTitle(false);
 		businessPhoneText.setWidth(100);
@@ -105,7 +104,7 @@ public class PhoneFaxForm extends DynamicForm {
 			businessPhoneText.setValue(toBeShownPhone.getNumber());
 		} else
 			businessPhoneSelect.setDefaultToFirstOption(true);
-		businessFaxSelect = new SelectCombo("Fax");
+		businessFaxSelect = new SelectCombo(Accounter.constants().fax());
 		businessFaxSelect.setHelpInformation(true);
 		businessFaxSelect.setWidth(85);
 		businessFaxSelect.getMainWidget().removeStyleName("gwt-ListBox");
@@ -124,7 +123,7 @@ public class PhoneFaxForm extends DynamicForm {
 							businessFaxText.setValue("");
 					}
 				});
-		businessFaxText = new TextItem("Fax");
+		businessFaxText = new TextItem(Accounter.constants().fax());
 		businessFaxText.setHelpInformation(true);
 		businessFaxText.setWidth(100);
 		// businessFaxText.setShowTitle(false);
@@ -228,8 +227,7 @@ public class PhoneFaxForm extends DynamicForm {
 				.getFaxType(businessFaxSelect.getSelectedValue()));
 		if (selectedFaxFromSelect != null) {
 			selectedFaxFromSelect.setIsSelected(true);
-			allFaxes
-					.put(selectedFaxFromSelect.getType(), selectedFaxFromSelect);
+			allFaxes.put(selectedFaxFromSelect.getType(), selectedFaxFromSelect);
 		}
 		Collection<ClientFax> faxs = allFaxes.values();
 		Set<ClientFax> toBeSetFaxes = new HashSet<ClientFax>();

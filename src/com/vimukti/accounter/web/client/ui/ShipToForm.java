@@ -28,14 +28,11 @@ public class ShipToForm extends DynamicForm {
 
 	public ShipToForm(Set<ClientAddress> addresses) {
 
-		
-		Label l1 = new Label(Accounter.constants()
-				.enterAddress());
+		Label l1 = new Label(Accounter.constants().enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
-		businessSelect = new SelectCombo(Accounter
-				.constants().shipTo());
+		businessSelect = new SelectCombo(Accounter.constants().shipTo());
 		businessSelect.setHelpInformation(true);
 		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
@@ -43,7 +40,7 @@ public class ShipToForm extends DynamicForm {
 		List<String> addressTypes = new ArrayList<String>();
 
 		addressTypes.addAll(new ClientAddress().getAddressTypes());
-		addressTypes.remove("Bill To");
+		addressTypes.remove(Accounter.constants().billTo());
 		businessSelect.initCombo(addressTypes);
 		businessSelect.setDefaultToFirstOption(true);
 
@@ -86,7 +83,6 @@ public class ShipToForm extends DynamicForm {
 		setFields(businessSelect, addrArea);
 	}
 
-	
 	private void setAddresses(Set<ClientAddress> addresses) {
 		if (addresses != null) {
 			Iterator it = addresses.iterator();
@@ -103,14 +99,14 @@ public class ShipToForm extends DynamicForm {
 		}
 	}
 
-	
 	public Set<ClientAddress> getAddresss() {
 		ClientAddress selectedAddress = allAddresses.get(UIUtils
 				.getAddressType(businessSelect.getSelectedValue()));
 		if (selectedAddress != null) {
 			selectedAddress.setIsSelected(true);
-			allAddresses.put(UIUtils.getAddressType(businessSelect
-					.getSelectedValue()), selectedAddress);
+			allAddresses.put(
+					UIUtils.getAddressType(businessSelect.getSelectedValue()),
+					selectedAddress);
 		}
 		Collection add = allAddresses.values();
 		Set<ClientAddress> toBeSet = new HashSet<ClientAddress>();
@@ -125,7 +121,6 @@ public class ShipToForm extends DynamicForm {
 		return toBeSet;
 	}
 
-	
 	public List<ClientAddress> getAddresssList() {
 		ClientAddress selectedAddress = allAddresses.get(businessSelect
 				.getSelectedValue());
@@ -159,7 +154,7 @@ public class ShipToForm extends DynamicForm {
 
 					addrArea.setValue(getValidAddress(address));
 
-					businessSelect.setSelected("Ship To");
+					businessSelect.setSelected(Accounter.constants().shipTo());
 				}
 
 			}

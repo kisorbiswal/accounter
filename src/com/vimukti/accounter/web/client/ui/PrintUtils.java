@@ -19,7 +19,7 @@ public class PrintUtils {
 	public static native void it(String html) /*-{
 		var frame = $doc.getElementById('__printingFrame');
 		if (!frame) {
-			$wnd.alert("Error: Can't find printing frame.");
+			$wnd.alert(Accounter.constants().errorCantfindprintingframe());
 			return;
 		}
 		frame = frame.contentWindow;
@@ -33,7 +33,7 @@ public class PrintUtils {
 
 	public static void print(UIObject obj) {
 		if (obj == null) {
-			UIUtils.say("No Data To Print...");
+			UIUtils.say(Accounter.constants().noDataToPrint());
 			return;
 		}
 
@@ -85,7 +85,7 @@ public class PrintUtils {
 
 	public static void it(String style, UIObject obj) {
 		if (obj == null) {
-			UIUtils.say("No Data To Print...");
+			UIUtils.say(Accounter.constants().noDataToPrint());
 			return;
 		}
 		it(style, obj.getElement().getInnerHTML());

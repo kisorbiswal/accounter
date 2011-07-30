@@ -111,7 +111,8 @@ public class StartupDialog extends DialogBox {
 		createCompButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (Accounter.getUser() == null) {
-					UIUtils.say("Please login or create a user first!");
+					UIUtils.say(Accounter.constants()
+							.pleaseloginorcreateauserfirst());
 				} else {
 					new CompanySetupDialog(null);
 				}
@@ -195,7 +196,7 @@ public class StartupDialog extends DialogBox {
 					// else
 
 				} else {
-					UIUtils.say("Company: null!");
+					UIUtils.say(Accounter.constants().companynull());
 				}
 			}
 
@@ -212,7 +213,7 @@ public class StartupDialog extends DialogBox {
 		if (!form.validate(true))
 			return false;
 		if (!UIUtils.isValidEmail(userEmailText.getValue().toString())) {
-			UIUtils.say("Invalid email!");
+			UIUtils.say(Accounter.constants().invalidemail());
 			return false;
 		}
 		return true;
@@ -222,7 +223,7 @@ public class StartupDialog extends DialogBox {
 
 		final AccounterAsyncCallback<ClientUser> checkLoginCallback = new AccounterAsyncCallback<ClientUser>() {
 			public void onException(AccounterException caught) {
-				UIUtils.say("Could not authenticate!");
+				UIUtils.say(Accounter.constants().couldnotauthenticate());
 			}
 
 			public void onSuccess(ClientUser result) {
@@ -239,7 +240,7 @@ public class StartupDialog extends DialogBox {
 					// });
 				} else {
 
-					UIUtils.say("Login failed!");
+					UIUtils.say(Accounter.constants().loginfailed());
 				}
 			}
 
@@ -307,7 +308,7 @@ public class StartupDialog extends DialogBox {
 					Accounter.setUser(user);
 					getCompany();
 				} else {
-					UIUtils.say("Get User Came But Failed!");
+					UIUtils.say(Accounter.constants().getUserCameButFailed());
 				}
 			}
 
@@ -328,7 +329,7 @@ public class StartupDialog extends DialogBox {
 					getCompany(result.get(0).getName());
 					// companyGrid.show();
 				} else {
-					UIUtils.say("Result: null!");
+					UIUtils.say(Accounter.constants().resultnull());
 				}
 			}
 		};
@@ -342,14 +343,14 @@ public class StartupDialog extends DialogBox {
 		AccounterAsyncCallback<List<ClientCompany>> getCompanyListCallback = new AccounterAsyncCallback<List<ClientCompany>>() {
 
 			public void onException(AccounterException caught) {
-				UIUtils.say("Get Company List Failed!");
+				UIUtils.say(Accounter.constants().getCompanyListFailed());
 			}
 
 			public void onSuccess(List<ClientCompany> result) {
 				if (result != null) {
 					getCompany(result.get(0).getName());
 				} else {
-					UIUtils.say("Result: null!");
+					UIUtils.say(Accounter.constants().resultnull());
 				}
 			}
 		};

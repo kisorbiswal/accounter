@@ -27,13 +27,14 @@ public class SelectAccountTypeDialog extends BaseDialog {
 
 	private LinkedHashMap<String, String> accountTypes;
 	private List<Integer> options;
-	
+
 	private ViewConfiguration configuration;
 	private String defaultId;
 
 	public SelectAccountTypeDialog(List<Integer> options,
 			ViewConfiguration configuration) {
-		super("Select Account Type", "Select an Account Type");
+		super(Accounter.constants().selectAccountType(), Accounter.constants()
+				.selectAnAccountType());
 		this.options = options;
 		this.configuration = configuration;
 		createControls();
@@ -97,14 +98,14 @@ public class SelectAccountTypeDialog extends BaseDialog {
 				String typeName = Utility.getAccountTypeString(type);
 				typeName = UIUtils.unbsp(typeName);
 
-				
 				NewAccountView accountView = new NewAccountView();
 				try {
 					// FIX ME
 					// UIUtils.setCanvas(accountView, configuration);
 					return true;
 				} catch (Throwable e) {
-					Accounter.showError("Failed!!");
+					Accounter.showError(Accounter.constants()
+							.failed2exlematorymarks());
 					e.printStackTrace();
 				}
 				return false;
@@ -157,6 +158,6 @@ public class SelectAccountTypeDialog extends BaseDialog {
 
 	@Override
 	protected String getViewTitle() {
-		return "Select Account Type";
+		return Accounter.constants().selectAccountType();
 	}
 }
