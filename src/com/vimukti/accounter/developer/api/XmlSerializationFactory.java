@@ -3,8 +3,8 @@ package com.vimukti.accounter.developer.api;
 import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.reflection.ReflectionProvider;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class XmlSerializationFactory implements ApiSerializationFactory {
 
@@ -47,6 +47,12 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 
 	@Override
 	public String serializeList(List<IAccounterCore> str) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String serialize(AccounterException ex) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
