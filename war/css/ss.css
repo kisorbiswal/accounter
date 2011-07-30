@@ -1860,9 +1860,18 @@ input[type="submit"]:FOCUS {
 	float:left;
 	margin:5px;
 }
-.reset-login-box{
+.activate-ok-button{
+	margin:5px;
+}
+.reset-login-box,.activation_code_box{
 	background: none repeat scroll 0 0 white;
     border: 1px solid #929292;
     margin: 10px;
     padding: 10px;
+}
+.reset_activation_code h2{
+	color:#3299A4;
+}
+.reset_activation_code{
+	padding:10px;
 }
