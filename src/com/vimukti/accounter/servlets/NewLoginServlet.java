@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,9 +13,11 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
 
 public class NewLoginServlet extends BaseServlet {
@@ -120,21 +123,46 @@ public class NewLoginServlet extends BaseServlet {
 
 				Client client = (Client) query.uniqueResult();
 				if (client != null) {
-					if (client.isRequirePasswordReset()) {
-						// If session is there and he has to reset the password
-						// then do an external redirect to /resetpassword url
-						redirectExternal(request, response, RESET_PASSWORD_URL);
-					} else {
-						// if session is there and no need to reset password
-						// then do external redirect to <dest> param or
-						// /companies
-						String destUrl = request
-								.getParameter(PARAM_DESTINATION);
-						if (destUrl == null || destUrl.isEmpty()) {
-							redirectExternal(request, response, COMPANIES_URL);
+					if (client.isActive()) {
+						if (client.isRequirePasswordReset()) {
+							// If session is there and he has to reset the
+							// password
+							// then do an external redirect to /resetpassword
+							// url
+							redirectExternal(request, response,
+									RESET_PASSWORD_URL);
 						} else {
-							redirectExternal(request, response, destUrl);
+							// if session is there and no need to reset password
+							// then do external redirect to <dest> param or
+							// /companies
+							String destUrl = request
+									.getParameter(PARAM_DESTINATION);
+							if (destUrl == null || destUrl.isEmpty()) {
+								redirectExternal(request, response,
+										COMPANIES_URL);
+							} else {
+								redirectExternal(request, response, destUrl);
+							}
+
 						}
+					} else {
+						// not activated so resend the activation mail
+						// Generate Token and create Activation and save. then
+						// send
+						String token = SecureUtils.createID();
+
+						// get activation object by email id
+
+						Query query1 = session
+								.getNamedQuery("get.activation.by.mailId");
+						Activation activation = (Activation) query1
+								.uniqueResult();
+						// reset the activation code and save it
+						activation.setToken(token);
+						saveEntry(activation);
+
+						// resend activation mail
+						sendActivationEmail(token, client);
 
 					}
 				}
