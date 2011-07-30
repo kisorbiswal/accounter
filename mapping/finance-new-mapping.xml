@@ -32,6 +32,7 @@
 		<property name="createdDate" column="CREATED_DATE"></property>
 		<property name="companyType" column="COMPANY_TYPE"></property>
 		<property name="serverAddress" column="SERVER_ADDRESS"></property>
+		<property name="isConfigured" column="IS_CONFIGURED"></property>
 
 	</class>
 
