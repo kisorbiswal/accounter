@@ -66,16 +66,8 @@ $(document).ready(function() {
 				<div class="middle-signup-box" id="mid-1">
 					<div class ="Welcome-Accounter-box">
 							<h2>Reset Password</h2>
-					<table class="login-fields-box">
-					<tr>
-						<td ><div class="login-box-left-top"></div></td>
-						<td ><div  class="login-box-top-middle"></div></td>
-						<td ><div class="login-box-right-top"></div></td>
-					</tr>
-					<tr>
-						<td class="login-box-left-middle" ></td>
-						<td class="login-box">
-								<div class="mid-login-box" style="width: 420px;">
+					       <div class="reset_password_box"
+							<div class="mid-login-box" style="width: 420px;">
 								<form id="accounterForm" method="post" action="/resetpassword">
 								<c:if test="${successMessage != null}">
 								<span style="color: #3299A4; line-height: 1.5;">
@@ -107,12 +99,12 @@ $(document).ready(function() {
 								      
 								  </td>
 								  <td>
-									  <ul class="login-ok-button">
+									  <ul class="reset-ok-button">
 											<li><span class="signup-submit-left"></span></li>
 											<li><input type="submit" tabindex="3" value="Ok" name="ok" class="signup-submit-mid forget-but" id="submitButton"></li>
 											<li><span class="signup-submit-right"></span></li>
 									  </ul>
-									  <ul class="login-cancel-button">
+									  <ul class="reset-cancel-button">
 											<li><span class="signup-submit-left"></span></li>
 											<li><input type="button" tabindex="4" value="Cancel" name="cancel" class="signup-submit-mid forget-but" onClick="location.href='/login'"></li>
 											<li><span class="signup-submit-right"></span></li>
@@ -124,15 +116,7 @@ $(document).ready(function() {
 								</c:if>
 								</c:if>
 								</div>
-									</td>
-										<td class="login-box-right-middle"></td>
-										</tr>
-										<tr>
-										<td ><div class="login-box-left-bottom"></div></td>
-										<td ><div class="login-box-bottom-middle"></div></td>
-										<td ><div class="login-box-right-bottom"></div></td>
-										</tr>	
-					</table>
+							<div>
 					</form>
 				
 				</div>
