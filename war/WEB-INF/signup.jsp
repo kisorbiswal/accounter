@@ -16,8 +16,8 @@
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 <% String version = application.getInitParameter("version"); %>
 <link rel="shortcut icon" href="../images/favicon.ico" />
-<link type="text/css" href="ss.css?version=<%= version%>" rel="stylesheet">
-<link type="text/css" href="cmxform.css?version=<%= version%>" rel="stylesheet">\
+<link type="text/css" href="/css/ss.css?version=<%= version%>" rel="stylesheet">
+<link type="text/css" href="/css/cmxform.css?version=<%= version%>" rel="stylesheet">\
 
 <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
 <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
@@ -60,7 +60,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	    $('#mid-box2').click(function(){
 	    $('.indication-box').remove();
 	        $('#email_id_box').append('<div class="indication-box"><div class="left-arrow"></div><div class="box-data">Enter a valid email address. A mail will be sent to this email to confirm your account and also in case you forgot your password</div></div>');
-	    }).blur(funtion(){
+	    }).blur(function() {
 	        $('.indication-box').remove();
 	    });
 	   
