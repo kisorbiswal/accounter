@@ -35,7 +35,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>webLogin</servlet-name>
-		<url-pattern>/site/login</url-pattern>
+		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>webLogin</servlet-name>
@@ -55,7 +55,7 @@
 
 	<servlet-mapping>
 		<servlet-name>CompanySetup</servlet-name>
-		<url-pattern>/site/companysetup</url-pattern>
+		<url-pattern>/companysetup</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>CompanySetup</servlet-name>
@@ -65,7 +65,7 @@
 
 	<servlet-mapping>
 		<servlet-name>Activation</servlet-name>
-		<url-pattern>/site/activation</url-pattern>
+		<url-pattern>/activation</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Activation</servlet-name>
@@ -75,7 +75,7 @@
 
 	<servlet-mapping>
 		<servlet-name>signup</servlet-name>
-		<url-pattern>/site/signup</url-pattern>
+		<url-pattern>/signup</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>signup</servlet-name>
@@ -85,7 +85,7 @@
 
 	<servlet-mapping>
 		<servlet-name>support</servlet-name>
-		<url-pattern>/site/support</url-pattern>
+		<url-pattern>/support</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>support</servlet-name>
@@ -134,7 +134,7 @@
 		</servlet-mapping> -->
 	<servlet-mapping>
 		<servlet-name>forgetpassword</servlet-name>
-		<url-pattern>/site/forgotpassword</url-pattern>
+		<url-pattern>/forgotpassword</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>forgetpassword</servlet-name>
@@ -148,7 +148,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>resetPassword</servlet-name>
-		<url-pattern>/site/resetpassword</url-pattern>
+		<url-pattern>/resetpassword</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Logout</servlet-name>
