@@ -86,8 +86,8 @@ public class NewLoginServlet extends BaseServlet {
 			Client client = null;
 			Query query = session
 					.getNamedQuery("getclient.from.central.db.using.emailid.and.password");
-			query.setParameter("emailid", emailId);
-			query.setParameter("password", password);
+			query.setParameter(EMAIL_ID, emailId);
+			query.setParameter(PASSWORD, password);
 			client = (Client) query.uniqueResult();
 			return client;
 		} catch (Exception e) {
