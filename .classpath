@@ -47,7 +47,6 @@
 	<classpathentry kind="lib" path="libs/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="libs/pd4ml.jar"/>
 	<classpathentry kind="lib" path="libs/cos.jar"/>
-	<classpathentry kind="lib" path="/home/rajesh/Downloads/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.3.0.r37v201106211634/gwt-2.3.0/gwt-user.jar"/>
 	<classpathentry kind="lib" path="libs/xstream-1.1.3v.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
