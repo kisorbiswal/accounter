@@ -28,15 +28,11 @@
 	
 	var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 </script>
-<script  type="text/javascript" >
-$.validator.setDefaults({
-	submitHandler: function() {
-		$('#accounterForm').submit();
-	}
-});
+<script type="text/javascript" >
 
 $(document).ready(function() {
-	$('#submitButton').click(function() {
+ alert("hi");
+ $('#submitButton').click(function() {
 		$("#accounterForm").validate({
 			rules: {
 				newPassword: "required",
@@ -55,13 +51,15 @@ $(document).ready(function() {
 		});
 	});
 	
-	 $('.reset_password').click(function(){
-	    $('.indication-box').remove();
-	        $('#reset_hint_box').append('<div class="indication-box"><div class="left-arrow"></div><div class="box-data">Use 3 to 60 characters, don't use your name or Zoho ID. Use mix of lower/uppercase letters, numbers and special characters</div></div>');
+	$('.reset_password').click(function(){
+	    $('.indication-box').remove();	
+	     $('#reset_hint_box').append("<div class='indication-box'><div class='left-arrow'></div><div class='box-data'>Use 3 to 60characters, don't use your name or Zoho ID. Use mix of lower/uppercase letters, numbers and special characters</div></div>");        
 	    }).blur(function() {
 	        $('.indication-box').remove();
 	 });
-	 
+	
+});	
+	
 	 function CheckPassword(password)
 	 {
  	    var strength = new Array();
@@ -90,9 +88,6 @@ $(document).ready(function() {
  	 
  	    return strength[score];
  	}
-	
-});	
-	
 </script>
 </head>
 	<body>
@@ -118,7 +113,7 @@ $(document).ready(function() {
 								<div class="mid-login-box1">
 							   <table width="100%">
 							      <tr>
-								     <td>New Password </td>
+								     <td width="140px">New Password : </td>
 									 <td>
 										<input id="mid-box"  type="password" name="newPassword" onkeyup="CheckPassword(this.value)" tabindex="1" value="" class="reset_password">								
 									 </td>
@@ -128,7 +123,7 @@ $(document).ready(function() {
 								  </tr>
 								  <tr>
 								<tr>
-									 <td>Confirm Password </td>
+									 <td>Confirm Password : </td>
 									 <td>
 										<input id="mid-box1"  type="password" name="confirmPassword" tabindex="2" value="">
 									</td>
