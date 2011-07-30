@@ -55,8 +55,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 
 		List<String> removeHeaderBackground = new ArrayList<String>();
 
-		HTML lab1 = new HTML();
-		lab1.setHTML("<p style=\"margin-bottom:12px;\"><font color=\"black\" size=\"4\"><strong>Credit</strong></font></p>");
+		HTML lab1 = new HTML(Accounter.constants().creaditHTML());
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setSize("auto", "100%");

@@ -31,18 +31,16 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		// <li><a href=''><font color='green'>Create a budget</font></a> for
 		// your organisation so that you can compare with actual expenditure
 		// throughout the year.
-		accountReceivable = getAnchor(Accounter.constants()
-				.accountReceivable());
-		accountPayable = getAnchor(Accounter.constants()
-				.accountPayable());
-		banking = getAnchor(Accounter.constants()
-				.bankingTransactions());
+		accountReceivable = getAnchor(Accounter.constants().accountReceivable());
+		accountPayable = getAnchor(Accounter.constants().accountPayable());
+		banking = getAnchor(Accounter.constants().bankingTransactions());
 		expences = getAnchor(Accounter.constants().expenseClaims());
-		customer = getAnchor("customers");
-		vendor = getAnchor("vendors");
-		inviteUser = getAnchor("Invite Other User");
-		createBankAcc = getAnchor("Create any additional bank accounts");
-		financeCategories = getAnchor("finance categories");
+		customer = getAnchor(Accounter.constants().customers());
+		vendor = getAnchor(Accounter.constants().vendors());
+		inviteUser = getAnchor(Accounter.constants().inviteOtherUser());
+		createBankAcc = getAnchor(Accounter.constants()
+				.createanyadditionalbankaccounts());
+		financeCategories = getAnchor(Accounter.constants().financeCategories());
 		// minHtml = new HTML(
 		// "<p>Now you are ready to start using Accounter on a regular basis to record and report on normal business transcations. There is <a href='http://help.accounter.com'><font color='green'>full online help</font></a> and tips on each screen in Accounter if you need it. It's really up to you what you do next.</p><ul><li>Add "
 		// + accountReceivable
@@ -60,26 +58,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		// HorizontalPanel hPanel3 = new HorizontalPanel();
 		// HorizontalPanel hPanel4 = new HorizontalPanel();
 		// HorizontalPanel hPanel5 = new HorizontalPanel();
-		allHtml = new HTML(
-				"<p>Now you are ready to start using Accounter on a regular basis to record and report on normal business transcations. There is <a href=''><font color='green'>full online help</font></a> and tips on each screen in Accounter if you need it. It's really up to you what you do next.</p><ul><li>Add "
-						+ accountReceivable
-						+ " and "
-						+ accountPayable
-						+ " invoices, "
-						+ banking
-						+ " and "
-						+ expences
-						+ ".<li>Add to "
-						+ customer
-						+ " or "
-						+ vendor
-						+ " the people you regularly transact with.<li>"
-						+ inviteUser
-						+ " such as your accountant or financial adviser to access your organisation.<li>"
-						+ createBankAcc
-						+ " you want to use in Accounter.<li>You can see "
-						+ financeCategories
-						+ " to check which accounts are effected by your transactions.</ul>");
+		allHtml = new HTML(Accounter.constants().allHTML());
 		// hPanel1.add(new HTML("<li>Add "));
 		// if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 		// hPanel1.add(accountReceivable);
@@ -165,7 +144,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return "Hide Getting Started";
+		return Accounter.constants().hideGettingStarted();
 	}
 
 	@Override
@@ -189,42 +168,35 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				if (title.equals(Accounter.constants()
-						.accountReceivable())) {
+				if (title.equals(Accounter.constants().accountReceivable())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
-						ActionFactory.getNewInvoiceAction().run(null,
-								true);
-				} else if (title.equals(Accounter.constants()
-						.accountPayable())) {
+						ActionFactory.getNewInvoiceAction().run(null, true);
+				} else if (title.equals(Accounter.constants().accountPayable())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
-						ActionFactory.getEnterBillsAction().run(null,
-								true);
+						ActionFactory.getEnterBillsAction().run(null, true);
 				} else if (title.equals(Accounter.constants()
 						.bankingTransactions()))
 					ActionFactory.getChartOfAccountsAction(
 							ClientAccount.TYPE_BANK).run(null, true);
-				else if (title.equals(Accounter.constants()
-						.expenseClaims())) {
+				else if (title.equals(Accounter.constants().expenseClaims())) {
 					if (Accounter.getUser().canDoInvoiceTransactions())
-						ActionFactory.getExpensesAction(null).run(null,
-								true);
-				} else if (title.equals("customers"))
-					ActionFactory.getNewCustomerAction().run(null,
-							true);
-				else if (title.equals("vendors"))
+						ActionFactory.getExpensesAction(null).run(null, true);
+				} else if (title.equals(Accounter.constants().customers()))
+					ActionFactory.getNewCustomerAction().run(null, true);
+				else if (title.equals(Accounter.constants().vendors()))
 					ActionFactory.getNewVendorAction().run(null, true);
-				else if (title.equals("Invite Other User")) {
+				else if (title.equals(Accounter.constants().inviteOtherUser())) {
 					if (Accounter.getUser().isCanDoUserManagement())
-						ActionFactory.getInviteUserAction().run(null,
-								true);
-				} else if (title.equals("Create any additional bank accounts")) {
+						ActionFactory.getInviteUserAction().run(null, true);
+				} else if (title.equals(Accounter.constants()
+						.createanyadditionalbankaccounts())) {
 					if (Accounter.getUser().canDoBanking())
-						ActionFactory.getNewBankAccountAction().run(
-								null, true);
-				} else if (title.equals("finance categories")) {
+						ActionFactory.getNewBankAccountAction().run(null, true);
+				} else if (title.equals(Accounter.constants()
+						.financeCategories())) {
 					if (Accounter.getUser().canSeeInvoiceTransactions())
-						ActionFactory.getChartOfAccountsAction().run(
-								null, true);
+						ActionFactory.getChartOfAccountsAction()
+								.run(null, true);
 				}
 
 			}

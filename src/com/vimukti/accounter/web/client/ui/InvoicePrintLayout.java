@@ -84,11 +84,12 @@ public class InvoicePrintLayout extends VerticalPanel {
 				+ "</strong></font>" + cmpAdd + "</p>");
 
 		Map<String, String> dateNumForm = getMap(new String[] {
-				"Invoice Date",
+				Accounter.constants().invoiceDate(),
 				UIUtils.dateFormat(new ClientFinanceDate(invoice
-						.getTransactionDate())), "Invoice Number",
-				invoice.getNumber() + "", "Order Number",
-				invoice.getOrderNum(), "Customer Number",
+						.getTransactionDate())),
+				Accounter.constants().invoiceNumber(),
+				invoice.getNumber() + "", Accounter.constants().orderNumber(),
+				invoice.getOrderNum(), Accounter.constants().customerNumber(),
 				getCompany().getCustomer(invoice.getCustomer()).getNumber() });
 
 		HorizontalPanel datepanel = new HorizontalPanel();
@@ -99,8 +100,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 		datepanel.add(table);
 
 		HTML lab1 = new HTML();
-		lab1.setHTML("<p style=\"margin-bottom:12px;\"><font color=\"black\" size=\"5\"><strong>Invoice</strong></font></p>"
-				+ datepanel);
+		lab1.setHTML(Accounter.constants().labelHTML().asString() + datepanel);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setSize("100%", "100%");
@@ -174,9 +174,10 @@ public class InvoicePrintLayout extends VerticalPanel {
 				invoice.getShippingTerm());
 		String shipterm = shipingterm != null ? shipingterm.getName() : "";
 
-		Map<String, String> detailsMap = getMap("Sales Person", salesPersname
-				+ "<br/>", "Shiping Method", shipMtdName + "<br/>",
-				"Shiping Term", shipterm + "<br/>");
+		Map<String, String> detailsMap = getMap(Accounter.constants()
+				.salesPerson(), salesPersname + "<br/>", Accounter.constants()
+				.shippingMethod(), shipMtdName + "<br/>", Accounter.constants()
+				.shippingTerm(), shipterm + "<br/>");
 
 		HorizontalPanel detailsPanel = new HorizontalPanel();
 		detailsPanel.setSize("100%", "100%");
@@ -197,7 +198,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 			vatPanel.setSize("100%", "100%");
 			List<String> footer1Headers = new ArrayList<String>();
 			footer1Headers.add("VAT%");
-			footer1Headers.add("VAT Amount");
+			footer1Headers.add(Accounter.constants().VATAmount());
 			FlexTable tr = util.getFooterWidget(invoiceView
 					.getGridForPrinting().getVATDetailsMapForPrinting(),
 					footer1Headers);
@@ -222,11 +223,11 @@ public class InvoicePrintLayout extends VerticalPanel {
 
 			Map<String, String> footer2Map = new LinkedHashMap<String, String>();
 			footer2Map = getMap(
-					"Sub Total",
+					Accounter.constants().subTotal(),
 					"<p align=\"right\">"
 							+ splitString(DataUtils
 									.getAmountAsString(lineTotal)) + "</p>",
-					"VAT Total",
+					Accounter.constants().VATTotal(),
 					"<p align=\"right\">"
 							+ splitString(DataUtils.getAmountAsString(vatTotal))
 							+ "</p>",
@@ -243,8 +244,8 @@ public class InvoicePrintLayout extends VerticalPanel {
 			// footer2Map.put("2",
 			// "<strong>Total</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 			// + DataUtils.getAmountAsString(totalAmount));
-			removeHeaderBackground.add("Sub Total");
-			removeHeaderBackground.add("VAT Total");
+			removeHeaderBackground.add(Accounter.constants().subTotal());
+			removeHeaderBackground.add(Accounter.constants().VATTotal());
 
 			FlexTable totalsTabel = util.getWidget1(3, 2, footer2Map, true,
 					removeHeaderBackground);
@@ -260,15 +261,15 @@ public class InvoicePrintLayout extends VerticalPanel {
 
 			Map<String, String> footer2Map = new LinkedHashMap<String, String>();
 			footer2Map = getMap(
-					"Sub Total",
+					Accounter.constants().subTotal(),
 					"<p align=\"right\">"
 							+ splitString(DataUtils
 									.getAmountAsString(lineTotal)) + "</p>",
-					"Total Tax",
+					Accounter.constants().totalTax(),
 					"<p align=\"right\">"
 							+ splitString(DataUtils.getAmountAsString(taxTotal))
 							+ "</p>",
-					"TOTAL",
+					Accounter.constants().total(),
 					"<p align=\"right\"  class=\"gridHeaderBackGround\">"
 							+ splitString(DataUtils
 									.getAmountAsString(totalAmount)) + "</p>");
@@ -283,8 +284,8 @@ public class InvoicePrintLayout extends VerticalPanel {
 			// "2",
 			// "<strong>Total</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 			// + DataUtils.getAmountAsString(totalAmount));
-			removeHeaderBackground.add("Sub Total");
-			removeHeaderBackground.add("Total Tax");
+			removeHeaderBackground.add(Accounter.constants().subTotal());
+			removeHeaderBackground.add(Accounter.constants().totalTax());
 
 			FlexTable totalsTable = util.getWidget1(3, 2, footer2Map, true,
 					removeHeaderBackground);
@@ -298,11 +299,11 @@ public class InvoicePrintLayout extends VerticalPanel {
 		gridPanel.add(vatPanel);
 
 		mainVPanel.add(labeldateNoLayout);
-		adressHPanel.setStyleName("ShiftBottom");
+		adressHPanel.setStyleName(Accounter.constants().shiftBottom());
 		mainVPanel.add(adressHPanel);
-		detailsPanel.setStyleName("ShiftBottom");
+		detailsPanel.setStyleName(Accounter.constants().shiftBottom());
 		mainVPanel.add(detailsPanel);
-		gridPanel.setStyleName("ShiftBottom");
+		gridPanel.setStyleName(Accounter.constants().shiftBottom());
 		mainVPanel.add(gridPanel);
 
 		add(mainVPanel);
@@ -355,7 +356,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 
 	public void print() {
 		if (this == null) {
-			UIUtils.say("No Data To Print...");
+			UIUtils.say(Accounter.constants().noDataToPrint());
 			return;
 		} else
 			it("", this.getElement().getInnerHTML());
@@ -398,7 +399,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 						}
 					});
 		} catch (RequestException e) {
-			Window.alert("Failed to send the request: " + e.getMessage());
+			Window.alert(Accounter.constants().failedToSendTheRequest() + e.getMessage());
 		}
 	}
 
@@ -440,8 +441,8 @@ public class InvoicePrintLayout extends VerticalPanel {
 
 		Map<String, String> detailsMap = getMap("VAT No : "
 				+ getCompany().getpreferences().getVATregistrationNumber(), ""
-				+ "<br/>", "Sort Code : " + getCompany().getSortCode(), ""
-				+ "<br/>", "Bank Account No : "
+				+ "<br/>",Accounter.constants().sortCodeColon() + getCompany().getSortCode(), ""
+				+ "<br/>", Accounter.constants().bankAccountNumberColon()
 				+ getCompany().getBankAccountNo(), "" + "<br/>");
 
 		FlexTable vatTable = util.getThinBorderWidget(2, 3, detailsMap, true);

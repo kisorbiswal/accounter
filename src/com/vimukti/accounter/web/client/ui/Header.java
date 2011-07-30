@@ -28,7 +28,8 @@ public class Header extends HorizontalPanel {
 
 	private VerticalPanel panel1, panel2;
 	private VerticalPanel panel3;
-	private String gettingStartedStatus = "Hide Getting Started";
+	private String gettingStartedStatus = Accounter.constants()
+			.hideGettingStarted();
 	private MenuBar helpBar;
 	private Accounter accounter;
 
@@ -63,27 +64,24 @@ public class Header extends HorizontalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					String historyToken = ActionFactory
-							.getUserDetailsAction().getHistoryToken();
+					String historyToken = ActionFactory.getUserDetailsAction()
+							.getHistoryToken();
 					if (!History.getToken().equals(historyToken)) {
 						MainFinanceWindow.oldToken = History.getToken();
 						HistoryTokenUtils.setPresentToken(
-								ActionFactory.getUserDetailsAction(),
-								null);
+								ActionFactory.getUserDetailsAction(), null);
 					}
-					ActionFactory.getUserDetailsAction()
-							.run(null, false);
+					ActionFactory.getUserDetailsAction().run(null, false);
 				}
 			});
 		}
 
-		logout = new HTML("<a href='/do/logout'>Logout</a>");
+		logout = new HTML(Accounter.constants().logoutHTML());
 		logout.addStyleName("logout-html");
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
-		help = new HTML(
-				"<a href='http://help.accounter.com'><font color='#3299A4'>Help</font></a>");
+		help = new HTML(Accounter.constants().helpHTML());
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
 
@@ -136,7 +134,8 @@ public class Header extends HorizontalPanel {
 	}
 
 	public void initializeHelpBar() {
-		MenuItem menuItem = helpBar.addItem("Help", getHelpMenuBar());
+		MenuItem menuItem = helpBar.addItem(Accounter.constants().help(),
+				getHelpMenuBar());
 		menuItem.getElement().getStyle().setColor("#072027");
 		Image child = new Image();
 		child.addStyleName("menu_arrow");
@@ -146,8 +145,8 @@ public class Header extends HorizontalPanel {
 
 	private CustomMenuBar getHelpMenuBar() {
 		CustomMenuBar helpMenu = new CustomMenuBar();
-		helpMenu.addItem("<a href='http://help.accounter.com'>Help Centre</a>",
-				true, new Command() {
+		helpMenu.addItem(Accounter.constants().helpCennter().asString(), true,
+				new Command() {
 
 					@Override
 					public void execute() {
@@ -159,12 +158,15 @@ public class Header extends HorizontalPanel {
 
 			@Override
 			public void execute() {
-				if (gettingStartedStatus.equals("Hide Getting Started")) {
+				if (gettingStartedStatus.equals(Accounter.constants()
+						.hideGettingStarted())) {
 					DashBoardView.hideGettingStarted();
-					changeHelpBarContent("Show Getting Started");
+					changeHelpBarContent(Accounter.constants()
+							.showGettingStarted());
 				} else {
 					DashBoardView.showGettingStarted();
-					changeHelpBarContent("Hide Getting Started");
+					changeHelpBarContent(Accounter.constants()
+							.hideGettingStarted());
 				}
 			}
 		});

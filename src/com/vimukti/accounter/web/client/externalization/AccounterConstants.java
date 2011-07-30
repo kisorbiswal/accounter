@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Constants;
 import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public interface AccounterConstants extends Constants {
 
@@ -3898,4 +3899,113 @@ public interface AccounterConstants extends Constants {
 	public String noImageisselected();
 
 	public String accept();
+
+	public String inviteOtherUser();
+
+	public String createanyadditionalbankaccounts();
+
+	public String financeCategories();
+
+	public SafeHtml allHTML();
+
+	public String hideGettingStarted();
+
+	public String showGettingStarted();
+
+	public SafeHtml helpCennter();
+
+	public SafeHtml helpHTML();
+
+	public SafeHtml purchases();
+
+	public String invoiceNumber();
+
+	public SafeHtml labelHTML();
+
+	public String VATTotal();
+
+	public String totalTax();
+
+	public String noDataToPrint();
+
+	public String failedToSendTheRequest();
+
+	public String sortCodeColon();
+
+	public String bankAccountNumberColon();
+
+	public String receivedPayment();
+
+	public String products();
+
+	public String supplierHome();
+
+	public String issuePayment();
+
+	public String newCredit();
+
+	public String bills();
+
+	public String newBankAccount();
+
+	public String writeChecks();
+
+	public String startanewTask();
+
+	public String companyHome();
+
+	public String employees();
+
+	public String sectionhash1();
+
+	public String sectionhash2();
+
+	public String sectionhash3();
+
+	public String sectionhash4();
+
+	public String supplierBendor();
+
+	public String vendorBendor();
+
+	public String supplierBlah();
+
+	public String vendorBlah();
+
+	public String supplierWhendor();
+
+	public String vendorWhendor();
+
+	public String findtis();
+
+	public String findtat();
+
+	public String findbla();
+
+	public String employeeEmpty();
+
+	public String employeeBlah();
+
+	public String emptyexlematorymark1();
+	public String emptyexlematorymark2();
+
+	public String enuffexlematorymark();
+
+	public String wat();
+
+	public String u();
+
+	public String want();
+
+	public String employeeTemployee();
+
+	public SafeHtml creaditHTML();
+
+	public SafeHtml removeHTML();
+
+	public SafeHtml previousHTML();
+
+	public SafeHtml nextHTML();
+
+	public SafeHtml logoutHTML();
 }

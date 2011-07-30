@@ -219,8 +219,7 @@ public class FileUploadDilaog extends CustomDialog {
 		upload.setName(fileID);
 		upload.getElement().setAttribute("size", "50");
 
-		HTML label = new HTML(
-				"<font color='blue'><u style='cursor:pointer;'><nobr>Remove<nobr></u></font>");
+		HTML label = new HTML(Accounter.constants().removeHTML());
 		label.setWidth("60");
 		label.setHeight("25");
 		label.addClickHandler(new ClickHandler() {

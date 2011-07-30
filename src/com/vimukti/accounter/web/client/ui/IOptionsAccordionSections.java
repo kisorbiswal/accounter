@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+
 class Section {
 	String title;
 	String[] heads;
@@ -13,59 +15,62 @@ class Section {
 }
 
 public interface IOptionsAccordionSections {
+	AccounterConstants constants = Accounter.constants();
+	final String COMPANY = constants.company();
+	final String COMPANY_NEW_ACCOUNT = constants.newAccount();
 
-	final String COMPANY = "Company";
-	final String COMPANY_NEW_ACCOUNT = "New Account";
+	final String CUSTOMERS = constants.customers();
+	final String CUSTOMERS_HOME = constants.customersHome();
+	final String CUSTOMERS_NEW = constants.newCustomer();
+	final String CUSTOMERS_NEW_ITEM = constants.newItem();
+	final String CUSTOMERS_NEW_QUOTE = constants.newQuote();
+	final String CUSTOMERS_NEW_INVOICE = constants.newInvoice();
+	final String CUSTOMER_RECEIVED_PAYMENT = constants.receivedPayment();
+	final String CUSTOMER_NEW_CASH_SALE = constants.newCashSale();
+	final String CUSTOMER_NEW_CREDITS_AND_REFUNDS = constants
+			.creditAndRefunds();
+	final String CUSTOMER_CREDIT_CARD_PROCESSING = constants
+			.creditCardProcessing();
+	final String CUSTOMER_FIND_CUSTOMERS = constants.customers();
+	final String CUSTOMER_FIND_ITEMS = constants.products();
+	final String CUSTOMER_FIND_QUOTES = constants.quotes();
+	final String CUSTOMER_FIND_INVOICES = constants.invoices();
+	final String CUSTOMER_FIND_RECEIVED_PAYMENTS = constants.receivedPayments();
+	final String CUSTOMER_FIND_CUSTOMER_REFUNDS = constants.customerRefunds();
 
-	final String CUSTOMERS = "Customers";
-	final String CUSTOMERS_HOME = "Customer Home";
-	final String CUSTOMERS_NEW = "New Customer";
-	final String CUSTOMERS_NEW_ITEM = "New Item";
-	final String CUSTOMERS_NEW_QUOTE = "New Quote";
-	final String CUSTOMERS_NEW_INVOICE = "New Invoice";
-	final String CUSTOMER_RECEIVED_PAYMENT = "Received Payment";
-	final String CUSTOMER_NEW_CASH_SALE = "New Cash Sale";
-	final String CUSTOMER_NEW_CREDITS_AND_REFUNDS = "New Credits and Refunds";
-	final String CUSTOMER_CREDIT_CARD_PROCESSING = "Credit Card Processing";
-	final String CUSTOMER_FIND_CUSTOMERS = "Customers";
-	final String CUSTOMER_FIND_ITEMS = "Products";
-	final String CUSTOMER_FIND_QUOTES = "Quotes";
-	final String CUSTOMER_FIND_INVOICES = "Invoices";
-	final String CUSTOMER_FIND_RECEIVED_PAYMENTS = "Received Payments";
-	final String CUSTOMER_FIND_CUSTOMER_REFUNDS = "Customer Refunds";
-
-	final String VENDORS = UIUtils.getVendorString("Supplier", "Vendors");
-	final String VENDORS_HOME = UIUtils.getVendorString("Supplier Home",
-			"Vendor Home");
-	final String VENDORS_NEW_VENDOR = UIUtils.getVendorString("New Supplier",
-			"New Vendor");
-	final String VENDORS_NEW_ITEM = "New Product";
-	final String VENDORS_ENTER_BILLS = "Enter Bills";
-	final String VENDORS_PAY_BILLS = "Pay Bills";
-	final String VENDORS_NEW_CASH_PURCHASE = "New Cash Purchase";
-	final String VENDORS_ISSUE_PAYMENT = "Issue Payment";
-	final String VENDORS_NEW_CREDIT_MEMO = "New Credit";
-	final String VENDORS_FIND_VENDORS = UIUtils.getVendorString("Suppliers",
-			"Vendors");
-	final String VENDORS_FIND_ITEMS = "Products";
-	final String VENDORS_FIND_BILLS = "Bills";
+	final String VENDORS = UIUtils.getVendorString(constants.supplier(),
+			constants.vendors());
+	final String VENDORS_HOME = UIUtils.getVendorString(
+			constants.supplierHome(), constants.vendorHome());
+	final String VENDORS_NEW_VENDOR = UIUtils.getVendorString(
+			constants.newSupplier(), constants.newVendor());
+	final String VENDORS_NEW_ITEM = constants.newProduct();
+	final String VENDORS_ENTER_BILLS = constants.enterBills();
+	final String VENDORS_PAY_BILLS = constants.payBills();
+	final String VENDORS_NEW_CASH_PURCHASE = constants.newCashPurchase();
+	final String VENDORS_ISSUE_PAYMENT = constants.issuePayment();
+	final String VENDORS_NEW_CREDIT_MEMO = constants.newCredit();
+	final String VENDORS_FIND_VENDORS = UIUtils.getVendorString(
+			constants.suppliers(), constants.vendors());
+	final String VENDORS_FIND_ITEMS = constants.products();
+	final String VENDORS_FIND_BILLS = constants.bills();
 	final String VENDORS_FIND_VENDOR_PAYMENTS = UIUtils.getVendorString(
-			"Supplier Payments", "Vendor Payments");
+			constants.supplierPayments(), constants.vendorPayments());
 
-	final String BANKING = "Banking";
-	final String BANKING_HOME = "Banking Home";
-	final String BANKING_NEW_BANK_ACCOUNT = "New Bank Account";
-	final String BANKING_WRITE_CHECKS = "Write Checks";
-	final String BANKING_MAKE_DEPOSIT = "Make Deposit";
-	final String BANKING_TRANSFER_FUNDS = "Transfer Funds";
-	final String BANKING_PAY_BILLS = "Pay Bills";
-	final String BANKING_CREDITCARD_CHARGE = "Credit Card Charge";
-	final String BANKING_FIND_CHART_OF_ACCOUNTS = "Chart of Accounts";
-	final String BANKING_FIND_PAYMENTS = "Payments";
+	final String BANKING = constants.banking();
+	final String BANKING_HOME = constants.bankingHome();
+	final String BANKING_NEW_BANK_ACCOUNT = constants.newBankAccount();
+	final String BANKING_WRITE_CHECKS = constants.writeChecks();
+	final String BANKING_MAKE_DEPOSIT = constants.makeDeposit();
+	final String BANKING_TRANSFER_FUNDS = constants.transferFunds();
+	final String BANKING_PAY_BILLS = constants.payBills();
+	final String BANKING_CREDITCARD_CHARGE = constants.creditCardCharge();
+	final String BANKING_FIND_CHART_OF_ACCOUNTS = constants.chartOfAccounts();
+	final String BANKING_FIND_PAYMENTS = constants.payments();
 
-	final String START_NEW_TASK = "Start a new Task";
-	final String HOME = "Company Home";
-	final String FIND = "Find";
+	final String START_NEW_TASK = constants.startanewTask();
+	final String HOME = constants.companyHome();
+	final String FIND = constants.find();
 
 	final Section[] sections = {
 
@@ -124,36 +129,36 @@ public interface IOptionsAccordionSections {
 
 					}), };
 
-	final String[] sectionLabels = { "Customers",
-			UIUtils.getVendorString("Suppliers", "Vendors"), "Employees",
-			"Section #1", "Section #2", "Section #3", "Section #4" };
+	final String[] sectionLabels = { constants.customers(),
+			UIUtils.getVendorString(constants.suppliers(), constants.vendors()), constants.employees(),
+			constants.sectionhash1(),constants.sectionhash2(), constants.sectionhash3(), constants.sectionhash4()};
 
 	final String[][][] labels = {
 
 	};
-	final String[] custStartLabels = { "New Customer", "New Product",
-			"New Quote", "New Invoice", "Received Payment", "New Cash Sale",
-			"New Credits and Refunds", "Credit Card Processing" };
+	final String[] custStartLabels = { constants.newCustomer(), constants.newProduct(),
+			constants.newQuote(), constants.newInvoice(), constants.receivedPayment(), constants.newCashSale(),
+			constants.newCreditsAndRefunds(), constants.creditCardProcessing() };
 
-	final String[] custFindLabels = { "Customers", "Products" };
+	final String[] custFindLabels = { constants.customers(), constants.products() };
 
 	// Vendors Section
 	final String[] vendStartLabels = {
-			UIUtils.getVendorString("Supplier Bendor", "Vendor Bendor"),
-			UIUtils.getVendorString("Supplier Blah ", "Vendor Blah"),
-			UIUtils.getVendorString("Supplier Whendor", "Vendor Whendor") };
+			UIUtils.getVendorString(constants.supplierBendor(), constants.vendorBendor()),
+			UIUtils.getVendorString(constants.supplierBlah(), constants.vendorBlah()),
+			UIUtils.getVendorString(constants.supplierWhendor(), constants.vendorWhendor()) };
 
-	final String[] vendFindLabels = { "Find tis", "Find tat", "Find bla" };
+	final String[] vendFindLabels = { constants.findtis(), constants.findtat(), constants.findbla() };
 
 	// Employees Section
-	final String[] empStartLabels = { "Employee Empty", "Employee Blah",
-			"Employee Temployee" };
+	final String[] empStartLabels = { constants.employeeEmpty(), constants.employeeBlah(),
+			constants.employeeTemployee() };
 
-	final String[] empFindLabels = { "Find tis", "Find tat", "Find bla" };
+	final String[] empFindLabels = { constants.findtis(), constants.findtat(), constants.findbla() };
 
 	// ...
-	final String[] startLabels = { "Empty!", "Empty!!", "Enuff!" };
+	final String[] startLabels = { constants.emptyexlematorymark1(), constants.emptyexlematorymark2(), constants.enuffexlematorymark() };
 
-	final String[] findLabels = { "wat?", "u?", "want?" };
+	final String[] findLabels = { constants.wat(), constants.u(), constants.want() };
 
 }
