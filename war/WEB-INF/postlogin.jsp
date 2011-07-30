@@ -28,9 +28,9 @@
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
-    <link type="text/css" rel="stylesheet" href="/Defbiz.css">
-	<link type="text/css" rel="stylesheet" href="/Finance.css">
-	<link type="text/css" rel="stylesheet" href="/calendar.css">
+    <link type="text/css" rel="stylesheet" href="/css/Defbiz.css">
+	<link type="text/css" rel="stylesheet" href="/css/Finance.css">
+	<link type="text/css" rel="stylesheet" href="/css/calendar.css">
 
     <!--                                           -->
     <!-- Any title is fine                         -->

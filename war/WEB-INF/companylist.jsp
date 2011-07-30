@@ -1,7 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-  <head><title>Accounter</title></head>
+  <head>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <title>Accounter</title>
+      <link type="text/css" rel="stylesheet" href="/css/Finance.css?version=<%= version%>">
+  </head>
   <body>
   <table class="header">
 	   <tr>

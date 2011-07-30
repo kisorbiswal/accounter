@@ -23,7 +23,7 @@
 </script>
 
 <link rel="shortcut icon" href="../images/favicon.ico" />
-<link type="text/css" href="ss.css" rel="stylesheet">
+<link type="text/css" href="/css/ss.css" rel="stylesheet">
 <script src="/jscripts/jquery-1.6.2.js" type="text/javascript"></script>
 <script type="text/javascript" src="/jscripts/stepcarousel.js"></script>
 <script type="text/javascript">
@@ -33,7 +33,7 @@
 				panelclass: 'panel', //class of panel DIVs each holding content
 				autostep: {enable:true, moveby:1, pause:3000},
 				panelbehavior: {speed:1000, wraparound:true, wrapbehavior:'slide', persist:true},
-				defaultbuttons: {enable: true, moveby: 1, leftnav: ['/sites/Left-arrow_24x25.png', 127, 279], rightnav: ['/sites/Right-arrow_24x25.png', -169, 279]},
+				defaultbuttons: {enable: true, moveby: 1, leftnav: ['/images/Left-arrow_24x25.png', 127, 279], rightnav: ['/images/Right-arrow_24x25.png', -169, 279]},
 				statusvars: ['statusA', 'statusB', 'statusC'], //register 3 variables that contain current panel (start), current panel (last), and total panels
 				contenttype: ['inline'] //content setting ['inline'] or ['ajax', 'path_to_external_file']
 				})

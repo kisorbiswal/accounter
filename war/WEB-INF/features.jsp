@@ -23,9 +23,9 @@
 </script>
 <% String version = application.getInitParameter("version"); %>
 <link rel="shortcut icon" href="../images/favicon.ico" />
-<link type="text/css" href="ss.css?version=<%= version%>" rel="stylesheet">
+<link type="text/css" href="/css/ss.css?version=<%= version%>" rel="stylesheet">
 
-<link rel="stylesheet" type="text/css" href="./vertical-tabs-styles.css?version=<%= version%>">
+<link rel="stylesheet" type="text/css" href="/css/vertical-tabs-styles.css?version=<%= version%>">
 <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
 <script type="text/javascript" src="/jscripts/vertical-tabs-script.js"></script>
 

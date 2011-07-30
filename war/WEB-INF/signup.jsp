@@ -124,7 +124,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
    if( isNative ){ %>
-   <link type="text/css" rel="stylesheet" href="/nativeLogin.css?version=<%= version%>">
+   <link type="text/css" rel="stylesheet" href="/css/nativeLogin.css?version=<%= version%>">
    <% } %>
    
    
@@ -156,7 +156,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 								<tr>
 									
 									<td class="signup-box">
-									<h3 style="color:#3299A4;float:left">Admin Details</h3><span class="mandatory">All fields are mandatory</span>
+									  <div class="admin_details_header" ><h3 style="float:left">Admin Details</h3><span class="mandatory">All fields are mandatory</span></div>
 									<table>
 										<tr>
 									 <td style="width : 155px;padding-bottom: 9px"><span>First Name</span>  </td>
@@ -443,7 +443,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 								  </tr>
 								  	</table>
 								  	<div class="signup-box">
-								  	  <h3>Terms of Service</h3>
+								  	  <h3 style="border-bottom:1px solid #DBDBDB">Terms of Service</h3>
 								  	  <table>
 								  	      <tr>
 								     <td width="155px"></td>
