@@ -33,6 +33,7 @@ public class BaseServlet extends HttpServlet {
 	protected static final String LOGIN_URL = "/login";
 
 	protected static final String RESET_PASSWORD_URL = "/resetpassword";
+	private static final String LOGIN_VIEW = "WEB-INF/login";
 
 	/**
 	 * 
@@ -167,10 +168,11 @@ public class BaseServlet extends HttpServlet {
 	 * @param req
 	 * @param resp
 	 * @param string
+	 * @throws IOException 
 	 */
 	protected void redirectExternal(HttpServletRequest req,
-			HttpServletResponse resp, String url) {
-		// TODO
+			HttpServletResponse resp, String url) throws IOException {
+		resp.sendRedirect(url);
 	}
 
 }
