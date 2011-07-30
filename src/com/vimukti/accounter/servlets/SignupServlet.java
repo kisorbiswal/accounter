@@ -68,7 +68,7 @@ public class SignupServlet extends BaseServlet {
 				// TODO::: in login.jsp check for email id in the request if it
 				// is available set this email id in the email id field of login
 				// page
-				redirect(req, resp, "/WEB-INF/login");
+				dispatch(req, resp, "/WEB-INF/login");
 
 			} else {
 				// else
