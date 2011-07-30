@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Activation;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ActivationServlet extends BaseServlet {
@@ -19,7 +20,7 @@ public class ActivationServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	// private static final String VIEW = "/WEB-INF/resetpassword.jsp";
-	private static final String VALID_ACTIVATION_CODE_VIEW = "WEB-INF/resetactivationcode.jsp";
+	private static final String VALID_ACTIVATION_CODE_VIEW = "/WEB-INF/resetactivationcode.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -43,6 +44,21 @@ public class ActivationServlet extends BaseServlet {
 				HttpSession session = req.getSession(true);
 				session.setAttribute(ACTIVATION_TOKEN, token);
 				session.setAttribute(EMAIL_ID, activation.getEmailId());
+
+				// Make the user as active user
+				Session hbSession = HibernateUtil.openSession(LOCAL_DATABASE);
+				try {
+					Client client = (Client) hbSession.getNamedQuery(
+							"getClient.by.mailId").uniqueResult();
+					client.setActive(true);
+					saveEntry(client);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					if (hbSession != null)
+						hbSession.close();
+				}
+
 				// redirect To ActivationPage.
 				// dispatch(req, resp, VIEW);
 				String destUrl = req.getParameter(PARAM_DESTINATION);
