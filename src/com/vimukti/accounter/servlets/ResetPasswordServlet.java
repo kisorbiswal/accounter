@@ -2,23 +2,20 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.ResetPasswordToken;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-public class ResetPasswordServlet extends HttpServlet {
+public class ResetPasswordServlet extends BaseServlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	String view = "/WEB-INF/resetpassword.jsp";
@@ -27,7 +24,11 @@ public class ResetPasswordServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+
+		checkSession(req, resp);
+
 		tokenIdCompany = req.getParameter("token");
+
 		if (tokenIdCompany != null) {
 			String tokenId = tokenIdCompany.substring(0, 40);
 			String company = tokenIdCompany.substring(40);
@@ -45,20 +46,23 @@ public class ResetPasswordServlet extends HttpServlet {
 			}
 			session.close();
 			req.setAttribute("errorMessage", errorMessage);
-			disptchView(req, resp, view);
 		}
+		dispatch(req, resp, view);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		Session session = null;
 		try {
-			String successMessage;
+			checkSession(req, resp);
+
 			String tokenId = tokenIdCompany.substring(0, 40);
 			String company = tokenIdCompany.substring(40);
-			Session session = HibernateUtil.openSession(company);
+			session = HibernateUtil.openSession(company);
 
-			org.hibernate.Transaction tx = session.beginTransaction();
+			Transaction tx = session.beginTransaction();
+
 			ResetPasswordToken token = (ResetPasswordToken) session
 					.getNamedQuery("gettoken.by.id").setParameter(0, tokenId)
 					.uniqueResult();
@@ -66,32 +70,45 @@ public class ResetPasswordServlet extends HttpServlet {
 					.setParameter("id", token.getUserId()).uniqueResult();
 			String password = req.getParameter("newPassword");
 			user.setPasswordSha1Hash(password);
-			session.saveOrUpdate(user);
-			successMessage = "Your Password successfully changed";
-			req.setAttribute("successMessage", successMessage);
-			session.delete(token);
-			tx.commit();
-			session.close();
 
-			disptchView(req, resp, view);
+			session.saveOrUpdate(user);
+			session.delete(token);
+
+			try {
+				tx.commit();
+			} finally {
+				tx.rollback();
+			}
+
+			redirectExternal(req, resp, LOGIN_URL);
+
 		} catch (Exception e) {
 			req.setAttribute("errorMessage",
 					"Password reset failed please try again");
-			disptchView(req, resp, view);
+			dispatch(req, resp, view);
+		} finally {
+			if (session != null) {
+				session.close();
+			}
 		}
 	}
 
-	void disptchView(HttpServletRequest req, HttpServletResponse resp,
-			String view) {
-		try {
-			RequestDispatcher dispatcher = getServletContext()
-					.getRequestDispatcher(view);
-
-			dispatcher.forward(req, resp);
-		} catch (ServletException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+	/**
+	 * @param req
+	 * @param resp
+	 * @throws IOException
+	 */
+	private void checkSession(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		HttpSession httpSession = req.getSession();
+		if (httpSession == null) {
+			String destination = req.getParameter(PARAM_DESTINATION);
+			if (destination == null) {
+				redirectExternal(req, resp, LOGIN_URL);
+			} else {
+				redirectExternal(req, resp, destination);
+			}
 		}
 	}
+
 }
