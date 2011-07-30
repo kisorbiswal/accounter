@@ -28,6 +28,12 @@ public class BaseServlet extends HttpServlet {
 	public static final String EMAIL_ID = "emailId";
 	public static final String PASSWORD = "password";
 
+	protected static final String DESTINATION = "dest";
+
+	protected static final String LOGIN_URL = "/login";
+
+	protected static final String RESET_PASSWORD_URL = "/resetpassword";
+
 	/**
 	 * 
 	 */
@@ -36,7 +42,6 @@ public class BaseServlet extends HttpServlet {
 	public static final int MAIL_ID = 0;
 	public static final int NAME = 1;
 	public static final int PHONE_NO = 2;
-	
 
 	protected String getCompanyName(HttpServletRequest req) {
 		return null;
@@ -86,7 +91,7 @@ public class BaseServlet extends HttpServlet {
 
 			case NAME:
 				return value.matches("^[a-zA-Z]+$");
-				
+
 			case PHONE_NO:
 				return value.matches("^[0-9][0-9-]+$");
 
@@ -98,9 +103,10 @@ public class BaseServlet extends HttpServlet {
 	protected void dispatch(HttpServletRequest req, HttpServletResponse resp,
 			String page) {
 		try {
-			RequestDispatcher reqDispatcher = getServletContext().getRequestDispatcher(page);
+			RequestDispatcher reqDispatcher = getServletContext()
+					.getRequestDispatcher(page);
 			reqDispatcher.forward(req, resp);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ServletException e) {
@@ -123,24 +129,48 @@ public class BaseServlet extends HttpServlet {
 	}
 
 	protected void saveEntry(IAccounterServerCore object) {
-	
+
 		Session currentSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = currentSession.beginTransaction();
 		Serializable ob = currentSession.save(object);
-		try{
-		transaction.commit();
-		}catch (Exception e) {
+		try {
+			transaction.commit();
+		} catch (Exception e) {
 			transaction.rollback();
 		}
-		
+
 	}
 
 	protected Client getClient(String emailId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Client client = (Client) session.getNamedQuery("getClient.by.mailId")
 				.setString(EMAIL_ID, emailId).uniqueResult();
-		//session.close();
+		// session.close();
 		return client;
+	}
+
+	/**
+	 * Redirect to the External URL {@url} with supplied Parameters
+	 * 
+	 * @param req
+	 * @param resp
+	 * @param string
+	 */
+	protected void redirectExternal(HttpServletRequest req,
+			HttpServletResponse resp, String url, String param) {
+		// TODO
+	}
+
+	/**
+	 * Redirect to the External URL {@url}
+	 * 
+	 * @param req
+	 * @param resp
+	 * @param string
+	 */
+	protected void redirectExternal(HttpServletRequest req,
+			HttpServletResponse resp, String url) {
+		// TODO
 	}
 
 }
