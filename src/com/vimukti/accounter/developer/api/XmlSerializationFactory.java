@@ -1,8 +1,10 @@
 package com.vimukti.accounter.developer.api;
 
+import java.io.InputStream;
 import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
+import com.vimukti.accounter.api.core.ApiResult;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -29,14 +31,13 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 	}
 
 	@Override
-	public IAccounterCore deserialize(String str) throws Exception {
-		return (IAccounterCore) stream.fromXML(str);
+	public IAccounterCore deserialize(InputStream inputStream) throws Exception {
+		return (IAccounterCore) stream.fromXML(inputStream);
 	}
 
 	@Override
 	public String serialize(IAccounterCore str) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return stream.toXML(str);
 	}
 
 	@Override
@@ -55,6 +56,11 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 	public String serialize(AccounterException ex) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String serializeResult(ApiResult apiResult) {
+		return stream.toXML(apiResult);
 	}
 
 }

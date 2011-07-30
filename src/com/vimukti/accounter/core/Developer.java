@@ -15,6 +15,8 @@ public class Developer implements IAccounterServerCore {
 	private String applicationUse;
 	private String developerEmailId;
 	private String contact;
+	public long succeedRequests;
+	public long failureRequests;
 
 	public long getId() {
 		return id;

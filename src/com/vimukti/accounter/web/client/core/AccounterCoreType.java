@@ -202,6 +202,59 @@ public enum AccounterCoreType implements IsSerializable {
 		this.serverName = serverSimpleName;
 	}
 
+	public static AccounterCoreType getObject(String value) {
+		String upperCaseString = value.toUpperCase();
+		AccounterCoreType type = AccounterCoreType.valueOf(upperCaseString);
+
+		if (type == null) {
+			if (upperCaseString.equals("TAXGROUP")) {
+				return TAX_GROUP;
+			} else if (upperCaseString.equals("TAXITEMGROUP")) {
+				return TAX_ITEM_GROUP;
+			} else if (upperCaseString.equals("BOX1099")) {
+				return BOX_1099;
+			} else if (upperCaseString.equals("TAXCODE")) {
+				return TAX_CODE;
+			} else if (upperCaseString.equals("ITEMTAX")) {
+				return ITEM_TAX;
+			} else if (upperCaseString.equals("CUSTOMERGROUP")) {
+				return CUSTOMER_GROUP;
+			} else if (upperCaseString.equals("VENDORGROUP")) {
+				return VENDOR_GROUP;
+			} else if (upperCaseString.equals("PAYMENTTERM")) {
+				return PAYMENT_TERM;
+			} else if (upperCaseString.equals("SHIPPINGMETHOD")) {
+				return SHIPPING_METHOD;
+			} else if (upperCaseString.equals("SHIPPINGTERM")) {
+				return SHIPPING_TERM;
+			} else if (upperCaseString.equals("PRICELEVEL")) {
+				return PRICE_LEVEL;
+			} else if (upperCaseString.equals("ITEMGROUP")) {
+				return ITEM_GROUP;
+			} else if (upperCaseString.equals("SALESPERSON")) {
+				return SALES_PERSON;
+			} else if (upperCaseString.equals("CREDITRATING")) {
+				return CREDIT_RATING;
+			} else if (upperCaseString.equals("PAYSALESTAX")) {
+				return PAY_SALES_TAX;
+			} else if (upperCaseString.equals("PAYMENTMETHOD")) {
+				return PAYMENT_METHOD;
+			} else if (upperCaseString.equals("COMPANYPREFERENCES")) {
+				return COMPANY_PREFERENCES;
+			} else if (upperCaseString.equals("CREDITSANDPAYMENTS")) {
+				return CREDITS_AND_PAYMENTS;
+			} else if (upperCaseString.equals("PAYSALESTAXENTRIES")) {
+				return PAYSALESTAX_ENTRIES;
+			} else if (upperCaseString.equals("UNITOFMEASURE")) {
+				return UNIT_OF_MEASURE;
+			} else if (upperCaseString.equals("USERPREFERENCES")) {
+				return USER_PREFERENCES;
+			}
+		}
+
+		return type;
+	}
+
 	public String getClientClassSimpleName() {
 
 		return this.clientName;

@@ -3,13 +3,23 @@ package com.vimukti.accounter.developer.api;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.zefer.cache.d;
 
+import com.vimukti.accounter.api.core.ApiResult;
+import com.vimukti.accounter.core.Developer;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.server.AccounterCRUDServiceImpl;
 
 public class RestApiServlet extends HttpServlet {
 
@@ -18,11 +28,37 @@ public class RestApiServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private static int STATUS_SUCCESS = 200;
+	private static int STATUS_CREATED = 201;
+	private static int STATUS_INTERNAL_ERROR = 500;
+	private static int STATUS_NOT_FOUND = 500;
+
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		super.doDelete(req, resp);
+		boolean isSuccess = false;
+		ServletInputStream inputStream = req.getInputStream();
+		ApiResult apiResult = new ApiResult();
+		try {
+			IAccounterCore accounterCore = getApiSerializationFactory()
+					.deserialize(inputStream);
+			boolean delete = new AccounterCRUDServiceImpl().delete(
+					accounterCore.getObjectType(), accounterCore.getID());
+			if (delete) {
+				apiResult.setStatus(STATUS_SUCCESS);
+			} else {
+				apiResult.setStatus(STATUS_NOT_FOUND);
+			}
+			isSuccess = delete;
+		} catch (Exception e) {
+			e.printStackTrace();
+			apiResult.setStatus(STATUS_INTERNAL_ERROR);
+			isSuccess = false;
+		}
+		String result = getApiSerializationFactory().serializeResult(apiResult);
+		ServletOutputStream outputStream = resp.getOutputStream();
+		outputStream.write(result.getBytes());
+		updateDeveloper(req, isSuccess);
 	}
 
 	@Override
@@ -35,15 +71,52 @@ public class RestApiServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+		boolean isSuccess = false;
+		ServletInputStream inputStream = req.getInputStream();
+		ApiResult apiResult = new ApiResult();
+		try {
+			IAccounterCore deserialize = getApiSerializationFactory()
+					.deserialize(inputStream);
+			long create = new AccounterCRUDServiceImpl().update(deserialize);
+
+			apiResult.setStatus(STATUS_SUCCESS);
+			apiResult.setObjectId(create);
+			isSuccess = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			apiResult.setStatus(STATUS_INTERNAL_ERROR);
+			isSuccess = false;
+		}
+		String result = getApiSerializationFactory().serializeResult(apiResult);
+		ServletOutputStream outputStream = resp.getOutputStream();
+		outputStream.write(result.getBytes());
+		updateDeveloper(req, isSuccess);
 	}
 
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPut(req, resp);
+		boolean isSuccess = false;
+		ServletInputStream inputStream = req.getInputStream();
+		ApiResult apiResult = new ApiResult();
+		try {
+			IAccounterCore deserialize = getApiSerializationFactory()
+					.deserialize(inputStream);
+			long create = new AccounterCRUDServiceImpl().create(deserialize);
+
+			apiResult.setStatus(STATUS_CREATED);
+			apiResult.setObjectId(create);
+			isSuccess = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			apiResult.setStatus(STATUS_INTERNAL_ERROR);
+			isSuccess = false;
+		}
+		String result = getApiSerializationFactory().serializeResult(apiResult);
+		ServletOutputStream outputStream = resp.getOutputStream();
+		outputStream.write(result.getBytes());
+
+		updateDeveloper(req, isSuccess);
 	}
 
 	@Override
@@ -63,5 +136,22 @@ public class RestApiServlet extends HttpServlet {
 	private String getCompanyName(HttpServletRequest req) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private ApiSerializationFactory getApiSerializationFactory() {
+		return null;
+	}
+
+	public void updateDeveloper(HttpServletRequest req, boolean isSuccess) {
+		Developer developer = null;
+		long attribute = ((Long) req.getAttribute("id")).longValue();
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		developer = (Developer) (session.getNamedQuery("getDeveloper.by.id"))
+				.setParameter((int) attribute, developer).uniqueResult();
+		if (isSuccess) {
+			developer.succeedRequests++;
+		} else {
+			developer.failureRequests++;
+		}
 	}
 }
