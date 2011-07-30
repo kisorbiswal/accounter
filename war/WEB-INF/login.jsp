@@ -70,7 +70,7 @@
 						<td class="login-box-left-middle" ></td>
 						<td class="login-box">
 								<div class="mid-login-box">
-								<form id="accounterForm" method="post" action="/site/login">
+								<form id="accounterForm" method="post" action="/login">
 								
 								<c:if test="${message != null}">
 								<span style="background: #CC0000; color: #F2F3F5; line-height: 1.5;">
