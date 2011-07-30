@@ -1861,6 +1861,8 @@ input[type="submit"]:FOCUS {
 	margin:5px;
 }
 .reset_password_box{
-	border:1px solid #929292;
-	background:white;
+	background: none repeat scroll 0 0 white;
+    border: 1px solid #929292;
+    margin: 10px;
+    padding: 10px;
 }
