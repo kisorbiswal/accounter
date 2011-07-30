@@ -29,6 +29,10 @@ public class NewLoginServlet extends BaseServlet {
 			if (client != null) {
 				// if valid credentials are there we redirect to <dest> param or
 				// /companies
+
+				if (client.isRequirePasswordReset()) {
+					client.setRequirePasswordReset(false);
+				}
 				String destUrl = request.getParameter(DESTINATION);
 				if (destUrl == null || destUrl.isEmpty()) {
 					redirectExternal(request, response, COMPANIES_URL);
