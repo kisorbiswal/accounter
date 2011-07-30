@@ -68,9 +68,12 @@ public class SignupServlet extends BaseServlet {
 				// TODO::: in login.jsp check for email id in the request if it
 				// is available set this email id in the email id field of login
 				// page
-				HttpSession session = req.getSession(true);
-				session.setAttribute(EMAIL_ID, emailId);
-				redirectExternal(req, resp, LOGIN_URL);
+				// HttpSession session = req.getSession(true);
+				// session.setAttribute(EMAIL_ID, emailId);
+				// redirectExternal(req, resp, LOGIN_URL);
+				dispatchMessage(
+						"User is already signed up with this Email ID, try with another Email ID. ",
+						req, resp, view);
 
 			} else {
 				// else
@@ -100,7 +103,7 @@ public class SignupServlet extends BaseServlet {
 				// Send to SignUp Success View
 				req.setAttribute(
 						"successmessage",
-						"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and click on the email activation link provided.");
+						"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and click here to activate your account.");
 				dispatch(req, resp, view);
 			}
 		} catch (Exception e) {
@@ -113,5 +116,4 @@ public class SignupServlet extends BaseServlet {
 		}
 	}
 
-	
 }

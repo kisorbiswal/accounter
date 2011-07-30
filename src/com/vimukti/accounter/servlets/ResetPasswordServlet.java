@@ -95,7 +95,7 @@ public class ResetPasswordServlet extends BaseServlet {
 			client.setPassword(HexUtil.bytesToHex(Security.makeHash(activation
 					.getEmailId() + password.trim())));
 			// set isActive true
-			client.setActive(true);
+			//client.setActive(true);
 			// make Require Password Reset False
 			client.setRequirePasswordReset(false);
 			// and save Client,
