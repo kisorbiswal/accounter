@@ -65,7 +65,7 @@ $(document).ready(function() {
 			<div class="middle-part" id="cen">
 				<div class="middle-signup-box" id="mid-1">
 					<div class ="Welcome-Accounter-box">
-							<h2>Forgot Password</h2>
+							<h2>Reset Password</h2>
 					<table class="login-fields-box">
 					<tr>
 						<td ><div class="login-box-left-top"></div></td>
@@ -104,19 +104,19 @@ $(document).ready(function() {
 								  </tr>
 								   <tr>
 								  <td>
-								      <ul class="login-submit-button">
-										<li><span class="signup-submit-left"></span></li>
-										<li><input type="submit" tabindex="3" value="Ok" name="ok" class="signup-submit-mid forget-but" id="submitButton"></li>
-										<li><span class="signup-submit-right"></span></li>
-									 </ul>
+								      
 								  </td>
 								  <td>
-								  <ul class="login-submit-button">
-										<li><span class="signup-submit-left"></span></li>
-										<li><input type="button" tabindex="4" value="Cancel" name="cancel" class="signup-submit-mid forget-but" onClick="location.href='/login'"></li>
-										<li><span class="signup-submit-right"></span></li>
-									 </ul>
-								      <input type="button" tabindex="4" value="Cancel" name="cancel" class="forget-but" onClick="location.href='/login'">
+									  <ul class="login-ok-button">
+											<li><span class="signup-submit-left"></span></li>
+											<li><input type="submit" tabindex="3" value="Ok" name="ok" class="signup-submit-mid forget-but" id="submitButton"></li>
+											<li><span class="signup-submit-right"></span></li>
+									  </ul>
+									  <ul class="login-cancel-button">
+											<li><span class="signup-submit-left"></span></li>
+											<li><input type="button" tabindex="4" value="Cancel" name="cancel" class="signup-submit-mid forget-but" onClick="location.href='/login'"></li>
+											<li><span class="signup-submit-right"></span></li>
+									  </ul>
 								  </td>
 								  </tr>
 								  </table>
