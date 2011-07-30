@@ -112,7 +112,7 @@ public class NewLoginServlet extends BaseServlet {
 			Session session = HibernateUtil.openSession(LOCAL_DATABASE);
 			try {
 				Query query = session.getNamedQuery("getClient.by.mailId");
-				query.setParameter("emailId", emailId);
+				query.setParameter(EMAIL_ID, emailId);
 
 				Client client = (Client) query.uniqueResult();
 				if (client != null) {
