@@ -19,7 +19,7 @@ public class LogoutServlet extends BaseServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			String userid = (String) req.getSession().getAttribute(USER_ID);
+			String userid = (String) req.getSession().getAttribute(EMAIL_ID);
 			if (userid != null) {
 				deleteCookie(req, resp);
 				// Destroy the comet queue so that it wont take memory

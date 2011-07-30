@@ -85,7 +85,7 @@ public class Accounter implements EntryPoint {
 				}
 
 				if (company.getName() == null && company.getID() == 0) {
-					// Redirect to Company SetUp
+					// TODO Launch to Company SetUp
 				}
 
 				// We got the company, set it for all further references.

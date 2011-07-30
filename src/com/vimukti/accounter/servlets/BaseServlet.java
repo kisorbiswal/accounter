@@ -28,7 +28,7 @@ public class BaseServlet extends HttpServlet {
 
 	public static final String USER_COOKIE = "user";
 
-	public static final String COMPANY_NAME = "companyName";
+	public static final String COMPANY_ID = "companyName";
 
 	public static final String EMAIL_ID = "emailId";
 	public static final String PASSWORD = "password";
@@ -42,6 +42,7 @@ public class BaseServlet extends HttpServlet {
 
 	protected static final String RESET_PASSWORD_URL = "/resetpassword";
 	public static final String COMPANIES_URL = "/companies";
+	protected static final String ACTIVATION_URL = "/activation";
 
 	/**
 	 * 

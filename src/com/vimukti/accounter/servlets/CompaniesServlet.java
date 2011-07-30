@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class CompaniesServlet extends BaseServlet {
@@ -27,23 +29,15 @@ public class CompaniesServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		HttpSession httpSession = req.getSession();
-		if (httpSession == null) {
+		String emailID = (String) httpSession.getAttribute(EMAIL_ID);
+		if (emailID == null) {
 			req.setAttribute(ATTR_MESSAGE, "Session Expired.");
 			redirectExternal(req, resp, LOGIN_URL);
 			return;
 		}
-
-		String userID = (String) httpSession.getAttribute(USER_ID);
-
-		if (userID == null) {
-			req.setAttribute(ATTR_MESSAGE, "Invalid User.");
-			redirectExternal(req, resp, LOGIN_URL);
-			return;
-		}
-
 		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
-			Client client = getClient(userID);
+			Client client = getClient(emailID);
 			if (client == null) {
 				req.setAttribute(ATTR_MESSAGE, "Invalid User.");
 				redirectExternal(req, resp, LOGIN_URL);
@@ -52,15 +46,7 @@ public class CompaniesServlet extends BaseServlet {
 
 			Set<ServerCompany> companies = client.getCompanies();
 			if (companies.size() <= 1) {
-				ServerCompany company = null;
-				if (companies.isEmpty()) {
-					company = new ServerCompany();
-					company = (ServerCompany) session.save(company);
-				} else {
-					company = companies.iterator().next();
-				}
-				setCookies(resp, client, company.getCompanyName());
-				redirectExternal(req, resp, ACCOUNTER_URL);
+				redirectToAccounter(req, resp, companies, client);
 			} else {
 				addUserCookies(resp, client);
 				List<String> companyList = new ArrayList<String>();
@@ -68,6 +54,8 @@ public class CompaniesServlet extends BaseServlet {
 					companyList.add(company.getCompanyName());
 				}
 				req.setAttribute(ATTR_COMPANY_LIST, companyList);
+				User user = getUserByEmail(client.getEmailId());
+				req.getSession().setAttribute(USER_ID, user.getID());
 				dispatch(req, resp, companiedListView);
 			}
 		} finally {
@@ -77,31 +65,74 @@ public class CompaniesServlet extends BaseServlet {
 		}
 	}
 
+	/**
+	 * @param req
+	 * @param resp
+	 * @throws IOException
+	 */
+	private void redirectToAccounter(HttpServletRequest req,
+			HttpServletResponse resp, Set<ServerCompany> companies,
+			Client client) throws IOException {
+		Session session = HibernateUtil.getCurrentSession();
+		ServerCompany company = null;
+		User user = null;
+		if (companies.isEmpty()) {
+			Transaction transaction = session.beginTransaction();
+
+			company = new ServerCompany();
+			session.save(company);
+			user = client.toUser();
+			session.save(user);
+			client.getCompanies().add(company);
+			session.save(company);
+			try {
+				transaction.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				transaction.rollback();
+			}
+		} else {
+			company = companies.iterator().next();
+			user = getUserByEmail(client.getEmailId());
+		}
+		setCookies(resp, client, company.getID());
+		req.getSession().setAttribute(USER_ID, user.getID());
+		redirectExternal(req, resp, ACCOUNTER_URL);
+	}
+
+	/**
+	 * @param emailId
+	 * @return
+	 */
+	private User getUserByEmail(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		User user = (User) session.getNamedQuery("getuser.by.email")
+				.uniqueResult();
+		return user;
+	}
+
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String companyName = req.getParameter(COMPANY_NAME);
+		String companyID = req.getParameter(COMPANY_ID);
 
-		if (companyName == null) {
+		if (companyID == null) {
 			// TODO
 		}
 
-		addCompanyCookies(resp, companyName);
+		addCompanyCookies(resp, Long.parseLong(companyID));
 
 		redirectExternal(req, resp, ACCOUNTER_URL);
 	}
 
-	private void createCookiesWithComapnyID(long companyID) {
-
-	}
-
 	private void setCookies(HttpServletResponse response, Client client,
-			String companyName) {
-		addCompanyCookies(response, companyName);
+			long companyID) {
+		addCompanyCookies(response, companyID);
 		addUserCookies(response, client);
 	}
 
-	private void addCompanyCookies(HttpServletResponse resp, String companyName) {
-		Cookie companyCookie = new Cookie(COMPANY_COOKIE, companyName);
+	private void addCompanyCookies(HttpServletResponse resp, long companyID) {
+		Cookie companyCookie = new Cookie(COMPANY_COOKIE,
+				String.valueOf(companyID));
 		companyCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		companyCookie.setPath("/");
 		resp.addCookie(companyCookie);

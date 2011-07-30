@@ -120,7 +120,7 @@ public class LiveLoginServlet extends BaseServlet {
 					String.valueOf(user.getID()));
 			request.getSession().setAttribute("userName",
 					String.valueOf(user.getName()));
-			request.getSession().setAttribute(COMPANY_NAME, user.getCompany());
+			request.getSession().setAttribute(COMPANY_ID, user.getCompany());
 			Server.addSeesionIdOfIdentity(String.valueOf(user.getID()), request
 					.getSession().getId());
 
@@ -134,7 +134,7 @@ public class LiveLoginServlet extends BaseServlet {
 			HttpServletResponse response) {
 		String emailId = request.getParameter(EMAIL_ID);
 		String password = request.getParameter(PASSWORD);
-		String companyName = request.getParameter(COMPANY_NAME);
+		String companyName = request.getParameter(COMPANY_ID);
 
 		User user = getUser(emailId, password, companyName);
 		if (user != null && request.getParameter("staySignIn") != null

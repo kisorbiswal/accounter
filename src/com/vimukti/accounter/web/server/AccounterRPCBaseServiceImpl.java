@@ -167,7 +167,7 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 							getCompanyName(getThreadLocalRequest()));
 			getThreadLocalRequest().getSession().setAttribute("offSet", offSet);
 			CometManager.initStream(getThreadLocalRequest().getSession()
-					.getId(), user.getID(), "bizantra");
+					.getId(), user.getEmail(), "bizantra");
 
 			if (rememberMe) {
 				setCookies(string, password);

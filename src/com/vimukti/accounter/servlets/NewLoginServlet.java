@@ -1,7 +1,6 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -23,6 +24,8 @@ import com.vimukti.accounter.utils.Security;
 public class NewLoginServlet extends BaseServlet {
 
 	private static final String LOGIN_VIEW = "/WEB-INF/login.jsp";
+
+	protected static final Log LOG = LogFactory.getLog(ActivationServlet.class);
 
 	@Override
 	protected void doPost(HttpServletRequest request,
@@ -50,7 +53,7 @@ public class NewLoginServlet extends BaseServlet {
 						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
 				request.setAttribute("emailId", request.getParameter("emailId"));
 				RequestDispatcher dispatcher = getServletContext()
-						.getRequestDispatcher("/WEB-INF/companysetup");
+						.getRequestDispatcher("/WEB-INF/companies");
 				dispatcher.forward(request, response);
 			}
 		} finally {
@@ -88,7 +91,7 @@ public class NewLoginServlet extends BaseServlet {
 		password = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ password.trim()));
 
-		Session session = HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
 			Client client = null;
 			Query query = session
@@ -100,7 +103,9 @@ public class NewLoginServlet extends BaseServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			if (session != null) {
+				session.close();
+			}
 		}
 		return null;
 	}
@@ -108,18 +113,22 @@ public class NewLoginServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		LOG.info(request);
 		// We check if the session is already there, if it is, we check if user
 		// have to reset his password(by using a flag on the user object)
 		HttpSession httpSession = request.getSession();
-		if (httpSession != null) {
-			// Getting the mail id of the user from the session
-			String emailId = (String) httpSession.getAttribute(EMAIL_ID);
+		String emailID = (String) httpSession.getAttribute(EMAIL_ID);
+		if (emailID == null) {
+			// if session is not there then we show the form and user fills it
+			// which gets submitted to same url
+			dispatch(request, response, LOGIN_VIEW);
+		} else {
 
 			// Get the Client using the mail id
 			Session session = HibernateUtil.openSession(LOCAL_DATABASE);
 			try {
 				Query query = session.getNamedQuery("getClient.by.mailId");
-				query.setParameter(EMAIL_ID, emailId);
+				query.setParameter(EMAIL_ID, emailID);
 
 				Client client = (Client) query.uniqueResult();
 				if (client != null) {
@@ -155,7 +164,7 @@ public class NewLoginServlet extends BaseServlet {
 
 						query = session
 								.getNamedQuery("get.activation.by.mailId");
-						query.setParameter(EMAIL_ID, emailId);
+						query.setParameter(EMAIL_ID, emailID);
 						Activation activation = (Activation) query
 								.uniqueResult();
 						// reset the activation code and save it
@@ -173,11 +182,6 @@ public class NewLoginServlet extends BaseServlet {
 				if (session != null)
 					session.close();
 			}
-
-		} else {
-			// if session is not there then we show the form and user fills it
-			// which gets submitted to same url
-			dispatch(request, response, LOGIN_VIEW);
 
 		}
 

@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Activation;
@@ -15,6 +17,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ActivationServlet extends BaseServlet {
 
+	protected static final Log LOG = LogFactory.getLog(ActivationServlet.class);
 	/**
 	 * 
 	 */
@@ -26,9 +29,14 @@ public class ActivationServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// get the token
+		LOG.info(req);
 		String token = req.getParameter("code");
-		// get activation record
 
+		if (token == null) {
+			dispatch(req, resp, VALID_ACTIVATION_CODE_VIEW);
+		}
+
+		// get activation record
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
 			Activation activation = getActivation(token);
@@ -37,7 +45,7 @@ public class ActivationServlet extends BaseServlet {
 				// set Error "Token has expired"
 				// We check him and if invalid code we show him form to enter
 				// valid code.
-				dispatch(req, resp, VALID_ACTIVATION_CODE_VIEW);
+				redirectExternal(req, resp, ACTIVATION_URL);
 			} else {
 				// If code is valid we create the user and set the session and
 				// external redirect him to <dest> param or /login

@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Activation;
@@ -16,6 +18,9 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
 
 public class ResetPasswordServlet extends BaseServlet {
+
+	protected static final Log LOG = LogFactory
+			.getLog(ResetPasswordServlet.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,8 +39,9 @@ public class ResetPasswordServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		LOG.info(req);
 		HttpSession httpsession = req.getSession();
-		if (httpsession == null) {
+		if (httpsession.getAttribute(EMAIL_ID) == null) {
 			req.setAttribute(ATTR_MESSAGE, "Session expired.");
 			redirectExternal(req, resp, LOGIN_URL);
 			return;
@@ -59,7 +65,7 @@ public class ResetPasswordServlet extends BaseServlet {
 				redirectExternal(req, resp, LOGIN_URL);
 				return;
 			}
-			
+
 			activation = getActivation(token);
 			// if it is null
 			if (activation == null) {
@@ -96,8 +102,8 @@ public class ResetPasswordServlet extends BaseServlet {
 			saveEntry(client);
 
 			// delete activation record
-			hibernateSession.getNamedQuery("delete.activation.by.Id")
-					.setLong("id", activation.getID()).executeUpdate();
+			// hibernateSession.getNamedQuery("delete.activation.by.Id")
+			// .setLong("id", activation.getID()).executeUpdate();
 
 			// Send to login page with emailId
 			httpsession.setAttribute(EMAIL_ID, activation.getEmailId());
@@ -132,7 +138,7 @@ public class ResetPasswordServlet extends BaseServlet {
 	private void checkSession(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		HttpSession httpSession = req.getSession();
-		if (httpSession == null) {
+		if (httpSession.getAttribute(EMAIL_ID) == null) {
 			String destination = req.getParameter(PARAM_DESTINATION);
 			if (destination == null) {
 				redirectExternal(req, resp, LOGIN_URL);

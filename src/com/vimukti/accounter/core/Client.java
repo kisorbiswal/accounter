@@ -21,7 +21,7 @@ public class Client implements IAccounterServerCore {
 	private String phoneNumber;
 	private String country;
 	private boolean isSubscribedToNewsLetters;
-	private boolean isRequirePasswordReset;
+	private boolean isRequirePasswordReset = false;
 
 	public String getFirstName() {
 		return firstName;
@@ -123,5 +123,19 @@ public class Client implements IAccounterServerCore {
 
 	public void setRequirePasswordReset(boolean isRequirePasswordReset) {
 		this.isRequirePasswordReset = isRequirePasswordReset;
+	}
+
+	/**
+	 * Convers Client to User
+	 */
+	public User toUser() {
+		User user = new User();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setEmail(emailId);
+		user.setActive(isActive);
+		user.setPhoneNo(phoneNumber);
+		user.setCountry(country);
+		return user;
 	}
 }

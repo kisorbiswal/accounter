@@ -29,15 +29,15 @@ public class PostLoginServlet extends BaseServlet {
 		if (url.equals(referer)) {
 			return;
 		}
-		String userID = (String) request.getSession().getAttribute(USER_ID);
+		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
 		RequestDispatcher dispatcher;
-		if (userID != null) {
-			initComet(request.getSession().getId(), Long.parseLong(userID));
+		if (emailID != null) {
+			initComet(request.getSession().getId(), emailID);
 			// there is no session, so do external redirect to login page
 			// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 			// response.setHeader("Location", "/Accounter.jsp");
 			dispatcher = getServletContext().getRequestDispatcher(
-					"/Accounter.jsp");
+					"/WEB-INF/Accounter.jsp");
 			dispatcher.forward(request, response);
 		} else {
 			response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
@@ -61,10 +61,10 @@ public class PostLoginServlet extends BaseServlet {
 	 * @param request
 	 * @param identity
 	 */
-	private void initComet(String sessionID, long userID) {
+	private void initComet(String sessionID, String emailID) {
 		// Stream must be created otherwise user will get data
 		// Continuously and browser will struck
-		CometManager.initStream(sessionID, userID, "accounter");
+		CometManager.initStream(sessionID, emailID, "accounter");
 
 	}
 
