@@ -223,7 +223,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		customerCombo.setHelpInformation(true);
 		customerCombo.setWidth("100%");
 		quoteLabel = new LabelItem();
-		quoteLabel.setValue(Accounter.constants().quotesandsalesOrder());
+		if (company.isSalesOrderEnabled()) {
+			quoteLabel.setValue(Accounter.constants().quotesandsalesOrder());
+		}
 		quoteLabel.setWidth("100%");
 		quoteLabel.addStyleName("falseHyperlink");
 		quoteLabel.setShowTitle(false);
