@@ -1856,8 +1856,11 @@ input[type="submit"]:FOCUS {
     clear: both;
     overflow: auto;
 }
-.login-ok-button,.login-submit-button{
+.reset-ok-button,.reset-cancel-button{
 	float:left;
 	margin:5px;
 }
+.reset_password_box{
+	border:1px solid #929292;
+	background:white;
 }
