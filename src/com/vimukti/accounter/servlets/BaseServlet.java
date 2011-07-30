@@ -33,7 +33,7 @@ public class BaseServlet extends HttpServlet {
 	protected static final String LOGIN_URL = "/login";
 
 	protected static final String RESET_PASSWORD_URL = "/resetpassword";
-	private static final String LOGIN_VIEW = "WEB-INF/login";
+	public static final String COMPANIES_URL ="/Companies";
 
 	/**
 	 * 
