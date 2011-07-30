@@ -442,7 +442,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		MainFinanceWindow.getViewManager().showError(
-				"Duplication of TaxCode is not allowed");
+				Accounter.constants().duplicationOfTaxCodeIsNotAllowed());
 
 	}
 

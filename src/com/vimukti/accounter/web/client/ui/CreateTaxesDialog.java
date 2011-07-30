@@ -13,11 +13,10 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 
-
 public class CreateTaxesDialog extends BaseDialog {
 
 	DialogGrid listGridView;;
-	
+
 	private HorizontalPanel bodyLayout;
 	int i = 0;
 
@@ -32,15 +31,15 @@ public class CreateTaxesDialog extends BaseDialog {
 
 		listGridView = new DialogGrid(true);
 		listGridView.setView(this);
-		listGridView.addColumns("Name");
+		listGridView.addColumns(Accounter.constants().name());
 		listGridView.setColumnTypes(getColunmTypes());
 		listGridView.init();
 		listGridView.setWidth("100%");
 		CreateTax c = new CreateTax();
 		CreateTax c1 = new CreateTax();
 
-		c.setName("Ireland");
-		c1.setName("UK");
+		c.setName(Accounter.constants().ireland());
+		c1.setName(Accounter.constants().UK());
 
 		listGridView.addData(c);
 		listGridView.addData(c1);
@@ -54,9 +53,12 @@ public class CreateTaxesDialog extends BaseDialog {
 				List list = listGridView.getSelectedRecords();
 				for (Object o : list) {
 					CreateTax c = (CreateTax) o;
-					if (c.getIsChecheked() && c.getName().equals("Ireland"))
+					if (c.getIsChecheked()
+							&& c.getName().equals(
+									Accounter.constants().ireland()))
 						index[i] = 2;
-					if (c.getIsChecheked() && c.getName().equals("UK"))
+					if (c.getIsChecheked()
+							&& c.getName().equals(Accounter.constants().UK()))
 						index[i] = 1;
 					i++;
 				}

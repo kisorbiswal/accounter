@@ -234,7 +234,7 @@ public class ApplyCreditDialog extends BaseDialog {
 		//
 		// });
 		// okbtn.setAutoFit(true);
-		okbtn.setTitle("Adjust");
+		okbtn.setTitle(Accounter.constants().adjust());
 		addInputDialogHandler(new InputDialogHandler() {
 
 			public void onCancelClick() {
@@ -312,7 +312,8 @@ public class ApplyCreditDialog extends BaseDialog {
 
 	protected void setGridFields() {
 		grid.addColumn(ListGrid.COLUMN_TYPE_CHECK, "");
-		grid.addColumns(new String[] { "Date", Accounter.constants().memo(),
+		grid.addColumns(new String[] { Accounter.constants().date(),
+				Accounter.constants().memo(),
 				Accounter.constants().creditAmount(),
 				Accounter.constants().balance(),
 				Accounter.constants().amountToUse() });

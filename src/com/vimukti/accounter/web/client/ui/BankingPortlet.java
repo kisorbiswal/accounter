@@ -143,8 +143,8 @@ public class BankingPortlet extends DashBoardPortlet {
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter
-								.showError("Failed to get Bank account chart values");
+						Accounter.showError(Accounter.constants()
+								.failedtogetBankaccountchartvalues());
 					}
 
 					@Override
