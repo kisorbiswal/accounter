@@ -1860,7 +1860,7 @@ input[type="submit"]:FOCUS {
 	float:left;
 	margin:5px;
 }
-.reset_password_box{
+.reset-login-box{
 	background: none repeat scroll 0 0 white;
     border: 1px solid #929292;
     margin: 10px;
