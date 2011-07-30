@@ -153,9 +153,10 @@ public class NewLoginServlet extends BaseServlet {
 
 						// get activation object by email id
 
-						Query query1 = session
+						query = session
 								.getNamedQuery("get.activation.by.mailId");
-						Activation activation = (Activation) query1
+						query.setParameter(EMAIL_ID, emailId);
+						Activation activation = (Activation) query
 								.uniqueResult();
 						// reset the activation code and save it
 						activation.setToken(token);

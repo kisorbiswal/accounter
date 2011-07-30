@@ -100,7 +100,7 @@ public class ResetPasswordServlet extends BaseServlet {
 					.setLong("id", activation.getID()).executeUpdate();
 
 			// Send to login page with emailId
-			httpsession.setAttribute("emailId", activation.getEmailId());
+			httpsession.setAttribute(EMAIL_ID, activation.getEmailId());
 			redirectExternal(req, resp, LOGIN_URL);
 		} catch (Exception e) {
 			e.printStackTrace();

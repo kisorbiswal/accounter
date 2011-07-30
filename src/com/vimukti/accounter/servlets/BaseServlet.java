@@ -15,11 +15,13 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class BaseServlet extends HttpServlet {
 	public static final String USER_ID = "userID";
+	public static final String ACTIVATION_TOKEN = "activationToken";
 	public static final String OUR_COOKIE = "_accounter_01_infinity_2711";
 
 	public static final String COMPANY_COOKIE = "cid";
@@ -175,6 +177,9 @@ public class BaseServlet extends HttpServlet {
 	protected void redirectExternal(HttpServletRequest req,
 			HttpServletResponse resp, String url) throws IOException {
 		resp.sendRedirect(url);
+	}
+	protected void sendActivationEmail(String token, Client client) {
+		UsersMailSendar.sendActivationMail(token, client);
 	}
 
 }
