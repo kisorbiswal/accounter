@@ -312,7 +312,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 						if (newDate != null)
 							setTransactionDate(newDate);
 					} catch (Exception e) {
-						Accounter.showError("Invalid Transaction date!");
+						Accounter.showError(Accounter.constants()
+								.invalidTransactiondate());
 						setTransactionDate(new ClientFinanceDate());
 						dateItem.setEnteredDate(getTransactionDate());
 					}
@@ -480,7 +481,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		if (caught.getMessage() != null)
 			Accounter.showError(caught.getMessage());
 		else
-			Accounter.showError("Failed Transaction " + transName);
+			Accounter.showError(Accounter.messages().failedTransaction(
+					transName));
 		// SC
 		// .logWarn("Failed Transaction" + transName + " " + caught != null ?
 		// caught
@@ -502,8 +504,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public void saveAndUpdateView() throws Exception {
 		try {
 			if (this.transactionObject.getTotal() <= 0) {
-				throw new InvalidOperationException(
-						"Transaction total cannot be 0 or less than 0");
+				throw new InvalidOperationException(Accounter.constants()
+						.transactiontotalcannotbe0orlessthan0());
 			}
 			transactionObject.setType(transactionType);
 			if (transactionDate != null)
@@ -534,8 +536,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			return;
 		for (ClientTransactionItem transactionItem : transactionItems)
 			if (transactionItem.getLineTotal() <= 0)
-				throw new InvalidOperationException(
-						"Transaction item total cannot be 0 or less than 0");
+				throw new InvalidOperationException(Accounter.constants()
+						.transactionitemtotalcannotbe0orlessthan0());
 	}
 
 	public AccounterButton createAddNewButton() {
@@ -853,8 +855,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 							&& getTransactionDate().before(
 									new ClientFinanceDate(2011 - 1900, 01 - 1,
 											04))) {
-						throw new InvalidEntryException(
-								"The VAT code you have selected is not valid for transactions entered before 4th January 2011. Please select another VAT code");
+						throw new InvalidEntryException(Accounter.constants()
+								.VAT4thJanError());
 					}
 				}
 			}

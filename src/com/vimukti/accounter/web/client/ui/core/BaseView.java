@@ -88,7 +88,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		buttonLayout
 				.setCellHorizontalAlignment(saveAndCloseButton, ALIGN_RIGHT);
 		if (this != null && this instanceof FileVATView) {
-			saveAndCloseButton.setText("File VAT Return");
+			saveAndCloseButton.setText(Accounter.constants().fileVATReturn());
 
 			// saveAndCloseButton.setWidth("200px");
 		}
@@ -116,7 +116,7 @@ public abstract class BaseView<T> extends AbstractBaseView<T> {
 		else {
 			// In edit mode "SaveAndClose" button is renamed as "Update"
 			if (isEdit)
-				saveAndCloseButton.setText("Update");
+				saveAndCloseButton.setText(Accounter.constants().update());
 			buttonLayout.add(saveAndCloseButton);
 			buttonLayout.add(registerButton);
 

@@ -59,7 +59,6 @@ public class PercentageField extends TextItem {
 
 		BlurHandler blurHandler = new BlurHandler() {
 
-			
 			Object value = null;
 
 			public void onBlur(BlurEvent event) {
@@ -79,10 +78,9 @@ public class PercentageField extends TextItem {
 								// BaseView.errordata
 								// .setHTML("<li> You cannot enter a negative Percentage.");
 								// BaseView.commentPanel.setVisible(true);
-								MainFinanceWindow
-										.getViewManager()
-										.showError(
-												"You cannot enter a negative Percentage");
+								MainFinanceWindow.getViewManager().showError(
+										Accounter.constants()
+												.cantenternegnumber());
 								// Accounter
 								// .showError("You cannot enter a negative Percentage");
 								setPercentage(0.0);
@@ -91,10 +89,9 @@ public class PercentageField extends TextItem {
 								// BaseView.errordata
 								// .setHTML("<li> You cannot enter a percentage more than 100.");
 								// BaseView.commentPanel.setVisible(true);
-								MainFinanceWindow
-										.getViewManager()
-										.showError(
-												"You cannot enter a percentage more than 100");
+								MainFinanceWindow.getViewManager().showError(
+										Accounter.constants()
+												.cantentermorethat100());
 								// Accounter
 								// .showError("You cannot enter a percentage more than 100");
 								setPercentage(0.0);

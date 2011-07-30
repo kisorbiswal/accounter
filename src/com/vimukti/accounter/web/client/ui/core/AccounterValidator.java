@@ -261,7 +261,9 @@ public class AccounterValidator {
 											public void onException(
 													AccounterException caught) {
 												Accounter
-														.showError("Failed to alter the fiscal year");
+														.showError(Accounter
+																.constants()
+																.failedtoalterthefiscalyear());
 											}
 
 											@SuppressWarnings("null")
@@ -269,7 +271,9 @@ public class AccounterValidator {
 
 												if (result != null || !result) {
 													Accounter
-															.showInformation("Fiscal Year created, to include the selected AsOf Date");
+															.showInformation(Accounter
+																	.constants()
+																	.fiscalYearcreated());
 													view.validationCount--;
 
 												}
@@ -749,7 +753,8 @@ public class AccounterValidator {
 
 	public static void validate_TaxAgency_LiabilityAccount(
 			final ParentCanvas view, ClientAccount liabilityAccount) {
-		if (liabilityAccount.getName().equalsIgnoreCase("Sales Tax Payable")) {
+		if (liabilityAccount.getName().equalsIgnoreCase(
+				Accounter.constants().salesTaxPayable())) {
 			Accounter.showWarning(
 					AccounterWarningType.different_CurrentLiabilityAccount,
 					AccounterType.WARNING, new ErrorDialogHandler() {
@@ -886,8 +891,13 @@ public class AccounterValidator {
 		if (dueorDelivaryDate.before(transactionDate)) {
 			if (!UIUtils.isdateEqual(dueorDelivaryDate, transactionDate)) {
 				MainFinanceWindow.getViewManager().appendError(
-						"The" + " " + dateConstant + " "
-								+ " cannot be earlier than transaction date");
+						Accounter.constants().the()
+								+ " "
+								+ dateConstant
+								+ " "
+								+ " "
+								+ Accounter.constants()
+										.cannotbeearlierthantransactiondate());
 				// Accounter.stopExecution();
 			}
 
@@ -948,8 +958,8 @@ public class AccounterValidator {
 						if (!DecimalUtil.isGreaterThan(amount, 0D))
 							break;
 					} catch (Exception e) {
-						Accounter
-								.showError("Error:class->AccounterValidator,Method->distributePaymentToOutstandingInvoices");
+						Accounter.showError(Accounter.constants()
+								.accountervalidatorError());
 						return false;
 					}
 
@@ -1301,8 +1311,8 @@ public class AccounterValidator {
 	public static boolean isNull(Object object)
 			throws InvalidTransactionEntryException {
 		if (object == null) {
-			throw new InvalidTransactionEntryException(
-					"Required fields are shown in bold.Those fields should be filled!!");
+			throw new InvalidTransactionEntryException(Accounter.constants()
+					.fieldError());
 
 		}
 
@@ -1505,8 +1515,8 @@ public class AccounterValidator {
 			String constant) throws InvalidTransactionEntryException {
 		if (sellingDate.before(purchaseDate)) {
 			if (!UIUtils.isdateEqual(sellingDate, purchaseDate))
-				throw new InvalidTransactionEntryException(constant
-						+ "  must be After the PurchaseDate" + "  ("
+				throw new InvalidTransactionEntryException(constant + " "
+						+ Accounter.constants().conditionalMsg() + "  ("
 						+ UIUtils.getDateStringFormat(purchaseDate) + "  )");
 		}
 
@@ -1534,8 +1544,8 @@ public class AccounterValidator {
 	public static boolean validateGridItem(Object value, String itemName)
 			throws InvalidTransactionEntryException {
 		if (value == null || value == "") {
-			throw new InvalidTransactionEntryException("Please enter "
-					+ itemName);
+			throw new InvalidTransactionEntryException(Accounter.messages()
+					.pleaseEnter(itemName));
 		}
 		return true;
 	}
@@ -1644,7 +1654,7 @@ public class AccounterValidator {
 
 	public static boolean validate_FileVat(final AbstractBaseView view) {
 		if (!AbstractBaseView.errorOccured) {
-			Accounter.showWarning("Are you sure you want to save File VAT?",
+			Accounter.showWarning(Accounter.constants().sureToSaveFileVAT(),
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override
@@ -1672,13 +1682,14 @@ public class AccounterValidator {
 	}
 
 	public static boolean validatePayment() {
-		Accounter.showError("You can't save receive payment with 0 amount");
+		Accounter.showError("");
 		return false;
 
 	}
 
 	public static boolean validatePayBill() {
-		Accounter.showError("You can't save pay bill with 0 amount");
+		Accounter.showError(Accounter.constants()
+				.youcantsavepaybillwith0amount());
 		return false;
 	}
 

@@ -63,7 +63,7 @@ public class IntegerField extends TextItem {
 
 					}
 				} catch (Exception e) {
-					Accounter.showError("Invalid Information Provided..");
+					Accounter.showError(Accounter.constants().invalidInfo());
 				}
 
 			}

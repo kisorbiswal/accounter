@@ -390,8 +390,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			Accounter.showError(AccounterErrorType.FAILEDREQUEST);
 			return;
 		}
-		Accounter
-				.showMessage("Your session expired, Please login again to continue");
+		Accounter.showMessage(Accounter.constants().sessionExpired());
 	}
 
 	@Override

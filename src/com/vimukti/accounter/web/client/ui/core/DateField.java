@@ -44,11 +44,11 @@ public class DateField extends DateItem {
 					// enteredDate = getDate();
 
 					if (startDate != null && getDate().compareTo(startDate) < 0)
-						throw new Exception(
-								"Cannot be Earlier than the Start Date");
+						throw new Exception(Accounter.constants().cantearlierThanStart()
+								);
 
 					if (endDate != null && getDate().compareTo(endDate) > 0)
-						throw new Exception("Cannot be After the End Date");
+						throw new Exception(Accounter.constants().cantbeAfterEnd());
 
 					setEnteredDate(getDate());
 

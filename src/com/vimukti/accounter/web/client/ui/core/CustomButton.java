@@ -33,7 +33,7 @@ public class CustomButton extends Button {
 		this.removeStyleName("gwt-Button");
 		this.addStyleName("custom-button");
 		if (canvas == null) {
-			Accounter.showError("Could Not Create Button... ");
+			Accounter.showError(Accounter.constants().couldnotcreateButton());
 			// setDisabled(true);
 			return;
 		}

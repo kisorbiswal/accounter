@@ -2,104 +2,107 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ReportUtility {
 
 	public static int companyType;
 
 	public static String getTransactionName(int transactionType) {
-
+		AccounterConstants constants = Accounter.constants();
 		String transactionName = null;
 		switch (transactionType) {
 		case ClientTransaction.MEMO_OPENING_BALANCE:
-			transactionName = "Opening Balance";
+			transactionName = constants.openingBalance();
 			break;
 		case ClientTransaction.TYPE_CASH_SALES:
-			transactionName = "Cash Sale";
+			transactionName = constants.cashSale();
 			break;
 		case ClientTransaction.TYPE_CASH_PURCHASE:
-			transactionName = "Cash Purchase";
+			transactionName = constants.cashPurchase();
 			break;
 		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
-			transactionName = "Credit Card Charge";
+			transactionName = constants.creditCardCharge();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
-			transactionName = "Customer Credit";
+			transactionName = constants.customerCredit();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
-			transactionName = "Customer Refund";
+			transactionName = constants.customerRefund();
 			break;
 		case ClientTransaction.TYPE_ENTER_BILL:
-			transactionName = getVendorString("Supplier Bill", "Vendor Bill");
+			transactionName = getVendorString(constants.supplierBill(),
+					constants.vendorBill());
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
-			transactionName = "Quote";
+			transactionName = constants.quote();
 			break;
 		case ClientTransaction.TYPE_INVOICE:
-			transactionName = "Invoice";
+			transactionName = constants.invoice();
 			break;
 		case ClientTransaction.TYPE_ISSUE_PAYMENT:
-			transactionName = "Issue Payment";
+			transactionName = constants.issuePayment();
 			break;
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:
-			transactionName = "Deposit/Transfer Funds";
+			transactionName = constants.depositTransferFunds();
 			break;
 		case ClientTransaction.TYPE_PAY_BILL:
-			transactionName = getVendorString("Supplier Payment",
-					"Vendor Payment");
+			transactionName = getVendorString(constants.supplierPayment(),
+					constants.vendorPayment());
 			break;
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
-			transactionName = getVendorString("Supplier Prepayment",
-					"Vendor Prepayment");
+			transactionName = getVendorString(constants.supplierPrepayment(),
+					constants.vendorPrepayment());
 			break;
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
 			transactionName = "Customer Payment";
 			break;
 		case ClientTransaction.TYPE_TRANSFER_FUND:
-			transactionName = "Transfer Fund";
+			transactionName = constants.transferFund();
 			break;
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
-			transactionName = getVendorString("Supplier Credit",
-					"Vendor Credit");
+			transactionName = getVendorString(constants.supplierCredit(),
+					constants.vendorCredit());
 			break;
 		case ClientTransaction.TYPE_WRITE_CHECK:
-			transactionName = "Check";
+			transactionName = constants.check();
 			break;
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
-			transactionName = "Journal Entry";
+			transactionName = constants.journalEntry();
 			break;
 		case ClientTransaction.TYPE_PAY_SALES_TAX:
-			transactionName = "Pay Sales Tax";
+			transactionName = constants.paySalesTax();
 			break;
 		case ClientTransaction.TYPE_RECEIVE_VAT:
-			transactionName = "Receive VAT ";
+			transactionName = constants.receiveVAT();
 			break;
 		case ClientTransaction.TYPE_SALES_ORDER:
-			transactionName = "Sales Order";
+			transactionName = constants.salesOrder();
 			break;
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
-			transactionName = "Purchase Order";
+			transactionName = constants.purchaseOrder();
 			break;
 		case ClientTransaction.TYPE_ITEM_RECEIPT:
-			transactionName = "Item Receipt";
+			transactionName = constants.itemReceipt();
 			break;
 		case ClientTransaction.TYPE_CASH_EXPENSE:
-			transactionName = "Cash Expense";
+			transactionName = constants.cashExpense();
 			break;
 		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
-			transactionName = "Employee Expense";
+			transactionName = constants.employeeExpense();
 			break;
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
-			transactionName = "Credit Card Expense";
+			transactionName = constants.creditCardExpense();
 			break;
 		case ClientTransaction.TYPE_VAT_RETURN:
-			transactionName = "VAT Return ";
+			transactionName = constants.VATReturn();
 			break;
 		case ClientTransaction.TYPE_PAY_VAT:
-			transactionName = "Pay VAT";
+			transactionName = constants.payVAT();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
-			transactionName = "Customer PrePayment";
+			transactionName = constants.customerPrePayment();
 		}
 		return transactionName;
 	}

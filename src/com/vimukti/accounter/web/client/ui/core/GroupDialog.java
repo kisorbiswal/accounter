@@ -340,8 +340,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		Accounter
-				.showError("We can't do this Action.It is Participating in some Transactions");
+		Accounter.showError(Accounter.constants().wecantdothis());
 	}
 
 	@Override
@@ -360,7 +359,8 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	@Override
 	public void saveFailed(Throwable exception) {
-		BaseDialog.errordata.setHTML("Creation Or Updation failed!");
+		BaseDialog.errordata.setHTML(Accounter.constants()
+				.creationorupdationfailed());
 		BaseDialog.commentPanel.setVisible(true);
 	}
 

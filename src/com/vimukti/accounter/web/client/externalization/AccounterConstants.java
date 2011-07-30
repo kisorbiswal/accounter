@@ -4166,4 +4166,58 @@ public interface AccounterConstants extends Constants {
 
 	public SafeHtml changePasswordHTML();
 
+	public String invalidTransactiondate();
+
+	public String transactiontotalcannotbe0orlessthan0();
+
+	public String transactionitemtotalcannotbe0orlessthan0();
+
+	public String VAT4thJanError();
+
+	public String failedtoalterthefiscalyear();
+
+	public String fiscalYearcreated();
+
+	public String cannotbeearlierthantransactiondate();
+
+	public String the();
+
+	public String accountervalidatorError();
+
+	public String fieldError();
+
+	public String conditionalMsg();
+
+	public String sureToSaveFileVAT();
+
+	public String youcantsavepaybillwith0amount();
+
+	public String sessionExpired();
+
+	public String couldnotcreateButton();
+
+	public String cantearlierThanStart();
+
+	public String cantbeAfterEnd();
+
+	public String invalidCharactersGiven();
+
+	public String wecantdothis();
+
+	public String creationorupdationfailed();
+
+	public String invalidInfo();
+
+	public String cantenternegnumber();
+
+	public String cantentermorethat100();
+
+	public String cashSale();
+
+	public String supplierBill();
+
+	public String supplierPrepayment();
+
+	public String vendorPrepayment();
+
 }
