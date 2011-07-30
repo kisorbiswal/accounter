@@ -154,6 +154,7 @@ a:link {
 	height: 330px !important;
 	background: url("/images/Image-display_BG.png") repeat-x scroll 0 0
 		transparent;
+    padding-top:50px;
 }
 
 #mid {
@@ -168,7 +169,7 @@ a:link {
 }
 
 #mid-1 {
-	background-color: #f4f4f4;
+	/*background-color: #f4f4f4;
 	border: 1px solid #CCCCCC;
 	clear: both;
 	float: left;
@@ -178,7 +179,15 @@ a:link {
 	margin-top: 40px;
 	width: 523px;
 	font-family: arial;
-	font-size: 15px;
+	font-size: 15px;*/
+	
+	background-color: #F4F4F4;
+    border: 1px solid #CCCCCC;
+    font-family: arial;
+    font-size: 15px;
+    height: auto;
+    margin: 0 auto;
+    width: 720px;
 }
 
 #mid-2 {
@@ -924,7 +933,6 @@ input[type="text"] {
 .mid-login-box1 {
 	margin-left: 0;
 	margin-top: 12px;
-	margin-right: 20px;
 }
 
 .link-color {
@@ -1867,11 +1875,15 @@ input[type="submit"]:FOCUS {
 	background: none repeat scroll 0 0 white;
     border: 1px solid #929292;
     margin: 10px;
-    padding: 10px;
+    padding: 10px 0px;
 }
 .reset_activation_code h2{
 	color:#3299A4;
 }
 .reset_activation_code{
 	padding:10px;
+}
+#accounterForm td:FIRST-CHILD {
+	text-align:right;
+	padding-right:15px;
 }
