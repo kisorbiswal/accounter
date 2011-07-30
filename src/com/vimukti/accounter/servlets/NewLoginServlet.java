@@ -19,14 +19,23 @@ import com.vimukti.accounter.utils.Security;
 
 public class NewLoginServlet extends BaseServlet {
 
+	private static final String LOGIN_VIEW = "/WEB-INF/login.jsp";
+
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			Client client = doLogin(request, response);
 			if (client != null) {
-				//if valid credentials are there we redirect to <dest> param or /companies
-				redirectExternal(request, response, COMPANIES_URL);
+				// if valid credentials are there we redirect to <dest> param or
+				// /companies
+				String destUrl = request.getParameter(DESTINATION);
+				if (destUrl == null || destUrl.isEmpty()) {
+					redirectExternal(request, response, COMPANIES_URL);
+				} else {
+					redirectExternal(request, response, destUrl);
+				}
+
 				return;
 			} else {
 				request.setAttribute(
@@ -97,7 +106,7 @@ public class NewLoginServlet extends BaseServlet {
 		HttpSession httpSession = request.getSession();
 		if (httpSession != null) {
 			// Getting the mail id of the user from the session
-			String emailId = (String) httpSession.getAttribute("emailId");
+			String emailId = (String) httpSession.getAttribute(EMAIL_ID);
 
 			// Get the Client using the mail id
 			Session session = HibernateUtil.openSession(LOCAL_DATABASE);
@@ -115,22 +124,29 @@ public class NewLoginServlet extends BaseServlet {
 						// if session is there and no need to reset password
 						// then do external redirect to <dest> param or
 						// /companies
+						String destUrl = request.getParameter(DESTINATION);
+						if (destUrl == null || destUrl.isEmpty()) {
+							redirectExternal(request, response, COMPANIES_URL);
+						} else {
+							redirectExternal(request, response, destUrl);
+						}
 
 					}
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
 			} finally {
-
+				if (session != null)
+					session.close();
 			}
 
 		} else {
 			// if session is not there then we show the form and user fills it
 			// which gets submitted to same url
-			dispatch(request, response, "/WEB-INF/login.jsp");
+			dispatch(request, response, LOGIN_VIEW);
 
 		}
-		
+
 	}
 
 }

@@ -42,10 +42,16 @@ public class ActivationServlet extends BaseServlet {
 				// external redirect him to <dest> param or /login
 				HttpSession session = req.getSession(true);
 				// session.setAttribute("activationToken", token);
-				req.setAttribute("emailId", activation.getEmailId());
+				session.setAttribute(EMAIL_ID, activation.getEmailId());
 				// redirect To ActivationPage.
 				// dispatch(req, resp, VIEW);
-				redirectExternal(req, resp, LOGIN_URL);
+				String destUrl = req.getParameter(DESTINATION);
+				if(destUrl == null || destUrl.isEmpty()){
+					redirectExternal(req, resp, LOGIN_URL);
+				}else{
+					redirectExternal(req, resp, destUrl);
+				}
+				
 			}
 
 		} catch (Exception e) {
