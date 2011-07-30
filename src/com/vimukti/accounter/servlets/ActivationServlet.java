@@ -49,7 +49,7 @@ public class ActivationServlet extends BaseServlet {
 				Session hbSession = HibernateUtil.openSession(LOCAL_DATABASE);
 				try {
 					Client client = (Client) hbSession.getNamedQuery(
-							"getClient.by.mailId").uniqueResult();
+							"getClient.by.mailId").setParameter(EMAIL_ID, activation.getEmailId()).uniqueResult();
 					client.setActive(true);
 					saveEntry(client);
 				} catch (Exception e) {
