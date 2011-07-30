@@ -7,6 +7,7 @@ import java.util.HashSet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 
@@ -68,6 +69,8 @@ public class SignupServlet extends BaseServlet {
 				// TODO::: in login.jsp check for email id in the request if it
 				// is available set this email id in the email id field of login
 				// page
+				HttpSession session = req.getSession(true);
+				session.setAttribute(EMAIL_ID, emailId);
 				redirectExternal(req, resp, LOGIN_URL);
 
 			} else {
