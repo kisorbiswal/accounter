@@ -37,6 +37,8 @@ public class ClientCompany implements IAccounterCore {
 
 	public long companyID;
 
+	public boolean salesOrderEnabled;
+
 	private String name;
 
 	private String legalName;
@@ -2209,5 +2211,13 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setLoggedInUser(ClientUser user) {
 		this.loggedInUser = user;
+	}
+
+	public boolean isSalesOrderEnabled() {
+		return salesOrderEnabled;
+	}
+
+	public void setSalesOrderEnabled(boolean salesOrderEnabled) {
+		this.salesOrderEnabled = salesOrderEnabled;
 	}
 }
