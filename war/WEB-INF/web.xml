@@ -59,7 +59,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>CompanySetup</servlet-name>
-		<servlet-class>com.vimukti.accounter.servlets.SetupServlet
+		<servlet-class>com.vimukti.accounter.servlets.CompaniesServlet
 		</servlet-class>
 	</servlet>
 
