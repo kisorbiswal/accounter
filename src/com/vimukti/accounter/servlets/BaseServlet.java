@@ -95,7 +95,7 @@ public class BaseServlet extends HttpServlet {
 		return false;
 	}
 
-	protected void redirect(HttpServletRequest req, HttpServletResponse resp,
+	protected void dispatch(HttpServletRequest req, HttpServletResponse resp,
 			String page) {
 		try {
 			RequestDispatcher reqDispatcher = getServletContext().getRequestDispatcher(page);

@@ -21,7 +21,7 @@ public class ActivationServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String view = "resetpassword.jsp";
+	private static final String VIEW = "/WEB-INF/resetpassword.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -45,7 +45,7 @@ public class ActivationServlet extends BaseServlet {
 				req.setAttribute("emailId", activation.getEmailId());
 			}
 			// redirect To ActivationPage.
-			redirect(req, resp, "site/resetpassword.jsp");
+			dispatch(req, resp, VIEW);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -56,21 +56,22 @@ public class ActivationServlet extends BaseServlet {
 
 	}
 
+	/**
+	 * Comes here after user posts the form where he posts the new password
+	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		if (session == null) {
-			dispatchMessage("Token has expired.", req, resp,
-					"resetpassword.jsp");
+			dispatchMessage("Token has expired.", req, resp, VIEW);
 			return;
 		}
 
 		// get token from session
 		String token = (String) session.getAttribute("activationToken");
 		if (token.isEmpty()) {
-			dispatchMessage("Token has expired.", req, resp,
-					view);
+			dispatchMessage("Token has expired.", req, resp, VIEW);
 			return;
 		}
 		// get activation record from table
@@ -80,7 +81,7 @@ public class ActivationServlet extends BaseServlet {
 			// if it is null
 			if (activation == null) {
 				// dispatch withr "Token has expired".
-				dispatchMessage("Token has expired.", req, resp, "/site/error.jsp");
+				dispatchMessage("Token has expired.", req, resp, VIEW);
 				return;
 			}
 			// otherwise
@@ -91,7 +92,9 @@ public class ActivationServlet extends BaseServlet {
 			// compare if not equal send error message
 			// otherwise
 			if (!password.equals(confirm)) {
-				dispatchMessage("Password mismatch. Please reenter the password", req, resp, view);
+				dispatchMessage(
+						"Password mismatch. Please reenter the password", req,
+						resp, VIEW);
 				return;
 			}
 
@@ -104,19 +107,19 @@ public class ActivationServlet extends BaseServlet {
 			client.setActive(true);
 			// and save Client, delete activation record
 			saveEntry(client);
-			
+
 			deleteActivationTokens(activation.getEmailId());
 
 			// Send to login page with emailId
 			session.setAttribute("emailId", activation.getEmailId());
-			redirect(req, resp, "/site/companysetup");
+			dispatch(req, resp, "/site/companysetup");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			if (hibernateSession != null) {
 				hibernateSession.close();
 			}
-		} 
+		}
 	}
 
 	private void deleteActivationTokens(String emailId) {

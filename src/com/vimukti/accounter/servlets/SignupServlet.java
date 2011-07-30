@@ -28,7 +28,7 @@ public class SignupServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		redirect(req, resp, view);
+		dispatch(req, resp, view);
 
 	}
 
@@ -97,7 +97,7 @@ public class SignupServlet extends BaseServlet {
 				// Send to SignUp Success View
 				req.setAttribute("successmessage",
 						"Thanks for registering with Accounter!");
-				redirect(req, resp, view);
+				dispatch(req, resp, view);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
