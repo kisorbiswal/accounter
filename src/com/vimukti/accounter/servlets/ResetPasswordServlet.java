@@ -102,7 +102,7 @@ public class ResetPasswordServlet extends BaseServlet {
 			throws IOException {
 		HttpSession httpSession = req.getSession();
 		if (httpSession == null) {
-			String destination = req.getParameter(PARAM_DESTINATION);
+			String destination = req.getParameter(DESTINATION);
 			if (destination == null) {
 				redirectExternal(req, resp, LOGIN_URL);
 			} else {
