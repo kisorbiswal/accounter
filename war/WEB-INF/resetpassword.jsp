@@ -79,7 +79,7 @@ $(document).ready(function() {
 								<c:if test="${successMessage == null}">
 								<c:if test="${errorMessage == null}">
 								<div class="mid-login-box1">
-							   <table>
+							   <table width="100%">
 							      <tr>
 								     <td>New Password </td>
 									 <td>
