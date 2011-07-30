@@ -76,7 +76,7 @@ $(document).ready(function() {
 						<td class="login-box-left-middle" ></td>
 						<td class="login-box">
 								<div class="mid-login-box" style="width: 420px;">
-								<form id="accounterForm" method="post" action="/site/resetpassword">
+								<form id="accounterForm" method="post" action="/resetpassword">
 								<c:if test="${successMessage != null}">
 								<span style="color: #3299A4; line-height: 1.5;">
 								${successMessage} </span>
@@ -113,10 +113,10 @@ $(document).ready(function() {
 								  <td>
 								  <ul class="login-submit-button">
 										<li><span class="signup-submit-left"></span></li>
-										<li><input type="button" tabindex="4" value="Cancel" name="cancel" class="signup-submit-mid forget-but" onClick="location.href='/site/login'"></li>
+										<li><input type="button" tabindex="4" value="Cancel" name="cancel" class="signup-submit-mid forget-but" onClick="location.href='/login'"></li>
 										<li><span class="signup-submit-right"></span></li>
 									 </ul>
-								      <input type="button" tabindex="4" value="Cancel" name="cancel" class="forget-but" onClick="location.href='/site/login'">
+								      <input type="button" tabindex="4" value="Cancel" name="cancel" class="forget-but" onClick="location.href='/login'">
 								  </td>
 								  </tr>
 								  </table>
