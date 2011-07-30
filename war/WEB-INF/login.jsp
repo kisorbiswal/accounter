@@ -33,12 +33,10 @@
 		rules: {
 			emailId: "required",
 			password: "required",
-			companyName: "required"
 			},
 		messages: {
 			emailId: "please enter your Email",
 			password: "please enter password",
-			companyName: "please enter Company ID",
 			}
 		});
 	});
@@ -94,15 +92,7 @@
 									 
 									</td>
 								  </tr>
-								  <tr>
-								  	<c:if test="${companyName == null}">
-								<tr>
-									 <td><span>Company ID</span></td>
-									 <td>
-										<input id="mid-box2"  type="text" name="companyName" tabindex="3">
-									</td>
-								  </tr>
-								    </c:if>
+								
 								  </table>
 								</div>
 										<div class ="fields-table">
