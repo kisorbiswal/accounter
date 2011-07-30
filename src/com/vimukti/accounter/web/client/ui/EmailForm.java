@@ -58,7 +58,7 @@ public class EmailForm extends DynamicForm {
 					}
 				});
 
-		businesEmailText = new EmailField("E-mail");
+		businesEmailText = new EmailField(Accounter.constants().email());
 		businesEmailText.setHelpInformation(true);
 		businesEmailText.setWidth(100);
 		businesEmailText.setShowTitle(true);

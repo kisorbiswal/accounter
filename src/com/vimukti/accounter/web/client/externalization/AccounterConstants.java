@@ -3878,6 +3878,24 @@ public interface AccounterConstants extends Constants {
 	public String addMeasurementButton();
 
 	public String getAddMeasurementName();
+
 	public String duplicationOfTaxCodeIsNotAllowed();
+
 	public String failedtogetBankaccountchartvalues();
+
+	public String creditRatingAlreadyExists();
+
+	public String creditDate();
+
+	public String customerBillTo();
+
+	public String shiftBottom();
+
+	public String failedtogetExpensetotals();
+
+	// TODO
+	public SafeHtml upload();
+	public String noImageisselected();
+
+	public String accept();
 }

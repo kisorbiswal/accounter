@@ -119,7 +119,8 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError("Failed to get Expense totals");
+				Accounter.showError(Accounter.constants()
+						.failedtogetExpensetotals());
 			}
 
 			@Override

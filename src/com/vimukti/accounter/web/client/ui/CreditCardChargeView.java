@@ -443,7 +443,7 @@ public class CreditCardChargeView extends
 				.setAttribute(Accounter.constants().width(), "203px");
 		forms.add(termsForm);
 
-		Label lab2 = new Label("Items and expenses");
+		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
 		AccounterButton addButton = createAddNewButton();// new
 		// Button(FinanceApplication

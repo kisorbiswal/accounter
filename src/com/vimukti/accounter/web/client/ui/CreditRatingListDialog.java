@@ -78,7 +78,8 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	public void createCreditRatings() {
 		if (Utility.isObjectExist(getCompany().getCreditRatings(), inputDlg
 				.getTextItems().get(0).getValue().toString())) {
-			Accounter.showError("CreditRating  Already Exists");
+			Accounter.showError(Accounter.constants()
+					.creditRatingAlreadyExists());
 		} else {
 			ClientCreditRating creditRating = new ClientCreditRating();
 			creditRating.setName(inputDlg.getTextItems().get(0).getValue()
@@ -100,10 +101,9 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	public void showAddEditGroupDialog(ClientCreditRating rec) {
 		creditRating = rec;
-		String creditRateString = Accounter.constants()
-				.creditRating();
-		inputDlg = new InputDialog(Accounter.constants()
-				.creditRating(), "", creditRateString) {
+		String creditRateString = Accounter.constants().creditRating();
+		inputDlg = new InputDialog(Accounter.constants().creditRating(), "",
+				creditRateString) {
 			@Override
 			protected String getViewTitle() {
 				return Accounter.constants().creditRating();

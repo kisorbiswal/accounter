@@ -32,7 +32,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
-@SuppressWarnings( { "deprecation" })
+@SuppressWarnings({ "deprecation" })
 public class FileUploadDilaog extends CustomDialog {
 
 	private String parentID;
@@ -48,11 +48,10 @@ public class FileUploadDilaog extends CustomDialog {
 	private HorizontalPanel buttonHlay;
 	private boolean closeAfterUploaded;
 	private static ClientBrandingTheme brandingTheme;
-	
+
 	private String title;
 	private HTML detailsHtml, helpHtml, chooseHtml;
 
-	
 	public FileUploadDilaog(String title, String parentID,
 			ValueCallBack<ClientBrandingTheme> callback, String[] fileTypes,
 			ClientBrandingTheme theme) {
@@ -85,30 +84,27 @@ public class FileUploadDilaog extends CustomDialog {
 		panel.setSpacing(2);
 		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		// Create a FileUpload widget.
-		detailsHtml = new HTML(Accounter.constants()
-				.logoComment());
-		helpHtml = new HTML(Accounter.constants()
-				.helpContent());
+		detailsHtml = new HTML(Accounter.constants().logoComment());
+		helpHtml = new HTML(Accounter.constants().helpContent());
 		helpHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				helpHtml.getElement().getStyle().setCursor(Cursor.POINTER);
-				helpHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.UNDERLINE);
+				helpHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
 			}
 		});
 		helpHtml.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				helpHtml.getElement().getStyle().setTextDecoration(
-						TextDecoration.NONE);
+				helpHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
 		helpHtml.setVisible(false);
-		chooseHtml = new HTML(Accounter.constants()
-				.chooseLogo());
+		chooseHtml = new HTML(Accounter.constants().chooseLogo());
 		final FileUpload upload = new FileUpload();
 		/* Default height of upload text box 26 */
 		upload.getElement().setAttribute("size", "33");
@@ -121,12 +117,13 @@ public class FileUploadDilaog extends CustomDialog {
 		vpaPanel.add(panel);
 
 		// Add a 'submit' button.
-		AccounterButton uploadSubmitButton = new AccounterButton("Upload");
+		AccounterButton uploadSubmitButton = new AccounterButton(Accounter
+				.constants().upload());
 		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
-		AccounterButton closeButton = new AccounterButton(Accounter
-				.constants().close());
+		AccounterButton closeButton = new AccounterButton(Accounter.constants()
+				.close());
 		closeButton.setWidth("80px");
 		buttonHlay = new HorizontalPanel();
 		buttonHlay.add(uploadSubmitButton);
@@ -197,17 +194,18 @@ public class FileUploadDilaog extends CustomDialog {
 	}
 
 	protected void getFileInfo() {
-		getFileInfo(parentID, new AccounterAsyncCallback<ClientBrandingTheme>() {
-			@Override
-			public void onException(AccounterException caught) {
-				// TODO Auto-generated method stub
-			}
+		getFileInfo(parentID,
+				new AccounterAsyncCallback<ClientBrandingTheme>() {
+					@Override
+					public void onException(AccounterException caught) {
+						// TODO Auto-generated method stub
+					}
 
-			@Override
-			public void onSuccess(ClientBrandingTheme result) {
-				processUploadAttachments(result, callback);
-			}
-		});
+					@Override
+					public void onSuccess(ClientBrandingTheme result) {
+						processUploadAttachments(result, callback);
+					}
+				});
 
 	}
 
@@ -268,7 +266,8 @@ public class FileUploadDilaog extends CustomDialog {
 
 	protected void processOnUpload() {
 		if (!validateFileItems()) {
-			Accounter.showInformation("No Image is selected.");
+			Accounter
+					.showInformation(Accounter.constants().noImageisselected());
 			return;
 		}
 
@@ -355,9 +354,10 @@ public class FileUploadDilaog extends CustomDialog {
 	}
 
 	public static <E, T> Object post(String url,
-			final AccounterAsyncCallback<ClientBrandingTheme> callback, String parentId) {
+			final AccounterAsyncCallback<ClientBrandingTheme> callback,
+			String parentId) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
-		builder.setHeader("Accept", "text/html");
+		builder.setHeader(Accounter.constants().accept(), "text/html");
 		// Create a callback object to handle the result
 		RequestCallback requestCallback = new RequestCallback() {
 			public void onError(Request request, Throwable exception) {

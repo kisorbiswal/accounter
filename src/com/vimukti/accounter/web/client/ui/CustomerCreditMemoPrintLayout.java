@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -62,13 +63,13 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 		labeldateNoLayout.add(lab1);
 
 		Map<String, String> dateNumMap = getMap(new String[] {
-				"Customer Name",
+				Accounter.constants().customerName(),
 				Accounter.getCompany().getCustomer(creditMemo.getCustomer())
 						.getName(),
-				"Credit Date",
+				Accounter.constants().creditDate(),
 				UIUtils.dateFormat(new ClientFinanceDate(creditMemo
-						.getTransactionDate())), "Credit No.",
-				creditMemo.getNumber() + "" });
+						.getTransactionDate())),
+				Accounter.constants().creditNo(), creditMemo.getNumber() + "" });
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setSize("300px", "150px");
@@ -99,7 +100,8 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 			}
 		}
 
-		Map<String, String> billAdrsMap = getMap("Customer Bill To", billAdrs);
+		Map<String, String> billAdrsMap = getMap(Accounter.constants()
+				.customerBillTo(), billAdrs);
 		FlexTable billToTable = util.getWidget(2, 1, billAdrsMap, true);
 		billToTable.setSize("280px", "150px");
 		adressHPanel.add(billToTable);
@@ -110,7 +112,8 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 		reasonPanel.setSize("100%", "100%");
 
 		String memo = creditMemo.getMemo() + "<br/>";
-		Map<String, String> reasonMap = getMap("Reason for Issue", memo);
+		Map<String, String> reasonMap = getMap(Accounter.constants()
+				.reasonForIssue(), memo);
 		FlexTable reasonTabel = util.getWidget(2, 1, reasonMap, true);
 		reasonTabel.setSize("100%", "75px");
 		reasonPanel.add(reasonTabel);
@@ -150,7 +153,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 			vatPanel.setSize("100%", "100%");
 			List<String> footer1Headers = new ArrayList<String>();
 			footer1Headers.add("VAT%");
-			footer1Headers.add("VAT Amount");
+			footer1Headers.add(Accounter.constants().VATAmount());
 			FlexTable vatTabl = util.getFooterWidget(view.getGridForPrinting()
 					.getVATDetailsMapForPrinting(), footer1Headers);
 			vatTabl.getElement().setAttribute("style",
@@ -237,16 +240,16 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 		mainVPanel.add(datepanel);
 		datepanel.getElement().getParentElement()
 				.setAttribute("align", "right");
-		adressHPanel.setStyleName("ShiftBottom");
+		adressHPanel.setStyleName(Accounter.constants().shiftBottom());
 		mainVPanel.add(adressHPanel);
 
-		reasonPanel.setStyleName("ShiftBottom");
+		reasonPanel.setStyleName(Accounter.constants().shiftBottom());
 		mainVPanel.add(reasonPanel);
 		// customerNameHPanel.setStyleName("ShiftBottom");
 		// mainVPanel.add(customerNameHPanel);
 		// projectPanel.setStyleName("ShiftBottom");
 		// mainVPanel.add(projectPanel);
-		gridPanel.setStyleName("ShiftBottom");
+		gridPanel.setStyleName(Accounter.constants().shiftBottom());
 		mainVPanel.add(gridPanel);
 
 		add(mainVPanel);
