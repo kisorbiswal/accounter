@@ -15,7 +15,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -148,7 +147,7 @@ public class ViewManager extends DockPanel {
 	public VerticalPanel commentPanel;
 
 	@SuppressWarnings("serial")
-	private ViewManager(MainFinanceWindow financeWindow) {
+	public ViewManager(MainFinanceWindow financeWindow) {
 		viewManagerInstance = this;
 		index = -1;
 		historyList = new ArrayList<History>() {

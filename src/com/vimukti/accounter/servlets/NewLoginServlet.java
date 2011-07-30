@@ -93,4 +93,11 @@ public class NewLoginServlet extends BaseServlet {
 		}
 		return null;
 	}
+
+	@Override
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		redirect(request, response, "/WEB-INF/login.jsp");
+	}
+
 }

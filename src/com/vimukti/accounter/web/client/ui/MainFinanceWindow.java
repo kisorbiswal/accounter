@@ -88,7 +88,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	private void createControls() {
 
-		viewManager = ViewManager.getInstance();
+		viewManager = new ViewManager(this);
 
 		header = new Header();
 		ActionFactory.getCompanyHomeAction().run(null, false);
