@@ -14,7 +14,6 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ServerCompany;
-import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 
@@ -114,7 +113,5 @@ public class SignupServlet extends BaseServlet {
 		}
 	}
 
-	private void sendActivationEmail(String token, Client client) {
-		UsersMailSendar.sendActivationMail(token, client);
-	}
+	
 }
