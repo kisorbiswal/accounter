@@ -21,6 +21,7 @@ public class Client implements IAccounterServerCore {
 	private String phoneNumber;
 	private String country;
 	private boolean isSubscribedToNewsLetters;
+	private boolean isRequirePasswordReset;
 
 	public String getFirstName() {
 		return firstName;
@@ -114,5 +115,13 @@ public class Client implements IAccounterServerCore {
 			throws InvalidOperationException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public boolean isRequirePasswordReset() {
+		return isRequirePasswordReset;
+	}
+
+	public void setRequirePasswordReset(boolean isRequirePasswordReset) {
+		this.isRequirePasswordReset = isRequirePasswordReset;
 	}
 }
