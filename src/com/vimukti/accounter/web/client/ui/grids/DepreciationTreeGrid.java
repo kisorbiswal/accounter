@@ -55,8 +55,7 @@ public class DepreciationTreeGrid extends
 	/* This method sets the columnvalues for parent row */
 	public void addParentOrEdit(int col, int row, String string) {
 		if (col == 0) {
-			addParent(string, Accounter.getFinanceMenuImages().newAccount()
-					.getURL());
+			addParent(string, Accounter.getFinanceMenuImages().newAccount());
 		} else {
 			this.setText(row, col, string);
 		}

@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 
-
 public class ManageVATView extends AbstractBaseView {
 
 	AccounterButton vatButton;
@@ -45,34 +44,32 @@ public class ManageVATView extends AbstractBaseView {
 
 		Label stLabel = new Label(Accounter.constants()
 				.thisWndHelpYoyManageVATTasks());
-		Label vatLabel = new Label(Accounter.constants()
-				.fileVATReturnNow());
+		Label vatLabel = new Label(Accounter.constants().fileVATReturnNow());
 
-		CaptionPanel capAssignPanel = new CaptionPanel(Accounter
-				.constants().getStarted());
-		CaptionPanel capPayVatPanel = new CaptionPanel(Accounter
-				.constants().payVATOwing());
+		CaptionPanel capAssignPanel = new CaptionPanel(Accounter.constants()
+				.getStarted());
+		CaptionPanel capPayVatPanel = new CaptionPanel(Accounter.constants()
+				.payVATOwing());
 		CaptionPanel capTaskPanel = new CaptionPanel(Accounter.constants()
 				.relatedTask());
 
-		vatButton = new AccounterButton(Accounter.constants()
-				.fileVATReturn());
-		AccounterButton closeButton = new AccounterButton(Accounter
-				.constants().close());
-		AccounterButton helpButton = new AccounterButton(Accounter
-				.constants().help());
+		vatButton = new AccounterButton(Accounter.constants().fileVATReturn());
+		AccounterButton closeButton = new AccounterButton(Accounter.constants()
+				.close());
+		AccounterButton helpButton = new AccounterButton(Accounter.constants()
+				.help());
 
 		final Image icon = new Image();
-		icon.setUrl("/images/justifyleft.gif");
+		icon.setResource(Accounter.getFinanceImages().justifyLeft());
 
 		Hyperlink assignlink = new Hyperlink(Accounter.constants()
 				.assignVatCodesToItems(), "foo");
-		Hyperlink viewLink = new Hyperlink(Accounter.constants()
-				.viewVATItems(), "link1");
+		Hyperlink viewLink = new Hyperlink(
+				Accounter.constants().viewVATItems(), "link1");
 		Hyperlink openLink = new Hyperlink(Accounter.constants()
 				.openVATCodeList(), "link2");
-		Hyperlink adjLink = new Hyperlink(Accounter.constants()
-				.adjustVATDue(), "link3");
+		Hyperlink adjLink = new Hyperlink(Accounter.constants().adjustVATDue(),
+				"link3");
 
 		VerticalPanel vPanel = new VerticalPanel();
 

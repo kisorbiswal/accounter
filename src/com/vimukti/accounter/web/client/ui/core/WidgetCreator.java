@@ -227,8 +227,8 @@ public class WidgetCreator {
 				// // .getClientHeight() - 60;
 				// // customerWidgetGrid.setHeight(height + "px");
 				// customerWidgetGrid.setHeight("250px");
-				customerWidgetGrid.getElement().getStyle()
-						.setBorderWidth(0, Unit.PX);
+				customerWidgetGrid.getElement().getStyle().setBorderWidth(0,
+						Unit.PX);
 				super.onAttach();
 			}
 
@@ -303,8 +303,8 @@ public class WidgetCreator {
 	public void sortDebitors(List<DummyDebitor> result, CustomerWidgetGrid grid) {
 		grid.clear();
 		grid.removeLoadingImage();
-		grid.initParentAndChildIcons("/images/customers.png",
-				"/images/customers.png");
+		grid.initParentAndChildIcons(Accounter.getFinanceImages()
+				.customerIcon(), Accounter.getFinanceImages().customerIcon());
 		grid.addParentWithChilds("Debtors Total", result);
 	}
 

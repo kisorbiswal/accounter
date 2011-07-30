@@ -153,9 +153,10 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		grid.isEnable = false;
 		grid.init();
 		grid.setHeight("300px");
-		grid.initParentAndChildIcons(Accounter.getFinanceMenuImages()
-				.newAccount().getURL(), Accounter.getFinanceMenuImages()
-				.newFixedAsset().getURL());
+		grid
+				.initParentAndChildIcons(Accounter.getFinanceMenuImages()
+						.newAccount(), Accounter.getFinanceMenuImages()
+						.newFixedAsset());
 		gridPanel.add(grid);
 
 		mainPanel.add(gridPanel);
@@ -182,11 +183,11 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 					ClientFinanceDate date2 = new ClientFinanceDate(
 							getCompany().getPreferences()
 									.getDepreciationStartDate());
-					depreciationStartDate = new ClientFinanceDate(
-							date2.getYear(), date2.getMonth(), 1);
+					depreciationStartDate = new ClientFinanceDate(date2
+							.getYear(), date2.getMonth(), 1);
 				} else {
-					depreciationStartDate = new ClientFinanceDate(
-							date.getYear(), date.getMonth(), date.getDay() + 1);
+					depreciationStartDate = new ClientFinanceDate(date
+							.getYear(), date.getMonth(), date.getDay() + 1);
 				}
 				fromLabel
 						.setText("Depreciate from:  "
@@ -273,8 +274,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			Calendar tempCal = Calendar.getInstance();
 			tempCal.set(Calendar.YEAR, fromDateCal.get(Calendar.YEAR));
 			tempCal.set(Calendar.MONTH, fromDateCal.get(Calendar.MONTH));
-			tempCal.set(Calendar.DAY_OF_MONTH,
-					fromDateCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			tempCal.set(Calendar.DAY_OF_MONTH, fromDateCal
+					.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 			if (validateDate(new ClientFinanceDate(tempCal.date)))
 				dates.add(format.format(tempCal.getTime()));
@@ -446,9 +447,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 						dummyEntriesList.add(dummyEntry);
 					}
 					// grid.addParent(account != null ? account.getName() : "");
-					grid.addParentWithChilds(
-							account != null ? account.getName() : "",
-							dummyEntriesList);
+					grid.addParentWithChilds(account != null ? account
+							.getName() : "", dummyEntriesList);
 				}
 			} else
 				grid.addEmptyMessage("No Depreciable Fixed Assets to show");

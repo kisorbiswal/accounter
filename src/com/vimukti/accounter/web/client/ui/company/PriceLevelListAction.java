@@ -19,12 +19,6 @@ public class PriceLevelListAction extends Action {
 		super(text);
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	//
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		runAsync(data, isDependent);
@@ -65,12 +59,6 @@ public class PriceLevelListAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().priceLevelList();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	//
-	// return "/images/Price_Level_list.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

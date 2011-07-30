@@ -19,11 +19,6 @@ public class ShippingMethodListAction extends Action {
 		super(text);
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		runAsync(data, isDependent);
@@ -64,11 +59,6 @@ public class ShippingMethodListAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().shippingMethodsList();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/Shipping-Method.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

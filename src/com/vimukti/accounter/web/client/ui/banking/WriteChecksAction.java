@@ -56,12 +56,6 @@ public class WriteChecksAction extends Action {
 		super.setToolTip(toolTip);
 	}
 
-	// @Override
-	// public ParentCanvas getView() {
-	//
-	// return null;
-	// }
-
 	public ImageResource getBigImage() {
 		return null;
 	}
@@ -69,12 +63,6 @@ public class WriteChecksAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newCheck();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	//
-	// return "/images/new_check.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

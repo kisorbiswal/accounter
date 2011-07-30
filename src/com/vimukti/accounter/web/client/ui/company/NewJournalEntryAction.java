@@ -51,12 +51,6 @@ public class NewJournalEntryAction extends Action {
 		});
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO.
-	// return null;
-	// }
-
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.
 		return null;
@@ -65,11 +59,6 @@ public class NewJournalEntryAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newJournalEntry();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/new_journal_entry.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

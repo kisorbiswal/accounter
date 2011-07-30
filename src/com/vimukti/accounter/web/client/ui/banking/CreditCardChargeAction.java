@@ -59,11 +59,6 @@ public class CreditCardChargeAction extends Action {
 		});
 	}
 
-	// @Override
-	// public ParentCanvas getView() {
-	// return this.view;
-	// }
-
 	public ImageResource getBigImage() {
 		return null;
 	}
@@ -71,12 +66,6 @@ public class CreditCardChargeAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newCreditCardCharge();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	//		
-	// return "/images/credit_card_charge.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

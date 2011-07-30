@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class CustomDialog extends DialogBox {
 
@@ -45,9 +46,9 @@ public class CustomDialog extends DialogBox {
 
 	public void showHeader() {
 
-		cross = new Image("/images/dialog-close.png");
+		cross = new Image(Accounter.getFinanceImages().dialougueCloseicon());
 		// help = new Image("/images/help-icon.png");
-		help = new Image("/images/help-icon.png");
+		help = new Image(Accounter.getFinanceImages().helpIcon());
 		// help.setStyleName("helpAlign");
 		caption = new HTML();
 
@@ -96,7 +97,6 @@ public class CustomDialog extends DialogBox {
 		return caption.getHTML();
 	}
 
-	
 	@Override
 	public void onBrowserEvent(Event event) {
 

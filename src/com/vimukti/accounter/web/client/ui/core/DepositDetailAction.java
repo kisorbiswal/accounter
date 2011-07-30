@@ -42,12 +42,6 @@ public class DepositDetailAction extends Action {
 		runAsync(data, isDependent);
 	}
 
-	// @Override
-	// public ParentCanvas getView() {
-	// // NOTHING TO DO
-	// return null;
-	// }
-
 	public ImageResource getBigImage() {
 		// NOTHING TO DO
 		return null;
@@ -57,11 +51,6 @@ public class DepositDetailAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/reports.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

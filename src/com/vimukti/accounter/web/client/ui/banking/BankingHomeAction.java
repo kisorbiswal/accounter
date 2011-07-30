@@ -48,11 +48,6 @@ public class BankingHomeAction extends Action {
 		return Accounter.getFinanceMenuImages().bankingHome();
 	}
 
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/banking_home.png";
-	// }
-
 	@Override
 	public String getHistoryToken() {
 		return "bankingHome";

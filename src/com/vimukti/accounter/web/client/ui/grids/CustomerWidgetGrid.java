@@ -70,10 +70,8 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "",
-				Accounter.constants().days3(),
-				Accounter.constants().days2(),
-				Accounter.constants().days1(),
+		return new String[] { "", Accounter.constants().days3(),
+				Accounter.constants().days2(), Accounter.constants().days1(),
 				Accounter.constants().older(),
 				Accounter.constants().totalBalance() };
 	}
@@ -121,7 +119,7 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
 	public void addParentOrEdit(int col, int row, String string) {
 		if (col == 0) {
-			addParent(string, "/images/customers.png");
+			addParent(string, Accounter.getFinanceImages().customerIcon());
 		} else {
 			if (getColumnType(col, row) == COLUMN_TYPE_DECIMAL_TEXT) {
 				this.cellFormatter.addStyleName(row, col, "gridDecimalCell");

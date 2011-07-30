@@ -14,12 +14,6 @@ public class CustomerGroupListAction extends Action {
 		super(text);
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
@@ -57,11 +51,6 @@ public class CustomerGroupListAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().customers();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/customers.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

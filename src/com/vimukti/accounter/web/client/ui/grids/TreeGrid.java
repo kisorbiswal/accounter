@@ -8,12 +8,14 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * TreeGrid is table widget that supports to display rows in hierarchical tree.
@@ -38,8 +40,8 @@ public abstract class TreeGrid<T> extends CustomTable {
 
 	public boolean isCollapse = false;
 
-	private String nodeIcon;
-	private String parentIcon;
+	private ImageResource nodeIcon;
+	private ImageResource parentIcon;
 
 	public TreeGrid(String emptyMessage) {
 		super(false);
@@ -58,12 +60,13 @@ public abstract class TreeGrid<T> extends CustomTable {
 			this.header.setText(0, x,
 					getColumns()[isMultiSelectionEnable ? (x - 1) : x]);
 			headerCellFormater.addStyleName(0, x, "gridHeaderCell");
-			if (getColumnType(isMultiSelectionEnable ? (x - 1) : x,0) == COLUMN_TYPE_DECIMAL_TEXT)
+			if (getColumnType(isMultiSelectionEnable ? (x - 1) : x, 0) == COLUMN_TYPE_DECIMAL_TEXT)
 				this.header.getCellFormatter().addStyleName(0, x,
 						"gridDecimalCell");
 		}
 
 	}
+
 	/**
 	 * Hide or show Childs of parent
 	 * 
@@ -99,11 +102,11 @@ public abstract class TreeGrid<T> extends CustomTable {
 		super.fixHeader();
 	}
 
-	public void setParentIcon(String icon) {
+	public void setParentIcon(ImageResource icon) {
 		this.parentIcon = icon;
 	}
 
-	public void setNodeIcon(String icon) {
+	public void setNodeIcon(ImageResource icon) {
 		this.nodeIcon = icon;
 	}
 
@@ -165,10 +168,10 @@ public abstract class TreeGrid<T> extends CustomTable {
 		super.fixHeader();
 	}
 
-	public void addNode(String parent, String parentIcon, T node,
-			String nodeIcon) {
-		String piconBk = null;
-		String ciconBk = null;
+	public void addNode(String parent, ImageResource parentIcon, T node,
+			ImageResource nodeIcon) {
+		ImageResource piconBk = null;
+		ImageResource ciconBk = null;
 		if (this.parentIcon != null) {
 			piconBk = this.parentIcon;
 		}
@@ -196,7 +199,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 	 * @param parent
 	 * @param node
 	 */
-	
+
 	public void addNode(String parent, T node) {
 		int rowIndex = getParentIndex(parent);
 		if (rowIndex > -1) {
@@ -316,7 +319,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 	 * 
 	 * @param cell
 	 */
-	
+
 	@Override
 	public void cellClicked(int row, int col) {
 		rowFormatter.removeStyleName(currentRow, "selected");
@@ -381,7 +384,6 @@ public abstract class TreeGrid<T> extends CustomTable {
 		return getChildNodesByParent(name, this.objects);
 	}
 
-	
 	public List<T> getChildNodesByParent(String name, List<?> objects) {
 		List<T> childs = new ArrayList<T>();
 		// int row = objects.indexOf(name);
@@ -430,7 +432,6 @@ public abstract class TreeGrid<T> extends CustomTable {
 		return list;
 	}
 
-	
 	public List<T> getNodes() {
 		List<T> list = new ArrayList<T>();
 		for (Object obj : this.objects) {
@@ -489,7 +490,6 @@ public abstract class TreeGrid<T> extends CustomTable {
 	public <S extends Object> List<S> sort(List<S> list, final int colIndex) {
 		Collections.sort(list, new Comparator<S>() {
 
-			
 			@Override
 			public int compare(S o1, S o2) {
 				int ret = 0;
@@ -577,7 +577,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 		Image image;
 		Label label;
 
-		public TreeCell(String url, final String text, boolean isParent,
+		public TreeCell(ImageResource url, final String text, boolean isParent,
 				final int row) {
 			if (isParent) {
 				final Image parentImg = new Image();
@@ -609,7 +609,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 			image = new Image();
 			image.setHeight("15px");
 			image.setWidth("15px");
-			image.setUrl(url);
+			image.setResource(url);
 			image.addStyleName("treeCellIcon");
 
 			label = new Label();
@@ -624,15 +624,14 @@ public abstract class TreeGrid<T> extends CustomTable {
 		private void changeImg(boolean isCollapse, Image img) {
 			if (isCollapse) {
 				img.setStyleName("treeCollapse");
-				img.setUrl("/images/treeCollapse.gif");
+				img.setResource(Accounter.getFinanceImages().treeCollapse());
 			} else {
 				img.setStyleName("treeExpend");
-				img.setUrl("/images/treeExpend.gif");
+				img.setResource(Accounter.getFinanceImages().treeExpand());
 			}
 		}
 	}
 
-	
 	@Override
 	public void cellDoubleClicked(int row, int col) {
 		Object obj = this.objects.get(row);
@@ -642,15 +641,15 @@ public abstract class TreeGrid<T> extends CustomTable {
 
 	}
 
-	public void initParentAndChildIcons(String parentIconURL,
-			String childIconURL) {
+	public void initParentAndChildIcons(ImageResource parentIconURL,
+			ImageResource childIconURL) {
 		parentIcon = parentIconURL;
 		nodeIcon = childIconURL;
 
 	}
 
-	public void addParent(String name, String parentIcon) {
-		String piconBk = this.parentIcon;
+	public void addParent(String name, ImageResource parentIcon) {
+		ImageResource piconBk = this.parentIcon;
 		this.parentIcon = parentIcon;
 		addParent(name);
 		this.parentIcon = piconBk;

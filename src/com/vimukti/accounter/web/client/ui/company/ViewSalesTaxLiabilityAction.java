@@ -11,12 +11,6 @@ public class ViewSalesTaxLiabilityAction extends Action {
 
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	//
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 
@@ -29,12 +23,6 @@ public class ViewSalesTaxLiabilityAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().reports();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	//
-	// return "/images/reports.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

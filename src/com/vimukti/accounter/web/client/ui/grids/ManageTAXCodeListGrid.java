@@ -56,11 +56,11 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 			if (taxCode.isTaxable())
 				// return FinanceApplication.getFinanceImages().tickMark()
 				// .getURL();
-				return "/images/Tick-mark.png";
+				return Accounter.getFinanceImages().tickMark();
 			else
 				// return FinanceApplication.getFinanceImages().balnkImage()
 				// .getURL();
-				return "/images/blank_16x16.png";
+				return Accounter.getFinanceImages().balnkImage();
 		case 4:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";

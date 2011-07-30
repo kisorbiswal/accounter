@@ -49,12 +49,6 @@ public class PurchaseItemsAction extends Action {
 		});
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	//
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		runAsync(data, isDependent);
@@ -67,12 +61,6 @@ public class PurchaseItemsAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().items();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	//
-	// return "/images/items.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

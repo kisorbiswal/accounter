@@ -62,4 +62,89 @@ public interface FinanceImages extends ClientBundle {
 	@Source("information-icon-new.png")
 	ImageResource companyInformation();
 
+	// ---------------------
+
+	@Source("error-icon.png")
+	ImageResource errorIcon();
+
+	@Source("information-icon.png")
+	ImageResource infoIcon();
+
+	@Source("warn-icon.png")
+	ImageResource warnIcon();
+
+	@Source("Print1.png")
+	ImageResource Print1Icon();
+
+	@Source("export-icon.png")
+	ImageResource exportIcon();
+
+	@Source("Page_edit1.png")
+	ImageResource PageEditIcon();
+
+	@Source("customers.png")
+	ImageResource customerIcon();
+
+	@Source("dialog-close.png")
+	ImageResource dialougueCloseicon();
+
+	@Source("help-icon.png")
+	ImageResource helpIcon();
+
+	@Source("calendarPicker.png")
+	ImageResource calanderPicker();
+
+	@Source("items.png")
+	ImageResource itemsIcon();
+
+	@Source("salestax.png")
+	ImageResource salesTaxIcon();
+
+	@Source("Accounts.png")
+	ImageResource AccountsIcon();
+
+	@Source("comments.png")
+	ImageResource CommentsIcon();
+
+	@Source("treeCollapse.gif")
+	ImageResource treeCollapse();
+
+	@Source("treeExpend.gif")
+	ImageResource treeExpand();
+
+	@Source("justifyleft.gif")
+	ImageResource justifyLeft();
+
+	@Source("new_invoice.png")
+	ImageResource newInvoice();
+
+	@Source("recived_payment_list.png")
+	ImageResource receivedPaymentList();
+
+	@Source("customer_refunds_list.png")
+	ImageResource customerRefundsList();
+
+	@Source("make_deposit.png")
+	ImageResource makeDeposits();
+
+	@Source("File_vat.png")
+	ImageResource fileVat();
+
+	@Source("enter_bills.png")
+	ImageResource enterBills();
+
+	@Source("pay_bills.png")
+	ImageResource payBills();
+
+	@Source("new_credit_memo.png")
+	ImageResource newCreditMemo();
+
+	@Source("record_expenses.png")
+	ImageResource recordExpenses();
+
+	@Source("credit_card_charge.png")
+	ImageResource creditChargeExpense();
+
+	@Source("busyindicator.gif")
+	ImageResource busyIndicator();
 }

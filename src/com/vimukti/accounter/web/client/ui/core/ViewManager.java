@@ -302,7 +302,7 @@ public class ViewManager extends DockPanel {
 			});
 		}
 
-		print1Button = new Image("/images/Print1.png");
+		print1Button = new Image(Accounter.getFinanceImages().Print1Icon());
 		print1Button.setStyleName("print_button_icon");
 		print1Button.setTitle(Accounter.constants().print());
 		print1Button.addClickHandler(new ClickHandler() {
@@ -315,7 +315,7 @@ public class ViewManager extends DockPanel {
 			}
 		});
 
-		exportButton = new Image("/images/export-icon.png");
+		exportButton = new Image(Accounter.getFinanceImages().exportIcon());
 		exportButton.setStyleName("export_icon");
 		exportButton.setTitle("Export to CSV ");
 		exportButton.addClickHandler(new ClickHandler() {
@@ -339,7 +339,7 @@ public class ViewManager extends DockPanel {
 		// }
 		// });
 
-		edit1Button = new Image("/images/Page_edit1.png");
+		edit1Button = new Image(Accounter.getFinanceImages().PageEditIcon());
 		edit1Button.setStyleName("edit_button_icon");
 		edit1Button.setTitle(Accounter.constants().edit());
 		edit1Button.addClickHandler(new ClickHandler() {
@@ -723,8 +723,8 @@ public class ViewManager extends DockPanel {
 		if (history == null)
 			return;
 
-		HistoryTokenUtils.setPresentToken(history.getAction(),
-				history.getData());
+		HistoryTokenUtils.setPresentToken(history.getAction(), history
+				.getData());
 		if (history.getView() instanceof UsersView
 				|| history.getView() instanceof ExpenseClaims) {
 			currentCanvas = history.getView();
@@ -752,10 +752,8 @@ public class ViewManager extends DockPanel {
 			rightCanvas.add(scrollPanel);
 			statusLabel.setText(history.getAction().catagory
 					+ " > "
-					+ (currentCanvas.isEditMode() ? history
-							.getAction()
-							.getText()
-							.replace(Accounter.constants().New(),
+					+ (currentCanvas.isEditMode() ? history.getAction()
+							.getText().replace(Accounter.constants().New(),
 									Accounter.constants().viewEdit()) : history
 							.getAction().getText()));
 			fitToSize(this.height, this.width);
@@ -1202,9 +1200,7 @@ public class ViewManager extends DockPanel {
 		fitToSize(this.height, this.width);
 		statusLabel.setText(history.getAction().catagory
 				+ " > "
-				+ (currentCanvas.isEditMode() ? history
-						.getAction()
-						.getText()
+				+ (currentCanvas.isEditMode() ? history.getAction().getText()
 						.replace(Accounter.constants().New(),
 								Accounter.constants().viewEdit()) : history
 						.getAction().getText()));
@@ -1249,8 +1245,8 @@ public class ViewManager extends DockPanel {
 		for (History history : historyList) {
 			tempHistoryList.add(history);
 			index++;
-			if (currentCanvas.getAction().getText()
-					.equals(history.getAction().getText())) {
+			if (currentCanvas.getAction().getText().equals(
+					history.getAction().getText())) {
 				break;
 			}
 		}
@@ -1423,7 +1419,8 @@ public class ViewManager extends DockPanel {
 			if (!GWT.isScript())
 				Accounter
 						.showInformation(e instanceof JavaScriptException ? ((JavaScriptException) e)
-								.getDescription() : e.getMessage());
+								.getDescription()
+								: e.getMessage());
 			// else
 			e.printStackTrace();
 		}

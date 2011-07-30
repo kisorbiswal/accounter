@@ -60,12 +60,6 @@ public class NewTAXAgencyAction extends Action {
 
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO.
-	// return view;
-	// }
-
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.
 		return null;
@@ -74,11 +68,6 @@ public class NewTAXAgencyAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newTaxAgency();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/New_Tax_Agency.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

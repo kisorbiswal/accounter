@@ -17,12 +17,6 @@ public class ManageSalesTaxGroupsAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO.
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 
@@ -72,11 +66,6 @@ public class ManageSalesTaxGroupsAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().manageSalesTaxGroup();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/Manage_Sales_Tax_Group.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

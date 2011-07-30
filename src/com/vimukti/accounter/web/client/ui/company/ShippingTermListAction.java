@@ -19,11 +19,6 @@ public class ShippingTermListAction extends Action {
 		super(text);
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		runAsync(data, isDependent);
@@ -65,11 +60,6 @@ public class ShippingTermListAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().shippingTermList();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/Shipping_term_icon.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

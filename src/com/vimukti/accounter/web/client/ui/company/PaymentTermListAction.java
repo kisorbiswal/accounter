@@ -13,12 +13,6 @@ public class PaymentTermListAction extends Action {
 		super(text);
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO.
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 
@@ -58,11 +52,6 @@ public class PaymentTermListAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().paymentTermsList();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/Payment_term.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

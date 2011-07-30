@@ -27,11 +27,6 @@ public class PreferencesAction extends Action {
 
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// return this.view;
-	// }
-
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.
 		return null;
@@ -40,11 +35,6 @@ public class PreferencesAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().preferences();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/preferences.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

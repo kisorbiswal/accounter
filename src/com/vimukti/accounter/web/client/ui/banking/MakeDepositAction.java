@@ -70,12 +70,6 @@ public class MakeDepositAction extends Action {
 		return Accounter.getFinanceMenuImages().makeDeposit();
 	}
 
-	// @Override
-	// public String getImageUrl() {
-	//
-	// return "/images/make_deposit.png";
-	// }
-
 	@Override
 	public String getHistoryToken() {
 		return "depositTransferFunds";

@@ -20,12 +20,6 @@ public class ItemGroupListAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO.
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		runAsync(data, isDependent);
@@ -69,11 +63,6 @@ public class ItemGroupListAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().items();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/items.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

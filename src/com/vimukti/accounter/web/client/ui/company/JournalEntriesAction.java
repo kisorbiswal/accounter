@@ -19,12 +19,6 @@ public class JournalEntriesAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO.
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 
@@ -60,11 +54,6 @@ public class JournalEntriesAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().journalEntriesList();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/Jonoul_entries.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

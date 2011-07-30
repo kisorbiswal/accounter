@@ -131,7 +131,7 @@ public abstract class CustomTable extends VerticalPanel {
 		});
 
 		this.header = new FlexTable();
-		//this.header.setWidth("100%");
+		// this.header.setWidth("100%");
 		CellFormatter headerCellFormater = this.header.getCellFormatter();
 
 		// add checkbox if the multiSection is True
@@ -229,9 +229,8 @@ public abstract class CustomTable extends VerticalPanel {
 		hasLoadingImage = true;
 		imagePanel = new HorizontalPanel();
 		imagePanel.setStyleName("loading-panel");
-		imagePanel.add(new Image("/images/loader.gif"));
-		Label label = new Label(Accounter.constants()
-				.pleaseWaitDataIsLoading());
+		imagePanel.add(new Image(Accounter.getFinanceImages().loadingImage()));
+		Label label = new Label(Accounter.constants().pleaseWaitDataIsLoading());
 		imagePanel.add(label);
 		imagePanel.setCellVerticalAlignment(label,
 				HasVerticalAlignment.ALIGN_MIDDLE);

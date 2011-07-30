@@ -66,7 +66,6 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 		case 8:
 			// updateTotal(SalesPerson, true);
 			return Accounter.getFinanceMenuImages().delete();
-			// return "/images/delete.png";
 		default:
 			break;
 		}

@@ -46,11 +46,6 @@ public class CustomersAction extends Action {
 
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// return this.view;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		runAsync(data, isDependent);
@@ -64,11 +59,6 @@ public class CustomersAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().customers();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/customers.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

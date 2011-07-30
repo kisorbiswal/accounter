@@ -19,12 +19,6 @@ public class CreditRatingListAction extends Action {
 		super(text);
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
@@ -64,11 +58,6 @@ public class CreditRatingListAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().creditRatingList();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/Creadit_rating_List.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

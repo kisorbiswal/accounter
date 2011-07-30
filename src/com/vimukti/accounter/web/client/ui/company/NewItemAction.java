@@ -104,12 +104,6 @@ public class NewItemAction extends Action {
 
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO.
-	// return null;
-	// }
-
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.
 		return null;
@@ -118,11 +112,6 @@ public class NewItemAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newItem();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/new_item.png";
-	// }
 
 	public void setType(int type) {
 		this.type = type;

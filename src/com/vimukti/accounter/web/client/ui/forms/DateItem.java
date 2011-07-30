@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.widgets.DatePicker;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -26,7 +27,8 @@ public class DateItem extends FormItem {
 	private DateValueChangeHandler handler;
 	private PopupPanel panel;
 	private DatePicker datePicker = new DatePicker();
-//	FinanceImages images = GWT.create(FinanceImages.class);
+
+	// FinanceImages images = GWT.create(FinanceImages.class);
 
 	public void setUseTextField(boolean useTextField) {
 		this.enableTextFieldView = useTextField;
@@ -34,7 +36,7 @@ public class DateItem extends FormItem {
 	}
 
 	public DateItem() {
-		Image dateImg = new Image("/images/calendarPicker.png");
+		Image dateImg = new Image(Accounter.getFinanceImages().calanderPicker());
 		dateImg.addStyleName("calendar-picker");
 		// dateImg.getElement().getStyle().setCursor(Cursor.POINTER);
 		// dateImg.getElement().getStyle().setMarginLeft(3, Unit.PX);
@@ -49,7 +51,7 @@ public class DateItem extends FormItem {
 		});
 
 		datePicker.setWidth("160px");
-//		datePanel.setSpacing(3);
+		// datePanel.setSpacing(3);
 		datePanel.add(datePicker);
 		datePanel.add(dateImg);
 		datePanel.setCellVerticalAlignment(dateImg,
@@ -60,7 +62,7 @@ public class DateItem extends FormItem {
 	public DateItem(String text) {
 		setUseTextField(true);
 		setTitle(text);
-		Image dateImg = new Image("/images/calendarPicker.png");
+		Image dateImg = new Image(Accounter.getFinanceImages().calanderPicker());
 		dateImg.addStyleName("calendar-picker");
 		// dateImg.getElement().getStyle().setCursor(Cursor.POINTER);
 		// dateImg.getElement().getStyle().setMarginLeft(3, Unit.PX);
@@ -75,7 +77,7 @@ public class DateItem extends FormItem {
 		});
 
 		datePicker.setWidth("160px");
-//		datePanel.setSpacing(3);
+		// datePanel.setSpacing(3);
 		datePanel.add(datePicker);
 		datePanel.add(dateImg);
 		datePanel.setCellVerticalAlignment(dateImg,

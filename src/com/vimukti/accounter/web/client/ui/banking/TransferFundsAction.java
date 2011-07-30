@@ -46,12 +46,6 @@ public class TransferFundsAction extends Action {
 		});
 	}
 
-	// @Override
-	// public ParentCanvas getView() {
-	//
-	// return null;
-	// }
-
 	public ImageResource getBigImage() {
 		return null;
 	}
@@ -59,12 +53,6 @@ public class TransferFundsAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().transerFunds();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	//
-	// return "/images/transfer_funds.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

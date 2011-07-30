@@ -73,25 +73,25 @@ public class BaseHomeView extends AbstractBaseView {
 		firstRowPanel.setWidth("100%");
 
 		ImageButton invoiceButton = new ImageButton(Accounter.constants()
-				.enterInvoice(), "/images/new_invoice.png");
+				.enterInvoice(), Accounter.getFinanceImages().newInvoice());
 		invoiceButton.setAction(ActionFactory.getNewInvoiceAction());
 
 		ImageButton receivePaymentButton = new ImageButton(Accounter
-				.constants().receivePayments(),
-				"/images/recived_payment_list.png");
-		receivePaymentButton.setAction(ActionFactory
-				.getReceivePaymentAction());
+				.constants().receivePayments(), Accounter.getFinanceImages()
+				.receivedPaymentList());
+		receivePaymentButton.setAction(ActionFactory.getReceivePaymentAction());
 
 		ImageButton refundAnsCredits = new ImageButton(Accounter.constants()
-				.customerCredit(), "/images/customer_refunds_list.png");
+				.customerCredit(), Accounter.getFinanceImages()
+				.customerRefundsList());
 		refundAnsCredits.setAction(ActionFactory
 				.getNewCreditsAndRefundsAction());
 
 		ImageButton bankDeposit = new ImageButton(Accounter.constants()
-				.bankDeposite(), "/images/make_deposit.png");
+				.bankDeposite(), Accounter.getFinanceImages().makeDeposits());
 		bankDeposit.setAction(ActionFactory.getMakeDepositAction());
 		ImageButton fileVat = new ImageButton(Accounter.constants().fileVAT(),
-				"/images/File_vat.png");
+				Accounter.getFinanceImages().fileVat());
 		fileVat.setAction(ActionFactory.getFileVatAction());
 
 		// ImageButton vat = new ImageButton(FinanceApplication
@@ -133,25 +133,26 @@ public class BaseHomeView extends AbstractBaseView {
 		secondRowPanel.setWidth("100%");
 
 		ImageButton enterBillButton = new ImageButton(Accounter.constants()
-				.enterBill(), "/images/enter_bills.png");
+				.enterBill(), Accounter.getFinanceImages().enterBills());
 		enterBillButton.setAction(ActionFactory.getEnterBillsAction());
 
 		ImageButton payBill = new ImageButton(Accounter.constants().payBill(),
-				"/images/pay_bills.png");
+				Accounter.getFinanceImages().payBills());
 		payBill.setAction(ActionFactory.getPayBillsAction());
 
 		ImageButton vendorcredit = new ImageButton(UIUtils.getVendorString(
 				Accounter.constants().supplierCredit(), Accounter.constants()
-						.vendorCreditMemo()), "/images/new_credit_memo.png");
+						.vendorCreditMemo()), Accounter.getFinanceImages()
+				.newCreditMemo());
 		vendorcredit.setAction(ActionFactory.getNewCreditMemoAction());
 
 		ImageButton expenses = new ImageButton(Accounter.constants()
-				.enterExpenses(), "/images/record_expenses.png");
+				.enterExpenses(), Accounter.getFinanceImages().recordExpenses());
 		expenses.setAction(ActionFactory.getRecordExpensesAction());
 		ImageButton creditCardCharge = new ImageButton(Accounter.constants()
-				.creaditCardCharges(), "/images/credit_card_charge.png");
-		creditCardCharge.setAction(ActionFactory
-				.getCreditCardChargeAction());
+				.creaditCardCharges(), Accounter.getFinanceImages()
+				.creditChargeExpense());
+		creditCardCharge.setAction(ActionFactory.getCreditCardChargeAction());
 
 		// ImageButton recoincile = new ImageButton(" Reconcile", images
 		// .newCheck());

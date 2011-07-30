@@ -69,11 +69,6 @@ public class NewAccountAction extends Action {
 		this.accountTypes = accountTypes;
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// return view;
-	// }
-
 	public ImageResource getBigImage() {
 		return null;
 	}
@@ -81,11 +76,6 @@ public class NewAccountAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newAccount();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/new_account.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

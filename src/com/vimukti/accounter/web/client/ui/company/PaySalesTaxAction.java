@@ -16,12 +16,6 @@ public class PaySalesTaxAction extends Action {
 		this.catagory = Accounter.constants().company();
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO.
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		runAsync(data, isDependent);
@@ -65,11 +59,6 @@ public class PaySalesTaxAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().paySalesTax();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/Pay_Sales_Tax.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

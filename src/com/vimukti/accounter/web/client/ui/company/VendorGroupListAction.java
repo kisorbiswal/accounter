@@ -15,12 +15,6 @@ public class VendorGroupListAction extends Action {
 		super(text);
 	}
 
-	// // its not using any where
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		runAsync(data, isDependent);
@@ -66,11 +60,6 @@ public class VendorGroupListAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().vendors();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/vendors.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

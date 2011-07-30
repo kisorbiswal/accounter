@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -73,7 +74,7 @@ public class AccounterDialog extends CustomDialog {
 		AccounterButton yesButton;
 		AccounterButton noButton;
 
-		String imageUrl;
+		ImageResource imageUrl;
 
 		if ((isError = this.type.equals(AccounterType.ERROR))
 				|| this.type.equals(AccounterType.INFORMATION)) {
@@ -81,17 +82,16 @@ public class AccounterDialog extends CustomDialog {
 
 			if (isError) {
 
-				imageUrl = "/images/error-icon.png";
+				imageUrl = Accounter.getFinanceImages().errorIcon();
 				setText("ERROR");
 
 			} else {
 
-				imageUrl = "/images/information-icon.png";
+				imageUrl = Accounter.getFinanceImages().infoIcon();
 				setText("INFORMATION");
 			}
 
-			okButton = new AccounterButton(Accounter
-					.constants().ok());
+			okButton = new AccounterButton(Accounter.constants().ok());
 			okButton.setWidth("80px");
 
 			// buttonLayout.setAlign(Alignment.RIGHT);
@@ -109,13 +109,11 @@ public class AccounterDialog extends CustomDialog {
 
 		} else {
 
-			imageUrl = "/images/warn-icon.png";
+			imageUrl = Accounter.getFinanceImages().warnIcon();
 			setText("WARNING");
-			yesButton = new AccounterButton(Accounter
-					.constants().yes());
+			yesButton = new AccounterButton(Accounter.constants().yes());
 			yesButton.setWidth("60");
-			noButton = new AccounterButton(Accounter
-					.constants().no());
+			noButton = new AccounterButton(Accounter.constants().no());
 			noButton.setWidth("60");
 			yesButton.addClickHandler(new ClickHandler() {
 
@@ -142,8 +140,8 @@ public class AccounterDialog extends CustomDialog {
 			});
 			// buttonLayout.setAlign(Alignment.RIGHT);
 			if (this.type.equals(AccounterType.WARNINGWITHCANCEL)) {
-				cancelButton = new AccounterButton(Accounter
-						.constants().cancel());
+				cancelButton = new AccounterButton(Accounter.constants()
+						.cancel());
 				buttonLayout.add(yesButton);
 				buttonLayout.add(noButton);
 				buttonLayout.add(cancelButton);

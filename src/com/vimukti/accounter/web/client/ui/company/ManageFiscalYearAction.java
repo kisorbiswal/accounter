@@ -10,12 +10,6 @@ public class ManageFiscalYearAction extends Action {
 		super(text);
 	}
 
-	// @Override
-	// public ParentCanvas<?> getView() {
-	// // NOTHING TO DO.
-	// return null;
-	// }
-
 	@Override
 	public void run(Object data, Boolean isDependent) {
 		ManageFiscalYearDialog dialog = new ManageFiscalYearDialog(Accounter
@@ -31,11 +25,6 @@ public class ManageFiscalYearAction extends Action {
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().manageFiscalYear();
 	}
-
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/manage_fiscal_year.png";
-	// }
 
 	@Override
 	public String getHistoryToken() {

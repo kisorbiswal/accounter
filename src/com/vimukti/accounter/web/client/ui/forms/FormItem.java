@@ -36,7 +36,7 @@ public abstract class FormItem {
 	private List<Validator> validator = new ArrayList<Validator>();
 	private boolean required;
 	private Label label;
-	
+
 	private int width;
 	protected boolean isDisabled = false;
 	private boolean showTitle = true;
@@ -78,8 +78,7 @@ public abstract class FormItem {
 
 	public void highlight() {
 		getMainWidget().addStyleName("highlightedFormItem");
-		getMainWidget().setTitle(
-				Accounter.constants().invalidValue());
+		getMainWidget().setTitle(Accounter.constants().invalidValue());
 		this.isHighlighted = true;
 
 	}
@@ -202,7 +201,7 @@ public abstract class FormItem {
 	private void addHelpImageWidget(DynamicForm parent) {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(getMainWidget());
-		Image helpImg = new Image("/images/icons/help.png");
+		Image helpImg = new Image(Accounter.getFinanceImages().helpIcon());
 		helpImg.getElement().getStyle().setCursor(Cursor.POINTER);
 		helpImg.addMouseUpHandler(new MouseUpHandler() {
 
