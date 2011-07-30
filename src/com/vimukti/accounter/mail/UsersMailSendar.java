@@ -554,6 +554,8 @@ public class UsersMailSendar {
 				+ client.getLastName() + ",\n");
 		content.append(propertyParser.getProperty("contentForActivation", ""));
 		String contentStr = content.toString().replaceAll("%TOKEN%", token);
+	
+		System.out.println("ACTIVATION URL ::: " + contentStr);
 
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(contentStr);
