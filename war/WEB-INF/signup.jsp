@@ -149,7 +149,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 							</div>
 							<c:if test="${successmessage==null}">
 							<div id="signup" class="left-side-box">
-								<form id="accounterForm" method="post" action="/site/signup"">
+								<form id="accounterForm" method="post" action="/signup"">
 								<fieldset class="fieldset"">
                            <table id="signup-fields" class="signup-fields-box" width="100%">
 								
