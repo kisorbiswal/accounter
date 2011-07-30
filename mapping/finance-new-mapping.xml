@@ -16,6 +16,7 @@
 		<property name="phoneNumber" column="PHONE_NUMBER"></property>
 		<property name="country" column="COUNTRY"></property>
 		<property name="isSubscribedToNewsLetters" column="IS_SUBSCRIBED_TO_NEWS_LETTER"></property>
+		<property name="isRequirePasswordReset" column="IS_REQUIRE_PASSWORD_RESET" />
 		<set name="companies" inverse="true" lazy="false" cascade="save-update,delete">
 			<key column="COMPANIES_LIST"></key>
 			<one-to-many class="ServerCompany" />
