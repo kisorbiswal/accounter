@@ -40,18 +40,27 @@ public class ResetPasswordServlet extends BaseServlet {
 			redirectExternal(req, resp, LOGIN_URL);
 			return;
 		}
-
-		// get token from session
-		String token = (String) httpsession.getAttribute("activationToken");
-		if (token.isEmpty()) {
-			req.setAttribute(ATTR_MESSAGE, "Activation expired.");
-			redirectExternal(req, resp, LOGIN_URL);
-			return;
-		}
 		// get activation record from table
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		Activation activation = null;
+		// get token from session
+		String token = (String) httpsession.getAttribute(ACTIVATION_TOKEN);
 		try {
-			Activation activation = getActivation(token);
+			if (token == null) {
+				String emailId = (String) httpsession.getAttribute(EMAIL_ID);
+				if (emailId != null) {
+					activation = (Activation) hibernateSession
+							.getNamedQuery("get.activation.by.mailId")
+							.setParameter(EMAIL_ID, emailId).uniqueResult();
+					token = activation.getToken();
+				}
+			} else if (token.isEmpty()) {
+				req.setAttribute(ATTR_MESSAGE, "Activation expired.");
+				redirectExternal(req, resp, LOGIN_URL);
+				return;
+			}
+			
+			activation = getActivation(token);
 			// if it is null
 			if (activation == null) {
 				// dispatch withr "Token has expired".
