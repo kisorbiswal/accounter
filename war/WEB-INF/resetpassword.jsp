@@ -66,7 +66,7 @@ $(document).ready(function() {
 				<div class="middle-signup-box" id="mid-1">
 					<div class ="Welcome-Accounter-box">
 							<h2>Reset Password</h2>
-					       <div class="reset_password_box"
+					       <div class="reset_password_box">
 							<div class="mid-login-box" style="width: 420px;">
 								<form id="accounterForm" method="post" action="/resetpassword">
 								<c:if test="${successMessage != null}">
