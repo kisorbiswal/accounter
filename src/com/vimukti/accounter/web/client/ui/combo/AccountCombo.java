@@ -2,7 +2,9 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -56,9 +58,9 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 	public void onAddNew() {
 		Action action = ActionFactory.getNewAccountAction();
 		action.setActionSource(this);
-		
+
 		action.run(null, true);
-		
+
 	}
 
 	/**
@@ -78,9 +80,14 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 
 	@Override
 	protected String getColumnData(ClientAccount object, int row, int col) {
+
 		switch (col) {
 		case 0:
-			return object.getNumber();
+			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+				return object.getNumber();
+			} else {
+				return null;
+			}
 		case 1:
 			return getDisplayName(object);
 		case 2:

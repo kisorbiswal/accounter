@@ -1,3 +1,4 @@
+
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -348,8 +350,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
 			// opBalText, asofDate, catSelect);
 
-			accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-					statusBox, opBalText, asofDate);
+			if(ClientCompanyPreferences.get().getUseAccountNumbers() == true)
+			{
+				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
+						statusBox, opBalText, asofDate);
+			}
+			else{
+					accNoText.setNumber(autoGenerateAccountnumber(1100,1179));
+				accInfoForm.setFields(accTypeSelect, accNameText,
+						statusBox, opBalText, asofDate);
+			}
+
 			leftLayout.add(accInfoForm);
 			topHLay.add(leftLayout);
 
@@ -357,8 +368,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, cashFlowCatSelect, opBalText, asofDate,
 			// catSelect);
-			accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-					statusBox, opBalText, asofDate);
+			if(ClientCompanyPreferences.get().getUseAccountNumbers() == true)
+			{
+				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
+						statusBox, opBalText, asofDate);
+			}
+			else{
+					accNoText.setNumber(autoGenerateAccountnumber(1100,1179));
+				accInfoForm.setFields(accTypeSelect, accNameText,
+						statusBox, opBalText, asofDate);
+			}
+
 			leftLayout.add(accInfoForm);
 			if (accountType == ClientAccount.TYPE_BANK)
 				addBankForm();
@@ -466,8 +486,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
 			// opBalText, asofDate, catSelect);
-			accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-					statusBox, opBalText, asofDate);
+			if(ClientCompanyPreferences.get().getUseAccountNumbers() == true)
+			{
+				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
+						statusBox, opBalText, asofDate);
+			}
+			else{
+				accNoText.setNumber(autoGenerateAccountnumber(4000,4999));
+				accInfoForm.setFields(accTypeSelect, accNameText,
+						statusBox, opBalText, asofDate);
+			}
 			// leftLayout.add(accInfoForm);
 			reset(accInfoForm);
 			if (selectedId == null)
@@ -486,8 +514,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, cashFlowCatSelect, opBalText, asofDate,
 			// catSelect);
-			accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
-					statusBox, opBalText, asofDate);
+			if(ClientCompanyPreferences.get().getUseAccountNumbers() == true)
+			{
+				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
+						statusBox, opBalText, asofDate);
+			}
+			else{
+				accNoText.setNumber(autoGenerateAccountnumber(4000,4999));
+				accInfoForm.setFields(accTypeSelect, accNameText,
+						statusBox, opBalText, asofDate);
+			}
 			leftLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 			leftLayout.add(accInfoForm);
 			accTypeSelect.setSelected(selectedId);
@@ -1274,6 +1310,34 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	//
 	// });
 	// }
+	
+	
+/**
+ * This function autogenerates a account number when its disabled
+ * @param range1
+ * @param range2
+ * @return long number
+ */
+	public long autoGenerateAccountnumber(int range1,int range2){
+		List<ClientAccount> accounts =  getCompany().getAccounts();
+		Long number = null;
+		if (number == null)
+		{
+			number = (long) range1;
+			System.out.println("empty");
+			for (ClientAccount account : accounts) {
+				while(number.toString().equals(account.getNumber())) {
+					number++;
+					if(number >=range2)
+					{
+						number = (long)range1;
+					}
+				}	
+			}
+		}
+		return number;
+	}
+	
 
 	private boolean validateAccountNumber(Long number) {
 

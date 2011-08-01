@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -25,6 +26,12 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected Object getColumnValue(ClientAccount obj, int col) {
+
+		// If this Condition Matches, We are not Showing AccountNumbers
+		if (ClientCompanyPreferences.get().getUseAccountNumbers() && col >= 1) {
+			col++;
+		}
+
 		switch (col) {
 		case 0:
 			return obj.getIsActive();
@@ -39,10 +46,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 					obj.getTotalBalance(), 0.0) ? obj.getTotalBalance() : 0.0);
 		case 5:
 			return Accounter.getFinanceMenuImages().accounterRegisterIcon();
-			// return "/images/find.png";
 		case 6:
 			return Accounter.getFinanceMenuImages().delete();
-			// return "/images/delete.png";
 		default:
 			break;
 		}
@@ -51,10 +56,20 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected String[] getColumns() {
-		bankingContants = Accounter.constants();
-		return new String[] { bankingContants.active(), bankingContants.no(),
-				bankingContants.name(), bankingContants.type(),
-				bankingContants.balance(), bankingContants.register(), "" };
+
+		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			bankingContants = Accounter.constants();
+			return new String[] { bankingContants.active(),
+					bankingContants.no(), bankingContants.name(),
+					bankingContants.type(), bankingContants.balance(),
+					bankingContants.register(), "" };
+		} else {
+			bankingContants = Accounter.constants();
+			return new String[] { bankingContants.active(),
+					bankingContants.name(), bankingContants.type(),
+					bankingContants.balance(), bankingContants.register(), "" };
+		}
+
 	}
 
 	@Override
@@ -84,10 +99,19 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected int[] setColTypes() {
-		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_IMAGE, ListGrid.COLUMN_TYPE_IMAGE };
+		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_IMAGE, ListGrid.COLUMN_TYPE_IMAGE };
+		} else {
+			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_IMAGE, ListGrid.COLUMN_TYPE_IMAGE };
+		}
+
 	}
 
 	@Override
@@ -97,22 +121,49 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 6) {
-			if (UIUtils.isMSIEBrowser())
-				return 25;
-			else
-				return 15;
+		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			if (index == 6) {
+				if (UIUtils.isMSIEBrowser())
+					return 25;
+				else
+					return 15;
+			}
+			if (index == 0 || index == 1) {
+				return 50;
+			} else if (index == 4)
+				return 200;
+			else if (index == 5)
+				return 55;
+			if (index == 3)
+				return 200;
+			// return super.getCellWidth(index);
+			return -1;
+		} else {
+			if (index == 5) {
+				if (UIUtils.isMSIEBrowser())
+					return 25;
+				else
+					return 15;
+			}
+			if (index == 0) {
+				return 50;
+			} else if (index == 3)
+				return 200;
+			else if (index == 4)
+				return 55;
+			else if (index == 1) {
+				if (UIUtils.isMSIEBrowser()) {
+					return 960 - 700;
+				} else {
+					return 960 - 690;
+				}
+			}
+			if (index == 2)
+				return 200;
+			// return super.getCellWidth(index);
+			return -1;
 		}
-		if (index == 0 || index == 1) {
-			return 50;
-		} else if (index == 4)
-			return 200;
-		else if (index == 5)
-			return 55;
-		if (index == 3)
-			return 200;
-		// return super.getCellWidth(index);
-		return -1;
+
 	}
 
 	@Override
