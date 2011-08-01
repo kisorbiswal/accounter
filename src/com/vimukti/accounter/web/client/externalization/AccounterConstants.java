@@ -4221,4 +4221,12 @@ public interface AccounterConstants extends Constants {
 	public String toWarehouse();
 
 	public String itemStatus();
+
+	public String PAN();
+
+	public String TINNumber();
+
+	public String CSTNumber();
+
+	public String serviceTaxRegistrationNo();
 }
