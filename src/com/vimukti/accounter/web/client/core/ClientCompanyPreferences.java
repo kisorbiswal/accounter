@@ -657,4 +657,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public void setPurchaseOrderEnabled(boolean purchaseOrderEnabled) {
 		this.purchaseOrderEnabled = purchaseOrderEnabled;
 	}
+
+	public boolean enablemultiCurrency() {
+		return false;
+	}
 }
