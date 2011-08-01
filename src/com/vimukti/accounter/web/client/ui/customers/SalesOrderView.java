@@ -55,8 +55,6 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.SalesOrderGrid;
-import com.vimukti.accounter.web.client.ui.grids.SalesOrderUKGrid;
-import com.vimukti.accounter.web.client.ui.grids.SalesOrderUSGrid;
 
 public class SalesOrderView extends
 		AbstractCustomerTransactionView<ClientSalesOrder> {
