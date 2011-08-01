@@ -100,6 +100,25 @@ public abstract class Transaction extends CreatableObject implements
 	String number = "0";
 	boolean isDefault;
 
+	private String currencyCode;
+	public String getCurrencyCode() {
+		return currencyCode;
+	}
+
+	public void setCurrencyCode(String currencyCode) {
+		this.currencyCode = currencyCode;
+	}
+
+	public double getCurrencyFactor() {
+		return currencyFactor;
+	}
+
+	public void setCurrencyFactor(double currencyFactor) {
+		this.currencyFactor = currencyFactor;
+	}
+
+	private double currencyFactor;
+	
 	/**
 	 * Many transaction consists of List of {@link TransactionItem}s
 	 */
