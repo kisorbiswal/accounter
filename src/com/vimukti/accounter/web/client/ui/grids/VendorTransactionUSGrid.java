@@ -1081,8 +1081,7 @@ public class VendorTransactionUSGrid extends
 						AccounterValidator.validateGridItem(this
 								.getColumnValue(item,
 										this instanceof PurchaseOrderUKGrid ? 7
-												: 6), Accounter.constants()
-								.VATCode());
+												: 6), "Vat Code");
 						validationcount = 1;
 					} else
 						validationcount = 1;

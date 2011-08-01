@@ -36,7 +36,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 
-public abstract class CustomerTransactionGrid extends
+public class CustomerTransactionGrid extends
 		AbstractTransactionGrid<ClientTransactionItem> {
 
 	private SalesAccountsCombo accountsCombo;
@@ -854,7 +854,7 @@ public abstract class CustomerTransactionGrid extends
 
 			}
 		}
-		if (!(this instanceof SalesOrderUKGrid || this instanceof SalesOrderUSGrid)) {
+		if (!(this instanceof SalesOrderGrid)) {
 			for (ClientTransactionItem item : transactionItems) {
 				item.setID(0);
 			}
@@ -1286,7 +1286,7 @@ public abstract class CustomerTransactionGrid extends
 				combo.downarrowpanel.getElement().getStyle()
 						.setMarginLeft(-7, Unit.PX);
 			} else {
-				if (this instanceof SalesOrderUSGrid)
+				if (this instanceof SalesOrderGrid)
 					combo.downarrowpanel.getElement().getStyle()
 							.setMarginLeft(-7, Unit.PX);
 				else
