@@ -71,7 +71,7 @@ public class VendorTransactionGrid extends
 						Accounter.constants().quantity(),
 						Accounter.constants().unitPrice(),
 						Accounter.constants().total(),
-						Accounter.constants().isTaxPayble(), " " };
+						Accounter.constants().isTaxable(), " " };
 			}
 
 		} else {
