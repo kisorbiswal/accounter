@@ -51,7 +51,7 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 	}
 
 	@Override
-	public String serializeList(List<IAccounterCore> str) throws Exception {
+	public String serializeList(List<? extends IAccounterCore> str) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
