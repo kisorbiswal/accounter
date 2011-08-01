@@ -249,6 +249,14 @@ public enum AccounterCoreType implements IsSerializable {
 				return UNIT_OF_MEASURE;
 			} else if (upperCaseString.equals("USERPREFERENCES")) {
 				return USER_PREFERENCES;
+			} else if (upperCaseString.equals("TRANSACTIONMAKEDEPOSIT")) {
+				return TRANSACTION_MAKEDEPOSIT;
+			} else if (upperCaseString.equals("TRANSACTIONCREDITSANDPAYMENTS")) {
+				return TRANSACTION_CREDITS_AND_PAYMENTS;
+			} else if (upperCaseString.equals("TRANSACTIONRECEIVEPAYMENT")) {
+				return TRANSACTION_RECEIVEPAYMENT;
+			} else if (upperCaseString.equals("TRANSACTIONPAYBILL")) {
+				return TRANSACTION_PAYBILL;
 			}
 		}
 
