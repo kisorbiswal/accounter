@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
 
@@ -18,7 +19,7 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 			initHandler();
 
 		if (sectionDepth == 0) {
-			addTypeSection("", "Net Profit");
+			addTypeSection("", Accounter.constants().netProfit());
 		}
 		addOrdinaryIncomeOrExpenseTypes(record);
 		// if (record.getBaseType() ==
@@ -125,21 +126,24 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 		if (record.getAccountType() == ClientAccount.TYPE_INCOME
 				|| record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
 			if (!sectiontypes.contains("GrossProfit")) {
-				addTypeSection("GrossProfit", "", "GrossProfit");
+				addTypeSection(Accounter.constants().grossProfit(), "",
+						Accounter.constants().grossProfit());
 
 			}
 			if (record.getAccountType() == ClientAccount.TYPE_INCOME)
 				if (!sectiontypes.contains("Revenue/Income")) {
 
-					addTypeSection("Revenue/Income", "Revenue/Income Total");
+					addTypeSection(Accounter.constants().revenueIncome(),
+							Accounter.constants().revenueIncomeTotal());
 				}
 			if (record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
 				if (!sectiontypes
 						.contains("Direct Products And Material Costs")) {
 					closeOtherSections();
 					closeSection(types.indexOf("Revenue/Income"));
-					addTypeSection("Direct Products And Material Costs",
-							"Direct Products And Material Costs Total");
+					addTypeSection(Accounter.constants()
+							.directProductsMaterialCosts(), Accounter
+							.constants().directProductsAndMaterialCostsTotal());
 
 				}
 
@@ -151,7 +155,8 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 				closeOtherSections();
 				closeSection(types
 						.indexOf("Direct Products And Material Costs"));
-				addTypeSection("Other Direct Costs", "Other Direct Costs Total");
+				addTypeSection(Accounter.constants().otherDirectCosts(),
+						Accounter.constants().otherDirectCostsTotal());
 			}
 		}
 
@@ -159,7 +164,8 @@ public class ProfitAndLossUKServerReport extends ProfitAndLossServerReport {
 
 			if (!sectiontypes.contains("Indirect Costs")) {
 				closeAllSection();
-				addTypeSection("Indirect Costs", "Indirect Costs Total");
+				addTypeSection(Accounter.constants().indirectCosts(), Accounter
+						.constants().indirectCostsTotal());
 			}
 		}
 

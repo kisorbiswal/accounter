@@ -82,7 +82,7 @@ public interface AccounterMessages extends Messages {
 
 	public SafeHtml upload();
 
-	SafeHtml undoneHtml();
+	public SafeHtml undoneHtml();
 
 	SafeHtml uploadLogo();
 

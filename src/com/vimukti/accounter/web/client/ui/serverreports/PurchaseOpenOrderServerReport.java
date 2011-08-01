@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -9,10 +10,11 @@ public class PurchaseOpenOrderServerReport extends
 		AbstractFinaneReport<OpenAndClosedOrders> {
 
 	private String sectionName;
-	
+
 	private boolean isPurchases;
 
-	public PurchaseOpenOrderServerReport(long startDate, long endDate,int generationType) {
+	public PurchaseOpenOrderServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 		isPurchases = true;
 	}
@@ -63,10 +65,11 @@ public class PurchaseOpenOrderServerReport extends
 	@Override
 	public String[] getColunms() {
 		// if (isPurchases)
-		return new String[] { "Order Date", "Supplier",
-		// FinanceApplication.constants().description(),
+		return new String[] { Accounter.constants().orderDate(),
+				Accounter.constants().supplier(),
+				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
-				"Amount" };
+				Accounter.constants().amount() };
 		// else
 		// return new String[] {
 		// FinanceApplication.constants().orderDate(),
@@ -76,7 +79,7 @@ public class PurchaseOpenOrderServerReport extends
 
 	@Override
 	public String getTitle() {
-		return " Purchase Order Report";
+		return Accounter.constants().purchaseOrderReport();
 	}
 
 	@Override
@@ -122,11 +125,12 @@ public class PurchaseOpenOrderServerReport extends
 		// else
 		// col = 2;
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { col });
+			addSection("", Accounter.constants().total(), new int[] { col });
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getVendorOrCustomerName();
-			addSection(sectionName, "Total", new int[] { col });
+			addSection(sectionName, Accounter.constants().total(),
+					new int[] { col });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getVendorOrCustomerName())) {
@@ -206,8 +210,8 @@ public class PurchaseOpenOrderServerReport extends
 
 	public int sort(OpenAndClosedOrders obj1, OpenAndClosedOrders obj2, int col) {
 
-		int ret = obj1.getVendorOrCustomerName().toLowerCase().compareTo(
-				obj2.getVendorOrCustomerName().toLowerCase());
+		int ret = obj1.getVendorOrCustomerName().toLowerCase()
+				.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -218,8 +222,8 @@ public class PurchaseOpenOrderServerReport extends
 					obj2.getTransactionDate());
 
 		case 1:
-			return obj1.getVendorOrCustomerName().toLowerCase().compareTo(
-					obj2.getVendorOrCustomerName().toLowerCase());
+			return obj1.getVendorOrCustomerName().toLowerCase()
+					.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
 
 			// case 2:
 			// // if (isPurchases)
@@ -247,10 +251,11 @@ public class PurchaseOpenOrderServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Order Date", "Supplier",
-		// FinanceApplication.constants().description(),
+		return new String[] { Accounter.constants().orderDate(),
+				Accounter.constants().supplier(),
+				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
-				"Amount" };
+				Accounter.constants().amount() };
 	}
 
 }

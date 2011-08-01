@@ -4223,4 +4223,14 @@ public interface AccounterConstants extends Constants {
 
 	public String isTaxPayble();
 
+	public String revenueIncome();
+
+	public String revenueIncomeTotal();
+
+	public String directProductsAndMaterialCostsTotal();
+
+	public String otherDirectCostsTotal();
+
+	public String indirectCostsTotal();
+
 }

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -15,7 +16,8 @@ public class PurchaseClosedOrderServerReport extends
 		this.reportView = reportView;
 	}
 
-	public PurchaseClosedOrderServerReport(long startDate, long endDate,int generationType) {
+	public PurchaseClosedOrderServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -51,15 +53,17 @@ public class PurchaseClosedOrderServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Order Date", "Vendor", "Description",
-				"Quantity", "Value" };
+		return new String[] { Accounter.constants().orderDate(),
+				Accounter.constants().vendor(),
+				Accounter.constants().description(),
+				Accounter.constants().quantity(), Accounter.constants().value() };
 
 	}
 
 	@Override
 	public String getTitle() {
 
-		return "Purchase Closed Order Report";
+		return Accounter.constants().purchaseClosedOrderReport();
 	}
 
 	@Override
@@ -77,11 +81,12 @@ public class PurchaseClosedOrderServerReport extends
 	@Override
 	public void processRecord(OpenAndClosedOrders record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total of ", new int[] { 4 });
+			addSection("", Accounter.constants().totalOf(), new int[] { 4 });
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getVendorOrCustomerName();
-			addSection(sectionName, "Total of " + sectionName, new int[] { 4 });
+			addSection(sectionName, Accounter.constants().totalOf()
+					+ sectionName, new int[] { 4 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getVendorOrCustomerName())) {
@@ -145,8 +150,10 @@ public class PurchaseClosedOrderServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Order Date", "Vendor", "Description",
-				"Quantity", "Value" };
+		return new String[] { Accounter.constants().orderDate(),
+				Accounter.constants().vendor(),
+				Accounter.constants().description(),
+				Accounter.constants().quantity(), Accounter.constants().value() };
 
 	}
 

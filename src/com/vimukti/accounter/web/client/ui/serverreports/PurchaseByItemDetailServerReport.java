@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
@@ -53,13 +54,18 @@ public class PurchaseByItemDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Item", "Date", "Type", "No.", "Quantity",
-				"Unit Price", "Discount", "Amount" };
+		return new String[] { Accounter.constants().item(),
+				Accounter.constants().date(), Accounter.constants().type(),
+				Accounter.constants().noDot(),
+				Accounter.constants().quantity(),
+				Accounter.constants().unitPrice(),
+				Accounter.constants().discount(),
+				Accounter.constants().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "Purchase By Item Detail";
+		return Accounter.constants().purchaseByItemDetail();
 	}
 
 	@Override
@@ -101,7 +107,8 @@ public class PurchaseByItemDetailServerReport extends
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getItemName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					"", "", "", "Total" }, new int[] { 7 });
+					"", "", "", Accounter.constants().total() },
+					new int[] { 7 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getItemName())) {
@@ -226,7 +233,12 @@ public class PurchaseByItemDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Item", "Date", "Type", "No.", "Quantity",
-				"Unit Price", "Discount", "Amount" };
+		return new String[] { Accounter.constants().item(),
+				Accounter.constants().date(), Accounter.constants().type(),
+				Accounter.constants().noDot(),
+				Accounter.constants().quantity(),
+				Accounter.constants().unitPrice(),
+				Accounter.constants().discount(),
+				Accounter.constants().amount() };
 	}
 }
