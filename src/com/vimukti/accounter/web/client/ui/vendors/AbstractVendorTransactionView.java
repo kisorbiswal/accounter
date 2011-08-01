@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
+import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUKGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUSGrid;
 
@@ -112,13 +113,13 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	@Override
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
-		if (gridType == VENDOR_TRANSACTION_GRID)
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-				return new VendorTransactionUSGrid();
-			else
-				return new VendorTransactionUKGrid();
-
-		return null;
+		// if (gridType == VENDOR_TRANSACTION_GRID)
+		// if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US)
+		// return new VendorTransactionUSGrid();
+		// else
+		// return new VendorTransactionUKGrid();
+		return new VendorTransactionGrid();
 	}
 
 	@Override

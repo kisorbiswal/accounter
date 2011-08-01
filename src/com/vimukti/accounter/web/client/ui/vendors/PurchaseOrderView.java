@@ -49,8 +49,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderUKGrid;
-import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderUSGrid;
+import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderGrid;
 
 public class PurchaseOrderView extends
 		AbstractVendorTransactionView<ClientPurchaseOrder> {
@@ -453,10 +452,12 @@ public class PurchaseOrderView extends
 
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			return new PurchaseOrderUSGrid();
-		else
-			return new PurchaseOrderUKGrid();
+		// if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US)
+		// return new PurchaseOrderUSGrid();
+		// else
+		// return new PurchaseOrderUKGrid();
+		return new PurchaseOrderGrid();
 
 	}
 
