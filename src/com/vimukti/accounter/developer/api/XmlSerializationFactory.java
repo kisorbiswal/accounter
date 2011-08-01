@@ -46,21 +46,18 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 
 	@Override
 	public List<IAccounterCore> deserializeList(String str) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<IAccounterCore>) stream.fromXML(str);
 	}
 
 	@Override
 	public String serializeList(List<? extends IAccounterCore> str)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return stream.toXML(str);
 	}
 
 	@Override
 	public String serialize(AccounterException ex) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return stream.toXML(ex);
 	}
 
 	@Override
@@ -69,28 +66,23 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 	}
 
 	public String serializeReportsList(List<? extends BaseReport> list) {
-		// TODO Auto-generated method stub
-		return null;
+		return stream.toXML(list);
 	}
 
 	public String serializeTransacHistCustomerList(List<ClientCustomer> list) {
-		// TODO Auto-generated method stub
-		return null;
+		return stream.toXML(list);
 	}
 
 	public String serializeTransacHistVendorList(List<ClientVendor> list) {
-		// TODO Auto-generated method stub
-		return null;
+		return stream.toXML(list);
 	}
 
 	public String serializeMinAndMaxTrasacDate(List<ClientFinanceDate> list) {
-		// TODO Auto-generated method stub
-		return null;
+		return stream.toXML(list);
 	}
 
 	public String serializeDateList(List<ClientFinanceDate> list) {
-		// TODO Auto-generated method stub
-		return null;
+		return stream.toXML(list);
 	}
 
 }

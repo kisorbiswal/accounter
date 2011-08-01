@@ -407,8 +407,7 @@ public class XmlReportsApiServlet extends HttpServlet {
 	}
 
 	private String getMethodName(HttpServletRequest req) {
-		StringBuffer requestURL = req.getRequestURL();
-		String url = requestURL.toString();
+		String url = req.getRequestURI();
 		String[] urlParts = url.split("/");
 		String last = urlParts[urlParts.length - 1];
 		return last.split("?")[0];
