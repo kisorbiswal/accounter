@@ -64,7 +64,7 @@ public enum SelectItemType {
 
 	VAT_ITEM(ActionFactory.getNewVatItemAction()),
 
-	TAX_CODE(ActionFactory.getAddEditSalesTaxCodeAction()), SHIP_TO, PHONE, EMAIL, FAX;
+	TAX_CODE(ActionFactory.getAddEditSalesTaxCodeAction()), SHIP_TO, PHONE, EMAIL, FAX, CURRENCY;
 
 	private Action action;
 	
