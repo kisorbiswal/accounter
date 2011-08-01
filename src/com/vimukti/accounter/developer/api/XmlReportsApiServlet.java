@@ -60,6 +60,8 @@ public class XmlReportsApiServlet extends HttpServlet {
 				startDate);
 		ClientFinanceDate clientFinanceEndDate = new ClientFinanceDate(endDate);
 
+		List<? extends BaseReport> result = null;
+
 		if (methodName.equals("salesbycustomersummary")) {
 			accounterReportServiceImpl.getSalesByCustomerSummary(
 					clientFinanceStartDate, clientFinanceEndDate);
@@ -67,9 +69,8 @@ public class XmlReportsApiServlet extends HttpServlet {
 		} else if (methodName.equals("payeestatements")) {
 
 		} else if (methodName.equals("agedcreditors")) {
-			List<AgedDebtors> agedCreditors = accounterReportServiceImpl
-					.getAgedCreditors(clientFinanceStartDate,
-							clientFinanceEndDate);
+			result = accounterReportServiceImpl.getAgedCreditors(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("checkdetails")) {
 			Long paymentmethod = (Long) req.getAttribute("PaymentMethod");
@@ -379,6 +380,8 @@ public class XmlReportsApiServlet extends HttpServlet {
 					.getProfitAndLossReport(clientFinanceStartDate,
 							clientFinanceEndDate);
 		}
+
+		sendResult(req, resp, result);
 
 	}
 
