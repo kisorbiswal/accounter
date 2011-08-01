@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 
 public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 
-	private boolean isAddNewRequired = true;
+	// private boolean isAddNewRequired = true;
 
 	public CustomerTransactionUSGrid() {
 		super(true);
@@ -18,7 +18,7 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 
 	public CustomerTransactionUSGrid(boolean isAddNewRequired) {
 		super(isAddNewRequired);
-		this.isAddNewRequired = isAddNewRequired;
+		// this.isAddNewRequired = isAddNewRequired;
 	}
 
 	@Override
@@ -36,8 +36,8 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 					Accounter.constants().quantity(),
 					Accounter.constants().unitPrice(),
 					Accounter.constants().discountPerc(),
-					Accounter.constants().total(),
-					Accounter.constants().tax(), " " };
+					Accounter.constants().total(), Accounter.constants().tax(),
+					" " };
 	}
 
 	@Override
@@ -45,8 +45,7 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 		return new String[] { Accounter.constants().quantity(),
 				Accounter.constants().item(),
 				Accounter.constants().description(),
-				Accounter.constants().rate(),
-				Accounter.constants().amount(),
+				Accounter.constants().rate(), Accounter.constants().amount(),
 				Accounter.constants().isTaxable() };
 	}
 
@@ -73,8 +72,8 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 		case 4:
 			return DataUtils.getAmountAsString(item.getLineTotal());
 		case 5:
-			return item.isTaxable() ? Accounter.constants()
-					.taxable() : Accounter.constants().nonTaxable();
+			return item.isTaxable() ? Accounter.constants().taxable()
+					: Accounter.constants().nonTaxable();
 		default:
 			return "";
 		}
@@ -183,9 +182,8 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 			if (transactionView instanceof WriteChequeView)
 				return Accounter.getFinanceMenuImages().delete();
 			else
-				return item.isTaxable() ? Accounter.constants()
-						.taxable() : Accounter.constants()
-						.nonTaxable();
+				return item.isTaxable() ? Accounter.constants().taxable()
+						: Accounter.constants().nonTaxable();
 
 		case 8:
 			return Accounter.getFinanceMenuImages().delete();

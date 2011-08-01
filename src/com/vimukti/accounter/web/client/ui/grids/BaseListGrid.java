@@ -257,8 +257,4 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 			view.initListCallback();
 		}
 	}
-
-	protected ClientCompany getCompany() {
-		return Accounter.getCompany();
-	}
 }

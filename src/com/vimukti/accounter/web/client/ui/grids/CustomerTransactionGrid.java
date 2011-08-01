@@ -60,7 +60,7 @@ public abstract class CustomerTransactionGrid extends
 	int transactionDomain;
 	boolean isBankingTransaction = false;
 
-	private int accountingType;
+	protected int accountingType;
 	private Double totalValue;
 
 	private boolean isAddNewRequired = true;
@@ -83,18 +83,93 @@ public abstract class CustomerTransactionGrid extends
 
 	@Override
 	public String[] getColumnNamesForPrinting() {
-		return null;
+		if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				return new String[] { Accounter.constants().description(),
+						Accounter.constants().quantity(),
+						Accounter.constants().unitPrice(),
+						Accounter.constants().totalPrice(),
+						Accounter.constants().VATRate(),
+						Accounter.constants().VATAmount() };
+			} else {
+				return new String[] { Accounter.constants().description(),
+						Accounter.constants().quantity(),
+						Accounter.constants().unitPrice(),
+						Accounter.constants().totalPrice(),
+						Accounter.constants().isTaxable() };
+			}
+		} else {
+			return new String[] { Accounter.constants().description(),
+					Accounter.constants().quantity(),
+					Accounter.constants().unitPrice(),
+					Accounter.constants().totalPrice() };
+		}
 	}
 
 	@Override
 	public String getColumnValueForPrinting(ClientTransactionItem item,
 			int index) {
-		return null;
+		if (item.getType() == ClientTransactionItem.TYPE_COMMENT) {
+			if (!Arrays.asList(0, 2, 9).contains(index))
+				return "";
+		}
+		if (item.getType() == ClientTransactionItem.TYPE_SALESTAX) {
+			if (!Arrays.asList(0, 1, 6, 9).contains(index))
+				return "";
+		}
+		switch (index) {
+		case 0:
+			return item.getDescription();
+		case 1:
+			return item.getQuantity() + "";
+		case 2:
+			return DataUtils.getAmountAsString(item.getUnitPrice());
+		case 3:
+			return DataUtils.getAmountAsString(item.getLineTotal());
+		case 4:
+			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				return DataUtils.getAmountAsString(UIUtils.getVATItem(
+						item.getTaxCode(), true).getTaxRate());
+			} else {
+				return item.isTaxable() ? Accounter.constants().taxable()
+						: Accounter.constants().nonTaxable();
+			}
+		default:
+			return DataUtils.getAmountAsString(getVatTotal());
+		}
 
 	}
 
 	@Override
 	protected int getColumnType(int col) {
+		switch (col) {
+		case 0:
+			return ListGrid.COLUMN_TYPE_IMAGE;
+		case 1:
+			return ListGrid.COLUMN_TYPE_SELECT;
+		case 2:
+			return ListGrid.COLUMN_TYPE_TEXTBOX;
+		case 3:
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
+		case 4:
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
+		case 5:
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
+		case 6:
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
+		case 7:
+			if (transactionView instanceof WriteChequeView)
+				return ListGrid.COLUMN_TYPE_IMAGE;
+			else
+				return ListGrid.COLUMN_TYPE_SELECT;
+		case 8:
+			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK)
+				return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
+			else
+				return ListGrid.COLUMN_TYPE_IMAGE;
+		case 9:
+			return ListGrid.COLUMN_TYPE_IMAGE;
+		}
 		return 0;
 
 	}
@@ -459,46 +534,64 @@ public abstract class CustomerTransactionGrid extends
 
 	@Override
 	protected Object getColumnValue(ClientTransactionItem item, int index) {
-		return null;
-
-		// if (item.getType() == ClientTransactionItem.TYPE_COMMENT) {
-		// if (!Arrays.asList(0, 2, 8).contains(index))
-		// return "";
-		// }
-		// // if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
-		// // if (Arrays.asList(3).contains(index))
-		// // return "";
-		// // }
-		//
-		// if (item.getType() == ClientTransactionItem.TYPE_SALESTAX) {
-		// if (!Arrays.asList(0, 1, 2, 6, 8).contains(index))
-		// return "";
-		// }
-		// switch (index) {
-		// case 0:
-		// return getImageByType(item.getType());
-		// case 1:
-		// return getNameValue(item);
-		// case 2:
-		// return item.getDescription();
-		// case 3:
-		// return item.getQuantity();
-		// case 4:
-		// return DataUtils.getAmountAsString(item.getUnitPrice());
-		// case 5:
-		// return DataUtils.getNumberAsPercentString(item.getDiscount() + "");
-		// case 6:
-		// return DataUtils.getAmountAsString(item.getLineTotal());
-		// case 7:
-		// return item.isTaxable() ? FinanceApplication.constants()
-		// .taxable() : FinanceApplication.constants()
-		// .nonTaxable();
-		// case 8:
-		// return FinanceApplication.getFinanceMenuImages().delete();
-		// // return "/images/delete.png";
-		// default:
-		// return "";
-		// }
+		if (item.getType() == ClientTransactionItem.TYPE_COMMENT) {
+			if (!Arrays.asList(0, 2, 9).contains(index))
+				return "";
+		}
+		if (item.getType() == ClientTransactionItem.TYPE_SALESTAX) {
+			if (!Arrays.asList(0, 1, 6, 9).contains(index))
+				return "";
+		}
+		switch (index) {
+		case 0:
+			return getImageByType(item.getType());
+		case 1:
+			return getNameValue(item);
+		case 2:
+			return item.getDescription();
+		case 3:
+			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
+				return item.getQuantity();
+			else {
+				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
+						.getQuantity() : "";
+			}
+		case 4:
+			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
+				return DataUtils.getAmountAsString(item.getUnitPrice());
+			else {
+				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
+						.getAmountAsString(item.getUnitPrice()) : "";
+			}
+		case 5:
+			return DataUtils.getNumberAsPercentString(item.getDiscount() + "");
+		case 6:
+			return DataUtils.getAmountAsString(item.getLineTotal());
+		case 7:
+			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+				if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK)
+					return getTAXCodeName(item.getTaxCode());
+				else {
+					if (transactionView instanceof WriteChequeView)
+						return Accounter.getFinanceMenuImages().delete();
+					else
+						return item.isTaxable() ? Accounter.constants()
+								.taxable() : Accounter.constants().nonTaxable();
+				}
+			} else {
+				return Accounter.getFinanceMenuImages().delete();
+			}
+		case 8:
+			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK)
+				return DataUtils.getAmountAsString(item.getVATfraction());
+			else
+				return Accounter.getFinanceMenuImages().delete();
+		case 9:
+			return Accounter.getFinanceMenuImages().delete();
+			// return "/images/delete.png";
+		default:
+			return "";
+		}
 	}
 
 	protected ImageResource getImageByType(int type) {
@@ -1277,8 +1370,41 @@ public abstract class CustomerTransactionGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		// TODO Auto-generated method stub
-		return null;
+		if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				return new String[] { "", Accounter.constants().name(),
+						Accounter.constants().description(),
+						Accounter.constants().quantity(),
+						Accounter.constants().unitPrice(),
+						Accounter.constants().discountPerc(),
+						Accounter.constants().total(),
+						Accounter.constants().VATCode(),
+						Accounter.constants().VAT(), " " };
+			} else {
+				if (transactionView instanceof WriteChequeView)
+					return new String[] { "", Accounter.constants().name(),
+							Accounter.constants().description(),
+							Accounter.constants().quantity(),
+							Accounter.constants().unitPrice(),
+							Accounter.constants().discountPerc(),
+							Accounter.constants().total(), " " };
+				else
+					return new String[] { "", Accounter.constants().name(),
+							Accounter.constants().description(),
+							Accounter.constants().quantity(),
+							Accounter.constants().unitPrice(),
+							Accounter.constants().discountPerc(),
+							Accounter.constants().total(),
+							Accounter.constants().tax(), " " };
+			}
+		} else {
+			return new String[] { "", Accounter.constants().name(),
+					Accounter.constants().description(),
+					Accounter.constants().quantity(),
+					Accounter.constants().unitPrice(),
+					Accounter.constants().discountPerc(),
+					Accounter.constants().total(), " " };
+		}
 	}
 
 	protected void createVATItemAndTaxCodeCombo() {
@@ -1354,5 +1480,7 @@ public abstract class CustomerTransactionGrid extends
 		return true;
 	}
 
-	public abstract long getTaxCode(ClientTransactionItem item);
+	public long getTaxCode(ClientTransactionItem item) {
+		return item.getTaxCode();
+	}
 }

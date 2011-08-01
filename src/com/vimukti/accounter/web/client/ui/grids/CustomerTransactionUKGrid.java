@@ -32,12 +32,7 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] {
-				"",
-				Accounter.constants().wareHouse(),
-				Accounter.constants().items(),
-				Accounter.constants().availableItems(),
-				// FinanceApplication.constants().name(),
+		return new String[] { "", Accounter.constants().name(),
 				Accounter.constants().description(),
 				Accounter.constants().quantity(),
 				Accounter.constants().unitPrice(),
@@ -88,29 +83,25 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 
 	@Override
 	protected int getColumnType(int col) {
-		if (col == 0 || col == 11) {
+		if (col == 0 || col == 9) {
 			return ListGrid.COLUMN_TYPE_IMAGE;
 		}
 		switch (col) {
 		case 1:
 			return ListGrid.COLUMN_TYPE_SELECT;
 		case 2:
-			return ListGrid.COLUMN_TYPE_SELECT;
-		case 3:
-			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
-		case 4:
 			return ListGrid.COLUMN_TYPE_TEXTBOX;
+		case 3:
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
+		case 4:
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 5:
-			return ListGrid.COLUMN_TYPE_QUANTITY_POPUP;
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 6:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 7:
-			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
-		case 8:
-			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
-		case 9:
 			return ListGrid.COLUMN_TYPE_SELECT;
-		case 10:
+		case 8:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
 		}
 		return 0;
@@ -138,38 +129,32 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 		case 0:
 			return super.getImageByType(item.getType());
 		case 1:
-			return "";
+			return super.getNameValue(item);
 		case 2:
-			return "";
-		case 3:
-			return "";
-			// case 1:
-			// return super.getNameValue(item);
-		case 4:
 			return item.getDescription();
-		case 5:
+		case 3:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return item.getQuantity();
 			else {
 				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
 						.getQuantity() : "";
 			}
-		case 6:
+		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return DataUtils.getAmountAsString(item.getUnitPrice());
 			else {
 				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
 						.getAmountAsString(item.getUnitPrice()) : "";
 			}
-		case 7:
+		case 5:
 			return DataUtils.getNumberAsPercentString(item.getDiscount() + "");
-		case 8:
+		case 6:
 			return DataUtils.getAmountAsString(item.getLineTotal());
-		case 9:
+		case 7:
 			return getTAXCodeName(item.getTaxCode());
-		case 10:
+		case 8:
 			return DataUtils.getAmountAsString(item.getVATfraction());
-		case 11:
+		case 9:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		default:
@@ -177,21 +162,22 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 		}
 	}
 
-	private String getDecimalsUsingMaxDecimals(int quantity, int maxDecimalPoint) {
-		String qty = String.valueOf(quantity);
-		// if (maxDecimalPoint != 0) {
-		// qty = !qty.contains(".") ? qty + ".0" : qty;
-		// } else {
-		// return qty;
-		// }
-		// int max = qty.substring(qty.indexOf(".") + 1).length();
-		// if (maxDecimalPoint > max) {
-		// for (int i = max; maxDecimalPoint != i; i++) {
-		// qty = qty + "0";
-		// }
-		// }
-		return qty;
-	}
+	// private String getDecimalsUsingMaxDecimals(int quantity, int
+	// maxDecimalPoint) {
+	// String qty = String.valueOf(quantity);
+	// // if (maxDecimalPoint != 0) {
+	// // qty = !qty.contains(".") ? qty + ".0" : qty;
+	// // } else {
+	// // return qty;
+	// // }
+	// // int max = qty.substring(qty.indexOf(".") + 1).length();
+	// // if (maxDecimalPoint > max) {
+	// // for (int i = max; maxDecimalPoint != i; i++) {
+	// // qty = qty + "0";
+	// // }
+	// // }
+	// return qty;
+	// }
 
 	@Override
 	protected int getCellWidth(int index) {
@@ -226,17 +212,14 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 		switch (obj.getType()) {
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			switch (col) {
-			case 1:
-			case 2:
-			case 3:
-			case 5:
-				return false;
-			case 6:
-				return false;
-			case 7:
-				return false;
+			// case 3:
+			// return false;
+			// case 4:
+			// return false;
+			// case 5:
+			// return false;
 
-			case 10:
+			case 8:
 				return false;
 
 			default:
@@ -244,56 +227,51 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 			}
 		case ClientTransactionItem.TYPE_COMMENT:
 			switch (col) {
-//			case 2:
-//				return true;
+			// case 2:
+			// return true;
 			default:
 				return false;
 			}
 		case ClientTransactionItem.TYPE_ITEM:
 			switch (col) {
-			case 8:
+			case 6:
 				return false;
-			case 10:
+			case 8:
 				return false;
 			default:
 				return true;
 			}
 		case ClientTransactionItem.TYPE_SALESTAX:
 			switch (col) {
-//			case 1:
-//				return true;
-			case 4:
+			case 1:
 				return true;
-			case 6:
+			case 2:
+				return true;
+			case 4:
 				return false;
-			case 8:
+			case 6:
 				return true;
 			default:
 				return false;
 			}
 		case ClientTransactionItem.TYPE_SERVICE:
 			switch (col) {
-			case 0:
-			case 3:
-			case 10:
-			case 11:
-				return false;
-//			case 2:
-//				return true;
-//			case 4:
-//				return true;
-//			case 5:
-//				return true;
-//			case 6:
-//				return true;
-//			case 7:
-//				return true;
-//			case 8:
-//				return true;
-//			case 9:
-//				return true;
-			default:
+			case 1:
 				return true;
+			case 2:
+				return true;
+			case 3:
+				return true;
+			case 4:
+				return true;
+			case 5:
+				return true;
+			case 6:
+				return true;
+			case 7:
+				return true;
+			default:
+				return false;
 			}
 
 		}
