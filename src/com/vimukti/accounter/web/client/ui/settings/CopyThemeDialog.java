@@ -89,7 +89,7 @@ public class CopyThemeDialog extends BaseDialog {
 		String name = nameBox.getValue();
 		if (name == null || name.isEmpty()) {
 			MainFinanceWindow.getViewManager().showErrorInCurrectDialog(
-					"Please enter Theme name.");
+					Accounter.constants().pleaseenterThemename());
 			return false;
 		} else
 			return true;

@@ -463,7 +463,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		// .inclusive());
 		// inclusiveButton.setChecked(true);
 
-		contactDetailHtml = new HTML(messages.contactDetailsHtml());
+		contactDetailHtml = new HTML(Accounter.messages().contactDetailsHtml());
 		contactDetailsArea = new TextArea();
 		contactDetailsArea.setStyleName("contact-deatils-area");
 		contactDetailsArea.setText(getCompany().getDisplayName());
@@ -498,7 +498,7 @@ public class NewBrandThemeDialog extends BaseDialog {
 		addressItem.setChecked(true);
 		logoItem = new CheckBox(messages.showLogo());
 		logoItem.setChecked(true);
-		paypalEmailHtml = new HTML(messages.paypalEmailHtml());
+		paypalEmailHtml = new HTML(Accounter.messages().paypalEmailHtml());
 		paypalTextBox = new TextBox();
 
 		checkBoxPanel = new VerticalPanel();

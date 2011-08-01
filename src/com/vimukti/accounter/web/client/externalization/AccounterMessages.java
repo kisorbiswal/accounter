@@ -21,6 +21,8 @@ public interface AccounterMessages extends Messages {
 
 	SafeHtml chooseLogo();
 
+	public String contactDetailsHtml();
+
 	SafeHtml companyCommentHtml();
 
 	SafeHtml companySettingsTitle();
@@ -54,6 +56,8 @@ public interface AccounterMessages extends Messages {
 	public SafeHtml dashBoard();
 
 	SafeHtml deleteHtml();
+
+	public String paypalEmailHtml();
 
 	public SafeHtml startFiscalHTML();
 

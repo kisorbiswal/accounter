@@ -371,7 +371,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		vatReturnCombo.setHelpInformation(true);
 		vatReturnCombo.setRequired(true);
 		vatReturnList = new ArrayList<String>();
-		vatReturnList.add(Accounter.constants().uKVAT());
+		vatReturnList.add(Accounter.constants().UKVAT());
 		vatReturnList.add(Accounter.constants().vAT3Ireland());
 		vatReturnCombo.initCombo(vatReturnList);
 		vatReturnCombo
@@ -521,7 +521,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			if (takenVATAgency.getVATReturn() == ClientTAXAgency.RETURN_TYPE_NONE)
 				vatReturnCombo.setComboItem("");
 			else if (takenVATAgency.getVATReturn() == ClientTAXAgency.RETURN_TYPE_UK_VAT)
-				vatReturnCombo.setComboItem(Accounter.constants().uKVAT());
+				vatReturnCombo.setComboItem(Accounter.constants().UKVAT());
 			else
 				vatReturnCombo
 						.setComboItem(Accounter.constants().vAT3Ireland());
