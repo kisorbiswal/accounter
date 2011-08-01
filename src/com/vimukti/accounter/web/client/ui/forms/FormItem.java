@@ -305,7 +305,8 @@ public abstract class FormItem {
 					&& BaseDialog.errordata != null
 					&& BaseDialog.commentPanel != null) {
 				BaseDialog.errordata.setHTML(BaseDialog.errordata.getHTML()
-						+ "<li> Please enter " + this.getTitle() + ".");
+						+ Accounter.messages().pleaseEnterHTML(this.getTitle())
+						+ ".");
 				BaseDialog.commentPanel.setVisible(true);
 			} else if (!isDialog
 					&& ViewManager.getInstance().getCurrentView() != null) {
@@ -316,7 +317,7 @@ public abstract class FormItem {
 				// BaseView.commentPanel.setVisible(true);
 				// AbstractBaseView.errorOccured = true;
 				MainFinanceWindow.getViewManager().appendError(
-						"Please enter " + this.getTitle());
+						Accounter.messages().pleaseEnter(this.getTitle()));
 			}
 
 			return false;
@@ -367,7 +368,7 @@ public abstract class FormItem {
 		}
 	}
 
-	public String helpMessage = "Help";
+	public String helpMessage = Accounter.constants().help();
 	public PopupPanel popupPanel;
 
 	public void displayHelpMessage(MouseUpEvent event) {
@@ -386,13 +387,7 @@ public abstract class FormItem {
 
 	private HTML helpContent() {
 		HTML content;
-		content = new HTML("<b>" + " About This Field :" + "</b><br><br>"
-				+ "<h3>" + helpMessage + "</h3>");
+		content = new HTML(Accounter.constants().aboutThisFieldHelp());
 		return content;
 	}
-
-	public void setHelpMessage(String hm) {
-		this.helpMessage = hm;
-	}
-
 }

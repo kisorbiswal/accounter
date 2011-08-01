@@ -9,4 +9,6 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseEnter(String itemName);
 
+	public String pleaseEnterHTML(String title);
+
 }

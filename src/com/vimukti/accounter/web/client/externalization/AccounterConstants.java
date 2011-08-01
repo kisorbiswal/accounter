@@ -4238,4 +4238,14 @@ public interface AccounterConstants extends Constants {
 
 	public String completedSalesOrdercantbeedited();
 
+	public String accandaccumulatedDepreciationAccShouldnotbesame();
+
+	public String purchaseDatePriorToFixedAssetsStartDate();
+
+	public String openBraseSoPleaseSelect();
+
+	public String receiveJournalisFailed();
+
+	public SafeHtml aboutThisFieldHelp();
+
 }

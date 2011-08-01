@@ -206,7 +206,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// String assetNum = assetNumberTxt.getValue().toString();
 		// if (assetNum.length() != 0) {
 		// try {
-		// 
+		//
 		// long assetNumber = Long.parseLong(assetNum);
 		// } catch (Exception e) {
 		// assetNumberTxt.focusInItem();
@@ -450,8 +450,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						action.run(fixedAsset, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
 							.constants().showHistory())) {
-						Action action = ActionFactory
-								.getHistoryListAction();
+						Action action = ActionFactory.getHistoryListAction();
 						action.catagory = Accounter.constants()
 								.fixedAssetsNewFixedAsset();
 						HistoryTokenUtils.setPresentToken(action, fixedAsset);
@@ -701,8 +700,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				.getSelectedValue();
 		if (assetAccount != null && selectItem != null
 				&& assetAccount.getID() == selectItem.getID()) {
-			Accounter
-					.showError("Account and Accumulated Depreciation Account should not be same ");
+			Accounter.showError(Accounter.constants()
+					.accandaccumulatedDepreciationAccShouldnotbesame());
 			return false;
 		}
 		return true;
@@ -713,18 +712,20 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	 * The AccumulatedDepreciationAmount field need to be added when given date
 	 * is before the depreciation startdate
 	 */
-	
+
 	private void showAccumultdDepAmountForm(ClientFinanceDate enteredDate) {
 		if (getDepreciationStartDate() != null) {
 			if (!enteredDate.equals(getDepreciationStartDate())
 					&& enteredDate.before(getDepreciationStartDate())) {
 				isAssetAccumulated = true;
 				infoLabel1 = new Label(
-						"The purchase date is prior to the Fixed Assets start date ("
+						Accounter.constants()
+								.purchaseDatePriorToFixedAssetsStartDate()
 								+ UIUtils
 										.getDateStringByDate(getDepreciationStartDate()
 												.toString())
-								+ ") so please enter: ");
+								+ Accounter.constants()
+										.openBraseSoPleaseSelect());
 				infoLabel1.setStyleName("requiredField");
 				accmulatdDepreciationTxt = new AmountField(Accounter
 						.constants().accumulatedDepreciationTo()
@@ -790,7 +791,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 									new AccounterAsyncCallback<Double>() {
 
 										@Override
-										public void onException(AccounterException caught) {
+										public void onException(
+												AccounterException caught) {
 
 										}
 

@@ -441,7 +441,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError("Review Journal is Failed");
+				Accounter.showError(Accounter.constants()
+						.receiveJournalisFailed());
 			}
 
 			@Override
