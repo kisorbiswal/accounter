@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 import com.vimukti.accounter.api.core.ApiResult;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -65,6 +68,21 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 	}
 
 	public String serializeReportsList(List<? extends BaseReport> list) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String serializeTransacHistCustomerList(List<ClientCustomer> list) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String serializeTransacHistVendorList(List<ClientVendor> list) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String serializeMinAndMaxTrasacDate(List<ClientFinanceDate> list) {
 		// TODO Auto-generated method stub
 		return null;
 	}
