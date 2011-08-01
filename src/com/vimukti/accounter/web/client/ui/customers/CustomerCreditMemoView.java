@@ -75,8 +75,8 @@ public class CustomerCreditMemoView extends
 								if (newDate != null)
 									setTransactionDate(newDate);
 							} catch (Exception e) {
-								Accounter
-										.showError("Invalid Transaction date!");
+								Accounter.showError(Accounter.constants()
+										.invalidTransactionDate());
 								setTransactionDate(new ClientFinanceDate());
 								transactionDateItem
 										.setEnteredDate(getTransactionDate());

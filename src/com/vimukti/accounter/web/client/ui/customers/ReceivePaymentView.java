@@ -1300,8 +1300,8 @@ public class ReceivePaymentView extends
 
 		} else if (transactionObject.isVoid() || transactionObject.isDeleted())
 
-			Accounter
-					.showError("You can't edit the ReceivePayment, since it is Voided or Deleted");
+			Accounter.showError(Accounter.constants()
+					.youcanteditreceivePaymentitisvoidedordeleted());
 	}
 
 	private void voidTransaction() {
@@ -1309,7 +1309,8 @@ public class ReceivePaymentView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError("Failed to void Receive Payment");
+				Accounter.showError(Accounter.constants()
+						.failedtovoidReceivePayment());
 			}
 
 			@Override

@@ -111,7 +111,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private ClientCustomer takenCustomer;
 
-	
 	private DynamicForm customerForm, vatinfo;
 	private DynamicForm accInfoForm;
 	private AddressForm addrsForm;
@@ -137,7 +136,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	private boolean wait;
 
 	AccounterConstants customerConstants;
-	
+
 	private static AccounterConstants actionsConstants;
 	private ClientCompany company = getCompany();
 	private ArrayList<DynamicForm> listforms;
@@ -296,28 +295,28 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				for (S s2 : list) {
 					ClientCustomer old2 = (ClientCustomer) s2;
 					if (customer.getNumber().equals(old2.getNumber())) {
-						throw new InvalidEntryException(
-								"A Customer already exists with this name and number");
+						throw new InvalidEntryException(Accounter.constants()
+								.customerAlreadyExistsWithNameAndNo());
 					}
 				}
-				throw new InvalidEntryException(
-						"A Customer already exists with this name");
+				throw new InvalidEntryException(Accounter.constants()
+						.customerAlreadyExistsWithName());
 			} else if (customer.getNumber().equals(old.getNumber())) {
 				for (S s2 : list) {
 					ClientCustomer old2 = (ClientCustomer) s2;
 					if (customer.getName().equalsIgnoreCase(old2.getName())) {
-						throw new InvalidEntryException(
-								"A Customer already exists with this name and number");
+						throw new InvalidEntryException(Accounter.constants()
+								.customerAlreadyExistsWithNameAndNo());
 					}
 				}
-				throw new InvalidEntryException(
-						"A Customer already exists with this number");
+				throw new InvalidEntryException(Accounter.constants()
+						.customerAlreadyExistsWithNumber());
 			} else if (checkIfNotNumber(customer.getNumber())) {
-				throw new InvalidEntryException(
-						"A Customer number shouble be a number");
+				throw new InvalidEntryException(Accounter.constants()
+						.customerNumberShouldBeNumber());
 			} else if (Integer.parseInt(customer.getNumber().toString()) < 1) {
-				throw new InvalidEntryException(
-						"A Customer number shouble be positive");
+				throw new InvalidEntryException(Accounter.constants()
+						.customerNumberShouldBePos());
 			}
 
 		}

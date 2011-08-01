@@ -965,7 +965,8 @@ public class SalesOrderView extends
 		dialog.show();
 
 		if (filteredList.isEmpty()) {
-			dialog.grid.addEmptyMessage("No records to show");
+			dialog.grid
+					.addEmptyMessage(Accounter.constants().noRecordsToShow());
 		}
 
 	}
@@ -1090,7 +1091,8 @@ public class SalesOrderView extends
 
 	public void onEdit() {
 		if (transactionObject.getStatus() == ClientTransaction.STATUS_COMPLETED)
-			Accounter.showError("Completed sales order can't be edited.");
+			Accounter.showError(Accounter.constants()
+					.completedSalesOrdercantbeedited());
 		else {
 			AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
 

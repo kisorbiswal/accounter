@@ -328,8 +328,8 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 
 	public void validateTransaction() throws Exception {
 		if (!grid.validateGrid()) {
-			throw new Exception(
-					"Select atleast on record.Or click on Cancel...");
+			throw new Exception(Accounter.constants()
+					.selectatleastSelectRecord());
 		}
 	}
 

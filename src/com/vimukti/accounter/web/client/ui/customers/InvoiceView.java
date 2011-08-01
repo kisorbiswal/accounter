@@ -200,7 +200,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		transactionNumber.setTitle(Accounter.constants().invoiceNo());
 		listforms = new ArrayList<DynamicForm>();
-		brandingThemeTypeCombo = new BrandingThemeCombo("Branding Theme");
+		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.constants()
+				.brandingTheme());
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(4);
@@ -703,7 +704,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		dialog.show();
 
 		if (filteredList.isEmpty()) {
-			dialog.grid.addEmptyMessage("No records to show");
+			dialog.grid
+					.addEmptyMessage(Accounter.constants().noRecordsToShow());
 		}
 
 	}

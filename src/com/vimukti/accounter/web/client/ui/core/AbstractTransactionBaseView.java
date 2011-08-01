@@ -313,7 +313,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 							setTransactionDate(newDate);
 					} catch (Exception e) {
 						Accounter.showError(Accounter.constants()
-								.invalidTransactiondate());
+								.invalidTransactionDate());
 						setTransactionDate(new ClientFinanceDate());
 						dateItem.setEnteredDate(getTransactionDate());
 					}

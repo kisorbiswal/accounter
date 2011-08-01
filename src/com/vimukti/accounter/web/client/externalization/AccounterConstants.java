@@ -4166,8 +4166,6 @@ public interface AccounterConstants extends Constants {
 
 	public SafeHtml changePasswordHTML();
 
-	public String invalidTransactiondate();
-
 	public String transactiontotalcannotbe0orlessthan0();
 
 	public String transactionitemtotalcannotbe0orlessthan0();
@@ -4219,5 +4217,25 @@ public interface AccounterConstants extends Constants {
 	public String supplierPrepayment();
 
 	public String vendorPrepayment();
+
+	public String selectatleastSelectRecord();
+
+	public String customerGroupAlreadyExists();
+
+	public String customerAlreadyExistsWithNameAndNo();
+
+	public String customerAlreadyExistsWithName();
+
+	public String customerAlreadyExistsWithNumber();
+
+	public String customerNumberShouldBeNumber();
+
+	public String customerNumberShouldBePos();
+
+	public String youcanteditreceivePaymentitisvoidedordeleted();
+
+	public String failedtovoidReceivePayment();
+
+	public String completedSalesOrdercantbeedited();
 
 }

@@ -88,7 +88,8 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 				.toString());
 		if (Utility.isObjectExist(getCompany().getCustomerGroups(),
 				customerGroup.getName())) {
-			Accounter.showError("Customer Group Already Exists");
+			Accounter.showError(Accounter.constants()
+					.customerGroupAlreadyExists());
 		} else {
 			createObject(customerGroup);
 		}
@@ -146,7 +147,8 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 				company.getCustomerGroups(),
 				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
 						.toString())) ? false : true))) {
-			Accounter.showError("Customer Group Already Exists");
+			Accounter.showError(Accounter.constants()
+					.customerGroupAlreadyExists());
 		} else {
 			customerGroup.setName(inputDlg.getTextValueByIndex(0));
 			alterObject(customerGroup);

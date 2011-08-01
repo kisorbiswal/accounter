@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
  * 
  */
 
-
 public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 
 	private FlexTable flexTable;
@@ -93,8 +92,7 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 
 		Label headerLabel = new Label();
 		headerLabel.setHeight("22px");
-		headerLabel.setText(Accounter.constants()
-				.salesOrderDetails());
+		headerLabel.setText(Accounter.constants().salesOrderDetails());
 		headerLabel.setStylePrimaryName("headerlabel");
 		add(headerLabel);
 
@@ -129,13 +127,11 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 		itemsLabel.setStyleName("selectedview_labelstyle");
 
 		Label billingAddress = new Label();
-		billingAddress.setText(Accounter.constants()
-				.billingAddress());
+		billingAddress.setText(Accounter.constants().billingAddress());
 		billingAddress.setStyleName("selectedview_labelstyle");
 
 		Label shippingAddress = new Label();
-		shippingAddress.setText(Accounter.constants()
-				.shippingAddress());
+		shippingAddress.setText(Accounter.constants().shippingAddress());
 		shippingAddress.setStyleName("selectedview_textarea_label");
 
 		billingAdress = new HTML("");
@@ -146,8 +142,7 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 
 		itemsGrid = new ItemsGrid(false);
 		itemsGrid.init();
-		itemsGrid.addEmptyMessage(Accounter.constants()
-				.noProductstoshow());
+		itemsGrid.addEmptyMessage(Accounter.constants().noProductstoshow());
 
 		flexTable.setWidget(1, 0, orderNumberLabel);
 		flexTable.setWidget(2, 0, conLabel);
@@ -177,8 +172,8 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 	 */
 	public void setEmptyMessage() {
 		flexTable.clear();
-		flexTable.setWidget(0, 0, new HTML(
-				"Select a TaskNote to see the details"));
+		flexTable.setWidget(0, 0, new HTML(Accounter.constants()
+				.selectATaskNotetoSeeTheDetails()));
 		cellFormatter.setHeight(0, 0, "300px");
 		cellFormatter.setAlignment(0, 0, ALIGN_CENTER, ALIGN_MIDDLE);
 	}

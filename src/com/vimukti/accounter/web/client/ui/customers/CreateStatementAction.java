@@ -17,7 +17,7 @@ public class CreateStatementAction extends Action {
 		super(text);
 	}
 
-	//	
+	//
 	// @Override
 	// public ParentCanvas getView() {
 	// // its not using any where
@@ -26,7 +26,7 @@ public class CreateStatementAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		Accounter.showError("Not yet Implemented.........!");
+		Accounter.showError(Accounter.constants().notyetimplemented());
 
 	}
 
