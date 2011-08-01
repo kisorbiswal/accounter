@@ -2,12 +2,12 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class AmountsDueToVendorServerReport extends
 		AbstractFinaneReport<AmountsDueToVendor> {
 
-	
 	private String sectionName = "";
 
 	public AmountsDueToVendorServerReport(
@@ -15,7 +15,8 @@ public class AmountsDueToVendorServerReport extends
 		this.reportView = reportView;
 	}
 
-	public AmountsDueToVendorServerReport(long startDate, long endDate,int generationType) {
+	public AmountsDueToVendorServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -28,13 +29,18 @@ public class AmountsDueToVendorServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getVendorString("Supplier Name", "Vendor Name"),
-				"Active", "City", "State", "Zip Code", "Phone", "Balance" };
+		return new String[] {
+				getVendorString(Accounter.constants().supplierName(), Accounter
+						.constants().vendorName()),
+				Accounter.constants().active(), Accounter.constants().city(),
+				Accounter.constants().state(), Accounter.constants().zipCode(),
+				Accounter.constants().phone(), Accounter.constants().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getVendorString("Amount Due To Supplier", "Amount Due To Vendor");
+		return getVendorString(Accounter.constants().amountDueToSupplier(),
+				Accounter.constants().amountDueToVendor());
 	}
 
 	@Override
@@ -61,7 +67,8 @@ public class AmountsDueToVendorServerReport extends
 		case 0:
 			return record.getName();
 		case 1:
-			return record.getIsActive() ? "Yes" : "No";
+			return record.getIsActive() ? Accounter.constants().yes()
+					: Accounter.constants().no();
 		case 2:
 			return record.getCity();
 		case 3:
@@ -79,7 +86,7 @@ public class AmountsDueToVendorServerReport extends
 	@Override
 	public void processRecord(AmountsDueToVendor record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 6 });
+			addSection("", Accounter.constants().total(), new int[] { 6 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -99,8 +106,12 @@ public class AmountsDueToVendorServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getVendorString("Supplier Name", "Vendor Name"),
-				"Active", "City", "State", "Zip Code", "Phone", "Balance" };
+		return new String[] {
+				getVendorString(Accounter.constants().supplierName(), Accounter
+						.constants().vendorName()),
+				Accounter.constants().active(), Accounter.constants().city(),
+				Accounter.constants().state(), Accounter.constants().zipCode(),
+				Accounter.constants().phone(), Accounter.constants().balance() };
 	}
 
 }

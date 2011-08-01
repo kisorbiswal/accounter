@@ -4278,4 +4278,8 @@ public interface AccounterConstants extends Constants {
 
 	public String pleaseselectVATIteminTransGrid();
 
+	public String APAgeingDetails();
+
+	public String noDot();
+
 }

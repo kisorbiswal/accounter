@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -51,13 +52,15 @@ public class APAgingSummaryServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { "Creditor", "0-30 Days", "31-60 Days",
-				"61-90 Days", "Older", "Total Balance" };
+		return new String[] { Accounter.constants().creditor(),
+				Accounter.constants().days30(), Accounter.constants().days60(),
+				Accounter.constants().days90(), Accounter.constants().older(),
+				Accounter.constants().totalBalance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "A/P Ageing Summary:";
+		return Accounter.constants().APAgeingSummary();
 	}
 
 	@Override
@@ -91,7 +94,8 @@ public class APAgingSummaryServerReport extends
 	@Override
 	public void processRecord(DummyDebitor record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 1, 2, 3, 4, 5 });
+			addSection("", Accounter.constants().total(), new int[] { 1, 2, 3,
+					4, 5 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -224,8 +228,10 @@ public class APAgingSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Creditor", "0-30 Days", "31-60 Days",
-				"61-90 Days", "Older", "Total Balance" };
+		return new String[] { Accounter.constants().creditor(),
+				Accounter.constants().days30(), Accounter.constants().days60(),
+				Accounter.constants().days90(), Accounter.constants().older(),
+				Accounter.constants().totalBalance() };
 	}
 
 }

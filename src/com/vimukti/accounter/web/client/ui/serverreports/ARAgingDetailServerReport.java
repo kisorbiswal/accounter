@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -16,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
  */
 public class ARAgingDetailServerReport extends
 		AbstractFinaneReport<AgedDebtors> {
-	
+
 	private String sectionName = "";
 	private List<String> types = new ArrayList<String>();
 	private List<String> sectiontypes = new ArrayList<String>();
@@ -42,8 +43,10 @@ public class ARAgingDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Name", "Date", " Type", "No.", "Ageing",
-				"Amount"
+		return new String[] { Accounter.constants().name(),
+				Accounter.constants().date(), Accounter.constants().type(),
+				Accounter.constants().noDot(), Accounter.constants().ageing(),
+				Accounter.constants().amount()
 		// FinanceApplication.constants().reference(),
 		// FinanceApplication.constants().Void(),
 		// FinanceApplication.constants().dueDate(),
@@ -53,7 +56,7 @@ public class ARAgingDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return "A/R Ageing Details:";
+		return Accounter.constants().ARAgeingDetails();
 	}
 
 	@Override
@@ -192,16 +195,15 @@ public class ARAgingDetailServerReport extends
 		return true;
 	}
 
-	
 	private void addCurrent(AgedDebtors record) {
 		if (!sectiontypes.contains("Current")) {
-			addTypeSection("Current", "");
+			addTypeSection(Accounter.constants().current(), "");
 		}
 	}
 
 	private boolean addOneTothirty(AgedDebtors record) {
 		if (!sectiontypes.contains("0-30 Days")) {
-			addTypeSection("0-30 Days", "");
+			addTypeSection(Accounter.constants().days30(), "");
 			return false;
 		}
 		return true;
@@ -209,7 +211,7 @@ public class ARAgingDetailServerReport extends
 
 	private boolean addThirtyToSixty(AgedDebtors record) {
 		if (!sectiontypes.contains("31-60 Days")) {
-			addTypeSection("31-60 Days", "");
+			addTypeSection(Accounter.constants().days60(), "");
 			return false;
 		}
 		return true;
@@ -218,7 +220,7 @@ public class ARAgingDetailServerReport extends
 
 	private boolean addSixtyTo90(AgedDebtors record) {
 		if (!sectiontypes.contains("61-90 Days")) {
-			addTypeSection("61-90 Days", "");
+			addTypeSection(Accounter.constants().days90(), "");
 			return false;
 		}
 		return true;
@@ -227,7 +229,7 @@ public class ARAgingDetailServerReport extends
 
 	private boolean addGreaterThan90(AgedDebtors record) {
 		if (!sectiontypes.contains("Older")) {
-			addTypeSection("Older", "");
+			addTypeSection(Accounter.constants().older(), "");
 			return false;
 		}
 		return true;
@@ -236,7 +238,7 @@ public class ARAgingDetailServerReport extends
 
 	private boolean addTotalBalance(AgedDebtors record) {
 		if (!sectiontypes.contains("Total Balance")) {
-			addTypeSection("Total Balance", "");
+			addTypeSection(Accounter.constants().totalBalance(), "");
 			return false;
 		}
 		return true;
@@ -250,7 +252,7 @@ public class ARAgingDetailServerReport extends
 	public void addTypeSection(String title, String bottomTitle) {
 		if (!sectiontypes.contains(title)) {
 			addSection(new String[] { title }, new String[] { "", "", "", "",
-					"Total" }, new int[] { 5 });
+					Accounter.constants().total() }, new int[] { 5 });
 			types.add(title);
 			sectiontypes.add(title);
 		}
@@ -426,12 +428,14 @@ public class ARAgingDetailServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return "All";
+		return Accounter.constants().all();
 	}
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Name", "Date", " Type", "No.", "Ageing",
-				"Amount" };
+		return new String[] { Accounter.constants().name(),
+				Accounter.constants().date(), Accounter.constants().type(),
+				Accounter.constants().noDot(), Accounter.constants().ageing(),
+				Accounter.constants().amount() };
 	}
 }
