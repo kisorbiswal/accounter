@@ -27,7 +27,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean useAccountNumbers;
 
 	boolean useClasses;
-
+	private boolean salesOrderEnabled;
 	boolean useJobs;
 
 	boolean useChangeLog;
@@ -626,5 +626,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 */
 	public void setDoProductShipMents(boolean doProductShipMents) {
 		this.doProductShipMents = doProductShipMents;
+	}
+
+	public boolean isSalesOrderEnabled() {
+		return salesOrderEnabled;
+	}
+
+	public void setSalesOrderEnabled(boolean salesOrderEnabled) {
+		this.salesOrderEnabled = salesOrderEnabled;
 	}
 }
