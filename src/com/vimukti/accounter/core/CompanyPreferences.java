@@ -111,8 +111,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 	boolean trackVAT = true;
 	String VATtaxAgencyName = AccounterConstants.DEFAULT_VAT_AGENCY_NAME;
 	public long id;
-	// decimal character declaration.
-	public static final String decimalCharacter = ".";
 
 	// String legalName = "";
 
