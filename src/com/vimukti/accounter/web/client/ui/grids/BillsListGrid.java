@@ -115,8 +115,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 				showWarningDialog(obj, this.getAccounterCoreType(obj),
 						this.getTransactionID(obj), col);
 			} else {
-				Accounter
-						.showError("This Expense can't be void, because it is not Approved");
+				Accounter.showError(Accounter.constants()
+						.expensecantbevoiditisApproved());
 			}
 		}
 		// else if (col == 7) {

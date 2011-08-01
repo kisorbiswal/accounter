@@ -36,6 +36,7 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -299,8 +300,8 @@ public abstract class ListGrid<T> extends CustomTable {
 		PopupPanel popupPanel = new PopupPanel();
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		TextItem textField = new TextItem("Quantity");
-		SelectCombo selectCombo = new SelectCombo("units");
+		TextItem textField = new TextItem(Accounter.constants().quantity());
+		SelectCombo selectCombo = new SelectCombo(Accounter.constants().units());
 		selectCombo.setWidth("50%");
 		DynamicForm dynamicForm = new DynamicForm();
 		dynamicForm.setNumCols(4);

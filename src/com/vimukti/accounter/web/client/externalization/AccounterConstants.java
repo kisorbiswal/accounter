@@ -4248,4 +4248,34 @@ public interface AccounterConstants extends Constants {
 
 	public SafeHtml aboutThisFieldHelp();
 
+	public String doyouwanttoDelete();
+
+	public String wecantDeleteParticipatinginTransactions();
+
+	public String expensecantbevoiditisApproved();
+
+	public String invalidBusinessPhoneVal();
+
+	public String totalVAT();
+
+	public String vatitemslctdalreadyusedinVATEnterdiffVATItem();
+
+	public String columnShouldntbeEmptyInitColumns();
+
+	public String youcantvoidJournalEntrycreatedbyrunningDeprecation();
+
+	public String units();
+
+	public String pleaseenterthenote();
+
+	public String unavailabel();
+
+	public String noDiscountAccountSelected();
+
+	public String noCreditsForThisVendor();
+
+	public String youdnthaveBalToApplyCredits();
+
+	public String pleaseselectVATIteminTransGrid();
+
 }

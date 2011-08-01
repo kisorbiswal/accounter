@@ -11,4 +11,6 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseEnterHTML(String title);
 
+	public String failedTogetCreditsListAndPayments(String name);
+
 }

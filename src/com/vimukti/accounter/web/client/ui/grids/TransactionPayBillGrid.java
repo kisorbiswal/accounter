@@ -51,7 +51,6 @@ public class TransactionPayBillGrid extends
 	public Stack<Map<Integer, Object>> creditsStack;
 	public Stack<Map<Integer, Object>> revertedCreditsStack;
 
-	
 	private boolean hasRecords;
 	private Stack<Map<Integer, Map<Integer, Object>>> tobeReverCredittStk = new Stack<Map<Integer, Map<Integer, Object>>>();
 	private ArrayList<Map<Integer, Object>> pendingRevertedCredit = new ArrayList<Map<Integer, Object>>();
@@ -282,7 +281,6 @@ public class TransactionPayBillGrid extends
 			return 109;
 	}
 
-	
 	public CustomCombo getCustomCombo(int colIndex) {
 		return null;
 	}
@@ -301,9 +299,9 @@ public class TransactionPayBillGrid extends
 				new AccounterAsyncCallback<List<ClientCreditsAndPayments>>() {
 
 					public void onException(AccounterException caught) {
-						Accounter
-								.showInformation("Failed to Get List of Credits and Payments for "
-										+ vendor.getName());
+						Accounter.showInformation(Accounter.messages()
+								.failedTogetCreditsListAndPayments(
+										vendor.getName()));
 
 						gotCreditsAndPayments = false;
 						return;
@@ -368,7 +366,8 @@ public class TransactionPayBillGrid extends
 						paybillView.adjustPaymentValue(selectedObject);
 						updateFootervalues(selectedObject);
 					} else {
-						Accounter.showError("No DiscountAccount Selected");
+						Accounter.showError(Accounter.constants()
+								.noDiscountAccountSelected());
 						return false;
 					}
 
@@ -587,7 +586,8 @@ public class TransactionPayBillGrid extends
 			creditsAndPaymentsDialiog.show();
 
 		} else {
-			Accounter.showInformation("No Credits for this vendor!!");
+			Accounter.showInformation(Accounter.constants()
+					.noCreditsForThisVendor());
 		}
 
 	}
@@ -648,7 +648,8 @@ public class TransactionPayBillGrid extends
 
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception("You don't have balance to apply credits");
+			throw new Exception(Accounter.constants()
+					.youdnthaveBalToApplyCredits());
 	}
 
 	/* A POJO class which holds the credits of a paybill record temporarly */

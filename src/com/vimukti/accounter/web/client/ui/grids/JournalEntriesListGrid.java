@@ -98,7 +98,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 	@Override
 	protected String[] getColumns() {
-		companyConstants =Accounter.constants();
+		companyConstants = Accounter.constants();
 		return new String[] { companyConstants.voucherNo(),
 				companyConstants.dateCreated(), companyConstants.memo(),
 				companyConstants.amount(), companyConstants.isVoided()
@@ -119,11 +119,9 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 				showWarningDialog(obj, col);
 			} else if (obj.getReference().equals(
 					AccounterConstants.JOURNAL_ENTRY_FOR_DEPRECIATION)) {
-				Accounter
-						.showWarning(
-								"You cannot void this journal entry. This entry is created by running depreciation. "
-										+ "Roll back depreciation to void this entry",
-								AccounterType.ERROR);
+				Accounter.showWarning(Accounter.constants()
+						.youcantvoidJournalEntrycreatedbyrunningDeprecation(),
+						AccounterType.ERROR);
 			}
 
 		}
@@ -139,11 +137,9 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	private void showWarningDialog(final ClientJournalEntry obj, final int col) {
 		String msg = null;
 		if (col == 4 && !obj.isVoid()) {
-			msg = Accounter.constants()
-					.doyouwanttoVoidtheTransaction();
+			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
 		} else if (col == 5) {
-			msg = Accounter.constants()
-					.doyouwanttoDeletetheTransaction();
+			msg = Accounter.constants().doyouwanttoDeletetheTransaction();
 
 		}
 		Accounter.showWarning(msg, AccounterType.WARNING,
@@ -173,7 +169,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	}
 
 	// protected void voidTransaction(final ClientJournalEntry obj) {
-	// AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
+	// AccounterAsyncCallback<Boolean> callback = new
+	// AccounterAsyncCallback<Boolean>() {
 	//
 	// @Override
 	// public void onException(AccounterException caught) {

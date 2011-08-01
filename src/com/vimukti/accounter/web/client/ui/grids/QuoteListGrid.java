@@ -50,7 +50,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			String salesPerson = clientSalesPerson != null ? clientSalesPerson
 					.getFirstName() : "";
 			if (salesPerson == null)
-				salesPerson = "Un-Available";
+				salesPerson = Accounter.constants().unavailabel();
 
 			switch (col) {
 			case 0:

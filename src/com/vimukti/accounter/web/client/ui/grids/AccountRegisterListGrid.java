@@ -192,10 +192,10 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 
 	}
 
-	
 	private void showWarningDialog(final AccountRegister obj) {
-		Accounter.showWarning("Do you want to Void the Transaction",
-				AccounterType.WARNING, new ErrorDialogHandler() {
+		Accounter.showWarning(Accounter.constants()
+				.doyouwanttoVoidtheTransaction(), AccounterType.WARNING,
+				new ErrorDialogHandler() {
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {
@@ -218,7 +218,8 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	}
 
 	protected void voidTransaction(final AccountRegister obj) {
-		// AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
+		// AccounterAsyncCallback<Boolean> callback = new
+		// AccounterAsyncCallback<Boolean>() {
 		//
 		// @Override
 		// public void onException(AccounterException caught) {

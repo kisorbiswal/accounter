@@ -143,15 +143,15 @@ public class VendorTransactionUSGrid extends
 										.isTaxable());
 							else
 								selectedObject.setTaxable(false);
-							setText(currentRow, currentCol, selectItem
-									.getName());
+							setText(currentRow, currentCol,
+									selectItem.getName());
 							if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 								selectedObject.setTaxCode(selectItem
 										.getTaxCode() != 0 ? selectItem
 										.getTaxCode() : 0);
 							}
-							editComplete(selectedObject, selectItem
-									.getPurchasePrice(), 4);
+							editComplete(selectedObject,
+									selectItem.getPurchasePrice(), 4);
 
 							// it should be here only for vat calculations(it
 							// needs line total for this,linetotal calculated in
@@ -181,15 +181,15 @@ public class VendorTransactionUSGrid extends
 										.isTaxable());
 							else
 								selectedObject.setTaxable(false);
-							setText(currentRow, currentCol, selectItem
-									.getName());
+							setText(currentRow, currentCol,
+									selectItem.getName());
 							if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 								selectedObject.setTaxCode(selectItem
 										.getTaxCode() != 0 ? selectItem
 										.getTaxCode() : 0);
 							}
-							editComplete(selectedObject, selectItem
-									.getPurchasePrice(), 4);
+							editComplete(selectedObject,
+									selectItem.getPurchasePrice(), 4);
 
 							// it should be here only for vat calculations(it
 							// needs line total for this,linetotal calculated in
@@ -365,8 +365,7 @@ public class VendorTransactionUSGrid extends
 					.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
 							.getTaxCode()
 							: transactionView.vendor.getTAXCode() != 0 ? transactionView.vendor
-									.getTAXCode()
-									: ztaxCodeid);
+									.getTAXCode() : ztaxCodeid);
 
 		updateTotals();
 		updateData(selectedObject);
@@ -678,16 +677,14 @@ public class VendorTransactionUSGrid extends
 				return item.getQuantity();
 			else {
 				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
-						.getQuantity()
-						: "";
+						.getQuantity() : "";
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return DataUtils.getAmountAsString(item.getUnitPrice());
 			else {
 				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
-						.getAmountAsString(item.getUnitPrice())
-						: "";
+						.getAmountAsString(item.getUnitPrice()) : "";
 			}
 		case 5:
 			return DataUtils.getAmountAsString(item.getLineTotal());
@@ -825,8 +822,7 @@ public class VendorTransactionUSGrid extends
 				// }
 				// unitPriceString = unitPriceString.replaceAll(",", "");
 				Double d = Double.parseDouble(DataUtils
-						.getReformatedAmount(unitPriceString)
-						+ "");
+						.getReformatedAmount(unitPriceString) + "");
 				if (!AccounterValidator.validateGridUnitPrice(d)) {
 					item.setUnitPrice(d);
 				} else {
@@ -854,8 +850,7 @@ public class VendorTransactionUSGrid extends
 					// lineTotalAmtString.replaceAll(",",
 					// "");
 					Double lineTotal = Double.parseDouble(DataUtils
-							.getReformatedAmount(lineTotalAmtString)
-							+ "");
+							.getReformatedAmount(lineTotalAmtString) + "");
 					try {
 						if ((!AccounterValidator
 								.validateGridLineTotal(lineTotal))
@@ -932,10 +927,9 @@ public class VendorTransactionUSGrid extends
 			double lt = item.getQuantity().getValue() * item.getUnitPrice();
 			double disc = item.getDiscount();
 			if (col != 5)
-				item
-						.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-								* disc / 100))
-								: lt);
+				item.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+						* disc / 100))
+						: lt);
 		}
 		updateTotals();
 		updateData(item);
@@ -1010,23 +1004,23 @@ public class VendorTransactionUSGrid extends
 			}
 
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-10,
-						Unit.PX);
+				combo.downarrowpanel.getElement().getStyle()
+						.setMarginLeft(-10, Unit.PX);
 			} else {
 				if (this instanceof PurchaseOrderUSGrid)
-					combo.downarrowpanel.getElement().getStyle().setMarginLeft(
-							-8, Unit.PX);
+					combo.downarrowpanel.getElement().getStyle()
+							.setMarginLeft(-8, Unit.PX);
 				else
-					combo.downarrowpanel.getElement().getStyle().setMarginLeft(
-							-15, Unit.PX);
+					combo.downarrowpanel.getElement().getStyle()
+							.setMarginLeft(-15, Unit.PX);
 			}
 			break;
 		case 6:
 			// for UK
 			combo = (CustomCombo<E>) taxCodeCombo;
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
-						Unit.PX);
+				combo.downarrowpanel.getElement().getStyle()
+						.setMarginLeft(-7, Unit.PX);
 			} else {
 
 			}
@@ -1035,8 +1029,8 @@ public class VendorTransactionUSGrid extends
 			// for purchase Order
 			combo = (CustomCombo<E>) taxCodeCombo;
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				combo.downarrowpanel.getElement().getStyle().setMarginLeft(-7,
-						Unit.PX);
+				combo.downarrowpanel.getElement().getStyle()
+						.setMarginLeft(-7, Unit.PX);
 			} else {
 
 			}
@@ -1082,16 +1076,17 @@ public class VendorTransactionUSGrid extends
 			if (item.getType() != ClientTransactionItem.TYPE_COMMENT) {
 				switch (validationcount++) {
 				case 1:
-					AccounterValidator.validateGridItem(this.getColumnValue(
-							item, 1), UIUtils.getTransactionTypeName(item
-							.getType()));
+					AccounterValidator.validateGridItem(
+							this.getColumnValue(item, 1),
+							UIUtils.getTransactionTypeName(item.getType()));
 				case 2:
 					if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
 							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
 						AccounterValidator.validateGridItem(this
 								.getColumnValue(item,
 										this instanceof PurchaseOrderUKGrid ? 7
-												: 6), "Vat Code");
+												: 6), Accounter.constants()
+								.VATCode());
 						validationcount = 1;
 					} else
 						validationcount = 1;

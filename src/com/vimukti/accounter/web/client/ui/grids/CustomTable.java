@@ -106,7 +106,8 @@ public abstract class CustomTable extends VerticalPanel {
 		if (getColumns() != null)
 			this.nofCols = getColumns().length;
 		else
-			Window.alert("Column should not be empty,initColumns");
+			Window.alert(Accounter.constants()
+					.columnShouldntbeEmptyInitColumns());
 
 		this.nofCols = isMultiSelectionEnable ? nofCols + 1 : nofCols;
 
@@ -185,8 +186,8 @@ public abstract class CustomTable extends VerticalPanel {
 
 		Element par = this.header.getElement().getParentElement().cast();
 		par.addClassName("gridHeaderParent");
-		this.header.getElement().getParentElement().getStyle().setHeight(10,
-				Unit.PX);
+		this.header.getElement().getParentElement().getStyle()
+				.setHeight(10, Unit.PX);
 
 		panel = new ScrollPanel();
 		panel.getElement().removeAttribute("style");
@@ -549,11 +550,11 @@ public abstract class CustomTable extends VerticalPanel {
 
 			if (isMultiSelectionEnable) {
 				if (UIUtils.isMSIEBrowser())
-					table.getCellFormatter().getElement(row, 0).setAttribute(
-							"width", "" + 25);
+					table.getCellFormatter().getElement(row, 0)
+							.setAttribute("width", "" + 25);
 				else
-					table.getCellFormatter().getElement(row, 0).setAttribute(
-							"width", "" + 15);
+					table.getCellFormatter().getElement(row, 0)
+							.setAttribute("width", "" + 15);
 			}
 
 		} catch (Exception e) {
@@ -577,8 +578,8 @@ public abstract class CustomTable extends VerticalPanel {
 		// for (int row = 0; row < this.body.getRowCount(); row++) {
 		// adjustCellsWidth(row, body);
 		// }
-		this.body.getParent().getElement().getParentElement().addClassName(
-				"list-grid-body");
+		this.body.getParent().getElement().getParentElement()
+				.addClassName("list-grid-body");
 
 		if (isShowFooter) {
 			adjustCellsWidth(0, footer);

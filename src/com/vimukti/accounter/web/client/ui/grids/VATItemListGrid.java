@@ -29,8 +29,8 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 		for (ClientTAXItem item : this.getRecords()) {
 			Object value = this.getColumnValue(item, 0);
 			if (value == null || value == "") {
-				throw new InvalidTransactionEntryException(
-						"Please Select Valid  VAT Item in Transaction Grid");
+				throw new InvalidTransactionEntryException(Accounter
+						.constants().pleaseselectVATIteminTransGrid());
 			}
 		}
 		return true;
@@ -239,8 +239,7 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 
 	public void filterVATItems(String value) {
 		if (value != null
-				&& value.equalsIgnoreCase(Accounter.constants()
-						.purchaseType())) {
+				&& value.equalsIgnoreCase(Accounter.constants().purchaseType())) {
 			vatitemCombo.initCombo(vatitemCombo.getPurchaseWithPrcntVATItems());
 		} else {
 			vatitemCombo.initCombo(vatitemCombo.getSalesWithPrcntVATItems());

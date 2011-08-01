@@ -75,7 +75,9 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 						if (selectItem != null) {
 							if (!isPreviuslyUsed(selectItem)) {
 								Accounter
-										.showError("The VATItem selected is already used in VAT column.Please select a different VATItem");
+										.showError(Accounter
+												.constants()
+												.vatitemslctdalreadyusedinVATEnterdiffVATItem());
 							}
 							selectedObject.setVatItem(selectItem.getID());
 							setText(currentRow, currentCol,

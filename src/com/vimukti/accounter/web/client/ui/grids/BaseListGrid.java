@@ -170,7 +170,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	abstract protected int[] setColTypes();
 
 	protected void showWarnDialog(final T object) {
-		Accounter.showWarning("Do you want To Delete "
+		Accounter.showWarning(Accounter.constants().doyouwanttoDelete()
 				+ ((IAccounterCore) object).getName(), AccounterType.WARNING,
 				new ErrorDialogHandler() {
 
@@ -216,8 +216,8 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	@Override
 	public void deleteFailed(Throwable caught) {
-		Accounter
-				.showError("We Can't Delete .This might be Participating in Transactions");
+		Accounter.showError(Accounter.constants()
+				.wecantDeleteParticipatinginTransactions());
 		caught.fillInStackTrace();
 	}
 
@@ -232,7 +232,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		if (exception instanceof InvalidOperationException) {
 			Accounter.showError(exception.getMessage());
 		} else
-			Accounter.showError("Updation Failed!");
+			Accounter.showError(Accounter.constants().updationFailed());
 	}
 
 	// public long getID() {

@@ -118,7 +118,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	@Override
 	protected void onClick(ClientFixedAsset obj, int row, int col) {
-		
+
 		List<ClientFixedAsset> records = getRecords();
 		switch (col) {
 		case 5:
@@ -134,14 +134,12 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private void openHistoryView(ClientFixedAsset obj) {
 		Action action = ActionFactory.getHistoryListAction();
-		action.catagory = Accounter.constants()
-				.fixedAssetsPendingItemsList();
+		action.catagory = Accounter.constants().fixedAssetsPendingItemsList();
 		action.run(obj, true);
 	}
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(Accounter.constants()
-				.addNote(), "");
+		noteDialog = new NoteDialog(Accounter.constants().addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -244,7 +242,8 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	protected void validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
-		throw new InvalidEntryException("Please enter the note");
+		throw new InvalidEntryException(Accounter.constants()
+				.pleaseenterthenote());
 
 	}
 

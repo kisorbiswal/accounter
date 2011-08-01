@@ -35,7 +35,7 @@ public class MakeDepositTransactionGrid extends
 	private CustomerCombo customersCombo;
 	private Double totallinetotal = 0.0;
 	private Double grandTotal = 0.0;
-	
+
 	private SelectItem typeCombo;
 
 	public MakeDepositTransactionGrid() {
@@ -149,8 +149,8 @@ public class MakeDepositTransactionGrid extends
 			}
 		});
 
-		accountCombo = new MakeDepositAccountCombo(Accounter
-				.constants().accounts());
+		accountCombo = new MakeDepositAccountCombo(Accounter.constants()
+				.accounts());
 		accountCombo.setGrid(this);
 		// accountCombo.setWidth("600");
 		accountCombo
@@ -163,8 +163,7 @@ public class MakeDepositTransactionGrid extends
 					}
 				});
 		vendorsCombo = new VendorCombo(UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter
-				.constants().vendor()));
+				.constants().supplier(), Accounter.constants().vendor()));
 		vendorsCombo.setGrid(this);
 		vendorsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -175,8 +174,7 @@ public class MakeDepositTransactionGrid extends
 						setText(currentRow, currentCol, selectItem.getName());
 					}
 				});
-		customersCombo = new CustomerCombo(Accounter.constants()
-				.customer());
+		customersCombo = new CustomerCombo(Accounter.constants().customer());
 		customersCombo.setGrid(this);
 		customersCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
@@ -270,8 +268,8 @@ public class MakeDepositTransactionGrid extends
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
 			return Accounter.constants().account();
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
-			return UIUtils.getVendorString(Accounter.constants()
-					.supplier(), Accounter.constants().vendor());
+			return UIUtils.getVendorString(Accounter.constants().supplier(),
+					Accounter.constants().vendor());
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
 			return Accounter.constants().customer();
 		default:
@@ -323,13 +321,14 @@ public class MakeDepositTransactionGrid extends
 		if (value.toString().equals("Financial Account")) {
 			selectedObject
 					.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
-			setText(currentRow, currentCol, "Financial Account");
+			setText(currentRow, currentCol, Accounter.constants()
+					.financialAccount());
 		} else if (value.toString().equals("Vendor")) {
 			selectedObject.setType(ClientTransactionMakeDeposit.TYPE_VENDOR);
-			setText(currentRow, currentCol, "Vendor");
+			setText(currentRow, currentCol, Accounter.constants().vendor());
 		} else if (value.toString().equals("Customer")) {
 			selectedObject.setType(ClientTransactionMakeDeposit.TYPE_CUSTOMER);
-			setText(currentRow, currentCol, "Customer");
+			setText(currentRow, currentCol, Accounter.constants().customer());
 		}
 	}
 
@@ -438,14 +437,12 @@ public class MakeDepositTransactionGrid extends
 		switch (col) {
 		case 0:
 			if (Accounter.getCompany().getAccountingType() == 1) {
-				return new String[] {
-						Accounter.constants().financialAccount(),
+				return new String[] { Accounter.constants().financialAccount(),
 						Accounter.constants().vendor(),
 						Accounter.constants().customer(),
 						Accounter.constants().VAT() };
 			} else {
-				return new String[] {
-						Accounter.constants().financialAccount(),
+				return new String[] { Accounter.constants().financialAccount(),
 						Accounter.constants().vendor(),
 						Accounter.constants().customer() };
 			}
@@ -502,7 +499,6 @@ public class MakeDepositTransactionGrid extends
 		}
 	}
 
-	
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientTransactionMakeDeposit obj,
 			int colIndex) {

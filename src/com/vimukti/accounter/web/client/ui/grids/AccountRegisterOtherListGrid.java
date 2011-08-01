@@ -92,8 +92,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 				Accounter.constants().documentNo(),
 				Accounter.constants().increase(),
 				Accounter.constants().reduce(),
-				Accounter.constants().account(),
-				Accounter.constants().memo(),
+				Accounter.constants().account(), Accounter.constants().memo(),
 				Accounter.constants().currentBalance(),
 				Accounter.constants().isVoided() };
 	}
@@ -211,10 +210,10 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 		return 0;
 	}
 
-	
 	private void showWarningDialog(final AccountRegister obj) {
-		Accounter.showWarning("Do you want to Void the Transaction",
-				AccounterType.WARNING, new ErrorDialogHandler() {
+		Accounter.showWarning(Accounter.constants()
+				.doyouwanttoVoidtheTransaction(), AccounterType.WARNING,
+				new ErrorDialogHandler() {
 
 					@Override
 					public boolean onCancelClick() throws InvalidEntryException {

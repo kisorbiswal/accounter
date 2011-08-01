@@ -262,7 +262,6 @@ public class TransactionReceivePaymentGrid extends
 		return -1;
 	}
 
-	
 	public CustomCombo getCustomCombo(int colIndex) {
 		return null;
 	}
@@ -341,9 +340,9 @@ public class TransactionReceivePaymentGrid extends
 				new AccounterAsyncCallback<List<ClientCreditsAndPayments>>() {
 
 					public void onException(AccounterException caught) {
-						Accounter
-								.showInformation("Failed to Get List of Credits and Payments for "
-										+ customer.getName());
+						Accounter.showInformation(Accounter.messages()
+								.failedTogetCreditsListAndPayments(
+										customer.getName()));
 
 						gotCreditsAndPayments = false;
 						return;
@@ -606,7 +605,8 @@ public class TransactionReceivePaymentGrid extends
 
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception("You don't have balance to apply credits");
+			throw new Exception(Accounter.constants()
+					.youdnthaveBalToApplyCredits());
 	}
 
 	public class TempCredit {

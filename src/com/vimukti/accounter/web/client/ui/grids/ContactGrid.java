@@ -22,7 +22,7 @@ public class ContactGrid extends ListGrid<ClientContact> {
 	public void initContacts(Set<ClientContact> contactsList) {
 		ClientContact rec[] = new ClientContact[contactsList.size()];
 		int i = 0;
-		
+
 		ClientContact temp = null;
 		for (ClientContact cont : contactsList) {
 
@@ -215,7 +215,8 @@ public class ContactGrid extends ListGrid<ClientContact> {
 			return String.valueOf(phone);
 		} catch (Exception e) {
 			if (valueString.length() != 0) {
-				Accounter.showError("Invalid Business Phone Value");
+				Accounter.showError(Accounter.constants()
+						.invalidBusinessPhoneVal());
 				return "";
 			}
 		}
