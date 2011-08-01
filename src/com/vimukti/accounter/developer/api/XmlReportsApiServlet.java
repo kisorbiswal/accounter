@@ -19,10 +19,8 @@ import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
-import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
-import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -37,7 +35,6 @@ import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 import com.vimukti.accounter.web.server.AccounterReportServiceImpl;
 
 public class XmlReportsApiServlet extends HttpServlet {
@@ -74,35 +71,30 @@ public class XmlReportsApiServlet extends HttpServlet {
 
 		} else if (methodName.equals("checkdetails")) {
 			Long paymentmethod = (Long) req.getAttribute("PaymentMethod");
-			List<CheckDetailReport> checkDetailReport = accounterReportServiceImpl
+			result = accounterReportServiceImpl
 					.getCheckDetailReport(paymentmethod,
 							clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("depositdetail")) {
-			List<DepositDetail> depositDetail = accounterReportServiceImpl
-					.getDepositDetail(clientFinanceStartDate,
-							clientFinanceEndDate);
+			result = accounterReportServiceImpl.getDepositDetail(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("expensereports")) {
 			int status = (Integer) req.getAttribute("Status");
-			List<ExpenseList> expenseReportByType = accounterReportServiceImpl
-					.getExpenseReportByType(status, clientFinanceStartDate,
-							clientFinanceEndDate);
+			result = accounterReportServiceImpl.getExpenseReportByType(status,
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("creditors")) {
 			try {
-				List<DummyDebitor> creditors = accounterReportServiceImpl
-						.getCreditors(clientFinanceStartDate,
-								clientFinanceEndDate);
+				result = accounterReportServiceImpl.getCreditors(
+						clientFinanceStartDate, clientFinanceEndDate);
 			} catch (AccounterException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 		} else if (methodName.equals("ageddebtors")) {
-			List<AgedDebtors> agedDebtors = accounterReportServiceImpl
-					.getAgedDebtors(clientFinanceStartDate,
-							clientFinanceEndDate);
+			result = accounterReportServiceImpl.getAgedDebtors(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("amountsduetovendor")) {
 			List<AmountsDueToVendor> amountsDueToVendor = accounterReportServiceImpl
