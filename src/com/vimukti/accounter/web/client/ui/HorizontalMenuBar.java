@@ -61,12 +61,15 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
 			menuitem = menuBar.addItem(Accounter.constants().sales(),
 					getSalesSubMenu());
-		}
-		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
+			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		menuitem = menuBar.addItem(Accounter.messages().purchases(),
-				getPurchaseSubMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
+		}
+
+		if (ClientCompanyPreferences.get().isPurchaseOrderEnabled()) {
+			menuitem = menuBar.addItem(Accounter.messages().purchases(),
+					getPurchaseSubMenu());
+			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
+		}
 
 		// menuBar.addItem(Accounter.constants()
 		// .fixedAssets(), getFixedAssetsMenu());
@@ -570,7 +573,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				.addItem(ActionFactory.getPurchaseByVendorDetailAction());
 		purchaseMenuBar.addItem(ActionFactory.getPurchaseByItemSummaryAction());
 		purchaseMenuBar.addItem(ActionFactory.getPurchaseByItemAction());
-		purchaseMenuBar.addItem(ActionFactory.getPurchaseOpenOrderAction());
+
+		if (ClientCompanyPreferences.get().isPurchaseOrderEnabled()) {
+			purchaseMenuBar.addItem(ActionFactory.getPurchaseOpenOrderAction());
+		}
 		return purchaseMenuBar;
 	}
 
@@ -594,8 +600,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		salesMenuBar.addItem(ActionFactory.getSalesByCustomerDetailAction());
 		salesMenuBar.addItem(ActionFactory.getSalesByItemSummaryAction());
 		salesMenuBar.addItem(ActionFactory.getSalesByItemDetailAction());
-		salesMenuBar.addItem(ActionFactory.getSalesOpenOrderAction());
 
+		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+			salesMenuBar.addItem(ActionFactory.getSalesOpenOrderAction());
+		}
 		return salesMenuBar;
 	}
 

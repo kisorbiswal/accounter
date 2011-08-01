@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
@@ -44,7 +45,13 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 		super(parentView);
 		invoiceView = parentView;
 		this.estimatesAndSalesOrder = estimatesAndSalesOrder;
-		setText(Accounter.constants().quoteAndSalesOrderList());
+		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+
+			setText(Accounter.constants().quoteAndSalesOrderList());
+		} else {
+			setText(Accounter.constants().quoteList());
+
+		}
 		createControl();
 		setWidth("600");
 		show();
@@ -57,9 +64,13 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.constants()
-				.selectQuoteOrSalesOrder());
-
+		Label infoLabel = null;
+		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+			infoLabel = new Label(Accounter.constants()
+					.selectQuoteOrSalesOrder());
+		} else {
+			infoLabel = new Label(Accounter.constants().selectQuote());
+		}
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);

@@ -319,20 +319,28 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
 
-		orderNumText = new TextItem(Accounter.constants().salesorderno());
-		orderNumText.setHelpInformation(true);
-		orderNumText.setWidth(38);
-		if (transactionObject != null)
-			orderNumText.setDisabled(true);
+		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+			orderNumText = new TextItem(Accounter.constants().salesorderno());
+			orderNumText.setHelpInformation(true);
+			orderNumText.setWidth(38);
+			if (transactionObject != null)
+				orderNumText.setDisabled(true);
 
+		}
 		DynamicForm termsForm = new DynamicForm();
 		termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
-		termsForm.setFields(salesPersonCombo, payTermsSelect,
-				shippingTermsCombo, shippingMethodsCombo, dueDateItem,
-				deliveryDate, orderNumText);
+		if (!ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+			termsForm.setFields(salesPersonCombo, payTermsSelect,
+					shippingTermsCombo, shippingMethodsCombo, dueDateItem,
+					deliveryDate, orderNumText);
+		} else {
+			termsForm.setFields(salesPersonCombo, payTermsSelect,
+					shippingTermsCombo, shippingMethodsCombo, dueDateItem,
+					deliveryDate);
+		}
 		termsForm.setStyleName("align-form");
 
 		termsForm.getCellFormatter().getElement(0, 0)
@@ -774,7 +782,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		}
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
-		orderNumText.setValue(orderNum);
+		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+			orderNumText.setValue(orderNum);
+		}
 		customerTransactionGrid.setAllTransactions(itemsList);
 
 		// if (selectedEstimate == null)
@@ -847,9 +857,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				.getShippingTerm());
 		initTransactionNumber();
 
-		this.orderNumText
-				.setValue(invoiceToBeEdited.getOrderNum() != null ? invoiceToBeEdited
-						.getOrderNum() : "");
+		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+			this.orderNumText
+					.setValue(invoiceToBeEdited.getOrderNum() != null ? invoiceToBeEdited
+							.getOrderNum() : "");
+		}
 		// this.taxCode =
 		// getTaxItemGroupForTransactionItems(this.transactionItems);
 		if (customer != null && customerCombo != null) {
@@ -1023,10 +1035,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			if (priceLevel != null)
 				invoice.setPriceLevel(priceLevel.getID());
 
-			if (orderNumText.getValue() != null
-					&& !orderNumText.getValue().equals(""))
-				orderNum = orderNumText.getValue().toString();
-
+			if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+				if (orderNumText.getValue() != null
+						&& !orderNumText.getValue().equals(""))
+					orderNum = orderNumText.getValue().toString();
+			}
 			if (orderNum != null)
 				invoice.setOrderNum(orderNum);
 			// if (taxItemGroup != null)
@@ -1124,10 +1137,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			invoice.setShippingMethod(shippingMethod.getID());
 		if (priceLevel != null)
 			invoice.setPriceLevel(priceLevel.getID());
-
-		if (orderNumText.getValue() != null
-				&& !orderNumText.getValue().equals(""))
-			orderNum = orderNumText.getValue().toString();
+		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+			if (orderNumText.getValue() != null
+					&& !orderNumText.getValue().equals(""))
+				orderNum = orderNumText.getValue().toString();
+		}
 
 		if (orderNum != null)
 			invoice.setOrderNum(orderNum);
@@ -1332,7 +1346,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		}
 		selectedSalesOrder = salesOrder.getID();
 		orderNum = salesOrder.getNumber();
-		orderNumText.setValue(orderNum);
+		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+			orderNumText.setValue(orderNum);
+		}
 		customerTransactionGrid.setAllTransactions(itemsList);
 		customerTransactionGrid.refreshVatValue();
 	}
@@ -1408,7 +1424,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		priceLevelSelect.setDisabled(isEdit);
 		taxCodeSelect.setDisabled(isEdit);
 
-		orderNumText.setDisabled(isEdit);
+		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+			orderNumText.setDisabled(isEdit);
+		}
 		memoTextAreaItem.setDisabled(isEdit);
 
 		customerTransactionGrid.setDisabled(isEdit);
