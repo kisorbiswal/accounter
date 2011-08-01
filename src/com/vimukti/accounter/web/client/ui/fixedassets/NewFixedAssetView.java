@@ -773,7 +773,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				double depRate = depreciationRate.getPercentage();
 				double purchasePrice = purchasePriceTxt.getAmount();
 				ClientFinanceDate depStartDate = new ClientFinanceDate(
-						getCompany().getpreferences()
+						getCompany().getPreferences()
 								.getDepreciationStartDate());
 				depAmount = 0.0;
 				/*
@@ -815,7 +815,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	public ClientFinanceDate getDepreciationStartDate() {
-		return new ClientFinanceDate(getCompany().getpreferences()
+		return new ClientFinanceDate(getCompany().getPreferences()
 				.getDepreciationStartDate());
 	}
 

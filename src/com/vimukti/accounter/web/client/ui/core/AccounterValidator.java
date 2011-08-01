@@ -318,7 +318,7 @@ public class AccounterValidator {
 			throw new InvalidTransactionEntryException(
 					AccounterErrorType.InvalidTransactionDate);
 		if (transactionDate.before(new ClientFinanceDate(Accounter.getCompany()
-				.getpreferences().getPreventPostingBeforeDate())))
+				.getPreferences().getPreventPostingBeforeDate())))
 			throw new InvalidTransactionEntryException(
 					AccounterErrorType.InvalidDate);
 
@@ -1603,7 +1603,7 @@ public class AccounterValidator {
 	public static boolean sinceDate(ClientFinanceDate sinceDate,
 			final AbstractBaseView view) {
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(getCompany()
-				.getpreferences().getPreventPostingBeforeDate());
+				.getPreferences().getPreventPostingBeforeDate());
 
 		if (sinceDate.before(companyStartDate)) {
 			String msg;
@@ -1643,7 +1643,7 @@ public class AccounterValidator {
 			final AbstractBaseView view) throws InvalidEntryException {
 
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(getCompany()
-				.getpreferences().getPreventPostingBeforeDate());
+				.getPreferences().getPreventPostingBeforeDate());
 		if (asOfDate.before(companyStartDate)) {
 			throw new InvalidEntryException(AccounterErrorType.prior_asOfDate);
 			// return false;

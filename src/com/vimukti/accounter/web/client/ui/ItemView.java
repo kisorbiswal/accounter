@@ -109,7 +109,7 @@ public class ItemView extends BaseView<ClientItem> {
 				if (takenItem != null) {
 					taxCode.setComboItem(getCompany().getTAXCode(
 							takenItem.getTaxCode()));
-				} else if (!getCompany().getpreferences().getDoYouPaySalesTax()) {
+				} else if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
 					// vatCode.setDisabled(true);
 					List<ClientTAXCode> taxCodes = Accounter.getCompany()
 							.getActiveTaxCodes();

@@ -199,7 +199,7 @@ public class CustomerTransactionUSGrid extends CustomerTransactionGrid {
 		if (obj == null)
 			return false;
 		if (obj.getType() == TYPE_SERVICE
-				&& !Accounter.getCompany().getpreferences()
+				&& !Accounter.getCompany().getPreferences()
 						.getDoYouPaySalesTax()) {
 			if (col == 7 || col == 8)
 				return false;

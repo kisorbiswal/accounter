@@ -35,7 +35,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			if (Accounter.getCompany().getpreferences().getDoYouPaySalesTax()) {
+			if (Accounter.getCompany().getPreferences().getDoYouPaySalesTax()) {
 				menuitem = menuBar.addItem(Accounter.constants().VAT(),
 						getVATMenu());
 				ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);

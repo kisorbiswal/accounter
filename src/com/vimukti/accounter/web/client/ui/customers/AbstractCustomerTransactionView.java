@@ -1110,7 +1110,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long ztaxCodeid = 0;
-			if (getCompany().getpreferences().getDoYouPaySalesTax()) {
+			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
 						ztaxCodeid = taxCode.getID();
@@ -1131,7 +1131,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 			// transactionItem.setVatCode(zvatCodeid);
 		} else if (item.equals(Accounter.constants().product())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (getCompany().getpreferences().getDoYouPaySalesTax()) {
+			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long staxCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -1148,7 +1148,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long ztaxCodeid = 0;
-			if (getCompany().getpreferences().getDoYouPaySalesTax()) {
+			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
 						ztaxCodeid = taxCode.getID();

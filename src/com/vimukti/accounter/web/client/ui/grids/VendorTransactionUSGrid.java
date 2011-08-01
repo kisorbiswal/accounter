@@ -215,7 +215,7 @@ public class VendorTransactionUSGrid extends
 							selectedObject.setTaxable(true);
 						setText(currentRow, currentCol, selectItem.getName());
 						if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-							if (getCompany().getpreferences()
+							if (getCompany().getPreferences()
 									.getDoYouPaySalesTax())
 								setVendorTaxCode(selectedObject);
 
@@ -903,7 +903,7 @@ public class VendorTransactionUSGrid extends
 		}
 
 		if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
-				&& !getCompany().getpreferences().getDoYouPaySalesTax()) {
+				&& !getCompany().getPreferences().getDoYouPaySalesTax()) {
 			if (item.getType() == TYPE_SERVICE
 					&& item.getType() == TYPE_ACCOUNT
 					|| item.getType() == TYPE_ITEM) {
@@ -943,7 +943,7 @@ public class VendorTransactionUSGrid extends
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
 		if (obj == null)
 			return false;
-		if (!getCompany().getpreferences().getDoYouPaySalesTax()) {
+		if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
 			if (col == 6 || col == 7)
 				return false;
 		}

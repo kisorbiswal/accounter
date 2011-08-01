@@ -453,7 +453,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 								ValueChangeEvent<Boolean> event) {
 							vatRegNumber.setDisabled(!event.getValue());
 							vatRegNumber.setValue(Accounter.getCompany()
-									.getpreferences()
+									.getPreferences()
 									.getVATregistrationNumber());
 						}
 					});
@@ -467,12 +467,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 								ValueChangeEvent<Boolean> event) {
 							vatRegNumber.setDisabled(!event.getValue());
 							vatRegNumber.setValue(Accounter.getCompany()
-									.getpreferences()
+									.getPreferences()
 									.getVATregistrationNumber());
 						}
 					});
 		}
-		vatRegNumber.setValue(getCompany().getpreferences()
+		vatRegNumber.setValue(getCompany().getPreferences()
 				.getVATregistrationNumber());
 		taxgroupBtn = new AccounterButton(Accounter.constants().taxgroups());
 		// taxgroupBtn.setColSpan("*");
@@ -711,7 +711,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences.setVATregistrationNumber(vatRegNumber.getValue()
 				.toString());
 
-		clientCompany.setpreferences(companyPreferences);
+		clientCompany.setPreferences(companyPreferences);
 
 		if (!allAddresses.isEmpty()) {
 			clientCompany.setTradingAddress(allAddresses

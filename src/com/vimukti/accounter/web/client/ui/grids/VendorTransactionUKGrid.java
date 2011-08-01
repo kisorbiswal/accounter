@@ -188,7 +188,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
 		if (obj == null)
 			return false;
-		if (!Accounter.getCompany().getpreferences().getDoYouPaySalesTax()) {
+		if (!Accounter.getCompany().getPreferences().getDoYouPaySalesTax()) {
 			if (col == 6 || col == 7)
 				return false;
 		}

@@ -250,7 +250,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		Calendar startDateCal = Calendar.getInstance();
 		startDateCal
 				.setTime(new ClientFinanceDate(Accounter.getCompany()
-						.getpreferences().getDepreciationStartDate())
+						.getPreferences().getDepreciationStartDate())
 						.getDateAsObject());
 
 		Calendar toDateCal = Calendar.getInstance();

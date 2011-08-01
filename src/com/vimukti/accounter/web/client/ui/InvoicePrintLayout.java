@@ -441,7 +441,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 		PrintTemplateUtils util = new PrintTemplateUtils();
 
 		Map<String, String> detailsMap = getMap("VAT No : "
-				+ getCompany().getpreferences().getVATregistrationNumber(), ""
+				+ getCompany().getPreferences().getVATregistrationNumber(), ""
 				+ "<br/>", Accounter.constants().sortCodeColon()
 				+ getCompany().getSortCode(), "" + "<br/>", Accounter
 				.constants().bankAccountNumberColon()

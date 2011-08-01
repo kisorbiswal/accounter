@@ -83,6 +83,11 @@ public class VendorTransactionGrid extends
 		}
 	}
 
+	private ClientCompany getCompany() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	protected int getCellWidth(int index) {
 		if (index == 6 || index == 0)

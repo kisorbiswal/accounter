@@ -55,7 +55,7 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 
 	@Override
 	protected boolean isEditable(ClientTransactionItem obj, int row, int col) {
-		if (!Accounter.getCompany().getpreferences().getDoYouPaySalesTax()) {
+		if (!Accounter.getCompany().getPreferences().getDoYouPaySalesTax()) {
 			if (col == 7 || col == 8)
 				return false;
 		}

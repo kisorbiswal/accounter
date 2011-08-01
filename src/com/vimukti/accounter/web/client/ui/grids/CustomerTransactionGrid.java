@@ -288,7 +288,7 @@ public abstract class CustomerTransactionGrid extends
 						setText(currentRow, currentCol, selectItem.getName());
 						updateData(selectedObject);
 						if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-							if (getCompany().getpreferences()
+							if (getCompany().getPreferences()
 									.getDoYouPaySalesTax())
 								setCustomerTaxCode(selectedObject);
 						}
@@ -1049,7 +1049,7 @@ public abstract class CustomerTransactionGrid extends
 			// Accounter.showError(AccounterErrorType.INVALIDENTRY);
 		}
 		if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
-				&& !getCompany().getpreferences().getDoYouPaySalesTax()) {
+				&& !getCompany().getPreferences().getDoYouPaySalesTax()) {
 			if (item.getType() == TYPE_SERVICE
 					|| item.getType() == TYPE_ACCOUNT
 					|| item.getType() == TYPE_ITEM) {
@@ -1108,7 +1108,7 @@ public abstract class CustomerTransactionGrid extends
 		if (obj == null)
 			return false;
 		if (obj.getType() == TYPE_SERVICE
-				&& !getCompany().getpreferences().getDoYouPaySalesTax()) {
+				&& !getCompany().getPreferences().getDoYouPaySalesTax()) {
 			if (col == 7 || col == 8)
 				return false;
 		}

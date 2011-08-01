@@ -4368,7 +4368,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.bankAccountNo = clientCompany.getBankAccountNo();
 		this.sortCode = clientCompany.getSortCode();
 		this.preferences = serverConvertUtil.toServerObject(this.preferences,
-				clientCompany.getpreferences(),
+				clientCompany.getPreferences(),
 				HibernateUtil.getCurrentSession());
 	}
 
@@ -4386,7 +4386,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		clientCompany.setTaxId(this.taxId);
 		clientCompany.setBankAccountNo(this.bankAccountNo);
 		clientCompany.setSortCode(this.sortCode);
-		clientCompany.setpreferences(new ClientConvertUtil().toClientObject(
+		clientCompany.setPreferences(new ClientConvertUtil().toClientObject(
 				this.preferences, ClientCompanyPreferences.class));
 
 		return clientCompany;

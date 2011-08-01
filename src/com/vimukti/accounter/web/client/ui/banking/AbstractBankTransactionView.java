@@ -348,7 +348,7 @@ public abstract class AbstractBankTransactionView<T> extends
 		if (menuItem.equals(Accounter.constants().accounts())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& !getCompany().getpreferences().getDoYouPaySalesTax()) {
+					&& !getCompany().getPreferences().getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long zvatCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -362,7 +362,7 @@ public abstract class AbstractBankTransactionView<T> extends
 				// .getVATCode() != null ? vendor.getVATCode() : "") : "");
 			}
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
-					&& getCompany().getpreferences().getDoYouPaySalesTax()) {
+					&& getCompany().getPreferences().getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long svatCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -380,7 +380,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 		} else if (menuItem.equals(Accounter.constants().product())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
-			if (getCompany().getpreferences().getDoYouPaySalesTax()) {
+			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 				long svatCodeid = 0;
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -398,7 +398,7 @@ public abstract class AbstractBankTransactionView<T> extends
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long zvatCodeid = 0;
-			if (getCompany().getpreferences().getDoYouPaySalesTax()) {
+			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("S")) {
 						zvatCodeid = taxCode.getID();
