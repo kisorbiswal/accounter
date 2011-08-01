@@ -42,10 +42,8 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUKGrid;
-import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUSGrid;
-import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUKGrid;
-import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUSGrid;
+import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
+import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 import com.vimukti.accounter.web.client.ui.vendors.CashExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseView;
@@ -172,44 +170,45 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			switch (gridType) {
-			case JOURNALENTRY_TRANSACTION_GRID:
-				break;
-			case PAYSALESTAX_TRANSACTION_GRID:
-				break;
-			case TAXAGENCY_TRANSACTION_GRID:
-				break;
-			case RECIEVEPAYMENT_TRANSACTION_GRID:
-				break;
-			case PAYBILL_TRANSACTION_GRID:
-				break;
-			case MAKEDEPOSIT_TRANSACTION_GRID:
-			case VENDOR_TRANSACTION_GRID:
-				return new VendorTransactionUSGrid();
-			case CUSTOMER_TRANSACTION_GRID:
-				return new CustomerTransactionUSGrid();
-			}
-		} else {
-			switch (gridType) {
-			case JOURNALENTRY_TRANSACTION_GRID:
-				break;
-			case PAYSALESTAX_TRANSACTION_GRID:
-				break;
-			case TAXAGENCY_TRANSACTION_GRID:
-				break;
-			case RECIEVEPAYMENT_TRANSACTION_GRID:
-				break;
-			case PAYBILL_TRANSACTION_GRID:
-				break;
-			case MAKEDEPOSIT_TRANSACTION_GRID:
-				break;
-			case VENDOR_TRANSACTION_GRID:
-				return new VendorTransactionUKGrid();
-			case CUSTOMER_TRANSACTION_GRID:
-				return new CustomerTransactionUKGrid();
-			}
+		// if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		switch (gridType) {
+		case JOURNALENTRY_TRANSACTION_GRID:
+			break;
+		case PAYSALESTAX_TRANSACTION_GRID:
+			break;
+		case TAXAGENCY_TRANSACTION_GRID:
+			break;
+		case RECIEVEPAYMENT_TRANSACTION_GRID:
+			break;
+		case PAYBILL_TRANSACTION_GRID:
+			break;
+		case MAKEDEPOSIT_TRANSACTION_GRID:
+		case VENDOR_TRANSACTION_GRID:
+			return new VendorTransactionGrid();
+		case CUSTOMER_TRANSACTION_GRID:
+			return new CustomerTransactionGrid();
 		}
+		// } else {
+		// switch (gridType) {
+		// case JOURNALENTRY_TRANSACTION_GRID:
+		// break;
+		// case PAYSALESTAX_TRANSACTION_GRID:
+		// break;
+		// case TAXAGENCY_TRANSACTION_GRID:
+		// break;
+		// case RECIEVEPAYMENT_TRANSACTION_GRID:
+		// break;
+		// case PAYBILL_TRANSACTION_GRID:
+		// break;
+		// case MAKEDEPOSIT_TRANSACTION_GRID:
+		// break;
+		// case VENDOR_TRANSACTION_GRID:
+		// return new VendorTransactionUKGrid();
+		// case CUSTOMER_TRANSACTION_GRID:
+		// return new CustomerTransactionUKGrid();
+		// }
+		// }
 		return null;
 	}
 
