@@ -465,7 +465,7 @@ public class VendorTransactionGrid extends
 				}
 			}
 		}
-		if (!(this instanceof PurchaseOrderUKGrid || this instanceof PurchaseOrderUSGrid)) {
+		if (!(this instanceof PurchaseOrderGrid)) {
 			for (ClientTransactionItem item : transactionItems) {
 				item.setID(0);
 			}
@@ -1011,7 +1011,7 @@ public class VendorTransactionGrid extends
 				combo.downarrowpanel.getElement().getStyle()
 						.setMarginLeft(-10, Unit.PX);
 			} else {
-				if (this instanceof PurchaseOrderUSGrid)
+				if (this instanceof PurchaseOrderGrid)
 					combo.downarrowpanel.getElement().getStyle()
 							.setMarginLeft(-8, Unit.PX);
 				else
@@ -1088,7 +1088,7 @@ public class VendorTransactionGrid extends
 							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
 						AccounterValidator.validateGridItem(this
 								.getColumnValue(item,
-										this instanceof PurchaseOrderUKGrid ? 7
+										this instanceof PurchaseOrderGrid ? 7
 												: 6), Accounter.constants()
 								.VATCode());
 						validationcount = 1;
