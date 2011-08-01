@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RegExpValidator;
@@ -40,15 +41,13 @@ public class DataUtils {
 
 	public static Validator emailValidator() {
 		RegExpValidator validator = new RegExpValidator();
-		validator.setExpression(Accounter.constants()
-				.emailFormatExpr());
+		validator.setExpression(Accounter.constants().emailFormatExpr());
 		return validator;
 	}
 
 	public static Validator webValidator() {
 		RegExpValidator validator = new RegExpValidator();
-		validator.setExpression(Accounter.constants()
-				.webFormatExpr());
+		validator.setExpression(Accounter.constants().webFormatExpr());
 		return validator;
 	}
 
@@ -61,12 +60,12 @@ public class DataUtils {
 	}
 
 	public final static native String removeSpaces(String s)/*-{
-		var tokens=s.split(" ");
-		var resultingString="";
+		var tokens = s.split(" ");
+		var resultingString = "";
 
-		for(i = 0; i < tokens.length; i++){
-		if(!tokens[i]==" ")
-		resultingString=resultingString+tokens[i]+" ";
+		for (i = 0; i < tokens.length; i++) {
+			if (!tokens[i] == " ")
+				resultingString = resultingString + tokens[i] + " ";
 		}
 		return resultingString;
 	}-*/;
@@ -207,7 +206,6 @@ public class DataUtils {
 
 		StringBuffer buffer = null;
 
-		
 		boolean isNagative = false;
 
 		if (!DecimalUtil.isLessThan(amount, 0))
@@ -251,23 +249,31 @@ public class DataUtils {
 		 */
 
 		String string = buffer.toString();
-		if (!string.contains("."))
+		if (!string.contains(CompanyPreferences.decimalCharacter))
 			buffer.append(".00");
 		else {
-			int index = string.indexOf(".");
+			int index = string.indexOf(CompanyPreferences.decimalCharacter);
 			String sub = string.substring(index);
 			if (sub.length() == 2)
 				buffer.append("0");
 		}
-		String nextStr = buffer.substring(buffer.indexOf("."));
+		String nextStr = buffer.substring(buffer
+				.indexOf(CompanyPreferences.decimalCharacter));
 		if (buffer.charAt(0) == '-') {
 			String sign = "-";
-			return sign
-					+ insertCommas(buffer.substring(1, buffer.indexOf(".")))
+			String valueWithSign = sign
+					+ insertCommas(buffer
+							.substring(
+									1,
+									buffer.indexOf(CompanyPreferences.decimalCharacter)))
 					+ nextStr;
+			return valueWithSign;
 		}
+		String value = insertCommas(buffer.substring(0,
+				buffer.indexOf(CompanyPreferences.decimalCharacter)))
+				+ nextStr;
 
-		return insertCommas(buffer.substring(0, buffer.indexOf("."))) + nextStr;
+		return value;
 	}
 
 	private static String insertCommas(String str) {
@@ -294,8 +300,7 @@ public class DataUtils {
 			buffer = new StringBuffer("(");
 
 			buffer.append(buffer.append(com.google.gwt.i18n.client.NumberFormat
-					.getDecimalFormat().format(number))
-					+ " ");
+					.getDecimalFormat().format(number)));
 			buffer.append(" %)");
 		}
 
@@ -325,7 +330,7 @@ public class DataUtils {
 
 class NumberFormat {
 	public static final String COMMA = ",";
-	public static final String PERIOD = ".";
+	public static final String PERIOD = CompanyPreferences.decimalCharacter;
 	public static final char DASH = '-';
 	public static final char LEFT_PAREN = '(';
 	public static final char RIGHT_PAREN = ')';
@@ -694,9 +699,11 @@ class NumberFormat {
 		int index = newVal.indexOf(inputDecimalValue);
 		if (index != -1) {
 			newVal = newVal.replaceAll(re, "");
-			newVal = newVal.substring(0, newVal.indexOf(inputDecimalValue)) + PERIOD
-			 + (newVal.substring(newVal.indexOf(inputDecimalValue) + inputDecimalValue.length())
-			 .replaceAll("\\" + inputDecimalValue, ""));
+			newVal = newVal.substring(0, newVal.indexOf(inputDecimalValue))
+					+ PERIOD
+					+ (newVal.substring(newVal.indexOf(inputDecimalValue)
+							+ inputDecimalValue.length()).replaceAll("\\"
+							+ inputDecimalValue, ""));
 		}
 
 		// convert right dash and paren negatives to left dash negative
