@@ -48,10 +48,10 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUSGrid;
+import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.TaxAgencyTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUSGrid;
+import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
 
 public class WriteChequeView extends
 		AbstractBankTransactionView<ClientWriteCheck> {
@@ -204,16 +204,16 @@ public class WriteChequeView extends
 	}
 
 	public void changeGrid(ListGrid<ClientTransactionItem> gridView) {
-		if (gridView instanceof CustomerTransactionUSGrid) {
+		if (gridView instanceof CustomerTransactionGrid) {
 
-			CustomerTransactionUSGrid customerGrid = (CustomerTransactionUSGrid) gridView;
+			CustomerTransactionGrid customerGrid = (CustomerTransactionGrid) gridView;
 			setMenuRequired(true);
 			// mainVLay.remove(customerGrid);
 			// mainVLay.add(customerGrid);
-		} else if (gridView instanceof VendorTransactionUSGrid
+		} else if (gridView instanceof VendorTransactionGrid
 				|| gridView instanceof TaxAgencyTransactionGrid) {
 			@SuppressWarnings({ "unused" })
-			VendorTransactionUSGrid vendorGrid = (VendorTransactionUSGrid) gridView;
+			VendorTransactionGrid vendorGrid = (VendorTransactionGrid) gridView;
 			setMenuRequired(true);
 		}
 		// mainVLay.remove(vendorGrid);
