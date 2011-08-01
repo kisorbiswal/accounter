@@ -4196,4 +4196,29 @@ public interface AccounterConstants extends Constants {
 
 	public String zipPostalCode();
 
+	public String allowThisUsertoAddorRemoveusers();
+
+	public String chooselevelaccessyouwantthisusertohave();
+
+	public String setUserpermissions();
+
+	public String userExistsWithThisMailId();
+
+	public String readOnly();
+
+	public String draftOnly();
+
+	public String youdonthavepermissionstodeleteuser();
+
+	public String youcantDeleteThisUser();
+
+	public String failedtoloadusersList();
+
+	public String warehouseName();
+
+	public String fromWarehouse();
+
+	public String toWarehouse();
+
+	public String itemStatus();
 }

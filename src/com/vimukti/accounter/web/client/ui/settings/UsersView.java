@@ -71,7 +71,8 @@ public class UsersView extends BaseView<ClientUserInfo> {
 					@Override
 					public void onException(AccounterException caught) {
 						usersListGrid.removeLoadingImage();
-						Accounter.showError("Failed to load users list");
+						Accounter.showError(Accounter.constants()
+								.failedtoloadusersList());
 					}
 				});
 	}
@@ -120,7 +121,8 @@ public class UsersView extends BaseView<ClientUserInfo> {
 		titleLabel.removeStyleName("gwt-Label");
 		titleLabel.setStyleName(Accounter.constants().labelTitle());
 
-		inviteUserButton = new AccounterButton("Invite a User");
+		inviteUserButton = new AccounterButton(Accounter.constants()
+				.inviteUser());
 		inviteUserButton.addClickHandler(new ClickHandler() {
 
 			@Override

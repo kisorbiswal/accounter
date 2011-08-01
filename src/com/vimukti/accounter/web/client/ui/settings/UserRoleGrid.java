@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -55,9 +56,9 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 			// return getPermissionType(obj.getTypeOfPublishReports());
 		case 8:
 			if (obj.isCanDoUserManagement())
-				return "Yes";
+				return Accounter.constants().yes();
 			else
-				return "No";
+				return Accounter.constants().no();
 			// return getPermissionType(obj.getTypeOfLockDates());
 		}
 		return null;
@@ -166,11 +167,11 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 	public String getPermissionType(int type) {
 		switch (type) {
 		case 1:
-			return "Yes";
+			return Accounter.constants().yes();
 		case 3:
-			return "No";
+			return Accounter.constants().no();
 		case 2:
-			return "Read Only";
+			return Accounter.constants().readOnly();
 		default:
 			return "";
 		}
@@ -179,11 +180,11 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 	public String getPermissionTypeForExpences(int type) {
 		switch (type) {
 		case 4:
-			return "Draft Only";
+			return Accounter.constants().draftOnly();
 		case 3:
-			return "No";
+			return Accounter.constants().no();
 		case 5:
-			return "Approve";
+			return Accounter.constants().approve();
 		default:
 			return "";
 		}

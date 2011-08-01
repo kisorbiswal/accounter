@@ -46,11 +46,11 @@ public class InviteUserView extends BaseView<ClientUser> {
 		custForm = new DynamicForm();
 
 		VerticalPanel vPanel = new VerticalPanel();
-		firstNametext = new TextItem("First Name");
+		firstNametext = new TextItem(Accounter.constants().firstName());
 		firstNametext.setRequired(true);
-		lastNametext = new TextItem("Last Name");
+		lastNametext = new TextItem(Accounter.constants().lastName());
 		lastNametext.setRequired(true);
-		emailField = new EmailField("E-Mail");
+		emailField = new EmailField(Accounter.constants().email());
 		emailField.setRequired(true);
 		emailField.addChangeHandler(new ChangeHandler() {
 
@@ -73,16 +73,18 @@ public class InviteUserView extends BaseView<ClientUser> {
 
 			}
 		});
-		userManagementBox = new CheckBox(
-				"Allow this user to add and remove users and change permissions");
+		userManagementBox = new CheckBox(Accounter.constants()
+				.allowThisUsertoAddorRemoveusers());
 		// userManagementBox.getElement().getStyle().setPadding(5, Unit.PX);
-		String choose = "Choose the level of access you want this user to have.";
+		String choose = Accounter.constants()
+				.chooselevelaccessyouwantthisusertohave();
 		Label chooseLabel = new Label(choose);
 		// chooseLabel.getElement().getStyle().setPadding(5, Unit.PX);
-		Label setPerLabel = new Label("Set the User permissions");
+		Label setPerLabel = new Label(Accounter.constants()
+				.setUserpermissions());
 		setPerLabel.addStyleName("inviteUserLabel");
 		initGrid();
-		Label manageLabel = new Label("Manage Users");
+		Label manageLabel = new Label(Accounter.constants().manageUsers());
 		manageLabel.addStyleName("inviteUserLabel");
 
 		custForm.setFields(firstNametext, lastNametext, emailField);
@@ -222,16 +224,16 @@ public class InviteUserView extends BaseView<ClientUser> {
 		if (user.getID() != 0)
 			if (!user.getEmail().equals(prevoiusEmail))
 				if (isExist(user))
-					throw new InvalidEntryException(
-							"An User already exists with this Email ID");
+					throw new InvalidEntryException(Accounter.constants()
+							.userExistsWithThisMailId());
 				else
 					alterObject(user);
 			else
 				alterObject(user);
 		else {
 			if (isExist(user))
-				throw new InvalidEntryException(
-						"An User already exists with this Email ID");
+				throw new InvalidEntryException(Accounter.constants()
+						.userExistsWithThisMailId());
 			else
 				createObject(user);
 		}

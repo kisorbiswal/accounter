@@ -162,9 +162,12 @@ public class NewBrandThemeDialog extends BaseDialog {
 										.createObject(brandingTheme,
 												NewBrandThemeDialog.this);
 							} else {
-								MainFinanceWindow.getViewManager()
+								MainFinanceWindow
+										.getViewManager()
 										.showErrorInCurrectDialog(
-												"Theme Name already exists");
+												Accounter
+														.constants()
+														.themenamealreadyexist());
 							}
 						} else
 							ViewManager.getInstance().alterObject(

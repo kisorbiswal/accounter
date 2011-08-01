@@ -34,8 +34,8 @@ public class DeleteThemeDialog extends BaseDialog {
 	private void createControls() {
 		VerticalPanel deletePanel = new VerticalPanel();
 
-		deleteHtml = new HTML("<p>Are you sure you want to delete <strong>"
-				+ brandingTheme.getThemeName() + "</strong> theme?</p>");
+		deleteHtml = new HTML(Accounter.messages().sureToDelete(
+				brandingTheme.getThemeName()));
 		undoneHtml = new HTML(Accounter.messages().undoneHtml());
 
 		okbtn.setText(Accounter.constants().deleteButton());
@@ -49,8 +49,9 @@ public class DeleteThemeDialog extends BaseDialog {
 							AccounterCoreType.BRANDINGTHEME,
 							DeleteThemeDialog.this);
 				} else
-					Accounter.showError("We Cannot Delete this theme "
-							+ brandingTheme.getThemeName());
+					Accounter.showError(Accounter
+							.messages()
+							.wecantDeleteThisTheme(brandingTheme.getThemeName()));
 
 			}
 		});

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -52,8 +53,10 @@ public class WarehouseListGrid extends BaseListGrid<ClientStockTransfer> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "Warehouse Name", "Item Name", "Available Items",
-				"Total Price" };
+		return new String[] { Accounter.constants().warehouseName(),
+				Accounter.constants().itemName(),
+				Accounter.constants().availableItems(),
+				Accounter.constants().totalPrice() };
 	}
 
 	@Override

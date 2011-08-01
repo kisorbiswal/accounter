@@ -95,8 +95,8 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 			// return "Pending";
 		case 2:
 			return obj.getLastLogin() != 0 ? DateTimeFormat.getFormat(
-					"dd MMM yyyy, hh:mm a")
-					.format(new Date(obj.getLastLogin())) : "";
+					Accounter.constants().dataTimeFormat()).format(
+					new Date(obj.getLastLogin())) : "";
 		case 3:
 			return String.valueOf(obj.getLoginCount());
 		case 4:
@@ -123,8 +123,8 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 			if (Accounter.getUser().isCanDoUserManagement()) {
 				showWarnDialog(obj);
 			} else {
-				Accounter
-						.showInformation("you dont have permissions to delete user");
+				Accounter.showInformation(Accounter.constants()
+						.youdonthavepermissionstodeleteuser());
 			}
 		}
 		/*
@@ -172,7 +172,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 			Accounter.showError(((InvalidOperationException) caught)
 					.getMessage());
 		else
-			Accounter.showError("You can't delete this user");
+			Accounter.showError(Accounter.constants().youcantDeleteThisUser());
 		caught.fillInStackTrace();
 	}
 

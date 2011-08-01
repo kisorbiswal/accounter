@@ -101,4 +101,8 @@ public interface AccounterMessages extends Messages {
 
 	public SafeHtml bodyFooter();
 
+	public SafeHtml sureToDelete(String string);
+
+	public String wecantDeleteThisTheme(String themeName);
+
 }
