@@ -24,7 +24,6 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 
 	private void initializeStream() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public static XmlSerializationFactory getInstance() {
