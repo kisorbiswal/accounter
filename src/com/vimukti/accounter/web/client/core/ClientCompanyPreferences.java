@@ -90,6 +90,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	int endingPeriodForVATreporting = VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC;
 	boolean reportVATonAccuralBasis = true;
 
+	private String decimalCharacte = ".";
+
 	// String legalName;
 
 	/**
@@ -565,6 +567,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setLastDepreciationDate(long lastDepreciationDate) {
 		this.lastDepreciationDate = lastDepreciationDate;
+	}
+
+	public String getDecimalCharacter() {
+		return decimalCharacte;
+
 	}
 
 	@Override
