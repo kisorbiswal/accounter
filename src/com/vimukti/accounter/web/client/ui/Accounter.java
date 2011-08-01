@@ -206,22 +206,22 @@ public class Accounter implements EntryPoint {
 
 	public static FinanceImages getFinanceImages() {
 		if (financeImages == null) {
-			financeImages = (FinanceImages) GWT.create(FinanceImages.class);
+			// financeImages = (FinanceImages) GWT.create(FinanceImages.class);
 		}
 		return financeImages;
 	}
 
 	public static FinanceMenuImages getFinanceMenuImages() {
 		if (financeMenuImages == null) {
-			financeMenuImages = (FinanceMenuImages) GWT
-					.create(FinanceMenuImages.class);
+			// financeMenuImages = (FinanceMenuImages) GWT
+			// .create(FinanceMenuImages.class);
 		}
 		return financeMenuImages;
 	}
 
 	public static ThemeImages getThemeImages() {
 		if (themeImages == null) {
-			themeImages = (ThemeImages) GWT.create(ThemeImages.class);
+			// themeImages = (ThemeImages) GWT.create(ThemeImages.class);
 		}
 		return themeImages;
 	}

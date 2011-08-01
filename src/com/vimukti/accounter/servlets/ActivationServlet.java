@@ -23,17 +23,24 @@ public class ActivationServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	// private static final String VIEW = "/WEB-INF/resetpassword.jsp";
-	private static final String VALID_ACTIVATION_CODE_VIEW = "/WEB-INF/activation.jsp";
+	private static final String VIEW = "/WEB-INF/activation.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		dispatch(req, resp, VIEW);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
 		// get the token
 		LOG.info(req);
 		String token = req.getParameter("code");
 
 		if (token == null) {
-			dispatch(req, resp, VALID_ACTIVATION_CODE_VIEW);
+			dispatch(req, resp, VIEW);
 		}
 
 		// get activation record
@@ -88,12 +95,6 @@ public class ActivationServlet extends BaseServlet {
 			}
 		}
 
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		doGet(req, resp);
 	}
 
 	private void deleteActivationTokens(String emailId) {

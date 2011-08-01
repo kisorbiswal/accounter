@@ -312,7 +312,7 @@ public class PurchaseOrderView extends
 					setDespatchDate(newDate.getDate());
 				} catch (Exception e) {
 					Accounter.showError(Accounter.constants()
-							.InvalidDispatchDate());
+							.invalidDispatchDate());
 				}
 
 			}

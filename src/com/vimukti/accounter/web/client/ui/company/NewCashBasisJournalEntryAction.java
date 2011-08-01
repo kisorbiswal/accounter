@@ -36,7 +36,7 @@ public class NewCashBasisJournalEntryAction extends Action {
 					null, false, this);
 		} catch (Exception e) {
 			Accounter.showError(Accounter.constants()
-					.failedToLoadCashBasisJournalEntryFailed());
+					.failedToLoadCashBasisJournalEntry());
 		}
 
 	}

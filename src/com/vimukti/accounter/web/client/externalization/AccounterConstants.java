@@ -1353,7 +1353,7 @@ public interface AccounterConstants extends Constants {
 
 	public String failedToLoadBankingHome();
 
-	public String failedToLoadCashBasisJournalEntryFailed();
+	public String failedToLoadCashBasisJournalEntry();
 
 	public String failedToLoadCashPurchase();
 
@@ -1651,7 +1651,7 @@ public interface AccounterConstants extends Constants {
 
 	public String invalidDateOfBirth();
 
-	public String InvalidDispatchDate();
+	public String invalidDispatchDate();
 
 	public String invalidDueDate();
 
