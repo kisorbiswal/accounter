@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.AccounterReportServiceImpl;
 
-public class ReportsApiServlet extends HttpServlet {
+public class XmlReportsApiServlet extends HttpServlet {
 
 	/**
 	 * 
@@ -37,7 +37,7 @@ public class ReportsApiServlet extends HttpServlet {
 		String companyName = (String) req.getAttribute("companyName");
 		Session session = HibernateUtil.openSession(companyName);
 		try {
-			String methodName = getNameFromReq(req, 1);
+			String methodName = getMethodName(req);
 			SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
 
 			Date startDate = null;
@@ -398,38 +398,25 @@ public class ReportsApiServlet extends HttpServlet {
 	}
 
 	private void sendClentFinanceDateResult(HttpServletRequest req,
-			HttpServletResponse resp, List<ClientFinanceDate> list)
-			throws ServletException {
-		ApiSerializationFactory factory = getSerializationFactory(req);
+			HttpServletResponse resp, List<ClientFinanceDate> list) {
+		ApiSerializationFactory factory = getApiSerializationFactory();
 		String string = factory.serializeDateList(list);
 		sendResult(req, resp, string);
 
 	}
 
-	private ApiSerializationFactory getSerializationFactory(
-			HttpServletRequest req) throws ServletException {
-		String string = getNameFromReq(req, 2);
-		if (string.equals("xmlreports")) {
-			return new ApiSerializationFactory(false);
-		} else if (string.equals("jsonreports")) {
-			return new ApiSerializationFactory(true);
-		}
-		throw new ServletException("Wrong Sream Formate");
-	}
-
 	private void sendIAccountCoreResult(HttpServletRequest req,
 			HttpServletResponse resp, List<? extends IAccounterCore> list)
 			throws Exception {
-		ApiSerializationFactory factory = getSerializationFactory(req);
+		ApiSerializationFactory factory = getApiSerializationFactory();
 		String string = factory.serializeList(list);
 		sendResult(req, resp, string);
 
 	}
 
 	public void sendBaseReportResult(HttpServletRequest req,
-			HttpServletResponse resp, List<? extends BaseReport> list)
-			throws ServletException {
-		ApiSerializationFactory factory = getSerializationFactory(req);
+			HttpServletResponse resp, List<? extends BaseReport> list) {
+		ApiSerializationFactory factory = getApiSerializationFactory();
 		String string = factory.serializeReportsList(list);
 		sendResult(req, resp, string);
 	}
@@ -446,14 +433,19 @@ public class ReportsApiServlet extends HttpServlet {
 		}
 	}
 
+	private ApiSerializationFactory getApiSerializationFactory() {
+		// TODO
+		return null;
+	}
+
 	private AccounterReportServiceImpl getAccounterReportServiceImpl() {
 		return new AccounterReportServiceImpl();
 	}
 
-	private String getNameFromReq(HttpServletRequest req, int indexFromLast) {
+	private String getMethodName(HttpServletRequest req) {
 		String url = req.getRequestURI();
 		String[] urlParts = url.split("/");
-		String last = urlParts[urlParts.length - indexFromLast];
+		String last = urlParts[urlParts.length - 1];
 		return last.split("?")[0];
 	}
 }
