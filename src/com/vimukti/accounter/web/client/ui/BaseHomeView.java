@@ -150,7 +150,7 @@ public class BaseHomeView extends AbstractBaseView {
 				.enterExpenses(), Accounter.getFinanceImages().recordExpenses());
 		expenses.setAction(ActionFactory.getRecordExpensesAction());
 		ImageButton creditCardCharge = new ImageButton(Accounter.constants()
-				.creaditCardCharges(), Accounter.getFinanceImages()
+				.creditCardCharges(), Accounter.getFinanceImages()
 				.creditChargeExpense());
 		creditCardCharge.setAction(ActionFactory.getCreditCardChargeAction());
 
