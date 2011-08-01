@@ -794,7 +794,6 @@ public class CashSalesView extends
 
 	@Override
 	public void print() {
-
 	}
 
 	@Override
