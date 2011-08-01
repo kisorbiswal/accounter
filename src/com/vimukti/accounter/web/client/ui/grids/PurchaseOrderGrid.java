@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -15,34 +16,42 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "", Accounter.constants().name(),
-				Accounter.constants().description(),
-				Accounter.constants().quantity(),
-				Accounter.constants().unitPrice(),
-				Accounter.constants().onHand(), Accounter.constants().total(),
-				Accounter.constants().billsReceived(), " " };
-	}
+		if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				return new String[] { "", Accounter.constants().name(),
+						Accounter.constants().description(),
+						Accounter.constants().quantity(),
+						Accounter.constants().unitPrice(),
+						Accounter.constants().total(),
+						Accounter.constants().billsReceived(),
+						Accounter.constants().newVATCode(),
+						Accounter.constants().VAT(), " " };
 
-	@Override
-	protected int getCellWidth(int index) {
-		if (index == 0 || index == 8)
-			if (UIUtils.isMSIEBrowser())
-				return 25;
-			else
-				return 15;
-		if (index == 1) {
-			return 200;
+			} else {
+				return new String[] { "", Accounter.constants().name(),
+						Accounter.constants().description(),
+						Accounter.constants().quantity(),
+						Accounter.constants().unitPrice(),
+						Accounter.constants().total(),
+						Accounter.constants().billsReceived(),
+						Accounter.constants().isTaxable(), " " };
+			}
+		} else {
+			return new String[] { "", Accounter.constants().name(),
+					Accounter.constants().description(),
+					Accounter.constants().quantity(),
+					Accounter.constants().unitPrice(),
+					Accounter.constants().total(),
+					Accounter.constants().billsReceived(), " " };
 		}
-		return -1;
 	}
 
 	@Override
 	protected int getColumnType(int col) {
-		if (col == 0 || col == 8) {
-			return ListGrid.COLUMN_TYPE_IMAGE;
-		}
 
 		switch (col) {
+		case 0:
+			return ListGrid.COLUMN_TYPE_IMAGE;
 		case 1:
 			return ListGrid.COLUMN_TYPE_SELECT;
 		case 2:
@@ -56,11 +65,34 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 		case 6:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 7:
-			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
+			if (getCompany().getPreferences().getDoYouPaySalesTax())
+				return ListGrid.COLUMN_TYPE_SELECT;
+			else
+				return ListGrid.COLUMN_TYPE_IMAGE;
+		case 8:
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+				return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
+			else
+				return ListGrid.COLUMN_TYPE_IMAGE;
+		case 9:
+			return ListGrid.COLUMN_TYPE_IMAGE;
 		default:
 			return 0;
 
 		}
+	}
+
+	@Override
+	protected int getCellWidth(int index) {
+		if (index == 0 || index == 8)
+			if (UIUtils.isMSIEBrowser())
+				return 25;
+			else
+				return 15;
+		if (index == 1) {
+			return 200;
+		}
+		return -1;
 	}
 
 	@Override
@@ -92,14 +124,24 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 						.getAmountAsString(item.getUnitPrice()) : "";
 			}
 		case 5:
-			return item.getBackOrder() + "";
-		case 6:
 			return DataUtils.getAmountAsString(item.getLineTotal());
-		case 7:
+		case 6:
 			return item.getInvoiced() + "";
+		case 7:
+			if (disable) {
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					return getTAXCodeName(item.getTaxCode());
+				else
+					return item.isTaxable();
+			} else {
+				return Accounter.getFinanceMenuImages().delete();
+			}
+
 		case 8:
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+				return DataUtils.getAmountAsString(item.getVATfraction());
+		case 9:
 			return Accounter.getFinanceMenuImages().delete();
-			// return "/images/delete.png";
 		default:
 			return "";
 		}
