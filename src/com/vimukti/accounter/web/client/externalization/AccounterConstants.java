@@ -4230,11 +4230,11 @@ public interface AccounterConstants extends Constants {
 
 	public String itemStatus();
 
-	public String PAN();
+	public String pan();
 
-	public String TINNumber();
+	public String tinNumber();
 
-	public String CSTNumber();
+	public String cstNumber();
 
 	public String serviceTaxRegistrationNo();
 }
