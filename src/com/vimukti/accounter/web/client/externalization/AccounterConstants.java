@@ -2,9 +2,6 @@ package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Constants;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.IsWidget;
 
 public interface AccounterConstants extends Constants {
 
@@ -767,8 +764,6 @@ public interface AccounterConstants extends Constants {
 	public String countryRegionList();
 
 	public String countryRegionName();
-
-	public String creaditCardCharges();
 
 	public String createCompany();
 
@@ -3549,12 +3544,10 @@ public interface AccounterConstants extends Constants {
 	public String userDetails();
 
 	public String userDialog();
-	
+
 	public String userPreference();
 
 	public String users();
-
-	
 
 	public String usersTitle();
 
