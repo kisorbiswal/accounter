@@ -51,8 +51,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUKGrid;
-import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionUSGrid;
+import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
 
 /**
  * Abstract Class for All Customer Transaction Views
@@ -225,16 +224,18 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	@Override
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 		if (gridType == CUSTOMER_TRANSACTION_GRID)
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-				return new CustomerTransactionUSGrid() {
-					@Override
-					public void deleteRecord(ClientTransactionItem obj) {
-
-						super.deleteRecord(obj);
-					}
-				};
-			else
-				return new CustomerTransactionUKGrid();
+			// if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_US)
+			// return new CustomerTransactionUSGrid() {
+			// @Override
+			// public void deleteRecord(ClientTransactionItem obj) {
+			//
+			// super.deleteRecord(obj);
+			// }
+			// };
+			// else
+			// return new CustomerTransactionUKGrid();
+			return new CustomerTransactionGrid();
 
 		return null;
 	}

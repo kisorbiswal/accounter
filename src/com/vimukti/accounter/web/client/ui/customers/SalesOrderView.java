@@ -53,8 +53,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.grids.SalesOrderUKGrid;
-import com.vimukti.accounter.web.client.ui.grids.SalesOrderUSGrid;
+import com.vimukti.accounter.web.client.ui.grids.SalesOrderGrid;
 
 public class SalesOrderView extends
 		AbstractCustomerTransactionView<ClientSalesOrder> {
@@ -454,10 +453,12 @@ public class SalesOrderView extends
 
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			return new SalesOrderUSGrid();
-		else
-			return new SalesOrderUKGrid();
+		// if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US)
+		// return new SalesOrderUSGrid();
+		// else
+		// return new SalesOrderUKGrid();
+		return new SalesOrderGrid();
 
 	}
 
