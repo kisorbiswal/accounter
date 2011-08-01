@@ -2228,6 +2228,8 @@ public interface AccounterConstants extends Constants {
 
 	public String newVATGroup();
 
+	public String newCurrency();
+
 	public String newVATGroupCreated();
 
 	public String newVATItem();
