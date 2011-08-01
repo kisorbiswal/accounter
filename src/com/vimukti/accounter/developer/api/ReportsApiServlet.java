@@ -37,7 +37,7 @@ public class ReportsApiServlet extends HttpServlet {
 		String companyName = (String) req.getAttribute("companyName");
 		Session session = HibernateUtil.openSession(companyName);
 		try {
-			String methodName = getMethodName(req);
+			String methodName = getNameFromReq(req, 1);
 			SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
 
 			Date startDate = null;
@@ -399,16 +399,27 @@ public class ReportsApiServlet extends HttpServlet {
 
 	private void sendClentFinanceDateResult(HttpServletRequest req,
 			HttpServletResponse resp, List<ClientFinanceDate> list) {
-		XmlSerializationFactory factory = XmlSerializationFactory.getInstance();
+		XmlSerializationFactory factory = getSerializationFactory(req);
 		String string = factory.serializeDateList(list);
 		sendResult(req, resp, string);
 
 	}
 
+	private XmlSerializationFactory getSerializationFactory(
+			HttpServletRequest req) {
+		String string = getNameFromReq(req, 2);
+		if (string.equals("")) {
+			return null;
+		} else if (string.equals("")) {
+			return null;
+		}
+		throw new ServletException();
+	}
+
 	private void sendIAccountCoreResult(HttpServletRequest req,
 			HttpServletResponse resp, List<? extends IAccounterCore> list)
 			throws Exception {
-		XmlSerializationFactory factory = XmlSerializationFactory.getInstance();
+		XmlSerializationFactory factory = getSerializationFactory(req);
 		String string = factory.serializeList(list);
 		sendResult(req, resp, string);
 
@@ -416,7 +427,7 @@ public class ReportsApiServlet extends HttpServlet {
 
 	public void sendBaseReportResult(HttpServletRequest req,
 			HttpServletResponse resp, List<? extends BaseReport> list) {
-		XmlSerializationFactory factory = XmlSerializationFactory.getInstance();
+		XmlSerializationFactory factory = getSerializationFactory(req);
 		String string = factory.serializeReportsList(list);
 		sendResult(req, resp, string);
 	}
@@ -437,10 +448,10 @@ public class ReportsApiServlet extends HttpServlet {
 		return new AccounterReportServiceImpl();
 	}
 
-	private String getMethodName(HttpServletRequest req) {
+	private String getNameFromReq(HttpServletRequest req, int indexFromLast) {
 		String url = req.getRequestURI();
 		String[] urlParts = url.split("/");
-		String last = urlParts[urlParts.length - 1];
+		String last = urlParts[urlParts.length - indexFromLast];
 		return last.split("?")[0];
 	}
 }
