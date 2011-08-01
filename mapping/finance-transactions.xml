@@ -42,6 +42,8 @@
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="currencyCode" column="CURRENCY_CODE"></property>
+		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
 		<set name="accountTransactionEntriesList" inverse="true" cascade="save-update"
 			lazy="false">
 			<key column="TRANSACTION_ID"></key>
