@@ -64,6 +64,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	FinanceDate endOfFiscalYear = new FinanceDate();
 	boolean useForeignCurrency = true;
 	boolean isMyAccountantWillrunPayroll = false;
+	// Multi currency property
+	boolean enableMultiCurrency = false;
 
 	FinanceDate startDate = new FinanceDate();
 
@@ -624,9 +626,12 @@ public class CompanyPreferences implements IAccounterServerCore {
 		return true;
 	}
 
-	public boolean enableMultiCurrency() {
-		return false;
+	public boolean isEnableMultiCurrency() {
+		return enableMultiCurrency;
+	}
 
+	public void setEnableMultiCurrency(boolean enableMultiCurrency) {
+		this.enableMultiCurrency = enableMultiCurrency;
 	}
 
 	/*
