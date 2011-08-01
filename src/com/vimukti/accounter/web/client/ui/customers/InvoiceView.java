@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -224,7 +225,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		customerCombo.setHelpInformation(true);
 		customerCombo.setWidth("100%");
 		quoteLabel = new LabelItem();
-		if (company.isSalesOrderEnabled()) {
+		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
 			quoteLabel.setValue(Accounter.constants().quotesandsalesOrder());
 		}
 		quoteLabel.setWidth("100%");
