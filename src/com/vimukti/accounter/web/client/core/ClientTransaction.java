@@ -113,6 +113,9 @@ public abstract class ClientTransaction implements IAccounterCore {
 	boolean amountsIncludeVAT;
 
 	String transactionMakeDepositEntries;
+	
+	private String currencyCode;
+	private double currencyFactor;
 
 	// boolean showPricesWithVATOrVATInclusive;
 	// boolean EUVATExemptPayee;
@@ -720,6 +723,22 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public void setCanEdit(boolean canEdit) {
 		this.canEdit = canEdit;
+	}
+
+	public void setCurrencyCode(String currencyCode) {
+		this.currencyCode = currencyCode;
+	}
+
+	public String getCurrencyCode() {
+		return currencyCode;
+	}
+
+	public void setCurrencyFactor(double currencyFactor) {
+		this.currencyFactor = currencyFactor;
+	}
+
+	public double getCurrencyFactor() {
+		return currencyFactor;
 	}
 
 }
