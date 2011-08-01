@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -148,25 +147,20 @@ public class RestApiServlet extends HttpServlet {
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 		Transaction transaction = session.beginTransaction();
 		try {
-			developer = (Developer) (session
-					.getNamedQuery("get.developer.by.id")).setParameter("id",
-					id).uniqueResult();
+			developer = (Developer) session.get(Developer.class, id);
 			if (isSuccess) {
 				developer.succeedRequests++;
 			} else {
 				developer.failureRequests++;
 			}
-
-			SQLQuery query = session
-					.createSQLQuery("UPDATE DEVELOPER SET SUCCEEDREQUESTS = "
-							+ developer.succeedRequests
-							+ " AND FAILUREREQUESTS = "
-							+ developer.failureRequests + " WHERE ID = " + id);
-			query.executeUpdate();
+			session.saveOrUpdate(developer);
 			transaction.commit();
 		} catch (Exception e) {
-			transaction.rollback();
 			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
 		}
 
 	}
