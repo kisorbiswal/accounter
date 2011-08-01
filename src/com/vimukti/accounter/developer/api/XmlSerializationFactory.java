@@ -6,6 +6,7 @@ import java.util.List;
 import com.thoughtworks.xstream.XStream;
 import com.vimukti.accounter.api.core.ApiResult;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class XmlSerializationFactory implements ApiSerializationFactory {
@@ -23,7 +24,7 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 
 	}
 
-	public XmlSerializationFactory getInstance() {
+	public static XmlSerializationFactory getInstance() {
 		if (instance == null) {
 			instance = new XmlSerializationFactory();
 		}
@@ -61,6 +62,11 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 	@Override
 	public String serializeResult(ApiResult apiResult) {
 		return stream.toXML(apiResult);
+	}
+
+	public String serializeReportsList(List<? extends BaseReport> list) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
