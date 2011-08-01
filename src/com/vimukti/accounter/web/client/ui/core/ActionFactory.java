@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.banking.ServicesOverviewAction;
 import com.vimukti.accounter.web.client.ui.banking.SyncOnlinePayeesAction;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
+import com.vimukti.accounter.web.client.ui.combo.NewCurrencyAction;
 import com.vimukti.accounter.web.client.ui.company.AddEditSalesTaxCodeAction;
 import com.vimukti.accounter.web.client.ui.company.ChangePasswordAction;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
@@ -1268,6 +1269,10 @@ public class ActionFactory {
 
 	public static AddMeasurementAction getAddMeasurementAction() {
 		return new AddMeasurementAction(messages.getAddMeasurementName());
+	}
+
+	public static Action getNewCurrencyAction() {
+		return new NewCurrencyAction(actionsConstants.newCurrency());
 	}
 
 }
