@@ -87,9 +87,9 @@ public class InvoicePrintLayout extends VerticalPanel {
 				Accounter.constants().invoiceDate(),
 				UIUtils.dateFormat(new ClientFinanceDate(invoice
 						.getTransactionDate())),
-				Accounter.messages().invoiceNumber(), invoice.getNumber() + "",
-				Accounter.constants().orderNumber(), invoice.getOrderNum(),
-				Accounter.constants().customerNumber(),
+				Accounter.constants().invoiceNumber(),
+				invoice.getNumber() + "", Accounter.constants().orderNumber(),
+				invoice.getOrderNum(), Accounter.constants().customerNumber(),
 				getCompany().getCustomer(invoice.getCustomer()).getNumber() });
 
 		HorizontalPanel datepanel = new HorizontalPanel();

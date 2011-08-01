@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Messages;
 import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.user.client.ui.HTML;
 
 public interface AccounterMessages extends Messages {
 	public String userName(String loginUserName);
@@ -18,8 +17,6 @@ public interface AccounterMessages extends Messages {
 	public SafeHtml addComparativeButton();
 
 	public SafeHtml addNewLine();
-
-	SafeHtml chooseLogo();
 
 	public String contactDetailsHtml();
 
@@ -41,8 +38,6 @@ public interface AccounterMessages extends Messages {
 
 	SafeHtml conversionHTML();
 
-	SafeHtml customdocxTheme();
-
 	public SafeHtml creaditHTML();
 
 	public SafeHtml removeHTML();
@@ -52,8 +47,6 @@ public interface AccounterMessages extends Messages {
 	public SafeHtml nextHTML();
 
 	public SafeHtml logoutHTML();
-
-	public SafeHtml dashBoard();
 
 	SafeHtml deleteHtml();
 
@@ -71,13 +64,9 @@ public interface AccounterMessages extends Messages {
 
 	SafeHtml helpContent();
 
-	public SafeHtml helpCennter();
+	public SafeHtml helpCenter();
 
 	public SafeHtml helpHTML();
-
-	public SafeHtml purchases();
-
-	public String invoiceNumber();
 
 	SafeHtml invoiceBrandingHTML();
 

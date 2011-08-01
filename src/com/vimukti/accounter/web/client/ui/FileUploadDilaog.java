@@ -104,7 +104,7 @@ public class FileUploadDilaog extends CustomDialog {
 			}
 		});
 		helpHtml.setVisible(false);
-		chooseHtml = new HTML(Accounter.messages().chooseLogo());
+		chooseHtml = new HTML(Accounter.constants().chooseLogo());
 		final FileUpload upload = new FileUpload();
 		/* Default height of upload text box 26 */
 		upload.getElement().setAttribute("size", "33");

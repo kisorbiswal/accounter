@@ -157,7 +157,7 @@ public class MainFinanceWindow extends VerticalPanel {
 				getSalesSubMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		menuitem = menuBar.addItem(Accounter.messages().purchases(),
+		menuitem = menuBar.addItem(Accounter.constants().purchases(),
 				getPurchaseSubMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
@@ -601,7 +601,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		CustomMenuBar companyMenuBar = getSubMenu();
 
-		companyMenuBar.addItem(Accounter.messages().dashBoard(),
+		companyMenuBar.addItem(Accounter.constants().dashBoard(),
 				getDashBoardCommand());
 		companyMenuBar.addSeparator();
 

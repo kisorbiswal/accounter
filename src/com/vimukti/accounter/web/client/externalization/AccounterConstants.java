@@ -8,6 +8,14 @@ public interface AccounterConstants extends Constants {
 
 	public String a3Code();
 
+	public String dashBoard();
+
+	public String purchases();
+
+	String chooseLogo();
+
+	public String invoiceNumber();
+
 	public String a4();
 
 	public String aboutAccounting();

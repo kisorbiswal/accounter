@@ -145,7 +145,7 @@ public class Header extends HorizontalPanel {
 
 	private CustomMenuBar getHelpMenuBar() {
 		CustomMenuBar helpMenu = new CustomMenuBar();
-		helpMenu.addItem(Accounter.messages().helpCennter().asString(), true,
+		helpMenu.addItem(Accounter.messages().helpCenter().asString(), true,
 				new Command() {
 
 					@Override
