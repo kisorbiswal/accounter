@@ -30,7 +30,7 @@ public class RestApiServlet extends HttpServlet {
 	private static int STATUS_SUCCESS = 200;
 	private static int STATUS_CREATED = 201;
 	private static int STATUS_INTERNAL_ERROR = 500;
-	private static int STATUS_NOT_FOUND = 500;
+	private static int STATUS_NOT_FOUND = 404;
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
@@ -161,7 +161,7 @@ public class RestApiServlet extends HttpServlet {
 					.createSQLQuery("UPDATE DEVELOPER SET SUCCEEDREQUESTS = "
 							+ developer.succeedRequests
 							+ " AND FAILUREREQUESTS = "
-							+ developer.failureRequests + " WHERE ID=" + id);
+							+ developer.failureRequests + " WHERE ID = " + id);
 			query.executeUpdate();
 			transaction.commit();
 		} catch (Exception e) {
