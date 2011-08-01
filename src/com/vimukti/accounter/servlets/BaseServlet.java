@@ -48,7 +48,7 @@ public class BaseServlet extends HttpServlet {
 	 * 
 	 */
 	protected static final long serialVersionUID = 1L;
-	protected static final String LOCAL_DATABASE = "accounter";
+	public static final String LOCAL_DATABASE = "accounter";
 	public static final int MAIL_ID = 0;
 	public static final int NAME = 1;
 	public static final int PHONE_NO = 2;
