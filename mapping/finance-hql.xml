@@ -125,6 +125,8 @@
 	-->
 	<query name="list.VATReturn">from com.vimukti.accounter.core.VATReturn vr order by
 		vr.taxAgency.name, vr.VATperiodStartDate</query>
+	<query name="list.currency">from com.vimukti.accounter.core.Currency c order by
+		c.name</query>
 	<query name="list.TAXAdjustment">from com.vimukti.accounter.core.TAXAdjustment
 	</query>
 

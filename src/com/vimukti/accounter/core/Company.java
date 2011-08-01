@@ -295,6 +295,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// }
 
 	private Set<VATReturn> vatReturns = new HashSet<VATReturn>();
+	
+	private Set<Currency> currencies = new HashSet<Currency>();
 
 	public String getCountryCode() {
 		return countryCode;
@@ -4462,6 +4464,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 */
 	public void setRegisteredAddress(Address registeredAddress) {
 		this.registeredAddress = registeredAddress;
+	}
+
+	public void setCurrencies(Set<Currency> currencies) {
+		this.currencies = currencies;
+	}
+
+	public Set<Currency> getCurrencies() {
+		return currencies;
 	}
 
 }

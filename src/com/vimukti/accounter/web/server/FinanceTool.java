@@ -53,6 +53,7 @@ import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.CreditsAndPayments;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.CustomerPrePayment;
@@ -9846,6 +9847,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		company.setVatReturns(new HashSet<VATReturn>(session.getNamedQuery(
 				"list.VATReturn").list()));
+		company.setCurrencies(new HashSet<Currency>(session.getNamedQuery(
+				"list.currency").list()));
 
 		company.setTaxAdjustments(new ArrayList<TAXAdjustment>(session
 				.getNamedQuery("list.TAXAdjustment").list()));
