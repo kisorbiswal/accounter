@@ -398,7 +398,7 @@ public class ReportsApiServlet extends HttpServlet {
 	}
 
 	private void sendClentFinanceDateResult(HttpServletRequest req,
-			HttpServletResponse resp, List<ClientFinanceDate> list) {
+			HttpServletResponse resp, List<ClientFinanceDate> list) throws ServletException {
 		XmlSerializationFactory factory = getSerializationFactory(req);
 		String string = factory.serializeDateList(list);
 		sendResult(req, resp, string);
@@ -406,14 +406,14 @@ public class ReportsApiServlet extends HttpServlet {
 	}
 
 	private XmlSerializationFactory getSerializationFactory(
-			HttpServletRequest req) {
+			HttpServletRequest req) throws ServletException {
 		String string = getNameFromReq(req, 2);
-		if (string.equals("")) {
+		if (string.equals("xmlreports")) {
 			return null;
-		} else if (string.equals("")) {
+		} else if (string.equals("jsonreports")) {
 			return null;
 		}
-		throw new ServletException();
+		throw new ServletException("Wrong Sream Formate");
 	}
 
 	private void sendIAccountCoreResult(HttpServletRequest req,
@@ -426,7 +426,7 @@ public class ReportsApiServlet extends HttpServlet {
 	}
 
 	public void sendBaseReportResult(HttpServletRequest req,
-			HttpServletResponse resp, List<? extends BaseReport> list) {
+			HttpServletResponse resp, List<? extends BaseReport> list) throws ServletException {
 		XmlSerializationFactory factory = getSerializationFactory(req);
 		String string = factory.serializeReportsList(list);
 		sendResult(req, resp, string);
