@@ -1,6 +1,8 @@
 package com.vimukti.accounter.developer.api;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.AccounterReportServiceImpl;
@@ -23,13 +26,22 @@ public class XmlReportsApiServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String DATE_PATTERN = "";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String methodName = getMethodName(req);
-		Date startDate = getDate(req.getParameter("StartDate"));
-		Date endDate = getDate(req.getParameter("EndDate"));
+		SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+
+		Date startDate = null;
+		Date endDate = null;
+		try {
+			startDate = format.parse(req.getParameter("StartDate"));
+			endDate = format.parse(req.getParameter("EndDate"));
+		} catch (ParseException e) {
+			throw new ServletException("Wrong date formate");
+		}
 
 		AccounterReportServiceImpl accounterReportServiceImpl = getAccounterReportServiceImpl();
 
@@ -196,7 +208,11 @@ public class XmlReportsApiServlet extends HttpServlet {
 			List<ClientCustomer> transactionHistoryCustomers = accounterReportServiceImpl
 					.getTransactionHistoryCustomers(clientFinanceStartDate,
 							clientFinanceEndDate);
-			sendTransacHisCustomers(req, resp, transactionHistoryCustomers);
+			try {
+				sendIAccountCoreResult(req, resp, transactionHistoryCustomers);
+			} catch (Exception e) {
+				throw new ServletException();
+			}
 
 		} else if (methodName.equals("vatitemdetails")) {
 			String vatItemName = (String) req.getAttribute("Name");
@@ -211,7 +227,11 @@ public class XmlReportsApiServlet extends HttpServlet {
 			List<ClientVendor> transactionHistoryVendors = accounterReportServiceImpl
 					.getTransactionHistoryVendors(clientFinanceStartDate,
 							clientFinanceEndDate);
-			sendTransacHistVendors(req, resp, transactionHistoryVendors);
+			try {
+				sendIAccountCoreResult(req, resp, transactionHistoryVendors);
+			} catch (Exception e) {
+				throw new ServletException();
+			}
 
 		} else if (methodName.equals("uncategorisedamounts")) {
 			result = accounterReportServiceImpl.getUncategorisedAmountsReport(
@@ -302,7 +322,7 @@ public class XmlReportsApiServlet extends HttpServlet {
 		} else if (methodName.equals("minimumandmaximumtransactiondate")) {
 			List<ClientFinanceDate> minimumAndMaximumTransactionDate = accounterReportServiceImpl
 					.getMinimumAndMaximumTransactionDate();
-			sendMinAndMaxTransacDate(req, resp,
+			sendClentFinanceDateResult(req, resp,
 					minimumAndMaximumTransactionDate);
 
 		} else if (methodName.equals("purchaseorder")) {
@@ -340,15 +360,37 @@ public class XmlReportsApiServlet extends HttpServlet {
 			result = accounterReportServiceImpl.getProfitAndLossReport(
 					clientFinanceStartDate, clientFinanceEndDate);
 		}
-
-		sendResult(req, resp, result);
+		if (result != null) {
+			sendBaseReportResult(req, resp, result);
+		}
 
 	}
 
-	private void sendMinAndMaxTransacDate(HttpServletRequest req,
-			HttpServletResponse resp, List<ClientFinanceDate> list) {
+	private void sendClentFinanceDateResult(HttpServletRequest req,
+			HttpServletResponse resp,
+			List<ClientFinanceDate> minimumAndMaximumTransactionDate) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void sendIAccountCoreResult(HttpServletRequest req,
+			HttpServletResponse resp, List<? extends IAccounterCore> list)
+			throws Exception {
 		XmlSerializationFactory factory = XmlSerializationFactory.getInstance();
-		String string = factory.serializeMinAndMaxTrasacDate(list);
+		String string = factory.serializeList(list);
+		sendResult(req, resp, string);
+
+	}
+
+	public void sendBaseReportResult(HttpServletRequest req,
+			HttpServletResponse resp, List<? extends BaseReport> list) {
+		XmlSerializationFactory factory = XmlSerializationFactory.getInstance();
+		String string = factory.serializeReportsList(list);
+		sendResult(req, resp, string);
+	}
+
+	private void sendResult(HttpServletRequest req, HttpServletResponse resp,
+			String string) {
 		ServletOutputStream outputStream;
 		try {
 			outputStream = resp.getOutputStream();
@@ -357,64 +399,10 @@ public class XmlReportsApiServlet extends HttpServlet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-	}
-
-	private void sendTransacHistVendors(HttpServletRequest req,
-			HttpServletResponse resp, List<ClientVendor> list) {
-		XmlSerializationFactory factory = XmlSerializationFactory.getInstance();
-		String string = factory.serializeTransacHistVendorList(list);
-		ServletOutputStream outputStream;
-		try {
-			outputStream = resp.getOutputStream();
-			outputStream.write(string.getBytes());
-			outputStream.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private void sendTransacHisCustomers(HttpServletRequest req,
-			HttpServletResponse resp, List<ClientCustomer> list) {
-		XmlSerializationFactory factory = XmlSerializationFactory.getInstance();
-		String string = factory.serializeTransacHistCustomerList(list);
-		ServletOutputStream outputStream;
-		try {
-			outputStream = resp.getOutputStream();
-			outputStream.write(string.getBytes());
-			outputStream.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public void sendResult(HttpServletRequest req, HttpServletResponse resp,
-			List<? extends BaseReport> list) {
-		if (list != null) {
-			XmlSerializationFactory factory = XmlSerializationFactory
-					.getInstance();
-			String string = factory.serializeReportsList(list);
-			ServletOutputStream outputStream;
-			try {
-				outputStream = resp.getOutputStream();
-				outputStream.write(string.getBytes());
-				outputStream.flush();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
 	}
 
 	private AccounterReportServiceImpl getAccounterReportServiceImpl() {
 		// TODO
-		return null;
-	}
-
-	private Date getDate(String startDateStr) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
