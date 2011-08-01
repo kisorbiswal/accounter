@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.AccounterReportServiceImpl;
+
 public class XmlReportsApiServlet extends HttpServlet {
 
 	/**
@@ -22,75 +26,162 @@ public class XmlReportsApiServlet extends HttpServlet {
 		Date startDate = getDate(req.getParameter("StartDate"));
 		Date endDate = getDate(req.getParameter("EndDate"));
 
+		AccounterReportServiceImpl accounterReportServiceImpl = getAccounterReportServiceImpl();
+
+		ClientFinanceDate clientFinanceStartDate = new ClientFinanceDate(
+				startDate);
+		ClientFinanceDate clientFinanceEndDate = new ClientFinanceDate(endDate);
+
 		if (methodName.equals("salesbycustomersummary")) {
+			accounterReportServiceImpl.getSalesByCustomerSummary(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("payeestatements")) {
 
 		} else if (methodName.equals("agedcreditors")) {
+			accounterReportServiceImpl.getAgedCreditors(clientFinanceStartDate,
+					clientFinanceEndDate);
 
 		} else if (methodName.equals("checkdetails")) {
+			Long paymentmethod = (Long) req.getAttribute("PaymentMethod");
+			accounterReportServiceImpl.getCheckDetailReport(paymentmethod,
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("depositdetail")) {
+			accounterReportServiceImpl.getDepositDetail(clientFinanceStartDate,
+					clientFinanceEndDate);
 
 		} else if (methodName.equals("expensereports")) {
+			int status = (Integer) req.getAttribute("Status");
+			accounterReportServiceImpl.getExpenseReportByType(status,
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("creditors")) {
-
-		} else if (methodName.equals("debtorswidsamename")) {
+			try {
+				accounterReportServiceImpl.getCreditors(clientFinanceStartDate,
+						clientFinanceEndDate);
+			} catch (AccounterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		} else if (methodName.equals("ageddebtors")) {
+			accounterReportServiceImpl.getAgedDebtors(clientFinanceStartDate,
+					clientFinanceEndDate);
 
 		} else if (methodName.equals("amountsduetovendor")) {
+			accounterReportServiceImpl.getAmountsDueToVendor(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("customertransactionhistory")) {
+			accounterReportServiceImpl.getCustomerTransactionHistory(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("debitorslist")) {
+			try {
+				accounterReportServiceImpl.getDebitors(clientFinanceStartDate,
+						clientFinanceEndDate);
+			} catch (AccounterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		} else if (methodName.equals("mostprofitablecustomers")) {
+			accounterReportServiceImpl.getMostProfitableCustomers(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("reversechargelist")) {
+			String payeeName = (String) req.getAttribute("Name");
+			accounterReportServiceImpl.getReverseChargeListDetailReport(
+					payeeName, clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("purchasesbyitemdetail")) {
+			accounterReportServiceImpl.getPurchasesByItemDetail(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("reversechargelistdetails")) {
+			String payeeName = (String) req.getAttribute("Name");
+			accounterReportServiceImpl.getReverseChargeListDetailReport(
+					payeeName, clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("ecsaleslistdetails")) {
+			String payeeName = (String) req.getAttribute("Name");
+			accounterReportServiceImpl.getECSalesListDetailReport(payeeName,
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("purchasesbyitemsummary")) {
+			accounterReportServiceImpl.getPurchasesByItemSummary(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("purchasesbyvendordetail")) {
+			accounterReportServiceImpl.getPurchasesByVendorDetail(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("ecsaleslist")) {
+			accounterReportServiceImpl.getECSalesListReport(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("purchasesbyvendorsummary")) {
+			accounterReportServiceImpl.getPurchasesByVendorSummary(
+					clientFinanceStartDate, clientFinanceEndDate);
 
-		} else if (methodName.equals("salesbycustomerdetalreport")) {
+		} else if (methodName.equals("salesbycustomerdetal")) {
+			accounterReportServiceImpl.getSalesByCustomerDetailReport(
+					clientFinanceStartDate, clientFinanceEndDate);
+
+		} else if (methodName.equals("salesbycustomerdetalbyname")) {
+			String customerName = (String) req.getAttribute("Name");
+			accounterReportServiceImpl.getSalesByCustomerDetailReport(
+					customerName, clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("salesbyitemdetail")) {
+			accounterReportServiceImpl.getSalesByItemDetail(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("salesbyitemsummary")) {
+			accounterReportServiceImpl.getSalesByItemSummary(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("transactiondetailbytaxitem")) {
+			accounterReportServiceImpl.getTransactionDetailByTaxItem(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("trailbalance")) {
+			accounterReportServiceImpl.getTrialBalance(clientFinanceStartDate,
+					clientFinanceEndDate);
 
 		} else if (methodName.equals("vendortransactionhistory")) {
+			accounterReportServiceImpl.getVendorTransactionHistory(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("purchasereportitems")) {
+			accounterReportServiceImpl.getPurchaseReportItems(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("salesreportitems")) {
+			accounterReportServiceImpl.getSalesReportItems(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("transactionhistorycustomers")) {
+			accounterReportServiceImpl.getTransactionHistoryCustomers(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("vatitemdetails")) {
+			String vatItemName = (String) req.getAttribute("Name");
+			accounterReportServiceImpl.getVATItemDetailReport(vatItemName,
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("vatitemsummary")) {
+			accounterReportServiceImpl.getVATItemSummaryReport(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("transactionhistoryvendors")) {
+			accounterReportServiceImpl.getTransactionHistoryVendors(
+					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("uncategorisedamounts")) {
 
-		} else if (methodName.equals("salestaxliabilityreport")) {
+		} else if (methodName.equals("salestaxliability")) {
 
 		} else if (methodName.equals("vat100report")) {
 
@@ -102,7 +193,7 @@ public class XmlReportsApiServlet extends HttpServlet {
 
 		} else if (methodName.equals("priorvatreturnreport")) {
 
-		} else if (methodName.equals("purchasesbyvendordetail")) {
+		} else if (methodName.equals("purchasesbyvendordetailbyname")) {
 
 		} else if (methodName.equals("priorvatreturnvatdetailreport")) {
 
@@ -112,7 +203,7 @@ public class XmlReportsApiServlet extends HttpServlet {
 
 		} else if (methodName.equals("salescancelledorderreport")) {
 
-		} else if (methodName.equals("salesbyitemdetail")) {
+		} else if (methodName.equals("salesbyitemdetailbyname")) {
 
 		} else if (methodName.equals("salesordelist")) {
 
@@ -136,7 +227,7 @@ public class XmlReportsApiServlet extends HttpServlet {
 
 		} else if (methodName.equals("purchasecancelledorder")) {
 
-		} else if (methodName.equals("transactiondetailbytaxitem")) {
+		} else if (methodName.equals("transactiondetailbytaxitemname")) {
 
 		} else if (methodName.equals("balancesheetreport")) {
 
@@ -150,6 +241,11 @@ public class XmlReportsApiServlet extends HttpServlet {
 
 		}
 
+	}
+
+	private AccounterReportServiceImpl getAccounterReportServiceImpl() {
+		// TODO
+		return null;
 	}
 
 	private Date getDate(String startDateStr) {
