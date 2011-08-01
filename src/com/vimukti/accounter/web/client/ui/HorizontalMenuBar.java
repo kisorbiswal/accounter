@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -57,7 +58,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
-		if (Accounter.getCompany().isSalesOrderEnabled()) {
+		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
 			menuitem = menuBar.addItem(Accounter.constants().sales(),
 					getSalesSubMenu());
 		}
