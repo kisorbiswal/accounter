@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -957,6 +958,10 @@ public abstract class ListGrid<T> extends CustomTable {
 
 	public int getColumnsCount() {
 		return nofCols;
+	}
+
+	public ClientCompany getCompany() {
+		return Accounter.getCompany();
 	}
 
 }
