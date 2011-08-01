@@ -249,7 +249,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return agedDebtors;
 	}
 
-	public List<AgedDebtors> updateDebtorListByName(List<AgedDebtors> debtors,
+	private List<AgedDebtors> updateDebtorListByName(List<AgedDebtors> debtors,
 			AgedDebtors agedDebtors) {
 		if (debtors == null) {
 			debtors = new ArrayList<AgedDebtors>();
