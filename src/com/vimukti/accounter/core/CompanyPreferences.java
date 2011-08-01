@@ -624,6 +624,11 @@ public class CompanyPreferences implements IAccounterServerCore {
 		return true;
 	}
 
+	public boolean enableMultiCurrency() {
+		return false;
+
+	}
+
 	/*
 	 * // Accounting Preferences
 	 * 
