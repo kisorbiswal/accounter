@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -23,7 +26,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -283,9 +285,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
 		formItems.add(deliveryDate);
-
-		phoneForm.setFields(salesPersonCombo, payTermsSelect, quoteExpiryDate,
-				deliveryDate);
+		if (ClientCompanyPreferences.get().isSalesPersonEnabled()) {
+			phoneForm.setFields(salesPersonCombo, payTermsSelect,
+					quoteExpiryDate, deliveryDate);
+		} else {
+			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
+		}
 		phoneForm.setStyleName("align-form");
 		phoneForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
@@ -663,7 +668,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.customerCombo.addComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				this.salesPersonCombo.addComboItem((ClientSalesPerson) core);
+				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+					this.salesPersonCombo
+							.addComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
 				this.payTermsSelect.addComboItem((ClientPaymentTerms) core);
@@ -678,7 +685,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.customerCombo.updateComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				this.salesPersonCombo.updateComboItem((ClientSalesPerson) core);
+				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+					this.salesPersonCombo
+							.updateComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
 				this.payTermsSelect.updateComboItem((ClientPaymentTerms) core);
@@ -692,7 +701,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.customerCombo.removeComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				this.salesPersonCombo.removeComboItem((ClientSalesPerson) core);
+				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+					this.salesPersonCombo
+							.removeComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.PAYMENT_TERM)
 				this.payTermsSelect.removeComboItem((ClientPaymentTerms) core);
@@ -707,11 +718,17 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	public void onEdit() {
-		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
 
 			@Override
-			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+			public void onFailure(Throwable caught) {
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError(((InvalidOperationException) (caught))
+							.getDetailedMessage());
+				}
 			}
 
 			@Override
@@ -733,6 +750,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
 		customerCombo.setDisabled(isEdit);
+		if (ClientCompanyPreferences.get().isSalesPersonEnabled())
 		salesPersonCombo.setDisabled(isEdit);
 		payTermsSelect.setDisabled(isEdit);
 		deliveryDate.setDisabled(isEdit);
