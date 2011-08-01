@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -15,7 +16,8 @@ public class TransactionDetailByAccountServerReport extends
 
 	private String currentsectionName = "";
 
-	public TransactionDetailByAccountServerReport(long startDate, long endDate,int generationType) {
+	public TransactionDetailByAccountServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -62,7 +64,7 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return "All";
+		return Accounter.constants().all();
 	}
 
 	@Override
@@ -74,13 +76,15 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", "Name", "Date", " ", "Number", "Amount",
-				"Balance" };
+		return new String[] { "", Accounter.constants().name(),
+				Accounter.constants().date(), " ",
+				Accounter.constants().number(), Accounter.constants().amount(),
+				Accounter.constants().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "Transaction Details By Finance Category";
+		return Accounter.constants().transactionDetailsByFinanceCategory();
 	}
 
 	@Override
@@ -105,7 +109,7 @@ public class TransactionDetailByAccountServerReport extends
 	public void processRecord(TransactionDetailByAccount record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					"Total" }, new int[] { 5 });
+					Accounter.constants().total() }, new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getAccountName();
 			addSection(new String[] { sectionName }, new String[] { "" },
@@ -193,8 +197,10 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", "Name", "Date", " ", "Number", "Amount",
-				"Balance" };
+		return new String[] { "", Accounter.constants().name(),
+				Accounter.constants().date(), " ",
+				Accounter.constants().number(), Accounter.constants().amount(),
+				Accounter.constants().balance() };
 	}
 
 }

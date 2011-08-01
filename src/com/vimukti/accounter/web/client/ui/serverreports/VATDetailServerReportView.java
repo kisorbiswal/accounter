@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -53,16 +54,16 @@ public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 			return obj1.getTransactionDate().compareTo(
 					obj2.getTransactionDate());
 		case 2:
-			return UIUtils.compareInt(Integer.parseInt(obj1
-					.getTransactionNumber()), Integer.parseInt(obj2
-					.getTransactionNumber()));
+			return UIUtils.compareInt(
+					Integer.parseInt(obj1.getTransactionNumber()),
+					Integer.parseInt(obj2.getTransactionNumber()));
 		case 3:
 			return obj1.getPayeeName().compareTo(obj2.getPayeeName());
 		case 4:
 			return UIUtils.compareDouble(obj1.getVatRate(), obj2.getVatRate());
 		case 5:
-			return UIUtils.compareDouble(obj1.getNetAmount(), obj2
-					.getNetAmount());
+			return UIUtils.compareDouble(obj1.getNetAmount(),
+					obj2.getNetAmount());
 		case 6:
 			return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
 		}
@@ -140,8 +141,11 @@ public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 	 */
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Type", "Date", "No.", "VAT Rate", "Net Amount",
-				"Amount", "Balance" };
+		return new String[] { Accounter.constants().type(),
+				Accounter.constants().date(), Accounter.constants().noDot(),
+				Accounter.constants().VATRate(),
+				Accounter.constants().netAmount(),
+				Accounter.constants().amount(), Accounter.constants().balance() };
 	}
 
 	/*
@@ -150,7 +154,7 @@ public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 	 */
 	@Override
 	public String getTitle() {
-		return "VAT Detail";
+		return Accounter.constants().VATDetail();
 	}
 
 	@Override
@@ -172,8 +176,11 @@ public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Type", "Date", "No.", "VAT Rate", "Net Amount",
-				"Amount", "Balance" };
+		return new String[] { Accounter.constants().type(),
+				Accounter.constants().date(), Accounter.constants().noDot(),
+				Accounter.constants().VATRate(),
+				Accounter.constants().netAmount(),
+				Accounter.constants().amount(), Accounter.constants().balance() };
 	}
 
 }

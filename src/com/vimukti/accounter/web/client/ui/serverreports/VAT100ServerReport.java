@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -12,7 +13,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 	protected Double box3amount = 0.0D;
 	protected Double box4amount = 0.0D;
 
-	public VAT100ServerReport(long startDate, long endDate,int generationType) {
+	public VAT100ServerReport(long startDate, long endDate, int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -54,7 +55,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	@Override
 	public String getTitle() {
-		return "VAT 100";
+		return Accounter.constants().VAT100();
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return "All";
+		return Accounter.constants().all();
 	}
 
 	@Override
@@ -78,11 +79,12 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 			iniHandler();
 		if (this.row == -1) {
 			this.sectionName = "";
-			addSection("", "BOX 5 Net VAT to pay(or reclaim if negative)",
-					new int[] {});
+			addSection("", Accounter.constants()
+					.box5NetVATToPayOrReclaimIfNegative(), new int[] {});
 
-			this.sectionName = "VAT Due";
-			addSection(this.sectionName, "BOX 3 Total VAT Due", new int[] { 1 });
+			this.sectionName = Accounter.constants().VATDue();
+			addSection(this.sectionName, Accounter.constants()
+					.box3TotalVATDue(), new int[] { 1 });
 			row = 0;
 		} else if (this.row < 4) {
 			row = row + 1;
@@ -105,7 +107,6 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	}
 
-	
 	protected void iniHandler() {
 
 		this.handler = new ISectionHandler() {

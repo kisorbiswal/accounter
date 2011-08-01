@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
@@ -38,10 +39,12 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getVendorString("Supplier", "Vendor"), "Date",
-				"Type", "No",
+		return new String[] {
+				getVendorString(Accounter.constants().supplier(), Accounter
+						.constants().vendor()), Accounter.constants().date(),
+				Accounter.constants().type(), Accounter.constants().no(),
 				// FinanceApplication.constants().reference(),
-				"Account", "Amount"
+				Accounter.constants().account(), Accounter.constants().amount()
 		// FinanceApplication.constants().transactionAmount(),
 		// FinanceApplication.constants().paidAmount(),
 		// FinanceApplication.constants().discount(),
@@ -62,8 +65,9 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return UIUtils.getVendorString("Supplier Transaction History",
-				"Vendor Transaction History");
+		return UIUtils.getVendorString(Accounter.constants()
+				.supplierTransactionHistory(), Accounter.constants()
+				.vendorTransactionHistory());
 	}
 
 	@Override
@@ -116,8 +120,7 @@ public class VendorTransactionHistoryServerReport extends
 			// return record.getPaidAmount();
 		case 5:
 			return DecimalUtil.isEquals(record.getInvoicedAmount(), 0.0) ? record
-					.getPaidAmount()
-					: record.getInvoicedAmount();
+					.getPaidAmount() : record.getInvoicedAmount();
 			// return record.getDiscount();
 			// case 6:
 			// return record.getInvoicedAmount() - record.getPaidAmount()
@@ -143,12 +146,12 @@ public class VendorTransactionHistoryServerReport extends
 	public void processRecord(TransactionHistory record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					"Total" }, new int[] { 5 });
+					Accounter.constants().total() }, new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					"", "Total" }, new int[] { 5 });
+					"", Accounter.constants().total() }, new int[] { 5 });
 		}
 		// else if (sectionDepth == 2) {
 		// // Inside fist section
@@ -188,8 +191,8 @@ public class VendorTransactionHistoryServerReport extends
 	}
 
 	public int sort(TransactionHistory obj1, TransactionHistory obj2, int col) {
-		int ret = obj1.getName().toLowerCase().compareTo(
-				obj2.getName().toLowerCase());
+		int ret = obj1.getName().toLowerCase()
+				.compareTo(obj2.getName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -207,15 +210,15 @@ public class VendorTransactionHistoryServerReport extends
 			// return obj1.getReference().toLowerCase().compareTo(
 			// obj2.getReference().toLowerCase());
 		case 4:
-			return obj1.getAccount().toLowerCase().compareTo(
-					obj2.getAccount().toLowerCase());
+			return obj1.getAccount().toLowerCase()
+					.compareTo(obj2.getAccount().toLowerCase());
 		case 5:
 			if (DecimalUtil.isEquals(obj1.getInvoicedAmount(), 0.0))
-				return UIUtils.compareDouble(obj1.getPaidAmount(), obj2
-						.getPaidAmount());
+				return UIUtils.compareDouble(obj1.getPaidAmount(),
+						obj2.getPaidAmount());
 			else
-				return UIUtils.compareDouble(obj1.getInvoicedAmount(), obj2
-						.getInvoicedAmount());
+				return UIUtils.compareDouble(obj1.getInvoicedAmount(),
+						obj2.getInvoicedAmount());
 		}
 		return 0;
 	}
@@ -228,7 +231,10 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getVendorString("Supplier", "Vendor"),
-				"Date", "Type", "No", "Account", "Amount" };
+		return new String[] {
+				getVendorString(Accounter.constants().supplier(), Accounter
+						.constants().vendor()), Accounter.constants().date(),
+				Accounter.constants().type(), Accounter.constants().no(),
+				Accounter.constants().account(), Accounter.constants().amount() };
 	}
 }

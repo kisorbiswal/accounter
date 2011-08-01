@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -11,7 +12,8 @@ public class VATItemDetailServerReport extends
 	private String sectionName;
 	private String name;
 
-	public VATItemDetailServerReport(long startDate, long endDate,int generationType) {
+	public VATItemDetailServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -50,8 +52,11 @@ public class VATItemDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Type", "Date", "Number", "Name",
-				"Memo", "Amount", "Sales Price" };
+		return new String[] { Accounter.constants().type(),
+				Accounter.constants().date(), Accounter.constants().number(),
+				Accounter.constants().name(), Accounter.constants().memo(),
+				Accounter.constants().amount(),
+				Accounter.constants().salesPrice() };
 	}
 
 	@Override
@@ -66,7 +71,7 @@ public class VATItemDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return "VAT Item Detail";
+		return Accounter.constants().VATItemDetail();
 	}
 
 	@Override
@@ -102,11 +107,12 @@ public class VATItemDetailServerReport extends
 	public void processRecord(VATItemDetail record) {
 		// VATItemSummary itemList = (VATItemSummary) data;
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 5 });
+			addSection("", Accounter.constants().total(), new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			this.name = record.getName();
-			addSection(sectionName, "Total", new int[] { 5 });
+			addSection(sectionName, Accounter.constants().total(),
+					new int[] { 5 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!name.equals(record.getName())) {
@@ -167,8 +173,8 @@ public class VATItemDetailServerReport extends
 
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			return obj1.getDate().compareTo(obj2.getDate());
 		case 2:
@@ -181,8 +187,8 @@ public class VATItemDetailServerReport extends
 		case 5:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		case 6:
-			return UIUtils.compareDouble(obj1.getSalesPrice(), obj2
-					.getSalesPrice());
+			return UIUtils.compareDouble(obj1.getSalesPrice(),
+					obj2.getSalesPrice());
 		}
 		return 0;
 	}
@@ -200,8 +206,11 @@ public class VATItemDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Type", "Date", "Number", "Name",
-				"Memo", "Amount", "Sales Price" };
+		return new String[] { Accounter.constants().type(),
+				Accounter.constants().date(), Accounter.constants().number(),
+				Accounter.constants().name(), Accounter.constants().memo(),
+				Accounter.constants().amount(),
+				Accounter.constants().salesPrice() };
 	}
 
 }

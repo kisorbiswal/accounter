@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -55,14 +56,17 @@ public class TransactionDetailByTaxItemServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", "Tax Rate", "Date", "No", "Name", "Memo",
-				"Sales Tax", "Taxable Amount" };
+		return new String[] { "", Accounter.constants().taxRate(),
+				Accounter.constants().date(), Accounter.constants().no(),
+				Accounter.constants().name(), Accounter.constants().memo(),
+				Accounter.constants().salesTax(),
+				Accounter.constants().taxableAmount() };
 
 	}
 
 	@Override
 	public String getTitle() {
-		return "Transaction Detail By TaxCode";
+		return Accounter.constants().transactionDetailByTaxCode();
 	}
 
 	@Override
@@ -88,7 +92,7 @@ public class TransactionDetailByTaxItemServerReport extends
 	@Override
 	public void processRecord(TransactionDetailByTaxItem record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 6, 7 });
+			addSection("", Accounter.constants().total(), new int[] { 6, 7 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getTaxItemName();
 			addSection(record.getTaxAgencyName() + "-" + sectionName, "",
@@ -122,8 +126,11 @@ public class TransactionDetailByTaxItemServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", "Tax Rate", "Date", "No", "Name", "Memo",
-				"Sales Tax", "Taxable Amount" };
+		return new String[] { "", Accounter.constants().taxRate(),
+				Accounter.constants().date(), Accounter.constants().no(),
+				Accounter.constants().name(), Accounter.constants().memo(),
+				Accounter.constants().salesTax(),
+				Accounter.constants().taxableAmount() };
 	}
 
 }

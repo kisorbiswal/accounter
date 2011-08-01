@@ -2,12 +2,14 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class TrialBalanceServerReport extends
 		AbstractFinaneReport<TrialBalance> {
-	public TrialBalanceServerReport(long startDate, long endDate,int generationType) {
+	public TrialBalanceServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -17,7 +19,7 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return "All";
+		return Accounter.constants().all();
 	}
 
 	@Override
@@ -43,13 +45,14 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Account Name", "Account Number", "Debit",
-				"Credit" };
+		return new String[] { Accounter.constants().accountName(),
+				Accounter.constants().accountNumber(),
+				Accounter.constants().debit(), Accounter.constants().credit() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "Trial Balance";
+		return Accounter.constants().trialBalance();
 	}
 
 	@Override
@@ -68,8 +71,8 @@ public class TrialBalanceServerReport extends
 	@Override
 	public void processRecord(TrialBalance record) {
 		if (sectionDepth == 0) {
-			addSection(new String[] { "", "" }, new String[] { "", "Total" },
-					new int[] { 2, 3 });
+			addSection(new String[] { "", "" }, new String[] { "",
+					Accounter.constants().total() }, new int[] { 2, 3 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -119,17 +122,17 @@ public class TrialBalanceServerReport extends
 	public int sort(TrialBalance obj1, TrialBalance obj2, int col) {
 		switch (col) {
 		case 0:
-			return obj1.getAccountName().toLowerCase().compareTo(
-					obj2.getAccountName().toLowerCase());
+			return obj1.getAccountName().toLowerCase()
+					.compareTo(obj2.getAccountName().toLowerCase());
 		case 1:
-			return obj1.getAccountNumber().toLowerCase().compareTo(
-					obj2.getAccountNumber().toLowerCase());
+			return obj1.getAccountNumber().toLowerCase()
+					.compareTo(obj2.getAccountNumber().toLowerCase());
 		case 2:
-			return UIUtils.compareDouble(obj1.getDebitAmount(), obj2
-					.getDebitAmount());
+			return UIUtils.compareDouble(obj1.getDebitAmount(),
+					obj2.getDebitAmount());
 		case 3:
-			return UIUtils.compareDouble(obj1.getCreditAmount(), obj2
-					.getCreditAmount());
+			return UIUtils.compareDouble(obj1.getCreditAmount(),
+					obj2.getCreditAmount());
 		}
 		return 0;
 	}
@@ -141,8 +144,9 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Account Name", "Account Number", "Debit",
-				"Credit" };
+		return new String[] { Accounter.constants().accountName(),
+				Accounter.constants().accountNumber(),
+				Accounter.constants().debit(), Accounter.constants().credit() };
 	}
 
 }

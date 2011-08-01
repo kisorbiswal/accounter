@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class StatementServerReport extends
@@ -52,9 +53,9 @@ public class StatementServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Date", "Type", "No.", "Ageing", "Amount"
-
-		};
+		return new String[] { Accounter.constants().date(),
+				Accounter.constants().type(), Accounter.constants().noDot(),
+				Accounter.constants().ageing(), Accounter.constants().amount() };
 	}
 
 	@Override
@@ -100,7 +101,7 @@ public class StatementServerReport extends
 
 	@Override
 	public String getTitle() {
-		return "Customer Statement";
+		return Accounter.constants().customerStatement();
 	}
 
 	@Override
@@ -144,7 +145,7 @@ public class StatementServerReport extends
 
 	private boolean addOneTothirty(PayeeStatementsList record) {
 		if (!sectiontypes.contains("0-30 Days")) {
-			addTypeSection("0-30 Days", "");
+			addTypeSection(Accounter.constants().days30(), "");
 			return false;
 		}
 		return true;
@@ -152,7 +153,7 @@ public class StatementServerReport extends
 
 	private boolean addThirtyToSixty(PayeeStatementsList record) {
 		if (!sectiontypes.contains("0-60 Days")) {
-			addTypeSection("0-60 Days", "");
+			addTypeSection(Accounter.constants().daysFromzeroto60(), "");
 			return false;
 		}
 		return true;
@@ -161,7 +162,7 @@ public class StatementServerReport extends
 
 	private boolean addSixtyTo90(PayeeStatementsList record) {
 		if (!sectiontypes.contains("0-90 Days")) {
-			addTypeSection("0-90 Days", "");
+			addTypeSection(Accounter.constants().daysFromzeroto90(), "");
 			return false;
 		}
 		return true;
@@ -170,7 +171,7 @@ public class StatementServerReport extends
 
 	private boolean addGreaterThan90(PayeeStatementsList record) {
 		if (!sectiontypes.contains("Older")) {
-			addTypeSection("Older", "");
+			addTypeSection(Accounter.constants().older(), "");
 			return false;
 		}
 		return true;
@@ -179,7 +180,7 @@ public class StatementServerReport extends
 
 	private boolean addTotalBalance(PayeeStatementsList record) {
 		if (!sectiontypes.contains("Total Balance")) {
-			addTypeSection("Total Balance", "");
+			addTypeSection(Accounter.constants().totalBalance(), "");
 			return false;
 		}
 		return true;
@@ -193,8 +194,7 @@ public class StatementServerReport extends
 	public void addTypeSection(String title, String bottomTitle) {
 		if (!sectiontypes.contains(title)) {
 			addSection(new String[] { title }, new String[] { "", "", "",
-					"Total" },
-					new int[] { 4 });
+					Accounter.constants().total() }, new int[] { 4 });
 			types.add(title);
 			sectiontypes.add(title);
 		}
@@ -251,8 +251,9 @@ public class StatementServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Date", "Type", "No.", "Ageing", "Amount"
-		};
+		return new String[] { Accounter.constants().date(),
+				Accounter.constants().type(), Accounter.constants().noDot(),
+				Accounter.constants().ageing(), Accounter.constants().amount() };
 	}
 
 }

@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -11,7 +12,8 @@ public class VATUncategorisedAmountsServerReport extends
 
 	private double balance = 0.0;
 
-	public VATUncategorisedAmountsServerReport(long startDate, long endDate,int generationType) {
+	public VATUncategorisedAmountsServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -55,13 +57,15 @@ public class VATUncategorisedAmountsServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Type", "Date", "No",
-				"Source Name", "Amount", "Balance" };
+		return new String[] { Accounter.constants().type(),
+				Accounter.constants().date(), Accounter.constants().no(),
+				Accounter.constants().sourceName(),
+				Accounter.constants().amount(), Accounter.constants().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return " UnCategorised VAT Amounts Detail";
+		return Accounter.constants().unCategorisedVATAmountsDetail();
 	}
 
 	@Override
@@ -93,8 +97,9 @@ public class VATUncategorisedAmountsServerReport extends
 	@Override
 	public void processRecord(UncategorisedAmountsReport record) {
 		if (sectionDepth == 0) {
-			addSection(" UnCategorised Tax Amounts Detail",
-					" UnCategorised Tax Amounts Detail", new int[] { 5 });
+			addSection(Accounter.constants().unCategorisedTaxAmountsDetail(),
+					Accounter.constants().unCategorisedTaxAmountsDetail(),
+					new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -146,20 +151,20 @@ public class VATUncategorisedAmountsServerReport extends
 
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			return obj1.getDate().compareTo(obj2.getDate());
 		case 2:
-			return UIUtils.compareInt(Integer.parseInt(obj1
-					.getTransactionNumber()), Integer.parseInt(obj2
-					.getTransactionNumber()));
+			return UIUtils.compareInt(
+					Integer.parseInt(obj1.getTransactionNumber()),
+					Integer.parseInt(obj2.getTransactionNumber()));
 		case 3:
-			return obj1.getSourceName().toLowerCase().compareTo(
-					obj2.getSourceName().toLowerCase());
+			return obj1.getSourceName().toLowerCase()
+					.compareTo(obj2.getSourceName().toLowerCase());
 		case 4:
-			return obj1.getMemo().toLowerCase().compareTo(
-					obj2.getMemo().toLowerCase());
+			return obj1.getMemo().toLowerCase()
+					.compareTo(obj2.getMemo().toLowerCase());
 		case 5:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
@@ -174,8 +179,10 @@ public class VATUncategorisedAmountsServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Type", "Date", "No",
-				"Source Name", "Amount", "Balance" };
+		return new String[] { Accounter.constants().type(),
+				Accounter.constants().date(), Accounter.constants().no(),
+				Accounter.constants().sourceName(),
+				Accounter.constants().amount(), Accounter.constants().balance() };
 	}
 
 }

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -35,7 +36,8 @@ public class VATItemSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Name", "Amount" };
+		return new String[] { Accounter.constants().name(),
+				Accounter.constants().amount() };
 	}
 
 	@Override
@@ -50,7 +52,7 @@ public class VATItemSummaryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return "VAT Item Summary";
+		return Accounter.constants().VATItemSummary();
 	}
 
 	@Override
@@ -88,8 +90,8 @@ public class VATItemSummaryServerReport extends
 
 		switch (col) {
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 1:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
@@ -103,7 +105,8 @@ public class VATItemSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Name", "Amount" };
+		return new String[] { Accounter.constants().name(),
+				Accounter.constants().amount() };
 	}
 
 }

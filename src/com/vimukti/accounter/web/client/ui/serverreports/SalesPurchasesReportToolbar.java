@@ -45,13 +45,17 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		String[] dateRangeArray = { Accounter.constants().all(),
 				Accounter.constants().thisWeek(),
 				Accounter.constants().thisMonth(),
-				Accounter.constants().lastWeek(), "Last Month",
-				"This Financial Year", "Last Financial Year",
-				"This Financial Quarter", "Last Financial Quarter",
-				"Financial Year To Date", "Custom" };
+				Accounter.constants().lastWeek(),
+				Accounter.constants().lastMonth(),
+				Accounter.constants().thisFinancialYear(),
+				Accounter.constants().lastFinancialYear(),
+				Accounter.constants().thisFinancialQuarter(),
+				Accounter.constants().lastFinancialQuarter(),
+				Accounter.constants().financialYearToDate(),
+				Accounter.constants().custom() };
 
 		statusCombo = new ComboBoxItem();
-		statusCombo.setTitle("Status");
+		statusCombo.setTitle(Accounter.constants().status());
 		statusCombo.setValueMap(statusArray);
 		statusCombo.setDefaultValue(statusArray[0]);
 		statusCombo.addChangeHandler(new ChangeHandler() {
@@ -76,7 +80,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		});
 
 		dateRangeItem = new ComboBoxItem();
-		dateRangeItem.setTitle("Date Range");
+		dateRangeItem.setTitle(Accounter.constants().dateRange());
 		dateRangeItem.setValueMap(dateRangeArray);
 		dateRangeItem.setDefaultValue(dateRangeArray[0]);
 
@@ -92,7 +96,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 		fromItem = new DateItem();
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle("From");
+		fromItem.setTitle(Accounter.constants().from());
 
 		toItem = new DateItem();
 		ClientFinanceDate date = Accounter.getCompany()
@@ -103,7 +107,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		else
 			toItem.setDatethanFireEvent(new ClientFinanceDate());
 
-		toItem.setTitle("To");
+		toItem.setTitle(Accounter.constants().to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -112,7 +116,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 				endDate = toItem.getValue();
 			}
 		});
-		updateButton = new AccounterButton("Update");
+		updateButton = new AccounterButton(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -132,7 +136,8 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		AccounterButton printButton = new AccounterButton("Print");
+		AccounterButton printButton = new AccounterButton(Accounter.constants()
+				.print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {
