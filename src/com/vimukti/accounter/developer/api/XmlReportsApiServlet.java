@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
@@ -376,6 +378,21 @@ public class XmlReportsApiServlet extends HttpServlet {
 			List<TrialBalance> profitAndLossReport = accounterReportServiceImpl
 					.getProfitAndLossReport(clientFinanceStartDate,
 							clientFinanceEndDate);
+		}
+
+	}
+
+	public <T> void sendResult(HttpServletRequest req,
+			HttpServletResponse resp, List<? extends BaseReport> list) {
+		XmlSerializationFactory factory = XmlSerializationFactory.getInstance();
+		String string = factory.serializeReportsList(list);
+		ServletOutputStream outputStream;
+		try {
+			outputStream = resp.getOutputStream();
+			outputStream.write(string.getBytes());
+			outputStream.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}
