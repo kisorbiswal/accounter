@@ -95,6 +95,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	int VATreportingPeriod = VAT_REPORTING_PERIOD_QUARTERLY;
 	int endingPeriodForVATreporting = VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC;
 	boolean reportVATonAccuralBasis = true;
+	boolean enableMultiCurrency = false;
 
 	private String decimalCharacte = ".";
 
@@ -658,7 +659,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		this.purchaseOrderEnabled = purchaseOrderEnabled;
 	}
 
-	public boolean enablemultiCurrency() {
-		return false;
+	public boolean isEnableMultiCurrency() {
+		return enableMultiCurrency;
+	}
+
+	public void setEnableMultiCurrency(boolean enableMultiCurrency) {
+		this.enableMultiCurrency = enableMultiCurrency;
 	}
 }
