@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.AccounterReportServiceImpl;
 
-public class XmlReportsApiServlet extends HttpServlet {
+public class ReportsApiServlet extends HttpServlet {
 
 	/**
 	 * 
