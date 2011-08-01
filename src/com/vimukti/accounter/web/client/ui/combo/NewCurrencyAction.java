@@ -1,18 +1,38 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class NewCurrencyAction extends Action{
+public class NewCurrencyAction extends Action {
 
 	public NewCurrencyAction(String text) {
 		super(text);
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
 	public void run(Object data, Boolean isDependent) {
-		// TODO Auto-generated method stub
+		runAsync(data, isDependent);
+
+	}
+
+	private void runAsync(Object data, Boolean isDependent) {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+			
+			@Override
+			public void onCreated() {
+				// TODO Auto-generated method stub
+				
+				
+			}
+			
+			@Override
+			public void onCreateFailed(Throwable t) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 	}
 
@@ -30,8 +50,7 @@ public class NewCurrencyAction extends Action{
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "newCurrency";
 	}
 
 }
