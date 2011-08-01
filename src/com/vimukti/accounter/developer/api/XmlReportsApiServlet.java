@@ -60,11 +60,14 @@ public class XmlReportsApiServlet extends HttpServlet {
 		List<? extends BaseReport> result = null;
 
 		if (methodName.equals("salesbycustomersummary")) {
-			accounterReportServiceImpl.getSalesByCustomerSummary(
+			result = accounterReportServiceImpl.getSalesByCustomerSummary(
 					clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("payeestatements")) {
-
+			// accounterReportServiceImpl.getStatements(id, transactionDate,
+			// fromDate, toDate, noOfDays, isEnabledOfZeroBalBox,
+			// isEnabledOfLessthanZeroBalBox, lessThanZeroBalanceValue,
+			// isEnabledOfNoAccountActivity, isEnabledOfInactiveCustomer)
 		} else if (methodName.equals("agedcreditors")) {
 			result = accounterReportServiceImpl.getAgedCreditors(
 					clientFinanceStartDate, clientFinanceEndDate);
@@ -112,7 +115,6 @@ public class XmlReportsApiServlet extends HttpServlet {
 						.getDebitors(clientFinanceStartDate,
 								clientFinanceEndDate);
 			} catch (AccounterException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
