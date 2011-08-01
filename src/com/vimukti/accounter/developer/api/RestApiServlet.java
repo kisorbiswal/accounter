@@ -138,6 +138,7 @@ public class RestApiServlet extends HttpServlet {
 	}
 
 	private ApiSerializationFactory getApiSerializationFactory() {
+		// TODO
 		return null;
 	}
 
@@ -146,20 +147,27 @@ public class RestApiServlet extends HttpServlet {
 		long id = ((Long) req.getAttribute("id")).longValue();
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 		Transaction transaction = session.beginTransaction();
-		developer = (Developer) (session.getNamedQuery("getDeveloper.by.id"))
-				.setParameter("id", id).uniqueResult();
-		if (isSuccess) {
-			developer.succeedRequests++;
-		} else {
-			developer.failureRequests++;
-		}
+		try {
+			developer = (Developer) (session
+					.getNamedQuery("getDeveloper.by.id"))
+					.setParameter("id", id).uniqueResult();
+			if (isSuccess) {
+				developer.succeedRequests++;
+			} else {
+				developer.failureRequests++;
+			}
 
-		SQLQuery query = session
-				.createSQLQuery("UPDATE DEVELOPER SET SUCCEEDREQUESTS = "
-						+ developer.succeedRequests + " AND FAILUREREQUESTS = "
-						+ developer.failureRequests + " WHERE ID=" + id);
-		query.executeUpdate();
-		transaction.commit();
+			SQLQuery query = session
+					.createSQLQuery("UPDATE DEVELOPER SET SUCCEEDREQUESTS = "
+							+ developer.succeedRequests
+							+ " AND FAILUREREQUESTS = "
+							+ developer.failureRequests + " WHERE ID=" + id);
+			query.executeUpdate();
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+			e.printStackTrace();
+		}
 
 	}
 }
