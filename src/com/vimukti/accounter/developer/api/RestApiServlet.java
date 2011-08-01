@@ -142,6 +142,22 @@ public class RestApiServlet extends HttpServlet {
 		return null;
 	}
 
+	public Developer getDeveloperByApiKey(String apiKey) {
+		Developer developer = null;
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
+		try {
+			developer = (Developer) session
+					.getNamedQuery("get.developer.by.apiKey")
+					.setParameter("apiKey", apiKey).uniqueResult();
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+			e.printStackTrace();
+		}
+		return developer;
+	}
+
 	public void updateDeveloper(HttpServletRequest req, boolean isSuccess) {
 		Developer developer = null;
 		long id = ((Long) req.getAttribute("id")).longValue();
@@ -149,8 +165,8 @@ public class RestApiServlet extends HttpServlet {
 		Transaction transaction = session.beginTransaction();
 		try {
 			developer = (Developer) (session
-					.getNamedQuery("getDeveloper.by.id"))
-					.setParameter("id", id).uniqueResult();
+					.getNamedQuery("get.developer.by.id")).setParameter("id",
+					id).uniqueResult();
 			if (isSuccess) {
 				developer.succeedRequests++;
 			} else {
