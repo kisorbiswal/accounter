@@ -58,9 +58,6 @@ import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		implements IAccounterReportService {
 
-	private FinanceDate transtartDate = new FinanceDate();
-	private FinanceDate tranendDate = new FinanceDate();
-
 	/**
 	 * 
 	 */
@@ -70,13 +67,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	private BaseReport setStartEndDates(BaseReport obj) {
+	private BaseReport setStartEndDates(BaseReport obj,
+			FinanceDate[] financeDates) {
 		// if (Utility.stringToDate(new
 		// ClientFinanceDate(transtartDate).toString()) != null)
-		obj.setStartDate(transtartDate.toClientFinanceDate());
+		obj.setStartDate(financeDates[0].toClientFinanceDate());
 		// if (Utility.stringToDate(new
 		// ClientFinanceDate(transtartDate).toString()) != null)
-		obj.setEndDate(tranendDate.toClientFinanceDate());
+		obj.setEndDate(financeDates[1].toClientFinanceDate());
 		return obj;
 	}
 
@@ -85,17 +83,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
-
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 		try {
 
 			salesByCustomerDetailList = getFinanceTool()
-					.getSalesByCustomerSummary(transtartDate, tranendDate);
+					.getSalesByCustomerSummary(financeDates[0], financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomerDetailList != null)
 				salesByCustomerDetailList
-						.add((SalesByCustomerDetail) setStartEndDates(obj));
+						.add((SalesByCustomerDetail) setStartEndDates(obj,
+								financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,17 +131,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			long accountId) {
 		List<AccountRegister> accountRegisterList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			accountRegisterList = getFinanceTool().getAccountRegister(
-					transtartDate, tranendDate, accountId);
+					financeDates[0], financeDates[1], accountId);
 
 			AccountRegister obj = new AccountRegister();
 			if (accountRegisterList != null)
-				accountRegisterList
-						.add((AccountRegister) setStartEndDates(obj));
+				accountRegisterList.add((AccountRegister) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -156,12 +156,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		List<AgedDebtors> agedDebtorsList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
-			agedDebtorsList = getFinanceTool().getAgedCreditors(transtartDate,
-					tranendDate);
+			agedDebtorsList = getFinanceTool().getAgedCreditors(
+					financeDates[0], financeDates[1]);
 			List<AgedDebtors> debtors = new ArrayList<AgedDebtors>();
 			for (AgedDebtors debtor : agedDebtorsList) {
 				debtors = updateDebtorListByName(debtors, debtor);
@@ -178,7 +179,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 			AgedDebtors obj = new AgedDebtors();
 			if (agedDebtorsList != null)
-				agedDebtorsList.add((AgedDebtors) setStartEndDates(obj));
+				agedDebtorsList.add((AgedDebtors) setStartEndDates(obj,
+						financeDates));
 
 			// agedDebtorsList = (List<AgedDebtors>) manager
 			// .merge(agedDebtorsList);
@@ -195,12 +197,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		List<AgedDebtors> agedDebtorsList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
-			agedDebtorsList = getFinanceTool().getAgedDebtors(transtartDate,
-					tranendDate);
+			agedDebtorsList = getFinanceTool().getAgedDebtors(financeDates[0],
+					financeDates[1]);
 			List<AgedDebtors> debtors = new ArrayList<AgedDebtors>();
 			for (AgedDebtors debtor : agedDebtorsList) {
 				debtors = updateDebtorListByName(debtors, debtor);
@@ -217,7 +220,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 			AgedDebtors obj = new AgedDebtors();
 			if (agedDebtorsList != null)
-				agedDebtorsList.add((AgedDebtors) (setStartEndDates(obj)));
+				agedDebtorsList.add((AgedDebtors) (setStartEndDates(obj,
+						financeDates)));
 
 			// agedDebtorsList = (List<AgedDebtors>) manager
 			// .merge(agedDebtorsList);
@@ -277,17 +281,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<AmountsDueToVendor> amountsDueToVendorList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			amountsDueToVendorList = getFinanceTool().getAmountsDueToVendor(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			AmountsDueToVendor obj = new AmountsDueToVendor();
 			if (amountsDueToVendorList != null)
 				amountsDueToVendorList
-						.add((AmountsDueToVendor) setStartEndDates(obj));
+						.add((AmountsDueToVendor) setStartEndDates(obj,
+								financeDates));
 
 			// amountsDueToVendorList = (List<AmountsDueToVendor>) manager
 			// .merge(amountsDueToVendorList);
@@ -304,17 +310,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TransactionHistory> transactionHistoryList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			transactionHistoryList = getFinanceTool()
-					.getCustomerTransactionHistory(transtartDate, tranendDate);
+					.getCustomerTransactionHistory(financeDates[0],
+							financeDates[1]);
 
 			TransactionHistory obj = new TransactionHistory();
 			if (transactionHistoryList != null)
 				transactionHistoryList
-						.add((TransactionHistory) setStartEndDates(obj));
+						.add((TransactionHistory) setStartEndDates(obj,
+								financeDates));
 
 			// transactionHistoryList = (List<TransactionHistory>) manager
 			// .merge(transactionHistoryList);
@@ -331,17 +340,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<MostProfitableCustomers> mostProfitableCustomersList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			mostProfitableCustomersList = getFinanceTool()
-					.getMostProfitableCustomers(transtartDate, tranendDate);
+					.getMostProfitableCustomers(financeDates[0],
+							financeDates[1]);
 
 			MostProfitableCustomers obj = new MostProfitableCustomers();
 			if (mostProfitableCustomersList != null)
 				mostProfitableCustomersList
-						.add((MostProfitableCustomers) setStartEndDates(obj));
+						.add((MostProfitableCustomers) setStartEndDates(obj,
+								financeDates));
 
 			// mostProfitableCustomersList = (List<MostProfitableCustomers>)
 			// manager
@@ -359,17 +371,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesByCustomerDetailList = getFinanceTool()
-					.getPurchasesByItemDetail(transtartDate, tranendDate);
+					.getPurchasesByItemDetail(financeDates[0], financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomerDetailList != null)
 				salesByCustomerDetailList
-						.add((SalesByCustomerDetail) setStartEndDates(obj));
+						.add((SalesByCustomerDetail) setStartEndDates(obj,
+								financeDates));
 
 			// salesByCustomerDetailList = (List<SalesByCustomerDetail>) manager
 			// .merge(salesByCustomerDetailList);
@@ -386,17 +400,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesByCustomerDetailList = getFinanceTool()
-					.getPurchasesByItemSummary(transtartDate, tranendDate);
+					.getPurchasesByItemSummary(financeDates[0], financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomerDetailList != null)
 				salesByCustomerDetailList
-						.add((SalesByCustomerDetail) setStartEndDates(obj));
+						.add((SalesByCustomerDetail) setStartEndDates(obj,
+								financeDates));
 
 			// salesByCustomerDetailList = (List<SalesByCustomerDetail>) manager
 			// .merge(salesByCustomerDetailList);
@@ -413,17 +429,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesByCustomerDetailList = getFinanceTool()
-					.getPurchasesByVendorDetail(transtartDate, tranendDate);
+					.getPurchasesByVendorDetail(financeDates[0],
+							financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomerDetailList != null)
 				salesByCustomerDetailList
-						.add((SalesByCustomerDetail) setStartEndDates(obj));
+						.add((SalesByCustomerDetail) setStartEndDates(obj,
+								financeDates));
 
 			// salesByCustomerDetailList = (List<SalesByCustomerDetail>) manager
 			// .merge(salesByCustomerDetailList);
@@ -440,16 +459,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesByCustomerDetailList = getFinanceTool()
-					.getPurchasesByVendorSummary(transtartDate, tranendDate);
+					.getPurchasesByVendorSummary(financeDates[0],
+							financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			salesByCustomerDetailList
-					.add((SalesByCustomerDetail) setStartEndDates(obj));
+					.add((SalesByCustomerDetail) setStartEndDates(obj,
+							financeDates));
 
 			// salesByCustomerDetailList = (List<SalesByCustomerDetail>) manager
 			// .merge(salesByCustomerDetailList);
@@ -464,7 +486,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public List<ClientTransaction> getRegister(long accountId) {
 		List<ClientTransaction> clientTransactionList = new ArrayList<ClientTransaction>();
-		
+
 		List<Transaction> serverTransactionList = null;
 
 		try {
@@ -490,17 +512,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesByCustomerDetailList = getFinanceTool()
-					.getSalesByCustomerDetailReport(transtartDate, tranendDate);
+					.getSalesByCustomerDetailReport(financeDates[0],
+							financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomerDetailList != null)
 				salesByCustomerDetailList
-						.add((SalesByCustomerDetail) setStartEndDates(obj));
+						.add((SalesByCustomerDetail) setStartEndDates(obj,
+								financeDates));
 
 			// salesByCustomerDetailList = (List<SalesByCustomerDetail>) manager
 			// .merge(salesByCustomerDetailList);
@@ -517,17 +542,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesByCustomerDetailList = getFinanceTool().getSalesByItemDetail(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomerDetailList != null)
 				salesByCustomerDetailList
-						.add((SalesByCustomerDetail) setStartEndDates(obj));
+						.add((SalesByCustomerDetail) setStartEndDates(obj,
+								financeDates));
 
 			// salesByCustomerDetailList = (List<SalesByCustomerDetail>) manager
 			// .merge(salesByCustomerDetailList);
@@ -544,17 +571,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesByCustomerDetailList = getFinanceTool().getSalesByItemSummary(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomerDetailList != null)
 				salesByCustomerDetailList
-						.add((SalesByCustomerDetail) setStartEndDates(obj));
+						.add((SalesByCustomerDetail) setStartEndDates(obj,
+								financeDates));
 
 			// salesByCustomerDetailList = (List<SalesByCustomerDetail>) manager
 			// .merge(salesByCustomerDetailList);
@@ -571,17 +600,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TransactionDetailByTaxItem> transactionDetailByTaxItemList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			transactionDetailByTaxItemList = getFinanceTool()
-					.getTransactionDetailByTaxItem(transtartDate, tranendDate);
+					.getTransactionDetailByTaxItem(financeDates[0],
+							financeDates[1]);
 
 			TransactionDetailByTaxItem obj = new TransactionDetailByTaxItem();
 			if (transactionDetailByTaxItemList != null)
 				transactionDetailByTaxItemList
-						.add((TransactionDetailByTaxItem) setStartEndDates(obj));
+						.add((TransactionDetailByTaxItem) setStartEndDates(obj,
+								financeDates));
 
 			// transactionDetailByTaxcodeList =
 			// (List<TransactionDetailByTaxcode>) manager
@@ -599,16 +631,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		List<TrialBalance> trialBalanceList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
-			trialBalanceList = getFinanceTool().getTrialBalance(transtartDate,
-					tranendDate);
+			trialBalanceList = getFinanceTool().getTrialBalance(
+					financeDates[0], financeDates[1]);
 
 			TrialBalance obj = new TrialBalance();
 			if (trialBalanceList != null)
-				trialBalanceList.add((TrialBalance) setStartEndDates(obj));
+				trialBalanceList.add((TrialBalance) setStartEndDates(obj,
+						financeDates));
 
 			// trialBalanceList = (List<TrialBalance>) manager
 			// .merge(trialBalanceList);
@@ -625,17 +659,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TransactionHistory> transactionHistoryList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			transactionHistoryList = getFinanceTool()
-					.getVendorTransactionHistory(transtartDate, tranendDate);
+					.getVendorTransactionHistory(financeDates[0],
+							financeDates[1]);
 
 			TransactionHistory obj = new TransactionHistory();
 			if (transactionHistoryList != null)
 				transactionHistoryList
-						.add((TransactionHistory) setStartEndDates(obj));
+						.add((TransactionHistory) setStartEndDates(obj,
+								financeDates));
 
 			// transactionHistoryList = (List<TransactionHistory>) manager
 			// .merge(transactionHistoryList);
@@ -653,16 +690,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<ClientItem> clientItemList = new ArrayList<ClientItem>();
 		List<Item> serverItemsList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			serverItemsList = getFinanceTool().getPurchaseReportItems(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			ClientItem obj = new ClientItem();
 			if (clientItemList != null)
-				clientItemList.add((ClientItem) setStartEndDates(obj));
+				clientItemList.add((ClientItem) setStartEndDates(obj,
+						financeDates));
 
 			for (Item item : serverItemsList) {
 				clientItemList.add(new ClientConvertUtil().toClientObject(item,
@@ -682,16 +721,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<ClientItem> clientItemList = new ArrayList<ClientItem>();
 		List<Item> serverItemsList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			serverItemsList = getFinanceTool().getSalesReportItems(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			ClientItem obj = new ClientItem();
 			if (clientItemList != null)
-				clientItemList.add((ClientItem) setStartEndDates(obj));
+				clientItemList.add((ClientItem) setStartEndDates(obj,
+						financeDates));
 
 			for (Item item : serverItemsList) {
 				clientItemList.add(new ClientConvertUtil().toClientObject(item,
@@ -711,12 +752,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<ClientCustomer> clientCustomerList = new ArrayList<ClientCustomer>();
 		List<Customer> serverCustomerList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			serverCustomerList = getFinanceTool()
-					.getTransactionHistoryCustomers(transtartDate, tranendDate);
+					.getTransactionHistoryCustomers(financeDates[0],
+							financeDates[1]);
 
 			for (Customer customer : serverCustomerList) {
 				clientCustomerList.add(new ClientConvertUtil().toClientObject(
@@ -737,12 +780,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<ClientVendor> clientVendorList = new ArrayList<ClientVendor>();
 		List<Vendor> serverVendorList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			serverVendorList = getFinanceTool().getTransactionHistoryVendors(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 			for (Vendor vendor : serverVendorList) {
 				clientVendorList.add(new ClientConvertUtil().toClientObject(
 						vendor, ClientVendor.class));
@@ -761,17 +805,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		List<SalesTaxLiability> salesTaxLiabilityList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesTaxLiabilityList = getFinanceTool()
-					.getSalesTaxLiabilityReport(transtartDate, tranendDate);
+					.getSalesTaxLiabilityReport(financeDates[0],
+							financeDates[1]);
 
 			SalesTaxLiability obj = new SalesTaxLiability();
 			if (salesTaxLiabilityList != null)
-				salesTaxLiabilityList
-						.add((SalesTaxLiability) setStartEndDates(obj));
+				salesTaxLiabilityList.add((SalesTaxLiability) setStartEndDates(
+						obj, financeDates));
 			// salesTaxLiabilityList = (List<SalesTaxLiability>) manager
 			// .merge(salesTaxLiabilityList);
 
@@ -787,17 +833,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TransactionDetailByAccount> transDetailByAccountList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			transDetailByAccountList = getFinanceTool()
-					.getTransactionDetailByAccount(transtartDate, tranendDate);
+					.getTransactionDetailByAccount(financeDates[0],
+							financeDates[1]);
 
 			TransactionDetailByAccount obj = new TransactionDetailByAccount();
 			if (transDetailByAccountList != null)
 				transDetailByAccountList
-						.add((TransactionDetailByAccount) setStartEndDates(obj));
+						.add((TransactionDetailByAccount) setStartEndDates(obj,
+								financeDates));
 
 			// transDetailByAccountList = (List<TransactionDetailByAccount>)
 			// manager
@@ -817,17 +866,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomertList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesByCustomertList = getFinanceTool().getPurchasesByItemDetail(
-					itemName, transtartDate, tranendDate);
+					itemName, financeDates[0], financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomertList != null)
 				salesByCustomertList
-						.add((SalesByCustomerDetail) setStartEndDates(obj));
+						.add((SalesByCustomerDetail) setStartEndDates(obj,
+								financeDates));
 
 			// salesByCustomertList = (List<SalesByCustomerDetail>) manager
 			// .merge(salesByCustomertList);
@@ -845,17 +896,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomertList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesByCustomertList = getFinanceTool().getPurchasesByVendorDetail(
-					vendorName, transtartDate, tranendDate);
+					vendorName, financeDates[0], financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomertList != null)
 				salesByCustomertList
-						.add((SalesByCustomerDetail) setStartEndDates(obj));
+						.add((SalesByCustomerDetail) setStartEndDates(obj,
+								financeDates));
 
 			// salesByCustomertList = (List<SalesByCustomerDetail>) manager
 			// .merge(salesByCustomertList);
@@ -873,18 +926,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomertList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesByCustomertList = getFinanceTool()
 					.getSalesByCustomerDetailReport(customerName,
-							transtartDate, tranendDate);
+							financeDates[0], financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomertList != null)
 				salesByCustomertList
-						.add((SalesByCustomerDetail) setStartEndDates(obj));
+						.add((SalesByCustomerDetail) setStartEndDates(obj,
+								financeDates));
 
 			// salesByCustomertList = (List<SalesByCustomerDetail>) manager
 			// .merge(salesByCustomertList);
@@ -901,17 +956,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<SalesByCustomerDetail> salesByCustomertList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			salesByCustomertList = getFinanceTool().getSalesByItemDetail(
-					itemName, transtartDate, tranendDate);
+					itemName, financeDates[0], financeDates[1]);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomertList != null)
 				salesByCustomertList
-						.add((SalesByCustomerDetail) setStartEndDates(obj));
+						.add((SalesByCustomerDetail) setStartEndDates(obj,
+								financeDates));
 
 			// salesByCustomertList = (List<SalesByCustomerDetail>) manager
 			// .merge(salesByCustomertList);
@@ -929,20 +986,21 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<AgedDebtors> agedDebtorsList = null;
 		List<AgedDebtors> agedDebtorsListForCustomer = new ArrayList<AgedDebtors>();
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
-			agedDebtorsList = getFinanceTool().getAgedDebtors(transtartDate,
-					tranendDate);
+			agedDebtorsList = getFinanceTool().getAgedDebtors(financeDates[0],
+					financeDates[1]);
 			for (AgedDebtors agdDebitor : agedDebtorsList) {
 				if (Name.equals(agdDebitor.getName()))
 					agedDebtorsListForCustomer.add(agdDebitor);
 			}
 			AgedDebtors obj = new AgedDebtors();
 			if (agedDebtorsListForCustomer != null)
-				agedDebtorsListForCustomer
-						.add((AgedDebtors) (setStartEndDates(obj)));
+				agedDebtorsListForCustomer.add((AgedDebtors) (setStartEndDates(
+						obj, financeDates)));
 
 			// agedDebtorsList = (List<AgedDebtors>) manager
 			// .merge(agedDebtorsList);
@@ -960,12 +1018,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<AgedDebtors> agedDebtorsList = null;
 		List<AgedDebtors> agedCreditorsListForCustomer = new ArrayList<AgedDebtors>();
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
-			agedDebtorsList = getFinanceTool().getAgedCreditors(transtartDate,
-					tranendDate);
+			agedDebtorsList = getFinanceTool().getAgedCreditors(
+					financeDates[0], financeDates[1]);
 			for (AgedDebtors agdDebitor : agedDebtorsList) {
 				if (Name.equals(agdDebitor.getName()))
 					agedCreditorsListForCustomer.add(agdDebitor);
@@ -973,7 +1032,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			AgedDebtors obj = new AgedDebtors();
 			if (agedCreditorsListForCustomer != null)
 				agedCreditorsListForCustomer
-						.add((AgedDebtors) (setStartEndDates(obj)));
+						.add((AgedDebtors) (setStartEndDates(obj, financeDates)));
 
 			// agedDebtorsList = (List<AgedDebtors>) manager
 			// .merge(agedDebtorsList);
@@ -991,18 +1050,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		List<TransactionDetailByAccount> transDetailByAccountList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			transDetailByAccountList = getFinanceTool()
-					.getTransactionDetailByAccount(accountName, transtartDate,
-							tranendDate);
+					.getTransactionDetailByAccount(accountName,
+							financeDates[0], financeDates[1]);
 
 			TransactionDetailByAccount obj = new TransactionDetailByAccount();
 			if (transDetailByAccountList != null)
 				transDetailByAccountList
-						.add((TransactionDetailByAccount) setStartEndDates(obj));
+						.add((TransactionDetailByAccount) setStartEndDates(obj,
+								financeDates));
 
 			// transDetailByAccountList = (List<TransactionDetailByAccount>)
 			// manager
@@ -1036,18 +1097,20 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			final ClientFinanceDate endDate) {
 		List<TransactionDetailByTaxItem> transactionDetailByTaxItemList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			transactionDetailByTaxItemList = getFinanceTool()
-					.getTransactionDetailByTaxItem(taxItemName, transtartDate,
-							tranendDate);
+					.getTransactionDetailByTaxItem(taxItemName,
+							financeDates[0], financeDates[1]);
 
 			TransactionDetailByTaxItem obj = new TransactionDetailByTaxItem();
 			if (transactionDetailByTaxItemList != null)
 				transactionDetailByTaxItemList
-						.add((TransactionDetailByTaxItem) setStartEndDates(obj));
+						.add((TransactionDetailByTaxItem) setStartEndDates(obj,
+								financeDates));
 
 			// transactionDetailByTaxcodeList =
 			// (List<TransactionDetailByTaxcode>) manager
@@ -1065,16 +1128,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TrialBalance> trialbalanceList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			trialbalanceList = getFinanceTool().getBalanceSheetReport(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			TrialBalance obj = new TrialBalance();
 			if (trialbalanceList != null)
-				trialbalanceList.add((TrialBalance) setStartEndDates(obj));
+				trialbalanceList.add((TrialBalance) setStartEndDates(obj,
+						financeDates));
 
 			if (trialbalanceList.size() == 1) {
 				if (trialbalanceList.get(0).getAccountName()
@@ -1096,16 +1161,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		List<TrialBalance> trialbalanceList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			trialbalanceList = getFinanceTool().getCashFlowReport(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			TrialBalance obj = new TrialBalance();
 			if (trialbalanceList != null)
-				trialbalanceList.add((TrialBalance) setStartEndDates(obj));
+				trialbalanceList.add((TrialBalance) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1119,16 +1186,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<TrialBalance> trialbalanceList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			trialbalanceList = getFinanceTool().getProfitAndLossReport(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			TrialBalance obj = new TrialBalance();
 			if (trialbalanceList != null)
-				trialbalanceList.add((TrialBalance) setStartEndDates(obj));
+				trialbalanceList.add((TrialBalance) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1142,15 +1211,17 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> purchaseOrders = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 			purchaseOrders = getFinanceTool().getOpenPurchaseOrders(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (purchaseOrders != null)
-				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
+				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1162,13 +1233,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public List<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> purchaseOrders = null;
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 		try {
 			purchaseOrders = getFinanceTool().getCompletedPurchaseOrders(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (purchaseOrders != null)
-				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
+				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+						financeDates));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1179,13 +1252,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public List<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> purchaseOrders = null;
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 		try {
 			purchaseOrders = getFinanceTool().getCanceledPurchaseOrders(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (purchaseOrders != null)
-				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
+				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+						financeDates));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1196,13 +1271,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public List<OpenAndClosedOrders> getPurchaseOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> purchaseOrders = null;
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 		try {
-			purchaseOrders = getFinanceTool().getPurchaseOrders(transtartDate,
-					tranendDate);
+			purchaseOrders = getFinanceTool().getPurchaseOrders(
+					financeDates[0], financeDates[1]);
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (purchaseOrders != null)
-				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
+				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+						financeDates));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1214,15 +1291,17 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> purchaseOrders = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 			purchaseOrders = getFinanceTool().getClosedPurchaseOrders(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (purchaseOrders != null)
-				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
+				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1235,15 +1314,17 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> salesOrders = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
-			salesOrders = getFinanceTool().getOpenSalesOrders(transtartDate,
-					tranendDate);
+			salesOrders = getFinanceTool().getOpenSalesOrders(financeDates[0],
+					financeDates[1]);
 
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
-				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
+				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1255,13 +1336,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public List<OpenAndClosedOrders> getSalesCompletedOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> salesOrders = null;
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 		try {
 			salesOrders = getFinanceTool().getCompletedSalesOrders(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
-				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
+				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+						financeDates));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1272,13 +1355,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public List<OpenAndClosedOrders> getSalesOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> salesOrders = null;
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 		try {
-			salesOrders = getFinanceTool().getSalesOrders(transtartDate,
-					tranendDate);
+			salesOrders = getFinanceTool().getSalesOrders(financeDates[0],
+					financeDates[1]);
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
-				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
+				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+						financeDates));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1289,13 +1374,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public List<OpenAndClosedOrders> getSalesCancelledOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> salesOrders = null;
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 		try {
 			salesOrders = getFinanceTool().getCanceledSalesOrders(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
-				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
+				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1308,15 +1395,17 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<OpenAndClosedOrders> salesOrders = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
-			salesOrders = getFinanceTool().getClosedSalesOrders(transtartDate,
-					tranendDate);
+			salesOrders = getFinanceTool().getClosedSalesOrders(
+					financeDates[0], financeDates[1]);
 
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
-				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj));
+				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1341,17 +1430,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		List<VATDetail> vatDetailReport = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
-		// transtartDate = "";
-		// tranendDate = endDate;
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
+		// financeDates[0] = "";
+		// financeDates[1] = endDate;
 
 		try {
 			vatDetailReport = getFinanceTool().getVATDetailReport(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			VATDetail obj = new VATDetail();
 			if (vatDetailReport != null)
-				vatDetailReport.add((VATDetail) setStartEndDates(obj));
+				vatDetailReport.add((VATDetail) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1364,8 +1455,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		List<VATDetail> vatDetailReport = null;
 
-		// getMinimumAndMaximumDates("", endDate);
-
+		// FinanceDate[] financeDates = getMinimumAndMaximumDates("", endDate);
+		FinanceDate transtartDate = new FinanceDate();
+		FinanceDate tranendDate = new FinanceDate();
 		transtartDate.clear();
 		tranendDate = new FinanceDate(endDate);
 
@@ -1378,7 +1470,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 			VATDetail obj = new VATDetail();
 			if (vatDetailReport != null)
-				vatDetailReport.add((VATDetail) setStartEndDates(obj));
+				vatDetailReport.add((VATDetail) setStartEndDates(obj,
+						new FinanceDate[] { transtartDate, tranendDate }));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1390,8 +1483,6 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		List<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
 
-		tranendDate = new FinanceDate(endDate);
-
 		try {
 			TAXAgency vatAgency = (TAXAgency) Util.loadObjectByid(
 					HibernateUtil.getCurrentSession(), "TAXAgency", taxAgncy);
@@ -1400,7 +1491,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 			VATSummary obj = new VATSummary();
 			if (vatSummaryList != null)
-				vatSummaryList.add((VATSummary) setStartEndDates(obj));
+				vatSummaryList.add((VATSummary) setStartEndDates(obj,
+						new FinanceDate[] { new FinanceDate(),
+								new FinanceDate() }));
 
 			/*
 			 * Removing Box 3 and Box 5 from list, as the calculations for box 3
@@ -1419,17 +1512,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 		List<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
 
-		getMinimumAndMaximumDates(fromDate, toDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
 			TAXAgency vatAgency = (TAXAgency) Util.loadObjectByid(
 					HibernateUtil.getCurrentSession(), "TAXAgency", taxAgency);
 			vatSummaryList = getFinanceTool().getVAT100Report(vatAgency,
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			VATSummary obj = new VATSummary();
 			if (vatSummaryList != null)
-				vatSummaryList.add((VATSummary) setStartEndDates(obj));
+				vatSummaryList.add((VATSummary) setStartEndDates(obj,
+						financeDates));
 
 			/*
 			 * //* Removing Box 3 and Box 5 from list, as the calculations for
@@ -1449,16 +1543,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 		List<UncategorisedAmountsReport> uncategories = new ArrayList<UncategorisedAmountsReport>();
 
-		getMinimumAndMaximumDates(fromDate, toDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
 			uncategories = getFinanceTool().getUncategorisedAmountsReport(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			UncategorisedAmountsReport obj = new UncategorisedAmountsReport();
 			if (uncategories != null)
-				uncategories
-						.add((UncategorisedAmountsReport) setStartEndDates(obj));
+				uncategories.add((UncategorisedAmountsReport) setStartEndDates(
+						obj, financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1471,15 +1565,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 		List<VATItemSummary> vatItems = new ArrayList<VATItemSummary>();
 
-		getMinimumAndMaximumDates(fromDate, toDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			vatItems = getFinanceTool().getVATItemSummaryReport(transtartDate,
-					tranendDate);
+			vatItems = getFinanceTool().getVATItemSummaryReport(
+					financeDates[0], financeDates[1]);
 
 			VATItemSummary obj = new VATItemSummary();
 			if (vatItems != null)
-				vatItems.add((VATItemSummary) setStartEndDates(obj));
+				vatItems.add((VATItemSummary) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1493,15 +1588,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		List<VATItemDetail> itemsList = new ArrayList<VATItemDetail>();
 
-		getMinimumAndMaximumDates(fromDate, toDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
 			itemsList = getFinanceTool().getVATItemDetailReport(vatItemName,
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			VATItemDetail obj = new VATItemDetail();
 			if (itemsList != null)
-				itemsList.add((VATItemDetail) setStartEndDates(obj));
+				itemsList.add((VATItemDetail) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1517,15 +1613,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		List<ECSalesList> salesList = new ArrayList<ECSalesList>();
 
-		getMinimumAndMaximumDates(fromDate, toDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			salesList = getFinanceTool().getECSalesListReport(transtartDate,
-					tranendDate);
+			salesList = getFinanceTool().getECSalesListReport(financeDates[0],
+					financeDates[1]);
 
 			ECSalesList obj = new ECSalesList();
 			if (salesList != null)
-				salesList.add((ECSalesList) setStartEndDates(obj));
+				salesList
+						.add((ECSalesList) setStartEndDates(obj, financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1541,15 +1638,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		List<ECSalesListDetail> salesList = new ArrayList<ECSalesListDetail>();
 
-		getMinimumAndMaximumDates(fromDate, toDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
 			salesList = getFinanceTool().getECSalesListDetailReport(payeeName,
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			ECSalesListDetail obj = new ECSalesListDetail();
 			if (salesList != null)
-				salesList.add((ECSalesListDetail) setStartEndDates(obj));
+				salesList.add((ECSalesListDetail) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1566,15 +1664,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		List<ReverseChargeListDetail> salesList = new ArrayList<ReverseChargeListDetail>();
 
-		getMinimumAndMaximumDates(fromDate, toDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
 			salesList = getFinanceTool().getReverseChargeListDetailReport(
-					payeeName, transtartDate, tranendDate);
+					payeeName, financeDates[0], financeDates[1]);
 
 			ReverseChargeListDetail obj = new ReverseChargeListDetail();
 			if (salesList != null)
-				salesList.add((ReverseChargeListDetail) setStartEndDates(obj));
+				salesList.add((ReverseChargeListDetail) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1590,15 +1689,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		List<ReverseChargeList> salesList = new ArrayList<ReverseChargeList>();
 
-		getMinimumAndMaximumDates(fromDate, toDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
 			salesList = getFinanceTool().getReverseChargeListReport(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			ReverseChargeList obj = new ReverseChargeList();
 			if (salesList != null)
-				salesList.add((ReverseChargeList) setStartEndDates(obj));
+				salesList.add((ReverseChargeList) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1608,8 +1708,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	private void getMinimumAndMaximumDates(ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
+	/**
+	 * It returns an Array of dates. array[0] is start date and array[1] is end
+	 * date
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 */
+	private FinanceDate[] getMinimumAndMaximumDates(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 
 		// if ((startDate.equals("") || startDate == null)
 		// || (endDate.equals("") || endDate == null)) {
@@ -1620,23 +1727,26 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		ClientFinanceDate endDate2 = dates.get(1) == null ? new ClientFinanceDate()
 				: dates.get(1);
 
+		FinanceDate transtartDate;
 		if (startDate.isEmpty())
 			transtartDate = new FinanceDate(startDate1);
 		else
 			transtartDate = new FinanceDate(startDate);
-
+		FinanceDate tranendDate;
 		if (endDate.isEmpty())
 			tranendDate = new FinanceDate(endDate2);
 		else
 			tranendDate = new FinanceDate(endDate);
 
+		return new FinanceDate[] { transtartDate, tranendDate };
 	}
 
 	@Override
 	public List<DummyDebitor> getDebitors(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) throws AccounterException {
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -1650,14 +1760,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		// Date threeMonthPreviousDate = calender.getTime();
 		try {
 			List<AgedDebtors> agedDebtors = getFinanceTool().getAgedDebtors(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
-			debitors = getDebtorsWidSameName(agedDebtors, transtartDate,
-					tranendDate);
+			debitors = getDebtorsWidSameName(agedDebtors, financeDates[0],
+					financeDates[1]);
 
 			DummyDebitor obj = new DummyDebitor();
 			if (debitors != null)
-				debitors.add((DummyDebitor) setStartEndDates(obj));
+				debitors.add((DummyDebitor) setStartEndDates(obj, financeDates));
 
 		} catch (DAOException e) {
 
@@ -1774,7 +1884,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public List<DummyDebitor> getCreditors(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) throws AccounterException {
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -1788,14 +1899,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		// Date threeMonthPreviousDate = calender.getTime();
 		try {
 			List<AgedDebtors> agedCreditors = getFinanceTool()
-					.getAgedCreditors(transtartDate, tranendDate);
+					.getAgedCreditors(financeDates[0], financeDates[1]);
 
-			Creditors = getDebtorsWidSameName(agedCreditors, transtartDate,
-					tranendDate);
+			Creditors = getDebtorsWidSameName(agedCreditors, financeDates[0],
+					financeDates[1]);
 
 			DummyDebitor obj = new DummyDebitor();
 			if (Creditors != null)
-				Creditors.add((DummyDebitor) setStartEndDates(obj));
+				Creditors
+						.add((DummyDebitor) setStartEndDates(obj, financeDates));
 
 		} catch (DAOException e) {
 
@@ -1811,16 +1923,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		List<ExpenseList> expenseList = new ArrayList<ExpenseList>();
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 			expenseList = getFinanceTool().getExpenseReportByType(status,
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			ExpenseList obj = new ExpenseList();
 
 			if (expenseList != null)
-				expenseList.add((ExpenseList) setStartEndDates(obj));
+				expenseList.add((ExpenseList) setStartEndDates(obj,
+						financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1834,17 +1948,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		List<DepositDetail> transDetailByAccountList = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			transDetailByAccountList = getFinanceTool().getDepositDetail(
-					transtartDate, tranendDate);
+					financeDates[0], financeDates[1]);
 
 			DepositDetail obj = new DepositDetail();
 			if (transDetailByAccountList != null)
-				transDetailByAccountList
-						.add((DepositDetail) setStartEndDates(obj));
+				transDetailByAccountList.add((DepositDetail) setStartEndDates(
+						obj, financeDates));
 
 			// transDetailByAccountList = (List<TransactionDetailByAccount>)
 			// manager
@@ -1863,17 +1978,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		List<CheckDetailReport> checkDetailReports = null;
 
-		getMinimumAndMaximumDates(startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate);
 
 		try {
 
 			checkDetailReports = getFinanceTool().getCheckDetailReport(
-					paymentmethod, transtartDate, tranendDate);
+					paymentmethod, financeDates[0], financeDates[1]);
 
 			CheckDetailReport obj = new CheckDetailReport();
 			if (checkDetailReports != null)
-				checkDetailReports
-						.add((CheckDetailReport) setStartEndDates(obj));
+				checkDetailReports.add((CheckDetailReport) setStartEndDates(
+						obj, financeDates));
 
 			// transDetailByAccountList = (List<TransactionDetailByAccount>)
 			// manager
@@ -1897,21 +2013,23 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			boolean isEnabledOfInactiveCustomer) {
 
 		List<PayeeStatementsList> resultList = null;
-		getMinimumAndMaximumDates(fromDate, toDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 		try {
 
 			resultList = getFinanceTool().getPayeeStatementsList(id,
-					transactionDate, transtartDate, tranendDate, noOfDays,
-					isEnabledOfZeroBalBox, isEnabledOfLessthanZeroBalBox,
-					lessThanZeroBalanceValue, isEnabledOfNoAccountActivity,
-					isEnabledOfInactiveCustomer);
+					transactionDate, financeDates[0], financeDates[1],
+					noOfDays, isEnabledOfZeroBalBox,
+					isEnabledOfLessthanZeroBalBox, lessThanZeroBalanceValue,
+					isEnabledOfNoAccountActivity, isEnabledOfInactiveCustomer);
 
 			PayeeStatementsList obj = new PayeeStatementsList();
 			if (resultList != null)
-				resultList.add((PayeeStatementsList) setStartEndDates(obj));
+				resultList.add((PayeeStatementsList) setStartEndDates(obj,
+						financeDates));
 			// for (PayeeStatementsList obj : list) {
 			//
-			// resultList.add((PayeeStatementsList) setStartEndDates(obj));
+			// resultList.add((PayeeStatementsList)
+			// setStartEndDates(obj,financeDates));
 			// }
 
 		} catch (Exception e) {
