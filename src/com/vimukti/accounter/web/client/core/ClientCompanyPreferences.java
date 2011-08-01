@@ -75,7 +75,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	// calculate from
 	// Invoice date other
 	// wise from Due Date.
-
+	private boolean doProductShipMents;
 	boolean useVendorId;
 	int ageingFromTransactionDateORDueDate = 1;
 
@@ -610,5 +610,21 @@ public class ClientCompanyPreferences implements IAccounterCore {
 			preferences = Accounter.getCompany().getPreferences();
 		}
 		return preferences;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDoProductShipMents() {
+		return doProductShipMents;
+	}
+
+	/**
+	 * 
+	 * @param doProductShipMents
+	 */
+	public void setDoProductShipMents(boolean doProductShipMents) {
+		this.doProductShipMents = doProductShipMents;
 	}
 }
