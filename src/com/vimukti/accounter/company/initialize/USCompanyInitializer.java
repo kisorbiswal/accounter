@@ -350,6 +350,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 		FinanceDate fiscalYearEndDate = new FinanceDate(
 				(int) currentDate.getYear(), 11, 31);
 
+		String dateFormat = AccounterConstants.MMddyyyy;
 		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
 				fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
 
@@ -386,6 +387,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 			preferences.setUpdateCostAutomatically(false);
 			preferences.setStartDate(fiscalYearStartDate);
 			preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
+			preferences.setDateFormat(dateFormat);
 
 			FinanceDate depreciationStartDateCal = new FinanceDate();
 			depreciationStartDateCal.set(fiscalYearStartDate);

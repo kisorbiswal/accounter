@@ -112,6 +112,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	boolean reportVATonAccuralBasis = true;
 	boolean trackVAT = true;
 	String VATtaxAgencyName = AccounterConstants.DEFAULT_VAT_AGENCY_NAME;
+	
+	private String dateFormat;
 	public long id;
 
 	// String legalName = "";
@@ -624,6 +626,14 @@ public class CompanyPreferences implements IAccounterServerCore {
 			throws InvalidOperationException {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public String getDateFormat() {
+		return dateFormat;
+	}
+
+	public void setDateFormat(String dateFormat) {
+		this.dateFormat = dateFormat;
 	}
 
 	public boolean isEnableMultiCurrency() {

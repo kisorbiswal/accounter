@@ -26,6 +26,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	boolean useAccountNumbers;
 
+	private String dateFormat;
+
 	boolean useClasses;
 
 	private boolean salesOrderEnabled;
@@ -657,6 +659,15 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setPurchaseOrderEnabled(boolean purchaseOrderEnabled) {
 		this.purchaseOrderEnabled = purchaseOrderEnabled;
+	}
+
+	public String getDateFormat() {
+		return dateFormat;
+	}
+
+	public void setDateFormat(String dateFormat) {
+		
+		this.dateFormat = dateFormat;
 	}
 
 	public boolean isEnableMultiCurrency() {

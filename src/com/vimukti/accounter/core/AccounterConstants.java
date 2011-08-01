@@ -741,6 +741,8 @@ public class AccounterConstants implements IsSerializable, Serializable {
 	public static final String LIABLITY_DIRECTORS_CURRENT_ACCOUNT = "Directors Current Account";
 	public static final String LIABLITY_NET_SALARIES = "Net Salaries";
 	public static final String LIABLITY_PENSIONS = "Pensions";
+	public static final String ddMMyyyy="dd/MM/yyyy";
+	public static final String MMddyyyy="MM/dd/yyyy";
 
 	
 }

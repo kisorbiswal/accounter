@@ -154,6 +154,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
 				fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
+		String dateFormat = AccounterConstants.ddMMyyyy;
 
 		session.save(fiscalYear);
 
@@ -188,6 +189,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			preferences.setUpdateCostAutomatically(false);
 			preferences.setStartDate(fiscalYearStartDate);
 			preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
+			preferences.setDateFormat(dateFormat);
 
 			FinanceDate depreciationStartDateCal = new FinanceDate();
 			depreciationStartDateCal.set(fiscalYearStartDate);

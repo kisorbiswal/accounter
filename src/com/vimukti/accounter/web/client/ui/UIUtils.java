@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -1445,22 +1446,26 @@ public class UIUtils {
 		if (date == null) {
 			return "";
 		}
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
-					.constants().dateFormatWithSlash());
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
-					.constants().dateFormatWithSlashStartsWithMonth());
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		} else {
-			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
-					.constants().dateFormatWithSlash());
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		}
+
+		DateTimeFormat dateFormatter = DateTimeFormat
+				.getFormat(ClientCompanyPreferences.get().getDateFormat());
+
+		return dateFormatter.format(date.getDateAsObject());
+
+		/*
+		 * if (getCompany().getAccountingType() ==
+		 * ClientCompany.ACCOUNTING_TYPE_UK) { DateTimeFormat dateFormatter =
+		 * DateTimeFormat.getFormat(Accounter
+		 * .constants().dateFormatWithSlash()); String format = ; } else if
+		 * (getCompany().getAccountingType() ==
+		 * ClientCompany.ACCOUNTING_TYPE_US) { DateTimeFormat dateFormatter =
+		 * DateTimeFormat.getFormat(Accounter
+		 * .constants().dateFormatWithSlashStartsWithMonth()); String format =
+		 * dateFormatter.format(date.getDateAsObject()); return format; } else {
+		 * DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Accounter
+		 * .constants().dateFormatWithSlash()); String format =
+		 * dateFormatter.format(date.getDateAsObject()); return format; }
+		 */
 	}
 
 	/**
