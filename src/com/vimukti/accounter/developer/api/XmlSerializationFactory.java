@@ -65,22 +65,27 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 		return stream.toXML(apiResult);
 	}
 
+	@Override
 	public String serializeReportsList(List<? extends BaseReport> list) {
 		return stream.toXML(list);
 	}
 
+	@Override
 	public String serializeTransacHistCustomerList(List<ClientCustomer> list) {
 		return stream.toXML(list);
 	}
 
+	@Override
 	public String serializeTransacHistVendorList(List<ClientVendor> list) {
 		return stream.toXML(list);
 	}
 
+	@Override
 	public String serializeMinAndMaxTrasacDate(List<ClientFinanceDate> list) {
 		return stream.toXML(list);
 	}
 
+	@Override
 	public String serializeDateList(List<ClientFinanceDate> list) {
 		return stream.toXML(list);
 	}

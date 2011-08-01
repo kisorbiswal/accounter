@@ -4,7 +4,11 @@ import java.io.InputStream;
 import java.util.List;
 
 import com.vimukti.accounter.api.core.ApiResult;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public interface ApiSerializationFactory {
@@ -19,5 +23,15 @@ public interface ApiSerializationFactory {
 	String serializeResult(ApiResult apiResult);
 
 	String serializeList(List<? extends IAccounterCore> str) throws Exception;
+	
+	String serializeReportsList(List<? extends BaseReport> list) ;
+	
+	String serializeTransacHistCustomerList(List<ClientCustomer> list);
+	
+	String serializeTransacHistVendorList(List<ClientVendor> list) ;
+	
+	String serializeMinAndMaxTrasacDate(List<ClientFinanceDate> list);
+	
+	String serializeDateList(List<ClientFinanceDate> list);
 
 }
