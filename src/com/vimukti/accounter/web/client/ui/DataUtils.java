@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RegExpValidator;
@@ -249,28 +250,28 @@ public class DataUtils {
 		 */
 
 		String string = buffer.toString();
-		if (!string.contains(CompanyPreferences.decimalCharacter))
+		if (!string.contains(ClientCompanyPreferences.get()
+				.getDecimalCharacter()))
 			buffer.append(".00");
 		else {
-			int index = string.indexOf(CompanyPreferences.decimalCharacter);
+			int index = string.indexOf(ClientCompanyPreferences.get()
+					.getDecimalCharacter());
 			String sub = string.substring(index);
 			if (sub.length() == 2)
 				buffer.append("0");
 		}
 		String nextStr = buffer.substring(buffer
-				.indexOf(CompanyPreferences.decimalCharacter));
+				.indexOf(ClientCompanyPreferences.get().getDecimalCharacter()));
 		if (buffer.charAt(0) == '-') {
 			String sign = "-";
 			String valueWithSign = sign
-					+ insertCommas(buffer
-							.substring(
-									1,
-									buffer.indexOf(CompanyPreferences.decimalCharacter)))
-					+ nextStr;
+					+ insertCommas(buffer.substring(1, buffer
+							.indexOf(ClientCompanyPreferences.get()
+									.getDecimalCharacter()))) + nextStr;
 			return valueWithSign;
 		}
-		String value = insertCommas(buffer.substring(0,
-				buffer.indexOf(CompanyPreferences.decimalCharacter)))
+		String value = insertCommas(buffer.substring(0, buffer
+				.indexOf(ClientCompanyPreferences.get().getDecimalCharacter())))
 				+ nextStr;
 
 		return value;
@@ -330,7 +331,8 @@ public class DataUtils {
 
 class NumberFormat {
 	public static final String COMMA = ",";
-	public static final String PERIOD = CompanyPreferences.decimalCharacter;
+	public static final String PERIOD = ClientCompanyPreferences.get()
+			.getDecimalCharacter();
 	public static final char DASH = '-';
 	public static final char LEFT_PAREN = '(';
 	public static final char RIGHT_PAREN = ')';
