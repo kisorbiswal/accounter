@@ -51,7 +51,8 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 	}
 
 	@Override
-	public String serializeList(List<? extends IAccounterCore> str) throws Exception {
+	public String serializeList(List<? extends IAccounterCore> str)
+			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -83,6 +84,11 @@ public class XmlSerializationFactory implements ApiSerializationFactory {
 	}
 
 	public String serializeMinAndMaxTrasacDate(List<ClientFinanceDate> list) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String serializeDateList(List<ClientFinanceDate> list) {
 		// TODO Auto-generated method stub
 		return null;
 	}

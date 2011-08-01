@@ -14,9 +14,13 @@ public interface ApiSerializationFactory {
 
 	List<IAccounterCore> deserializeList(String str) throws Exception;
 
-	String serializeList(List<IAccounterCore> str) throws Exception;
+//	String serializeList(List<IAccounterCore> str) throws Exception;
 
 	String serialize(AccounterException ex) throws Exception;
 
 	String serializeResult(ApiResult apiResult);
+
+	String serializeList(List<? extends IAccounterCore> str) throws Exception;
+	
+	
 }

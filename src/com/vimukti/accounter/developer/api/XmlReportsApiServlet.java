@@ -367,9 +367,10 @@ public class XmlReportsApiServlet extends HttpServlet {
 	}
 
 	private void sendClentFinanceDateResult(HttpServletRequest req,
-			HttpServletResponse resp,
-			List<ClientFinanceDate> minimumAndMaximumTransactionDate) {
-		// TODO Auto-generated method stub
+			HttpServletResponse resp, List<ClientFinanceDate> list) {
+		XmlSerializationFactory factory = XmlSerializationFactory.getInstance();
+		String string = factory.serializeDateList(list);
+		sendResult(req, resp, string);
 
 	}
 
