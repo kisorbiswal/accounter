@@ -56,19 +56,11 @@
 	    <div class ="body-container">
 	      <%@ include file="./header.jsp" %>
 			<div class="middle-part" id="cen">
-			   <div style="padding-top:30px;">
+			   <div>
 				<div class="middle-signup-box" id="mid-1">
 					<div class ="Welcome-Accounter-box">
 							<h2>Welcome To Accounter</h2>
-					<table class="login-fields-box">
-					<tr>
-						<td ><div class="login-box-left-top"></div></td>
-						<td ><div  class="login-box-top-middle"></div></td>
-						<td ><div class="login-box-right-top"></div></td>
-					</tr>
-					<tr>
-						<td class="login-box-left-middle" ></td>
-						<td class="login-box">
+					          <div class="login_box">
 								<div class="mid-login-box">
 								<form id="accounterForm" method="post" action="/login">
 								
@@ -79,44 +71,43 @@
 								<div class="mid-login-box1">
 							   <table class="login-table">
 							      <tr>
-								     <td> <span>Email</span></td>
+								     <td> <span>Email :</span></td>
 									 <td>
 
 										<input id="mid-box"  type="text" name="emailId" tabindex="1"> 								
 									 </td>
 								  </tr>
 								  <tr>
-									<td><span>Password</span> </td>
+									<td><span>Password :</span> </td>
 									<td>
 									     <input id="mid-box1"  type="password" name="password" tabindex="2">
 									 
 									</td>
 								  </tr>
+								  <tr>
+								     <td></td>
+								     <td><input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn" value="unchecked"/> Stay signed in</td>
+								  </tr>
+								   <tr>
+								     <td></td>
+								     <td><a href="/site/forgotpassword" id="forget-link1" tabindex="5"> Forgot your password?</a></td>
+								  </tr>
+								  <tr>
+								     <td></td>
+								     <td>
+								       <ul class="login-submit-button">
+											<li><span class="signup-submit-left"></span></li>
+											<li><input id="submitButton" style="width:60px" type="submit" class="signup-submit-mid" name="login" value="Login" tabindex="6"/></li>
+											<li><span class="signup-submit-right"></span></li>
+									   </ul>
+									</td>	 
+								  </tr>
 								
 								  </table>
 								</div>
-										<div class ="fields-table">
-											<input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn" value="unchecked"/> Stay signed in 
-											<a href="/site/forgotpassword" id="forget-link1" tabindex="5"> Forgot your password?</a></br>
 											
-											<ul class="login-submit-button">
-											     <li><span class="signup-submit-left"></span></li>
-											     <li><input id="submitButton" style="width:60px" type="submit" class="signup-submit-mid" name="login" value="Login" tabindex="6"/></li>
-											     <li><span class="signup-submit-right"></span></li>
-											 </ul>
-											
-											<!--<input id="submitButton" type="submit" class="signup-but" name="login" value="Login" tabindex="6"/>-->
-										</div>			
 								</div>
-									</td>
-										<td class="login-box-right-middle"></td>
-										</tr>
-										<tr>
-										<td ><div class="login-box-left-bottom"></div></td>
-										<td ><div class="login-box-bottom-middle"></div></td>
-										<td ><div class="login-box-right-bottom"></div></td>
-										</tr>	
-					</table>
+							</div>	
 					<table class="size-width">
 						<tr>
 							<td>
@@ -136,7 +127,7 @@
 					</form>
 				
 				</div>
-				</div></div><div class="login-box-shadow"></div>
+				</div></div>
 			</div>
 			<div class="login_logo_image" >
 			<!--<div style="margin-top: 10px;text-align: right;">

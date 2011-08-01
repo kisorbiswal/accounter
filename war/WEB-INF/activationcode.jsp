@@ -14,7 +14,7 @@
 			         <div class="reset_activation_code">
 			            <h2>Reset Activation Code</h2>
 			            <div class="activation_code_box">
-							<form action="/activation" >
+							<form action="/activation" method="post">
 							    <table width="100%">
 								  <tr>
 								    <td><span>Enter valid activation code:</span></td>
