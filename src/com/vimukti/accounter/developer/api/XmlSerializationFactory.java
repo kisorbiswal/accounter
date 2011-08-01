@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class XmlSerializationFactory implements ApiSerializationFactory {
 
-	private XmlSerializationFactory instance;
+	private static XmlSerializationFactory instance;
 	private XStream stream;
 
 	private XmlSerializationFactory() {

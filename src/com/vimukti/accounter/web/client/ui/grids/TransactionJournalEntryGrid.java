@@ -218,10 +218,6 @@ public class TransactionJournalEntryGrid extends
 
 	}
 
-	private ClientCompany getCompany() {
-		return Accounter.getCompany();
-	}
-
 	private void initCustomersCombo() {
 		List<ClientCustomer> customers = getCompany().getActiveCustomers();
 		if (customers != null) {

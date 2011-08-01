@@ -431,9 +431,6 @@ public class TransactionReceivePaymentGrid extends
 		return cashDiscountAccount;
 	}
 
-	private ClientCompany getCompany() {
-		return Accounter.getCompany();
-	}
 
 	private ClientAccount getWriteOffAccount() {
 

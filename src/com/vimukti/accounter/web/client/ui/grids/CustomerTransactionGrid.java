@@ -74,11 +74,6 @@ public abstract class CustomerTransactionGrid extends
 
 	}
 
-	private ClientCompany getCompany() {
-		ClientCompany company = Accounter.getCompany();
-		return company;
-	}
-
 	public CustomerTransactionGrid(boolean isAddNewRequired) {
 		super(false, true);
 		this.isAddNewRequired = isAddNewRequired;

@@ -38,12 +38,17 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
-		String[] statusArray = { "Open", "Completed", "Cancelled", "All" };
+		String[] statusArray = { Accounter.constants().open(),
+				Accounter.constants().completed(),
+				Accounter.constants().cancelled(), Accounter.constants().all() };
 
-		String[] dateRangeArray = { "All", "This Week", "This Month",
-				"Last Week", "Last Month", "This Financial Year",
-				"Last Financial Year", "This Financial Quarter",
-				"Last Financial Quarter", "Financial Year To Date", "Custom" };
+		String[] dateRangeArray = { Accounter.constants().all(),
+				Accounter.constants().thisWeek(),
+				Accounter.constants().thisMonth(),
+				Accounter.constants().lastWeek(), "Last Month",
+				"This Financial Year", "Last Financial Year",
+				"This Financial Quarter", "Last Financial Quarter",
+				"Financial Year To Date", "Custom" };
 
 		statusCombo = new ComboBoxItem();
 		statusCombo.setTitle("Status");

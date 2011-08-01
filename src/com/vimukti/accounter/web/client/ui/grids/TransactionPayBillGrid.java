@@ -384,10 +384,6 @@ public class TransactionPayBillGrid extends
 		cashDiscountDialog.show();
 	}
 
-	private ClientCompany getCompany() {
-		return Accounter.getCompany();
-	}
-
 	public void openCreditsDialog() {
 		if (gotCreditsAndPayments) {
 			if (creditsAndPaymentsDialiog == null) {

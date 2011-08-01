@@ -60,10 +60,6 @@ public class VendorTransactionUSGrid extends
 		this.accountingType = getCompany().getAccountingType();
 	}
 
-	private ClientCompany getCompany() {
-		return Accounter.getCompany();
-	}
-
 	public VendorTransactionUSGrid(boolean isAddNewRequired) {
 		super(false, true);
 		this.isAddNewRequired = isAddNewRequired;

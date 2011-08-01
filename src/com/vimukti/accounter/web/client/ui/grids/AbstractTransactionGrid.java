@@ -7,6 +7,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -90,7 +91,6 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	public abstract List<ClientTransactionItem> getallTransactions(
 			ClientTransaction object) throws InvalidEntryException;
 
-	
 	@Override
 	protected void addOrEditSelectBox(T obj, Object value) {
 		CustomCombo box = getCustomCombo(obj, currentCol);
@@ -271,4 +271,8 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	}
 
 	public abstract void setTaxCode(long taxCode);
+
+	public ClientCompany getCompany() {
+		return Accounter.getCompany();
+	}
 }
