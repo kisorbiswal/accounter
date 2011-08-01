@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Messages;
 import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.user.client.ui.HTML;
 
 public interface AccounterMessages extends Messages {
 	public String userName(String loginUserName);
@@ -91,5 +92,9 @@ public interface AccounterMessages extends Messages {
 	SafeHtml usersComment();
 
 	public SafeHtml labelHTML();
+
+	public SafeHtml conversationDateSelectionHTML();
+
+	public SafeHtml bodyFooter();
 
 }

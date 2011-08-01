@@ -4237,4 +4237,10 @@ public interface AccounterConstants extends Constants {
 
 	public String unCategorisedTaxAmountsDetail();
 
+	public String pleaseEnteraValidMeasurementName();
+
+	public String unitsMustnotbeNull();
+
+	public String themenamealreadyexist();
+
 }

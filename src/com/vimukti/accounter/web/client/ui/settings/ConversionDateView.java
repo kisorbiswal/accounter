@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -18,7 +19,6 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-
 
 public class ConversionDateView extends AbstractBaseView {
 	private VerticalPanel mainPanel, headerPanel, bodyPanel;
@@ -55,8 +55,8 @@ public class ConversionDateView extends AbstractBaseView {
 		titleHtml = new HTML(messages.conversionDateTitle());
 		superTitleHtml = new HTML(messages.conversionBalanceTitle());
 
-		bodyHtml = new HTML(
-				"<p><font size='2px'>Enter the date that you began processing all your transactions in Accounter. It's easiest when you set your conversion date to be the start of a Sales Tax period.</font> <a><font color='green' size='2px'>Tips for Choosing a Conversion Date</font></a></p>");
+		bodyHtml = new HTML(Accounter.messages()
+				.conversationDateSelectionHTML());
 
 		bodycommentHtml = new HTML(messages.conversionBodyComment());
 		bodycommentHtml.setVisible(false);
@@ -82,7 +82,7 @@ public class ConversionDateView extends AbstractBaseView {
 			monthList.add(monthArray[i]);
 		}
 		bodyFooterHtml = new HTML();
-		final String bodyFooter = "<p><font size='2px',color='993300'>For this conversion date you need to enter conversion balances (also known as opening balances) as at:";
+		final SafeHtml bodyFooter = Accounter.messages().bodyFooter();
 		monthCombo.initCombo(monthList);
 		monthCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -132,8 +132,7 @@ public class ConversionDateView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getConversionBalancesAction().run(null,
-						false);
+				ActionFactory.getConversionBalancesAction().run(null, false);
 			}
 		});
 
@@ -146,8 +145,7 @@ public class ConversionDateView extends AbstractBaseView {
 						yearCombo.getSelectedValue())
 						+ getYear(monthCombo.getSelectedValue(),
 								yearCombo.getSelectedValue());
-				ActionFactory.getConversionBalancesAction().run(null,
-						false
+				ActionFactory.getConversionBalancesAction().run(null, false
 				/*
 				 * ,endindDate, getYear(monthCombo.getSelectedValue(), yearCombo
 				 * .getSelectedValue())
@@ -159,8 +157,7 @@ public class ConversionDateView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getConversionBalancesAction().run(null,
-						false);
+				ActionFactory.getConversionBalancesAction().run(null, false);
 			}
 		});
 		buttonPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);

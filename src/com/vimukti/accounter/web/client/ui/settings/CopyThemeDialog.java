@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
-
 public class CopyThemeDialog extends BaseDialog {
 
 	private ClientBrandingTheme theme;
@@ -38,8 +37,7 @@ public class CopyThemeDialog extends BaseDialog {
 	private void createControls() {
 
 		VerticalPanel copyPanel = new VerticalPanel();
-		Label yourLabel = new Label(Accounter.constants()
-				.yourTitle());
+		Label yourLabel = new Label(Accounter.constants().yourTitle());
 		nameBox = new TextBox();
 		okbtn.addClickHandler(new ClickHandler() {
 
@@ -47,9 +45,8 @@ public class CopyThemeDialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 				try {
 					if (validate()) {
-						if (!Utility.isObjectExist(Accounter
-								.getCompany().getBrandingTheme(), nameBox
-								.getText())) {
+						if (!Utility.isObjectExist(Accounter.getCompany()
+								.getBrandingTheme(), nameBox.getText())) {
 							ClientBrandingTheme brandingTheme = new ClientBrandingTheme();
 							brandingTheme = setValues();
 							brandingTheme.setThemeName(nameBox.getText());
@@ -58,7 +55,8 @@ public class CopyThemeDialog extends BaseDialog {
 						} else {
 							MainFinanceWindow.getViewManager()
 									.showErrorInCurrectDialog(
-											"Theme name is already exist.");
+											Accounter.constants()
+													.themenamealreadyexist());
 						}
 						// removeFromParent();
 					}

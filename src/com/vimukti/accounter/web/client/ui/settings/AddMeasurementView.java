@@ -192,13 +192,13 @@ public class AddMeasurementView extends BaseView {
 		if (nameItem.getValue().toString() == null
 				|| nameItem.getValue().toString().isEmpty()) {
 			MainFinanceWindow.getViewManager().showError(
-					"Please Enter a Valid Measurement Name");
+					Accounter.constants().pleaseEnteraValidMeasurementName());
 			return false;
 		}
 		List<ClientUnit> unitRecords = addUnitsGrid.getRecords();
 		if (unitRecords.size() == 0) {
 			MainFinanceWindow.getViewManager().showError(
-					"Units Must not be Null");
+					Accounter.constants().unitsMustnotbeNull());
 			return false;
 		}
 		// List<Unit> unitRecords = addUnitsGrid.getRecords();
