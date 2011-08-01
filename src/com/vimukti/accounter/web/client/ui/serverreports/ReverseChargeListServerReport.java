@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -53,7 +54,7 @@ public class ReverseChargeListServerReport extends
 
 	@Override
 	public String getTitle() {
-		return "Reverse Charge List";
+		return Accounter.constants().reverseChargeList();
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class ReverseChargeListServerReport extends
 	@Override
 	public void processRecord(ReverseChargeList record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 1 });
+			addSection("", Accounter.constants().total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 

@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -16,7 +17,8 @@ public class SalesByCustomerDetailServerReport extends
 		this.reportView = reportView;
 	}
 
-	public SalesByCustomerDetailServerReport(long startDate, long endDate,int generationType) {
+	public SalesByCustomerDetailServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -47,13 +49,15 @@ public class SalesByCustomerDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Customer", "Date", "Type", "No.", "Amount" };
+		return new String[] { Accounter.constants().customer(),
+				Accounter.constants().date(), Accounter.constants().type(),
+				Accounter.constants().noDot(), Accounter.constants().amount() };
 
 	}
 
 	@Override
 	public String getTitle() {
-		return "Sales By Customer Detail";
+		return Accounter.constants().salesByCustomerDetail();
 	}
 
 	@Override
@@ -92,11 +96,11 @@ public class SalesByCustomerDetailServerReport extends
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "", "", "",
-					"Total" }, new int[] { 4 });
+					Accounter.constants().total() }, new int[] { 4 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					"Total" }, new int[] { 4 });
+					Accounter.constants().total() }, new int[] { 4 });
 			// addSection(sectionName, "", new int[] { 5 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
@@ -141,8 +145,8 @@ public class SalesByCustomerDetailServerReport extends
 	public int sort(SalesByCustomerDetail obj1, SalesByCustomerDetail obj2,
 			int col) {
 
-		int ret = obj1.getName().toLowerCase().compareTo(
-				obj2.getName().toLowerCase());
+		int ret = obj1.getName().toLowerCase()
+				.compareTo(obj2.getName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -155,8 +159,8 @@ public class SalesByCustomerDetailServerReport extends
 			return UIUtils.compareInt(Integer.parseInt(obj1.getNumber()),
 					Integer.parseInt(obj2.getNumber()));
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 4:
 			return obj1.getDueDate().compareTo(obj2.getDueDate());
 		case 5:
@@ -173,7 +177,9 @@ public class SalesByCustomerDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Customer", "Date", "Type", "No.", "Amount" };
+		return new String[] { Accounter.constants().customer(),
+				Accounter.constants().date(), Accounter.constants().type(),
+				Accounter.constants().noDot(), Accounter.constants().amount() };
 	}
 
 }

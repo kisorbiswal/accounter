@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -17,7 +18,8 @@ public class ReverseChargeListDetailServerReport extends
 		this.reportView = reportView;
 	}
 
-	public ReverseChargeListDetailServerReport(long startDate, long endDate,int generationType) {
+	public ReverseChargeListDetailServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -55,13 +57,15 @@ public class ReverseChargeListDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Date", "No.", "Name", "Memo", "Amount",
-				"Sales Price" };
+		return new String[] { Accounter.constants().date(),
+				Accounter.constants().noDot(), Accounter.constants().name(),
+				Accounter.constants().memo(), Accounter.constants().amount(),
+				Accounter.constants().salesPrice() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "Reverse Charge List Detail";
+		return Accounter.constants().reverseChargeListDetail();
 	}
 
 	@Override
@@ -80,7 +84,7 @@ public class ReverseChargeListDetailServerReport extends
 	@Override
 	public void processRecord(ReverseChargeListDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 5 });
+			addSection("", Accounter.constants().total(), new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(sectionName, "", new int[] { 5 });
@@ -165,31 +169,31 @@ public class ReverseChargeListDetailServerReport extends
 
 	public int sort(ReverseChargeListDetail obj1, ReverseChargeListDetail obj2,
 			int col) {
-		int ret = obj1.getName().toLowerCase().compareTo(
-				obj2.getName().toLowerCase());
+		int ret = obj1.getName().toLowerCase()
+				.compareTo(obj2.getName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
 
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			return obj1.getDate().compareTo(obj2.getDate());
 		case 2:
 			return obj1.getNumber().compareTo(obj2.getNumber());
 		case 3:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 4:
-			return obj1.getMemo().toLowerCase().compareTo(
-					obj2.getMemo().toLowerCase());
+			return obj1.getMemo().toLowerCase()
+					.compareTo(obj2.getMemo().toLowerCase());
 		case 5:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		case 6:
-			return UIUtils.compareDouble(obj1.getSalesPrice(), obj2
-					.getSalesPrice());
+			return UIUtils.compareDouble(obj1.getSalesPrice(),
+					obj2.getSalesPrice());
 		}
 		return 0;
 	}
@@ -202,8 +206,10 @@ public class ReverseChargeListDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Date", "No.", "Name", "Memo", "Amount",
-				"Sales Price" };
+		return new String[] { Accounter.constants().date(),
+				Accounter.constants().noDot(), Accounter.constants().name(),
+				Accounter.constants().memo(), Accounter.constants().amount(),
+				Accounter.constants().salesPrice() };
 	}
 
 }

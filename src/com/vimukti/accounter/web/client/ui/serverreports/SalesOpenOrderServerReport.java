@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -9,10 +10,11 @@ public class SalesOpenOrderServerReport extends
 		AbstractFinaneReport<OpenAndClosedOrders> {
 
 	private String sectionName;
-	
+
 	private boolean isSales;
 
-	public SalesOpenOrderServerReport(long startDate, long endDate,int generationType) {
+	public SalesOpenOrderServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 		isSales = true;
 	}
@@ -62,10 +64,11 @@ public class SalesOpenOrderServerReport extends
 	@Override
 	public String[] getColunms() {
 		// if (isSales)
-		return new String[] { "Order Date", "Customer",
-		// FinanceApplication.constants().description(),
+		return new String[] { Accounter.constants().orderDate(),
+				Accounter.constants().customer(),
+				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
-				"Amount" };
+				Accounter.constants().amount() };
 
 		// else
 		// return new String[] {
@@ -76,7 +79,7 @@ public class SalesOpenOrderServerReport extends
 
 	@Override
 	public String getTitle() {
-		return " Sales Order Report";
+		return Accounter.constants().salesOrderReport();
 	}
 
 	@Override
@@ -223,8 +226,8 @@ public class SalesOpenOrderServerReport extends
 
 	public int sort(OpenAndClosedOrders obj1, OpenAndClosedOrders obj2, int col) {
 
-		int ret = obj1.getVendorOrCustomerName().toLowerCase().compareTo(
-				obj2.getVendorOrCustomerName().toLowerCase());
+		int ret = obj1.getVendorOrCustomerName().toLowerCase()
+				.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
@@ -235,8 +238,8 @@ public class SalesOpenOrderServerReport extends
 					obj2.getTransactionDate());
 
 		case 1:
-			return obj1.getVendorOrCustomerName().toLowerCase().compareTo(
-					obj2.getVendorOrCustomerName().toLowerCase());
+			return obj1.getVendorOrCustomerName().toLowerCase()
+					.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
 
 			// case 2:
 			// // if (isSales)
@@ -264,10 +267,11 @@ public class SalesOpenOrderServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Order Date", "Customer",
-		// FinanceApplication.constants().description(),
+		return new String[] { Accounter.constants().orderDate(),
+				Accounter.constants().customer(),
+				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
-				"Amount" };
+				Accounter.constants().amount() };
 	}
 
 }

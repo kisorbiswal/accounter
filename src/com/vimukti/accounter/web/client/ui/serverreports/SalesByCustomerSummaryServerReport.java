@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -14,7 +15,8 @@ public class SalesByCustomerSummaryServerReport extends
 		this.reportView = reportView;
 	}
 
-	public SalesByCustomerSummaryServerReport(long startDate, long endDate,int generationType) {
+	public SalesByCustomerSummaryServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -38,14 +40,14 @@ public class SalesByCustomerSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Customer Name",
-		// FinanceApplication.constants().customerGroup(),
-				"Amount" };
+		return new String[] { Accounter.constants().customerName(),
+				// FinanceApplication.constants().customerGroup(),
+				Accounter.constants().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "Sales By Customer Summary";
+		return Accounter.constants().salesByCustomerSummary();
 	}
 
 	@Override
@@ -65,7 +67,7 @@ public class SalesByCustomerSummaryServerReport extends
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 1 });
+			addSection("", Accounter.constants().total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -112,8 +114,8 @@ public class SalesByCustomerSummaryServerReport extends
 			int col) {
 		switch (col) {
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 			// case 1:
 			// return obj1.getGroupName().toLowerCase().compareTo(
 			// obj2.getGroupName().toLowerCase());
@@ -126,9 +128,9 @@ public class SalesByCustomerSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Customer Name",
-		// FinanceApplication.constants().customerGroup(),
-				"Amount" };
+		return new String[] { Accounter.constants().customerName(),
+				// FinanceApplication.constants().customerGroup(),
+				Accounter.constants().amount() };
 	}
 
 }
