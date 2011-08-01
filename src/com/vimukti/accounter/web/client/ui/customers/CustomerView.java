@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -1041,14 +1042,20 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		int accounttype = getCompany().getAccountingType();
 
-		if (accounttype == 1)
-			termsForm.setFields(shipMethSelect, payMethSelect, payTermsSelect,
-					custGroupSelect, vatregno, custTaxCode);
-		else if (accounttype == 0) {
+		if (accounttype == 1) {
+			termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect,
+					vatregno, custTaxCode);
+			if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+				termsForm.setFields(shipMethSelect);
+			}
+		} else if (accounttype == 0) {
 			custTaxCode.setTitle(customerConstants.taxGroup());
 			// custTaxCode.setRequired(true);
-			termsForm.setFields(shipMethSelect, payMethSelect, payTermsSelect,
-					custGroupSelect, custTaxCode);
+			termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect,
+					custTaxCode);
+			if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+				termsForm.setFields(shipMethSelect);
+			}
 		}
 		termsForm.setWidth("100%");
 

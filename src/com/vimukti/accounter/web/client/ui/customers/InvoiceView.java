@@ -329,16 +329,19 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
 		if (ClientCompanyPreferences.get().isSalesPersonEnabled()) {
-			termsForm.setFields(salesPersonCombo, payTermsSelect,
-					shippingTermsCombo, shippingMethodsCombo, dueDateItem,
-					deliveryDate, orderNumText);
-		} else {
-			termsForm.setFields(payTermsSelect, shippingTermsCombo,
-					shippingMethodsCombo, dueDateItem, deliveryDate,
+			termsForm.setFields(salesPersonCombo, payTermsSelect, dueDateItem,
 					orderNumText);
+			if (ClientCompanyPreferences.get().isDoProductShipMents())
+				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
+						deliveryDate);
+		} else {
+			termsForm.setFields(payTermsSelect, dueDateItem, orderNumText);
+			if (ClientCompanyPreferences.get().isDoProductShipMents())
+				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
+						deliveryDate);
+
 		}
-		
-		
+
 		termsForm.setStyleName("align-form");
 
 		termsForm.getCellFormatter().getElement(0, 0)

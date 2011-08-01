@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -170,16 +169,22 @@ public class CashSalesView extends
 		termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
 		termsForm.setNumCols(2);
-		if (ClientCompanyPreferences.get().isSalesPersonEnabled()){
+
+		if (ClientCompanyPreferences.get().isSalesPersonEnabled()) {
 			termsForm.setFields(salesPersonCombo, paymentMethodCombo,
-					depositInCombo, shippingTermsCombo, shippingMethodsCombo,
-					deliveryDate);
-		}else{
-			termsForm.setFields(paymentMethodCombo,
-					depositInCombo, shippingTermsCombo, shippingMethodsCombo,
-					deliveryDate);
+					depositInCombo);
+			if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
+						deliveryDate);
+			}
+		} else {
+			termsForm.setFields(paymentMethodCombo, depositInCombo);
+			if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
+						deliveryDate);
+			}
 		}
-		
+
 		termsForm.setStyleName("align-form");
 		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
@@ -270,7 +275,8 @@ public class CashSalesView extends
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(custForm);
-		leftVLay.add(shipToAddress);
+		if (ClientCompanyPreferences.get().isDoProductShipMents())
+			leftVLay.add(shipToAddress);
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
 		rightVLay.setWidth("100%");
@@ -675,7 +681,8 @@ public class CashSalesView extends
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
 				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
-				this.salesPersonCombo.addComboItem((ClientSalesPerson) core);
+					this.salesPersonCombo
+							.addComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
 				this.depositInCombo.addComboItem((ClientAccount) core);
@@ -699,7 +706,8 @@ public class CashSalesView extends
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
 				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
-				this.salesPersonCombo.updateComboItem((ClientSalesPerson) core);
+					this.salesPersonCombo
+							.updateComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
 				this.depositInCombo.updateComboItem((ClientAccount) core);
@@ -722,7 +730,8 @@ public class CashSalesView extends
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
 				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
-				this.salesPersonCombo.removeComboItem((ClientSalesPerson) core);
+					this.salesPersonCombo
+							.removeComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
 				this.depositInCombo.removeComboItem((ClientAccount) core);
@@ -776,7 +785,7 @@ public class CashSalesView extends
 		transactionNumber.setDisabled(isEdit);
 		customerCombo.setDisabled(isEdit);
 		if (ClientCompanyPreferences.get().isSalesPersonEnabled())
-		salesPersonCombo.setDisabled(isEdit);
+			salesPersonCombo.setDisabled(isEdit);
 		paymentMethodCombo.setDisabled(isEdit);
 		depositInCombo.setDisabled(isEdit);
 		taxCodeSelect.setDisabled(isEdit);

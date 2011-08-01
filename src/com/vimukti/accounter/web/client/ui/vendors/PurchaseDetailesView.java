@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -24,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.customers.ItemsGrid;
  * @author ganesh.v
  * 
  */
-
 
 public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 
@@ -94,8 +94,7 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 
 		Label headerLabel = new Label();
 		headerLabel.setHeight("22px");
-		headerLabel.setText(Accounter.constants()
-				.purchaseOrderDetails());
+		headerLabel.setText(Accounter.constants().purchaseOrderDetails());
 		headerLabel.setStylePrimaryName("headerlabel");
 		add(headerLabel);
 
@@ -134,8 +133,7 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 		billingAddress.setStyleName("selectedview_labelstyle");
 
 		Label shippingAddress = new Label();
-		shippingAddress.setText(Accounter.constants()
-				.shippingAddress());
+		shippingAddress.setText(Accounter.constants().shippingAddress());
 		shippingAddress.setStyleName("selectedview_textarea_label");
 
 		billingAdress = new HTML("");
@@ -146,8 +144,7 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 
 		itemsGrid = new ItemsGrid(false);
 		itemsGrid.init();
-		itemsGrid.addEmptyMessage(Accounter.constants()
-				.noProductstoshow());
+		itemsGrid.addEmptyMessage(Accounter.constants().noProductstoshow());
 
 		flexTable.setWidget(1, 0, orderNumberLabel);
 		flexTable.setWidget(2, 0, conLabel);
@@ -155,16 +152,18 @@ public class PurchaseDetailesView extends ParentCanvas<VerticalPanel> {
 		flexTable.setWidget(4, 0, statusLabel);
 		flexTable.setWidget(5, 0, itemsLabel);
 		flexTable.setWidget(7, 0, billingAddress);
-		flexTable.setWidget(9, 0, shippingAddress);
-
+		if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+			flexTable.setWidget(9, 0, shippingAddress);
+		}
 		flexTable.setWidget(1, 1, orderNumberField);
 		flexTable.setWidget(2, 1, customerNumberField);
 		flexTable.setWidget(3, 1, dueDateField);
 		flexTable.setWidget(4, 1, statusField);
 		flexTable.setWidget(6, 0, itemsGrid);
 		flexTable.setWidget(8, 0, billingAdress);
-		flexTable.setWidget(10, 0, shippingAdress);
-
+		if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+			flexTable.setWidget(10, 0, shippingAdress);
+		}
 		cellFormatter.setColSpan(6, 0, 2);
 		cellFormatter.setColSpan(8, 0, 2);
 		cellFormatter.setColSpan(10, 0, 2);

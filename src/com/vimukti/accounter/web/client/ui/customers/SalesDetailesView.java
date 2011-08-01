@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -150,16 +151,18 @@ public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
 		flexTable.setWidget(4, 0, statusLabel);
 		flexTable.setWidget(5, 0, itemsLabel);
 		flexTable.setWidget(7, 0, billingAddress);
-		flexTable.setWidget(9, 0, shippingAddress);
-
+		if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+			flexTable.setWidget(9, 0, shippingAddress);
+		}
 		flexTable.setWidget(1, 1, orderNumberField);
 		flexTable.setWidget(2, 1, customerNumberField);
 		flexTable.setWidget(3, 1, dueDateField);
 		flexTable.setWidget(4, 1, statusField);
 		flexTable.setWidget(6, 0, itemsGrid);
 		flexTable.setWidget(8, 0, billingAdress);
-		flexTable.setWidget(10, 0, shippingAdress);
-
+		if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+			flexTable.setWidget(10, 0, shippingAdress);
+		}
 		cellFormatter.setColSpan(6, 0, 2);
 		cellFormatter.setColSpan(8, 0, 2);
 		cellFormatter.setColSpan(10, 0, 2);
