@@ -1,17 +1,16 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 @SuppressWarnings("serial")
 public class ClientCompanyPreferences implements IAccounterCore {
 
-	
 	private static int GENERAL_TIME_FORMAT_MINUTES;
-	
+
 	private static int GENERAL_TIME_FORMAT_DECIMAL;
 
-	
 	private static final int SHOW_SUMMARY = 10;
-	
+
 	private static final int SHOW_LIST = 20;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
@@ -22,6 +21,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public static int VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC = 1;
 	public static int VAT_REP_ENDPERIOD_APR_JUL_OCT_JAN = 2;
 	public static int VAT_REP_ENDPERIOD_MAY_AUG_NOV_FEB = 3;
+
+	private static ClientCompanyPreferences preferences;
 
 	boolean useAccountNumbers;
 
@@ -595,5 +596,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	@Override
 	public String getClientClassSimpleName() {
 		return "ClientCompanyPreferences";
+	}
+
+	public static ClientCompanyPreferences get() {
+		if (preferences == null) {
+			preferences = Accounter.getCompany().getPreferences();
+		}
+		return preferences;
 	}
 }

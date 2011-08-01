@@ -514,11 +514,7 @@ public class ClientCompany implements IAccounterCore {
 	// this.taxAgencies = taxAgencies;
 	// }
 
-	public ClientCompanyPreferences getpreferences() {
-		return preferences;
-	}
-
-	public void setpreferences(ClientCompanyPreferences preferences) {
+	public void setPreferences(ClientCompanyPreferences preferences) {
 		this.preferences = preferences;
 	}
 
