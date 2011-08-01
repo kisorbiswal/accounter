@@ -830,11 +830,8 @@ input[type="text"] {
 	
 }
 
-.signup-box,.signup-fields-box { /*float: left;
-	margin-left: 26px;
-	margin-top: -68px;
-	margin-bottom: 10px;*/
-	
+.signup-box { 
+	text-align: left;
 }
 
 .signup-box-left-bot {
@@ -862,8 +859,9 @@ input[type="text"] {
 }
 
 #checkbox1 {
-	margin-left: -21px;
-	margin-top: 27px;
+	/*margin-left: -21px;
+	margin-top: 27px;*/
+	margin-bottom:10px;
 }
 
 .button-signup-page {
@@ -911,7 +909,6 @@ input[type="text"] {
 
 #forget-link1 {
 	color: #3299A4;
-	margin-left: 60px;
 	font-size: 15px;
 }
 
@@ -947,7 +944,8 @@ input[type="text"] {
 }
 
 .size-width {
-	margin: 5px 50px 10px;
+	margin: 10px auto;
+    width: 500px;
 }
 
 .header1 p {
@@ -1694,8 +1692,7 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 }
 
 .login-submit-button {
-	float: right;
-	margin: 20px 48px 0 0;
+	margin: 10px 0 0 0;
 }
 
 .getstarted-submit-button {
@@ -1725,9 +1722,6 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 	height: 18px;
 }
 
-.login-table span {
-	padding-top: 5px;
-}
 
 .terms-error span {
 	width: 170px\0;
@@ -1886,4 +1880,10 @@ input[type="submit"]:FOCUS {
 #accounterForm td:FIRST-CHILD {
 	text-align:right;
 	padding-right:15px;
+}
+.login_box{
+	background: none repeat scroll 0 0 white;
+    border: 1px solid #929292;
+    margin: 0 auto;
+    width: 500px;
 }
