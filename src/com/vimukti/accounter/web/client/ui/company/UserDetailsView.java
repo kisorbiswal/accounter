@@ -32,7 +32,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 		mailIdLabel = new Label(Accounter.constants().mailIDColon()
 				+ Accounter.getUser().getEmail());
 		mailIdLabel.setStyleName("user-name");
-		changePasswordHtml = new HTML(Accounter.constants()
+		changePasswordHtml = new HTML(Accounter.messages()
 				.changePasswordHTML());
 		changePasswordHtml.setStyleName("change-password");
 		changePasswordHtml.setWidth("12%");

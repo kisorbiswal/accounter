@@ -84,8 +84,8 @@ public class FileUploadDilaog extends CustomDialog {
 		panel.setSpacing(2);
 		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		// Create a FileUpload widget.
-		detailsHtml = new HTML(Accounter.constants().logoComment());
-		helpHtml = new HTML(Accounter.constants().helpContent());
+		detailsHtml = new HTML(Accounter.messages().logoComment());
+		helpHtml = new HTML(Accounter.messages().helpContent());
 		helpHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -104,7 +104,7 @@ public class FileUploadDilaog extends CustomDialog {
 			}
 		});
 		helpHtml.setVisible(false);
-		chooseHtml = new HTML(Accounter.constants().chooseLogo());
+		chooseHtml = new HTML(Accounter.messages().chooseLogo());
 		final FileUpload upload = new FileUpload();
 		/* Default height of upload text box 26 */
 		upload.getElement().setAttribute("size", "33");
@@ -118,7 +118,7 @@ public class FileUploadDilaog extends CustomDialog {
 
 		// Add a 'submit' button.
 		AccounterButton uploadSubmitButton = new AccounterButton(Accounter
-				.constants().upload());
+				.messages().upload());
 		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
@@ -219,7 +219,7 @@ public class FileUploadDilaog extends CustomDialog {
 		upload.setName(fileID);
 		upload.getElement().setAttribute("size", "50");
 
-		HTML label = new HTML(Accounter.constants().removeHTML());
+		HTML label = new HTML(Accounter.messages().removeHTML());
 		label.setWidth("60");
 		label.setHeight("25");
 		label.addClickHandler(new ClickHandler() {

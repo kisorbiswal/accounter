@@ -88,8 +88,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getGeneralSettingsAction().run(null,
-						false);
+				ActionFactory.getGeneralSettingsAction().run(null, false);
 			}
 		});
 		generalSettingsHTML.setVisible(false);
@@ -123,8 +122,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getAutomaticSequenceAction().run(null,
-						false);
+				ActionFactory.getAutomaticSequenceAction().run(null, false);
 
 			}
 		});
@@ -292,7 +290,7 @@ public class InvoiceBrandingView<T> extends
 		contactDetailsPanel.setStyleName("contact-deatails-panel");
 
 		if ((theme.getFileName() == null)) {
-			uploadPictureHtml = new HTML(messages.uploadLogo());
+			uploadPictureHtml = new HTML(Accounter.messages().uploadLogo());
 			uploadPictureHtml.setVisible(true);
 			uploadPictureHtml.addMouseOverHandler(new MouseOverHandler() {
 
@@ -462,19 +460,16 @@ public class InvoiceBrandingView<T> extends
 				panel.hide();
 				switch (type) {
 				case 1:
-					ActionFactory.getNewBrandThemeAction().run(theme,
-							false);
+					ActionFactory.getNewBrandThemeAction().run(theme, false);
 					break;
 				case 2:
-					ActionFactory.getCopyThemeAction()
-							.run(theme, false);
+					ActionFactory.getCopyThemeAction().run(theme, false);
 					break;
 				case 3:
 					changeLogo(theme);
 					break;
 				case 4:
-					ActionFactory.getDeleteThemeAction().run(theme,
-							false);
+					ActionFactory.getDeleteThemeAction().run(theme, false);
 					break;
 				case 5:
 					removeLogo(theme);

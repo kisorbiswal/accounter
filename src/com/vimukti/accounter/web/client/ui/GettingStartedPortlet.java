@@ -58,7 +58,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		// HorizontalPanel hPanel3 = new HorizontalPanel();
 		// HorizontalPanel hPanel4 = new HorizontalPanel();
 		// HorizontalPanel hPanel5 = new HorizontalPanel();
-		allHtml = new HTML(Accounter.constants().allHTML());
+		allHtml = new HTML(Accounter.messages().allHTML());
 		// hPanel1.add(new HTML("<li>Add "));
 		// if (FinanceApplication.getUser().canDoInvoiceTransactions()) {
 		// hPanel1.add(accountReceivable);

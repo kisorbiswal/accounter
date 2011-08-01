@@ -87,9 +87,9 @@ public class InvoicePrintLayout extends VerticalPanel {
 				Accounter.constants().invoiceDate(),
 				UIUtils.dateFormat(new ClientFinanceDate(invoice
 						.getTransactionDate())),
-				Accounter.constants().invoiceNumber(),
-				invoice.getNumber() + "", Accounter.constants().orderNumber(),
-				invoice.getOrderNum(), Accounter.constants().customerNumber(),
+				Accounter.messages().invoiceNumber(), invoice.getNumber() + "",
+				Accounter.constants().orderNumber(), invoice.getOrderNum(),
+				Accounter.constants().customerNumber(),
 				getCompany().getCustomer(invoice.getCustomer()).getNumber() });
 
 		HorizontalPanel datepanel = new HorizontalPanel();
@@ -100,7 +100,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 		datepanel.add(table);
 
 		HTML lab1 = new HTML();
-		lab1.setHTML(Accounter.constants().labelHTML().asString() + datepanel);
+		lab1.setHTML(Accounter.messages().labelHTML().asString() + datepanel);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setSize("100%", "100%");
@@ -399,7 +399,8 @@ public class InvoicePrintLayout extends VerticalPanel {
 						}
 					});
 		} catch (RequestException e) {
-			Window.alert(Accounter.constants().failedToSendTheRequest() + e.getMessage());
+			Window.alert(Accounter.constants().failedToSendTheRequest()
+					+ e.getMessage());
 		}
 	}
 
@@ -441,8 +442,9 @@ public class InvoicePrintLayout extends VerticalPanel {
 
 		Map<String, String> detailsMap = getMap("VAT No : "
 				+ getCompany().getpreferences().getVATregistrationNumber(), ""
-				+ "<br/>",Accounter.constants().sortCodeColon() + getCompany().getSortCode(), ""
-				+ "<br/>", Accounter.constants().bankAccountNumberColon()
+				+ "<br/>", Accounter.constants().sortCodeColon()
+				+ getCompany().getSortCode(), "" + "<br/>", Accounter
+				.constants().bankAccountNumberColon()
 				+ getCompany().getBankAccountNo(), "" + "<br/>");
 
 		FlexTable vatTable = util.getThinBorderWidget(2, 3, detailsMap, true);

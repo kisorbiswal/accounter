@@ -15,10 +15,10 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-
 
 public class GeneralSettingsView extends AbstractBaseView {
 	private VerticalPanel mainPanel, conversationPanel, invoiceBrandingPanel,
@@ -29,7 +29,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 			invoiceCommentHtml, titleHtml, userHtml, userCommentHtml,
 			companySettingsHtml, companyCommentHtml;
 	private Image conversationImage, usersImage, invoiceImage, companyImage;
-	private AccounterConstants messages = Accounter.constants();
+	private AccounterMessages messages = Accounter.messages();
 
 	@Override
 	public void fitToSize(int height, int width) {
@@ -97,16 +97,14 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getConversionBalancesAction().run(null,
-						false);
+				ActionFactory.getConversionBalancesAction().run(null, false);
 			}
 		});
 		conversationImage.setVisible(false);
 		conversionHTML.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getConversionBalancesAction().run(null,
-						false);
+				ActionFactory.getConversionBalancesAction().run(null, false);
 			}
 		});
 		conversionHTML.addMouseOverHandler(new MouseOverHandler() {
@@ -137,16 +135,14 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getInvoiceBrandingAction().run(null,
-						false);
+				ActionFactory.getInvoiceBrandingAction().run(null, false);
 			}
 		});
 		invoiceBrandingHTML.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getInvoiceBrandingAction().run(null,
-						false);
+				ActionFactory.getInvoiceBrandingAction().run(null, false);
 				invoiceBrandingHTML.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
 

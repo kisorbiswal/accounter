@@ -387,7 +387,7 @@ public abstract class FormItem {
 
 	private HTML helpContent() {
 		HTML content;
-		content = new HTML(Accounter.constants().aboutThisFieldHelp());
+		content = new HTML(Accounter.messages().aboutThisFieldHelp());
 		return content;
 	}
 }

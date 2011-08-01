@@ -153,10 +153,12 @@ public class MainFinanceWindow extends VerticalPanel {
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
-		menuitem = menuBar.addItem(Accounter.constants().sales(), getSalesSubMenu());
+		menuitem = menuBar.addItem(Accounter.constants().sales(),
+				getSalesSubMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		menuitem = menuBar.addItem(Accounter.constants().purchases(), getPurchaseSubMenu());
+		menuitem = menuBar.addItem(Accounter.messages().purchases(),
+				getPurchaseSubMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		// menuBar.addItem(FinanceApplication.constants()
@@ -599,7 +601,8 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		CustomMenuBar companyMenuBar = getSubMenu();
 
-		companyMenuBar.addItem(Accounter.constants().dashBoard(), getDashBoardCommand());
+		companyMenuBar.addItem(Accounter.messages().dashBoard(),
+				getDashBoardCommand());
 		companyMenuBar.addSeparator();
 
 		if (Accounter.getUser().canDoBanking())
@@ -814,7 +817,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				AccounterAsyncCallback<T> callback = new AccounterAsyncCallback<T>() {
 
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants().unableToshowtheview());
+						Accounter.showError(Accounter.constants()
+								.unableToshowtheview());
 					}
 
 					public void onSuccess(T result) {

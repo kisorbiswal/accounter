@@ -75,7 +75,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 				super.setEnabled(enabled);
 			}
 		};
-		prvsHyprLink.setHTML(Accounter.constants().previousHTML());
+		prvsHyprLink.setHTML(Accounter.messages().previousHTML());
 		prvsHyprLink.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -106,7 +106,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 				super.setEnabled(enabled);
 			}
 		};
-		nextHyprLnk.setHTML(Accounter.constants().nextHTML());
+		nextHyprLnk.setHTML(Accounter.messages().nextHTML());
 		nextHyprLnk.addClickHandler(new ClickHandler() {
 
 			@Override

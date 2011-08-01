@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
-
 public class DeleteThemeDialog extends BaseDialog {
 
 	private HTML deleteHtml, undoneHtml;
@@ -37,8 +36,7 @@ public class DeleteThemeDialog extends BaseDialog {
 
 		deleteHtml = new HTML("<p>Are you sure you want to delete <strong>"
 				+ brandingTheme.getThemeName() + "</strong> theme?</p>");
-		undoneHtml = new HTML(Accounter.constants()
-				.undoneHtml());
+		undoneHtml = new HTML(Accounter.messages().undoneHtml());
 
 		okbtn.setText(Accounter.constants().deleteButton());
 		okbtn.addClickHandler(new ClickHandler() {

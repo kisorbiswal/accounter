@@ -117,18 +117,18 @@ public class CreateFiscalYearDialog extends BaseDialog {
 			@Override
 			public boolean onOkClick() {
 				if (startOfFiscalYear.getDateBox().getValue().isEmpty()) {
-					BaseDialog.errordata.setHTML(Accounter.constants()
+					BaseDialog.errordata.setHTML(Accounter.messages()
 							.startFiscalHTML());
 					BaseDialog.commentPanel.setVisible(true);
 					return false;
 				} else if (endOfFiscalYear.getDateBox().getValue().isEmpty()) {
-					BaseDialog.errordata.setHTML(Accounter.constants()
+					BaseDialog.errordata.setHTML(Accounter.messages()
 							.endFiscalHTML());
 					BaseDialog.commentPanel.setVisible(true);
 					return false;
 				} else if (endOfFiscalYear.getDate().before(
 						startOfFiscalYear.getDate())) {
-					BaseDialog.errordata.setHTML(Accounter.constants()
+					BaseDialog.errordata.setHTML(Accounter.messages()
 							.fiscalStartEndCompreHTML());
 					BaseDialog.commentPanel.setVisible(true);
 

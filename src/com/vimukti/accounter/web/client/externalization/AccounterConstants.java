@@ -133,8 +133,6 @@ public interface AccounterConstants extends Constants {
 
 	public String addCompanyDetails();
 
-	SafeHtml addComparativeButton();
-
 	public String addCountry();
 
 	public String addCountryLabel();
@@ -180,8 +178,6 @@ public interface AccounterConstants extends Constants {
 	public String addNewItem();
 
 	public String addNewJournalEntry();
-
-	SafeHtml addNewLine();
 
 	public String addNewPayment();
 
@@ -640,8 +636,6 @@ public interface AccounterConstants extends Constants {
 
 	public String chooseEndingDate();
 
-	SafeHtml chooseLogo();
-
 	public String chooseVATAgency();
 
 	public String city();
@@ -694,8 +688,6 @@ public interface AccounterConstants extends Constants {
 
 	public String companyAndPreferences();
 
-	SafeHtml companyCommentHtml();
-
 	public String companyDetails();
 
 	public String companyFile();
@@ -713,8 +705,6 @@ public interface AccounterConstants extends Constants {
 	public String companyPrefeTitle();
 
 	public String companyRegistrationNumber();
-
-	SafeHtml companySettingsTitle();
 
 	public String companySetup();
 
@@ -742,23 +732,15 @@ public interface AccounterConstants extends Constants {
 
 	public String conversionAccount();
 
-	SafeHtml conversionBalanaceHeader();
-
 	public String conversionBalance();
 
 	public String conversionBalanceTitle();
 
 	public String conversionBodyComment();
 
-	SafeHtml conversionCommet();
-
 	public String conversionDate();
 
-	SafeHtml conversionDateButton();
-
 	public String conversionDateTitle();
-
-	SafeHtml conversionHTML();
 
 	public String copy();
 
@@ -905,8 +887,6 @@ public interface AccounterConstants extends Constants {
 	public String currentYear();
 
 	public String custom();
-
-	SafeHtml customdocxTheme();
 
 	public String customer();
 
@@ -1072,8 +1052,6 @@ public interface AccounterConstants extends Constants {
 	public String deleteFailed();
 
 	public String deleteFiscalYear();
-
-	SafeHtml deleteHtml();
 
 	public String deleteThemeLabel();
 
@@ -1503,8 +1481,6 @@ public interface AccounterConstants extends Constants {
 
 	public String fontWeigtht();
 
-	SafeHtml footerComment();
-
 	public String forgetPassword();
 
 	public String formLayoutsList();
@@ -1538,8 +1514,6 @@ public interface AccounterConstants extends Constants {
 	public String generalLedgerReport();
 
 	public String generalSettings();
-
-	SafeHtml generalSettingsHeading();
 
 	public String generalSettingsLabel();
 
@@ -1596,8 +1570,6 @@ public interface AccounterConstants extends Constants {
 	public String healthcareProfessional();
 
 	public String help();
-
-	SafeHtml helpContent();
 
 	public String helpwiththisWindow();
 
@@ -1713,11 +1685,7 @@ public interface AccounterConstants extends Constants {
 
 	public String invoiceBranding();
 
-	SafeHtml invoiceBrandingHTML();
-
 	public String invoiceBrandingLabel();
-
-	SafeHtml invoiceComment();
 
 	public String invoiced();
 
@@ -1968,8 +1936,6 @@ public interface AccounterConstants extends Constants {
 	public String logo();
 
 	public String logoAlignment();
-
-	SafeHtml logoComment();
 
 	public String logoType();
 
@@ -3544,8 +3510,6 @@ public interface AccounterConstants extends Constants {
 
 	public String underline();
 
-	SafeHtml undoneHtml();
-
 	public String unitOfMeasure();
 
 	public String unitPrice();
@@ -3570,8 +3534,6 @@ public interface AccounterConstants extends Constants {
 
 	public String updationFailed();
 
-	SafeHtml uploadLogo();
-
 	public String US();
 
 	public String USA();
@@ -3587,14 +3549,12 @@ public interface AccounterConstants extends Constants {
 	public String userDetails();
 
 	public String userDialog();
-
-	SafeHtml userHTML();
-
+	
 	public String userPreference();
 
 	public String users();
 
-	SafeHtml usersComment();
+	
 
 	public String usersTitle();
 
@@ -3897,9 +3857,6 @@ public interface AccounterConstants extends Constants {
 
 	public String failedtogetExpensetotals();
 
-	// TODO
-	public SafeHtml upload();
-
 	public String noImageisselected();
 
 	public String accept();
@@ -3910,21 +3867,9 @@ public interface AccounterConstants extends Constants {
 
 	public String financeCategories();
 
-	public SafeHtml allHTML();
-
 	public String hideGettingStarted();
 
 	public String showGettingStarted();
-
-	public SafeHtml helpCennter();
-
-	public SafeHtml helpHTML();
-
-	public SafeHtml purchases();
-
-	public String invoiceNumber();
-
-	public SafeHtml labelHTML();
 
 	public String VATTotal();
 
@@ -4004,21 +3949,11 @@ public interface AccounterConstants extends Constants {
 
 	public String employeeTemployee();
 
-	public SafeHtml creaditHTML();
-
-	public SafeHtml removeHTML();
-
-	public SafeHtml previousHTML();
-
-	public SafeHtml nextHTML();
-
-	public SafeHtml logoutHTML();
-
 	public String aItemGroupAlreadyExistswiththisname();
 
 	public String failedtogetAccountReceivablechartvalues();
 
-	public SafeHtml add3dots();
+	public String add3dots();
 
 	public String beforesaving();
 
@@ -4031,8 +3966,6 @@ public interface AccounterConstants extends Constants {
 	public String incomeandDistribution();
 
 	public String helpLinks();
-
-	public SafeHtml dashBoard();
 
 	public String unableToshowtheview();
 
@@ -4138,12 +4071,6 @@ public interface AccounterConstants extends Constants {
 
 	public String preferences();
 
-	public SafeHtml startFiscalHTML();
-
-	public SafeHtml endFiscalHTML();
-
-	public SafeHtml fiscalStartEndCompreHTML();
-
 	public String depreciationfailed();
 
 	public String pleaseselectaFixedAsset();
@@ -4163,8 +4090,6 @@ public interface AccounterConstants extends Constants {
 	public String nameColon();
 
 	public String mailIDColon();
-
-	public SafeHtml changePasswordHTML();
 
 	public String transactiontotalcannotbe0orlessthan0();
 
@@ -4246,8 +4171,6 @@ public interface AccounterConstants extends Constants {
 
 	public String receiveJournalisFailed();
 
-	public SafeHtml aboutThisFieldHelp();
-
 	public String doyouwanttoDelete();
 
 	public String wecantDeleteParticipatinginTransactions();
@@ -4297,5 +4220,7 @@ public interface AccounterConstants extends Constants {
 	public String otherExpenseTotals();
 
 	public String expenseTotals();
+
+	public String isTaxPayble();
 
 }

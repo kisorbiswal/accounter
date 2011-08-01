@@ -76,12 +76,12 @@ public class Header extends HorizontalPanel {
 			});
 		}
 
-		logout = new HTML(Accounter.constants().logoutHTML());
+		logout = new HTML(Accounter.messages().logoutHTML());
 		logout.addStyleName("logout-html");
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
-		help = new HTML(Accounter.constants().helpHTML());
+		help = new HTML(Accounter.messages().helpHTML());
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
 
@@ -145,7 +145,7 @@ public class Header extends HorizontalPanel {
 
 	private CustomMenuBar getHelpMenuBar() {
 		CustomMenuBar helpMenu = new CustomMenuBar();
-		helpMenu.addItem(Accounter.constants().helpCennter().asString(), true,
+		helpMenu.addItem(Accounter.messages().helpCennter().asString(), true,
 				new Command() {
 
 					@Override
