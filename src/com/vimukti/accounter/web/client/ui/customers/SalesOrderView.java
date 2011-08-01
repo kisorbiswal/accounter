@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -54,6 +55,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.SalesOrderGrid;
+import com.vimukti.accounter.web.client.ui.grids.SalesOrderUKGrid;
+import com.vimukti.accounter.web.client.ui.grids.SalesOrderUSGrid;
 
 public class SalesOrderView extends
 		AbstractCustomerTransactionView<ClientSalesOrder> {
@@ -288,9 +291,15 @@ public class SalesOrderView extends
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
-		termsForm.setFields(transactionNumber, customerOrderText,
-				salesPersonCombo, payTermsSelect, shippingTermsCombo,
-				shippingMethodsCombo, dueDateItem);
+		if (ClientCompanyPreferences.get().isSalesPersonEnabled()) {
+			termsForm.setFields(transactionNumber, customerOrderText,
+					salesPersonCombo, payTermsSelect, shippingTermsCombo,
+					shippingMethodsCombo, dueDateItem);
+		} else {
+			termsForm.setFields(transactionNumber, customerOrderText,
+					payTermsSelect, shippingTermsCombo, shippingMethodsCombo,
+					dueDateItem);
+		}
 		termsForm.getCellFormatter().setWidth(0, 0, "230px");
 		forms.add(termsForm);
 
@@ -1136,8 +1145,8 @@ public class SalesOrderView extends
 		quoteLabel.setDisabled(isEdit);
 
 		quoteLabelListener();
-
-		salesPersonCombo.setDisabled(isEdit);
+		if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+			salesPersonCombo.setDisabled(isEdit);
 		shippingTermsCombo.setDisabled(isEdit);
 		payTermsSelect.setDisabled(isEdit);
 		shippingMethodsCombo.setDisabled(isEdit);
