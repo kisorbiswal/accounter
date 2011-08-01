@@ -103,7 +103,7 @@ public class XmlReportsApiServlet extends HttpServlet {
 				result = accounterReportServiceImpl.getCreditors(
 						clientFinanceStartDate, clientFinanceEndDate);
 			} catch (AccounterException e) {
-				e.printStackTrace();
+				throw new ServletException();
 			}
 
 		} else if (methodName.equals("ageddebtors")) {
@@ -128,7 +128,7 @@ public class XmlReportsApiServlet extends HttpServlet {
 				result = accounterReportServiceImpl.getDebitors(
 						clientFinanceStartDate, clientFinanceEndDate);
 			} catch (AccounterException e) {
-				e.printStackTrace();
+				throw new ServletException();
 			}
 
 		} else if (methodName.equals("mostprofitablecustomers")) {
@@ -402,8 +402,7 @@ public class XmlReportsApiServlet extends HttpServlet {
 	}
 
 	private AccounterReportServiceImpl getAccounterReportServiceImpl() {
-		// TODO
-		return null;
+		return new AccounterReportServiceImpl();
 	}
 
 	private String getMethodName(HttpServletRequest req) {
