@@ -511,6 +511,7 @@ public class UIUtils {
 		formate += " " + date.getDate() + ", " + date.getFullYear();
 
 		return formate;
+	}
 	}-*/;
 
 	public static <T extends IAccounterCore> AccounterAsyncCallback<Boolean> getGeneralizedUpdateCallBack(

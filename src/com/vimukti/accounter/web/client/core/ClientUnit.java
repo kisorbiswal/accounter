@@ -19,6 +19,21 @@ public class ClientUnit implements Serializable, IsSerializable {
 	private double factor;
 
 	/**
+	 * Creates new Instance
+	 */
+	public ClientUnit() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * Creates new Instance
+	 */
+	public ClientUnit(String unitType, double factor) {
+		this.type = unitType;
+		this.factor = factor;
+	}
+
+	/**
 	 * @return the id
 	 */
 	public long getId() {

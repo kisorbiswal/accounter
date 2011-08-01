@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.core.client.JavaScriptException;
-import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -94,7 +93,7 @@ public class ClientCompany implements IAccounterCore {
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
-	private Set<Currency> currencies;
+	private Set<ClientCurrency> currencies;
 
 	String phone;
 
@@ -2210,11 +2209,11 @@ public class ClientCompany implements IAccounterCore {
 		this.loggedInUser = user;
 	}
 
-	public void setCurrencies(Set<Currency> currencies) {
+	public void setCurrencies(Set<ClientCurrency> currencies) {
 		this.currencies = currencies;
 	}
 
-	public Set<Currency> getCurrencies() {
+	public Set<ClientCurrency> getCurrencies() {
 		return currencies;
 	}
 }

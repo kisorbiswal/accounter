@@ -1,12 +1,12 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.vimukti.accounter.core.Measurement;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class UnitsListGird extends ListGrid<Measurement> {
+public class UnitsListGird extends ListGrid<ClientMeasurement> {
 
 	MesurementListView view;
 	AccounterConstants messages = Accounter.constants();
@@ -43,43 +43,43 @@ public class UnitsListGird extends ListGrid<Measurement> {
 	}
 
 	@Override
-	protected Object getColumnValue(Measurement obj, int index) {
+	protected Object getColumnValue(ClientMeasurement obj, int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected String[] getSelectValues(Measurement obj, int index) {
+	protected String[] getSelectValues(ClientMeasurement obj, int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected void onValueChange(Measurement obj, int index, Object value) {
+	protected void onValueChange(ClientMeasurement obj, int index, Object value) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected boolean isEditable(Measurement obj, int row, int index) {
+	protected boolean isEditable(ClientMeasurement obj, int row, int index) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	protected void onClick(Measurement obj, int row, int index) {
+	protected void onClick(ClientMeasurement obj, int row, int index) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onDoubleClick(Measurement obj) {
+	public void onDoubleClick(ClientMeasurement obj) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected int sort(Measurement obj1, Measurement obj2, int index) {
+	protected int sort(ClientMeasurement obj1, ClientMeasurement obj2, int index) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

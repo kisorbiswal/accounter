@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ResetPasswordToken;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
@@ -92,6 +93,11 @@ public class ForgetPasswordServlet extends BaseServlet {
 				+ randomAttr + companyName;
 
 		UsersMailSendar.sendResetPasswordLinkToUser(link, user.getEmail());
+
+		Client client = getClient(user.getEmail());
+		client.setRequirePasswordReset(true);
+
+		session.save(client);
 
 		// ResetIDentityPasswordEvent event = new
 		// ResetIDentityPasswordEvent(user

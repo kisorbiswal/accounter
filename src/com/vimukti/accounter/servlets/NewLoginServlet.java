@@ -40,6 +40,8 @@ public class NewLoginServlet extends BaseServlet {
 					client.setRequirePasswordReset(false);
 				}
 				String destUrl = request.getParameter(PARAM_DESTINATION);
+				HttpSession httpSession = request.getSession();
+				httpSession.setAttribute(EMAIL_ID, client.getEmailId());
 				if (destUrl == null || destUrl.isEmpty()) {
 					redirectExternal(request, response, COMPANIES_URL);
 				} else {

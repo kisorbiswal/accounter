@@ -14,11 +14,11 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 public class OperationContext {
 
 	/** User who is Doing Operation */
-	protected long userID;
+	protected String userID;
 
 	/** Operation Data */
 	protected IAccounterCore data;
-	
+
 	protected AccounterCoreType coreType;
 
 	private String arg2;
@@ -35,7 +35,7 @@ public class OperationContext {
 	/**
 	 * Creates new Instance
 	 */
-	public OperationContext(IAccounterCore data, long userID) {
+	public OperationContext(IAccounterCore data, String userID) {
 		this.userID = userID;
 		this.data = data;
 	}
@@ -43,14 +43,14 @@ public class OperationContext {
 	/**
 	 * Creates new Instance
 	 */
-	public OperationContext(IAccounterCore data, long userID, String arg1,
+	public OperationContext(IAccounterCore data, String userID, String arg1,
 			String arg2) {
 		this(data, userID);
 		this.arg1 = arg1;
 		this.arg2 = arg2;
 	}
 
-	public OperationContext(AccounterCoreType type, long id) {
+	public OperationContext(AccounterCoreType type, String id) {
 		this.coreType = type;
 		this.userID = id;
 	}
@@ -70,7 +70,7 @@ public class OperationContext {
 	/**
 	 * @return the user
 	 */
-	public long getUserID() {
+	public String getUserEmail() {
 		return userID;
 	}
 

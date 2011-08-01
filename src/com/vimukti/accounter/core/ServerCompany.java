@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.Date;
+import java.util.Set;
 
 import com.vimukti.accounter.web.client.InvalidOperationException;
 
@@ -11,6 +12,7 @@ public class ServerCompany implements IAccounterServerCore {
 	private int companyType;
 	private String serverAddress;
 	private boolean isConfigured;
+	private Set<Client> clients;
 
 	public String getCompanyName() {
 		return companyName;
@@ -73,5 +75,20 @@ public class ServerCompany implements IAccounterServerCore {
 	 */
 	public void setConfigured(boolean isConfigured) {
 		this.isConfigured = isConfigured;
+	}
+
+	/**
+	 * @return the clients
+	 */
+	public Set<Client> getClients() {
+		return clients;
+	}
+
+	/**
+	 * @param clients
+	 *            the clients to set
+	 */
+	public void setClients(Set<Client> clients) {
+		this.clients = clients;
 	}
 }

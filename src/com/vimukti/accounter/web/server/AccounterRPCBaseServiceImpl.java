@@ -16,8 +16,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.google.gwt.rpc.server.RpcServlet;
+import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -42,7 +45,7 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 
 	protected Logger log = Logger.getLogger(AccounterRPCBaseServiceImpl.class);
 
-	protected static final String USER_ID = "userId";
+	protected static final String EMAIL_ID = "emailId";
 
 	protected static final String COMPANY_ID = "companyId";
 
@@ -97,9 +100,9 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 	 * 
 	 * @return
 	 */
-	protected long getUserID() {
-		return (Long) getThreadLocalRequest().getSession()
-				.getAttribute(USER_ID);
+	protected String getUserEmail() {
+		return (String) getThreadLocalRequest().getSession().getAttribute(
+				EMAIL_ID);
 	}
 
 	/**
@@ -112,7 +115,7 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 	}
 
 	public boolean isValidSession(HttpServletRequest request) {
-		return request.getSession().getAttribute(USER_ID) == null ? false
+		return request.getSession().getAttribute(EMAIL_ID) == null ? false
 				: true;
 	}
 
@@ -131,8 +134,27 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 	// }
 
 	protected String getCompanyName(HttpServletRequest req) {
+		String cookie = getCookie(req, BaseServlet.COMPANY_COOKIE);
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		ServerCompany serverCompany = (ServerCompany) session
+				.getNamedQuery("getServerCompany.by.id")
+				.setParameter("id", Long.parseLong(cookie)).uniqueResult();
+		if (serverCompany != null) {
+			serverCompany.getCompanyName();
+		}
 		return null;
+	}
 
+	protected String getCookie(HttpServletRequest request, String cookieName) {
+		Cookie[] clientCookies = request.getCookies();
+		if (clientCookies != null) {
+			for (Cookie cookie : clientCookies) {
+				if (cookie.getName().equals(cookieName)) {
+					return cookie.getValue();
+				}
+			}
+		}
+		return null;
 	}
 
 	protected Session getSession() {
@@ -160,7 +182,7 @@ public class AccounterRPCBaseServiceImpl extends RpcServlet {
 			user.setActive(true);
 			session.saveOrUpdate(user);
 			this.getThreadLocalRequest().getSession()
-					.setAttribute(USER_ID, user.getID());
+					.setAttribute(EMAIL_ID, user.getEmail());
 			this.getThreadLocalRequest()
 					.getSession()
 					.setAttribute(COMPANY_ID,

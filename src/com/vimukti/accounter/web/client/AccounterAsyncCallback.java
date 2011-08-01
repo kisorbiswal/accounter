@@ -16,6 +16,7 @@ public abstract class AccounterAsyncCallback<T> implements AsyncCallback<T> {
 			onException((AccounterException) exception);
 			return;
 		}
+		exception.printStackTrace();
 		Accounter
 				.showMessage("Your session expired, Please login again to continue");
 	}

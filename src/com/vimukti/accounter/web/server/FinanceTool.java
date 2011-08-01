@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.FlushMode;
@@ -247,7 +245,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		IAccounterCore data = createContext.getData();
-		long userID = createContext.getUserID();
+		String userID = createContext.getUserEmail();
 
 		if (data == null) {
 			throw new AccounterException(
@@ -273,7 +271,7 @@ public class FinanceTool implements IFinanceDAOService {
 		if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
 			// get the user from user id
 			((CreatableObject) serverObject).setCreatedBy(company
-					.getUserByUserId(userID));
+					.getUserByUserEmail(userID));
 			((CreatableObject) serverObject).setCreatedDate(createContext
 					.getDate());
 		}
@@ -11463,21 +11461,20 @@ public class FinanceTool implements IFinanceDAOService {
 	 * @param httpSession
 	 * @return
 	 */
-	public ClientCompany getClientCompany(HttpSession httpSession)
+	public ClientCompany getClientCompany(String companyName)
 			throws AccounterException {
-		// httpSession.get
-		String companyName = null;
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 		ServerCompany serverCompany = (ServerCompany) session
 				.getNamedQuery("getServerCompany.by.name")
-				.setString(1, companyName).uniqueResult();
+				.setParameter("name", companyName).uniqueResult();
 
 		if (serverCompany == null) {
 			return null;
 		}
 
 		if (serverCompany.isConfigured()) {
-			Session companySession = HibernateUtil.openSession(companyName);
+			Session companySession = HibernateUtil.openSession(serverCompany
+					.getCompanyName());
 			return getClientCompany();
 		} else {
 			return new ClientCompany();

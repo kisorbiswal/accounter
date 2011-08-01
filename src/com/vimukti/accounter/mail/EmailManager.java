@@ -39,9 +39,7 @@ public class EmailManager extends Thread {
 	public void run() {
 		while (!shutdown) {
 			try {
-				log.info("Taking Email Job");
 				EMailJob mail = getQueue().take();
-				log.info("Sending Mail");
 				sendMail(mail);
 			} catch (Exception e) {
 				e.printStackTrace();

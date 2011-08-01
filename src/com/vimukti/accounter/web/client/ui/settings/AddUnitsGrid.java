@@ -1,12 +1,12 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.vimukti.accounter.core.Unit;
+import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class AddUnitsGrid extends ListGrid<Unit> {
+public class AddUnitsGrid extends ListGrid<ClientUnit> {
 
 	private AddMeasurementView view;
 	boolean isEditMode;
@@ -48,7 +48,7 @@ public class AddUnitsGrid extends ListGrid<Unit> {
 	}
 
 	@Override
-	protected Object getColumnValue(Unit obj, int col) {
+	protected Object getColumnValue(ClientUnit obj, int col) {
 		switch (col) {
 		case 0:
 			return obj.getType();
@@ -59,24 +59,24 @@ public class AddUnitsGrid extends ListGrid<Unit> {
 	}
 
 	@Override
-	protected String[] getSelectValues(Unit obj, int index) {
+	protected String[] getSelectValues(ClientUnit obj, int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected void onValueChange(Unit obj, int index, Object value) {
+	protected void onValueChange(ClientUnit obj, int index, Object value) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected boolean isEditable(Unit obj, int row, int index) {
+	protected boolean isEditable(ClientUnit obj, int row, int index) {
 		return true;
 	}
 
 	@Override
-	public void editComplete(Unit item, Object value, int col) {
+	public void editComplete(ClientUnit item, Object value, int col) {
 		switch (col) {
 		case 0:
 			item.setType(value.toString());
@@ -90,25 +90,25 @@ public class AddUnitsGrid extends ListGrid<Unit> {
 	}
 
 	@Override
-	protected void onClick(Unit obj, int row, int index) {
+	protected void onClick(ClientUnit obj, int row, int index) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onDoubleClick(Unit obj) {
+	public void onDoubleClick(ClientUnit obj) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected int sort(Unit obj1, Unit obj2, int index) {
+	protected int sort(ClientUnit obj1, ClientUnit obj2, int index) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void addData(Unit obj) {
+	public void addData(ClientUnit obj) {
 		super.addData(obj);
 	}
 

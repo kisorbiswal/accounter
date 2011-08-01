@@ -51,7 +51,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		String clientClassSimpleName = coreObject.getObjectType()
 				.getClientClassSimpleName();
 
-		OperationContext context = new OperationContext(coreObject, getUserID());
+		OperationContext context = new OperationContext(coreObject,
+				getUserEmail());
 		context.setArg2(clientClassSimpleName);
 
 		return tool.create(context);
@@ -65,7 +66,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				.getClientClassSimpleName();
 
 		OperationContext context = new OperationContext(coreObject,
-				getUserID(), String.valueOf(coreObject.getID()),
+				getUserEmail(), String.valueOf(coreObject.getID()),
 				clientClassSimpleName);
 
 		return tool.update(context);
@@ -78,7 +79,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			FinanceTool tool = getFinanceTool();
-			OperationContext opContext = new OperationContext(type, id);
+			OperationContext opContext = new OperationContext(type,
+					String.valueOf(id));
 			return tool.delete(opContext);
 
 		} catch (Exception e) {

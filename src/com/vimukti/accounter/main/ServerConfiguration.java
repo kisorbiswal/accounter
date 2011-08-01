@@ -23,7 +23,6 @@ public class ServerConfiguration {
 	// an alternate domain that is required by the client
 	private static int websServerPort;
 
-
 	public static int getPort() {
 		return websServerPort;
 	}
@@ -48,8 +47,6 @@ public class ServerConfiguration {
 		return tmpDir;
 	}
 
-
-
 	private static String emailAddress;
 
 	private static String mailServerHost;
@@ -71,6 +68,7 @@ public class ServerConfiguration {
 	private static String rsContainerName;
 
 	public static boolean isDebugMode;
+	private static boolean isDebug;
 
 	public static String getRsContainerName() {
 		return rsContainerName;
@@ -97,7 +95,6 @@ public class ServerConfiguration {
 		return attachmentsDir + companyDBName;
 	}
 
-
 	public static String getAWSKeyID() {
 		return awsKeyID;
 	}
@@ -115,11 +112,9 @@ public class ServerConfiguration {
 		return s3BucketName;
 	}
 
-
 	public static String getServerDomainName() {
 		return serverDomainName;
 	}
-
 
 	static void init() {
 		// A port at which the web server will be listening
@@ -133,7 +128,6 @@ public class ServerConfiguration {
 		logsDir = sb.toString();
 
 		new File(logsDir).mkdirs();
-
 
 		System.setProperty("logsDir", logsDir);
 		serverDomainName = "127.0.0.1";
@@ -194,7 +188,6 @@ public class ServerConfiguration {
 			setMainServerPort(Integer.parseInt(prop
 					.getProperty("adminPort", "")));
 
-
 			logsDir = prop.getProperty("logsdir", "./");
 			System.setProperty("logsDir", logsDir);
 			emailAddress = prop.getProperty("emailAddress", "");
@@ -238,7 +231,7 @@ public class ServerConfiguration {
 			rsContainerName = prop.getProperty("containerName", "bizantra");
 
 			financeDir = prop.getProperty("FinanceDir", "");
-			
+
 			attachmentsDir = prop.getProperty("attachmentsDir", "");
 
 			if (uploadToS3) {
@@ -274,6 +267,10 @@ public class ServerConfiguration {
 
 			setServerURL(prop.getProperty("serverURL", null));
 			setLink(prop.getProperty("link", null));
+
+			String isDebig = prop.getProperty("isDebug", "");
+			isDebug = Boolean.valueOf(isDebig);
+
 		} catch (NumberFormatException ne) {
 			System.err
 					.println("Invalid configuration for some numeric options");
@@ -417,10 +414,15 @@ public class ServerConfiguration {
 		return financeDir;
 	}
 
-
-
 	public static String getAttachmentsDir() {
 		return attachmentsDir;
+	}
+
+	/**
+	 * @return
+	 */
+	public static boolean isDebug() {
+		return isDebug;
 	}
 
 }

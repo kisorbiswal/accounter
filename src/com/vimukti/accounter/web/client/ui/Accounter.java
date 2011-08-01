@@ -229,6 +229,7 @@ public class Accounter implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		// TODO Need Send Request to get Company
+		getCompany("");
 	}
 
 	public String getUserDisplayName() {
@@ -293,7 +294,7 @@ public class Accounter implements EntryPoint {
 		data.getElement().getStyle().setMargin(10, Unit.PX);
 		data.getElement().getStyle().setFontSize(14, Unit.PX);
 		vPanel.add(data);
-		AccounterButton loginBtn = new AccounterButton(constants.logIn());
+		AccounterButton loginBtn = new AccounterButton(constants().logIn());
 		loginBtn.addClickHandler(new ClickHandler() {
 
 			@Override

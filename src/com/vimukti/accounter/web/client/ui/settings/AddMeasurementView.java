@@ -7,8 +7,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.core.Measurement;
-import com.vimukti.accounter.core.Unit;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -28,7 +28,7 @@ public class AddMeasurementView extends BaseView {
 	private AddUnitsGrid addUnitsGrid;
 	private DynamicForm addMeasurmentForm, defaultForm;
 	private AccounterConstants settingsMessages = Accounter.constants();
-	private Measurement measurment;
+	private ClientMeasurement measurment;
 	private List defaultList;
 	private AddUnitsListGridData addUnitsListGridData;
 
@@ -106,7 +106,7 @@ public class AddMeasurementView extends BaseView {
 		addUnitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				Unit unitData = new Unit();
+				ClientUnit unitData = new ClientUnit();
 				addUnitsGrid.setDisabled(false);
 				addUnitsGrid.addData(unitData);
 			}
@@ -167,9 +167,10 @@ public class AddMeasurementView extends BaseView {
 		return description.getValueField();
 	}
 
-	public void setDefaultComboValue(Unit unitData) {
+	public void setDefaultComboValue(ClientUnit unitData) {
 		defaultList.add(unitData);
-		if (((Unit) (defaultList.get(0))).getType().equals(unitData.getType())) {
+		if (((ClientUnit) (defaultList.get(0))).getType().equals(
+				unitData.getType())) {
 			defaultItem.setComboItem(unitData.getType());
 			return;
 		}
@@ -177,11 +178,11 @@ public class AddMeasurementView extends BaseView {
 	}
 
 	private void addSelectedItemsToList() {
-		measurment = new Measurement();
+		measurment = new ClientMeasurement();
 		measurment.setName(nameItem.getValue().toString());
 		measurment.setDesctiption(description.getValue().toString());
 		for (Object iterable_element : defaultList) {
-			Unit unit = (Unit) iterable_element;
+			ClientUnit unit = (ClientUnit) iterable_element;
 			measurment.addUnit(unit.getType(), unit.getFactor());
 		}
 	}
@@ -194,7 +195,7 @@ public class AddMeasurementView extends BaseView {
 					"Please Enter a Valid Measurement Name");
 			return false;
 		}
-		List<Unit> unitRecords = addUnitsGrid.getRecords();
+		List<ClientUnit> unitRecords = addUnitsGrid.getRecords();
 		if (unitRecords.size() == 0) {
 			MainFinanceWindow.getViewManager().showError(
 					"Units Must not be Null");

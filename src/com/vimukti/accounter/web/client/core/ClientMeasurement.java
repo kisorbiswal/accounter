@@ -3,16 +3,13 @@
  */
 package com.vimukti.accounter.web.client.core;
 
-import java.io.Serializable;
 import java.util.Set;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class ClientMeasurement implements Serializable, IsSerializable {
+public class ClientMeasurement implements IAccounterCore {
 
 	private ClientUnit defaultUnit;
 
@@ -140,6 +137,45 @@ public class ClientMeasurement implements Serializable, IsSerializable {
 
 		throw new IllegalArgumentException(
 				"Specified unit type not found in measure.");
+	}
+
+	/**
+	 * 
+	 * NOTE: the 'factor' value should be pre-calculated to default measure [or]
+	 * all factor values of this 'Unit' are should be calculated in one measure.
+	 * 
+	 * @param measureType
+	 * @param factor
+	 */
+	public void addUnit(String unitType, double factor) {
+		ClientUnit unit = new ClientUnit(unitType, factor);
+		unit.setMeasurement(this);
+		units.add(unit);
+	}
+
+	@Override
+	public String getDisplayName() {
+		return this.name;
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.MEASUREMENT;
+	}
+
+	@Override
+	public void setID(long id) {
+		this.id = id;
+	}
+
+	@Override
+	public long getID() {
+		return id;
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+		return "ClientMeasurement";
 	}
 
 }

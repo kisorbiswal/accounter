@@ -7,7 +7,6 @@ import java.util.HashSet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 
@@ -71,9 +70,9 @@ public class SignupServlet extends BaseServlet {
 				// HttpSession session = req.getSession(true);
 				// session.setAttribute(EMAIL_ID, emailId);
 				// redirectExternal(req, resp, LOGIN_URL);
-				dispatchMessage(
-						"User is already signed up with this Email ID, try with another Email ID. ",
-						req, resp, view);
+				req.setAttribute("successmessage",
+						"User is already signed up with this Email ID, try with another Email ID. ");
+				dispatch(req, resp, view);
 
 			} else {
 				// else

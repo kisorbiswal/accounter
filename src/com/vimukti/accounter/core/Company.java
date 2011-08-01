@@ -22,48 +22,45 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	int version;
 
-	
 	private static final int TYPE_SOLE_PROPRIETORSHIP = 1;
-	
+
 	private static final int TYPE_PARTNERSHIP_OR_LLP = 2;
-	
+
 	private static final int TYPE_LLC_SINGLE_MEMBER = 3;
-	
+
 	private static final int TYPE_LLC_MULTI_MEMBER = 4;
-	
+
 	private static final int TYPE_CORPORATION = 5;
-	
+
 	private static final int TYPE_S_CORPORATION = 6;
-	
+
 	private static final int TYPE_NON_PROFIT = 7;
 	public static final int TYPE_BASIC = 8;
-	
+
 	private static final int TYPE_OTHER_NONE = 99999;
 
-	
 	private static final int INDUSTRY_ACCOUNTING_OR_BOOKKEEPING = 11;
-	
+
 	private static final int ADVERTISING_OR_private_RELATIONS = 12;
-	
+
 	private static final int AGRICULTURE_RANCHING_OR_FARMING = 13;
-	
+
 	private static final int ARTWRITING_OR_PHOTOGRAPHY = 14;
-	
+
 	private static final int AUTOMOTICE_SALES_OR_REPAIR = 15;
 
-	
 	private static final int CUSTOMER_TYPE_CLIENTS = 45;
-	
+
 	private static final int CUSTOMER_TYPE_CUSTOMERS = 46;
-	
+
 	private static final int CUSTOMER_TYPE_DONORS = 47;
-	
+
 	private static final int CUSTOMER_TYPE_GUESTS = 48;
-	
+
 	private static final int CUSTOMER_TYPE_MEMBERS = 49;
-	
+
 	private static final int CUSTOMER_TYPE_PATIENTS = 50;
-	
+
 	private static final int CUSTOMER_TYPE_TENANTS = 51;
 
 	public static final int ACCOUNTING_TYPE_US = 0;
@@ -295,7 +292,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	// }
 
 	private Set<VATReturn> vatReturns = new HashSet<VATReturn>();
-	
+
 	private Set<Currency> currencies = new HashSet<Currency>();
 
 	public String getCountryCode() {
@@ -2496,7 +2493,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * }
 	 */
 
-	
 	/*
 	 * private void setDefaultsUKValues(Session session) {
 	 * 
@@ -3021,7 +3017,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * 
 	 * @param session
 	 */
-	
+
 	/*
 	 * private void setDefaultsUSValues(Session session) {
 	 * 
@@ -4344,7 +4340,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.taxId = taxId;
 	}
 
-	
 	public void toCompany(ClientCompany clientCompany) {
 
 		ServerConvertUtil serverConvertUtil = new ServerConvertUtil();
@@ -4372,7 +4367,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 				HibernateUtil.getCurrentSession());
 	}
 
-	
 	public ClientCompany toClientCompany() {
 		ClientCompany clientCompany = new ClientCompany();
 		clientCompany.setName(this.fullName);
@@ -4464,6 +4458,17 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 */
 	public void setRegisteredAddress(Address registeredAddress) {
 		this.registeredAddress = registeredAddress;
+	}
+
+	/**
+	 * @param email
+	 * @return
+	 */
+	public User getUserByUserEmail(String email) {
+		Session session = HibernateUtil.getCurrentSession();
+		User user = (User) session.getNamedQuery("getuser.by.email")
+				.setParameter(0, email).uniqueResult();
+		return user;
 	}
 
 	public void setCurrencies(Set<Currency> currencies) {
