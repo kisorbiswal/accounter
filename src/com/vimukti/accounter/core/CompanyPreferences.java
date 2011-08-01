@@ -8,14 +8,13 @@ public class CompanyPreferences implements IAccounterServerCore {
 	 * 
 	 */
 	private static final long serialVersionUID = -6169837986493037863L;
-	
+
 	private static int GENERAL_TIME_FORMAT_MINUTES;
-	
+
 	private static int GENERAL_TIME_FORMAT_DECIMAL;
 
-	
 	private static final int SHOW_SUMMARY = 10;
-	
+
 	private static final int SHOW_LIST = 20;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
@@ -112,6 +111,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	boolean trackVAT = true;
 	String VATtaxAgencyName = AccounterConstants.DEFAULT_VAT_AGENCY_NAME;
 	public long id;
+	// decimal character declaration.
+	public static final String decimalCharacter = ".";
 
 	// String legalName = "";
 
