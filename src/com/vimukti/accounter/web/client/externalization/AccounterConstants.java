@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Constants;
-import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 
 public interface AccounterConstants extends Constants {
 
@@ -4008,13 +4007,13 @@ public interface AccounterConstants extends Constants {
 
 	public String nocompany();
 
-	public PredefinedFormat dataTimeFormat();
+	public String dataTimeFormat();
 
-	public PredefinedFormat dateFormat();
+	public String dateFormat();
 
-	public PredefinedFormat dateFormatWithSlash();
+	public String dateFormatWithSlash();
 
-	public PredefinedFormat dateFormatWithDash();
+	public String dateFormatWithDash();
 
 	public String notyetimplemented();
 
@@ -4048,7 +4047,7 @@ public interface AccounterConstants extends Constants {
 
 	public String email3();
 
-	public PredefinedFormat dateFormatWithSlashStartsWithMonth();
+	public String dateFormatWithSlashStartsWithMonth();
 
 	public String depositTransferFunds();
 
@@ -4227,5 +4226,15 @@ public interface AccounterConstants extends Constants {
 	public String otherDirectCostsTotal();
 
 	public String indirectCostsTotal();
+
+	public String daysFromzeroto60();
+
+	public String daysFromzeroto90();
+
+	public String transactionDetailsByFinanceCategory();
+
+	public String transactionDetailByTaxCode();
+
+	public String unCategorisedTaxAmountsDetail();
 
 }
