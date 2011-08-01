@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 /**
@@ -21,6 +22,6 @@ public class GeneralLedgerServerReport extends
 
 	@Override
 	public String getTitle() {
-		return "General Ledger Report";
+		return Accounter.constants().generalLedgerReport();
 	}
 }

@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
@@ -31,7 +32,9 @@ public class CustomerTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Customer", "Date", "Type", "No.",
+		return new String[] { Accounter.constants().customer(),
+				Accounter.constants().date(), Accounter.constants().type(),
+				Accounter.constants().noDot(),
 				// ".invoicedAmount(),
 				// ".paidAmount(),
 				// ".paymentTerms(),
@@ -39,13 +42,13 @@ public class CustomerTransactionHistoryServerReport extends
 				// ".debit(),
 				// ".credit(),
 				// ".reference(),
-				"Account", "Amount" };
+				Accounter.constants().account(), Accounter.constants().amount() };
 
 	}
 
 	@Override
 	public String getTitle() {
-		return "Customer Transaction History";
+		return Accounter.constants().customerTransactionHistory();
 	}
 
 	public int getColumnWidth(int index) {
@@ -126,12 +129,12 @@ public class CustomerTransactionHistoryServerReport extends
 	public void processRecord(TransactionHistory record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					"Total" }, new int[] { 5 });
+					Accounter.constants().total() }, new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					"", "Total" }, new int[] { 5 });
+					"", Accounter.constants().total() }, new int[] { 5 });
 		}
 		// else if (sectionDepth == 2) {
 		// // Inside fist section
@@ -204,8 +207,10 @@ public class CustomerTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Customer", "Date", "Type", "No.", "Account",
-				"Amount" };
+		return new String[] { Accounter.constants().customer(),
+				Accounter.constants().date(), Accounter.constants().type(),
+				Accounter.constants().noDot(), Accounter.constants().account(),
+				Accounter.constants().amount() };
 	}
 
 	// private void printDataForIEBrowser() {

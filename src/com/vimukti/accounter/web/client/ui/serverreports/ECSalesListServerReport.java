@@ -2,19 +2,20 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 
-	
 	private String sectionName;
 
 	public ECSalesListServerReport(IFinanceReport<ECSalesList> reportView) {
 		this.reportView = reportView;
 	}
 
-	public ECSalesListServerReport(long startDate, long endDate,int generationType) {
+	public ECSalesListServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -55,7 +56,7 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 
 	@Override
 	public String getTitle() {
-		return "EC Sales List";
+		return Accounter.constants().ecSalesList();
 	}
 
 	@Override
@@ -73,7 +74,7 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 	@Override
 	public void processRecord(ECSalesList record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 1 });
+			addSection("", Accounter.constants().total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 
@@ -140,8 +141,8 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 	public int sort(ECSalesList obj1, ECSalesList obj2, int col) {
 		switch (col) {
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 1:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}

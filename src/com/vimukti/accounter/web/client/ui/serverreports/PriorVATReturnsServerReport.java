@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -68,7 +69,7 @@ public class PriorVATReturnsServerReport extends
 
 	@Override
 	public String getTitle() {
-		return "Prior VAT Returns";
+		return Accounter.constants().priorVATReturns();
 	}
 
 	@Override
@@ -85,12 +86,12 @@ public class PriorVATReturnsServerReport extends
 			iniHandler();
 		if (this.row == -1) {
 			this.sectionName = "";
-			addSection("", "Net VAT to pay(or reclaim if negative) (BOX 5)",
-					new int[] {});
+			addSection("", Accounter.constants()
+					.netVATToPayOrReclaimIfNegativeBOX5(), new int[] {});
 
-			this.sectionName = "VAT Due";
-			addSection(this.sectionName, "Total VAT Due (BOX 3)",
-					new int[] { 1 });
+			this.sectionName = Accounter.constants().VATDue();
+			addSection(this.sectionName, Accounter.constants()
+					.totalVATDueBOX3(), new int[] { 1 });
 			row = 0;
 		} else if (this.row < 4) {
 			row = row + 1;
@@ -120,7 +121,7 @@ public class PriorVATReturnsServerReport extends
 
 			@Override
 			public void OnSectionAdd(Section<VATSummary> section) {
-				if (section.title == "Net VAT to pay(or reclaim if negative) (BOX 5)") {
+				if (section.title == VATSummary.UK_BOX5_NET_VAT) {
 					section.data[0] = "";
 				}
 			}
@@ -128,11 +129,10 @@ public class PriorVATReturnsServerReport extends
 			@Override
 			public void OnSectionEnd(Section<VATSummary> section) {
 
-				if (section.footer.equals("Total VAT Due (BOX 3)")) {
+				if (section.footer.equals(VATSummary.UK_BOX3_TOTAL_OUTPUT)) {
 					box3amount = Double.valueOf(section.data[1].toString());
 				}
-				if (section.footer
-						.equals("Net VAT to pay(or reclaim if negative) (BOX 5)")) {
+				if (section.footer.equals(VATSummary.UK_BOX5_NET_VAT)) {
 					section.data[1] = box3amount - box4amount;
 				}
 

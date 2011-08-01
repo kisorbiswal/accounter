@@ -4282,4 +4282,20 @@ public interface AccounterConstants extends Constants {
 
 	public String noDot();
 
+	public String currentLiabilities();
+
+	public String longTermLiabilities();
+
+	public String otherNominalFinanceCategories();
+
+	public String liabilitiesandEquity();
+
+	public String incomeTotals();
+
+	public String COGSTotal();
+
+	public String otherExpenseTotals();
+
+	public String expenseTotals();
+
 }

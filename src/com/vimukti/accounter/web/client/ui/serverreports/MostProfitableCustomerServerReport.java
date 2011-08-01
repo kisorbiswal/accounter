@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -19,7 +20,8 @@ public class MostProfitableCustomerServerReport extends
 		this.reportView = reportView;
 	}
 
-	public MostProfitableCustomerServerReport(long startDate, long endDate,int generationType) {
+	public MostProfitableCustomerServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -31,13 +33,16 @@ public class MostProfitableCustomerServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Customer", "Invoiced Amount", "Cost",
-				"($)Margin", "(%)Margin" };
+		return new String[] { Accounter.constants().customer(),
+				Accounter.constants().invoicedAmount(),
+				Accounter.constants().cost(),
+				Accounter.constants().dollarMargin(),
+				Accounter.constants().percMargin() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "Most Profitable Customers";
+		return Accounter.constants().mostProfitableCustomers();
 	}
 
 	@Override
@@ -71,7 +76,8 @@ public class MostProfitableCustomerServerReport extends
 	@Override
 	public void processRecord(MostProfitableCustomers record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 1, 2, 3, 4 });
+			addSection("", Accounter.constants().total(), new int[] { 1, 2, 3,
+					4 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -135,26 +141,29 @@ public class MostProfitableCustomerServerReport extends
 			int col) {
 		switch (col) {
 		case 0:
-			return obj1.getCustomer().toLowerCase().compareTo(
-					obj2.getCustomer().toLowerCase());
+			return obj1.getCustomer().toLowerCase()
+					.compareTo(obj2.getCustomer().toLowerCase());
 		case 1:
-			return UIUtils.compareDouble(obj1.getInvoicedAmount(), obj2
-					.getInvoicedAmount());
+			return UIUtils.compareDouble(obj1.getInvoicedAmount(),
+					obj2.getInvoicedAmount());
 		case 2:
 			return UIUtils.compareDouble(obj1.getCost(), obj2.getCost());
 		case 3:
 			return UIUtils.compareDouble(obj1.getMargin(), obj2.getMargin());
 		case 4:
-			return UIUtils.compareDouble(obj1.getMarginPercentage(), obj2
-					.getMarginPercentage());
+			return UIUtils.compareDouble(obj1.getMarginPercentage(),
+					obj2.getMarginPercentage());
 		}
 		return 0;
 	}
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Customer", "Invoiced Amount", "Cost",
-				"($)Margin", "(%)Margin" };
+		return new String[] { Accounter.constants().customer(),
+				Accounter.constants().invoicedAmount(),
+				Accounter.constants().cost(),
+				Accounter.constants().dollarMargin(),
+				Accounter.constants().percMargin() };
 	}
 
 }

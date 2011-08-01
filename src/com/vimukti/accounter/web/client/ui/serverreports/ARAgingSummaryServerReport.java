@@ -55,13 +55,15 @@ public class ARAgingSummaryServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { "Debtor", "0-30 Days", "31-60 Days",
-				"61-90 Days", "Older", "Total Balance" };
+		return new String[] { Accounter.constants().debtor(),
+				Accounter.constants().days30(), Accounter.constants().days60(),
+				Accounter.constants().days90(), Accounter.constants().older(),
+				Accounter.constants().totalBalance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "A/R Ageing Summary:";
+		return Accounter.constants().ARAgeingSummary();
 	}
 
 	@Override
@@ -91,7 +93,8 @@ public class ARAgingSummaryServerReport extends
 	@Override
 	public void processRecord(DummyDebitor record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 1, 2, 3, 4, 5 });
+			addSection("", Accounter.constants().total(), new int[] { 1, 2, 3,
+					4, 5 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -226,8 +229,10 @@ public class ARAgingSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Debtor", "0-30 Days", "31-60 Days",
-				"61-90 Days", "Older", "Total Balance" };
+		return new String[] { Accounter.constants().debtor(),
+				Accounter.constants().days30(), Accounter.constants().days60(),
+				Accounter.constants().days90(), Accounter.constants().older(),
+				Accounter.constants().totalBalance() };
 	}
 
 }

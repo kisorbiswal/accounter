@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -44,7 +45,7 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return "All";
+		return Accounter.constants().all();
 	}
 
 	@Override
@@ -55,18 +56,19 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { " ", "Transaction Date", "Amount", "Balance" };
+		return new String[] { " ", Accounter.constants().transactionDate(),
+				Accounter.constants().amount(), Accounter.constants().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "Expense Report";
+		return Accounter.constants().expenseReport();
 	}
 
 	@Override
 	public void processRecord(ExpenseList record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 2 });
+			addSection("", Accounter.constants().total(), new int[] { 2 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(sectionName, "", new int[] { 2 });
@@ -123,8 +125,8 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 	public int sort(ExpenseList obj1, ExpenseList obj2, int col) {
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			return obj1.getTransactionDate().compareTo(
 					obj2.getTransactionDate());
@@ -133,8 +135,8 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 		case 3:
 			if (!currentsectionName.toLowerCase().equals(
 					obj1.getName().toLowerCase())) {
-				return obj1.getName().toLowerCase().compareTo(
-						obj2.getName().toLowerCase());
+				return obj1.getName().toLowerCase()
+						.compareTo(obj2.getName().toLowerCase());
 			} else {
 				return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
 			}
@@ -240,7 +242,8 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { " ", "Transaction Date", "Amount", "Balance" };
+		return new String[] { " ", Accounter.constants().transactionDate(),
+				Accounter.constants().amount(), Accounter.constants().balance() };
 	}
 
 	@Override
