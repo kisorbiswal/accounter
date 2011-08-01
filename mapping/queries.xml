@@ -2094,5 +2094,10 @@
 		<query-param name="apiKey" type="String" />
 		from com.vimukti.accounter.core.Developer d where d.apiKey=:apiKey
 	</query>
+	
+	<query name="get.ServerCompany.by.companyId.and.client">
+		<query-param name="apiKey" type="String" />
+		from com.vimukti.accounter.core.ServerCompany sc left join sc.clients c where sc.id=:id and c=:client
+	</query>
 
 </hibernate-mapping>
