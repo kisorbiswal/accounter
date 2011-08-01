@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
+import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
@@ -24,10 +25,12 @@ import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
+import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
+import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
@@ -166,12 +169,12 @@ public class XmlReportsApiServlet extends HttpServlet {
 					.getPurchasesByVendorSummary(clientFinanceStartDate,
 							clientFinanceEndDate);
 
-		} else if (methodName.equals("salesbycustomerdetal")) {
+		} else if (methodName.equals("salesbycustomerdetail")) {
 			List<SalesByCustomerDetail> salesByCustomerDetailReport = accounterReportServiceImpl
 					.getSalesByCustomerDetailReport(clientFinanceStartDate,
 							clientFinanceEndDate);
 
-		} else if (methodName.equals("salesbycustomerdetalbyname")) {
+		} else if (methodName.equals("salesbycustomerdetailbyname")) {
 			String customerName = (String) req.getAttribute("Name");
 			List<SalesByCustomerDetail> salesByCustomerDetailReport = accounterReportServiceImpl
 					.getSalesByCustomerDetailReport(customerName,
@@ -250,59 +253,129 @@ public class XmlReportsApiServlet extends HttpServlet {
 							clientFinanceEndDate);
 
 		} else if (methodName.equals("transactiondetailbyaccount")) {
+			List<TransactionDetailByAccount> transactionDetailByAccount = accounterReportServiceImpl
+					.getTransactionDetailByAccount(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("priorreturnvatsummary")) {
+			Long taxAgency = (Long) req.getAttribute("TaxAgency");
+			List<VATSummary> priorReturnVATSummary = accounterReportServiceImpl
+					.getPriorReturnVATSummary(taxAgency, clientFinanceEndDate);
 
-		} else if (methodName.equals("purchasesbyitemdetail")) {
+		} else if (methodName.equals("purchasesbyitemdetailname")) {
+			String itemName = (String) req.getAttribute("Name");
+			List<SalesByCustomerDetail> purchasesByItemDetail = accounterReportServiceImpl
+					.getPurchasesByItemDetail(itemName, clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("priorvatreturnreport")) {
+			Long taxAgency = (Long) req.getAttribute("TaxAgency");
+			List<VATDetail> priorVATReturnReport = accounterReportServiceImpl
+					.getPriorVATReturnReport(taxAgency, clientFinanceEndDate);
 
 		} else if (methodName.equals("purchasesbyvendordetailbyname")) {
+			String vendorName = (String) req.getAttribute("Name");
+			List<SalesByCustomerDetail> purchasesByVendorDetail = accounterReportServiceImpl
+					.getPurchasesByVendorDetail(vendorName,
+							clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("priorvatreturnvatdetailreport")) {
+			List<VATDetail> priorVATReturnVATDetailReport = accounterReportServiceImpl
+					.getPriorVATReturnVATDetailReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("salesclosedorderlist")) {
-
-		} else if (methodName.equals("salesbycustomerdetailreport")) {
+			List<OpenAndClosedOrders> salesClosedOrderReport = accounterReportServiceImpl
+					.getSalesClosedOrderReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("salescancelledorderreport")) {
+			List<OpenAndClosedOrders> salesCancelledOrderReport = accounterReportServiceImpl
+					.getSalesCancelledOrderReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("salesbyitemdetailbyname")) {
+			String itemName = (String) req.getAttribute("Name");
+			List<SalesByCustomerDetail> salesByItemDetail = accounterReportServiceImpl
+					.getSalesByItemDetail(itemName, clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("salesordelist")) {
-
-		} else if (methodName.equals("salescompletedrder")) {
-
-		} else if (methodName.equals("ageddebtorsbydebitorname")) {
+			List<OpenAndClosedOrders> salesOrderReport = accounterReportServiceImpl
+					.getSalesOrderReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("salescompletedorder")) {
+			List<OpenAndClosedOrders> salesCompletedOrderReport = accounterReportServiceImpl
+					.getSalesCompletedOrderReport(clientFinanceStartDate,
+							clientFinanceEndDate);
+
+		} else if (methodName.equals("ageddebtorsbydebitorname")) {
+			String Name = (String) req.getAttribute("Name");
+			List<AgedDebtors> agedDebtors = accounterReportServiceImpl
+					.getAgedDebtors(Name, clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("salesopenorder")) {
-
-		} else if (methodName.equals("agedCreditorsbydebitorname")) {
+			List<OpenAndClosedOrders> salesOpenOrderReport = accounterReportServiceImpl
+					.getSalesOpenOrderReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("purchaseclosedorder")) {
+			List<OpenAndClosedOrders> purchaseClosedOrderReport = accounterReportServiceImpl
+					.getPurchaseClosedOrderReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
-		} else if (methodName.equals("transactiondetailbyaccount")) {
+		} else if (methodName.equals("transactiondetailbyaccountname")) {
+			String accountName = (String) req.getAttribute("Name");
+			List<TransactionDetailByAccount> transactionDetailByAccount = accounterReportServiceImpl
+					.getTransactionDetailByAccount(accountName,
+							clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("minimumandmaximumtransactiondate")) {
+			List<ClientFinanceDate> minimumAndMaximumTransactionDate = accounterReportServiceImpl
+					.getMinimumAndMaximumTransactionDate();
 
 		} else if (methodName.equals("purchaseorder")) {
+			List<OpenAndClosedOrders> purchaseOrderReport = accounterReportServiceImpl
+					.getPurchaseOrderReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("purchasecancelledorder")) {
+			List<OpenAndClosedOrders> purchaseCancelledOrderReport = accounterReportServiceImpl
+					.getPurchaseCancelledOrderReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("transactiondetailbytaxitemname")) {
+			String taxItemName = (String) req.getAttribute("Name");
+			List<TransactionDetailByTaxItem> transactionDetailByTaxItem = accounterReportServiceImpl
+					.getTransactionDetailByTaxItem(taxItemName,
+							clientFinanceStartDate, clientFinanceEndDate);
 
 		} else if (methodName.equals("balancesheetreport")) {
+			List<TrialBalance> balanceSheetReport = accounterReportServiceImpl
+					.getBalanceSheetReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("purchasecompletedlist")) {
+			List<OpenAndClosedOrders> purchaseCompletedOrderReport = accounterReportServiceImpl
+					.getPurchaseCompletedOrderReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("cashflowreport")) {
+			List<TrialBalance> cashFlowReport = accounterReportServiceImpl
+					.getCashFlowReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("purchaseopenorderlist")) {
+			List<OpenAndClosedOrders> purchaseOpenOrderReport = accounterReportServiceImpl
+					.getPurchaseOpenOrderReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 
 		} else if (methodName.equals("profitandlossreport")) {
-
+			List<TrialBalance> profitAndLossReport = accounterReportServiceImpl
+					.getProfitAndLossReport(clientFinanceStartDate,
+							clientFinanceEndDate);
 		}
 
 	}
