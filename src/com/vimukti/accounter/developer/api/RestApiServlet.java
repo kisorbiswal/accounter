@@ -8,11 +8,10 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.zefer.cache.d;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.api.core.ApiResult;
 import com.vimukti.accounter.core.Developer;
@@ -144,14 +143,23 @@ public class RestApiServlet extends HttpServlet {
 
 	public void updateDeveloper(HttpServletRequest req, boolean isSuccess) {
 		Developer developer = null;
-		long attribute = ((Long) req.getAttribute("id")).longValue();
+		long id = ((Long) req.getAttribute("id")).longValue();
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
 		developer = (Developer) (session.getNamedQuery("getDeveloper.by.id"))
-				.setParameter((int) attribute, developer).uniqueResult();
+				.setParameter("id", id).uniqueResult();
 		if (isSuccess) {
 			developer.succeedRequests++;
 		} else {
 			developer.failureRequests++;
 		}
+
+		SQLQuery query = session
+				.createSQLQuery("UPDATE DEVELOPER SET SUCCEEDREQUESTS = "
+						+ developer.succeedRequests + " AND FAILUREREQUESTS = "
+						+ developer.failureRequests + " WHERE ID=" + id);
+		query.executeUpdate();
+		transaction.commit();
+
 	}
 }
