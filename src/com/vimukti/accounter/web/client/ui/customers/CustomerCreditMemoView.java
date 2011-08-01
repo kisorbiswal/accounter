@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -577,6 +578,7 @@ public class CustomerCreditMemoView extends
 				this.customerCombo.addComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
+				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
 				this.salesPersonCombo.addComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
@@ -589,6 +591,7 @@ public class CustomerCreditMemoView extends
 				this.customerCombo.updateComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
+				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
 				this.salesPersonCombo.updateComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
@@ -600,6 +603,7 @@ public class CustomerCreditMemoView extends
 				this.customerCombo.removeComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
+				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
 				this.salesPersonCombo.removeComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
@@ -641,6 +645,7 @@ public class CustomerCreditMemoView extends
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
 		customerCombo.setDisabled(isEdit);
+		if (ClientCompanyPreferences.get().isSalesPersonEnabled())
 		salesPersonCombo.setDisabled(isEdit);
 		priceLevelSelect.setDisabled(isEdit);
 		taxCodeSelect.setDisabled(isEdit);
