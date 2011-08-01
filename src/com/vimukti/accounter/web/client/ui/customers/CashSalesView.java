@@ -5,17 +5,20 @@ import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
@@ -153,7 +156,6 @@ public class CashSalesView extends
 		custForm.setStyleName("align-form");
 		custForm.setWidth("100%");
 		forms.add(custForm);
-
 		salesPersonCombo = createSalesPersonComboItem();
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setWidth("92%");
@@ -168,9 +170,16 @@ public class CashSalesView extends
 		termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
 		termsForm.setNumCols(2);
-		termsForm.setFields(salesPersonCombo, paymentMethodCombo,
-				depositInCombo, shippingTermsCombo, shippingMethodsCombo,
-				deliveryDate);
+		if (ClientCompanyPreferences.get().isSalesPersonEnabled()){
+			termsForm.setFields(salesPersonCombo, paymentMethodCombo,
+					depositInCombo, shippingTermsCombo, shippingMethodsCombo,
+					deliveryDate);
+		}else{
+			termsForm.setFields(paymentMethodCombo,
+					depositInCombo, shippingTermsCombo, shippingMethodsCombo,
+					deliveryDate);
+		}
+		
 		termsForm.setStyleName("align-form");
 		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
@@ -665,6 +674,7 @@ public class CashSalesView extends
 				this.customerCombo.addComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
+				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
 				this.salesPersonCombo.addComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
@@ -688,6 +698,7 @@ public class CashSalesView extends
 				this.customerCombo.updateComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
+				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
 				this.salesPersonCombo.updateComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
@@ -710,6 +721,7 @@ public class CashSalesView extends
 				this.customerCombo.removeComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
+				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
 				this.salesPersonCombo.removeComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
@@ -731,11 +743,17 @@ public class CashSalesView extends
 	}
 
 	public void onEdit() {
-		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
 
 			@Override
-			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+			public void onFailure(Throwable caught) {
+				if (caught instanceof InvocationException) {
+					Accounter
+							.showMessage("Your session expired, Please login again to continue");
+				} else {
+					Accounter.showError(((InvalidOperationException) (caught))
+							.getDetailedMessage());
+				}
 			}
 
 			@Override
@@ -757,6 +775,7 @@ public class CashSalesView extends
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
 		customerCombo.setDisabled(isEdit);
+		if (ClientCompanyPreferences.get().isSalesPersonEnabled())
 		salesPersonCombo.setDisabled(isEdit);
 		paymentMethodCombo.setDisabled(isEdit);
 		depositInCombo.setDisabled(isEdit);
