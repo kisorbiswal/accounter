@@ -43,15 +43,33 @@
 		</servlet-class>
 	</servlet>
 
-	<!-- <servlet-mapping>
-		<servlet-name>new signup</servlet-name>
-		<url-pattern>/signup</url-pattern>
+	<!-- <servlet-mapping> <servlet-name>new signup</servlet-name> <url-pattern>/signup</url-pattern> 
+		</servlet-mapping> <servlet> <servlet-name>new signup</servlet-name> <servlet-class>com.vimukti.accounter.servlets.SignupServlet 
+		</servlet-class> </servlet> -->
+
+	<!-- API SERVLET MAPPING -->
+	
+	<filter>
+		<filter-name>Api Filter</filter-name>
+		<filter-class>com.vimukti.accounter.developer.api.ApiFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Api Filter</filter-name>
+		<url-pattern>/api/*</url-pattern>
+	</filter-mapping>
+
+	<servlet-mapping>
+		<servlet-name>Reports Api</servlet-name>
+		<url-pattern>/api/xmlreports,/api/jsonreports</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>new signup</servlet-name>
-		<servlet-class>com.vimukti.accounter.servlets.SignupServlet
+		<servlet-name>Xml Reports Api</servlet-name>
+		<servlet-class>com.vimukti.accounter.developer.api.ReportsApiServlet
 		</servlet-class>
-	</servlet> -->
+	</servlet>
+	
+	<!-- -->
 
 	<servlet-mapping>
 		<servlet-name>Companies</servlet-name>
