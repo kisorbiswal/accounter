@@ -2841,21 +2841,18 @@ td.td10 {
 }
 
 .decor20 {
-	background: transparent url("images/p-lb.png")
-		/*url(images/panel-left-bottom-img.png)*/                          
-		      no-repeat scroll 0px 0;
+	/*background: transparent url("images/p-lb.png")
+		      no-repeat scroll 0px 0;*/
 }
 
 .decor21 {
-	background: transparent url("images/p-b.png")
-		/*url(images/panel-bottom-img.png)*/                             
-		   repeat-x scroll 0 0;
+	/*background: transparent url("images/p-b.png")
+		   repeat-x scroll 0 0;*/
 }
 
 .decor22 {
-	background: transparent url("images/p-rb.png")
-		/*url(images/panel-right-bottom-img.png)*/                          
-		      no-repeat scroll -1px 0;
+	/*background: transparent url("images/p-rb.png")
+		      no-repeat scroll -1px 0;*/
 }
 
 .decor11 {
@@ -3613,11 +3610,12 @@ div.edit:hover {
 }
 
 .decor10 {
-	background-attachment: scroll;
+	/*background-attachment: scroll;
 	background-color: transparent;
 	background-image: url("images/p-l.png");
 	background-position: 0 0;
-	background-repeat: repeat-y;
+	background-repeat: repeat-y;*/
+	border:1px solid #7A7A7A;
 	padding-left: 4px;
 }
 
