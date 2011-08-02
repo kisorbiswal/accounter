@@ -44,11 +44,12 @@ public class NormalTest {
 			Mac mac = Mac.getInstance(ALGORITHM);
 			mac.init(keySpec);
 			byte[] doFinal = mac.doFinal(url.getBytes());
-			url += "&" + SIGNATURE + "=" + Base64.encode(doFinal);
+			String encode = Base64.encode(doFinal);
+			return encode;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return url;
+		return null;
 	}
 
 	private void testSalesByCustomerSummary() throws IOException {
@@ -60,9 +61,12 @@ public class NormalTest {
 				+ "&Expire="
 				+ exprDate
 				+ "&StartDate=2011-07-01 12:00:00Z&EndDate=2011-08-30 12:00:00Z";
-		String doSigning = doSigning(queryStr);
-		String encodeString = new UrlEncoded(doSigning).encode();
-		sendRequest(prefixUrl + "salesbycustomersummary?" + encodeString);
+		
+		String encodeString = new UrlEncoded(queryStr).encode();
+		
+		String signature = doSigning(encodeString);
+		String queryString = encodeString + "&" + SIGNATURE + "=" + signature;
+		sendRequest(prefixUrl + "salesbycustomersummary?" + queryString);
 	}
 
 	private void sendRequest(String urlStr) throws IOException {
