@@ -105,20 +105,28 @@ public class ClientCompany implements IAccounterCore {
 
 	String sortCode;
 
-	String serviceItemDefaultIncomeAccount = "Cash Discount Given";
+	String serviceItemDefaultIncomeAccount = Accounter.constants()
+			.cashDiscountGiven();
 
-	String serviceItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
+	String serviceItemDefaultExpenseAccount = Accounter.constants()
+			.productsMaterialsPurchasedTypeA();
 
-	String nonInventoryItemDefaultIncomeAccount = "Cash Discount Given";
+	String nonInventoryItemDefaultIncomeAccount = Accounter.constants()
+			.cashDiscountGiven();
 
-	String nonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
+	String nonInventoryItemDefaultExpenseAccount = Accounter.constants()
+			.productsMaterialsPurchasedTypeA();
 
-	String ukServiceItemDefaultIncomeAccount = "Early Payment Discount Given";
-	String ukServiceItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
+	String ukServiceItemDefaultIncomeAccount = Accounter.constants()
+			.earlyPaymentDiscountGiven();
+	String ukServiceItemDefaultExpenseAccount = Accounter.constants()
+			.productsMaterialsPurchasedTypeA();
 
-	String ukNonInventoryItemDefaultIncomeAccount = "Early Payment Discount Given";
+	String ukNonInventoryItemDefaultIncomeAccount = Accounter.constants()
+			.earlyPaymentDiscountGiven();
 
-	String ukNonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
+	String ukNonInventoryItemDefaultExpenseAccount = Accounter.constants()
+			.productsMaterialsPurchasedTypeA();
 
 	ClientCompanyPreferences preferences = new ClientCompanyPreferences();
 
@@ -422,9 +430,9 @@ public class ClientCompany implements IAccounterCore {
 	// private List<ClientTaxItem> taxItems;
 
 	public ClientCompany() {
-		paymentMethods.put("1", "Cash");
-		paymentMethods.put("2", "Check");
-		paymentMethods.put("3", "Credit Card");
+		paymentMethods.put("1", Accounter.constants().cash());
+		paymentMethods.put("2", Accounter.constants().check());
+		paymentMethods.put("3", Accounter.constants().creditCard());
 	}
 
 	// List<ClientPayType> payTypes;
@@ -1648,11 +1656,13 @@ public class ClientCompany implements IAccounterCore {
 			// accounterCoreObject);
 		} catch (Exception e) {
 			if (e instanceof JavaScriptException) {
-				Accounter.showInformation("Execption occur:"
+				Accounter.showInformation(Accounter.constants()
+						.exceptionOccur()
 						+ ((JavaScriptException) (e)).getDescription());
 
 			} else {
-				Accounter.showInformation("Execption occur:" + e.toString());
+				Accounter.showInformation(Accounter.constants()
+						.exceptionOccur() + e.toString());
 			}
 		}
 

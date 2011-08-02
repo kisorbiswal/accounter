@@ -4287,4 +4287,93 @@ public interface AccounterConstants extends Constants {
 	public String zipPostalCode();
 
 	public String ztozeroperc();
+
+	public String buisnessColon();
+
+	public String homeColon();
+
+	public String legalColon();
+
+	public String shipToColon();
+
+	public String otherColon();
+
+	public String productsMaterialsPurchasedTypeA();
+
+	public String earlyPaymentDiscountGiven();
+
+	public String exceptionOccur();
+
+	public String specifiedunittypenotfoundinmeasure();
+
+	public String zero();
+
+	public String one();
+
+	public String two();
+
+	public String three();
+
+	public String four();
+
+	public String five();
+
+	public String six();
+
+	public String seven();
+
+	public String eight();
+
+	public String nine();
+
+	public String ten();
+
+	public String eleven();
+
+	public String twelve();
+
+	public String thirteen();
+
+	public String fourteen();
+
+	public String fifteen();
+
+	public String sixteen();
+
+	public String seventeen();
+
+	public String eightteen();
+
+	public String nineteen();
+
+	public String twenty();
+
+	public String thirty();
+
+	public String forty();
+
+	public String fifty();
+
+	public String sixty();
+
+	public String seventy();
+
+	public String eighty();
+
+	public String ninty();
+
+	public String hundred();
+
+	public String serviceItem();
+
+	public String inventoryPart();
+
+	public String group();
+
+	public String inventoryAssembly();
+
+	public String nonInventory();
+
+	public String salesTaxItem();
+
 }

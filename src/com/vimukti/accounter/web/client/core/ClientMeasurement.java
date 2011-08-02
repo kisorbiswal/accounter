@@ -5,6 +5,8 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 /**
  * @author Prasanna Kumar G
  * 
@@ -135,8 +137,8 @@ public class ClientMeasurement implements IAccounterCore {
 			}
 		}
 
-		throw new IllegalArgumentException(
-				"Specified unit type not found in measure.");
+		throw new IllegalArgumentException(Accounter.constants()
+				.specifiedunittypenotfoundinmeasure());
 	}
 
 	/**
