@@ -3552,8 +3552,6 @@ public interface AccounterConstants extends Constants {
 
 	public String supplierPayments();
 
-	public String supplierPrepayment();
-
 	public String supplierPrePayment();
 
 	public String supplierPrePayments();
@@ -4105,8 +4103,6 @@ public interface AccounterConstants extends Constants {
 	public String vendorPayments();
 
 	public String vendorPaymentsList();
-
-	public String vendorPrepayment();
 
 	public String vendorPrePayment();
 
