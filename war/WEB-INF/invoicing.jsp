@@ -20,7 +20,7 @@
 	var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 </script>
 <link rel="shortcut icon" href="../images/favicon.ico" />
-<link type="text/css" href="/css/ss.css?version=<%= version%>" rel="stylesheet">
+<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
 <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
 </head>
 <body>

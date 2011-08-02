@@ -7,7 +7,7 @@
 <meta content="IE=100" http-equiv="X-UA-Compatible">
 <% String version = application.getInitParameter("version"); %>
 <link rel="shortcut icon" href="../images/favicon.ico" />
-<link type="text/css" href="/css/ss.css?version=<%= version%>" rel="stylesheet">
+<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
 <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
 <script type="text/javascript" charset="utf-8">
 	var is_ssl = ("https:" == document.location.protocol);

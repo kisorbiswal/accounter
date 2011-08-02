@@ -30,8 +30,8 @@
 </script>
 <% String version = application.getInitParameter("version"); %>
 <link rel="shortcut icon" href="../images/favicon.ico" />
-<link type="text/css" href="/css/ss.css?version=<%= version%>" rel="stylesheet">
-<link type="text/css" href="/css/cmxform.css?version=<%= version%>" rel="stylesheet">
+<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
+<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
 <script src="/jscripts/blockui/jquery.blockUI.js" type="text/javascript"></script>
 <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 <script  type="text/javascript" >
