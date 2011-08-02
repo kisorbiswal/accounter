@@ -705,7 +705,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .gwt-MenuBar .gwt-MenuItem-selected,.gwt-MenuBar-vertical .subMenuIcon-selected
 	{
-	background: #28757d !important;
+	/*background: #28757d !important;*/
+	  background:#29646c !important;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
@@ -714,7 +715,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .gwt-MenuBar-vertical {
-	background: none repeat scroll 0 0 #144149 !important;
+	/*background: none repeat scroll 0 0 #144149 !important;*/
+	background: none repeat scroll 0 0 #39828B !important;
 	border: 0px none !important;
 }
 
@@ -746,7 +748,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .finance-portlet .decor00 {
-	background: url(images/headerNew-l.png) no-repeat 0px 0px !important;
+	/*background: url(images/headerNew-l.png) no-repeat 0px 0px !important;*/
+	background:none repeat scroll 0 0 #1A5158;
 }
 
 .finance-portlet td.td10 {
@@ -803,7 +806,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .gwt-Button:hover {
-	border-color: #9FC2FF !important;
+	/*border-color: #9FC2FF !important;*/
 }
 
 .gwt-Button[disabled] {
@@ -824,12 +827,10 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItem { /*praveena*/
-	/*background:url(/images/arrow_down.gif) no-repeat scroll 0 0 #6DAF7C; */
-	background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0
-		transparent !important;
+	/*background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0
+		transparent !important;*/
 	color: #ffffff !important;
 	font-weight: normal !important;
-	/*padding: 6px 17px 13px !important;*/
 	vertical-align: bottom;
 	border: 0 none !important;
 	height: 31px;
@@ -855,14 +856,16 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 td.td01,.no-title .biz-decor-panel td.td01 {
-	background: transparent url(images/headerNew-c.png) repeat-x scroll 0 0;
-	color: #FFFFFF;
+	/*background: transparent url(images/headerNew-c.png) repeat-x scroll 0 0;
+	color: #FFFFFF;*/
+	backgorund:none repeat scroll 0 0 #1A5158;
 	vertical-align: top;
 }
 
 .decor02,.no-title .biz-decor-panel div.decor02 {
-	background: transparent url(images/headerNew-r.png) no-repeat scroll
-		-8px 0;
+	/*background: transparent url(images/headerNew-r.png) no-repeat scroll
+		-8px 0;*/
+	  background:none repeat scroll 0 0 #1A5158;
 }
 
 .gwt-MenuBarPopup .menuPopupTopCenter {
@@ -925,7 +928,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 
 .gwt-Button {
-	background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
+	/*background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
 		transparent !important;
 	color: white !important;
 	cursor: pointer;
@@ -937,7 +940,10 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	margin: 0px !important;
 	font-size: 13px !important;
 	float: left !important;
-	display: inline;
+	display: inline;*/
+	
+	height:25px;
+	padding: 0 5px 5px !important;
 }
 
 .custom-button {
@@ -983,8 +989,8 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 
 .header {
-	background: url("images/Header-BG_1x95.png") repeat-x scroll 0 0
-		transparent !important;
+	/*background: url("images/Header-BG_1x95.png") repeat-x scroll 0 0
+		transparent !important;*/
 	margin-left: 0 !important;
 }
 
@@ -1125,8 +1131,8 @@ solid
 }
 
 .menubar-devider {
-	background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0
-		transparent !important;
+	/*background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0
+		transparent !important;*/
 	padding: 0px;
 }
 
@@ -1947,8 +1953,9 @@ noindex:-o-prefocus,.ibutton {
 }
 
 .MENU_BAR_BG {
-	background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0
-		transparent !important;
+	/*background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0
+		transparent !important;*/
+    background:none repeat scroll 0 0 #1A5158;
 	width: 100%;
 	margin-top: 18px;
 }
@@ -2123,4 +2130,11 @@ input[type="text"],textarea {
 }
 .main_data_box a{
 	float:right;
+}
+.report-hover{
+	background: none repeat scroll 0 0 #CCCCCC !important;
+}
+.report-hover table td{
+	text-decoration: underline;
+	color:blue;
 }
