@@ -63,6 +63,8 @@ public class ReportsApiServletTest extends TestCase {
 	private String getSalesByCustomerSummaryUrl() {
 		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
 		String string = "/api/xmlreports/salesbycustomersummary?"
+				+ "&ApiKey="
+				+ apikey
 				+ "&CompanyId="
 				+ companyId
 				+ "&Expire="
@@ -75,6 +77,8 @@ public class ReportsApiServletTest extends TestCase {
 	private String getEcSalesListDetailUrl(String name) {
 		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
 		String string = "/api/xmlreports/salesbycustomersummary?"
+				+ "&ApiKey="
+				+ apikey
 				+ "&CompanyId="
 				+ companyId
 				+ "&Expire="
@@ -88,6 +92,8 @@ public class ReportsApiServletTest extends TestCase {
 	private String getVat100ReportUrl(long taxAgency) {
 		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
 		String string = "/api/xmlreports/salesbycustomersummary?"
+				+ "&ApiKey="
+				+ apikey
 				+ "&CompanyId="
 				+ companyId
 				+ "&Expire="
@@ -97,8 +103,6 @@ public class ReportsApiServletTest extends TestCase {
 				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
 		return doSigning(string);
 	}
-	
-	
 
 	private String doSigning(String url) {
 		byte[] secretKeyBytes = secretKey.getBytes();
