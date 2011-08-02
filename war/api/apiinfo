@@ -10,7 +10,6 @@
   	<% com.vimukti.accounter.core.Developer developer=(com.vimukti.accounter.core.Developer)erq.getAttribute("developer"); %>
   	<tr><td>Api Key</td><td><%= developer.getApiKey() %></td></tr>
   	<tr><td>Secret Key</td><td><%= developer.getSecretKey() %></td></tr>
-  	<tr><td>Secret Key</td><td><%= developer.getSecretKey() %></td></tr>
   	</table>
   </body>
 </html>
