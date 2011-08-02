@@ -85,7 +85,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			infoLabel = new Label(Accounter.constants().taxAdjustment());
 		else
-			infoLabel = new Label(Accounter.constants().VATAdjustment());
+			infoLabel = new Label(Accounter.constants().vatAdjustment());
 		infoLabel.removeStyleName("gwt-Label");
 
 		infoLabel.setStyleName(Accounter.constants().labelTitle());
@@ -99,12 +99,12 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 
-		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants().VATAgency());
+		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants().vatAgency());
 		taxAgencyCombo.setHelpInformation(true);
 		// taxAgencyCombo.setWidth(100);
 		taxAgencyCombo.setComboItem(taxAgency);
 
-		vatItemCombo = new VATItemCombo(Accounter.constants().VATItem(),
+		vatItemCombo = new VATItemCombo(Accounter.constants().vatItem(),
 				taxAgency);
 		vatItemCombo.setHelpInformation(true);
 		vatItemCombo.initCombo(vatItemCombo.getVATItmesByVATAgncy(taxAgency));
@@ -115,10 +115,10 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		}
 
 		vatLine = new LabelItem();
-		vatLine.setValue(Accounter.constants().VATLine());
+		vatLine.setValue(Accounter.constants().vatLine());
 
 		vatAccount = new LabelItem();
-		vatAccount.setValue(Accounter.constants().VATAccount());
+		vatAccount.setValue(Accounter.constants().vatAccount());
 
 		vatLinetxt = new LabelItem();
 		vatAccounttxt = new LabelItem();

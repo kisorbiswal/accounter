@@ -74,7 +74,7 @@ public class VATPaymentView extends
 	}
 
 	protected void createControls() {
-		Label lab = new Label(Accounter.constants().VATPayment());
+		Label lab = new Label(Accounter.constants().vatPayment());
 		// lab.setAutoHeight();
 		// lab.setWrap(false);
 
@@ -91,14 +91,14 @@ public class VATPaymentView extends
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 		forms.add(dateNoForm);
 
-		vatAgency = new TextItem(Accounter.constants().VATAgency());
+		vatAgency = new TextItem(Accounter.constants().vatAgency());
 		// vatAgency.setWidth("*");
 		vatAgency.setDisabled(true);
 		// vatAgency.setShowDisabled(false);
 
 		addressForm = new AddressForm(null);
 		vatAgencyForm = new DynamicForm();
-		vatAgencyForm = UIUtils.form(Accounter.constants().VATAgency());
+		vatAgencyForm = UIUtils.form(Accounter.constants().vatAgency());
 		vatAgencyForm.setWidth("100%");
 		// vatAgencyForm.setAutoHeight();
 		vatAgencyForm.setFields(vatAgency);
@@ -109,7 +109,7 @@ public class VATPaymentView extends
 		amount.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// amount.setTextAlign(Alignment.RIGHT);
 
-		vatBalance = new AmountField(Accounter.constants().VATBalance());
+		vatBalance = new AmountField(Accounter.constants().vatBalance());
 		// vatBalance.setWidth("*");
 		// vatBalance.setTextAlign(Alignment.RIGHT);
 		vatBalance.setDisabled(true);
@@ -389,7 +389,7 @@ public class VATPaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.title(Accounter.constants().VATPayment());
+		return UIUtils.title(Accounter.constants().vatPayment());
 	}
 
 }

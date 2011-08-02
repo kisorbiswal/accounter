@@ -400,7 +400,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	protected AmountLabel createVATTotalNonEditableLabelforPurchase() {
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants().VAT());
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants().vat());
 
 		return amountLabel;
 	}
@@ -858,7 +858,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 									new ClientFinanceDate(2011 - 1900, 01 - 1,
 											04))) {
 						throw new InvalidEntryException(Accounter.constants()
-								.VAT4thJanError());
+								.vat4thJanError());
 					}
 				}
 			}

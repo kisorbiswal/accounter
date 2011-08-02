@@ -26,7 +26,7 @@ public class ManageVATGroupListView extends BaseListView<ClientTAXGroup> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.constants().VATGroupList();
+		return Accounter.constants().vatGroupList();
 	}
 
 	@Override

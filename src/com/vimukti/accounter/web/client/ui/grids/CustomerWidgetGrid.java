@@ -70,8 +70,9 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "", Accounter.constants().days3(),
-				Accounter.constants().days2(), Accounter.constants().days1(),
+		return new String[] { "", Accounter.constants().dayszeroto30(),
+				Accounter.constants().days30to60(),
+				Accounter.constants().days60to90(),
 				Accounter.constants().older(),
 				Accounter.constants().totalBalance() };
 	}
@@ -90,29 +91,31 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 	protected int sort(DummyDebitor obj1, DummyDebitor obj2, int index) {
 		switch (index) {
 		case 0:
-			return obj1.getDebitorName().toLowerCase().compareTo(
-					obj2.getDebitorName().toLowerCase());
+			return obj1.getDebitorName().toLowerCase()
+					.compareTo(obj2.getDebitorName().toLowerCase());
 		case 1:
-			return UIUtils.compareDouble((obj1.getDebitdays_in30() + obj1
-					.getDebitdays_incurrent()),
+			return UIUtils.compareDouble(
+					(obj1.getDebitdays_in30() + obj1.getDebitdays_incurrent()),
 					(obj2.getDebitdays_in30() + obj2.getDebitdays_incurrent()));
 		case 2:
-			return UIUtils.compareDouble(obj1.getDebitdays_in60(), obj2
-					.getDebitdays_in60());
+			return UIUtils.compareDouble(obj1.getDebitdays_in60(),
+					obj2.getDebitdays_in60());
 		case 3:
-			return UIUtils.compareDouble(obj1.getDebitdays_in90(), obj2
-					.getDebitdays_in90());
+			return UIUtils.compareDouble(obj1.getDebitdays_in90(),
+					obj2.getDebitdays_in90());
 		case 4:
-			return UIUtils.compareDouble(obj1.getDebitdays_inolder(), obj2
-					.getDebitdays_inolder());
+			return UIUtils.compareDouble(obj1.getDebitdays_inolder(),
+					obj2.getDebitdays_inolder());
 		case 5:
-			return UIUtils.compareDouble((obj1.getDebitdays_in30()
-					+ obj1.getDebitdays_in60() + obj1.getDebitdays_in90()
-					+ obj1.getDebitdays_inolder() + obj1
-					.getDebitdays_incurrent()), (obj2.getDebitdays_in30()
-					+ obj2.getDebitdays_in60() + obj2.getDebitdays_in90()
-					+ obj2.getDebitdays_inolder() + obj2
-					.getDebitdays_incurrent()));
+			return UIUtils.compareDouble(
+					(obj1.getDebitdays_in30() + obj1.getDebitdays_in60()
+							+ obj1.getDebitdays_in90()
+							+ obj1.getDebitdays_inolder() + obj1
+							.getDebitdays_incurrent()),
+					(obj2.getDebitdays_in30() + obj2.getDebitdays_in60()
+							+ obj2.getDebitdays_in90()
+							+ obj2.getDebitdays_inolder() + obj2
+							.getDebitdays_incurrent()));
 		}
 		return 0;
 	}
@@ -145,21 +148,25 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 						+ childs.getDebitdays_incurrent());
 			}
 			addParentOrEdit(0, 0, name);
-			addParentOrEdit(1, 0, DataUtils.getAmountAsString(parent
-					.getDebitdays_in30()
-					+ parent.getDebitdays_incurrent()));
-			addParentOrEdit(2, 0, DataUtils.getAmountAsString(parent
-					.getDebitdays_in60()));
-			addParentOrEdit(3, 0, DataUtils.getAmountAsString(parent
-					.getDebitdays_in90()));
-			addParentOrEdit(4, 0, DataUtils.getAmountAsString(parent
-					.getDebitdays_inolder()));
-			addParentOrEdit(5, 0, DataUtils.getAmountAsString(parent
-					.getDebitdays_in30()
-					+ parent.getDebitdays_in60()
-					+ parent.getDebitdays_in90()
-					+ parent.getDebitdays_inolder()
-					+ parent.getDebitdays_incurrent()));
+			addParentOrEdit(
+					1,
+					0,
+					DataUtils.getAmountAsString(parent.getDebitdays_in30()
+							+ parent.getDebitdays_incurrent()));
+			addParentOrEdit(2, 0,
+					DataUtils.getAmountAsString(parent.getDebitdays_in60()));
+			addParentOrEdit(3, 0,
+					DataUtils.getAmountAsString(parent.getDebitdays_in90()));
+			addParentOrEdit(4, 0,
+					DataUtils.getAmountAsString(parent.getDebitdays_inolder()));
+			addParentOrEdit(
+					5,
+					0,
+					DataUtils.getAmountAsString(parent.getDebitdays_in30()
+							+ parent.getDebitdays_in60()
+							+ parent.getDebitdays_in90()
+							+ parent.getDebitdays_inolder()
+							+ parent.getDebitdays_incurrent()));
 			super.addNodes(childNodes);
 		} else {
 			super.addParentWithChilds(name, null);

@@ -321,7 +321,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		lab1 = new Label(Accounter.constants().journalEntryNew());
+		lab1 = new Label(Accounter.constants().journalEntry());
 		lab1.removeStyleName("gwt-Label");
 		lab1.addStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");

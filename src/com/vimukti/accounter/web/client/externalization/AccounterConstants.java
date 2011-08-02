@@ -1082,11 +1082,11 @@ public interface AccounterConstants extends Constants {
 
 	public String days();
 
-	public String days1();
+	public String days60to90();
 
-	public String days2();
+	public String days30to60();
 
-	public String days3();
+	public String dayszeroto30();
 
 	public String days30();
 
@@ -1816,8 +1816,6 @@ public interface AccounterConstants extends Constants {
 
 	public String homePhone();
 
-	public String howMuchDepreciationShouldBeIncludedInFinancialYear();
-
 	public String howMuchDepriciationShouldBeIcludedInThisFinancialYear();
 
 	public String iBuyThisItem();
@@ -2049,8 +2047,6 @@ public interface AccounterConstants extends Constants {
 	public String journalEntry();
 
 	public String journalEntryList();
-
-	public String journalEntryNew();
 
 	public String journalEntryNo();
 
@@ -3274,8 +3270,6 @@ public interface AccounterConstants extends Constants {
 
 	public String selectAll();
 
-	public String selectAnAccountType();
-
 	public String selectAnyOfTheFiscalYearFromList();
 
 	public String selectATaskNotetoSeeTheDetails();
@@ -3976,89 +3970,89 @@ public interface AccounterConstants extends Constants {
 
 	public String value();
 
-	public String VAT();
+	public String vat();
 
-	public String VAT100();
+	public String vat100();
 
-	public String vAT3Ireland();
+	public String vat3Ireland();
 
-	public String VAT4thJanError();
+	public String vat4thJanError();
 
-	public String VATAccount();
+	public String vatAccount();
 
-	public String VATAdjustment();
+	public String vatAdjustment();
 
-	public String VATAdjustmentSuccessfull();
+	public String vatAdjustmentSuccessfull();
 
-	public String VATAgency();
+	public String vatAgency();
 
-	public String VATAmount();
+	public String vatAmount();
 
-	public String VATBalance();
+	public String vatBalance();
 
-	public String VATCode();
+	public String vatCode();
 
-	public String VATCodeList();
+	public String vatCodeList();
 
-	public String VATCodeUpdatedSuccessfully();
+	public String vatCodeUpdatedSuccessfully();
 
-	public String VATDetail();
+	public String vatDetail();
 
-	public String VATDetails();
+	public String vatDetails();
 
-	public String VATDue();
+	public String vatDue();
 
-	public String VATFraction();
+	public String vatFraction();
 
-	public String VATGroup();
+	public String vatGroup();
 
-	public String VATGroupList();
+	public String vatGroupList();
 
-	public String VATGroupUpdatedSuccessfully();
+	public String vatGroupUpdatedSuccessfully();
 
-	public String VATItem();
+	public String vatItem();
 
-	public String VATItemDetail();
+	public String vatItemDetail();
 
-	public String VATItemDetailReport();
+	public String vatItemDetailReport();
 
-	public String VATItemForPurchases();
+	public String vatItemForPurchases();
 
-	public String VATItemForSales();
+	public String vatItemForSales();
 
-	public String VATItemList();
+	public String vatItemList();
 
-	public String VATItemName();
+	public String vatItemName();
 
 	public String vatitemslctdalreadyusedinVATEnterdiffVATItem();
 
-	public String VATItemsList();
+	public String vatItemsList();
 
-	public String VATItemSummary();
+	public String vatItemSummary();
 
-	public String VATItemUpdatedSuccessfully();
+	public String vatItemUpdatedSuccessfully();
 
-	public String VATLine();
+	public String vatLine();
 
-	public String VATList();
+	public String vatList();
 
-	public String VATPayment();
+	public String vatPayment();
 
-	public String VATRate();
+	public String vatRate();
 
-	public String VATRateInPerc();
+	public String vatRateInPerc();
 
-	public String VATRateShouldRange0to100();
+	public String vatRateShouldRange0to100();
 
-	public String VATRegistrationNumber();
+	public String vatRegistrationNumber();
 
-	public String VATReturn();
+	public String vatReturn();
 
-	public String VATReturnBox();
+	public String vatReturnBox();
 
-	public String VATSummary();
+	public String vatSummary();
 
-	public String VATTotal();
+	public String vatTotal();
 
 	public String venderForm();
 
@@ -4154,11 +4148,11 @@ public interface AccounterConstants extends Constants {
 
 	public String viewVATItems();
 
-	public String Void();
-
 	public String voided();
 
 	public String voidedCashBasis();
+
+	public String voidText();
 
 	public String voucherNo();
 
@@ -4171,8 +4165,6 @@ public interface AccounterConstants extends Constants {
 	public String warehouseList();
 
 	public String warehouseName();
-
-	public String wareHouseTitle();
 
 	public String wareHouseTransfer();
 
@@ -4202,7 +4194,7 @@ public interface AccounterConstants extends Constants {
 
 	public String welcome();
 
-	public String WELCOMEBANKINGSUMMARY();
+	public String welcomeBankingSummary();
 
 	public String whowillrunwhenaccoutantTransfer();
 

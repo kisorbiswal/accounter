@@ -96,7 +96,7 @@ public class ReportUtility {
 			transactionName = constants.creditCardExpense();
 			break;
 		case ClientTransaction.TYPE_VAT_RETURN:
-			transactionName = constants.VATReturn();
+			transactionName = constants.vatReturn();
 			break;
 		case ClientTransaction.TYPE_PAY_VAT:
 			transactionName = constants.payVAT();

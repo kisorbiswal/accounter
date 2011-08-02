@@ -1022,7 +1022,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		vatregno = new TextItem(Accounter.constants().VATRegistrationNumber());
+		vatregno = new TextItem(Accounter.constants().vatRegistrationNumber());
 		vatregno.setHelpInformation(true);
 		vatregno.setWidth(100);
 		custTaxCode = new TAXCodeCombo(Accounter.constants().customerVATCode(),

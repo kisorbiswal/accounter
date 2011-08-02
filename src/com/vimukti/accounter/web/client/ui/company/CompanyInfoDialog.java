@@ -245,7 +245,7 @@ public class CompanyInfoDialog extends BaseDialog {
 			doupaySalesChecBox.setTitle(Accounter.constants()
 					.areYouRegisteredForVAT());
 		vatRegNumber = new TextItem(UIUtils.getVendorString(Accounter
-				.constants().VATRegistrationNumber(), Accounter.constants()
+				.constants().vatRegistrationNumber(), Accounter.constants()
 				.taxRegNo()));
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);

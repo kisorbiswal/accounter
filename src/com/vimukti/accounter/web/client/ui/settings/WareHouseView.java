@@ -54,7 +54,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		leftSideForm = new DynamicForm();
 
 		titleItem = new LabelItem();
-		titleItem.setTitle(settingsConstants.wareHouseTitle());
+		titleItem.setTitle(settingsConstants.wareHouse());
 
 		wareHouseNameItem = new TextItem();
 		wareHouseNameItem.setTitle(settingsConstants.wareName());
@@ -174,7 +174,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().wareHouseTitle();
+		return Accounter.constants().wareHouse();
 	}
 
 	@Override

@@ -64,7 +64,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().active(),
 				Accounter.constants().product(),
-				Accounter.constants().VATAgency(),
+				Accounter.constants().vatAgency(),
 				Accounter.constants().description(),
 				Accounter.constants().rate(), "" };
 	}

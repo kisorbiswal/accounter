@@ -732,7 +732,7 @@ public class VendorTransactionGrid extends
 						Accounter.constants().unitPrice(),
 						Accounter.constants().total(),
 						Accounter.constants().newVATCode(),
-						Accounter.constants().VAT(), " " };
+						Accounter.constants().vat(), " " };
 			} else {
 				return new String[] { "", Accounter.constants().name(),
 						Accounter.constants().description(),
@@ -1090,7 +1090,7 @@ public class VendorTransactionGrid extends
 								.getColumnValue(item,
 										this instanceof PurchaseOrderGrid ? 7
 												: 6), Accounter.constants()
-								.VATCode());
+								.vatCode());
 						validationcount = 1;
 					} else
 						validationcount = 1;

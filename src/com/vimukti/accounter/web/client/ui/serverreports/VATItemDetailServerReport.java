@@ -71,7 +71,7 @@ public class VATItemDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().VATItemDetail();
+		return Accounter.constants().vatItemDetail();
 	}
 
 	@Override

@@ -910,7 +910,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter.constants().VAT());
+		AmountField amountItem = new AmountField(Accounter.constants().vat());
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -918,7 +918,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	}
 
 	protected AmountLabel createVATTotalNonEditableLabel() {
-		AmountLabel amountLabel = new AmountLabel(Accounter.constants().VAT());
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants().vat());
 
 		return amountLabel;
 	}

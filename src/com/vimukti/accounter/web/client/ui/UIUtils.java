@@ -1183,7 +1183,7 @@ public class UIUtils {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 				return Accounter.constants().taxGroup();
 			else
-				return Accounter.constants().VATItem();
+				return Accounter.constants().vatItem();
 		default:
 			break;
 		}

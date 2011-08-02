@@ -198,7 +198,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 			vatPanel.setSize("100%", "100%");
 			List<String> footer1Headers = new ArrayList<String>();
 			footer1Headers.add("VAT%");
-			footer1Headers.add(Accounter.constants().VATAmount());
+			footer1Headers.add(Accounter.constants().vatAmount());
 			FlexTable tr = util.getFooterWidget(invoiceView
 					.getGridForPrinting().getVATDetailsMapForPrinting(),
 					footer1Headers);
@@ -227,7 +227,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 					"<p align=\"right\">"
 							+ splitString(DataUtils
 									.getAmountAsString(lineTotal)) + "</p>",
-					Accounter.constants().VATTotal(),
+					Accounter.constants().vatTotal(),
 					"<p align=\"right\">"
 							+ splitString(DataUtils.getAmountAsString(vatTotal))
 							+ "</p>",
@@ -245,7 +245,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 			// "<strong>Total</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 			// + DataUtils.getAmountAsString(totalAmount));
 			removeHeaderBackground.add(Accounter.constants().subTotal());
-			removeHeaderBackground.add(Accounter.constants().VATTotal());
+			removeHeaderBackground.add(Accounter.constants().vatTotal());
 
 			FlexTable totalsTabel = util.getWidget1(3, 2, footer2Map, true,
 					removeHeaderBackground);

@@ -30,7 +30,7 @@ public class SalesOrderUKGrid extends CustomerTransactionUKGrid {
 				// "Back Order",
 				Accounter.constants().total(),
 				Accounter.constants().newVATCode(),
-				Accounter.constants().VAT(),
+				Accounter.constants().vat(),
 				Accounter.constants().invoiced(), " " };
 	}
 

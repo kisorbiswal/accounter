@@ -38,9 +38,9 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().VATItem(),
+		return new String[] { Accounter.constants().vatItem(),
 				Accounter.constants().rate(),
-				Accounter.constants().VATAgency(),
+				Accounter.constants().vatAgency(),
 				Accounter.constants().description(), " " };
 	}
 

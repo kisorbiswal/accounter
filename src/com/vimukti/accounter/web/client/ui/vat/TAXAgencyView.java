@@ -308,8 +308,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private VerticalPanel getTopLayout() {
 		Label lab;
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			lab = new Label(Accounter.constants().VATAgency());
-			taxAgencyText = new TextItem(Accounter.constants().VATAgency());
+			lab = new Label(Accounter.constants().vatAgency());
+			taxAgencyText = new TextItem(Accounter.constants().vatAgency());
 			taxAgencyText.setHelpInformation(true);
 		} else {
 			lab = new Label(Accounter.constants().taxAgency());
@@ -367,12 +367,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		paymentTermsCombo.setRequired(true);
 
-		vatReturnCombo = new SelectCombo(Accounter.constants().VATReturn());
+		vatReturnCombo = new SelectCombo(Accounter.constants().vatReturn());
 		vatReturnCombo.setHelpInformation(true);
 		vatReturnCombo.setRequired(true);
 		vatReturnList = new ArrayList<String>();
 		vatReturnList.add(Accounter.constants().ukVAT());
-		vatReturnList.add(Accounter.constants().vAT3Ireland());
+		vatReturnList.add(Accounter.constants().vat3Ireland());
 		vatReturnCombo.initCombo(vatReturnList);
 		vatReturnCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -524,7 +524,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				vatReturnCombo.setComboItem(Accounter.constants().ukVAT());
 			else
 				vatReturnCombo
-						.setComboItem(Accounter.constants().vAT3Ireland());
+						.setComboItem(Accounter.constants().vat3Ireland());
 
 			if (takenVATAgency.getSalesLiabilityAccount() != 0) {
 				ClientAccount account = getCompany().getAccount(
@@ -853,7 +853,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants().VATAgency(),
+		return UIUtils.getVendorString(Accounter.constants().vatAgency(),
 				Accounter.constants().taxAgency());
 	}
 

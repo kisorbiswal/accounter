@@ -89,7 +89,7 @@ public class PriorVATReturnsServerReport extends
 			addSection("", Accounter.constants()
 					.netVATToPayOrReclaimIfNegativeBOX5(), new int[] {});
 
-			this.sectionName = Accounter.constants().VATDue();
+			this.sectionName = Accounter.constants().vatDue();
 			addSection(this.sectionName, Accounter.constants()
 					.totalVATDueBOX3(), new int[] { 1 });
 			row = 0;

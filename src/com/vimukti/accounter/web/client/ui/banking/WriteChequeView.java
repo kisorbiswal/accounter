@@ -1208,7 +1208,7 @@ public class WriteChequeView extends
 					setMenuItems(button, Accounter.constants().accounts(),
 							Accounter.constants().product(),
 							// FinanceApplication.constants().comment(),
-							Accounter.constants().VATItem());
+							Accounter.constants().vatItem());
 				// break;
 				// case ClientWriteCheck.TYPE_VENDOR:
 				// if (FinanceApplication.getCompany().getAccountingType() ==

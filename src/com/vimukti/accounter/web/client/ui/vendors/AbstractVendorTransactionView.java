@@ -199,7 +199,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 
 	protected AmountLabel createVATTotalNonEditableItem() {
 
-		AmountLabel amountItem = new AmountLabel(Accounter.constants().VAT());
+		AmountLabel amountItem = new AmountLabel(Accounter.constants().vat());
 		amountItem.setDisabled(true);
 
 		return amountItem;

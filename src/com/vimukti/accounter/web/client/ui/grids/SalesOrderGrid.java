@@ -29,7 +29,7 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 						Accounter.constants().discountPerc(),
 						Accounter.constants().total(),
 						Accounter.constants().newVATCode(),
-						Accounter.constants().VAT(),
+						Accounter.constants().vat(),
 						Accounter.constants().invoiced(), " " };
 			} else {
 				return new String[] { "", Accounter.constants().name(),

@@ -151,7 +151,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 			vatPanel.setSize("100%", "100%");
 			List<String> footer1Headers = new ArrayList<String>();
 			footer1Headers.add("VAT%");
-			footer1Headers.add(Accounter.constants().VATAmount());
+			footer1Headers.add(Accounter.constants().vatAmount());
 			FlexTable vatTabl = util.getFooterWidget(view.getGridForPrinting()
 					.getVATDetailsMapForPrinting(), footer1Headers);
 			vatTabl.getElement().setAttribute("style",

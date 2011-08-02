@@ -81,7 +81,7 @@ public class AddItemTaxDialog extends BaseDialog {
 	@Override
 	protected String getViewTitle() {
 		return UIUtils.getVendorString(Accounter.constants()
-				.VATItem(), Accounter.constants().taxItem());
+				.vatItem(), Accounter.constants().taxItem());
 	}
 
 }

@@ -369,7 +369,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().VATGroupList();
+		return Accounter.constants().vatGroupList();
 	}
 
 }

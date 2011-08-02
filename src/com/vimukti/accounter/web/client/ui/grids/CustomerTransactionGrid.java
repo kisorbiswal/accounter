@@ -89,8 +89,8 @@ public class CustomerTransactionGrid extends
 						Accounter.constants().quantity(),
 						Accounter.constants().unitPrice(),
 						Accounter.constants().totalPrice(),
-						Accounter.constants().VATRate(),
-						Accounter.constants().VATAmount() };
+						Accounter.constants().vatRate(),
+						Accounter.constants().vatAmount() };
 			} else {
 				return new String[] { Accounter.constants().description(),
 						Accounter.constants().quantity(),
@@ -1334,7 +1334,7 @@ public class CustomerTransactionGrid extends
 							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
 						AccounterValidator.validateGridItem(this
 								.getColumnValue(item, 7), Accounter.constants()
-								.VATCode());
+								.vatCode());
 						validationcount = 1;
 					} else
 						validationcount = 1;
@@ -1378,8 +1378,8 @@ public class CustomerTransactionGrid extends
 						Accounter.constants().unitPrice(),
 						Accounter.constants().discountPerc(),
 						Accounter.constants().total(),
-						Accounter.constants().VATCode(),
-						Accounter.constants().VAT(), " " };
+						Accounter.constants().vatCode(),
+						Accounter.constants().vat(), " " };
 			} else {
 				if (transactionView instanceof WriteChequeView)
 					return new String[] { "", Accounter.constants().name(),
@@ -1409,7 +1409,7 @@ public class CustomerTransactionGrid extends
 
 	protected void createVATItemAndTaxCodeCombo() {
 
-		vatItemCombo = new VATItemCombo(Accounter.constants().VATItem(),
+		vatItemCombo = new VATItemCombo(Accounter.constants().vatItem(),
 				isAddNewRequired);
 		vatItemCombo.initCombo(getVatItems());
 		vatItemCombo.setGrid(this);
@@ -1433,7 +1433,7 @@ public class CustomerTransactionGrid extends
 					}
 				});
 
-		taxCodeCombo = new TAXCodeCombo(Accounter.constants().VATCode(),
+		taxCodeCombo = new TAXCodeCombo(Accounter.constants().vatCode(),
 				isAddNewRequired, true);
 		taxCodeCombo.setGrid(this);
 		taxCodeCombo

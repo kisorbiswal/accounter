@@ -38,8 +38,8 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 				Accounter.constants().unitPrice(),
 				Accounter.constants().discountPerc(),
 				Accounter.constants().total(),
-				Accounter.constants().VATCode(),
-				Accounter.constants().VAT(), " " };
+				Accounter.constants().vatCode(),
+				Accounter.constants().vat(), " " };
 	}
 
 	@Override
@@ -48,8 +48,8 @@ public class CustomerTransactionUKGrid extends CustomerTransactionGrid {
 				Accounter.constants().quantity(),
 				Accounter.constants().unitPrice(),
 				Accounter.constants().totalPrice(),
-				Accounter.constants().VATRate(),
-				Accounter.constants().VATAmount() };
+				Accounter.constants().vatRate(),
+				Accounter.constants().vatAmount() };
 	}
 
 	@Override

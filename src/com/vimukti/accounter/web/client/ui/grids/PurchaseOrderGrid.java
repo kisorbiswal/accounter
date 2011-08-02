@@ -25,7 +25,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 						Accounter.constants().total(),
 						Accounter.constants().billsReceived(),
 						Accounter.constants().newVATCode(),
-						Accounter.constants().VAT(), " " };
+						Accounter.constants().vat(), " " };
 
 			} else {
 				return new String[] { "", Accounter.constants().name(),

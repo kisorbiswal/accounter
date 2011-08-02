@@ -24,7 +24,7 @@ public class NewTAXAgencyAction extends Action {
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			flag = Accounter.constants().company();
 		else
-			flag = Accounter.constants().VAT();
+			flag = Accounter.constants().vat();
 		this.catagory = flag;
 	}
 

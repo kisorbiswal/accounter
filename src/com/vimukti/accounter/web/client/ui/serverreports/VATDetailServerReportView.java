@@ -143,7 +143,7 @@ public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 	public String[] getColunms() {
 		return new String[] { Accounter.constants().type(),
 				Accounter.constants().date(), Accounter.constants().noDot(),
-				Accounter.constants().VATRate(),
+				Accounter.constants().vatRate(),
 				Accounter.constants().netAmount(),
 				Accounter.constants().amount(), Accounter.constants().balance() };
 	}
@@ -154,7 +154,7 @@ public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 	 */
 	@Override
 	public String getTitle() {
-		return Accounter.constants().VATDetail();
+		return Accounter.constants().vatDetail();
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public class VATDetailServerReportView extends AbstractFinaneReport<VATDetail> {
 	public String[] getDynamicHeaders() {
 		return new String[] { Accounter.constants().type(),
 				Accounter.constants().date(), Accounter.constants().noDot(),
-				Accounter.constants().VATRate(),
+				Accounter.constants().vatRate(),
 				Accounter.constants().netAmount(),
 				Accounter.constants().amount(), Accounter.constants().balance() };
 	}

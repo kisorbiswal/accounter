@@ -107,7 +107,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		listforms = new ArrayList<DynamicForm>();
 
 		AccounterConstants vatMessages = Accounter.constants();
-		vatCodeTxt = new TextItem(vatMessages.VATCode());
+		vatCodeTxt = new TextItem(vatMessages.vatCode());
 		vatCodeTxt.setHelpInformation(true);
 		vatCodeTxt.setRequired(true);
 		vatCodeTxt.setWidth(100);
@@ -126,7 +126,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		taxableGroupRadio.setDefaultValue(Accounter.constants().taxable());
 
 		vatItemComboForPurchases = new VATItemCombo(Accounter.constants()
-				.VATItemForPurchases());
+				.vatItemForPurchases());
 		vatItemComboForPurchases.setHelpInformation(true);
 		vatItemComboForPurchases.initCombo(vatItemComboForPurchases
 				.getPurchaseWithPrcntVATItems());
@@ -142,7 +142,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				});
 
 		vatItemComboForSales = new VATItemCombo(Accounter.constants()
-				.VATItemForSales());
+				.vatItemForSales());
 		vatItemComboForSales.setHelpInformation(true);
 		vatItemComboForSales.initCombo(vatItemComboForSales
 				.getSalesWithPrcntVATItems());
@@ -448,7 +448,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants().VATCode(),
+		return UIUtils.getVendorString(Accounter.constants().vatCode(),
 				Accounter.constants().taxCode());
 	}
 }

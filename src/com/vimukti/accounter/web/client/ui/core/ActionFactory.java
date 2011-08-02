@@ -575,7 +575,7 @@ public class ActionFactory {
 	public static AdjustTAXAction getAdjustTaxAction() {
 		String flag;
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-			flag = actionsConstants.VATAdjustment();
+			flag = actionsConstants.vatAdjustment();
 
 		else
 			flag = actionsConstants.taxAdjustment();
@@ -957,7 +957,7 @@ public class ActionFactory {
 	}
 
 	public static VATDetailsReportAction getVATDetailsReportAction() {
-		return new VATDetailsReportAction(actionsConstants.VATDetail());
+		return new VATDetailsReportAction(actionsConstants.vatDetail());
 	}
 
 	public static VATSummaryReportAction getVATSummaryReportAction() {
@@ -965,7 +965,7 @@ public class ActionFactory {
 	}
 
 	public static VAT100ReportAction getVAT100ReportAction() {
-		return new VAT100ReportAction(actionsConstants.VAT100());
+		return new VAT100ReportAction(actionsConstants.vat100());
 	}
 
 	public static VATUncategorisedAmountsReportAction getVATUncategorisedAmountsReportAction() {
@@ -974,7 +974,7 @@ public class ActionFactory {
 	}
 
 	public static VATItemSummaryReportAction getVATItemSummaryReportAction() {
-		return new VATItemSummaryReportAction(actionsConstants.VATItemSummary());
+		return new VATItemSummaryReportAction(actionsConstants.vatItemSummary());
 	}
 
 	public static ECSalesListAction getECSalesListAction() {
@@ -996,7 +996,7 @@ public class ActionFactory {
 	}
 
 	public static VaTItemDetailAction getVaTItemDetailAction() {
-		return new VaTItemDetailAction(actionsConstants.VATItemDetailReport());
+		return new VaTItemDetailAction(actionsConstants.vatItemDetailReport());
 	}
 
 	public static ARAgingSummaryReportAction getArAgingSummaryReportAction() {
@@ -1058,7 +1058,7 @@ public class ActionFactory {
 	}
 
 	public static VatItemListAction getVatItemListAction() {
-		return new VatItemListAction(actionsConstants.VATItemList());
+		return new VatItemListAction(actionsConstants.vatItemList());
 	}
 
 	public static VatGroupAction getVatGroupAction() {
@@ -1066,7 +1066,7 @@ public class ActionFactory {
 	}
 
 	public static Action getTAXCodeListAction() {
-		return new ManageTAXCodesListAction(actionsConstants.VATCodeList());
+		return new ManageTAXCodesListAction(actionsConstants.vatCodeList());
 	}
 
 	public static Action getNewTAXCodeAction() {
@@ -1086,11 +1086,11 @@ public class ActionFactory {
 	// }
 
 	public static ManageVATGroupListAction getManageVATGroupListAction() {
-		return new ManageVATGroupListAction(actionsConstants.VATGroupList());
+		return new ManageVATGroupListAction(actionsConstants.vatGroupList());
 	}
 
 	public static AdjustTAXAction getVatAdjustmentAction() {
-		return new AdjustTAXAction(actionsConstants.VATAdjustment());
+		return new AdjustTAXAction(actionsConstants.vatAdjustment());
 
 	}
 

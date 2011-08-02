@@ -37,7 +37,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			if (Accounter.getCompany().getPreferences().getDoYouPaySalesTax()) {
-				menuitem = menuBar.addItem(Accounter.constants().VAT(),
+				menuitem = menuBar.addItem(Accounter.constants().vat(),
 						getVATMenu());
 				ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 			}
@@ -447,7 +447,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		}
 		vatmenu.addSeparator();
 
-		vatmenu.addItem(Accounter.constants().VATList(), getVATsListMenu());
+		vatmenu.addItem(Accounter.constants().vatList(), getVATsListMenu());
 
 		return vatmenu;
 	}
@@ -505,7 +505,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// .banking(), getBankingSubMenu());
 		// }
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			reportMenuBar.addItem(Accounter.constants().VAT(),
+			reportMenuBar.addItem(Accounter.constants().vat(),
 					getVATReportMenu());
 		}
 		// reportMenuBar.addItem(Accounter.constants()

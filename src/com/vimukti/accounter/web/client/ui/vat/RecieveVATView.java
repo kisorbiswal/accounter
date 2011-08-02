@@ -304,7 +304,7 @@ public class RecieveVATView extends
 		grid = new TransactionReceiveVATGrid(!isEdit, true) {
 			@Override
 			protected String[] getColumns() {
-				return new String[] { companyConstants.VATAgency(),
+				return new String[] { companyConstants.vatAgency(),
 						companyConstants.taxDue(),
 						companyConstants.amountToReceive() };
 			}

@@ -34,7 +34,7 @@ public class FinanceDashboard extends BaseHomeView {
 	public FinanceDashboard() {
 		dashboard = this;
 		dashboardPreference = Accounter.constants()
-				.WELCOMEBANKINGSUMMARY();
+				.welcomeBankingSummary();
 		/*
 		 * FinanceApplication.getUser().getUserPreferences()
 		 * .getDashBoardPreferences();

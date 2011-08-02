@@ -271,7 +271,7 @@ public class ItemView extends BaseView<ClientItem> {
 						selectItemGroup = selectItem;
 					}
 				});
-		taxCode = new TAXCodeCombo(Accounter.constants().VATCode(),
+		taxCode = new TAXCodeCombo(Accounter.constants().vatCode(),
 				isGeneratedFromCustomer);
 		taxCode.setHelpInformation(true);
 		taxCode.setRequired(true);

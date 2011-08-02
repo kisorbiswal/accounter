@@ -55,7 +55,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().VAT100();
+		return Accounter.constants().vat100();
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 			addSection("", Accounter.constants()
 					.box5NetVATToPayOrReclaimIfNegative(), new int[] {});
 
-			this.sectionName = Accounter.constants().VATDue();
+			this.sectionName = Accounter.constants().vatDue();
 			addSection(this.sectionName, Accounter.constants()
 					.box3TotalVATDue(), new int[] { 1 });
 			row = 0;

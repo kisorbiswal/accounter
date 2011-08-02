@@ -33,7 +33,7 @@ public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 				Accounter.constants().total(),
 				Accounter.constants().billsReceived(),
 				Accounter.constants().newVATCode(),
-				Accounter.constants().VAT(), " " };
+				Accounter.constants().vat(), " " };
 	}
 
 	@Override

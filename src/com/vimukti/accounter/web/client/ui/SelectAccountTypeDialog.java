@@ -34,7 +34,7 @@ public class SelectAccountTypeDialog extends BaseDialog {
 	public SelectAccountTypeDialog(List<Integer> options,
 			ViewConfiguration configuration) {
 		super(Accounter.constants().selectAccountType(), Accounter.constants()
-				.selectAnAccountType());
+				.selectAccountType());
 		this.options = options;
 		this.configuration = configuration;
 		createControls();

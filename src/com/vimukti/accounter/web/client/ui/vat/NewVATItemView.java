@@ -64,7 +64,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		Label infolabel1 = null;
 		final int accounttype = getCompany().getAccountingType();
 		if (accounttype == 1) {
-			infoLabel = new Label(Accounter.constants().VATItem());
+			infoLabel = new Label(Accounter.constants().vatItem());
 			infoLabel.setStyleName(Accounter.constants().labelTitle());
 			// infoLabel.setHeight("35px");
 		}
@@ -78,7 +78,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		vatItemNameText = new TextItem(Accounter.constants().VATItemName());
+		vatItemNameText = new TextItem(Accounter.constants().vatItemName());
 		vatItemNameText.setHelpInformation(true);
 		vatItemNameText.setWidth(80);
 		vatItemNameText.setRequired(true);
@@ -87,18 +87,18 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		descriptionText.setHelpInformation(true);
 		descriptionText.setWidth(80);
 
-		vatRateText = new AmountField(Accounter.constants().VATAmount());
+		vatRateText = new AmountField(Accounter.constants().vatAmount());
 		vatRateText.setHelpInformation(true);
 		vatRateText.setWidth(80);
 		vatRateText.setRequired(true);
 
 		vatRateTextPerT = new PercentageField(Accounter.constants()
-				.VATRateInPerc());
+				.vatRateInPerc());
 		vatRateTextPerT.setHelpInformation(true);
 		vatRateTextPerT.setWidth(80);
 		vatRateTextPerT.setRequired(true);
 
-		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants().VATAgency());
+		vatAgencyCombo = new TAXAgencyCombo(Accounter.constants().vatAgency());
 		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
@@ -117,7 +117,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// "Assign This item to box of VAT agency's VAT Return");
 
 		vatReturnBoxCombo = new VatReturnBoxCombo(Accounter.constants()
-				.VATReturnBox());
+				.vatReturnBox());
 		vatReturnBoxCombo.setHelpInformation(true);
 		vatReturnBoxCombo.setRequired(true);
 		vatReturnBoxCombo

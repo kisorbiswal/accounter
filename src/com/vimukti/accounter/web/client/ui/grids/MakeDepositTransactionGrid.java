@@ -440,7 +440,7 @@ public class MakeDepositTransactionGrid extends
 				return new String[] { Accounter.constants().financialAccount(),
 						Accounter.constants().vendor(),
 						Accounter.constants().customer(),
-						Accounter.constants().VAT() };
+						Accounter.constants().vat() };
 			} else {
 				return new String[] { Accounter.constants().financialAccount(),
 						Accounter.constants().vendor(),
