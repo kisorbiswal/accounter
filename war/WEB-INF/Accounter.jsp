@@ -28,12 +28,12 @@
   		
 	   $(document).ready(function() {
 	       var ele = document.getElementById("loadingWrapper");
-	          if(ele.style.visibility == "hidden") {
-	             document.getElementById('mainHeader').style.visibility = "visible";
-	             document.getElementById('mainFooter').style.visibility = "visible";
+	          if(ele.style.visibility  == "hidden") {
+	             document.getElementById('mainHeader').style.visibility  = "visible";
+	             document.getElementById('mainFooter').style.visibility  = "visible";
 	          }else{
-	             document.getElementById('mainHeader').style.visibility = "hidden";
-	             document.getElementById('mainFooter').style.visibility = "hidden";
+	             document.getElementById('mainHeader').style.visibility  = "hidden";
+	             document.getElementById('mainFooter').style.visibility  = "hidden";
 	          }
 	   });
 	</script>
