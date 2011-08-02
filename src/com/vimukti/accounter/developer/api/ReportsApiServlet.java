@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -406,16 +408,17 @@ public class ReportsApiServlet extends HttpServlet {
 
 	private void sendCompanyIds(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException {
-		List<Long> companyIds = new ArrayList<Long>();
+		Map<String, Long> companyIds = new HashMap<String, Long>();
 		HttpSession session = req.getSession();
 		String emailId = (String) session.getAttribute("emailId");
 		Client client = getClient(emailId);
 		Set<ServerCompany> companies = client.getCompanies();
 		for (ServerCompany serverCompany : companies) {
-			companyIds.add(serverCompany.getID());
+			companyIds.put(serverCompany.getCompanyName(),
+					serverCompany.getID());
 		}
 		ApiSerializationFactory factory = getSerializationFactory(req);
-		String string = factory.serializeLongList(companyIds);
+		String string = factory.serializeCompanyMap(companyIds);
 		sendResult(req, resp, string);
 	}
 

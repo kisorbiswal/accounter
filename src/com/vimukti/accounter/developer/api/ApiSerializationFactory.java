@@ -2,6 +2,7 @@ package com.vimukti.accounter.developer.api;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
@@ -128,7 +129,7 @@ public class ApiSerializationFactory {
 		return stream.toXML(list);
 	}
 
-	public String serializeLongList(List<Long> list) {
+	public String serializeCompanyMap(Map<String, Long> list) {
 		return stream.toXML(list);
 	}
 
