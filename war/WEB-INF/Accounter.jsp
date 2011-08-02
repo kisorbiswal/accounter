@@ -8,7 +8,6 @@
 
 <html>
 
-
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <script type="text/javascript" charset="utf-8">
@@ -209,13 +208,13 @@
 	<script type="text/javascript">document.getElementById('loadingMsg');</script>
 	<script type="text/javascript">
 	   $(document).ready(function() {
-	       var ele = document.getElementById("fdbk_overlay");
-	          if(ele.style.display == "none") {
-	             document.getElementById("mainHeader").style.display = "block";
-	             document.getElementById("mainFooter").style.display = "block";
+	       var ele = document.getElementById("loadingWrapper");
+	          if(ele.style.visibility == "hidden") {
+	             document.getElementById("mainHeader").style.visibility = "visible";
+	             document.getElementById("mainFooter").style.visibility = "visible";
 	          }else{
-	             document.getElementById("mainHeader").style.display = "none";
-	             document.getElementById("mainFooter").style.display = "none";
+	             document.getElementById("mainHeader").style.visibility = "hidden";
+	             document.getElementById("mainFooter").style.visibility = "hidden";
 	          }
 	   });
 	</script>
