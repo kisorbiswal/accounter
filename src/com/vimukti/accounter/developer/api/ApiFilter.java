@@ -21,7 +21,7 @@ import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ApiFilter implements Filter {
-	public static final String SIGNATURE = "signature";
+	public static final String SIGNATURE = "Signature";
 	private static final String ALGORITHM = "hmacSHA256";
 
 	@Override
@@ -34,7 +34,7 @@ public class ApiFilter implements Filter {
 	public void doFilter(ServletRequest req, ServletResponse resp,
 			FilterChain arg2) throws IOException, ServletException {
 		HttpServletRequest req2 = (HttpServletRequest) req;
-		String url = req2.getRequestURI();
+		String url = req2.getQueryString();
 		String signature = req.getParameter(SIGNATURE);
 		String remainingUrl = url.replace(SIGNATURE + "=" + signature, "");
 		String apiKey = req.getParameter("apiKey");
