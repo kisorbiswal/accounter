@@ -643,7 +643,7 @@ public class ViewManager extends DockPanel {
 		statusLabel.setText(action.catagory
 				+ " > "
 				+ (input == null ? action.getText() : action.getText().replace(
-						Accounter.constants().New(),
+						Accounter.constants().new1(),
 						Accounter.constants().viewEdit())));
 		refreshStatusBar();
 	}
@@ -752,7 +752,7 @@ public class ViewManager extends DockPanel {
 			statusLabel.setText(history.getAction().catagory
 					+ " > "
 					+ (currentCanvas.isEditMode() ? history.getAction()
-							.getText().replace(Accounter.constants().New(),
+							.getText().replace(Accounter.constants().new1(),
 									Accounter.constants().viewEdit()) : history
 							.getAction().getText()));
 			fitToSize(this.height, this.width);
@@ -1200,7 +1200,7 @@ public class ViewManager extends DockPanel {
 		statusLabel.setText(history.getAction().catagory
 				+ " > "
 				+ (currentCanvas.isEditMode() ? history.getAction().getText()
-						.replace(Accounter.constants().New(),
+						.replace(Accounter.constants().new1(),
 								Accounter.constants().viewEdit()) : history
 						.getAction().getText()));
 		refreshStatusBar();

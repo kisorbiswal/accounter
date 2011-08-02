@@ -1098,7 +1098,7 @@ public interface AccounterConstants extends Constants {
 
 	public String daysFromzeroto90();
 
-	public String DDINumber();
+	public String ddiNumber();
 
 	public String ddMMyyyy();
 
@@ -1112,7 +1112,7 @@ public interface AccounterConstants extends Constants {
 
 	public String debtorsTotal();
 
-	public String DEC();
+	public String dec();
 
 	public String december();
 
@@ -1576,7 +1576,7 @@ public interface AccounterConstants extends Constants {
 
 	public String fax();
 
-	public String FEB();
+	public String feb();
 
 	public String february();
 
@@ -2032,7 +2032,7 @@ public interface AccounterConstants extends Constants {
 
 	public String iwouldliketoberunPayroll();
 
-	public String JAN();
+	public String jan();
 
 	public String january();
 
@@ -2060,11 +2060,11 @@ public interface AccounterConstants extends Constants {
 
 	public String journalView();
 
-	public String JUL();
+	public String jul();
 
 	public String july();
 
-	public String JUN();
+	public String jun();
 
 	public String june();
 
@@ -2240,7 +2240,7 @@ public interface AccounterConstants extends Constants {
 
 	public String manufacturingRepresentative();
 
-	public String MAR();
+	public String mar();
 
 	public String march();
 
@@ -2352,7 +2352,7 @@ public interface AccounterConstants extends Constants {
 
 	public String netVATToPayOrReclaimIfNegativeBOX5();
 
-	public String New();
+	public String new1();
 
 	public String newAccount();
 
@@ -2522,7 +2522,7 @@ public interface AccounterConstants extends Constants {
 
 	public String noDot();
 
-	public String NoEstimatesAndSalesOrderForCustomer();
+	public String noEstimatesAndSalesOrderForCustomer();
 
 	public String noEstimatesForCustomer();
 
@@ -2574,7 +2574,7 @@ public interface AccounterConstants extends Constants {
 
 	public String notyetimplemented();
 
-	public String NOV();
+	public String nov();
 
 	public String november();
 
@@ -2588,7 +2588,7 @@ public interface AccounterConstants extends Constants {
 
 	public String numberForTopMarginField();
 
-	public String OCT();
+	public String oct();
 
 	public String october();
 
@@ -2742,7 +2742,7 @@ public interface AccounterConstants extends Constants {
 
 	public String paymentsReceived();
 
-	public String PaymentsToBeIssued();
+	public String paymentsToBeIssued();
 
 	public String paymentTerm();
 
@@ -3334,7 +3334,7 @@ public interface AccounterConstants extends Constants {
 
 	public String sellingRegisteredItem();
 
-	public String SEPT();
+	public String sept();
 
 	public String september();
 
@@ -3882,9 +3882,9 @@ public interface AccounterConstants extends Constants {
 
 	public String u();
 
-	public String UK();
+	public String uk();
 
-	public String UKVAT();
+	public String ukVAT();
 
 	public String unableToFetchAccountsList();
 
@@ -3946,9 +3946,9 @@ public interface AccounterConstants extends Constants {
 
 	public String updationFailed();
 
-	public String US();
+	public String us();
 
-	public String USA();
+	public String usa();
 
 	public String useAccountNos();
 

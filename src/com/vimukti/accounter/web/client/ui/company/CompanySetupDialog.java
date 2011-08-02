@@ -105,10 +105,10 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 			company.setTradingName(legalNameText.getValue().toString());
 		}
 		if (accountType.getValue().toString()
-				.equalsIgnoreCase(Accounter.constants().UK())) {
+				.equalsIgnoreCase(Accounter.constants().uk())) {
 			company.setAccountingType(1);
 		} else if (accountType.getValue().toString()
-				.equalsIgnoreCase(Accounter.constants().US())) {
+				.equalsIgnoreCase(Accounter.constants().us())) {
 
 			company.setAccountingType(0);
 		}
@@ -304,9 +304,9 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 		// companyNameText.setColSpan(3);
 
 		accountType = new SelectItem(Accounter.constants().accountType());
-		accountType.setValueMap(Accounter.constants().UK(), Accounter
-				.constants().US());
-		accountType.setDefaultValue(Accounter.constants().US());
+		accountType.setValueMap(Accounter.constants().uk(), Accounter
+				.constants().us());
+		accountType.setDefaultValue(Accounter.constants().us());
 
 		legalNameText = new TextItem(Accounter.constants().legalName());
 		legalNameText.setRequired(true);
@@ -331,7 +331,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 		countrySelect = new SelectItem(Accounter.constants().countryRegion());
 		countrySelect.setValueMap(Accounter.constants().india(), Accounter
-				.constants().UK(), Accounter.constants().US());
+				.constants().uk(), Accounter.constants().us());
 		countrySelect.setColSpan(3);
 
 		phoneText = new TextItem(Accounter.constants().phone());
@@ -612,7 +612,7 @@ public class CompanySetupDialog extends AbstractBaseDialog<ClientCompany> {
 
 		countrySelect = new SelectItem(Accounter.constants().countryRegion());
 		countrySelect.setValueMap(Accounter.constants().india(), Accounter
-				.constants().UK(), Accounter.constants().US());
+				.constants().uk(), Accounter.constants().us());
 		countrySelect.setColSpan(3);
 
 		phoneText = new TextItem(Accounter.constants().phone());

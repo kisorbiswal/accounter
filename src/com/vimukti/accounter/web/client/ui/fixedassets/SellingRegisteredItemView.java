@@ -343,13 +343,13 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	}
 
 	private String[] getMonthStrings() {
-		return new String[] { Accounter.constants().JAN(),
-				Accounter.constants().FEB(), Accounter.constants().MAR(),
+		return new String[] { Accounter.constants().jan(),
+				Accounter.constants().feb(), Accounter.constants().mar(),
 				Accounter.constants().apr(), Accounter.constants().may(),
-				Accounter.constants().JUN(), Accounter.constants().JUL(),
-				Accounter.constants().aug(), Accounter.constants().SEPT(),
-				Accounter.constants().OCT(), Accounter.constants().NOV(),
-				Accounter.constants().DEC(), };
+				Accounter.constants().jun(), Accounter.constants().jul(),
+				Accounter.constants().aug(), Accounter.constants().sept(),
+				Accounter.constants().oct(), Accounter.constants().nov(),
+				Accounter.constants().dec(), };
 	}
 
 	private int[] getLastDateValues() {

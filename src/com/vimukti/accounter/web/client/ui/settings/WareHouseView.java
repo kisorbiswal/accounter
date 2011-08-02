@@ -69,7 +69,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		mobileNumberItem.setTitle(settingsConstants.mobileNumber());
 
 		DDINumberItem = new TextItem();
-		DDINumberItem.setTitle(settingsConstants.DDINumber());
+		DDINumberItem.setTitle(settingsConstants.ddiNumber());
 
 		defaultWareHouse = new CheckboxItem();
 		defaultWareHouse.setTitle(settingsConstants.defaultWareHouse());
