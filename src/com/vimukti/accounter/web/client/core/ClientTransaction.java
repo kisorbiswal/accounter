@@ -113,8 +113,11 @@ public abstract class ClientTransaction implements IAccounterCore {
 	boolean amountsIncludeVAT;
 
 	String transactionMakeDepositEntries;
-	
+
 	private String currencyCode;
+	/**
+	 * Multiplication factor to convert selected currency to base currency
+	 */
 	private double currencyFactor;
 
 	// boolean showPricesWithVATOrVATInclusive;
