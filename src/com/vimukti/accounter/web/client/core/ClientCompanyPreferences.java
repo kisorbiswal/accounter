@@ -98,6 +98,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	int endingPeriodForVATreporting = VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC;
 	boolean reportVATonAccuralBasis = true;
 	boolean enableMultiCurrency = false;
+	private ClientCurrency baseCurrency;
 
 	private String decimalCharacte = ".";
 
@@ -666,7 +667,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public void setDateFormat(String dateFormat) {
-		
+
 		this.dateFormat = dateFormat;
 	}
 
@@ -676,5 +677,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setEnableMultiCurrency(boolean enableMultiCurrency) {
 		this.enableMultiCurrency = enableMultiCurrency;
+	}
+
+	public ClientCurrency getBaseCurrency() {
+		return baseCurrency;
+	}
+
+	public void setBaseCurrency(ClientCurrency baseCurrency) {
+		this.baseCurrency = baseCurrency;
 	}
 }
