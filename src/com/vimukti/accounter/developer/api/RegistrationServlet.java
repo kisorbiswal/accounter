@@ -1,9 +1,6 @@
 package com.vimukti.accounter.developer.api;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +11,6 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Developer;
-import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -31,23 +27,19 @@ public class RegistrationServlet extends BaseServlet {
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		if (session == null) {
-			req.getRequestDispatcher("/site/login.jsp?dest=/api/registration")
-					.forward(req, resp);
+			resp.sendRedirect("/site/login?dest=/apiregistration");
 			return;
 		}
 		String emailId = (String) session.getAttribute("emailId");
 		if (emailId == null) {
-			req.getRequestDispatcher("/site/login.jsp?dest=/api/registration")
-					.forward(req, resp);
+			resp.sendRedirect("/site/login?dest=/apiregistration");
 			return;
 		}
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
 			Client client = getClient(emailId);
 			if (client == null) {
-				req.getRequestDispatcher(
-						"/site/login.jsp?dest=/api/registration").forward(req,
-						resp);
+				resp.sendRedirect("/site/login?dest=/apiregistration");
 				return;
 			}
 
@@ -56,15 +48,18 @@ public class RegistrationServlet extends BaseServlet {
 				sendApiInfoPage(developer, req, resp);
 				return;
 			}
-			Set<ServerCompany> companies = client.getCompanies();
-			List<String> companyList = new ArrayList<String>();
-			for (ServerCompany company : companies) {
-				companyList.add(company.getCompanyName());
-			}
-			req.setAttribute("companyList", companyList);
+			// Set<ServerCompany> companies = client.getCompanies();
+			// List<String> companyList = new ArrayList<String>();
+			// for (ServerCompany company : companies) {
+			// companyList.add(company.getCompanyName());
+			// }
+			// req.setAttribute("companyList", companyList);
 			req.getRequestDispatcher("/api/registration.jsp")
 					.forward(req, resp);
 		} catch (Exception e) {
+			e.printStackTrace();
+			req.setAttribute("error", "Session has expired");
+			req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
 		} finally {
 			if (hibernateSession != null) {
 				hibernateSession.close();
@@ -74,14 +69,15 @@ public class RegistrationServlet extends BaseServlet {
 
 	private void sendApiInfoPage(Developer developer, HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("developer", developer);
+		req.setAttribute("apiKey", developer.getApiKey());
+		req.setAttribute("secretKey", developer.getSecretKey());
 		req.getRequestDispatcher("/api/apiinfo.jsp").forward(req, resp);
 	}
 
 	private Developer getDeveloper(Client client) {
 		Session session = HibernateUtil.getCurrentSession();
 		return (Developer) session.getNamedQuery("get.developer.by.client")
-				.setParameter(0, client).uniqueResult();
+				.setParameter("client", client).uniqueResult();
 	}
 
 	@Override
@@ -131,10 +127,11 @@ public class RegistrationServlet extends BaseServlet {
 				// companyList.add(company.getCompanyName());
 				// }
 				// req.setAttribute("companyList", companyList);
-				req.setAttribute("error", "Invalid inputs");
-				req.getRequestDispatcher("/api/registration.jsp").forward(req,
-						resp);
-				return;
+
+				// TODO req.setAttribute("error", "Invalid inputs");
+				// req.getRequestDispatcher("/api/registration.jsp").forward(req,
+				// resp);
+				// return;
 			}
 			String apiKey = SecureUtils.createID(8);
 			String secretKey = SecureUtils.createID(16);
@@ -152,6 +149,7 @@ public class RegistrationServlet extends BaseServlet {
 			sendApiInfoPage(developer, req, resp);
 
 		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (hibernateSession != null) {
 				hibernateSession.close();
