@@ -68,7 +68,6 @@ public class ServerConfiguration {
 	private static String rsContainerName;
 
 	public static boolean isDebugMode;
-	private static boolean isDebug;
 
 	public static String getRsContainerName() {
 		return rsContainerName;
@@ -268,9 +267,6 @@ public class ServerConfiguration {
 			setServerURL(prop.getProperty("serverURL", null));
 			setLink(prop.getProperty("link", null));
 
-			String isDebig = prop.getProperty("isDebug", "");
-			isDebug = Boolean.valueOf(isDebig);
-
 		} catch (NumberFormatException ne) {
 			System.err
 					.println("Invalid configuration for some numeric options");
@@ -416,13 +412,6 @@ public class ServerConfiguration {
 
 	public static String getAttachmentsDir() {
 		return attachmentsDir;
-	}
-
-	/**
-	 * @return
-	 */
-	public static boolean isDebug() {
-		return isDebug;
 	}
 
 }
