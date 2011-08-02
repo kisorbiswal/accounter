@@ -251,10 +251,10 @@ public class TransactionReceivePaymentGrid extends
 		case 6:
 		case 7:
 		case 8:
-			return 95;
+			return 80;
 		case 2:
 		case 3:
-			return 99;
+			return 85;
 
 		default:
 			break;
