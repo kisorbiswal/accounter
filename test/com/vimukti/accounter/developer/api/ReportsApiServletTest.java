@@ -72,6 +72,32 @@ public class ReportsApiServletTest extends TestCase {
 		return doSigning(string);
 	}
 
+	private String getEcSalesListDetailUrl(String name) {
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String string = "/api/xmlreports/salesbycustomersummary?"
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&Name="
+				+ name
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		return doSigning(string);
+	}
+
+	private String getVat100Report(long taxAgency) {
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String string = "/api/xmlreports/salesbycustomersummary?"
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&TaxAgency="
+				+ taxAgency
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		return doSigning(string);
+	}
+
 	private String doSigning(String url) {
 		byte[] secretKeyBytes = secretKey.getBytes();
 		SecretKeySpec keySpec = new SecretKeySpec(secretKeyBytes, ALGORITHM);
