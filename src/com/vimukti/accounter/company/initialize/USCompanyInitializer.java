@@ -24,14 +24,6 @@ import com.vimukti.accounter.utils.SecureUtils;
 public class USCompanyInitializer extends CompanyInitializer {
 
 	/**
-	 * Each company have it's own preferences. This will hold all the
-	 * preferences related to the company.
-	 * 
-	 * @see Company
-	 */
-	CompanyPreferences preferences = new CompanyPreferences();
-
-	/**
 	 * This is the Account created by default for the purpose of US Sales Tax
 	 */
 	Account salesTaxPayableAccount;
@@ -206,8 +198,8 @@ public class USCompanyInitializer extends CompanyInitializer {
 		// this.pendingItemReceiptsAccount = pendingItemReceipts;
 
 		createUSDefaultTaxGroup(session);
-		createNominalCodesRanges(session);
-		createDefaultBrandingTheme(session);
+		// createNominalCodesRanges(session);
+		// createDefaultBrandingTheme(session);
 	}
 
 	private void setDefaultsUSValues(Session session) {
@@ -506,6 +498,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 	public void init() {
 
 	}
+
 	/*
 	 * @Override public void office_expense() { stub
 	 * 
@@ -532,5 +525,10 @@ public class USCompanyInitializer extends CompanyInitializer {
 	 * 
 	 * }
 	 */
+
+	@Override
+	String getDateFormat() {
+		return AccounterConstants.MMddyyyy;
+	}
 
 }

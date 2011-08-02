@@ -114,17 +114,17 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	private void initDefaultUKAccounts() {
 		Session session = HibernateUtil.getCurrentSession();
 
-		FinanceDate currentDate = new FinanceDate();
-		FinanceDate fiscalYearStartDate = new FinanceDate(
-				(int) currentDate.getYear(), 0, 1);
-		FinanceDate fiscalYearEndDate = new FinanceDate(
-				(int) currentDate.getYear(), 11, 31);
-
-		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
-				fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
-		String dateFormat = AccounterConstants.ddMMyyyy;
-
-		session.save(fiscalYear);
+		// FinanceDate currentDate = new FinanceDate();
+		// FinanceDate fiscalYearStartDate = new FinanceDate(
+		// (int) currentDate.getYear(), 0, 1);
+		// FinanceDate fiscalYearEndDate = new FinanceDate(
+		// (int) currentDate.getYear(), 11, 31);
+		//
+		// FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
+		// fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
+		// String dateFormat = AccounterConstants.ddMMyyyy;
+		//
+		// session.save(fiscalYear);
 
 		Account sspReclaimed = new Account(Account.TYPE_EXPENSE, "7020",
 				AccounterConstants.SSP_RECLAIMED, true, null,
@@ -394,10 +394,10 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		// this.prepaidVATaccount = prepaidVATaccount;
 		// this.ECAcquisitionVATaccount = ECAcquisitionVAT;
 
-		setDefaultsUKValues(session);
+		// setDefaultsUKValues(session);
 		createUKDefaultVATCodesAndVATAgency(session);
-		createNominalCodesRanges(session);
-		createDefaultBrandingTheme(session);
+		// createNominalCodesRanges(session);
+		// createDefaultBrandingTheme(session);
 
 	}
 
@@ -1093,6 +1093,11 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		initDefaultUKAccounts();
 		// createUKDefaultVATCodesAndVATAgency(session);
 
+	}
+
+	@Override
+	String getDateFormat() {
+		return AccounterConstants.ddMMyyyy;
 	}
 
 	/*

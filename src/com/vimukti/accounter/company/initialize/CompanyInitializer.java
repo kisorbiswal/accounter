@@ -1,12 +1,22 @@
 package com.vimukti.accounter.company.initialize;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterConstants;
+import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.FiscalYear;
+import com.vimukti.accounter.core.NominalCodeRange;
+import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.SecureUtils;
 
 public abstract class CompanyInitializer {
 
@@ -73,25 +83,7 @@ public abstract class CompanyInitializer {
 	public void init() {
 		Session session = HibernateUtil.getCurrentSession();
 
-		// expense = new Account(Account.TYPE_EXPENSE, null,
-		// AccounterConstants.TYPE_EXPENSE, null, "",
-		// this.preferences.getPreventPostingBeforeDate());
-		// session.save(expense);
-		//
-		// income = new Account(Account.TYPE_INCOME, null,
-		// AccounterConstants.TYPE_INCOME, null, "",
-		// this.preferences.getPreventPostingBeforeDate());
-		// session.save(income);
-		//
-		// liability = new Account(Account.TYPE_LIABILITY, null,
-		// AccounterConstants.TYPE_CURRENT_LIABILITY, null, "",
-		// this.preferences.getPreventPostingBeforeDate());
-		// session.save(liability);
-		//
-		// assets = new Account(Account.TYPE_ASSET, null,
-		// AccounterConstants.TYPE_CURRENT_ASSET, null, "",
-		// this.preferences.getPreventPostingBeforeDate());
-		// session.save(assets);
+		intializeCompanyValues();
 
 		openingBalancesAccount = new Account(Account.TYPE_EQUITY, "3040",
 				AccounterConstants.OPENING_BALANCE, true, null,
@@ -106,6 +98,91 @@ public abstract class CompanyInitializer {
 		initializeDefaultExpenseAccounts();
 		initializeDefaultlLiabilitiesAccounts();
 		initializeDefaultEquityAccounts();
+	}
+
+	private void intializeCompanyValues() {
+		Session session = HibernateUtil.getCurrentSession();
+
+		FinanceDate currentDate = new FinanceDate();
+		FinanceDate fiscalYearStartDate = new FinanceDate(
+				(int) currentDate.getYear(), 0, 1);
+		FinanceDate fiscalYearEndDate = new FinanceDate(
+				(int) currentDate.getYear(), 11, 31);
+
+		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
+				fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
+
+		session.save(fiscalYear);
+
+		this.preferences.setUseAccountNumbers(true);
+		this.preferences.setUseClasses(false);
+		this.preferences.setUseJobs(false);
+		this.preferences.setUseChangeLog(false);
+		this.preferences.setAllowDuplicateDocumentNumbers(true);
+		this.preferences.setDoYouPaySalesTax(false);
+		this.preferences.setIsAccuralBasis(true);
+		this.preferences.setStartOfFiscalYear(fiscalYearStartDate);
+		this.preferences.setEndOfFiscalYear(fiscalYearEndDate);
+		this.preferences.setUseForeignCurrency(false);
+		this.preferences.setUseCustomerId(false);
+		this.preferences.setDefaultShippingTerm(null);
+		this.preferences.setDefaultAnnualInterestRate(0);
+		this.preferences.setDefaultMinimumFinanceCharge(0D);
+		this.preferences.setGraceDays(3);
+		this.preferences.setDoesCalculateFinanceChargeFromInvoiceDate(true);
+		this.preferences.setUseVendorId(false);
+		this.preferences.setUseItemNumbers(false);
+		this.preferences.setCheckForItemQuantityOnHand(true);
+		this.preferences.setUpdateCostAutomatically(false);
+		this.preferences.setStartDate(fiscalYearStartDate);
+		this.preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
+		this.preferences.setDateFormat(getDateFormat());
+		FinanceDate depreciationStartDateCal = new FinanceDate();
+		depreciationStartDateCal.set(fiscalYearStartDate);
+		this.preferences.setDepreciationStartDate(depreciationStartDateCal);
+		this.company.setPreferences(this.preferences);
+
+		PaymentTerms dueOnReceipt = new PaymentTerms(
+				AccounterConstants.PM_DUE_ON_RECEIPT,
+				AccounterConstants.DUE_ON_RECEIPT, 0, 0, PaymentTerms.DUE_NONE,
+				0, true);
+
+		session.save(dueOnReceipt);
+
+		PaymentTerms netThirty = new PaymentTerms(
+				AccounterConstants.PM_NET_THIRTY,
+				AccounterConstants.PAY_WITH_IN_THIRTY_DAYS, 0, 0,
+				PaymentTerms.DUE_NONE, 30, true);
+
+		session.save(netThirty);
+
+		PaymentTerms netSixty = new PaymentTerms(
+				AccounterConstants.PM_NET_SIXTY,
+				AccounterConstants.PAY_WITH_IN_SIXTY_DAYS, 0, 0,
+				PaymentTerms.DUE_NONE, 60, true);
+
+		session.save(netSixty);
+
+		PaymentTerms monthlyPayrollLiability = new PaymentTerms(
+				AccounterConstants.PM_MONTHLY,
+				AccounterConstants.PM_MONTHLY_PAYROLL_LIABILITY, 0, 0,
+				PaymentTerms.DUE_PAYROLL_TAX_MONTH, 13, true);
+
+		session.save(monthlyPayrollLiability);
+
+		VendorGroup creditCardCompanies = new VendorGroup();
+		creditCardCompanies.setName(AccounterConstants.CREDIT_CARD_COMPANIES);
+		creditCardCompanies.setDefault(true);
+		session.save(creditCardCompanies);
+
+		BrandingTheme brandingTheme = new BrandingTheme("Standard",
+				SecureUtils.createID(), 1.35, 1.00, 1.00, "Times New Roman",
+				"10pt", "INVOICE", "CREDIT", "STATEMENT", "(None Added)", true,
+				"(None Added)", "(None Added)");
+		session.save(brandingTheme);
+
+		createNominalCodesRanges();
+
 	}
 
 	private void initializeDefaultEquityAccounts() {
@@ -1356,4 +1433,88 @@ public abstract class CompanyInitializer {
 		session.save(employeePayrollLiabilities);
 	}
 
+	abstract String getDateFormat();
+
+	private void createNominalCodesRanges() {
+
+		Set<NominalCodeRange> nominalCodesRangeSet = new HashSet<NominalCodeRange>();
+
+		NominalCodeRange nominalCodeRange1 = new NominalCodeRange();
+		nominalCodeRange1
+				.setAccountSubBaseType(Account.SUBBASETYPE_FIXED_ASSET);
+		nominalCodeRange1.setMinimum(NominalCodeRange.RANGE_FIXED_ASSET_MIN);
+		nominalCodeRange1.setMaximum(NominalCodeRange.RANGE_FIXED_ASSET_MAX);
+		nominalCodesRangeSet.add(nominalCodeRange1);
+
+		NominalCodeRange nominalCodeRange2 = new NominalCodeRange();
+		nominalCodeRange2
+				.setAccountSubBaseType(Account.SUBBASETYPE_CURRENT_ASSET);
+		nominalCodeRange2
+				.setMinimum(NominalCodeRange.RANGE_OTHER_CURRENT_ASSET_MIN);
+		nominalCodeRange2
+				.setMaximum(NominalCodeRange.RANGE_OTHER_CURRENT_ASSET_MAX);
+		nominalCodesRangeSet.add(nominalCodeRange2);
+
+		NominalCodeRange nominalCodeRange3 = new NominalCodeRange();
+		nominalCodeRange3
+				.setAccountSubBaseType(Account.SUBBASETYPE_CURRENT_LIABILITY);
+		nominalCodeRange3
+				.setMinimum(NominalCodeRange.RANGE_OTER_CURRENT_LIABILITY_MIN);
+		nominalCodeRange3
+				.setMaximum(NominalCodeRange.RANGE_OTER_CURRENT_LIABILITY_MAX);
+		nominalCodesRangeSet.add(nominalCodeRange3);
+
+		NominalCodeRange nominalCodeRange4 = new NominalCodeRange();
+		nominalCodeRange4.setAccountSubBaseType(Account.SUBBASETYPE_EQUITY);
+		nominalCodeRange4.setMinimum(NominalCodeRange.RANGE_EQUITY_MIN);
+		nominalCodeRange4.setMaximum(NominalCodeRange.RANGE_EQUITY_MAX);
+		nominalCodesRangeSet.add(nominalCodeRange4);
+
+		NominalCodeRange nominalCodeRange5 = new NominalCodeRange();
+		nominalCodeRange5.setAccountSubBaseType(Account.SUBBASETYPE_INCOME);
+		nominalCodeRange5.setMinimum(NominalCodeRange.RANGE_INCOME_MIN);
+		nominalCodeRange5.setMaximum(NominalCodeRange.RANGE_INCOME_MAX);
+		nominalCodesRangeSet.add(nominalCodeRange5);
+
+		NominalCodeRange nominalCodeRange6 = new NominalCodeRange();
+		nominalCodeRange6
+				.setAccountSubBaseType(Account.SUBBASETYPE_COST_OF_GOODS_SOLD);
+		nominalCodeRange6
+				.setMinimum(NominalCodeRange.RANGE_COST_OF_GOODS_SOLD_MIN);
+		nominalCodeRange6
+				.setMaximum(NominalCodeRange.RANGE_COST_OF_GOODS_SOLD_MAX);
+		nominalCodesRangeSet.add(nominalCodeRange6);
+
+		NominalCodeRange nominalCodeRange7 = new NominalCodeRange();
+		nominalCodeRange7
+				.setAccountSubBaseType(Account.SUBBASETYPE_OTHER_EXPENSE);
+		nominalCodeRange7.setMinimum(NominalCodeRange.RANGE_OTHER_EXPENSE_MIN);
+		nominalCodeRange7.setMaximum(NominalCodeRange.RANGE_OTHER_EXPENSE_MAX);
+		nominalCodesRangeSet.add(nominalCodeRange7);
+
+		NominalCodeRange nominalCodeRange8 = new NominalCodeRange();
+		nominalCodeRange8.setAccountSubBaseType(Account.SUBBASETYPE_EXPENSE);
+		nominalCodeRange8.setMinimum(NominalCodeRange.RANGE_EXPENSE_MIN);
+		nominalCodeRange8.setMaximum(NominalCodeRange.RANGE_EXPENSE_MAX);
+		nominalCodesRangeSet.add(nominalCodeRange8);
+
+		NominalCodeRange nominalCodeRange9 = new NominalCodeRange();
+		nominalCodeRange9
+				.setAccountSubBaseType(Account.SUBBASETYPE_LONG_TERM_LIABILITY);
+		nominalCodeRange9
+				.setMinimum(NominalCodeRange.RANGE_LONGTERM_LIABILITY_MIN);
+		nominalCodeRange9
+				.setMaximum(NominalCodeRange.RANGE_LONGTERM_LIABILITY_MAX);
+		nominalCodesRangeSet.add(nominalCodeRange9);
+
+		NominalCodeRange nominalCodeRange10 = new NominalCodeRange();
+		nominalCodeRange10
+				.setAccountSubBaseType(Account.SUBBASETYPE_OTHER_ASSET);
+		nominalCodeRange10.setMinimum(NominalCodeRange.RANGE_OTHER_ASSET_MIN);
+		nominalCodeRange10.setMaximum(NominalCodeRange.RANGE_OTHER_ASSET_MAX);
+		nominalCodesRangeSet.add(nominalCodeRange10);
+
+		this.company.setNominalCodeRange(nominalCodesRangeSet);
+
+	}
 }

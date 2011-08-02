@@ -31,6 +31,12 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		return null;
 	}
 
+	@Override
+	String getDateFormat() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/*
 	 * @Override public void office_expense() { // Auto-generated method stub
 	 * 
