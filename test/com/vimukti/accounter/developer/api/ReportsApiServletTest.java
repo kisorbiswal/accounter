@@ -15,14 +15,16 @@ public class ReportsApiServletTest extends TestCase {
 	@Before
 	public void setUp() throws Exception {
 		tester = new ServletTester();
-		tester.addServlet(ReportsApiServlet.class, "/service");
+		tester.addServlet(ReportsApiServlet.class, "/api/xmlreports/*");
+		tester.addServlet(ReportsApiServlet.class, "/api/jsonreports/*");		
+		tester.addFilter(ApiFilter.class, "/api/*", 5);
 		tester.start();
 	}
 
 	@Test
 	public void test() {
 		HttpTester request = new HttpTester();
-		request.setMethod("POST");
+		request.setMethod("GET");
 		request.setHeader("Host", "tester");
 		request.setHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.setURI("/service");
