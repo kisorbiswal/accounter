@@ -29,46 +29,6 @@ import com.vimukti.accounter.utils.SecureUtils;
 public class UKCompanyInitializer extends CompanyInitializer {
 
 	/**
-	 * Each company have it's own preferences. This will hold all the
-	 * preferences related to the company.
-	 * 
-	 * @see Company
-	 */
-	CompanyPreferences preferences = new CompanyPreferences();
-
-	/**
-	 * This is the direct references to the Accounts Receivable Account for the
-	 * purpose of the Transactions.
-	 */
-	Account accountsReceivableAccount;
-	/**
-	 * This is the direct references to the Accounts Payable Account for the
-	 * purpose of the Transactions.
-	 */
-	Account accountsPayableAccount;
-	/**
-	 * This is the direct references to the Opening Balances Account for the
-	 * purpose of the Transactions.
-	 */
-	Account openingBalancesAccount;
-	/**
-	 * This is the direct references to the Retained Earnings Account for the
-	 * purpose of the Transactions.
-	 */
-	Account retainedEarningsAccount;
-	/**
-	 * This is the direct references to the Other Cash Income Account for the
-	 * purpose of the Cash Basis Journal Entry.
-	 */
-	Account otherCashIncomeAccount;
-
-	/**
-	 * This is the direct references to the Other Cash Expense Account for the
-	 * purpose of the Cash Basis Journal Entry.
-	 */
-	Account otherCashExpenseAccount;
-
-	/**
 	 * This is the Account created by default for the purpose of UK VAT
 	 */
 	Account VATliabilityAccount;
@@ -87,6 +47,13 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	 * Name of the Company
 	 */
 	String name;// Trading name
+
+	/**
+	 * Creates new Instance
+	 */
+	public UKCompanyInitializer(Company company) {
+		super(company);
+	}
 
 	/**
 	 * @param args
@@ -144,8 +111,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		return nominalCodeRange;
 	}
 
-	private void initDefaultUKAccounts(Session session) {
-
+	private void initDefaultUKAccounts() {
+		Session session = HibernateUtil.getCurrentSession();
 		FinanceDate currentDate = new FinanceDate();
 		FinanceDate fiscalYearStartDate = new FinanceDate(
 				(int) currentDate.getYear(), 0, 1);
@@ -162,63 +129,23 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 		// Set Default Preferences
 		// SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		CompanyPreferences preferences = new CompanyPreferences();
-		try {
-			preferences.setUseAccountNumbers(true);
-			preferences.setUseClasses(false);
-			preferences.setUseJobs(false);
-			preferences.setUseChangeLog(false);
-			preferences.setAllowDuplicateDocumentNumbers(true);
-			preferences.setDoYouPaySalesTax(false);
-			preferences.setIsAccuralBasis(true);
-			// preferences.setStartOfFiscalYear(format.parse("2009-01-01"));
-			// preferences.setEndOfFiscalYear(format.parse("2009-12-31"));
 
-			preferences.setStartOfFiscalYear(fiscalYearStartDate);
-			preferences.setEndOfFiscalYear(fiscalYearEndDate);
-			preferences.setUseForeignCurrency(false);
-			preferences.setUseCustomerId(false);
-			preferences.setDefaultShippingTerm(null);
-			preferences.setDefaultAnnualInterestRate(0);
-			preferences.setDefaultMinimumFinanceCharge(0D);
-			preferences.setGraceDays(3);
-			preferences.setDoesCalculateFinanceChargeFromInvoiceDate(true);
-			preferences.setUseVendorId(false);
-			preferences.setUseItemNumbers(false);
-			preferences.setCheckForItemQuantityOnHand(true);
-			preferences.setUpdateCostAutomatically(false);
-			preferences.setStartDate(fiscalYearStartDate);
-			preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
-			preferences.setDateFormat(dateFormat);
-
-			FinanceDate depreciationStartDateCal = new FinanceDate();
-			depreciationStartDateCal.set(fiscalYearStartDate);
-			// depreciationStartDateCal.set(Calendar.DAY_OF_MONTH, 01);
-			preferences.setDepreciationStartDate(depreciationStartDateCal);
-
-			this.setPreferences(preferences);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		Account openingBalances = new Account(Account.TYPE_EQUITY, "3040",
+		openingBalancesAccount = new Account(Account.TYPE_EQUITY, "3040",
 				AccounterConstants.OPENING_BALANCE, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
 				null, true, true, null, "4", true,
 				this.preferences.getPreventPostingBeforeDate());
 
-		session.save(openingBalances);
+		session.save(openingBalancesAccount);
 
-		Account accountsReceivable = new Account(
+		accountsReceivableAccount = new Account(
 				Account.TYPE_OTHER_CURRENT_ASSET, "1001",
 				AccounterConstants.ACCOUNTS_RECEIVABLE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, false, false, openingBalances, "2", true,
 				this.preferences.getPreventPostingBeforeDate());
 
-		session.save(accountsReceivable);
+		session.save(accountsReceivableAccount);
 
 		Account deposits = new Account(Account.TYPE_OTHER_CURRENT_ASSET,
 				"1003", AccounterConstants.DEPOSITS, true, null,
@@ -228,14 +155,14 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 		session.save(deposits);
 
-		Account accountsPayable = new Account(
+		accountsPayableAccount = new Account(
 				Account.TYPE_OTHER_CURRENT_LIABILITY, "2001",
 				AccounterConstants.ACCOUNTS_PAYABLE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalances, "3", true,
 				this.preferences.getPreventPostingBeforeDate());
 
-		session.save(accountsPayable);
+		session.save(accountsPayableAccount);
 
 		// Account pendingItemReceipts = new Account(
 		// Account.TYPE_OTHER_CURRENT_LIABILITY, "2010",
@@ -1706,9 +1633,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		//
 		// session.save(ECSale);
 
-		this.accountsReceivableAccount = accountsReceivable;
-		this.accountsPayableAccount = accountsPayable;
-		this.openingBalancesAccount = openingBalances;
 		this.retainedEarningsAccount = reservesRetainedEarnings;
 		this.VATliabilityAccount = saelsTaxVAT;
 		this.VATFiledLiabilityAccount = salesTaxVATFiled;
@@ -2411,8 +2335,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	public void init() {
-		Session session = HibernateUtil.getCurrentSession();
-		initDefaultUKAccounts(session);
+		super.init();
+		initDefaultUKAccounts();
 		// createUKDefaultVATCodesAndVATAgency(session);
 
 	}

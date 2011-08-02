@@ -5,6 +5,13 @@ import com.vimukti.accounter.core.Company;
 public class IndianCompanyInitializer extends CompanyInitializer {
 
 	/**
+	 * Creates new Instance
+	 */
+	public IndianCompanyInitializer(Company company) {
+		super(company);
+	}
+
+	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {

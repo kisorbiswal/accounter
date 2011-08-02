@@ -19,8 +19,12 @@ import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.UserPermissions;
+import com.vimukti.accounter.core.UserPreferences;
 import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class CompaniesServlet extends BaseServlet {
 
@@ -88,38 +92,54 @@ public class CompaniesServlet extends BaseServlet {
 		ServerCompany serverCompany = new ServerCompany();
 		serverCompany.setConfigured(true);
 		Session session = HibernateUtil.getCurrentSession();
-
 		Transaction transaction = session.beginTransaction();
-
-		session.save(serverCompany);
-		client.getCompanies().add(serverCompany);
-		session.save(serverCompany);
-		session.saveOrUpdate(client);
-		Query query = session.createSQLQuery("CREATE SCHEMA company"
-				+ serverCompany.getID());
-		query.executeUpdate();
 		try {
+			session.save(serverCompany);
+			client.getCompanies().add(serverCompany);
+			session.save(serverCompany);
+			session.saveOrUpdate(client);
+			Query query = session.createSQLQuery("CREATE SCHEMA company"
+					+ serverCompany.getID());
+			query.executeUpdate();
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
+		} finally {
+			session.close();
 		}
 
 		Session companySession = HibernateUtil.openSession(Server.COMPANY
 				+ serverCompany.getID(), true);
 		Transaction companyTrans = companySession.beginTransaction();
-		Company company = new Company();
-		company.setCompanyID("vimukti");
-		company.setCompanyEmail(client.getEmailId());
-		company.setFullName("vimukti");
-		company.setTradingAddress(new Address());
-		company.setRegisteredAddress(new Address());
-		companySession.save(company);
 		try {
+			Company company = new Company();
+			company.setCompanyID("vimukti");
+			company.setCompanyEmail(client.getEmailId());
+			company.setFullName("vimukti");
+			company.setTradingAddress(new Address());
+			company.setRegisteredAddress(new Address());
+			company.setAccountingType(Company.ACCOUNTING_TYPE_UK);
+			companySession.save(company);
+
+			company.initialize();
+
+			User user = new User();
+			user.setEmail(client.getEmailId());
+			user.setFirstName(client.getFirstName());
+			user.setLastName(client.getLastName());
+			user.setUserRole(RolePermissions.ADMIN);
+			user.setAdmin(true);
+			user.setPermissions(new UserPermissions());
+			user.setUserPreferences(new UserPreferences());
+			companySession.save(user);
+
 			companyTrans.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			companyTrans.rollback();
+		} finally {
+			companySession.close();
 		}
 		return serverCompany.getID();
 	}

@@ -9752,7 +9752,8 @@ public class FinanceTool implements IFinanceDAOService {
 	//
 	// }
 
-	public ClientCompany getClientCompany() throws AccounterException {
+	public ClientCompany getClientCompany(String logInUserEmail)
+			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -9860,6 +9861,10 @@ public class FinanceTool implements IFinanceDAOService {
 		clientCompany.setTransactionEndDate(dates[1]);
 
 		clientCompany.setUsersList(getAllEmployees());
+
+		User logInUSer = (User) session.getNamedQuery("getuser.by.email")
+				.setParameter("email", logInUserEmail).uniqueResult();
+		clientCompany.setLoggedInUser(logInUSer.getClientUser());
 
 		return clientCompany;
 	}
@@ -10254,7 +10259,9 @@ public class FinanceTool implements IFinanceDAOService {
 			list1.remove(deposits);
 			list1.add(indexof1001 + 1, deposits);
 		}
-		list1.addAll(indexof5220 + 1, list2);
+		if (!list.isEmpty()) {
+			list1.addAll(indexof5220 + 1, list2);
+		}
 
 		return list1;
 	}
@@ -11455,8 +11462,8 @@ public class FinanceTool implements IFinanceDAOService {
 	 * @param httpSession
 	 * @return
 	 */
-	public ClientCompany getClientCompany(long serverCompanyID)
-			throws AccounterException {
+	public ClientCompany getClientCompany(long serverCompanyID,
+			String logInUserEmail) throws AccounterException {
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 		ServerCompany serverCompany = null;
 		try {
@@ -11474,7 +11481,7 @@ public class FinanceTool implements IFinanceDAOService {
 			Session companySession = HibernateUtil.openSession(Server.COMPANY
 					+ serverCompanyID);
 			try {
-				return getClientCompany();
+				return getClientCompany(logInUserEmail);
 			} finally {
 				companySession.clear();
 			}

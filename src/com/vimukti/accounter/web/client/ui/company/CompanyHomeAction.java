@@ -31,6 +31,7 @@ public class CompanyHomeAction extends Action {
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
 		} catch (Exception e) {
+			e.printStackTrace();
 			Accounter
 					.showError(Accounter.constants().failedToLoadCompanyHome());
 		}

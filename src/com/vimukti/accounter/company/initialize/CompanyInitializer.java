@@ -10,47 +10,86 @@ import com.vimukti.accounter.utils.HibernateUtil;
 
 public abstract class CompanyInitializer {
 
-	Session session;
+	protected Company company;
 
-	Account parentaccount;
-	Account expense;
+	protected Account expense;
 
-	Account income;
+	protected Account income;
 
-	Account liability;
+	protected Account liability;
 
-	Account assets;
+	protected Account assets;
+
 	/**
-	 * company preferences
+	 * Each company have it's own preferences. This will hold all the
+	 * preferences related to the company.
+	 * 
+	 * @see Company
 	 */
-	CompanyPreferences preferences = new CompanyPreferences();
+	protected CompanyPreferences preferences = new CompanyPreferences();
+
+	/**
+	 * This is the direct references to the Accounts Receivable Account for the
+	 * purpose of the Transactions.
+	 */
+	Account accountsReceivableAccount;
+	/**
+	 * This is the direct references to the Accounts Payable Account for the
+	 * purpose of the Transactions.
+	 */
+	Account accountsPayableAccount;
+	/**
+	 * This is the direct references to the Opening Balances Account for the
+	 * purpose of the Transactions.
+	 */
+	Account openingBalancesAccount;
+	/**
+	 * This is the direct references to the Retained Earnings Account for the
+	 * purpose of the Transactions.
+	 */
+	Account retainedEarningsAccount;
+	/**
+	 * This is the direct references to the Other Cash Income Account for the
+	 * purpose of the Cash Basis Journal Entry.
+	 */
+	Account otherCashIncomeAccount;
+
+	/**
+	 * This is the direct references to the Other Cash Expense Account for the
+	 * purpose of the Cash Basis Journal Entry.
+	 */
+	Account otherCashExpenseAccount;
+
+	/**
+	 * Creates new Instance
+	 */
+	public CompanyInitializer(Company company) {
+		this.company = company;
+	}
 
 	/**
 	 * this is used to get the company type
 	 */
 	public void init() {
-		session = HibernateUtil.getCurrentSession();
-
-		parentaccount = new Account();
-		session.save(parentaccount);
+		Session session = HibernateUtil.getCurrentSession();
 
 		expense = new Account(Account.TYPE_EXPENSE, null,
-				AccounterConstants.TYPE_EXPENSE, parentaccount, "",
+				AccounterConstants.TYPE_EXPENSE, null, "",
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(expense);
 
 		income = new Account(Account.TYPE_INCOME, null,
-				AccounterConstants.TYPE_INCOME, parentaccount, "",
+				AccounterConstants.TYPE_INCOME, null, "",
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(income);
 
 		liability = new Account(Account.TYPE_LIABILITY, null,
-				AccounterConstants.TYPE_INCOME, parentaccount, "",
+				AccounterConstants.TYPE_INCOME, null, "",
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(liability);
 
 		assets = new Account(Account.TYPE_ASSET, null,
-				AccounterConstants.TYPE_CURRENT_ASSET, parentaccount, "",
+				AccounterConstants.TYPE_CURRENT_ASSET, null, "",
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(assets);
 
@@ -67,7 +106,7 @@ public abstract class CompanyInitializer {
 	 */
 
 	public void initializeDefaultExpenseAccounts() {
-
+		Session session = HibernateUtil.getCurrentSession();
 		Account advertising_and_marketing = new Account(Account.TYPE_EXPENSE,
 				null, AccounterConstants.EXPENSE_CONSULTING_AND_ACCOUNTING,
 				expense, "", this.preferences.getPreventPostingBeforeDate());
@@ -682,7 +721,7 @@ public abstract class CompanyInitializer {
 	 */
 
 	public void initializeDefaultIncomeAccounts() {
-
+		Session session = HibernateUtil.getCurrentSession();
 		Account income_sales = new Account(Account.TYPE_EXPENSE, null,
 				AccounterConstants.INCOME_SALES, income, "",
 				this.preferences.getPreventPostingBeforeDate());
@@ -803,7 +842,7 @@ public abstract class CompanyInitializer {
 	 */
 
 	public void initializeDefaultAssetsAccounts() {
-
+		Session session = HibernateUtil.getCurrentSession();
 		Account assets_current = new Account(Account.TYPE_EXPENSE, null,
 				AccounterConstants.ASSETS_CURRENT, assets, "",
 				this.preferences.getPreventPostingBeforeDate());
@@ -1046,7 +1085,7 @@ public abstract class CompanyInitializer {
 	 */
 
 	public void initializeDefaultlLiabilitiesAccounts() {
-
+		Session session = HibernateUtil.getCurrentSession();
 		Account equity = new Account(Account.TYPE_EXPENSE, null,
 				AccounterConstants.EQUITY, liability, "",
 				this.preferences.getPreventPostingBeforeDate());

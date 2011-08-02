@@ -1,6 +1,7 @@
 package com.vimukti.accounter.company.initialize;
 
 import com.vimukti.accounter.core.Company;
+
 public class CompanyInitializedFactory {
 
 	/**
@@ -13,13 +14,13 @@ public class CompanyInitializedFactory {
 		switch (company.getAccountingType()) {
 		case Company.ACCOUNTING_TYPE_US:
 
-			return new USCompanyInitializer(); 
-			
+			return new USCompanyInitializer(company);
+
 		case Company.ACCOUNTING_TYPE_UK:
-			return new UKCompanyInitializer();
-			
+			return new UKCompanyInitializer(company);
+
 		case Company.ACCOUNTING_TYPE_INDIA:
-			return new IndianCompanyInitializer();
+			return new IndianCompanyInitializer(company);
 		}
 		return null;
 	}

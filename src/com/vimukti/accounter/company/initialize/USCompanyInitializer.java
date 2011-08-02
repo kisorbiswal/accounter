@@ -84,6 +84,13 @@ public class USCompanyInitializer extends CompanyInitializer {
 	String name;// Trading name
 
 	/**
+	 * Creates new Instance
+	 */
+	public USCompanyInitializer(Company company) {
+		super(company);
+	}
+
+	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
