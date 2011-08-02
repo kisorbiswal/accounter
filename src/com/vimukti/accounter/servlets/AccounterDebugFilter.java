@@ -31,12 +31,12 @@ public class AccounterDebugFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp,
-			FilterChain arg2) throws IOException, ServletException {
-		if (!ServerConfiguration.isDebug()) {
-			arg2.doFilter(req, resp);
+			FilterChain chain) throws IOException, ServletException {
+		if (!ServerConfiguration.isDebugMode) {
+			chain.doFilter(req, resp);
 			return;
 		}
-		arg2.doFilter(req, resp);
+		chain.doFilter(req, resp);
 		HttpServletResponse httpResponse = (HttpServletResponse) resp;
 		int status = httpResponse.getStatus();
 		if (status == 301 || status == 302 || status == 303) {
