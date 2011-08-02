@@ -31,7 +31,6 @@
 <script type="text/javascript" >
 
 $(document).ready(function() {
- alert("hi");
  $('#submitButton').click(function() {
 		$("#accounterForm").validate({
 			rules: {
