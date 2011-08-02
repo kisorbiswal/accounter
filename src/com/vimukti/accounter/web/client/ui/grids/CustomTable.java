@@ -57,6 +57,7 @@ public abstract class CustomTable extends VerticalPanel {
 	public boolean isEnable = true;
 
 	protected Event event;
+	Element bodyrowElem;
 
 	protected boolean disable;
 	/**
@@ -619,9 +620,23 @@ public abstract class CustomTable extends VerticalPanel {
 			isSingleClick = false;
 			eventFired(cell);
 			break;
-		case Event.ONCLICK:
+		case Event.ONMOUSEOVER:
+			if (bodyrowElem != null)
+				bodyrowElem.removeClassName("report-hover");
+			bodyrowElem = (Element) DOM.eventGetTarget(event)
+					.getParentElement();
+			if (DOM.isOrHasChild(this.body.getElement(), bodyrowElem)) {
+				bodyrowElem.addClassName("report-hover");
 
+			}
 			break;
+		case Event.ONMOUSEOUT:
+			if (bodyrowElem != null)
+				bodyrowElem.removeClassName("report-hover");
+			break;
+		case Event.ONCLICK:
+			break;
+			
 		default:
 			break;
 		}
@@ -702,4 +717,7 @@ public abstract class CustomTable extends VerticalPanel {
 	public boolean isShowFooter() {
 		return isShowFooter;
 	}
+	
+	
+
 }
