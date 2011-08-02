@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Session;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Developer;
 import com.vimukti.accounter.core.ServerCompany;
@@ -36,8 +37,9 @@ public class ApiFilter implements Filter {
 		HttpServletRequest req2 = (HttpServletRequest) req;
 		String url = req2.getQueryString();
 		String signature = req.getParameter(SIGNATURE);
-		String remainingUrl = url.replace(SIGNATURE + "=" + signature, "");
-		String apiKey = req.getParameter("apiKey");
+		String remainingUrl = url
+				.replace("&" + SIGNATURE + "=" + signature, "");
+		String apiKey = req.getParameter("ApiKey");
 		ServerCompany company = null;
 		Session session = HibernateUtil.openSession(BaseServlet.LOCAL_DATABASE);
 		try {
@@ -78,9 +80,11 @@ public class ApiFilter implements Filter {
 
 	private ServerCompany getCompany(long id, Client client) {
 		Session session = HibernateUtil.getCurrentSession();
-		return (ServerCompany) session
+		Object result = session
 				.getNamedQuery("get.ServerCompany.by.companyId.and.client")
-				.setParameter(0, id).setParameter(1, client).uniqueResult();
+				.setParameter("id", id).setParameter("client", client)
+				.uniqueResult();
+		return (ServerCompany) ((Object[]) result)[0];
 	}
 
 	private String doSigning(String data, String secretKeystr) {
@@ -90,7 +94,8 @@ public class ApiFilter implements Filter {
 			Mac mac = Mac.getInstance(ALGORITHM);
 			mac.init(keySpec);
 			byte[] doFinal = mac.doFinal(data.getBytes());
-			return new String(doFinal);
+			String encode = Base64.encode(doFinal);
+			return encode;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,8 +104,8 @@ public class ApiFilter implements Filter {
 
 	private Developer getDeveloperByApiKey(String apiKey) {
 		Session session = HibernateUtil.getCurrentSession();
-		return (Developer) session.getNamedQuery("get.developer.by.apikey")
-				.setParameter(0, apiKey).uniqueResult();
+		return (Developer) session.getNamedQuery("get.developer.by.apiKey")
+				.setParameter("apiKey", apiKey).uniqueResult();
 	}
 
 	@Override
