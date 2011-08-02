@@ -16,9 +16,11 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -48,6 +50,7 @@ import com.vimukti.accounter.web.client.ui.vendors.CashExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -873,6 +876,25 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	protected void showMenu(AccounterButton button) {
 
+	}
+
+	public CurrencyWidget createCurrencyWidget(List<ClientCurrency> currencies,
+			ClientCurrency baseCurrency) {
+		if (!((currencies == null) && (baseCurrency == null))) {
+			getCurrencyWidget();
+		}
+		return new CurrencyWidget(currencies, baseCurrency);
+
+	}
+
+	public CurrencyWidget getCurrencyWidget() {
+		List<ClientCurrency> currencies = new ArrayList<ClientCurrency>(
+				Accounter.getCompany().getCurrencies());
+
+		CurrencyWidget currencyWidget = createCurrencyWidget(currencies,
+				Accounter.getCompany().getPreferences().getBaseCurrency());
+
+		return currencyWidget;
 	}
 
 }
