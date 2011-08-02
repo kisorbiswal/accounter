@@ -64,13 +64,11 @@
 		<url-pattern>/api/xmlreports/*,/api/jsonreports/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>Xml Reports Api</servlet-name>
+		<servlet-name>Reports Api</servlet-name>
 		<servlet-class>com.vimukti.accounter.developer.api.ReportsApiServlet
 		</servlet-class>
 	</servlet>
 	
-	<!-- -->
-
 	<servlet-mapping>
 		<servlet-name>Companies</servlet-name>
 		<url-pattern>/companies</url-pattern>
@@ -397,6 +395,17 @@
 
 	<filter-mapping>
 		<filter-name>gwtCacheControlFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>AccounterDebugFilter</filter-name>
+		<filter-class>com.vimukti.accounter.servlets.AccounterDebugFilter
+		</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>AccounterDebugFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
