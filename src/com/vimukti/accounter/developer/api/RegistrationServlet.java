@@ -37,7 +37,7 @@ public class RegistrationServlet extends BaseServlet {
 		}
 		String emailId = (String) session.getAttribute("emailId");
 		if (emailId == null) {
-			req.getRequestDispatcher("/sits/login.jsp?dest=/api/registration")
+			req.getRequestDispatcher("/site/login.jsp?dest=/api/registration")
 					.forward(req, resp);
 			return;
 		}
