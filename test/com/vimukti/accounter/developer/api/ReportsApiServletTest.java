@@ -85,7 +85,7 @@ public class ReportsApiServletTest extends TestCase {
 		return doSigning(string);
 	}
 
-	private String getVat100Report(long taxAgency) {
+	private String getVat100ReportUrl(long taxAgency) {
 		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
 		String string = "/api/xmlreports/salesbycustomersummary?"
 				+ "&CompanyId="
@@ -97,6 +97,8 @@ public class ReportsApiServletTest extends TestCase {
 				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
 		return doSigning(string);
 	}
+	
+	
 
 	private String doSigning(String url) {
 		byte[] secretKeyBytes = secretKey.getBytes();
