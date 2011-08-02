@@ -74,11 +74,12 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				try {
 					super.service(request, response);
 
-					if (ChangeTracker.getChanges().length > 1) {
-						FinanceTool financeTool = (FinanceTool) session.load(
-								FinanceTool.class, 1l);
-						financeTool.putChangesInCometStream();
-					}
+					// TODO
+					// if (ChangeTracker.getChanges().length > 1) {
+					// FinanceTool financeTool = (FinanceTool) session.load(
+					// FinanceTool.class, 1l);
+					// financeTool.putChangesInCometStream();
+					// }
 				} finally {
 					session.close();
 				}
