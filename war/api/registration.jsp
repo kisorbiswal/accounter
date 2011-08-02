@@ -26,17 +26,17 @@
    
    <tr>
    <td>Description:</td>
-   <td><input type="text" value="${param.description}"/></td>
+   <td><input type="text" name="description" value="${param.description}"/></td>
    </tr>
    
    <tr>
    <td>Integration URL:</td>
-   <td><input type="text" value="${param.integrationUrl}"/></td>
+   <td><input type="text" name="integrationUrl" value="${param.integrationUrl}"/></td>
    </tr>
    
    <tr>
    <td>Application Type:</td>
-   <td><select >
+   <td><select name="applicationType">
    		<option>value="${param.applicationType}"</option>
    		<option>Web Application </option>
    		<option>Desktop Application</option>
@@ -46,7 +46,7 @@
 	
    <tr>
    <td>Application Use:</td>
-   <td><input type="text" value="${param.applicationUse}"/></td>
+   <td><input type="text" name="applicationUse" value="${param.applicationUse}"/></td>
    </tr>
    
    <tr>
@@ -55,12 +55,12 @@
    
    <tr>
    <td>Developer Contact Email:</td>
-   <td><input type="text" value="${param.developerEmailId}"/></td>
+   <td><input type="text" name="developerEmailId" value="${param.developerEmailId}"/></td>
    </tr>
    
    <tr>
    <td>Contact Number:</td>
-   <td><input type="text" value="${param.contact}"/></td>
+   <td><input type="text" name="contact" value="${param.contact}"/></td>
    </tr>
    
    </table> 
