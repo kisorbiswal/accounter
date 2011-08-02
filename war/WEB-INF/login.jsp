@@ -63,7 +63,7 @@
 					          <div class="login_box">
 								<div class="mid-login-box">
 								<form id="accounterForm" method="post" action="/login">
-								
+								<input type="hidden" name="destination" value="${param.dest}" />
 								<c:if test="${message != null}">
 								<span style="background: #CC0000; color: #F2F3F5; line-height: 1.5;">
 								${message} </span>
