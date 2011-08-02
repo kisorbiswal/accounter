@@ -117,11 +117,12 @@ public class ChangePasswordDialog extends BaseDialog {
 						});
 			} else {
 				MainFinanceWindow.getViewManager().showErrorInCurrectDialog(
-						"Passwords not matched");
+						Accounter.constants().passwordsnotmatched());
 			}
 		} else {
 			MainFinanceWindow.getViewManager().showErrorInCurrectDialog(
-					"Password should contain minimum 6 characters");
+					Accounter.constants()
+							.passwordshouldcontainminimum6characters());
 		}
 
 	}

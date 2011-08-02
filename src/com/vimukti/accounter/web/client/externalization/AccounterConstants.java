@@ -1280,7 +1280,7 @@ public interface AccounterConstants extends Constants {
 
 	public String duplicationofProductnamearenotallowed3dots();
 
-	public String duplicationOfSalesPesonNotAllowed();
+	public String duplicationOfSalesPersonNotAllowed();
 
 	public String duplicationofServicenamearenotallowed3dots();
 
@@ -2701,6 +2701,10 @@ public interface AccounterConstants extends Constants {
 	public String partTime();
 
 	public String password();
+
+	public String passwordshouldcontainminimum6characters();
+
+	public String passwordsnotmatched();
 
 	public String passwordSuccessfullyChanged();
 
