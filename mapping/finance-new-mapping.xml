@@ -58,7 +58,9 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<property name="client" column="CLIENT"></property>
+		<many-to-one name="client" class="com.vimukti.accounter.core.Client"
+			lazy="false" column="CLIENT">
+		</many-to-one>		
 		<property name="apiKey" column="API_KEY"></property>
 		<property name="secretKey" column="SECRET_KEY"></property>
 		<property name="applicationName" column="APPLICATION_NAME"></property>
