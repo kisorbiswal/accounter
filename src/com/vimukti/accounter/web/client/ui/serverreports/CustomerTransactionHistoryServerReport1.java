@@ -32,9 +32,14 @@ public class CustomerTransactionHistoryServerReport1 extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { " ", "Date", "No.", "Invoiced Amount",
-				"Paid Amount", "Balance", "Payment Terms", "Due Date", "Debit",
-				"Credit" };
+		return new String[] { " ", Accounter.constants().date(),
+				Accounter.constants().noDot(),
+				Accounter.constants().invoicedAmount(),
+				Accounter.constants().paidAmount(),
+				Accounter.constants().balance(),
+				Accounter.constants().paymentTerms(),
+				Accounter.constants().dueDate(), Accounter.constants().debit(),
+				Accounter.constants().credit() };
 	}
 
 	@Override
@@ -204,9 +209,14 @@ public class CustomerTransactionHistoryServerReport1 extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { " ", "Date", "No.", "Invoiced Amount",
-				"Paid Amount", "Balance", "Payment Terms", "Due Date", "Debit",
-				"Credit" };
+		return new String[] { " ", Accounter.constants().date(),
+				Accounter.constants().noDot(),
+				Accounter.constants().invoicedAmount(),
+				Accounter.constants().paidAmount(),
+				Accounter.constants().balance(),
+				Accounter.constants().paymentTerms(),
+				Accounter.constants().dueDate(), Accounter.constants().debit(),
+				Accounter.constants().credit() };
 	}
 
 }

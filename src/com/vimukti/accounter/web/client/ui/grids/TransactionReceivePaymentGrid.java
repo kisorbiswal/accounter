@@ -431,7 +431,6 @@ public class TransactionReceivePaymentGrid extends
 		return cashDiscountAccount;
 	}
 
-
 	private ClientAccount getWriteOffAccount() {
 
 		ClientAccount writeOffAccount = getCompany().getAccount(
@@ -509,7 +508,8 @@ public class TransactionReceivePaymentGrid extends
 				creditsAndPaymentsDialiog.updateFields();
 			}
 		} else if (!gotCreditsAndPayments && canEdit) {
-			Accounter.showInformation("No Credits for this customer!!");
+			Accounter.showInformation(Accounter.constants()
+					.noCreditsforthiscustomer());
 		}
 		if (!canEdit) {
 			creditsAndPaymentsDialiog = new CustomerCreditsAndPaymentsDialiog(

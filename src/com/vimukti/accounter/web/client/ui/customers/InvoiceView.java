@@ -205,7 +205,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		transactionNumber.setTitle(Accounter.constants().invoiceNo());
 		listforms = new ArrayList<DynamicForm>();
-		brandingThemeTypeCombo = new BrandingThemeCombo("Branding Theme");
+		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.constants()
+				.brandingTheme());
 
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(4);
@@ -1394,8 +1395,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			@Override
 			public void onFailure(Throwable caught) {
 				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
+					Accounter.showMessage(Accounter.constants()
+							.sessionExpired());
 				} else {
 					Accounter.showError(((InvalidOperationException) (caught))
 							.getDetailedMessage());

@@ -122,34 +122,34 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	private String getMonthAsString(int month) {
 		switch (month) {
 		case 0:
-			return "JAN";
+			return Accounter.constants().jan();
 		case 1:
-			return "FEB";
+			return Accounter.constants().feb();
 		case 2:
-			return "MAR";
+			return Accounter.constants().mar();
 		case 3:
-			return "APR";
+			return Accounter.constants().apr();
 		case 4:
-			return "MAY";
+			return Accounter.constants().may();
 		case 5:
-			return "JUN";
+			return Accounter.constants().jun();
 		case 6:
-			return "JUL";
+			return Accounter.constants().jul();
 		case 7:
 		case -5:
-			return "AUG";
+			return Accounter.constants().aug();
 		case 8:
 		case -4:
-			return "SEPT";
+			return Accounter.constants().sept();
 		case 9:
 		case -3:
-			return "OCT";
+			return Accounter.constants().oct();
 		case 10:
 		case -2:
-			return "NOV";
+			return Accounter.constants().nov();
 		case 11:
 		case -1:
-			return "DEC";
+			return Accounter.constants().dec();
 
 		}
 		return "";
@@ -196,8 +196,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 			public void onSuccess(ClientCustomer result) {
 				if (result != null) {
-					ActionFactory.getNewCustomerAction().run(result,
-							true);
+					ActionFactory.getNewCustomerAction().run(result, true);
 				}
 			}
 

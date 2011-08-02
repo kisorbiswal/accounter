@@ -94,4 +94,8 @@ public interface AccounterMessages extends Messages {
 
 	public String wecantDeleteThisTheme(String themeName);
 
+	public String pleaseselectvalidtransactionGrid(String string);
+
+	public String noRecordsToShow();
+
 }

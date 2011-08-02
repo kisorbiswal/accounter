@@ -4376,4 +4376,8 @@ public interface AccounterConstants extends Constants {
 
 	public String salesTaxItem();
 
+	public String noCreditsforthiscustomer();
+
+	public String thisReportNotYetImplemented();
+
 }

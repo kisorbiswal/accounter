@@ -249,10 +249,9 @@ public class MakeDepositTransactionGrid extends
 					|| (record.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR && record
 							.getVendor() == 0) || (record.getType() == ClientTransactionMakeDeposit.TYPE_CUSTOMER && record
 					.getCustomer() == 0))) {
-				throw new InvalidTransactionEntryException(
-						"Please Select Valid  "
-								+ getTypeAsString(record.getType())
-								+ "  in Transaction Grid");
+				throw new InvalidTransactionEntryException(Accounter.messages()
+						.pleaseselectvalidtransactionGrid(
+								getTypeAsString(record.getType())));
 			}
 
 		}

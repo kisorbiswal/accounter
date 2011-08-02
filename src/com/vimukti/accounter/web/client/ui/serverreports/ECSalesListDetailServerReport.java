@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -17,7 +18,8 @@ public class ECSalesListDetailServerReport extends
 		this.reportView = reportView;
 	}
 
-	public ECSalesListDetailServerReport(long startDate, long endDate,int generationType) {
+	public ECSalesListDetailServerReport(long startDate, long endDate,
+			int generationType) {
 		super(startDate, endDate, generationType);
 	}
 
@@ -51,13 +53,16 @@ public class ECSalesListDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "Type", "Date", "No.", "Name", "Memo", "Amount",
-				"Sales Price" };
+		return new String[] { Accounter.constants().type(),
+				Accounter.constants().date(), Accounter.constants().noDot(),
+				Accounter.constants().name(), Accounter.constants().memo(),
+				Accounter.constants().amount(),
+				Accounter.constants().salesPrice() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "EC Sales List Details";
+		return Accounter.constants().ecSalesListDetails();
 	}
 
 	@Override
@@ -76,7 +81,7 @@ public class ECSalesListDetailServerReport extends
 	@Override
 	public void processRecord(ECSalesListDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", "Total", new int[] { 5 });
+			addSection("", Accounter.constants().total(), new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(sectionName, "", new int[] { 5 });
@@ -176,32 +181,32 @@ public class ECSalesListDetailServerReport extends
 	}
 
 	public int sort(ECSalesListDetail obj1, ECSalesListDetail obj2, int col) {
-		int ret = obj1.getName().toLowerCase().compareTo(
-				obj2.getName().toLowerCase());
+		int ret = obj1.getName().toLowerCase()
+				.compareTo(obj2.getName().toLowerCase());
 		if (ret != 0) {
 			return ret;
 		}
 
 		switch (col) {
 		case 0:
-			return UIUtils.compareInt(obj1.getTransactionType(), obj2
-					.getTransactionType());
+			return UIUtils.compareInt(obj1.getTransactionType(),
+					obj2.getTransactionType());
 		case 1:
 			return obj1.getDate().compareTo(obj2.getDate());
 		case 2:
 			return obj1.getTransactionNumber().compareTo(
 					obj2.getTransactionNumber());
 		case 3:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 4:
-			return obj1.getMemo().toLowerCase().compareTo(
-					obj2.getMemo().toLowerCase());
+			return obj1.getMemo().toLowerCase()
+					.compareTo(obj2.getMemo().toLowerCase());
 		case 5:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		case 6:
-			return UIUtils.compareDouble(obj1.getSalesPrice(), obj2
-					.getSalesPrice());
+			return UIUtils.compareDouble(obj1.getSalesPrice(),
+					obj2.getSalesPrice());
 		}
 		return 0;
 	}
@@ -219,8 +224,11 @@ public class ECSalesListDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "Type", "Date", "No.", "Name", "Memo", "Amount",
-				"Sales Price" };
+		return new String[] { Accounter.constants().type(),
+				Accounter.constants().date(), Accounter.constants().noDot(),
+				Accounter.constants().name(), Accounter.constants().memo(),
+				Accounter.constants().amount(),
+				Accounter.constants().salesPrice() };
 	}
 
 }

@@ -39,11 +39,9 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 				break;
 			case 1:
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-					colArray[index] = Accounter.constants()
-							.vendorName();
+					colArray[index] = Accounter.constants().vendorName();
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-					colArray[index] = Accounter.constants()
-							.supplierName();
+					colArray[index] = Accounter.constants().supplierName();
 				break;
 			case 2:
 				colArray[index] = Accounter.constants().currentMonth();
@@ -86,7 +84,6 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	}
 
-	
 	private int getCurrentMonth() {
 		return new ClientFinanceDate().getMonth();
 	}
@@ -94,34 +91,34 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	private String getMonthAsString(int month) {
 		switch (month) {
 		case 0:
-			return "JAN";
+			return Accounter.constants().jan();
 		case 1:
-			return "FEB";
+			return Accounter.constants().feb();
 		case 2:
-			return "MAR";
+			return Accounter.constants().mar();
 		case 3:
-			return "APR";
+			return Accounter.constants().apr();
 		case 4:
-			return "MAY";
+			return Accounter.constants().may();
 		case 5:
-			return "JUN";
+			return Accounter.constants().jun();
 		case 6:
-			return "JUL";
+			return Accounter.constants().jul();
 		case 7:
 		case -5:
-			return "AUG";
+			return Accounter.constants().aug();
 		case 8:
 		case -4:
-			return "SEPT";
+			return Accounter.constants().sept();
 		case 9:
 		case -3:
-			return "OCT";
+			return Accounter.constants().oct();
 		case 10:
 		case -2:
-			return "NOV";
+			return Accounter.constants().nov();
 		case 11:
 		case -1:
-			return "DEC";
+			return Accounter.constants().dec();
 
 		}
 		return "";
@@ -204,14 +201,12 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			public void onSuccess(ClientPayee result) {
 				if (result != null) {
 					if (result instanceof ClientVendor) {
-						ActionFactory.getNewVendorAction().run(result,
-								true);
+						ActionFactory.getNewVendorAction().run(result, true);
 						// } else if (result instanceof ClientTaxAgency) {
 						// UIUtils.runAction(result, ActionFactory
 						// .getNewTaxAgencyAction());
 					} else if (result instanceof ClientTAXAgency) {
-						ActionFactory.getNewTAXAgencyAction().run(
-								result, true);
+						ActionFactory.getNewTAXAgencyAction().run(result, true);
 					}
 
 				}

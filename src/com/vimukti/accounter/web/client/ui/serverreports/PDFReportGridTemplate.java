@@ -3,8 +3,8 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-
 
 public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 
@@ -27,15 +27,15 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 				this.maxDepth = depth;
 			if (values.length > i && values[i] != null) {
 				if (reportView.getColumnstoHide().contains(i) && record != null) {
-					addCell(bold, "", depth, false, reportView
-							.getColumnWidth(i), columnTypes[i]);
+					addCell(bold, "", depth, false,
+							reportView.getColumnWidth(i), columnTypes[i]);
 				} else if (columnTypes[i] == COLUMN_TYPE_AMOUNT) {
 					addCell(bold, getValue(values[i]), depth, underline,
 							reportView.getColumnWidth(i), columnTypes[i]);
 				} else if (columnTypes[i] == COLUMN_TYPE_PERCENTAGE) {
 					if (getValue(values[i]) == "") {
-						addCell(bold, "", depth, false, reportView
-								.getColumnWidth(i), columnTypes[i]);
+						addCell(bold, "", depth, false,
+								reportView.getColumnWidth(i), columnTypes[i]);
 					} else {
 						addCell(bold, getValue(values[i]) + " %", depth, false,
 								reportView.getColumnWidth(i), columnTypes[i]);
@@ -56,7 +56,8 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	@Override
 	public String getBody() {
 		if (body == null) {
-			this.body = "<html><body><center><p>No records to show</p></center></body></html>";
+			this.body = Accounter.messages().noRecordsToShow();
+			;
 		} else {
 			this.body = this.body + "</table></div></div></td></tr></table>";
 		}
@@ -144,7 +145,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	@Override
 	public void addDepthStyle(int row, int column, int depth) {
 		boolean canAdd = (reportView instanceof ProfitAndLossServerReport || reportView instanceof BalanceSheetServerReport);
-		
+
 		boolean flag = false;
 
 		if (column == 0 && !canAdd) {

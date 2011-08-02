@@ -30,8 +30,8 @@ public class TransactionDetailByTaxCodeAction extends Action {
 					// new TransactionDetailByTaxCodeReport();
 					// MainFinanceWindow.getViewManager().showView(report, data,
 					// isDependent, TransactionDetailByTaxCodeAction.this);
-					Accounter
-							.showInformation("This Report Not Yet Implemented");
+					Accounter.showInformation(Accounter.constants()
+							.thisReportNotYetImplemented());
 				} catch (Throwable t) {
 					onCreateFailed(t);
 				}

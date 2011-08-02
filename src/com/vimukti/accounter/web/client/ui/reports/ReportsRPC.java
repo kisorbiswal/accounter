@@ -39,8 +39,7 @@ public class ReportsRPC {
 		AccounterAsyncCallback<T> callback = new AccounterAsyncCallback<T>() {
 
 			public void onException(AccounterException caught) {
-				Accounter
-						.showMessage("Your session expired, Please login again to continue");
+				Accounter.showMessage(Accounter.constants().sessionExpired());
 			}
 
 			public void onSuccess(T result) {

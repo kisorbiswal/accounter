@@ -723,8 +723,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			@Override
 			public void onFailure(Throwable caught) {
 				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
+					Accounter.showMessage(Accounter.constants()
+							.sessionExpired());
 				} else {
 					Accounter.showError(((InvalidOperationException) (caught))
 							.getDetailedMessage());
@@ -751,7 +751,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		transactionNumber.setDisabled(isEdit);
 		customerCombo.setDisabled(isEdit);
 		if (ClientCompanyPreferences.get().isSalesPersonEnabled())
-		salesPersonCombo.setDisabled(isEdit);
+			salesPersonCombo.setDisabled(isEdit);
 		payTermsSelect.setDisabled(isEdit);
 		deliveryDate.setDisabled(isEdit);
 		quoteExpiryDate.setDisabled(isEdit);

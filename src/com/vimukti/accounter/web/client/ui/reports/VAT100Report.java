@@ -10,11 +10,10 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.VAT100ServerReport;
 
-
 public class VAT100Report extends AbstractReportView<VATSummary> {
-	
+
 	private String sectionName = "";
-	
+
 	private int row = -1;
 	private long vatAgency;
 
@@ -22,7 +21,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	protected Double box4amount = 0.0D;
 
 	public VAT100Report() {
-		super(false, "No records to show");
+		super(false, Accounter.constants().noRecordsToShow());
 		this.serverReport = new VAT100ServerReport(this);
 	}
 

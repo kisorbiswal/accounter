@@ -657,7 +657,7 @@ public abstract class ListGrid<T> extends CustomTable {
 				}
 			});
 			datePicker.setFormat(new DateBox.DefaultFormat(DateTimeFormat
-					.getFormat("dd/MM/yyyy")));
+					.getFormat(Accounter.constants().dateFormat())));
 			datePicker.setValue(val.getDateAsObject());
 
 			widgetsMap.put(currentCol, datePicker);
@@ -667,7 +667,7 @@ public abstract class ListGrid<T> extends CustomTable {
 		} else {
 			DateBox box = (DateBox) widgetsMap.get(currentCol);
 			box.setFormat(new DateBox.DefaultFormat(DateTimeFormat
-					.getFormat("dd/MM/yyyy")));
+					.getFormat(Accounter.constants().dateFormat())));
 			box.setValue(((ClientFinanceDate) value).getDateAsObject());
 			setWidget(currentRow, currentCol, box);
 			box.setFocus(true);
