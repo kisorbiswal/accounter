@@ -317,7 +317,7 @@ public class GraphChart {
 		case 2:
 			return Accounter.constants().MAR();
 		case 3:
-			return Accounter.constants().APR();
+			return Accounter.constants().apr();
 		case 4:
 			return Accounter.constants().may();
 		case 5:
@@ -326,7 +326,7 @@ public class GraphChart {
 			return Accounter.constants().JUL();
 		case 7:
 		case -5:
-			return Accounter.constants().AUG();
+			return Accounter.constants().aug();
 		case 8:
 		case -4:
 			return Accounter.constants().SEPT();

@@ -45,7 +45,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 		vendorForm.clear();
 		termsForm.clear();
-		Ccard = new VendorCombo(Accounter.constants().cCCompany(), true) {
+		Ccard = new VendorCombo(Accounter.constants().ccCompany(), true) {
 			@Override
 			public void initCombo(List<ClientVendor> list) {
 				Iterator<ClientVendor> iterator = list.iterator();

@@ -55,7 +55,7 @@ public class APAgingDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().APAgeingDetails();
+		return Accounter.constants().apAgeingDetails();
 	}
 
 	@Override

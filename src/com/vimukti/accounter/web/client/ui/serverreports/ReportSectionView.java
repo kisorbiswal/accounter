@@ -288,7 +288,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem arAgingLink = new LinkItem();
-		arAgingLink.setLinkTitle(Accounter.constants().ARAgeing());
+		arAgingLink.setLinkTitle(Accounter.constants().arAgeing());
 		arAgingLink.setShowTitle(false);
 		arAgingLink.addClickHandler(new ClickHandler() {
 
@@ -300,7 +300,7 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem apAgingLink = new LinkItem();
-		apAgingLink.setLinkTitle(Accounter.constants().APAging());
+		apAgingLink.setLinkTitle(Accounter.constants().apAging());
 		apAgingLink.setShowTitle(false);
 		apAgingLink.addClickHandler(new ClickHandler() {
 

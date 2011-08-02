@@ -855,7 +855,7 @@ public class ActionFactory {
 	// }
 
 	public static ARAgingDetailAction getArAgingDetailAction() {
-		return new ARAgingDetailAction(actionsConstants.ARAgeingDetail());
+		return new ARAgingDetailAction(actionsConstants.arAgeingDetail());
 	}
 
 	public static CustomerTransactionHistoryAction getCustomerTransactionHistoryAction() {
@@ -893,7 +893,7 @@ public class ActionFactory {
 	// }
 
 	public static APAgingDetailAction getAorpAgingDetailAction() {
-		return new APAgingDetailAction(actionsConstants.APAgeingDetail());
+		return new APAgingDetailAction(actionsConstants.apAgeingDetail());
 	}
 
 	public static VendorTransactionHistoryAction getVendorTransactionHistoryAction() {
@@ -1001,12 +1001,12 @@ public class ActionFactory {
 
 	public static ARAgingSummaryReportAction getArAgingSummaryReportAction() {
 		return new ARAgingSummaryReportAction(
-				actionsConstants.ARAgeingSummary());
+				actionsConstants.arAgeingSummary());
 	}
 
 	public static Action getAorpAgingSummaryReportAction() {
 		return new APAgingSummaryReportAction(
-				actionsConstants.APAgeingSummary());
+				actionsConstants.apAgeingSummary());
 	}
 
 	public static ExpenseReportAction getExpenseReportAction() {

@@ -63,7 +63,7 @@ public class ARAgingSummaryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().ARAgeingSummary();
+		return Accounter.constants().arAgeingSummary();
 	}
 
 	@Override

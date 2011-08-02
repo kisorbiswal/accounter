@@ -296,7 +296,7 @@ public class ProfitAndLossServerReport extends
 					closeOtherSections();
 					closeSection(types.indexOf("Income"));
 					addTypeSection(Accounter.constants().costOfGoodSold(),
-							Accounter.constants().COGSTotal());
+							Accounter.constants().cogsTotal());
 
 				}
 
