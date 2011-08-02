@@ -128,10 +128,10 @@ public class RegistrationServlet extends BaseServlet {
 				// }
 				// req.setAttribute("companyList", companyList);
 
-				// TODO req.setAttribute("error", "Invalid inputs");
-				// req.getRequestDispatcher("/api/registration.jsp").forward(req,
-				// resp);
-				// return;
+				req.setAttribute("error", "Invalid inputs");
+				req.getRequestDispatcher("/api/registration.jsp").forward(req,
+						resp);
+				return;
 			}
 			String apiKey = SecureUtils.createID(8);
 			String secretKey = SecureUtils.createID(16);
