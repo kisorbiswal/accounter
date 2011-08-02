@@ -540,6 +540,8 @@ public interface AccounterConstants extends Constants {
 
 	public String brandingThemeCombo();
 
+	public String buisnessColon();
+
 	public String businessFax();
 
 	public String businessPhone();
@@ -1302,6 +1304,8 @@ public interface AccounterConstants extends Constants {
 
 	public String duplicationVATCodeAreNotAllowed();
 
+	public String earlyPaymentDiscountGiven();
+
 	public String earning();
 
 	public String ecSalesList();
@@ -1317,6 +1321,14 @@ public interface AccounterConstants extends Constants {
 	public String editCountry();
 
 	public String editFiscalYear();
+
+	public String eight();
+
+	public String eightteen();
+
+	public String eighty();
+
+	public String eleven();
 
 	public String email();
 
@@ -1462,6 +1474,8 @@ public interface AccounterConstants extends Constants {
 
 	public String exception();
 
+	public String exceptionOccur();
+
 	public String exit();
 
 	public String expense();
@@ -1590,6 +1604,10 @@ public interface AccounterConstants extends Constants {
 
 	public String fieldError();
 
+	public String fifteen();
+
+	public String fifty();
+
 	/**
 	 * Menus Title
 	 * 
@@ -1660,6 +1678,8 @@ public interface AccounterConstants extends Constants {
 
 	public String fiscalyearsCreationFailed();
 
+	public String five();
+
 	public String fixedAssetItemHasBeenDiposed();
 
 	public String fixedAssetItemHasBeenSold();
@@ -1685,6 +1705,12 @@ public interface AccounterConstants extends Constants {
 	public String forgetPassword();
 
 	public String formLayoutsList();
+
+	public String forty();
+
+	public String four();
+
+	public String fourteen();
 
 	public String france();
 
@@ -1776,6 +1802,8 @@ public interface AccounterConstants extends Constants {
 
 	public String grossProfit();
 
+	public String group();
+
 	public String grouping();
 
 	public String groupNameOrNumber();
@@ -1816,11 +1844,15 @@ public interface AccounterConstants extends Constants {
 
 	public String homeBasedSales();
 
+	public String homeColon();
+
 	public String homeEmail();
 
 	public String homePhone();
 
 	public String howMuchDepriciationShouldBeIcludedInThisFinancialYear();
+
+	public String hundred();
 
 	public String iBuyThisItem();
 
@@ -1912,7 +1944,11 @@ public interface AccounterConstants extends Constants {
 
 	public String invalidValue();
 
+	public String inventoryAssembly();
+
 	public String inventoryItems();
+
+	public String inventoryPart();
 
 	public String investingActivities();
 
@@ -2111,6 +2147,8 @@ public interface AccounterConstants extends Constants {
 	public String lawFirm();
 
 	public String left();
+
+	public String legalColon();
 
 	public String legalCompanyName();
 
@@ -2502,9 +2540,17 @@ public interface AccounterConstants extends Constants {
 
 	public String nigeria();
 
+	public String nine();
+
+	public String nineteen();
+
+	public String ninty();
+
 	public String no();
 
 	public String nocompany();
+
+	public String noCreditsforthiscustomer();
 
 	public String noCreditsForThisVendor();
 
@@ -2535,6 +2581,8 @@ public interface AccounterConstants extends Constants {
 	public String noNegativeAmounts();
 
 	public String noNegativeAmountsReceived();
+
+	public String nonInventory();
 
 	public String nonInventoryItem();
 
@@ -2598,6 +2646,8 @@ public interface AccounterConstants extends Constants {
 
 	public String oldPassword();
 
+	public String one();
+
 	public String oneOfTheRequiredFieldsIsMissing();
 
 	public String onHand();
@@ -2653,6 +2703,8 @@ public interface AccounterConstants extends Constants {
 	public String other();
 
 	public String otherAssets();
+
+	public String otherColon();
 
 	public String otherDirectCosts();
 
@@ -2956,6 +3008,8 @@ public interface AccounterConstants extends Constants {
 
 	public String products();
 
+	public String productsMaterialsPurchasedTypeA();
+
 	public String profitAndLoss();
 
 	public String profitAndLossStandard();
@@ -3246,6 +3300,8 @@ public interface AccounterConstants extends Constants {
 
 	public String salesTaxGroups();
 
+	public String salesTaxItem();
+
 	public String salesTaxItems();
 
 	public String salesTaxLiability();
@@ -3346,6 +3402,8 @@ public interface AccounterConstants extends Constants {
 
 	public String serviceGroup();
 
+	public String serviceItem();
+
 	public String serviceMapping();
 
 	public String serviceName();
@@ -3365,6 +3423,12 @@ public interface AccounterConstants extends Constants {
 	public String setUpOnlineBanking();
 
 	public String setUserpermissions();
+
+	public String seven();
+
+	public String seventeen();
+
+	public String seventy();
 
 	public String shareHolderFunds();
 
@@ -3391,6 +3455,8 @@ public interface AccounterConstants extends Constants {
 	public String shippingTerms();
 
 	public String shipTo();
+
+	public String shipToColon();
 
 	public String show();
 
@@ -3422,6 +3488,12 @@ public interface AccounterConstants extends Constants {
 
 	public String signUpForCreditCardProcesing();
 
+	public String six();
+
+	public String sixteen();
+
+	public String sixty();
+
 	public String sold();
 
 	public String soldAndDisposedItems();
@@ -3441,6 +3513,8 @@ public interface AccounterConstants extends Constants {
 	public String southAfrica();
 
 	public String spain();
+
+	public String specifiedunittypenotfoundinmeasure();
 
 	public String standard();
 
@@ -3670,6 +3744,8 @@ public interface AccounterConstants extends Constants {
 
 	public String temporary();
 
+	public String ten();
+
 	public String terms();
 
 	public String termsLabel();
@@ -3690,6 +3766,10 @@ public interface AccounterConstants extends Constants {
 
 	public String therearenocreditstoshow();
 
+	public String thirteen();
+
+	public String thirty();
+
 	public String thisFieldAcceptsOnlyNumber();
 
 	public String thisFinancialQuarter();
@@ -3704,6 +3784,8 @@ public interface AccounterConstants extends Constants {
 
 	public String thisMonth();
 
+	public String thisReportNotYetImplemented();
+
 	public String thisVATQuarter();
 
 	public String thisVATQuarterToDate();
@@ -3711,6 +3793,8 @@ public interface AccounterConstants extends Constants {
 	public String thisWeek();
 
 	public String thisWndHelpYoyManageVATTasks();
+
+	public String three();
 
 	public String thurs();
 
@@ -3869,6 +3953,12 @@ public interface AccounterConstants extends Constants {
 	public String trialBalance();
 
 	public String tues();
+
+	public String twelve();
+
+	public String twenty();
+
+	public String two();
 
 	public String type();
 
@@ -4282,102 +4372,12 @@ public interface AccounterConstants extends Constants {
 
 	public String ytdSalesComparedToLastYear();
 
+	public String zero();
+
 	public String zipCode();
 
 	public String zipPostalCode();
 
 	public String ztozeroperc();
-
-	public String buisnessColon();
-
-	public String homeColon();
-
-	public String legalColon();
-
-	public String shipToColon();
-
-	public String otherColon();
-
-	public String productsMaterialsPurchasedTypeA();
-
-	public String earlyPaymentDiscountGiven();
-
-	public String exceptionOccur();
-
-	public String specifiedunittypenotfoundinmeasure();
-
-	public String zero();
-
-	public String one();
-
-	public String two();
-
-	public String three();
-
-	public String four();
-
-	public String five();
-
-	public String six();
-
-	public String seven();
-
-	public String eight();
-
-	public String nine();
-
-	public String ten();
-
-	public String eleven();
-
-	public String twelve();
-
-	public String thirteen();
-
-	public String fourteen();
-
-	public String fifteen();
-
-	public String sixteen();
-
-	public String seventeen();
-
-	public String eightteen();
-
-	public String nineteen();
-
-	public String twenty();
-
-	public String thirty();
-
-	public String forty();
-
-	public String fifty();
-
-	public String sixty();
-
-	public String seventy();
-
-	public String eighty();
-
-	public String ninty();
-
-	public String hundred();
-
-	public String serviceItem();
-
-	public String inventoryPart();
-
-	public String group();
-
-	public String inventoryAssembly();
-
-	public String nonInventory();
-
-	public String salesTaxItem();
-
-	public String noCreditsforthiscustomer();
-
-	public String thisReportNotYetImplemented();
 
 }
