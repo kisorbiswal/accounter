@@ -584,8 +584,20 @@ public class CreditCardChargeView extends
 		VerticalPanel vLay1 = new VerticalPanel();
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
+		// multi currency combo
 		if (ClientCompanyPreferences.get().isEnableMultiCurrency() == true) {
-			vLay1.add(getCurrencyWidget());
+			CurrencyWidget currencyWidget = getCurrencyWidget();
+			vLay1.add(currencyWidget);
+			currencyWidget.setListener(new CurrencyChangeListener() {
+
+				@Override
+				public void currencyChanged(ClientCurrency currency,
+						double factor) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+
 		}
 		vLay1.add(vendorTransactionGrid);
 		vLay1.setWidth("100%");
@@ -620,16 +632,6 @@ public class CreditCardChargeView extends
 			payFrmSelect.setComboItem(getCompany().getAccount(
 					creditCardCharge.getPayFrom()));
 		}
-	}
-
-	private Widget getCurrencyWidget() {
-		List<ClientCurrency> currencies = new ArrayList<ClientCurrency>(
-				Accounter.getCompany().getCurrencies());
-
-		CurrencyWidget currencyWidget = createCurrencyWidget(currencies,
-				Accounter.getCompany().getPreferences().getBaseCurrency());
-
-		return currencyWidget;
 	}
 
 	// protected void payFromMethodSelected(Account account2) {
