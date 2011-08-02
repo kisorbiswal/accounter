@@ -42,6 +42,7 @@ public class JettyServer {
 		sessionManager.setSessionPath("/");
 
 		jettyServer.setConnectors(new Connector[] { connector });
+		webappcontext.setClassLoader(JettyServer.class.getClassLoader());
 
 		webappcontext.setAttribute("documentDomain",
 				ServerConfiguration.getServerDomainName());
