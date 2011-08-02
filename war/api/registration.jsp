@@ -13,6 +13,7 @@
   </head>
   
   <body>
+  <form id="accounterForm" method="post" action="/apiregistration">
   <table>
    
    <tr>
@@ -36,8 +37,7 @@
    
    <tr>
    <td>Application Type:</td>
-   <td><select name="applicationType">
-   		<option>value="${param.applicationType}"</option>
+   <td><select name="applicationType" value="${param.applicationType}" >
    		<option>Web Application </option>
    		<option>Desktop Application</option>
    		<option>Mobile Application</option>
@@ -64,6 +64,7 @@
    </tr>
    
    </table> 
-	  <div><input type="submit" name="Add Application" value="Add Application" onClick="addApplication()"/></div>
+	  <div><input type="submit" name="Add Application" value="Add Application" /></div>
+	  </form>
   </body>
 </html>
