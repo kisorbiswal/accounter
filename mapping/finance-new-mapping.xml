@@ -68,6 +68,9 @@
 		<property name="applicationUse" column="APPLICATIONUSE"></property>
 		<property name="developerEmailId" column="DEVELOPER_EMAIL_ID"></property>
 		<property name="contact" column="CONTACT"></property>
+		<property name="succeedRequests" column="SUCCEES_REQUESTS"></property>
+		<property name="failureRequests" column="FAILURE_REQUESTS"></property>
+		
 
 	</class>
 </hibernate-mapping>
