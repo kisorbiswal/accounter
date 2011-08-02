@@ -3,6 +3,9 @@ package com.vimukti.accounter.developer.api;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
 import junit.framework.TestCase;
 
 import org.eclipse.jetty.testing.HttpTester;
@@ -11,7 +14,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ReportsApiServletTest extends TestCase {
+	private static final String SIGNATURE = "signature";
+	private static final String ALGORITHM = "hmacSHA256";
+	private static final String DATE_FORMAT = "yyy-MM-ddTHH:mm:ssZ";
+	private static final String apikey = null;
+	private static final String secretKey = null;
+	private static final String companyId = null;
+
 	private ServletTester tester;
+	SimpleDateFormat simpleDateFormat;
 
 	@Before
 	public void setUp() throws Exception {
@@ -20,6 +31,7 @@ public class ReportsApiServletTest extends TestCase {
 		tester.addServlet(ReportsApiServlet.class, "/api/jsonreports/*");
 		tester.addFilter(ApiFilter.class, "/api/*", 5);
 		tester.start();
+		simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 	}
 
 	@Test
@@ -28,10 +40,14 @@ public class ReportsApiServletTest extends TestCase {
 		request.setMethod("GET");
 		request.setHeader("Host", "tester");
 		request.setHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.setURI("/service");
 		request.setVersion("HTTP/1.0");
 		HttpTester response = new HttpTester();
 
+		request.setURI(getSalesByCustomerSummaryUrl());
+		testResponse(request, response);
+	}
+
+	private void testResponse(HttpTester request, HttpTester response) {
 		try {
 			response.parse(tester.getResponses(request.generate()));
 			String content = response.getContent();
@@ -44,107 +60,30 @@ public class ReportsApiServletTest extends TestCase {
 		}
 	}
 
-	private void sendSalesByCustomerSummaryReq() {
-		String apikey = null, secretKey = null, companyId = null;
-		long currentTimeMillis = System.currentTimeMillis();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-				"yyy-MM-ddTHH:mm:ssZ");
-		String format = simpleDateFormat.format(currentTimeMillis);
+	private String getSalesByCustomerSummaryUrl() {
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
 		String string = "/api/xmlreports/salesbycustomersummary?"
 				+ "&CompanyId="
 				+ companyId
 				+ "&Expire="
-				+ format
-				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-07-30T12:00:00Z";
+				+ exprDate
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
 
-		HttpTester request = new HttpTester();
-		request.setMethod("GET");
-		request.setHeader("Host", "tester");
-		request.setHeader("Content-Type", "application/x-www-form-urlencoded");
-
-		String signature = getSignature(string, apikey, secretKey);
-		request.setURI("/api/xmlreports/salesbycustomersummary?ApiKey="
-				+ apikey
-				+ "&Signature="
-				+ signature
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ format
-				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-07-30T12:00:00Z");
-
+		return doSigning(string);
 	}
 
-	private void sendEcSalesListDetails() {
-		String apikey = null, secretKey = null, companyId = null;
-		long currentTimeMillis = System.currentTimeMillis();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-				"yyy-MM-ddTHH:mm:ssZ");
-		String format = simpleDateFormat.format(currentTimeMillis);
-		String string = "/api/xmlreports/ecsaleslistdetails?"
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ format
-				+ "&Name=umasree&StartDate=2011-07-01T12:00:00Z&EndDate=2011-07-30T12:00:00Z";
-
-		HttpTester request = new HttpTester();
-		request.setMethod("GET");
-		request.setHeader("Host", "tester");
-		request.setHeader("Content-Type", "application/x-www-form-urlencoded");
-
-		String signature = getSignature(string, apikey, secretKey);
-		request.setURI("/api/xmlreports/ecsaleslistdetails?ApiKey="
-				+ apikey
-				+ "&Signature="
-				+ signature
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ format
-				+ "&Name=umasree&StartDate=2011-07-01T12:00:00Z&EndDate=2011-07-30T12:00:00Z");
-
+	private String doSigning(String url) {
+		byte[] secretKeyBytes = secretKey.getBytes();
+		SecretKeySpec keySpec = new SecretKeySpec(secretKeyBytes, ALGORITHM);
+		try {
+			Mac mac = Mac.getInstance(ALGORITHM);
+			mac.init(keySpec);
+			byte[] doFinal = mac.doFinal(url.getBytes());
+			String string = new String(doFinal);
+			url += "&" + SIGNATURE + "=" + string;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return url;
 	}
-
-	private void sendVat100Report() {
-		String apikey = null, secretKey = null, companyId = null;
-		long taxAgency = 0;
-		long currentTimeMillis = System.currentTimeMillis();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-				"yyy-MM-ddTHH:mm:ssZ");
-		String format = simpleDateFormat.format(currentTimeMillis);
-		String string = "/api/xmlreports/vat100report?"
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ format
-				+ "&TaxAgency="
-				+ taxAgency
-				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-07-30T12:00:00Z";
-
-		HttpTester request = new HttpTester();
-		request.setMethod("GET");
-		request.setHeader("Host", "tester");
-		request.setHeader("Content-Type", "application/x-www-form-urlencoded");
-
-		String signature = getSignature(string, apikey, secretKey);
-		request.setURI("/api/xmlreports/vat100report?ApiKey="
-				+ apikey
-				+ "&Signature="
-				+ signature
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ format
-				+ "&TaxAgency="
-				+ taxAgency
-				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-07-30T12:00:00Z");
-
-	}
-
-	private String getSignature(String string, String apikey, String secretKey) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
