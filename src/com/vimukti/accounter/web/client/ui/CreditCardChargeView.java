@@ -9,19 +9,23 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
+import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
@@ -38,6 +42,8 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 public class CreditCardChargeView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
@@ -578,6 +584,9 @@ public class CreditCardChargeView extends
 		VerticalPanel vLay1 = new VerticalPanel();
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
+		if (ClientCompanyPreferences.get().isEnableMultiCurrency() == true) {
+			vLay1.add(getCurrencyWidget());
+		}
 		vLay1.add(vendorTransactionGrid);
 		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
@@ -611,6 +620,16 @@ public class CreditCardChargeView extends
 			payFrmSelect.setComboItem(getCompany().getAccount(
 					creditCardCharge.getPayFrom()));
 		}
+	}
+
+	private Widget getCurrencyWidget() {
+		List<ClientCurrency> currencies = new ArrayList<ClientCurrency>(
+				Accounter.getCompany().getCurrencies());
+
+		CurrencyWidget currencyWidget = createCurrencyWidget(currencies,
+				Accounter.getCompany().getPreferences().getBaseCurrency());
+
+		return currencyWidget;
 	}
 
 	// protected void payFromMethodSelected(Account account2) {
