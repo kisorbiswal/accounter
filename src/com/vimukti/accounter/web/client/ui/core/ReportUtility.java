@@ -52,11 +52,11 @@ public class ReportUtility {
 					constants.vendorPayment());
 			break;
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
-			transactionName = getVendorString(constants.supplierPrepayment(),
-					constants.vendorPrepayment());
+			transactionName = getVendorString(constants.supplierPrePayment(),
+					constants.vendorPrePayment());
 			break;
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
-			transactionName = "Customer Payment";
+			transactionName = constants.customerPayment();
 			break;
 		case ClientTransaction.TYPE_TRANSFER_FUND:
 			transactionName = constants.transferFund();
