@@ -40,7 +40,7 @@ public class AccounterDebugFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) resp;
 		int status = httpResponse.getStatus();
 		if (status == 301 || status == 302 || status == 303) {
-			String url = httpResponse.getHeader("Localtion");
+			String url = httpResponse.getHeader("Location");
 			if (!url.endsWith(DEBUG_URL)) {
 				url = url + DEBUG_URL;
 			}
