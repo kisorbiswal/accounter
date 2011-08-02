@@ -5,6 +5,7 @@ public class ApiResult {
 	private long objectId;
 
 	public int getStatus() {
+		
 		return status;
 	}
 
