@@ -848,7 +848,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .gwt-MenuBar-vertical .subMenuIcon-selected {
 	background: none repeat scroll 0 0 #28757d !important;
 	border: 0px none !important;
-	/*background:url("/../images/header-c1.jpg")repeat-x scroll 0 0 transparent ;  praveena*/
+	/*background:url("../images/header-c1.jpg")repeat-x scroll 0 0 transparent ;  praveena*/
 }
 
 .gwt-MenuBarPopup {
@@ -934,7 +934,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 
 .gwt-Button {
-	/*background: url("/../images/Button_1x25New.png") repeat-x scroll 0 0
+	/*background: url("../images/Button_1x25New.png") repeat-x scroll 0 0
 		transparent !important;
 	color: white !important;
 	cursor: pointer;
@@ -1731,7 +1731,7 @@ iframe { /*display:none;*/
 }
 
 .main-finance-window {
-	background: url("../../images/body-shadow-right.png") repeat-y scroll right
+	background: url("../images/body-shadow-right.png") repeat-y scroll right
 		top #F0F0F0;
 	padding-right: 15px;
 }
@@ -2106,7 +2106,7 @@ input[type="text"],textarea {
 
 /* error.jsp css start here*/
 .error_vimukti_logo{
-	background:url(".. /../images/Accounter_logo_title.png")no-repeat scroll 0 0 transparent;
+	background:url("../images/Accounter_logo_title.png")no-repeat scroll 0 0 transparent;
 	width:230px;
 	width:50px;
 	margin:10px 0 0 100px;
@@ -4373,7 +4373,7 @@ table tr.ReportGridRow:HOVER {
 	float: right;
 	position: relative;
 	-moz-user-select: none;
-	background: transparent url(/../images/resize-image.png) no-repeat scroll
+	background: transparent url(../images/resize-image.png) no-repeat scroll
 		100% 100%;
 }
 
