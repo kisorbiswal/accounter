@@ -267,8 +267,8 @@ public class AddressDialog extends BaseDialog {
 				Accounter.constants().spain(),
 				Accounter.constants().switzerland(),
 				Accounter.constants().thailand(),
-				Accounter.constants().UK(),
-				Accounter.constants().USA(),
+				Accounter.constants().uk(),
+				Accounter.constants().usa(),
 				Accounter.constants().others() };
 
 		return list;

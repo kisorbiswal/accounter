@@ -22,7 +22,7 @@ public class CountryRegionListDialog extends DialogBox {
 	private DialogGrid grid;
 	private AccounterButton addGroupButt, editGroupButt, remGroupButt;
 	private AccounterButton helpButt, closeButt;
-	private String[] typeRecords = { Accounter.constants().US(),
+	private String[] typeRecords = { Accounter.constants().us(),
 			Accounter.constants().india() };
 
 	public CountryRegionListDialog() {

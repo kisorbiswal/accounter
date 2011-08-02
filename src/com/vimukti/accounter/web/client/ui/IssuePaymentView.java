@@ -199,7 +199,7 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		payForm.setFields(payMethodSelect, accountCombo);
 
 		Label label = new Label();
-		label.setText(Accounter.constants().PaymentsToBeIssued());
+		label.setText(Accounter.constants().paymentsToBeIssued());
 		initListGrid();
 
 		addInputDialogHandler(new InputDialogHandler() {

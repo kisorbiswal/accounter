@@ -39,7 +39,7 @@ public class CreateTaxesDialog extends BaseDialog {
 		CreateTax c1 = new CreateTax();
 
 		c.setName(Accounter.constants().ireland());
-		c1.setName(Accounter.constants().UK());
+		c1.setName(Accounter.constants().uk());
 
 		listGridView.addData(c);
 		listGridView.addData(c1);
@@ -58,7 +58,7 @@ public class CreateTaxesDialog extends BaseDialog {
 									Accounter.constants().ireland()))
 						index[i] = 2;
 					if (c.getIsChecheked()
-							&& c.getName().equals(Accounter.constants().UK()))
+							&& c.getName().equals(Accounter.constants().uk()))
 						index[i] = 1;
 					i++;
 				}

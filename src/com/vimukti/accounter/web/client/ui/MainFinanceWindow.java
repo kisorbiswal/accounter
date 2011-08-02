@@ -234,7 +234,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		// vatNews.addItem(ActionFactory.getVatGroupAction());
 		vatNews.addItem(ActionFactory.getNewTAXCodeAction());
 		vatNews.addItem(ActionFactory.getNewTAXAgencyAction());
-		vatmenu.addItem(Accounter.constants().New(), vatNews);
+		vatmenu.addItem(Accounter.constants().new1(), vatNews);
 		vatmenu.addSeparator();
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vatmenu.addItem(ActionFactory.getAdjustTaxAction());
@@ -482,7 +482,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		vendorMenuBar.addItem(ActionFactory.getVendorsHomeAction());
 		if (getNewVendorMenu().menuItems.size() > 0) {
 			vendorMenuBar.addSeparator();
-			vendorMenuBar.addItem(Accounter.constants().New(),
+			vendorMenuBar.addItem(Accounter.constants().new1(),
 					getNewVendorMenu());
 		}
 		vendorMenuBar.addSeparator();
@@ -540,7 +540,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		customerMenuBar.addItem(ActionFactory.getCustomersHomeAction());
 		if (getNewCustomerMenu().menuItems.size() > 0) {
 			customerMenuBar.addSeparator();
-			customerMenuBar.addItem(Accounter.constants().New(),
+			customerMenuBar.addItem(Accounter.constants().new1(),
 					getNewCustomerMenu());
 		}
 		customerMenuBar.addSeparator();

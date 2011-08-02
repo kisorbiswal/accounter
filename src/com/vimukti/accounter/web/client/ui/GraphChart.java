@@ -311,34 +311,34 @@ public class GraphChart {
 	private String getMonthAsString(int month) {
 		switch (month) {
 		case 0:
-			return Accounter.constants().JAN();
+			return Accounter.constants().jan();
 		case 1:
-			return Accounter.constants().FEB();
+			return Accounter.constants().feb();
 		case 2:
-			return Accounter.constants().MAR();
+			return Accounter.constants().mar();
 		case 3:
 			return Accounter.constants().apr();
 		case 4:
 			return Accounter.constants().may();
 		case 5:
-			return Accounter.constants().JUN();
+			return Accounter.constants().jun();
 		case 6:
-			return Accounter.constants().JUL();
+			return Accounter.constants().jul();
 		case 7:
 		case -5:
 			return Accounter.constants().aug();
 		case 8:
 		case -4:
-			return Accounter.constants().SEPT();
+			return Accounter.constants().sept();
 		case 9:
 		case -3:
-			return Accounter.constants().OCT();
+			return Accounter.constants().oct();
 		case 10:
 		case -2:
-			return Accounter.constants().NOV();
+			return Accounter.constants().nov();
 		case 11:
 		case -1:
-			return Accounter.constants().DEC();
+			return Accounter.constants().dec();
 
 		}
 		return "";
