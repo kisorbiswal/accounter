@@ -27,7 +27,7 @@
   		var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
   		
 	   $(document).ready(function() {
-	       var ele = document.getElementById("loadingWrapper");
+	       var ele = document.getElementById('loadingWrapper');
 	          if(ele.style.visibility  == "hidden") {
 	             document.getElementById('mainHeader').style.visibility  = "visible";
 	             document.getElementById('mainFooter').style.visibility  = "visible";
@@ -206,7 +206,7 @@
     		</div>
 
   	<!--add loading indicator while the app is being loaded-->
-	<div id="loadingWrapper">
+	<div id="loadingWrapper" style="visibility:visible">
 	<div id="loading">
 	    <div class="loadingIndicator">
 	        <img src="/images/Main-page-loading-bar.gif" /><br/>
