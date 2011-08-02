@@ -29,7 +29,7 @@ public class ReportsApiServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String DATE_PATTERN = "";
+	private static final String DATE_FORMAT = "yyy-MM-ddTHH:mm:ssZ";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -38,7 +38,7 @@ public class ReportsApiServlet extends HttpServlet {
 		Session session = HibernateUtil.openSession(companyName);
 		try {
 			String methodName = getNameFromReq(req, 1);
-			SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
+			SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
 
 			Date startDate = null;
 			Date endDate = null;
