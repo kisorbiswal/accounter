@@ -45,6 +45,12 @@ public class ReportsApiServletTest extends TestCase {
 
 		request.setURI(getSalesByCustomerSummaryUrl());
 		testResponse(request, response);
+
+		request.setURI(getEcSalesListDetailUrl(""));
+		testResponse(request, response);
+
+		request.setURI(getVat100ReportUrl(1));
+		testResponse(request, response);
 	}
 
 	private void testResponse(HttpTester request, HttpTester response) {
