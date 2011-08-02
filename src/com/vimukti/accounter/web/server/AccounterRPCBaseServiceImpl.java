@@ -16,6 +16,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.google.gwt.rpc.server.RpcServlet;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -36,7 +37,7 @@ import com.vimukti.comet.server.CometManager;
  * @author Fernandez *
  * 
  */
-public class AccounterRPCBaseServiceImpl extends RpcServlet {
+public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 
 	/**
 	 * 
