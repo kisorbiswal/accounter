@@ -61,7 +61,7 @@
 
 	<servlet-mapping>
 		<servlet-name>Reports Api</servlet-name>
-		<url-pattern>/api/xmlreports,/api/jsonreports</url-pattern>
+		<url-pattern>/api/xmlreports/*,/api/jsonreports/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Xml Reports Api</servlet-name>
