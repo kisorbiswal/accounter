@@ -21,7 +21,7 @@
    
    <tr>
    <td>Application Name:</td>
-   <td><input type="text" value="${param.applicationName}"></input></td>
+   <td><input type="text" name="applicationName" value="${param.applicationName}"></input></td>
    </tr>
    
    <tr>
