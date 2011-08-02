@@ -116,6 +116,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private String dateFormat;
 	public long id;
 
+	private boolean isSalesPersonEnabled;
+
 	// String legalName = "";
 
 	public CompanyPreferences() {
@@ -643,7 +645,15 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public void setEnableMultiCurrency(boolean enableMultiCurrency) {
 		this.enableMultiCurrency = enableMultiCurrency;
 	}
+	
+	public boolean isSalesPersonEnabled() {
+		return isSalesPersonEnabled;
+	}
 
+	public void setSalesPerson(boolean isSalesPersonEnabled) {
+		this.isSalesPersonEnabled = isSalesPersonEnabled;
+	}
+	
 	/*
 	 * // Accounting Preferences
 	 * 
@@ -854,5 +864,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 	 * 
 	 * boolean showBillingRateToEmployeesAndSubContractors;
 	 */
+	
 
 }
