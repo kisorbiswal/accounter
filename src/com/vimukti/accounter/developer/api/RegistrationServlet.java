@@ -31,7 +31,7 @@ public class RegistrationServlet extends BaseServlet {
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		if (session == null) {
-			req.getRequestDispatcher("/sits/login.jsp?dest=/api/registration")
+			req.getRequestDispatcher("/site/login.jsp?dest=/api/registration")
 					.forward(req, resp);
 			return;
 		}
@@ -46,7 +46,7 @@ public class RegistrationServlet extends BaseServlet {
 			Client client = getClient(emailId);
 			if (client == null) {
 				req.getRequestDispatcher(
-						"/sits/login.jsp?dest=/api/registration").forward(req,
+						"/site/login.jsp?dest=/api/registration").forward(req,
 						resp);
 				return;
 			}
@@ -90,23 +90,23 @@ public class RegistrationServlet extends BaseServlet {
 		HttpSession session = req.getSession();
 		if (session == null) {
 			req.setAttribute("error", "Session has expired");
-			req.getRequestDispatcher("/sits/error.jsp").forward(req, resp);
+			req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
 		}
 		String emailId = (String) session.getAttribute("emailId");
 		if (emailId == null) {
 			req.setAttribute("error", "Session has expired");
-			req.getRequestDispatcher("/sits/error.jsp").forward(req, resp);
+			req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
 		}
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
 			Client client = getClient(emailId);
 			if (client == null) {
 				req.setAttribute("error", "Session has expired");
-				req.getRequestDispatcher("/sits/error.jsp").forward(req, resp);
+				req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
 			}
 			if (!client.isActive()) {
 				req.setAttribute("error", "User Not Activated");
-				req.getRequestDispatcher("/sits/error.jsp").forward(req, resp);
+				req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
 			}
 			Developer developer = getDeveloper(client);
 			if (developer != null) {
