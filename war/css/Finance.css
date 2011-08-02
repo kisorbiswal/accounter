@@ -11,8 +11,8 @@
 	src: url("Fonts/ColabThi.otf") format("truetype");
 }
 
-.widget { /**background:url(images/icons/startBar.png) repeat-x;*/
-	background: url("images/pannig bar.png") repeat-x scroll 0 0 transparent
+.widget { /**background:url(../images/icons/startBar.png) repeat-x;*/
+	background: url("../images/pannig bar.png") repeat-x scroll 0 0 transparent
 		;
 	width: 100% !important;
 	/*display: none;*/
@@ -118,7 +118,7 @@ h1 {
 }
 
 .stackpannel {
-	background: url(images/icons/stack1.png) repeat-x;
+	background: url(../images/icons/stack1.png) repeat-x;
 	/**padding:5px 50px 5px 5px;*/
 	padding-right: 20px;
 	padding-left: 2px;
@@ -225,7 +225,7 @@ h1 {
 .financeWindow { /* padding: 3px; praveena */ /*margin: 0 auto;*/
 	/*background: none repeat scroll 0 0 #F7F7F7 !important;*/
 	width: 100%;
-	background: url("images/body-shadow-mid.png") repeat-x left bottom
+	background: url("../images/body-shadow-mid.png") repeat-x left bottom
 		transparent;
 }
 
@@ -251,15 +251,15 @@ h1 {
 }
 
 .newquote {
-	background: url(images/icons/newquote.png) repeat-x;
+	background: url(../images/icons/newquote.png) repeat-x;
 }
 
 .newInvoice {
-	background: url(images/icons/newInvoice.png) repeat-x;
+	background: url(../images/icons/newInvoice.png) repeat-x;
 }
 
 .newBill {
-	background: url(images/icons/newbill.png) repeat-x;
+	background: url(../images/icons/newbill.png) repeat-x;
 }
 
 .handCursor {
@@ -395,34 +395,34 @@ table tr.ReportGridRow:HOVER {
 }
 
 .calender-image {
-	background: url(images/icons/calendar.png) no-repeat;
+	background: url(../images/icons/calendar.png) no-repeat;
 	cursor: pointer;
 }
 
 .previousButton {
-	background: url("images/Left_indicator.png") no-repeat scroll 0 0
+	background: url("../images/Left_indicator.png") no-repeat scroll 0 0
 		transparent;
 	padding-top: 5px;
 }
 
 .previousButton_mouseOver {
-	background: url("images/Left_indicator_1.png") no-repeat scroll 0 0
+	background: url("../images/Left_indicator_1.png") no-repeat scroll 0 0
 		transparent;
 	padding-top: 5px;
 }
 
 .nextButton {
-	background: url("images/Right_indicator.png") no-repeat scroll 0 0
+	background: url("../images/Right_indicator.png") no-repeat scroll 0 0
 		transparent;
 }
 
 .nextButton_mouseOver {
-	background: url("images/Right_indicator_1.png") no-repeat scroll 0 0
+	background: url("../images/Right_indicator_1.png") no-repeat scroll 0 0
 		transparent;
 }
 
 .discardButton {
-	background: url("images/Close1.png") no-repeat scroll 0 0 transparent;
+	background: url("../images/Close1.png") no-repeat scroll 0 0 transparent;
 	margin: 1.5px -4px 0 2px;
 }
 
@@ -524,12 +524,12 @@ table tr.ReportGridRow:HOVER {
 }
 
 .refresh {
-	background: transparent url(images/refreshGrid.png) no-repeat scroll 0
+	background: transparent url(../images/refreshGrid.png) no-repeat scroll 0
 		3px;
 }
 
 .link {
-	background: transparent url(images/help-icon.png) no-repeat scroll 0 1px
+	background: transparent url(../images/help-icon.png) no-repeat scroll 0 1px
 		;
 	margin-right: 5px;
 }
@@ -540,12 +540,12 @@ table tr.ReportGridRow:HOVER {
 }
 
 div.refresh:hover {
-	background: transparent url(images/refreshGrid.png) no-repeat scroll 0
+	background: transparent url(../images/refreshGrid.png) no-repeat scroll 0
 		1px;
 }
 
 div.link:hover {
-	background: transparent url(images/help-icon.png) no-repeat scroll 0 1px
+	background: transparent url(../images/help-icon.png) no-repeat scroll 0 1px
 		;
 }
 
@@ -570,7 +570,7 @@ div.link:hover {
 }
 
 .loading {
-	background: transparent url(images/refreshLoading.gif) scroll no-repeat
+	background: transparent url(../images/refreshLoading.gif) scroll no-repeat
 		0 0;
 }
 
@@ -616,7 +616,7 @@ td.gridDecimalCell {
 }
 
 .custom-combo {
-	background: url("images/Text Feild_enabled_180x22.png") no-repeat scroll
+	background: url("../images/Text Feild_enabled_180x22.png") no-repeat scroll
 		0 0 #fff;
 	border: 0 none;
 	height: 22px !important;
@@ -653,7 +653,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 /*.dropdown-button {
-	background: #FFFFFF url(images/drop.png) no-repeat scroll 0 0;
+	background: #FFFFFF url(../images/drop.png) no-repeat scroll 0 0;
 	height: 17px;
 	position: absolute;
 	right: 0;
@@ -661,13 +661,13 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	width: 15px !important;
 }*/
 .dropdown-button {
-	/*background: url("images/drop.png") no-repeat scroll 100% 0 #FFFFFF;*/
+	/*background: url("../images/drop.png") no-repeat scroll 100% 0 #FFFFFF;*/
 	padding-right: 22px !important;
 	padding-left: 3px;
 }
 
 .listgrid .custom-combo {
-	background: url("images/Text-Feild_enabled_1x22_mid.png") repeat-x
+	background: url("../images/Text-Feild_enabled_1x22_mid.png") repeat-x
 		scroll 0 0 white !important;
 	border-left: 1px solid #CCCCCC;
 	height: 22px !important;
@@ -682,18 +682,18 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .financeWindow select {
 	border: 0 none !important;
 	width: 180px !important; /* praveena */
-	background: url("images/Text Feild_enabled_180x22.png") no-repeat scroll
+	background: url("../images/Text Feild_enabled_180x22.png") no-repeat scroll
 		0 0 #FFFFFF;
 	padding: 2px;
 	height: 23px;
 }
 
 .gridAscend {
-	background: url('images/arrow-ascend.png') no-repeat scroll 98% 7px;
+	background: url('../images/arrow-ascend.png') no-repeat scroll 98% 7px;
 }
 
 .gridDecend {
-	background: url('images/arrow-decend.png') no-repeat scroll 98% 7px;
+	background: url('../images/arrow-decend.png') no-repeat scroll 98% 7px;
 }
 
 .disable-TextField {
@@ -705,7 +705,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .gwt-MenuBar-horizontal {
-	/*background: url("images/top-shadow.png") repeat-x scroll 0 0 transparent !important;    praveena*/
+	/*background: url("../images/top-shadow.png") repeat-x scroll 0 0 transparent !important;    praveena*/
 	
 }
 
@@ -754,12 +754,12 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .finance-portlet .decor00 {
-	/*background: url(images/headerNew-l.png) no-repeat 0px 0px !important;*/
+	/*background: url(../images/headerNew-l.png) no-repeat 0px 0px !important;*/
 	background:none repeat scroll 0 0 #1A5158;
 }
 
 .finance-portlet td.td10 {
-	/*background: transparent url(images/panel-right-img.png) repeat-y scroll
+	/*background: transparent url(../images/panel-right-img.png) repeat-y scroll
 		0 0 !important;*/
 	
 }
@@ -833,7 +833,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItem { /*praveena*/
-	/*background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0
+	/*background: url("../images/Menu bar_1x33.png") repeat-x scroll 0 0
 		transparent !important;*/
 	color: #ffffff !important;
 	font-weight: normal !important;
@@ -848,7 +848,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .gwt-MenuBar-vertical .subMenuIcon-selected {
 	background: none repeat scroll 0 0 #28757d !important;
 	border: 0px none !important;
-	/*background:url("/images/header-c1.jpg")repeat-x scroll 0 0 transparent ;  praveena*/
+	/*background:url("/../images/header-c1.jpg")repeat-x scroll 0 0 transparent ;  praveena*/
 }
 
 .gwt-MenuBarPopup {
@@ -857,19 +857,19 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .decor00,.no-title .biz-decor-panel div.decor00 {
-	background: transparent url(images/headerNew-l.png) no-repeat scroll
+	background: transparent url(../images/headerNew-l.png) no-repeat scroll
 		-2px 0;
 }
 
 td.td01,.no-title .biz-decor-panel td.td01 {
-	/*background: transparent url(images/headerNew-c.png) repeat-x scroll 0 0;
+	/*background: transparent url(../images/headerNew-c.png) repeat-x scroll 0 0;
 	color: #FFFFFF;*/
 	backgorund:none repeat scroll 0 0 #1A5158;
 	vertical-align: top;
 }
 
 .decor02,.no-title .biz-decor-panel div.decor02 {
-	/*background: transparent url(images/headerNew-r.png) no-repeat scroll
+	/*background: transparent url(../images/headerNew-r.png) no-repeat scroll
 		-8px 0;*/
 	  background:none repeat scroll 0 0 #1A5158;
 }
@@ -934,7 +934,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 
 .gwt-Button {
-	/*background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
+	/*background: url("/../images/Button_1x25New.png") repeat-x scroll 0 0
 		transparent !important;
 	color: white !important;
 	cursor: pointer;
@@ -953,7 +953,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 
 .custom-button {
-	background: url("/images/Button_1x27.png") repeat-x scroll 0 0
+	background: url("../images/Button_1x27.png") repeat-x scroll 0 0
 		transparent !important;
 	color: white !important;
 	cursor: pointer;
@@ -965,7 +965,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 
 .gwt-Button button:after {
-	background: url("images/Button_left_1x27.png") no-repeat scroll 0 0
+	background: url("../images/Button_left_1x27.png") no-repeat scroll 0 0
 		#FFFFFF !important;
 }
 
@@ -995,7 +995,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 
 .header {
-	/*background: url("images/Header-BG_1x95.png") repeat-x scroll 0 0
+	/*background: url("../images/Header-BG_1x95.png") repeat-x scroll 0 0
 		transparent !important;*/
 	margin-left: 0 !important;
 }
@@ -1090,7 +1090,7 @@ solid
 }
 
 .userName-style {
-	background: url("images/User.png") no-repeat scroll 0 3px transparent;
+	background: url("../images/User.png") no-repeat scroll 0 3px transparent;
 	color: #3299A4 !important;
 	padding: 5px 5px 5px 21px;
 }
@@ -1132,18 +1132,18 @@ solid
 }
 
 .gwt-MenuBar table tr td:nth-of-type(even) {
-	/*background:url("images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;*/
+	/*background:url("../images/Menu bar_1x33.png") repeat-x scroll 0 0 #FFFFFF !important;*/
 	
 }
 
 .menubar-devider {
-	/*background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0
+	/*background: url("../images/Menu bar_1x33.png") repeat-x scroll 0 0
 		transparent !important;*/
 	padding: 0px;
 }
 
 .bottom-view table tr td {
-	background: url("images/Button_left_1x27.png") no-repeat scroll 0 0
+	background: url("../images/Button_left_1x27.png") no-repeat scroll 0 0
 		transparent;
 	padding: 0 0 0 3px;
 }
@@ -1155,7 +1155,7 @@ solid
 }
 
 .gwt-TextBox {
-	background: url("images/Text Feild_enabled_180x22.png") no-repeat scroll
+	background: url("../images/Text Feild_enabled_180x22.png") no-repeat scroll
 		0 0 #fff !important;
 	border: 0 none;
 	height: 22px;
@@ -1163,14 +1163,14 @@ solid
 }
 
 .gwt-PasswordTextBox {
-	background: url("images/Text Feild_enabled_180x22.png") no-repeat scroll
+	background: url("../images/Text Feild_enabled_180x22.png") no-repeat scroll
 		0 0 #fff !important;
 	border: 0 none;
 	height: 22px;
 }
 
 .gwt-TextArea {
-	background: url("images/Text Feild_big_enabled_180x64.png") no-repeat
+	background: url("../images/Text Feild_big_enabled_180x64.png") no-repeat
 		scroll 0 0 #fff !important;
 	border: 0 none !important;
 	height: 65px;
@@ -1179,7 +1179,7 @@ solid
 }
 
 .memoTextArea {
-	background: url("images/Text-area-img.png") no-repeat scroll 0 0 #fff
+	background: url("../images/Text-area-img.png") no-repeat scroll 0 0 #fff
 		!important;
 	border: 0 none !important;
 	height: 65px;
@@ -1188,14 +1188,14 @@ solid
 }
 
 .memoTextArea[disabled] {
-	background: url("images/Text-area-img.png") no-repeat scroll 0 0 #e6e0da
+	background: url("../images/Text-area-img.png") no-repeat scroll 0 0 #e6e0da
 		!important;
 	color: #b1a7ad;
 	border: 0 none;
 }
 
 .downarrow-button {
-	/*background:url("images/downarrow.png") no-repeat scroll 0 0 transparent !important;
+	/*background:url("../images/downarrow.png") no-repeat scroll 0 0 transparent !important;
 	float:right;
 	height:22px;
 	margin-left:-20px;
@@ -1203,7 +1203,7 @@ solid
 	width:20px;
 	z-index:1;
 	margin-top:1px;*/
-	background: url("images/Drop-down-button_20x22.png") no-repeat scroll 0
+	background: url("../images/Drop-down-button_20x22.png") no-repeat scroll 0
 		0 transparent !important;
 	float: left;
 	height: 22px !important;
@@ -1215,7 +1215,7 @@ solid
 }
 
 .gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner {
-	background: url("images/Menu list seperator.png") repeat scroll 0 0
+	background: url("../images/Menu list seperator.png") repeat scroll 0 0
 		transparent !important;
 	border: 0 none !important;
 	height: 2px !important;
@@ -1261,7 +1261,7 @@ important
 
 }
 .help-content {
-	background: url("images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0
+	background: url("../images/Menubar_Divider_2x30.jpg") no-repeat scroll 0 0
 		transparent;
 	float: right;
 	height: 18px;
@@ -1279,12 +1279,12 @@ important
 }
 
 .editButton {
-	background: url("images/page_edit.png") no-repeat scroll 0 0 transparent
+	background: url("../images/page_edit.png") no-repeat scroll 0 0 transparent
 		;
 }
 
 .editButton {
-	background: url("images/Seperator1.png") no-repeat scroll 0 0
+	background: url("../images/Seperator1.png") no-repeat scroll 0 0
 		transparent;
 	height: 23px !important;
 	width: 10px !important;
@@ -1298,7 +1298,7 @@ important
 }
 
 .gridTextBoxCell input[type="text"] {
-	background: url("images/Text-Feild_enabled_1x22_mid.png") repeat-x
+	background: url("../images/Text-Feild_enabled_1x22_mid.png") repeat-x
 		scroll 0 0 white !important;
 	border-left: 1px solid #CCCCCC !important;
 	border-right: 1px solid #CCCCCC !important;
@@ -1308,7 +1308,7 @@ important
 }
 
 .bottom-view table tr td button {
-	background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
+	background: url("../images/Button_1x25New.png") repeat-x scroll 0 0
 		transparent;
 	float: left;
 	margin: 0 !important;
@@ -1317,7 +1317,7 @@ important
 }
 
 .gridSelectBoxCell .downarrow-button {
-	background: url("images/Drop-down-button_20x22.png") no-repeat scroll 0
+	background: url("../images/Drop-down-button_20x22.png") no-repeat scroll 0
 		0 transparent !important;
 	float: right;
 	height: 22px;
@@ -1332,22 +1332,22 @@ important
 }
 
 .save-new-separator {
-	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
+	background: url("../images/Divider.png") no-repeat scroll 0 0 transparent
 		!important;
 }
 
 .save-close-separator {
-	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
+	background: url("../images/Divider.png") no-repeat scroll 0 0 transparent
 		!important;
 }
 
 .close-separator {
-	background: url("images/gray_Seperator1.png") no-repeat scroll 0 0
+	background: url("../images/gray_Seperator1.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
 .add-separator {
-	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
+	background: url("../images/Divider.png") no-repeat scroll 0 0 transparent
 		!important;
 }
 
@@ -1361,17 +1361,17 @@ important
 }
 
 .save-new-image {
-	background: url("images/Save-&-New.png") no-repeat scroll 0 0
+	background: url("../images/Save-&-New.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
 .save-close-image {
-	background: url("images/Save-&-close.png") no-repeat scroll 0 0
+	background: url("../images/Save-&-close.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
 .accounter-button-seperater {
-	background: url("images/Divider.png") no-repeat scroll 0 0 transparent
+	background: url("../images/Divider.png") no-repeat scroll 0 0 transparent
 		!important;
 	height: 25px;
 	margin-left: 5px;
@@ -1381,17 +1381,17 @@ important
 }
 
 .approve-image {
-	background: url("images/approve.png") no-repeat scroll 0 0 transparent
+	background: url("../images/approve.png") no-repeat scroll 0 0 transparent
 		!important;
 }
 
 .submit-approve-image {
-	background: url("images/submit_for_approval.png") no-repeat scroll 0 0
+	background: url("../images/submit_for_approval.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
 .decline-image {
-	background: url("images/decline.png") no-repeat scroll 0 0 transparent
+	background: url("../images/decline.png") no-repeat scroll 0 0 transparent
 		!important;
 }
 
@@ -1412,17 +1412,17 @@ important
 }
 
 .add-image {
-	background: url("images/Add_item.png") no-repeat scroll 0 0 transparent
+	background: url("../images/Add_item.png") no-repeat scroll 0 0 transparent
 		!important;
 }
 
 .close-image {
-	background: url("images/cross.png") no-repeat scroll 0 0 transparent
+	background: url("../images/cross.png") no-repeat scroll 0 0 transparent
 		!important;
 }
 
 .cancel-button button {
-	background: url("/images/gray_Button_2_mid.png") repeat-x scroll 0 0
+	background: url("../images/gray_Button_2_mid.png") repeat-x scroll 0 0
 		transparent !important;
 	color: #000 !important;
 	padding-top: 2px !important;
@@ -1430,19 +1430,19 @@ important
 }
 
 .cancel-button {
-	background: url("/images/gray_Button_2_left.png") no-repeat scroll 0 0
+	background: url("../images/gray_Button_2_left.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
 .add-button {
-	background: url("images/blue_Left_sideNew.png") no-repeat scroll 0 0
+	background: url("../images/blue_Left_sideNew.png") no-repeat scroll 0 0
 		transparent !important;
 	padding: 0 3px;
 	float: right;
 }
 
 .ibutton {
-	background: url("images/blue_Left_sideNew.png") no-repeat scroll 0 0
+	background: url("../images/blue_Left_sideNew.png") no-repeat scroll 0 0
 		transparent !important;
 	float: left;
 	padding: 0 3px;
@@ -1460,7 +1460,7 @@ important
 }
 
 .ibutton-right-align {
-	background: url("images/blue_Left_sideNew.png") no-repeat scroll 0 0
+	background: url("../images/blue_Left_sideNew.png") no-repeat scroll 0 0
 		transparent !important;
 	float: right;
 	padding: 0 1px;
@@ -1476,7 +1476,7 @@ important
 }
 
 .add-button button {
-	background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
+	background: url("../images/Button_1x25New.png") repeat-x scroll 0 0
 		transparent !important;
 	padding: 1px 25px 6px 0 !important;
 	border-radius: 0 0 0 0 !important;
@@ -1490,7 +1490,7 @@ important
 }
 
 .subMenuIcon img {
-	background: url("images/Sub_menu_indicator_side.png") repeat-x scroll 0
+	background: url("../images/Sub_menu_indicator_side.png") repeat-x scroll 0
 		0 transparent !important;
 }
 
@@ -1505,40 +1505,40 @@ important
 }
 
 .gwt-DialogBox .dialogTopLeft {
-	background: url("images/top_left_1.png") no-repeat scroll 0 0
+	background: url("../images/top_left_1.png") no-repeat scroll 0 0
 		transparent !important;
 	width: 9px;
 	height: 16px;
 }
 
 .gwt-DialogBox .dialogTopRight {
-	background: url("images/top_right_1.png") no-repeat scroll 0 0
+	background: url("../images/top_right_1.png") no-repeat scroll 0 0
 		transparent !important;
 	width: 9px;
 }
 
 .gwt-DialogBox .dialogMiddleLeft {
-	background: url("images/left_mid.png") repeat-y scroll 0 0 transparent
+	background: url("../images/left_mid.png") repeat-y scroll 0 0 transparent
 		!important;
 }
 
 .gwt-DialogBox .dialogMiddleRight {
-	background: url("images/Right_mid.png") repeat-y scroll 0 0 transparent
+	background: url("../images/Right_mid.png") repeat-y scroll 0 0 transparent
 		!important;
 }
 
 .gwt-DialogBox .dialogBottomLeft {
-	background: url("images/Bottom_left_corner_1.png") no-repeat scroll 0 0
+	background: url("../images/Bottom_left_corner_1.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
 .gwt-DialogBox .dialogBottomRight {
-	background: url("images/Bottom_right_corner.png") no-repeat scroll 0 0
+	background: url("../images/Bottom_right_corner.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
 .gwt-DialogBox .dialogBottomCenter {
-	background: url("images/Bottom_mid.png") repeat-x scroll 0 0 transparent
+	background: url("../images/Bottom_mid.png") repeat-x scroll 0 0 transparent
 		!important;
 	height: 9px;
 }
@@ -1549,7 +1549,7 @@ important
 }
 
 .add-button button[disabled]:after {
-	background: url("images/gray_Button_left_1x27.png") no-repeat scroll 0 0
+	background: url("../images/gray_Button_left_1x27.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
@@ -1567,7 +1567,7 @@ iframe { /*display:none;*/
 }
 
 .helpBar {
-	background: url("images/Help.png") no-repeat scroll 0 0 transparent
+	background: url("../images/Help.png") no-repeat scroll 0 0 transparent
 		!important;
 	color: #3299A4 !important;
 	cursor: pointer;
@@ -1609,14 +1609,14 @@ iframe { /*display:none;*/
 }
 
 .logout-help-welcome {
-	background: url("images/Seperator_right.png") repeat-y scroll 0 0
+	background: url("../images/Seperator_right.png") repeat-y scroll 0 0
 		transparent;
 	margin-top: 20px;
 	padding-left: 10px;
 }
 
 .logout-html {
-	background: url(images/logout.png) no-repeat scroll 0 1px transparent;
+	background: url(../images/logout.png) no-repeat scroll 0 1px transparent;
 	padding-left: 22px;
 	margin-top: 3px;
 	height: 16px;
@@ -1631,7 +1631,7 @@ iframe { /*display:none;*/
 }
 
 .list-grid-body {
-	background: url("images/Table-form-strip.png") repeat scroll 0 0 #EEEEEE
+	background: url("../images/Table-form-strip.png") repeat scroll 0 0 #EEEEEE
 		;
 }
 
@@ -1644,7 +1644,7 @@ iframe { /*display:none;*/
 }
 
 .report-toolbar input[type="text"] {
-	background: url("images/Text-Field_2.png") no-repeat scroll 0 0 #FFFFFF
+	background: url("../images/Text-Field_2.png") no-repeat scroll 0 0 #FFFFFF
 		!important;
 	width: 140px !important;
 }
@@ -1713,7 +1713,7 @@ iframe { /*display:none;*/
 }
 
 .help-panel { /*background-color: #F0F0F0;*/
-	background: url("images/body-shadow-leftlower-corner.png") no-repeat scroll left bottom transparent;
+	background: url("../images/body-shadow-leftlower-corner.png") no-repeat scroll left bottom transparent;
     border: 1px solid #C7C6C6;
     margin: 0 0 1px -26px;
     display:none;
@@ -1731,7 +1731,7 @@ iframe { /*display:none;*/
 }
 
 .main-finance-window {
-	background: url("../images/body-shadow-right.png") repeat-y scroll right
+	background: url("../../images/body-shadow-right.png") repeat-y scroll right
 		top #F0F0F0;
 	padding-right: 15px;
 }
@@ -1918,7 +1918,7 @@ noindex:-o-prefocus,.ibutton {
 }
 
 .ibutton1 {
-	background: url("images/blue_Left_sideNew.png") no-repeat scroll 0 0
+	background: url("../images/blue_Left_sideNew.png") no-repeat scroll 0 0
 		transparent !important;
 	float: left;
 	padding: 0 10px 0 3px !important;
@@ -1959,7 +1959,7 @@ noindex:-o-prefocus,.ibutton {
 }
 
 .MENU_BAR_BG {
-	/*background: url("images/Menu bar_1x33.png") repeat-x scroll 0 0
+	/*background: url("../images/Menu bar_1x33.png") repeat-x scroll 0 0
 		transparent !important;*/
     background:none repeat scroll 0 0 #1A5158;
 	width: 100%;
@@ -1991,7 +1991,7 @@ noindex:-o-prefocus,.ibutton {
 }
 
 .ok-cancel-button {
-	background: url("images/blue_Left_sideNew.png") no-repeat scroll 0 0
+	background: url("../images/blue_Left_sideNew.png") no-repeat scroll 0 0
 		transparent !important;
 	float: left;
 	padding: 0 1px;
@@ -2021,17 +2021,17 @@ input[type="text"],textarea {
    width:100%;	
 }
 .left-corner{
-   background: url("images/body-shadow-leftlower-corner.png") no-repeat scroll 0 0 transparent;
+   background: url("../images/body-shadow-leftlower-corner.png") no-repeat scroll 0 0 transparent;
    width:22px;
    height:22px;
    margin-left:2px;
 }
 .mid-repeat{
-   background: url("images/body-shadow-mid.png") repeat-x scroll 0 0 transparent;
+   background: url("../images/body-shadow-mid.png") repeat-x scroll 0 0 transparent;
    height:22px;
 }
 .right-corner{
-  background: url("images/body-shadow-rightlower-corner.png") no-repeat scroll 0 0 transparent;
+  background: url("../images/body-shadow-rightlower-corner.png") no-repeat scroll 0 0 transparent;
   width:22px;
   height:22px;
   margin-right:2px;
@@ -2051,16 +2051,16 @@ input[type="text"],textarea {
    color:#A4CCD1 !important;
 }
 .footer-left{
-   background:url("images/Footer_left.png")no-repeat scroll 0 0 transparent;
+   background:url("../images/Footer_left.png")no-repeat scroll 0 0 transparent;
    height:35px;
    width:5px;
 }
 .feedback-option{
-   background:url("images/Footer_mid.png") repeat-x scroll 0 0 transparent;
+   background:url("../images/Footer_mid.png") repeat-x scroll 0 0 transparent;
    height:35px;
 }
 .footer-right{
-   background:url("images/Footer_right.png")no-repeat scroll 0 0 transparent;
+   background:url("../images/Footer_right.png")no-repeat scroll 0 0 transparent;
    height:35px;
    width:5px;
 }
@@ -2106,7 +2106,7 @@ input[type="text"],textarea {
 
 /* error.jsp css start here*/
 .error_vimukti_logo{
-	background:url(".. /images/Accounter_logo_title.png")no-repeat scroll 0 0 transparent;
+	background:url(".. /../images/Accounter_logo_title.png")no-repeat scroll 0 0 transparent;
 	width:230px;
 	width:50px;
 	margin:10px 0 0 100px;
@@ -2345,7 +2345,7 @@ h1 {
 }
 
 .head_menu {
-	background: url("images/icons/temp/shade.png") repeat-x;
+	background: url("../images/icons/temp/shade.png") repeat-x;
 	font-size: 12px;
 	height: 27px;
 	border-bottom: 5px solid #0046ad;
@@ -2358,53 +2358,53 @@ h1 {
 }
 
 .menu_button {
-	background: url("images/icons/temp/shade.png") repeat-x;
+	background: url("../images/icons/temp/shade.png") repeat-x;
 	padding: 4px 4px 4px 5px;
 	border-right: 1px solid #cbdae6;
 }
 
 /*.menu_button_disabled {
-	background: url("images/icons/temp/disableShade.png") repeat-x;
+	background: url("../images/icons/temp/disableShade.png") repeat-x;
 	padding: 4px 4px 4px 5px;
 	border-right: 1px solid #cbdae6;
 	color: #b8b8b8;
 }*/
 .menu_buttonSelected {
-	background: url("images/icons/temp/right.png") repeat-x;
+	background: url("../images/icons/temp/right.png") repeat-x;
 	padding: 4px 4px 4px 5px;
 	border-right: 1px solid #cbdae6;
 	color: #FFFFFF;
 }
 
 .menu_buttonSelectedOver {
-	background: url("images/icons/temp/right.png") repeat-x;
+	background: url("../images/icons/temp/right.png") repeat-x;
 	padding: 4px 4px 4px 5px;
 	border-right: 1px solid #cbdae6;
 	color: #FFFFFF;
 }
 
 .menu_buttonSelectedDown {
-	background: url("images/icons/temp/right.png") repeat-x;
+	background: url("../images/icons/temp/right.png") repeat-x;
 	padding: 4px 4px 4px 5px;
 	border-right: 1px solid #cbdae6;
 	color: #FFFFFF;
 }
 
 .menu_buttonSelectedFocused {
-	background: url("images/icons/temp/right.png") repeat-x;
+	background: url("../images/icons/temp/right.png") repeat-x;
 	padding: 4px 4px 4px 5px;
 	border-right: 1px solid #cbdae6;
 	color: #FFFFFF;
 }
 
 .menu_buttonOver {
-	background: url("images/icons/temp/right.png") repeat-x;
+	background: url("../images/icons/temp/right.png") repeat-x;
 	padding: 4px 4px 4px 5px;
 	border-right: 1px solid #cbdae6;
 }
 
 .menu_buttonDown {
-	background: url("images/icons/temp/shade.png") repeat-x;
+	background: url("../images/icons/temp/shade.png") repeat-x;
 	padding: 4px 4px 4px 5px;
 	border-right: 1px solid #cbdae6;
 }
@@ -2415,11 +2415,11 @@ h1 {
 }
 
 .decorator .topCenter,.decorator .bottomCenter {
-	background: url(images/hborder.png) repeat-x;
+	background: url(../images/hborder.png) repeat-x;
 }
 
 .decorator .middleLeft,.decorator .middleRight {
-	background: url(images/vborder.png) repeat-y;
+	background: url(../images/vborder.png) repeat-y;
 }
 
 .decorator .topLeftInner,.decorator .topRightInner,.decorator .bottomLeftInner,.decorator .bottomRightInner
@@ -2430,23 +2430,23 @@ h1 {
 }
 
 .decorator .topLeft {
-	background: url(images/lt.png) no-repeat top left;
-	-background: url(images/lt_ie6.png) no-repeat top left;
+	background: url(../images/lt.png) no-repeat top left;
+	-background: url(../images/lt_ie6.png) no-repeat top left;
 }
 
 .decorator .topRight {
-	background: url(images/rt.png) no-repeat top right;
-	-background: url(images/rt_ie6.png) no-repeat top right;
+	background: url(../images/rt.png) no-repeat top right;
+	-background: url(../images/rt_ie6.png) no-repeat top right;
 }
 
 .decorator .bottomLeft {
-	background: url(images/ld.png) no-repeat bottom left;
-	-background: url(images/ld_ie6.png) no-repeat bottom left;
+	background: url(../images/ld.png) no-repeat bottom left;
+	-background: url(../images/ld_ie6.png) no-repeat bottom left;
 }
 
 .decorator .bottomRight {
-	background: url(images/rd.png) no-repeat bottom right;
-	-background: url(images/rd_ie6.png) no-repeat bottom right;
+	background: url(../images/rd.png) no-repeat bottom right;
+	-background: url(../images/rd_ie6.png) no-repeat bottom right;
 }
 
 .description {
@@ -2652,7 +2652,7 @@ h1 {
 }
 
 .stackpannel {
-	background: url(images/icons/stack1.png) repeat-x;
+	background: url(../images/icons/stack1.png) repeat-x;
 	margin-left: 2px;
 }
 
@@ -2809,7 +2809,7 @@ h1 {
 
 .traficLight-yellow,.traficLight-red,.traficLight-green,.traficLight-yellow-up-hovering,.traficLight-red-up-hovering,.traficLight-green-up-hovering
 	{
-	background-image: url('images/lights-dashboard.png');
+	background-image: url('../images/lights-dashboard.png');
 	background-repeat: no-repeat;
 	cursor: pointer;
 }
@@ -2884,7 +2884,7 @@ h1 {
 
 .traficLights .empty-td { /*width: 10px;
      height: 100%;
-     background: #FFF url(images/light-background5.png) no-repeat scroll 0 0;*/
+     background: #FFF url(../images/light-background5.png) no-repeat scroll 0 0;*/
 	
 }
 
@@ -2895,7 +2895,7 @@ h1 {
 }
 
 .panelBody .panelRight,.shade-right {
-	background: transparent url(images/panel-right-img.png) repeat-y scroll
+	background: transparent url(../images/panel-right-img.png) repeat-y scroll
 		0 0;
 	bottom: 12px;
 	overflow: hidden;
@@ -2913,7 +2913,7 @@ h1 {
 }
 
 .panelBody .panelBottom {
-	background: transparent url(images/panel-bottom-img.png) repeat-x scroll
+	background: transparent url(../images/panel-bottom-img.png) repeat-x scroll
 		0 0;
 	bottom: -6px;
 	height: 18px;
@@ -2924,7 +2924,7 @@ h1 {
 }
 
 .panelBody .panelLeftBottom {
-	background: transparent url(images/panel-left-bottom-img.png) no-repeat
+	background: transparent url(../images/panel-left-bottom-img.png) no-repeat
 		scroll 0 0;
 	bottom: -6px;
 	display: block;
@@ -2936,7 +2936,7 @@ h1 {
 }
 
 .panelBody .panelrightBottom {
-	background: transparent url(images/panel-right-bottom-img.png) no-repeat
+	background: transparent url(../images/panel-right-bottom-img.png) no-repeat
 		scroll 0 0;
 	bottom: -6px;
 	display: block;
@@ -2953,7 +2953,7 @@ h1 {
 }
 
 .panelTitle .panelLeft {
-	background: transparent url(images/header-l.png) no-repeat scroll 0 0;
+	background: transparent url(../images/header-l.png) no-repeat scroll 0 0;
 	height: 25px;
 	overflow: hidden;
 	width: 7px;
@@ -2963,7 +2963,7 @@ h1 {
 }
 
 .panelTitle .panelRight {
-	background: transparent url(images/header-r.png) no-repeat scroll 0 0;
+	background: transparent url(../images/header-r.png) no-repeat scroll 0 0;
 	height: 25px;
 	overflow: hidden;
 	width: 16px;
@@ -2973,7 +2973,7 @@ h1 {
 }
 
 .panelTitle .gwt-Label {
-	background: transparent url(images/header-c.png) repeat-x scroll 0 0;
+	background: transparent url(../images/header-c.png) repeat-x scroll 0 0;
 	height: 25px;
 	overflow: hidden;
 	left: 4px;
@@ -3005,7 +3005,7 @@ h1 {
 }
 
 .headerlabel {
-	background: #999 /*url('images/icons/task_shade.jpg') repeat-x scroll 0
+	background: #999 /*url('../images/icons/task_shade.jpg') repeat-x scroll 0
      0*/;
 	line-height: 1.6;
 	text-align: center;
@@ -3052,13 +3052,13 @@ h1 {
      border-color: #9DC0E8 #9DC0E8 #9DC0E8 #FFFFFF;*/
 	cursor: pointer;
 	cursor: hand;
-	/*background: transparent url(images/tab-shade.jpg) repeat scroll 0 0;
+	/*background: transparent url(../images/tab-shade.jpg) repeat scroll 0 0;
      text-align: justify;*/
 	padding: 0 !important;
 }
 
 /*.menu_button_disabled {
-	background: transparent url(images/disable-shade.png) repeat-x scroll 0
+	background: transparent url(../images/disable-shade.png) repeat-x scroll 0
 		0;
 	border-color: #9F9F9F #9F9F9F #9F9F9F #FFFFFF;
 	border-style: solid;
@@ -3084,7 +3084,7 @@ h1 {
      border-color: #9cf #AAA #AAA #7af;*/
 	cursor: pointer;
 	cursor: hand;
-	/*background: transparent url(images/m-hover-shade.jpg) repeat scroll 0 0;*/
+	/*background: transparent url(../images/m-hover-shade.jpg) repeat scroll 0 0;*/
 	text-align: justify;
 	padding: 0 !important;
 }
@@ -3093,7 +3093,7 @@ h1 {
 	{ /*border: 1px inset #ccc;*/
 	cursor: pointer;
 	text-align: justify;
-	background: transparent url(images/tab-mouse-hover-l.png) no-repeat
+	background: transparent url(../images/tab-mouse-hover-l.png) no-repeat
 		scroll 0px -1px;
 	/*color: #FFF;*/
 	padding: 0 !important;
@@ -3101,14 +3101,14 @@ h1 {
 
 .application-selector td div.gwt-ToggleButton-down-hovering .html-face,.application-selector td div.gwt-ToggleButton-down .html-face
 	{
-	background: transparent url(images/tab-mouse-hover-r.png) no-repeat
+	background: transparent url(../images/tab-mouse-hover-r.png) no-repeat
 		scroll 100% 0px;
 }
 
 /*styles for top buttons -------- end ---------- */
 	/*styles for dashbord webkits --------- start ------------*/
 .topLeftInner {
-	background-image: url(images/header-l.png);
+	background-image: url(../images/header-l.png);
 	background-repeat: no-repeat;
 	position: relative;
 	right: -3px;
@@ -3118,7 +3118,7 @@ h1 {
 }
 
 .topRightInner {
-	background-image: url(images/header-r.png);
+	background-image: url(../images/header-r.png);
 	background-repeat: no-repeat;
 	position: relative;
 	right: 4px;
@@ -3128,22 +3128,22 @@ h1 {
 }
 
 .gwt-DecoratorPanel .middleRight {
-	background: transparent url(images/panel-right-img.png) repeat-y scroll
+	background: transparent url(../images/panel-right-img.png) repeat-y scroll
 		0 0;
 }
 
 .portletHeaderStyle {
-	background: transparent url(images/shade.jpg) repeat-x scroll 0 0;
+	background: transparent url(../images/shade.jpg) repeat-x scroll 0 0;
 }
 
 .middleCenterInner {
-	background: transparent url(images/panel-bottom-img.png) repeat-x scroll
+	background: transparent url(../images/panel-bottom-img.png) repeat-x scroll
 		0 100%;
 	padding-bottom: 5px;
 }
 
 .bottomRightInner {
-	background-image: url(images/panel-right-bottom-img.png);
+	background-image: url(../images/panel-right-bottom-img.png);
 	background-repeat: no-repeat;
 	bottom: 17px;
 	height: 18px !important;
@@ -3154,7 +3154,7 @@ h1 {
 }
 
 .bottomLeftInner {
-	background-image: url(images/panel-left-bottom-img.png);
+	background-image: url(../images/panel-left-bottom-img.png);
 	background-repeat: no-repeat;
 	bottom: 22px;
 	height: 7px !important;
@@ -3164,7 +3164,7 @@ h1 {
 }
 
 .middleRightInner {
-	background: transparent url(images/panel-right-img.png) repeat-y scroll
+	background: transparent url(../images/panel-right-img.png) repeat-y scroll
 		0 0;
 	height: 100%;
 }
@@ -3243,7 +3243,7 @@ h1 {
 }
 
 .shade-round-l {
-	background: transparent url(images/title-shade-l.png) no-repeat scroll 0
+	background: transparent url(../images/title-shade-l.png) no-repeat scroll 0
 		0;
 	height: 8px;
 	left: 0;
@@ -3254,7 +3254,7 @@ h1 {
 }
 
 .shade-round-r {
-	background: transparent url(images/title-shade-r.png) no-repeat scroll 0
+	background: transparent url(../images/title-shade-r.png) no-repeat scroll 0
 		0;
 	height: 16px;
 	overflow: hidden;
@@ -3284,12 +3284,12 @@ h1 {
 }
 
 table tr.gridRow:HOVER {
-	/*background: #9fd8ef url('images/mouse-hover-shade.png') repeat-x;*/
+	/*background: #9fd8ef url('../images/mouse-hover-shade.png') repeat-x;*/
 	
 }
 
 table tr.parentRow:HOVER {
-	/*background: #9fd8ef url('images/mouse-hover-shade.png') repeat-x;*/
+	/*background: #9fd8ef url('../images/mouse-hover-shade.png') repeat-x;*/
 	
 }
 
@@ -3300,7 +3300,7 @@ table tr.parentRow:HOVER {
 }
 
 .gridBody1 tr:HOVER {
-	/*background: #FFF url('images/notes_mouse-hover-shade.png') repeat-x
+	/*background: #FFF url('../images/notes_mouse-hover-shade.png') repeat-x
      !important;*/
 	cursor: pointer;
 }
@@ -3316,8 +3316,8 @@ table tr.parentRow:HOVER {
 .gridHeader {
 	border-collapse: collapse;
 	cursor: pointer;
-	background: url("images/Form_Title_bar_mid.png") repeat-x scroll 0 0
-		transparent; /*url('images/header.png') repeat-x scroll 0 0;*/
+	background: url("../images/Form_Title_bar_mid.png") repeat-x scroll 0 0
+		transparent; /*url('../images/header.png') repeat-x scroll 0 0;*/
 	height: 21px;
 	width: 100%;
 }
@@ -3407,13 +3407,13 @@ noindex:-o-prefocus,.gridBody tr td {
 }
 
 .gridHeader td.gridHeaderCell:hover {
-	/*background: transparent url('images/bar-mouse-hover.png') repeat-x
+	/*background: transparent url('../images/bar-mouse-hover.png') repeat-x
 		scroll 0 0;*/
 	
 }
 
 .listgrid {
-	/*background:url("images/Table-form-strip.png") repeat scroll 0 0 #EEEEEE;*/
+	/*background:url("../images/Table-form-strip.png") repeat scroll 0 0 #EEEEEE;*/
 	border-style: solid !important;
 	border-width: 0 1px 1px !important;
 	/*overflow-y: scroll;*/
@@ -3449,17 +3449,17 @@ input[type="checkbox"] {
 }
 
 .gridAscend div {
-	background: transparent url('images/arrow-ascend.png') no-repeat scroll
+	background: transparent url('../images/arrow-ascend.png') no-repeat scroll
 		98% 5px;
 }
 
 .gridDecend div {
-	background: transparent url('images/arrow-decend.png') no-repeat scroll
+	background: transparent url('../images/arrow-decend.png') no-repeat scroll
 		98% 7px;
 }
 
 /*.selected {
-	background: url('images/selected-shade.png');
+	background: url('../images/selected-shade.png');
 }*/
 .selected td {
 	border-right: 1px solid #e6e6e6;
@@ -3554,12 +3554,12 @@ div.gridBodyContainer>div {
 }
 
 .openNewWindow {
-	background: transparent url(images/open-new-window-icon.png) no-repeat
+	background: transparent url(../images/open-new-window-icon.png) no-repeat
 		scroll 0 -1px;
 }
 
 .helpclose {
-	background: transparent url(images/close-dialog.png) no-repeat scroll 0
+	background: transparent url(../images/close-dialog.png) no-repeat scroll 0
 		-1px;
 }
 
@@ -3568,12 +3568,12 @@ div.helpminimize:hover,div.openNewWindow:hover,div.helpclose:hover {
 }
 
 .helpminimize {
-	background: transparent url(images/minimize-dialog.png) no-repeat scroll
+	background: transparent url(../images/minimize-dialog.png) no-repeat scroll
 		0 -1px;
 }
 
 .close {
-	background-image: url("images/close_button.png");
+	background-image: url("../images/close_button.png");
 	background-repeat: no-repeat;
 	background-attachment: scroll;
 	background-position: 0 1px;
@@ -3588,15 +3588,15 @@ div.close:HOVER { /*background-position: 0px -14px;*/
 }
 
 .maximize {
-	background: transparent url(images/maximize.png) no-repeat scroll 0 6px;
+	background: transparent url(../images/maximize.png) no-repeat scroll 0 6px;
 }
 
 div.maximize:hover {
-	background: transparent url(images/maximize.png) no-repeat scroll 0 6px;
+	background: transparent url(../images/maximize.png) no-repeat scroll 0 6px;
 }
 
 .minimize {
-	background: url('images/minimize.png') no-repeat scroll 0px 6px;
+	background: url('../images/minimize.png') no-repeat scroll 0px 6px;
 }
 
 div.minimize:hover {
@@ -3604,28 +3604,28 @@ div.minimize:hover {
 }
 
 .widgetMovementButton {
-	background: url('images/move-icon.png') no-repeat scroll 0px -2px;
+	background: url('../images/move-icon.png') no-repeat scroll 0px -2px;
 }
 
 div.widgetMovementButton:hover {
-	background: transparent url(images/selected-move-icon.png) no-repeat
+	background: transparent url(../images/selected-move-icon.png) no-repeat
 		scroll 0 -1px
 }
 
 .leftArrow {
-	background: url('images/left-arrow.png') no-repeat scroll 0px 1px;
+	background: url('../images/left-arrow.png') no-repeat scroll 0px 1px;
 }
 
 .upArrow {
-	background: url('images/up-arrow.png') no-repeat scroll 0px 1px;
+	background: url('../images/up-arrow.png') no-repeat scroll 0px 1px;
 }
 
 .downArrow {
-	background: url('images/down-arrow.png') no-repeat scroll 0px 1px;
+	background: url('../images/down-arrow.png') no-repeat scroll 0px 1px;
 }
 
 .rightArrow {
-	background: url('images/right-arrow.png') no-repeat scroll 0px 1px;
+	background: url('../images/right-arrow.png') no-repeat scroll 0px 1px;
 }
 
 div.leftArrow:hover,div.upArrow:hover,div.downArrow:hover,div.rightArrow:hover
@@ -3733,7 +3733,7 @@ div.leftArrow:hover,div.upArrow:hover,div.downArrow:hover,div.rightArrow:hover
 }
 
 .search-left {
-	background: transparent url(images/searchL.png) no-repeat scroll 0px 0px
+	background: transparent url(../images/searchL.png) no-repeat scroll 0px 0px
 }
 
 .search-left input.searchBox {
@@ -3743,7 +3743,7 @@ div.leftArrow:hover,div.upArrow:hover,div.downArrow:hover,div.rightArrow:hover
 	width: 130px;
 	border: 0 none;
 	font-size: 8pt;
-	background: #FFF url("images/searchCenter.png") repeat-x scroll 0 0;
+	background: #FFF url("../images/searchCenter.png") repeat-x scroll 0 0;
 }
 
 .search-container {
@@ -3908,8 +3908,8 @@ table td,select,.gwt-Button {
 }
 
 .drag-handle { /*cursor: -moz-grabbing;*/
-	cursor: url(images/icons/cursor/openhand.cur), default !important;
-	/*downloaded from https://mail.google.com/a/vimukti.com/images/2/openhand.cur*/
+	cursor: url(../images/icons/cursor/openhand.cur), default !important;
+	/*downloaded from https://mail.google.com/a/vimukti.com/../images/2/openhand.cur*/
 }
 
 .notes_ScroolPanel {
@@ -3921,7 +3921,7 @@ table td,select,.gwt-Button {
 }
 
 div.listbox_header:HOVER {
-	/*background: #FFF url('images/notes_mouse-hover-shade.png') repeat-x
+	/*background: #FFF url('../images/notes_mouse-hover-shade.png') repeat-x
      !important;*/
 	
 }
@@ -4011,14 +4011,14 @@ noindex:-o-prefocus,.table-checkbox-cell span input[type="checkbox"] {
 	background-color:inherit !important;
 }*/
 input[disabled],input[disabled='disabled'] {
-	background: url("images/Text Feild_diabled.png") no-repeat scroll 0 0
+	background: url("../images/Text Feild_diabled.png") no-repeat scroll 0 0
 		#e6e0da !important;
 	color: #b1a7ad;
 	border: 0 none;
 }
 
 textarea[disabled] {
-	background: url("images/Text Feild_disabled_180x64.png") no-repeat
+	background: url("../images/Text Feild_disabled_180x64.png") no-repeat
 		scroll 0 0 #e6e0da !important;
 	color: #b1a7ad;
 	border: 0 none;
@@ -4056,7 +4056,7 @@ textarea[disabled] {
 }
 
 table tr.ReportGridRow:HOVER {
-	/*background: #9fd8ef url('images/mouse-hover-shade.png') repeat-x;*/
+	/*background: #9fd8ef url('../images/mouse-hover-shade.png') repeat-x;*/
 	
 }
 
@@ -4152,11 +4152,11 @@ table tr.ReportGridRow:HOVER {
 }
 
 .rd_togglebutton,.rd_togglebutton-up,.rd_togglebutton-up-hovering {
-	background: transparent url('images/tab-unselected.png') scroll 0 0;
+	background: transparent url('../images/tab-unselected.png') scroll 0 0;
 }
 
 .rd_togglebutton-down,.rd_togglebutton-down-hovering {
-	background: transparent url('images/tab-selected.png') scroll 0 0;
+	background: transparent url('../images/tab-selected.png') scroll 0 0;
 }
 
 .selection-view {
@@ -4226,7 +4226,7 @@ table tr.ReportGridRow:HOVER {
 .hr-report-label,.calendar_panel {
 	color: #000000;
 	padding-left: 5px;
-	background: url("images/header-c.png") repeat-x scroll 0 -11px
+	background: url("../images/header-c.png") repeat-x scroll 0 -11px
 		transparent;
 	border: 1px solid #000000;
 	white-space: nowrap;
@@ -4263,28 +4263,28 @@ table tr.ReportGridRow:HOVER {
 }
 
 .gwt-TabBar .gwt-TabBarItem-wrapper {
-	/*background: transparent url(images/tab-image-unselected-l.jpg) no-repeat
+	/*background: transparent url(../images/tab-image-unselected-l.jpg) no-repeat
 		scroll 5px 0;*/
-	background: url("images/Tab_normal_left_4x30.png") no-repeat scroll 7px
+	background: url("../images/Tab_normal_left_4x30.png") no-repeat scroll 7px
 		0 transparent;
 	padding-left: 5px;
 }
 
 .gwt-TabBar .gwt-TabBarItem-wrapper .gwt-TabBarItem {
-	/*background: #D0E4F6 url(images/tab-image-unselected-r.jpg) no-repeat
+	/*background: #D0E4F6 url(../images/tab-image-unselected-r.jpg) no-repeat
 		scroll 100% 0;*/
-	background: url("images/Tab_normal_1x30.png") repeat-x scroll 0 0
+	background: url("../images/Tab_normal_1x30.png") repeat-x scroll 0 0
 		transparent;
 	padding: 3px 6px 5px 0 !important;
 }
 
 .gwt-TabBar .gwt-TabBarItem-wrapper-selected {
-	background: url("images/Tab_selected_left_4x30.png") no-repeat scroll
+	background: url("../images/Tab_selected_left_4x30.png") no-repeat scroll
 		7px 0 transparent !important;
 }
 
 .gwt-TabBar .gwt-TabBarItem-wrapper-selected .gwt-TabBarItem {
-	background: url("images/Tab_selected_1x30.png") repeat-x scroll 0 0
+	background: url("../images/Tab_selected_1x30.png") repeat-x scroll 0 0
 		transparent !important;
 }
 
@@ -4373,7 +4373,7 @@ table tr.ReportGridRow:HOVER {
 	float: right;
 	position: relative;
 	-moz-user-select: none;
-	background: transparent url(/images/resize-image.png) no-repeat scroll
+	background: transparent url(/../images/resize-image.png) no-repeat scroll
 		100% 100%;
 }
 
@@ -4418,7 +4418,7 @@ table tr.ReportGridRow:HOVER {
 }
 
 .link-seperater {
-	background: url(./images/seperator.png) no-repeat scroll 50% 0;
+	background: url(../images/seperator.png) no-repeat scroll 50% 0;
 	/*line.png*/
 	height: 17px;
 	padding: 0 11px;
@@ -4532,7 +4532,7 @@ table.date-select-form table.dateSelectItem,.workVisaTypeList {
 }
 
 .list-header {
-	background: transparent url(images/header.png) repeat-x scroll 0 0;
+	background: transparent url(../images/header.png) repeat-x scroll 0 0;
 	border: 1px solid #e6e6e6;
 	padding-left: 5px;
 	line-height: 20px;
@@ -4587,7 +4587,7 @@ table.date-select-form table.dateSelectItem,.workVisaTypeList {
 }
 
 .drag_icon {
-	background: transparent url("/images/draghandler.png") no-repeat scroll
+	background: transparent url("../images/draghandler.png") no-repeat scroll
 		2px 4px;
 	height: 18px !important;
 	width: 8px !important;
@@ -4636,7 +4636,7 @@ table.date-select-form table.dateSelectItem,.workVisaTypeList {
 }
 
 .model_dialog .dialogTopCenter {
-	background: #9FB8D6 url(images/icons/task_shade.jpg) repeat-x scroll 0 0
+	background: #9FB8D6 url(../images/icons/task_shade.jpg) repeat-x scroll 0 0
 		;
 	font-size: 11pt;
 	font-weight: bold;
@@ -4684,7 +4684,7 @@ table.date-select-form table.dateSelectItem,.workVisaTypeList {
 }
 
 .helpHeader {
-	background: #E3E8F3 url(images/helpborder.png) repeat-x scroll 0 -2003px
+	background: #E3E8F3 url(../images/helpborder.png) repeat-x scroll 0 -2003px
 		;
 	border-bottom: 1px solid #BBBBBB;
 	cursor: default;
@@ -4921,9 +4921,9 @@ td.td11,td.td10 {
 	height: 100%;
 }
 
-/*If no title First row images*/
+/*If no title First row ../images*/
 .no-title .decor00 {
-	background: transparent url(images/title-shade-l.png) no-repeat scroll
+	background: transparent url(../images/title-shade-l.png) no-repeat scroll
 		3px 0;
 }
 
@@ -4932,14 +4932,14 @@ td.td11,td.td10 {
 }
 
 .no-title .decor02 {
-	background: transparent url(images/title-shade-r.png) no-repeat scroll
+	background: transparent url(../images/title-shade-r.png) no-repeat scroll
 		-4px 0;
 }
 
 .no-title td.td12 {
-	/*background: transparent url(images/title-shade-r.png) no-repeat scroll
+	/*background: transparent url(../images/title-shade-r.png) no-repeat scroll
      -5px -4px;*/
-	background: transparent url(images/panel-right-img.png) repeat-y scroll
+	background: transparent url(../images/panel-right-img.png) repeat-y scroll
 		0 0;
 	overflow: hidden;
 }
@@ -4947,7 +4947,7 @@ td.td11,td.td10 {
 .no-title .decor12 { /*margin-top: 12px;
      position: relative;
      top: 12px;
-     background: transparent url(images/panel-right-img.png) repeat-y scroll 0 0;
+     background: transparent url(../images/panel-right-img.png) repeat-y scroll 0 0;
      bottom:0;*/
 	
 }
@@ -4964,7 +4964,7 @@ td.td11,td.td10 {
 }
 
 .decor10 { /*background: #FFF;
-	url(images/panel-left.png) repeat-y scroll -2px
+	url(../images/panel-left.png) repeat-y scroll -2px
      0*/;
 	
 }
@@ -4974,27 +4974,27 @@ td.td11,td.td10 {
 }
 
 td.td12 {
-	background: transparent url(images/panel-right-img.png) repeat-y scroll
+	background: transparent url(../images/panel-right-img.png) repeat-y scroll
 		0 0;
 }
 
 td.td10 {
-	background: transparent url(images/panel-right-img.png) repeat-y scroll
+	background: transparent url(../images/panel-right-img.png) repeat-y scroll
 		102% 0;
 }
 
 .decor20 {
-	/*background: transparent url("images/p-lb.png")
+	/*background: transparent url("../images/p-lb.png")
 		      no-repeat scroll 0px 0;*/
 }
 
 .decor21 {
-	/*background: transparent url("images/p-b.png")
+	/*background: transparent url("../images/p-b.png")
 		   repeat-x scroll 0 0;*/
 }
 
 .decor22 {
-	/*background: transparent url("images/p-rb.png")
+	/*background: transparent url("../images/p-rb.png")
 		      no-repeat scroll -1px 0;*/
 }
 
@@ -5224,7 +5224,7 @@ td.sidebar {
 }
 
 .Down_arrow {
-	background: transparent url(images/down_arrow.png) no-repeat scroll -2px
+	background: transparent url(../images/down_arrow.png) no-repeat scroll -2px
 		-1px;
 }
 
@@ -5287,11 +5287,11 @@ td.sidebar {
 }
 
 .animate-up {
-	background: url(images/animate-up.png) no-repeat scroll 0px 7px;
+	background: url(../images/animate-up.png) no-repeat scroll 0px 7px;
 }
 
 .animate-down {
-	background: url(images/animate-down.png) no-repeat scroll 0px 7px;
+	background: url(../images/animate-down.png) no-repeat scroll 0px 7px;
 }
 
 .decor-animate {
@@ -5305,7 +5305,7 @@ td.sidebar {
 }
 
 .edit {
-	background: transparent url(images/edit.png) no-repeat scroll 0 2px;
+	background: transparent url(../images/edit.png) no-repeat scroll 0 2px;
 	height: 16px;
 	width: 25px;
 	float: left;
@@ -5313,7 +5313,7 @@ td.sidebar {
 }
 
 div.edit:hover {
-	background: transparent url(images/edit.png) no-repeat scroll 0 -14px;
+	background: transparent url(../images/edit.png) no-repeat scroll 0 -14px;
 }
 
 /**Start --- Styles for new UI **/
@@ -5328,18 +5328,18 @@ div.edit:hover {
 	{
 	background-attachment: scroll;
 	background-color: #9FC24C;
-	background-image: url("images/green-c.png");
+	background-image: url("../images/green-c.png");
 	background-position: 0 0;
 	background-repeat: repeat-x;
 }
 
 /*.new-action-panel-container .td00, .new-action-panel-container .decor00 {
- background: transparent url("images/title-shade-l-g.png") repeat-x scroll 0 0;
+ background: transparent url("../images/title-shade-l-g.png") repeat-x scroll 0 0;
  }*/
 .new-action-panel-container .decor21 {
 	background-attachment: scroll;
 	background-color: transparent;
-	background-image: url("images/green-c.png");
+	background-image: url("../images/green-c.png");
 	background-position: 0 100%;
 	background-repeat: repeat-x;
 }
@@ -5347,7 +5347,7 @@ div.edit:hover {
 .new-action-panel-container .decor20 {
 	background-attachment: scroll;
 	background-color: transparent;
-	background-image: url("images/green-l.png");
+	background-image: url("../images/green-l.png");
 	background-position: 0 100%;
 	background-repeat: no-repeat;
 }
@@ -5368,7 +5368,7 @@ div.edit:hover {
 .new-action-panel-container td.td10 {
 	background-attachment: scroll;
 	background-color: transparent;
-	background-image: url("images/green-l.png");
+	background-image: url("../images/green-l.png");
 	background-position: 0 -5px;
 	background-repeat: no-repeat;
 }
@@ -5376,41 +5376,41 @@ div.edit:hover {
 .new-action-panel-container .td00,.new-action-panel-container .decor00 {
 	background-attachment: scroll;
 	background-color: transparent;
-	background-image: url("images/green-l.png");
+	background-image: url("../images/green-l.png");
 	background-position: 0 0;
 	background-repeat: no-repeat;
 }
 
 .application-container td {
-	background: url("images/menu-left-3D-new1.png") no-repeat scroll 0 0
+	background: url("../images/menu-left-3D-new1.png") no-repeat scroll 0 0
 		transparent;
 }
 
 .application-container .gwt-ToggleButton-up,.application-selector td div.gwt-ToggleButton-up-hovering
 	{
-	background: url("images/menu-right3D-new1.png") no-repeat scroll 100% 0
+	background: url("../images/menu-right3D-new1.png") no-repeat scroll 100% 0
 		transparent;
 }
 
 .application-selector .gwt-ToggleButton .html-face {
-	background: transparent url("images/menu-center3D-new1.png") repeat-x
+	background: transparent url("../images/menu-center3D-new1.png") repeat-x
 		scroll 0 0;
 }
 
 .application-container td.menu-button-hover {
-	background: transparent url("images/menuRight-hover.png") no-repeat
+	background: transparent url("../images/menuRight-hover.png") no-repeat
 		scroll 0 0 !important;
 }
 
 .application-container td.menu-button-hover .gwt-ToggleButton-up,.application-selector td.menu-button-hover div.gwt-ToggleButton-up-hovering
 	{
-	background: transparent url("images/menuLeft-hover.png") no-repeat
+	background: transparent url("../images/menuLeft-hover.png") no-repeat
 		scroll 94% 0 !important;
 }
 
 .application-selector .menu-button-hover .gwt-ToggleButton-up-hovering .html-face
 	{
-	background: transparent url("images/menuCenter-hover.png") repeat-x
+	background: transparent url("../images/menuCenter-hover.png") repeat-x
 		scroll 0 0 !important;
 }
 
@@ -5462,7 +5462,7 @@ div.edit:hover {
 }
 
 .action-container td {
-	background: transparent url("images/action-right-side.png") no-repeat
+	background: transparent url("../images/action-right-side.png") no-repeat
 		scroll 0 -3px;
 }
 
@@ -5475,7 +5475,7 @@ div.edit:hover {
 }
 
 .action-container .imageLink {
-	background: transparent url("images/action-left-side.png") no-repeat
+	background: transparent url("../images/action-left-side.png") no-repeat
 		scroll 100% -3px;
 	height: 43px;
 }
@@ -5512,12 +5512,12 @@ div.edit:hover {
 }
 
 .side-bar {
-	background: #FFF url("images/panel-bottom-img.png") repeat-x scroll 0
+	background: #FFF url("../images/panel-bottom-img.png") repeat-x scroll 0
 		-4px;
 }
 
 .side-bar-container {
-	background: transparent url("images/panel-bottom-img.png") repeat-x
+	background: transparent url("../images/panel-bottom-img.png") repeat-x
 		scroll 0 -5px;
 	height: 100%;
 }
@@ -5560,12 +5560,12 @@ div.edit:hover {
 }
 
 .workspace-panel .new-button-panel td {
-	background: transparent url("images/button-l-v.png") no-repeat scroll 0
+	background: transparent url("../images/button-l-v.png") no-repeat scroll 0
 		2px;
 }
 
 .workspace-panel .new-button-panel .imageLink {
-	background: transparent url("images/button-r-v.png") no-repeat scroll
+	background: transparent url("../images/button-r-v.png") no-repeat scroll
 		100% 0;
 	height: 18px;
 	padding-right: 3px;
@@ -5574,7 +5574,7 @@ div.edit:hover {
 }
 
 .workspace-panel .new-button-panel .imageLink td {
-	background: transparent url("images/button-c-v.png") repeat-x scroll 0 0
+	background: transparent url("../images/button-c-v.png") repeat-x scroll 0 0
 		;
 }
 
@@ -5583,12 +5583,12 @@ div.edit:hover {
 }
 
 .user-panel .new-button-panel td {
-	background: transparent url("images/button-l-b.png") no-repeat scroll 0
+	background: transparent url("../images/button-l-b.png") no-repeat scroll 0
 		2px;
 }
 
 .user-panel .new-button-panel .imageLink {
-	background: transparent url("images/button-r-b.png") no-repeat scroll
+	background: transparent url("../images/button-r-b.png") no-repeat scroll
 		100% 0;
 	height: 18px;
 	padding-right: 5px;
@@ -5597,7 +5597,7 @@ div.edit:hover {
 }
 
 .user-panel .new-button-panel .imageLink td {
-	background: transparent url("images/button-c-b.png") repeat-x scroll 0 0
+	background: transparent url("../images/button-c-b.png") repeat-x scroll 0 0
 		;
 }
 
@@ -5646,7 +5646,7 @@ div.edit:hover {
 }
 
 .actions-seperater {
-	background: transparent url("./images/seperator2.png") no-repeat scroll
+	background: transparent url("../images/seperator2.png") no-repeat scroll
 		50% 0;
 	height: 43px;
 	padding: 0 12px 0 11px;
@@ -5663,23 +5663,23 @@ div.edit:hover {
 
 .action-container td.imagelink-mouseover {
 	cursor: pointer;
-	background: transparent url("images/action-right-side-hover.png")
+	background: transparent url("../images/action-right-side-hover.png")
 		no-repeat scroll 0 -2px !important;
 }
 
 .action-container .imagelink-mouseover .imageLink {
-	background: transparent url("images/action-left-side-hover.png")
+	background: transparent url("../images/action-left-side-hover.png")
 		no-repeat scroll 100% -2px !important;
 	height: 44px;
 }
 
 .action-container .imagelink-mouseover .imageLink td.imagelink-td1 {
-	background: #FFF url("images/action-center-hover.png") repeat-x scroll 0
+	background: #FFF url("../images/action-center-hover.png") repeat-x scroll 0
 		-2px;
 }
 
 .action-container .imagelink-mouseover .imageLink td.imagelink-td2 {
-	background: #FFF url("images/action-center-hover.png") repeat-x scroll 0
+	background: #FFF url("../images/action-center-hover.png") repeat-x scroll 0
 		-29px;
 }
 
@@ -5746,7 +5746,7 @@ div.edit:hover {
 .portel-left {
 	background-attachment: scroll;
 	background-color: transparent;
-	background-image: url("images/p-r.png");
+	background-image: url("../images/p-r.png");
 	background-position: 100% 0;
 	background-repeat: repeat-y;
 	padding-right: 5px;
@@ -5755,7 +5755,7 @@ div.edit:hover {
 .decor10 {
 	/*background-attachment: scroll;
 	background-color: transparent;
-	background-image: url("images/p-l.png");
+	background-image: url("../images/p-l.png");
 	background-position: 0 0;
 	background-repeat: repeat-y;*/
 	border:1px solid #7A7A7A;
@@ -5766,14 +5766,14 @@ div.edit:hover {
 	color: #FFF;
 	width: 240px;
 	float: left;
-	background: transparent url("images/sharedSpaceImg.png") no-repeat
+	background: transparent url("../images/sharedSpaceImg.png") no-repeat
 		scroll 80% 8px;
 }
 
 .ws-tools {
 	background-attachment: scroll;
 	background-color: transparent;
-	background-image: url("images/ws-l.png");
+	background-image: url("../images/ws-l.png");
 	background-position: 0 0;
 	background-repeat: repeat-x;
 	width: 100%;
@@ -5805,12 +5805,12 @@ div.edit:hover {
 }
 
 .ws-tools .gwt-TabBar .gwt-TabBarItem-wrapper-selected {
-	background: transparent url("images/ws-w-l.png") no-repeat scroll 5px 0
+	background: transparent url("../images/ws-w-l.png") no-repeat scroll 5px 0
 		!important;
 }
 
 .ws-tools .gwt-TabBar .gwt-TabBarItem-wrapper-selected .gwt-TabBarItem {
-	/*background: #FFF url("images/ws-w-r.png") no-repeat
+	/*background: #FFF url("../images/ws-w-r.png") no-repeat
 		scroll 100% 0 !important;*/
 	background-color: transparent !important;
 }
@@ -5818,7 +5818,7 @@ div.edit:hover {
 .ws-tools .gwt-TabBar .gwt-TabBarItem-wrapper-selected .gwt-Label {
 	background-attachment: scroll !important;
 	background-color: #FFFFFF !important;
-	background-image: url("images/ws-w-r.png") !important;
+	background-image: url("../images/ws-w-r.png") !important;
 	background-position: 100% 0 !important;
 	background-repeat: no-repeat !important;
 	color: #000000;
@@ -5832,7 +5832,7 @@ div.edit:hover {
 }
 
 .ws-tools .gwt-TabBar .gwt-TabBarItem-wrapper .gwt-TabBarItem {
-	background: transparent url("images/ws-line.png") no-repeat scroll 100%
+	background: transparent url("../images/ws-line.png") no-repeat scroll 100%
 		50% !important;
 	padding-right: 20px !important;
 	margin-right: 13px;
@@ -5841,7 +5841,7 @@ div.edit:hover {
 .ws-tools .gwt-TabBarRest-wrapper .gwt-TabBarRest {
 	background-attachment: scroll;
 	background-color: transparent;
-	background-image: url("images/ws-l.png");
+	background-image: url("../images/ws-l.png");
 	background-position: 0 100%;
 	background-repeat: repeat;
 	height: 100%;
@@ -5857,12 +5857,12 @@ div.edit:hover {
 }
 
 .ws-action-panel-container td.td10 {
-	background: transparent url("images/p-l.png") repeat-y scroll -1px 0
+	background: transparent url("../images/p-l.png") repeat-y scroll -1px 0
 		!important;
 }
 
 .ws-action-panel-container .decor10 {
-	background: transparent url("images/panel-right-img.png") repeat-y
+	background: transparent url("../images/panel-right-img.png") repeat-y
 		scroll 100% 0 !important;
 	margin-left: 0 !important;
 }
@@ -5892,7 +5892,7 @@ div.edit:hover {
 .ws-view .decor00 {
 	background-attachment: scroll;
 	background-color: transparent;
-	background-image: url("images/p-l.png");
+	background-image: url("../images/p-l.png");
 	background-position: -1px 0;
 	background-repeat: repeat-y;
 }
@@ -5904,7 +5904,7 @@ div.edit:hover {
 .ws-view .td02 {
 	background-attachment: scroll;
 	background-color: transparent;
-	background-image: url("images/panel-right-img.png");
+	background-image: url("../images/panel-right-img.png");
 	background-position: -3px 0;
 	background-repeat: repeat-y;
 }
@@ -5938,7 +5938,7 @@ div.edit:hover {
 
 .msg-decore .decor22 {
 	width: 6px;
-	background: url("images/p-rb.png") no-repeat scroll 0 0 transparent;
+	background: url("../images/p-rb.png") no-repeat scroll 0 0 transparent;
 }
 
 .msg-decore .gwt-VerticalSplitPanel .vsplitter {
@@ -5953,7 +5953,7 @@ div.edit:hover {
 }
 
 .msg-actions-seperater {
-	background: url("./images/msg-action-seperator.png") no-repeat scroll
+	background: url("../images/msg-action-seperator.png") no-repeat scroll
 		50% 3px transparent;
 	height: 43px;
 	padding: 0 12px 0 11px;
@@ -5961,7 +5961,7 @@ div.edit:hover {
 }
 
 .msg-header-seperater {
-	background: url("./images/msg-header-seperator.png") no-repeat scroll
+	background: url("../images/msg-header-seperator.png") no-repeat scroll
 		50% -2px transparent;
 	height: 25px;
 	padding: 0 12px 0 11px;
@@ -5975,7 +5975,7 @@ div.edit:hover {
 
 .msg-actions-decore .decor22 {
 	width: 6px;
-	background: url("images/p-rb.png") no-repeat scroll 0 0 transparent;
+	background: url("../images/p-rb.png") no-repeat scroll 0 0 transparent;
 }
 
 .msg-actions-decore .td00,.msg-actions-decore .td01,.msg-actions-decore .td02,.msg-actions-decore .decor00,.msg-actions-decore .decor02,.msg-actions-decore .no-title .biz-decor-panel .td00,.msg-actions-decore .no-title .biz-decor-panel .td01,.msg-actions-decore .no-title .biz-decor-panel .td02,.msg-actions-decore .no-title .biz-decor-panel .decor00,.msg-actions-decore .no-title .biz-decor-panel .decor02
@@ -5985,13 +5985,13 @@ div.edit:hover {
 
 .msg-actions-decore .decor00,.msg-actions-decore.no-title .biz-decor-panel div.decor00
 	{
-	background: transparent url(images/msg-actions-left2.png) no-repeat
+	background: transparent url(../images/msg-actions-left2.png) no-repeat
 		scroll 3px 0;
 }
 
 .msg-actions-decore .decor02,.msg-actions-decore .no-title .biz-decor-panel div.decor02
 	{
-	background: url("images/msg-actions-right2.png") no-repeat scroll -34px
+	background: url("../images/msg-actions-right2.png") no-repeat scroll -34px
 		0 transparent;
 }
 
@@ -6015,12 +6015,12 @@ div.edit:hover {
 }
 
 .msg-deletefolder-disable {
-	background: url("images/msg-delete_Folder.png") no-repeat scroll 0 0
+	background: url("../images/msg-delete_Folder.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
 .msg-deletefolder-enable {
-	background: url("images/msg-delete_Folder.png") no-repeat scroll 0 0
+	background: url("../images/msg-delete_Folder.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
@@ -6042,7 +6042,7 @@ div.edit:hover {
 }
 
 .gwt-DialogBox .caption {
-	background: url("images/Top_mid_1.png") repeat-x scroll 0 0 transparent
+	background: url("../images/Top_mid_1.png") repeat-x scroll 0 0 transparent
 		!important;
 	cursor: default;
 	/*padding:11px 4px 3px 8px !important;*/
@@ -6064,12 +6064,12 @@ div.edit:hover {
 }
 
 .gwt-DialogBox .dialogBottomRight {
-	background: url("images/dialog-bottom-right.png") no-repeat scroll 0 0
+	background: url("../images/dialog-bottom-right.png") no-repeat scroll 0 0
 		transparent;
 }
 
 .gwt-DialogBox .dialogBottomLeft {
-	background: url("images/dialog-bottom-left.png") no-repeat scroll 0 0px
+	background: url("../images/dialog-bottom-left.png") no-repeat scroll 0 0px
 		transparent;
 }
 
@@ -6103,7 +6103,7 @@ div.edit:hover {
 }
 
 .hr-hoz-imagelink {
-	background: url("images/action-left-side-h.png") no-repeat scroll 100%
+	background: url("../images/action-left-side-h.png") no-repeat scroll 100%
 		-1px transparent !important;
 	margin-bottom: 3px !important;
 	height: 19px !important;
@@ -6114,7 +6114,7 @@ div.edit:hover {
 }
 
 .hr-hoz-imagelink-parent tr {
-	/*background: url("images/action-right-side-h.png") no-repeat scroll 0
+	/*background: url("../images/action-right-side-h.png") no-repeat scroll 0
 		-1px transparent;*/
 	
 }
@@ -6125,12 +6125,12 @@ div.edit:hover {
 }
 
 .menu_button_disabled {
-	background: url("images/menu-right3D-disable-new1.png") no-repeat scroll
+	background: url("../images/menu-right3D-disable-new1.png") no-repeat scroll
 		100% 0px transparent;
 }
 
 .menu_button_disabled .html-face {
-	background: url("images/menu-center3D-disable-new1.png") repeat-x scroll
+	background: url("../images/menu-center3D-disable-new1.png") repeat-x scroll
 		0 0 transparent;
 	color: #FFF;
 	height: 35px;
@@ -6138,7 +6138,7 @@ div.edit:hover {
 }
 
 td.menu-button-disable-parent {
-	background: url("images/menu-left-3D-disable-new1.png") no-repeat scroll
+	background: url("../images/menu-left-3D-disable-new1.png") no-repeat scroll
 		0 0 transparent;
 	line-height: 14px;
 	padding-right: 2px;
@@ -6153,7 +6153,7 @@ td.menu-button-disable-parent {
 }
 
 .action-container td.imagelink-parent {
-	background: transparent url(images/action-right-side-h.png) no-repeat
+	background: transparent url(../images/action-right-side-h.png) no-repeat
 		scroll 0 -1px;
 	height: 23px;
 }
@@ -6168,26 +6168,26 @@ td.menu-button-disable-parent {
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight
 	{
-	background: url("images/Tab_selected_left_4x30.png") no-repeat scroll 0
+	background: url("../images/Tab_selected_left_4x30.png") no-repeat scroll 0
 		-4px transparent !important;
 }
 
 .gwt-DecoratedTabBar .tabMiddleLeft,.gwt-DecoratedTabBar .tabMiddleRight
 	{
-	background: transparent url("images/Tab_normal_Right_4x30.png")
+	background: transparent url("../images/Tab_normal_Right_4x30.png")
 		no-repeat scroll 0 -4px !important;
 	padding: 0;
 	width: 6px;
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter {
-	background: url("images/Tab_select-Imge.png") repeat-x scroll 0 0
+	background: url("../images/Tab_select-Imge.png") repeat-x scroll 0 0
 		transparent !important;
 	cursor: default;
 }
 
 .gwt-DecoratedTabBar .tabMiddleCenter {
-	background: url("images/Tab_normal-Imge.png") repeat-x scroll 0 0
+	background: url("../images/Tab_normal-Imge.png") repeat-x scroll 0 0
 		transparent !important;
 	color: #FFFFFF;
 	cursor: pointer;
@@ -6197,18 +6197,18 @@ td.menu-button-disable-parent {
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
-	background: url("images/Tab_selected_1x30.png") repeat-x scroll 0 0
+	background: url("../images/Tab_selected_1x30.png") repeat-x scroll 0 0
 		transparent !important;
 }
 
 .gwt-DecoratedTabBar .tabTopCenter {
-	background: url("images/Tab_normal_1x30.png") repeat-x scroll 0 0
+	background: url("../images/Tab_normal_1x30.png") repeat-x scroll 0 0
 		transparent !important;
 	padding: 0;
 }
 
 .gwt-DecoratedTabBar .tabTopLeft {
-	background: transparent url("images/corner.png") no-repeat scroll 0
+	background: transparent url("../images/corner.png") no-repeat scroll 0
 		-55px;
 }
 
@@ -6218,22 +6218,22 @@ td.menu-button-disable-parent {
 }
 
 .gwt-DecoratedTabBar .tabTopLeft {
-	background: url("images/Tab_normal_left_4x30.png") no-repeat scroll 0 0
+	background: url("../images/Tab_normal_left_4x30.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
 .gwt-DecoratedTabBar .tabTopRight {
-	background: transparent url("images/Tab_normal_Right_4x30.png")
+	background: transparent url("../images/Tab_normal_Right_4x30.png")
 		no-repeat scroll 0px 0 !important;
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
-	background: url("images/Tab_selected_left_4x30.png") no-repeat scroll 0
+	background: url("../images/Tab_selected_left_4x30.png") no-repeat scroll 0
 		0 transparent !important;
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
-	background: url("images/Tab_selected_right_4x30.png") no-repeat scroll 0
+	background: url("../images/Tab_selected_right_4x30.png") no-repeat scroll 0
 		0 transparent !important;
 }
 
@@ -6287,7 +6287,7 @@ td.menu-button-disable-parent {
 }
 
 .contacts-listBox {
-	background: #FFF url("images/ListBox-Down.png") no-repeat scroll 100% 0
+	background: #FFF url("../images/ListBox-Down.png") no-repeat scroll 100% 0
 		!important;
 	cursor: pointer;
 	height: 21px;
@@ -6308,7 +6308,7 @@ td.menu-button-disable-parent {
 
 .contacts-filter {
 	height: 18px;
-	background: #FFFFFF url("/images/searchRight.png") no-repeat scroll 100%
+	background: #FFFFFF url("../images/searchRight.png") no-repeat scroll 100%
 		0;
 }
 
@@ -6329,19 +6329,19 @@ td.menu-button-disable-parent {
 }
 
 .feedback-anchor {
-	background: transparent url("images/feedback-right.png") no-repeat
+	background: transparent url("../images/feedback-right.png") no-repeat
 		scroll 100% 2px;
 	padding-right: 23px;
 }
 
 .feedbacks-anchor {
-	background: transparent url("images/feedback-center.png") repeat-x
+	background: transparent url("../images/feedback-center.png") repeat-x
 		scroll 100% 2px;
 	line-height: 21px;
 }
 
 .feedback-parent {
-	background: transparent url("images/feedback-left.png") no-repeat scroll
+	background: transparent url("../images/feedback-left.png") no-repeat scroll
 		1px 1px;
 	height: 24px;
 	vertical-align: top;
@@ -6349,7 +6349,7 @@ td.menu-button-disable-parent {
 }
 
 .help-parent {
-	background: transparent url("images/help-left.png") no-repeat scroll 0
+	background: transparent url("../images/help-left.png") no-repeat scroll 0
 		1px;
 	height: 24px;
 	vertical-align: top;
@@ -6357,12 +6357,12 @@ td.menu-button-disable-parent {
 }
 
 .feedback-parent .imagelinkH-mouse-hover {
-	background: transparent url("images/feedback-left-hover.png") no-repeat
+	background: transparent url("../images/feedback-left-hover.png") no-repeat
 		scroll -2px -2px;
 }
 
 .help-parent .imagelinkH-mouse-hover {
-	background: transparent url("images/help-left-hover.png") no-repeat
+	background: transparent url("../images/help-left-hover.png") no-repeat
 		scroll 0px -2px !important;
 }
 
@@ -6375,26 +6375,26 @@ td.menu-button-disable-parent {
 }
 
 .hr-hoz-imagelink-parent tr.imagelinkH-mouse-hover {
-	background: url("images/action-right-side-h-hover.png") no-repeat scroll
+	background: url("../images/action-right-side-h-hover.png") no-repeat scroll
 		0 -1px !important;
 }
 
 .hr-hoz-imagelink .imagelinkH-mouse-hover {
-	background: url("images/action-left-side-h-hover.png") no-repeat scroll
+	background: url("../images/action-left-side-h-hover.png") no-repeat scroll
 		100% -1px !important;
 }
 
 .hr-hoz-imagelink-parent .hr-hoz-imagelink .imagelinkH-mouse-hover {
-	background: #FFF url("images/action-center--h-hover.png") repeat-x
+	background: #FFF url("../images/action-center--h-hover.png") repeat-x
 		scroll 0 -29px !important;
 }
 
 .user-panel .new-button-panel .imageLink .imageLink-div {
-	background: transparent url(images/button-c-b.png) repeat-x scroll 0 0;
+	background: transparent url(../images/button-c-b.png) repeat-x scroll 0 0;
 }
 
 .workspace-panel .new-button-panel .imageLink .imageLink-div {
-	background: transparent url(images/button-c-v.png) repeat-x scroll 0 0;
+	background: transparent url(../images/button-c-v.png) repeat-x scroll 0 0;
 }
 
 .imageLink-div {
@@ -6442,7 +6442,7 @@ td.menu-button-disable-parent {
 }
 
 .contactMgmnt-btns {
-	background: transparent url("images/header.png") repeat-x scroll 0 7px;
+	background: transparent url("../images/header.png") repeat-x scroll 0 7px;
 }
 
 .add-user {
@@ -6479,7 +6479,7 @@ td.menu-button-disable-parent {
 }
 
 .sub-scription {
-	background: transparent url("images/subscription.png") no-repeat scroll
+	background: transparent url("../images/subscription.png") no-repeat scroll
 		0 0;
 	color: #FFFFFF;
 	font-style: italic;
@@ -6541,17 +6541,17 @@ td.menu-button-disable-parent {
 }
 
 .action-container td.imagelink-h-hover {
-	background: transparent url("images/action-left-side-h-hover1.png")
+	background: transparent url("../images/action-left-side-h-hover1.png")
 		no-repeat scroll 0 -2px !important;
 }
 
 .action-container td.imagelink-h-hover .hr-hoz-imagelink {
-	background: transparent url("images/action-right-side-h-hover1.png")
+	background: transparent url("../images/action-right-side-h-hover1.png")
 		no-repeat scroll 100% -1px !important;
 }
 
 td.imagelink-h-hover .imageLink-div {
-	background: transparent url("images/action-center-side-h-hover1.png")
+	background: transparent url("../images/action-center-side-h-hover1.png")
 		repeat-x scroll 0 -2px !important;
 }
 
@@ -6561,27 +6561,27 @@ td.imagelink-h-hover .imageLink-div {
 }
 
 .previous {
-	background: url(images/portlet_previous.png) no-repeat scroll 0px 5px;
+	background: url(../images/portlet_previous.png) no-repeat scroll 0px 5px;
 	margin-right: -3px;
 }
 
 .next {
-	background: url(images/portlet_next.png) no-repeat scroll 0px 5px;
+	background: url(../images/portlet_next.png) no-repeat scroll 0px 5px;
 	margin-right: 7px;
 }
 
 .tabTopLeft,.tabMiddleLeft {
-	background: url("images/Tab_normal_left_4x30.png") no-repeat scroll 0 0
+	background: url("../images/Tab_normal_left_4x30.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
 .tabTopCenter {
-	/*background:url("images/Tab_selected_1x30.png") repeat-x scroll 0 0 transparent !important;*/
+	/*background:url("../images/Tab_selected_1x30.png") repeat-x scroll 0 0 transparent !important;*/
 	
 }
 
 .tabTopRight,.tabMiddleRight {
-	background: url("images/Tab_selected_1x30.png") no-repeat scroll 0 0
+	background: url("../images/Tab_selected_1x30.png") no-repeat scroll 0 0
 		transparent !important;
 }
 
@@ -6591,12 +6591,12 @@ td.imagelink-h-hover .imageLink-div {
 
 /**End --- Styles for new UI **/
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight {
-	background: url("images/Tab_selected_right_4x30.png") no-repeat scroll 0
+	background: url("../images/Tab_selected_right_4x30.png") no-repeat scroll 0
 		-4px transparent !important;
 }
 
 .gwt-DecoratedTabBar .tabMiddleLeft {
-	background: url("images/Tab_normal_left_4x30.png") no-repeat scroll 0
+	background: url("../images/Tab_normal_left_4x30.png") no-repeat scroll 0
 		-4px transparent !important;
 }
 
