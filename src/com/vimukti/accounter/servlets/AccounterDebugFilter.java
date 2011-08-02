@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 
@@ -36,16 +37,29 @@ public class AccounterDebugFilter implements Filter {
 			chain.doFilter(req, resp);
 			return;
 		}
-		chain.doFilter(req, resp);
 		HttpServletResponse httpResponse = (HttpServletResponse) resp;
-		int status = httpResponse.getStatus();
-		if (status == 301 || status == 302 || status == 303) {
-			String url = httpResponse.getHeader("Location");
-			if (!url.endsWith(DEBUG_URL)) {
-				url = url + DEBUG_URL;
+		HttpServletResponseWrapper wrappedResp = new HttpServletResponseWrapper(
+				httpResponse) {
+
+			@Override
+			public void setHeader(String name, String value) {
+				if (name.equals("Location") && !value.endsWith(DEBUG_URL)) {
+					value = value + DEBUG_URL;
+				}
+				super.setHeader(name, value);
 			}
-			httpResponse.setHeader("Location", url);
-		}
+
+			@Override
+			public void sendRedirect(String location) throws IOException {
+				if(!location.endsWith(DEBUG_URL)) {
+					location = location + DEBUG_URL;
+				}
+				super.sendRedirect(location);
+			}
+
+		};
+
+		chain.doFilter(req, wrappedResp);
 	}
 
 	@Override
