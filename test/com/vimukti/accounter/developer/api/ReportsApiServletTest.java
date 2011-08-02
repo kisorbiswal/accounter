@@ -34,141 +34,14 @@ public class ReportsApiServletTest extends TestCase {
 		simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 	}
 
-	@Test
-	public void test() {
+	private HttpTester prepareRequest(String url) {
 		HttpTester request = new HttpTester();
 		request.setMethod("GET");
 		request.setHeader("Host", "tester");
 		request.setHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.setVersion("HTTP/1.0");
-		HttpTester response = new HttpTester();
-
-		request.setURI(getSalesByCustomerSummaryUrl());
-		testResponse(request, response);
-
-		request.setURI(getEcSalesListDetailUrl(""));
-		testResponse(request, response);
-
-		request.setURI(getVat100ReportUrl(1));
-		testResponse(request, response);
-
-		request.setURI(getDebitorsListUrl());
-		testResponse(request, response);
-
-		request.setURI(getPurchaseReportItemsUrl());
-		testResponse(request, response);
-
-		request.setURI(getSalesOpenOrderUrl());
-		testResponse(request, response);
-
-		request.setURI(getCreditorsUrl());
-		testResponse(request, response);
-	}
-
-	private void testResponse(HttpTester request, HttpTester response) {
-		try {
-			response.parse(tester.getResponses(request.generate()));
-			String content = response.getContent();
-			assertNotNull(content);
-			assertTrue(content.isEmpty());
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private String getSalesByCustomerSummaryUrl() {
-		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-		String string = "/api/xmlreports/salesbycustomersummary?"
-				+ "&ApiKey="
-				+ apikey
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ exprDate
-				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-
-		return doSigning(string);
-	}
-
-	private String getEcSalesListDetailUrl(String name) {
-		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-		String string = "/api/xmlreports/ecsaleslistdetail?"
-				+ "&ApiKey="
-				+ apikey
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ exprDate
-				+ "&Name="
-				+ name
-				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-		return doSigning(string);
-	}
-
-	private String getVat100ReportUrl(long taxAgency) {
-		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-		String string = "/api/xmlreports/taxagency?"
-				+ "&ApiKey="
-				+ apikey
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ exprDate
-				+ "&TaxAgency="
-				+ taxAgency
-				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-		return doSigning(string);
-	}
-
-	private String getDebitorsListUrl() {
-		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-		String string = "/api/xmlreports/debitorslist?"
-				+ "&ApiKey="
-				+ apikey
-				+ "&CompanyId=0"
-				+ "&Expire="
-				+ exprDate
-				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-		return doSigning(string);
-	}
-
-	private String getPurchaseReportItemsUrl() {
-		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-		String string = "/api/xmlreports/purchasereportitems?"
-				+ "&ApiKey="
-				+ apikey
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ exprDate
-				+ "&StartDate=01-07-2011T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-		return doSigning(string);
-	}
-
-	private String getSalesOpenOrderUrl() {
-		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-		String string = "/api/xmlreports/salesopenorder?"
-				+ "&ApiKey=erwr"
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ exprDate
-				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-		return doSigning(string);
-	}
-
-	private String getCreditorsUrl() {
-		String exprDate = "2011-08-01T01:00:00Z";
-		String string = "/api/xmlreports/salesopenorder?"
-				+ "&ApiKey=erwr"
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ exprDate
-				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-		return doSigning(string);
+		request.setURI(url);
+		return request;
 	}
 
 	private String doSigning(String url) {
@@ -184,5 +57,121 @@ public class ReportsApiServletTest extends TestCase {
 			e.printStackTrace();
 		}
 		return url;
+	}
+
+	private void testResponse(HttpTester request) {
+		HttpTester response = new HttpTester();
+		try {
+			response.parse(tester.getResponses(request.generate()));
+			String content = response.getContent();
+			assertNotNull(content);
+			assertTrue(content.isEmpty());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testSalesByCustomerSummary() {
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String string = "/api/xmlreports/salesbycustomersummary?"
+				+ "&ApiKey="
+				+ apikey
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+
+		testResponse(prepareRequest(doSigning(string)));
+	}
+
+	@Test
+	public void testEcSalesListDetail() {
+		String name = "";
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String string = "/api/xmlreports/salesbycustomersummary?"
+				+ "&ApiKey="
+				+ apikey
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&Name="
+				+ name
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		testResponse(prepareRequest(doSigning(string)));
+	}
+
+	@Test
+	public void testVat100Report() {
+		long taxAgency = 0;
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String string = "/api/xmlreports/salesbycustomersummary?"
+				+ "&ApiKey="
+				+ apikey
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&TaxAgency="
+				+ taxAgency
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		testResponse(prepareRequest(doSigning(string)));
+	}
+
+	@Test
+	public void testDebitorsList() {
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String string = "/api/xmlreports/debitorslist?"
+				+ "&ApiKey="
+				+ apikey
+				+ "&CompanyId=0"
+				+ "&Expire="
+				+ exprDate
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		testResponse(prepareRequest(doSigning(string)));
+	}
+
+	@Test
+	public void testPurchaseReportItems() {
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String string = "/api/xmlreports/purchasereportitems?"
+				+ "&ApiKey="
+				+ apikey
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&StartDate=01-07-2011T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		testResponse(prepareRequest(doSigning(string)));
+	}
+
+	@Test
+	public void testSalesOpenOrder() {
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String string = "/api/xmlreports/salesopenorder?"
+				+ "&ApiKey=erwr"
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		testResponse(prepareRequest(doSigning(string)));
+	}
+
+	@Test
+	public void testCreditors() {
+		String exprDate = "2011-08-01T01:00:00Z";
+		String string = "/api/xmlreports/salesopenorder?"
+				+ "&ApiKey=erwr"
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		testResponse(prepareRequest(doSigning(string)));
 	}
 }
