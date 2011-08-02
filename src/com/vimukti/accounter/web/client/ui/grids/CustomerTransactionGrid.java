@@ -699,7 +699,7 @@ public class CustomerTransactionGrid extends
 
 	public void updateTotals() {
 
-		List<ClientTransactionItem> allrecords = (List<ClientTransactionItem>) (ArrayList) getRecords();
+		List<ClientTransactionItem> allrecords = getRecords();
 		int totaldiscount = 0;
 		totallinetotal = 0.0;
 		taxableTotal = 0.0;
@@ -989,9 +989,7 @@ public class CustomerTransactionGrid extends
 			case 1:
 
 			case 2:
-				item.setDescription(value.toString() != null
-						|| value.toString().length() != 0 ? value.toString()
-						: "");
+				item.setDescription(toStringValue(value));
 				if (item.getType() == ClientTransactionItem.TYPE_COMMENT)
 					return;
 				break;

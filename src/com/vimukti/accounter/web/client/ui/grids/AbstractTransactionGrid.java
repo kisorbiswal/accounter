@@ -37,6 +37,8 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	public static final int TYPE_SERVICE = 6;
 	public static final int TYPE_NONE = 0;
 
+	private static final String EMPTY_STRING = "";
+
 	private RecordClickHandler<T> recordClickHandler;
 	private RecordDoubleClickHandler<T> doubleClickHandler;
 	public boolean isItemRecieptView;
@@ -274,5 +276,17 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 
 	public ClientCompany getCompany() {
 		return Accounter.getCompany();
+	}
+
+	protected static String toStringValue(Object obj) {
+		if (obj == null) {
+			return EMPTY_STRING;
+		}
+		String str = obj.toString();
+		if (str == null) {
+			return EMPTY_STRING;
+		}
+		return str;
+
 	}
 }
