@@ -25,6 +25,17 @@
   		feedback_widget_options.style = "idea";
   		
   		var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+  		
+	   $(document).ready(function() {
+	       var ele = document.getElementById("loadingWrapper");
+	          if(ele.style.visibility == "hidden") {
+	             document.getElementById('mainHeader').style.visibility = "visible";
+	             document.getElementById('mainFooter').style.visibility = "visible";
+	          }else{
+	             document.getElementById('mainHeader').style.visibility = "hidden";
+	             document.getElementById('mainFooter').style.visibility = "hidden";
+	          }
+	   });
 	</script>
 	
     <% String version = application.getInitParameter("version"); %>
@@ -206,18 +217,7 @@
   	<script type="text/javascript">document.getElementById('loadingMsg');</script>
 	<!--include the application JS-->
 	<script type="text/javascript">document.getElementById('loadingMsg');</script>
-	<script type="text/javascript">
-	   $(document).ready(function() {
-	       var ele = document.getElementById("loadingWrapper");
-	          if(ele.style.visibility == "hidden") {
-	             document.getElementById("mainHeader").style.visibility = "visible";
-	             document.getElementById("mainFooter").style.visibility = "visible";
-	          }else{
-	             document.getElementById("mainHeader").style.visibility = "hidden";
-	             document.getElementById("mainFooter").style.visibility = "hidden";
-	          }
-	   });
-	</script>
+	
 	<table class="header" id="mainHeader">
 	   <tr>
 	      <td width="25%"><img src="/images/Accounter_logo_title.png" /></td>
