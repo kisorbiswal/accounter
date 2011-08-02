@@ -392,6 +392,8 @@ public interface AccounterConstants extends Constants {
 
 	public String athreeCode();
 
+	public String atozero();
+
 	public String atwoCode();
 
 	public String aug();
@@ -1082,21 +1084,21 @@ public interface AccounterConstants extends Constants {
 
 	public String days();
 
-	public String days60to90();
+	public String days30();
 
 	public String days30to60();
 
-	public String dayszeroto30();
-
-	public String days30();
-
 	public String days60();
+
+	public String days60to90();
 
 	public String days90();
 
 	public String daysFromzeroto60();
 
 	public String daysFromzeroto90();
+
+	public String dayszeroto30();
 
 	public String ddiNumber();
 
@@ -1749,6 +1751,8 @@ public interface AccounterConstants extends Constants {
 	public String getStarted();
 
 	public String gettingStarted();
+
+	public String gettingStartedusingAccounter();
 
 	public String getUnitName();
 
@@ -3152,6 +3156,8 @@ public interface AccounterConstants extends Constants {
 
 	public String returnsDueOnOrBefore();
 
+	public String revenue();
+
 	public String revenueIncome();
 
 	public String revenueIncomeTotal();
@@ -3928,6 +3934,8 @@ public interface AccounterConstants extends Constants {
 
 	public String unusedPayments();
 
+	public String upcsku();
+
 	public String update();
 
 	public String updatedSuccessfully();
@@ -4033,6 +4041,8 @@ public interface AccounterConstants extends Constants {
 	public String vatLine();
 
 	public String vatList();
+
+	public String vatNo();
 
 	public String vatPayment();
 
@@ -4269,4 +4279,6 @@ public interface AccounterConstants extends Constants {
 	public String zipCode();
 
 	public String zipPostalCode();
+
+	public String ztozeroperc();
 }

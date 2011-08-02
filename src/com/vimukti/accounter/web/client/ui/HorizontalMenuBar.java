@@ -869,7 +869,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 		CustomMenuBar companyMenuBar = getSubMenu();
 
-		companyMenuBar.addItem("DashBoard", getDashBoardCommand());
+		companyMenuBar.addItem(Accounter.constants().dashBoard(),
+				getDashBoardCommand());
 		companyMenuBar.addSeparator();
 
 		if (Accounter.getUser().canDoBanking())

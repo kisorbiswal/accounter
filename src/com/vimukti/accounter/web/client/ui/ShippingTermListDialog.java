@@ -80,7 +80,8 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	public void createShippingTerms() {
 		if (Utility.isObjectExist(getCompany().getShippingTerms(),
 				inputDlg.getTextValueByIndex(0))) {
-			Accounter.showError(Accounter.constants().shippingTermAlreadyExists());
+			Accounter.showError(Accounter.constants()
+					.shippingTermAlreadyExists());
 		} else {
 			ClientShippingTerms shippingTerm = new ClientShippingTerms();
 			shippingTerm.setName(inputDlg.getTextValueByIndex(0));
@@ -110,8 +111,8 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	public void showAddEditTermDialog(ClientShippingTerms rec) {
 		String arr[] = new String[2];
-		arr[0] = "Shipping Term";
-		arr[1] = "Description";
+		arr[0] = Accounter.constants().shippingTerm();
+		arr[1] = Accounter.constants().description();
 		inputDlg = new InputDialog(Accounter.constants().shippingTerm(), "",
 				arr) {
 			@Override

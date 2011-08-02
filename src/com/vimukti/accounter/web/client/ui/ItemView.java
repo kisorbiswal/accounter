@@ -172,7 +172,7 @@ public class ItemView extends BaseView<ClientItem> {
 		skuText = new TextItem();// new FormFieldItem("UPC/SKU",
 		skuText.setHelpInformation(true);
 		skuText.setWidth(100);
-		skuText.setTitle("UPC/SKU");
+		skuText.setTitle(Accounter.constants().upcsku());
 
 		weightText = new IntegerField(Accounter.constants().weight());
 		weightText.setHelpInformation(true);
@@ -285,7 +285,7 @@ public class ItemView extends BaseView<ClientItem> {
 				selectTaxCode = selectItem;
 			}
 		});
-		taxCode.setDefaultValue("Z-0.0%");
+		taxCode.setDefaultValue(Accounter.constants().ztozeroperc());
 		activeCheck = new CheckboxItem(Accounter.constants().active());
 		activeCheck.setValue(true);
 		purchaseDescArea = new TextAreaItem();

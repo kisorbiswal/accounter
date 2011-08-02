@@ -17,7 +17,6 @@ public class DashBoardView extends BaseHomeView {
 
 	ArrayList<String> addablePortletList = new ArrayList<String>();
 
-	
 	private DashBoardView dashboard = null;
 	private String dashboardPreference;
 	private PortalLayout portalLayout;
@@ -43,8 +42,7 @@ public class DashBoardView extends BaseHomeView {
 
 	public DashBoardView() {
 		dashboard = this;
-		dashboardPreference = Accounter.constants()
-				.welcomeBankingSummary();
+		dashboardPreference = Accounter.constants().welcomeBankingSummary();
 		/*
 		 * FinanceApplication.getUser().getUserPreferences()
 		 * .getDashBoardPreferences();
@@ -68,7 +66,7 @@ public class DashBoardView extends BaseHomeView {
 		widgetOnSectionPage = dashboardPreference.split(",");
 		portlet = new Portlet[widgetOnSectionPage.length];
 		for (int i = 0; i < widgetOnSectionPage.length; i++) {
-			
+
 			final int index = i;
 			if (widgetOnSectionPage[i].equals("")) {
 
@@ -82,17 +80,17 @@ public class DashBoardView extends BaseHomeView {
 
 		getAddableWidgets(widgetOnSectionPage);
 
-		gettingStartedPortlet = new GettingStartedPortlet(
-				"Getting Started using Accounter");
+		gettingStartedPortlet = new GettingStartedPortlet(Accounter.constants()
+				.gettingStartedusingAccounter());
 
 		bankingPortlet = new BankingPortlet(Accounter.constants()
 				.bankAccounts());
-		moneyComingPortlet = new MoneyComingPortlet(Accounter
-				.constants().moneyComingIn());
-		moneyGoingPortlet = new MoneyGoingPortlet(Accounter
-				.constants().moneyGoingOut());
-		expenseClaimsPortlet = new ExpenseClaimPortlet(Accounter
-				.constants().expenseClaims());
+		moneyComingPortlet = new MoneyComingPortlet(Accounter.constants()
+				.moneyComingIn());
+		moneyGoingPortlet = new MoneyGoingPortlet(Accounter.constants()
+				.moneyGoingOut());
+		expenseClaimsPortlet = new ExpenseClaimPortlet(Accounter.constants()
+				.expenseClaims());
 		FlexTable fTable = new FlexTable();
 
 		fTable.setWidget(0, 0, bankingPortlet);

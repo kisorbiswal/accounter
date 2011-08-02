@@ -156,12 +156,12 @@ public class GraphChart {
 		DataTable data = DataTable.create();
 
 		if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE) {
-			data.addColumn(ColumnType.STRING, "Date");
+			data.addColumn(ColumnType.STRING, Accounter.constants().date());
 			data.addColumn(ColumnType.NUMBER);
 
 		} else {
-			data.addColumn(ColumnType.STRING, "Date");
-			data.addColumn(ColumnType.NUMBER, "Revenue");
+			data.addColumn(ColumnType.STRING, Accounter.constants().date());
+			data.addColumn(ColumnType.NUMBER, Accounter.constants().revenue());
 		}
 
 		if (chartType == BANK_ACCOUNT_CHART_TYPE) {

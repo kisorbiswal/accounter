@@ -455,7 +455,7 @@ public class CreditCardChargeView extends
 		// Button(FinanceApplication
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
-		netAmount.setDefaultValue("£0.00");
+		netAmount.setDefaultValue(Accounter.constants().atozero());
 		netAmount.setDisabled(true);
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableLabel();

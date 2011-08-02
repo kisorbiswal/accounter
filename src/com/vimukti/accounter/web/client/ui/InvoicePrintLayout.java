@@ -146,8 +146,10 @@ public class InvoicePrintLayout extends VerticalPanel {
 					+ shpAdres.getCountryOrRegion() + ".</font></p>";
 		}
 
-		Map<String, String> billAdrsMap = getMap("Bill To", billAdrs);
-		Map<String, String> shpAdrsMap = getMap("Ship To", shpAdrs1);
+		Map<String, String> billAdrsMap = getMap(
+				Accounter.constants().billTo(), billAdrs);
+		Map<String, String> shpAdrsMap = getMap(Accounter.constants().shipTo(),
+				shpAdrs1);
 
 		FlexTable billToTable = util.getWidget(2, 1, billAdrsMap, true);
 		billToTable.setSize("280px", "100%");
@@ -440,7 +442,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 		VerticalPanel Vpanel = new VerticalPanel();
 		PrintTemplateUtils util = new PrintTemplateUtils();
 
-		Map<String, String> detailsMap = getMap("VAT No : "
+		Map<String, String> detailsMap = getMap(Accounter.constants().vatNo()
 				+ getCompany().getPreferences().getVATregistrationNumber(), ""
 				+ "<br/>", Accounter.constants().sortCodeColon()
 				+ getCompany().getSortCode(), "" + "<br/>", Accounter
