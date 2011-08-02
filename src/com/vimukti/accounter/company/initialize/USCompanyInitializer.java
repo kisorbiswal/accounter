@@ -32,45 +32,13 @@ public class USCompanyInitializer extends CompanyInitializer {
 	CompanyPreferences preferences = new CompanyPreferences();
 
 	/**
-	 * This is the direct references to the Accounts Receivable Account for the
-	 * purpose of the Transactions.
+	 * This is the Account created by default for the purpose of US Sales Tax
 	 */
-	Account accountsReceivableAccount;
-	/**
-	 * This is the direct references to the Accounts Payable Account for the
-	 * purpose of the Transactions.
-	 */
-	Account accountsPayableAccount;
-	/**
-	 * This is the direct references to the Opening Balances Account for the
-	 * purpose of the Transactions.
-	 */
-	Account openingBalancesAccount;
-	/**
-	 * This is the direct references to the Retained Earnings Account for the
-	 * purpose of the Transactions.
-	 */
-	Account retainedEarningsAccount;
-	/**
-	 * This is the direct references to the Other Cash Income Account for the
-	 * purpose of the Cash Basis Journal Entry.
-	 */
-	Account otherCashIncomeAccount;
-
-	/**
-	 * This is the direct references to the Other Cash Expense Account for the
-	 * purpose of the Cash Basis Journal Entry.
-	 */
-	Account otherCashExpenseAccount;
-
-	/**
-	 * This is the Account created by default for the purpose of UK VAT
-	 */
-	Account VATliabilityAccount;
+	Account salesTaxPayableAccount;
 	// Account prepaidVATaccount;
 	// Account ECAcquisitionVATaccount;
 
-	Account pendingItemReceiptsAccount;
+	// Account pendingItemReceiptsAccount;
 	/**
 	 * This is the Account created by default for the purpose of UK when VAT is
 	 * Filed
@@ -155,43 +123,11 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 		setDefaultsUSValues(session);
 
-		Account openingBalances = new Account(Account.TYPE_EQUITY, "3040",
-				"Opening Balances", true, null,
-				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
-				null, true, true, null, "7", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(openingBalances);
-
-		Account unDepositedFunds = new Account(
-				Account.TYPE_OTHER_CURRENT_ASSET, "1175", "Un Deposited Funds",
-				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
-				"", 0.0, null, false, true, openingBalances, "1", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(unDepositedFunds);
-
-		Account accountsReceivable = new Account(
-				Account.TYPE_OTHER_CURRENT_ASSET, "1001", "Debtors", true,
-				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
-				0.0, null, false, false, openingBalances, "2", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(accountsReceivable);
-
-		Account accountsPayable = new Account(
-				Account.TYPE_OTHER_CURRENT_LIABILITY, "2001", "Creditors",
-				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
-				"", 0.0, null, true, false, openingBalances, "3", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(accountsPayable);
-
 		Account pendingItemReceipts = new Account(
 				Account.TYPE_OTHER_CURRENT_LIABILITY, "2010",
 				AccounterConstants.PENDING_ITEM_RECEIPTS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, true, openingBalances, "4", true,
+				null, true, true, openingBalancesAccount, "4", true,
 				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(pendingItemReceipts);
@@ -200,64 +136,55 @@ public class USCompanyInitializer extends CompanyInitializer {
 				Account.TYPE_OTHER_CURRENT_LIABILITY, "2050",
 				"Sales Tax Payable", true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, true, openingBalances, "5", true,
+				null, true, true, openingBalancesAccount, "5", true,
 				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(salesTaxPayable);
 
-		Account employeePayrollLiabilities = new Account(
-				Account.TYPE_PAYROLL_LIABILITY, "2110",
-				"Employee Payroll Liabilities", true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, true, openingBalances, "6", true,
-				this.preferences.getPreventPostingBeforeDate());
+		// Account retainedEarnings = new Account(Account.TYPE_EQUITY, "3100",
+		// "Retained Earnings", true, null,
+		// Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
+		// null, true, true, openingBalancesAccount, "8", true,
+		// this.preferences.getPreventPostingBeforeDate());
+		//
+		// session.save(retainedEarnings);
 
-		session.save(employeePayrollLiabilities);
+		// Account cashDiscountGiven = new Account(Account.TYPE_INCOME, "4100",
+		// "Income and Distribution", true, null,
+		// Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
+		// null, true, true, openingBalancesAccount, "9", true,
+		// this.preferences.getPreventPostingBeforeDate());
+		//
+		// session.save(cashDiscountGiven);
 
-		Account retainedEarnings = new Account(Account.TYPE_EQUITY, "3100",
-				"Retained Earnings", true, null,
-				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
-				null, true, true, openingBalances, "8", true,
-				this.preferences.getPreventPostingBeforeDate());
+		// Account writeOff = new Account(Account.TYPE_INCOME, "4200",
+		// "Write off", true, null, Account.CASH_FLOW_CATEGORY_FINANCING,
+		// 0.0, false, "", 0.0, null, true, true, openingBalancesAccount,
+		// "10", true, this.preferences.getPreventPostingBeforeDate());
+		//
+		// session.save(writeOff);
 
-		session.save(retainedEarnings);
+		// Account cashDiscountTaken = new Account(
+		// Account.TYPE_COST_OF_GOODS_SOLD, "5100", "Cash Discount taken",
+		// true, null, Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false,
+		// "", 0.0, null, false, true, openingBalancesAccount, "11", true,
+		// this.preferences.getPreventPostingBeforeDate());
+		//
+		// session.save(cashDiscountTaken);
 
-		Account cashDiscountGiven = new Account(Account.TYPE_INCOME, "4100",
-				"Income and Distribution", true, null,
-				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
-				null, true, true, openingBalances, "9", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(cashDiscountGiven);
-
-		Account writeOff = new Account(Account.TYPE_INCOME, "4200",
-				"Write off", true, null, Account.CASH_FLOW_CATEGORY_FINANCING,
-				0.0, false, "", 0.0, null, true, true, openingBalances, "10",
-				true, this.preferences.getPreventPostingBeforeDate());
-
-		session.save(writeOff);
-
-		Account cashDiscountTaken = new Account(
-				Account.TYPE_COST_OF_GOODS_SOLD, "5100", "Cash Discount taken",
-				true, null, Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false,
-				"", 0.0, null, false, true, openingBalances, "11", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(cashDiscountTaken);
-
-		Account bankCharge = new Account(Account.TYPE_EXPENSE, "7250",
-				"Bank Charge", true, null,
-				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
-				null, false, true, openingBalances, "12", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(bankCharge);
+		// Account bankCharge = new Account(Account.TYPE_EXPENSE, "7250",
+		// "Bank Charge", true, null,
+		// Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
+		// null, false, true, openingBalancesAccount, "12", true,
+		// this.preferences.getPreventPostingBeforeDate());
+		//
+		// session.save(bankCharge);
 
 		// The following two accounts for Cash Basis Journal Entries purpose.
 		Account otherCashIncome = new Account(Account.TYPE_INCOME, "4030",
 				AccounterConstants.OTHER_CASH_INCOME, false, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, true, "", 0.0, null,
-				true, true, openingBalances, "13", true,
+				true, true, openingBalancesAccount, "13", true,
 				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(otherCashIncome);
@@ -265,18 +192,18 @@ public class USCompanyInitializer extends CompanyInitializer {
 		Account otherCashExpense = new Account(Account.TYPE_EXPENSE, "7900",
 				AccounterConstants.OTHER_CASH_EXPENSE, false, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, true, "", 0.0, null,
-				false, true, openingBalances, "14", true,
+				false, true, openingBalancesAccount, "14", true,
 				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(otherCashExpense);
 
-		this.accountsReceivableAccount = accountsReceivable;
-		this.accountsPayableAccount = accountsPayable;
-		this.openingBalancesAccount = openingBalances;
-		this.retainedEarningsAccount = retainedEarnings;
+		// this.accountsReceivableAccount = accountsReceivable;
+		// this.accountsPayableAccount = accountsPayable;
+		// this.openingBalancesAccount = openingBalancesAccount;
+		// this.retainedEarningsAccount = retainedEarnings;
 		this.otherCashIncomeAccount = otherCashIncome;
 		this.otherCashExpenseAccount = otherCashExpense;
-		this.pendingItemReceiptsAccount = pendingItemReceipts;
+		// this.pendingItemReceiptsAccount = pendingItemReceipts;
 
 		createUSDefaultTaxGroup(session);
 		createNominalCodesRanges(session);
