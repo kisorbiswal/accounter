@@ -10196,7 +10196,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 */
 	private Company getCompany() {
 		Session session = HibernateUtil.getCurrentSession();
-		return (Company) session.load(Company.class, 1);
+		return (Company) session.load(Company.class, 1l);
 	}
 
 	private List<Account> getAccountsListBySorted() {
