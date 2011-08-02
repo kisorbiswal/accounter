@@ -15,9 +15,8 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.google.gwt.rpc.server.RpcServlet;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.main.Server;
@@ -70,8 +69,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		try {
 
 			if (isValidSession(request)) {
-				String companyName = getCompanyName(request);
-				Session session = HibernateUtil.openSession(companyName);
+				String companyDB = getCompanyDBName(request);
+				Session session = HibernateUtil.openSession(companyDB);
 				try {
 					super.service(request, response);
 
@@ -121,12 +120,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	}
 
 	protected FinanceTool getFinanceTool() throws AccounterException {
-		Session session = HibernateUtil.getCurrentSession();
-
-		FinanceTool financeTool = (FinanceTool) session.load(FinanceTool.class,
-				1l);
-		return financeTool;
-
+		return new FinanceTool();
 	}
 
 	// protected FinanceTool getFinanceTool(HttpServletRequest request) {
@@ -134,16 +128,29 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	// return null;
 	// }
 
-	protected String getCompanyName(HttpServletRequest req) {
+	private String getCompanyName(HttpServletRequest req) {
 		String cookie = getCookie(req, BaseServlet.COMPANY_COOKIE);
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		ServerCompany serverCompany = (ServerCompany) session
-				.getNamedQuery("getServerCompany.by.id")
-				.setParameter("id", Long.parseLong(cookie)).uniqueResult();
-		if (serverCompany != null) {
-			serverCompany.getCompanyName();
+		if (cookie == null) {
+			// TODO Throw Exception
+		}
+		Session session = HibernateUtil.openSession(Server.COMPANY + cookie);
+		try {
+			Company company = (Company) session.load(Company.class, 1);
+			if (company != null) {
+				return company.getDisplayName();
+			}
+		} finally {
+			session.close();
 		}
 		return null;
+	}
+
+	protected String getCompanyDBName(HttpServletRequest req) {
+		String cid = getCookie(req, BaseServlet.COMPANY_COOKIE);
+		if (cid == null) {
+			// TODO Throw Exception
+		}
+		return Server.COMPANY + cid;
 	}
 
 	protected String getCookie(HttpServletRequest request, String cookieName) {

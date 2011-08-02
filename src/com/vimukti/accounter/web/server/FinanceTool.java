@@ -195,13 +195,7 @@ import com.vimukti.comet.server.CometStream;
  */
 public class FinanceTool implements IFinanceDAOService {
 
-	Company company;
-
-	public static User user;
-
 	Logger log = Logger.getLogger(FinanceTool.class);
-
-	private ClientConvertUtil convertUtil;
 
 	public FinanceTool() {
 
@@ -270,7 +264,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
 			// get the user from user id
-			((CreatableObject) serverObject).setCreatedBy(company
+			((CreatableObject) serverObject).setCreatedBy(getCompany()
 					.getUserByUserEmail(userID));
 			((CreatableObject) serverObject).setCreatedDate(createContext
 					.getDate());
@@ -635,7 +629,7 @@ public class FinanceTool implements IFinanceDAOService {
 			T t = (T) new ClientConvertUtil().toClientObject(serverObject,
 					Util.getClientEqualentClass(serverObject.getClass()));
 			if (t instanceof ClientTransaction
-					&& this.company.getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+					&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
 				Session session = HibernateUtil.getCurrentSession();
 				Query query2 = session
 						.getNamedQuery("getTAXRateCalculation.by.check.idandvatReturn");
@@ -9711,19 +9705,6 @@ public class FinanceTool implements IFinanceDAOService {
 		return keyFinancialIndicators;
 	}
 
-	/*
-	 * ========================================================================
-	 * ========================================================================
-	 */
-
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-
 	// @Override
 	// public Boolean updateCompanyPreferences(ClientCompanyPreferences
 	// preferences)
@@ -9872,7 +9853,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 		ClientCompany clientCompany = new ClientConvertUtil().toClientObject(
 				company, ClientCompany.class);
-		setCompany(company);
 
 		ClientFinanceDate[] dates = getMinimumAndMaximumTransactionDate();
 
@@ -10209,6 +10189,16 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
+	/**
+	 * Returns the Current Company
+	 * 
+	 * @return
+	 */
+	private Company getCompany() {
+		Session session = HibernateUtil.getCurrentSession();
+		return (Company) session.load(Company.class, 1);
+	}
+
 	private List<Account> getAccountsListBySorted() {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<Account> list1 = new ArrayList<Account>();
@@ -10254,7 +10244,7 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 		list1.addAll(list);
-		if (company.getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
+		if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
 			if (indexof1180 - 1 > 0) {
 				list1.remove(undepositedFounds);
 				list1.add(indexof1180 - 1, undepositedFounds);
@@ -10953,8 +10943,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 				query = session
 						.getNamedQuery("getGraphPointsForDebtors")
-						.setParameter("debtorAccountID",
-								company.getAccountsReceivableAccount().getID())
+						.setParameter(
+								"debtorAccountID",
+								getCompany().getAccountsReceivableAccount()
+										.getID())
 						.setParameter(
 								"previousFifthMonthStartDateCal",
 								new FinanceDate(previousFifthMonthStartDateCal
@@ -11036,8 +11028,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 				query = session
 						.getNamedQuery("getGraphPointsForCreditors")
-						.setParameter("creditorsAccountID",
-								company.getAccountsPayableAccount().getID())
+						.setParameter(
+								"creditorsAccountID",
+								getCompany().getAccountsPayableAccount()
+										.getID())
 						.setParameter("currentDate",
 								new FinanceDate(dateCal[0].getTime()).getDate())
 						.setParameter("oneDayAfterToCurrentDate",
@@ -11461,21 +11455,29 @@ public class FinanceTool implements IFinanceDAOService {
 	 * @param httpSession
 	 * @return
 	 */
-	public ClientCompany getClientCompany(String companyName)
+	public ClientCompany getClientCompany(long serverCompanyID)
 			throws AccounterException {
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		ServerCompany serverCompany = (ServerCompany) session
-				.getNamedQuery("getServerCompany.by.name")
-				.setParameter("name", companyName).uniqueResult();
-
+		ServerCompany serverCompany = null;
+		try {
+			serverCompany = (ServerCompany) session
+					.getNamedQuery("getServerCompany.by.id")
+					.setParameter("id", serverCompanyID).uniqueResult();
+		} finally {
+			session.close();
+		}
 		if (serverCompany == null) {
 			return null;
 		}
 
 		if (serverCompany.isConfigured()) {
-			Session companySession = HibernateUtil.openSession(serverCompany
-					.getCompanyName());
-			return getClientCompany();
+			Session companySession = HibernateUtil.openSession(Server.COMPANY
+					+ serverCompanyID);
+			try {
+				return getClientCompany();
+			} finally {
+				companySession.clear();
+			}
 		} else {
 			return new ClientCompany();
 		}
