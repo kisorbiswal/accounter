@@ -233,7 +233,7 @@ public class TransferFundsDialog extends BaseDialog {
 		hlay.add(transferFromForm);
 		hlay.add(transferToForm);
 		editButton = new AccounterButton();
-		editButton.setText("Edit");
+		editButton.setText(Accounter.constants().edit());
 		editButton.setVisible(false);
 
 		editButton.addClickHandler(new ClickHandler() {

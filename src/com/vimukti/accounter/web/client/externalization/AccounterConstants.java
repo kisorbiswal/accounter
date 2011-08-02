@@ -4236,6 +4236,8 @@ public interface AccounterConstants extends Constants {
 
 	public String yes();
 
+	public String youcannotchangeaCustomertypetoVendortype();
+
 	public String youCannotEdiClosedFiscalYear();
 
 	public String youCanPrintVATReturn();

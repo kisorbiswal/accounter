@@ -793,7 +793,9 @@ public class WriteChequeView extends
 						if (transactionObject != null && payee != null) {
 							if (payee.getType() != selectItem.getType()) {
 								Accounter
-										.showError("On an existing check, if you change information in the Pay to field, Customer, Vendor or Tax Agency type must remain the same. Example, you cannot change a Customer type to Vendor type.");
+										.showError(Accounter
+												.constants()
+												.youcannotchangeaCustomertypetoVendortype());
 								paytoSelect.setComboItem(payee);
 							} else {
 								PayToSelected(selectItem);
