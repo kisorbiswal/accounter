@@ -38,7 +38,6 @@
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
-    <link type="text/css" rel="stylesheet" href="../css/Defbiz.css?version=<%= version%>">
 	<link type="text/css" rel="stylesheet" href="../css/Finance.css?version=<%= version%>">
 	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>">
 	<%
@@ -208,8 +207,19 @@
   	<script type="text/javascript">document.getElementById('loadingMsg');</script>
 	<!--include the application JS-->
 	<script type="text/javascript">document.getElementById('loadingMsg');</script>
-	
-	<table class="header">
+	<script type="text/javascript">
+	   $(document).ready(function() {
+	       var ele = document.getElementById("fdbk_overlay");
+	          if(ele.style.display == "none") {
+	             document.getElementById("mainHeader").style.display = "block";
+	             document.getElementById("mainFooter").style.display = "block";
+	          }else{
+	             document.getElementById("mainHeader").style.display = "none";
+	             document.getElementById("mainFooter").style.display = "none";
+	          }
+	   });
+	</script>
+	<table class="header" id="mainHeader">
 	   <tr>
 	      <td width="25%"><img src="/images/Accounter_logo_title.png" /></td>
 	      <td width="50%"><div class="companyName">${companyName}</div></td>
@@ -223,7 +233,7 @@
 	   </tr>
 	</table>
 	<script type="text/javascript" language="javascript" src="/accounter/accounter.nocache.js"></script>
-	<table width="100%">
+	<table width="100%" id="mainFooter">
 	   <tr>
 	      <td>
 		     <table width="100%">
