@@ -330,7 +330,7 @@
 		<property name="registrationNumber" column="REGISTRATION_NUMBER"></property>
 
 		<component name="tradingAddress" class="Address" lazy="false">
-			<property name="type" column="TRADING_ADDRESS_TYPE" not-null="true"></property>
+			<property name="type" column="TRADING_ADDRESS_TYPE"></property>
 			<property name="address1" column="TRADING_ADDRESS1"
 				not-null="true" length="100"></property>
 			<property name="street" column="TRADING_STREET" not-null="true"
@@ -348,7 +348,7 @@
 		</component>
 
 		<component name="registeredAddress" class="Address" lazy="false">
-			<property name="type" column="REGISTRED_ADDRESS_TYPE" not-null="true"></property>
+			<property name="type" column="REGISTRED_ADDRESS_TYPE"></property>
 			<property name="address1" column="REGISTRED_ADDRESS1"
 				not-null="true" length="100"></property>
 			<property name="street" column="REGISTRED_STREET" not-null="true"

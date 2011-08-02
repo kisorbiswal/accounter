@@ -56,6 +56,12 @@
 		from com.vimukti.accounter.core.ServerCompany c where
 		c.companyName=:name
 	</query>
+	
+	<query name="getServerCompany.by.id">
+		<query-param name="id" type="integer" />
+		from com.vimukti.accounter.core.ServerCompany c where
+		c.id=:id
+	</query>
 
 
 </hibernate-mapping>

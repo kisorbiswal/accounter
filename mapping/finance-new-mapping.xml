@@ -17,9 +17,10 @@
 		<property name="country" column="COUNTRY"></property>
 		<property name="isSubscribedToNewsLetters" column="IS_SUBSCRIBED_TO_NEWS_LETTER"></property>
 		<property name="isRequirePasswordReset" column="IS_REQUIRE_PASSWORD_RESET" />
-		<set name="companies" inverse="true" lazy="false" cascade="save-update,delete">
-			<key column="COMPANIES_LIST"></key>
-			<one-to-many class="ServerCompany" />
+		<set name="companies" table="CLIENT_COMPANIES" lazy="false"
+			cascade="save-update">
+			<key column="CLIENT_ID"></key>
+			<many-to-many column="COMPANY_ID" class="ServerCompany" />
 		</set>
 	</class>
 
@@ -33,6 +34,12 @@
 		<property name="companyType" column="COMPANY_TYPE"></property>
 		<property name="serverAddress" column="SERVER_ADDRESS"></property>
 		<property name="isConfigured" column="IS_CONFIGURED"></property>
+
+		<set name="clients" inverse="true" table="CLIENT_COMPANIES" lazy="false"
+			cascade="save-update">
+			<key column="COMPANY_ID"></key>
+			<many-to-many column="CLIENT_ID" class="Client" />
+		</set>
 
 	</class>
 
