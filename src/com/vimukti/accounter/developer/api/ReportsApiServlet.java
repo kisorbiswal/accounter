@@ -3,17 +3,22 @@ package com.vimukti.accounter.developer.api;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -385,6 +390,8 @@ public class ReportsApiServlet extends HttpServlet {
 			} else if (methodName.equals("profitandlossreport")) {
 				result = accounterReportServiceImpl.getProfitAndLossReport(
 						clientFinanceStartDate, clientFinanceEndDate);
+			} else if (methodName.equals("companyids")) {
+				sendCompanyIds(req, resp);
 			}
 			if (result != null) {
 				sendBaseReportResult(req, resp, result);
@@ -395,6 +402,29 @@ public class ReportsApiServlet extends HttpServlet {
 				session.close();
 			}
 		}
+	}
+
+	private void sendCompanyIds(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException {
+		List<Long> companyIds = new ArrayList<Long>();
+		HttpSession session = req.getSession();
+		String emailId = (String) session.getAttribute("emailId");
+		Client client = getClient(emailId);
+		Set<ServerCompany> companies = client.getCompanies();
+		for (ServerCompany serverCompany : companies) {
+			companyIds.add(serverCompany.getID());
+		}
+		ApiSerializationFactory factory = getSerializationFactory(req);
+		String string = factory.serializeLongList(companyIds);
+		sendResult(req, resp, string);
+	}
+
+	protected Client getClient(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Client client = (Client) session.getNamedQuery("getClient.by.mailId")
+				.setString("emailId", emailId).uniqueResult();
+		// session.close();
+		return client;
 	}
 
 	private void sendClentFinanceDateResult(HttpServletRequest req,

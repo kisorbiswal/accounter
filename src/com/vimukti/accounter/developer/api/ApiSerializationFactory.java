@@ -128,4 +128,8 @@ public class ApiSerializationFactory {
 		return stream.toXML(list);
 	}
 
+	public String serializeLongList(List<Long> list) {
+		return stream.toXML(list);
+	}
+
 }
