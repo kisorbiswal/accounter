@@ -70,6 +70,16 @@
 	</servlet>
 	
 	<servlet-mapping>
+		<servlet-name>Api Registration</servlet-name>
+		<url-pattern>/apiregistration</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Api Registration</servlet-name>
+		<servlet-class>com.vimukti.accounter.developer.api.RegistrationServlet
+		</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
 		<servlet-name>Companies</servlet-name>
 		<url-pattern>/companies</url-pattern>
 	</servlet-mapping>
