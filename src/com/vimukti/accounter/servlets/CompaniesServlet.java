@@ -19,13 +19,14 @@ import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class CompaniesServlet extends BaseServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private String companiedListView = "/WEB_INF/companylist.jsp";
+	private String companiedListView = "/WEB-INF/companylist.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -85,9 +86,6 @@ public class CompaniesServlet extends BaseServlet {
 
 	private long createNewCompany(Client client) {
 		ServerCompany serverCompany = new ServerCompany();
-		String companyName = client.getEmailId().replaceAll("@", "_")
-				.replace(".com", "").replaceAll("\\.", "_");
-		serverCompany.setCompanyName(companyName);
 		serverCompany.setConfigured(true);
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -97,8 +95,8 @@ public class CompaniesServlet extends BaseServlet {
 		client.getCompanies().add(serverCompany);
 		session.save(serverCompany);
 		session.saveOrUpdate(client);
-		Query query = session.createSQLQuery("CREATE SCHEMA "
-				+ serverCompany.getCompanyName());
+		Query query = session.createSQLQuery("CREATE SCHEMA company"
+				+ serverCompany.getID());
 		query.executeUpdate();
 		try {
 			transaction.commit();
@@ -107,13 +105,13 @@ public class CompaniesServlet extends BaseServlet {
 			transaction.rollback();
 		}
 
-		Session companySession = HibernateUtil.openSession(
-				serverCompany.getCompanyName(), true);
+		Session companySession = HibernateUtil.openSession(Server.COMPANY
+				+ serverCompany.getID(), true);
 		Transaction companyTrans = companySession.beginTransaction();
 		Company company = new Company();
-		company.setCompanyID(serverCompany.getCompanyName());
+		company.setCompanyID("vimukti");
 		company.setCompanyEmail(client.getEmailId());
-		company.setFullName(serverCompany.getCompanyName());
+		company.setFullName("vimukti");
 		company.setTradingAddress(new Address());
 		company.setRegisteredAddress(new Address());
 		companySession.save(company);
