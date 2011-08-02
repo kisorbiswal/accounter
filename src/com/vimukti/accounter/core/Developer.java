@@ -4,6 +4,10 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
 
 public class Developer implements IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private Client client;
 	private String apiKey;
