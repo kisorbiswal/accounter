@@ -267,7 +267,7 @@ public class RecieveVATView extends
 		loadData(filterList);
 		int size = grid.getRecords().size();
 		if (size == 0)
-			grid.addEmptyMessage("No records to show");
+			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
 	}
 
 	private void calculateEndingBalance() {
@@ -385,9 +385,10 @@ public class RecieveVATView extends
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter
-								.showError("Failed to get the Transaction PayVAT List");
-						grid.addEmptyMessage("No records to show");
+						Accounter.showError(Accounter.constants()
+								.failedtogettheTransactionPayVATList());
+						grid.addEmptyMessage(Accounter.constants()
+								.noRecordsToShow());
 
 					}
 
@@ -400,7 +401,8 @@ public class RecieveVATView extends
 						entries = result;
 						if (result.size() == 0) {
 							// Accounter.showInformation("No PayVAT list to show");
-							grid.addEmptyMessage("No records to show");
+							grid.addEmptyMessage(Accounter.constants()
+									.noRecordsToShow());
 						} else {
 
 							// loadData(getfilterRecordsByDate(billsDue
@@ -447,8 +449,8 @@ public class RecieveVATView extends
 				new AccounterAsyncCallback<String>() {
 
 					public void onException(AccounterException caught) {
-						Accounter
-								.showError("Failed to get the transaction number");
+						Accounter.showError(Accounter.constants()
+								.failedToGetTransactionNumber());
 					}
 
 					public void onSuccess(String result) {
@@ -471,16 +473,17 @@ public class RecieveVATView extends
 		case 3:
 			if (isEdit) {
 				if (grid.getRecords().isEmpty()) {
-					throw new InvalidTransactionEntryException(
-							"You don't have any filed VAT entries to select");
+					throw new InvalidTransactionEntryException(Accounter
+							.constants()
+							.youdonthaveanyfiledVATentriestoselect());
 				}
 			} else {
 				return true;
 			}
 		case 2:
 			if (grid.getRecords().isEmpty()) {
-				throw new InvalidTransactionEntryException(
-						"You don't have any filed VAT entries to select");
+				throw new InvalidTransactionEntryException(Accounter
+						.constants().youdonthaveanyfiledVATentriestoselect());
 			} else {
 				return AccounterValidator.validateReceivePaymentGrid(grid);
 			}
@@ -625,8 +628,8 @@ public class RecieveVATView extends
 								@Override
 								public void onException(
 										AccounterException caught) {
-									Accounter
-											.showError("Failed to void Receive VAT");
+									Accounter.showError(Accounter.constants()
+											.failedtovoidReceiveVAT());
 
 								}
 

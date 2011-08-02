@@ -489,8 +489,9 @@ public class ItemReceiptView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (vendor == null) {
-			Accounter.showError(UIUtils.getVendorString(
-					"Please Select Supplier", "Please Select Vendor"));
+			Accounter.showError(UIUtils.getVendorString(Accounter.constants()
+					.pleaseSelectSupplier(), Accounter.constants()
+					.pleaseSelectVendor()));
 		} else {
 			this.rpcUtilService.getNotReceivedPurchaseOrdersList(
 					vendor.getID(),

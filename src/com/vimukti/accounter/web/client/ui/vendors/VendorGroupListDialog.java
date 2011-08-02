@@ -79,9 +79,8 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 		vendorGroup.setName(inputDlg.getTextValueByIndex(0));
 		if (Utility.isObjectExist(getCompany().getVendorGroups(),
 				vendorGroup.getName())) {
-			Accounter.showError(UIUtils.getVendorString(
-					"Supplier Group Already Exists",
-					"Vendor Group Already Exists"));
+			Accounter.showError(UIUtils.getVendorString(Accounter.constants().supplierGroupAlreadyExists(),
+					Accounter.constants().vendorGroupAlreadyExists()));
 		} else {
 			createObject(vendorGroup);
 		}

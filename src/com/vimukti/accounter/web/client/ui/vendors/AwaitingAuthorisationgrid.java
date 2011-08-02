@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -57,19 +58,19 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 	private String getstatus(int status) {
 		switch (status) {
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE:
-			return "Draft";
+			return Accounter.constants().draft();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE:
-			return "Delete";
+			return Accounter.constants().delete();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL:
-			return "Submit for Approval";
+			return Accounter.constants().submitForApproval();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED:
-			return "Approved";
+			return Accounter.constants().approved();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED:
-			return "Decline";
+			return Accounter.constants().decline();
 		default:
 			break;
 		}
-		return "Draft";
+		return Accounter.constants().draft();
 	}
 
 	@Override
@@ -87,7 +88,10 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "Status", "Paid To", " Receipt Date", "Total" };
+		return new String[] { Accounter.constants().status(),
+				Accounter.constants().paidTo(),
+				Accounter.constants().receiptDate(),
+				Accounter.constants().total() };
 	}
 
 	@Override

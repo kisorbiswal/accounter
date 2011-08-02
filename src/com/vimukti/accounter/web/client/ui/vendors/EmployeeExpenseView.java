@@ -237,7 +237,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 				if (result) {
 					ClientCashPurchase purchase = (ClientCashPurchase) transactionObject;
 					if (purchase.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED) {
-						Accounter.showError("Expense is Approved");
+						Accounter.showError(Accounter.constants()
+								.expenseisApproved());
 					} else
 						enableFormItems();
 				}

@@ -601,7 +601,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 						// SC
 						// .say("Failed to Get List of Transaction Recieve Payments for this Vendor"
 						// + vendor.getName());
-						gridView.addEmptyMessage("No records to show");
+						gridView.addEmptyMessage(Accounter.constants()
+								.noRecordsToShow());
 					}
 
 					public void onSuccess(List<PayBillTransactionList> result) {
@@ -613,7 +614,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 							clearGrid();
 							filterGrid();
 						} else {
-							gridView.addEmptyMessage("No records to show");
+							gridView.addEmptyMessage(Accounter.constants()
+									.noRecordsToShow());
 							updateFooterValues();
 						}
 					}
@@ -816,7 +818,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		gridView.setRecords(records);
 		size = records.size();
 		if (size == 0)
-			gridView.addEmptyMessage("No records to show");
+			gridView.addEmptyMessage(Accounter.constants().noRecordsToShow());
 	}
 
 	public List<DynamicForm> getForms() {
@@ -889,8 +891,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 								@Override
 								public void onException(
 										AccounterException caught) {
-									Accounter
-											.showError("Failed to void Pay Bill");
+									Accounter.showError(Accounter.constants()
+											.failedtovoidPayBill());
 
 								}
 
@@ -929,7 +931,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 					});
 		} else if (transactionObject.isVoid() || transactionObject.isDeleted())
 			Accounter
-					.showError("This Transaction is already voided or Deleted, can't Modify");
+					.showError(Accounter.constants().failedtovoidTransaction());
 	}
 
 	private void enableFormItems() {

@@ -78,8 +78,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 			}
 		});
 
-		salesTypeRadio = new RadioGroupItem(Accounter.constants()
-				.groupType());
+		salesTypeRadio = new RadioGroupItem(Accounter.constants().groupType());
 		salesTypeRadio.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -87,8 +86,8 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 				gridView.filterVATItems(salesTypeRadio.getValue());
 			}
 		});
-		salesTypeRadio.setValueMap(Accounter.constants().salesType(),
-				Accounter.constants().purchaseType());
+		salesTypeRadio.setValueMap(Accounter.constants().salesType(), Accounter
+				.constants().purchaseType());
 		if (takenVatGroup != null) {
 			if (takenVatGroup.isSalesType())
 				salesTypeRadio.setDefaultValue(Accounter.constants()
@@ -97,18 +96,16 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 				salesTypeRadio.setDefaultValue(Accounter.constants()
 						.purchaseType());
 		} else
-			salesTypeRadio.setDefaultValue(Accounter.constants()
-					.salesType());
+			salesTypeRadio.setDefaultValue(Accounter.constants().salesType());
 		checkbox = new CheckboxItem(Accounter.constants().itemIsActive());
 		checkbox.setValue(true);
 
 		form = new DynamicForm();
 		form.setFields(groupName, desc, salesTypeRadio, checkbox);
 
-		HTML label = new HTML(Accounter.constants()
-				.enterEachIndividualVAT());
-		AccounterButton addButton = new AccounterButton(Accounter
-				.constants().add());
+		HTML label = new HTML(Accounter.constants().enterEachIndividualVAT());
+		AccounterButton addButton = new AccounterButton(Accounter.constants()
+				.add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -248,7 +245,8 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 			break;
 		case 2:
 			if (gridView != null && gridView.getRecords().isEmpty()) {
-				Accounter.showError("Please enter a Transaction.");
+				Accounter.showError(Accounter.constants()
+						.pleaseenteraTransaction());
 				return false;
 			}
 		case 1:

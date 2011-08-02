@@ -364,8 +364,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter
-								.showError("Failed to get the Transaction PayVAT List");
+						Accounter.showError(Accounter.constants()
+								.failedtogettheTransactionPayVATList());
 						grid.addEmptyMessage(Accounter.constants()
 								.noRecordsToShow());
 
@@ -426,8 +426,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 				new AccounterAsyncCallback<String>() {
 
 					public void onException(AccounterException caught) {
-						Accounter
-								.showError("Failed to get the transaction number");
+						Accounter.showError(Accounter.constants()
+								.failedToGetTransactionNumber());
 					}
 
 					public void onSuccess(String result) {
@@ -449,8 +449,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 			return AccounterValidator.validateForm(mainform, false);
 		case 2:
 			if (grid.getRecords().isEmpty()) {
-				throw new InvalidTransactionEntryException(
-						"You don't have any filed VAT entries to select");
+				throw new InvalidTransactionEntryException(Accounter
+						.constants().youdonthaveanyfiledVATentriestoselect());
 			} else {
 				return AccounterValidator.validateGrid(grid);
 			}
@@ -594,8 +594,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 								@Override
 								public void onException(
 										AccounterException caught) {
-									Accounter
-											.showError("Failed to void Pay VAT");
+									Accounter.showError(Accounter.constants()
+											.failedtovoidPayVAT());
 
 								}
 

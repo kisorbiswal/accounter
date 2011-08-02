@@ -165,7 +165,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 						&& toDate.getEnteredDate() != null)
 					printVATReturn();
 				else
-					Accounter.showError("Please select valid date ranges");
+					Accounter.showError(Accounter.constants()
+							.pleaseselectvaliddateranges());
 
 			}
 		});
@@ -528,7 +529,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				// BaseView.commentPanel.setVisible(true);
 				// AbstractBaseView.errorOccured = true;
 				MainFinanceWindow.getViewManager().appendError(
-						"File VAT cant save with empty values");
+						Accounter.constants().fileVATcantsavewithemptyvalues());
 				// UIUtils.err("File VAT cant save with empty values");
 				return false;
 			}

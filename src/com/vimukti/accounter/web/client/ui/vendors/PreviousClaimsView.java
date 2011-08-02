@@ -51,8 +51,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		AccounterButton notShowInList = new AccounterButton(
-				"Don't Show in List");
+		AccounterButton notShowInList = new AccounterButton(Accounter.constants().dontShowinList());
 		notShowInList.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -112,7 +111,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 						});
 			}
 		} else {
-			Accounter.showInformation("No Records Selected");
+			Accounter.showInformation(Accounter.constants().noRecordsSelected());
 		}
 
 	}

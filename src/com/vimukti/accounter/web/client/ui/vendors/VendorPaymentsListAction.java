@@ -18,7 +18,8 @@ public class VendorPaymentsListAction extends Action {
 
 	public VendorPaymentsListAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString("Supplier", "Vendor");
+		this.catagory = UIUtils.getVendorString(Accounter.constants()
+				.supplier(), Accounter.constants().vendor());
 	}
 
 	/**

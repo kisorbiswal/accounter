@@ -39,7 +39,6 @@ public class ManageVATGroupListView extends BaseListView<ClientTAXGroup> {
 		getTotalLayout(grid);
 	}
 
-	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();
@@ -93,7 +92,7 @@ public class ManageVATGroupListView extends BaseListView<ClientTAXGroup> {
 
 	@Override
 	protected String getViewTitle() {
-		return "Manage Vat Group";
+		return Accounter.constants().manageVatGroup();
 	}
 
 }

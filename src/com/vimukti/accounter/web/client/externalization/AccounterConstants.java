@@ -4237,4 +4237,48 @@ public interface AccounterConstants extends Constants {
 	public String cstNumber();
 
 	public String serviceTaxRegistrationNo();
+
+	public String pleaseselectvaliddateranges();
+
+	public String fileVATcantsavewithemptyvalues();
+
+	public String manageVatGroup();
+
+	public String failedtogettheTransactionPayVATList();
+
+	public String youdonthaveanyfiledVATentriestoselect();
+
+	public String failedtovoidPayVAT();
+
+	public String failedtovoidReceiveVAT();
+
+	public String pleaseenteraTransaction();
+
+	public String draft();
+
+	public String approved();
+
+	public String decline();
+
+	public String paidTo();
+
+	public String receiptDate();
+
+	public String expenseisApproved();
+
+	public String receiptFrom();
+
+	public String dateEntered();
+
+	public String failedtovoidPayBill();
+
+	public String failedtovoidTransaction();
+
+	public String dontShowinList();
+
+	public String noRecordsSelected();
+
+	public String supplierGroupAlreadyExists();
+
+	public String vendorGroupAlreadyExists();
 }
