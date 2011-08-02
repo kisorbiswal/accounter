@@ -80,7 +80,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	TextItem vendorNameText, fileAsText, accountText, bankNameText,
 			bankBranchText, webText, linksText, expenseAccountsText,
-			federalText;
+			federalText, panNumberText, serviceTaxRegisterationNumber;
 	TextAreaItem memoArea;
 	DateField balanceDate, vendorSinceDate;
 	EmailField emailText;
@@ -638,6 +638,15 @@ public class VendorView extends BaseView<ClientVendor> {
 		federalText.setHelpInformation(true);
 		federalText.setWidth(100);
 
+		panNumberText = new TextItem(Accounter.constants().panNumber());
+		panNumberText.setHelpInformation(true);
+		panNumberText.setWidth(100);
+
+		serviceTaxRegisterationNumber = new TextItem(Accounter.constants()
+				.serviceTaxRegistrationNumber());
+		serviceTaxRegisterationNumber.setHelpInformation(true);
+		serviceTaxRegisterationNumber.setWidth(100);
+
 		DynamicForm vendorGrpForm = new DynamicForm();
 		vendorGrpForm.setIsGroup(false);
 
@@ -650,11 +659,14 @@ public class VendorView extends BaseView<ClientVendor> {
 		else
 			vendorGrpForm.setWidth("100%");
 
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			vendorGrpForm.setFields(vendorGroupSelect, federalText);
-		else
+		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			vendorGrpForm.setFields(vendorGroupSelect, panNumberText,
+					serviceTaxRegisterationNumber);
+		} else {
 			vendorGrpForm.setFields(vendorGroupSelect);
-
+		}
 		vendorGrpForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "136px");
 
@@ -750,6 +762,11 @@ public class VendorView extends BaseView<ClientVendor> {
 			} else {
 				// Setting Federal Id
 				federalText.setValue(takenVendor.getFederalTaxId());
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+					panNumberText.setValue(takenVendor.getPanNumber());
+					serviceTaxRegisterationNumber.setValue(takenVendor
+							.getServiceTaxRegistrationNumber());
+				}
 			}
 
 		}
@@ -972,7 +989,15 @@ public class VendorView extends BaseView<ClientVendor> {
 			if (federalText.getValue() != null) {
 				vendor.setFederalTaxId(federalText.getValue().toString());
 			}
-
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			if (panNumberText.getValue() != null) {
+				vendor.setPanNumber(panNumberText.getValue().toString());
+			}
+			if (serviceTaxRegisterationNumber.getValue() != null) {
+				vendor.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
+						.getValue().toString());
+			}
+		}
 		// Setting Account Number
 		vendor.setBankAccountNo(accountText.getValue().toString());
 		vendor.setBankName(bankNameText.getValue().toString());

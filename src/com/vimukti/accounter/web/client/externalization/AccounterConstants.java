@@ -2748,7 +2748,7 @@ public interface AccounterConstants extends Constants {
 
 	public String pakistan();
 
-	public String pan();
+	public String panNumber();
 
 	public String partTime();
 
@@ -3410,7 +3410,7 @@ public interface AccounterConstants extends Constants {
 
 	public String servicesOverview();
 
-	public String serviceTaxRegistrationNo();
+	public String serviceTaxRegistrationNumber();
 
 	public String sessionExpired();
 

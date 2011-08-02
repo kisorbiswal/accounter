@@ -99,7 +99,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	// Vendor Preferrences
 
 	boolean useVendorId = true;
-
+	private boolean salesOrderEnabled;
 	boolean useItemNumbers = true;
 	boolean checkForItemQuantityOnHand = false;
 	boolean updateCostAutomatically = false;
@@ -112,7 +112,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	boolean reportVATonAccuralBasis = true;
 	boolean trackVAT = true;
 	String VATtaxAgencyName = AccounterConstants.DEFAULT_VAT_AGENCY_NAME;
-	
+
 	private String dateFormat;
 	public long id;
 
@@ -638,14 +638,18 @@ public class CompanyPreferences implements IAccounterServerCore {
 		this.dateFormat = dateFormat;
 	}
 
-	public boolean isEnableMultiCurrency() {
-		return enableMultiCurrency;
+	public boolean isSalesOrderEnabled() {
+		return salesOrderEnabled;
+	}
+
+	public void setSalesOrderEnabled(boolean salesOrderEnabled) {
+		this.salesOrderEnabled = salesOrderEnabled;
 	}
 
 	public void setEnableMultiCurrency(boolean enableMultiCurrency) {
 		this.enableMultiCurrency = enableMultiCurrency;
 	}
-	
+
 	public boolean isSalesPersonEnabled() {
 		return isSalesPersonEnabled;
 	}
@@ -653,7 +657,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public void setSalesPerson(boolean isSalesPersonEnabled) {
 		this.isSalesPersonEnabled = isSalesPersonEnabled;
 	}
-	
+
 	/*
 	 * // Accounting Preferences
 	 * 
@@ -864,6 +868,5 @@ public class CompanyPreferences implements IAccounterServerCore {
 	 * 
 	 * boolean showBillingRateToEmployeesAndSubContractors;
 	 */
-	
 
 }

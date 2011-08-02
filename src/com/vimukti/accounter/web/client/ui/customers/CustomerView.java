@@ -100,6 +100,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	TextItem bankAccountSelect;
 	TextItem bankNameSelect;
 	TextItem bankBranchSelect;
+	TextItem panNumberText;
+	TextItem tinNumberText;
+	TextItem cstNumberText;
+	TextItem serviceTaxRegistrationNo;
 
 	ShippingMethodsCombo shipMethSelect;
 	PaymentTermsCombo payTermsSelect;
@@ -478,10 +482,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		// Setting Bank name
 		customer.setBankName(bankNameSelect.getValue().toString());
-
 		// Setting Branch name
 		customer.setBankBranch(bankBranchSelect.getValue().toString());
-
+		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			// setting Pan Number
+			customer.setPanNumber(panNumberText.getValue().toString());
+			// setting for CST Number
+			customer.setCstNumber(cstNumberText.getValue().toString());
+			// setting for TIN Number
+			customer.setTinNumber(tinNumberText.getValue().toString());
+			// setting for Service tax Num
+			customer.setServiceTaxRegistrationNumber(serviceTaxRegistrationNo
+					.getValue().toString());
+		}
 		// Setting customer Since
 		if (customerSinceDate != null
 				&& customerSinceDate.getEnteredDate() != null)
@@ -947,6 +960,15 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		bankNameSelect.setHelpInformation(true);
 		bankBranchSelect = new TextItem(customerConstants.bankBranch());
 		bankBranchSelect.setHelpInformation(true);
+		panNumberText = new TextItem(customerConstants.panNumber());
+		panNumberText.setHelpInformation(true);
+		cstNumberText = new TextItem(customerConstants.cstNumber());
+		cstNumberText.setHelpInformation(true);
+		serviceTaxRegistrationNo = new TextItem(
+				customerConstants.serviceTaxRegistrationNumber());
+		serviceTaxRegistrationNo.setHelpInformation(true);
+		tinNumberText = new TextItem(customerConstants.tinNumber());
+		tinNumberText.setHelpInformation(true);
 
 		DynamicForm financeDitailsForm = UIUtils.form(customerConstants
 				.financialDetails());
@@ -954,6 +976,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		financeDitailsForm.setFields(salesPersonSelect, priceLevelSelect,
 				creditRatingSelect, bankNameSelect, bankAccountSelect,
 				bankBranchSelect);
+		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			financeDitailsForm.setFields(panNumberText, cstNumberText,
+					serviceTaxRegistrationNo, tinNumberText);
+		}
 		financeDitailsForm.setWidth("100%");
 
 		shipMethSelect = new ShippingMethodsCombo(
@@ -1087,6 +1113,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			bankAccountSelect.setValue(takenCustomer.getBankAccountNo());
 			bankNameSelect.setValue(takenCustomer.getBankName());
 			bankBranchSelect.setValue(takenCustomer.getBankBranch());
+			panNumberText.setValue(takenCustomer.getPanNumber());
+			cstNumberText.setValue(takenCustomer.getCstNumber());
+			serviceTaxRegistrationNo.setValue(takenCustomer
+					.getServiceTaxRegistrationNumber());
+			tinNumberText.setValue(takenCustomer.getTinNumber());
 
 			// Setting Credit Limit Text
 			if (!DecimalUtil.isEquals(takenCustomer.getCreditLimit(), 0))

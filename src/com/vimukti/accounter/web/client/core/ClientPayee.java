@@ -35,6 +35,10 @@ public abstract class ClientPayee implements IAccounterCore {
 	String bankAccountNo;
 	String bankName;
 	String bankBranch;
+	String panNumber;
+	String cstNumber;
+	String serviceTaxRegistrationNumber;
+	String tinNumber;
 
 	Set<ClientAddress> address = new HashSet<ClientAddress>();
 	Set<ClientPhone> phoneNumbers = new HashSet<ClientPhone>();
@@ -351,4 +355,38 @@ public abstract class ClientPayee implements IAccounterCore {
 	public void setBankBranch(String bankBranch) {
 		this.bankBranch = bankBranch;
 	}
+
+	public String getPanNumber() {
+		return panNumber;
+	}
+
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
+	}
+
+	public String getCstNumber() {
+		return cstNumber;
+	}
+
+	public void setCstNumber(String cstNumber) {
+		this.cstNumber = cstNumber;
+	}
+
+	public String getServiceTaxRegistrationNumber() {
+		return serviceTaxRegistrationNumber;
+	}
+
+	public void setServiceTaxRegistrationNumber(
+			String serviceTaxRegistrationNumber) {
+		this.serviceTaxRegistrationNumber = serviceTaxRegistrationNumber;
+	}
+
+	public String getTinNumber() {
+		return tinNumber;
+	}
+
+	public void setTinNumber(String tinNumber) {
+		this.tinNumber = tinNumber;
+	}
+
 }

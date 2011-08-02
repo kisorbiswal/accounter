@@ -70,6 +70,10 @@ public abstract class Payee extends CreatableObject implements
 	String bankAccountNo;
 	String bankName;
 	String bankBranch;
+	String panNumber;
+	String cstNumber;
+	String serviceTaxRegistrationNumber;
+	String tinNumber;
 
 	public transient boolean isOnSaveProccessed;
 
@@ -111,7 +115,6 @@ public abstract class Payee extends CreatableObject implements
 	public void setFileAs(String fileAs) {
 		this.fileAs = fileAs;
 	}
-
 
 	/**
 	 * @return the vATRegistrationNumber
@@ -304,7 +307,6 @@ public abstract class Payee extends CreatableObject implements
 		this.payeeSince = payeeSince;
 	}
 
-	
 	public void updateBalance(Session session, Transaction transaction,
 			double amount) {
 
@@ -321,7 +323,7 @@ public abstract class Payee extends CreatableObject implements
 	 *            method for reverse back effect on the Account related to this
 	 *            Payee
 	 */
-	
+
 	public void updateBalance(Session session, Transaction transaction,
 			double amount, TAXRateCalculation object) {
 
@@ -388,9 +390,7 @@ public abstract class Payee extends CreatableObject implements
 	 */
 	protected void updateEntryMemo(Session session) {
 
-		Query query = session
-				.getNamedQuery(
-						"getPayeename.from.PayeebyId")
+		Query query = session.getNamedQuery("getPayeename.from.PayeebyId")
 				.setParameter("id", this.getID());
 		String payeeName = (String) query.uniqueResult();
 
@@ -444,6 +444,38 @@ public abstract class Payee extends CreatableObject implements
 
 	public void setBankBranch(String bankBranch) {
 		this.bankBranch = bankBranch;
+	}
+
+	public String getPANno() {
+		return panNumber;
+	}
+
+	public void setPANno(String pANno) {
+		panNumber = pANno;
+	}
+
+	public String getCSTno() {
+		return cstNumber;
+	}
+
+	public void setCSTno(String cSTno) {
+		cstNumber = cSTno;
+	}
+
+	public String getServiceTaxRegistrationNo() {
+		return serviceTaxRegistrationNumber;
+	}
+
+	public void setServiceTaxRegistrationNo(String serviceTaxRegistrationNo) {
+		this.serviceTaxRegistrationNumber = serviceTaxRegistrationNo;
+	}
+
+	public String getTINNumber() {
+		return tinNumber;
+	}
+
+	public void setTINNumber(String tINNumber) {
+		tinNumber = tINNumber;
 	}
 
 }
