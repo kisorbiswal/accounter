@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -109,7 +110,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public CheckboxItem vatinclusiveCheck;
 
 	protected CurrencyWidget currencyWidget;
-	
+
 	protected int gridType;
 
 	public boolean isVatInclusive() {
@@ -735,6 +736,11 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	public void setMenuItems(AccounterButton button, String... items) {
 		createPopupMenu(button);
 		popupMenuBar.clearItems();
+
+		ClientCompanyPreferences preferences = getCompany().getPreferences();
+		boolean sellProducts = preferences.isSellProducts();
+		boolean sellServices = preferences.isSellServices();
+
 		for (final String itm : items) {
 			Command cmd = new Command() {
 
@@ -744,17 +750,26 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 					popupPanel.removeFromParent();
 				}
 			};
+
 			CustomMenuItem item = new CustomMenuItem(itm, cmd);
 			item.addStyleName(itm);
 			ImageResource image = null;
 			if (itm.equals("Accounts")) {
 				image = Accounter.getFinanceMenuImages().Accounts();
 			} else if (itm.equals("Product Item")) {
-				image = Accounter.getFinanceMenuImages().items();
+				if (sellProducts) {
+					image = Accounter.getFinanceMenuImages().items();
+				} else {
+					continue;
+				}
 			} else if (itm.equals("Comment")) {
 				image = Accounter.getFinanceMenuImages().comments();
 			} else if (itm.equals("Sales Tax") || (itm.equals("Service Item"))) {
-				image = Accounter.getFinanceMenuImages().salestax();
+				if (sellServices) {
+					image = Accounter.getFinanceMenuImages().salestax();
+				} else {
+					continue;
+				}
 			}
 
 			item.setIcon(image);
@@ -882,15 +897,17 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	public CurrencyWidget createCurrencyWidget(List<ClientCurrency> currencies,
 			ClientCurrency baseCurrency) {
-		/*if (!((currencies == null) && (baseCurrency == null))) {
-			getCurrencyWidget();
-		}*/
+		/*
+		 * if (!((currencies == null) && (baseCurrency == null))) {
+		 * getCurrencyWidget(); }
+		 */
 		return new CurrencyWidget(currencies, baseCurrency);
 
 	}
 
 	/**
 	 * creates currency widgets from the existing currencies.
+	 * 
 	 * @return
 	 */
 	public CurrencyWidget bulidCurrencyWidget() {

@@ -118,6 +118,25 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private boolean isSalesPersonEnabled;
 
+	private boolean sellServices;
+	private boolean sellProducts;
+
+	public boolean isSellServices() {
+		return sellServices;
+	}
+
+	public void setSellServices(boolean sellServices) {
+		this.sellServices = sellServices;
+	}
+
+	public boolean isSellProducts() {
+		return sellProducts;
+	}
+
+	public void setSellProducts(boolean sellProducts) {
+		this.sellProducts = sellProducts;
+	}
+
 	// String legalName = "";
 
 	public CompanyPreferences() {

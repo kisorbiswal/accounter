@@ -100,11 +100,30 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private String decimalCharacte = ".";
 
+	private boolean sellServices;
+	private boolean sellProducts;
+
 	// String legalName;
 
 	/**
 	 * @return the id
 	 */
+
+	public boolean isSellServices() {
+		return sellServices;
+	}
+
+	public void setSellServices(boolean sellServices) {
+		this.sellServices = sellServices;
+	}
+
+	public boolean isSellProducts() {
+		return sellProducts;
+	}
+
+	public void setSellProducts(boolean sellProducts) {
+		this.sellProducts = sellProducts;
+	}
 
 	/**
 	 * @return the useAccountNumbers
