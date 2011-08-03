@@ -123,7 +123,8 @@ public class CustomerTransactionGrid extends
 		case 1:
 			return item.getQuantity() + "";
 		case 2:
-			return DataUtils.getAmountAsString(item.getUnitPrice());
+			return DataUtils.getAmountAsString(getAmountInForeignCurrency(item
+					.getUnitPrice()));
 		case 3:
 			return DataUtils.getAmountAsString(item.getLineTotal());
 		case 4:
@@ -272,6 +273,9 @@ public class CustomerTransactionGrid extends
 							// needs line total for this,linetotal
 							// calculated in
 							// editcomplete()`
+
+							// database always has the currency values in base
+							// currency.
 							editComplete(selectedObject,
 									selectItem.getSalesPrice(), 4);
 							applyPriceLevel(selectedObject);
@@ -558,10 +562,13 @@ public class CustomerTransactionGrid extends
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
-				return DataUtils.getAmountAsString(item.getUnitPrice());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(item
+								.getUnitPrice()));
 			else {
-				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
-						.getAmountAsString(item.getUnitPrice()) : "";
+				double amount = getAmountInForeignCurrency(item.getUnitPrice());
+				return (amount != 0 || item.getLineTotal() == 0) ? DataUtils
+						.getAmountAsString(amount) : "";
 			}
 		case 5:
 			return DataUtils.getNumberAsPercentString(item.getDiscount() + "");
@@ -1034,7 +1041,11 @@ public class CustomerTransactionGrid extends
 				// FIXME need to implement warnings
 				break;
 			case 4:
-				String unitPriceString = value.toString() != null
+				// TODO if its new entry don't do anything here. If not, then
+				// convert to selected currency
+				String unitPriceString = null;
+
+				unitPriceString = value.toString() != null
 						|| value.toString().length() != 0 ? value.toString()
 						: "0";
 
@@ -1047,10 +1058,16 @@ public class CustomerTransactionGrid extends
 				// unitPriceString = unitPriceString.replaceAll(",", "");
 				Double d = DataUtils.getReformatedAmount(unitPriceString);// Double.parseDouble(unitPriceString);
 
+				// TODO the value came from the UI component. So, we need to
+				// convert this value to base currency, if the selected currency
+				// is not in baseCurreny.
+
 				if (!AccounterValidator.validateGridUnitPrice(d)) {
+					d = getAmountInBaseCurrency(d);
+					// the value is in BaseCurrency now.
 					item.setUnitPrice(d);
 				} else {
-					d = 0.0D;
+					d = 0.0D; // zero. no need conversions.
 					item.setUnitPrice(d);
 				}
 
@@ -1096,6 +1113,8 @@ public class CustomerTransactionGrid extends
 								&& (!AccounterValidator
 										.isAmountTooLarge(lineTotal))) {
 							item.setLineTotal(lineTotal);
+							// TODO doubt here, whether to convert this into
+							// baseCurrency or not.
 							item.setUnitPrice(isItem ? lineTotal : 0.0D);
 							ClientQuantity quant = new ClientQuantity();
 							quant.setValue(isItem ? 1 : 0);
@@ -1156,6 +1175,7 @@ public class CustomerTransactionGrid extends
 			}
 		}
 		if (item.getType() != TYPE_SALESTAX && col != 6 && col != 7) {
+			// TODO doubt, currencyConversion.
 			double lt = item.getQuantity().getValue() * item.getUnitPrice();
 			double disc = item.getDiscount();
 			item.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
@@ -1447,8 +1467,10 @@ public class CustomerTransactionGrid extends
 										selectedObject.getLineTotal(), 7);
 							else
 
-								editComplete(selectedObject,
-										selectedObject.getUnitPrice(), 4);
+								editComplete(
+										selectedObject,
+										getAmountInForeignCurrency(selectedObject
+												.getUnitPrice()), 4);
 						} else
 							selectedObject.setTaxCode(0);
 					}
