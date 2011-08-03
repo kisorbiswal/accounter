@@ -1900,15 +1900,15 @@ form{
   font-weight:normal;
   font-family:sans-serif;
 }
-.login-container,.forgot-password-container{
+#commanContainer{
     margin: 7em auto;
     width: 320px;
 }
-.login-container label,.forgot-password-container label{
+#commanContainer label{
     color: #777777;
     font-size: 14px;
 }
-.form-view{
+#commanContainer form{
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #E5E5E5;
     border-radius: 3px 3px 3px 3px;
@@ -1917,7 +1917,7 @@ form{
     margin-left: 8px;
     padding: 26px 24px 46px;
 }
-.form-view  input[type="text"],.form-view input[type="password"]{
+#commanContainer  input[type="text"],#commanContainer  input[type="password"]{
     background: none repeat scroll 0 0 #FBFBFB;
     border: 1px solid #E5E5E5;
     box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
