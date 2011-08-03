@@ -11477,7 +11477,7 @@ public class FinanceTool implements IFinanceDAOService {
 			return null;
 		}
 
-		if (serverCompany.isConfigured()) {
+//		if (serverCompany.isConfigured()) {
 			Session companySession = HibernateUtil.openSession(Server.COMPANY
 					+ serverCompanyID);
 			try {
@@ -11485,9 +11485,9 @@ public class FinanceTool implements IFinanceDAOService {
 			} finally {
 				companySession.clear();
 			}
-		} else {
-			return new ClientCompany();
-		}
+//		} else {
+//			return new ClientCompany();
+//		}
 	}
 
 }
