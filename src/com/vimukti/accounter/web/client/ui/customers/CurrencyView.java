@@ -93,7 +93,10 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 			try {
 				ClientCurrency currency = getCurrencyObject();
 				if (existCurrency == null) {
-					if (!isObjectExist(company.getCurrencies(), currency))
+					List<ClientCurrency> list = new ArrayList<ClientCurrency>(
+							company.getCurrencies());
+
+					if (!isObjectExist(list, currency))
 						createObject(currency);
 				} else
 					alterObject(currency);
@@ -103,6 +106,22 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 			}
 		}
 
+	}
+
+	private boolean isObjectExist(List<ClientCurrency> list,
+			ClientCurrency currency2) {
+
+		if (list == null || list.isEmpty())
+			return false;
+		for (ClientCurrency s : list) {
+			if (s.getName() != null
+					&& s.getName().toLowerCase()
+							.equals(currency2.getName().toLowerCase())) {
+				return true;
+			}
+
+		}
+		return false;
 	}
 
 	private void createControls() {
