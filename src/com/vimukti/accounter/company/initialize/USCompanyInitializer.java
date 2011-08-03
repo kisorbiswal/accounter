@@ -300,7 +300,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 			preferences.setStartOfFiscalYear(fiscalYearStartDate);
 			preferences.setEndOfFiscalYear(fiscalYearEndDate);
-			preferences.setUseForeignCurrency(false);
+			preferences.setEnableMultiCurrency(false);
 			preferences.setUseCustomerId(false);
 			preferences.setDefaultShippingTerm(null);
 			preferences.setDefaultAnnualInterestRate(0);
