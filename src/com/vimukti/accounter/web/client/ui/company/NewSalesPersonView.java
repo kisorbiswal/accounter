@@ -1,21 +1,32 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -57,7 +68,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	protected boolean isClose;
 	private CheckboxItem statusCheck;
 	private ClientSalesPerson takenSalesperson;
-	private AddressForm addrsForm;
+	private DynamicForm addrsForm;
 	private PhoneFaxForm fonFaxForm;
 	private EmailForm emailForm;
 	protected String gender;
@@ -69,6 +80,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	private ArrayList<DynamicForm> listforms;
 	private String salesPersonName;
 
+	TextAreaItem addrArea;
+	private LinkedHashMap<Integer, ClientAddress> allAddresses;
+
 	public NewSalesPersonView() {
 		super();
 		this.validationCount = 3;
@@ -76,6 +90,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	}
 
 	private void createControls() {
+		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		listforms = new ArrayList<DynamicForm>();
 
@@ -185,6 +200,30 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		salesPersonInfoForm.setFields(statusCheck, genderSelect, dateOfBirth,
 				dateOfHire, dateOfLastReview, dateOfRelease);
 
+		// XXX
+		addrsForm = new DynamicForm();
+		addrArea = new TextAreaItem();
+		addrArea.setHelpInformation(true);
+		addrArea.setWidth(100);
+		addrArea.setShowTitle(false);
+		addrArea.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				new AddressDialog("", "", addrArea, "Bill to", allAddresses);
+
+			}
+		});
+
+		addrArea.addFocusHandler(new FocusHandler() {
+
+			@Override
+			public void onFocus(FocusEvent event) {
+				new AddressDialog("", "", addrArea, "Bill to", allAddresses);
+
+			}
+		});
+
 		if (takenSalesperson != null) {
 
 			employeeNameText.setValue(takenSalesperson.getFirstName());
@@ -194,10 +233,40 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 							.getJobTitle() : "");
 			fileAsText.setValue(takenSalesperson.getFileAs());
 
-			addrsForm = new AddressForm(takenSalesperson.getAddress());
-			addrsForm.setWidth("90%");
-			addrsForm.getCellFormatter().setWidth(0, 0, "65");
-			addrsForm.getCellFormatter().setWidth(0, 1, "125");
+			setAddresses(takenSalesperson.getAddress());
+
+			ClientAddress toBeShown = allAddresses
+					.get(ClientAddress.TYPE_BILL_TO);
+
+			String toToSet = new String();
+			if (toBeShown.getAddress1() != null
+					&& !toBeShown.getAddress1().isEmpty()) {
+				toToSet = toBeShown.getAddress1().toString() + "\n";
+			}
+
+			if (toBeShown.getStreet() != null
+					&& !toBeShown.getStreet().isEmpty()) {
+				toToSet += toBeShown.getStreet().toString() + "\n";
+			}
+
+			if (toBeShown.getCity() != null && !toBeShown.getCity().isEmpty()) {
+				toToSet += toBeShown.getCity().toString() + "\n";
+			}
+
+			if (toBeShown.getStateOrProvinence() != null
+					&& !toBeShown.getStateOrProvinence().isEmpty()) {
+				toToSet += toBeShown.getStateOrProvinence() + "\n";
+			}
+			if (toBeShown.getZipOrPostalCode() != null
+					&& !toBeShown.getZipOrPostalCode().isEmpty()) {
+				toToSet += toBeShown.getZipOrPostalCode() + "\n";
+			}
+			if (toBeShown.getCountryOrRegion() != null
+					&& !toBeShown.getCountryOrRegion().isEmpty()) {
+				toToSet += toBeShown.getCountryOrRegion();
+			}
+			addrArea.setValue(toToSet);
+
 			fonFaxForm = new PhoneFaxForm(null, null);
 			fonFaxForm.setWidth("90%");
 			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
@@ -230,10 +299,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			memoArea.setValue(takenSalesperson.getMemo());
 
 		} else {
-			addrsForm = new AddressForm(null);
-			addrsForm.setWidth("90%");
-			addrsForm.getCellFormatter().setWidth(0, 0, "65");
-			addrsForm.getCellFormatter().setWidth(0, 1, "125");
+			// addrsForm = new AddressForm(null);
 			fonFaxForm = new PhoneFaxForm(null, null);
 			fonFaxForm.setWidth("90%");
 			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
@@ -245,7 +311,10 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			genderSelect.setDefaultToFirstOption(Boolean.TRUE);
 			// gender = ClientSalesPerson.GENDER_UNSPECIFIED;
 		}
-
+		addrsForm.setWidth("90%");
+		// addrsForm.getCellFormatter().setWidth(0, 0, "65");
+		addrsForm.getCellFormatter().setWidth(0, 1, "125");
+		addrsForm.setFields(addrArea);
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.add(salesPersonForm);
 		leftVLay.add(addrsForm);
@@ -421,7 +490,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			salesPerson.setActive((Boolean) statusCheck.getValue());
 
 		salesPerson.setFirstName(employeeNameText.getValue().toString());
-		salesPerson.setAddress(addrsForm.getAddresss());
+		salesPerson.setAddress(getAddresss());
 		salesPerson.setPhoneNo(fonFaxForm.businessPhoneText.getValue()
 				.toString());
 		salesPerson.setGender(genderSelect.getSelectedValue());
@@ -582,5 +651,36 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().newSalesPerson();
+	}
+
+	private void setAddresses(Set<ClientAddress> addresses) {
+		if (addresses != null) {
+			Iterator it = addresses.iterator();
+			while (it.hasNext()) {
+				ClientAddress add = (ClientAddress) it.next();
+				allAddresses.put(add.getType(), add);
+			}
+		}
+	}
+
+	public Set<ClientAddress> getAddresss() {
+		ClientAddress selectedAddress = allAddresses.get(UIUtils
+				.getAddressType("company"));
+		if (selectedAddress != null) {
+			selectedAddress.setIsSelected(true);
+			allAddresses
+					.put(UIUtils.getAddressType("company"), selectedAddress);
+		}
+		Collection add = allAddresses.values();
+		Set<ClientAddress> toBeSet = new HashSet<ClientAddress>();
+		Iterator it = add.iterator();
+		while (it.hasNext()) {
+			ClientAddress a = (ClientAddress) it.next();
+			toBeSet.add(a);
+			// System.out.println("Sending Address  Type " + a.getType()
+			// + " Street is " + a.getStreet() + " Is Selected"
+			// + a.getIsSelected());
+		}
+		return toBeSet;
 	}
 }
