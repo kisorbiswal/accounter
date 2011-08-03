@@ -48,7 +48,7 @@
 		</servlet-class> </servlet> -->
 
 	<!-- API SERVLET MAPPING -->
-	
+
 	<filter>
 		<filter-name>Api Filter</filter-name>
 		<filter-class>com.vimukti.accounter.developer.api.ApiFilter
@@ -61,14 +61,19 @@
 
 	<servlet-mapping>
 		<servlet-name>Reports Api</servlet-name>
-		<url-pattern>/api/xmlreports/*,/api/jsonreports/*</url-pattern>
+		<url-pattern>/api/xmlreports/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Reports Api</servlet-name>
+		<url-pattern>/api/jsonreports/*</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>Reports Api</servlet-name>
 		<servlet-class>com.vimukti.accounter.developer.api.ReportsApiServlet
 		</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>Api Registration</servlet-name>
 		<url-pattern>/apiregistration</url-pattern>
@@ -78,7 +83,7 @@
 		<servlet-class>com.vimukti.accounter.developer.api.RegistrationServlet
 		</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>Companies</servlet-name>
 		<url-pattern>/companies</url-pattern>
