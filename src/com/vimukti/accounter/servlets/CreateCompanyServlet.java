@@ -72,6 +72,7 @@ public class CreateCompanyServlet extends BaseServlet {
 
 			if (responseCode == 200) {
 				redirectExternal(request, response, ACCOUNTER_URL);
+				return;
 			} else {
 				rollback(serverCompany, client);
 				request.setAttribute("message", "Company creation failed."

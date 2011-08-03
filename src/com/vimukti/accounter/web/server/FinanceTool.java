@@ -84,7 +84,6 @@ import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.SalesPerson;
-import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
@@ -109,7 +108,6 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
-import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.services.IFinanceDAOService;
 import com.vimukti.accounter.utils.HexUtil;
@@ -7866,8 +7864,8 @@ public class FinanceTool implements IFinanceDAOService {
 		List<VATSummary> vatSummaries = createRows(taxAgency);
 
 		Query query = session.getNamedQuery(
-				"getVATReturn.checkingby.taxagencyidand.dates").setParameter(
-				0, taxAgency.getID());
+				"getVATReturn.checkingby.taxagencyidand.dates").setParameter(0,
+				taxAgency.getID());
 
 		Object object[] = null;
 		List list = query.list();
@@ -9758,6 +9756,11 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Company company = getCompany();
+		User logInUser = company.getUserByUserEmail(logInUserEmail);
+		if (logInUser == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_PERMISSION_DENIED);
+		}
 
 		Hibernate.initialize(company);
 
@@ -9862,9 +9865,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 		clientCompany.setUsersList(getAllEmployees());
 
-		User logInUSer = (User) session.getNamedQuery("getuser.by.email")
-				.setParameter("email", logInUserEmail).uniqueResult();
-		clientCompany.setLoggedInUser(logInUSer.getClientUser());
+		// User logInUSer = (User) session.getNamedQuery("getuser.by.email")
+		// .setParameter("email", logInUserEmail).uniqueResult();
+		clientCompany.setLoggedInUser(logInUser.getClientUser());
 
 		return clientCompany;
 	}
@@ -10122,8 +10125,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Query query = HibernateUtil.getCurrentSession()
 				.getNamedQuery("getTransactionNumber.from.typeandId")
-				.setParameter(0, transactionType)
-				.setParameter(0, maxCount);
+				.setParameter(0, transactionType).setParameter(0, maxCount);
 
 		List list = query.list();
 
@@ -11458,115 +11460,4 @@ public class FinanceTool implements IFinanceDAOService {
 		return employees;
 	}
 
-	/**
-	 * @param httpSession
-	 * @return
-	 */
-	public ClientCompany getClientCompany(long serverCompanyID,
-			String logInUserEmail) throws AccounterException {
-		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		ServerCompany serverCompany = null;
-		try {
-			serverCompany = (ServerCompany) session
-					.getNamedQuery("getServerCompany.by.id")
-					.setParameter("id", serverCompanyID).uniqueResult();
-		} finally {
-			session.close();
-		}
-		if (serverCompany == null) {
-			return null;
-		}
-
-//		if (serverCompany.isConfigured()) {
-			Session companySession = HibernateUtil.openSession(Server.COMPANY
-					+ serverCompanyID);
-			try {
-				return getClientCompany(logInUserEmail);
-			} finally {
-				companySession.clear();
-			}
-//		} else {
-//			return new ClientCompany();
-//		}
-	}
-
 }
-
-// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-// null));
-// } catch (DAOException e) {
-// throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-// }
-
-// public String getPreviousTransactionNumber(int transactionType,
-// long maxCount) {
-//
-// Query query = HibernateUtil
-// .getCurrentSession()
-// .createQuery(
-// "select t.number from com.vimukti.accounter.core.Transaction t where t.type =:transactionType and t.id=:id")
-// .setParameter("transactionType", transactionType).setParameter(
-// "id", maxCount);
-//
-// List list = query.list();
-//
-// String num = (list != null) && (list.size() > 0) ? ((String) list
-// .get(0)) : "";
-// if (num.replaceAll("[\\D]", "").length() > 0) {
-// return num;
-// } else {
-// if (maxCount != 0) {
-// maxCount = maxCount - 1;
-// return getPreviousTransactionNumber(transactionType, maxCount);
-// }
-// }
-//
-// return "0";
-// }
-// }
-// class Node {
-// int data;
-// Node next;
-//
-// public Node(int data, Node next) {
-// this.data = data;
-// this.next = next;//class Node {
-
-// }
-// }
-//
-// class Main {
-// public static void main(String args[]) {
-//
-// int range = 5;
-//
-// Node[] nodes = new Node[range];
-//
-// Node node = rootnode;
-// for (int i = 0; i < range; i++) {
-// if (i == 0) {
-// nodes[i] = node;
-// continue;
-// }
-// nodes[i - 1].next = nodes[i];
-// }@Override
-
-//
-// int i = range - 1;
-// while (nodes[i].next != null) {
-//
-// for (int j = 0; j < range - 1; j++) {
-// nodes[j] = nodes[j].next;
-// node = nodes[j];
-// }
-//
-// }
-//
-// for (int k = range - 1; k >= 0; k--) {
-//
-// node.next = nodes[k];
-// node = node.next;
-//
-// }
-// }
-// }

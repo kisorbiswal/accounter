@@ -93,11 +93,15 @@ public abstract class CompanyInitializer {
 
 		session.save(openingBalancesAccount);
 
+		company.setOpeningBalancesAccount(openingBalancesAccount);
+
 		initializeDefaultAssetsAccounts();
 		initializeDefaultIncomeAccounts();
 		initializeDefaultExpenseAccounts();
 		initializeDefaultlLiabilitiesAccounts();
 		initializeDefaultEquityAccounts();
+
+		session.saveOrUpdate(company);
 	}
 
 	private void intializeCompanyValues() {
@@ -1049,6 +1053,8 @@ public abstract class CompanyInitializer {
 
 		session.save(accountsReceivableAccount);
 
+		company.setAccountsReceivableAccount(accountsReceivableAccount);
+
 		accountsPayableAccount = new Account(
 				Account.TYPE_OTHER_CURRENT_LIABILITY, "2001",
 				AccounterConstants.ACCOUNTS_PAYABLE, true, null,
@@ -1057,6 +1063,8 @@ public abstract class CompanyInitializer {
 				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(accountsPayableAccount);
+
+		company.setAccountsPayableAccount(accountsPayableAccount);
 
 		Account unDepositedFunds = new Account(
 				Account.TYPE_OTHER_CURRENT_ASSET, "1175",

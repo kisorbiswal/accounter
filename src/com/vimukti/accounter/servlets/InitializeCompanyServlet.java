@@ -78,6 +78,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 			User user = getUserFromHttpSession(request);
 			companySession.save(user);
 
+			company.getUsers().add(user);
 			company.setCreatedBy(user);
 			company.setCreatedDate(new Timestamp(System.currentTimeMillis()));
 			companySession.save(company);

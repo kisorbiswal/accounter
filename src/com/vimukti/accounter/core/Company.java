@@ -4415,11 +4415,24 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		return usersList;
 	}
 
+	/**
+	 * Returns User By UserID
+	 * 
+	 * @param userID
+	 * @return
+	 */
 	public User getUserByUserId(long userID) {
-		Session session = HibernateUtil.getCurrentSession();
-		User user = (User) session.getNamedQuery("unique.id.User")
-				.setParameter(0, userID).uniqueResult();
-		return user;
+		for (User user : users) {
+			if (user.getID() == userID) {
+				return user;
+			}
+		}
+		return null;
+
+		// Session session = HibernateUtil.getCurrentSession();
+		// User user = (User) session.getNamedQuery("unique.id.User")
+		// .setParameter(0, userID).uniqueResult();
+		// return user;
 	}
 
 	public String getDisplayName() {
@@ -4466,14 +4479,23 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	}
 
 	/**
+	 * Returns User By EmailID
+	 * 
 	 * @param email
 	 * @return
 	 */
 	public User getUserByUserEmail(String email) {
-		Session session = HibernateUtil.getCurrentSession();
-		User user = (User) session.getNamedQuery("getuser.by.email")
-				.setParameter(0, email).uniqueResult();
-		return user;
+		Set<User> users = getUsers();
+		for (User user : users) {
+			if (user.getEmail().equals(email)) {
+				return user;
+			}
+		}
+		return null;
+		// Session session = HibernateUtil.getCurrentSession();
+		// User user = (User) session.getNamedQuery("getuser.by.email")
+		// .setParameter(0, email).uniqueResult();
+		// return user;
 	}
 
 	public void setCurrencies(Set<Currency> currencies) {

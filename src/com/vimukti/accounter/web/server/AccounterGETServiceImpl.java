@@ -84,7 +84,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		if (cid == null) {
 			// Throw Exception
 		}
-		return tool.getClientCompany(Long.parseLong(cid), getUserEmail());
+		return tool.getClientCompany(getUserEmail());
 	}
 
 	@Override

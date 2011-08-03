@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.util.Iterator;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.InvalidOperationException;
@@ -137,6 +138,23 @@ public class Client implements IAccounterServerCore {
 		user.setActive(this.isActive);
 		user.setPhoneNo(this.phoneNumber);
 		return user;
+	}
+
+	/**
+	 * Returns ServerCompany From ID
+	 * 
+	 * @param serverCompanyID
+	 * @return
+	 */
+	public ServerCompany getCompany(long serverCompanyID) {
+		Iterator<ServerCompany> iterator = companies.iterator();
+		while (iterator.hasNext()) {
+			ServerCompany next = iterator.next();
+			if (next.getID() == serverCompanyID) {
+				return next;
+			}
+		}
+		return null;
 	}
 
 }
