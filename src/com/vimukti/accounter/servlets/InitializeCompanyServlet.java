@@ -17,6 +17,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -74,7 +75,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 		try {
 
 			// Creating User
-			User user = getClientFromHttpSession(request);
+			User user = getUserFromHttpSession(request);
 			companySession.save(user);
 
 			company.setCreatedBy(user);
@@ -125,7 +126,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 	/**
 	 * Returns User Object From Client HttpSession
 	 */
-	private User getClientFromHttpSession(HttpServletRequest request) {
+	private User getUserFromHttpSession(HttpServletRequest request) {
 		User user = new User();
 		user.setFirstName(request.getParameter(PARAM_FIRST_NAME));
 		user.setLastName(request.getParameter(PARAM_LAST_NAME));
@@ -134,6 +135,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 		user.setPhoneNo(request.getParameter(PARAM_PH_NO));
 		user.setUserRole(RolePermissions.ADMIN);
 		user.setAdmin(true);
+		user.setPermissions(new UserPermissions());
 		return user;
 	}
 
