@@ -52,93 +52,36 @@
    
 </head>
 	<body>
-		<div class="login clearfix" id="login" >
-	    <div class ="body-container">
-	      <%@ include file="./header.jsp" %>
-			<div class="middle-part" id="cen">
-			   <div>
-				<div class="middle-signup-box" id="mid-1">
-					<div class ="Welcome-Accounter-box">
-							<h2>Welcome To Accounter</h2>
-					          <div class="login_box">
-								<div class="mid-login-box">
-								<form id="accounterForm" method="post" action="/login">
-								<input type="hidden" name="destination" value="${param.dest}" />
-								<c:if test="${message != null}">
-								<span style="background: #CC0000; color: #F2F3F5; line-height: 1.5;">
-								${message} </span>
-								</c:if>
-								<div class="mid-login-box1">
-							   <table class="login-table">
-							      <tr>
-								     <td> <span>Email :</span></td>
-									 <td>
-
-										<input id="mid-box"  type="text" name="emailId" tabindex="1"> 								
-									 </td>
-								  </tr>
-								  <tr>
-									<td><span>Password :</span> </td>
-									<td>
-									     <input id="mid-box1"  type="password" name="password" tabindex="2">
-									 
-									</td>
-								  </tr>
-								  <tr>
-								     <td></td>
-								     <td><input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn" value="unchecked"/> Stay signed in</td>
-								  </tr>
-								   <tr>
-								     <td></td>
-								     <td><a href="/site/forgotpassword" id="forget-link1" tabindex="5"> Forgot your password?</a></td>
-								  </tr>
-								  <tr>
-								     <td></td>
-								     <td>
-								       <ul class="login-submit-button">
-											<li><span class="signup-submit-left"></span></li>
-											<li><input id="submitButton" style="width:60px" type="submit" class="signup-submit-mid" name="login" value="Login" tabindex="6"/></li>
-											<li><span class="signup-submit-right"></span></li>
-									   </ul>
-									</td>	 
-								  </tr>
-								
-								  </table>
-								</div>
-											
-								</div>
-							</div>	
-					<table class="size-width">
-						<tr>
-							<td>
-								<p class="text-style"> Don't have a Accounter Login?</p>
-							</td>
-							<td>
-								<a class="link-color" href="/site/signup" tabindex="8"> SignUp Accounter for free</a>
-							</td>
-						</tr>
-						<!--<tr>				
-							<td></td><td></td><td></td><td></td>
-							<td> <a class="link-color1" href="/site/termsandconditions" tabindex="9" > Terms of Use</a></td>
-							 </tr>-->
-					</table>
-								
-		          		
-					</form>
-				
-				</div>
-				</div></div>
-			</div>
-			<div class="login_logo_image" >
-			<!--<div style="margin-top: 10px;text-align: right;">
-					<script type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=j3yAgRDXC0qfu3z4J9psqkMFAAaNWdtnwa12xlAaX24wXCiHRa4D4SkC">
-						</script>
-			</div>-->
-				<div class="down-test" id="down"></div>
-				</div>
-			<%@ include file="./footer.jsp" %>
-		</div>
-		</div>
+<div class="login-container">
+		   <img src="../images/Accounter_logo_title.png" class="login-accounterLogo" />
+		   <div id="login_error">
+		      <c:if test="${message != null}">
+				<span>${message} sdfsfd</span>
+			  </c:if>	
+		   </div>
+		   <form id="accounterForm" method="post" action="/login">
+		      <div>
+			    <label>Username</label>
+				<br>
+				<input id="mid-box"  type="text" name="emailId" tabindex="1">
+			  </div>
+			  <div>
+			    <label>Password</label>
+				<br>
+				<input id="mid-box1"  type="password" name="password" tabindex="2">
+			  </div>
+			  <div class="rememberMe">
+			    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn" value="unchecked"/> 
+				Remember Me
+			  </div>
+			  <div class="loginbutton">
+			     <input id="submitButton" style="width:60px" type="submit" class="signup-submit-mid" name="login" value="Login" tabindex="6"/>
+			  </div>
+		   </form>
+		   <div class="lost-password">
+		      <a href="/site/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
+		   </div>
+		</div>		
 		
 <script type="text/javascript">
 
