@@ -22,6 +22,11 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	private boolean wait;
 	private ClientCompany company = getCompany();
 
+	public CurrencyView() {
+		super();
+
+	}
+
 	@Override
 	public void init() {
 		super.init();
