@@ -86,7 +86,7 @@ Meteor = {
                                 Meteor.loadFrame(Meteor.getSubsUrl());
                         } else {
                         	  //document.domain=Meteor.extract_xss_domain(document.domain);
-                              Meteor.loadFrame(Meteor.protocol+"//"+Meteor.host+((Meteor.port=="") ? "" : ":"+Meteor.port)+"/stream.jsp");                              
+                              Meteor.loadFrame(Meteor.protocol+"//"+Meteor.host+((Meteor.port=="") ? "" : ":"+Meteor.port)+"/WEB-INF/stream.jsp");                              
                         }
                         clearTimeout(Meteor.pingtimer);
                 } 

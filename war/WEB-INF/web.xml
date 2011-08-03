@@ -284,15 +284,14 @@
 		<url-pattern>/do/accounter/report/rpc/service </url-pattern>
 	</servlet-mapping>
 
-	<!-- <servlet> -->
-	<!-- <servlet-name>createcompany</servlet-name> -->
-	<!-- <servlet-class>com.bizantra.server.servlets.CreateCompanyServlet -->
-	<!-- </servlet-class> -->
-	<!-- </servlet> -->
-	<!-- <servlet-mapping> -->
-	<!-- <servlet-name>createcompany</servlet-name> -->
-	<!-- <url-pattern>/createcompany</url-pattern> -->
-	<!-- </servlet-mapping> -->
+	<servlet>
+		<servlet-name>createcompany</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.CreateCompanyServlet </servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>createcompany</servlet-name>
+		<url-pattern>/createcompany</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>companyAuthentication</servlet-name>
@@ -382,6 +381,16 @@
 	<servlet-mapping>
 		<servlet-name>downloadFileFromFile</servlet-name>
 		<url-pattern>/do/downloadFileFromFile</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>initialzeCompany</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.InitializeCompanyServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>initialzeCompany</servlet-name>
+		<url-pattern>/initialzeCompany</url-pattern>
 	</servlet-mapping>
 
 
