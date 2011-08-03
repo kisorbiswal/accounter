@@ -2,14 +2,11 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -24,8 +21,6 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	private DynamicForm currencyForm;
 	private boolean wait;
 	private ClientCompany company = getCompany();
-	private DecoratedTabPanel tabSet;
-	private ArrayList<DynamicForm> listforms;
 
 	@Override
 	public void init() {
