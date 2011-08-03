@@ -15,7 +15,6 @@
 		where
 		activation.token
 		=:token
-
 	</query>
 
 	<query name="delete.activation.by.emailId">
@@ -56,12 +55,24 @@
 		from com.vimukti.accounter.core.ServerCompany c where
 		c.companyName=:name
 	</query>
-	
+
 	<query name="getServerCompany.by.id">
 		<query-param name="id" type="integer" />
 		from com.vimukti.accounter.core.ServerCompany c where
 		c.id=:id
 	</query>
 
+	<sql-query name="delete.Client.Companies">
+		<query-param name="clientID" type="String" />
+		delete from CLIENT_COMPANIES where CLIENT_ID=:clientID
+	</sql-query>
+
+	<query name="delete.ServerCompany.by.Id">
+		<query-param name="id" type="String" />
+		delete from com.vimukti.accounter.core.ServerCompany company
+		where
+		company.id
+		=:id
+	</query>
 
 </hibernate-mapping>

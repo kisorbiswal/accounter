@@ -36,13 +36,13 @@ public class NewLoginServlet extends BaseServlet {
 
 			if (client.isRequirePasswordReset()) {
 				client.setRequirePasswordReset(false);
-			}
-
-			Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-			try {
-				saveEntry(client);
-			} finally {
-				session.close();
+				Session session = HibernateUtil
+						.openSession(Server.LOCAL_DATABASE);
+				try {
+					saveEntry(client);
+				} finally {
+					session.close();
+				}
 			}
 
 			String destUrl = request.getParameter(PARAM_DESTINATION);

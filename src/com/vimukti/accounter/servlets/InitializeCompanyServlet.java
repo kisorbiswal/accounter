@@ -54,11 +54,12 @@ public class InitializeCompanyServlet extends BaseServlet {
 			Company company, long serverCompnayId, String emailID)
 			throws IOException {
 
+		String schemaName = Server.COMPANY + serverCompnayId;
+
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 		Transaction serverTransaction = session.beginTransaction();
 		try {
-			Query query = session.createSQLQuery("CREATE SCHEMA "
-					+ Server.COMPANY + serverCompnayId);
+			Query query = session.createSQLQuery("CREATE SCHEMA " + schemaName);
 			query.executeUpdate();
 			serverTransaction.commit();
 		} catch (Exception e) {
@@ -66,10 +67,9 @@ public class InitializeCompanyServlet extends BaseServlet {
 			serverTransaction.rollback();
 			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Exception while Creating CompanyDataBase");
+			return;
 		}
-
-		Session companySession = HibernateUtil.openSession(Server.COMPANY
-				+ serverCompnayId, true);
+		Session companySession = HibernateUtil.openSession(schemaName, true);
 		Transaction transaction = companySession.beginTransaction();
 		try {
 
@@ -92,12 +92,13 @@ public class InitializeCompanyServlet extends BaseServlet {
 			}
 
 			company.initialize();
-			
+
 			transaction.commit();
 			UsersMailSendar.sendMailToDefaultUser(user, company.geFulltName());
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			dropSchema(schemaName);
 			transaction.rollback();
 			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Exception while Creating Company");
@@ -106,6 +107,19 @@ public class InitializeCompanyServlet extends BaseServlet {
 			companySession.close();
 		}
 		resp.setStatus(HttpServletResponse.SC_OK);
+	}
+
+	private void dropSchema(String schemaName) {
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction serverTransaction = session.beginTransaction();
+		try {
+			Query query = session.getNamedQuery("DROP SCHEMA " + schemaName);
+			query.executeUpdate();
+			serverTransaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			serverTransaction.rollback();
+		}
 	}
 
 	/**

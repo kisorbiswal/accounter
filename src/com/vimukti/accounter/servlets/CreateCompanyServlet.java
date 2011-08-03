@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -47,10 +48,14 @@ public class CreateCompanyServlet extends BaseServlet {
 		Transaction transaction = session.beginTransaction();
 		try {
 			session.save(serverCompany);
+			client.getCompanies().add(serverCompany);
+			session.saveOrUpdate(client);
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
+		} finally {
+			session.close();
 		}
 		if (!validation(request, serverCompany)) {
 			request.setAttribute("errormessage",
@@ -68,6 +73,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			if (responseCode == 200) {
 				redirectExternal(request, response, ACCOUNTER_URL);
 			} else {
+				rollback(serverCompany, client);
 				request.setAttribute("message", "Company creation failed."
 						+ connection.getResponseMessage());
 				dispatch(request, response, view);
@@ -77,6 +83,29 @@ public class CreateCompanyServlet extends BaseServlet {
 			e1.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * @param serverCompany
+	 * @param client
+	 */
+	private void rollback(ServerCompany serverCompany, Client client) {
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
+		try {
+			Query query = session.getNamedQuery("delete.Client.Companies")
+					.setParameter("clientID", client.getID());
+			query.executeUpdate();
+			query = session.getNamedQuery("delete.ServerCompany.by.Id")
+					.setParameter("id", serverCompany.getID());
+			query.executeUpdate();
+			client.getCompanies().remove(serverCompany);
+			session.saveOrUpdate(client);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+		}
 	}
 
 	/**

@@ -1281,5 +1281,14 @@
 		from com.vimukti.accounter.core.ServerCompany sc left join sc.clients
 		c where sc.id=:id and c=:client
 	</query>
+	
+	
+	<sql-query name="create.schema">
+		CREATE SCHEMA ?
+	</sql-query>
+	
+	<sql-query name="drop.schema">
+		DROP SCHEMA ?
+	</sql-query>
 
 </hibernate-mapping>

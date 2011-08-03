@@ -93,7 +93,6 @@ public class SignupServlet extends BaseServlet {
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
-				client.setRequirePasswordReset(true);
 				saveEntry(client);
 
 				// Email to that user.
