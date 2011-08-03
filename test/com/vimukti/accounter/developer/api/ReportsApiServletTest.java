@@ -1,9 +1,6 @@
 package com.vimukti.accounter.developer.api;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 
 import javax.crypto.Mac;
@@ -11,9 +8,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.junit.Before;
 import org.junit.Test;
 import org.mortbay.jetty.testing.HttpTester;
@@ -26,9 +20,8 @@ public class ReportsApiServletTest extends TestCase {
 	private static final String DATE_FORMAT = "yyy-MM-dd HH:mm:ssZ";
 	private static final String apikey = "rwih8slp";
 	private static final String secretKey = "df2q64ik1q3q78lq";
-	private static final String LOCAL_PATH = "";// "http://localhost:8890";
 	private static final long companyId = 1;
-	private static String prefixUrl = "http://localhost:8890/api/xmlreports/";
+	private static final String prefixUrl = "/api/xmlreports/";
 
 	private ServletTester tester;
 	SimpleDateFormat simpleDateFormat;
@@ -44,21 +37,12 @@ public class ReportsApiServletTest extends TestCase {
 		simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 	}
 
-	private HttpTester prepareRequest(String url, String queryStr) {
-		HttpClient client = new HttpClient();
-		GetMethod getMethod = new GetMethod(url);
-		getMethod.setQueryString(queryStr);
-		try {
-			client.executeMethod(getMethod);
-			String string = getMethod.getResponseBodyAsString();
-			getMethod.releaseConnection();
-			System.out.println(string);
-		} catch (HttpException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+	private HttpTester prepareRequest(String queryStr, String methodName) {
+		String encodeString = new UrlEncoded(queryStr).encode();
+		String signature = doSigning(encodeString);
+		String queryString = "?" + encodeString + "&" + SIGNATURE + "="
+				+ signature;
+		String url = prefixUrl + methodName + queryString;
 		HttpTester request = new HttpTester();
 		request.setMethod("GET");
 		request.setHeader("Host", "tester");
@@ -121,26 +105,7 @@ public class ReportsApiServletTest extends TestCase {
 				+ "&Expire="
 				+ exprDate
 				+ "&StartDate=2011-07-01 12:00:00Z&EndDate=2011-08-30 12:00:00Z";
-
-		String encodeString = new UrlEncoded(queryStr).encode();
-
-		String signature = doSigning(encodeString);
-		String queryString = encodeString + "&" + SIGNATURE + "=" + signature;
-		sendRequest(prefixUrl + "salesbycustomersummary?" + queryString);
-
-		// testResponse(prepareRequest("/api/xmlreports/salesbycustomersummary",
-		// doSigning(queryStr)));
-	}
-
-	private void sendRequest(String urlStr) throws IOException {
-
-		URL url = new URL(urlStr);
-		URLConnection connection = url.openConnection();
-		InputStream stream = connection.getInputStream();
-		int i = stream.available();
-		byte[] data = new byte[i];
-		stream.read(data);
-		System.out.println(new String(data));
+		testResponse(prepareRequest("salesbycustomersummary", queryStr));
 	}
 
 	// @Test
