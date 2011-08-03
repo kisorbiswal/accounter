@@ -75,7 +75,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 		try {
 
 			// Creating User
-			User user = getUserFromHttpSession(request);
+			User user = getAdminUserFromHttpSession(request);
 			companySession.save(user);
 
 			company.getUsers().add(user);
@@ -127,7 +127,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 	/**
 	 * Returns User Object From Client HttpSession
 	 */
-	private User getUserFromHttpSession(HttpServletRequest request) {
+	private User getAdminUserFromHttpSession(HttpServletRequest request) {
 		User user = new User();
 		user.setFirstName(request.getParameter(PARAM_FIRST_NAME));
 		user.setLastName(request.getParameter(PARAM_LAST_NAME));
@@ -136,8 +136,16 @@ public class InitializeCompanyServlet extends BaseServlet {
 		user.setPhoneNo(request.getParameter(PARAM_PH_NO));
 		user.setUserRole(RolePermissions.ADMIN);
 		user.setAdmin(true);
-		user.setPermissions(new UserPermissions());
+		user.setCanDoUserManagement(true);
+		UserPermissions permissions = new UserPermissions();
+		permissions.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
+		permissions.setTypeOfExpences(RolePermissions.TYPE_YES);
+		permissions.setTypeOfInvoices(RolePermissions.TYPE_YES);
+		permissions.setTypeOfLockDates(RolePermissions.TYPE_YES);
+		permissions.setTypeOfPublishReports(RolePermissions.TYPE_YES);
+		permissions.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
+		permissions.setTypeOfViewReports(RolePermissions.TYPE_YES);
+		user.setPermissions(permissions);
 		return user;
 	}
-
 }

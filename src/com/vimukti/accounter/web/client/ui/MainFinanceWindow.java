@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -57,8 +56,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		initializeActionsWithTokens();
 		createControls();
 		sinkEvents(Event.ONMOUSEOVER);
-		if (GWT.isScript())
-			removeLoadingImage();
+		removeLoadingImage();
 
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 
