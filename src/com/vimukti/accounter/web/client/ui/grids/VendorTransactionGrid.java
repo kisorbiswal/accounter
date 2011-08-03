@@ -556,6 +556,7 @@ public class VendorTransactionGrid extends
 
 		Double vat = 0.0;
 		if (transactionView.isShowPriceWithVat()) {
+			//TODO raj
 			vat = ((ClientTransactionItem) record).getLineTotal()
 					- (100 * (((ClientTransactionItem) record).getLineTotal() / (100 + vatRate)));
 		} else {
@@ -661,13 +662,17 @@ public class VendorTransactionGrid extends
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
-				return DataUtils.getAmountAsString(item.getUnitPrice());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(item
+								.getUnitPrice()));
 			else {
 				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
-						.getAmountAsString(item.getUnitPrice()) : "";
+						.getAmountAsString(getAmountInForeignCurrency(item
+								.getUnitPrice())) : "";
 			}
 		case 5:
-			return DataUtils.getAmountAsString(item.getLineTotal());
+			return DataUtils.getAmountAsString(getAmountInForeignCurrency(item
+					.getLineTotal()));
 		case 6:
 			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK)
@@ -682,7 +687,9 @@ public class VendorTransactionGrid extends
 			// return "/images/delete.png";
 		case 7:
 			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				return DataUtils.getAmountAsString(item.getVATfraction());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(item
+								.getVATfraction()));
 			} else {
 				return Accounter.getFinanceMenuImages().delete();
 			}
@@ -752,6 +759,7 @@ public class VendorTransactionGrid extends
 	@Override
 	public void editComplete(ClientTransactionItem item, Object value, int col) {
 		// column index starts from '1'.
+
 		try {
 			boolean isItem = (item.getType() == ClientTransactionItem.TYPE_ITEM || item
 					.getType() == ClientTransactionItem.TYPE_SERVICE) ? true
@@ -812,6 +820,7 @@ public class VendorTransactionGrid extends
 				refreshVatValue();
 				break;
 			case 4:
+
 				String unitPriceString = value.toString() != null
 						|| value.toString().length() != 0 ? value.toString()
 						: "0";
@@ -825,8 +834,9 @@ public class VendorTransactionGrid extends
 				// unitPriceString = unitPriceString.replaceAll(",", "");
 				Double d = Double.parseDouble(DataUtils
 						.getReformatedAmount(unitPriceString) + "");
+
 				if (!AccounterValidator.validateGridUnitPrice(d)) {
-					item.setUnitPrice(d);
+					item.setUnitPrice(getAmountInBaseCurrency(d.doubleValue()));
 				} else {
 					d = 0.0D;
 					item.setUnitPrice(d);
@@ -858,7 +868,10 @@ public class VendorTransactionGrid extends
 								.validateGridLineTotal(lineTotal))
 								&& (!AccounterValidator
 										.isAmountTooLarge(lineTotal))) {
-							item.setLineTotal(lineTotal);
+
+							item.setLineTotal(getAmountInBaseCurrency(lineTotal
+									.doubleValue()));
+							// TODO
 							item.setUnitPrice(isItem ? lineTotal : 0);
 							ClientQuantity quant = new ClientQuantity();
 							quant.setValue(isItem ? 1 : 0);
