@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -291,4 +292,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public List<ClientUserInfo> getAllUsers() throws AccounterException;
 
 	public List<ClientEmployee> getAllEmployees() throws AccounterException;
+
+	List<ClientTransaction> getCustomerStatement(long customer, long fromDate,
+			long toDate) throws AccounterException;
 }

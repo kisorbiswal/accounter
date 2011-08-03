@@ -55,6 +55,7 @@ import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -1431,8 +1432,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			clientLog.setID(log.getID());
 			clientLog.setDescription(log.getDescription());
 			clientLog.setLogMessge(log.getLogMessge());
-//			clientLog.setCreatedDate(log.getCreatedDate().getDate());
-//			clientLog.setCreatedBy(log.getCreatedBy());
+			// clientLog.setCreatedDate(log.getCreatedDate().getDate());
+			// clientLog.setCreatedBy(log.getCreatedBy());
 
 			clientLogs.add(clientLog);
 		}
@@ -1554,6 +1555,16 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			return tool.getAllEmployees();
+		}
+		return null;
+	}
+
+	@Override
+	public List<ClientTransaction> getCustomerStatement(long customer,
+			long fromDate, long toDate) throws AccounterException {
+		FinanceTool tool = getFinanceTool();
+		if(tool != null) {
+			return tool.getCustomerStatement(customer, fromDate, toDate);
 		}
 		return null;
 	}
