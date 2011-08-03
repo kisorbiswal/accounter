@@ -168,7 +168,7 @@ public class BaseServlet extends HttpServlet {
 
 		Session currentSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = currentSession.beginTransaction();
-		currentSession.save(object);
+		currentSession.saveOrUpdate(object);
 		try {
 			transaction.commit();
 		} catch (Exception e) {
