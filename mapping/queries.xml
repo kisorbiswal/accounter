@@ -36,38 +36,38 @@
 
 
 	<query name="get.canVoidOrEditTransaction.from.transactionID">
-		select t.canVoidOrEdit from Transaction t where t.id=?
+		select t.canVoidOrEdit from com.vimukti.accounter.core.Transaction t where t.id=?
 	</query>
 
 	<query name="getdistnct.from.traction.by.date">
 		select distinct(t.transactionDate) from
-		Transaction t where
+		com.vimukti.accounter.core.Transaction t where
 		t.transactionDate &gt;=
 		(select
 		c.preferences.depreciationStartDate
 		from
-		Company c where c.id is not
+		com.vimukti.accounter.core.Company c where c.id is not
 		null) and
 		t.transactionDate &lt;= (select max(d.depreciateTo) from
-		Depreciation d where d.status=?) order by
+		com.vimukti.accounter.core.Depreciation d where d.status=?) order by
 		t.transactionDate
 	</query>
 
 	<query name="getFixedAsset.from.id">
 		select f from
-		FixedAsset f where f.id=?
+		com.vimukti.accounter.core.FixedAsset f where f.id=?
 	</query>
 
 	<query name="getEntry.from.journalEntryType">
 		select je from
-		Entry e inner join
+		com.vimukti.accounter.core.Entry e inner join
 		e.journalEntry je where
 		e.journalEntryType=3 order by je.id
 	</query>
 
 	<query name="getTransactionNumber.from.typeandId">
 		select t.number from
-		Transaction t where
+		com.vimukti.accounter.core.Transaction t where
 		t.type
 		=? and
 		t.id=?
@@ -75,19 +75,19 @@
 
 
 	<query name="getEntry.orderedby.id">
-		select je from Entry e inner join
+		select je from com.vimukti.accounter.core.Entry e inner join
 		e.journalEntry je where
 		e.customer.id=? order by je.id
 	</query>
 
 	<query name="getFiscalYear.by.check.isCurrentFiscalYearistrue">
-		select f.startDate from FiscalYear f where
+		select f.startDate from com.vimukti.accounter.core.FiscalYear f where
 		f.isCurrentFiscalYear=true
 	</query>
 
 	<query name="getEntry.by.debitand.balanceDue.orderbyid">
 		select je from
-		Entry e
+		com.vimukti.accounter.core.Entry e
 		inner join
 		e.journalEntry je where
 		e.debit!=0.0 and
@@ -98,7 +98,7 @@
 
 	<query name="getEntry.by.vendorId.creditand.balanceDue.orderbyid">
 		select je from
-		Entry e inner join
+		com.vimukti.accounter.core.Entry e inner join
 		e.journalEntry je where
 		e.vendor.id=? and e.credit!=0.0 and
 		je.balanceDue>0.0 order by
@@ -107,7 +107,7 @@
 
 	<query name="getEntry.by.customerId.debitand.balanceDue.orderbyid">
 		select je from
-		Entry e inner join
+		com.vimukti.accounter.core.Entry e inner join
 		e.journalEntry je where
 		e.customer.id=? and e.debit !=0.0 and
 		je.balanceDue>0.0
@@ -118,17 +118,17 @@
 
 	<query name="getVATReturn.checkingby.taxagencyidand.dates">
 		select min(v.VATperiodStartDate), max(v.VATperiodEndDate) from
-		VATReturn v where v.taxAgency.id
+		com.vimukti.accounter.core.VATReturn v where v.taxAgency.id
 		=? group by v.taxAgency.id
 	</query>
 
 	<query name="get.name.fromAccount.byId">
 		select a.name from
-		Account a where a.id=?
+		com.vimukti.accounter.core.Account a where a.id=?
 	</query>
 
 	<query name="getDepreciation.from.depreciateFrom.byFixedassetId">
-		select d from Depreciation d inner join
+		select d from com.vimukti.accounter.core.Depreciation d inner join
 		d.fixedAsset where d.depreciateFrom >=? and d.status=? and
 		d.fixedAsset.id=?
 	</query>
@@ -136,7 +136,7 @@
 	<query name="update.Entry.oldNameTo.newName">
 		<query-param name="newName" type="string" />
 		<query-param name="oldName" type="string" />
-		update Entry set memo=:newName where memo=:oldName
+		update com.vimukti.accounter.core.Entry set memo=:newName where memo=:oldName
 	</query>
 
 	<query name="get.TransactionDate.from.TransactionbyDate">
@@ -151,50 +151,50 @@
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		select at.account.id as accountId, sum(at.amount) as amount from
-		AccountTransaction at where at.account.type in (14,15,16,17,18) and
+		com.vimukti.accounter.core.AccountTransaction at where at.account.type in (14,15,16,17,18) and
 		at.transaction.transactionDate between :startDate and :endDate group
 		by at.account.id
 	</query>
 
 	<query name="getDepreciation.byFixedAsset.andWithDetails">
-		select d from Depreciation d inner join
+		select d from com.vimukti.accounter.core.Depreciation d inner join
 		d.fixedAsset where d.depreciateFrom >= ? and d.status=? and
 		d.fixedAsset.id=? group by d.fixedAsset.id
 	</query>
 
 
 	<query name="getEntry.byId.andMax">
-		select e.voucherNumber from Entry e where
-		e.id = (select max(e1.id) from Entry e1 )
+		select e.voucherNumber from com.vimukti.accounter.core.Entry e where
+		e.id = (select max(e1.id) from com.vimukti.accounter.core.Entry e1 )
 	</query>
 
 	<query name="getCustomerNumber.byId.andOrder">
-		select c.number from Customer c order by c.id
+		select c.number from com.vimukti.accounter.core.Customer c order by c.id
 	</query>
 
 	<query name="getassestNumber.from.FixedAsset">
-		select f.assetNumber from FixedAsset f
+		select f.assetNumber from com.vimukti.accounter.core.FixedAsset f
 	</query>
 
 	<query name="getTransactionNumber.by.type">
 		<query-param name="transactionType" type="integer" />
-		select t.number from Transaction t where t.type =:transactionType
+		select t.number from com.vimukti.accounter.core.Transaction t where t.type =:transactionType
 	</query>
 
 	<query name="getPayeename.from.PayeebyId">
 		<query-param name="id" type="long" />
-		select p.name from Payee p where p.id=:id
+		select p.name from com.vimukti.accounter.core.Payee p where p.id=:id
 	</query>
 
 
 	<query name="getFlow.by.Id.from.Account">
-		select a.flow from Account a where a.id= (select max(a1.id) from
-		Account a1 where a1.parent is null)
+		select a.flow from com.vimukti.accounter.core.Account a where a.id= (select max(a1.id) from
+		com.vimukti.accounter.core.Account a1 where a1.parent is null)
 	</query>
 
 	<query name="getCount.from.Account.and.parent">
 		<query-param name="parentId" type="long" />
-		select count(*) from Account a where
+		select count(*) from com.vimukti.accounter.core.Account a where
 		a.parent.id=:parentId
 	</query>
 
