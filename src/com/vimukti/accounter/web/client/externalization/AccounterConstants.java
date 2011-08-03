@@ -4386,4 +4386,6 @@ public interface AccounterConstants extends Constants {
 
 	public String cashDiscountGiven();
 
+	public String noLogoIsAdded();
+
 }

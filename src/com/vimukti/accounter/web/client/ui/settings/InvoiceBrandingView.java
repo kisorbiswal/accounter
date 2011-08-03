@@ -397,7 +397,7 @@ public class InvoiceBrandingView<T> extends
 			@Override
 			public void onClick(ClickEvent event) {
 				if (theme.getFileName() == null) {
-					Accounter.showInformation(Accounter.messages()
+					Accounter.showInformation(Accounter.constants()
 							.noLogoIsAdded());
 				} else {
 					removeLogo(theme);

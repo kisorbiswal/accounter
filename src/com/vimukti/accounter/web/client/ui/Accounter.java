@@ -124,7 +124,7 @@ public class Accounter implements EntryPoint {
 
 	private void initGUI() {
 		this.mainWindow = new MainFinanceWindow();
-		RootPanel.get("accounter").add(this.mainWindow);
+		RootPanel.get().add(this.mainWindow);
 	}
 
 	public static IAccounterCRUDServiceAsync createCRUDService() {
