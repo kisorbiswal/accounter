@@ -880,9 +880,9 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	public CurrencyWidget createCurrencyWidget(List<ClientCurrency> currencies,
 			ClientCurrency baseCurrency) {
-		if (!((currencies == null) && (baseCurrency == null))) {
+		/*if (!((currencies == null) && (baseCurrency == null))) {
 			getCurrencyWidget();
-		}
+		}*/
 		return new CurrencyWidget(currencies, baseCurrency);
 
 	}
