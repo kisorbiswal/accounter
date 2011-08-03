@@ -10,12 +10,10 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
@@ -23,7 +21,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -190,7 +187,7 @@ public class InvoiceBrandingView<T> extends
 
 		subLayPanel = new VerticalPanel();
 
-		editButton = new AccounterButton("Edit");
+		editButton = new AccounterButton(Accounter.constants().edit());
 		editButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -199,7 +196,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		});
 
-		copyThemeButton = new AccounterButton("Copy");
+		copyThemeButton = new AccounterButton(Accounter.constants().copy());
 		copyThemeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -208,7 +205,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		});
 
-		deleteButton = new AccounterButton("Delete");
+		deleteButton = new AccounterButton(Accounter.constants().delete());
 		deleteButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -350,7 +347,7 @@ public class InvoiceBrandingView<T> extends
 			original.append("/>");
 			uploadPictureHtml = new HTML("" + original);
 		}
-		changeLogoHtml = new HTML("Change logo");
+		changeLogoHtml = new HTML(Accounter.constants().changeLogo());
 		changeLogoHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -376,7 +373,7 @@ public class InvoiceBrandingView<T> extends
 				changeLogo(theme);
 			}
 		});
-		removeLogoHtml = new HTML("Remove logo");
+		removeLogoHtml = new HTML(Accounter.constants().removeLogo());
 		removeLogoHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -400,7 +397,8 @@ public class InvoiceBrandingView<T> extends
 			@Override
 			public void onClick(ClickEvent event) {
 				if (theme.getFileName() == null) {
-					Accounter.showInformation("No Logo is added to Remove");
+					Accounter.showInformation(Accounter.messages()
+							.noLogoIsAdded());
 				} else {
 					removeLogo(theme);
 				}
@@ -458,7 +456,7 @@ public class InvoiceBrandingView<T> extends
 		deleteButton.getElement().getAbsoluteRight();
 		deleteButton.enabledButton();
 
-		if (theme.getName().equalsIgnoreCase("Standard")) {
+		if (theme.getName().equalsIgnoreCase(Accounter.constants().standard())) {
 			deleteButton.setVisible(false);
 		} else {
 			deleteButton.setVisible(true);
@@ -551,38 +549,38 @@ public class InvoiceBrandingView<T> extends
 	// return bar;
 	// }
 
-	private Command getOptions(final int type, final PopupPanel panel,
-			final ClientBrandingTheme theme) {
-		final Command command = new Command() {
-
-			@Override
-			public void execute() {
-				panel.hide();
-				switch (type) {
-				case 1:
-					ActionFactory.getNewBrandThemeAction().run(theme, false);
-					break;
-				case 2:
-					ActionFactory.getCopyThemeAction().run(theme, false);
-					break;
-				case 3:
-					changeLogo(theme);
-					break;
-				case 4:
-					ActionFactory.getDeleteThemeAction().run(theme, false);
-					break;
-				case 5:
-					removeLogo(theme);
-					break;
-				case 6:
-					changeLogo(theme);
-					break;
-				default:
-				}
-			}
-		};
-		return command;
-	}
+	// private Command getOptions(final int type, final PopupPanel panel,
+	// final ClientBrandingTheme theme) {
+	// final Command command = new Command() {
+	//
+	// @Override
+	// public void execute() {
+	// panel.hide();
+	// switch (type) {
+	// case 1:
+	// ActionFactory.getNewBrandThemeAction().run(theme, false);
+	// break;
+	// case 2:
+	// ActionFactory.getCopyThemeAction().run(theme, false);
+	// break;
+	// case 3:
+	// changeLogo(theme);
+	// break;
+	// case 4:
+	// ActionFactory.getDeleteThemeAction().run(theme, false);
+	// break;
+	// case 5:
+	// removeLogo(theme);
+	// break;
+	// case 6:
+	// changeLogo(theme);
+	// break;
+	// default:
+	// }
+	// }
+	// };
+	// return command;
+	// }
 
 	protected void removeLogo(ClientBrandingTheme theme) {
 
@@ -601,7 +599,7 @@ public class InvoiceBrandingView<T> extends
 						InvoiceBrandingView.this);
 			}
 		};
-		FileUploadDilaog dilaog = new FileUploadDilaog("Upload file", "uday",
+		FileUploadDilaog dilaog = new FileUploadDilaog("Upload file", "parent",
 				callback, null, theme);
 		dilaog.center();
 

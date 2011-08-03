@@ -504,9 +504,11 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// reportMenuBar.addItem(Accounter.constants()
 		// .banking(), getBankingSubMenu());
 		// }
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			reportMenuBar.addItem(Accounter.constants().vat(),
-					getVATReportMenu());
+		if (Accounter.getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				reportMenuBar.addItem(Accounter.constants().vat(),
+						getVATReportMenu());
+			}
 		}
 		// reportMenuBar.addItem(Accounter.constants()
 		// .salesAndPurchaseOrders(), getSalesAndPurchaseMenu());
