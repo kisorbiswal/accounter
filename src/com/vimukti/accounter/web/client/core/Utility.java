@@ -757,11 +757,11 @@ public class Utility implements IsSerializable, Serializable {
 		}
 		subStringArray[j] = lhs.substring(0, i + 1);
 		String placeValue = "";
-
+		
 		String faceValue = "";
-
+		
 		String subPlaceValue = "";
-
+		
 		String subFaceValue = "";
 		if (subStringArray.length > 1) {
 			for (i = 0; i < subStringArray.length; i++) {
@@ -856,34 +856,34 @@ public class Utility implements IsSerializable, Serializable {
 			char c = lhs.charAt(0);
 			switch (c) {
 			case '0':
-				start = Accounter.constants().zero();
+				start = "ZERO";
 				break;
 			case '1':
-				start = Accounter.constants().one();
+				start = "ONE";
 				break;
 			case '2':
-				start = Accounter.constants().two();
+				start = "TWO";
 				break;
 			case '3':
-				start = Accounter.constants().three();
+				start = "THREE";
 				break;
 			case '4':
-				start = Accounter.constants().four();
+				start = "FOUR";
 				break;
 			case '5':
-				start = Accounter.constants().five();
+				start = "FIVE";
 				break;
 			case '6':
-				start = Accounter.constants().six();
+				start = "SIX";
 				break;
 			case '7':
-				start = Accounter.constants().seven();
+				start = "SEVEN";
 				break;
 			case '8':
-				start = Accounter.constants().eight();
+				start = "EIGHT";
 				break;
 			case '9':
-				start = Accounter.constants().nine();
+				start = "NINE";
 				break;
 			}
 			return new Object[] { start, mid };
@@ -905,49 +905,49 @@ public class Utility implements IsSerializable, Serializable {
 				}
 
 				if (modLhs.equals("10"))
-					start = Accounter.constants().ten();
+					start = "TEN";
 				else if (modLhs.equals("11"))
-					start = Accounter.constants().eleven();
+					start = "ELEVEN";
 				else if (modLhs.equals("12"))
-					start = Accounter.constants().twelve();
+					start = "TWELVE";
 				else if (modLhs.equals("13"))
-					start = Accounter.constants().thirteen();
+					start = "THIRTEEN";
 				else if (modLhs.equals("14"))
-					start = Accounter.constants().fourteen();
+					start = "TOURTEEN";
 				else if (modLhs.equals("15"))
-					start = Accounter.constants().fifteen();
+					start = "TIFTEEN";
 				else if (modLhs.equals("16"))
-					start = Accounter.constants().sixteen();
+					start = "TIXTEEN";
 				else if (modLhs.equals("17"))
-					start = Accounter.constants().seventeen();
+					start = "SEVENTEEN";
 				else if (modLhs.equals("18"))
-					start = Accounter.constants().eightteen();
+					start = "EIGHTEEN";
 				else if (modLhs.equals("19"))
-					start = Accounter.constants().nineteen();
+					start = "NINETEEN";
 
 				else if (modLhs.equals("20"))
-					start = Accounter.constants().twenty();
+					start = "TWENTY -";
 				else if (modLhs.equals("30"))
-					start = Accounter.constants().thirty();
+					start = "THIRTY -";
 				else if (modLhs.equals("40"))
-					start = Accounter.constants().forty();
+					start = "FORTY -";
 				else if (modLhs.equals("50"))
-					start = Accounter.constants().fifty();
+					start = "FIFTY -";
 				else if (modLhs.equals("60"))
-					start = Accounter.constants().sixty();
+					start = "SIXTY -";
 				else if (modLhs.equals("70"))
-					start = Accounter.constants().seventy();
+					start = "SEVENTY -";
 				else if (modLhs.equals("80"))
-					start = Accounter.constants().eighty();
+					start = "EIGHTY -";
 				else if (modLhs.equals("90"))
-					start = Accounter.constants().ninty();
+					start = "NINTY -";
 
 				return new Object[] { start, mid };
 			} else if (length > 2) {
 
 				switch (length) {
 				case 3:
-					start = Accounter.constants().hundred();
+					start = "HUNDRED";
 					break;
 				}
 				return new Object[] { start, mid };
@@ -1368,56 +1368,56 @@ public class Utility implements IsSerializable, Serializable {
 
 		case ClientItem.TYPE_SERVICE:
 
-			itemText = Accounter.constants().serviceItem();
+			itemText = "Service Item";
 			break;
 
 		case ClientItem.TYPE_INVENTORY_PART:
 
-			itemText = Accounter.constants().inventoryPart();
+			itemText = "Inventory Part";
 
 			break;
 
 		case ClientItem.TYPE_DISCOUNT:
 
-			itemText = Accounter.constants().discount();
+			itemText = "Discount";
 			break;
 
 		case ClientItem.TYPE_GROUP:
 
-			itemText = Accounter.constants().group();
+			itemText = "Group";
 			break;
 
 		case ClientItem.TYPE_INVENTORY_ASSEMBLY:
 
-			itemText = Accounter.constants().inventoryAssembly();
+			itemText = "Inventory Assembly";
 			break;
 
 		case ClientItem.TYPE_NON_INVENTORY_PART:
 
-			itemText = Accounter.constants().nonInventory();
+			itemText = "Non Inventory";
 			break;
 
 		case ClientItem.TYPE_PAYMENT:
 
-			itemText = Accounter.constants().payment();
+			itemText = "Payment";
 
 			break;
 
 		case ClientItem.TYPE_SALES_TAX_GROUP:
 
-			itemText = Accounter.constants().salesTaxGroup();
+			itemText = "Sales Tax Group";
 
 			break;
 
 		case ClientItem.TYPE_SALES_TAX_ITEM:
 
-			itemText = Accounter.constants().salesTaxItem();
+			itemText = "Sales Tax Item";
 
 			break;
 
 		case ClientItem.TYPE_SUBTOTAL:
 
-			itemText = Accounter.constants().subTotal();
+			itemText = "SubTotal";
 
 			break;
 		default:
