@@ -9854,7 +9854,8 @@ public class FinanceTool implements IFinanceDAOService {
 				.getNamedQuery("list.BrandingTheme").list()));
 
 		company = company.toCompany(company);
-
+		company.setTradingAddress(company.getTradingAddress());
+		company.setRegisteredAddress(company.getRegisteredAddress());
 		ClientCompany clientCompany = new ClientConvertUtil().toClientObject(
 				company, ClientCompany.class);
 
