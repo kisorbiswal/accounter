@@ -177,7 +177,7 @@
 	</query>
 
 	<query name="getTransactionNumber.by.type">
-		<query-param name="transactionType" type="integer" />
+		<query-param name="transactionType" type="int" />
 		select t.number from com.vimukti.accounter.core.Transaction t where t.type =:transactionType
 	</query>
 
@@ -301,12 +301,12 @@
 	</query>
 
 	<query name="getFisacalyear.by.Startdate">
-		<query-param name="status" type="integer" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.FiscalYear f order by f.startDate
 	</query>
 
 	<query name="getFiscalyear.byId.andDates">
-		<query-param name="status" type="integer" />
+		<query-param name="status" type="int" />
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.FiscalYear f where f.id !=:id and
 		f.startDate &lt; :startDate order by f.startDate desc
@@ -390,7 +390,7 @@
 		<query-param name="vatAgency" type="long" />
 		from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem
 		is not null and vr.taxItem.taxAgency.id=:vatAgency and
-		vr.transactionDate > :toDate and vr.vatReturn is null
+		vr.transactionDate &gt; :toDate and vr.vatReturn is null
 	</query>
 
 	<query name="gettransaction.by.dateand.AccountNumber">
@@ -525,7 +525,7 @@
 		cs where cs.id =:id and cs.company.id =:companyID </query> -->
 
 	<query name="getTAXAdjustments.by.taxAgencyIdand.Date">
-		<query-param name="vatAgency" type="integer" />
+		<query-param name="vatAgency" type="int" />
 		<query-param name="fromDate" type="LongUseType" />
 		<query-param name="toDate" type="LongUseType" />
 		from com.vimukti.accounter.core.TAXAdjustment v where
@@ -536,7 +536,7 @@
 
 	<query name="getTAXRateCalculations.by.taxAgencyIdand.Date">
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
-		<query-param name="vatAgency" type="integer" />
+		<query-param name="vatAgency" type="int" />
 		from com.vimukti.accounter.core.TAXRateCalculation vr where vr.taxItem
 		is not null and vr.taxItem.taxAgency.id=:vatAgency and
 		vr.transactionDate &lt;= :toDate and vr.vatReturn is null
@@ -648,8 +648,8 @@
 
 	<query name="getCashPurchase.by.employeeNmae.expenseStatusandtype">
 		<query-param name="employeeName" type="String" />
-		<query-param name="type" type="integer" />
-		<query-param name="expenseStatus" type="integer" />
+		<query-param name="type" type="int" />
+		<query-param name="expenseStatus" type="int" />
 		from com.vimukti.accounter.core.CashPurchase cp where
 		cp.employee.fullName=:employeeName and cp.expenseStatus=:expenseStatus
 		and
@@ -657,8 +657,8 @@
 	</query>
 
 	<query name="getCashPurchase.by.expenseStatusandtype">
-		<query-param name="type" type="integer" />
-		<query-param name="expenseStatus" type="integer" />
+		<query-param name="type" type="int" />
+		<query-param name="expenseStatus" type="int" />
 		from com.vimukti.accounter.core.CashPurchase cp where
 		cp.expenseStatus=:expenseStatus and cp.type=:type and cp.isVoid=false
 	</query>
@@ -686,7 +686,7 @@
 	</query>
 
 	<query name="getFixedAsset.by.status">
-		<query-param name="status" type="integer" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.FixedAsset f where
 		f.status = :status
 	</query>
@@ -729,7 +729,7 @@
 	</query>
 
 	<query name="getVATReturn.by.taxagencyandenddate">
-		<query-param name="taxAgency" type="integer" />
+		<query-param name="taxAgency" type="int" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.VATReturn vt where
 		vt.taxAgency.id=:taxAgency and vt.VATperiodEndDate=:endDate
@@ -838,7 +838,7 @@
 
 
 	<query name="getTAXAdjustment.by.taxAgencyidanddates">
-		<query-param name="taxAgency" type="integer" />
+		<query-param name="taxAgency" type="int" />
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXAdjustment v where
