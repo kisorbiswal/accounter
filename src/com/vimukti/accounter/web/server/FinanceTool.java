@@ -11460,4 +11460,11 @@ public class FinanceTool implements IFinanceDAOService {
 		return employees;
 	}
 
+	@Override
+	public List<ClientTransaction> getCustomerStatement(long customer,
+			long fromDate, long toDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
