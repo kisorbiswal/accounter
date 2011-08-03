@@ -204,6 +204,9 @@ public class CometClient {
 
 	public static void unRegister(String entryPoint, String stream) {
 		CometClient client = clients.get(entryPoint);
+		if(client==null){
+			return;
+		}
 		ICometListener listner = client.callbacks.get(stream);
 		client.removeListner(stream, listner);
 	}
