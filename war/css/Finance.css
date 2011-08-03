@@ -59,7 +59,7 @@ body {
 .portlet .panel-title { /*float: left;*/
 	left: 0;
 	position: absolute;
-	color: white;
+/*	color: white;*/
 }
 
 html,body {
@@ -755,7 +755,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .finance-portlet .decor00 {
 	/*background: url(../images/headerNew-l.png) no-repeat 0px 0px !important;*/
-	background:none repeat scroll 0 0 #1A5158;
+/*	background:none repeat scroll 0 0 #1A5158;*/
 }
 
 .finance-portlet td.td10 {
@@ -857,8 +857,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .decor00,.no-title .biz-decor-panel div.decor00 {
-	background: transparent url(../images/headerNew-l.png) no-repeat scroll
-		-2px 0;
+/*	background: transparent url(../images/headerNew-l.png) no-repeat scroll
+		-2px 0;*/
 }
 
 td.td01,.no-title .biz-decor-panel td.td01 {
@@ -871,7 +871,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 .decor02,.no-title .biz-decor-panel div.decor02 {
 	/*background: transparent url(../images/headerNew-r.png) no-repeat scroll
 		-8px 0;*/
-	  background:none repeat scroll 0 0 #1A5158;
+	 /* background:none repeat scroll 0 0 #1A5158;*/
 }
 
 .gwt-MenuBarPopup .menuPopupTopCenter {
@@ -1020,7 +1020,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 
 .portletLabel {
-	color: white !important;
+	/*color: white !important;*/
 	font-size: 13px;
 	margin-top: -2px;
 }
