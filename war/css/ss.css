@@ -143,7 +143,7 @@ p {
 }
 
 a:link {
-	text-decoration: none !important;
+	text-decoration: none;
 } /* unvisited link */
 #top {
 	clear: both;
@@ -1838,12 +1838,14 @@ input[type="submit"]:FOCUS {
 }
 
 .success_box {
-	background: none repeat scroll 0 0 white;
-    border: 1px solid #929292;
-    clear: both;
-    color: #3299A4;
-    padding: 10px;
-    text-align: center;
+	background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
+    font-weight: normal;
+    margin-left: 8px;
+    padding: 26px 24px 46px;
+    text-align:center;
 }
 .mandatory{
 	background-color: #FFFFE6;
@@ -1903,6 +1905,7 @@ form{
 #commanContainer{
     margin: 7em auto;
     width: 320px;
+    text-align:left;
 }
 #commanContainer label{
     color: #777777;
@@ -1917,7 +1920,7 @@ form{
     margin-left: 8px;
     padding: 26px 24px 46px;
 }
-#commanContainer  input[type="text"],#commanContainer  input[type="password"]{
+#commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select{
     background: none repeat scroll 0 0 #FBFBFB;
     border: 1px solid #E5E5E5;
     box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
@@ -1930,7 +1933,7 @@ form{
 .rememberMe{
     float:left;
 }
-.loginbutton,#forgot-login{
+.loginbutton,#forgot-login,.signup-submit,.reset-button{
     float:right;
 	margin-right: 8px;
 }
@@ -1951,12 +1954,12 @@ form{
     background:#1a5158;
 	border:1px solid #9ebfc3;
 }
-.form-bottom-options{
+.form-bottom-options,.activate-code{
     margin: 0 0 0 16px;
     padding: 16px 16px 0;
     text-shadow: 0 1px 0 #FFFFFF;
 }
-.form-bottom-options a{
+.form-bottom-options a,#commanContainer a{
    color:#28757D;
    text-decoration:underline;
 }
@@ -1980,5 +1983,15 @@ form{
     background-color: #FFFFE0;
     border-color: #E6DB55;
 }
-
+.signup-container{
+   width:500px !important;
+   margin:10px auto !important;
+}
+.signup-submit{
+   margin-top:15px;
+}
+.reset-header{
+   color:#28757D;
+   margin-bottom:10px;
+}
 /* End of the new Login and forgot password page*/
