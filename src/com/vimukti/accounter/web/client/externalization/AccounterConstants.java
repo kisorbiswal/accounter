@@ -608,8 +608,6 @@ public interface AccounterConstants extends Constants {
 
 	public String cashDiscount();
 
-	public String cashDiscountGiven();
-
 	public String cashDiscountPleaseAddDetails();
 
 	public String cashDiscountTaken();
@@ -3015,8 +3013,6 @@ public interface AccounterConstants extends Constants {
 	public String productName();
 
 	public String products();
-
-	public String productsMaterialsPurchasedTypeA();
 
 	public String profitAndLoss();
 
