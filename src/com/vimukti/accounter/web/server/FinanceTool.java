@@ -11463,8 +11463,13 @@ public class FinanceTool implements IFinanceDAOService {
 	@Override
 	public List<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("get.customer.statement.by.date");
+		query.setParameter("customerid", customer);
+		query.setParameter("fromDate", fromDate);
+		query.setParameter("toDate", toDate);
+		
+		return query.list();
 	}
 
 }
