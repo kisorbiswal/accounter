@@ -59,11 +59,12 @@ public class TransactionReceiveVATGrid extends
 	@Override
 	public void editComplete(ClientTransactionReceiveVAT editingRecord,
 			Object value, int col) {
-
 		try {
 
-			double payment = Double.parseDouble(DataUtils
-					.getReformatedAmount(value.toString()) + "");
+			// double payment = Double.parseDouble(DataUtils
+			// .getReformatedAmount(value.toString()) + "");
+			double payment = getAmountInBaseCurrency(((Double) value)
+					.doubleValue());
 			editingRecord.setAmountToReceive(payment);
 			updateData(editingRecord);
 
@@ -102,10 +103,14 @@ public class TransactionReceiveVATGrid extends
 					payVAT.getTaxAgency());
 			return taxAgency != null ? taxAgency.getName() : "";
 		case 1:
-			return DataUtils.getAmountAsString(payVAT.getTaxDue());
+			return DataUtils
+					.getAmountAsString(getAmountInForeignCurrency(payVAT
+							.getTaxDue()));
 
 		case 2:
-			return DataUtils.getAmountAsString(payVAT.getAmountToReceive());
+			return DataUtils
+					.getAmountAsString(getAmountInForeignCurrency(payVAT
+							.getAmountToReceive()));
 		default:
 			break;
 		}
