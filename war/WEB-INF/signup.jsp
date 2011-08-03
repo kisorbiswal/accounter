@@ -131,77 +131,51 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 
 </head>
 <body>
-	<div class ="body-container">
-	<%@ include file="./header.jsp" %>
-		<div class="middle-part" id="cen">
-			<div class="middle-signup-box" id="mid">
-			  <div class="back-signup-box">
-				<c:if test="${successmessage==null}">
-				<h2>Sign up</h2>
-				</c:if>
-					
-							<c:if test="${successmessage!=null}">
-							   <div class="success_box"><b style="color: #3299A4; font-size: 17px;">${successmessage}</b></div>
-							   <div><a href="/activation">Click here to enter activation code</a></div>
-							</c:if>
-							<div id="hiddenLoaderDiv" class="hiddenDiv">
-								<img src="/images/icons/loading-indicator.gif" height="50" width="50">
-								<span style="position: absolute; margin: 10px;">Please Wait...</span>
-							</div>
-							<c:if test="${successmessage==null}">
-							<div id="signup" class="left-side-box">
-								<form id="accounterForm" method="post" action="/signup"">
-								<fieldset class="fieldset"">
-                           <table id="signup-fields" class="signup-fields-box" width="100%">
-								
-								<tr>
-									
-									<td class="signup-box">
-									  <div class="admin_details_header" ><h3 style="float:left">Admin Details</h3><span class="mandatory">All fields are mandatory</span></div>
-									<table>
-										<tr>
-									 <td style="width : 155px;padding-bottom: 9px"><span>First Name</span>  </td>
-									 <td style="padding-bottom: 9px">
-										<input id="mid-box"  type="text" tabindex="4" name="firstName">					
-									 </td>
-								  </tr>
-								  <tr>
-									<td style="width : 155px"><span>Last Name </span> </td>
-									<td>
-										 <input id="mid-box1"  type="text" tabindex="5" name="lastName">
-										</td>
-								  </tr>
-								  <tr>
-									 <td style="width : 155px"><span>Email ID </span> </td>
-									 <td style="padding: 9px 0">
-										<input id="mid-box2"  type="text" tabindex="6" name="emailId">
-									 </td>
-									 <td id="email_id_box">
-									 </td>
-								  </tr>
-								  <tr>
-									 <td style="width : 155px"><span>Password</span>  </td>
-									 <td>
-										 <input id="mid-box4"  type="password" tabindex="7" name="password">
-									 </td>
-								  </tr>
-								  <tr>
-									 <td style="width : 155px">Confirm Password  </td>
-									 <td>
-										 <input id="mid-box5"  type="password" tabindex="8" name="confirmPassword">
-									 </td>
-								  </tr>
-								  <tr>
-									 <td style="width : 155px"><span>Phone Number</span> </td>
-									 <td>
-										 <input id="mid-box6"  type="text" tabindex="9" name="phoneNumber">
-										</td>
-								  </tr>
-								  <tr>
-									 <td style="width : 155px;padding-top: 11px"><span>Country</span> </td>
-									 <td style="padding-top: 5px;">
-										 <select id="select-box" tabindex="10" name="country">
-										 	<option value="United Kingdom">United Kingdom</option>
+	<div id="commanContainer" class="signup-container">	
+  <img src="../images/Accounter_logo_title.png" class="accounterLogo" />	
+  <img  style="display:none" src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50">
+  <c:if test="${successmessage!=null}">
+	<div  class="success_box"><b style="color: #3299A4; font-size: 17px;">${successmessage}</b></div>
+	<div class="activate-code"><a href="/activation">Click here to enter activation code</a></div>
+  </c:if>
+  <div  id="hiddenLoaderDiv" class="hiddenDiv">
+		<img src="/images/icons/loading-indicator.gif" height="50" width="50">
+		<span style="position: absolute; margin: 10px;">Please Wait...</span>
+  </div>
+  
+  <c:if test="${successmessage==null}">
+    <form id="accounterForm" method="post" action="/signup">
+	   <div>
+	      <span class="mandatory">All fields are mandatory</span>
+	   </div>
+	   <div style="clear:both">
+	     <label>First Name</label><br>
+		 <input id="mid-box"  type="text" tabindex="4" name="firstName">	
+	   </div>
+	    <div>
+	     <label>Last Name</label><br>
+		 <input id="mid-box1"  type="text" tabindex="5" name="lastName">	
+	   </div>
+	   <div>
+	     <label>Email ID</label><br>
+		 <input id="mid-box2"  type="text" tabindex="6" name="emailId">	
+	   </div>
+	   <div>
+	     <label>Password</label><br>
+		 <input id="mid-box4"  type="password" tabindex="7" name="password">
+	   </div>
+	   <div>
+	     <label>Confirm Password</label><br>
+		 <input id="mid-box5"  type="password" tabindex="8" name="confirmPassword">
+	   </div>
+	   <div>
+	     <label>Phone Number</label><br>
+		 <input id="mid-box6"  type="text" tabindex="9" name="phoneNumber">
+	   </div>
+	   <div>
+	     <label>Country</label>
+		 <select id="select-box" tabindex="10" name="country">
+<option value="United Kingdom">United Kingdom</option>
 											<option value="United States">United States</option>
 											<option value="">---------------------</option>
 											<option value="Afghanistan">Afghanistan</option>
@@ -439,60 +413,23 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 											<option value="Yemen">Yemen</option>
 											<option value="Zambia">Zambia</option>
 											<option value="Zimbabwe">Zimbabwe</option>
-										</select>
-									 </td>
-								  </tr>
-								  	</table>
-								  	<div class="signup-box">
-								  	  <h3 style="border-bottom:1px solid #DBDBDB">Terms of Service</h3>
-								  	  <table>
-								  	      <tr>
-								     <td width="155px"></td>
-								     <td>
-								        <div class="terms-error">
-								          <span style="margin-left:13px;color:#000">I have read and I accept the</span> <a href="/site/termsandconditions" tabindex="12">Terms of Use</a><input id="checkbox" type="checkbox" name="agree" tabindex="11" ></input>
-							            </div>
-								     </td>
-								  </tr>
-								   <tr>
-								     <td width="155px"></td>
-								     <td>
-								        <div class="newsletter"><input id="newsletter" type="checkbox" name="newsletter">Yes, Subscribe me to Accounter Newsletter </input><b>(Optional)</b></div>
-								     </td>
-								  </tr>
-								  <tr>
-								     <td width="155px"></td>
-								     <td>
-								        <ul class="getstarted-submit-button">
-										     <li><span class="signup-submit-left"></span></li>
-										     <li><input id="submitButton" type="submit" class="signup-submit-mid" name="getstarted" value="Sign Up" tabindex="13" ></input></li>
-										     <li><span class="signup-submit-right"></span></li>
-										 </ul>
-								     </td>
-								  </tr>
-								  	  </table>
-								  	</div>
-									</td>
-									
-								</tr>
-								
-								</table>
-					
-								</table>
-								</fieldset>
-								</form>
-								
-							</div>
-							</c:if>
-					
-				<div class="signup-box-left-bot"></div>
-				</div>
-			</div><div class="box-shadow"></div>
-		</div>
-		
-		<div class="down-test" id="down"></div>	
-		<%@ include file="./footer.jsp" %>
-		</div>
+		 </select>
+	   </div>
+	   <div>
+	     <input id="checkbox" type="checkbox" name="agree" tabindex="11" >
+		 <label>I have read and I accept the<a href="/site/termsandconditions" tabindex="12">Terms of Use</a></label>
+	   </div>
+	   <div>
+	      <input id="newsletter" type="checkbox" name="newsletter">
+		  <label>Yes, Subscribe me to Accounter Newsletter </input><b>(Optional)</b></label>
+	   </div>
+	   <div class="signup-submit">
+	      <input id="submitButton" type="submit" class="allviews-common-button" name="getstarted" value="Sign Up" tabindex="13" >
+	   </div>
+	</form>
+  </c:if>
+</div>
+
 		<script  type="text/javascript" >
 			if(${successmessage!=null}) {
 				document.getElementById("right-side-options").style.marginTop = "15px";

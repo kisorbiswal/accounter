@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 <title> Login | Accounter
@@ -72,7 +73,7 @@
 			  </div>
 			  <div class="rememberMe">
 			    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn" value="unchecked"/> 
-				Remember Me
+				<label>Remember Me</label>
 			  </div>
 			  <div class="loginbutton">
 			     <input id="submitButton" style="width:60px" type="submit" class="allviews-common-button" name="login" value="Login" tabindex="6"/>

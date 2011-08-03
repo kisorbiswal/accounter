@@ -6,38 +6,20 @@
 		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
   </head>
     <body>
-	    <div class ="body-container">
-	      <div class="main_body-container">
-		       <%@ include file="./header.jsp" %>
-			    <div id='cen' class="middle-part">
-			       <div id='mid-1' class="middle-signup-box" >
-			         <div class="reset_activation_code">
-			            <h2>Reset Activation Code</h2>
-			            <div class="activation_code_box">
-							<form action="/activation" method="post">
-							    <table width="100%">
-								  <tr>
-								    <td><span>Enter valid activation code:</span></td>
-								    <td><input type="text" name="code"></td>
-								  </tr> 
-								  <tr>
-								    <td></td>
-								    <td>
-								     <ul class="activate-ok-button">
-										<li><span class="signup-submit-left"></span></li>
-										<li><input type="submit" tabindex="3" value="Activate" name="activate" class="signup-submit-mid forget-but" id="submitButton"></li>
-										<li><span class="signup-submit-right"></span></li>
-									 </ul>
-									</td>
-								  </tr>
-							   </table>
-							</form>
-						  </div>
-					  </div>
-				  </div>
-				</div>
-				<%@ include file="./footer.jsp" %>
+	    <div id="commanContainer">
+		 <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
+		 <form action="/activation" method="post">
+		    <div class="reset-header">
+			   <h2>Reset Activation Code</h2>
 			</div>
-	   </div>
+			<div>
+			  <label>Enter valid activation code</label>
+			  <input type="text" name="code">
+			</div>
+			<div class="reset-button">
+			   <input type="submit" tabindex="3" value="Activate" name="activate" class="allviews-common-button" id="submitButton">
+			</div>
+		 </form>
+     </div>
 	</body>
 </html>
