@@ -421,10 +421,16 @@ public class ClientCompany implements IAccounterCore {
 
 	// private List<ClientTaxItem> taxItems;
 
-	public ClientCompany() {
+	public void clientSideInit() {
 		paymentMethods.put("1", Accounter.constants().cash());
 		paymentMethods.put("2", Accounter.constants().check());
 		paymentMethods.put("3", Accounter.constants().creditCard());
+	}
+
+	public ClientCompany() {
+		// paymentMethods.put("1", "");
+		// paymentMethods.put("2", Accounter.constants().check());
+		// paymentMethods.put("3", Accounter.constants().creditCard());
 	}
 
 	// List<ClientPayType> payTypes;
