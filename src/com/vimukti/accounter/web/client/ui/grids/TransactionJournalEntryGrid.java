@@ -53,7 +53,7 @@ public class TransactionJournalEntryGrid extends
 	 * holds actual voucher number that taken from server
 	 */
 	private String tempVoucherNumber;
-	
+
 	private int voucherType;
 
 	public TransactionJournalEntryGrid(boolean isEdit) {
@@ -225,7 +225,6 @@ public class TransactionJournalEntryGrid extends
 		}
 	}
 
-	
 	private void initTaxCodesCombo() {
 		List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 		if (taxCodes != null)
@@ -421,9 +420,11 @@ public class TransactionJournalEntryGrid extends
 		case 3:
 			return entry.getMemo() + "";
 		case 4:
-			return DataUtils.getAmountAsString(entry.getDebit());
+			return DataUtils.getAmountAsString(getAmountInForeignCurrency(entry
+					.getDebit()));
 		case 5:
-			return DataUtils.getAmountAsString(entry.getCredit());
+			return DataUtils.getAmountAsString(getAmountInForeignCurrency(entry
+					.getCredit()));
 		case 6:
 			// if (FinanceApplication.getCompany().getAccountingType() ==
 			// ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -525,7 +526,6 @@ public class TransactionJournalEntryGrid extends
 		return true;
 	}
 
-	
 	@Override
 	public <E> CustomCombo<E> getCustomCombo(ClientEntry obj, int colIndex) {
 		switch (colIndex) {
@@ -580,12 +580,14 @@ public class TransactionJournalEntryGrid extends
 				editingRecord.setMemo(value.toString());
 				break;
 			case 4:
-				Double val = DataUtils.getReformatedAmount(value.toString());
+				Double val = getAmountInBaseCurrency(((Double) value)
+						.doubleValue());
 				editingRecord.setCredit(0.0d);
 				editingRecord.setDebit(val);
 				break;
 			case 5:
-				Double crd = DataUtils.getReformatedAmount(value.toString());
+				Double crd = getAmountInBaseCurrency(((Double) value)
+						.doubleValue());
 
 				editingRecord.setDebit(0.0d);
 				editingRecord.setCredit(crd);
