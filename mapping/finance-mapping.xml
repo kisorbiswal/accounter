@@ -240,6 +240,8 @@
 			<!-- Vendor Preferences -->
 			<property name="useVendorId" column="CP_USE_VENDOR_ID"
 				not-null="true"></property>
+			<property name="salesOrderEnabled" column="SALES_ORDER_ENABLED"
+				not-null="true"></property>
 			<property name="useItemNumbers" column="CP_USE_ITEM_NUMBERS"
 				not-null="true"></property>
 			<property name="checkForItemQuantityOnHand" column="CP_CHECK_FOR_ITEM_QUANTITY_ON_HAND"
@@ -261,6 +263,10 @@
 			<property name="trackVAT" column="TRACK_VAT" not-null="true"></property>
 			<property name="VATtaxAgencyName" column="VAT_TAX_AGENCY_NAME"
 				not-null="true"></property>
+			<property name="isSalesPersonEnabled" column="IS_SALES_PERSON_ENABLED"></property>
+			<property name="sellServices" column="SELL_SERVICES"></property>
+			<property name="sellProducts" column="SELL_PRODUCTS"></property>
+
 		</component>
 		<property name="phone" column="PHONE"></property>
 		<property name="fax" column="FAX"></property>
