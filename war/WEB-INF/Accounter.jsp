@@ -221,6 +221,7 @@
 	      </td>
 	   </tr>
 	</table>
+	<div id="mainWindow" style="height:100%;"></div>
 	<script type="text/javascript" language="javascript" src="/accounter/accounter.nocache.js"></script>
 	<table width="100%" id="mainFooter" style="visibility:hidden">
 	   <tr>
