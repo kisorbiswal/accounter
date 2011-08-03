@@ -79,6 +79,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 			companySession.save(user);
 
 			company.getUsers().add(user);
+			company.setCompanyEmail(user.getEmail());
 			company.setCreatedBy(user);
 			company.setCreatedDate(new Timestamp(System.currentTimeMillis()));
 			companySession.save(company);
