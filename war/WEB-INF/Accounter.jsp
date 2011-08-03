@@ -26,16 +26,6 @@
   		
   		var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
   		
-	   $(document).ready(function() {
-	       var ele = document.getElementById('loadingWrapper');
-	          if(ele.style.visibility  == "hidden") {
-	             document.getElementById('mainHeader').style.visibility  = "visible";
-	             document.getElementById('mainFooter').style.visibility  = "visible";
-	          }else{
-	             document.getElementById('mainHeader').style.visibility  = "hidden";
-	             document.getElementById('mainFooter').style.visibility  = "hidden";
-	          }
-	   });
 	</script>
 	
     <% String version = application.getInitParameter("version"); %>
@@ -218,7 +208,7 @@
 	<!--include the application JS-->
 	<script type="text/javascript">document.getElementById('loadingMsg');</script>
 	
-	<table class="header" id="mainHeader">
+	<table class="header" id="mainHeader" style="visibility:hidden">
 	   <tr>
 	      <td width="25%"><img src="/images/Accounter_logo_title.png" /></td>
 	      <td width="50%"><div class="companyName">${companyName}</div></td>
@@ -232,7 +222,7 @@
 	   </tr>
 	</table>
 	<script type="text/javascript" language="javascript" src="/accounter/accounter.nocache.js"></script>
-	<table width="100%" id="mainFooter">
+	<table width="100%" id="mainFooter" style="visibility:hidden">
 	   <tr>
 	      <td>
 		     <table width="100%">
