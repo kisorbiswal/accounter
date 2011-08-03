@@ -421,21 +421,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 	}
 
 	/**
-	 * @return the useForeignCurrency
-	 */
-	public boolean getUseForeignCurrency() {
-		return useForeignCurrency;
-	}
-
-	/**
-	 * @param useForeignCurrency
-	 *            the useForeignCurrency to set
-	 */
-	public void setUseForeignCurrency(boolean useForeignCurrency) {
-		this.useForeignCurrency = useForeignCurrency;
-	}
-
-	/**
 	 * @return the isMyAccountantWillrunPayroll
 	 */
 	public boolean getIsMyAccountantWillrunPayroll() {
