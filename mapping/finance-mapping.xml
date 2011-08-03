@@ -424,7 +424,7 @@
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
 	<!-- <class name="Email" table="EMAIL"> <id name="id" column="ID"> <generator 
@@ -534,8 +534,8 @@
 			lazy="false"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE"/>
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"/>
+		<property name="createdDate" column="CREATED_DATE" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<!-- <list name="items" table="ITEM_ITEM_GROUP" lazy="false" cascade="save-update"> -->
 		<!-- <key column="ITEM_GROUP_ID"></key> -->
@@ -613,7 +613,7 @@
 			lazy="false"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE"/>
+		<property name="createdDate" column="CREATED_DATE" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
 		<!-- <property name="isEUVATExemptPayee" column="IS_EU_VAT_EXEMPT_PAYEE"></property> -->
 		<property name="VATRegistrationNumber" column="VAT_REGISTRATION_NUMBER"
@@ -623,6 +623,10 @@
 		</many-to-one>
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
+		<property name="panNum" column="PAN_NUMBER"></property>
+		<property name="cstNum" column="CST_NUMBER"></property>
+		<property name="serviceTaxRegistrationNumber" column="SERVICE_TAX_REGISTRATION_NUMBER"></property>
+		<property name="tinNumber" column="TIN_NUMBER"></property>
 		<joined-subclass name="Customer" table="CUSTOMER">
 			<key column="ID" />
 			<property name="balanceAsOf" column="BALANCE_AS_OF"
@@ -692,6 +696,8 @@
 			<property name="yearToDate" column="YEAR_TO_DATE"></property>
 			<property name="lastYear" column="LAST_YEAR"></property>
 			<property name="lifeTimePurchases" column="LIFE_TIME_PURCHASES"></property>
+			<property name="panNum" column="PAN_NUM"></property>
+			<property name="serviceTaxRegistrationNumber" column="SERVICE_TAX_REGISTRATION_NUMBER"></property>
 		</joined-subclass>
 		<joined-subclass name="SalesPerson" table="SALES_PERSON">
 			<key column="ID" />
@@ -775,7 +781,7 @@
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
 	<class name="ShippingMethod" table="SHIPPINGMETHOD">
@@ -819,9 +825,9 @@
 		name="isTaxable" column="IS_TAXABLE"></property> <property name="version" 
 		column="VERSION"></property> <property name="createdBy" column="CREATED_BY" 
 		type="string" /> <property name="lastModifier" column="LAST_MODIFIER" type="string" 
-		/> <property name="createdDate" column="CREATED_DATE"
-		/> <property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-		/> <property name="isDefault" column="IS_DEFAULT"></property> </class> -->
+		/> <property name="createdDate" column="CREATED_DATE" /> <property name="lastModifiedDate" 
+		column="LAST_MODIFIED_DATE" /> <property name="isDefault" column="IS_DEFAULT"></property> 
+		</class> -->
 
 	<class name="TaxRates" table="TAXRATES">
 		<id name="id" column="ID">
@@ -931,8 +937,8 @@
 		<many-to-one name="permissions" class="UserPermissions"
 			lazy="false" cascade="save-update,delete" column="USER_PERMISSIONS_ID"></many-to-one>
 		<!-- <property name="lastLogin" column="LAST_LOGIN" type="com.vimukti.accounter.core.LongUseType"></property> 
-			<property name="createdDate" column="CREATED_DATE"></property> 
-			<many-to-one name="admin" class="User" lazy="false" column="ADMIN_ID"> </many-to-one> 
+			<property name="createdDate" column="CREATED_DATE"></property> <many-to-one 
+			name="admin" class="User" lazy="false" column="ADMIN_ID"> </many-to-one> 
 			<property name="maxUserCount" column="MAX_USER_COUNT"></property> <component 
 			name="userPreferences" class="UserPreferences" lazy="false"> <property name="dashBoardPreferences" 
 			column="USER_PREFERENCES_DASH_BOARD" not-null="true"></property> <property 
@@ -1042,7 +1048,7 @@
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
 		<property name="totalCapitalGainAmount" column="TOTAL_CAPITAL_GAIN_AMOUNT"></property>
 	</class>
 	<!-- <class name="SellingOrDisposingFixedAsset" table="SELLING_OR_DISPOSING_FIXED_ASSET"> 
@@ -1098,7 +1104,7 @@
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
 	</class>
 	<class name="VATReturnBox" table="VATRETURNBOX">
 		<id name="id" column="ID">
@@ -1208,7 +1214,7 @@
 			lazy="false"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE"/>
+		<property name="createdDate" column="CREATED_DATE" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
 		<property name="isDefault" column="IS_DEFAULT" />
 	</class>
@@ -1279,9 +1285,8 @@
 				</many-to-one>
 				<!-- <many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one> 
 					<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one> 
-					<property name="createdDate" column="CREATED_DATE" 
-					/> <property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-					/> -->
+					<property name="createdDate" column="CREATED_DATE" /> <property name="lastModifiedDate" 
+					column="LAST_MODIFIED_DATE" /> -->
 
 				<nested-composite-element name="quantity"
 					class="Quantity">
@@ -1305,9 +1310,8 @@
 		</many-to-one>
 		<!-- <many-to-one name="createdBy" column="CREATED_BY" class="User" lazy="false"></many-to-one> 
 			<many-to-one name="lastModifier" column="LAST_MODIFIER" class="User" lazy="false"></many-to-one> 
-			<property name="createdDate" column="CREATED_DATE"
-			/> <property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-			/> -->
+			<property name="createdDate" column="CREATED_DATE" /> <property name="lastModifiedDate" 
+			column="LAST_MODIFIED_DATE" /> -->
 
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE" />
@@ -1327,7 +1331,7 @@
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
 			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
 	</class>
 
 
@@ -1441,18 +1445,17 @@
 		column="NAME"></property> <property name="description" column="DESCRIPTION"></property> 
 		<property name="isActive" column="IS_ACTIVE"></property> <property name="createdBy" 
 		column="CREATED_BY" type="string" /> <property name="lastModifier" column="LAST_MODIFIER" 
-		type="string" /> <property name="createdDate" column="CREATED_DATE" 
-		/> <property name="lastModifiedDate" column="LAST_MODIFIED_DATE" 
-		/> <property name="isPercentage" column="IS_PERCENTAGE"></property> <property 
-		name="isDefault" column="IS_DEFAULT"></property> <joined-subclass name="TaxItem" 
-		table="TAX_ITEM"> <key column="id" /> <many-to-one name="taxAgency" class="TaxAgency" 
-		column="TAX_AGENCY" lazy="false"> </many-to-one> <property name="taxRate" 
-		column="TAX_RATE"></property> </joined-subclass> <joined-subclass name="TaxGroup" 
-		table="TAX_GROUP"> <key column="id" /> <list name="taxItems" table="TAX_GROUP_TAX_ITEM" 
-		lazy="false" cascade="save-update"> <key column="TAX_GROUP_ID"></key> <list-index 
-		column="IDX" /> <many-to-many column="TAX_ITEM_ID" class="TaxItem" /> </list> 
-		<property name="groupRate" column="GROUP_RATE"></property> </joined-subclass> 
-		</class> -->
+		type="string" /> <property name="createdDate" column="CREATED_DATE" /> <property 
+		name="lastModifiedDate" column="LAST_MODIFIED_DATE" /> <property name="isPercentage" 
+		column="IS_PERCENTAGE"></property> <property name="isDefault" column="IS_DEFAULT"></property> 
+		<joined-subclass name="TaxItem" table="TAX_ITEM"> <key column="id" /> <many-to-one 
+		name="taxAgency" class="TaxAgency" column="TAX_AGENCY" lazy="false"> </many-to-one> 
+		<property name="taxRate" column="TAX_RATE"></property> </joined-subclass> 
+		<joined-subclass name="TaxGroup" table="TAX_GROUP"> <key column="id" /> <list 
+		name="taxItems" table="TAX_GROUP_TAX_ITEM" lazy="false" cascade="save-update"> 
+		<key column="TAX_GROUP_ID"></key> <list-index column="IDX" /> <many-to-many 
+		column="TAX_ITEM_ID" class="TaxItem" /> </list> <property name="groupRate" 
+		column="GROUP_RATE"></property> </joined-subclass> </class> -->
 
 </hibernate-mapping>
 
