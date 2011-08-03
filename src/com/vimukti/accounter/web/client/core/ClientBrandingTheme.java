@@ -65,11 +65,6 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	private transient boolean isOnSaveProccessed;
 
-	String createdBy;
-	String lastModifier;
-	ClientFinanceDate createdDate;
-	ClientFinanceDate lastModifiedDate;
-
 	@Override
 	public String getClientClassSimpleName() {
 		// its not using any where

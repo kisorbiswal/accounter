@@ -1403,8 +1403,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 			clientLog.setDescription(log.getDescription());
 			clientLog.setLogMessge(log.getLogMessge());
-			clientLog.setCreatedBy(log.getCreatedBy());
-			clientLog.setCreatedDate(log.getCreatedDate().getDate());
+			// clientLog.setCreatedBy(log.getCreatedBy());
+			// clientLog.setCreatedDate(log.getCreatedDate().getDate());
 			clientLog.setID(log.getID());
 
 			clientLogs.add(clientLog);
@@ -1431,8 +1431,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			clientLog.setID(log.getID());
 			clientLog.setDescription(log.getDescription());
 			clientLog.setLogMessge(log.getLogMessge());
-			clientLog.setCreatedDate(log.getCreatedDate().getDate());
-			clientLog.setCreatedBy(log.getCreatedBy());
+//			clientLog.setCreatedDate(log.getCreatedDate().getDate());
+//			clientLog.setCreatedBy(log.getCreatedBy());
 
 			clientLogs.add(clientLog);
 		}

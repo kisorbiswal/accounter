@@ -623,8 +623,8 @@
 		</many-to-one>
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
-		<property name="panNum" column="PAN_NUMBER"></property>
-		<property name="cstNum" column="CST_NUMBER"></property>
+		<property name="panNumber" column="PAN_NUMBER"></property>
+		<property name="cstNumber" column="CST_NUMBER"></property>
 		<property name="serviceTaxRegistrationNumber" column="SERVICE_TAX_REGISTRATION_NUMBER"></property>
 		<property name="tinNumber" column="TIN_NUMBER"></property>
 		<joined-subclass name="Customer" table="CUSTOMER">
@@ -696,8 +696,6 @@
 			<property name="yearToDate" column="YEAR_TO_DATE"></property>
 			<property name="lastYear" column="LAST_YEAR"></property>
 			<property name="lifeTimePurchases" column="LIFE_TIME_PURCHASES"></property>
-			<property name="panNum" column="PAN_NUM"></property>
-			<property name="serviceTaxRegistrationNumber" column="SERVICE_TAX_REGISTRATION_NUMBER"></property>
 		</joined-subclass>
 		<joined-subclass name="SalesPerson" table="SALES_PERSON">
 			<key column="ID" />
@@ -1151,8 +1149,6 @@
 		</id>
 		<property name="logMessge" column="LOG_MESSAGE" type="text"></property>
 		<property name="description" column="DESCRIPTION"></property>
-		<property name="createdDate" column="CREATED_DATE"></property>
-		<property name="createdBy" column="CREATED_BY"></property>
 	</class>
 
 	<class name="BrandingTheme" table="BRANDING_THEME">
