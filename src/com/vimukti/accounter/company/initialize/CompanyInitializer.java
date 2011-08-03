@@ -123,7 +123,7 @@ public abstract class CompanyInitializer {
 		this.preferences.setIsAccuralBasis(true);
 		this.preferences.setStartOfFiscalYear(fiscalYearStartDate);
 		this.preferences.setEndOfFiscalYear(fiscalYearEndDate);
-		this.preferences.setUseForeignCurrency(false);
+		this.preferences.setEnableMultiCurrency(false);
 		this.preferences.setUseCustomerId(false);
 		this.preferences.setDefaultShippingTerm(null);
 		this.preferences.setDefaultAnnualInterestRate(0);
