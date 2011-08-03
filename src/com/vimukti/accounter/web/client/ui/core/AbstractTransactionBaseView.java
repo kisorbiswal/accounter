@@ -108,6 +108,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	public CheckboxItem vatinclusiveCheck;
 
+	protected CurrencyWidget currencyWidget;
+	
 	protected int gridType;
 
 	public boolean isVatInclusive() {
@@ -887,7 +889,11 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	}
 
-	public CurrencyWidget getCurrencyWidget() {
+	/**
+	 * creates currency widgets from the existing currencies.
+	 * @return
+	 */
+	public CurrencyWidget bulidCurrencyWidget() {
 		List<ClientCurrency> currencies = new ArrayList<ClientCurrency>(
 				Accounter.getCompany().getCurrencies());
 
@@ -897,4 +903,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		return currencyWidget;
 	}
 
+	public CurrencyWidget getCurrencyWidget() {
+		return currencyWidget;
+	}
 }
