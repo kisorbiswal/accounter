@@ -52,14 +52,14 @@
    
 </head>
 	<body>
-     <div class="login-container">
+     <div id="commanContainer">
 		   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
 		   <div id="login_error" class="common-box">
 		      <c:if test="${message != null}">
 				<span>${message} sdfsfd</span>
 			  </c:if>	
 		   </div>
-		   <form class="form-view" id="accounterForm" method="post" action="/login">
+		   <form id="accounterForm" method="post" action="/login">
 		      <div>
 			    <label>Username</label>
 				<br>
