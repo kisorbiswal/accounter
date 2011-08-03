@@ -958,12 +958,12 @@
 		update Entry set memo=:newName where memo=:oldName
 	</sql-query>
 
-	<sql-query name="get.TransactionDate.from.TransactionbyDate">
+	<query name="get.TransactionDate.from.TransactionbyDate">
 		<query-param name="date" type="com.vimukti.accounter.core.LongUseType" />
 		select t.transactionDate from com.vimukti.accounter.core.Transaction t
 		where t.transactionDate
 		&lt;:date
-	</sql-query>
+	</query>
 
 
 	<sql-query name="getFisaclId.andSum.fromAccountTransaction">
