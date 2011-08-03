@@ -80,8 +80,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	public ClientCompany getCompany() throws AccounterException {
 
 		FinanceTool tool = (FinanceTool) getFinanceTool();
-		String cid = getCookie(getThreadLocalRequest(),
-				BaseServlet.COMPANY_COOKIE);
+		String cid = getCookie(BaseServlet.COMPANY_COOKIE);
 		if (cid == null) {
 			// Throw Exception
 		}

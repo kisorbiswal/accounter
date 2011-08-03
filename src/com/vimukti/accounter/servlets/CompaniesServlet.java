@@ -54,6 +54,7 @@ public class CompaniesServlet extends BaseServlet {
 			Set<ServerCompany> companies = client.getCompanies();
 			if (companies.size() <= 1) {
 				redirectToAccounter(req, resp, companies, client);
+				return;
 			} else {
 				addUserCookies(resp, client);
 				List<String> companyList = new ArrayList<String>();
@@ -80,7 +81,9 @@ public class CompaniesServlet extends BaseServlet {
 			Client client) throws IOException {
 		long companyID = 0;
 		if (companies.isEmpty()) {
-			companyID = createNewCompany(client);
+			redirectExternal(req, resp, CREATE_COMPANY_URL);
+			return;
+			// companyID = createNewCompany(client);
 		} else {
 			companyID = companies.iterator().next().getID();
 		}

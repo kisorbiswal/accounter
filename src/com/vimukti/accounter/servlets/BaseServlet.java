@@ -34,6 +34,14 @@ public class BaseServlet extends HttpServlet {
 	public static final String PASSWORD = "password";
 
 	protected static final String PARAM_DESTINATION = "destination";
+	protected static final String PARAM_SERVER_COMPANY_ID = "serverCompanyId";
+	protected static final String PARAM_COMPANY_TYPE = "companyType";
+	protected static final String PARA_COMPANY_NAME = "companyName";
+	protected static final String PARAM_FIRST_NAME = "firstName";
+	protected static final String PARAM_LAST_NAME = "lastName";
+	protected static final String PARAM_COUNTRY = "country";
+	protected static final String PARAM_PH_NO = "phNo";
+
 	protected static final String ATTR_MESSAGE = "message";
 	protected static final String ATTR_COMPANY_LIST = "companeyList";
 
@@ -43,6 +51,7 @@ public class BaseServlet extends HttpServlet {
 	protected static final String RESET_PASSWORD_URL = "/resetpassword";
 	public static final String COMPANIES_URL = "/companies";
 	protected static final String ACTIVATION_URL = "/activation";
+	protected static final String CREATE_COMPANY_URL = "/createcompany";
 
 	/**
 	 * 
@@ -179,6 +188,7 @@ public class BaseServlet extends HttpServlet {
 			HttpServletResponse resp, String url) throws IOException {
 		resp.sendRedirect(url);
 	}
+
 	protected void sendActivationEmail(String token, Client client) {
 		UsersMailSendar.sendActivationMail(token, client);
 	}

@@ -1,0 +1,127 @@
+/**
+ * 
+ */
+package com.vimukti.accounter.servlets;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.Timestamp;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+
+/**
+ * @author Prasanna Kumar G
+ * 
+ */
+public class InitializeCompanyServlet extends BaseServlet {
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		doGet(req, resp);
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
+		String serverCompanyID = req.getParameter(PARAM_SERVER_COMPANY_ID);
+		String companyType = req.getParameter(PARAM_COMPANY_TYPE);
+		String companName = req.getParameter(PARA_COMPANY_NAME);
+		String emailID = req.getParameter(EMAIL_ID);
+
+		Company company = new Company(Integer.parseInt(companyType));
+		company.setFullName(companName);
+
+		init(req, resp, company, Long.parseLong(serverCompanyID), emailID);
+	}
+
+	private void init(HttpServletRequest request, HttpServletResponse resp,
+			Company company, long serverCompnayId, String emailID)
+			throws IOException {
+
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction serverTransaction = session.beginTransaction();
+		try {
+			Query query = session.createSQLQuery("CREATE SCHEMA "
+					+ Server.COMPANY + serverCompnayId);
+			query.executeUpdate();
+			serverTransaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			serverTransaction.rollback();
+			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+					"Exception while Creating CompanyDataBase");
+		}
+
+		Session companySession = HibernateUtil.openSession(Server.COMPANY
+				+ serverCompnayId, true);
+		Transaction transaction = companySession.beginTransaction();
+		try {
+
+			// Creating User
+			User user = getClientFromHttpSession(request);
+			companySession.save(user);
+
+			company.setCreatedBy(user);
+			company.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+			companySession.save(company);
+
+			companySession.save(company);
+
+			UsersMailSendar.sendMailToDefaultUser(user, company.geFulltName());
+
+			transaction.commit();
+
+			// Create Attachment Directory for company
+			File file = new File(ServerConfiguration.getAttachmentsDir(company
+					.geFulltName()));
+
+			if (!file.exists()) {
+				file.mkdir();
+			}
+
+			company.initialize();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+					"Exception while Creating Company");
+		} finally {
+			companySession.close();
+		}
+
+		redirectExternal(request, resp, ACCOUNTER_URL);
+	}
+
+	/**
+	 * Returns User Object From Client HttpSession
+	 */
+	private User getClientFromHttpSession(HttpServletRequest request) {
+		User user = new User();
+		user.setFirstName(request.getParameter(PARAM_FIRST_NAME));
+		user.setLastName(request.getParameter(PARAM_LAST_NAME));
+		user.setCountry(request.getParameter(PARAM_COUNTRY));
+		user.setEmail(request.getParameter(EMAIL_ID));
+		user.setPhoneNo(request.getParameter(PARAM_PH_NO));
+		user.setUserRole(RolePermissions.ADMIN);
+		user.setAdmin(true);
+		return user;
+	}
+
+}

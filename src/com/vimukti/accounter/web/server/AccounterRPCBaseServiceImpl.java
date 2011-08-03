@@ -138,7 +138,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		try {
 			Company company = (Company) session.load(Company.class, 1);
 			if (company != null) {
-				return company.getDisplayName();
+				return company.geFulltName();
 			}
 		} finally {
 			session.close();
@@ -154,8 +154,12 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		return Server.COMPANY + cid;
 	}
 
-	protected String getCookie(HttpServletRequest request, String cookieName) {
-		Cookie[] clientCookies = request.getCookies();
+	protected String getCookie(String cookieName) {
+		return getCookie(getThreadLocalRequest(), cookieName);
+	}
+
+	private String getCookie(HttpServletRequest req, String cookieName) {
+		Cookie[] clientCookies = req.getCookies();
 		if (clientCookies != null) {
 			for (Cookie cookie : clientCookies) {
 				if (cookie.getName().equals(cookieName)) {

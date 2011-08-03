@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.web.client.exception;
 
-
 /**
  * @author Prasanna Kumar G
  * 
@@ -40,6 +39,7 @@ public class AccounterException extends Exception {
 	 * Sent When Arguments given by the Client is Wrong
 	 */
 	public static final int ERROR_ILLEGAL_ARGUMENT = 6;
+	public static final int ERROR_INVALID_USER_SESSION = 8;
 
 	protected int errorCode;
 

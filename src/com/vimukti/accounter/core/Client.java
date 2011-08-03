@@ -125,4 +125,18 @@ public class Client implements IAccounterServerCore {
 		this.isRequirePasswordReset = isRequirePasswordReset;
 	}
 
+	/**
+	 * Converts Client Object to User Object
+	 */
+	public User toUser() {
+		User user = new User();
+		user.setFirstName(this.firstName);
+		user.setLastName(this.lastName);
+		user.setCountry(this.country);
+		user.setEmail(this.emailId);
+		user.setActive(this.isActive);
+		user.setPhoneNo(this.phoneNumber);
+		return user;
+	}
+
 }

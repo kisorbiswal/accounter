@@ -1,5 +1,6 @@
 package com.vimukti.accounter.main;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -117,6 +118,13 @@ public class Server implements Runnable {
 			return;
 		}
 
+	}
+
+	/**
+	 * @return
+	 */
+	public static URL getURL() {
+		return null;
 	}
 
 }

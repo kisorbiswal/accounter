@@ -731,6 +731,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	public Company(int accountingType) {
 		this.accountingType = accountingType;
+		tradingAddress = new Address();
+		registeredAddress = new Address();
 	}
 
 	public void initialize() {
@@ -4380,8 +4382,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		clientCompany.setTaxId(this.taxId);
 		clientCompany.setBankAccountNo(this.bankAccountNo);
 		clientCompany.setSortCode(this.sortCode);
-		clientCompany.setPreferences(new ClientConvertUtil().toClientObject(
-				this.preferences, ClientCompanyPreferences.class));
+		if (this.preferences != null) {
+			clientCompany.setPreferences(new ClientConvertUtil()
+					.toClientObject(this.preferences,
+							ClientCompanyPreferences.class));
+		}
 
 		return clientCompany;
 	}

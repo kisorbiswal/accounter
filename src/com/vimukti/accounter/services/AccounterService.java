@@ -162,12 +162,12 @@ public class AccounterService extends HibernateDaoSupport implements
 		return flag;
 	}
 
-	public static boolean isCompanyExits(String companyID) {
+	public static boolean isCompanyExits(String companyNamme) {
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		Object uniqueResult = session.getNamedQuery("getCompany.by.CompanyID")
-				.setString(COMPANY_ID, companyID).uniqueResult();
+		Object uniqueResult = session.getNamedQuery("getServerCompany.by.name")
+				.setString("name", companyNamme).uniqueResult();
 		session.close();
-		if (companyID == null || uniqueResult != null) {
+		if (companyNamme == null || uniqueResult != null) {
 			return true;
 		}
 		return false;
