@@ -83,10 +83,6 @@ public class InitializeCompanyServlet extends BaseServlet {
 
 			companySession.save(company);
 
-			UsersMailSendar.sendMailToDefaultUser(user, company.geFulltName());
-
-			transaction.commit();
-
 			// Create Attachment Directory for company
 			File file = new File(ServerConfiguration.getAttachmentsDir(company
 					.geFulltName()));
@@ -96,17 +92,20 @@ public class InitializeCompanyServlet extends BaseServlet {
 			}
 
 			company.initialize();
+			
+			transaction.commit();
+			UsersMailSendar.sendMailToDefaultUser(user, company.geFulltName());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
 			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Exception while Creating Company");
+			return;
 		} finally {
 			companySession.close();
 		}
-
-		redirectExternal(request, resp, ACCOUNTER_URL);
+		resp.setStatus(HttpServletResponse.SC_OK);
 	}
 
 	/**
