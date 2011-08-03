@@ -990,6 +990,14 @@ public interface AccounterConstants extends Constants {
 
 	public String customerName();
 
+	public String currencyCode();
+
+	public String currencyFormalName();
+
+	public String currencyName();
+
+	public String currency();
+
 	public String customerNumber();
 
 	public String customerNumberShouldBeNumber();
