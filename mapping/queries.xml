@@ -53,43 +53,39 @@
 		t.transactionDate
 	</query>
 
-	<sql-query name="getFixedAsset.from.id">
+	<query name="getFixedAsset.from.id">
 		select f from
 		FixedAsset f where f.id=?
-	</sql-query>
+	</query>
 
-	<sql-query name="getEntry.from.journalEntryType">
+	<query name="getEntry.from.journalEntryType">
 		select je from
 		Entry e inner join
 		e.journalEntry je where
 		e.journalEntryType=3 order by je.id
-	</sql-query>
+	</query>
 
-	<sql-query name="getTransaction.from.typeandId">
-		<return-scalar column="transactionType" type="integer" />
-		<return-scalar column="id" type="integer" />
+	<query name="getTransactionNumber.from.typeandId">
 		select t.number from
 		Transaction t where
 		t.type
-		=:transactionType and
-		t.id=:id
-	</sql-query>
+		=? and
+		t.id=?
+	</query>
 
 
-	<sql-query name="getEntry.orderedby.id">
-		<return-scalar column="id" type="integer" />
+	<query name="getEntry.orderedby.id">
 		select je from Entry e inner join
 		e.journalEntry je where
-		e.customer.id=:customer order by je.id
-	</sql-query>
+		e.customer.id=? order by je.id
+	</query>
 
-	<sql-query name="getFiscalYear.by.check.isCurrentFiscalYearistrue">
-		<return-scalar column="id" type="integer" />
+	<query name="getFiscalYear.by.check.isCurrentFiscalYearistrue">
 		select f.startDate from FiscalYear f where
 		f.isCurrentFiscalYear=true
-	</sql-query>
+	</query>
 
-	<sql-query name="getEntry.by.debitand.balanceDue.orderbyid">
+	<query name="getEntry.by.debitand.balanceDue.orderbyid">
 		select je from
 		Entry e
 		inner join
@@ -98,56 +94,50 @@
 		je.balanceDue>0.0 order
 		by
 		je.id
-	</sql-query>
+	</query>
 
-	<sql-query name="getEntry.by.vendorId.creditand.balanceDue.orderbyid">
-		<return-scalar column="vendorId" type="long" />
+	<query name="getEntry.by.vendorId.creditand.balanceDue.orderbyid">
 		select je from
 		Entry e inner join
 		e.journalEntry je where
-		e.vendor.id=:vendorId and e.credit!=0.0 and
+		e.vendor.id=? and e.credit!=0.0 and
 		je.balanceDue>0.0 order by
 		je.id
-	</sql-query>
+	</query>
 
-	<sql-query name="getEntry.by.customerId.debitand.balanceDue.orderbyid">
-		<return-scalar column="customerId" type="long" />
+	<query name="getEntry.by.customerId.debitand.balanceDue.orderbyid">
 		select je from
 		Entry e inner join
 		e.journalEntry je where
-		e.customer.id=:customerId and e.debit !=0.0 and
+		e.customer.id=? and e.debit !=0.0 and
 		je.balanceDue>0.0
 		order
 		by je.id
-	</sql-query>
+	</query>
 
 
-	<sql-query name="getVATReturn.checkingby.taxagencyidand.dates">
-		<return-scalar column="taxAgency" type="integer" />
+	<query name="getVATReturn.checkingby.taxagencyidand.dates">
 		select min(v.VATperiodStartDate), max(v.VATperiodEndDate) from
 		VATReturn v where v.taxAgency.id
-		=:taxAgency
-	</sql-query>
+		=? group by v.taxAgency.id
+	</query>
 
-
-
-	<sql-query name="get.name.fromAccount.byId">
-		<query-param name="id" type="integer" />
+	<query name="get.name.fromAccount.byId">
 		select a.name from
-		Account a where a.id=:id
-	</sql-query>
+		Account a where a.id=?
+	</query>
 
-	<sql-query name="getDepreciation.from.depreciateFrom.byFixedassetId">
+	<query name="getDepreciation.from.depreciateFrom.byFixedassetId">
 		select d from Depreciation d inner join
-		d.fixedAsset where d.depreciateFrom >= ? and d.status=? and
+		d.fixedAsset where d.depreciateFrom >=? and d.status=? and
 		d.fixedAsset.id=?
-	</sql-query>
+	</query>
 
-	<sql-query name="update.Entry.oldNameTo.newName">
+	<query name="update.Entry.oldNameTo.newName">
 		<query-param name="newName" type="string" />
 		<query-param name="oldName" type="string" />
 		update Entry set memo=:newName where memo=:oldName
-	</sql-query>
+	</query>
 
 	<query name="get.TransactionDate.from.TransactionbyDate">
 		<query-param name="date" type="com.vimukti.accounter.core.LongUseType" />
@@ -157,57 +147,56 @@
 	</query>
 
 
-	<sql-query name="getFisaclId.andSum.fromAccountTransaction">
+	<query name="getFisaclId.andSum.fromAccountTransaction">
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		select at.account.id as accountId, sum(at.amount) as amount from
 		AccountTransaction at where at.account.type in (14,15,16,17,18) and
 		at.transaction.transactionDate between :startDate and :endDate group
 		by at.account.id
-	</sql-query>
+	</query>
 
-	<sql-query name="getDepreciation.byFixedAsset.andWithDetails">
+	<query name="getDepreciation.byFixedAsset.andWithDetails">
 		select d from Depreciation d inner join
 		d.fixedAsset where d.depreciateFrom >= ? and d.status=? and
 		d.fixedAsset.id=? group by d.fixedAsset.id
-	</sql-query>
+	</query>
 
 
-	<sql-query name="getEntry.byId.andMax">
+	<query name="getEntry.byId.andMax">
 		select e.voucherNumber from Entry e where
 		e.id = (select max(e1.id) from Entry e1 )
-	</sql-query>
+	</query>
 
-	<sql-query name="getCustomer.byId.andOrder">
+	<query name="getCustomerNumber.byId.andOrder">
 		select c.number from Customer c order by c.id
-	</sql-query>
+	</query>
 
-	<sql-query name="getassestNumber.from.FixedAsset">
-		<query-param name="status" type="integer" />
+	<query name="getassestNumber.from.FixedAsset">
 		select f.assetNumber from FixedAsset f
-	</sql-query>
+	</query>
 
-	<sql-query name="getTransactionNumber.by.type">
+	<query name="getTransactionNumber.by.type">
 		<query-param name="transactionType" type="integer" />
 		select t.number from Transaction t where t.type =:transactionType
-	</sql-query>
+	</query>
 
-	<sql-query name="getPayeename.from.PayeebyId">
-		<query-param name="id" type="integer" />
+	<query name="getPayeename.from.PayeebyId">
+		<query-param name="id" type="long" />
 		select p.name from Payee p where p.id=:id
-	</sql-query>
+	</query>
 
 
-	<sql-query name="getFlow.by.Id.from.Account">
-		<query-param name="transactionType" type="integer" />
+	<query name="getFlow.by.Id.from.Account">
 		select a.flow from Account a where a.id= (select max(a1.id) from
 		Account a1 where a1.parent is null)
-	</sql-query>
+	</query>
 
-	<sql-query name="getCount.from.Account.and.parent">
+	<query name="getCount.from.Account.and.parent">
+		<query-param name="parentId" type="long" />
 		select count(*) from Account a where
-		a.parent=:parent
-	</sql-query>
+		a.parent.id=:parentId
+	</query>
 
 
 	<query name="getUsers.active">
@@ -217,70 +206,70 @@
 	</query>
 
 	<query name="getPayBill.form.accountId.and.status">
-		<query-param name="accountId" type="integer" />
-		<query-param name="status" type="integer" />
+		<query-param name="accountId" type="long" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.PayBill pst where pst.payFrom.id
 		=:accountID and pst.isVoid=false and pst.status =:status
 	</query>
 
 	<query name="getPayVAT.form.accountId.and.status">
-		<query-param name="accountId" type="integer" />
-		<query-param name="status" type="integer" />
+		<query-param name="accountId" type="long" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.PayVAT pv where pv.payFrom.id
 		=:accountId and pv.isVoid=false and pv.status =:status
 	</query>
 
 	<query name="getReceiveVAT.form.accountId.and.status">
-		<query-param name="accountId" type="integer" />
-		<query-param name="status" type="integer" />
+		<query-param name="accountId" type="long" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.ReceiveVAT rv where rv.depositIn.id
 		=:accountId and rv.isVoid=false and rv.status =:status
 	</query>
 
 	<query name="getCreditCardCharge.form.accountId.and.status">
-		<query-param name="accountId" type="integer" />
-		<query-param name="status" type="integer" />
+		<query-param name="accountId" type="long" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.CreditCardCharge pst where
 		pst.payFrom.id =:accountId and pst.isVoid=false and pst.status
 		=:status
 	</query>
 
 	<query name="getCashPurchase.form.accountId.and.status">
-		<query-param name="accountId" type="integer" />
-		<query-param name="status" type="integer" />
+		<query-param name="accountId" type="long" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.CashPurchase pst where pst.payFrom.id
 		=:accountId and pst.isVoid=false and pst.status =:status
 	</query>
 
 	<query name="getCustomerPrePayment.form.accountId.and.status">
-		<query-param name="accountId" type="integer" />
-		<query-param name="status" type="integer" />
+		<query-param name="accountId" type="long" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.CustomerPrePayment cpp where
 		cpp.depositIn.id =:accountId and cpp.isVoid=false and cpp.status
 		=:status
 	</query>
 
 	<query name="getCashPurchase.form.status">
-		<query-param name="status" type="integer" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.CashPurchase cc where cc.status
 		=:status
 	</query>
 
 	<query name="getCreditCardCharge.form.status">
-		<query-param name="status" type="integer" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.CreditCardCharge cc where
 		cc.status=:status
 	</query>
 
 	<query name="getPayBill.form.status">
-		<query-param name="status" type="integer" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.PayBill pb where pb.status =:status
 	</query>
 
 	<query name="getFlowList.form.Account.byId">
-		<query-param name="parent" type="Account" />
-		<query-param name="parent" type="String" />
-		from com.vimukti.accounter.core.Account a where a.parent=:parent and
+		<query-param name="parentId" type="long" />
+		<query-param name="flow" type="string" />
+		from com.vimukti.accounter.core.Account a where a.parent.id=:parentId and
 		a.flow !=:flow order by a.id
 	</query>
 
