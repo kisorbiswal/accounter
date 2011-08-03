@@ -52,14 +52,14 @@
    
 </head>
 	<body>
-<div class="login-container">
-		   <img src="../images/Accounter_logo_title.png" class="login-accounterLogo" />
-		   <div id="login_error">
+     <div class="login-container">
+		   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
+		   <div id="login_error" class="common-box">
 		      <c:if test="${message != null}">
-				<span>${message}</span>
+				<span>${message} sdfsfd</span>
 			  </c:if>	
 		   </div>
-		   <form id="accounterForm" method="post" action="/login">
+		   <form class="form-view" id="accounterForm" method="post" action="/login">
 		      <div>
 			    <label>Username</label>
 				<br>
@@ -75,13 +75,13 @@
 				Remember Me
 			  </div>
 			  <div class="loginbutton">
-			     <input id="submitButton" style="width:60px" type="submit" class="signup-submit-mid" name="login" value="Login" tabindex="6"/>
+			     <input id="submitButton" style="width:60px" type="submit" class="allviews-common-button" name="login" value="Login" tabindex="6"/>
 			  </div>
 		   </form>
-		   <div class="lost-password">
+		   <div class="form-bottom-options">
 		      <a href="/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
 		   </div>
-		</div>		
+		</div>
 		
 <script type="text/javascript">
 

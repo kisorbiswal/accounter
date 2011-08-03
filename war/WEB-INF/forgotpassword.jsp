@@ -56,90 +56,24 @@ $(document).ready(function() {
 </script>
 </head>
 	<body>
-		<div class="login clearfix" id="login" >
-	    <div class ="body-container">
-	      <%@ include file="./header.jsp" %>
-			<div class="middle-part" id="cen">
-				<div class="middle-signup-box" id="mid-1">
-					<div class ="Welcome-Accounter-box">
-							<h2>Forgot Password</h2>
-					<table class="login-fields-box">
-					<tr>
-						<td ><div class="login-box-left-top"></div></td>
-						<td ><div  class="login-box-top-middle"></div></td>
-						<td ><div class="login-box-right-top"></div></td>
-					</tr>
-					<tr>
-						<td class="login-box-left-middle" ></td>
-						<td class="login-box">
-								<div class="mid-login-box">
-								<form id="accounterForm" method="post" action="/forgotpassword">
-								<c:if test="${successMessage != null}">
-								<span style="color: #3299A4; line-height: 1.5;">
-								${successMessage} </span>
-								</c:if>
-								<c:if test="${successMessage == null}">
-								<c:if test="${errorMessage != null}">
-								<span style="color: #CC0000; line-height: 1.5;">
-								${errorMessage} </span>
-								</c:if>
-								<div class="mid-login-box1">
-							   <table>
-							      <tr>
-								     <td>Email</td>
-									 <td>
-										<input id="mid-box"  type="text" name="emailId" tabindex="1" value="${emailId}">								
-									 </td>
-								  </tr>
-								  <tr>
-								<tr>
-									 <td>Company ID </td>
-									 <td>
-										<input id="mid-box1"  type="text" name="companyName" tabindex="2" value="${companyName}">
-									</td>
-								  </tr>
-								   <tr>
-								  <td>
-								 
-								  </td>
-								  <td>
-								  
-								  <ul class="forgot-cancel-button">
-								         <li><span class="signup-submit-left"></span></li>
-								         <li><input type="button" tabindex="4" value="Cancel" name="cancel" class="signup-submit-mid forget-but" onClick="location.href='/site/login.jsp'"></li>
-								         <li><span class="signup-submit-right"></span></li>
-								  </ul>
-								  <ul class="forgot-ok-button">
-								         <li><span class="signup-submit-left"></span></li>
-								         <li><input type="submit" tabindex="3" value="OK" name="ok" class="signup-submit-mid forget-but" id="submitButton"></li>
-								         <li><span class="signup-submit-right"></span></li>
-								  </ul>
-								  
-								   <!--<input type="submit" tabindex="3" value="Ok" name="ok" class="forget-but" id="submitButton">
-								  <input type="button" tabindex="4" value="Cancel" name="cancel" class="forget-but" onClick="location.href='/site/login.jsp'">-->
-								  </td>
-								  </tr>
-								  </table>
-								</div>
-								</c:if>
-								</div>
-									</td>
-										<td class="login-box-right-middle"></td>
-										</tr>
-										<tr>
-										<td ><div class="login-box-left-bottom"></div></td>
-										<td ><div class="login-box-bottom-middle"></div></td>
-										<td ><div class="login-box-right-bottom"></div></td>
-										</tr>	
-					</table>
-					</form>
-				
-				</div>
-				</div><div class="login-box-shadow"></div>
-			</div>
-				<div class="down-test" id="down"></div>
-			<%@ include file="./footer.jsp" %>
-		</div>
+		<div class="forgot-password-container">
+		   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
+		   <div id="forgot-password_error" class="common-box">
+		      <p>Please enter your username or email address. You will receive a link to create a new password via email.</p>	
+		   </div>
+		   <form class="form-view" id="accounterForm" method="post" action="/site/forgotpassword">
+		      <div>
+			    <label>Username or E-mail:<label>
+				<br>
+				<input id="mid-box"  type="text" name="emailId" tabindex="1" value="${emailId}">
+			  </div>
+			  <div id="forgot-login">
+			     <input type="submit" tabindex="3" value="Get New Password" name="ok" class="allviews-common-button" id="submitButton">
+			  </div>
+		   </form>
+		   <div class="form-bottom-options">
+		      <a href="/login" >Login</a>
+		   </div>
 		</div>
 		</body>
 </html>
