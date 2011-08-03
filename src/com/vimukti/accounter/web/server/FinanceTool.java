@@ -2171,7 +2171,7 @@ public class FinanceTool implements IFinanceDAOService {
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery(
 					"getEntry.by.vendorId.creditand.balanceDue.orderbyid")
-					.setParameter("vendorId", vendorId);
+					.setParameter(0, vendorId);
 
 			List<JournalEntry> openingBalanceEntries = query.list();
 
@@ -2260,7 +2260,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			query = session.getNamedQuery(
 					"getEntry.by.customerId.debitand.balanceDue.orderbyid")
-					.setParameter("customerId", customerId);
+					.setParameter(0, customerId);
 
 			List<JournalEntry> openingBalanceEntries = query.list();
 
@@ -4117,7 +4117,7 @@ public class FinanceTool implements IFinanceDAOService {
 	// }
 
 	@Override
-	public double getCalculatedRollBackDepreciationAmount(String fixedAssetID,
+	public double getCalculatedRollBackDepreciationAmount(long fixedAssetID,
 			long rollBackDepreciationTo) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
@@ -5840,7 +5840,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getEntry.orderedby.id")
-				.setParameter("customer", customer);
+				.setParameter(0, customer);
 		List<JournalEntry> nonInvoicedLines = (List<JournalEntry>) query.list();
 
 		List<MostProfitableCustomers> profitabilityByCustomerDetailList = new ArrayList<MostProfitableCustomers>();
@@ -7867,7 +7867,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Query query = session.getNamedQuery(
 				"getVATReturn.checkingby.taxagencyidand.dates").setParameter(
-				"taxAgency", taxAgency.getID());
+				0, taxAgency.getID());
 
 		Object object[] = null;
 		List list = query.list();
@@ -10121,9 +10121,9 @@ public class FinanceTool implements IFinanceDAOService {
 			long maxCount) {
 
 		Query query = HibernateUtil.getCurrentSession()
-				.getNamedQuery("getTransaction.from.typeandId")
-				.setParameter("transactionType", transactionType)
-				.setParameter("id", maxCount);
+				.getNamedQuery("getTransactionNumber.from.typeandId")
+				.setParameter(0, transactionType)
+				.setParameter(0, maxCount);
 
 		List list = query.list();
 

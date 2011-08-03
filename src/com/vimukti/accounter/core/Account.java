@@ -908,7 +908,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 					List l = session
 							.getNamedQuery(
 									"getCount.from.Account.and.parent")
-							.setParameter("parent", this.parent).list();
+							.setParameter("parentId", this.parent.getID()).list();
 					if (l != null) {
 						long count = (Long) l.get(0);
 						count++;
@@ -1061,7 +1061,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 				Query query1 = session
 						.getNamedQuery("getFlowList.form.Account.byId") 
-						.setParameter("parent", this.oldParent)
+						.setParameter("parentId", this.oldParent.getID())
 						.setParameter("flow", oldFlow);
 				List<Account> l2 = query1.list();
 
@@ -1279,7 +1279,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 		Query query = session
 				.getNamedQuery("get.name.fromAccount.byId") 
-				.setParameter("id", this.getID());
+				.setParameter(0, this.getID());
 		String accountName = (String) query.uniqueResult();
 
 		if (accountName != null && !this.getName().equals(accountName))

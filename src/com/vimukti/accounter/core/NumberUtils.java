@@ -107,7 +107,7 @@ public class NumberUtils {
 		Query query = HibernateUtil
 				.getCurrentSession()
 				.getNamedQuery(
-						"getCustomer.byId.andOrder");
+						"getCustomerNumber.byId.andOrder");
 
 		List list = query.list();
 		if ((list.size() == 0)) {

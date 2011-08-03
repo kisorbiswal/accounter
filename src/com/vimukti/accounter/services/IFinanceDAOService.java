@@ -377,7 +377,7 @@ public interface IFinanceDAOService {
 	public double getCalculatedRollBackDepreciationAmount(
 			long rollBackDepreciationTo) throws DAOException;
 
-	public double getCalculatedRollBackDepreciationAmount(String fixedAssetID,
+	public double getCalculatedRollBackDepreciationAmount(long fixedAssetID,
 			long rollBackDepreciationTo) throws DAOException;
 
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
