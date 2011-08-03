@@ -182,13 +182,40 @@ public class InvoiceBrandingView<T> extends
 	// }
 
 	private VerticalPanel addingThemeToView(final ClientBrandingTheme theme) {
-		final HTML uploadPictureHtml;
-		final AccounterButton optionsButton;
+
+		final HTML uploadPictureHtml, changeLogoHtml, removeLogoHtml;
+		final AccounterButton editButton, copyThemeButton, deleteButton;
 		titleHtml = new HTML("<strong>" + theme.getThemeName() + "</strong>");
 		vPanel = new VerticalPanel();
 
 		subLayPanel = new VerticalPanel();
-		optionsButton = new AccounterButton(messages.options());
+
+		editButton = new AccounterButton("Edit");
+		editButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ActionFactory.getNewBrandThemeAction().run(theme, false);
+			}
+		});
+
+		copyThemeButton = new AccounterButton("Copy");
+		copyThemeButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ActionFactory.getCopyThemeAction().run(theme, false);
+			}
+		});
+
+		deleteButton = new AccounterButton("Delete");
+		deleteButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ActionFactory.getDeleteThemeAction().run(theme, false);
+			}
+		});
 
 		double topMargin;
 		if (theme.getTopMargin() != 0) {
@@ -270,14 +297,6 @@ public class InvoiceBrandingView<T> extends
 		showPanel.add(checkBoxHtml);
 		showPanel.add(radioButtonHtml);
 
-		optionsButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				optionsMenu(optionsButton, theme);
-			}
-		});
-
 		// adding contact details.....
 		String contactDetails = theme.getContactDetails() == null ? messages
 				.notAdded() : theme.getContactDetails();
@@ -331,11 +350,77 @@ public class InvoiceBrandingView<T> extends
 			original.append("/>");
 			uploadPictureHtml = new HTML("" + original);
 		}
+		changeLogoHtml = new HTML("Change logo");
+		changeLogoHtml.addMouseOverHandler(new MouseOverHandler() {
 
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				changeLogoHtml.getElement().getStyle()
+						.setCursor(Cursor.POINTER);
+				changeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
+			}
+		});
+		changeLogoHtml.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				changeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
+			}
+		});
+		changeLogoHtml.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				changeLogo(theme);
+			}
+		});
+		removeLogoHtml = new HTML("Remove logo");
+		removeLogoHtml.addMouseOverHandler(new MouseOverHandler() {
+
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				removeLogoHtml.getElement().getStyle()
+						.setCursor(Cursor.POINTER);
+				removeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
+			}
+		});
+		removeLogoHtml.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				removeLogoHtml.getElement().getStyle()
+						.setTextDecoration(TextDecoration.NONE);
+			}
+		});
+		removeLogoHtml.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (theme.getFileName() == null) {
+					Accounter.showInformation("No Logo is added to Remove");
+				} else {
+					removeLogo(theme);
+				}
+			}
+		});
+
+		changeLogoHtml.setStyleName("change-logo");
+		removeLogoHtml.setStyleName("remove-logo");
 		uploadPictureHtml.setStyleName("picture-link");
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setStyleName("panel-logo");
+		VerticalPanel verticalPanel = new VerticalPanel();
+		panel.add(changeLogoHtml);
+		panel.add(removeLogoHtml);
 		uploadPanel = new VerticalPanel();
 		uploadPanel.setStyleName("upload-logo");
 		uploadPanel.add(uploadPictureHtml);
+		verticalPanel.add(uploadPanel);
+		verticalPanel.add(panel);
+		panel.getElement().getParentElement().setAttribute("align", "center");
 		uploadPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
 
 		subLayPanel.add(allLabelsHtml);
@@ -352,7 +437,7 @@ public class InvoiceBrandingView<T> extends
 		allPanel = new HorizontalPanel();
 		allPanel.add(subLayPanel);
 		allPanel.add(contactDetailsPanel);
-		allPanel.add(uploadPanel);
+		allPanel.add(verticalPanel);
 		allPanel.setWidth("100%");
 
 		nameAndMenuPanel = new HorizontalPanel();
@@ -360,10 +445,24 @@ public class InvoiceBrandingView<T> extends
 		nameAndMenuPanel.setStyleName("standard-options");
 		titleHtml.getElement().getAbsoluteLeft();
 		// optionsButton.setStyleName("ibutton-right-align") ;
-		nameAndMenuPanel.add(optionsButton);
+		nameAndMenuPanel.add(editButton);
+		nameAndMenuPanel.add(copyThemeButton);
+		nameAndMenuPanel.add(deleteButton);
 
-		optionsButton.getElement().getAbsoluteRight();
-		optionsButton.enabledButton();
+		editButton.getElement().getAbsoluteRight();
+		editButton.enabledButton();
+
+		copyThemeButton.getElement().getAbsoluteRight();
+		copyThemeButton.enabledButton();
+
+		deleteButton.getElement().getAbsoluteRight();
+		deleteButton.enabledButton();
+
+		if (theme.getName().equalsIgnoreCase("Standard")) {
+			deleteButton.setVisible(false);
+		} else {
+			deleteButton.setVisible(true);
+		}
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);
 		vPanel.setWidth("100%");
@@ -372,84 +471,85 @@ public class InvoiceBrandingView<T> extends
 
 	}
 
-	protected void optionsMenu(AccounterButton button, ClientBrandingTheme theme) {
-		PopupPanel optionsPanel = new PopupPanel();
-		if (theme.getThemeName().equals(messages.standard())) {
-			if (theme.getFileName() == null) {
-				optionsPanel.add(getOptionsMenuDefaultThemeNoLogo(optionsPanel,
-						theme));
-				optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-						button.getAbsoluteTop() + button.getOffsetHeight());
-				optionsPanel.show();
-				optionsPanel.setAutoHideEnabled(true);
-			} else {
-				optionsPanel
-						.add(getOptionsMenuDefaultTheme(optionsPanel, theme));
-				optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-						button.getAbsoluteTop() + button.getOffsetHeight());
-				optionsPanel.show();
-				optionsPanel.setAutoHideEnabled(true);
-			}
+	// protected void optionsMenu(AccounterButton button, ClientBrandingTheme
+	// theme) {
+	// PopupPanel optionsPanel = new PopupPanel();
+	// if (theme.getThemeName().equals(messages.standard())) {
+	// if (theme.getFileName() == null) {
+	// optionsPanel.add(getOptionsMenuDefaultThemeNoLogo(optionsPanel,
+	// theme));
+	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
+	// button.getAbsoluteTop() + button.getOffsetHeight());
+	// optionsPanel.show();
+	// optionsPanel.setAutoHideEnabled(true);
+	// } else {
+	// optionsPanel
+	// .add(getOptionsMenuDefaultTheme(optionsPanel, theme));
+	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
+	// button.getAbsoluteTop() + button.getOffsetHeight());
+	// optionsPanel.show();
+	// optionsPanel.setAutoHideEnabled(true);
+	// }
+	//
+	// } else {
+	// if (theme.getFileName() == null) {
+	// optionsPanel.add(getOptionsMenuNoLogo(optionsPanel, theme));
+	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
+	// button.getAbsoluteTop() + button.getOffsetHeight());
+	// optionsPanel.show();
+	// optionsPanel.setAutoHideEnabled(true);
+	// } else {
+	// optionsPanel.add(getOptionsMenuWithLogo(optionsPanel, theme));
+	// optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
+	// button.getAbsoluteTop() + button.getOffsetHeight());
+	// optionsPanel.show();
+	// optionsPanel.setAutoHideEnabled(true);
+	// }
+	//
+	// }
+	//
+	// }
 
-		} else {
-			if (theme.getFileName() == null) {
-				optionsPanel.add(getOptionsMenuNoLogo(optionsPanel, theme));
-				optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-						button.getAbsoluteTop() + button.getOffsetHeight());
-				optionsPanel.show();
-				optionsPanel.setAutoHideEnabled(true);
-			} else {
-				optionsPanel.add(getOptionsMenuWithLogo(optionsPanel, theme));
-				optionsPanel.setPopupPosition(button.getAbsoluteLeft(),
-						button.getAbsoluteTop() + button.getOffsetHeight());
-				optionsPanel.show();
-				optionsPanel.setAutoHideEnabled(true);
-			}
-
-		}
-
-	}
-
-	private CustomMenuBar getOptionsMenuWithLogo(PopupPanel panel,
-			ClientBrandingTheme theme) {
-		CustomMenuBar bar = new CustomMenuBar();
-		bar.addItem(messages.edit(), getOptions(1, panel, theme));
-		bar.addItem(messages.copy(), getOptions(2, panel, theme));
-		bar.addItem(messages.changeLogo(), getOptions(3, panel, theme));
-		bar.addItem(messages.delete(), getOptions(4, panel, theme));
-		bar.addItem(messages.removeLogo(), getOptions(5, panel, theme));
-		return bar;
-	}
-
-	private CustomMenuBar getOptionsMenuNoLogo(PopupPanel panel,
-			ClientBrandingTheme theme) {
-		CustomMenuBar bar = new CustomMenuBar();
-		bar.addItem(messages.edit(), getOptions(1, panel, theme));
-		bar.addItem(messages.copy(), getOptions(2, panel, theme));
-		bar.addItem(messages.addLogo(), getOptions(6, panel, theme));
-		bar.addItem(messages.delete(), getOptions(4, panel, theme));
-		return bar;
-	}
-
-	private CustomMenuBar getOptionsMenuDefaultTheme(PopupPanel panel,
-			ClientBrandingTheme theme) {
-		CustomMenuBar bar = new CustomMenuBar();
-		bar.addItem(messages.edit(), getOptions(1, panel, theme));
-		bar.addItem(messages.copy(), getOptions(2, panel, theme));
-		bar.addItem(messages.changeLogo(), getOptions(3, panel, theme));
-		bar.addItem(messages.removeLogo(), getOptions(5, panel, theme));
-
-		return bar;
-	}
-
-	private CustomMenuBar getOptionsMenuDefaultThemeNoLogo(PopupPanel panel,
-			ClientBrandingTheme theme) {
-		CustomMenuBar bar = new CustomMenuBar();
-		bar.addItem(messages.edit(), getOptions(1, panel, theme));
-		bar.addItem(messages.copy(), getOptions(2, panel, theme));
-		bar.addItem(messages.addLogo(), getOptions(6, panel, theme));
-		return bar;
-	}
+	// private CustomMenuBar getOptionsMenuWithLogo(PopupPanel panel,
+	// ClientBrandingTheme theme) {
+	// CustomMenuBar bar = new CustomMenuBar();
+	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
+	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
+	// bar.addItem(messages.changeLogo(), getOptions(3, panel, theme));
+	// bar.addItem(messages.delete(), getOptions(4, panel, theme));
+	// bar.addItem(messages.removeLogo(), getOptions(5, panel, theme));
+	// return bar;
+	// }
+	//
+	// private CustomMenuBar getOptionsMenuNoLogo(PopupPanel panel,
+	// ClientBrandingTheme theme) {
+	// CustomMenuBar bar = new CustomMenuBar();
+	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
+	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
+	// bar.addItem(messages.addLogo(), getOptions(6, panel, theme));
+	// bar.addItem(messages.delete(), getOptions(4, panel, theme));
+	// return bar;
+	// }
+	//
+	// private CustomMenuBar getOptionsMenuDefaultTheme(PopupPanel panel,
+	// ClientBrandingTheme theme) {
+	// CustomMenuBar bar = new CustomMenuBar();
+	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
+	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
+	// bar.addItem(messages.changeLogo(), getOptions(3, panel, theme));
+	// bar.addItem(messages.removeLogo(), getOptions(5, panel, theme));
+	//
+	// return bar;
+	// }
+	//
+	// private CustomMenuBar getOptionsMenuDefaultThemeNoLogo(PopupPanel panel,
+	// ClientBrandingTheme theme) {
+	// CustomMenuBar bar = new CustomMenuBar();
+	// bar.addItem(messages.edit(), getOptions(1, panel, theme));
+	// bar.addItem(messages.copy(), getOptions(2, panel, theme));
+	// bar.addItem(messages.addLogo(), getOptions(6, panel, theme));
+	// return bar;
+	// }
 
 	private Command getOptions(final int type, final PopupPanel panel,
 			final ClientBrandingTheme theme) {

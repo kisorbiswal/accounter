@@ -179,7 +179,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 									 <td id="email_id_box">
 									 </td>
 								  </tr>
-								  <!--<tr>
+								  <tr>
 									 <td style="width : 155px"><span>Password</span>  </td>
 									 <td>
 										 <input id="mid-box4"  type="password" tabindex="7" name="password">
@@ -190,7 +190,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 									 <td>
 										 <input id="mid-box5"  type="password" tabindex="8" name="confirmPassword">
 									 </td>
-								  </tr>-->
+								  </tr>
 								  <tr>
 									 <td style="width : 155px"><span>Phone Number</span> </td>
 									 <td>

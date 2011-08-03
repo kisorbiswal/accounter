@@ -13,8 +13,10 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
+import com.vimukti.accounter.utils.Security;
 
 public class SignupServlet extends BaseServlet {
 	/**
@@ -38,6 +40,7 @@ public class SignupServlet extends BaseServlet {
 		String emailId = req.getParameter("emailId").trim();
 		String firstName = req.getParameter("firstName").trim();
 		String lastName = req.getParameter("lastName").trim();
+		String password = req.getParameter("password").trim();
 		String phoneNumber = req.getParameter("phoneNumber").trim();
 		String country = req.getParameter("country").trim();
 		boolean isSubscribedToNewsLetter = false;
@@ -58,6 +61,8 @@ public class SignupServlet extends BaseServlet {
 			dispatchMessage("Given Inputs are wrong.", req, resp, view);
 			return;
 		}
+		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId.trim()
+				+ password.trim()));
 
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
@@ -91,6 +96,7 @@ public class SignupServlet extends BaseServlet {
 				client.setEmailId(emailId);
 				client.setFirstName(firstName);
 				client.setLastName(lastName);
+				client.setPassword(passwordWithHash);
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
