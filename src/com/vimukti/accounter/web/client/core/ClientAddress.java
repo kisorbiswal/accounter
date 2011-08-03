@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
-
 @SuppressWarnings("serial")
 public class ClientAddress implements IAccounterCore {
 
@@ -167,22 +165,22 @@ public class ClientAddress implements IAccounterCore {
 			break;
 
 		case ClientAddress.TYPE_BUSINESS:
-			buffer.append(Accounter.constants().buisnessColon());
+			buffer.append("Buisness:");
 			break;
 
 		case ClientAddress.TYPE_HOME:
-			buffer.append(Accounter.constants().homeColon());
+			buffer.append("Home: ");
 			break;
 
 		case ClientAddress.TYPE_LEGAL:
-			buffer.append(Accounter.constants().legalColon());
+			buffer.append("Legal: ");
 			break;
 
 		case ClientAddress.TYPE_SHIP_TO:
-			buffer.append(Accounter.constants().shipToColon());
+			buffer.append("ShipTo: ");
 
 		default:
-			buffer.append(Accounter.constants().otherColon());
+			buffer.append("Other: ");
 			break;
 		}
 
@@ -222,13 +220,13 @@ public class ClientAddress implements IAccounterCore {
 	}
 
 	@Override
-	public long getID() {
+	public long getID(){
 		return 0;
-		// return this.id;
+//		return this.id;
 	}
 
 	@Override
-	public void setID(long id) {
+	public void setID(long id){
 		// this.id=id;
 
 	}

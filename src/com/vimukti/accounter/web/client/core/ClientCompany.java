@@ -105,28 +105,20 @@ public class ClientCompany implements IAccounterCore {
 
 	String sortCode;
 
-	String serviceItemDefaultIncomeAccount = Accounter.constants()
-			.cashDiscountGiven();
+	String serviceItemDefaultIncomeAccount = "Cash Discount Given";
 
-	String serviceItemDefaultExpenseAccount = Accounter.constants()
-			.productsMaterialsPurchasedTypeA();
+	String serviceItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
 
-	String nonInventoryItemDefaultIncomeAccount = Accounter.constants()
-			.cashDiscountGiven();
+	String nonInventoryItemDefaultIncomeAccount = "Cash Discount Given";
 
-	String nonInventoryItemDefaultExpenseAccount = Accounter.constants()
-			.productsMaterialsPurchasedTypeA();
+	String nonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
 
-	String ukServiceItemDefaultIncomeAccount = Accounter.constants()
-			.earlyPaymentDiscountGiven();
-	String ukServiceItemDefaultExpenseAccount = Accounter.constants()
-			.productsMaterialsPurchasedTypeA();
+	String ukServiceItemDefaultIncomeAccount = "Early Payment Discount Given";
+	String ukServiceItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
 
-	String ukNonInventoryItemDefaultIncomeAccount = Accounter.constants()
-			.earlyPaymentDiscountGiven();
+	String ukNonInventoryItemDefaultIncomeAccount = "Early Payment Discount Given";
 
-	String ukNonInventoryItemDefaultExpenseAccount = Accounter.constants()
-			.productsMaterialsPurchasedTypeA();
+	String ukNonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
 
 	ClientCompanyPreferences preferences = new ClientCompanyPreferences();
 
