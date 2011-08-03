@@ -88,8 +88,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	HorizontalPanel hpanel;
 	DynamicForm amountsForm;
 
-	private ClientCompany company = Accounter.getCompany();
-
 	@Override
 	protected void initTransactionViewData() {
 		super.initTransactionViewData();
