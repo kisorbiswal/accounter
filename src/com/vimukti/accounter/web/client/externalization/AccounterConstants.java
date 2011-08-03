@@ -4384,4 +4384,6 @@ public interface AccounterConstants extends Constants {
 
 	public String ztozeroperc();
 
+	public String cashDiscountGiven();
+
 }
