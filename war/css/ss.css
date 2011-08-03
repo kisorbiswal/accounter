@@ -1888,13 +1888,27 @@ input[type="submit"]:FOCUS {
     width: 500px;
 }
 
-/* new login css Date:3/8/2011*/
 
-.login-container{
+
+/* ////////////new login and forgot password css Date:3/8/2011*/
+
+*{
+  margin:0px;
+  padding:0px;
+}
+form{
+  font-weight:normal;
+  font-family:sans-serif;
+}
+.login-container,.forgot-password-container{
     margin: 7em auto;
     width: 320px;
 }
-#accounterForm{
+.login-container label,.forgot-password-container label{
+    color: #777777;
+    font-size: 14px;
+}
+.form-view{
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #E5E5E5;
     border-radius: 3px 3px 3px 3px;
@@ -1903,7 +1917,7 @@ input[type="submit"]:FOCUS {
     margin-left: 8px;
     padding: 26px 24px 46px;
 }
-#accounterForm  input[type="text"],#accounterForm input[type="password"]{
+.form-view  input[type="text"],.form-view input[type="password"]{
     background: none repeat scroll 0 0 #FBFBFB;
     border: 1px solid #E5E5E5;
     box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
@@ -1916,11 +1930,11 @@ input[type="submit"]:FOCUS {
 .rememberMe{
     float:left;
 }
-.loginbutton{
+.loginbutton,#forgot-login{
     float:right;
 	margin-right: 8px;
 }
-.loginbutton input{
+.allviews-common-button{
     background: none repeat scroll 0 0 #28757D;
     border: 1px solid #28757D;
     border-radius: 11px 11px 11px 11px;
@@ -1937,22 +1951,34 @@ input[type="submit"]:FOCUS {
     background:#1a5158;
 	border:1px solid #9ebfc3;
 }
-.lost-password a{
+.form-bottom-options{
+    margin: 0 0 0 16px;
+    padding: 16px 16px 0;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+.form-bottom-options a{
    color:#28757D;
    text-decoration:underline;
-   margin:0 0 0 16px;
 }
-.login-accounterLogo{
+.accounterLogo{
    padding:0 0 15px 10px;
 }
-#login_error{
+.common-box{
     border-radius: 3px 3px 3px 3px;
     border-style: solid;
     border-width: 1px;
     margin: 0 0 16px 8px;
     padding: 12px;
+    font-size:12px;
+	font-family:sans-serif;
+}
+#login_error{
 	background-color: #FFEBE8;
     border-color: #CC0000;
 }
+#forgot-password_error{
+    background-color: #FFFFE0;
+    border-color: #E6DB55;
+}
 
-/* End of the new Login page*/
+/* End of the new Login and forgot password page*/
