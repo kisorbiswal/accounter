@@ -108,95 +108,84 @@ public class ReportsApiServletTest extends TestCase {
 		testResponse(prepareRequest("salesbycustomersummary", queryStr));
 	}
 
-	// @Test
-	// public void testEcSalesListDetail() {
-	// String name = "";
-	// String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-	// String string = LOCAL_PATH
-	// + "/api/xmlreports/salesbycustomersummary?"
-	// + "ApiKey="
-	// + apikey
-	// + "&CompanyId="
-	// + companyId
-	// + "&Expire="
-	// + exprDate
-	// + "&Name="
-	// + name
-	// + "&StartDate=2011-07-01 12:00:00Z&EndDate=2011-08-30 12:00:00Z";
-	// testResponse(prepareRequest(doSigning(string)));
-	// }
-	//
-	// @Test
-	// public void testVat100Report() {
-	// long taxAgency = 0;
-	// String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-	// String string = LOCAL_PATH
-	// + "/api/xmlreports/salesbycustomersummary?"
-	// + "ApiKey="
-	// + apikey
-	// + "&CompanyId="
-	// + companyId
-	// + "&Expire="
-	// + exprDate
-	// + "&TaxAgency="
-	// + taxAgency
-	// + "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-	// testResponse(prepareRequest(doSigning(string)));
-	// }
-	//
-	// @Test
-	// public void testFailDebitorsList() {
-	// String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-	// String string = LOCAL_PATH
-	// + "/api/xmlreports/debitorslist?"
-	// + "ApiKey="
-	// + apikey
-	// + "&CompanyId=-1"
-	// + "&Expire="
-	// + exprDate
-	// + "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-	// testFailResponse(prepareRequest(doSigning(string)));
-	// }
-	//
-	// @Test
-	// public void testFailPurchaseReportItems() {
-	// String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-	// String string = LOCAL_PATH
-	// + "/api/xmlreports/purchasereportitems?"
-	// + "ApiKey="
-	// + apikey
-	// + "&CompanyId="
-	// + companyId
-	// + "&Expire="
-	// + exprDate
-	// + "&StartDate=01-07-2011T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-	// testFailResponse(prepareRequest(doSigning(string)));
-	// }
-	//
-	// @Test
-	// public void testFailSalesOpenOrder() {
-	// String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-	// String string = LOCAL_PATH
-	// + "/api/xmlreports/salesopenorder?"
-	// + "ApiKey=erwr"
-	// + "&CompanyId="
-	// + companyId
-	// + "&Expire="
-	// + exprDate
-	// + "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-	// testFailResponse(prepareRequest(doSigning(string)));
-	// }
-	//
-	// @Test
-	// public void testFailCreditors() {
-	// String exprDate = LOCAL_PATH + "2011-08-01T01:00:00Z";
-	// String string = "/api/xmlreports/creditors?"
-	// + "ApiKey=erwr"
-	// + "&CompanyId="
-	// + companyId
-	// + "&Expire="
-	// + exprDate
-	// + "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-	// testFailResponse(prepareRequest(doSigning(string)));
-	// }
+	@Test
+	public void testEcSalesListDetail() {
+		String name = "";
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String queryStr = "ApiKey="
+				+ apikey
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&Name="
+				+ name
+				+ "&StartDate=2011-07-01 12:00:00Z&EndDate=2011-08-30 12:00:00Z";
+		testResponse(prepareRequest("ecsaleslistdetail", queryStr));
+	}
+
+	@Test
+	public void testVat100Report() {
+		long taxAgency = 0;
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String queryStr = "ApiKey="
+				+ apikey
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&TaxAgency="
+				+ taxAgency
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		testResponse(prepareRequest("vat100report", queryStr));
+	}
+
+	@Test
+	public void testFailDebitorsList() {
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String queryStr = "ApiKey="
+				+ apikey
+				+ "&CompanyId=-1"
+				+ "&Expire="
+				+ exprDate
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		testFailResponse(prepareRequest("debitorslist", queryStr));
+	}
+
+	@Test
+	public void testFailPurchaseReportItems() {
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String queryStr = "ApiKey="
+				+ apikey
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&StartDate=01-07-2011T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		testFailResponse(prepareRequest("purchasereportitems", queryStr));
+	}
+
+	@Test
+	public void testFailSalesOpenOrder() {
+		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
+		String queryStr = "ApiKey=erwr"
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		testFailResponse(prepareRequest("saelsopenorder", queryStr));
+	}
+
+	@Test
+	public void testFailCreditors() {
+		String exprDate = "2011-08-01T01:00:00Z";
+		String queryStr = "ApiKey=erwr"
+				+ "&CompanyId="
+				+ companyId
+				+ "&Expire="
+				+ exprDate
+				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
+		testFailResponse(prepareRequest("creditors", queryStr));
+	}
 }
