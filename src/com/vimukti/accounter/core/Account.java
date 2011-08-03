@@ -894,8 +894,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			String className = this.getClass().getName();
 			if (this.flow == null) {
 				if (this.parent == null) {
-					List l = session.getNamedQuery(
-							"getFlow.by.Id.from.Account").list();
+					List l = session
+							.getNamedQuery("getFlow.by.Id.from.Account").list();
 					if (l != null && l.size() > 0) {
 						int count = Integer.parseInt((String) l.get(0));
 						count++;
@@ -906,9 +906,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 					}
 				} else {
 					List l = session
-							.getNamedQuery(
-									"getCount.from.Account.and.parent")
-							.setParameter("parentId", this.parent.getID()).list();
+							.getNamedQuery("getCount.from.Account.and.parent")
+							.setParameter("parentId", this.parent.getID())
+							.list();
 					if (l != null) {
 						long count = (Long) l.get(0);
 						count++;
@@ -1060,7 +1060,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				// this.oldParent.getID()).setParameter("flow", oldFlow);
 
 				Query query1 = session
-						.getNamedQuery("getFlowList.form.Account.byId") 
+						.getNamedQuery("getFlowList.form.Account.byId")
 						.setParameter("parentId", this.oldParent.getID())
 						.setParameter("flow", oldFlow);
 				List<Account> l2 = query1.list();
@@ -1277,8 +1277,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 */
 	protected void updateEntryMemo(Session session) {
 
-		Query query = session
-				.getNamedQuery("get.name.fromAccount.byId") 
+		Query query = session.getNamedQuery("get.name.fromAccount.byId")
 				.setParameter(0, this.getID());
 		String accountName = (String) query.uniqueResult();
 
