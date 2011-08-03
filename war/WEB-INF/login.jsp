@@ -56,7 +56,7 @@
 		   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
 		   <div id="login_error" class="common-box">
 		      <c:if test="${message != null}">
-				<span>${message} sdfsfd</span>
+				<span>${message} </span>
 			  </c:if>	
 		   </div>
 		   <form id="accounterForm" method="post" action="/login">
