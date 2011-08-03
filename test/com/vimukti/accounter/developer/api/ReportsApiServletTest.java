@@ -1,6 +1,9 @@
 package com.vimukti.accounter.developer.api;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 
 import javax.crypto.Mac;
@@ -15,6 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
+import org.mortbay.util.UrlEncoded;
 
 public class ReportsApiServletTest extends TestCase {
 	private static final String SIGNATURE = "Signature";
@@ -24,6 +28,7 @@ public class ReportsApiServletTest extends TestCase {
 	private static final String secretKey = "df2q64ik1q3q78lq";
 	private static final String LOCAL_PATH = "";// "http://localhost:8890";
 	private static final long companyId = 1;
+	private static String prefixUrl = "http://localhost:8890/api/xmlreports/";
 
 	private ServletTester tester;
 	SimpleDateFormat simpleDateFormat;
@@ -107,7 +112,7 @@ public class ReportsApiServletTest extends TestCase {
 	}
 
 	@Test
-	public void testSalesByCustomerSummary() {
+	public void testSalesByCustomerSummary() throws IOException {
 		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
 		String queryStr = "ApiKey="
 				+ apikey
@@ -117,8 +122,25 @@ public class ReportsApiServletTest extends TestCase {
 				+ exprDate
 				+ "&StartDate=2011-07-01 12:00:00Z&EndDate=2011-08-30 12:00:00Z";
 
-		testResponse(prepareRequest("/api/xmlreports/salesbycustomersummary",
-				doSigning(queryStr)));
+		String encodeString = new UrlEncoded(queryStr).encode();
+
+		String signature = doSigning(encodeString);
+		String queryString = encodeString + "&" + SIGNATURE + "=" + signature;
+		sendRequest(prefixUrl + "salesbycustomersummary?" + queryString);
+
+		// testResponse(prepareRequest("/api/xmlreports/salesbycustomersummary",
+		// doSigning(queryStr)));
+	}
+
+	private void sendRequest(String urlStr) throws IOException {
+
+		URL url = new URL(urlStr);
+		URLConnection connection = url.openConnection();
+		InputStream stream = connection.getInputStream();
+		int i = stream.available();
+		byte[] data = new byte[i];
+		stream.read(data);
+		System.out.println(new String(data));
 	}
 
 	// @Test
