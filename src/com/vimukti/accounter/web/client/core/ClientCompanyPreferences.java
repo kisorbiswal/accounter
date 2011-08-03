@@ -60,8 +60,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	long lastDepreciationDate;
 
-	boolean useForeignCurrency;
-
 	boolean isMyAccountantWillrunPayroll;
 
 	// Customer Preferrences
@@ -361,21 +359,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 */
 	public void setIsAccuralBasis(boolean isAccuralBasis) {
 		this.isAccuralBasis = isAccuralBasis;
-	}
-
-	/**
-	 * @return the useForeignCurrency
-	 */
-	public boolean getUseForeignCurrency() {
-		return useForeignCurrency;
-	}
-
-	/**
-	 * @param useForeignCurrency
-	 *            the useForeignCurrency to set
-	 */
-	public void setUseForeignCurrency(boolean useForeignCurrency) {
-		this.useForeignCurrency = useForeignCurrency;
 	}
 
 	/**
