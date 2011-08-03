@@ -40,7 +40,7 @@ public interface IAccounterService {
 	 */
 
 	public <T extends IAccounterServerCore> Boolean canDelete(Class clazz,
-			String id) throws DAOException;
+			long id) throws DAOException;
 	// /////
 	// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

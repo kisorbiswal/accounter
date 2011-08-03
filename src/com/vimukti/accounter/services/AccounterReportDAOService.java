@@ -48,23 +48,23 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 		this.accounterDao = accounterDao;
 	}
 
-	
-	private long getLongIdForGivenid(AccounterCoreType entity, String account) {
-
-		Session session = Utility.getCurrentSession();
-		// String hqlQuery = "select entity.id from "
-		// + entity.getServerClassSimpleName()
-		// + " entity where entity.id=?";
-		Query query = session.getNamedQuery(
-				"get.entity.from." + entity.getServerClassSimpleName())
-				.setString(0, account);
-		List l = query.list();
-		if (l != null && l.get(0) != null) {
-			return (Long) l.get(0);
-		} else
-			return 0;
-
-	}
+	// private long getLongIdForGivenid(AccounterCoreType entity, String
+	// account) {
+	//
+	// Session session = Utility.getCurrentSession();
+	// // String hqlQuery = "select entity.id from "
+	// // + entity.getServerClassSimpleName()
+	// // + " entity where entity.id=?";
+	// Query query = session.getNamedQuery(
+	// "get.entity.from." + entity.getServerClassSimpleName())
+	// .setString(0, account);
+	// List l = query.list();
+	// if (l != null && l.get(0) != null) {
+	// return (Long) l.get(0);
+	// } else
+	// return 0;
+	//
+	// }
 
 	@Override
 	public void createTaxes(int... vatReturnType) throws DAOException {

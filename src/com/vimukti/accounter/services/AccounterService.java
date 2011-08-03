@@ -73,7 +73,7 @@ public class AccounterService extends HibernateDaoSupport implements
 			String id) throws DAOException {
 		Session session = Utility.getCurrentSession();
 		Query query = session.getNamedQuery(
-				"get.entity.from." + clazz.getSimpleName()).setParameter(0, id);
+				"unique.id." + clazz.getSimpleName()).setParameter(0, id);
 		List l = query.list();
 		T entity = null;
 		if (l != null && l.size() > 0 && l.get(0) != null) {
@@ -87,8 +87,7 @@ public class AccounterService extends HibernateDaoSupport implements
 			String name) throws DAOException {
 		Session session = Utility.getCurrentSession();
 		Query query = session.getNamedQuery(
-				"get.entity.from." + clazz.getSimpleName()).setParameter(0,
-				name);
+				"unique.name." + clazz.getSimpleName()).setParameter(0, name);
 		List l = query.list();
 		T entity = null;
 		if (l != null && l.size() > 0 && l.get(0) != null) {
@@ -118,31 +117,31 @@ public class AccounterService extends HibernateDaoSupport implements
 		// 20- 9000347779
 	}
 
-	private long getLongIdForGivenid(Class clazz, String id) {
-
-		Session session = Utility.getCurrentSession();
-		// String hqlQuery = "select entity.id from " + clazz.getName()
-		// + " entity where entity.id=?";
-		Query query = session.getNamedQuery(
-				"get.entity.from." + clazz.getSimpleName()).setString(0, id);
-		List l = query.list();
-		if (l != null && l.get(0) != null) {
-			return (Long) l.get(0);
-		} else
-			return 0;
-
-	}
+	// private long getLongIdForGivenid(Class clazz, String id) {
+	//
+	// Session session = Utility.getCurrentSession();
+	// // String hqlQuery = "select entity.id from " + clazz.getName()
+	// // + " entity where entity.id=?";
+	// Query query = session.getNamedQuery(
+	// "get.entity.from." + clazz.getSimpleName()).setString(0, id);
+	// List l = query.list();
+	// if (l != null && l.get(0) != null) {
+	// return (Long) l.get(0);
+	// } else
+	// return 0;
+	//
+	// }
 
 	@Override
 	public <T extends IAccounterServerCore> Boolean canDelete(Class clazz,
-			String id) throws DAOException {
+			long id) throws DAOException {
 
 		Session session = Utility.getCurrentSession();
-		long inputId = getLongIdForGivenid(clazz, id);
+		// long inputId = getLongIdForGivenid(clazz, id);
 		String queryName = new StringBuilder().append("canDelete")
 				.append(clazz.getSimpleName()).toString();
 		Query query = session.getNamedQuery(queryName).setParameter("inputId",
-				inputId);
+				id);
 		return executeQuery(query);
 	}
 

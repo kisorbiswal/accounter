@@ -67,19 +67,20 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 		this.accounterDao = accounterDao;
 	}
 
-	private long getLongIdForGivenid(AccounterCoreType entity, String account) {
-
-		Session session = Utility.getCurrentSession();
-		Query query = session.getNamedQuery(
-				"get.entity.from." + entity.getServerClassFullyQualifiedName())
-				.setString(0, account);
-		List<?> l = query.list();
-		if (l != null && !l.isEmpty() && l.get(0) != null) {
-			return (Long) l.get(0);
-		} else
-			return 0;
-
-	}
+	// private long getLongIdForGivenid(AccounterCoreType entity, String
+	// account) {
+	//
+	// Session session = Utility.getCurrentSession();
+	// Query query = session.getNamedQuery(
+	// "get.entity.from." + entity.getServerClassFullyQualifiedName())
+	// .setString(0, account);
+	// List<?> l = query.list();
+	// if (l != null && !l.isEmpty() && l.get(0) != null) {
+	// return (Long) l.get(0);
+	// } else
+	// return 0;
+	//
+	// }
 
 	@Override
 	public boolean canVoidOrEdit(String invoiceOrVendorBillId)
