@@ -964,4 +964,10 @@ public abstract class ListGrid<T> extends CustomTable {
 		return Accounter.getCompany();
 	}
 
+	public void refreshAllRecords() {
+		List<T> records = this.getRecords();
+		this.removeAllRecords();
+		this.setRecords(records);
+	}
+
 }
