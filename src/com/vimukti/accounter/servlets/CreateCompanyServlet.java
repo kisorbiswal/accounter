@@ -66,11 +66,9 @@ public class CreateCompanyServlet extends BaseServlet {
 			int responseCode = connection.getResponseCode();
 
 			if (responseCode == 200) {
-				request.setAttribute("successmessage",
-						"Company has been created sucessfully");
-				dispatch(request, response, view);
+				redirectExternal(request, response, ACCOUNTER_URL);
 			} else {
-				request.setAttribute("errormessage", "Company creation failed."
+				request.setAttribute("message", "Company creation failed."
 						+ connection.getResponseMessage());
 				dispatch(request, response, view);
 			}
@@ -118,15 +116,15 @@ public class CreateCompanyServlet extends BaseServlet {
 		buffer.append('=');
 		buffer.append(client.getLastName());
 
-		buffer.append('&');
-		buffer.append(PARAM_COUNTRY);
-		buffer.append('=');
-		buffer.append(client.getCountry());
-
-		buffer.append('&');
-		buffer.append(PARAM_PH_NO);
-		buffer.append('=');
-		buffer.append(client.getPhoneNumber());
+		// buffer.append('&');
+		// buffer.append(PARAM_COUNTRY);
+		// buffer.append('=');
+		// buffer.append(client.getCountry());
+		//
+		// buffer.append('&');
+		// buffer.append(PARAM_PH_NO);
+		// buffer.append('=');
+		// buffer.append(client.getPhoneNumber());
 
 		return buffer.toString();
 
