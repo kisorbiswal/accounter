@@ -282,37 +282,38 @@ p {
 </style>
 </head>
 <body>
-<div id="hiddenDiv" class="hiddenPic"><img
-	src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading"
-	height="50" width="50"></div>
-<c:if test="${message!=null}">
-	<div id="middlePos"><b>${message}</b></div>
-</c:if>
+<div id="commanContainer">	
+<img src="../images/Accounter_logo_title.png" class="accounterLogo" />	
+<div id="hiddenDiv" class="hiddenPic">
+  <img src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50">
+</div>
+<c:if test="${message != null}">
+<div id="login_error" class="common-box">
+  <b>${message} </b> 
+</div> 
+</c:if>	
+
 <c:if test="${message==null}">
-	<div id="formDiv">
+ <div id="formDiv">
 	<form method="post" action="/createcompany"
-		onsubmit="return validation(this)"><strong> Create
-	Company</strong><br>
-	<br>
-	<table>
-		
-		<tr>
-			<td>Name</td>
-			<td><input type="text" name="name" id="name"
+		onsubmit="return validation(this)">
+		 <strong> Create Company</strong><br>
+	     <div>
+		    <label>Name</label>
+			<input type="text" name="name" id="name"
 				onClick="document.getElementById('nameLabel').innerHTML='';" /></td>
-			<td><label id="nameLabel" style="font-size: small"></label></td>
-		</tr>
-		<tr>
-			<td>Company Type</td>
-			<td><select name="companyType" style="width: 85%">
+		 </div>
+		 <div>
+		   <label>Company Type</label>
+		   <select name="companyType">
 				<option value="1">UK</option>
 				<option value="0">US</option>
-			</select></td>
-		</tr>
-		
-	</table>
+			</select>
+		 </div>
 	</form>
 	</div>
 </c:if>
+</div>
+
 </body>
 </html>
