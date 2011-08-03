@@ -63,7 +63,7 @@ $(document).ready(function() {
 		   </div>
 		   <form id="accounterForm" method="post" action="/site/forgotpassword">
 		      <div>
-			    <label>Username or E-mail:<label>
+			    <label>E-mail<label>
 				<br>
 				<input id="mid-box"  type="text" name="emailId" tabindex="1" value="${emailId}">
 			  </div>
