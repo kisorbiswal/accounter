@@ -115,7 +115,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 		Transaction serverTransaction = session.beginTransaction();
 		try {
-			Query query = session.getNamedQuery("DROP SCHEMA " + schemaName);
+			Query query = session.createSQLQuery("DROP SCHEMA " + schemaName);
 			query.executeUpdate();
 			serverTransaction.commit();
 		} catch (Exception e) {
