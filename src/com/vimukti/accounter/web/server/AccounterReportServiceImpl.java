@@ -1728,12 +1728,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				: dates.get(1);
 
 		FinanceDate transtartDate;
-		if (startDate.isEmpty())
+		if (startDate == null || startDate.isEmpty())
 			transtartDate = new FinanceDate(startDate1);
 		else
 			transtartDate = new FinanceDate(startDate);
 		FinanceDate tranendDate;
-		if (endDate.isEmpty())
+		if (endDate == null || endDate.isEmpty())
 			tranendDate = new FinanceDate(endDate2);
 		else
 			tranendDate = new FinanceDate(endDate);

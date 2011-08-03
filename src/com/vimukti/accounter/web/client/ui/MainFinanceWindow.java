@@ -89,8 +89,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		viewManager = new ViewManager(this);
 
 		header = new Header();
-		ActionFactory.getCompanyHomeAction().run(null, false);
-
+		
 		VerticalPanel vpanel = new VerticalPanel();
 		vpanel.addStyleName("header");
 		vpanel.setSize("100%", "100%");
@@ -111,6 +110,7 @@ public class MainFinanceWindow extends VerticalPanel {
 			this.getElement().getStyle().setPaddingBottom(0, Unit.PX);
 		}
 
+		ActionFactory.getCompanyHomeAction().run(null, false);
 	}
 
 	public HelpItem getHelpItem() {
