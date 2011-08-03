@@ -349,21 +349,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "200px");
 		forms.add(termsForm);
-		// multiCurrency combo
-		if (ClientCompanyPreferences.get().isEnableMultiCurrency() == true) {
-			CurrencyWidget currencyWidget = getCurrencyWidget();
-			forms.add(currencyWidget);
-			currencyWidget.setListener(new CurrencyChangeListener() {
-
-				@Override
-				public void currencyChanged(ClientCurrency currency,
-						double factor) {
-					// TODO Auto-generated method stub
-
-				}
-			});
-
-		}
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
@@ -540,6 +525,23 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		// mainVLay.add(printButton);
+		// multiCurrency combo
+		if (ClientCompanyPreferences.get().isEnableMultiCurrency() == true) {
+
+			currencyWidget = bulidCurrencyWidget();
+
+			mainVLay.add(currencyWidget);
+			currencyWidget.setListener(new CurrencyChangeListener() {
+
+				@Override
+				public void currencyChanged(ClientCurrency currency,
+						double factor) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+
+		}
 
 		mainVLay.add(customerTransactionGrid);
 
