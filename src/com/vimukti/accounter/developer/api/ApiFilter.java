@@ -74,8 +74,8 @@ public class ApiFilter implements Filter {
 			throw new ServletException("You don't have permission.");
 		} else {
 			req.setAttribute("companyName", company.getCompanyName());
+			arg2.doFilter(req, resp);
 		}
-
 	}
 
 	private ServerCompany getCompany(long id, Client client) {
