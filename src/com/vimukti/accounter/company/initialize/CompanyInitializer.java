@@ -1424,7 +1424,7 @@ public abstract class CompanyInitializer {
 		session.save(hirePurchaseCreditors);
 
 		Account employeePayrollLiabilities = new Account(
-				Account.TYPE_PAYROLL_LIABILITY, "2120",
+				Account.TYPE_PAYROLL_LIABILITY, "2121",
 				"Employee Payroll Liabilities", true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, true, openingBalancesAccount, "6", true,
