@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 
-public class User implements IAccounterServerCore, Lifecycle {
+public class User extends CreatableObject implements IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -64,7 +64,6 @@ public class User implements IAccounterServerCore, Lifecycle {
 	 */
 
 	private long lastLogin;
-	private FinanceDate createdDate;
 	/**
 	 * This User object is referenced to the Administer of this User. If the
 	 * present reference itself is the Admin, then this field will remains as
@@ -160,12 +159,6 @@ public class User implements IAccounterServerCore, Lifecycle {
 		return lastLogin;
 	}
 
-	/**
-	 * @return the createdDate
-	 */
-	public FinanceDate getCreatedDate() {
-		return createdDate;
-	}
 
 	/**
 	 * @return the userPreferences

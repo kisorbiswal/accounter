@@ -244,11 +244,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 */
 	String flow;
 
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
-
 	Account linkedAccumulatedDepreciationAccount;
 
 	boolean isDefault;
@@ -329,7 +324,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		this.flow = flow;
 		this.isDefault = isDefaultAccount;
 		this.asOf = asOf;
-		this.createdDate = new FinanceDate();
 	}
 
 	/**

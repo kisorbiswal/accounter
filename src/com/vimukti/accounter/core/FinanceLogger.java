@@ -20,25 +20,9 @@ public class FinanceLogger implements IAccounterServerCore {
 
 	private long id;
 	private String description;
-	private FinanceDate createdDate;
-	private String createdBy;
 	private String logMessge;
 
-	public FinanceDate getCreatedDate() {
-		return createdDate;
-	}
 
-	public void setCreatedDate(FinanceDate createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
 
 	public String getDescription() {
 		return description;
@@ -78,8 +62,6 @@ public class FinanceLogger implements IAccounterServerCore {
 
 		log.info("---------------------------------------------" + description
 				+ "-------------------------------------------------\n");
-		this.createdBy = createdBy;
-		this.createdDate = new FinanceDate();
 		log(description);
 	}
 

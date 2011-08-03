@@ -37,10 +37,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	private boolean isDefaultWarehouse;
 
 	
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 
 	private transient boolean isOnSaveProccessed;
 

@@ -78,10 +78,6 @@ public class Vendor extends Payee implements Lifecycle {
 	double yearToDate;
 	double lastYear;
 	double lifeTimePurchases;
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 
 	/**
 	 * @return the instanceVersion

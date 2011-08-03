@@ -41,10 +41,6 @@ public class PriceLevel extends CreatableObject implements
 
 	boolean isPriceLevelDecreaseByThisPercentage;
 
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 
 	boolean isDefault;
 

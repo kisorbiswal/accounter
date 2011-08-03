@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
  * @author Chandan
  */
 
-public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
+public class TAXItemGroup extends CreatableObject implements IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -47,10 +47,6 @@ public class TAXItemGroup implements IAccounterServerCore, Lifecycle {
 	boolean isSalesType;
 	boolean isPercentage;
 
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 	boolean isDefault;
 
 	private boolean isOnSaveProccessed;

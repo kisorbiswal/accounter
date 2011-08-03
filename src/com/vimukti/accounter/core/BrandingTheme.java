@@ -21,7 +21,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
  * 
  */
 @SuppressWarnings("serial")
-public class BrandingTheme implements IAccounterServerCore, Lifecycle {
+public class BrandingTheme extends CreatableObject implements IAccounterServerCore, Lifecycle {
 
 	public static final String FONT_ARIAL = "Arial";
 	public static final String FONT_CALIBIRI = "Calibiri";
@@ -73,11 +73,6 @@ public class BrandingTheme implements IAccounterServerCore, Lifecycle {
 	String Terms_And_Payment_Advice;
 
 	public transient boolean isOnSaveProccessed;
-
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 
 	String fileName;
 

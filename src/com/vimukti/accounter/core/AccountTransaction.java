@@ -48,10 +48,6 @@ public class AccountTransaction extends CreatableObject implements
 	 */
 	boolean cashBasisEntry = false;
 
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 	FinanceDate tempTransactionDate;
 
 	public AccountTransaction() {

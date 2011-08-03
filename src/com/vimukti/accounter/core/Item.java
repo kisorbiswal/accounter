@@ -112,11 +112,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	double standardCost;
 	int version;
 
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
-
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
 	

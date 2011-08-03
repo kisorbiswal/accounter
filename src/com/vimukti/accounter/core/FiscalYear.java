@@ -53,10 +53,6 @@ public class FiscalYear extends CreatableObject implements
 
 	transient int previousStatus;
 
-	String createdBy;
-	String lastModifier;
-	FinanceDate createdDate;
-	FinanceDate lastModifiedDate;
 
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
