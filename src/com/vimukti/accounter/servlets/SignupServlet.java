@@ -1,7 +1,6 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashSet;
 
 import javax.servlet.ServletException;
@@ -10,12 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
 
 public class SignupServlet extends BaseServlet {
@@ -61,8 +58,9 @@ public class SignupServlet extends BaseServlet {
 			dispatchMessage("Given Inputs are wrong.", req, resp, view);
 			return;
 		}
-		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId.trim()
-				+ password.trim()));
+		emailId = emailId.toLowerCase();
+		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
+				+ password));
 
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
@@ -82,12 +80,7 @@ public class SignupServlet extends BaseServlet {
 			} else {
 				// else
 				// Generate Token and create Activation and save. then send
-				String token = SecureUtils.createID();
-				Activation activation = new Activation();
-				activation.setEmailId(emailId);
-				activation.setToken(token);
-				activation.setSignUpDate(new Date());
-				saveEntry(activation);
+				String token = createActivation(emailId);
 
 				// Create Client and Save
 				Client client = new Client();
@@ -108,8 +101,8 @@ public class SignupServlet extends BaseServlet {
 				// Send to SignUp Success View
 				req.setAttribute(
 						"successmessage",
-						"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and click here to activate your account.");
-				dispatch(req, resp, view);
+						"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and Enter your activation code here to Activate your Account.");
+				redirectExternal(req, resp, ACTIVATION_URL);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

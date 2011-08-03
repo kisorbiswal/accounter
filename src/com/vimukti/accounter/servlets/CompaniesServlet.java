@@ -81,9 +81,9 @@ public class CompaniesServlet extends BaseServlet {
 			Client client) throws IOException {
 		long companyID = 0;
 		if (companies.isEmpty()) {
-			redirectExternal(req, resp, CREATE_COMPANY_URL);
-			return;
-			// companyID = createNewCompany(client);
+			// redirectExternal(req, resp, CREATE_COMPANY_URL);
+			// return;
+			companyID = createNewCompany(client);
 		} else {
 			companyID = companies.iterator().next().getID();
 		}
@@ -125,7 +125,7 @@ public class CompaniesServlet extends BaseServlet {
 			company.setAccountingType(Company.ACCOUNTING_TYPE_UK);
 			companySession.save(company);
 
-			company.initialize();
+			// company.initialize();
 
 			User user = new User();
 			user.setEmail(client.getEmailId());
@@ -172,18 +172,6 @@ public class CompaniesServlet extends BaseServlet {
 		companyCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		companyCookie.setPath("/");
 		resp.addCookie(companyCookie);
-	}
-
-	private void addUserCookies(HttpServletResponse resp, Client client) {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(client.getEmailId());
-		buffer.append(",");
-		buffer.append(client.getPassword());
-		buffer.append("");
-		Cookie userCookie = new Cookie(USER_COOKIE, buffer.toString());
-		userCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
-		userCookie.setPath("/");
-		resp.addCookie(userCookie);
 	}
 
 }

@@ -506,7 +506,8 @@ public class UsersMailSendar {
 		EmailManager.getInstance().addJob(job);
 	}
 
-	public static void sendResetPasswordLinkToUser(String link, String recipient) {
+	public static void sendResetPasswordLinkToUser(String link,
+			String activationCode, String recipient) {
 		try {
 			initPropertyParserToInviteUser();
 			LOG.info("Email is being sent to default user");
@@ -525,6 +526,8 @@ public class UsersMailSendar {
 				"");
 		content = content.replaceAll("%LINK%", link);
 
+		content = content.replaceAll("%CODE%", activationCode);
+
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
@@ -535,7 +538,7 @@ public class UsersMailSendar {
 	}
 
 	public static void sendActivationMail(String token, Client client) {
-		
+
 		try {
 			initPropertyParserToInviteUser();
 			LOG.info("Email is being sent to default user");
@@ -554,7 +557,7 @@ public class UsersMailSendar {
 				+ client.getLastName() + ",\n");
 		content.append(propertyParser.getProperty("contentForActivation", ""));
 		String contentStr = content.toString().replaceAll("%TOKEN%", token);
-	
+
 		System.out.println("ACTIVATION URL ::: " + contentStr);
 
 		EMailMessage emailMsg = new EMailMessage();

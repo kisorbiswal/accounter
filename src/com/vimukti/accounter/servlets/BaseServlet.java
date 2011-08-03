@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,11 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class BaseServlet extends HttpServlet {
@@ -119,6 +122,13 @@ public class BaseServlet extends HttpServlet {
 		return false;
 	}
 
+	/**
+	 * Dispatches the ServletRequest to The Corresponding View
+	 * 
+	 * @param req
+	 * @param resp
+	 * @param page
+	 */
 	protected void dispatch(HttpServletRequest req, HttpServletResponse resp,
 			String page) {
 		try {
@@ -129,11 +139,18 @@ public class BaseServlet extends HttpServlet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ServletException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Dispatches the ServletRequest to The Corresponding View with Message
+	 * 
+	 * @param message
+	 * @param req
+	 * @param resp
+	 * @param page
+	 */
 	protected void dispatchMessage(String message, HttpServletRequest req,
 			HttpServletResponse resp, String page) {
 		req.setAttribute("message", message);
@@ -191,6 +208,45 @@ public class BaseServlet extends HttpServlet {
 
 	protected void sendActivationEmail(String token, Client client) {
 		UsersMailSendar.sendActivationMail(token, client);
+	}
+
+	/**
+	 * Creates new Activation with EmailID
+	 * 
+	 * @param emailID
+	 * @return
+	 */
+	protected String createActivation(String emailID) {
+		String token = SecureUtils.createID();
+		Activation activation = new Activation();
+		activation.setEmailId(emailID);
+		activation.setToken(token);
+		activation.setSignUpDate(new Date());
+		saveEntry(activation);
+		return token;
+	}
+
+	/**
+	 * Deletes the All Activation with this EmailID
+	 * 
+	 * @param emailId
+	 */
+	protected void deleteActivationsByEmail(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		session.getNamedQuery("delete.activation.by.emailId")
+				.setString("emailId", emailId).executeUpdate();
+	}
+
+	protected void addUserCookies(HttpServletResponse resp, Client client) {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(client.getEmailId());
+		buffer.append(",");
+		buffer.append(client.getPassword());
+		buffer.append("");
+		Cookie userCookie = new Cookie(USER_COOKIE, buffer.toString());
+		userCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
+		userCookie.setPath("/");
+		resp.addCookie(userCookie);
 	}
 
 }

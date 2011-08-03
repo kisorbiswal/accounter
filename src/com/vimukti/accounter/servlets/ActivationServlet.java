@@ -97,12 +97,6 @@ public class ActivationServlet extends BaseServlet {
 
 	}
 
-	private void deleteActivationTokens(String emailId) {
-		Session session = HibernateUtil.getCurrentSession();
-		session.getNamedQuery("delete.activation.by.emailId")
-				.setString("emailId", emailId).executeUpdate();
-	}
-
 	private Activation getActivation(String token) {
 		Session session = HibernateUtil.getCurrentSession();
 		if (session != null) {

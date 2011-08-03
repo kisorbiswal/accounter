@@ -95,15 +95,15 @@ public class ResetPasswordServlet extends BaseServlet {
 			client.setPassword(HexUtil.bytesToHex(Security.makeHash(activation
 					.getEmailId() + password.trim())));
 			// set isActive true
-			//client.setActive(true);
+			// client.setActive(true);
 			// make Require Password Reset False
 			client.setRequirePasswordReset(false);
 			// and save Client,
 			saveEntry(client);
 
 			// delete activation record
-			// hibernateSession.getNamedQuery("delete.activation.by.Id")
-			// .setLong("id", activation.getID()).executeUpdate();
+			hibernateSession.getNamedQuery("delete.activation.by.Id")
+					.setLong("id", activation.getID()).executeUpdate();
 
 			// Send to login page with emailId
 			httpsession.setAttribute(EMAIL_ID, activation.getEmailId());

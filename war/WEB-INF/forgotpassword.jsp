@@ -73,7 +73,7 @@ $(document).ready(function() {
 						<td class="login-box-left-middle" ></td>
 						<td class="login-box">
 								<div class="mid-login-box">
-								<form id="accounterForm" method="post" action="/site/forgotpassword">
+								<form id="accounterForm" method="post" action="/forgotpassword">
 								<c:if test="${successMessage != null}">
 								<span style="color: #3299A4; line-height: 1.5;">
 								${successMessage} </span>

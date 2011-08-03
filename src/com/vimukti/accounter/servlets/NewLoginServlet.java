@@ -2,9 +2,7 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,6 +14,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -30,35 +29,37 @@ public class NewLoginServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		try {
-			Client client = doLogin(request, response);
-			if (client != null) {
-				// if valid credentials are there we redirect to <dest> param or
-				// /companies
+		Client client = doLogin(request, response);
+		if (client != null) {
+			// if valid credentials are there we redirect to <dest> param or
+			// /companies
 
-				if (client.isRequirePasswordReset()) {
-					client.setRequirePasswordReset(false);
-				}
-				String destUrl = request.getParameter(PARAM_DESTINATION);
-				HttpSession httpSession = request.getSession();
-				httpSession.setAttribute(EMAIL_ID, client.getEmailId());
-				if (destUrl == null || destUrl.isEmpty()) {
-					redirectExternal(request, response, COMPANIES_URL);
-				} else {
-					redirectExternal(request, response, destUrl);
-				}
-
-				return;
-			} else {
-				request.setAttribute(
-						"message",
-						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
-				request.setAttribute("emailId", request.getParameter("emailId"));
-				RequestDispatcher dispatcher = getServletContext()
-						.getRequestDispatcher("/WEB-INF/companies");
-				dispatcher.forward(request, response);
+			if (client.isRequirePasswordReset()) {
+				client.setRequirePasswordReset(false);
 			}
-		} finally {
+
+			Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+			try {
+				saveEntry(client);
+			} finally {
+				session.close();
+			}
+
+			String destUrl = request.getParameter(PARAM_DESTINATION);
+			HttpSession httpSession = request.getSession();
+			httpSession.setAttribute(EMAIL_ID, client.getEmailId());
+			if (destUrl == null || destUrl.isEmpty()) {
+				redirectExternal(request, response, COMPANIES_URL);
+			} else {
+				redirectExternal(request, response, destUrl);
+			}
+
+			return;
+		} else {
+			request.setAttribute(
+					"message",
+					"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
+			dispatch(request, response, LOGIN_VIEW);
 		}
 	}
 
@@ -70,19 +71,9 @@ public class NewLoginServlet extends BaseServlet {
 		Client client = getClient(emailId, password);
 		if (client != null && request.getParameter("staySignIn") != null
 				&& request.getParameter("staySignIn").equals("on")) {
-			setCookies(response, client);
+			addUserCookies(response, client);
 		}
 		return client;
-	}
-
-	private void setCookies(HttpServletResponse response, Client client) {
-		Cookie cookie = new Cookie(OUR_COOKIE, new StringBuffer(
-				client.getEmailId()).append(",").append(client.getPassword())
-				.append(",").toString());
-		cookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
-		cookie.setPath("/");
-		// this.getThreadLocalResponse().addCookie(cookie);
-		response.addCookie(cookie);
 	}
 
 	private Client getClient(String emailId, String password) {

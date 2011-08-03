@@ -79,7 +79,7 @@
 			  </div>
 		   </form>
 		   <div class="lost-password">
-		      <a href="/site/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
+		      <a href="/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
 		   </div>
 		</div>		
 		
