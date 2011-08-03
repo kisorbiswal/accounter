@@ -661,5 +661,5 @@ public interface IFinanceDAOService {
 
 	public List<ClientUserInfo> getAllUsers();
 	
-	public List<ClientTransaction> getCustomerStatement(long customer, long fromDate, long toDate);
+	public List<PayeeStatementsList> getCustomerStatement(long customer, long fromDate, long toDate);
 }

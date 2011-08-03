@@ -45,6 +45,7 @@ import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
+import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
@@ -340,5 +341,5 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<List<ClientEmployee>> AsyncCallback);
 
 	void getCustomerStatement(long customer, long fromDate, long toDate,
-			AsyncCallback<List<ClientTransaction>> callBack);
+			AsyncCallback<List<PayeeStatementsList>> callBack);
 }
