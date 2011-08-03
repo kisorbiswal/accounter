@@ -677,13 +677,17 @@ public class VendorTransactionUSGrid extends
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
-				return DataUtils.getAmountAsString(item.getUnitPrice());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(item
+								.getUnitPrice()));
 			else {
 				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
-						.getAmountAsString(item.getUnitPrice()) : "";
+						.getAmountAsString(getAmountInForeignCurrency(item
+								.getUnitPrice())) : "";
 			}
 		case 5:
-			return DataUtils.getAmountAsString(item.getLineTotal());
+			return DataUtils.getAmountAsString(getAmountInForeignCurrency(item
+					.getLineTotal()));
 		case 6:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -746,6 +750,7 @@ public class VendorTransactionUSGrid extends
 	@Override
 	public void editComplete(ClientTransactionItem item, Object value, int col) {
 		// column index starts from '1'.
+
 		try {
 			boolean isItem = (item.getType() == ClientTransactionItem.TYPE_ITEM || item
 					.getType() == ClientTransactionItem.TYPE_SERVICE) ? true
@@ -820,7 +825,7 @@ public class VendorTransactionUSGrid extends
 				Double d = Double.parseDouble(DataUtils
 						.getReformatedAmount(unitPriceString) + "");
 				if (!AccounterValidator.validateGridUnitPrice(d)) {
-					item.setUnitPrice(d);
+					item.setUnitPrice(getAmountInBaseCurrency(d.doubleValue()));
 				} else {
 					d = 0.0D;
 					item.setUnitPrice(d);
@@ -852,7 +857,9 @@ public class VendorTransactionUSGrid extends
 								.validateGridLineTotal(lineTotal))
 								&& (!AccounterValidator
 										.isAmountTooLarge(lineTotal))) {
-							item.setLineTotal(lineTotal);
+							item.setLineTotal(getAmountInBaseCurrency(lineTotal
+									.doubleValue()));
+							//TODO
 							item.setUnitPrice(isItem ? lineTotal : 0);
 							ClientQuantity quant = new ClientQuantity();
 							quant.setValue(isItem ? 1 : 0);
