@@ -134,25 +134,28 @@ public class TransactionReceivePaymentGrid extends
 			case 1:
 				return receivePayment.getNumber();
 			case 2:
-				return DataUtils.getAmountAsString(receivePayment
-						.getInvoiceAmount());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+								.getInvoiceAmount()));
 			case 3:
 				return DataUtils
-						.getAmountAsString(receivePayment.getDummyDue());
+						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+								.getDummyDue()));
 			case 4:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 5:
-				return DataUtils.getAmountAsString(receivePayment
-						.getCashDiscount());
-			case 6:
 				return DataUtils
-						.getAmountAsString(receivePayment.getWriteOff());
+						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+								.getCashDiscount()));
+			case 6:
+				return getAmountInForeignCurrency(receivePayment.getWriteOff());
 			case 7:
-				return DataUtils.getAmountAsString(receivePayment
-						.getAppliedCredits());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+								.getAppliedCredits()));
 			case 8:
-				return DataUtils.getAmountAsString(receivePayment.getPayment());
+				return getAmountInForeignCurrency(receivePayment.getPayment());
 			default:
 				break;
 			}
@@ -191,7 +194,7 @@ public class TransactionReceivePaymentGrid extends
 			double amt, originalPayment;
 			try {
 				originalPayment = item.getPayment();
-				amt = DataUtils.getReformatedAmount(value.toString());
+				amt = getAmountInBaseCurrency(((Double) value).doubleValue());
 				item.setPayment(amt);
 				updateAmountDue(item);
 				double totalValue = item.getCashDiscount() + item.getWriteOff()
