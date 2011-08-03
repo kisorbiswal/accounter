@@ -38,7 +38,6 @@ public class CompaniesServlet extends BaseServlet {
 		HttpSession httpSession = req.getSession();
 		String emailID = (String) httpSession.getAttribute(EMAIL_ID);
 		if (emailID == null) {
-			req.setAttribute(ATTR_MESSAGE, "Session Expired.");
 			redirectExternal(req, resp, LOGIN_URL);
 			return;
 		}
@@ -46,7 +45,6 @@ public class CompaniesServlet extends BaseServlet {
 		try {
 			Client client = getClient(emailID);
 			if (client == null) {
-				req.setAttribute(ATTR_MESSAGE, "Invalid User.");
 				redirectExternal(req, resp, LOGIN_URL);
 				return;
 			}
@@ -65,7 +63,7 @@ public class CompaniesServlet extends BaseServlet {
 				dispatch(req, resp, companiedListView);
 			}
 		} finally {
-			if (session != null) {
+			if (session != null && session.isOpen()) {
 				session.close();
 			}
 		}
@@ -81,8 +79,6 @@ public class CompaniesServlet extends BaseServlet {
 			Client client) throws IOException {
 		long companyID = 0;
 		if (companies.isEmpty()) {
-			// redirectExternal(req, resp, CREATE_COMPANY_URL);
-			// return;
 			companyID = createNewCompany(client);
 		} else {
 			companyID = companies.iterator().next().getID();
@@ -109,7 +105,6 @@ public class CompaniesServlet extends BaseServlet {
 			e.printStackTrace();
 			transaction.rollback();
 		} finally {
-			session.close();
 		}
 
 		Session companySession = HibernateUtil.openSession(Server.COMPANY
