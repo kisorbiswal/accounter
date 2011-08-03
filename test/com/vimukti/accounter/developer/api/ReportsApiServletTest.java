@@ -105,7 +105,7 @@ public class ReportsApiServletTest extends TestCase {
 				+ "&Expire="
 				+ exprDate
 				+ "&StartDate=2011-07-01 12:00:00Z&EndDate=2011-08-30 12:00:00Z";
-		testResponse(prepareRequest("salesbycustomersummary", queryStr));
+		testResponse(prepareRequest(queryStr, "salesbycustomersummary"));
 	}
 
 	@Test
@@ -121,7 +121,7 @@ public class ReportsApiServletTest extends TestCase {
 				+ "&Name="
 				+ name
 				+ "&StartDate=2011-07-01 12:00:00Z&EndDate=2011-08-30 12:00:00Z";
-		testResponse(prepareRequest("ecsaleslistdetail", queryStr));
+		testResponse(prepareRequest(queryStr, "ecsaleslistdetail"));
 	}
 
 	@Test
@@ -137,7 +137,7 @@ public class ReportsApiServletTest extends TestCase {
 				+ "&TaxAgency="
 				+ taxAgency
 				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-		testResponse(prepareRequest("vat100report", queryStr));
+		testResponse(prepareRequest(queryStr, "vat100report"));
 	}
 
 	@Test
@@ -149,7 +149,7 @@ public class ReportsApiServletTest extends TestCase {
 				+ "&Expire="
 				+ exprDate
 				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-		testFailResponse(prepareRequest("debitorslist", queryStr));
+		testFailResponse(prepareRequest(queryStr, "debitorslist"));
 	}
 
 	@Test
@@ -162,7 +162,7 @@ public class ReportsApiServletTest extends TestCase {
 				+ "&Expire="
 				+ exprDate
 				+ "&StartDate=01-07-2011T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-		testFailResponse(prepareRequest("purchasereportitems", queryStr));
+		testFailResponse(prepareRequest(queryStr, "purchasereportitems"));
 	}
 
 	@Test
@@ -174,7 +174,7 @@ public class ReportsApiServletTest extends TestCase {
 				+ "&Expire="
 				+ exprDate
 				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-		testFailResponse(prepareRequest("saelsopenorder", queryStr));
+		testFailResponse(prepareRequest(queryStr, "saelsopenorder"));
 	}
 
 	@Test
@@ -186,6 +186,6 @@ public class ReportsApiServletTest extends TestCase {
 				+ "&Expire="
 				+ exprDate
 				+ "&StartDate=2011-07-01T12:00:00Z&EndDate=2011-08-30T12:00:00Z";
-		testFailResponse(prepareRequest("creditors", queryStr));
+		testFailResponse(prepareRequest(queryStr, "creditors"));
 	}
 }
