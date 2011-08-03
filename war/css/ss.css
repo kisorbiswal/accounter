@@ -1928,7 +1928,7 @@ form{
     outline: medium none;
     padding: 3px;
     width: 97%;
-	height:40px;
+	height:28px;
 }
 .rememberMe{
     float:left;
@@ -1985,7 +1985,7 @@ form{
 }
 .signup-container{
    width:500px !important;
-   margin:10px auto !important;
+   margin:30px auto !important;
 }
 .signup-submit{
    margin-top:15px;
@@ -1993,5 +1993,9 @@ form{
 .reset-header{
    color:#28757D;
    margin-bottom:10px;
+}
+#select-box{
+  padding:0px !important;	
+}
 }
 /* End of the new Login and forgot password page*/
