@@ -202,10 +202,10 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		// XXX
 		addrsForm = new DynamicForm();
-		addrArea = new TextAreaItem();
+		addrArea = new TextAreaItem(Accounter.constants().address());
+		addrArea.setWidth("205px");
 		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
-		addrArea.setShowTitle(false);
 		addrArea.addClickHandler(new ClickHandler() {
 
 			@Override
