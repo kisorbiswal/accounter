@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -24,30 +25,57 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public Object getColumnData(TrialBalance record, int columnIndex) {
-		switch (columnIndex) {
-		case 0:
-			return record.getAccountName();
-		case 1:
-			return record.getAccountNumber();
-		case 2:
-			return record.getDebitAmount();
-		case 3:
-			return record.getCreditAmount();
+		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			switch (columnIndex) {
+			case 0:
+				return record.getAccountName();
+			case 1:
+				return record.getAccountNumber();
+			case 2:
+				return record.getDebitAmount();
+			case 3:
+				return record.getCreditAmount();
+			}
+			return null;
+		} else {
+			switch (columnIndex) {
+			case 0:
+				return record.getAccountName();
+			case 1:
+				return null;
+			case 2:
+				return record.getDebitAmount();
+			case 3:
+				return record.getCreditAmount();
+			}
+			return null;
 		}
-		return null;
 	}
 
 	@Override
 	public int[] getColumnTypes() {
+		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+
+		} else {
+
+		}
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
 				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
 	}
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().accountName(),
-				Accounter.constants().accountNumber(),
-				Accounter.constants().debit(), Accounter.constants().credit() };
+		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			return new String[] { Accounter.constants().accountName(),
+					Accounter.constants().accountNumber(),
+					Accounter.constants().debit(),
+					Accounter.constants().credit() };
+		} else {
+			return new String[] { Accounter.constants().accountName(), "",
+					Accounter.constants().debit(),
+					Accounter.constants().credit() };
+		}
+
 	}
 
 	@Override
@@ -120,21 +148,39 @@ public class TrialBalanceServerReport extends
 	}
 
 	public int sort(TrialBalance obj1, TrialBalance obj2, int col) {
-		switch (col) {
-		case 0:
-			return obj1.getAccountName().toLowerCase()
-					.compareTo(obj2.getAccountName().toLowerCase());
-		case 1:
-			return obj1.getAccountNumber().toLowerCase()
-					.compareTo(obj2.getAccountNumber().toLowerCase());
-		case 2:
-			return UIUtils.compareDouble(obj1.getDebitAmount(),
-					obj2.getDebitAmount());
-		case 3:
-			return UIUtils.compareDouble(obj1.getCreditAmount(),
-					obj2.getCreditAmount());
+		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			switch (col) {
+			case 0:
+				return obj1.getAccountName().toLowerCase()
+						.compareTo(obj2.getAccountName().toLowerCase());
+			case 1:
+				return obj1.getAccountNumber().toLowerCase()
+						.compareTo(obj2.getAccountNumber().toLowerCase());
+			case 2:
+				return UIUtils.compareDouble(obj1.getDebitAmount(),
+						obj2.getDebitAmount());
+			case 3:
+				return UIUtils.compareDouble(obj1.getCreditAmount(),
+						obj2.getCreditAmount());
+			}
+			return 0;
+		} else {
+			switch (col) {
+			case 0:
+				return obj1.getAccountName().toLowerCase()
+						.compareTo(obj2.getAccountName().toLowerCase());
+			case 1:
+				return (Integer) null;
+			case 2:
+				return UIUtils.compareDouble(obj1.getDebitAmount(),
+						obj2.getDebitAmount());
+			case 3:
+				return UIUtils.compareDouble(obj1.getCreditAmount(),
+						obj2.getCreditAmount());
+			}
+			return 0;
 		}
-		return 0;
+
 	}
 
 	@Override
@@ -144,9 +190,17 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().accountName(),
-				Accounter.constants().accountNumber(),
-				Accounter.constants().debit(), Accounter.constants().credit() };
+		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			return new String[] { Accounter.constants().accountName(),
+					Accounter.constants().accountNumber(),
+					Accounter.constants().debit(),
+					Accounter.constants().credit() };
+		} else {
+			return new String[] { Accounter.constants().accountName(), "",
+					Accounter.constants().debit(),
+					Accounter.constants().credit() };
+		}
+
 	}
 
 }

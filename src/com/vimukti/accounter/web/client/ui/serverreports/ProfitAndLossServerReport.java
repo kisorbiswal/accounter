@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -61,7 +62,11 @@ public class ProfitAndLossServerReport extends
 	public Object getColumnData(TrialBalance record, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return record.getAccountNumber();
+			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+				return record.getAccountNumber();
+			} else {
+				return null;
+			}
 		case 1:
 			return record.getAccountName();
 		case 2:
