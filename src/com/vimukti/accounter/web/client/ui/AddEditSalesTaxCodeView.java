@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTaxRates;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
@@ -311,34 +312,34 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	}
 
-	public boolean validForm() throws InvalidEntryException {
-
-		if (!taxCodeForm.validate(false))
-			// throw new
-			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
-			return false;
-
-		if ((takenTaxCode == null
-				&& Utility.isObjectExist(company.getTaxCodes(),
-						UIUtils.toStr(taxCodeText.getValue())) ? true : false)
-				|| (takenTaxCode != null && !(takenTaxCode
-						.getName()
-						.equalsIgnoreCase(UIUtils.toStr(taxCodeText.getValue())) ? true
-						: (Utility.isObjectExist(company.getTaxCodes(),
-								UIUtils.toStr(taxCodeText.getValue())) ? false
-								: true)))) {
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
-			return false;
-		}
-		// if (gridView.getRecords().size() == 0) {
-		// Accounter.showError(FinanceApplication.constants()
-		// .provideAtleastOne()
-		// + title + "Rate!");
-		// return false;
-		// }
-		return true;
-
-	}
+	// public boolean validForm() throws InvalidEntryException {
+	//
+	// if (!taxCodeForm.validate())
+	// // throw new
+	// // InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+	// return false;
+	//
+	// if ((takenTaxCode == null
+	// && Utility.isObjectExist(company.getTaxCodes(),
+	// UIUtils.toStr(taxCodeText.getValue())) ? true : false)
+	// || (takenTaxCode != null && !(takenTaxCode
+	// .getName()
+	// .equalsIgnoreCase(UIUtils.toStr(taxCodeText.getValue())) ? true
+	// : (Utility.isObjectExist(company.getTaxCodes(),
+	// UIUtils.toStr(taxCodeText.getValue())) ? false
+	// : true)))) {
+	// Accounter.showError(AccounterErrorType.ALREADYEXIST);
+	// return false;
+	// }
+	// // if (gridView.getRecords().size() == 0) {
+	// // Accounter.showError(FinanceApplication.constants()
+	// // .provideAtleastOne()
+	// // + title + "Rate!");
+	// // return false;
+	// // }
+	// return true;
+	//
+	// }
 
 	// public ClientTaxAgency getSelectedTaxAgency() {
 	// return selectedTaxAgency;
@@ -390,17 +391,25 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
+	public ValidationResult validate() {
 
-		switch (this.validationCount) {
-		case 1:
-			return validForm();
-			// case 1:
-			// return validDate();
-		default:
-			return true;
+		ValidationResult result = new ValidationResult();
+
+		result.add(taxCodeForm.validate());
+
+		if ((takenTaxCode == null
+				&& Utility.isObjectExist(company.getTaxCodes(),
+						UIUtils.toStr(taxCodeText.getValue())) ? true : false)
+				|| (takenTaxCode != null && !(takenTaxCode
+						.getName()
+						.equalsIgnoreCase(UIUtils.toStr(taxCodeText.getValue())) ? true
+						: (Utility.isObjectExist(company.getTaxCodes(),
+								UIUtils.toStr(taxCodeText.getValue())) ? false
+								: true)))) {
+			result.addError(taxCodeText, AccounterErrorType.ALREADYEXIST);
 		}
+		return result;
+
 	}
 
 	private boolean validDate() {
