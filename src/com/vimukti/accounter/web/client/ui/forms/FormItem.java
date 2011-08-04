@@ -24,9 +24,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public abstract class FormItem {
 
@@ -286,7 +283,7 @@ public abstract class FormItem {
 		return defaultValue;
 	}
 
-	public boolean validate(boolean isDialog) {
+	public boolean validate() {
 		if (this.getValidator() != null) {
 			int matchingStatus = 0;
 			for (Validator validator : this.getValidator()) {
@@ -301,24 +298,6 @@ public abstract class FormItem {
 
 			} else
 				highlight();
-			if ((ViewManager.getInstance().getCurrentDialog() != null || isDialog)
-					&& BaseDialog.errordata != null
-					&& BaseDialog.commentPanel != null) {
-				BaseDialog.errordata.setHTML(BaseDialog.errordata.getHTML()
-						+ Accounter.messages().pleaseEnterHTML(this.getTitle())
-						+ ".");
-				BaseDialog.commentPanel.setVisible(true);
-			} else if (!isDialog
-					&& ViewManager.getInstance().getCurrentView() != null) {
-				// && BaseView.errordata != null
-				// && BaseView.commentPanel != null) {
-				// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-				// + "<li> Please enter " + this.getTitle() + ".");
-				// BaseView.commentPanel.setVisible(true);
-				// AbstractBaseView.errorOccured = true;
-				MainFinanceWindow.getViewManager().appendError(
-						Accounter.messages().pleaseEnter(this.getTitle()));
-			}
 
 			return false;
 
