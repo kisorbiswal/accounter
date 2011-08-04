@@ -31,7 +31,7 @@ public class BaseServlet extends HttpServlet {
 
 	public static final String USER_COOKIE = "user";
 
-	public static final String COMPANY_ID = "companyName";
+	public static final String COMPANY_ID = "companyId";
 
 	public static final String EMAIL_ID = "emailId";
 	public static final String PASSWORD = "password";

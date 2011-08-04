@@ -37,7 +37,7 @@ public class ClientCompany implements IAccounterCore {
 
 	public long companyID;
 
-	private String name;
+	private String fullName;
 
 	private String legalName;
 
@@ -880,13 +880,13 @@ public class ClientCompany implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		return this.name;
+		return this.fullName;
 	}
 
 	@Override
 	public String getName() {
 
-		return this.name;
+		return this.fullName;
 	}
 
 	/**
@@ -962,7 +962,7 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public void setName(String stringValue) {
-		this.name = stringValue;
+		this.fullName = stringValue;
 	}
 
 	public void setTradingName(String stringValue) {
@@ -2001,7 +2001,7 @@ public class ClientCompany implements IAccounterCore {
 
 	public void getToClientCompany(ClientCompany clientCompany) {
 
-		this.name = clientCompany.name;
+		this.fullName = clientCompany.fullName;
 		this.phone = clientCompany.phone;
 		this.companyEmail = clientCompany.companyEmail;
 		this.legalName = clientCompany.legalName;

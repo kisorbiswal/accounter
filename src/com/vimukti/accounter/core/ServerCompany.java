@@ -91,4 +91,8 @@ public class ServerCompany implements IAccounterServerCore {
 	public void setClients(Set<Client> clients) {
 		this.clients = clients;
 	}
+
+	public long getId() {
+		return id;
+	}
 }
