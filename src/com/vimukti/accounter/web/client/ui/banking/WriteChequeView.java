@@ -1201,14 +1201,14 @@ public class WriteChequeView extends
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 					setMenuItems(button, Accounter.constants().accounts(),
-							Accounter.constants().product()
+							Accounter.constants().productItem()
 					// FinanceApplication.constants().comment(),
 					// FinanceApplication.constants()
 					// .salesTax()
 					);
 				else
 					setMenuItems(button, Accounter.constants().accounts(),
-							Accounter.constants().product(),
+							Accounter.constants().productItem(),
 							// FinanceApplication.constants().comment(),
 							Accounter.constants().vatItem());
 				// break;
@@ -1244,7 +1244,7 @@ public class WriteChequeView extends
 			}
 		} else
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().product()
+					.constants().productItem()
 			// FinanceApplication.constants().comment(),
 			// FinanceApplication.constants().salesTax()
 			);
@@ -1258,7 +1258,7 @@ public class WriteChequeView extends
 			if (payee.getType() == ClientWriteCheck.TYPE_CUSTOMER) {
 				if (item.equals(Accounter.constants().accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter.constants().product())) {
+				} else if (item.equals(Accounter.constants().productItem())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 
 				} else if (item.equals(Accounter.constants().comment())) {
@@ -1272,7 +1272,7 @@ public class WriteChequeView extends
 					|| payee.getType() == ClientWriteCheck.TYPE_TAX_AGENCY) {
 				if (item.equals(Accounter.constants().accounts())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-				} else if (item.equals(Accounter.constants().product())) {
+				} else if (item.equals(Accounter.constants().productItem())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 				} else if (item.equals(Accounter.constants().comment())) {
 					transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);
@@ -1282,7 +1282,7 @@ public class WriteChequeView extends
 		} else {
 			if (item.equals(Accounter.constants().accounts())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			} else if (item.equals(Accounter.constants().product())) {
+			} else if (item.equals(Accounter.constants().productItem())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			} else if (item.equals(Accounter.constants().comment())) {
 				transactionItem.setType(ClientTransactionItem.TYPE_COMMENT);

@@ -41,7 +41,6 @@ public abstract class AbstractBankTransactionView<T> extends
 	// protected int transactionType;
 	protected DateItem deliveryDate;
 
-	
 	private AbstractBankTransactionView<?> bankingTransactionViewInstance;
 
 	// protected TextItem refText;
@@ -129,10 +128,10 @@ public abstract class AbstractBankTransactionView<T> extends
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().service(), Accounter.constants().product());
+					.constants().service(), Accounter.constants().productItem());
 		else
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().service(), Accounter.constants().product());
+					.constants().service(), Accounter.constants().productItem());
 		// FinanceApplication.constants().comment());
 
 	}
@@ -374,7 +373,7 @@ public abstract class AbstractBankTransactionView<T> extends
 								.getTAXCode() : svatCodeid) : 0);
 			}
 
-		} else if (menuItem.equals(Accounter.constants().product())) {
+		} else if (menuItem.equals(Accounter.constants().productItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
@@ -390,7 +389,7 @@ public abstract class AbstractBankTransactionView<T> extends
 								.getTAXCode() : svatCodeid) : 0);
 			}
 
-		} else if (menuItem.equals(Accounter.constants().service())) {
+		} else if (menuItem.equals(Accounter.constants().serviceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long zvatCodeid = 0;
