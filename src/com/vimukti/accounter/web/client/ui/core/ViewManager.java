@@ -722,8 +722,8 @@ public class ViewManager extends DockPanel {
 		if (history == null)
 			return;
 
-		HistoryTokenUtils.setPresentToken(history.getAction(), history
-				.getData());
+		HistoryTokenUtils.setPresentToken(history.getAction(),
+				history.getData());
 		if (history.getView() instanceof UsersView
 				|| history.getView() instanceof ExpenseClaims) {
 			currentCanvas = history.getView();
@@ -751,8 +751,10 @@ public class ViewManager extends DockPanel {
 			rightCanvas.add(scrollPanel);
 			statusLabel.setText(history.getAction().catagory
 					+ " > "
-					+ (currentCanvas.isEditMode() ? history.getAction()
-							.getText().replace(Accounter.constants().new1(),
+					+ (currentCanvas.isEditMode() ? history
+							.getAction()
+							.getText()
+							.replace(Accounter.constants().new1(),
 									Accounter.constants().viewEdit()) : history
 							.getAction().getText()));
 			fitToSize(this.height, this.width);
@@ -1199,7 +1201,9 @@ public class ViewManager extends DockPanel {
 		fitToSize(this.height, this.width);
 		statusLabel.setText(history.getAction().catagory
 				+ " > "
-				+ (currentCanvas.isEditMode() ? history.getAction().getText()
+				+ (currentCanvas.isEditMode() ? history
+						.getAction()
+						.getText()
 						.replace(Accounter.constants().new1(),
 								Accounter.constants().viewEdit()) : history
 						.getAction().getText()));
@@ -1244,8 +1248,8 @@ public class ViewManager extends DockPanel {
 		for (History history : historyList) {
 			tempHistoryList.add(history);
 			index++;
-			if (currentCanvas.getAction().getText().equals(
-					history.getAction().getText())) {
+			if (currentCanvas.getAction().getText()
+					.equals(history.getAction().getText())) {
 				break;
 			}
 		}
@@ -1418,8 +1422,7 @@ public class ViewManager extends DockPanel {
 			if (!GWT.isScript())
 				Accounter
 						.showInformation(e instanceof JavaScriptException ? ((JavaScriptException) e)
-								.getDescription()
-								: e.getMessage());
+								.getDescription() : e.getMessage());
 			// else
 			e.printStackTrace();
 		}
@@ -1651,7 +1654,7 @@ public class ViewManager extends DockPanel {
 			public void onSuccess(Long result) {
 
 				// if (!GWT.isScript()) {
-				if (result != 0) {
+				if (result != null) {
 					AccounterCommand cmd = new AccounterCommand();
 					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 					cmd.setData(clientCompany);
@@ -1678,7 +1681,7 @@ public class ViewManager extends DockPanel {
 		processDialog.center();
 		// currentrequestedWidget = widget;
 
-		AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
+		AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			public void onException(AccounterException caught) {
 
@@ -1690,10 +1693,10 @@ public class ViewManager extends DockPanel {
 				}
 			}
 
-			public void onSuccess(Long result) {
+			public void onSuccess(Boolean result) {
 
 				if (!GWT.isScript()) {
-					if (result != 0) {
+					if (result != null) {
 						AccounterCommand cmd = new AccounterCommand();
 						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
 						cmd.setData(preferences);

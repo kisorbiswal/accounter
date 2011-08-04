@@ -35,7 +35,6 @@ public interface IAccounterCRUDService extends RemoteService {
 	boolean canEdit(AccounterCoreType accounterCoreType, long stringID)
 			throws AccounterException;
 
-	boolean updateCompany(ClientCompany clientCompany)
-			throws AccounterException;
+	Long updateCompany(ClientCompany clientCompany) throws AccounterException;
 
 }

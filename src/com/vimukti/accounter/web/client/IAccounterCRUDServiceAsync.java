@@ -31,7 +31,6 @@ public interface IAccounterCRUDServiceAsync {
 	void canEdit(AccounterCoreType accounterCoreType, long id,
 			AsyncCallback<Boolean> callback);
 
-	void updateCompany(ClientCompany clientCompany,
-			AsyncCallback<Boolean> callback);
+	void updateCompany(ClientCompany clientCompany, AsyncCallback<Long> callback);
 
 }

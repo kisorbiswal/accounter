@@ -101,15 +101,14 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public boolean updateCompany(ClientCompany clientCompany)
+	public Long updateCompany(ClientCompany clientCompany)
 			throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
 		OperationContext opContext = new OperationContext(clientCompany);
 
-		tool.updateCompany(opContext);
+		return tool.updateCompany(opContext);
 
-		return true;
 	}
 
 	@Override

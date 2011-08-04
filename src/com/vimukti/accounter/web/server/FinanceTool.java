@@ -464,7 +464,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	public void updateCompany(OperationContext context)
+	public Long updateCompany(OperationContext context)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
@@ -483,6 +483,7 @@ public class FinanceTool implements IFinanceDAOService {
 			ChangeTracker.put(cmp.toClientCompany());
 			Company serverObject = cmp;
 			HibernateUtil.getCurrentSession().update(serverObject);
+			return cmp.getID();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			transaction.rollback();
