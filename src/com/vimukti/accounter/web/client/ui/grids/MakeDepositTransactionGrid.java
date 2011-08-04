@@ -364,7 +364,8 @@ public class MakeDepositTransactionGrid extends
 		case 2:
 			return obj.getReference() != null ? obj.getReference() : "";
 		case 3:
-			return DataUtils.getAmountAsString(obj.getAmount());
+			return DataUtils.getAmountAsString(getAmountInForeignCurrency(obj
+					.getAmount()));
 		case 4:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -415,9 +416,9 @@ public class MakeDepositTransactionGrid extends
 
 				if (!AccounterValidator.validateAmount(lineTotal, true)) {
 					lineTotal = 0.0D;
-					item.setAmount(lineTotal);
+					item.setAmount(getAmountInBaseCurrency(lineTotal));
 				} else {
-					item.setAmount(lineTotal);
+					item.setAmount(getAmountInBaseCurrency(lineTotal));
 				}
 
 				break;

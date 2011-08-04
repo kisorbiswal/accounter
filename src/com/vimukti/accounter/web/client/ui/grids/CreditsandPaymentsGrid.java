@@ -203,6 +203,7 @@ public class CreditsandPaymentsGrid extends
 			ClientCreditsAndPayments editingRecord = item;
 
 			try {
+
 				Double amtTouse = Double.parseDouble(DataUtils
 						.getReformatedAmount(value.toString()) + "");
 				// ClientCreditsAndPayments actualRecord = actualRecords
@@ -232,7 +233,8 @@ public class CreditsandPaymentsGrid extends
 						setText(indexOf(item), 4,
 								DataUtils.getAmountAsString(item.getAmtTouse()));
 					} else {
-						editingRecord.setAmtTouse(amtTouse);
+						double newValue = getAmountInBaseCurrency((Double) amtTouse);
+						editingRecord.setAmtTouse(newValue);
 						editingRecord.setBalance(balance);
 						editingRecord.setRemaoningBalance(balance);
 						editingRecord.setRecordChanged(true);
@@ -323,6 +325,7 @@ public class CreditsandPaymentsGrid extends
 	@Override
 	protected Object getColumnValue(
 			ClientCreditsAndPayments creditsAndPayments, int index) {
+
 		switch (index) {
 		case 0:
 			return UIUtils.dateFormat(creditsAndPayments.getTransaction()
@@ -330,13 +333,17 @@ public class CreditsandPaymentsGrid extends
 		case 1:
 			return creditsAndPayments.getMemo();
 		case 2:
-			return DataUtils.getAmountAsString(creditsAndPayments
-					.getCreditAmount());
+			return DataUtils
+					.getAmountAsString(getAmountInForeignCurrency(creditsAndPayments
+							.getCreditAmount()));
 		case 3:
-			return DataUtils.getAmountAsString(creditsAndPayments.getBalance());
+			return DataUtils
+					.getAmountAsString(getAmountInForeignCurrency(creditsAndPayments
+							.getBalance()));
 		case 4:
 			return DataUtils
-					.getAmountAsString(creditsAndPayments.getAmtTouse());
+					.getAmountAsString(getAmountInForeignCurrency(creditsAndPayments
+							.getAmtTouse()));
 		default:
 			break;
 		}

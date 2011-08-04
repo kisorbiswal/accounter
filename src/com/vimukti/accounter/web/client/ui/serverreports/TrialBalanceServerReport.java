@@ -55,12 +55,13 @@ public class TrialBalanceServerReport extends
 	@Override
 	public int[] getColumnTypes() {
 		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
-
+			return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
+					COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
 		} else {
-
+			return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
+					COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
 		}
-		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+
 	}
 
 	@Override
@@ -75,7 +76,6 @@ public class TrialBalanceServerReport extends
 					Accounter.constants().debit(),
 					Accounter.constants().credit() };
 		}
-
 	}
 
 	@Override
@@ -200,7 +200,6 @@ public class TrialBalanceServerReport extends
 					Accounter.constants().debit(),
 					Accounter.constants().credit() };
 		}
-
 	}
 
 }

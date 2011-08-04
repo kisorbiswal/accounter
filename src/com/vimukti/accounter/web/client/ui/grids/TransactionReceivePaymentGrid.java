@@ -124,6 +124,7 @@ public class TransactionReceivePaymentGrid extends
 	@Override
 	protected Object getColumnValue(
 			ClientTransactionReceivePayment receivePayment, int col) {
+
 		if (canEdit) {
 			switch (col) {
 			case 0:
@@ -154,8 +155,13 @@ public class TransactionReceivePaymentGrid extends
 				return DataUtils
 						.getAmountAsString(getAmountInForeignCurrency(receivePayment
 								.getAppliedCredits()));
+
 			case 8:
-				return getAmountInForeignCurrency(receivePayment.getPayment());
+
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+								.getPayment()));
+
 			default:
 				break;
 			}
@@ -164,22 +170,28 @@ public class TransactionReceivePaymentGrid extends
 			case 0:
 				return receivePayment.getNumber();
 			case 1:
-				return DataUtils.getAmountAsString(receivePayment
-						.getInvoiceAmount());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+								.getInvoiceAmount()));
 			case 2:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 3:
-				return DataUtils.getAmountAsString(receivePayment
-						.getCashDiscount());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+								.getCashDiscount()));
 			case 4:
 				return DataUtils
-						.getAmountAsString(receivePayment.getWriteOff());
+						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+								.getWriteOff()));
 			case 5:
-				return DataUtils.getAmountAsString(receivePayment
-						.getAppliedCredits());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+								.getAppliedCredits()));
 			case 6:
-				return DataUtils.getAmountAsString(receivePayment.getPayment());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+								.getPayment()));
 			default:
 				break;
 			}
@@ -190,12 +202,13 @@ public class TransactionReceivePaymentGrid extends
 	@Override
 	public void editComplete(ClientTransactionReceivePayment item,
 			Object value, int col) {
+
 		if ((canEdit && col == 8) || (!canEdit && col == 6)) {
 			double amt, originalPayment;
 			try {
 				originalPayment = item.getPayment();
 				amt = getAmountInBaseCurrency(((Double) value).doubleValue());
-				item.setPayment(amt);
+				item.setPayment(getAmountInBaseCurrency(amt));
 				updateAmountDue(item);
 				double totalValue = item.getCashDiscount() + item.getWriteOff()
 						+ item.getAppliedCredits() + item.getPayment();

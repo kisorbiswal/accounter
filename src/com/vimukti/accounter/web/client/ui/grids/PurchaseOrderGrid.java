@@ -102,6 +102,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 		// if (Arrays.asList(3).contains(col))
 		// return "";
 		// }
+
 		switch (col) {
 		case 0:
 			return getImageByType(item.getType());
@@ -118,10 +119,14 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
-				return DataUtils.getAmountAsString(item.getUnitPrice());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(item
+								.getUnitPrice()));
 			else {
-				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
-						.getAmountAsString(item.getUnitPrice()) : "";
+				return (getAmountInForeignCurrency(item.getUnitPrice()) != 0 || item
+						.getLineTotal() == 0) ? DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(item
+								.getUnitPrice())) : "";
 			}
 		case 5:
 			return DataUtils.getAmountAsString(item.getLineTotal());
@@ -200,7 +205,8 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 		case 6:
 
 			String lineTotalAmtString = value.toString() != null
-					|| value.toString().length() != 0 ? value.toString() : "0";
+					|| value.toString().length() != 0 ? ((Object) value)
+					.toString() : "0";
 			// if (lineTotalAmtString.contains(""
 			// + UIUtils.getCurrencySymbol() + "")) {
 			// lineTotalAmtString = lineTotalAmtString.replaceAll(""
@@ -214,11 +220,11 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 				// "");
 				Double lineTotal = Double.parseDouble(DataUtils
 						.getReformatedAmount(lineTotalAmtString) + "");
-
 				try {
 					if (!AccounterValidator.validateGridLineTotal(lineTotal)
 							&& !AccounterValidator.isAmountTooLarge(lineTotal)) {
-						item.setLineTotal(lineTotal);
+						double newValue = getAmountInBaseCurrency((Double) lineTotal);
+						item.setLineTotal(newValue);
 						item.setUnitPrice(0.0D);
 						item.setQuantity(null);
 					}
@@ -228,16 +234,11 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 						item.setUnitPrice(0.0D);
 						item.setQuantity(null);
 						Accounter.showError(e.getMessage());
-
 					}
-
 				}
 			}
-
 		}
-
 		super.updateTotals();
 		super.updateData(item);
 	}
-
 }
