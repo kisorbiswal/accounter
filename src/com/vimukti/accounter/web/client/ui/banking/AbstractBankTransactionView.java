@@ -80,10 +80,6 @@ public abstract class AbstractBankTransactionView<T> extends
 	protected abstract void initTransactionViewData(
 			ClientTransaction transactionObject);
 
-	@Override
-	protected void initConstants() {
-
-	}
 
 	protected void initTransactionViewData() {
 

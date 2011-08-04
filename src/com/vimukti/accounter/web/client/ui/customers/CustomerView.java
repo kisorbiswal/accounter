@@ -140,9 +140,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	protected boolean isClose;
 	private boolean wait;
 
-	AccounterConstants customerConstants;
+	AccounterConstants customerConstants=Accounter.constants();
 
-	private static AccounterConstants actionsConstants;
 	private ClientCompany company = getCompany();
 	private ArrayList<DynamicForm> listforms;
 	private TextItem custNoText;
@@ -1172,12 +1171,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		return topHLay;
 	}
 
-	@Override
-	protected void initConstants() {
-		super.initConstants();
-		customerConstants = Accounter.constants();
-		actionsConstants = Accounter.constants();
-	}
 
 	@Override
 	public void init() {

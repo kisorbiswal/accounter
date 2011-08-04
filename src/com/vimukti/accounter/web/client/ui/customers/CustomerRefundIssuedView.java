@@ -137,10 +137,6 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		setSize("100%", "100%");
 	}
 
-	@Override
-	protected void initConstants() {
-
-	}
 
 	@Override
 	public void init() {

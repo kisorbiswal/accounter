@@ -43,7 +43,7 @@ public class Header extends HorizontalPanel {
 
 		companyName = new Label(Accounter.getCompany().getDisplayName());
 		companyName.addStyleName("companyName");
-		userImage = new Image("images/User.png");
+		userImage = new Image("/images/User.png");
 		userImage.getElement().getStyle().setPaddingBottom(4, Unit.PX);
 		userName = new HTML("<a><font color=\"#3299A4\">"
 				+ Accounter.messages().userName(

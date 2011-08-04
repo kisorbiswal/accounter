@@ -419,8 +419,4 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	}
 
-	protected void initConstants() {
-		// TODO Auto-generated method stub
-		
-	}
 }

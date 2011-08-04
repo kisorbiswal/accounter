@@ -31,7 +31,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private LabelItem titleItem;
 	private boolean wait;
 
-	public AccounterConstants settingsConstants;
+	public AccounterConstants settingsConstants=Accounter.constants();
 
 	@Override
 	public void init() {
@@ -43,11 +43,6 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		}
 	}
 
-	@Override
-	protected void initConstants() {
-		super.initConstants();
-		settingsConstants = Accounter.constants();
-	}
 
 	private void createControls() {
 

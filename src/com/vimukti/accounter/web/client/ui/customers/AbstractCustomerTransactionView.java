@@ -929,10 +929,6 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	}
 
-	@Override
-	protected final void initConstants() {
-		customerConstants = Accounter.constants();
-	}
 
 	@Override
 	public void reload() {

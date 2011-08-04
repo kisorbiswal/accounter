@@ -236,11 +236,6 @@ public class AccountRegisterOthersView extends
 		dateRangeChanged();
 	}
 
-	@Override
-	protected void initConstants() {
-		super.initConstants();
-
-	}
 
 	/**
 	 * call this method to set focus in View

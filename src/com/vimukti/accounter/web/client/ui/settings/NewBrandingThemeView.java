@@ -78,11 +78,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	public NewBrandingThemeView(String title, String desc) {
 	}
 
-	@Override
-	protected void initConstants() {
-		super.initConstants();
-	}
-
 	public NewBrandingThemeView(String title, String desc,
 			ClientBrandingTheme brandingTheme) {
 		super();
