@@ -161,8 +161,8 @@ public class VendorTransactionUSGrid extends
 				});
 		serviceItemCombo.setGrid(this);
 
-		productItemCombo = new ProductCombo(Accounter.constants().product(), 2,
-				isAddNewRequired);
+		productItemCombo = new ProductCombo(
+				Accounter.constants().productItem(), 2, isAddNewRequired);
 		productItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItem>() {
 
@@ -859,7 +859,7 @@ public class VendorTransactionUSGrid extends
 										.isAmountTooLarge(lineTotal))) {
 							item.setLineTotal(getAmountInBaseCurrency(lineTotal
 									.doubleValue()));
-							//TODO
+							// TODO
 							item.setUnitPrice(isItem ? lineTotal : 0);
 							ClientQuantity quant = new ClientQuantity();
 							quant.setValue(isItem ? 1 : 0);

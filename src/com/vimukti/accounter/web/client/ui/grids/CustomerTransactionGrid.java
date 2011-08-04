@@ -284,8 +284,8 @@ public class CustomerTransactionGrid extends
 					}
 				});
 
-		productItemCombo = new ProductCombo(Accounter.constants().product(), 1,
-				isAddNewRequired);
+		productItemCombo = new ProductCombo(
+				Accounter.constants().productItem(), 1, isAddNewRequired);
 		productItemCombo.setGrid(this);
 		productItemCombo.setRequired(true);
 		productItemCombo

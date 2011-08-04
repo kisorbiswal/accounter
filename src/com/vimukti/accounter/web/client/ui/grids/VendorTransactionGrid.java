@@ -161,8 +161,8 @@ public class VendorTransactionGrid extends
 				});
 		serviceItemCombo.setGrid(this);
 
-		productItemCombo = new ProductCombo(Accounter.constants().product(), 2,
-				isAddNewRequired);
+		productItemCombo = new ProductCombo(
+				Accounter.constants().productItem(), 2, isAddNewRequired);
 		productItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItem>() {
 
@@ -556,7 +556,7 @@ public class VendorTransactionGrid extends
 
 		Double vat = 0.0;
 		if (transactionView.isShowPriceWithVat()) {
-			//TODO raj
+			// TODO raj
 			vat = ((ClientTransactionItem) record).getLineTotal()
 					- (100 * (((ClientTransactionItem) record).getLineTotal() / (100 + vatRate)));
 		} else {
