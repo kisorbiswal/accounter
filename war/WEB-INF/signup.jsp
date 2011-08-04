@@ -134,9 +134,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	<div id="commanContainer" class="signup-container">	
   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />	
   <img  style="display:none" src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50">
-  <c:if test="${successmessage!=null}">
+  
+  <c:if test="${errormessage!=null}">
 	<div id="login_error" class="common-box">
-		<span>${message}</span>
+		<span>${errormessage}</span>
 	</div>
   </c:if>
   <div  id="hiddenLoaderDiv" class="hiddenDiv">
