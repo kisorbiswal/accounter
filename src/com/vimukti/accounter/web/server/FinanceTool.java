@@ -11463,12 +11463,37 @@ public class FinanceTool implements IFinanceDAOService {
 	public List<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate) {
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("get.customer.statement.by.date");
-		query.setParameter("customerid", customer);
-		query.setParameter("fromDate", fromDate);
-		query.setParameter("toDate", toDate);
 
-		return query.list();
+		List<PayeeStatementsList> result = new ArrayList<PayeeStatementsList>();
+
+		Query query = session.getNamedQuery("getCustomerPreviousBalance");
+		query.setParameter("customerId", customer);
+		query.setParameter("fromDate", fromDate);
+		Object uniqueResult = query.uniqueResult();
+		PayeeStatementsList ob = new PayeeStatementsList();
+		ob.setTransactionDate(new ClientFinanceDate(fromDate));
+		ob.setTotal((Double) uniqueResult);
+		result.add(ob);
+
+		Query query1 = session.getNamedQuery("getCustomerStatement");
+		query1.setParameter("customerId", customer);
+		query1.setParameter("fromDate", fromDate);
+		query1.setParameter("toDate", toDate);
+
+		List l = query1.list();
+		Iterator it = l.iterator();
+		while (it.hasNext()) {
+			Object[] object = (Object[]) it.next();
+			PayeeStatementsList record = new PayeeStatementsList();
+			record.setTransactionId((Long) object[0]);
+			record.setTransactionDate(new ClientFinanceDate((Long) object[1]));
+			record.setTransactiontype((Integer) object[2]);
+			record.setTransactionNumber((String) object[3]);
+			record.setTotal((Double) object[4]);
+
+			result.add(record);
+		}
+		return result;
 	}
 
 }
