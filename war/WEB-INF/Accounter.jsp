@@ -97,7 +97,7 @@
  		}
  
 		.image{
- 			text-align:center;
+ 			/*text-align:center;*/
  		}
  
 		.clearfix:after{
