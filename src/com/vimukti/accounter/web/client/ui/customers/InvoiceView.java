@@ -221,6 +221,22 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
+		/*
+		 * if (ClientCompanyPreferences.get().isEnableMultiCurrency() == false)
+		 * { if (currencyWidget == null) {
+		 * 
+		 * currencyWidget = bulidCurrencyWidget(); } else currencyWidget =
+		 * getCurrencyWidget();
+		 * 
+		 * forms.add(currencyWidget); currencyWidget.setListener(new
+		 * CurrencyChangeListener() {
+		 * 
+		 * @Override public void currencyChanged(ClientCurrency currency, double
+		 * factor) { customerTransactionGrid.refreshAllRecords();
+		 * vendorTransactionGrid.refreshAllRecords(); } });
+		 * 
+		 * }
+		 */
 
 		customerCombo = createCustomerComboItem(customerConstants
 				.customerName());
@@ -241,6 +257,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
 		// billToCombo = createBillToComboItem();
+
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setHelpInformation(true);
 		billToTextArea.setWidth(100);
@@ -250,7 +267,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		billToTextArea.setHelpInformation(true);
 
 		shipToCombo = createShipToComboItem();
+
 		shipToCombo.setHelpInformation(true);
+
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
@@ -289,6 +308,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		custForm.setNumCols(3);
 		custForm.setWidth("100%");
 		forms.add(custForm);
+		forms.add(currencyWidget);
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
@@ -318,6 +338,27 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		dueDateItem.setDisabled(isEdit);
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
+		// multi
+		if (ClientCompanyPreferences.get().isEnableMultiCurrency() == false) {
+			if (currencyWidget == null) {
+
+				currencyWidget = bulidCurrencyWidget();
+			} else
+				currencyWidget = getCurrencyWidget();
+
+			currencyWidget.setListener(new CurrencyChangeListener() {
+
+				@Override
+				public void currencyChanged(ClientCurrency currency,
+						double factor) {
+					/*
+					 * customerTransactionGrid.refreshAllRecords();
+					 * vendorTransactionGrid.refreshAllRecords();
+					 */
+				}
+			});
+
+		}
 
 		orderNumText = new TextItem(Accounter.constants().salesorderno());
 		orderNumText.setHelpInformation(true);
@@ -349,6 +390,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "200px");
 		forms.add(termsForm);
+		forms.add(currencyWidget);
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
@@ -525,23 +567,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		// mainVLay.add(printButton);
-		// multiCurrency combo
-		if (ClientCompanyPreferences.get().isEnableMultiCurrency() == true) {
-
-			currencyWidget = bulidCurrencyWidget();
-
-			mainVLay.add(currencyWidget);
-			currencyWidget.setListener(new CurrencyChangeListener() {
-
-				@Override
-				public void currencyChanged(ClientCurrency currency,
-						double factor) {
-					// TODO Auto-generated method stub
-
-				}
-			});
-
-		}
 
 		mainVLay.add(customerTransactionGrid);
 
