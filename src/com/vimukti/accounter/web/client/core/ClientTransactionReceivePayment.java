@@ -45,16 +45,15 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 	private String number;
 
 	private long id;
-	
+
 	/* The following fields are just for saving credits temporarly */
 	Map<Integer, Object> tempCredits = new HashMap<Integer, Object>();
 	double remainingCreditBalance;
 	boolean isCreditsApplied;
 
 	private double dummyDue;
-	
-	
 
+	
 	public boolean isCreditsApplied() {
 		return isCreditsApplied;
 	}
@@ -328,13 +327,13 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -351,12 +350,13 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 	public String getNumber() {
 		return number;
 	}
-	
-	public void setDummyDue(double amountDue){
-		this.dummyDue=amountDue;
+
+	public void setDummyDue(double amountDue) {
+		this.dummyDue = amountDue;
 	}
 
 	public double getDummyDue() {
 		return dummyDue;
 	}
+
 }
