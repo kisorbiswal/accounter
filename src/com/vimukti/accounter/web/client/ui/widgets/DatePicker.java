@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
+
 /**
  * Main class of the DatePicker. It extends the TextBox widget and manages a
  * Date object. When it is clicked, it opens a PopupCalendar on which we can
@@ -57,10 +58,10 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		// }else{
 		// dateFormatter=DateTimeFormat.getFormat(DateUtil.getUserPreferredDateFormat());
 		// }
-		if(Accounter.getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_UK)
-		dateFormatter = DateTimeFormat.getFormat("dd/MM/yyyy");
-		if(Accounter.getCompany().getAccountingType()==ClientCompany.ACCOUNTING_TYPE_US)
-			dateFormatter=DateTimeFormat.getFormat("MM/dd/yyyy");
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+			dateFormatter = DateTimeFormat.getFormat("dd/MM/yyyy");
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+			dateFormatter = DateTimeFormat.getFormat("MM/dd/yyyy");
 		popup = new PopupCalendar(this);
 		changeHandlers = new ArrayList<ChangeHandler>();
 	}
@@ -213,7 +214,8 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		if (this.selectedDate != null) {
 			this.setText(dateFormatter.format(this.selectedDate));
 			if (handler != null)
-				handler.onDateValueChange(new ClientFinanceDate(this.selectedDate));
+				handler.onDateValueChange(new ClientFinanceDate(
+						this.selectedDate));
 		} else {
 			this.setText("");
 		}
@@ -277,12 +279,16 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			selectedDate = null;
 		} else {
 			try {
-				Date parsedDate = dateFormatter.parse(getText());
+			//	 Date parsedDate = dateFormatter.parse(getText());
+			Date parsedDate = new DateUtills().parseDate(getText());
+			
 				if (canBeSelected(parsedDate))
 					selectedDate = parsedDate;
-			} catch (IllegalArgumentException e) {
+
+			} catch (Exception e) {
 				// Do something ?
 			}
+
 		}
 		synchronizeFromDate();
 	}
