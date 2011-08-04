@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -13,7 +12,6 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -254,8 +252,7 @@ public class AccounterValidator {
 	 * @throws InvalidTransactionEntryException
 	 */
 	public static boolean validateTransactionDate(
-			ClientFinanceDate transactionDate)
-			throws InvalidTransactionEntryException {
+			ClientFinanceDate transactionDate) {
 		boolean validDate = false;
 		List<ClientFiscalYear> openFiscalYears = getOpenFiscalYears();
 		for (ClientFiscalYear openFiscalYear : openFiscalYears) {
@@ -269,16 +266,14 @@ public class AccounterValidator {
 				break;
 
 		}
-		if (!validDate)
-			throw new InvalidTransactionEntryException(
-					AccounterErrorType.InvalidTransactionDate);
-		if (transactionDate.before(new ClientFinanceDate(Accounter.getCompany()
-				.getPreferences().getPreventPostingBeforeDate())))
-			throw new InvalidTransactionEntryException(
-					AccounterErrorType.InvalidDate);
 
 		return validDate;
+	}
 
+	public static boolean isInPreventPostingBeforeDate(
+			ClientFinanceDate transactionDate) {
+		return transactionDate.before(new ClientFinanceDate(Accounter
+				.getCompany().getPreferences().getPreventPostingBeforeDate()));
 	}
 
 	public static List<ClientFiscalYear> getOpenFiscalYears() {
@@ -1385,24 +1380,15 @@ public class AccounterValidator {
 
 	public static boolean validateFormItem(FormItem item, boolean isDialog)
 			throws InvalidTransactionEntryException {
-		if (!item.validate(isDialog)) {
+		if (!item.validate()) {
+
+			Accounter.messages().pleaseEnter(item.getTitle());
 			// throw new InvalidTransactionEntryException(
 			// "Required fields are shown in bold.Those fields should be filled!!");
 
 		}
 
 		return true;
-	}
-
-	public static boolean validateFormItem(boolean isDialog, FormItem... items)
-			throws InvalidTransactionEntryException {
-		for (FormItem item : items)
-			if (!item.validate(isDialog)) {
-				// throw new InvalidTransactionEntryException(
-				// AccounterErrorType.REQUIRED_FIELDS);
-			}
-		return true;
-
 	}
 
 	// /**
@@ -1414,13 +1400,11 @@ public class AccounterValidator {
 	// */
 
 	public static boolean isBlankTransaction(
-			AbstractTransactionGrid transactionGrid)
-			throws InvalidTransactionEntryException {
+			AbstractTransactionGrid<?> transactionGrid) {
 		if (transactionGrid != null && transactionGrid.getRecords().isEmpty()) {
-			throw new InvalidTransactionEntryException(
-					AccounterErrorType.blankTransaction);
+			return true;
 		}
-		return true;
+		return false;
 
 	}
 
@@ -1701,4 +1685,5 @@ public class AccounterValidator {
 	private static ClientCompany getCompany() {
 		return Accounter.getCompany();
 	}
+
 }
