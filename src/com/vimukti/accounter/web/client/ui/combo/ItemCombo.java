@@ -37,8 +37,7 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 	}
 
 	public void initCombo(boolean isService) {
-		List<ClientItem> items = getCompany()
-				.getActiveItems();
+		List<ClientItem> items = getCompany().getActiveItems();
 		List<ClientItem> serviceitems = new ArrayList<ClientItem>();
 		List<ClientItem> productitems = new ArrayList<ClientItem>();
 		for (ClientItem item : items) {
@@ -75,7 +74,7 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 			action = ActionFactory.getNewItemAction();
 		}
 		action.setActionSource(this);
-		
+
 		action.run(null, true);
 	}
 
@@ -90,8 +89,9 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 		case 0:
 			return object.getName();
 		case 1:
-			return object.getType() == ClientItem.TYPE_SERVICE ? Accounter.constants().service()
-					: Accounter.constants().product();
+			return object.getType() == ClientItem.TYPE_SERVICE ? Accounter
+					.constants().serviceItem() : Accounter.constants()
+					.productItem();
 		case 2:
 			return DataUtils.getAmountAsString(object.getSalesPrice());
 		default:
