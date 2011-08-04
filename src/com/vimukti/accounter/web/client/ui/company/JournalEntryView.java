@@ -29,12 +29,14 @@ import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -70,7 +72,6 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY,
 				JOURNALENTRY_TRANSACTION_GRID);
-		this.validationCount = 8;
 	}
 
 	@Override
@@ -86,50 +87,38 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
-		switch (this.validationCount) {
-		case 8:
-			if (memoText.getValue().toString() != null
-					&& memoText.getValue().toString().length() >= 256) {
-				// BaseView.errordata
-				// .setHTML("Memo Cannot Exceeds more than 255 Characters.");
-				// BaseView.commentPanel.setVisible(true);
-				// AbstractBaseView.errorOccured = true;
-				MainFinanceWindow.getViewManager().appendError(
-						Accounter.constants()
-								.memoCannotExceedsmorethan255Characters());
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (memoText.getValue().toString() != null
+				&& memoText.getValue().toString().length() >= 256) {
+			result.addError(memoText, Accounter.constants()
+					.memoCannotExceedsmorethan255Characters());
 
-			}
-			return false;
-		case 7:
-			return AccounterValidator
-					.validateTransactionDate(getTransactionDate());
-		case 6:
-			return AccounterValidator.validateForm(dateForm, false);
-		case 5:
-			return AccounterValidator.isBlankTransaction(grid);
-		case 4:
-			return grid.validateGrid();
-		case 3:
-
-			// return grid.validateCustomers();
-
-		case 2:
-			// return grid.validateVendors();
-			return true;
-		case 1:
-			return grid.validateTotal();
-		default:
-			return false;
 		}
+		if (!AccounterValidator.validateTransactionDate(getTransactionDate())) {
+			result.addError(transactionDateItem,
+					AccounterErrorType.InvalidTransactionDate);
+		}
+		if (AccounterValidator
+				.isInPreventPostingBeforeDate(getTransactionDate())) {
+			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
+		}
+		result.add(dateForm.validate());
+		if (AccounterValidator.isBlankTransaction(grid)) {
+			result.addError(grid, AccounterErrorType.blankTransaction);
+		}
+		result.add(grid.validateGrid());
+		if (grid.validateTotal()) {
+			result.addError(grid, AccounterErrorType.TOTAL_MUSTBE_SAME);
+		}
+		return result;
 
 	}
 
-	protected boolean validateForm() {
-
-		return dateForm.validate(false);
-	}
+	// protected boolean validateForm() {
+	//
+	// return dateForm.validate(false);
+	// }
 
 	public void initListGrid() {
 		grid = new TransactionJournalEntryGrid(isEdit);

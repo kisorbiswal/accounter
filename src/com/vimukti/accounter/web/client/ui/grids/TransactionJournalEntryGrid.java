@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -291,34 +292,26 @@ public class TransactionJournalEntryGrid extends
 	}
 
 	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		int validationCount = 2;
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
 		List<ClientEntry> entrylist = this.getRecords();
 		for (ClientEntry entry : entrylist) {
-			switch (validationCount++) {
-			case 1:
-				// AccounterValidator.validateGridItem(getColumnValue(entry, 2),
-				// "Voucher Type");
-				return true;
-			case 2:
-				AccounterValidator.validateGridItem(getColumnValue(entry, 2),
-						getTypeAsString(entry, entry.getType()));
-				validationCount = 2;
-			default:
-				break;
+			int row = this.objects.indexOf(entry);
+			if (AccounterValidator.validateGridItem(getColumnValue(entry, 2))) {
+				result.addError(row + "," + 2, Accounter.messages()
+						.pleaseEnter(getTypeAsString(entry, entry.getType())));
 			}
 
 		}
-		return true;
+		return result;
 
 	}
 
-	public boolean validateTotal() throws InvalidTransactionEntryException {
+	public boolean validateTotal() {
 		if (getTotalCredittotal() == getTotalDebittotal())
 			return true;
 		else {
-			throw new InvalidTransactionEntryException(
-					AccounterErrorType.TOTAL_MUSTBE_SAME);
+			return false;
 		}
 	}
 
