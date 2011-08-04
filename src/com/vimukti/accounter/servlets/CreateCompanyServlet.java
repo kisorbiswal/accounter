@@ -13,6 +13,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ServerCompany;
@@ -110,6 +111,14 @@ public class CreateCompanyServlet extends BaseServlet {
 		}
 	}
 
+	private String base64(String str) {
+		return Base64.encode(str.getBytes());
+	}
+
+	private String base64(long num) {
+		return Base64.encode((num + "").getBytes());
+	}
+
 	/**
 	 * @return
 	 */
@@ -120,7 +129,7 @@ public class CreateCompanyServlet extends BaseServlet {
 
 		buffer.append(PARAM_SERVER_COMPANY_ID);
 		buffer.append('=');
-		buffer.append(serverCompany.getID());
+		buffer.append(base64(serverCompany.getID()));
 
 		buffer.append('&');
 		buffer.append(PARA_COMPANY_NAME);
