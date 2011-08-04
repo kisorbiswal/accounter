@@ -1,8 +1,6 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -59,23 +57,18 @@ public class CompaniesServlet extends BaseServlet {
 			}
 
 			Set<ServerCompany> companies = client.getCompanies();
-			if (companies.size() <= 1) {
-				redirectToAccounter(req, resp, companies, client);
-				return;
+			if (companies.isEmpty()) {
+				req.setAttribute("message", "You Don't Have any Companies Now.");
 			} else {
-				addUserCookies(resp, client);
-				List<String> companyList = new ArrayList<String>();
-				// for (ServerCompany company : companies) {
-				// companyList.add(company.getCompanyName());
-				// }
 				req.setAttribute(ATTR_COMPANY_LIST, companies);
-				dispatch(req, resp, companiedListView);
 			}
+			addUserCookies(resp, client);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
 			}
 		}
+		dispatch(req, resp, companiedListView);
 	}
 
 	/**
