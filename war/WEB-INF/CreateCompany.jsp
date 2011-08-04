@@ -140,144 +140,104 @@
     </script>
 <!--CSS for loading message at application Startup-->
 <style type="text/css">
-body {
-	overflow: hidden
+*{
+  margin:0px;
+  padding:0px;
 }
-
-#loading {
-	border: 1px solid #ccc;
-	position: absolute;
-	left: 45%;
-	top: 40%;
-	padding: 2px;
-	z-index: 20001;
-	height: auto;
+form{
+  font-weight:normal;
+  font-family:sans-serif;
 }
-
-#loading a {
-	color: #225588;
+#commanContainer{
+    margin: 7em auto;
+    width: 320px;
 }
-
-#loading .loadingIndicator {
-	background: white;
-	font: bold 13px tahoma, arial, helvetica;
-	padding: 10px;
-	margin: 0;
-	height: auto;
-	color: #444;
+#commanContainer label{
+    color: #777777;
+    font-size: 14px;
 }
-
-#loadingMsg {
-	font: normal 10px arial, tahoma, sans-serif;
+#commanContainer form{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
+    font-weight: normal;
+    margin-left: 8px;
+    padding: 26px 24px 46px;
 }
-
-html body {
-	font-family: Verdana, sans-serif;
-	font-size: 13px;
+#commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select{
+    background: none repeat scroll 0 0 #FBFBFB;
+    border: 1px solid #E5E5E5;
+    box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
+    margin:2px 6px 16px 0px;
+    outline: medium none;
+    padding: 3px;
+    width: 97%;
+	height:40px;
 }
-
-html	table,tr,td {
-	font-family: Verdana, sans-serif;
-	font-size: 13px;
-	border-spacing: 0pt;
+.rememberMe{
+    float:left;
 }
-
-body {
-	font-size: 13px;
-	background: LightSteelBlue none repeat scroll 0 0;
+.loginbutton,#forgot-login,.signup-submit,.reset-button{
+    float:right;
+	margin-right: 8px;
 }
-
-.login {
-	margin: 140px auto;
-	background-color: #f2f3f5;
-	padding: 10px;
-	border: 1px solid #000;
-	width: 45%;
+.allviews-common-button{
+    background: none repeat scroll 0 0 #28757D;
+    border: 1px solid #28757D;
+    border-radius: 11px 11px 11px 11px;
+    color: white;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: -3px;
+    padding: 3px 10px;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
-
-.image {
-	text-align: center;
+.loginbutton input:active,.loginbutton input:hover,.loginbutton input:focus{
+    background:#1a5158;
+	border:1px solid #9ebfc3;
 }
-
-.clearfix:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
+.form-bottom-options{
+    margin: 0 0 0 16px;
+    padding: 16px 16px 0;
+    text-shadow: 0 1px 0 #FFFFFF;
 }
-
-fieldset {
-	border: 1px solid #000;
-	padding: 10px;
-	background-color: #e9edf0;
-	margin: 5px 0px;
-	width: 300px;
+.form-bottom-options a,#commanContainer a{
+   color:#28757D;
+   text-decoration:underline;
 }
-
-fieldset table td {
-	float: left;
+.accounterLogo{
+   padding:0 0 15px 10px;
 }
-
-.login img[src="logo.png"] {
-	text-align: center;
+.common-box{
+    border-radius: 3px 3px 3px 3px;
+    border-style: solid;
+    border-width: 1px;
+    margin: 0 0 16px 8px;
+    padding: 12px;
+    font-size:12px;
+	font-family:sans-serif;
 }
-
-.login img[src="lock.png"] {
-	float: left;
+#login_error{
+	background-color: #FFEBE8;
+    border-color: #CC0000;
 }
-
-p {
-	text-align: left;
-	clear: left;
-	line-height: 30px;
-	margin: 0px;
+#forgot-password_error{
+    background-color: #FFFFE0;
+    border-color: #E6DB55;
 }
-
-.loginbox {
-	float: right;
+.signup-container{
+   width:500px !important;
+   margin:0 auto !important;
 }
-
-.loginlabel {
-	font-weight: bold;
-	color: #c64933;
+.signup-submit{
+   margin-top:15px;
 }
-
-.loginbox a {
-	font-weight: bold;
-	color: #0000ff;
-	margin-left: 20px;
-	text-decoration: none;
-}
-
-#formDiv input[type="text"],#formDiv input[type="password"] {
-	border: 1px solid #9cb0ce;
-}
-
-.loginbox a:hover {
-	text-decoration: underline;
-}
-
-#admin_info {
-	font-size: large;
-	padding-left: 10px;
-}
-
-#red {
-	color: red;
-}
-
-.hiddenPic {
-	display: none;
-	float: left;
-	margin-top: 25%;
-	margin-left: 50%;
-}
-
-#middlePos {
-	float: left;
-	margin-top: 20%;
-	margin-left: 40%;
+.reset-header{
+   color:#28757D;
+   margin-bottom:10px;
 }
 </style>
 </head>
