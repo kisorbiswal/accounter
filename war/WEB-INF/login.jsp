@@ -62,7 +62,7 @@
 		   </c:if>	
 		   <form id="accounterForm" method="post" action="/login">
 		      <div>
-			    <label>Username</label>
+			    <label>Email</label>
 				<br>
 				<input id="mid-box"  type="text" name="emailId" tabindex="1">
 			  </div>
