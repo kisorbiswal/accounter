@@ -791,8 +791,8 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 			popupPanel.getElement().setAttribute("id", "addnewpopuppanel");
 			popupMenuBar.setVisible(true);
 			popupPanel.add(popupMenuBar);
-			popupPanel.setPopupPosition(button.getAbsoluteLeft(),
-					button.getAbsoluteTop() + button.getOffsetHeight());
+			// popupPanel.setPopupPosition(button.getAbsoluteLeft(),
+			// button.getAbsoluteTop() + button.getOffsetHeight());
 		}
 	}
 
@@ -812,16 +812,54 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		// int x = DOM.eventGetClientX(event);
 		// int y = DOM.eventGetClientY(event);
 		// popupPanel.setPopupPosition(x, y);
-		popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
-				menuButton.getAbsoluteTop() - 100);
-		if (this instanceof CreditCardExpenseView
-				|| this instanceof CashExpenseView
-				|| this instanceof WriteChequeView)
-			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
-					menuButton.getAbsoluteTop() - 70);
+		ClientCompanyPreferences preferences = getCompany().getPreferences();
+		boolean sellProducts = preferences.isSellProducts();
+		boolean sellServices = preferences.isSellServices();
+		int childCount = 0;
 		if (this instanceof EmployeeExpenseView) {
-			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft(),
-					menuButton.getAbsoluteTop() - 40);
+			if (sellServices) {
+				childCount += 1;
+			}
+		} else if (this instanceof CreditCardExpenseView
+				|| this instanceof CashExpenseView) {
+			childCount = 1;
+			if (sellServices) {
+				childCount += 1;
+			}
+		} else if (this instanceof WriteChequeView) {
+			childCount = 1;
+			if (sellProducts) {
+				childCount += 1;
+			}
+		} else {
+			childCount = 1;
+			if (sellProducts) {
+				childCount += 1;
+			}
+			if (sellServices) {
+				childCount += 1;
+			}
+		}
+
+		if (childCount == 1) {
+			popupPanel.setPopupPosition(
+					menuButton.getAbsoluteLeft(),
+					menuButton.getAbsoluteTop()
+							- (popupMenuBar.getOffsetHeight() + 41));
+		} else if (childCount == 2) {
+			// if (this instanceof CashExpenseView || this instanceof
+			// WriteChequeView)
+			popupPanel.setPopupPosition(
+					menuButton.getAbsoluteLeft(),
+					menuButton.getAbsoluteTop()
+							- (popupMenuBar.getOffsetHeight() + 85));
+		} else if (childCount == 3) {
+			// if (this instanceof EmployeeExpenseView) {
+			popupPanel.setPopupPosition(
+					menuButton.getAbsoluteLeft(),
+					menuButton.getAbsoluteTop()
+							- (popupMenuBar.getOffsetHeight() + 127));
+			// }
 		}
 		popupPanel.show();
 	}
