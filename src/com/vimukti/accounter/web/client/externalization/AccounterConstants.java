@@ -162,6 +162,8 @@ public interface AccounterConstants extends Constants {
 
 	public String addMeasurementButton();
 
+	public String addNewMeasurement();
+
 	public String addNew();
 
 	public String addNewAsset();
