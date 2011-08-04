@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -88,8 +89,7 @@ public class WarehouseListView extends BaseListView<ClientStockTransfer> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.constants().warehouseList();
 	}
 
 	@Override
