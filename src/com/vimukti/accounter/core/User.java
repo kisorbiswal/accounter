@@ -13,7 +13,8 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 
-public class User extends CreatableObject implements IAccounterServerCore, Lifecycle {
+public class User extends CreatableObject implements IAccounterServerCore,
+		Lifecycle {
 
 	/**
 	 * 
@@ -159,7 +160,6 @@ public class User extends CreatableObject implements IAccounterServerCore, Lifec
 		return lastLogin;
 	}
 
-
 	/**
 	 * @return the userPreferences
 	 */
@@ -267,6 +267,7 @@ public class User extends CreatableObject implements IAccounterServerCore, Lifec
 		ClientUser user = new ClientUser();
 		user.setFirstName(this.getFirstName());
 		user.setLastName(this.getLastName());
+		user.setFullName(this.getFullName());
 		user.setEmail(this.getEmail());
 		user.setCanDoUserManagement(this.isCanDoUserManagement());
 		user.setUserRole(this.getUserRole());
