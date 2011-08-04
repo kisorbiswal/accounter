@@ -239,14 +239,17 @@ form{
    color:#28757D;
    margin-bottom:10px;
 }
+.createbutton{
+	float:right;
+}
 </style>
 </head>
 <body>
 <div id="commanContainer">	
 <img src="../images/Accounter_logo_title.png" class="accounterLogo" />	
-<div id="hiddenDiv" class="hiddenPic">
+<!--<div id="hiddenDiv" class="hiddenPic">
   <img src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50">
-</div>
+</div>-->
 <c:if test="${message != null}">
 <div id="login_error" class="common-box">
   <b>${message} </b> 
@@ -270,6 +273,9 @@ form{
 				<option value="0">US</option>
 			</select>
 		 </div>
+		 <div class="createbutton">
+			     <input type="submit" tabindex="6" value="Create" name="create" class="allviews-common-button" style="width:60px" id="submitButton">
+			  </div>
 	</form>
 	</div>
 </c:if>
