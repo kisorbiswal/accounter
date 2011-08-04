@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.Header;
@@ -109,7 +110,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 
 	public CompanyPreferencesView() {
-		this.validationCount = 2;
+		// this.validationCount = 2;
 		this.company = getCompany();
 		this.getService = Accounter.createGETService();
 		this.crudService = Accounter.createCRUDService();
@@ -568,27 +569,34 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-		switch (this.validationCount) {
-		case 2:
-			return AccounterValidator.validateFormItem(false, emailText);
-		case 1:
-			return validateCompanyDetailsForm(companyDetailsForm);
-		default:
-			return true;
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		// switch (this.validationCount) {
+		// case 2:
+		if (!emailText.validate()) {
+			result.addError(emailText,
+					Accounter.messages().pleaseEnter(emailText.getTitle()));
 		}
+		// return AccounterValidator.validateFormItem(false, emailText);
+		// case 1:
+		result.add(companyDetailsForm.validate());
+		// return validateCompanyDetailsForm(companyDetailsForm);
+		// default:
+		// return true;
+		// }
+		return result;
 
 	}
 
-	private boolean validateCompanyDetailsForm(DynamicForm companyDetailsForm)
-			throws InvalidEntryException {
-		if (!companyDetailsForm.validate(false)) {
-			// throw new
-			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
-		}
-		return true;
-	}
+	// private boolean validateCompanyDetailsForm(DynamicForm
+	// companyDetailsForm)
+	// throws InvalidEntryException {
+	// if (!companyDetailsForm.validate()) {
+	// // throw new
+	// // InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+	// }
+	// return true;
+	// }
 
 	protected void savePreference() {
 		ClientCompanyPreferences companyPreferences = company.getPreferences();

@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -55,6 +56,7 @@ import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.TaxGroupCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -364,76 +366,52 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-
-		switch (this.validationCount) {
-		case 7:
-			String name = custNameText.getValue().toString();
-			String number = custNoText.getValue().toString();
-			if (takenCustomer == null) {
-				// if (isObjectExistWithNameAndNumber(company.getCustomers(),
-				// name, number)) {
-				// throw new InvalidEntryException(
-				// "A Customer already exists with this name and number");
-				// } else if (isObjectExistWithName(company.getCustomers(),
-				// name)) {
-				// throw new InvalidEntryException(
-				// "A Customer already exists with this name");
-				// } else if (isObjectExistWithNumber(company.getCustomers(),
-				// number)) {
-				// throw new InvalidEntryException(
-				// "A Customer already exists with this number");
-				// } else
-				return true;
-
-			}
-			/*
-			 * else if (takenCustomer != null &&
-			 * (!takenCustomer.getName().equalsIgnoreCase(name))) { if
-			 * (Utility.isObjectExist(company.getCustomers(), name)) throw new
-			 * InvalidEntryException( AccounterErrorType.ALREADYEXIST); else
-			 * return true; }
-			 */
-			return false;
-		case 6:
-			return validateCustomerForm(customerForm);
-		case 5:
-			if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-				return AccounterValidator.validateFormItem(custTaxCode, false);
-			return true;
-		case 4:
-			// Date customerSince = customerSinceDate.getEnteredDate();
-			// return AccounterValidator.sinceDate(customerSince, this);
-			return true;
-
-		case 3:
-			// return AccounterValidator.validateClosedFiscalYear(balanceDate
-			// .getEnteredDate());
-			return true;
-		case 2:
-			ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
-
-			return AccounterValidator.isPriorAsOfDate(asOfDate, this);
-			// return true;
-		case 1:
-			return gridView.validateGrid();
-		default:
-			return true;
-
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		result.add(customerForm.validate());
+		// case 5:
+		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (!custTaxCode.validate())
+				result.addError(custTaxCode,
+						Accounter.messages()
+								.pleaseEnter(custTaxCode.getTitle()));
 		}
+		// AccounterValidator.validateFormItem(custTaxCode, false);
+		// return true;
+		// case 4:
+		// Date customerSince = customerSinceDate.getEnteredDate();
+		// return AccounterValidator.sinceDate(customerSince, this);
+		// return true;
+
+		// case 3:
+		// return AccounterValidator.validateClosedFiscalYear(balanceDate
+		// .getEnteredDate());
+		// return true;
+		// case 2:
+		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
+
+		if (AccounterValidator.isPriorAsOfDate(asOfDate, this)) {
+			result.addError(balanceDate, AccounterErrorType.prior_asOfDate);
+		}
+		// return true;
+		// case 1:
+		gridView.validateGrid();
+		// default:
+		return result;
+
+		// }
 	}
 
-	private boolean validateCustomerForm(DynamicForm customerForm)
-			throws InvalidEntryException {
-		if (!customerForm.validate(false)) {
-			if (tabSet.getTabBar().isTabEnabled(1))
-				tabSet.selectTab(0);
-			// throw new
-			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
-		}
-		return true;
-	}
+	// private boolean validateCustomerForm(DynamicForm customerForm)
+	// throws InvalidEntryException {
+	// if (!customerForm.validate(false)) {
+	// if (tabSet.getTabBar().isTabEnabled(1))
+	// tabSet.selectTab(0);
+	// // throw new
+	// // InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+	// }
+	// return true;
+	// }
 
 	private ClientCustomer getCustomerObject() {
 

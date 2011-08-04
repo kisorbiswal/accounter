@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -26,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -62,12 +64,12 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	public AdjustTAXView() {
 		super();
-		this.validationCount = 4;
+		// this.validationCount = 4;
 	}
 
 	public AdjustTAXView(ClientTAXAgency taxAgency) {
 		super();
-		this.validationCount = 4;
+		// this.validationCount = 4;
 		this.taxAgency = taxAgency;
 	}
 
@@ -357,42 +359,45 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	}
 
-	public boolean validate() throws Exception {
-		switch (this.validationCount) {
-
-		case 4:
-			List<DynamicForm> forms = this.getForms();
-			for (DynamicForm form : forms) {
-				if (form != null) {
-					form.validate(false);
-				}
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		// switch (this.validationCount) {
+		//
+		// case 4:
+		List<DynamicForm> forms = this.getForms();
+		for (DynamicForm form : forms) {
+			if (form != null) {
+				result.add(form.validate());
 			}
-			return true;
-		case 3:
-			return AccounterValidator.validateAmount(amount.getAmount());
-
-		case 2:
-			// if (!adjustAccountCombo.validate()) {
-			// throw new InvalidEntryException(
-			// AccounterErrorType.REQUIRED_FIELDS);
-			// }
-			return true;
-
-		case 1:
-			if (accountType == 0)
-				return true;
-			else {
-				// if (!vatItemCombo.validate()) {
-				// throw new InvalidEntryException(
-				// AccounterErrorType.REQUIRED_FIELDS);
-				// }
-				return true;
-			}
-
-		default:
-			return true;
-
 		}
+		// return true;
+		// case 3:
+		if (!AccounterValidator.validateAmount(amount.getAmount())) {
+			result.addError(amount, AccounterErrorType.amount);
+		}
+
+		// case 2:
+		// if (!adjustAccountCombo.validate()) {
+		// throw new InvalidEntryException(
+		// AccounterErrorType.REQUIRED_FIELDS);
+		// }
+		// return true;
+
+		// case 1:
+		// if (accountType == 0)
+		// return true;
+		// else {
+		// if (!vatItemCombo.validate()) {
+		// throw new InvalidEntryException(
+		// AccounterErrorType.REQUIRED_FIELDS);
+		// }
+		// return true;
+		// }
+
+		// default:
+		return result;
+
+		// }
 	}
 
 	public void saveAndUpdateView() throws Exception {

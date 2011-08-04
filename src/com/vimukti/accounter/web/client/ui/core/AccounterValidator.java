@@ -95,12 +95,11 @@ public class AccounterValidator {
 		return true;
 	}
 
-
-	public static boolean validateAmount(Double amt)
-			throws InvalidEntryException {
+	public static boolean validateAmount(Double amt) {
 		if (DecimalUtil.isLessThan(amt, 0.00)
 				|| DecimalUtil.isEquals(amt, 0.00)) {
-			throw new InvalidEntryException(AccounterErrorType.amount);
+			// throw new InvalidEntryException(AccounterErrorType.amount);
+			return false;
 		}
 		return true;
 	}
@@ -131,7 +130,6 @@ public class AccounterValidator {
 		}
 
 	}
-
 
 	// creating necessary fiscalYears
 
@@ -190,62 +188,62 @@ public class AccounterValidator {
 
 	}
 
-//	public static boolean createFiscalYears(final AbstractBaseView view,
-//			final ClientFinanceDate asofDate) {
-//		Accounter.showWarning(AccounterWarningType.Create_FiscalYear,
-//				AccounterType.WARNING, new ErrorDialogHandler() {
-//
-//					@Override
-//					public boolean onCancelClick() throws InvalidEntryException {
-//						return false;
-//					}
-//
-//					@Override
-//					public boolean onNoClick() throws InvalidEntryException {
-//						// Accounter.stopExecution();
-//						return true;
-//
-//					}
-//
-//					@Override
-//					public boolean onYesClick() throws InvalidEntryException {
-//						long convertedasOfDate = asofDate.getDate();
-//						Accounter.createHomeService()
-//								.changeFiscalYearsStartDateTo(
-//										convertedasOfDate,
-//										new AccounterAsyncCallback<Boolean>() {
-//
-//											public void onException(
-//													AccounterException caught) {
-//												Accounter
-//														.showError(Accounter
-//																.constants()
-//																.failedtoalterthefiscalyear());
-//											}
-//
-//											@SuppressWarnings("null")
-//											public void onSuccess(Boolean result) {
-//
-//												if (result != null || !result) {
-//													Accounter
-//															.showInformation(Accounter
-//																	.constants()
-//																	.fiscalYearcreated());
-//													view.validationCount--;
-//
-//												}
-//
-//											}
-//
-//										});
-//						return true;
-//
-//					}
-//
-//				});
-//		AbstractBaseView.warnOccured = true;
-//		return false;
-//	}
+	// public static boolean createFiscalYears(final AbstractBaseView view,
+	// final ClientFinanceDate asofDate) {
+	// Accounter.showWarning(AccounterWarningType.Create_FiscalYear,
+	// AccounterType.WARNING, new ErrorDialogHandler() {
+	//
+	// @Override
+	// public boolean onCancelClick() throws InvalidEntryException {
+	// return false;
+	// }
+	//
+	// @Override
+	// public boolean onNoClick() throws InvalidEntryException {
+	// // Accounter.stopExecution();
+	// return true;
+	//
+	// }
+	//
+	// @Override
+	// public boolean onYesClick() throws InvalidEntryException {
+	// long convertedasOfDate = asofDate.getDate();
+	// Accounter.createHomeService()
+	// .changeFiscalYearsStartDateTo(
+	// convertedasOfDate,
+	// new AccounterAsyncCallback<Boolean>() {
+	//
+	// public void onException(
+	// AccounterException caught) {
+	// Accounter
+	// .showError(Accounter
+	// .constants()
+	// .failedtoalterthefiscalyear());
+	// }
+	//
+	// @SuppressWarnings("null")
+	// public void onSuccess(Boolean result) {
+	//
+	// if (result != null || !result) {
+	// Accounter
+	// .showInformation(Accounter
+	// .constants()
+	// .fiscalYearcreated());
+	// view.validationCount--;
+	//
+	// }
+	//
+	// }
+	//
+	// });
+	// return true;
+	//
+	// }
+	//
+	// });
+	// AbstractBaseView.warnOccured = true;
+	// return false;
+	// }
 
 	/**
 	 * validations for all Transactions. The Transaction date should be with in
@@ -1597,15 +1595,17 @@ public class AccounterValidator {
 	}
 
 	public static boolean isPriorAsOfDate(ClientFinanceDate asOfDate,
-			final AbstractBaseView view) throws InvalidEntryException {
+			final AbstractBaseView view) {
 
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(getCompany()
 				.getPreferences().getPreventPostingBeforeDate());
 		if (asOfDate.before(companyStartDate)) {
-			throw new InvalidEntryException(AccounterErrorType.prior_asOfDate);
+			// throw new
+			// InvalidEntryException(AccounterErrorType.prior_asOfDate);
+			return true;
 			// return false;
 		}
-		return true;
+		return false;
 
 	}
 
