@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -50,6 +51,7 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 	protected boolean warnOccured = false;
 
 	public AbstractBaseView() {
+		
 		sinkEvents(Event.ONCHANGE | Event.KEYEVENTS);
 
 		initRPCService();
@@ -219,12 +221,12 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 
 	}
 
-	public boolean validate() throws Exception {
+	public ValidationResult validate() {
 		// TO BE OVERRIDEN
-		return true;
+		return new ValidationResult();
 	}
 
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		// TO BE OVERRIDDEN
 	}
 

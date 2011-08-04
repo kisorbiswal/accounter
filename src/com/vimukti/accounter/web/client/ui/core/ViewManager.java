@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptException;
+import com.google.gwt.dev.util.Callback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -1466,7 +1467,7 @@ public class ViewManager extends DockPanel {
 	}
 
 	public <T extends IAccounterCore, P extends IAccounterCore> void createObject(
-			final P core, final IAccounterWidget widget) {
+			final P core, final Callback<Boolean> callback) {
 
 		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
 				.processingRequest());
@@ -1478,7 +1479,7 @@ public class ViewManager extends DockPanel {
 		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
 
 			public void onException(AccounterException caught) {
-
+				callback.onError(caught);
 				if (caught instanceof AccounterException) {
 					AccounterException exception = (AccounterException) caught;
 					// exception.setID(currentrequestedWidget.getID());
@@ -1489,7 +1490,7 @@ public class ViewManager extends DockPanel {
 			}
 
 			public void onSuccess(Long result) {
-
+				callback.onDone(true);
 				// if (!GWT.isScript()) {
 				AccounterCommand cmd = new AccounterCommand();
 				cmd.setCommand(AccounterCommand.CREATION_SUCCESS);
@@ -1507,7 +1508,7 @@ public class ViewManager extends DockPanel {
 	}
 
 	public <T extends IAccounterCore, P extends IAccounterCore> void alterObject(
-			final P core, final IAccounterWidget widget) {
+			final P core, final Callback<Boolean> callback) {
 
 		// if (!((widget instanceof ExpenseClaimView) || (widget instanceof
 		// AwaitingAuthorisationView))) {
@@ -1836,9 +1837,9 @@ public class ViewManager extends DockPanel {
 	}
 
 	public void showErrorInCurrectDialog(String message) {
-		if (BaseDialog.errordata != null && BaseDialog.commentPanel != null) {
-			BaseDialog.errordata.setHTML("<li> " + message + ".");
-			BaseDialog.commentPanel.setVisible(true);
+		if (currentDialog.errordata != null && currentDialog.commentPanel != null) {
+			currentDialog.errordata.setHTML("<li> " + message + ".");
+			currentDialog.commentPanel.setVisible(true);
 		}
 	}
 
