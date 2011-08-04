@@ -12,8 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.mortbay.util.UrlEncoded;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ServerCompany;
@@ -111,14 +111,6 @@ public class CreateCompanyServlet extends BaseServlet {
 		}
 	}
 
-	private String base64(String str) {
-		return Base64.encode(str.getBytes());
-	}
-
-	private String base64(long num) {
-		return Base64.encode((num + "").getBytes());
-	}
-
 	/**
 	 * @return
 	 */
@@ -129,32 +121,34 @@ public class CreateCompanyServlet extends BaseServlet {
 
 		buffer.append(PARAM_SERVER_COMPANY_ID);
 		buffer.append('=');
-		buffer.append(base64(serverCompany.getID()));
+		buffer.append(new UrlEncoded(String.valueOf(serverCompany.getID()))
+				.encode());
 
 		buffer.append('&');
 		buffer.append(PARA_COMPANY_NAME);
 		buffer.append('=');
-		buffer.append(base64(serverCompany.getCompanyName()));
+		buffer.append(new UrlEncoded(serverCompany.getCompanyName()).encode());
 
 		buffer.append('&');
 		buffer.append(PARAM_COMPANY_TYPE);
 		buffer.append('=');
-		buffer.append(base64(serverCompany.getCompanyType()));
+		buffer.append(new UrlEncoded(String.valueOf(serverCompany
+				.getCompanyType())).encode());
 
 		buffer.append('&');
 		buffer.append(EMAIL_ID);
 		buffer.append('=');
-		buffer.append(base64(emailID));
+		buffer.append(new UrlEncoded(emailID).encode());
 
 		buffer.append('&');
 		buffer.append(PARAM_FIRST_NAME);
 		buffer.append('=');
-		buffer.append(base64(client.getFirstName()));
+		buffer.append(new UrlEncoded(client.getFirstName()).encode());
 
 		buffer.append('&');
 		buffer.append(PARAM_LAST_NAME);
 		buffer.append('=');
-		buffer.append(base64(client.getLastName()));
+		buffer.append(new UrlEncoded((client.getLastName())).encode());
 
 		// buffer.append('&');
 		// buffer.append(PARAM_COUNTRY);
