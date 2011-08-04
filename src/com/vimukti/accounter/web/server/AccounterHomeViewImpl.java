@@ -55,7 +55,6 @@ import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -73,7 +72,6 @@ import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.OverDueInvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
-import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
@@ -1556,16 +1554,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			return tool.getAllEmployees();
-		}
-		return null;
-	}
-
-	@Override
-	public List<PayeeStatementsList> getCustomerStatement(long customer,
-			long fromDate, long toDate) throws AccounterException {
-		FinanceTool tool = getFinanceTool();
-		if(tool != null) {
-			return tool.getCustomerStatement(customer, fromDate, toDate);
 		}
 		return null;
 	}

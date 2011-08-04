@@ -2039,4 +2039,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return resultList;
 	}
 
+	@Override
+	public List<PayeeStatementsList> getCustomerStatement(long customer,
+			long fromDate, long toDate) throws AccounterException {
+		FinanceTool tool = getFinanceTool();
+		if(tool != null) {
+			return tool.getCustomerStatement(customer, fromDate, toDate);
+		}
+		return null;
+	}
 }

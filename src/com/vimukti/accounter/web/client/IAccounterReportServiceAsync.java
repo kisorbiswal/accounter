@@ -283,4 +283,7 @@ public interface IAccounterReportServiceAsync {
 			boolean isEnabledOfNoAccountActivity,
 			boolean isEnabledOfInactiveCustomer,
 			AsyncCallback<List<PayeeStatementsList>> callBack);
+	
+	void getCustomerStatement(long customer, long fromDate, long toDate,
+			AsyncCallback<List<PayeeStatementsList>> callBack);
 }

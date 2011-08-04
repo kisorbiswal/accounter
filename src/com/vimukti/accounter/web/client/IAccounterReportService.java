@@ -236,4 +236,7 @@ public interface IAccounterReportService extends RemoteService {
 			double lessThanZeroBalanceValue,
 			boolean isEnabledOfNoAccountActivity,
 			boolean isEnabledOfInactiveCustomer);
+	
+	List<PayeeStatementsList> getCustomerStatement(long customer, long fromDate,
+			long toDate) throws AccounterException;
 }
