@@ -237,7 +237,7 @@ public class TransactionPayBillGrid extends
 	@Override
 	public void editComplete(ClientTransactionPayBill editingRecord,
 			Object value, int col) {
-
+	
 		try {
 
 			// if (value != null
