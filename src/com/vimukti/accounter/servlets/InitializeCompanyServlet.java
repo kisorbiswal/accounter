@@ -135,6 +135,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 		User user = new User();
 		user.setFirstName(request.getParameter(PARAM_FIRST_NAME));
 		user.setLastName(request.getParameter(PARAM_LAST_NAME));
+		user.setFullName(user.getFirstName() + " " + user.getLastName());
 		user.setCountry(request.getParameter(PARAM_COUNTRY));
 		user.setEmail(request.getParameter(EMAIL_ID));
 		user.setPhoneNo(request.getParameter(PARAM_PH_NO));
