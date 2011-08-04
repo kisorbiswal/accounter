@@ -23,7 +23,6 @@ import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
-import com.vimukti.comet.client.Base64;
 
 /**
  * @author Prasanna Kumar G
@@ -41,12 +40,10 @@ public class InitializeCompanyServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		String serverCompanyID = Base64.decode(req
-				.getParameter(PARAM_SERVER_COMPANY_ID));
-		String companyType = Base64
-				.decode(req.getParameter(PARAM_COMPANY_TYPE));
-		String companName = Base64.decode(req.getParameter(PARA_COMPANY_NAME));
-		String emailID = Base64.decode(req.getParameter(EMAIL_ID));
+		String serverCompanyID = req.getParameter(PARAM_SERVER_COMPANY_ID);
+		String companyType = req.getParameter(PARAM_COMPANY_TYPE);
+		String companName = req.getParameter(PARA_COMPANY_NAME);
+		String emailID = req.getParameter(EMAIL_ID);
 
 		Company company = new Company(Integer.parseInt(companyType));
 		company.setFullName(companName);
