@@ -300,11 +300,11 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 					dropDown.setKeyboardSelected(dropDown.getDisplayedItems()
 							.size() - 1, true, true);
 				}
-				// else if (event.getNativeEvent().getKeyCode() ==
-				// KeyCodes.KEY_ESCAPE
-				// && popup.isShowing()) {
-				// popup.hide();
-				// }
+				 else if (event.getNativeEvent().getKeyCode() ==
+				 KeyCodes.KEY_ESCAPE
+				 && popup.isShowing()) {
+				 popup.hide();
+				 }
 			}
 
 		});
