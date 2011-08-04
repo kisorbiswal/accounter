@@ -5375,7 +5375,7 @@ GROUP BY
 		                           					OR C.ID = CR.CUSTOMER_ID
 		                                      		OR C.ID = (SELECT CUSTOMER_ID FROM ENTRY E WHERE E.TRANSACTION_ID = T.ID AND E.CUSTOMER_ID IS NOT NULL)
 
-						WHERE C.ID =:customerId AND T.T_DATE &lt;:fromDate
+						WHERE C.ID =:customerId AND CASE WHEN T.T_TYPE != 16 THEN T.T_DATE &lt;:fromDate ELSE TRUE END
 						GROUP BY C.ID) IS NOT NULL
 								THEN (SELECT SUM(T.TOTAL) FROM TRANSACTION T
 											LEFT OUTER JOIN INVOICE I ON I.ID = T.ID
@@ -5387,7 +5387,7 @@ GROUP BY
 		                          										OR C.ID = CS.CUSTOMER_ID
 		                           										OR C.ID = CR.CUSTOMER_ID
 		                                     							OR C.ID = (SELECT CUSTOMER_ID FROM ENTRY E WHERE E.TRANSACTION_ID = T.ID AND E.CUSTOMER_ID IS NOT NULL)
-						WHERE C.ID =:customerId AND T.T_DATE &lt;:fromDate
+						WHERE C.ID =:customerId AND CASE WHEN T.T_TYPE != 16 THEN T.T_DATE &lt;:fromDate ELSE TRUE END
 						GROUP BY C.ID)
 							ELSE 0
 						END - CASE WHEN (SELECT T.TOTAL FROM TRANSACTION T
