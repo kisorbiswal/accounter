@@ -181,7 +181,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	private CashSalesView CashSalesView;
 
-	private ClientCustomer customer;
+	protected ClientCustomer customer;
 
 	@Override
 	protected void initTransactionViewData() {
@@ -915,8 +915,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
+	public boolean validate() {
 
 		switch (validationCount) {
 		// The following 3 cases are for all Customer transactions.
