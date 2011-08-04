@@ -4,18 +4,14 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
 public class WarehouseListView extends BaseListView<ClientStockTransfer> {
 
-	private AccounterConstants customerConstants;
-
 	@Override
 	public void init() {
-		customerConstants = Accounter.constants();
 		super.init();
 	}
 
@@ -41,7 +37,6 @@ public class WarehouseListView extends BaseListView<ClientStockTransfer> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -77,19 +72,17 @@ public class WarehouseListView extends BaseListView<ClientStockTransfer> {
 
 	@Override
 	protected String getListViewHeading() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.constants().warehouseList();
 	}
 
 	@Override
 	protected Action getAddNewAction() {
-		// TODO Auto-generated method stub
-		return null;
+		return ActionFactory.getWareHouseViewAction();
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return Accounter.constants().warehouseList();
+		return Accounter.constants().wareHouse();
 	}
 
 	@Override
