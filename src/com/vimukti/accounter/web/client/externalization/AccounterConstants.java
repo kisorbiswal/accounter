@@ -4390,6 +4390,4 @@ public interface AccounterConstants extends Constants {
 
 	public String addNewWareHouse();
 
-	public String addaNewWareHouse();
-
 }
