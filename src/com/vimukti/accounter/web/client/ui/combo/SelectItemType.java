@@ -64,12 +64,14 @@ public enum SelectItemType {
 
 	VAT_ITEM(ActionFactory.getNewVatItemAction()),
 
+	WAREHOUSE(ActionFactory.getWareHouseViewAction()),
+
 	TAX_CODE(ActionFactory.getAddEditSalesTaxCodeAction()), SHIP_TO, PHONE, EMAIL, FAX, CURRENCY;
 
 	private Action action;
-	
+
 	private AccounterAsyncCallback<IsSerializable> callback;
-	
+
 	private BaseDialog dialog;
 
 	SelectItemType() {
@@ -88,13 +90,11 @@ public enum SelectItemType {
 		return action;
 	}
 
-	
 	SelectItemType(BaseDialog dialog) {
 
 		this.dialog = dialog;
 	}
 
-	
 	public BaseDialog getDialog() {
 		return dialog;
 	}
