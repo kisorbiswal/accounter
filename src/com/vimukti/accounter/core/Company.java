@@ -732,7 +732,9 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	public Company(int accountingType) {
 		this.accountingType = accountingType;
 		tradingAddress = new Address();
+		tradingAddress.type = Address.TYPE_COMPANY;
 		registeredAddress = new Address();
+		registeredAddress.type = Address.TYPE_COMPANY_REGISTRATION;
 	}
 
 	public void initialize() {
@@ -4210,8 +4212,8 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 		cmp.legalName = this.getTradingName();
 		cmp.companyEmail = this.getCompanyEmail();
-		cmp.setRegisteredAddress(this.getRegisteredAddress());
-		cmp.setTradingAddress(this.getTradingAddress());
+		cmp.tradingAddress = this.getRegisteredAddress();
+		cmp.registeredAddress = this.getTradingAddress();
 		cmp.companyEmailForCustomers = this.getCompanyEmailForCustomers();
 		cmp.contact = this.getContact();
 		cmp.ein = this.getEin();

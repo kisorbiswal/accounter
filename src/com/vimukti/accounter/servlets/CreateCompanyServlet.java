@@ -78,6 +78,7 @@ public class CreateCompanyServlet extends BaseServlet {
 				request.setAttribute("message", "Company creation failed."
 						+ connection.getResponseMessage());
 				dispatch(request, response, view);
+				return;
 			}
 
 		} catch (IOException e1) {
