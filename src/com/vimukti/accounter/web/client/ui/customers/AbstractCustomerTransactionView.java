@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -916,11 +917,12 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	public boolean validate() {
 
 		ValidationResult result = new ValidationResult();
-		switch (validationCount) {
-		// The following 3 cases are for all Customer transactions.
-		case 9:
-			return AccounterValidator
-					.validateTransactionDate(this.transactionDate);
+			if(!AccounterValidator
+					.validateTransactionDate(this.transactionDate)) {
+				result.addError(transactionDateItem, AccounterErrorType.InvalidTransactionDate);
+			}else if(AccounterValidator.isInPreventPostingBeforeDate(this.transactionDate)) {
+				result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
+			}
 
 		case 8:
 			return AccounterValidator.validateForm(custForm, false);

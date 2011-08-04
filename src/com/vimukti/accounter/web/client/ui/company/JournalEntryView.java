@@ -98,8 +98,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		if (!AccounterValidator.validateTransactionDate(getTransactionDate())) {
 			result.addError(transactionDateItem,
 					AccounterErrorType.InvalidTransactionDate);
-		}
-		if (AccounterValidator
+		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
 			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
 		}

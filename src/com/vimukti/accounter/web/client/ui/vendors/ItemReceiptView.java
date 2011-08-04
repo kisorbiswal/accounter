@@ -584,9 +584,8 @@ public class ItemReceiptView extends
 		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
 			result.addError(transactionDate,
 					AccounterErrorType.InvalidTransactionDate);
-		}
-
-		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+		} else if (AccounterValidator
+				.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate, AccounterErrorType.InvalidDate);
 		}
 		result.add(vendorForm.validate());

@@ -208,8 +208,7 @@ ValidationResult result = new ValidationResult();
 //		case 5:
 			if(!AccounterValidator.validateTransactionDate(transactionDate)) {
 				result.addError(transactionDateItem, AccounterErrorType.InvalidTransactionDate);
-			}
-			if(AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			}else if(AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 				result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
 			}
 //		case 4:
