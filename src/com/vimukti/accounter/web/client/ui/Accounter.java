@@ -240,7 +240,7 @@ public class Accounter implements EntryPoint {
 		return Accounter.getCompany().getName();
 	}
 
-	public boolean isLoggedInFromDomain() {
+	public static boolean isLoggedInFromDomain() {
 		// TODO Auto-generated method stub
 		return false;
 	}

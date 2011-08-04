@@ -31,31 +31,27 @@ public class Header extends HorizontalPanel {
 	private String gettingStartedStatus = Accounter.constants()
 			.hideGettingStarted();
 	private MenuBar helpBar;
-	private Accounter accounter;
 
-	public Header(Accounter accounter) {
-		this.accounter = accounter;
-		createControls();
-	}
 
 	/**
 	 * Creates new Instance
 	 */
 	public Header() {
+		createControls();
 	}
 
 	private void createControls() {
 
-		companyName = new Label(accounter.getCompanyName());
+		companyName = new Label(Accounter.getCompany().getDisplayName());
 		companyName.addStyleName("companyName");
 		userImage = new Image("images/User.png");
 		userImage.getElement().getStyle().setPaddingBottom(4, Unit.PX);
 		userName = new HTML("<a><font color=\"#3299A4\">"
-				+ Accounter.messages().userName(accounter.getUserDisplayName())
+				+ Accounter.messages().userName(Accounter.getUser().getDisplayName())
 				+ "<font></a>");
 		userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 
-		if (!accounter.isLoggedInFromDomain()) {
+		if (!Accounter.isLoggedInFromDomain()) {
 			userName.getElement().getStyle()
 					.setTextDecoration(TextDecoration.UNDERLINE);
 			userName.getElement().getStyle().setCursor(Cursor.POINTER);

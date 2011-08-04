@@ -47,7 +47,6 @@ public class MainFinanceWindow extends VerticalPanel {
 	private HelpItem item;
 	public Map<String, Action> actions;
 
-	private static Accounter accounter;
 
 	public static String oldToken;
 	public static boolean shouldExecuteRun = true;
