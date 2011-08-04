@@ -2,8 +2,9 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.WidgetCollection;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 
-public abstract class ParentCanvas<T> extends VerticalPanel  {
+public abstract class ParentCanvas<T> extends VerticalPanel {
 
 	abstract public void init();
 
@@ -15,14 +16,7 @@ public abstract class ParentCanvas<T> extends VerticalPanel  {
 	 * Flag, to Determine, whether in Edit Mode or Create mode.
 	 */
 
-	private T data;
-
-
-
-
-	public void close() {
-	}
-
+	protected T data;
 
 	public T getData() {
 		return data;
@@ -30,6 +24,10 @@ public abstract class ParentCanvas<T> extends VerticalPanel  {
 
 	public void setData(T data) {
 		this.data = data;
+	}
+
+	public void close() {
+		MainFinanceWindow.getViewManager().closeCurrentView();
 	}
 
 	// public void setHasHistory(boolean hasHistory) {
@@ -52,7 +50,6 @@ public abstract class ParentCanvas<T> extends VerticalPanel  {
 			return action.getText();
 	}
 
-
 	public boolean shouldSaveInHistory() {
 		return false;
 	}
@@ -60,7 +57,6 @@ public abstract class ParentCanvas<T> extends VerticalPanel  {
 	public boolean isAListView() {
 		return false;
 	}
-
 
 	public void disableUserEntry() {
 

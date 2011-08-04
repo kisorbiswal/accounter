@@ -1,13 +1,11 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingSummaryServerReport;
-
 
 public class ARAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 
@@ -53,11 +51,6 @@ public class ARAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 
 	@Override
 	public void printPreview() {
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
 	}
 

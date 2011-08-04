@@ -368,9 +368,4 @@ public class ApplyCreditDialog extends BaseDialog {
 
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().applyCreditsandPayments();
-	}
-
 }

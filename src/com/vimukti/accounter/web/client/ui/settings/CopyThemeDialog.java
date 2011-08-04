@@ -132,8 +132,4 @@ public class CopyThemeDialog extends BaseDialog {
 		ActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().copyTheme();
-	}
 }

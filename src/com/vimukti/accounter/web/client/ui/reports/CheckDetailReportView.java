@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -322,11 +321,6 @@ public class CheckDetailReportView extends
 
 	@Override
 	public void printPreview() {
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
 	}
 

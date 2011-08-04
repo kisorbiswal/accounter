@@ -31,7 +31,6 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 	private void getListFiscalYear() {
 
-		
 		AccounterAsyncCallback<List<ClientFiscalYear>> callback = new AccounterAsyncCallback<List<ClientFiscalYear>>() {
 
 			public void onException(AccounterException caught) {
@@ -49,7 +48,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	}
 
 	protected void fillFiscalYear(List<ClientFiscalYear> result) {
-		
+
 		String period, status;
 		// if (result != null) {
 		// // ListGridRecord[] records = new ListGridRecord[result.size()];
@@ -168,11 +167,6 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	}
 
 	public void editCallBack() {
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().fiscalYear();
 	}
 
 }

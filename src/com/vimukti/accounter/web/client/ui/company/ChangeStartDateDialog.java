@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-
 public class ChangeStartDateDialog extends BaseDialog {
 
 	public ChangeStartDateDialog(String title, String desc) {
@@ -63,11 +62,6 @@ public class ChangeStartDateDialog extends BaseDialog {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().changeStartDate();
 	}
 
 }

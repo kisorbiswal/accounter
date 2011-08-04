@@ -181,9 +181,4 @@ public class CashDiscountDialog extends BaseDialog {
 
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().cashDiscount();
-	}
-
 }

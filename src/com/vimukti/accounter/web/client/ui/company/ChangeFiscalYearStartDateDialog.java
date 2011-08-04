@@ -257,9 +257,4 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		}
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().changeStartDate();
-	}
-
 }

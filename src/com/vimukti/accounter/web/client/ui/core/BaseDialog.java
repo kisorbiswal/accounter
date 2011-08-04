@@ -1,10 +1,14 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -12,13 +16,15 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
 /**
  * Base Dialog is abstract class which provides common ground for all small
@@ -27,7 +33,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * @author kumar kasimala
  * 
  */
-public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
+public abstract class BaseDialog extends CustomDialog implements
+		IAccounterWidget {
 
 	// private String title;
 	protected HorizontalPanel headerLayout;
@@ -44,14 +51,23 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	protected IAccounterHomeViewServiceAsync rpcUtilService;
 	protected ClientCompany company;
 	protected VerticalPanel mainPanel, mainVLayPanel;
-	public HTML errordata;
-	public VerticalPanel commentPanel;
+	public VerticalPanel errorPanel;
+	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
 
-	public BaseDialog(String title, String desc) {
+	/**
+	 * Creates new Instance
+	 */
+	public BaseDialog() {
+	}
 
-		super(title);
+	public BaseDialog(String text) {
+		setText(text);
+	}
+
+	public BaseDialog(String text, String desc) {
+
 		// setText(getViewTitle());
-		setText(title);
+		setText(text);
 		setModal(true);
 		this.description = desc;
 		initCompany();
@@ -63,8 +79,6 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		sinkEvents(Event.ONKEYPRESS);
 		sinkEvents(Event.ONMOUSEOVER);
 	}
-
-	protected abstract String getViewTitle();
 
 	protected void initConstants() {
 		try {
@@ -86,9 +100,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	}
 
 	protected void initCompany() {
-
-		this.company = getCompany();
-
+		this.company = Accounter.getCompany();
 	}
 
 	private void createControls() {
@@ -98,9 +110,11 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		 */
 		headerLayout = new HorizontalPanel();
 		headerLayout.setWidth("100%");
-		Label label = new Label();
-		label.setText(description);
-		headerLayout.add(label);
+		if (description != null) {
+			Label label = new Label();
+			label.setText(description);
+			headerLayout.add(label);
+		}
 
 		/**
 		 * Body LayOut
@@ -156,15 +170,12 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		 */
 
 		mainPanel = new VerticalPanel();
-		commentPanel = new VerticalPanel();
-		commentPanel.setVisible(false);
-		commentPanel.addStyleName("dialog_commentPanel");
-		errordata = new HTML();
-		errordata.addStyleName("error-data");
-		commentPanel.add(errordata);
+		errorPanel = new VerticalPanel();
+		errorPanel.setVisible(false);
+		errorPanel.addStyleName("dialog_commentPanel");
 		mainPanel.setSize("100%", "100%");
 		// mainPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
-		mainPanel.add(commentPanel);
+		mainPanel.add(errorPanel);
 		mainPanel.add(headerLayout);
 		mainPanel.setCellVerticalAlignment(headerLayout,
 				HasVerticalAlignment.ALIGN_TOP);
@@ -209,8 +220,7 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	 * Called when Ok button clicked
 	 */
 	protected void okClicked() {
-		errordata.setHTML("");
-		commentPanel.setVisible(false);
+		clearAllErrors();
 		okbtn.setFocus(true);
 		if (dialogHandler != null)
 			if (dialogHandler.onOkClick()) {
@@ -230,7 +240,6 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 		this.dialogHandler = handler;
 	}
 
-	
 	public static BaseDialog newInstance() {
 		return null;
 	}
@@ -254,6 +263,73 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 			break;
 		}
 		super.onBrowserEvent(event);
+	}
+
+	/**
+	 * Adds Error
+	 * 
+	 * @param item
+	 * @param erroMsg
+	 */
+	public void addError(Object item, String erroMsg) {
+		HTML error = new HTML("<li>" + erroMsg + "</li>");
+		this.errorPanel.add(error);
+		this.errorPanel.setVisible(true);
+		this.errorsMap.put(item, error);
+	}
+
+	/**
+	 * Clears All Errors
+	 */
+	public void clearAllErrors() {
+		this.errorsMap.clear();
+		this.errorPanel.clear();
+		this.errorPanel.setVisible(false);
+	}
+
+	/**
+	 * Clears the given Error
+	 * 
+	 * @param obj
+	 */
+	public void clearErro(Object obj) {
+		Widget remove = this.errorsMap.remove(obj);
+		if (remove != null) {
+			this.errorPanel.remove(remove);
+			if (this.errorsMap.isEmpty()) {
+				errorPanel.setVisible(false);
+			}
+		}
+	}
+
+	public Object getGridColumnValue(IsSerializable obj, int index) {
+		return null;
+	}
+
+	protected ClientCompany getCompany() {
+		return company;
+	}
+
+	public void deleteFailed(Throwable caught) {
+
+	}
+
+	public void deleteSuccess(Boolean result) {
+
+	}
+
+	public void saveFailed(Throwable exception) {
+
+	}
+
+	public void saveSuccess(IAccounterCore object) {
+	}
+
+	// }
+
+	protected boolean validate() throws InvalidTransactionEntryException,
+			InvalidEntryException {
+		return true;
 	}
 
 }

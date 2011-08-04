@@ -31,7 +31,6 @@ public class CashExpenseView extends CashPurchaseView {
 
 	public CashExpenseView() {
 		super(ClientTransaction.TYPE_CASH_EXPENSE);
-		this.validationCount = 6;
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-
 public class AddPriceLevelDialog extends BaseDialog {
 
 	public TextItem levelText;
@@ -44,8 +43,8 @@ public class AddPriceLevelDialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 				setIncrOrDecrPercentValue(levelRadio.getValue().toString());
 			}
-		}, Accounter.constants().decreasePriceLevelByThisPercentage(), Accounter
-				.constants().increasePriceLevelByThisPercentage());
+		}, Accounter.constants().decreasePriceLevelByThisPercentage(),
+				Accounter.constants().increasePriceLevelByThisPercentage());
 		levelRadio.setDefaultValue(Accounter.constants()
 				.increasePriceLevelByThisPercentage());
 		setIncrOrDecrPercentValue(Accounter.constants()
@@ -98,11 +97,6 @@ public class AddPriceLevelDialog extends BaseDialog {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().priceLevel();
 	}
 
 }

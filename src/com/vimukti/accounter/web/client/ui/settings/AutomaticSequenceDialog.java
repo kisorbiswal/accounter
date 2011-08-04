@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
-
 public class AutomaticSequenceDialog extends BaseDialog {
 
 	private HTML paraHTML;
@@ -83,8 +82,4 @@ public class AutomaticSequenceDialog extends BaseDialog {
 		mainPanel.add(subLayoutPanel);
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().automaticSequencing();
-	}
 }

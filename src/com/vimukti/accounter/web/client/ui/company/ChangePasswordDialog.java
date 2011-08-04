@@ -156,9 +156,4 @@ public class ChangePasswordDialog extends BaseDialog {
 		// }
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().changePassword();
-	}
-
 }

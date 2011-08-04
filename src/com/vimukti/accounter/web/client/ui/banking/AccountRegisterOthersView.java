@@ -9,10 +9,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -245,16 +243,6 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
 	public void fitToSize(int height, int width) {
 
 		if (grid.isShowFooter())
@@ -263,11 +251,6 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 			grid.setHeight(height - TOP + "px");
 
 		grid.setWidth(width - BORDER + "px");
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
 	}
 
@@ -284,11 +267,6 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 	@Override
 	public void printPreview() {
 
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().accountRegister();
 	}
 
 }

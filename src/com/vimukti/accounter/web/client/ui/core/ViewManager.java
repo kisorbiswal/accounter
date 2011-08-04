@@ -70,8 +70,6 @@ public class ViewManager extends DockPanel {
 
 	private int index;
 
-	private static ViewManager viewManagerInstance;
-
 	private ArrayList<History> historyList;
 
 	/**
@@ -148,7 +146,6 @@ public class ViewManager extends DockPanel {
 
 	@SuppressWarnings("serial")
 	public ViewManager(MainFinanceWindow financeWindow) {
-		viewManagerInstance = this;
 		index = -1;
 		historyList = new ArrayList<History>() {
 			@Override
@@ -1001,7 +998,8 @@ public class ViewManager extends DockPanel {
 	 */
 	public static ViewManager getInstance() {
 
-		return viewManagerInstance;
+		return MainFinanceWindow.getViewManager();
+
 	}
 
 	/**
@@ -1011,7 +1009,7 @@ public class ViewManager extends DockPanel {
 	 */
 	public static ViewManager getInstance(boolean isSalesOrPurchases) {
 
-		return viewManagerInstance;
+		return MainFinanceWindow.getViewManager();
 
 	}
 
@@ -1297,10 +1295,11 @@ public class ViewManager extends DockPanel {
 	public static void updateComboDataInViews(SelectItemType selectItemType,
 			IAccounterCore accounterCoreObject) {
 
-		if (viewManagerInstance == null)
+		if (MainFinanceWindow.getViewManager() == null)
 			return;
 
-		for (History history : viewManagerInstance.getHistoryList()) {
+		for (History history : MainFinanceWindow.getViewManager()
+				.getHistoryList()) {
 			ParentCanvas canvas = history.getView();
 			updateComboDataInViews(selectItemType, accounterCoreObject, canvas);
 		}

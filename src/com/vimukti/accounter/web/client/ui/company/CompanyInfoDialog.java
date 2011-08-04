@@ -476,9 +476,4 @@ public class CompanyInfoDialog extends BaseDialog {
 		return true;
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().companyInformation();
-	}
-
 }

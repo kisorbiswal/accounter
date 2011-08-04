@@ -38,8 +38,6 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
-import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUKGrid;
-import com.vimukti.accounter.web.client.ui.grids.VendorTransactionUSGrid;
 
 /**
  * d
@@ -92,6 +90,8 @@ public abstract class AbstractVendorTransactionView<T> extends
 	protected List<ClientAccount> payFromAccounts;
 	protected ClientAddress billingAddress;
 	protected List<ClientPaymentTerms> paymentTermsList;
+
+	private ClientVendor vendor;
 
 	protected void initTransactionTotalNonEditableItem() {
 	}

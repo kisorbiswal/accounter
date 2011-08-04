@@ -71,8 +71,4 @@ public class AddEditFiscalYearDialog extends BaseDialog {
 
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().fiscalYear();
-	}
 }

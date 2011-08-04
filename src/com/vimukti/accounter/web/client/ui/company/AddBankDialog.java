@@ -5,26 +5,27 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
+public class AddBankDialog extends BaseDialog {
 
 	private TextItem bankNameText;
+	private AccounterAsyncCallback<ClientBank> callBack;
 
 	public AddBankDialog(AbstractBaseView<ClientBank> parent) {
-		super(parent);
-		company = getCompany();
+		super(Accounter.constants().addBank(), null);
 		createControls();
 		center();
 	}
@@ -38,9 +39,11 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 		final DynamicForm bankForm = new DynamicForm();
 		bankForm.setFields(bankNameText);
 
-		AccounterButton helpButt = new AccounterButton(Accounter.constants().help());
+		AccounterButton helpButt = new AccounterButton(Accounter.constants()
+				.help());
 		AccounterButton okButt = new AccounterButton(Accounter.constants().ok());
-		AccounterButton canButt = new AccounterButton(Accounter.constants().cancel());
+		AccounterButton canButt = new AccounterButton(Accounter.constants()
+				.cancel());
 
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.setWidth("50%");
@@ -85,7 +88,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 	protected void createBank() {
 		final ClientBank bank = new ClientBank();
 		bank.setName(UIUtils.toStr(bankNameText.getValue()));
-		if (Utility.isObjectExist(getCompany().getTaxItems(), bank.getName())) {
+		if (Utility.isObjectExist(company.getTaxItems(), bank.getName())) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else {
 			ViewManager.getInstance().createObject(bank, this);
@@ -105,8 +108,7 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 
 	@Override
 	public void saveFailed(Throwable exception) {
-		Accounter
-				.showError(Accounter.constants().failedToCreateBank());
+		Accounter.showError(Accounter.constants().failedToCreateBank());
 		super.saveFailed(exception);
 	}
 
@@ -116,6 +118,8 @@ public class AddBankDialog extends AbstractBaseDialog<ClientBank> {
 
 	}
 
-	// Accounter.constants().addBank()
+	public void addCallBack(AccounterAsyncCallback<ClientBank> callback) {
+		this.callBack = callback;
+	}
 
 }

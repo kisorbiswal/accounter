@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -43,6 +44,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 	private RecordAddhandler recordAddhandler;
 
 	private boolean isEdit;
+	private AccounterAsyncCallback<T> callBack;
 
 	public GroupDialog(String title, String descript) {
 		super(title, descript);
@@ -403,5 +405,9 @@ public abstract class GroupDialog<T> extends BaseDialog {
 			}
 		}
 
+	}
+
+	public void addCallBack(AccounterAsyncCallback<T> callback) {
+		this.callBack = callback;
 	}
 }

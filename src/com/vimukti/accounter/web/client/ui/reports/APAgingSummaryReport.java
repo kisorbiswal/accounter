@@ -1,14 +1,12 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
-
 
 public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 
@@ -21,8 +19,7 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record,
-				ActionFactory.getAorpAgingDetailAction());
+		UIUtils.runAction(record, ActionFactory.getAorpAgingDetailAction());
 
 	}
 
@@ -55,11 +52,6 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 
 	@Override
 	public void printPreview() {
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
 	}
 

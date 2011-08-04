@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -43,11 +42,6 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			ReportsRPC.openTransactionView(record.getType(),
 					record.getTransactionId());
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
 	}
 
 	@Override

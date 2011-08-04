@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-
 public class AddItemTaxDialog extends BaseDialog {
 
 	public TextItem taxText;
@@ -30,9 +29,8 @@ public class AddItemTaxDialog extends BaseDialog {
 		taxableRadio = new RadioGroupItem();
 		taxableRadio.setColSpan(1);
 		taxableRadio.setShowTitle(false);
-		taxableRadio.setValueMap(Accounter.constants()
-				.taxable(), Accounter.constants()
-				.nonTaxable());
+		taxableRadio.setValueMap(Accounter.constants().taxable(), Accounter
+				.constants().nonTaxable());
 
 		form = new DynamicForm();
 		form.setNumCols(4);
@@ -76,12 +74,6 @@ public class AddItemTaxDialog extends BaseDialog {
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants()
-				.vatItem(), Accounter.constants().taxItem());
 	}
 
 }

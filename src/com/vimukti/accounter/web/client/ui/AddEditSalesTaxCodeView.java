@@ -57,7 +57,6 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	public AddEditSalesTaxCodeView(String title) {
 		this.title = title;
 		info = Accounter.constants().addOrEdit() + " " + title;
-		validationCount = 1;
 		// FinanceApplication.constants().codeToEnterNew()
 		// + title
 		// + FinanceApplication.constants()

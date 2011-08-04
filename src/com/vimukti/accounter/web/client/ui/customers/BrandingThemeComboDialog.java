@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-
 public class BrandingThemeComboDialog extends BaseDialog {
 	private BrandingThemeCombo brandingThemeTypeCombo;
 	private ClientTransaction clientTransaction;
@@ -38,8 +37,8 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter
-				.constants().selectTheme());
+		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.constants()
+				.selectTheme());
 		brandingTheme = new ClientBrandingTheme();
 		brandingThemeTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBrandingTheme>() {
@@ -56,8 +55,8 @@ public class BrandingThemeComboDialog extends BaseDialog {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (brandingThemeTypeCombo.getSelectedValue().equals(null)) {
-					brandingThemeTypeCombo.setSelected(Accounter
-							.constants().standardTheme());
+					brandingThemeTypeCombo.setSelected(Accounter.constants()
+							.standardTheme());
 				}
 				print();
 				hide();
@@ -88,8 +87,4 @@ public class BrandingThemeComboDialog extends BaseDialog {
 				ClientTransaction.TYPE_INVOICE, brandingTheme.getID());
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().selectThemes();
-	}
 }

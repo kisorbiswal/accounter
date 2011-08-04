@@ -15,6 +15,9 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
@@ -25,7 +28,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CustomButton;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -52,6 +54,8 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 
 		initRPCService();
 		this.addStyleName("abstract_base_view");
+		this.errorPanel = new VerticalPanel();
+		this.errorPanel.addStyleName("errors");
 	}
 
 	protected abstract String getViewTitle();
@@ -142,6 +146,8 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 
 	private boolean isViewModfied;
 	protected boolean isEdit;
+	private VerticalPanel errorPanel;
+	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
 
 	/**
 	 * Convenience Method to Set CallBack
@@ -271,7 +277,6 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 
 	}
 
-
 	public List<CustomCombo> getComboItems() {
 
 		ArrayList<CustomCombo> items = new ArrayList<CustomCombo>();
@@ -374,6 +379,43 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 	public ClientCompany getCompany() {
 		return Accounter.getCompany();
 
+	}
+
+	/**
+	 * Adds Error
+	 * 
+	 * @param item
+	 * @param erroMsg
+	 */
+	public void addError(Object item, String erroMsg) {
+		HTML error = new HTML("<li>" + erroMsg + "</li>");
+		this.errorPanel.add(error);
+		this.errorPanel.setVisible(true);
+		this.errorsMap.put(item, error);
+	}
+
+	/**
+	 * Clears All Errors
+	 */
+	public void clearAllErrors() {
+		this.errorsMap.clear();
+		this.errorPanel.clear();
+		this.errorPanel.setVisible(false);
+	}
+
+	/**
+	 * Clears the given Error
+	 * 
+	 * @param obj
+	 */
+	public void clearError(Object obj) {
+		Widget remove = this.errorsMap.remove(obj);
+		if (remove != null) {
+			this.errorPanel.remove(remove);
+			if (this.errorsMap.isEmpty()) {
+				errorPanel.setVisible(false);
+			}
+		}
 	}
 
 }

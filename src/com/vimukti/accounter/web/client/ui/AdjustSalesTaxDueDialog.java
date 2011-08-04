@@ -28,42 +28,37 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		Label lab1 = new Label(Accounter.constants()
-				.adjustSalesTax());
+		Label lab1 = new Label(Accounter.constants().adjustSalesTax());
 		// lab1.setWrap(false);
 		// lab1.setAutoFit(true);
 
-		Label lab2 = new Label(Accounter.constants()
-				.selectDate());
+		Label lab2 = new Label(Accounter.constants().selectDate());
 		lab2.setHeight("1");
 		// lab2.setOverflow(Overflow.VISIBLE);
 		// lab2.setWrap(false);
 		lab2.setWidth("100%");
 
-		DateItem effectDate = UIUtils.date(Accounter
-				.constants().dateEffective());
+		DateItem effectDate = UIUtils.date(Accounter.constants()
+				.dateEffective());
 		effectDate.setRequired(true);
 
-		IntegerField entryText = new IntegerField(Accounter
-				.constants().journalEntryNo());
+		IntegerField entryText = new IntegerField(Accounter.constants()
+				.journalEntryNo());
 
-		SelectItem incSelect = new SelectItem(Accounter
-				.constants().taxIncome());
+		SelectItem incSelect = new SelectItem(Accounter.constants().taxIncome());
 		incSelect.setRequired(true);
 
-		SelectItem codeSelect = new SelectItem(Accounter
-				.constants().taxCodeAdjust());
+		SelectItem codeSelect = new SelectItem(Accounter.constants()
+				.taxCodeAdjust());
 		codeSelect.setRequired(true);
 
-		RadioGroupItem incDecRadio = new RadioGroupItem(Accounter
-				.constants().adjust());
+		RadioGroupItem incDecRadio = new RadioGroupItem(Accounter.constants()
+				.adjust());
 
-		incDecRadio.setValueMap(Accounter.constants()
-				.increase(), Accounter.constants()
-				.decrease());
+		incDecRadio.setValueMap(Accounter.constants().increase(), Accounter
+				.constants().decrease());
 
-		AmountField amtText = new AmountField(Accounter
-				.constants().amount());
+		AmountField amtText = new AmountField(Accounter.constants().amount());
 		TextItem memoText = new TextItem();
 		memoText.setTitle(Accounter.constants().memo());
 
@@ -125,10 +120,5 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().adjustSalesTax();
 	}
 }

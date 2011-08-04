@@ -21,16 +21,16 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class CustomerQuoteListDialog extends AbstractBaseDialog {
+public class CustomerQuoteListDialog extends BaseDialog {
 	public DialogGrid grid;
 	private InvoiceView invoiceView;
 	private List<EstimatesAndSalesOrdersList> estimatesAndSalesOrder;
@@ -42,7 +42,6 @@ public class CustomerQuoteListDialog extends AbstractBaseDialog {
 
 	public CustomerQuoteListDialog(InvoiceView parentView,
 			List<EstimatesAndSalesOrdersList> estimatesAndSalesOrder) {
-		super(parentView);
 		invoiceView = parentView;
 		this.estimatesAndSalesOrder = estimatesAndSalesOrder;
 		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
