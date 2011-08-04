@@ -44,8 +44,8 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	protected IAccounterHomeViewServiceAsync rpcUtilService;
 	protected ClientCompany company;
 	protected VerticalPanel mainPanel, mainVLayPanel;
-	public static HTML errordata;
-	public static VerticalPanel commentPanel;
+	public HTML errordata;
+	public VerticalPanel commentPanel;
 
 	public BaseDialog(String title, String desc) {
 
@@ -209,8 +209,8 @@ public abstract class BaseDialog<T> extends AbstractBaseDialog<T> {
 	 * Called when Ok button clicked
 	 */
 	protected void okClicked() {
-		BaseDialog.errordata.setHTML("");
-		BaseDialog.commentPanel.setVisible(false);
+		errordata.setHTML("");
+		commentPanel.setVisible(false);
 		okbtn.setFocus(true);
 		if (dialogHandler != null)
 			if (dialogHandler.onOkClick()) {
