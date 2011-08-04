@@ -212,10 +212,10 @@ public class CashExpenseView extends CashPurchaseView {
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().service());
+					.constants().serviceItem());
 		else
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().service());
+					.constants().serviceItem());
 	}
 
 	@Override

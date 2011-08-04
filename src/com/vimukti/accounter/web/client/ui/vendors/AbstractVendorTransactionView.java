@@ -143,10 +143,12 @@ public abstract class AbstractVendorTransactionView<T> extends
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().service(), Accounter.constants().product());
+					.constants().serviceItem(), Accounter.constants()
+					.productItem());
 		else
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().service(), Accounter.constants().product());
+					.constants().serviceItem(), Accounter.constants()
+					.productItem());
 	}
 
 	protected void initVendors() {
@@ -615,7 +617,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 						.getTAXCode() != 0 ? vendor.getTAXCode() : staxCodeid)
 						: 0);
 			}
-		} else if (menuItem.equals(Accounter.constants().product())) {
+		} else if (menuItem.equals(Accounter.constants().productItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
@@ -629,7 +631,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 						.getTAXCode() != 0 ? vendor.getTAXCode() : staxCodeid)
 						: 0);
 			}
-		} else if (menuItem.equals(Accounter.constants().service())) {
+		} else if (menuItem.equals(Accounter.constants().serviceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long ztaxCodeid = 0;
