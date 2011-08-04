@@ -30,6 +30,11 @@ import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
  */
 public class InitializeCompanyServlet extends BaseServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
