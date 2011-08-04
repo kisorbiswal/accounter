@@ -83,7 +83,7 @@
 		      <a href="/forgotpassword" id="forget-link1" tabindex="5"> Lost your password?</a>
 		   </div>
 		    <div class="form-bottom-options">
-		      <a href="/signup" id="forget-link1" tabindex="6"> Try Accounter For Free?</a>
+		      <a href="/signup" id="forget-link1" tabindex="6"> Sign up Accounter?</a>
 		   </div>
 		</div>
 		
