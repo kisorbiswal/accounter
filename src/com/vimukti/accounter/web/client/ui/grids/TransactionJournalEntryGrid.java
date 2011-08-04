@@ -580,17 +580,15 @@ public class TransactionJournalEntryGrid extends
 				editingRecord.setMemo(value.toString());
 				break;
 			case 4:
-				Double val = getAmountInBaseCurrency(((Double) value)
-						.doubleValue());
+				Double val = DataUtils.getReformatedAmount(value.toString());
 				editingRecord.setCredit(0.0d);
-				editingRecord.setDebit(val);
+				editingRecord.setDebit(getAmountInBaseCurrency(val));
 				break;
 			case 5:
-				Double crd = getAmountInBaseCurrency(((Double) value)
-						.doubleValue());
+				Double crd = DataUtils.getReformatedAmount(value.toString());
 
 				editingRecord.setDebit(0.0d);
-				editingRecord.setCredit(crd);
+				editingRecord.setCredit(getAmountInBaseCurrency(crd));
 				break;
 
 			// case 7:
