@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.List;
 
-import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.Utility;
