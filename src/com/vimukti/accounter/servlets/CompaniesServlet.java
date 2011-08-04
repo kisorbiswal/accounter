@@ -41,6 +41,15 @@ public class CompaniesServlet extends BaseServlet {
 			redirectExternal(req, resp, LOGIN_URL);
 			return;
 		}
+
+		String companyID = req.getParameter(COMPANY_ID);
+
+		if (companyID != null) {
+			addCompanyCookies(resp, Long.parseLong(companyID));
+			redirectExternal(req, resp, ACCOUNTER_URL);
+			return;
+		}
+
 		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
 		try {
 			Client client = getClient(emailID);
@@ -56,10 +65,10 @@ public class CompaniesServlet extends BaseServlet {
 			} else {
 				addUserCookies(resp, client);
 				List<String> companyList = new ArrayList<String>();
-				for (ServerCompany company : companies) {
-					companyList.add(company.getCompanyName());
-				}
-				req.setAttribute(ATTR_COMPANY_LIST, companyList);
+				// for (ServerCompany company : companies) {
+				// companyList.add(company.getCompanyName());
+				// }
+				req.setAttribute(ATTR_COMPANY_LIST, companies);
 				dispatch(req, resp, companiedListView);
 			}
 		} finally {
@@ -146,15 +155,7 @@ public class CompaniesServlet extends BaseServlet {
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String companyID = req.getParameter(COMPANY_ID);
-
-		if (companyID == null) {
-			// TODO
-		}
-
-		addCompanyCookies(resp, Long.parseLong(companyID));
-
-		redirectExternal(req, resp, ACCOUNTER_URL);
+		doGet(req, resp);
 	}
 
 	private void setCookies(HttpServletResponse response, Client client,
