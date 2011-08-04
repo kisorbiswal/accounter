@@ -64,7 +64,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	private AbstractCustomerTransactionView<T> customerTransactionViewInstance;
 
-	AccounterConstants customerConstants;
+	AccounterConstants customerConstants=Accounter.constants();
 
 	/**
 	 * 
