@@ -1090,13 +1090,14 @@ public class VendorTransactionGrid extends
 		ValidationResult result = new ValidationResult();
 		int validationcount = 1;
 		for (ClientTransactionItem item : this.getRecords()) {
+			int row = this.objects.indexOf(item);
 			if (item.getType() != ClientTransactionItem.TYPE_COMMENT) {
 				switch (validationcount++) {
 				case 1:
 					if (!AccounterValidator.validateGridItem(this
 							.getColumnValue(item, 1))) {
 						result.addError(
-								this,
+								row + "," + 1,
 								Accounter.messages().pleaseEnter(
 										UIUtils.getTransactionTypeName(item
 												.getType())));
@@ -1111,7 +1112,7 @@ public class VendorTransactionGrid extends
 										this instanceof PurchaseOrderGrid ? 7
 												: 6))) {
 							result.addError(
-									this,
+									row + "," + 6,
 									Accounter.messages().pleaseEnter(
 											Accounter.constants().vatCode()));
 						}
