@@ -208,7 +208,7 @@
 	<!--include the application JS-->
 	<script type="text/javascript">document.getElementById('loadingMsg');</script>
 	
-	<table class="header" id="mainHeader" style="visibility:hidden">
+	<!--<table class="header" id="mainHeader" style="visibility:hidden">
 	   <tr>
 	      <td width="25%"><img src="/images/Accounter_logo_title.png" /></td>
 	      <td width="50%"><div class="companyName">${companyName}</div></td>
@@ -220,10 +220,10 @@
 	        </ul>
 	      </td>
 	   </tr>
-	</table>
-	<div id="mainWindow" style="height:100%;"></div>
+	</table>-->
+	<div id="mainWindow"></div>
 	<script type="text/javascript" language="javascript" src="/accounter/accounter.nocache.js"></script>
-	<table width="100%" id="mainFooter" style="visibility:hidden">
+	<!--<table width="100%" id="mainFooter" style="visibility:hidden">
 	   <tr>
 	      <td>
 		     <table width="100%">
@@ -255,7 +255,7 @@
 	     </table>
 	    </td>
 	   </tr>
-	</table>
+	</table>-->
 	
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
