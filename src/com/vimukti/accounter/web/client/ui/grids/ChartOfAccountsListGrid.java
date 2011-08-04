@@ -27,31 +27,54 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	@Override
 	protected Object getColumnValue(ClientAccount obj, int col) {
 
-		// If this Condition Matches, We are not Showing AccountNumbers
-		if (ClientCompanyPreferences.get().getUseAccountNumbers() && col >= 1) {
-			col++;
+		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			switch (col) {
+			case 0:
+				return obj.getIsActive();
+			case 1:
+				return obj.getNumber() != null ? obj.getNumber() : "";
+			case 2:
+				return obj.getName() != null ? obj.getName() : "";
+			case 3:
+				return Utility.getAccountTypeString(obj.getType());
+			case 4:
+				return DataUtils.getAmountAsString(!DecimalUtil.isEquals(
+						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
+						: 0.0);
+			case 5:
+				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
+				// return "/images/find.png";
+			case 6:
+				return Accounter.getFinanceMenuImages().delete();
+				// return "/images/delete.png";
+			default:
+				break;
+			}
+			return null;
+		} else {
+			switch (col) {
+			case 0:
+				return obj.getIsActive();
+			case 1:
+				return obj.getName() != null ? obj.getName() : "";
+			case 2:
+				return Utility.getAccountTypeString(obj.getType());
+			case 3:
+				return DataUtils.getAmountAsString(!DecimalUtil.isEquals(
+						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
+						: 0.0);
+			case 4:
+				return Accounter.getFinanceMenuImages().accounterRegisterIcon();
+				// return "/images/find.png";
+			case 5:
+				return Accounter.getFinanceMenuImages().delete();
+				// return "/images/delete.png";
+			default:
+				break;
+			}
+			return null;
 		}
 
-		switch (col) {
-		case 0:
-			return obj.getIsActive();
-		case 1:
-			return obj.getNumber() != null ? obj.getNumber() : "";
-		case 2:
-			return obj.getName() != null ? obj.getName() : "";
-		case 3:
-			return Utility.getAccountTypeString(obj.getType());
-		case 4:
-			return DataUtils.getAmountAsString(!DecimalUtil.isEquals(
-					obj.getTotalBalance(), 0.0) ? obj.getTotalBalance() : 0.0);
-		case 5:
-			return Accounter.getFinanceMenuImages().accounterRegisterIcon();
-		case 6:
-			return Accounter.getFinanceMenuImages().delete();
-		default:
-			break;
-		}
-		return null;
 	}
 
 	@Override
