@@ -843,20 +843,20 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 		if (childCount == 1) {
 			popupPanel.setPopupPosition(
-					menuButton.getAbsoluteLeft(),
+					menuButton.getAbsoluteLeft() - 5,
 					menuButton.getAbsoluteTop()
 							- (popupMenuBar.getOffsetHeight() + 41));
 		} else if (childCount == 2) {
 			// if (this instanceof CashExpenseView || this instanceof
 			// WriteChequeView)
 			popupPanel.setPopupPosition(
-					menuButton.getAbsoluteLeft(),
+					menuButton.getAbsoluteLeft() - 5,
 					menuButton.getAbsoluteTop()
 							- (popupMenuBar.getOffsetHeight() + 85));
 		} else if (childCount == 3) {
 			// if (this instanceof EmployeeExpenseView) {
 			popupPanel.setPopupPosition(
-					menuButton.getAbsoluteLeft(),
+					menuButton.getAbsoluteLeft() - 5,
 					menuButton.getAbsoluteTop()
 							- (popupMenuBar.getOffsetHeight() + 127));
 			// }
