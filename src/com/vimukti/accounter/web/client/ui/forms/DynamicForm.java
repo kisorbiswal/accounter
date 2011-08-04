@@ -6,7 +6,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
-
+import com.vimukti.accounter.web.client.core.ValidationResult;
 
 public class DynamicForm extends FlexTable {
 
@@ -17,18 +17,19 @@ public class DynamicForm extends FlexTable {
 	private int noSpan;
 	private boolean isGroup;
 
-	public boolean validate(boolean isDialog) {
-		boolean validate = true;
-		for (FormItem item : this.formItems) {
-			if (!item.validate(isDialog)) {
-				validate = false;
-				item.highlight();
-			} else {
-				item.showValidated();
-			}
-		}
+	public ValidationResult validate() {
+		// boolean validate = true;
+		return FormItem.validate(this.formItems.toArray(new FormItem[] {}));
+		// for (FormItem item : this.formItems) {
+		// if (!item.validate()) {
+		// validate = false;
+		// item.highlight();
+		// } else {
+		// item.showValidated();
+		// }
+		// }
 
-		return validate;
+		// return validate;
 	}
 
 	public FormItem getField(String name) {
