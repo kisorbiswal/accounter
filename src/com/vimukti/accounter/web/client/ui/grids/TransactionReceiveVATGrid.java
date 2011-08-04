@@ -61,10 +61,7 @@ public class TransactionReceiveVATGrid extends
 			Object value, int col) {
 		try {
 
-			// double payment = Double.parseDouble(DataUtils
-			// .getReformatedAmount(value.toString()) + "");
-			double payment = getAmountInBaseCurrency(((Double) value)
-					.doubleValue());
+			double payment = DataUtils.getReformatedAmount(value.toString());
 			editingRecord.setAmountToReceive(payment);
 			updateData(editingRecord);
 

@@ -89,10 +89,10 @@ public class TransactionPaySalesTaxGrid extends
 						.getName()) : "")
 						: " ";
 			case 2:
-				return DataUtils.getAmountAsString(paySalesTax.getTaxDue());
+				return DataUtils.getAmountAsString(getAmountInForeignCurrency(paySalesTax.getTaxDue()));
 			case 3:
 				return DataUtils
-						.getAmountAsString(paySalesTax.getAmountToPay());
+						.getAmountAsString(getAmountInForeignCurrency(paySalesTax.getAmountToPay()));
 			default:
 				break;
 			}
@@ -195,9 +195,9 @@ public class TransactionPaySalesTaxGrid extends
 	public void editComplete(ClientTransactionPaySalesTax paySalesTax,
 			Object value, int col) {
 		if (col == 3) {
-			paySalesTax
-					.setAmountToPay((getAmountInBaseCurrency(((Double) value)
-							.doubleValue())));
+			Double amt = DataUtils.getReformatedAmount(value.toString());
+			paySalesTax.setAmountToPay(getAmountInBaseCurrency(amt));
+					
 			updateRecord(paySalesTax, indexOf(paySalesTax), 3);
 			updateFotterTotal();
 
