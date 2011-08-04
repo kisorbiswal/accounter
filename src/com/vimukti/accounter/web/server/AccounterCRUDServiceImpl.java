@@ -90,37 +90,26 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public long updateCompanyPreferences(ClientCompanyPreferences preferences) {
+	public boolean updateCompanyPreferences(ClientCompanyPreferences preferences)
+			throws AccounterException {
 
-		try {
+		FinanceTool tool = getFinanceTool();
+		OperationContext updateComPref = new OperationContext(preferences);
 
-			FinanceTool tool = getFinanceTool();
-			OperationContext updateComPref = new OperationContext(preferences);
-
-			return tool.updateCompanyPreferences(updateComPref);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return 0;
+		tool.updateCompanyPreferences(updateComPref);
+		return true;
 	}
 
 	@Override
-	public long updateCompany(ClientCompany clientCompany) {
+	public boolean updateCompany(ClientCompany clientCompany)
+			throws AccounterException {
 
-		try {
+		FinanceTool tool = getFinanceTool();
+		OperationContext opContext = new OperationContext(clientCompany);
 
-			FinanceTool tool = getFinanceTool();
-			OperationContext opContext = new OperationContext(clientCompany);
+		tool.updateCompany(opContext);
 
-			return tool.updateCompany(opContext);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return 0;
+		return true;
 	}
 
 	@Override

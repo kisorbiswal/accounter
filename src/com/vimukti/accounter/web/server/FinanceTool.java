@@ -235,46 +235,53 @@ public class FinanceTool implements IFinanceDAOService {
 			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
-
-		IAccounterCore data = createContext.getData();
-		String userID = createContext.getUserEmail();
-
-		if (data == null) {
-			throw new AccounterException(
-					AccounterException.ERROR_ILLEGAL_ARGUMENT,
-					"Operation Data Found Null...." + createContext);
-		}
-
-		Class<IAccounterServerCore> serverClass = ObjectConvertUtil
-				.getServerEqivalentClass(data.getClass());
-		IAccounterServerCore serverObject;
+		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
-			serverObject = serverClass.newInstance();
-		} catch (Exception e1) {
+			IAccounterCore data = createContext.getData();
+			String userID = createContext.getUserEmail();
+
+			if (data == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT,
+						"Operation Data Found Null...." + createContext);
+			}
+
+			Class<IAccounterServerCore> serverClass = ObjectConvertUtil
+					.getServerEqivalentClass(data.getClass());
+			IAccounterServerCore serverObject;
+			try {
+				serverObject = serverClass.newInstance();
+			} catch (Exception e1) {
+				throw new AccounterException(AccounterException.ERROR_INTERNAL);
+			}
+
+			serverObject = new ServerConvertUtil().toServerObject(serverObject,
+					(IAccounterCore) data, session);
+
+			ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
+					getCompany());
+
+			if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
+				// get the user from user id
+				((CreatableObject) serverObject).setCreatedBy(getCompany()
+						.getUserByUserEmail(userID));
+				((CreatableObject) serverObject).setCreatedDate(createContext
+						.getDate());
+			}
+			canEdit(serverObject, data);
+
+			isTransactionNumberExist((IAccounterCore) data);
+
+			session.save(serverObject);
+			transaction.commit();
+			ChangeTracker.put(serverObject);
+
+			return serverObject.getID();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			transaction.rollback();
 			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
-
-		serverObject = new ServerConvertUtil().toServerObject(serverObject,
-				(IAccounterCore) data, session);
-
-		ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
-				getCompany());
-
-		if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
-			// get the user from user id
-			((CreatableObject) serverObject).setCreatedBy(getCompany()
-					.getUserByUserEmail(userID));
-			((CreatableObject) serverObject).setCreatedDate(createContext
-					.getDate());
-		}
-		canEdit(serverObject, data);
-
-		isTransactionNumberExist((IAccounterCore) data);
-
-		session.save(serverObject);
-
-		ChangeTracker.put(serverObject);
-		return serverObject.getID();
 	}
 
 	/**
@@ -287,55 +294,64 @@ public class FinanceTool implements IFinanceDAOService {
 	public long update(OperationContext updateContext)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		IAccounterCore data = updateContext.getData();
 
-		if (data == null) {
-			throw new AccounterException(
-					AccounterException.ERROR_ILLEGAL_ARGUMENT,
-					"Operation Data Found Null...." + updateContext);
+		org.hibernate.Transaction hibernateTransaction = session
+				.beginTransaction();
+		try {
+			IAccounterCore data = updateContext.getData();
+
+			if (data == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT,
+						"Operation Data Found Null...." + updateContext);
+			}
+			IAccounterServerCore serverObject = (IAccounterServerCore) Util
+					.loadObjectByid(session, updateContext.getArg2(),
+							Long.parseLong(updateContext.getArg1()));
+			IAccounterServerCore clonedObject = new CloneUtil().clone(null,
+					serverObject);
+
+			canEdit(clonedObject, (IAccounterCore) data);
+
+			isTransactionNumberExist((IAccounterCore) data);
+
+			new ServerConvertUtil().toServerObject(serverObject,
+					(IAccounterCore) data, session);
+
+			if (serverObject instanceof Transaction) {
+				Transaction transaction = (Transaction) serverObject;
+				transaction.onEdit((Transaction) clonedObject);
+
+			}
+			if (serverObject instanceof Lifecycle) {
+				Lifecycle lifecycle = (Lifecycle) serverObject;
+				lifecycle.onUpdate(session);
+			}
+
+			// if (serverObject instanceof Company) {
+			// Company cmp = (Company) serverObject;
+			// cmp.toCompany((ClientCompany) command.data);
+			// ChangeTracker.put(cmp.toClientCompany());
+			// }
+
+			// called this method to save on unsaved objects in
+			// session.
+			// before going commit. because unsaved objects getting
+			// update when transaction commit,
+			// Util.loadObjectByStringID(session, command.arg2,
+			// command.arg1);
+
+			session.flush();
+			session.saveOrUpdate(serverObject);
+
+			ChangeTracker.put(serverObject);
+
+			return serverObject.getID();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			hibernateTransaction.rollback();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
-		IAccounterServerCore serverObject = (IAccounterServerCore) Util
-				.loadObjectByid(session, updateContext.getArg2(),
-						Long.parseLong(updateContext.getArg1()));
-		IAccounterServerCore clonedObject = new CloneUtil().clone(null,
-				serverObject);
-
-		canEdit(clonedObject, (IAccounterCore) data);
-
-		isTransactionNumberExist((IAccounterCore) data);
-
-		new ServerConvertUtil().toServerObject(serverObject,
-				(IAccounterCore) data, session);
-
-		if (serverObject instanceof Transaction) {
-			Transaction transaction = (Transaction) serverObject;
-			transaction.onEdit((Transaction) clonedObject);
-
-		}
-		if (serverObject instanceof Lifecycle) {
-			Lifecycle lifecycle = (Lifecycle) serverObject;
-			lifecycle.onUpdate(session);
-		}
-
-		// if (serverObject instanceof Company) {
-		// Company cmp = (Company) serverObject;
-		// cmp.toCompany((ClientCompany) command.data);
-		// ChangeTracker.put(cmp.toClientCompany());
-		// }
-
-		// called this method to save on unsaved objects in
-		// session.
-		// before going commit. because unsaved objects getting
-		// update when transaction commit,
-		// Util.loadObjectByStringID(session, command.arg2,
-		// command.arg1);
-
-		session.flush();
-		session.saveOrUpdate(serverObject);
-
-		ChangeTracker.put(serverObject);
-
-		return serverObject.getID();
 
 	}
 
@@ -350,103 +366,128 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		String arg1 = (context).getArg1();
-		String arg2 = (context).getArg2();
+		org.hibernate.Transaction hibernateTransaction = session
+				.beginTransaction();
+		try {
+			String arg1 = (context).getArg1();
+			String arg2 = (context).getArg2();
 
-		if (arg1 == null || arg2 == null) {
-			throw new AccounterException(
-					AccounterException.ERROR_ILLEGAL_ARGUMENT,
-					"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
-							+ context);
-		}
+			if (arg1 == null || arg2 == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT,
+						"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
+								+ context);
+			}
 
-		Class<?> clientClass = ObjectConvertUtil.getEqivalentClientClass(arg2);
+			Class<?> clientClass = ObjectConvertUtil
+					.getEqivalentClientClass(arg2);
 
-		Class<?> serverClass = ObjectConvertUtil
-				.getServerEqivalentClass(clientClass);
+			Class<?> serverClass = ObjectConvertUtil
+					.getServerEqivalentClass(clientClass);
 
-		String query = "unique.id." + serverClass.getSimpleName();
+			String query = "unique.id." + serverClass.getSimpleName();
 
-		Query hibernateQuery = session.getNamedQuery(query).setParameter(0,
-				arg1);
+			Query hibernateQuery = session.getNamedQuery(query).setParameter(0,
+					arg1);
 
-		List objects = hibernateQuery.list();
+			List objects = hibernateQuery.list();
 
-		if (objects != null && objects.size() > 0) {
+			if (objects != null && objects.size() > 0) {
 
-			IAccounterServerCore serverObject = (IAccounterServerCore) objects
-					.get(0);
+				IAccounterServerCore serverObject = (IAccounterServerCore) objects
+						.get(0);
 
-			if (serverObject != null)
-				if (serverObject instanceof FiscalYear) {
-					try {
-						((FiscalYear) serverObject)
-								.canDelete((FiscalYear) serverObject);
-					} catch (InvalidOperationException e) {
-						throw new AccounterException(
-								AccounterException.ERROR_PERMISSION_DENIED, e);
+				if (serverObject != null)
+					if (serverObject instanceof FiscalYear) {
+						try {
+							((FiscalYear) serverObject)
+									.canDelete((FiscalYear) serverObject);
+						} catch (InvalidOperationException e) {
+							throw new AccounterException(
+									AccounterException.ERROR_PERMISSION_DENIED,
+									e);
+						}
+						session.delete(serverObject);
+						return true;
+						// ChangeTracker.put(serverObject);
+					} else {
+						session.delete(serverObject);
+						return true;
+
 					}
-					session.delete(serverObject);
-					return true;
-					// ChangeTracker.put(serverObject);
-				} else {
-					session.delete(serverObject);
-					return true;
 
-				}
-
+			}
+			return false;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			hibernateTransaction.rollback();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
-		return false;
 
 	}
 
-	public long updateCompanyPreferences(OperationContext context)
+	public void updateCompanyPreferences(OperationContext context)
 			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		IAccounterCore data = context.getData();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			IAccounterCore data = context.getData();
 
-		if (data == null) {
-			throw new AccounterException(
-					AccounterException.ERROR_ILLEGAL_ARGUMENT,
-					"Update Company Preferences, as the Source Object could not be Found....");
+			if (data == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT,
+						"Update Company Preferences, as the Source Object could not be Found....");
+			}
+
+			Company company = getCompany();
+			// String IdentiName =
+			// this.getSpace().getIDentity().getDisplayName();
+
+			CompanyPreferences serverCompanyPreferences = company
+					.getPreferences();
+
+			serverCompanyPreferences = new ServerConvertUtil().toServerObject(
+					serverCompanyPreferences, (ClientCompanyPreferences) data,
+					session);
+
+			company.setPreferences(serverCompanyPreferences);
+			session.update(company);
+
+			// CompanyPreferences serverObject = serverCompanyPreferences;
+			ChangeTracker.put(serverCompanyPreferences);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			transaction.rollback();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
-
-		Company company = getCompany();
-		// String IdentiName = this.getSpace().getIDentity().getDisplayName();
-
-		CompanyPreferences serverCompanyPreferences = company.getPreferences();
-
-		serverCompanyPreferences = new ServerConvertUtil().toServerObject(
-				serverCompanyPreferences, (ClientCompanyPreferences) data,
-				session);
-
-		company.setPreferences(serverCompanyPreferences);
-		session.update(company);
-
-		// CompanyPreferences serverObject = serverCompanyPreferences;
-		ChangeTracker.put(serverCompanyPreferences);
-		return 1;
 	}
 
-	public long updateCompany(OperationContext context)
+	public void updateCompany(OperationContext context)
 			throws AccounterException {
-		IAccounterCore data = context.getData();
-		if (data == null) {
-			throw new AccounterException(
-					AccounterException.ERROR_PERMISSION_DENIED,
-					"Update Company , as the Source Object could not be Found....");
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			IAccounterCore data = context.getData();
+			if (data == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED,
+						"Update Company , as the Source Object could not be Found....");
 
+			}
+
+			Company cmp = Company.getCompany();
+			cmp.toCompany((ClientCompany) data);
+
+			ChangeTracker.put(cmp.toClientCompany());
+			Company serverObject = cmp;
+			HibernateUtil.getCurrentSession().update(serverObject);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			transaction.rollback();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
-
-		Company cmp = Company.getCompany();
-		cmp.toCompany((ClientCompany) data);
-
-		ChangeTracker.put(cmp.toClientCompany());
-		Company serverObject = cmp;
-		HibernateUtil.getCurrentSession().update(serverObject);
-		return 1;
 
 	}
 

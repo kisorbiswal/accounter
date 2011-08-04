@@ -23,7 +23,7 @@ public interface IAccounterCRUDService extends RemoteService {
 	boolean delete(AccounterCoreType type, long stringID)
 			throws AccounterException;
 
-	long updateCompanyPreferences(ClientCompanyPreferences preferences)
+	boolean updateCompanyPreferences(ClientCompanyPreferences preferences)
 			throws AccounterException;
 
 	Boolean voidTransaction(AccounterCoreType accounterCoreType, long id)
@@ -35,6 +35,7 @@ public interface IAccounterCRUDService extends RemoteService {
 	boolean canEdit(AccounterCoreType accounterCoreType, long stringID)
 			throws AccounterException;
 
-	long updateCompany(ClientCompany clientCompany) throws AccounterException;
+	boolean updateCompany(ClientCompany clientCompany)
+			throws AccounterException;
 
 }
