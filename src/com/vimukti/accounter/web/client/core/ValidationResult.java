@@ -10,6 +10,10 @@ public class ValidationResult {
 		this.errors.add(new Error(obj, msg));
 	}
 
+	public void add(ValidationResult result) {
+		errors.addAll(result.errors);
+	}
+
 	public static class Error {
 		private Object source;
 		private String message;
@@ -35,8 +39,8 @@ public class ValidationResult {
 			this.message = message;
 		}
 	}
-	
-	public boolean haveErrors(){
+
+	public boolean haveErrors() {
 		return !this.errors.isEmpty();
 	}
 }
