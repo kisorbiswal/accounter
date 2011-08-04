@@ -420,7 +420,12 @@ public class InvoiceBrandingView<T> extends
 		verticalPanel.add(panel);
 		panel.getElement().getParentElement().setAttribute("align", "center");
 		uploadPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
-
+		
+		if (theme.getFileName() == null) {
+			panel.setVisible(false);
+		} else {
+			panel.setVisible(true);
+		}
 		subLayPanel.add(allLabelsHtml);
 		subLayPanel.add(ShowHtml);
 		subLayPanel.add(showPanel);
