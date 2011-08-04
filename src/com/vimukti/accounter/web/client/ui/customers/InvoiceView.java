@@ -338,27 +338,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		dueDateItem.setDisabled(isEdit);
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
-		// multi
-		if (ClientCompanyPreferences.get().isEnableMultiCurrency() == false) {
-			if (currencyWidget == null) {
-
-				currencyWidget = bulidCurrencyWidget();
-			} else
-				currencyWidget = getCurrencyWidget();
-
-			currencyWidget.setListener(new CurrencyChangeListener() {
-
-				@Override
-				public void currencyChanged(ClientCurrency currency,
-						double factor) {
-					/*
-					 * customerTransactionGrid.refreshAllRecords();
-					 * vendorTransactionGrid.refreshAllRecords();
-					 */
-				}
-			});
-
-		}
 
 		orderNumText = new TextItem(Accounter.constants().salesorderno());
 		orderNumText.setHelpInformation(true);
@@ -390,8 +369,27 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "200px");
 		forms.add(termsForm);
-		forms.add(currencyWidget);
+		// multi
+		if (ClientCompanyPreferences.get().isEnableMultiCurrency() == false) {
+			if (currencyWidget == null) {
 
+				currencyWidget = bulidCurrencyWidget();
+			} else
+				currencyWidget = getCurrencyWidget();
+
+			currencyWidget.setListener(new CurrencyChangeListener() {
+
+				@Override
+				public void currencyChanged(ClientCurrency currency,
+						double factor) {
+					/*
+					 * customerTransactionGrid.refreshAllRecords();
+					 * vendorTransactionGrid.refreshAllRecords();
+					 */
+				}
+			});
+
+		}
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
 
@@ -416,6 +414,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				"memoFormAlign");
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setNumCols(2);
+		prodAndServiceForm1.add(currencyWidget);
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 		// memoTextAreaItem.getMainWidget().getParent().setWidth("70%");
 
