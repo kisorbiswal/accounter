@@ -23,12 +23,13 @@
 	</table>
     <div class="company_lists">
        <ul>
-	     <form action="/companies" method="post">
-	     <% java.util.List<String> list=(java.util.List<String>)req.getAttribute("message") %>
-	     <% for(String name:list){ %>
-	       <li><a href="" ><%= name %> </a></li>
-	      <% } %>
-	     </form>
+      	<div> <a href="/createcompany">Create New Company </a></div>
+	    <c:if test="${companeyList != null}">
+		   <c:forEach var="company" items="${companeyList}">
+			   <c:set var='url' value="/companies?companyId=${company.id}"/>
+			   <h3><a href=${url}>${company.companyName}</a></h3>
+		   </c:forEach>
+	    </c:if>
 	   </ul>
     </div>
   </body>
