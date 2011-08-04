@@ -3,9 +3,9 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -47,8 +47,8 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */
 	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		return false;
+	public ValidationResult validateGrid() {
+		return new ValidationResult();
 	}
 
 	@Override

@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -31,11 +32,10 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -76,7 +76,6 @@ public class VendorBillView extends
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL, VENDOR_TRANSACTION_GRID);
-		this.validationCount = 6;
 	}
 
 	@Override
@@ -690,29 +689,36 @@ public class VendorBillView extends
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
-		switch (validationCount) {
-		case 6:
-			return AccounterValidator.validateTransactionDate(transactionDate);
-		case 5:
-			return AccounterValidator.validateForm(vendorForm, false);
-		case 4:
-			return AccounterValidator.validate_dueOrDelivaryDates(
-					dueDateItem.getEnteredDate(), this.transactionDate,
-					Accounter.constants().dueDate());
-		case 3:
-			return true;
-			// return AccounterValidator.validate_dueOrDelivaryDates(
-			// deliveryDateItem.getEnteredDate(), this.transactionDate,
-			// FinanceApplication.constants().deliverydate());
-		case 2:
-			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
-		case 1:
-			return vendorTransactionGrid.validateGrid();
-		default:
-			return true;
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+
+		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
+			result.addError(transactionDate,
+					AccounterErrorType.InvalidTransactionDate);
 		}
+
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDate, AccounterErrorType.InvalidDate);
+		}
+		result.add(vendorForm.validate());
+
+		if (!AccounterValidator.validate_dueOrDelivaryDates(dueDateItem
+				.getEnteredDate(), this.transactionDate, Accounter.constants()
+				.dueDate())) {
+			result.addError(dueDateItem, Accounter.constants().the()
+					+ " "
+					+ Accounter.constants().dueDate()
+					+ " "
+					+ " "
+					+ Accounter.constants()
+							.cannotbeearlierthantransactiondate());
+		}
+		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
+			result.addError(vendorTransactionGrid,
+					AccounterErrorType.blankTransaction);
+		}
+		result.add(vendorTransactionGrid.validateGrid());
+		return result;
 	}
 
 	// @Override

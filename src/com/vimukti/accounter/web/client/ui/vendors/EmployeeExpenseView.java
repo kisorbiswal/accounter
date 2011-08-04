@@ -31,7 +31,6 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 	public EmployeeExpenseView() {
 		super(ClientTransaction.TYPE_EMPLOYEE_EXPENSE);
-		this.validationCount = 6;
 	}
 
 	@Override

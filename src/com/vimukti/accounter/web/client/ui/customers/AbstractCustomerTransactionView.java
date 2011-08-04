@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
@@ -44,8 +45,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -64,7 +63,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	private AbstractCustomerTransactionView<T> customerTransactionViewInstance;
 
-	AccounterConstants customerConstants=Accounter.constants();
+	AccounterConstants customerConstants = Accounter.constants();
 
 	/**
 	 * 
@@ -905,7 +904,6 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	}
 
-
 	@Override
 	public void reload() {
 
@@ -917,6 +915,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	@Override
 	public boolean validate() {
 
+		ValidationResult result = new ValidationResult();
 		switch (validationCount) {
 		// The following 3 cases are for all Customer transactions.
 		case 9:
@@ -946,9 +945,12 @@ public abstract class AbstractCustomerTransactionView<T> extends
 			// This case is for all customer transactions except
 			// CustomerRefunds.
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS))
-					return AccounterValidator.validateFormItem(taxCodeSelect,
-							false);
+				if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS)) {
+					if (!taxCodeSelect.validate()) {
+						result.addError(taxCodeSelect, Accounter.messages()
+								.pleaseEnter(taxCodeSelect.getTitle()));
+					}
+				}
 
 			}
 			// this is for CustomerRefunds only.

@@ -17,16 +17,16 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class VendorPurchaseListDialog extends AbstractBaseDialog {
+public class VendorPurchaseListDialog extends BaseDialog {
 
 	private ItemReceiptView itemReceiptView;
 	private List<PurchaseOrdersList> purchaseOrderList;
@@ -38,7 +38,6 @@ public class VendorPurchaseListDialog extends AbstractBaseDialog {
 
 	public VendorPurchaseListDialog(ItemReceiptView view,
 			List<PurchaseOrdersList> purchaseOrderList) {
-		super(view);
 		itemReceiptView = view;
 		this.purchaseOrderList = purchaseOrderList;
 		setText(Accounter.constants().purchaseOrderList());

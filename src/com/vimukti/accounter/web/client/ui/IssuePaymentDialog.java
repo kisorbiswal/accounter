@@ -39,7 +39,7 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
  * @author Ravi Kiran.G
  * 
  */
-public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
+public class IssuePaymentDialog extends BaseDialog {
 
 	private PayFromAccountsCombo accountCombo;
 	private SelectCombo payMethodSelect;

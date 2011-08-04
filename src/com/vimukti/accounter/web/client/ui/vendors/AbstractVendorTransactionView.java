@@ -91,7 +91,7 @@ public abstract class AbstractVendorTransactionView<T> extends
 	protected ClientAddress billingAddress;
 	protected List<ClientPaymentTerms> paymentTermsList;
 
-	private ClientVendor vendor;
+	protected ClientVendor vendor;
 
 	protected void initTransactionTotalNonEditableItem() {
 	}

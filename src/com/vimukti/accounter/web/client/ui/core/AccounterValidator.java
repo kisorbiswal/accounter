@@ -1646,12 +1646,10 @@ public class AccounterValidator {
 	}
 
 	public static boolean validateReceivePaymentGrid(
-			AbstractTransactionGrid transactionGrid)
-			throws InvalidTransactionEntryException {
+			AbstractTransactionGrid<?> transactionGrid) {
 		if (transactionGrid == null || transactionGrid.getRecords().isEmpty()
 				|| transactionGrid.getSelectedRecords().size() == 0) {
-			throw new InvalidTransactionEntryException(
-					AccounterErrorType.selectTransaction);
+			return false;
 		} else if (!transactionGrid.validateGrid()) {
 			return false;
 		}

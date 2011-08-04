@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -59,7 +60,6 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -144,8 +144,6 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	public VendorView() {
 		super();
-		this.validationCount = 5;
-		// this.removeStyleName("abstract_base_view");
 	}
 
 	private void getFiscalYear() {
@@ -187,7 +185,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		if (!wait) {
 			try {
 				ClientVendor vendor = getVendorObject();
@@ -216,63 +214,26 @@ public class VendorView extends BaseView<ClientVendor> {
 					alterObject(vendor);
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw e;
 			}
 		}
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
+	public ValidationResult validate() {
 
-		switch (this.validationCount) {
-		case 5:
-			String name = vendorNameText.getValue().toString();
-			if (takenVendor == null) {
-				if (Utility.isObjectExist(company.getVendors(), name)) {
-					throw new InvalidEntryException(
-							AccounterErrorType.ALREADYEXIST);
-				} else
-					return true;
-			} /*
-			 * else if (takenVendor != null &&
-			 * (!takenVendor.getName().equalsIgnoreCase(name))) { if
-			 * (Utility.isObjectExist(company.getVendors(), name)) throw new
-			 * InvalidEntryException( AccounterErrorType.ALREADYEXIST); else
-			 * return true; }
-			 */
-			return false;
-		case 4:
-			return validateVendorForm(vendorForm);
-
-		case 3:
-			// Date vendorSince = vendorSinceDate.getEnteredDate();
-			// return AccounterValidator.sinceDate(vendorSince, this);
-			return true;
-
-		case 2:
-			ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
-			return AccounterValidator.isPriorAsOfDate(asOfDate, this);
-			// return AccounterValidator.createNecessaryFiscalYears(fiscalYear,
-			// asOfDate, this);
-			// return true;
-		case 1:
-			return gridView.validateGrid();
-		default:
-			return true;
-
+		ValidationResult result = new ValidationResult();
+		String name = vendorNameText.getValue().toString();
+		if (takenVendor == null
+				&& Utility.isObjectExist(company.getVendors(), name)) {
+			result.addError(vendorNameText, AccounterErrorType.ALREADYEXIST);
 		}
+		result.add(vendorForm.validate());
 
-	}
-
-	private boolean validateVendorForm(DynamicForm vendorForm) {
-		if (!vendorForm.validate(false)) {
-			if (tabSet.getTabBar().isTabEnabled(1))
-				tabSet.selectTab(0);
-			// throw new
-			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
+		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
+		if (!AccounterValidator.isPriorAsOfDate(asOfDate, this)) {
+			result.addError(balanceDate, AccounterErrorType.prior_asOfDate);
 		}
-		return true;
+		return result;
 	}
 
 	private VerticalPanel getGeneralTab() {

@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
@@ -42,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -89,7 +91,6 @@ public class PurchaseOrderView extends
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER, VENDOR_TRANSACTION_GRID);
-		validationCount = 5;
 	}
 
 	@Override
@@ -1062,24 +1063,30 @@ public class PurchaseOrderView extends
 
 	}
 
-	public boolean validate() throws Exception {
-		switch (validationCount) {
-		case 5:
-			return AccounterValidator.validateFormItem(false, statusSelect);
-		case 4:
-			return AccounterValidator.validate_dueOrDelivaryDates(
-					dueDateItem.getDate(), transactionDateItem.getDate(),
-					Accounter.constants().dueDate());
-		case 3:
-			return AccounterValidator.validateForm(vendorForm, false);
-		case 2:
-			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
-		case 1:
-			return vendorTransactionGrid.validateGrid();
-		default:
-			return true;
-
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (statusSelect.validate()) {
+			result.addError(statusSelect, statusSelect.getTitle());
 		}
+
+		if (!AccounterValidator.validate_dueOrDelivaryDates(dueDateItem
+				.getDate(), transactionDateItem.getDate(), Accounter
+				.constants().dueDate())) {
+			result.addError(dueDateItem, Accounter.constants().the()
+					+ " "
+					+ Accounter.constants().dueDate()
+					+ " "
+					+ " "
+					+ Accounter.constants()
+							.cannotbeearlierthantransactiondate());
+		}
+		result.add(vendorForm.validate());
+		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
+			result.addError(vendorTransactionGrid,
+					AccounterErrorType.blankTransaction);
+		}
+		result.add(vendorTransactionGrid.validateGrid());
+		return result;
 	}
 
 	public void onEdit() {

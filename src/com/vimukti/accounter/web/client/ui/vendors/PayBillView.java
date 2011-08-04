@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -29,13 +30,13 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
@@ -76,7 +77,6 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 	public PayBillView() {
 		super(ClientTransaction.TYPE_PAY_BILL, VENDOR_TRANSACTION_GRID);
-		this.validationCount = 5;
 	}
 
 	/*
@@ -695,35 +695,26 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
-		switch (this.validationCount) {
-		case 5:
-			return AccounterValidator
-					.validateTransactionDate(this.transactionDate);
-		case 4:
-			if (payForm != null)
-				return AccounterValidator.validateForm(payForm, false);
-
-		case 3:
-			if (filterForm != null)
-				return AccounterValidator.validateForm(filterForm, false);
-			return true;
-		case 2:
-			if (!isEdit)
-				return AccounterValidator.validateReceivePaymentGrid(gridView);
-
-		case 1:
-			// FIXME--need to implement this feature
-			// return AccounterValidator.validate_Total_Exceeds_BankBalance(
-			// endBalText.getAmount(), amtText.getAmount(), payFromAccount
-			// .isIncrease(), this);
-			// case 1:
-			// if (transactionTotal <= 0)
-			// return AccounterValidator.validatePayBill();
-		default:
-			return true;
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
+			result.addError(transactionDate,
+					AccounterErrorType.InvalidTransactionDate);
 		}
+
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDate, AccounterErrorType.InvalidDate);
+		}
+		result.add(payForm.validate());
+		if (filterForm != null) {
+			result.add(filterForm.validate());
+		}
+		if (!isEdit) {
+			if (!AccounterValidator.validateReceivePaymentGrid(gridView)) {
+				result.addError(gridView, AccounterErrorType.selectTransaction);
+			}
+		}
+		return result;
 	}
 
 	@Override

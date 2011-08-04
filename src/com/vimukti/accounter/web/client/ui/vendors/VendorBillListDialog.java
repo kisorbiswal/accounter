@@ -21,15 +21,15 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.ui.AbstractBaseDialog;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 
-public class VendorBillListDialog extends AbstractBaseDialog {
+public class VendorBillListDialog extends BaseDialog {
 
 	private VendorBillView view;
 	// private CustomersMessages customerConstants = GWT
@@ -42,7 +42,6 @@ public class VendorBillListDialog extends AbstractBaseDialog {
 
 	public VendorBillListDialog(VendorBillView view,
 			List<PurchaseOrdersAndItemReceiptsList> list) {
-		super(view);
 		this.view = view;
 		this.list = list;
 		// setTitle("");

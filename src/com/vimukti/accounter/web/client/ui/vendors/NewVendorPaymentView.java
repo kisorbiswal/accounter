@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -32,7 +33,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -59,7 +59,6 @@ public class NewVendorPaymentView extends
 
 	private NewVendorPaymentView() {
 		super(ClientTransaction.TYPE_PAY_BILL, 0);
-		this.validationCount = 4;
 
 	}
 
@@ -524,27 +523,23 @@ public class NewVendorPaymentView extends
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
+	public ValidationResult validate() {
 
-		switch (this.validationCount) {
-		case 4:
-			return AccounterValidator
-					.validateTransactionDate(this.transactionDate);
-		case 3:
-			return AccounterValidator.validateForm(payForm, false);
-		case 2:
-			if (DecimalUtil.isEquals(amountText.getAmount(), 0))
-				throw new InvalidTransactionEntryException(
-						AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
-		case 1:
-			// return AccounterValidator.isNull(payFromAccount, paymentMethod);
-			return true;
+		ValidationResult result = new ValidationResult();
 
-		default:
-			return true;
+		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
+			result.addError(transactionDate,
+					AccounterErrorType.InvalidTransactionDate);
 		}
-
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDate, AccounterErrorType.InvalidDate);
+		}
+		result.add(payForm.validate());
+		if (DecimalUtil.isEquals(amountText.getAmount(), 0)) {
+			result.addError(amountText,
+					AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+		}
+		return result;
 	}
 
 	// @Override
