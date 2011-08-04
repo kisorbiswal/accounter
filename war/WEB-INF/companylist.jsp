@@ -23,13 +23,20 @@
 	</table>
     <div class="company_lists">
        <ul>
+       
+        <c:if test="${message != null}">
+       		<div>${message}</div>
+        </c:if>
+       
       	<div> <a href="/createcompany">Create New Company </a></div>
+      	
 	    <c:if test="${companeyList != null}">
 		   <c:forEach var="company" items="${companeyList}">
 			   <c:set var='url' value="/companies?companyId=${company.id}"/>
 			   <h3><a href=${url}>${company.companyName}</a></h3>
 		   </c:forEach>
 	    </c:if>
+	    
 	   </ul>
     </div>
   </body>
