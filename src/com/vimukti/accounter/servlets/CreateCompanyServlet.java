@@ -134,27 +134,27 @@ public class CreateCompanyServlet extends BaseServlet {
 		buffer.append('&');
 		buffer.append(PARA_COMPANY_NAME);
 		buffer.append('=');
-		buffer.append(serverCompany.getCompanyName());
+		buffer.append(base64(serverCompany.getCompanyName()));
 
 		buffer.append('&');
 		buffer.append(PARAM_COMPANY_TYPE);
 		buffer.append('=');
-		buffer.append(serverCompany.getCompanyType());
+		buffer.append(base64(serverCompany.getCompanyType()));
 
 		buffer.append('&');
 		buffer.append(EMAIL_ID);
 		buffer.append('=');
-		buffer.append(emailID);
+		buffer.append(base64(emailID));
 
 		buffer.append('&');
 		buffer.append(PARAM_FIRST_NAME);
 		buffer.append('=');
-		buffer.append(client.getFirstName());
+		buffer.append(base64(client.getFirstName()));
 
 		buffer.append('&');
 		buffer.append(PARAM_LAST_NAME);
 		buffer.append('=');
-		buffer.append(client.getLastName());
+		buffer.append(base64(client.getLastName()));
 
 		// buffer.append('&');
 		// buffer.append(PARAM_COUNTRY);
