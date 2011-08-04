@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.vat.VATGroupView;
@@ -25,15 +25,17 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 	}
 
 	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		for (ClientTAXItem item : this.getRecords()) {
+	public ValidationResult validateGrid() {
+
+		for (ClientTAXItem item : objects) {
 			Object value = this.getColumnValue(item, 0);
 			if (value == null || value == "") {
-				throw new InvalidTransactionEntryException(Accounter
-						.constants().pleaseselectVATIteminTransGrid());
+				new ValidationResult().addError(
+						0 + ',' + objects.indexOf(item), Accounter.constants()
+								.pleaseselectVATIteminTransGrid());
 			}
 		}
-		return true;
+		return null;
 	}
 
 	@Override

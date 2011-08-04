@@ -9,7 +9,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
@@ -23,18 +22,17 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
-import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -83,7 +81,6 @@ public class CreditCardChargeView extends
 
 		super(ClientTransaction.TYPE_CREDIT_CARD_CHARGE,
 				VENDOR_TRANSACTION_GRID);
-		this.validationCount = 5;
 
 	}
 
@@ -763,24 +760,28 @@ public class CreditCardChargeView extends
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
+	public ValidationResult validate() {
 
-		switch (this.validationCount) {
-		case 5:
-			return AccounterValidator.validateTransactionDate(transactionDate);
-		case 4:
-			return AccounterValidator.validateForm(vendorForm, false);
-		case 3:
-			return AccounterValidator.validateForm(termsForm, false);
-		case 2:
-			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
-		case 1:
-			return vendorTransactionGrid.validateGrid();
-		default:
-			return true;
+		ValidationResult result = new ValidationResult();
 
+		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
+			result.addError(transactionDate,
+					AccounterErrorType.InvalidTransactionDate);
 		}
+
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDate,
+					AccounterErrorType.InvalidTransactionDate);
+		}
+
+		result.add(vendorForm.validate());
+		result.add(termsForm.validate());
+		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
+			result.addError(vendorTransactionGrid,
+					AccounterErrorType.blankTransaction);
+		}
+		result.add(vendorTransactionGrid.validateGrid());
+		return result;
 	}
 
 	public List<DynamicForm> getForms() {

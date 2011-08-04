@@ -13,15 +13,15 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 
 public class CashExpenseView extends CashPurchaseView {
 
@@ -156,27 +156,42 @@ public class CashExpenseView extends CashPurchaseView {
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
-		switch (this.validationCount) {
-		case 6:
-			return (petycash != null && !petycash.equals(""));
-		case 5:
-			return AccounterValidator.validateTransactionDate(transactionDate);
-		case 4:
-			return AccounterValidator.validateFormItem(payFromCombo, false);
-		case 3:
-			return AccounterValidator.validate_dueOrDelivaryDates(
-					deliveryDateItem.getEnteredDate(), this.transactionDate,
-					Accounter.constants().deliveryDate());
-		case 2:
-			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
-		case 1:
-			return vendorTransactionGrid.validateGrid();
-		default:
-			return true;
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+
+		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
+			result.addError(transactionDate,
+					AccounterErrorType.InvalidTransactionDate);
 		}
 
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDate,
+					AccounterErrorType.InvalidTransactionDate);
+		}
+
+		if (!payFromCombo.validate()) {
+			result.addError(payFromCombo, payFromCombo.getTitle());
+		}
+
+		if (!AccounterValidator.validate_dueOrDelivaryDates(
+				deliveryDateItem.getEnteredDate(), this.transactionDate,
+				Accounter.constants().deliveryDate())) {
+			result.addError(deliveryDateItem, Accounter.constants().the()
+					+ " "
+					+ Accounter.constants().deliveryDate()
+					+ " "
+					+ " "
+					+ Accounter.constants()
+							.cannotbeearlierthantransactiondate());
+		}
+
+		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
+			result.addError(vendorTransactionGrid,
+					AccounterErrorType.blankTransaction);
+		}
+		result.add(vendorTransactionGrid.validateGrid());
+
+		return result;
 	}
 
 	@Override

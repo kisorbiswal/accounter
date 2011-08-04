@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CreditCardChargeView;
@@ -21,10 +22,9 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 
 public class CreditCardExpenseView extends CreditCardChargeView {
 
@@ -34,7 +34,6 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	public CreditCardExpenseView() {
 
 		super(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
-		this.validationCount = 5;
 
 	}
 
@@ -215,24 +214,27 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-		switch (this.validationCount) {
-		case 5:
-			return AccounterValidator.validateTransactionDate(transactionDate);
-		case 4:
-			return AccounterValidator.validateForm(vendorForm, false);
-		case 3:
-			return AccounterValidator.validateForm(termsForm, false);
-		case 2:
-			return AccounterValidator.isBlankTransaction(vendorTransactionGrid);
-		case 1:
-			return vendorTransactionGrid.validateGrid();
-		default:
-			return true;
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
 
+		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
+			result.addError(transactionDate,
+					AccounterErrorType.InvalidTransactionDate);
 		}
 
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDate,
+					AccounterErrorType.InvalidTransactionDate);
+		}
+
+		result.add(vendorForm.validate());
+		result.add(termsForm.validate());
+		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
+			result.addError(vendorTransactionGrid,
+					AccounterErrorType.blankTransaction);
+		}
+		result.add(vendorTransactionGrid.validateGrid());
+		return result;
 	}
 
 	@Override

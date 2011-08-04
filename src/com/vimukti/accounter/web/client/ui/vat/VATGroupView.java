@@ -14,15 +14,13 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -46,7 +44,6 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	public VATGroupView() {
 
 		super();
-		validationCount = 4;
 
 	}
 
@@ -172,7 +169,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		if (takenVatGroup == null)
 			vatGroup = new ClientTAXGroup();
@@ -225,37 +222,26 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
-		switch (validationCount) {
-		case 4:
-			String name = groupName.getValue().toString();
-			if (((takenVatGroup == null && Utility.isObjectExist(getCompany()
-					.getVatGroups(), name)) ? false : true)
-					|| (takenVatGroup != null ? (takenVatGroup.getName()
-							.equalsIgnoreCase(name) ? true
-							: (Utility.isObjectExist(getCompany()
-									.getVatGroups(), name) ? false : true))
-							: true)) {
-				return true;
-			} else
-				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
-		case 3:
-			AccounterValidator.validateForm(form, false);
-			break;
-		case 2:
-			if (gridView != null && gridView.getRecords().isEmpty()) {
-				Accounter.showError(Accounter.constants()
-						.pleaseenteraTransaction());
-				return false;
-			}
-		case 1:
-			return gridView.validateGrid();
-
-		default:
-			break;
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		String name = groupName.getValue().toString();
+		if (!((takenVatGroup == null && Utility.isObjectExist(getCompany()
+				.getVatGroups(), name)) ? false : true)
+				|| (takenVatGroup != null ? (takenVatGroup.getName()
+						.equalsIgnoreCase(name) ? true
+						: (Utility.isObjectExist(getCompany().getVatGroups(),
+								name) ? false : true)) : true)) {
+			result.addError(groupName, AccounterErrorType.ALREADYEXIST);
+			result.add(form.validate());
 		}
-		return true;
+
+		if (gridView != null && gridView.getRecords().isEmpty()) {
+			result.addError(gridView, Accounter.constants()
+					.pleaseenteraTransaction());
+		}
+		result.add(gridView.validateGrid());
+
+		return result;
 	}
 
 	public List<DynamicForm> getForms() {
