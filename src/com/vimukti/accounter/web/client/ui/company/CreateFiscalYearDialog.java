@@ -117,21 +117,17 @@ public class CreateFiscalYearDialog extends BaseDialog {
 			@Override
 			public boolean onOkClick() {
 				if (startOfFiscalYear.getDateBox().getValue().isEmpty()) {
-					BaseDialog.errordata.setHTML(Accounter.messages()
+					addError(startOfFiscalYear, Accounter.messages()
 							.startFiscalHTML());
-					BaseDialog.commentPanel.setVisible(true);
 					return false;
 				} else if (endOfFiscalYear.getDateBox().getValue().isEmpty()) {
-					BaseDialog.errordata.setHTML(Accounter.messages()
+					addError(startOfFiscalYear, Accounter.messages()
 							.endFiscalHTML());
-					BaseDialog.commentPanel.setVisible(true);
 					return false;
 				} else if (endOfFiscalYear.getDate().before(
 						startOfFiscalYear.getDate())) {
-					BaseDialog.errordata.setHTML(Accounter.messages()
+					addError(this, Accounter.messages()
 							.fiscalStartEndCompreHTML());
-					BaseDialog.commentPanel.setVisible(true);
-
 					return false;
 				}
 				if (title.equalsIgnoreCase(Accounter.constants()
@@ -207,11 +203,6 @@ public class CreateFiscalYearDialog extends BaseDialog {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().fiscalYear();
 	}
 
 }
