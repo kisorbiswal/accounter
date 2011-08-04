@@ -32,7 +32,6 @@ public class Header extends HorizontalPanel {
 			.hideGettingStarted();
 	private MenuBar helpBar;
 
-
 	/**
 	 * Creates new Instance
 	 */
@@ -47,8 +46,8 @@ public class Header extends HorizontalPanel {
 		userImage = new Image("images/User.png");
 		userImage.getElement().getStyle().setPaddingBottom(4, Unit.PX);
 		userName = new HTML("<a><font color=\"#3299A4\">"
-				+ Accounter.messages().userName(Accounter.getUser().getDisplayName())
-				+ "<font></a>");
+				+ Accounter.messages().userName(
+						Accounter.getUser().getFullName()) + "<font></a>");
 		userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 
 		if (!Accounter.isLoggedInFromDomain()) {
