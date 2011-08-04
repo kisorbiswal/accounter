@@ -52,15 +52,15 @@ public interface AccounterMessages extends Messages {
 
 	public String paypalEmailHtml();
 
-	public SafeHtml startFiscalHTML();
+	public String startFiscalHTML();
 
-	public SafeHtml endFiscalHTML();
+	public String endFiscalHTML();
 
 	SafeHtml footerComment();
 
 	SafeHtml generalSettingsHeading();
 
-	public SafeHtml fiscalStartEndCompreHTML();
+	public String fiscalStartEndCompreHTML();
 
 	SafeHtml helpContent();
 
