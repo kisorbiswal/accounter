@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class FormItem {
@@ -369,4 +370,16 @@ public abstract class FormItem {
 		content = new HTML(Accounter.messages().aboutThisFieldHelp());
 		return content;
 	}
+
+	public static ValidationResult validate(FormItem... items) {
+		ValidationResult result = new ValidationResult();
+		for (FormItem item : items) {
+			if (!item.validate()) {
+				result.addError(item,
+						Accounter.messages().pleaseEnter(item.getTitle()));
+			}
+		}
+		return result;
+	}
+
 }
