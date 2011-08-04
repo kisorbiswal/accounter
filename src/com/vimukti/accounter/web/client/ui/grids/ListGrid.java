@@ -37,6 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -885,8 +886,7 @@ public abstract class ListGrid<T> extends CustomTable {
 	 */
 	protected abstract int sort(T obj1, T obj2, int index);
 
-	public abstract boolean validateGrid()
-			throws InvalidTransactionEntryException;
+	public abstract ValidationResult validateGrid();
 
 	public void setCanEdit(boolean enabled) {
 		this.isEditEnable = enabled;

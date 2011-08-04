@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -1085,23 +1086,36 @@ public class VendorTransactionGrid extends
 	}
 
 	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
 		int validationcount = 1;
 		for (ClientTransactionItem item : this.getRecords()) {
 			if (item.getType() != ClientTransactionItem.TYPE_COMMENT) {
 				switch (validationcount++) {
 				case 1:
-					AccounterValidator.validateGridItem(
-							this.getColumnValue(item, 1),
-							UIUtils.getTransactionTypeName(item.getType()));
+					if (!AccounterValidator.validateGridItem(this
+							.getColumnValue(item, 1))) {
+						result.addError(
+								this,
+								Accounter.messages().pleaseEnter(
+										UIUtils.getTransactionTypeName(item
+												.getType())));
+					}
+					// ,
+					// UIUtils.getTransactionTypeName(item.getType()));
 				case 2:
 					if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
 							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
-						AccounterValidator.validateGridItem(this
+						if (!AccounterValidator.validateGridItem(this
 								.getColumnValue(item,
 										this instanceof PurchaseOrderGrid ? 7
-												: 6), Accounter.constants()
-								.vatCode());
+												: 6))) {
+							result.addError(
+									this,
+									Accounter.messages().pleaseEnter(
+											Accounter.constants().vatCode()));
+						}
+						// .vatCode());
 						validationcount = 1;
 					} else
 						validationcount = 1;
@@ -1113,10 +1127,11 @@ public class VendorTransactionGrid extends
 			}
 		}
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
-			Accounter.showError(AccounterErrorType.InvalidTransactionAmount);
-			return false;
+			result.addError(this, AccounterErrorType.InvalidTransactionAmount);
+			// Accounter.showError(AccounterErrorType.InvalidTransactionAmount);
+			// return false;
 		}
-		return true;
+		return result;
 	}
 
 	private void update_quantity_inAllRecords(double quantity) {

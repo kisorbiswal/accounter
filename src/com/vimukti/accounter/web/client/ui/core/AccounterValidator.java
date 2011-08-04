@@ -1480,11 +1480,11 @@ public class AccounterValidator {
 	 * @throws InvalidTransactionEntryException
 	 */
 
-	public static boolean validateGridItem(Object value, String itemName)
-			throws InvalidTransactionEntryException {
+	public static boolean validateGridItem(Object value){
 		if (value == null || value == "") {
-			throw new InvalidTransactionEntryException(Accounter.messages()
-					.pleaseEnter(itemName));
+			// throw new InvalidTransactionEntryException(Accounter.messages()
+			// .pleaseEnter(itemName));
+			return false;
 		}
 		return true;
 	}
