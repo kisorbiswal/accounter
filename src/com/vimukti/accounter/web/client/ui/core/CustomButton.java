@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -12,10 +13,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseView;
 
-/**
- * @author Fernandez
- * 
- */
+
 public class CustomButton extends Button {
 
 	// protected AccounterExecute execute;
@@ -105,6 +103,7 @@ public class CustomButton extends Button {
 		MainFinanceWindow.getViewManager().restoreErrorBox();
 		view.errorOccured = false;
 		view.validate();
+		view.saveAndUpdateView();
 		// AccounterExecute execute = new AccounterExecute(view, this);
 		// execute.run();
 		// Accounter.setTimer(execute);

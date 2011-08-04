@@ -883,7 +883,7 @@ public class ItemView extends BaseView<ClientItem> {
 		case 7:
 			return AccounterValidator.isSellorBuyCheck(isellCheck, ibuyCheck);
 		case 6:
-			if (AccounterValidator.isChecked(isellCheck))
+			if (isellCheck.isChecked())
 				return AccounterValidator.validateForm(salesInfoForm, false);
 			return true;
 		case 5:
@@ -891,20 +891,20 @@ public class ItemView extends BaseView<ClientItem> {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				result = AccounterValidator.validateForm(itemInfoForm, false);
 			}
-			if (AccounterValidator.isChecked(ibuyCheck))
+			if (ibuyCheck.isChecked())
 				result = AccounterValidator.validateForm(purchaseInfoForm,
 						false);
 			return result;
 
 		case 4:
-			if (AccounterValidator.isChecked(isellCheck))
+			if (isellCheck.isChecked())
 				return AccounterValidator.validateAmount(salesPriceText
 						.getAmount());
 			else
 				return true;
 
 		case 3:
-			if (AccounterValidator.isChecked(ibuyCheck))
+			if (ibuyCheck.isChecked())
 				return AccounterValidator.validateAmount(purchasePriceTxt
 						.getAmount());
 			else
@@ -912,7 +912,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		case 2:
 			if (selectAccount != null) {
-				if (AccounterValidator.isChecked(isellCheck))
+				if (isellCheck.isChecked())
 					return AccounterValidator.validate_IncomeAccount(this,
 							selectAccount);
 				else
@@ -921,7 +921,7 @@ public class ItemView extends BaseView<ClientItem> {
 			return true;
 		case 1:
 			if (selectExpAccount != null) {
-				if (AccounterValidator.isChecked(ibuyCheck))
+				if (isellCheck.isChecked())
 					return AccounterValidator.validate_ExpenseAccount(this,
 							selectExpAccount);
 				else

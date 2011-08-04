@@ -181,6 +181,8 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	private CashSalesView CashSalesView;
 
+	private ClientCustomer customer;
+
 	@Override
 	protected void initTransactionViewData() {
 
@@ -204,37 +206,11 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	public AbstractCustomerTransactionView(int transactionType, int gridType) {
 		super(transactionType, gridType);
-		validationCount = 9;
-		if (transactionType == ClientTransaction.TYPE_SALES_ORDER
-				&& gridType == CUSTOMER_TRANSACTION_GRID) {
-			validationCount = 10;
-		}
-	}
-
-	public AbstractCustomerTransactionView(int transactionType,
-			ClientCustomer customer, int gridType) {
-		super(transactionType, gridType);
-		validationCount = 9;
-		if (transactionType == ClientTransaction.TYPE_SALES_ORDER
-				&& gridType == CUSTOMER_TRANSACTION_GRID) {
-			validationCount = 10;
-		}
 	}
 
 	@Override
 	public AbstractTransactionGrid<ClientTransactionItem> getGrid() {
 		if (gridType == CUSTOMER_TRANSACTION_GRID)
-			// if (getCompany().getAccountingType() ==
-			// ClientCompany.ACCOUNTING_TYPE_US)
-			// return new CustomerTransactionUSGrid() {
-			// @Override
-			// public void deleteRecord(ClientTransactionItem obj) {
-			//
-			// super.deleteRecord(obj);
-			// }
-			// };
-			// else
-			// return new CustomerTransactionUKGrid();
 			return new CustomerTransactionGrid();
 
 		return null;

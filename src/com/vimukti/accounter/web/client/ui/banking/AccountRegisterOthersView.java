@@ -19,11 +19,11 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
+import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.AccountRegisterOtherListGrid;
 
-public class AccountRegisterOthersView extends
-		AbstractBaseView<AccountRegister> {
+public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 	AccountRegisterOtherListGrid grid;
 
 	private String selectedDateRange;
@@ -235,7 +235,6 @@ public class AccountRegisterOthersView extends
 	public void initData() {
 		dateRangeChanged();
 	}
-
 
 	/**
 	 * call this method to set focus in View

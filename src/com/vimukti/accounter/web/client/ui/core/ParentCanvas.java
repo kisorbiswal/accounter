@@ -3,63 +3,33 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.WidgetCollection;
 
-public abstract class ParentCanvas<T> extends VerticalPanel implements
-		IAccounterWidget {
+public abstract class ParentCanvas<T> extends VerticalPanel  {
 
 	abstract public void init();
 
 	abstract public void initData();
 
-	public Object data;
-	// protected boolean isHide;
-
 	private Action action;
-	public boolean isSave = false;
-	public boolean isContiueExecution = true;
-	// protected long id;
-	// public boolean isContinueValidattion = true;
 
 	/**
 	 * Flag, to Determine, whether in Edit Mode or Create mode.
 	 */
-	protected boolean isEdit;
 
-	protected boolean isInitialized;
+	private T data;
 
-	public boolean showSaveAndNewButton;
 
-	public boolean isSaveAndNew;
 
-	/**
-	 * @param isInitialized
-	 *            the isInitialized to set
-	 */
-	public void setInitialized(boolean isInitialized) {
-		this.isInitialized = isInitialized;
+
+	public void close() {
 	}
 
-	public boolean isInitialized() {
-		return isInitialized;
-	}
 
-	public Object getData() {
+	public T getData() {
 		return data;
 	}
 
 	public void setData(T data) {
 		this.data = data;
-	}
-
-	public void setPrevoiusOutput(Object preObjectm) {
-
-	}
-
-	public void close() {
-		// ViewManager.close(this, data);
-	}
-
-	public boolean isHidden() {
-		return false;
 	}
 
 	// public void setHasHistory(boolean hasHistory) {
@@ -82,35 +52,15 @@ public abstract class ParentCanvas<T> extends VerticalPanel implements
 			return action.getText();
 	}
 
-	private boolean isNotNull() {
-
-		return this != null;
-
-	}
-
-	public boolean isTransactionView() {
-
-		return false;
-
-	}
-
-	public boolean isReportView() {
-		return isNotNull();
-	}
 
 	public boolean shouldSaveInHistory() {
 		return false;
-
 	}
 
 	public boolean isAListView() {
 		return false;
 	}
 
-	public boolean isEditMode() {
-
-		return isEdit;
-	}
 
 	public void disableUserEntry() {
 

@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 @SuppressWarnings("serial")
-public class AccountRegister extends BaseReport implements IsSerializable,
+public class AccountRegister implements IsSerializable,
 		Serializable {
 
 	ClientFinanceDate date;

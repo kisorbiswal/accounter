@@ -100,7 +100,7 @@ public class ViewManager extends DockPanel {
 	 * This reference var. holds currently opened view. it is not only
 	 * AbstractBaseView, it is may be AbstractReportView also
 	 */
-	private ParentCanvas<?> currentCanvas;
+	private ParentCanvas currentCanvas;
 
 	/**
 	 * This reference var. holds currently opened dialog. And it is used to

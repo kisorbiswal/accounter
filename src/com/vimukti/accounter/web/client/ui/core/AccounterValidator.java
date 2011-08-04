@@ -95,9 +95,6 @@ public class AccounterValidator {
 		return true;
 	}
 
-	public static boolean isChecked(CheckboxItem item) {
-		return item.getValue() != null ? (Boolean) item.getValue() : false;
-	}
 
 	public static boolean validateAmount(Double amt)
 			throws InvalidEntryException {
@@ -135,46 +132,6 @@ public class AccounterValidator {
 
 	}
 
-	/**
-	 * for Credit Card Account Creation, after all validations successful, this
-	 * method shows a warning.
-	 * 
-	 * if Yes clicked, it means vendor view should be opened.
-	 * 
-	 * if No clicked, it means nothing to do.
-	 * 
-	 * in any case the account should be saved.
-	 * 
-	 * @param view
-	 */
-
-	public static boolean onCreditCardAccountSaved(final AbstractBaseView view) {
-
-		Accounter.showWarning(AccounterWarningType.on_CreditCardSave,
-				AccounterType.WARNING, new ErrorDialogHandler() {
-
-					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
-						return false;
-					}
-
-					@Override
-					public boolean onNoClick() throws InvalidEntryException {
-						view.validationCount--;
-						return true;
-
-					}
-
-					@Override
-					public boolean onYesClick() throws InvalidEntryException {
-						view.validationCount--;
-						view.yesClicked = true;
-						return true;
-					}
-				});
-		AbstractBaseView.warnOccured = true;
-		return false;
-	}
 
 	// creating necessary fiscalYears
 
@@ -233,62 +190,62 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean createFiscalYears(final AbstractBaseView view,
-			final ClientFinanceDate asofDate) {
-		Accounter.showWarning(AccounterWarningType.Create_FiscalYear,
-				AccounterType.WARNING, new ErrorDialogHandler() {
-
-					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
-						return false;
-					}
-
-					@Override
-					public boolean onNoClick() throws InvalidEntryException {
-						// Accounter.stopExecution();
-						return true;
-
-					}
-
-					@Override
-					public boolean onYesClick() throws InvalidEntryException {
-						long convertedasOfDate = asofDate.getDate();
-						Accounter.createHomeService()
-								.changeFiscalYearsStartDateTo(
-										convertedasOfDate,
-										new AccounterAsyncCallback<Boolean>() {
-
-											public void onException(
-													AccounterException caught) {
-												Accounter
-														.showError(Accounter
-																.constants()
-																.failedtoalterthefiscalyear());
-											}
-
-											@SuppressWarnings("null")
-											public void onSuccess(Boolean result) {
-
-												if (result != null || !result) {
-													Accounter
-															.showInformation(Accounter
-																	.constants()
-																	.fiscalYearcreated());
-													view.validationCount--;
-
-												}
-
-											}
-
-										});
-						return true;
-
-					}
-
-				});
-		AbstractBaseView.warnOccured = true;
-		return false;
-	}
+//	public static boolean createFiscalYears(final AbstractBaseView view,
+//			final ClientFinanceDate asofDate) {
+//		Accounter.showWarning(AccounterWarningType.Create_FiscalYear,
+//				AccounterType.WARNING, new ErrorDialogHandler() {
+//
+//					@Override
+//					public boolean onCancelClick() throws InvalidEntryException {
+//						return false;
+//					}
+//
+//					@Override
+//					public boolean onNoClick() throws InvalidEntryException {
+//						// Accounter.stopExecution();
+//						return true;
+//
+//					}
+//
+//					@Override
+//					public boolean onYesClick() throws InvalidEntryException {
+//						long convertedasOfDate = asofDate.getDate();
+//						Accounter.createHomeService()
+//								.changeFiscalYearsStartDateTo(
+//										convertedasOfDate,
+//										new AccounterAsyncCallback<Boolean>() {
+//
+//											public void onException(
+//													AccounterException caught) {
+//												Accounter
+//														.showError(Accounter
+//																.constants()
+//																.failedtoalterthefiscalyear());
+//											}
+//
+//											@SuppressWarnings("null")
+//											public void onSuccess(Boolean result) {
+//
+//												if (result != null || !result) {
+//													Accounter
+//															.showInformation(Accounter
+//																	.constants()
+//																	.fiscalYearcreated());
+//													view.validationCount--;
+//
+//												}
+//
+//											}
+//
+//										});
+//						return true;
+//
+//					}
+//
+//				});
+//		AbstractBaseView.warnOccured = true;
+//		return false;
+//	}
 
 	/**
 	 * validations for all Transactions. The Transaction date should be with in

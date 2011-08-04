@@ -6,7 +6,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -24,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
  * 
  */
 
-public class SalesDetailesView extends ParentCanvas<VerticalPanel> {
+public class SalesDetailesView extends ParentCanvas {
 
 	private FlexTable flexTable;
 	private FlexCellFormatter cellFormatter;

@@ -21,14 +21,12 @@ import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.core.ClientSalesPerson;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CustomButton;
+import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -43,22 +41,21 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
  * @author Fernandez
  */
 @SuppressWarnings("serial")
-public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
+public abstract class AbstractBaseView<T extends IAccounterCore> extends
+		ParentCanvas<T> implements IAccounterWidget {
 
-	public static boolean errorOccured = false;
-	public static boolean warnOccured = false;
+	protected boolean errorOccured = false;
+	protected boolean warnOccured = false;
 
 	public AbstractBaseView() {
 		sinkEvents(Event.ONCHANGE | Event.KEYEVENTS);
 
 		initRPCService();
-		// setTitle(getViewTitle());
 		this.addStyleName("abstract_base_view");
 	}
 
 	protected abstract String getViewTitle();
 
-	
 	private Map<SelectItemType, List<CustomCombo>> comboMap = new HashMap<SelectItemType, List<CustomCombo>>();
 
 	/**
@@ -81,8 +78,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	}
 
-	
-	@Override
 	public void setPrevoiusOutput(Object preObject) {
 
 		Action action = getAction();
@@ -112,20 +107,12 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	 * Member Flag Variable to determine, whether to Save And Close or Save and
 	 * New
 	 */
-	public boolean saveAndClose;
-
-	public ClientCustomer customer;
-
-	public ClientVendor vendor;
-
-	// public ClientTaxAgency taxAgency;
-
-	public ClientSalesPerson salesPerson;
+	protected boolean saveAndClose;
 
 	protected List<DynamicForm> forms = new ArrayList<DynamicForm>();
 
 	protected List<FormItem> formItems = new ArrayList<FormItem>() {
-		
+
 		@Override
 		public boolean add(FormItem e) {
 			if (super.add(e)) {
@@ -137,19 +124,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 				return false;
 		};
 	};
-
-	protected CustomButton saveAndCloseButton;
-
-	protected CustomButton saveAndNewButton;
-	protected CustomButton registerButton;
-	protected CustomButton cancelButton;
-	protected CustomButton printButton;
-	protected CustomButton approveButton;
-	protected CustomButton submitForApprove;
-	/**
-	 * Number of validations in view
-	 */
-	public int validationCount;
 
 	public boolean yesClicked;
 
@@ -167,6 +141,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 	private DialogBox dialog;
 
 	private boolean isViewModfied;
+	protected boolean isEdit;
 
 	/**
 	 * Convenience Method to Set CallBack
@@ -257,20 +232,14 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 		// TODDO Refresh the View Data
 	}
 
-	@Override
 	public void initData() {
-
-		this.isInitialized = true;
 
 	}
 
-	@Override
 	public void setData(T data) {
 		super.setData(data);
 
-		IAccounterCore core = (IAccounterCore) data;
-
-		this.isEdit = (core != null && core.getID() != 0);
+		this.isEdit = (data != null && data.getID() != 0);
 
 	}
 
@@ -302,17 +271,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	}
 
-	public CustomButton getSaveAndCloseButton() {
-		this.saveAndClose = true;
-		this.saveAndCloseButton.setFocus(true);
-		return saveAndCloseButton;
-	}
 
-	public CustomButton getSaveAndNewButton() {
-		return saveAndNewButton;
-	}
-
-	
 	public List<CustomCombo> getComboItems() {
 
 		ArrayList<CustomCombo> items = new ArrayList<CustomCombo>();
@@ -328,7 +287,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	}
 
-	
 	private void addComboItemToMap(CustomCombo comboItem) {
 		// FIXED --replaced comboItem.getComboType() with
 		// comboItem.getSelectItemType()
@@ -348,7 +306,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	}
 
-	
 	public List<CustomCombo> getComboList(SelectItemType type) {
 
 		return comboMap.get(type);
@@ -368,7 +325,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> {
 
 	}
 
-	// 
+	//
 	// @Override
 	// public void saveSuccess(IAccounterCore object) {
 	// saveSuccess((T) object);

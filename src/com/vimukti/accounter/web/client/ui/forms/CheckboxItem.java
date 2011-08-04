@@ -80,4 +80,8 @@ public class CheckboxItem extends FormItem {
 
 	}
 
+	public boolean isChecked() {
+		return (Boolean) getValue();
+	}
+
 }

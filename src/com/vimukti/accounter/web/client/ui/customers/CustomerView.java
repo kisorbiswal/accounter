@@ -140,16 +140,15 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	protected boolean isClose;
 	private boolean wait;
 
-	AccounterConstants customerConstants=Accounter.constants();
+	AccounterConstants customerConstants = Accounter.constants();
 
 	private ClientCompany company = getCompany();
 	private ArrayList<DynamicForm> listforms;
 	private TextItem custNoText;
+	private ClientCustomer customer;
 
 	public CustomerView() {
 		super();
-		this.validationCount = 7;
-		// this.removeStyleName("abstract_base_view");
 	}
 
 	private void initFiscalYear() {
@@ -1170,7 +1169,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		return topHLay;
 	}
-
 
 	@Override
 	public void init() {
