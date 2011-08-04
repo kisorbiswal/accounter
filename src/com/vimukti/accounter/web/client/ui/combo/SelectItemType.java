@@ -64,9 +64,10 @@ public enum SelectItemType {
 
 	VAT_ITEM(ActionFactory.getNewVatItemAction()),
 
-	WAREHOUSE(ActionFactory.getWareHouseViewAction()),
+	TAX_CODE(ActionFactory.getAddEditSalesTaxCodeAction()), SHIP_TO, PHONE, EMAIL, FAX, CURRENCY, MEASUREMENT(
+			ActionFactory.getMeasurementsAction()),
+	WAREHOUSE(ActionFactory.getWareHouseViewAction());
 
-	TAX_CODE(ActionFactory.getAddEditSalesTaxCodeAction()), SHIP_TO, PHONE, EMAIL, FAX, CURRENCY;
 
 	private Action action;
 
