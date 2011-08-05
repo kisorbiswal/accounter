@@ -189,7 +189,9 @@ public enum AccounterCoreType implements IsSerializable {
 
 	WAREHOUSE("ClientWarehouse", "Warehouse"),
 
-	MEASUREMENT("ClientMeasurement", "Measurement");
+	MEASUREMENT("ClientMeasurement", "Measurement"),
+
+	STOCK_TRANSFER("ClientStockTransfer", "StockTransfer");
 
 	private String clientName;
 	private String serverName;
