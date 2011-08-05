@@ -76,8 +76,4 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		super.insert(child, index);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 }

@@ -420,4 +420,8 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 		this.saveAndClose = true;
 	}
 
+	@Override
+	public void processupdateView(IAccounterCore core, int command) {
+
+	}
 }

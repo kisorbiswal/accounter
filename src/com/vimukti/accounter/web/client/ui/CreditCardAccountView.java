@@ -73,7 +73,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 
 		TextItem bankName = new TextItem(Accounter.constants().bankName());
 		// bankName.setWidth("*");
-		AmountField limitText = new AmountField(Accounter.constants()
+		AmountField limitText = new AmountField("",this);
 		// limitText.setWidth("*");
 		IntegerField cardNumText = new IntegerField(Accounter.constants()
 				.cardOrLoadNumber());

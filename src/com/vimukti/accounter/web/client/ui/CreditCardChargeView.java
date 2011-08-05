@@ -636,7 +636,7 @@ public class CreditCardChargeView extends
 	//
 	// }
 
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		ClientCreditCardCharge creditCardCharge = prepareObject();
 		transactionObject = creditCardCharge;
@@ -651,7 +651,7 @@ public class CreditCardChargeView extends
 		createAlterObject();
 	}
 
-	protected ClientCreditCardCharge prepareObject() throws Exception {
+	protected ClientCreditCardCharge prepareObject() {
 
 		ClientCreditCardCharge creditCardCharge = transactionObject != null ? (ClientCreditCardCharge) transactionObject
 				: new ClientCreditCardCharge();

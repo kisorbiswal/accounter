@@ -254,10 +254,6 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 	}
 
-	public void saveAndUpdateView() throws Exception {
-
-	}
-
 	protected void clearFields() {
 	}
 

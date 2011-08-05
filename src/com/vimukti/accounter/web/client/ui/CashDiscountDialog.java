@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -144,11 +145,11 @@ public class CashDiscountDialog extends BaseDialog {
 		return null;
 	}
 
-	public boolean validate() throws InvalidEntryException {
-		if (getSelectedDiscountAccount() == null) {
-			AccounterValidator.validateForm(form, true);
-		}
-		return true;
+	public ValidationResult validate() {
+		// if (getSelectedDiscountAccount() == null) {
+		return form.validate();
+		// }
+		// return true;
 	}
 
 	public Double getCashDiscount() {
