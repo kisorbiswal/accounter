@@ -398,4 +398,9 @@ public class ClientFixedAsset implements IAccounterCore {
 		return totalCapitalGainAmount;
 	}
 
+	public ClientFixedAsset clone() {
+		return null;
+
+	}
+
 }
