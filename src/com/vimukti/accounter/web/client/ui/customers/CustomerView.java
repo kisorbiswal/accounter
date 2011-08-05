@@ -274,58 +274,50 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	public void saveAndUpdateView() {
 
 		if (!wait) {
-//			try {
-				ClientCustomer customer = getCustomerObject();
-				if (takenCustomer == null) {
-					if (!isObjectExist(company.getCustomers(), customer))
-						createObject(customer);
-				} else
-					alterObject(customer);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				throw e;
-//			}
+			// try {
+			ClientCustomer customer = getCustomerObject();
+			if (takenCustomer == null) {
+				createObject(customer);
+			} else
+				alterObject(customer);
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// throw e;
+			// }
 		}
 
 	}
 
-	public static <S extends IAccounterCore> boolean isObjectExist(
-			List<S> list, ClientCustomer customer) throws InvalidEntryException {
+	public static String objectExist(ClientCustomer customer) {
 
+		List<ClientCustomer> list = Accounter.getCompany().getCustomers();
 		if (list == null || list.isEmpty())
-			return false;
-		for (S s : list) {
-			ClientCustomer old = (ClientCustomer) s;
+			return "";
+		for (ClientCustomer old : list) {
 			if (customer.getName().equalsIgnoreCase(old.getName())) {
-				for (S s2 : list) {
-					ClientCustomer old2 = (ClientCustomer) s2;
+				for (ClientCustomer old2 : list) {
 					if (customer.getNumber().equals(old2.getNumber())) {
-						throw new InvalidEntryException(Accounter.constants()
-								.customerAlreadyExistsWithNameAndNo());
+						return Accounter.constants()
+								.customerAlreadyExistsWithNameAndNo();
 					}
 				}
-				throw new InvalidEntryException(Accounter.constants()
-						.customerAlreadyExistsWithName());
+				return Accounter.constants().customerAlreadyExistsWithName();
 			} else if (customer.getNumber().equals(old.getNumber())) {
-				for (S s2 : list) {
-					ClientCustomer old2 = (ClientCustomer) s2;
+				for (ClientCustomer old2 : list) {
 					if (customer.getName().equalsIgnoreCase(old2.getName())) {
-						throw new InvalidEntryException(Accounter.constants()
-								.customerAlreadyExistsWithNameAndNo());
+						return Accounter.constants()
+								.customerAlreadyExistsWithNameAndNo();
 					}
 				}
-				throw new InvalidEntryException(Accounter.constants()
-						.customerAlreadyExistsWithNumber());
+				return Accounter.constants().customerAlreadyExistsWithNumber();
 			} else if (checkIfNotNumber(customer.getNumber())) {
-				throw new InvalidEntryException(Accounter.constants()
-						.customerNumberShouldBeNumber());
+				return Accounter.constants().customerNumberShouldBeNumber();
 			} else if (Integer.parseInt(customer.getNumber().toString()) < 1) {
-				throw new InvalidEntryException(Accounter.constants()
-						.customerNumberShouldBePos());
+				return Accounter.constants().customerNumberShouldBePos();
 			}
 
 		}
-		return false;
+		return "";
 	}
 
 	@Override
@@ -369,34 +361,24 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		result.add(customerForm.validate());
-		// case 5:
 		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			if (!custTaxCode.validate())
 				result.addError(custTaxCode,
 						Accounter.messages()
 								.pleaseEnter(custTaxCode.getTitle()));
 		}
-		// AccounterValidator.validateFormItem(custTaxCode, false);
-		// return true;
-		// case 4:
-		// Date customerSince = customerSinceDate.getEnteredDate();
-		// return AccounterValidator.sinceDate(customerSince, this);
-		// return true;
-
-		// case 3:
-		// return AccounterValidator.validateClosedFiscalYear(balanceDate
-		// .getEnteredDate());
-		// return true;
-		// case 2:
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
 
 		if (AccounterValidator.isPriorAsOfDate(asOfDate, this)) {
 			result.addError(balanceDate, AccounterErrorType.prior_asOfDate);
 		}
-		// return true;
-		// case 1:
+		String s = objectExist(customer);
+		if (!s.isEmpty()) {
+			result.addError(custNameText, s);
+		}
+
 		gridView.validateGrid();
-		// default:
+
 		return result;
 
 		// }
