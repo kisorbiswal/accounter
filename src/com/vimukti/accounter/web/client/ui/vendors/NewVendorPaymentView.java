@@ -240,7 +240,7 @@ public class NewVendorPaymentView extends
 						if (payFromAccount == null)
 							checkNo.setValueField(Accounter.constants()
 									.toBePrinted());
-						else if (transaction != null) {
+						else if (isEdit) {
 							checkNo.setValue(((ClientPayBill) transaction)
 									.getCheckNumber());
 						}
@@ -498,7 +498,7 @@ public class NewVendorPaymentView extends
 	@Override
 	protected void initMemoAndReference() {
 
-		if (this.transaction != null) {
+		if (this.isEdit) {
 
 			ClientPayBill payBill = (ClientPayBill) transaction;
 

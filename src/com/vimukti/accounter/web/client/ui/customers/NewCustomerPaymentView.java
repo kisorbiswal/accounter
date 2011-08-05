@@ -49,7 +49,6 @@ public class NewCustomerPaymentView extends
 
 	private CheckboxItem printCheck;
 	private AmountField amountText, endBalText, customerBalText;
-	protected ClientCustomerPrePayment takenCustomerPrePayment;
 	protected double enteredBalance;
 	private DynamicForm custForm;
 	private DynamicForm payForm;
@@ -72,7 +71,7 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (this.transaction != null) {
+		if (isEdit) {
 
 			ClientCustomerPrePayment customerPrePayment = (ClientCustomerPrePayment) transaction;
 
@@ -133,70 +132,56 @@ public class NewCustomerPaymentView extends
 
 	}
 
-	private ClientTransaction getPrePaymentObject() {
-		try {
+	protected void updateTransaction() {
+		super.updateTransaction();
+		transaction.setNumber(transactionNumber.getValue().toString());
+		transaction.setCustomer(getCustomer().getID());
 
-			ClientCustomerPrePayment customerPrePayment = transaction != null ? (ClientCustomerPrePayment) transaction
-					: new ClientCustomerPrePayment();
+		if (billingAddress != null)
+			transaction.setAddress(billingAddress);
+		if (depositInAccount != null)
+			transaction.setDepositIn(depositInAccount.getID());
+		if (!DecimalUtil.isEquals(enteredBalance, 0.00))
+			transaction.setTotal(enteredBalance);
+		if (paymentMethod != null)
+			transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 
-			customerPrePayment.setNumber(transactionNumber.getValue()
-					.toString());
-			customerPrePayment.setCustomer(getCustomer().getID());
-
-			if (billingAddress != null)
-				customerPrePayment.setAddress(billingAddress);
-			if (depositInAccount != null)
-				customerPrePayment.setDepositIn(depositInAccount.getID());
-			if (!DecimalUtil.isEquals(enteredBalance, 0.00))
-				customerPrePayment.setTotal(enteredBalance);
-			if (paymentMethod != null)
-				customerPrePayment.setPaymentMethod(paymentMethodCombo
-						.getSelectedValue());
-
-			if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
-				String value;
-				if (checkNo.getValue().toString()
-						.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
-					value = String.valueOf(Accounter.constants().toBePrinted());
-				} else {
-					value = String.valueOf(checkNo.getValue());
-				}
-				customerPrePayment.setCheckNumber(value);
-				// customerPrePayment.setCheckNumber(checkNo.getValue().toString()
-				// .equalsIgnoreCase(
-				// FinanceApplication.constants()
-				// .toBePrinted()) ? null
-				// : getCheckNoValue());
+		if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
+			String value;
+			if (checkNo.getValue().toString()
+					.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
+				value = String.valueOf(Accounter.constants().toBePrinted());
 			} else {
-				customerPrePayment.setCheckNumber("");
-
+				value = String.valueOf(checkNo.getValue());
 			}
-			// customerPrePayment.setToBePrinted(isChecked);
-			printCheck.setValue(customerPrePayment.isToBePrinted());
+			transaction.setCheckNumber(value);
+			// transaction.setCheckNumber(checkNo.getValue().toString()
+			// .equalsIgnoreCase(
+			// FinanceApplication.constants()
+			// .toBePrinted()) ? null
+			// : getCheckNoValue());
+		} else {
+			transaction.setCheckNumber("");
 
-			transaction = customerPrePayment;
-
-			if (transactionDate != null)
-				transaction.setDate(transactionDate.getDate());
-			customerPrePayment.setMemo(getMemoTextAreaItem());
-			// customerPrePayment.setReference(getRefText());
-
-			if (toBeSetEndingBalance != null)
-				customerPrePayment.setEndingBalance(toBeSetEndingBalance);
-			if (toBeSetCustomerBalance != null)
-				customerPrePayment.setCustomerBalance(toBeSetCustomerBalance);
-
-			// if (amountText.getAmount() != null)
-			// customerPrePayment.setUnusedAmount(amountText.getAmount());
-
-			customerPrePayment
-					.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
-			transaction = customerPrePayment;
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return transaction;
+		// transaction.setToBePrinted(isChecked);
+		printCheck.setValue(transaction.isToBePrinted());
+
+		if (transactionDate != null)
+			transaction.setDate(transactionDate.getDate());
+		transaction.setMemo(getMemoTextAreaItem());
+		// transaction.setReference(getRefText());
+
+		if (toBeSetEndingBalance != null)
+			transaction.setEndingBalance(toBeSetEndingBalance);
+		if (toBeSetCustomerBalance != null)
+			transaction.setCustomerBalance(toBeSetCustomerBalance);
+
+		// if (amountText.getAmount() != null)
+		// transaction.setUnusedAmount(amountText.getAmount());
+
+		transaction.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+
 	}
 
 	@Override
@@ -272,7 +257,7 @@ public class NewCustomerPaymentView extends
 			enteredBalance = 0D;
 		}
 		if (getCustomer() != null) {
-			if (transaction != null
+			if (isEdit
 					&& getCustomer().getID() == (customerPrePayment
 							.getCustomer())
 					&& !DecimalUtil.isEquals(enteredBalance, 0)) {
@@ -297,7 +282,7 @@ public class NewCustomerPaymentView extends
 				toBeSetEndingBalance = depositInAccount.getTotalBalance()
 						- enteredBalance;
 			}
-			if (transaction != null
+			if (isEdit
 					&& depositInAccount.getID() == (customerPrePayment
 							.getDepositIn())
 					&& !DecimalUtil.isEquals(enteredBalance, 0)) {
@@ -425,7 +410,7 @@ public class NewCustomerPaymentView extends
 						if (depositInAccount == null)
 							checkNo.setValueField(Accounter.constants()
 									.toBePrinted());
-						else if (transaction != null) {
+						else if (isEdit) {
 							checkNo.setValue(((ClientCustomerPrePayment) transaction)
 									.getCheckNumber());
 						}
@@ -551,8 +536,8 @@ public class NewCustomerPaymentView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		transaction = getPrePaymentObject();
-		saveOrUpdate((ClientCustomerPrePayment) transaction);
+		updateTransaction();
+		saveOrUpdate(transaction);
 	}
 
 	private String getCheckNoValue() {

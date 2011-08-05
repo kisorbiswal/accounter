@@ -188,7 +188,7 @@ public class SalesOrderView extends
 					shipToAddress.addrArea.setValue("");
 			}
 		});
-		if (transaction != null)
+		if (isEdit)
 			shipToAddress.businessSelect.setDisabled(true);
 
 		phoneSelect = new TextItem(customerConstants.phone());
@@ -634,7 +634,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (this.transaction != null) {
+		if (this.isEdit) {
 
 			ClientSalesOrder salesOrder = (ClientSalesOrder) transaction;
 
@@ -650,7 +650,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected void initSalesTaxNonEditableItem() {
-		if (transaction != null) {
+		if (isEdit) {
 			Double salesTaxAmout = ((ClientSalesOrder) transaction)
 					.getSalesTaxAmount();
 			setSalesTax(salesTaxAmout);
@@ -661,7 +661,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (transaction != null) {
+		if (isEdit) {
 			Double transactionTotal = ((ClientSalesOrder) transaction)
 					.getTotal();
 			setTransactionTotal(transactionTotal);
@@ -672,7 +672,7 @@ public class SalesOrderView extends
 
 	private void initPayments() {
 
-		if (transaction != null) {
+		if (isEdit) {
 
 			ClientInvoice invoice = (ClientInvoice) transaction;
 
@@ -688,38 +688,45 @@ public class SalesOrderView extends
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientSalesOrder salesOrder = transaction != null ? (ClientSalesOrder) transaction
-				: new ClientSalesOrder();
+		updateTransaction();
+
+		super.saveAndUpdateView();
+
+		saveOrUpdate(transaction);
+	}
+
+	protected void updateTransaction() {
+		super.updateTransaction();
 		if (statusSelect.getSelectedValue().equals(OPEN))
-			salesOrder.setStatus(ClientTransaction.STATUS_OPEN);
+			transaction.setStatus(ClientTransaction.STATUS_OPEN);
 		else if (statusSelect.getSelectedValue().equals(COMPLETED))
-			salesOrder.setStatus(ClientTransaction.STATUS_COMPLETED);
+			transaction.setStatus(ClientTransaction.STATUS_COMPLETED);
 		else if (statusSelect.getSelectedValue().equals(CANCELLED))
-			salesOrder.setStatus(ClientTransaction.STATUS_CANCELLED);
+			transaction.setStatus(ClientTransaction.STATUS_CANCELLED);
 		if (getCustomer() != null)
-			salesOrder.setCustomer(getCustomer().getID());
+			transaction.setCustomer(getCustomer().getID());
 		if (contact != null)
-			salesOrder.setContact(contact);
+			transaction.setContact(contact);
 		if (phoneSelect.getValue() != null)
-			salesOrder.setPhone(phoneSelect.getValue().toString());
+			transaction.setPhone(phoneSelect.getValue().toString());
 		if (billingAddress != null)
-			salesOrder.setBillingAddress(billingAddress);
+			transaction.setBillingAddress(billingAddress);
 		if (shippingAddress != null)
-			salesOrder.setShippingAdress(shippingAddress);
+			transaction.setShippingAdress(shippingAddress);
 
 		if (customerOrderText.getValue() != null)
-			salesOrder.setCustomerOrderNumber(customerOrderText.getValue()
+			transaction.setCustomerOrderNumber(customerOrderText.getValue()
 					.toString());
 		if (salesPerson != null)
-			salesOrder.setSalesPerson(salesPerson.getID());
+			transaction.setSalesPerson(salesPerson.getID());
 		if (paymentTerm != null)
-			salesOrder.setPaymentTerm(paymentTerm.getID());
+			transaction.setPaymentTerm(paymentTerm.getID());
 		if (shippingTerm != null)
-			salesOrder.setShippingTerm(shippingTerm.getID());
+			transaction.setShippingTerm(shippingTerm.getID());
 		if (shippingMethod != null)
-			salesOrder.setShippingMethod(shippingMethod.getID());
+			transaction.setShippingMethod(shippingMethod.getID());
 		if (dueDateItem.getEnteredDate() != null)
-			salesOrder.setDueDate(dueDateItem.getEnteredDate().getDate());
+			transaction.setDueDate(dueDateItem.getEnteredDate().getDate());
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
 			if (taxCode != null) {
@@ -729,24 +736,19 @@ public class SalesOrderView extends
 
 				}
 			}
-			salesOrder.setSalesTaxAmount(this.salesTax);
+			transaction.setSalesTaxAmount(this.salesTax);
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			salesOrder.setNetAmount(netAmountLabel.getAmount());
-			// salesOrder.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+			transaction.setNetAmount(netAmountLabel.getAmount());
+			// transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 			// .getValue());
 		}
 
-		salesOrder.setTotal(transactionTotalNonEditableText.getAmount());
+		transaction.setTotal(transactionTotalNonEditableText.getAmount());
 
-		salesOrder.setMemo(getMemoTextAreaItem());
-		// salesOrder.setReference(getRefText());
+		transaction.setMemo(getMemoTextAreaItem());
+		// transaction.setReference(getRefText());
 		if (selectedEstimateId != 0)
-			salesOrder.setEstimate(selectedEstimateId);
-
-		transaction = salesOrder;
-		super.saveAndUpdateView();
-
-		saveOrUpdate((ClientSalesOrder) transaction);
+			transaction.setEstimate(selectedEstimateId);
 	}
 
 	@Override
@@ -1107,8 +1109,8 @@ public class SalesOrderView extends
 
 			};
 
-			AccounterCoreType type = UIUtils
-					.getAccounterCoreType(transaction.getType());
+			AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+					.getType());
 			this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 		}
 	}

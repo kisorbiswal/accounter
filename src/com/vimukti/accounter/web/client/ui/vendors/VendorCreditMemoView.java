@@ -155,7 +155,7 @@ public class VendorCreditMemoView extends
 
 		contactCombo = createContactComboItem();
 
-		if (this.transaction != null)
+		if (this.isEdit)
 			// FIXME--need to disable the form
 			// vendorForm.setDisabled(true);
 
@@ -168,7 +168,7 @@ public class VendorCreditMemoView extends
 		DynamicForm phoneForm = UIUtils.form(Accounter.constants()
 				.phoneNumber());
 		phoneForm.setFields(phoneSelect);
-		if (this.transaction != null) {
+		if (this.isEdit) {
 			// FiXME--The form need to be disabled
 			// phoneForm.setDisabled(true);
 		}
@@ -327,7 +327,7 @@ public class VendorCreditMemoView extends
 	@Override
 	public void initMemoAndReference() {
 
-		if (this.transaction != null) {
+		if (this.isEdit) {
 
 			ClientVendorCreditMemo vendorCreditMemo = (ClientVendorCreditMemo) transaction;
 

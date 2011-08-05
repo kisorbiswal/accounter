@@ -101,7 +101,7 @@ public class CashPurchaseView extends
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		labeldateNoLayout.add(datepanel);
 
-		if (this.transaction != null)
+		if (this.isEdit)
 			// --the form need to be disabled here
 			dateNoForm.setDisabled(true);
 
@@ -124,7 +124,7 @@ public class CashPurchaseView extends
 		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		if (transaction != null)
+		if (isEdit)
 			phoneSelect.setDisabled(true);
 
 		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
@@ -168,8 +168,7 @@ public class CashPurchaseView extends
 						}
 
 						if (paymentMethod.equals(Accounter.constants().check())
-								&& transaction != null
-								&& payFromAccount != null) {
+								&& isEdit && payFromAccount != null) {
 							ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 							checkNo.setValue(cashPurchase.getCheckNumber());
 						}
@@ -339,7 +338,7 @@ public class CashPurchaseView extends
 				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 				.equalsIgnoreCase(Accounter.constants().cheque())
 				: paymentMethod.equalsIgnoreCase(Accounter.constants().check())
-						&& transaction != null) {
+						&& isEdit) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			checkNo.setValue(cashPurchase.getCheckNumber());
 			// setCheckNumber();
@@ -477,7 +476,7 @@ public class CashPurchaseView extends
 			checkNo.setDisabled(true);
 
 		}
-		if (transaction != null) {
+		if (isEdit) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 					.equalsIgnoreCase(Accounter.constants().cheque())
 					: paymentMethod.equalsIgnoreCase(Accounter.constants()

@@ -90,9 +90,9 @@ public class ItemReceiptView extends
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		labeldateNoLayout.add(datepanel);
 
-		if (this.transaction != null)
-
+		if (this.isEdit) {
 			dateNoForm.setDisabled(true);
+		}
 
 		forms.add(dateNoForm);
 		formItems.add(transactionDateItem);
@@ -324,7 +324,7 @@ public class ItemReceiptView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (this.transaction != null) {
+		if (this.isEdit) {
 
 			ClientItemReceipt itemReceipt = (ClientItemReceipt) transaction;
 

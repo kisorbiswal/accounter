@@ -139,7 +139,7 @@ public class VendorBillView extends
 
 	private void initBalanceDue() {
 
-		if (transaction != null) {
+		if (isEdit) {
 
 			setBalanceDue(((ClientEnterBill) transaction).getBalanceDue());
 
@@ -164,8 +164,7 @@ public class VendorBillView extends
 		paymentTermsCombo.initCombo(paymentTermsList);
 		paymentTermsCombo.setDisabled(isEdit);
 
-		if (transaction != null
-				&& ((ClientEnterBill) transaction).getPaymentTerm() != 0) {
+		if (isEdit && ((ClientEnterBill) transaction).getPaymentTerm() != 0) {
 			ClientPaymentTerms paymentTerm = getCompany().getPaymentTerms(
 					((ClientEnterBill) transaction).getPaymentTerm());
 			paymentTermsCombo.setComboItem(paymentTerm);
@@ -191,7 +190,7 @@ public class VendorBillView extends
 			vendorTransactionGrid.removeAllRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
-		if (transaction != null && this.selectedPaymentTerm != null)
+		if (isEdit && this.selectedPaymentTerm != null)
 			paymentTermSelected(selectedPaymentTerm);
 		if (transaction == null)
 			getPurchaseOrdersAndItemReceipt();
@@ -209,7 +208,7 @@ public class VendorBillView extends
 			vendorTransactionGrid.removeAllRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
-		if (!(transaction != null && vendor.getID() == transaction.getVendor()))
+		if (!(isEdit && vendor.getID() == transaction.getVendor()))
 			setPaymentTermsCombo(vendor);
 		if (transaction == null)
 			getPurchaseOrdersAndItemReceipt();
@@ -354,7 +353,7 @@ public class VendorBillView extends
 		// contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
-		if (this.transaction != null)
+		if (this.isEdit)
 			billToCombo.setDisabled(true);
 
 		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
@@ -477,7 +476,7 @@ public class VendorBillView extends
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
 
-		if (this.transaction != null)
+		if (this.isEdit)
 			totalForm.setFields(balanceDueNonEditableText);
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -582,7 +581,7 @@ public class VendorBillView extends
 	private void paymentTermSelected(ClientPaymentTerms selectItem) {
 		selectedPaymentTerm = selectItem;
 		// paymentTermsCombo.setComboItem(selectedPaymentTerm);
-		if (transaction != null) {
+		if (isEdit) {
 			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
 			setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
 					selectedPaymentTerm).getDate());

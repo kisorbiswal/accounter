@@ -394,54 +394,53 @@ public class CashSalesView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientCashSales cashSale = transaction != null ? (ClientCashSales) transaction
-				: new ClientCashSales();
+		updateTransaction();
 
-		cashSale.setCustomer(getCustomer().getID());
-		cashSale.setPaymentMethod(paymentMethodCombo.getSelectedValue());
+		saveOrUpdate(transaction);
+
+	}
+
+	protected void updateTransaction() {
+		super.updateTransaction();
+		transaction.setCustomer(getCustomer().getID());
+		transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 		if (depositInAccount != null)
-			cashSale.setDepositIn(depositInAccount.getID());
+			transaction.setDepositIn(depositInAccount.getID());
 		if (contact != null)
-			cashSale.setContact(contact);
+			transaction.setContact(contact);
 		// if (phoneNo != null)
-		cashSale.setPhone(phoneSelect.getValue().toString());
+		transaction.setPhone(phoneSelect.getValue().toString());
 		if (salesPerson != null) {
-			cashSale.setSalesPerson(salesPerson.getID());
+			transaction.setSalesPerson(salesPerson.getID());
 		}
 		if (billingAddress != null)
-			cashSale.setBillingAddress(billingAddress);
+			transaction.setBillingAddress(billingAddress);
 		if (shippingAddress != null)
-			cashSale.setShippingAdress(shippingAddress);
+			transaction.setShippingAdress(shippingAddress);
 		if (shippingTerm != null)
-			cashSale.setShippingTerm(shippingTerm.getID());
+			transaction.setShippingTerm(shippingTerm.getID());
 		if (shippingMethod != null)
-			cashSale.setShippingMethod(shippingMethod.getID());
+			transaction.setShippingMethod(shippingMethod.getID());
 		if (deliveryDate != null && deliveryDate.getEnteredDate() != null)
-			cashSale.setDeliverydate(deliveryDate.getEnteredDate().getDate());
+			transaction
+					.setDeliverydate(deliveryDate.getEnteredDate().getDate());
 
 		if (priceLevel != null)
-			cashSale.setPriceLevel(priceLevel.getID());
-		cashSale.setMemo(getMemoTextAreaItem());
-		// cashSale.setReference(getRefText());
+			transaction.setPriceLevel(priceLevel.getID());
+		transaction.setMemo(getMemoTextAreaItem());
+		// transaction.setReference(getRefText());
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			cashSale.setNetAmount(netAmountLabel.getAmount());
-			cashSale.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+			transaction.setNetAmount(netAmountLabel.getAmount());
+			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
 		} else {
 			if (salesTax != null)
-				cashSale.setSalesTax(salesTax);
+				transaction.setSalesTax(salesTax);
 
 		}
 
-		cashSale.setTotal(transactionTotalNonEditableText.getAmount());
-
-		transaction = cashSale;
-
-		super.saveAndUpdateView();
-
-		saveOrUpdate(cashSale);
-
+		transaction.setTotal(transactionTotalNonEditableText.getAmount());
 	}
 
 	@Override
@@ -611,8 +610,7 @@ public class CashSalesView extends
 	protected void initTransactionTotalNonEditableItem() {
 
 		if (transaction != null) {
-			this.transactionTotal = ((ClientCashSales) transaction)
-					.getTotal();
+			this.transactionTotal = ((ClientCashSales) transaction).getTotal();
 			this.transactionTotalNonEditableText
 					.setAmount(this.transactionTotal);
 

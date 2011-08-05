@@ -60,7 +60,7 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
  * @author Fernandez
  * 
  */
-public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
+public abstract class AbstractCustomerTransactionView<T extends ClientTransaction>
 		extends AbstractTransactionBaseView<T> {
 
 	private AbstractCustomerTransactionView<T> customerTransactionViewInstance;
@@ -422,11 +422,8 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 
 	}
 
-	@Override
-	public void saveAndUpdateView() {
-
+	protected void updateTransaction() {
 		super.saveAndUpdateView();
-
 		if (taxCode != null && transactionItems != null) {
 
 			for (ClientTransactionItem item : transactionItems) {
@@ -1025,8 +1022,8 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 				}
 			}
 			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
-					.getTAXCode() != 0 ? getCustomer().getTAXCode() : ztaxCodeid)
-					: 0);
+					.getTAXCode() != 0 ? getCustomer().getTAXCode()
+					: ztaxCodeid) : 0);
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
 		} else if (item.equals(Accounter.constants().productItem())) {
@@ -1040,9 +1037,9 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 					}
 				}
 				transactionItem
-						.setTaxCode(getCustomer() != null ? (getCustomer().getTAXCode() != 0 ? getCustomer()
-								.getTAXCode() : staxCodeid)
-								: 0);
+						.setTaxCode(getCustomer() != null ? (getCustomer()
+								.getTAXCode() != 0 ? getCustomer().getTAXCode()
+								: staxCodeid) : 0);
 			}
 		} else if (item.equals(Accounter.constants().serviceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
@@ -1062,8 +1059,8 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 				}
 			}
 			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
-					.getTAXCode() != 0 ? getCustomer().getTAXCode() : ztaxCodeid)
-					: 0);
+					.getTAXCode() != 0 ? getCustomer().getTAXCode()
+					: ztaxCodeid) : 0);
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
 		}

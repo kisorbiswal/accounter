@@ -624,7 +624,7 @@ public class RecieveVATView extends
 								}
 
 							};
-							if (transaction != null) {
+							if (isEdit) {
 								AccounterCoreType type = UIUtils
 										.getAccounterCoreType(transaction
 												.getType());

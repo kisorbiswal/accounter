@@ -61,7 +61,6 @@ public class CustomerRefundView extends
 	private String checkNumber;
 	private ArrayList<DynamicForm> listforms;
 	protected DynamicForm payForm;
-	private ClientCustomerRefund refund;
 
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS,
@@ -387,49 +386,46 @@ public class CustomerRefundView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		if (transaction == null)
-			refund = new ClientCustomerRefund();
-		else
-			refund = (ClientCustomerRefund) transaction;
-
-		refund.setDate(transactionDateItem.getEnteredDate().getDate());
-
-		refund.setNumber(transactionNumber.getValue().toString());
-
-		refund.setPayTo(getCustomer().getID());
-
-		if (billingAddress != null)
-			refund.setAddress(billingAddress);
-
-		refund.setEndingBalance(endingBalance);
-
-		refund.setCustomerBalance(customerBalanceAmount);
-		if (selectedAccount != null)
-			refund.setPayFrom(selectedAccount.getID());
-
-		refund.setPaymentMethod(paymentMethod);
-		if (checkNoText.getValue() != null
-				&& !checkNoText.getValue().equals("")) {
-			refund.setCheckNumber(getCheckValue());
-		} else
-			refund.setCheckNumber("");
-
-		refund.setIsToBePrinted(isChecked);
-		refund.setMemo(memoTextAreaItem.getValue().toString());
-
-		// refund.setReference(refText.getValue().toString());
-
-		refund.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
-
-		refund.setTotal(amtText.getAmount());
-
-		refund.setBalanceDue(amtText.getAmount());
-
-		transaction = refund;
-
-		super.saveAndUpdateView();
+		updateTransaction();
 
 		saveOrUpdate((ClientCustomerRefund) transaction);
+
+	}
+
+	protected void updateTransaction() {
+		super.updateTransaction();
+		transaction.setDate(transactionDateItem.getEnteredDate().getDate());
+
+		transaction.setNumber(transactionNumber.getValue().toString());
+
+		transaction.setPayTo(getCustomer().getID());
+
+		if (billingAddress != null)
+			transaction.setAddress(billingAddress);
+
+		transaction.setEndingBalance(endingBalance);
+
+		transaction.setCustomerBalance(customerBalanceAmount);
+		if (selectedAccount != null)
+			transaction.setPayFrom(selectedAccount.getID());
+
+		transaction.setPaymentMethod(paymentMethod);
+		if (checkNoText.getValue() != null
+				&& !checkNoText.getValue().equals("")) {
+			transaction.setCheckNumber(getCheckValue());
+		} else
+			transaction.setCheckNumber("");
+
+		transaction.setIsToBePrinted(isChecked);
+		transaction.setMemo(memoTextAreaItem.getValue().toString());
+
+		// transaction.setReference(refText.getValue().toString());
+
+		transaction.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+
+		transaction.setTotal(amtText.getAmount());
+
+		transaction.setBalanceDue(amtText.getAmount());
 
 	}
 

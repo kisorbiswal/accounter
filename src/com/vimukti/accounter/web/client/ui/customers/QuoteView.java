@@ -41,7 +41,6 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	protected DateField quoteExpiryDate;
-	private ClientEstimate estimate;
 	private HorizontalPanel panel;
 
 	private ArrayList<DynamicForm> listforms;
@@ -59,10 +58,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	private void initAllItems() {
 		initPaymentTerms();
-		if (this.estimate != null) {
-			this.quoteExpiryDate.setValue(new ClientFinanceDate(this.estimate
+		if (isEdit) {
+			this.quoteExpiryDate.setValue(new ClientFinanceDate(transaction
 					.getExpirationDate()));
-			this.deliveryDate.setValue(new ClientFinanceDate(this.estimate
+			this.deliveryDate.setValue(new ClientFinanceDate(transaction
 					.getDeliveryDate()));
 		}
 
@@ -149,50 +148,54 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	public void saveAndUpdateView() {
-
-		ClientEstimate quote = transaction != null ? (ClientEstimate) transaction
-				: new ClientEstimate();
-
-		if (quoteExpiryDate.getEnteredDate() != null)
-			quote.setExpirationDate(quoteExpiryDate.getEnteredDate().getDate());
-		if (getCustomer() != null)
-			quote.setCustomer(getCustomer());
-		if (contact != null)
-			quote.setContact(contact);
-		if (phoneSelect.getValue() != null)
-			quote.setPhone(phoneSelect.getValue().toString());
-
-		if (deliveryDate.getEnteredDate() != null)
-			quote.setDeliveryDate(deliveryDate.getEnteredDate().getDate());
-
-		if (salesPerson != null)
-			quote.setSalesPerson(salesPerson);
-
-		if (priceLevel != null)
-			quote.setPriceLevel(priceLevel);
-
-		quote.setMemo(memoTextAreaItem.getValue().toString());
-
-		if (billingAddress != null)
-			quote.setAddress(billingAddress);
-
-		// quote.setReference(this.refText.getValue() != null ? this.refText
-		// .getValue().toString() : "");
-		quote.setPaymentTerm(Utility.getID(paymentTerm));
-		quote.setNetAmount(netAmountLabel.getAmount());
-
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
-		} else
-			quote.setSalesTax(this.salesTax);
-
-		quote.setTotal(transactionTotalNonEditableText.getAmount());
-		transaction = quote;
+		updateNonEditableItems();
 
 		super.saveAndUpdateView();
 
 		saveOrUpdate((ClientEstimate) transaction);
 
+	}
+
+	protected void updateTransaction() {
+		super.updateTransaction();
+		if (quoteExpiryDate.getEnteredDate() != null)
+			transaction.setExpirationDate(quoteExpiryDate.getEnteredDate()
+					.getDate());
+		if (getCustomer() != null)
+			transaction.setCustomer(getCustomer());
+		if (contact != null)
+			transaction.setContact(contact);
+		if (phoneSelect.getValue() != null)
+			transaction.setPhone(phoneSelect.getValue().toString());
+
+		if (deliveryDate.getEnteredDate() != null)
+			transaction
+					.setDeliveryDate(deliveryDate.getEnteredDate().getDate());
+
+		if (salesPerson != null)
+			transaction.setSalesPerson(salesPerson);
+
+		if (priceLevel != null)
+			transaction.setPriceLevel(priceLevel);
+
+		transaction.setMemo(memoTextAreaItem.getValue().toString());
+
+		if (billingAddress != null)
+			transaction.setAddress(billingAddress);
+
+		// transaction.setReference(this.refText.getValue() != null ?
+		// this.refText
+		// .getValue().toString() : "");
+		transaction.setPaymentTerm(Utility.getID(paymentTerm));
+		transaction.setNetAmount(netAmountLabel.getAmount());
+
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+					.getValue());
+		} else
+			transaction.setSalesTax(this.salesTax);
+
+		transaction.setTotal(transactionTotalNonEditableText.getAmount());
 	}
 
 	@Override
@@ -441,7 +444,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void initMemoAndReference() {
 
-		if (this.transaction != null) {
+		if (isEdit) {
 
 			ClientEstimate quote = (ClientEstimate) transaction;
 
@@ -458,9 +461,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void initSalesTaxNonEditableItem() {
-		if (transaction != null) {
-			Double salesTaxAmout = ((ClientEstimate) transaction)
-					.getSalesTax();
+		if (isEdit) {
+			Double salesTaxAmout = ((ClientEstimate) transaction).getSalesTax();
 			if (salesTaxAmout != null) {
 				salesTaxTextNonEditable.setAmount(salesTaxAmout);
 			}
@@ -471,9 +473,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (transaction != null) {
-			Double transactionTotal = ((ClientEstimate) transaction)
-					.getTotal();
+		if (isEdit) {
+			Double transactionTotal = ((ClientEstimate) transaction).getTotal();
 			if (transactionTotal != null) {
 				transactionTotalNonEditableText.setAmount(transactionTotal);
 			}

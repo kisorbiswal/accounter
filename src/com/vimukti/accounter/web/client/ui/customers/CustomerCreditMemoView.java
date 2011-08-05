@@ -296,46 +296,37 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public void saveAndUpdateView() {
-		transaction = getCreditMemoObject();
-		super.saveAndUpdateView();
-		saveOrUpdate((ClientCustomerCreditMemo) transaction);
+		updateTransaction();
+		saveOrUpdate(transaction);
 
 	}
 
-	private ClientTransaction getCreditMemoObject() {
-		try {
+	protected void updateTransaction() {
+		super.updateTransaction();
 
-			ClientCustomerCreditMemo creditMemo = transaction != null ? (ClientCustomerCreditMemo) transaction
-					: new ClientCustomerCreditMemo();
+		transaction.setCustomer(getCustomer().getID());
+		if (contact != null)
+			transaction.setContact(contact);
+		if (salesPerson != null)
+			transaction.setSalesPerson(salesPerson.getID());
+		if (phoneNo != null)
+			transaction.setPhone(phoneNo);
+		if (billingAddress != null)
+			transaction.setBillingAddress(billingAddress);
+		if (priceLevel != null)
+			transaction.setPriceLevel(priceLevel.getID());
+		transaction.setMemo(getMemoTextAreaItem());
+		// transaction.setReference(getRefText());
 
-			creditMemo.setCustomer(getCustomer().getID());
-			if (contact != null)
-				creditMemo.setContact(contact);
-			if (salesPerson != null)
-				creditMemo.setSalesPerson(salesPerson.getID());
-			if (phoneNo != null)
-				creditMemo.setPhone(phoneNo);
-			if (billingAddress != null)
-				creditMemo.setBillingAddress(billingAddress);
-			if (priceLevel != null)
-				creditMemo.setPriceLevel(priceLevel.getID());
-			creditMemo.setMemo(getMemoTextAreaItem());
-			// creditMemo.setReference(getRefText());
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			transaction.setNetAmount(netAmountLabel.getAmount());
+			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+					.getValue());
+		} else
+			transaction.setSalesTax(this.salesTax);
 
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				creditMemo.setNetAmount(netAmountLabel.getAmount());
-				creditMemo.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
-			} else
-				creditMemo.setSalesTax(this.salesTax);
+		transaction.setTotal(transactionTotalNonEditableText.getAmount());
 
-			creditMemo.setTotal(transactionTotalNonEditableText.getAmount());
-			transaction = creditMemo;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return transaction;
 	}
 
 	@Override
@@ -656,9 +647,8 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public void print() {
-
-		UIUtils.downloadAttachment(
-				((ClientCustomerCreditMemo) getCreditMemoObject()).getID(),
+		updateTransaction();
+		UIUtils.downloadAttachment(transaction.getID(),
 				ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
 
 	}

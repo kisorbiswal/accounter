@@ -278,7 +278,7 @@ public class PurchaseOrderView extends
 		dueDateItem = new DateField(Accounter.constants().dueDate());
 		dueDateItem.setDisabled(isEdit);
 		// dueDateItem.setWidth(100);
-		if (transaction != null) {
+		if (isEdit) {
 			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
 		} else
 			setDueDate(new ClientFinanceDate().getDate());
@@ -299,7 +299,7 @@ public class PurchaseOrderView extends
 		});
 		despatchDateItem = new DateField(Accounter.constants().despatchDate());
 		despatchDateItem.setDisabled(isEdit);
-		if (transaction != null) {
+		if (isEdit) {
 		} else
 			setDespatchDate(new ClientFinanceDate().getDate());
 		despatchDateItem.addChangedHandler(new ChangeHandler() {
@@ -688,7 +688,7 @@ public class PurchaseOrderView extends
 
 	private void initDeliveryDate() {
 
-		if (transaction != null) {
+		if (isEdit) {
 			ClientPurchaseOrder purchaseOrder = (ClientPurchaseOrder) transaction;
 			deliveryDateItem.setEnteredDate(new ClientFinanceDate(purchaseOrder
 					.getDeliveryDate()));

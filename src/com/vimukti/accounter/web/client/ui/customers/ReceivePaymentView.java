@@ -93,8 +93,6 @@ public class ReceivePaymentView extends
 
 	private ArrayList<DynamicForm> listforms;
 
-	private ClientReceivePayment paymentToBeEdited;
-
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT,
 				RECIEVEPAYMENT_TRANSACTION_GRID);
@@ -345,46 +343,42 @@ public class ReceivePaymentView extends
 
 	private void createOrAlterReceivePayment() {
 
-		ClientReceivePayment receivePayment = getReceivePaymentObject();
+		updateTransaction();
 
-		saveOrUpdate(receivePayment);
+		saveOrUpdate(transaction);
 
 	}
 
-	private ClientReceivePayment getReceivePaymentObject() {
-
-		ClientReceivePayment receivePayment = (transaction != null) ? (ClientReceivePayment) transaction
-				: new ClientReceivePayment();
-
-		receivePayment.setDate(transactionDateItem.getValue().getDate());
+	protected void updateTransaction() {
+		super.updateTransaction();
+		transaction.setDate(transactionDateItem.getValue().getDate());
 		if (paymentMethod != null)
-			receivePayment.setPaymentMethod(paymentMethod);
+			transaction.setPaymentMethod(paymentMethod);
 		if (depositInAccount != null)
-			receivePayment.setDepositIn(depositInAccount.getID());
+			transaction.setDepositIn(depositInAccount.getID());
 		if (getCustomer() != null)
-			receivePayment.setCustomer(getCustomer().getID());
+			transaction.setCustomer(getCustomer().getID());
 		if (transactionNumber != null)
-			receivePayment.setNumber(transactionNumber.getValue().toString());
+			transaction.setNumber(transactionNumber.getValue().toString());
 		// if (refText != null)
-		// receivePayment.setReference(refText.getValue().toString());
+		// transaction.setReference(refText.getValue().toString());
 		if (memoTextAreaItem != null)
-			receivePayment.setMemo(memoTextAreaItem.getValue().toString());
+			transaction.setMemo(memoTextAreaItem.getValue().toString());
 
-		receivePayment.setCustomerBalance(getCustomerBalance());
+		transaction.setCustomerBalance(getCustomerBalance());
 
-		receivePayment.setAmount(this.amountRecieved);
-		receivePayment.setTotal(this.gridView.getTotal());
+		transaction.setAmount(this.amountRecieved);
+		transaction.setTotal(this.gridView.getTotal());
 
 		if (transaction == null)
-			receivePayment
-					.setTransactionReceivePayment(getTransactionRecievePayments(receivePayment));
+			transaction
+					.setTransactionReceivePayment(getTransactionRecievePayments(transaction));
 
-		receivePayment.setUnUsedPayments(this.unUsedPayments);
-		receivePayment.setTotal(this.transactionTotal);
+		transaction.setUnUsedPayments(this.unUsedPayments);
+		transaction.setTotal(this.transactionTotal);
 
-		receivePayment.setUnUsedCredits(this.unUsedCreditsText.getAmount());
+		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
 
-		return receivePayment;
 	}
 
 	private List<ClientTransactionReceivePayment> getTransactionRecievePayments(
@@ -829,29 +823,26 @@ public class ReceivePaymentView extends
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 
-		paymentToBeEdited = (ClientReceivePayment) transactionObject;
+		transaction = (ClientReceivePayment) transactionObject;
 
-		this.setCustomer(getCompany().getCustomer(
-				paymentToBeEdited.getCustomer()));
-		customerSelected(getCompany().getCustomer(
-				paymentToBeEdited.getCustomer()));
+		this.setCustomer(getCompany().getCustomer(transaction.getCustomer()));
+		customerSelected(getCompany().getCustomer(transaction.getCustomer()));
 
 		depositInAccountSelected(getCompany().getAccount(
-				paymentToBeEdited.getDepositIn()));
+				transaction.getDepositIn()));
 
-		this.transactionItems = paymentToBeEdited.getTransactionItems();
+		this.transactionItems = transaction.getTransactionItems();
 		memoTextAreaItem.setDisabled(true);
-		if (paymentToBeEdited.getMemo() != null)
-			memoTextAreaItem.setValue(paymentToBeEdited.getMemo());
-		if (paymentToBeEdited.getPaymentMethod() != null)
-			paymentMethodCombo.setComboItem(paymentToBeEdited
-					.getPaymentMethod());
-		// if (paymentToBeEdited.getReference() != null)
-		// refText.setValue(paymentToBeEdited.getReference());
-		setAmountRecieved(paymentToBeEdited.getAmount());
+		if (transaction.getMemo() != null)
+			memoTextAreaItem.setValue(transaction.getMemo());
+		if (transaction.getPaymentMethod() != null)
+			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
+		// if (transaction.getReference() != null)
+		// refText.setValue(transaction.getReference());
+		setAmountRecieved(transaction.getAmount());
 		initTransactionNumber();
 		initTransactionTotalNonEditableItem();
-		List<ClientTransactionReceivePayment> tranReceivePaymnetsList = paymentToBeEdited
+		List<ClientTransactionReceivePayment> tranReceivePaymnetsList = transaction
 				.getTransactionReceivePayment();
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			initListGridData(tranReceivePaymnetsList);
@@ -1290,10 +1281,10 @@ public class ReceivePaymentView extends
 			}
 
 		};
-		if (paymentToBeEdited != null) {
-			AccounterCoreType type = UIUtils
-					.getAccounterCoreType(paymentToBeEdited.getType());
-			rpcDoSerivce.voidTransaction(type, paymentToBeEdited.id, callback);
+		if (isEdit) {
+			AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+					.getType());
+			rpcDoSerivce.voidTransaction(type, transaction.id, callback);
 		}
 	}
 

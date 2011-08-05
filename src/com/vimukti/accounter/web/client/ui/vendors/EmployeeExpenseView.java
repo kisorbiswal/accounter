@@ -168,7 +168,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		termsForm.setWidth("100%");
 		vPanel.add(termsForm);
 
-		if (transaction != null) {
+		if (isEdit) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			employee.setComboItem(cashPurchase.getEmployee());
 			employee.setDisabled(true);

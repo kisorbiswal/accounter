@@ -532,7 +532,6 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		this.add(mainVLay);
 		setSize("100%", "100%");
-		isEdit = transaction != null;
 
 		/* Adding dynamic forms in list */
 		listforms.add(payForm);
