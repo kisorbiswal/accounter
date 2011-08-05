@@ -4398,6 +4398,8 @@ public interface AccounterConstants extends Constants {
 
 	public String howIsYourCompanyOrganized();
 	
+	public String howIsYourCompanyOrganizedDesc();
+	
 	public String soleProprietorship();
 	
 	public String soleProprietorshipDesc();
