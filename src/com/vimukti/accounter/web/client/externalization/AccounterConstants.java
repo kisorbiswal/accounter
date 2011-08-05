@@ -4396,4 +4396,32 @@ public interface AccounterConstants extends Constants {
 
 	public String productItem();
 
+	public String howIsYourCompanyOrganized();
+	
+	public String soleProprietorship();
+	
+	public String soleProprietorshipDesc();
+	
+	public String partnershipOrLLP();
+	
+	public String partnershipOrLLPDesc();
+	
+	public String LLC();
+	
+	public String LLCDesc();
+	
+	public String corporation();
+	
+	public String corporationDesc();
+	
+	public String sCorporation();
+	
+	public String sCorporationDesc();
+	
+	public String nonProfit();
+	
+	public String nonProfitDesc();
+	
+	public String otherNone();
+	
 }
