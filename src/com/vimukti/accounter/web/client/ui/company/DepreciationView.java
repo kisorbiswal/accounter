@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsEntry;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
@@ -65,7 +66,6 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		assetIDList = new ArrayList<Long>();
 		account = new ClientAccount();
 		getDepriciationLastDate();
-		validationCount = 1;
 	}
 
 	@Override
@@ -308,67 +308,61 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
-		try {
-			ClientDepreciation depreciation = new ClientDepreciation();
-			depreciation.setDepreciateFrom(depreciationStartDate.getDate());
-			depreciation.setDepreciateTo(depreciationEndDate.getDate());
-			// depreciation
-			// .setDepreciationFor(ClientDepreciation.DEPRECIATION_FOR_ALL_FIXEDASSET);
-			// depreciation.setFixedAsset(getAssetsList())
-			// // depreciation.setFixedAssets(getAssetsList());
-			// depreciation.setStatus(ClientDepreciation.APPROVE);
-			//
-			List<LinkAccount> linkedAccounts = new ArrayList<LinkAccount>();
-			for (ClientDepreciationDummyEntry entry : grid.getNodes()) {
+	public void saveAndUpdateView() {
+		ClientDepreciation depreciation = new ClientDepreciation();
+		depreciation.setDepreciateFrom(depreciationStartDate.getDate());
+		depreciation.setDepreciateTo(depreciationEndDate.getDate());
+		// depreciation
+		// .setDepreciationFor(ClientDepreciation.DEPRECIATION_FOR_ALL_FIXEDASSET);
+		// depreciation.setFixedAsset(getAssetsList())
+		// // depreciation.setFixedAssets(getAssetsList());
+		// depreciation.setStatus(ClientDepreciation.APPROVE);
+		//
+		List<LinkAccount> linkedAccounts = new ArrayList<LinkAccount>();
+		for (ClientDepreciationDummyEntry entry : grid.getNodes()) {
 
-				for (Long key : assets.keySet()) {
-					ClientAccount account = getCompany().getAccount(key);
-					if (account.getName().equals(entry.getFixedAssetName())) {
-						LinkAccount link = new LinkAccount();
-						link.setAssetAccount(key);
-						link.setLinkedAccount(entry.getAssetAccount());
-						linkedAccounts.add(link);
-					}
+			for (Long key : assets.keySet()) {
+				ClientAccount account = getCompany().getAccount(key);
+				if (account.getName().equals(entry.getFixedAssetName())) {
+					LinkAccount link = new LinkAccount();
+					link.setAssetAccount(key);
+					link.setLinkedAccount(entry.getAssetAccount());
+					linkedAccounts.add(link);
 				}
 			}
-			FixedAssetLinkedAccountMap map = new FixedAssetLinkedAccountMap();
-			map.setFixedAssetLinkedAccounts(linkedAccounts);
-			// depreciation.setLinkedAccounts(map);
-
-			createObject(depreciation);
-			Accounter.createHomeService().runDepreciation(
-					depreciationStartDate.getDate(),
-					depreciationEndDate.getDate(), map,
-					new AccounterAsyncCallback() {
-
-						@Override
-						public void onException(AccounterException caught) {
-							Accounter.showError(Accounter.constants()
-									.depreciationfailed());
-
-						}
-
-						@Override
-						public void onSuccess(Object result) {
-
-						}
-
-					});
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
 		}
+		FixedAssetLinkedAccountMap map = new FixedAssetLinkedAccountMap();
+		map.setFixedAssetLinkedAccounts(linkedAccounts);
+		// depreciation.setLinkedAccounts(map);
+
+		createObject(depreciation);
+		Accounter.createHomeService().runDepreciation(
+				depreciationStartDate.getDate(), depreciationEndDate.getDate(),
+				map, new AccounterAsyncCallback() {
+
+					@Override
+					public void onException(AccounterException caught) {
+						Accounter.showError(Accounter.constants()
+								.depreciationfailed());
+
+					}
+
+					@Override
+					public void onSuccess(Object result) {
+
+					}
+
+				});
 	}
 
 	@Override
-	public boolean validate() throws Exception {
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
 		if (!(assets.size() > 0)) {
-			Accounter
-					.showError(Accounter.constants().pleaseselectaFixedAsset());
-			return false;
+			result.addError(this, Accounter.constants().pleaseselectaFixedAsset());
 		}
-		return super.validate();
+		result.add(super.validate());
+		return result;
 	}
 
 	@Override
@@ -388,8 +382,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		// BaseView.errordata.setHTML("Can not able to apply Deprecition");
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this,
-				Accounter.constants().cannotabletoapplyDeprecition());
+		addError(this, Accounter.constants().cannotabletoapplyDeprecition());
 	}
 
 	protected void getDepreciableFixedAssets() {

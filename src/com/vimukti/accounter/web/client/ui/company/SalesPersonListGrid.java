@@ -133,12 +133,6 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
-	@Override
-	public boolean validateGrid() {
-		// its not using any where return null;
-		return true;
-	}
-
 	// protected void updateTotal(ClientPayee customer, boolean add) {
 	//
 	// if (add)

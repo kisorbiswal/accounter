@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -458,19 +459,8 @@ public class CompanyInfoDialog extends BaseDialog {
 
 
 	@Override
-	protected boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-		return validateCompanyDetailsForm(companyDetailsForm);
+	protected ValidationResult validate() {
+		return companyDetailsForm.validate();
 
 	}
-
-	private boolean validateCompanyDetailsForm(DynamicForm companyDetailsForm)
-			throws InvalidEntryException {
-		if (!companyDetailsForm.validate(true)) {
-			// throw new
-			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
-		}
-		return true;
-	}
-
 }

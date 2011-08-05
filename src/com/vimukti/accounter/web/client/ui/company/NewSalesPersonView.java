@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -85,8 +86,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	public NewSalesPersonView() {
 		super();
-		this.validationCount = 3;
-
 	}
 
 	private void createControls() {
@@ -180,9 +179,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				long mustdate = new ClientFinanceDate().getDate() - 180000;
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
-					addError(this,
-							Accounter.constants()
-									.dateofBirthshouldshowmorethan18years());
+					addError(this, Accounter.constants()
+							.dateofBirthshouldshowmorethan18years());
 				}
 			}
 		});
@@ -356,52 +354,45 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException {
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
 
-		switch (this.validationCount) {
-		case 3:
+		if (dateOfBirth.getValue().getDate() != 0) {
 			long mustdate = new ClientFinanceDate().getDate() - 180000;
-			return !(new ClientFinanceDate(mustdate).before(dateOfBirth
-					.getEnteredDate()));
-		case 2:
-			return AccounterValidator.validateForm(salesPersonForm, false);
-		case 1:
-			String name = employeeNameText.getValue().toString();
-			if ((takenSalesperson != null ? (takenSalesperson.getName()
-					.equalsIgnoreCase(name) ? true : (Utility.isObjectExist(
-					getCompany().getSalesPersons(), name) ? false : true))
-					: true)) {
-				return true;
-			} else
-				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
-
-		default:
-			return true;
-
+			if (dateOfBirth.getValue().getDateAsObject()
+					.after(new ClientFinanceDate().getDateAsObject())) {
+				result.addError(dateOfBirth, Accounter.constants()
+						.invalidDateOfBirth());
+			} else if (!(new ClientFinanceDate(mustdate).before(dateOfBirth
+					.getEnteredDate()))) {
+				result.addError(dateOfBirth,
+						"Sales Person should have 18 years");
+			}
 		}
-
+		result.add(salesPersonForm.validate());
+		String name = employeeNameText.getValue().toString();
+		if (!(takenSalesperson != null ? (takenSalesperson.getName()
+				.equalsIgnoreCase(name) ? true : (Utility.isObjectExist(
+				getCompany().getSalesPersons(), name) ? false : true)) : true)) {
+			result.addError(employeeNameText, AccounterErrorType.ALREADYEXIST);
+		}
+		return result;
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		ClientSalesPerson salesPerson = getSalesPersonObject();
-		try {
-			if (takenSalesperson == null) {
-				long mustdate = new ClientFinanceDate().getDate() - 180000;
-				if (new ClientFinanceDate(mustdate).before(dateOfBirth
-						.getEnteredDate())) {
-					addError(this,
-							Accounter.constants()
-									.dateofBirthshouldshowmorethan18years());
-				} else {
-					this.createObject(salesPerson);
-				}
-			} else
-				this.alterObject(salesPerson);
-
-		} catch (Exception e) {
-			throw e;
-		}
+		if (takenSalesperson == null) {
+			long mustdate = new ClientFinanceDate().getDate() - 180000;
+			if (new ClientFinanceDate(mustdate).before(dateOfBirth
+					.getEnteredDate())) {
+				addError(this, Accounter.constants()
+						.dateofBirthshouldshowmorethan18years());
+			} else {
+				this.createObject(salesPerson);
+			}
+		} else
+			this.alterObject(salesPerson);
 
 	}
 
@@ -411,13 +402,12 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		if (takenSalesperson == null)
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .DuplicationOfSalesPesonNotAllowed());
-			addError(this,
-					Accounter.constants().duplicationOfSalesPersonNotAllowed());
+			addError(this, Accounter.constants()
+					.duplicationOfSalesPersonNotAllowed());
 		else
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .salesPersonUpdationFailed());
-			addError(this,
-					Accounter.constants().salesPersonUpdationFailed());
+			addError(this, Accounter.constants().salesPersonUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 	}
@@ -452,8 +442,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		}
 	}
 
-	private ClientSalesPerson getSalesPersonObject()
-			throws InvalidEntryException {
+	private ClientSalesPerson getSalesPersonObject() {
 
 		ClientSalesPerson salesPerson;
 		if (takenSalesperson != null)
@@ -465,22 +454,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			salesPerson.setExpenseAccount(selectedExpenseAccount.getID());
 		salesPerson.setJobTitle(jobTitleText.getValue().toString());
 		salesPerson.setFileAs(fileAsText.getValue().toString());
-		if (dateOfBirth.getValue().getDate() != 0) {
-			try {
-
-				if (dateOfBirth.getValue().getDateAsObject()
-						.after(new ClientFinanceDate().getDateAsObject())) {
-					throw new InvalidEntryException(Accounter.constants()
-							.invalidDateOfBirth());
-
-				}
-				salesPerson.setDateOfBirth(UIUtils.toDate(dateOfBirth
-						.getValue()));
-			} catch (Exception e) {
-				throw new InvalidEntryException(Accounter.constants()
-						.invalidDateOfBirth());
-			}
-		}
 
 		salesPerson.setDateOfHire(UIUtils.toDate(dateOfHire.getValue()));
 		salesPerson.setDateOfLastReview(UIUtils.toDate(dateOfLastReview

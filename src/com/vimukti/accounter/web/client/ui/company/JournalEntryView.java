@@ -73,7 +73,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		transactionObject = getJournalEntryObject();
 		ClientJournalEntry journalEntry = getJournalEntryObject();
 		super.saveAndUpdateView();

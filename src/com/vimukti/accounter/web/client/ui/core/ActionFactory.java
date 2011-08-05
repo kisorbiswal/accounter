@@ -62,7 +62,6 @@ import com.vimukti.accounter.web.client.ui.company.MergeItemsAction;
 import com.vimukti.accounter.web.client.ui.company.MergeVendorsAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewCashBasisJournalEntryAction;
-import com.vimukti.accounter.web.client.ui.company.NewCompanyAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.company.NewJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
@@ -366,10 +365,6 @@ public class ActionFactory {
 	public static MakeInActiveAction getMakeInActiveAction() {
 		return new MakeInActiveAction(actionsConstants.makeInActive());
 
-	}
-
-	public static NewCompanyAction getNewCompanyAction() {
-		return new NewCompanyAction(actionsConstants.newCompany());
 	}
 
 	public static CompanyInfoAction getCompanyInformationAction() {

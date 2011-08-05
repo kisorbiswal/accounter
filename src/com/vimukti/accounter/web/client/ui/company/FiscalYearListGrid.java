@@ -75,12 +75,6 @@ public class FiscalYearListGrid extends ListGrid<ClientFiscalYear> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		// NOTHING TO DO
-		return false;
-	}
-
-	@Override
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 0:
