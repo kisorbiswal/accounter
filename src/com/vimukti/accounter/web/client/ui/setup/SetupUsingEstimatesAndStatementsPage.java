@@ -22,4 +22,22 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		return false;
 	}
 
+	@Override
+	public void onLoad() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSave() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean setProgress() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
