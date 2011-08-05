@@ -53,13 +53,13 @@ public class ClientCustomerGroup implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -67,5 +67,10 @@ public class ClientCustomerGroup implements IAccounterCore {
 	public String getClientClassSimpleName() {
 
 		return "ClientCustomerGroup";
+	}
+
+	public ClientCustomerGroup clone() {
+		return null;
+
 	}
 }
