@@ -96,4 +96,9 @@ public class ClientStockTransfer implements IAccounterCore {
 	public String getClientClassSimpleName() {
 		return "ClientStockTransfer";
 	}
+
+	public ClientStockTransfer clone() {
+		return null;
+
+	}
 }
