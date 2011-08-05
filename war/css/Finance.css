@@ -2815,7 +2815,7 @@ td.td11,td.td10 {
 
 .finance-portlet .portlet .decor10 { /*border-left: 1px solid #DDD;*/
 	/*padding: 0 !important;*/
-	width: 99.3%;
+	width: 100%;
 }
 
 
@@ -2824,31 +2824,28 @@ td.td11,td.td10 {
 }
 
 td.td12 {
-	background: transparent url(/images/panel-right-img.png) repeat-y scroll
-		0 0;
+	/*background: transparent url(/images/panel-right-img.png) repeat-y scroll
+		0 0;*/
 }
 
 td.td10 {
-	background: transparent url(/images/panel-right-img.png) repeat-y scroll
-		102% 0;
+	/*background: transparent url(/images/panel-right-img.png) repeat-y scroll
+		102% 0;*/
 }
 
 .decor20 {
-	background: transparent url("/images/p-lb.png")
-		/*url(/images/panel-left-bottom-img.png)*/                          
-		      no-repeat scroll 0px 0;
+	/*background: transparent url("/images/p-lb.png")                        
+		      no-repeat scroll 0px 0;*/
 }
 
 .decor21 {
-	background: transparent url("/images/p-b.png")
-		/*url(/images/panel-bottom-img.png)*/                             
-		   repeat-x scroll 0 0;
+	/*background: transparent url("/images/p-b.png")                            
+		   repeat-x scroll 0 0;*/
 }
 
 .decor22 {
-	background: transparent url("/images/p-rb.png")
-		/*url(/images/panel-right-bottom-img.png)*/                          
-		      no-repeat scroll -1px 0;
+	/*background: transparent url("/images/p-rb.png")                        
+		      no-repeat scroll -1px 0;*/
 }
 
 .decor11 {
@@ -3606,12 +3603,12 @@ div.edit:hover {
 }
 
 .decor10 {
-	background-attachment: scroll;
+	/*background-attachment: scroll;
 	background-color: transparent;
 	background-image: url("/images/p-l.png");
 	background-position: 0 0;
 	background-repeat: repeat-y;
-	padding-left: 4px;
+	padding-left: 4px;*/
 }
 
 .ws-tools .plain00 {
@@ -3894,15 +3891,12 @@ div.edit:hover {
 }
 
 .gwt-DialogBox .caption {
-	background: url("/images/Top_mid_1.png") repeat-x scroll 0 0 transparent
-		!important;
+	background:none repeat scroll 0 0 #1A5158 !important;
 	cursor: default;
-	/*padding:11px 4px 3px 8px !important;*/
 	color: white;
 	height: 30px !important;
-	padding: 5px 4px 3px 6px !important;
+	padding: 7px 4px 3px 6px !important;
 	border-top: 0 none !important;
-	border-bottom: 1px solid #2d9bc7 !important;
 }
 
 .gwt-DialogBox .dialogMiddleCenter {
@@ -3912,7 +3906,7 @@ div.edit:hover {
 
 .gwt-DialogBox .dialogMiddleRight,.gwt-DialogBox .dialogMiddleLeft,.gwt-DialogBox .dialogBottomCenter,.gwt-DialogBox .dialogTopLeft,.gwt-DialogBox .dialogTopRight
 	{
-	background: none repeat scroll 0 0 #D3E8A3;
+	background:none repeat scroll 0 0 #1A5158 !important;
 }
 
 .gwt-DialogBox .dialogBottomRight {
@@ -3921,8 +3915,7 @@ div.edit:hover {
 }
 
 .gwt-DialogBox .dialogBottomLeft {
-	background: url("/images/dialog-bottom-left.png") no-repeat scroll 0 0px
-		transparent;
+	background:none repeat scroll 0 0 #1A5158 !important;
 }
 
 .gwt-TabBar .gwt-TabBarItem {
@@ -4020,27 +4013,23 @@ td.menu-button-disable-parent {
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight
 	{
-	background: url("/images/Tab_selected_left_4x30.png") no-repeat scroll 0
-		-4px transparent !important;
+	background: none repeat scroll 0 0 #1A5158 !important;
 }
 
 .gwt-DecoratedTabBar .tabMiddleLeft,.gwt-DecoratedTabBar .tabMiddleRight
 	{
-	background: transparent url("/images/Tab_normal_Right_4x30.png")
-		no-repeat scroll 0 -4px !important;
+	background: none repeat scroll 0 0 #39828B !important;
 	padding: 0;
 	width: 6px;
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter {
-	background: url("/images/Tab_select-Imge.png") repeat-x scroll 0 0
-		transparent !important;
+	background:none repeat scroll 0 0 #1A5158 !important;
 	cursor: default;
 }
 
 .gwt-DecoratedTabBar .tabMiddleCenter {
-	background: url("/images/Tab_normal-Imge.png") repeat-x scroll 0 0
-		transparent !important;
+	background: none repeat scroll 0 0 #39828B !important;
 	color: #FFFFFF;
 	cursor: pointer;
 	font-weight: bold;
@@ -4049,44 +4038,42 @@ td.menu-button-disable-parent {
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
-	background: url("/images/Tab_selected_1x30.png") repeat-x scroll 0 0
-		transparent !important;
+	background: none repeat scroll 0 0 #1A5158 !important;
 }
 
 .gwt-DecoratedTabBar .tabTopCenter {
-	background: url("/images/Tab_normal_1x30.png") repeat-x scroll 0 0
-		transparent !important;
+	background: none repeat scroll 0 0 #39828B !important;
 	padding: 0;
 }
 
-.gwt-DecoratedTabBar .tabTopLeft {
-	background: transparent url("/images/corner.png") no-repeat scroll 0
-		-55px;
-}
-
-.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
-	/*background: #9FC24C none repeat scroll 0 0;*/
-	
-}
 
 .gwt-DecoratedTabBar .tabTopLeft {
-	background: url("/images/Tab_normal_left_4x30.png") no-repeat scroll 0 0
-		transparent !important;
+	 background: none repeat scroll 0 0 #39828B !important;
+     border-radius: 4px 0 0 0;
+     -webkit-border-radius:4px 0 0 0;
+     -moz-border-radius:4px 0 0 0;
 }
 
 .gwt-DecoratedTabBar .tabTopRight {
-	background: transparent url("/images/Tab_normal_Right_4x30.png")
-		no-repeat scroll 0px 0 !important;
+	 background: none repeat scroll 0 0 #39828B !important;
+     border-radius: 0 4px 0 0;
+     -webkit-border-radius:0 4px 0 0;
+     -moz-border-radius:0 4px 0 0;
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
-	background: url("/images/Tab_selected_left_4x30.png") no-repeat scroll 0
-		0 transparent !important;
+	background: none repeat scroll 0 0 #1A5158 !important;
+    border-radius: 4px 0 0 0;
+    -webkit-border-radius:4px 0 0 0;
+	-moz-border-radius:4px 0 0 0;
+    
 }
 
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
-	background: url("/images/Tab_selected_right_4x30.png") no-repeat scroll 0
-		0 transparent !important;
+	background: none repeat scroll 0 0 #1A5158 !important;
+    border-radius: 0px 4px 0 0;
+    -webkit-border-radius:0px 4px 0 0;
+	-moz-border-radius:0px 4px 0 0;
 }
 
 .datePickerMonthSelector {
@@ -4422,20 +4409,6 @@ td.imagelink-h-hover .imageLink-div {
 	margin-right: 7px;
 }
 
-.tabTopLeft,.tabMiddleLeft {
-	background: url("/images/Tab_normal_left_4x30.png") no-repeat scroll 0 0
-		transparent !important;
-}
-
-.tabTopCenter {
-	/*background:url("/images/Tab_selected_1x30.png") repeat-x scroll 0 0 transparent !important;*/
-	
-}
-
-.tabTopRight,.tabMiddleRight {
-	background: url("/images/Tab_selected_1x30.png") no-repeat scroll 0 0
-		transparent !important;
-}
 
 .tabMiddleCenter {
 	margin: 0px;
@@ -4443,22 +4416,18 @@ td.imagelink-h-hover .imageLink-div {
 
 /**End --- Styles for new UI **/
 .gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight {
-	background: url("/images/Tab_selected_right_4x30.png") no-repeat scroll 0
-		-4px transparent !important;
+	background: none repeat scroll 0 0 #1A5158 !important;
 }
 
 .gwt-DecoratedTabBar .tabMiddleLeft {
-	background: url("/images/Tab_normal_left_4x30.png") no-repeat scroll 0
-		-4px transparent !important;
+	background:none repeat scroll 0 0 #39828B !important;
 }
 
 .gridTextBoxCell {
 	font-size: 12px;
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-	.decor10 .decor-left{
-	    padding-left:7px;
-	}
+	
 }
 /** Add css rules here for your application. */
 	/** Example rules used by the template application (remove for your app) */
@@ -4467,11 +4436,9 @@ td.imagelink-h-hover .imageLink-div {
 	src: url("Fonts/ColabThi.otf") format("truetype");
 }
 
-.widget { /**background:url(/images/icons/startBar.png) repeat-x;*/
-	background: url("/images/pannig bar.png") repeat-x scroll 0 0 transparent
-		;
+.widget { 
+	background: none repeat scroll 0 0 #E3E3E3;
 	width: 100% !important;
-	/*display: none;*/
 }
 
 .copy-img {
@@ -4684,11 +4651,10 @@ h1 {
 }
 
 .noScroll {
-	background: url("../images/body-shadow-left.png") repeat-y scroll 0 0
+	/*background: url("../images/body-shadow-left.png") repeat-y scroll 0 0
 		#F0F0F0;
-	/*height: 100% !important;*/
-	overflow: hidden !important;
-	padding-left: 15px;
+	padding-left: 15px;*/
+	background:#F0F0F0;
 	width: 100%;
 }
 
@@ -5164,7 +5130,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .gwt-MenuBar .gwt-MenuItem-selected,.gwt-MenuBar-vertical .subMenuIcon-selected
 	{
-	background: #28757d !important;
+	background: #29646c !important;
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
@@ -5173,7 +5139,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .gwt-MenuBar-vertical {
-	background: none repeat scroll 0 0 #144149 !important;
+	background: none repeat scroll 0 0 #39828B !important;
 	border: 0px none !important;
 }
 
@@ -5205,7 +5171,11 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .finance-portlet .decor00 {
-	background: url(/images/headerNew-l.png) no-repeat 0px 0px !important;
+	/*background: url(/images/headerNew-l.png) no-repeat 0px 0px !important;*/
+	background:none repeat scroll 0 0 #29646C;
+	border-radius: 5px 0 0 0;
+	-webkit-border-radius:5px 0 0 0;
+	-moz-border-radius:5px 0 0 0;
 }
 
 .finance-portlet td.td10 {
@@ -5258,34 +5228,33 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 /**End --- Styles for Finance **/ /* this changes by praveena */
 	/* this changes by praveena */
 .gwt-Button:active {
-	border: medium none !important;
+	/*border: medium none !important;*/
 }
 
 .gwt-Button:hover {
-	border-color: #9FC2FF !important;
+	/*border-color: #9FC2FF !important;*/
 }
 
 .gwt-Button[disabled] {
-	cursor: pointer !important;
+	/*cursor: pointer !important;
 	color: none !important;
-	background: none repeat scroll 0 0 gray !important;;
+	background: none repeat scroll 0 0 gray !important;;*/
 }
 
 .gwt-Button[disabled]:hover {
-	border: 0 !important;
+	/*border: 0 !important;*/
 }
 
 .gwt-MenuBar-horizontal {
-	background: none !important;
+	background: none repeat scroll 0 0 #1A5158 !important;
 	border: 0 !important;
 	/*margin-top: 3px;*/
 	margin-top: 0px\0  !important;
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItem { /*praveena*/
-	/*background:url(/images/arrow_down.gif) no-repeat scroll 0 0 #6DAF7C; */
-	background: url("/images/Menu bar_1x33.png") repeat-x scroll 0 0
-		transparent !important;
+	/*background: url("/images/Menu bar_1x33.png") repeat-x scroll 0 0
+		transparent !important;*/
 	color: #ffffff !important;
 	font-weight: normal !important;
 	/*padding: 6px 17px 13px !important;*/
@@ -5309,19 +5278,25 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .decor00,.no-title .biz-decor-panel div.decor00 {
-	background: transparent url(/images/headerNew-l.png) no-repeat scroll
-		-2px 0;
+	/*background: transparent url(/images/headerNew-l.png) no-repeat scroll
+		-2px 0;*/
+	  background:background:none repeat scroll 0 0 #29646C;
 }
 
 td.td01,.no-title .biz-decor-panel td.td01 {
-	background: transparent url(/images/headerNew-c.png) repeat-x scroll 0 0;
+	/*background: transparent url(/images/headerNew-c.png) repeat-x scroll 0 0;*/
+	background:none repeat scroll 0 0 #29646C;
 	color: #FFFFFF;
 	vertical-align: top;
 }
 
 .decor02,.no-title .biz-decor-panel div.decor02 {
-	background: transparent url(/images/headerNew-r.png) no-repeat scroll
-		-8px 0;
+	/*background: transparent url(/images/headerNew-r.png) no-repeat scroll
+		-8px 0;*/
+	  background:none repeat scroll 0 0 #29646C;
+	  border-radius: 0 5px 0 0;
+	  -webkit-border-radius:0 5px 0 0;
+	  -moz-border-radius:0 5px 0 0;
 }
 
 .gwt-MenuBarPopup .menuPopupTopCenter {
@@ -5384,14 +5359,14 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 
 .gwt-Button {
-	background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
+	/*background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
 		transparent !important;
 	color: white !important;
+	border: 0px none !important;
+	border-radius: 0 0 0 0 !important;*/
 	cursor: pointer;
 	height: 25px !important;
 	padding: 0 5px 5px !important;
-	border: 0px none !important;
-	border-radius: 0 0 0 0 !important;
 	font-weight: normal;
 	margin: 0px !important;
 	font-size: 13px !important;
@@ -5442,8 +5417,8 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 }
 
 .header {
-	background: url("/images/Header-BG_1x95.png") repeat-x scroll 0 0
-		transparent !important;
+	/*background: url("/images/Header-BG_1x95.png") repeat-x scroll 0 0
+		transparent !important;*/
 	margin-left: 0 !important;
 }
 
@@ -5584,8 +5559,9 @@ solid
 }
 
 .menubar-devider {
-	background: url("/images/Menu bar_1x33.png") repeat-x scroll 0 0
-		transparent !important;
+	/*background: url("/images/Menu bar_1x33.png") repeat-x scroll 0 0
+		transparent !important;*/
+	background:none repeat scroll 0 0 #1A5158 !important;
 	padding: 0px;
 }
 
@@ -5602,11 +5578,10 @@ solid
 }
 
 .gwt-TextBox {
-	background: url("/images/Text Feild_enabled_180x22.png") no-repeat scroll
-		0 0 #fff !important;
-	border: 0 none;
-	height: 22px;
-	padding: 0px\0  !important;
+	border: 1px solid #7A7A7A;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
+    height: 25px !important;
 }
 
 .gwt-PasswordTextBox {
@@ -5889,8 +5864,9 @@ important
 }
 
 .ibutton {
-	background: url("/images/blue_Left_sideNew.png") no-repeat scroll 0 0
-		transparent !important;
+	/*background: url("/images/blue_Left_sideNew.png") no-repeat scroll 0 0
+		transparent !important;*/
+	background: none ;
 	float: left;
 	padding: 0 3px;
 }
@@ -5900,6 +5876,7 @@ important
 	width: 3px;*/
 	display: inline;
 	padding: 0px 1px 9px 2px;
+	display:none;
 }
 
 .panel-right-align {
@@ -5917,9 +5894,12 @@ important
 	background-color: white;
 	height: 100%;
 	padding-top: 10px;
-	width: 99%;
-	width: 98% \0;
+	border: 1px solid #7A7A7A;
+	width: 100%;
 	margin-top: 10px\0  !important;
+	border-radius: 0 0 5px 5px;
+	-webkit-border-radius:0 0 5px 5px;
+	-moz-border-radius:0 0 5px 5px;
 }
 
 .add-button button {
@@ -5952,42 +5932,48 @@ important
 }
 
 .gwt-DialogBox .dialogTopLeft {
-	background: url("/images/top_left_1.png") no-repeat scroll 0 0
+	/*background: url("/images/top_left_1.png") no-repeat scroll 0 0
 		transparent !important;
-	width: 9px;
-	height: 16px;
+	width: 9px;*/
+	 border-radius: 5px 0 0 0;
+	 -webkit-border-radius:5px 0 0 0;
+	 -moz-border-radius:5px 0 0 0;
+	 height: 16px;
 }
 
 .gwt-DialogBox .dialogTopRight {
-	background: url("/images/top_right_1.png") no-repeat scroll 0 0
-		transparent !important;
-	width: 9px;
+	background:none repeat scroll 0 0 #1A5158 !important;
+	width: 5px;
+	border-radius: 0 5px 0 0;
+	-webkit-border-radius:0 5px 0 0;
+	-moz-border-radius:0 5px 0 0;
 }
 
 .gwt-DialogBox .dialogMiddleLeft {
-	background: url("/images/left_mid.png") repeat-y scroll 0 0 transparent
-		!important;
+	background:none repeat scroll 0 0 #1A5158 !important;
 }
 
 .gwt-DialogBox .dialogMiddleRight {
-	background: url("/images/Right_mid.png") repeat-y scroll 0 0 transparent
-		!important;
+	background: none repeat scroll 0 0 #1A5158 !important;
 }
 
 .gwt-DialogBox .dialogBottomLeft {
-	background: url("/images/Bottom_left_corner_1.png") no-repeat scroll 0 0
-		transparent !important;
+	background: none repeat scroll 0 0 #1A5158 !important;
+	-moz-border-radius: 0px 0px 0 5px;
+	-webkit-radius-border: 0px 0px 0 5px;
+	border-radius: 0px 0px 0 5px;
 }
 
 .gwt-DialogBox .dialogBottomRight {
-	background: url("/images/Bottom_right_corner.png") no-repeat scroll 0 0
-		transparent !important;
+	background: none repeat scroll 0 0 #1A5158 !important;
+	-moz-border-radius: 0px 0 5px 0px;
+	-webkit-radius-border: 0px 0 5px 0px;
+	border-radius: 0px 0 5px 0px;
 }
 
 .gwt-DialogBox .dialogBottomCenter {
-	background: url("/images/Bottom_mid.png") repeat-x scroll 0 0 transparent
-		!important;
-	height: 9px;
+	background: none repeat scroll 0 0 #1A5158 !important;
+	height: 5px;
 }
 
 .calendar-picker {
@@ -6083,7 +6069,7 @@ iframe { /*display:none;*/
 }
 
 .gwt-DialogBox .dialogTopLeftInner,.dialogMiddleRightInner {
-	width: 9px !important;
+	width: 5px !important;
 }
 
 .unused-payments td {
@@ -6178,9 +6164,10 @@ iframe { /*display:none;*/
 }
 
 .main-finance-window {
-	background: url("../images/body-shadow-right.png") repeat-y scroll right
+	/*background: url("../images/body-shadow-right.png") repeat-y scroll right
 		top #F0F0F0;
-	padding-right: 15px;
+	padding-right: 15px;*/
+	background:#F0F0F0;
 }
 
 .setting-class-panel {
@@ -6432,8 +6419,6 @@ noindex:-o-prefocus,.ibutton {
 }
 
 .ok-cancel-button {
-	background: url("/images/blue_Left_sideNew.png") no-repeat scroll 0 0
-		transparent !important;
 	float: left;
 	padding: 0 1px;
 	margin: 0 4px;
@@ -6455,8 +6440,9 @@ input[type="text"],textarea {
 	width: 3px !important;
 }
 
-.banking-portlet {
+.banking-portlet,.expense_claim_portlet {
 	width: 50%;
+	padding-right:11px;
 }
 .bottom-corners{
    width:100%;	
@@ -6516,4 +6502,7 @@ input[type="text"],textarea {
 }
 .popupContent img{
    padding:5px 0 5px 10px;
+}
+.gwt-DialogBox .dialogTopRightInner{
+	width:5px !important;
 }
