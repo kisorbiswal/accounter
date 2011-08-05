@@ -152,4 +152,9 @@ public class ClientEmployee implements IAccounterCore {
 		return this.fullName;
 	}
 
+	public ClientEmployee clone() {
+		return null;
+
+	}
+
 }
