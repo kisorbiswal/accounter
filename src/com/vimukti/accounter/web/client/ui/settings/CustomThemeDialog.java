@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 
-
 public class CustomThemeDialog extends BaseDialog {
 
 	private HTML titleHTML;
@@ -32,8 +31,7 @@ public class CustomThemeDialog extends BaseDialog {
 
 	private void createControls() {
 		subTable = new FlexTable();
-		titleHTML = new HTML(Accounter.constants()
-				.yourTitle());
+		titleHTML = new HTML(Accounter.constants().yourTitle());
 		titleBox = new TextBox();
 		subTable.setWidget(0, 0, titleHTML);
 		subTable.setWidget(1, 0, titleBox);
@@ -74,8 +72,4 @@ public class CustomThemeDialog extends BaseDialog {
 		setBodyLayout(flexTable);
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().newBrandThemeLabel();
-	}
 }

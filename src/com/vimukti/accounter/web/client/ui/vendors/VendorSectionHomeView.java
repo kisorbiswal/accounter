@@ -25,15 +25,15 @@ import com.vimukti.accounter.web.client.ui.grids.VendorListGrid;
 public class VendorSectionHomeView extends BaseHomeView {
 
 	ArrayList<String> addablePortletList = new ArrayList<String>();
-	
+
 	private VendorSectionHomeView vendorSectionView = null;
 	private PortalLayout portalLayout;
-	
+
 	private String vendorSectionPreference;
 	private String[] widgetOnSectionPage;
-	
+
 	private Portlet[] portlet;
-	
+
 	private WidgetCreator creator;
 	private String[] secondColumn;
 
@@ -86,7 +86,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 			widgetOnSectionPage = portletArray;
 			portlet = new Portlet[portletArray.length];
 			for (int i = 0; i < portletArray.length; i++) {
-				
+
 				final int index = i;
 				if (portletArray[i].equals("")) {
 
@@ -133,7 +133,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 				portlet = new Portlet[firstColumn.length];
 			}
 			for (int i = 0; i < firstColumn.length; i++) {
-				
+
 				final int index = i;
 				if (firstColumn[i].equals("")) {
 
@@ -155,7 +155,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 			if (portletArray.length > 1) {
 				for (int i = 0; i < secondColumn.length; i++) {
-					
+
 					final int index = i + firstColumn.length;
 					if (secondColumn[i].equals("")) {
 
@@ -275,11 +275,5 @@ public class VendorSectionHomeView extends BaseHomeView {
 					public void onException(AccounterException caught) {
 					}
 				});
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants().supplierhome(),
-				Accounter.constants().vendorHome());
 	}
 }

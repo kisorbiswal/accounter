@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
-
 public class RollBackDepreciationDialog extends BaseDialog {
 
 	protected ClientFinanceDate lastDepreciationDate;
@@ -184,36 +183,4 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	}
 
-	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// currently not using this method anywhere.
-
-	}
-
-	// FinanceApplication.constants()
-	// .rollBackDepreciation()
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().rollBackDepreciation();
-	}
 }

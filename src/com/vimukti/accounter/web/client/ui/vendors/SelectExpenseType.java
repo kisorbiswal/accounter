@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
-
 public class SelectExpenseType extends BaseDialog {
 	RadioGroupItem typeRadio;
 	private final String CHECK = Accounter.constants().check();
@@ -56,12 +55,11 @@ public class SelectExpenseType extends BaseDialog {
 				if (typeRadio.getValue() != null) {
 					String radio = typeRadio.getValue().toString();
 					if (radio.equals(EMPLOYEE)) {
-						ActionFactory.EmployeeExpenseAction().run(null,
-								false);
+						ActionFactory.EmployeeExpenseAction().run(null, false);
 					} else if (radio.equals(CHECK)) {
 						try {
-							ActionFactory.getWriteChecksAction().run(
-									null, false);
+							ActionFactory.getWriteChecksAction().run(null,
+									false);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter.constants()
 									.failedToloadWriteCheck()
@@ -72,8 +70,8 @@ public class SelectExpenseType extends BaseDialog {
 
 					} else if (radio.equals(CREDIT_CARD)) {
 						try {
-							ActionFactory.CreditCardExpenseAction().run(
-									null, false);
+							ActionFactory.CreditCardExpenseAction().run(null,
+									false);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter.constants()
 									.failedToLoadCreditCardCharg());
@@ -83,8 +81,7 @@ public class SelectExpenseType extends BaseDialog {
 
 					} else if (radio.equals(CASH)) {
 						try {
-							ActionFactory.CashExpenseAction().run(null,
-									false);
+							ActionFactory.CashExpenseAction().run(null, false);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter.constants()
 									.failedToLoadCashPurchase());
@@ -92,8 +89,8 @@ public class SelectExpenseType extends BaseDialog {
 						}
 					} else if (radio.equals(EMPLOYEE)) {
 						try {
-							ActionFactory.EmployeeExpenseAction().run(
-									null, false);
+							ActionFactory.EmployeeExpenseAction().run(null,
+									false);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter.constants()
 									.failedToLoadCashPurchase());
@@ -129,32 +126,6 @@ public class SelectExpenseType extends BaseDialog {
 
 	public void setFocus() {
 		cancelBtn.setFocus(true);
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().recordExpenses();
 	}
 
 	// setTitle(vendorsConstants.selectExpenseType());

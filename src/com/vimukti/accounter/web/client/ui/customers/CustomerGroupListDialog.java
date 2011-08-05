@@ -103,10 +103,6 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 		customerGroup = rec;
 		inputDlg = new InputDialog(customerConstants.customerGroup(), "",
 				Accounter.constants().customerGroup()) {
-			@Override
-			protected String getViewTitle() {
-				return Accounter.constants().customerGroup();
-			}
 		};
 
 		if (customerGroup != null) {
@@ -183,11 +179,6 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 			deleteObject(custGrp);
 		}
 
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().customerGroups();
 	}
 
 }

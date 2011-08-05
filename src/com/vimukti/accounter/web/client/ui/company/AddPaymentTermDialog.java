@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-
 public class AddPaymentTermDialog extends BaseDialog {
 
 	public TextItem payTermText;
@@ -39,7 +38,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 			Accounter.constants().currentYear() };
 	private List<String> listOfDueValues;
 	private Label dayLabel;
-	
+
 	private DynamicForm paymentForm;
 	private IntegerRangeValidator integerRangeValidator;
 	private DynamicForm dueForm;
@@ -190,48 +189,6 @@ public class AddPaymentTermDialog extends BaseDialog {
 						.getValue().toString() : "0"));
 
 		return paymentTerm;
-	}
-
-	@Override
-	public void addInputDialogHandler(InputDialogHandler handler) {
-		super.addInputDialogHandler(handler);
-
-	}
-
-	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().paymentTerm();
 	}
 
 }

@@ -76,8 +76,4 @@ public class DeleteThemeDialog extends BaseDialog {
 		ActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().deleteThemeLabel();
-	}
 }

@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-
 public class ManageCountryRegionDialog extends GroupDialog {
 	protected GroupDialogButtonsHandler groupDialogButtonHandler;
 
@@ -79,11 +78,6 @@ public class ManageCountryRegionDialog extends GroupDialog {
 	}
 
 	public void editCallBack() {
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().countryRegion();
 	}
 
 }// end of ManageCountryRegionDialog

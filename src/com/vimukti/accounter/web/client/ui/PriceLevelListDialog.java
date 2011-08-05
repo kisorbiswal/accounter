@@ -158,7 +158,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	private void createPriceLevels() {
 		if (Utility.isObjectExist(getCompany().getPriceLevels(),
 				dialog.levelText.getValue().toString())) {
-			Accounter.showError(Accounter.constants().priceLevelAlreadyExists());
+			Accounter
+					.showError(Accounter.constants().priceLevelAlreadyExists());
 		} else {
 			ClientPriceLevel priceLevel = new ClientPriceLevel();
 
@@ -203,8 +204,4 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 		return getCompany().getPriceLevels();
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().managePriceLevelListGroup();
-	}
 }

@@ -416,15 +416,4 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		initDataToFiscalYearList();
 	}
 
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().manageFiscalYear();
-	}
 }

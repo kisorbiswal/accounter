@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
-
 public class StartDateDialog extends BaseDialog {
 
 	protected List<ClientFinanceDate> startDateList;
@@ -50,14 +49,13 @@ public class StartDateDialog extends BaseDialog {
 	}
 
 	private void createControl() {
-		Label introLabel = new Label(Accounter.constants()
-				.currentStartDateIs() + getStartDateString());
+		Label introLabel = new Label(Accounter.constants().currentStartDateIs()
+				+ getStartDateString());
 
 		Label infoLabel = new Label();
 		infoLabel.setText(Accounter.constants()
 				.startDateForManagingFixedAsset());
-		HTML prefixText = new HTML(Accounter.constants()
-				.newStartDate());
+		HTML prefixText = new HTML(Accounter.constants().newStartDate());
 		dateBox = new ListBox();
 		dateBox.addChangeHandler(new ChangeHandler() {
 
@@ -172,32 +170,6 @@ public class StartDateDialog extends BaseDialog {
 		};
 		Accounter.createHomeService().getFinancialYearStartDates(callBack);
 
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().startDate();
 	}
 
 }

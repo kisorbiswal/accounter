@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
-
 public class TaxDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 	private final String TAXGROUP = Accounter.constants().taxGroup();
@@ -23,25 +22,26 @@ public class TaxDialog extends BaseDialog {
 	private AccounterConstants vendorsConstants = Accounter.constants();
 
 	public TaxDialog() {
-		super(Accounter.constants().tax(), Accounter
-				.constants().selectOneType());
+		super(Accounter.constants().tax(), Accounter.constants()
+				.selectOneType());
 		setText(Accounter.constants().tax());
 		createControls();
 		center();
 	}
 
 	public <T> TaxDialog(AccounterAsyncCallback<T> callBack) {
-		super(Accounter.constants().tax(), Accounter
-				.constants().selectOneType());
+		super(Accounter.constants().tax(), Accounter.constants()
+				.selectOneType());
 		this.callBack = callBack;
 		setText(Accounter.constants().tax());
 		createControls();
 		center();
 	}
 
-	public <T> TaxDialog(AccounterAsyncCallback<T> callBack, FormItem actionSource) {
-		super(Accounter.constants().tax(), Accounter
-				.constants().selectOneType());
+	public <T> TaxDialog(AccounterAsyncCallback<T> callBack,
+			FormItem actionSource) {
+		super(Accounter.constants().tax(), Accounter.constants()
+				.selectOneType());
 		this.callBack = callBack;
 		this.actionSource = actionSource;
 		setText(Accounter.constants().tax());
@@ -75,8 +75,7 @@ public class TaxDialog extends BaseDialog {
 
 							action.run(null, true);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter
-									.constants()
+							Accounter.showError(Accounter.constants()
 									.failedToloadTaxGroup()
 
 							);
@@ -85,16 +84,14 @@ public class TaxDialog extends BaseDialog {
 
 					} else if (radio.equals(TAXITEM)) {
 						try {
-							Action action = ActionFactory
-									.getNewVatItemAction();
+							Action action = ActionFactory.getNewVatItemAction();
 							action.setActionSource(actionSource);
 
 							action.run(null, true);
 							// ActionFactory.getNewVatItemAction().run(null,
 							// true);
 						} catch (Throwable e) {
-							Accounter.showError(Accounter
-									.constants()
+							Accounter.showError(Accounter.constants()
 									.failedToloadTaxItem());
 							e.printStackTrace();
 
@@ -131,36 +128,6 @@ public class TaxDialog extends BaseDialog {
 
 	public void setFocus() {
 		cancelBtn.setFocus(true);
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// currently not using this method anywhere in the project.
-
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().tax();
 	}
 
 }

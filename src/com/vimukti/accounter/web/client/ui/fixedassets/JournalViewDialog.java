@@ -402,8 +402,4 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 		}
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().journalView();
-	}
 }

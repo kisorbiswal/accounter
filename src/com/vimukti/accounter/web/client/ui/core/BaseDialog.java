@@ -293,7 +293,7 @@ public abstract class BaseDialog extends CustomDialog implements
 	 * 
 	 * @param obj
 	 */
-	public void clearErro(Object obj) {
+	public void clearError(Object obj) {
 		Widget remove = this.errorsMap.remove(obj);
 		if (remove != null) {
 			this.errorPanel.remove(remove);
@@ -331,6 +331,11 @@ public abstract class BaseDialog extends CustomDialog implements
 	protected boolean validate() throws InvalidTransactionEntryException,
 			InvalidEntryException {
 		return true;
+	}
+
+	@Override
+	public void processupdateView(IAccounterCore core, int command) {
+
 	}
 
 }

@@ -2,9 +2,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 
 import java.util.LinkedHashMap;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -85,8 +83,7 @@ public class SelectPayeeDialog extends BaseDialog {
 						// new VendorPaymentsAction("Not Issued").run();
 
 						try {
-							Action action = ActionFactory
-									.getNewVendorAction();
+							Action action = ActionFactory.getNewVendorAction();
 							action.setActionSource(actionSource);
 
 							action.run(null, true);
@@ -129,35 +126,4 @@ public class SelectPayeeDialog extends BaseDialog {
 		setSize("350", "220");
 	}
 
-	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().selectPayeeType();
-	}
 }

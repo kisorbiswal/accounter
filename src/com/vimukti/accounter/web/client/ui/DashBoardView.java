@@ -281,8 +281,4 @@ public class DashBoardView extends BaseHomeView {
 		gettingStartedPortlet.setVisible(false);
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().home();
-	}
 }

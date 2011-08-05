@@ -31,9 +31,9 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	private PortalLayout portalLayout;
 	private String customerSectionPreference;
 	private String[] widgetOnSectionPage;
-	
+
 	private Portlet[] portlet;
-	
+
 	private WidgetCreator creator;
 	private AccounterConstants customerConstants = Accounter.constants();
 	private String[] secondColumn;
@@ -91,7 +91,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 			widgetOnSectionPage = portletArray;
 			portlet = new Portlet[portletArray.length];
 			for (int i = 0; i < portletArray.length; i++) {
-				
+
 				final int index = i;
 				if (portletArray[i].equals("")) {
 
@@ -139,7 +139,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 				portlet = new Portlet[firstColumn.length];
 			}
 			for (int i = 0; i < firstColumn.length; i++) {
-				
+
 				final int index = i;
 				if (firstColumn[i].equals("")) {
 
@@ -161,7 +161,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 			if (portletArray.length > 1) {
 				for (int i = 0; i < secondColumn.length; i++) {
-					
+
 					final int index = i + firstColumn.length;
 					if (secondColumn[i].equals("")) {
 
@@ -217,8 +217,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
-		String[] totalWidget = {
-				Accounter.constants().newCustomer(),
+		String[] totalWidget = { Accounter.constants().newCustomer(),
 				Accounter.constants().salesItem(),
 				Accounter.constants().paymentReceived(),
 				Accounter.constants().cashSales(),
@@ -282,10 +281,5 @@ public class CustomerSectionHomeView extends BaseHomeView {
 					public void onException(AccounterException caught) {
 					}
 				});
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().customersHome();
 	}
 }

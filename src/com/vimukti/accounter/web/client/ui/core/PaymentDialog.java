@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
-
 public class PaymentDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 	private AccounterConstants customerConstants = Accounter.constants();
@@ -55,8 +54,8 @@ public class PaymentDialog extends BaseDialog {
 					String radio = typeRadio.getValue().toString();
 					if (radio.equals(RECEIVE_PAYMENT)) {
 						try {
-							ActionFactory.getReceivePaymentAction()
-									.run(null, false);
+							ActionFactory.getReceivePaymentAction().run(null,
+									false);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter.constants()
 									.failedToloadWriteCheck()
@@ -67,9 +66,8 @@ public class PaymentDialog extends BaseDialog {
 
 					} else if (radio.equals(CUSTOMER_PREPAYMENT)) {
 						try {
-							ActionFactory
-									.getNewCustomerPaymentAction().run(null,
-											false);
+							ActionFactory.getNewCustomerPaymentAction().run(
+									null, false);
 						} catch (Throwable e) {
 							Accounter.showError(Accounter.constants()
 									.failedToLoadCreditCardCharg());
@@ -86,7 +84,7 @@ public class PaymentDialog extends BaseDialog {
 			@Override
 			public void onCancelClick() {
 				removeFromParent();
-				//Action.cancle();
+				// Action.cancle();
 			}
 		});
 
@@ -101,31 +99,5 @@ public class PaymentDialog extends BaseDialog {
 
 	public void setFocus() {
 		cancelBtn.setFocus(true);
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-	// setTitle(customerConstants.selectPaymentType());
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().payments();
 	}
 }

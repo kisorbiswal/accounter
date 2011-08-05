@@ -83,7 +83,8 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	public void createShippingMethod() {
 		if (Utility.isObjectExist(getCompany().getShippingMethods(),
 				inputDlg.getTextValueByIndex(0))) {
-			Accounter.showError(Accounter.constants().shippingMethodAlreadyExists());
+			Accounter.showError(Accounter.constants()
+					.shippingMethodAlreadyExists());
 		} else {
 
 			ClientShippingMethod method = new ClientShippingMethod();
@@ -108,10 +109,6 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 		arr[1] = Accounter.constants().description();
 		inputDlg = new InputDialog(Accounter.constants().shippingMethod(), "",
 				arr) {
-			@Override
-			protected String getViewTitle() {
-				return Accounter.constants().shippingMethod();
-			}
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
 		inputDlg.setWidth("320");
@@ -191,8 +188,4 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 		return Accounter.constants().shippingMethodListDialog();
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().manageShippingMethodList();
-	}
 }

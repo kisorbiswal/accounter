@@ -259,11 +259,11 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 					.getCashDiscount()));
 		cashDiscText.setDisabled(true);
 
-		totBalText = new AmountField(customerConstants.totalBalance(),this);
+		totBalText = new AmountField(customerConstants.totalBalance(), this);
 		totBalText.setColSpan(1);
 		totBalText.setDisabled(true);
 
-		adjPayText = new AmountField(customerConstants.adjustPayment(),this);
+		adjPayText = new AmountField(customerConstants.adjustPayment(), this);
 		adjPayText.setColSpan(1);
 		adjPayText.setDisabled(true);
 
@@ -287,7 +287,8 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 				adjPayText.setValue(DataUtils.getAmountAsString(record
 						.getPayment()));
 		}
-		totAmtUseText = new AmountField(customerConstants.totalAmountToUse(),this);
+		totAmtUseText = new AmountField(customerConstants.totalAmountToUse(),
+				this);
 		totAmtUseText.setColSpan(1);
 		totAmtUseText.setDisabled(true);
 		totAmtUseText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -475,36 +476,6 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 			}
 		}
 		return clientTransactionCreditsAndPayments;
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().applyCreditsAndPaymentsFor();
 	}
 
 }

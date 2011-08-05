@@ -79,8 +79,9 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 		vendorGroup.setName(inputDlg.getTextValueByIndex(0));
 		if (Utility.isObjectExist(getCompany().getVendorGroups(),
 				vendorGroup.getName())) {
-			Accounter.showError(UIUtils.getVendorString(Accounter.constants().supplierGroupAlreadyExists(),
-					Accounter.constants().vendorGroupAlreadyExists()));
+			Accounter.showError(UIUtils.getVendorString(Accounter.constants()
+					.supplierGroupAlreadyExists(), Accounter.constants()
+					.vendorGroupAlreadyExists()));
 		} else {
 			createObject(vendorGroup);
 		}
@@ -103,11 +104,6 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 				.vendorGroup()), "", UIUtils.getVendorString(Accounter
 				.constants().supplierGroup(), Accounter.constants()
 				.vendorGroup())) {
-			@Override
-			protected String getViewTitle() {
-				return UIUtils.getVendorString(Accounter.constants()
-						.supplierGroup(), Accounter.constants().vendorGroup());
-			}
 		};
 
 		if (vendorGroup != null) {
@@ -176,10 +172,4 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 		return getCompany().getVendorGroups();
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants()
-				.manageSupplierGroup(), Accounter.constants()
-				.manageVendorGroup());
-	}
 }

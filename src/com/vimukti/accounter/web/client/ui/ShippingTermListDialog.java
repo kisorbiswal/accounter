@@ -115,10 +115,6 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 		arr[1] = Accounter.constants().description();
 		inputDlg = new InputDialog(Accounter.constants().shippingTerm(), "",
 				arr) {
-			@Override
-			protected String getViewTitle() {
-				return Accounter.constants().shippingTerm();
-			}
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
 
@@ -177,11 +173,6 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	@Override
 	protected List getRecords() {
 		return getCompany().getShippingTerms();
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().manageShippingTermList();
 	}
 
 }

@@ -1,9 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -20,8 +18,8 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 
 	public SelectPaymentTypeDialog() {
-		super(Accounter.constants().selectPaymentType(), Accounter
-				.constants().selectPaymentType());
+		super(Accounter.constants().selectPaymentType(), Accounter.constants()
+				.selectPaymentType());
 		createControls();
 		center();
 
@@ -48,8 +46,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		typeForm.setWidth("100%");
 
 		typeForm.setIsGroup(true);
-		typeForm.setGroupTitle(Accounter.constants()
-				.paymentDocuments());
+		typeForm.setGroupTitle(Accounter.constants().paymentDocuments());
 		typeForm.setFields(typeRadio);
 
 		addInputDialogHandler(new InputDialogHandler() {
@@ -65,24 +62,22 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 					// .constants().pleaseSelecPaymentType());
 					return false;
 				}
-				
+
 				ItemView itemView;
 
 				if (typeRadio.getValue() != null) {
 					String radio = typeRadio.getValue().toString();
 					String paymentType;
 					if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-						paymentType = Accounter.constants()
-								.vendorPayment();
+						paymentType = Accounter.constants().vendorPayment();
 					} else {
-						paymentType = Accounter.constants()
-								.supplierPayment();
+						paymentType = Accounter.constants().supplierPayment();
 					}
 
 					if (radio.equals(paymentType)) {
 						try {
-							ActionFactory.getNewVendorPaymentAction()
-									.run(null, false);
+							ActionFactory.getNewVendorPaymentAction().run(null,
+									false);
 							;
 						} catch (Throwable e) {
 							// //UIUtils.logError("Failed...", e);
@@ -92,8 +87,8 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 							.customerRefund())) {
 
 						try {
-							ActionFactory.getCustomerRefundAction()
-									.run(null, false);
+							ActionFactory.getCustomerRefundAction().run(null,
+									false);
 							;
 						} catch (Throwable e) {
 							// //UIUtils.logError("Failed...", e);
@@ -117,35 +112,4 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		show();
 	}
 
-	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().selectPaymentType();
-	}
 }

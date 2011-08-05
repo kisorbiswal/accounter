@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-
 public class PayTypeListDialog extends GroupDialog {
 
 	protected GroupDialogButtonsHandler groupDialogButtonHandler;
@@ -25,9 +24,8 @@ public class PayTypeListDialog extends GroupDialog {
 
 		setSize("30%", "50%");
 
-		
 		final String title;
-		
+
 		final String description;
 
 		title = Accounter.constants().addOrEditPayType();
@@ -78,20 +76,6 @@ public class PayTypeListDialog extends GroupDialog {
 	protected List getRecords() {
 
 		return null;
-	}
-
-	public void deleteCallBack() {
-	}
-
-	public void addCallBack() {
-	}
-
-	public void editCallBack() {
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().addOrEditPayType();
 	}
 
 }

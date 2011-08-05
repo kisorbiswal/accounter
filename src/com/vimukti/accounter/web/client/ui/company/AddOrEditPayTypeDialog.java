@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -16,7 +15,6 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 
 	// private AccountCombo account;
 	private AccountCombo account;
-
 
 	public AddOrEditPayTypeDialog(String title, String desc) {
 		super(title, desc);
@@ -54,8 +52,8 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 		type.setTitle(Accounter.constants().type());
 		// type.setType("comboBox");
 		type.setRequired(true);
-		type.setValueMap(Accounter.constants().earning(), Accounter
-				.constants().deduction());
+		type.setValueMap(Accounter.constants().earning(), Accounter.constants()
+				.deduction());
 		type.setDefaultValue(Accounter.constants().earning());
 
 		// account = new AccountCombo(Accounter.constants().account());
@@ -77,39 +75,4 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 		account.initCombo(getCompany().getActiveAccounts());
 	}
 
-	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().payType();
-	}
 }

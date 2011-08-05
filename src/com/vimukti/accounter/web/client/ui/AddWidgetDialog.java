@@ -54,6 +54,10 @@ public class AddWidgetDialog extends BaseDialog {
 
 	}
 
+	public AddWidgetDialog(BaseHomeView homeView) {
+		// TODO Auto-generated constructor stub
+	}
+
 	private void createControl() {
 
 		setText();
@@ -73,8 +77,7 @@ public class AddWidgetDialog extends BaseDialog {
 		Label label = new Label();
 		// label.setWidth100();
 		if (addablePortletList.toArray().length > 0) {
-			label.setText(Accounter.getFinanceUIConstants()
-					.widgetsAvailable());
+			label.setText(Accounter.getFinanceUIConstants().widgetsAvailable());
 		} else {
 			label.setText(Accounter.getFinanceUIConstants()
 					.widgetsAlreadyOnYourHomepageLabel());

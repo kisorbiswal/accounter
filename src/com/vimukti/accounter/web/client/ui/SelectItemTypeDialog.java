@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -24,8 +23,8 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 	public SelectItemTypeDialog(NewItemAction action,
 			boolean isGeneratedFromCustomer) {
-		super(Accounter.constants().selectItemType(), Accounter
-				.constants().selectOneOfItem());
+		super(Accounter.constants().selectItemType(), Accounter.constants()
+				.selectOneOfItem());
 		this.action = action;
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
 		createControls();
@@ -43,8 +42,8 @@ public class SelectItemTypeDialog extends BaseDialog {
 		// typeMap.put("service", "Service");
 		// typeMap.put("non-inventory", "Non-Inventory&nbsp;Item");
 
-		typeRadio.setValueMap(Accounter.constants().service(),
-				Accounter.constants().product());
+		typeRadio.setValueMap(Accounter.constants().service(), Accounter
+				.constants().product());
 		typeRadio.setDefaultValue(Accounter.constants().service());
 
 		final DynamicForm typeForm = new DynamicForm();
@@ -64,13 +63,12 @@ public class SelectItemTypeDialog extends BaseDialog {
 					// .constants().pleaseSelectItemType());
 					return false;
 				}
-				
+
 				ItemView itemView;
 
 				if (typeRadio.getValue() != null) {
 					String radio = typeRadio.getValue().toString();
-					if (radio.equals(Accounter.constants()
-							.service())) {
+					if (radio.equals(Accounter.constants().service())) {
 						try {
 							ItemView view = new ItemView(null, TYPE_SERVICE,
 									isGeneratedFromCustomer);
@@ -80,8 +78,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 							// //UIUtils.logError("Failed...", e);
 
 						}
-					} else if (radio.equals(Accounter.constants()
-							.product())) {
+					} else if (radio.equals(Accounter.constants().product())) {
 
 						try {
 							ItemView view = new ItemView(null,
@@ -111,16 +108,4 @@ public class SelectItemTypeDialog extends BaseDialog {
 		show();
 	}
 
-	@Override
-	public Object getGridColumnValue(IsSerializable obj, int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().selectItemType();
-	}
 }

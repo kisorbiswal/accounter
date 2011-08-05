@@ -163,11 +163,4 @@ public class CreateTaxesDialog extends BaseDialog {
 
 	}
 
-
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().createTaxes();
-	}
-
 }

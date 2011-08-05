@@ -26,9 +26,9 @@ public class BankingSectionHomeView extends BaseHomeView {
 	private PortalLayout portalLayout;
 	private String bankingSectionPreference;
 	private String[] widgetOnSectionPage;
-	
+
 	private Portlet[] portlet;
-	
+
 	private WidgetCreator creator;
 	private String[] secondColumn;
 	ChartOfAccountsListGrid accounts;
@@ -58,8 +58,7 @@ public class BankingSectionHomeView extends BaseHomeView {
 		// addWidgetLinkLayout.setHeight(20);
 
 		LinkItem addWidgetLink = new LinkItem();
-		addWidgetLink.setLinkTitle(Accounter.constants()
-				.addWidget());
+		addWidgetLink.setLinkTitle(Accounter.constants().addWidget());
 		addWidgetLink.setShowTitle(false);
 		// addWidgetLink.setAlign(Alignment.RIGHT);
 
@@ -194,7 +193,7 @@ public class BankingSectionHomeView extends BaseHomeView {
 		accounts.init();
 		VerticalPanel leftLayout = new VerticalPanel();
 		leftLayout.setSize("100%", "100%");
-		listOfAccounts = getCompany().getAccounts();
+		listOfAccounts = Accounter.getCompany().getAccounts();
 		filterList(true);
 		// leftLayout.add(addWidgetLinkLayout);
 		leftLayout.add(portalLayout);
@@ -205,8 +204,7 @@ public class BankingSectionHomeView extends BaseHomeView {
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
-		String[] totalWidget = {
-				Accounter.constants().bankingSummary(),
+		String[] totalWidget = { Accounter.constants().bankingSummary(),
 				Accounter.constants().checkIssued(),
 				Accounter.constants().deposit(),
 				Accounter.constants().fundTransfered(),
@@ -266,9 +264,5 @@ public class BankingSectionHomeView extends BaseHomeView {
 		this.accounts.setHeight((height - 130) + "px");
 
 	}
-	
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().bankingHome();
-	}
+
 }

@@ -419,9 +419,4 @@ public class TransferFundsDialog extends BaseDialog {
 
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().transferFunds();
-	}
-
 }

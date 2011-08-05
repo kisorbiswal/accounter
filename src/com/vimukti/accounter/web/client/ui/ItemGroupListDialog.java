@@ -81,7 +81,8 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	public void createItemSGroups() {
 		if (Utility.isObjectExist(getCompany().getItemGroups(),
 				itemGroupDg.getItemGroupName())) {
-			Accounter.showError(Accounter.constants().aItemGroupAlreadyExistswiththisname());
+			Accounter.showError(Accounter.constants()
+					.aItemGroupAlreadyExistswiththisname());
 		} else {
 			createObject(itemGroupDg.createOrEditItemGroup());
 		}
@@ -97,8 +98,8 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	public void showAddEditGroupDialog(ClientItemGroup rec) {
 		itemGroup = rec;
-		itemGroupDg = new ItemGroupDialog(Accounter.constants()
-				.itemGroup(), "", itemGroup);
+		itemGroupDg = new ItemGroupDialog(Accounter.constants().itemGroup(),
+				"", itemGroup);
 
 		InputDialogHandler dialogHandler = new InputDialogHandler() {
 
@@ -163,8 +164,4 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 		return (List<ClientItemGroup>) getCompany().getItemGroups();
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().manageItemGroup();
-	}
 }

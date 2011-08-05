@@ -28,9 +28,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	private AddPaymentTermDialog dialog;
 
 	public PaymentTermListDialog() {
-		super(Accounter.constants().managePaymentTerm(),
-				Accounter.constants()
-						.paymentTermDescription());
+		super(Accounter.constants().managePaymentTerm(), Accounter.constants()
+				.paymentTermDescription());
 		createControls();
 		center();
 	}
@@ -84,8 +83,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	}
 
 	public void createPaymentTerms() {
-		if (Utility.isObjectExist(getCompany()
-				.getPaymentsTerms(), dialog.payTermText.getValue().toString())) {
+		if (Utility.isObjectExist(getCompany().getPaymentsTerms(),
+				dialog.payTermText.getValue().toString())) {
 			Accounter.showError(Accounter.constants().paytermsAlreadyExists());
 		} else {
 			ClientPaymentTerms clientPaymentTerms = getPaymentTerms();
@@ -94,10 +93,9 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	}
 
 	public void showAddEditTermDialog(ClientPaymentTerms rec) {
-		dialog = new AddPaymentTermDialog(Accounter
-				.constants().addPaymentTermTitle(),
-				Accounter.constants()
-						.addPaymentTermTitleDesc());
+		dialog = new AddPaymentTermDialog(Accounter.constants()
+				.addPaymentTermTitle(), Accounter.constants()
+				.addPaymentTermTitleDesc());
 
 		paymentTerm = rec;
 		if (paymentTerm != null) {
@@ -149,12 +147,10 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 		clientPaymentTerms
 				.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
-						.getValue().toString()
-						: "");
+						.getValue().toString() : "");
 		clientPaymentTerms
 				.setDescription(dialog.descText.getValue() != null ? dialog.descText
-						.getValue().toString()
-						: "");
+						.getValue().toString() : "");
 		clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
 				.getNumber() != null ? dialog.discDayText.getNumber() : "0"));
 		clientPaymentTerms.setDiscountPercent(UIUtils.toDbl(dialog.discText
@@ -163,14 +159,14 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 		for (int i = 0; i < dialog.dueValues.length; i++) {
 			if (dialog.dueSelect.getValue() != null) {
-				if (dialog.dueSelect.getValue().toString().equals(
-						dialog.dueValues[i]))
+				if (dialog.dueSelect.getValue().toString()
+						.equals(dialog.dueValues[i]))
 					clientPaymentTerms.setDue(i + 1);
 			}
 
 		}
-		clientPaymentTerms.setDueDays(UIUtils
-				.toInt(dialog.dayText.getNumber() != null ? dialog.dayText
+		clientPaymentTerms
+				.setDueDays(UIUtils.toInt(dialog.dayText.getNumber() != null ? dialog.dayText
 						.getNumber() : "0"));
 
 		return clientPaymentTerms;
@@ -197,8 +193,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	protected void editPaymentTerms() {
 		if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
-				.getValue().toString()
-				: "")) {
+				.getValue().toString() : "")) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else {
 			ClientPaymentTerms clientPaymentTerms = getPaymentTerms();
@@ -221,8 +216,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			case 3:
 				return DataUtils.getNumberAsPercentString(paymentTerms
-						.getDiscountPercent()
-						+ "");
+						.getDiscountPercent() + "");
 			}
 		}
 		return null;
@@ -230,8 +224,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] {
-				Accounter.constants().name(),
+		return new String[] { Accounter.constants().name(),
 				Accounter.constants().description(),
 				Accounter.constants().paidWithin(),
 				Accounter.constants().cashDiscount() };
@@ -239,12 +232,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	@Override
 	protected List<ClientPaymentTerms> getRecords() {
-		return (List<ClientPaymentTerms>) getCompany()
-				.getPaymentsTerms();
+		return (List<ClientPaymentTerms>) getCompany().getPaymentsTerms();
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().managePaymentTerm();
-	}
 }

@@ -102,8 +102,6 @@ public class ItemGroupDialog extends BaseDialog {
 		return this.itemgroup;
 	}
 
-
-
 	@Override
 	public Object getGridColumnValue(IsSerializable obj, int index) {
 		ClientItem clientItem = (ClientItem) obj;
@@ -130,8 +128,4 @@ public class ItemGroupDialog extends BaseDialog {
 		return this.dform.validate(true);
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().itemGroup();
-	}
 }

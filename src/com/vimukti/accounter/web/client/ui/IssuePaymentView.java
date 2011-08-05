@@ -521,9 +521,4 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 		}
 	}
 
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().issuePayments();
-	}
-
 }

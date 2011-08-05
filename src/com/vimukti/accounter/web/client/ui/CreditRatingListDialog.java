@@ -104,10 +104,6 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 		String creditRateString = Accounter.constants().creditRating();
 		inputDlg = new InputDialog(Accounter.constants().creditRating(), "",
 				creditRateString) {
-			@Override
-			protected String getViewTitle() {
-				return Accounter.constants().creditRating();
-			}
 		};
 
 		if (creditRating != null) {
@@ -174,11 +170,6 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	@Override
 	protected List<ClientCreditRating> getRecords() {
 		return (List<ClientCreditRating>) getCompany().getCreditRatings();
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return Accounter.constants().creditRatingList();
 	}
 
 }
