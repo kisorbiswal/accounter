@@ -82,11 +82,11 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 		// NOTHING TO DO.
 	}
 
-	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// NOTHING TO DO.
-		return false;
-	}
+	// @Override
+	// public boolean validateGrid() throws InvalidTransactionEntryException {
+	// // NOTHING TO DO.
+	// return false;
+	// }
 
 	@Override
 	protected String[] getColumns() {

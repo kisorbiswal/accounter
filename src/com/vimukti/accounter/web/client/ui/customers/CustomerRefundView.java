@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -608,6 +609,11 @@ public class CustomerRefundView extends
 		result.add(super.validate());
 		if (AccounterValidator.validateAmount(this.amtText.getAmount(), false)) {
 			result.addError(amtText, AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+		}
+		if (AccounterValidator.validateCustomerRefundAmount(
+				amtText.getAmount(), selectedAccount)) {
+			result.addWarning(amtText,
+					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
 		}
 		return result;
 	}

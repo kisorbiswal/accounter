@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
@@ -245,17 +246,22 @@ public class TransactionReceivePaymentGrid extends
 	}
 
 	@Override
-	public boolean validateGrid() {
-
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
 		for (ClientTransactionReceivePayment transactionReceivePayment : this
 				.getSelectedRecords()) {
-
 			double totalValue = getTotalValue(transactionReceivePayment);
-			return AccounterValidator.validate_Receive_Payment(
-					transactionReceivePayment.getAmountDue(), totalValue,
-					AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS);
+			if (DecimalUtil.isLessThan(totalValue, 0.00)) {
+				result.addError(this,
+						AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+			} else if (DecimalUtil.isGreaterThan(totalValue,
+					transactionReceivePayment.getAmountDue())
+					|| DecimalUtil.isEquals(totalValue, 0)) {
+				result.addError(this,
+						AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS);
+			}
 		}
-		return true;
+		return result;
 	}
 
 	@Override

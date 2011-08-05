@@ -88,23 +88,23 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 
 	}
 
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		if (!wait) {
-			try {
-				ClientCurrency currency = getCurrencyObject();
-				if (existCurrency == null) {
-					List<ClientCurrency> list = new ArrayList<ClientCurrency>(
-							company.getCurrencies());
+			// try {
+			ClientCurrency currency = getCurrencyObject();
+			if (existCurrency == null) {
+				List<ClientCurrency> list = new ArrayList<ClientCurrency>(
+						company.getCurrencies());
 
-					if (!isObjectExist(list, currency))
-						createObject(currency);
-				} else
-					alterObject(currency);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw e;
-			}
+				if (!isObjectExist(list, currency))
+					createObject(currency);
+			} else
+				alterObject(currency);
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// throw e;
+			// }
 		}
 
 	}

@@ -271,20 +271,20 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		if (!wait) {
-			try {
+//			try {
 				ClientCustomer customer = getCustomerObject();
 				if (takenCustomer == null) {
 					if (!isObjectExist(company.getCustomers(), customer))
 						createObject(customer);
 				} else
 					alterObject(customer);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw e;
-			}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				throw e;
+//			}
 		}
 
 	}

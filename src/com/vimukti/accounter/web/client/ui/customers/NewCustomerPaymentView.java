@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -68,7 +69,6 @@ public class NewCustomerPaymentView extends
 
 	public NewCustomerPaymentView() {
 		super(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT, 0);
-		this.validationCount = 4;
 	}
 
 	@Override
@@ -88,27 +88,21 @@ public class NewCustomerPaymentView extends
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-
-		switch (this.validationCount) {
-		case 4:
-			return AccounterValidator
-					.validateTransactionDate(this.transactionDate);
-		case 3:
-			return AccounterValidator.validateForm(payForm, false);
-		case 2:
-			if (DecimalUtil.isEquals(amountText.getAmount(), 0))
-				throw new InvalidTransactionEntryException(
-						AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
-		case 1:
-			// return AccounterValidator.isNull(depositInAccount,
-			// paymentMethod);
-			return false;
-		default:
-			return true;
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (AccounterValidator.validateTransactionDate(this.transactionDate)) {
+			result.addError(transactionDateItem,
+					AccounterErrorType.InvalidTransactionDate);
+		} else if (AccounterValidator
+				.isInPreventPostingBeforeDate(this.transactionDate)) {
+			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
 		}
 
+		result.add(payForm.validate());
+		if (DecimalUtil.isEquals(amountText.getAmount(), 0))
+			result.addError(amountText,
+					AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+		return result;
 	}
 
 	public static NewCustomerPaymentView getInstance() {

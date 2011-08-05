@@ -29,12 +29,15 @@ import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -44,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.TransactionReceivePaymentGrid;
 
@@ -96,7 +100,6 @@ public class ReceivePaymentView extends
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT,
 				RECIEVEPAYMENT_TRANSACTION_GRID);
-		validationCount = 6;
 
 	}
 
@@ -1139,63 +1142,40 @@ public class ReceivePaymentView extends
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidTransactionEntryException {
-		switch (validationCount) {
-		case 6:
-			return AccounterValidator
-					.validateTransactionDate(this.transactionDate);
-		case 5:
-			return AccounterValidator.validateFormItem(false, customerCombo,
-					paymentMethodCombo, depositInCombo);
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (AccounterValidator.validateTransactionDate(this.transactionDate)) {
+			result.addError(transactionDateItem,
+					AccounterErrorType.InvalidTransactionDate);
+		} else if (AccounterValidator
+				.isInPreventPostingBeforeDate(this.transactionDate)) {
+			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
+		}
+		result.add(FormItem.validate(customerCombo, paymentMethodCombo,
+				depositInCombo));
 
-		case 4:
-			return AccounterValidator
-					.validate_TaxAgency_FinanceAcount(depositInAccount);
-		case 3:
-			if (isEdit)
-				return AccounterValidator.isBlankTransactionGrid(gridView);
-			else
-				return AccounterValidator.validateReceivePaymentGrid(gridView);
-		case 2:
+		if (AccounterValidator.isBlankTransaction(gridView)) {
+			result.addError(gridView, AccounterErrorType.selectTransaction);
+		}
+		result.add(gridView.validateGrid());
+		if (!isEdit) {
 			try {
-				if (!isEdit) {
-					return (AccounterValidator.validateRecievePaymentAmount(
-							DataUtils.getAmountStringAsDouble(amtText
-									.getValue().toString()),
-							this.transactionTotal));
-				} else
-					return true;
+				if (AccounterValidator.validateRecievePaymentAmount(
+						DataUtils.getAmountStringAsDouble(amtText.getValue()
+								.toString()), this.transactionTotal)) {
+					result.addError(amtText,
+							AccounterErrorType.recievePayment_TotalAmount);
+				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				result.addError(amtText, AccounterErrorType.INVALIDAMOUNT);
 			}
-		case 1:
-			if (!isEdit
-					&& DecimalUtil.isGreaterThan(
-							unUsedPaymentsText.getAmount(), 0))
-				return AccounterValidator.validateRecievePayment(this);
-
-			// case 1:
-			// if(transactionTotal<=0.0)
-			// return AccounterValidator.validatePayment();
-
-		default:
-			break;
 		}
+		if (!isEdit
+				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0))
+			result.addWarning(unUsedPaymentsText,
+					AccounterWarningType.recievePayment);
 
-		try {
-			Double amount = DataUtils.getAmountStringAsDouble(amtText
-					.getValue().toString());
-
-			Double gridTotals = getGridTotal();
-
-			if (DecimalUtil.compare(amount, gridTotals) < 0) {
-
-				throw new InvalidTransactionEntryException();
-			}
-		} catch (Exception e) {
-		}
-		return true;
+		return result;
 	}
 
 	@Override

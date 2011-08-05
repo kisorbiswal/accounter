@@ -855,7 +855,7 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 	protected AmountField createSalesTaxNonEditableItem() {
 
 		AmountField amountItem = new AmountField(Accounter.constants()
-				.salesTax(),this);
+				.salesTax(), this);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -873,7 +873,8 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 
 	protected AmountField createTransactionTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter.constants().total(),this);
+		AmountField amountItem = new AmountField(Accounter.constants().total(),
+				this);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -890,7 +891,8 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter.constants().vat(),this);
+		AmountField amountItem = new AmountField(Accounter.constants().vat(),
+				this);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -945,26 +947,7 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 			}
 			result.add(customerTransactionGrid.validateGrid());
 
-		} else if (this instanceof CustomerRefundView) {
-			CustomerRefundView view = (CustomerRefundView) this;
-			if (!isEdit) {
-				if (
-				// AccounterValidator
-				// .validate_TaxAgency_FinanceAcount(view.selectedAccount)
-				// &&
-				// AccounterValidator.validateAmount(
-				// ((CustomerRefundView) this).amtText.getAmount(), false)
-				// &&
-				AccounterValidator.validateCustomerRefundAmount(this,
-						view.amtText.getAmount(), view.selectedAccount)) {
-
-				}
-			}
 		}
-		// if (this.transactionType == ClientTransaction.TYPE_CASH_SALES) {
-		// AccounterValidator
-		// .validate_TaxAgency_FinanceAcount(depositInAccount);
-		// }
 		return result;
 
 	}

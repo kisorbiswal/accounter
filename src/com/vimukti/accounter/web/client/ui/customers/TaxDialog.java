@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -32,7 +31,6 @@ public class TaxDialog extends BaseDialog {
 	public <T> TaxDialog(AccounterAsyncCallback<T> callBack) {
 		super(Accounter.constants().tax(), Accounter.constants()
 				.selectOneType());
-		this.callBack = callBack;
 		setText(Accounter.constants().tax());
 		createControls();
 		center();
@@ -42,7 +40,6 @@ public class TaxDialog extends BaseDialog {
 			FormItem actionSource) {
 		super(Accounter.constants().tax(), Accounter.constants()
 				.selectOneType());
-		this.callBack = callBack;
 		this.actionSource = actionSource;
 		setText(Accounter.constants().tax());
 		createControls();

@@ -501,12 +501,12 @@ public class CustomerCreditMemoView extends
 
 	}
 
-	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-		return super.validate();
-
-	}
+	// @Override
+	// public boolean validate() throws InvalidTransactionEntryException,
+	// InvalidEntryException {
+	// return super.validate();
+	//
+	// }
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
@@ -579,7 +579,8 @@ public class CustomerCreditMemoView extends
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
 				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
-				this.salesPersonCombo.addComboItem((ClientSalesPerson) core);
+					this.salesPersonCombo
+							.addComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
 				this.priceLevelSelect.addComboItem((ClientPriceLevel) core);
@@ -592,7 +593,8 @@ public class CustomerCreditMemoView extends
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
 				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
-				this.salesPersonCombo.updateComboItem((ClientSalesPerson) core);
+					this.salesPersonCombo
+							.updateComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
 				this.priceLevelSelect.updateComboItem((ClientPriceLevel) core);
@@ -604,7 +606,8 @@ public class CustomerCreditMemoView extends
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
 				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
-				this.salesPersonCombo.removeComboItem((ClientSalesPerson) core);
+					this.salesPersonCombo
+							.removeComboItem((ClientSalesPerson) core);
 
 			if (core.getObjectType() == AccounterCoreType.PRICE_LEVEL)
 				this.priceLevelSelect.removeComboItem((ClientPriceLevel) core);
@@ -646,7 +649,7 @@ public class CustomerCreditMemoView extends
 		transactionNumber.setDisabled(isEdit);
 		customerCombo.setDisabled(isEdit);
 		if (ClientCompanyPreferences.get().isSalesPersonEnabled())
-		salesPersonCombo.setDisabled(isEdit);
+			salesPersonCombo.setDisabled(isEdit);
 		priceLevelSelect.setDisabled(isEdit);
 		taxCodeSelect.setDisabled(isEdit);
 		memoTextAreaItem.setDisabled(isEdit);

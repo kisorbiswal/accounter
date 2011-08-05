@@ -933,7 +933,7 @@ public class AccounterValidator {
 	public static boolean validateRecievePaymentAmount(Double amount,
 			Double paymentsTotal) {
 		if (DecimalUtil.isGreaterThan(paymentsTotal, amount)) {
-			Accounter.showError(AccounterErrorType.recievePayment_TotalAmount);
+			// Accounter.showError(AccounterErrorType.recievePayment_TotalAmount);
 			// Accounter.stopExecution();
 			return false;
 		}
@@ -1337,39 +1337,37 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validateCustomerRefundAmount(
-			final AbstractBaseView view, Double amount,
+	public static boolean validateCustomerRefundAmount(Double amount,
 			ClientAccount payFromAccount) {
 
 		if (!payFromAccount.isIncrease()
 				&& (DecimalUtil.isLessThan(
-						(payFromAccount.getTotalBalance() - amount), 0.0))
-				&& !AbstractBaseView.errorOccured) {
-			Accounter.showWarning(
-					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
-							return false;
-						}
-
-						@Override
-						public boolean onNoClick() throws InvalidEntryException {
-							// Accounter.stopExecution();
-							return true;
-						}
-
-						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
-							view.validationCount--;
-							return true;
-						}
-
-					});
-			AbstractBaseView.warnOccured = true;
+						(payFromAccount.getTotalBalance() - amount), 0.0))) {
+			// Accounter.showWarning(
+			// AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT,
+			// AccounterType.WARNING, new ErrorDialogHandler() {
+			//
+			// @Override
+			// public boolean onCancelClick()
+			// throws InvalidEntryException {
+			// return false;
+			// }
+			//
+			// @Override
+			// public boolean onNoClick() throws InvalidEntryException {
+			// // Accounter.stopExecution();
+			// return true;
+			// }
+			//
+			// @Override
+			// public boolean onYesClick()
+			// throws InvalidEntryException {
+			// view.validationCount--;
+			// return true;
+			// }
+			//
+			// });
+			// AbstractBaseView.warnOccured = true;
 
 			return false;
 		}
@@ -1611,16 +1609,16 @@ public class AccounterValidator {
 		return false;
 	}
 
-	public static boolean isBlankTransactionGrid(
-			AbstractTransactionGrid transactionGrid)
-			throws InvalidTransactionEntryException {
-		if (transactionGrid != null && transactionGrid.getRecords().isEmpty()) {
-			throw new InvalidTransactionEntryException(
-					AccounterErrorType.selectTransaction);
-		}
-		return true;
-
-	}
+	// public static boolean isBlankTransactionGrid(
+	// AbstractTransactionGrid transactionGrid)
+	// throws InvalidTransactionEntryException {
+	// if (transactionGrid != null && transactionGrid.getRecords().isEmpty()) {
+	// throw new InvalidTransactionEntryException(
+	// AccounterErrorType.selectTransaction);
+	// }
+	// return true;
+	//
+	// }
 
 	public static boolean validateReceivePaymentGrid(
 			AbstractTransactionGrid<?> transactionGrid) {

@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
@@ -48,6 +49,7 @@ import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -906,14 +908,11 @@ public class SalesOrderView extends
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-		switch (validationCount) {
-		case 10:
-			return AccounterValidator.validateFormItem(false, statusSelect);
-		default:
-			return super.validate();
-		}
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		result.add(FormItem.validate(statusSelect));
+		result.add(super.validate());
+		return result;
 	}
 
 	private void getEstimates() {
