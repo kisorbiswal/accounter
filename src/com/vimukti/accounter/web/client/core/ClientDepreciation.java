@@ -48,13 +48,13 @@ public class ClientDepreciation implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	public ClientFixedAsset getFixedAsset() {
@@ -64,7 +64,6 @@ public class ClientDepreciation implements IAccounterCore {
 	public void setFixedAsset(ClientFixedAsset fixedAsset) {
 		this.fixedAsset = fixedAsset;
 	}
-
 
 	public int getStatus() {
 		return status;
@@ -96,6 +95,11 @@ public class ClientDepreciation implements IAccounterCore {
 
 	public void setDepreciationFor(int depreciationFor) {
 		this.depreciationFor = depreciationFor;
+	}
+
+	public ClientDepreciation clone() {
+		return null;
+
 	}
 
 }
