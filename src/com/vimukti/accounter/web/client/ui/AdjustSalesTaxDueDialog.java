@@ -42,7 +42,7 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 				.dateEffective());
 		effectDate.setRequired(true);
 
-		IntegerField entryText = new IntegerField(Accounter.constants()
+		IntegerField entryText = new IntegerField(this, Accounter.constants()
 				.journalEntryNo());
 
 		SelectItem incSelect = new SelectItem(Accounter.constants().taxIncome());

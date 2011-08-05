@@ -28,9 +28,11 @@ public class PhoneFaxForm extends DynamicForm {
 	private LinkedHashMap<Integer, ClientFax> allFaxes;
 	private ClientPhone toBeShownPhone = null;
 	private ClientFax toBeShownFax = null;
+	private WidgetWithErrors errorWidget;
 
-	public PhoneFaxForm(Set<ClientPhone> phones, Set<ClientFax> faxes) {
-
+	public PhoneFaxForm(Set<ClientPhone> phones, Set<ClientFax> faxes,
+			WidgetWithErrors widget) {
+		this.errorWidget = widget;
 		allPhones = new LinkedHashMap<Integer, ClientPhone>();
 		allFaxes = new LinkedHashMap<Integer, ClientFax>();
 		setPhonesAndFaxes(phones, faxes);
@@ -73,7 +75,7 @@ public class PhoneFaxForm extends DynamicForm {
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							addError(this,
+							errorWidget.addError(this,
 									AccounterErrorType.INCORRECTINFORMATION);
 							// Accounter
 							// .showError(AccounterErrorType.INCORRECTINFORMATION);
@@ -81,8 +83,7 @@ public class PhoneFaxForm extends DynamicForm {
 						} else {
 							// BaseView.errordata.setHTML("");
 							// BaseView.commentPanel.setVisible(false);
-							MainFinanceWindow.getViewManager()
-									.restoreErrorBox();
+							errorWidget.clearAllErrors();
 							ClientPhone phone = new ClientPhone();
 							phone.setType(UIUtils
 									.getPhoneType(businessPhoneSelect
@@ -140,7 +141,7 @@ public class PhoneFaxForm extends DynamicForm {
 						// + AccounterErrorType.INCORRECTINFORMATION
 						// + ".");
 						// BaseView.commentPanel.setVisible(true);
-						addError(this,
+						errorWidget.addError(this,
 								AccounterErrorType.INCORRECTINFORMATION);
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);
@@ -148,7 +149,7 @@ public class PhoneFaxForm extends DynamicForm {
 					} else {
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
-						
+
 						ClientFax fax = new ClientFax();
 						fax.setType(UIUtils.getFaxType(businessFaxSelect
 								.getDisplayValue().toString()));

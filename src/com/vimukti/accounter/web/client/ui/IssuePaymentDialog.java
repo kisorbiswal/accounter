@@ -28,8 +28,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -328,8 +326,7 @@ public class IssuePaymentDialog extends BaseDialog {
 
 	}
 
-	protected boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
+	protected boolean validate() {
 
 		return (payMethodSelect.validate(true) && accountCombo.validate(true) && grid
 				.validateGrid());

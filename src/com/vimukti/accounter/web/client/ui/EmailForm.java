@@ -27,17 +27,18 @@ public class EmailForm extends DynamicForm {
 	private ClientEmail toBeShownEmail = null;
 	public EmailField businesEmailText;
 	public TextItem webText;
+	private WidgetWithErrors errorWidget;
 
-	public EmailForm(Set<ClientEmail> emails, String webTextValue) {
+	public EmailForm(Set<ClientEmail> emails, String webTextValue,
+			WidgetWithErrors widget) {
+		this.errorWidget = widget;
 		allEmails = new LinkedHashMap<Integer, ClientEmail>();
 		setEmails(emails);
 		setIsGroup(true);
-		setGroupTitle(Accounter.constants()
-				.emailAndInternet());
+		setGroupTitle(Accounter.constants().emailAndInternet());
 		setNumCols(3);
 
-		businesEmailSelect = new SelectCombo(Accounter
-				.constants().email());
+		businesEmailSelect = new SelectCombo(Accounter.constants().email());
 		businesEmailSelect.setHelpInformation(true);
 		// businesEmailSelect.setWidth(85);
 		businesEmailSelect.getMainWidget().removeStyleName("gwt-ListBox");
@@ -73,14 +74,14 @@ public class EmailForm extends DynamicForm {
 						// BaseView.errordata.setHTML("<li> "
 						// + AccounterErrorType.INVALID_EMAIL + ".");
 						// BaseView.commentPanel.setVisible(true);
-						addError(this,
+						errorWidget.addError(this,
 								AccounterErrorType.INVALID_EMAIL);
 						// Accounter.showError(AccounterErrorType.INVALID_EMAIL);
 						businesEmailText.setText("");
 					} else {
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
-						
+
 						ClientEmail email = new ClientEmail();
 						email.setType(UIUtils.getEmailType(businesEmailSelect
 								.getSelectedValue()));
@@ -91,8 +92,7 @@ public class EmailForm extends DynamicForm {
 				}
 			}
 		});
-		webText = new TextItem(Accounter.constants()
-				.webPageAddress());
+		webText = new TextItem(Accounter.constants().webPageAddress());
 		webText.setHelpInformation(true);
 		webText.setWidth(100);
 		LinkItem emptyItem = new LinkItem();
