@@ -551,7 +551,7 @@ public class MakeDepositTransactionGrid extends
 
 	@Override
 	public List<ClientTransactionItem> getallTransactions(
-			ClientTransaction object) throws InvalidEntryException {
+			ClientTransaction object) {
 		return null;
 	}
 

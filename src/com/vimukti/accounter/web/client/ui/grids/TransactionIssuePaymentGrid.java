@@ -152,7 +152,7 @@ public class TransactionIssuePaymentGrid extends
 
 	@Override
 	public List<ClientTransactionItem> getallTransactions(
-			ClientTransaction object) throws InvalidEntryException {
+			ClientTransaction object) {
 		// not required
 		return null;
 	}

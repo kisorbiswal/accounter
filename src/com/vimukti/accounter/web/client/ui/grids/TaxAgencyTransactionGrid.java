@@ -204,7 +204,7 @@ public class TaxAgencyTransactionGrid extends
 	}
 
 	public List<ClientTransactionItem> getallTransactions(
-			ClientTransaction object) throws InvalidEntryException {
+			ClientTransaction object) {
 
 		return getRecords();
 	}

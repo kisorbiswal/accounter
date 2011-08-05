@@ -39,7 +39,7 @@ public class TransactionPayVATGrid extends
 
 	@Override
 	public List<ClientTransactionItem> getallTransactions(
-			ClientTransaction object) throws InvalidEntryException {
+			ClientTransaction object) {
 		return null;
 	}
 

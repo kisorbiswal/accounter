@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.vendors.AbstractVendorTransactionView;
 
 public class VendorTransactionGrid extends
 		AbstractTransactionGrid<ClientTransactionItem> {
@@ -116,7 +117,7 @@ public class VendorTransactionGrid extends
 
 	@Override
 	public List<ClientTransactionItem> getallTransactions(
-			ClientTransaction object) throws InvalidEntryException {
+			ClientTransaction object) {
 		return getRecords();
 	}
 
@@ -356,13 +357,14 @@ public class VendorTransactionGrid extends
 				ztaxCodeid = taxCode.getID();
 			}
 		}
+		AbstractVendorTransactionView<?> view = (AbstractVendorTransactionView<?>) transactionView;
 		if (transactionView.getTransactionObject() == null
-				&& transactionView.vendor != null)
+				&& view.getVendor() != null)
 			selectedObject
 					.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
 							.getTaxCode()
-							: transactionView.vendor.getTAXCode() != 0 ? transactionView.vendor
-									.getTAXCode() : ztaxCodeid);
+							: view.getVendor().getTAXCode() != 0 ? view
+									.getVendor().getTAXCode() : ztaxCodeid);
 
 		updateTotals();
 		updateData(selectedObject);
@@ -891,8 +893,7 @@ public class VendorTransactionGrid extends
 							// e.getMessage()
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							addError(this,
-									e.getMessage());
+							transactionView.addError(this, e.getMessage());
 						}
 					}
 				}

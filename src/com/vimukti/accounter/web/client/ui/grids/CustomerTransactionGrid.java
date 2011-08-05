@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.customers.AbstractCustomerTransactionView;
 
 public class CustomerTransactionGrid extends
 		AbstractTransactionGrid<ClientTransactionItem> {
@@ -515,13 +516,14 @@ public class CustomerTransactionGrid extends
 				ztaxCodeid = taxCode.getID();
 			}
 		}
+		AbstractCustomerTransactionView<?> view = (AbstractCustomerTransactionView<?>) transactionView;
 		if (transactionView.getTransactionObject() == null) {
-			if (transactionView.customer != null)
+			if (view.getCustomer() != null)
 				selectedObject
 						.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
-								.getTaxCode() : transactionView.vendor
-								.getTAXCode() != 0 ? transactionView.vendor
-								.getTAXCode() : ztaxCodeid);
+								.getTaxCode()
+								: view.getCustomer().getTAXCode() != 0 ? view.getCustomer()
+										.getTAXCode() : ztaxCodeid);
 		}
 		updateTotals();
 		updateData(selectedObject);
@@ -824,7 +826,7 @@ public class CustomerTransactionGrid extends
 	}
 
 	public List<ClientTransactionItem> getallTransactions(
-			ClientTransaction object) throws InvalidEntryException {
+			ClientTransaction object) {
 
 		return getRecords();
 	}
@@ -1082,13 +1084,9 @@ public class CustomerTransactionGrid extends
 				// discount = discount.replaceAll(",", "");
 				Double discountRate = Double.parseDouble(DataUtils
 						.getReformatedAmount(discount) + "");
-				try {
-					if (!AccounterValidator.validateNagtiveAmount(discountRate)) {
-						item.setUnitPrice(0.0D);
-						discountRate = 0.0D;
-					}
-				} catch (InvalidEntryException e) {
-					e.printStackTrace();
+				if (!AccounterValidator.validateNagtiveAmount(discountRate)) {
+					item.setUnitPrice(0.0D);
+					discountRate = 0.0D;
 				}
 				if (!DecimalUtil.isGreaterThan(discountRate, 100))
 					item.setDiscount(discountRate);

@@ -374,8 +374,7 @@ public class CreditsandPaymentsGrid extends
 
 	@Override
 	public List<ClientTransactionItem> getallTransactions(
-			ClientTransaction object) throws InvalidEntryException {
-		// TODO Auto-generated method stub
+			ClientTransaction object) {
 		return null;
 	}
 
