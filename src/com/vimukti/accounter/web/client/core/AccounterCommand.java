@@ -49,13 +49,13 @@ public class AccounterCommand implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	/**
@@ -71,6 +71,11 @@ public class AccounterCommand implements IAccounterCore {
 	 */
 	public void setCommand(int command) {
 		this.command = command;
+	}
+
+	public Object clone() {
+		return null;
+
 	}
 
 }
