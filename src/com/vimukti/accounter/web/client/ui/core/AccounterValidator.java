@@ -741,8 +741,7 @@ public class AccounterValidator {
 	 * @throws InvalidTransactionEntryException
 	 */
 	public static boolean validate_TaxAgency_FinanceAcount(
-			ClientAccount financeAccount)
-			throws InvalidTransactionEntryException {
+			ClientAccount financeAccount) {
 		if (financeAccount == null)
 			return true;
 		// List<ClientTaxAgency> taxAgencies = FinanceApplication.getCompany()
