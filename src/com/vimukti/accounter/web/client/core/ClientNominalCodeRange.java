@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 @SuppressWarnings("serial")
 public class ClientNominalCodeRange implements IAccounterCore {
 
@@ -85,5 +84,10 @@ public class ClientNominalCodeRange implements IAccounterCore {
 	@Override
 	public void setID(long id) {
 		this.id = id;
+	}
+
+	public ClientNominalCodeRange clone() {
+		return null;
+
 	}
 }
