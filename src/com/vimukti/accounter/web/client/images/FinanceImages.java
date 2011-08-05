@@ -150,4 +150,10 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("Save-&-close.png")
 	ImageResource saveAndClose();
+
+	@Source("register.png")
+	ImageResource register();
+
+	@Source("reviewJournal.png")
+	ImageResource reviewJournal();
 }
