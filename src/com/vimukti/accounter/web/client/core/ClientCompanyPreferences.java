@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 @SuppressWarnings("serial")
@@ -682,7 +683,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public ClientCurrency getBaseCurrency() {
-		return baseCurrency;
+		// return ClientCompanyPreferences.get().getBaseCurrency();
+		ClientCurrency currency = new ClientCurrency();
+		currency.setName("$");
+		return currency;
+
 	}
 
 	public void setBaseCurrency(ClientCurrency baseCurrency) {
