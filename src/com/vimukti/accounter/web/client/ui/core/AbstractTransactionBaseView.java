@@ -57,7 +57,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * @author Fernandez This Class serves as the Base Class for All Transactions
  * 
  */
-public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
+public abstract class AbstractTransactionBaseView<T extends IAccounterCore> extends BaseView<T> {
 
 	protected int transactionType;
 
@@ -495,14 +495,6 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 		if (caught != null)
 			caught.printStackTrace();
 
-		// if (saveAndCloseButton != null)
-		// saveAndCloseButton.setDisabled(false);
-		//
-		// if (saveAndNewButton != null)
-		// saveAndNewButton.setDisabled(false);Osav
-
-		// saveAndCloseButton.getParentElement().enable();
-		saveAndCloseButton.getParent().setVisible(true);
 	}
 
 	public void saveAndUpdateView() throws Exception {

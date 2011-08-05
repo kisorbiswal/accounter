@@ -156,7 +156,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		mainLayout.add(textAreaForm);
 		mainLayout.setCellHorizontalAlignment(buttonBar, ALIGN_RIGHT);
 
-		canvas.add(mainLayout);
+		add(mainLayout);
 
 		/* Adding dynamic forms in list */
 		listforms.add(detailsForm);

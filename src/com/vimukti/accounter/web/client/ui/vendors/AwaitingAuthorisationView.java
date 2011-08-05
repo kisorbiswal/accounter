@@ -129,6 +129,7 @@ public class AwaitingAuthorisationView extends BaseView {
 				"ibutton1");
 
 		buttonBar.setVisible(false);
+		
 		panel.add(grid);
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);

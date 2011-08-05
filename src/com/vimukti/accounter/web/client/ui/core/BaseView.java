@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public abstract class BaseView<T extends IAccounterCore> extends
 		AbstractBaseView<T> {
 
-	protected ButtonBar buttonBar;
+	private ButtonBar buttonBar;
 
 	protected int accountType;
 
