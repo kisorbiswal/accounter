@@ -103,15 +103,20 @@ public class ClientAccountTransaction implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 
 	}
 
 	@Override
-	public void setID(long id){
+	public void setID(long id) {
 
-		this.id=id;
+		this.id = id;
+
+	}
+
+	public Object clone() {
+		return null;
 
 	}
 
