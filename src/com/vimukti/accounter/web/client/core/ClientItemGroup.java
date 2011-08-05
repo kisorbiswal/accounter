@@ -101,4 +101,9 @@ public class ClientItemGroup implements IAccounterCore {
 		return "ClientItemGroup";
 	}
 
+	public ClientItemGroup clone() {
+		return null;
+
+	}
+
 }
