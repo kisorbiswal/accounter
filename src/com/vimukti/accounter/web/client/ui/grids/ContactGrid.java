@@ -153,17 +153,6 @@ public class ContactGrid extends ListGrid<ClientContact> {
 		return 0;
 	}
 
-	@Override
-	public boolean validateGrid() {
-		for (ClientContact contact : this.getRecords()) {
-			// if (isNullContact(contact)) {
-			// Accounter.showError("Empty Conatcts can't be Saved");
-			// return false;
-			// }
-		}
-		return true;
-	}
-
 	private boolean isNullContact(ClientContact contact) {
 		for (int colValue = 1; colValue <= 4; colValue++) {
 			Object value = this.getColumnValue(contact, colValue);

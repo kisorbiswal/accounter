@@ -26,11 +26,11 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -94,7 +94,6 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	public TAXAgencyView() {
 		super();
-		this.validationCount = 4;
 
 	}
 
@@ -124,7 +123,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		try {
 			ClientTAXAgency vatAgency = getTaxAgency();
 			if (takenVATAgency == null) {
@@ -141,7 +140,6 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw e;
 		}
 	}
 
@@ -151,14 +149,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		if (takenVATAgency == null)
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .duplicationOfTaxAgencyNameAreNotAllowed());
-			MainFinanceWindow.getViewManager().showError(
-					Accounter.constants()
-							.duplicationOfTaxAgencyNameAreNotAllowed());
+			addError(this, Accounter.constants()
+					.duplicationOfTaxAgencyNameAreNotAllowed());
 		else
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .failedToUpdate());
-			MainFinanceWindow.getViewManager().showError(
-					Accounter.constants().failedToUpdate());
+			addError(this, Accounter.constants().failedToUpdate());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 	}
@@ -178,49 +174,27 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException {
+	public ValidationResult validate() {
 
-		/* checking VAT agency Duplication */
+		ValidationResult result = new ValidationResult();
 
-		switch (this.validationCount) {
-
-		case 4:
-			List<DynamicForm> forms = this.getForms();
-			boolean validate = true;
-			for (DynamicForm form : forms) {
-				if (form != null) {
-					if (!form.validate(false)) {
-						validate = false;
-						// throw new InvalidEntryException(
-						// AccounterErrorType.REQUIRED_FIELDS);
-					}
-
-				}
+		List<DynamicForm> forms = this.getForms();
+		for (DynamicForm form : forms) {
+			if (form != null) {
+				result.add(form.validate());
 			}
-			return validate;
-
-		case 3:
-			String name = taxAgencyText.getValue().toString();
-			if (((takenVATAgency == null && Utility.isObjectExist(getCompany()
-					.getTaxAgencies(), name)) ? false : true)
-					|| (takenVATAgency != null ? (takenVATAgency.getName()
-							.equalsIgnoreCase(name) ? true
-							: (Utility.isObjectExist(getCompany()
-									.getTaxAgencies(), name) ? false : true))
-							: true)) {
-				return true;
-			} else
-				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
-		case 2:
-			// return AccounterValidator.validateForm(accInfoForm);
-			return true;
-		case 1:
-			return gridView.validateGrid();
-		default:
-			return false;
-
 		}
 
+		String name = taxAgencyText.getValue().toString();
+		if (!((takenVATAgency == null && Utility.isObjectExist(getCompany()
+				.getTaxAgencies(), name)) ? false : true)
+				|| (takenVATAgency != null ? (takenVATAgency.getName()
+						.equalsIgnoreCase(name) ? true
+						: (Utility.isObjectExist(getCompany().getTaxAgencies(),
+								name) ? false : true)) : true)) {
+			result.addError(taxAgencyText, AccounterErrorType.ALREADYEXIST);
+		}
+		return result;
 	}
 
 	private ClientTAXAgency getTaxAgency() {
