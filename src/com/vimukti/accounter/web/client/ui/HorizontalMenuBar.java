@@ -915,6 +915,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (Accounter.getUser().canSeeBanking())
 			companyListMenuBar.addItem(ActionFactory.getPaymentsAction());
 		companyListMenuBar.addItem(ActionFactory.getSalesPersonAction());
+		companyListMenuBar.addItem(ActionFactory.getWarehouseListAction());
 		return companyListMenuBar;
 	}
 
