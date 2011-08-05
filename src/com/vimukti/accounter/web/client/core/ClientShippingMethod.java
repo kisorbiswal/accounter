@@ -87,4 +87,8 @@ public class ClientShippingMethod implements IAccounterCore {
 		return "ClientShippingMethod";
 	}
 
+	public ClientShippingMethod clone() {
+		return null;
+
+	}
 }
