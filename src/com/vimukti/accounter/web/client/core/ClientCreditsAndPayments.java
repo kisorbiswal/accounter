@@ -144,4 +144,9 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 		this.id = id;
 	}
 
+	public ClientCreditsAndPayments clone() {
+		return null;
+
+	}
+
 }
