@@ -1,19 +1,33 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SetupComplitionView extends AbstractSetupPage {
+	HTML row1, row2, row3;
+	VerticalPanel vpanel;
+
+	public SetupComplitionView() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.accounterConstants.congratulations();
 	}
 
 	@Override
 	public VerticalPanel getPageBody() {
-		// TODO Auto-generated method stub
+		creatControls();
 		return null;
+	}
+
+	private void creatControls() {
+		vpanel = new VerticalPanel();
+		vpanel.add(new HTML(this.accounterConstants.completedEasySteps()));
+		vpanel.add(new HTML(this.accounterConstants.youHaveCompanyFile()));
+		vpanel.add(new HTML(this.accounterConstants.weWillHelpYou()));
+
 	}
 
 	@Override
