@@ -4428,6 +4428,8 @@ public interface AccounterConstants extends Constants {
 	
 	public String otherNone();
 	
+	public String otherNoneDesc();
+	
 	public String enterYourCompanyInfo();
 
 	public String selectYourIndustry();
