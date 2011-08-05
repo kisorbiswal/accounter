@@ -83,20 +83,6 @@ public class MakeDepositView extends
 	private ClientAccount selectedDepositInAccount;
 	private ClientAccount selectedCashBackAccount;
 
-	private ClientAccount selectedFinanceAccount;
-
-	private ClientCustomer selectedCustomer;
-
-	private ClientVendor selectedVendor;
-
-	private List<ClientAccount> allAccounts;
-
-	private List<ClientCustomer> allCustomers;
-
-	private List<ClientVendor> allVendors;
-
-	private List<String> paymentMethods;
-	// protected Double totallinetotal;
 	private String selectedItemId;
 
 	// private ClientAccount selectedAccount;
@@ -123,8 +109,6 @@ public class MakeDepositView extends
 	private HorizontalPanel bot1Panel;
 
 	private ArrayList<DynamicForm> listforms;
-
-	private ClientMakeDeposit makeDepositEdited;
 
 	private AccounterButton addButton;
 	private TextItem transNumber;
@@ -295,23 +279,23 @@ public class MakeDepositView extends
 
 	}
 
-	public void initVendorCombo() {
-		List<ClientVendor> result = getCompany().getActiveVendors();
-		if (result != null) {
-			allVendors = result;
-			vendorSelect.initCombo(result);
-
-		}
-
-	}
-
-	private void initCustomerCombo() {
-		List<ClientCustomer> result = getCompany().getActiveCustomers();
-		if (result != null) {
-			allCustomers = result;
-			customerSelect.initCombo(result);
-		}
-	}
+	// public void initVendorCombo() {
+	// List<ClientVendor> result = getCompany().getActiveVendors();
+	// if (result != null) {
+	// allVendors = result;
+	// vendorSelect.initCombo(result);
+	//
+	// }
+	//
+	// }
+	//
+	// private void initCustomerCombo() {
+	// List<ClientCustomer> result = getCompany().getActiveCustomers();
+	// if (result != null) {
+	// allCustomers = result;
+	// customerSelect.initCombo(result);
+	// }
+	// }
 
 	public void getDepositInAccounts() {
 		listOfAccounts = depositInSelect.getAccounts();
@@ -450,65 +434,8 @@ public class MakeDepositView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientMakeDeposit makeDeposit = transaction != null ? (ClientMakeDeposit) transaction
-				: new ClientMakeDeposit();
-		if (transaction != null)
-			makeDeposit = (ClientMakeDeposit) transaction;
-		else
-			makeDeposit = new ClientMakeDeposit();
-
-		// Setting date
-		if (date != null)
-
-			makeDeposit.setDate(date.getValue().getDate());
-
-		// Setting Deposit in
-		makeDeposit.setDepositIn(selectedDepositInAccount.getID());
-
-		// Setting Memo
-		if (memoText.getValue() != null)
-			makeDeposit.setMemo(UIUtils.toStr(memoText.getValue()));
-
-		// setting transaction make deposits list
-		List<ClientTransactionMakeDeposit> listOfTrannsactionMakeDeposits = getAllSelectedRecords(makeDeposit);
-		isListEmpty = false;
-		if (listOfTrannsactionMakeDeposits.size() == 0)
-			isListEmpty = true;
-		else
-			makeDeposit
-					.setTransactionMakeDeposit(listOfTrannsactionMakeDeposits);
-
-		// Setting Cash back account
-		makeDeposit
-				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
-						.getID() : null);
-		if (cashBackMemoText.getValue() != null)
-			makeDeposit.setCashBackMemo(cashBackMemoText.getValue().toString());
-
-		// Setting Cash back amount
-		// makeDeposit.setCashBackAmount(UIUtils.unFormat(UIUtils
-		// .toStr(cashBackAmountText.getValue())));
-		makeDeposit.setCashBackAmount(cashBackAmountText.getAmount());
-		// Setting Total amount
-		// makeDeposit.setTotalAmount(UIUtils.unFormat(UIUtils.toStr(totAmtText
-		// .getValue())));
-		// makeDeposit.setTotal(totAmtText.getAmount());
-
-		// Setting Total
-		// makeDeposit.setTotal(UIUtils
-		// .unFormat(UIUtils.toStr(totText.getValue())));
-		makeDeposit.setTotal(totText.getAmount());
-
-		// Setting Company
-
-		// Setting Transaction type
-		makeDeposit.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
-		transaction = makeDeposit;
-
-		// Setting Transaction number
-		// makeDeposit.setNumber(transactionNumber);
-		super.saveAndUpdateView();
-		saveOrUpdate(makeDeposit);
+		updateTransaction();
+		saveOrUpdate(transaction);
 
 	}
 
@@ -677,8 +604,8 @@ public class MakeDepositView extends
 
 		setTransactionNumberToMakeDepositObject();
 		// addTracsactionMakeDepositsToGrid();
-		initVendorCombo();
-		initCustomerCombo();
+		// initVendorCombo();
+		// initCustomerCombo();
 
 	}
 
@@ -703,24 +630,27 @@ public class MakeDepositView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		makeDepositEdited = (ClientMakeDeposit) transactionObject;
-
-		date.setValue(makeDepositEdited.getDate());
-		memoText.setValue(makeDepositEdited.getMemo());
-		this.transactionItems = makeDepositEdited.getTransactionItems();
-		cashBackAmountText.setValue(makeDepositEdited.getCashBackAmount());
-		cashBackMemoText.setValue(makeDepositEdited.getCashBackMemo());
-		cashBackAccountSelect.setValue(makeDepositEdited.getCashBackAccount());
-		totText.setValue(makeDepositEdited.getTotal());
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientMakeDeposit());
+		} else {
+			date.setValue(transaction.getDate());
+			memoText.setValue(transaction.getMemo());
+			this.transactionItems = transaction.getTransactionItems();
+			cashBackAmountText.setValue(transaction.getCashBackAmount());
+			cashBackMemoText.setValue(transaction.getCashBackMemo());
+			cashBackAccountSelect.setValue(transaction.getCashBackAccount());
+			totText.setValue(transaction.getTotal());
+			gridView.setCanEdit(false);
+		}
 		// FIXME--need to implement this feature
 		// gridView.setEnableMenu(false);
 
 		// gridView.canDelete(true);
 		// FIMXE--need to add this type
 		// gridView.setEditEvent();
-		gridView.setCanEdit(false);
-		initTransactionViewData();
+
+		super.initTransactionViewData();
 
 	}
 
@@ -772,10 +702,6 @@ public class MakeDepositView extends
 
 				});
 
-		allAccounts = new ArrayList<ClientAccount>();
-		allCustomers = new ArrayList<ClientCustomer>();
-		allVendors = new ArrayList<ClientVendor>();
-
 		vendorSelect = new VendorCombo("");
 
 		financeAccountSelect = new OtherAccountsCombo("");
@@ -795,7 +721,7 @@ public class MakeDepositView extends
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-						selectedFinanceAccount = selectItem;
+						// selectedFinanceAccount = selectItem;
 
 					}
 
@@ -805,7 +731,7 @@ public class MakeDepositView extends
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 
 					public void selectedComboBoxItem(ClientCustomer selectItem) {
-						selectedCustomer = selectItem;
+						// selectedCustomer = selectItem;
 
 					}
 
@@ -928,15 +854,12 @@ public class MakeDepositView extends
 					((ClientMakeDeposit) transaction).getDepositIn()));
 			memoText.setDisabled(true);
 			if (((ClientMakeDeposit) transaction).getMemo() != null)
-				memoText.setValue(((ClientMakeDeposit) transaction)
-						.getMemo());
+				memoText.setValue(((ClientMakeDeposit) transaction).getMemo());
 			cashBackAccountSelect.setComboItem(getCompany().getAccount(
-					((ClientMakeDeposit) transaction)
-							.getCashBackAccount()));
+					((ClientMakeDeposit) transaction).getCashBackAccount()));
 			if (((ClientMakeDeposit) transaction).getCashBackMemo() != null)
-				cashBackMemoText
-						.setValue(((ClientMakeDeposit) transaction)
-								.getCashBackMemo());
+				cashBackMemoText.setValue(((ClientMakeDeposit) transaction)
+						.getCashBackMemo());
 			// totAmtText
 			// .setValue(UIUtils.format(((MakeDeposit) transactionObject)
 			// .getTotalAmount()));
@@ -944,14 +867,12 @@ public class MakeDepositView extends
 			// .getTotal());
 			// totText.setValue(UIUtils.format(((MakeDeposit) transactionObject)
 			// .getTotal()));
-			totText.setAmount(((ClientMakeDeposit) transaction)
-					.getTotal());
+			totText.setAmount(((ClientMakeDeposit) transaction).getTotal());
 			// cashBackAmountText.setValue(UIUtils
 			// .format(((MakeDeposit) transactionObject)
 			// .getCashBackAmount()));
-			cashBackAmountText
-					.setAmount(((ClientMakeDeposit) transaction)
-							.getCashBackAmount());
+			cashBackAmountText.setAmount(((ClientMakeDeposit) transaction)
+					.getCashBackAmount());
 			addTransactionMakeDepositsToGrid(transaction
 					.getTransactionMakeDeposit());
 
@@ -995,8 +916,7 @@ public class MakeDepositView extends
 	}
 
 	private void initFianancialAccounts() {
-		allAccounts = getCompany().getActiveAccounts();
-		financeAccountSelect.initCombo(allAccounts);
+		financeAccountSelect.initCombo(getCompany().getActiveAccounts());
 	}
 
 	@Override
@@ -1258,5 +1178,48 @@ public class MakeDepositView extends
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().makeDeposit();
+	}
+
+	@Override
+	protected void updateTransaction() {
+
+		// Setting date
+		if (date != null) {
+			transaction.setDate(date.getValue().getDate());
+		}
+		// Setting Deposit in
+		transaction.setDepositIn(selectedDepositInAccount.getID());
+
+		// Setting Memo
+		if (memoText.getValue() != null)
+			transaction.setMemo(UIUtils.toStr(memoText.getValue()));
+
+		// setting transaction make deposits list
+		List<ClientTransactionMakeDeposit> listOfTrannsactionMakeDeposits = getAllSelectedRecords(transaction);
+		isListEmpty = false;
+		if (listOfTrannsactionMakeDeposits.size() == 0)
+			isListEmpty = true;
+		else
+			transaction
+					.setTransactionMakeDeposit(listOfTrannsactionMakeDeposits);
+
+		// Setting Cash back account
+		transaction
+				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
+						.getID() : null);
+		if (cashBackMemoText.getValue() != null)
+			transaction.setCashBackMemo(cashBackMemoText.getValue().toString());
+
+		// Setting Cash back amount
+		transaction.setCashBackAmount(cashBackAmountText.getAmount());
+		// Setting Total amount
+
+		// Setting Total
+		transaction.setTotal(totText.getAmount());
+
+		// Setting Transaction type
+		transaction.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
+		super.saveAndUpdateView();
+
 	}
 }
