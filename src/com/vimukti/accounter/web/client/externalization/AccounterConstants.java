@@ -4472,4 +4472,30 @@ public interface AccounterConstants extends Constants {
 
 	public String doyouchargesalestax();
 
+	public String userGuidelinesMessage();
+
+	public String expertInAccounter();
+
+	public String clickSkipButtonMsg();
+
+	public String clickStartButtonMsg();
+
+	public String areYouaNewAccounter();
+
+	public String skipSetup();
+
+	public String startSetup();
+
+	public String doYouhavEmployes();
+
+	public String wehavW2Employes();
+
+	public String wehavContractors();
+
+	public String trackEmployeeExpenses();
+
+	public String accounterPayrollDescription();
+
+	public String congratulations();
+
 }
