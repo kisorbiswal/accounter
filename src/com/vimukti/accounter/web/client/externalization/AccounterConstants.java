@@ -4498,4 +4498,10 @@ public interface AccounterConstants extends Constants {
 
 	public String congratulations();
 
+	public String youHaveCompanyFile();
+
+	public String completedEasySteps();
+
+	public String weWillHelpYou();
+
 }
