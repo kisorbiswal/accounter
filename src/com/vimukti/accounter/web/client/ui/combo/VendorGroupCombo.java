@@ -22,10 +22,9 @@ public class VendorGroupCombo extends CustomCombo<ClientVendorGroup> {
 			return "";
 	}
 
-	
 	@Override
 	public void onAddNew() {
-		VendorGroupListDialog vendorGroup = new VendorGroupListDialog("", "");
+		VendorGroupListDialog vendorGroup = new VendorGroupListDialog();
 		vendorGroup.hide();
 		vendorGroup.addCallBack(createAddNewCallBack());
 		vendorGroup.showAddEditGroupDialog(null);

@@ -11,8 +11,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -34,7 +32,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * @author B.Srinivasa Rao
  * 
  */
-public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
+public class JournalViewDialog extends BaseDialog {
 
 	private DynamicForm disposalSummaryForm, disposalJournalForm;
 	private FixedAssetSellOrDisposeReviewJournal journalAsset;
@@ -367,39 +365,6 @@ public class JournalViewDialog extends BaseDialog<ClientFixedAsset> {
 
 	public double getTotalCapitalGainAmount() {
 		return totalCapitalGainAmount;
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-
-	}
-
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-	}
-
-	@Override
-	public void saveFailed(Throwable exception) {
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-		if (core.getID() == this.totalGainItem.getSelectedValue().getID()) {
-			this.totalGainItem.addItemThenfireEvent((ClientAccount) core);
-		}
-		if (core.getID() == this.lossOnDisposal.getSelectedValue().getID()) {
-			this.lossOnDisposal.addItemThenfireEvent((ClientAccount) core);
-		}
-		if (core.getID() == this.gainOnDisposal.getSelectedValue().getID()) {
-			this.gainOnDisposal.addItemThenfireEvent((ClientAccount) core);
-		}
 	}
 
 }

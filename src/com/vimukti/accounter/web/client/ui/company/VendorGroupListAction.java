@@ -30,17 +30,7 @@ public class VendorGroupListAction extends Action {
 			public void onCreated() {
 				try {
 
-					VendorGroupListDialog dialog = new VendorGroupListDialog(
-							UIUtils.getVendorString(Accounter.constants()
-									.manageSupplierGroup(), Accounter
-									.constants().manageVendorGroup()), UIUtils
-									.getVendorString(Accounter.constants()
-											.toAddSupplierGroup(), Accounter
-											.constants().toAddVendorGroup()));
-					ViewManager viewManager = ViewManager.getInstance();
-					viewManager.setCurrentDialog(dialog);
-					// dialog.addCallBack(getViewConfiguration().getCallback());
-
+					VendorGroupListDialog dialog = new VendorGroupListDialog();
 					dialog.show();
 
 				} catch (Throwable e) {

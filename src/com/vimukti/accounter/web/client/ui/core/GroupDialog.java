@@ -131,22 +131,10 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 			public void onCancelClick() {
 				closeWindow();
-				ViewManager.getInstance().setCurrentDialog(null);
-				// Action.cancle();
 			}
 
 			public boolean onOkClick() {
 
-				ViewManager.getInstance().setCurrentDialog(null); // after
-																	// clicked
-																	// ok button
-																	// anywhere
-																	// ,save and
-																	// close
-																	// button
-																	// not
-																	// working
-																	// properly_suresh
 				return true;
 			}
 		};

@@ -31,9 +31,6 @@ public class PaymentTermListAction extends Action {
 				try {
 
 					PaymentTermListDialog dialog = new PaymentTermListDialog();
-					ViewManager viewManager = ViewManager.getInstance();
-					viewManager.setCurrentDialog(dialog);
-					// dialog.addCallBack(getViewConfiguration().getCallback());
 					dialog.show();
 
 				} catch (Throwable e) {

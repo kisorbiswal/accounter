@@ -40,9 +40,6 @@ public class ItemGroupListAction extends Action {
 					ItemGroupListDialog dialog = new ItemGroupListDialog(
 							Accounter.constants().manageItemGroup(), Accounter
 									.constants().toAddItemGroup());
-					ViewManager viewManager = ViewManager.getInstance();
-					viewManager.setCurrentDialog(dialog);
-					// dialog.addCallBack(getViewConfiguration().getCallback());
 					dialog.show();
 
 				} catch (Throwable e) {

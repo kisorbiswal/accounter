@@ -95,12 +95,6 @@ public class ViewManager extends DockPanel {
 	 */
 	private ParentCanvas currentCanvas;
 
-	/**
-	 * This reference var. holds currently opened dialog. And it is used to
-	 * update the saved data in currently opened dialog
-	 */
-	private BaseDialog currentDialog;
-
 	public final static int CMD_Sucess = 1;
 	public final static int CMD_SAVEFAILED = 2;
 	public final static int CMD_UPDATEFAILED = 3;
@@ -113,8 +107,6 @@ public class ViewManager extends DockPanel {
 	private int width;
 	public final static int TOP_MENUBAR = 75;
 	private final int BORDER = 15;
-
-	private ParentCanvas canvas;
 
 	private boolean isShowWarningDialog;
 
@@ -1523,10 +1515,9 @@ public class ViewManager extends DockPanel {
 				transactionCallBack);
 	}
 
-
-
 	/**
-	 * Set the width and height to the given values. 
+	 * Set the width and height to the given values.
+	 * 
 	 * @param height
 	 * @param width
 	 */

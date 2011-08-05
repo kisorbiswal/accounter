@@ -29,9 +29,6 @@ public class CustomerGroupListAction extends Action {
 					CustomerGroupListDialog dialog = new CustomerGroupListDialog(
 							Accounter.constants().manageCustomerGroup(),
 							Accounter.constants().toAddCustomerGroup());
-					ViewManager viewManager = ViewManager.getInstance();
-					viewManager.setCurrentDialog(dialog);
-					// dialog.addCallBack(getViewConfiguration().getCallback());
 					dialog.show();
 
 				} catch (Throwable e) {

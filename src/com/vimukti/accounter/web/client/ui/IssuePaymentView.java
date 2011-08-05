@@ -41,7 +41,7 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
  * @author Ravi Kiran.G
  * 
  */
-public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
+public class IssuePaymentView extends BaseDialog {
 
 	private PayFromAccountsCombo accountCombo;
 	private SelectItem payMethodSelect;
@@ -495,30 +495,6 @@ public class IssuePaymentView extends BaseDialog<ClientIssuePayment> {
 	public void saveFailed(Throwable exception) {
 		BaseDialog.errordata.setHTML(AccounterErrorType.FAILEDREQUEST);
 		BaseDialog.commentPanel.setVisible(true);
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		if (core.getID() == this.accountCombo.getSelectedValue().getID()) {
-			this.accountCombo.addItemThenfireEvent((ClientAccount) core);
-		}
-
-		switch (command) {
-		case AccounterCommand.CREATION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountCombo.addComboItem((ClientAccount) core);
-			break;
-
-		case AccounterCommand.DELETION_SUCCESS:
-
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-				this.accountCombo.removeComboItem((ClientAccount) core);
-
-			break;
-		case AccounterCommand.UPDATION_SUCCESS:
-			break;
-		}
 	}
 
 }

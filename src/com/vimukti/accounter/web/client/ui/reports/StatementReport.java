@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 
-
 public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public int precategory = 1001;
 	public long customerId;
@@ -42,16 +41,6 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		record.setDateRange(toolbar.getSelectedDateRange());
 		ReportsRPC.openTransactionView(record.getTransactiontype(),
 				record.getTransactionId());
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
-
-	@Override
-	public void onEdit() {
 
 	}
 

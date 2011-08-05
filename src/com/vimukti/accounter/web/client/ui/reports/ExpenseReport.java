@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.ExpenseServerReport;
 
-
 public class ExpenseReport extends AbstractReportView<ExpenseList> {
 
 	private String currentsectionName = "";
@@ -43,17 +42,6 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 		Accounter.createReportService().getExpenseReportByType(status,
 				startDate, endDate, this);
 		ExpenseReport.status = status;
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onEdit() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

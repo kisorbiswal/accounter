@@ -29,8 +29,12 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	ClientVendorGroup vendorGroup;
 	private InputDialog inputDlg;
 
-	public VendorGroupListDialog(String title, String descript) {
-		super(title, descript);
+	public VendorGroupListDialog() {
+		super(UIUtils.getVendorString(Accounter.constants()
+				.manageSupplierGroup(), Accounter.constants()
+				.manageVendorGroup()), UIUtils.getVendorString(Accounter
+				.constants().toAddSupplierGroup(), Accounter.constants()
+				.toAddVendorGroup()));
 		setWidth("400");
 		initialise();
 		center();

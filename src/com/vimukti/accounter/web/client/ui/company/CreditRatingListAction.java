@@ -34,10 +34,6 @@ public class CreditRatingListAction extends Action {
 					CreditRatingListDialog dialog = new CreditRatingListDialog(
 							Accounter.constants().creditRatingList(), Accounter
 									.constants().toAddCreditRating());
-					ViewManager viewManager = ViewManager.getInstance();
-					viewManager.setCurrentDialog(dialog);
-
-					// dialog.addCallBack(getViewConfiguration().getCallback());
 					dialog.show();
 
 				} catch (Throwable e) {

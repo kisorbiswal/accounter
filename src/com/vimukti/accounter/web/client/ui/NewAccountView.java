@@ -258,7 +258,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		cashFlowCatSelect.setValueMap(cashFlowof);
 
-		opBalText = new AmountField(Accounter.constants().openingBalance(),this);
+		opBalText = new AmountField(Accounter.constants().openingBalance(),
+				this);
 		opBalText.setHelpInformation(true);
 
 		opBalText.setWidth(100);
@@ -1355,12 +1356,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				// BaseView.errordata
 				// .setHTML("<li> The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179.");
 				// BaseView.commentPanel.setVisible(true);
-				MainFinanceWindow
-						.getViewManager()
-						.showError(
-								Accounter
-										.constants()
-										.theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179());
+				addError(
+						this,
+						Accounter
+								.constants()
+								.theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179());
 				// Accounter
 				// .showError("The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179");
 				// accNoText.setNumber(null);
@@ -1389,16 +1389,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				// + " and "
 				// + nominalCodeRange[1] + ".");
 				// BaseView.commentPanel.setVisible(true);
-				MainFinanceWindow
-						.getViewManager()
-						.showError(
-								Accounter
-										.constants()
-										.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
-										+ "  "
-										+ nominalCodeRange[0]
-										+ Accounter.constants().and()
-										+ nominalCodeRange[1]);
+				addError(
+						this,
+						Accounter
+								.constants()
+								.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
+								+ "  "
+								+ nominalCodeRange[0]
+								+ Accounter.constants().and()
+								+ nominalCodeRange[1]);
 				// Accounter
 				// .showError("The Account Number chosen is incorrect. Please choose a Number between"
 				// + "  "

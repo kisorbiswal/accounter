@@ -116,16 +116,6 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 	}
 
 	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
-
-	@Override
-	public void onEdit() {
-
-	}
-
-	@Override
 	public void print() {
 
 		if (UIUtils.isMSIEBrowser()) {

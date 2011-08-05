@@ -38,9 +38,6 @@ public class ShippingTermListAction extends Action {
 					ShippingTermListDialog dialog = new ShippingTermListDialog(
 							Accounter.constants().manageShippingTermList(),
 							Accounter.constants().toAddShippingTerm());
-					ViewManager viewManager = ViewManager.getInstance();
-					viewManager.setCurrentDialog(dialog);
-					// dialog.addCallBack(getViewConfiguration().getCallback());
 					dialog.show();
 
 				} catch (Throwable e) {

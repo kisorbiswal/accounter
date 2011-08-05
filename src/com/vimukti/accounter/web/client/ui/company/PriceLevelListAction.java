@@ -37,9 +37,6 @@ public class PriceLevelListAction extends Action {
 					PriceLevelListDialog dialog = new PriceLevelListDialog(
 							Accounter.constants().managePriceLevelListGroup(),
 							" ");
-					ViewManager viewManager = ViewManager.getInstance();
-					viewManager.setCurrentDialog(dialog);
-					// dialog.addCallBack(getViewConfiguration().getCallback());
 					dialog.show();
 
 				} catch (Throwable e) {
