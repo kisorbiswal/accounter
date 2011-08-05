@@ -389,4 +389,9 @@ public abstract class ClientPayee implements IAccounterCore {
 		this.tinNumber = tinNumber;
 	}
 
+	public ClientPayee clone() {
+		return null;
+
+	}
+
 }
