@@ -100,13 +100,13 @@ public class ClientPriceLevel implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -114,6 +114,11 @@ public class ClientPriceLevel implements IAccounterCore {
 	public String getClientClassSimpleName() {
 
 		return "ClientPriceLevel";
+	}
+
+	public ClientPriceLevel clone() {
+		return null;
+
 	}
 
 }
