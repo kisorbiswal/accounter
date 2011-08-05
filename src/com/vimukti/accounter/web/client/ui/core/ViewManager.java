@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -35,12 +34,10 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.exception.ErrorCode;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DashBoardView;
-import com.vimukti.accounter.web.client.ui.FinanceDashboard;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -1190,65 +1187,6 @@ public class ViewManager extends DockPanel {
 			break;
 		}
 
-	}
-
-	public void operationFailed(AccounterException exception) {
-
-		IAccounterWidget currentWidget = null;
-		if (currentDialog != null) {
-			currentWidget = currentDialog;
-		} else if (currentCanvas != null) {
-			currentWidget = currentCanvas;
-		}
-
-		switch (exception.getErrorCode()) {
-		case ErrorCode.DELETE_FAILED:
-			currentWidget.deleteFailed(exception);
-			break;
-		case ErrorCode.UPDATE_FAILED:
-		case ErrorCode.CREATE_FAILED:
-			currentWidget.saveFailed(exception);
-		default:
-			break;
-		}
-
-		// currentrequestedWidget = null;
-		// Accounter.stopExecution();
-	}
-
-	/**
-	 * called when deletion is Success
-	 * 
-	 * @param accounterCoreObject
-	 */
-	public void deleteSuccess(IAccounterCore accounterCoreObject) {
-		try {
-			if (currentCanvas instanceof BaseListView<?>
-					&& currentDialog == null) {
-				currentCanvas.processupdateView(accounterCoreObject,
-						AccounterCommand.DELETION_SUCCESS);
-			} else if (currentDialog instanceof GroupDialog<?>) {
-
-				if (currentDialog != null)
-					currentDialog.processupdateView(accounterCoreObject,
-							AccounterCommand.DELETION_SUCCESS);
-
-			}
-			// if (currentrequestedWidget != null
-			// && currentrequestedWidget.getID() == (accounterCoreObject
-			// .getID())) {
-
-			if (currentDialog != null) {
-				currentDialog.deleteSuccess(true);
-			} else if (currentCanvas != null) {
-				currentCanvas.deleteSuccess(true);
-			}
-			// currentrequestedWidget = null;
-			// }
-		} catch (Exception e) {
-			Accounter.showInformation(((JavaScriptException) e)
-					.getDescription());
-		}
 	}
 
 	private <T extends IAccounterCore, P extends IAccounterCore> void saveOrUpdate(
