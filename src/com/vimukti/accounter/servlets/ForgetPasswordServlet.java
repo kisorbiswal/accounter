@@ -71,7 +71,8 @@ public class ForgetPasswordServlet extends BaseServlet {
 		}
 
 		String successMessage = "Reset Password link has been sent to the given emailId, Kindly check your Mail box.";
-		req.setAttribute("successMessage", successMessage);
+		req.setAttribute("successmessage", successMessage);
+		req.getRequestDispatcher(ACTIVATION_URL).include(req, resp);
 		redirectExternal(req, resp, ACTIVATION_URL);
 	}
 

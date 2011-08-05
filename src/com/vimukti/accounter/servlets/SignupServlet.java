@@ -101,6 +101,7 @@ public class SignupServlet extends BaseServlet {
 				req.setAttribute(
 						"successmessage",
 						"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and Enter your activation code here to Activate your Account.");
+				req.getRequestDispatcher(ACTIVATION_URL).include(req, resp);
 				redirectExternal(req, resp, ACTIVATION_URL);
 			}
 		} catch (Exception e) {
