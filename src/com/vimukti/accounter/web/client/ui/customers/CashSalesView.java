@@ -323,7 +323,7 @@ public class CashSalesView extends
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
-		if (this.customer != null && this.customer != customer) {
+		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCashSales ent = (ClientCashSales) this.transactionObject;
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
@@ -352,7 +352,7 @@ public class CashSalesView extends
 		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
 		addresses.addAll(customer.getAddress());
 		shipToAddress.setAddress(addresses);
-		this.customer = customer;
+		this.setCustomer(customer);
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
@@ -397,7 +397,7 @@ public class CashSalesView extends
 		ClientCashSales cashSale = transactionObject != null ? (ClientCashSales) transactionObject
 				: new ClientCashSales();
 
-		cashSale.setCustomer(customer.getID());
+		cashSale.setCustomer(getCustomer().getID());
 		cashSale.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 		if (depositInAccount != null)
 			cashSale.setDepositIn(depositInAccount.getID());
@@ -490,13 +490,13 @@ public class CashSalesView extends
 		}
 
 		this.transactionObject = cashSale;
-		this.customer = company.getCustomer(cashSale.getCustomer());
+		this.setCustomer(company.getCustomer(cashSale.getCustomer()));
 		// customerSelected(FinanceApplication.getCompany().getCustomer(
 		// cashSale.getCustomer()));
 
-		if (this.customer != null) {
+		if (this.getCustomer() != null) {
 
-			this.contacts = customer.getContacts();
+			this.contacts = getCustomer().getContacts();
 		}
 		this.contact = cashSale.getContact();
 		this.phoneNo = cashSale.getPhone();
@@ -515,12 +515,12 @@ public class CashSalesView extends
 		this.depositInAccount = company.getAccount(cashSale.getDepositIn());
 
 		initTransactionNumber();
-		if (customer != null) {
-			customerCombo.setComboItem(customer);
+		if (getCustomer() != null) {
+			customerCombo.setComboItem(getCustomer());
 		}
 		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
-		if (customer != null)
-			addresses.addAll(customer.getAddress());
+		if (getCustomer() != null)
+			addresses.addAll(getCustomer().getAddress());
 		shipToAddress.setListOfCustomerAdress(addresses);
 		if (shippingAddress != null) {
 			shipToAddress.businessSelect.setValue(shippingAddress

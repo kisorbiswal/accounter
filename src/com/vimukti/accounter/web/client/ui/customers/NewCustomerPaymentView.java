@@ -119,7 +119,7 @@ public class NewCustomerPaymentView extends
 	}
 
 	public void resetElements() {
-		this.customer = null;
+		this.setCustomer(null);
 		this.addressListOfCustomer = null;
 		this.depositInAccount = null;
 		this.paymentMethod = UIUtils
@@ -141,7 +141,7 @@ public class NewCustomerPaymentView extends
 
 			customerPrePayment.setNumber(transactionNumber.getValue()
 					.toString());
-			customerPrePayment.setCustomer(customer.getID());
+			customerPrePayment.setCustomer(getCustomer().getID());
 
 			if (billingAddress != null)
 				customerPrePayment.setAddress(billingAddress);
@@ -271,17 +271,17 @@ public class NewCustomerPaymentView extends
 			amountText.setAmount(0D);
 			enteredBalance = 0D;
 		}
-		if (customer != null) {
+		if (getCustomer() != null) {
 			if (transactionObject != null
-					&& customer.getID() == (customerPrePayment.getCustomer())
+					&& getCustomer().getID() == (customerPrePayment.getCustomer())
 					&& !DecimalUtil.isEquals(enteredBalance, 0)) {
 				double cusBal = DecimalUtil
-						.isLessThan(customer.getBalance(), 0) ? -1
-						* customer.getBalance() : customer.getBalance();
+						.isLessThan(getCustomer().getBalance(), 0) ? -1
+						* getCustomer().getBalance() : getCustomer().getBalance();
 				toBeSetCustomerBalance = (cusBal - transactionObject.getTotal())
 						+ enteredBalance;
 			} else {
-				toBeSetCustomerBalance = customer.getBalance() - enteredBalance;
+				toBeSetCustomerBalance = getCustomer().getBalance() - enteredBalance;
 			}
 			customerBalText.setAmount(toBeSetCustomerBalance);
 
@@ -629,7 +629,7 @@ public class NewCustomerPaymentView extends
 
 		if (customer == null)
 			return;
-		this.customer = customer;
+		this.setCustomer(customer);
 		if (customer != null && customerCombo != null) {
 			customerCombo.setComboItem(getCompany().getCustomer(
 					customer.getID()));

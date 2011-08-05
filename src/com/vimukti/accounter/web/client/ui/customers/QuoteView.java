@@ -74,7 +74,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
-		if (this.customer != null && this.customer != customer) {
+		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientEstimate ent = (ClientEstimate) this.transactionObject;
 
 			if (ent != null && ent.getCustomer() == (customer.getID())) {
@@ -101,7 +101,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		} else
 			billToTextArea.setValue("");
 
-		this.customer = customer;
+		this.setCustomer(customer);
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}
@@ -155,8 +155,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		if (quoteExpiryDate.getEnteredDate() != null)
 			quote.setExpirationDate(quoteExpiryDate.getEnteredDate().getDate());
-		if (customer != null)
-			quote.setCustomer(customer);
+		if (getCustomer() != null)
+			quote.setCustomer(getCustomer());
 		if (contact != null)
 			quote.setContact(contact);
 		if (phoneSelect.getValue() != null)
@@ -494,11 +494,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		estimate = (ClientEstimate) transactionObject;
 
 		ClientCompany company = getCompany();
-		this.customer = company.getCustomer(estimate.getCustomer());
+		this.setCustomer(company.getCustomer(estimate.getCustomer()));
 		this.transactionObject = estimate;
-		if (this.customer != null) {
+		if (this.getCustomer() != null) {
 
-			this.contacts = customer.getContacts();
+			this.contacts = getCustomer().getContacts();
 		}
 
 		// customerSelected(FinanceApplication.getCompany().getCustomer(
@@ -512,8 +512,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		this.priceLevel = company.getPriceLevel(estimate.getPriceLevel());
 		this.salesPerson = company.getSalesPerson(estimate.getSalesPerson());
 		initTransactionNumber();
-		if (customer != null) {
-			customerCombo.setComboItem(customer);
+		if (getCustomer() != null) {
+			customerCombo.setComboItem(getCustomer());
 		}
 		// billToaddressSelected(this.billingAddress);
 		if (billingAddress != null) {

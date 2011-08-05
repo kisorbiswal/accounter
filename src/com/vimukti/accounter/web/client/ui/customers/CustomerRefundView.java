@@ -99,7 +99,7 @@ public class CustomerRefundView extends
 	protected void customerSelected(ClientCustomer customer) {
 		if (customer == null)
 			return;
-		this.customer = customer;
+		this.setCustomer(customer);
 		if (customer != null && customerCombo != null) {
 			customerCombo.setComboItem(getCompany().getCustomer(
 					customer.getID()));
@@ -396,7 +396,7 @@ public class CustomerRefundView extends
 
 		refund.setNumber(transactionNumber.getValue().toString());
 
-		refund.setPayTo(customer.getID());
+		refund.setPayTo(getCustomer().getID());
 
 		if (billingAddress != null)
 			refund.setAddress(billingAddress);
@@ -462,8 +462,8 @@ public class CustomerRefundView extends
 			endingBalance -= givenAmount;
 			setEndingBalance(endingBalance);
 		}
-		if (customer != null) {
-			customerBalanceAmount = customer.getBalance();
+		if (getCustomer() != null) {
+			customerBalanceAmount = getCustomer().getBalance();
 			customerBalanceAmount += givenAmount;
 			setCustomerBalance(customerBalanceAmount);
 		}
@@ -535,8 +535,8 @@ public class CustomerRefundView extends
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		ClientCustomerRefund customerRefundTobeEdited = (ClientCustomerRefund) transactionObject;
 
-		this.customer = getCompany().getCustomer(
-				customerRefundTobeEdited.getPayTo());
+		this.setCustomer(getCompany().getCustomer(
+				customerRefundTobeEdited.getPayTo()));
 		customerSelected(getCompany().getCustomer(
 				customerRefundTobeEdited.getPayTo()));
 

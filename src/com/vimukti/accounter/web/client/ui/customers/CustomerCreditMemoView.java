@@ -311,7 +311,7 @@ public class CustomerCreditMemoView extends
 			ClientCustomerCreditMemo creditMemo = transactionObject != null ? (ClientCustomerCreditMemo) transactionObject
 					: new ClientCustomerCreditMemo();
 
-			creditMemo.setCustomer(customer.getID());
+			creditMemo.setCustomer(getCustomer().getID());
 			if (contact != null)
 				creditMemo.setContact(contact);
 			if (salesPerson != null)
@@ -346,8 +346,8 @@ public class CustomerCreditMemoView extends
 		initTransactionViewData();
 		ClientCustomerCreditMemo creditToBeEdited = (ClientCustomerCreditMemo) transactionObject;
 
-		this.customer = getCompany()
-				.getCustomer(creditToBeEdited.getCustomer());
+		this.setCustomer(getCompany()
+				.getCustomer(creditToBeEdited.getCustomer()));
 		this.transactionObject = creditToBeEdited;
 		this.billingAddress = creditToBeEdited.getBillingAddress();
 		this.contact = creditToBeEdited.getContact();
@@ -360,8 +360,8 @@ public class CustomerCreditMemoView extends
 		this.transactionItems = creditToBeEdited.getTransactionItems();
 
 		initTransactionNumber();
-		if (customer != null)
-			customerCombo.setComboItem(customer);
+		if (getCustomer() != null)
+			customerCombo.setComboItem(getCustomer());
 		// billToaddressSelected(this.billingAddress);
 		contactSelected(this.contact);
 		priceLevelSelected(this.priceLevel);
@@ -503,7 +503,7 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
-		if (this.customer != null && this.customer != customer) {
+		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCustomerCreditMemo ent = (ClientCustomerCreditMemo) this.transactionObject;
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
@@ -517,7 +517,7 @@ public class CustomerCreditMemoView extends
 				this.customerTransactionGrid.removeAllRecords();
 		}
 		super.customerSelected(customer);
-		this.customer = customer;
+		this.setCustomer(customer);
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
 		}

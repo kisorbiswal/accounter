@@ -532,11 +532,11 @@ public class SalesOrderView extends
 		ClientSalesOrder salesOrderToBeEdited = (ClientSalesOrder) transactionObject;
 
 		ClientCompany company = getCompany();
-		this.customer = company.getCustomer(salesOrderToBeEdited.getCustomer());
+		this.setCustomer(company.getCustomer(salesOrderToBeEdited.getCustomer()));
 		this.billingAddress = salesOrderToBeEdited.getBillingAddress();
 
 		this.contact = salesOrderToBeEdited.getContact();
-		this.addressListOfCustomer = customer.getAddress();
+		this.addressListOfCustomer = getCustomer().getAddress();
 
 		if (billingAddress != null) {
 			billToTextArea.setValue(billingAddress.getAddress1() + "\n"
@@ -549,8 +549,8 @@ public class SalesOrderView extends
 		}
 		this.shippingAddress = salesOrderToBeEdited.getShippingAdress();
 		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
-		if (customer != null)
-			addresses.addAll(customer.getAddress());
+		if (getCustomer() != null)
+			addresses.addAll(getCustomer().getAddress());
 		shipToAddress.setListOfCustomerAdress(addresses);
 		if (shippingAddress != null) {
 			shipToAddress.businessSelect.setValue(shippingAddress
@@ -570,7 +570,7 @@ public class SalesOrderView extends
 		// this.taxCode =
 		// getTaxItemGroupForTransactionItems(this.transactionItems);
 
-		customerSelected(this.customer);
+		customerSelected(this.getCustomer());
 		int status = salesOrderToBeEdited.getStatus();
 		switch (status) {
 		case ClientTransaction.STATUS_OPEN:
@@ -590,7 +590,7 @@ public class SalesOrderView extends
 
 		if (salesOrderToBeEdited.getPhone() != null)
 			phoneNo = salesOrderToBeEdited.getPhone();
-		if (customer.getPhoneNo().isEmpty())
+		if (getCustomer().getPhoneNo().isEmpty())
 			phoneSelect.setValue(phoneNo);
 
 		contactSelected(this.contact);
@@ -688,75 +688,69 @@ public class SalesOrderView extends
 
 	@Override
 	public void saveAndUpdateView() {
-		try {
-			ClientSalesOrder salesOrder = transactionObject != null ? (ClientSalesOrder) transactionObject
-					: new ClientSalesOrder();
-			if (statusSelect.getSelectedValue().equals(OPEN))
-				salesOrder.setStatus(ClientTransaction.STATUS_OPEN);
-			else if (statusSelect.getSelectedValue().equals(COMPLETED))
-				salesOrder.setStatus(ClientTransaction.STATUS_COMPLETED);
-			else if (statusSelect.getSelectedValue().equals(CANCELLED))
-				salesOrder.setStatus(ClientTransaction.STATUS_CANCELLED);
-			if (customer != null)
-				salesOrder.setCustomer(customer.getID());
-			if (contact != null)
-				salesOrder.setContact(contact);
-			if (phoneSelect.getValue() != null)
-				salesOrder.setPhone(phoneSelect.getValue().toString());
-			if (billingAddress != null)
-				salesOrder.setBillingAddress(billingAddress);
-			if (shippingAddress != null)
-				salesOrder.setShippingAdress(shippingAddress);
+		ClientSalesOrder salesOrder = transactionObject != null ? (ClientSalesOrder) transactionObject
+				: new ClientSalesOrder();
+		if (statusSelect.getSelectedValue().equals(OPEN))
+			salesOrder.setStatus(ClientTransaction.STATUS_OPEN);
+		else if (statusSelect.getSelectedValue().equals(COMPLETED))
+			salesOrder.setStatus(ClientTransaction.STATUS_COMPLETED);
+		else if (statusSelect.getSelectedValue().equals(CANCELLED))
+			salesOrder.setStatus(ClientTransaction.STATUS_CANCELLED);
+		if (getCustomer() != null)
+			salesOrder.setCustomer(getCustomer().getID());
+		if (contact != null)
+			salesOrder.setContact(contact);
+		if (phoneSelect.getValue() != null)
+			salesOrder.setPhone(phoneSelect.getValue().toString());
+		if (billingAddress != null)
+			salesOrder.setBillingAddress(billingAddress);
+		if (shippingAddress != null)
+			salesOrder.setShippingAdress(shippingAddress);
 
-			if (customerOrderText.getValue() != null)
-				salesOrder.setCustomerOrderNumber(customerOrderText.getValue()
-						.toString());
-			if (salesPerson != null)
-				salesOrder.setSalesPerson(salesPerson.getID());
-			if (paymentTerm != null)
-				salesOrder.setPaymentTerm(paymentTerm.getID());
-			if (shippingTerm != null)
-				salesOrder.setShippingTerm(shippingTerm.getID());
-			if (shippingMethod != null)
-				salesOrder.setShippingMethod(shippingMethod.getID());
-			if (dueDateItem.getEnteredDate() != null)
-				salesOrder.setDueDate(dueDateItem.getEnteredDate().getDate());
+		if (customerOrderText.getValue() != null)
+			salesOrder.setCustomerOrderNumber(customerOrderText.getValue()
+					.toString());
+		if (salesPerson != null)
+			salesOrder.setSalesPerson(salesPerson.getID());
+		if (paymentTerm != null)
+			salesOrder.setPaymentTerm(paymentTerm.getID());
+		if (shippingTerm != null)
+			salesOrder.setShippingTerm(shippingTerm.getID());
+		if (shippingMethod != null)
+			salesOrder.setShippingMethod(shippingMethod.getID());
+		if (dueDateItem.getEnteredDate() != null)
+			salesOrder.setDueDate(dueDateItem.getEnteredDate().getDate());
 
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-				if (taxCode != null) {
-					for (ClientTransactionItem record : customerTransactionGrid
-							.getRecords()) {
-						record.setTaxItemGroup(taxCode.getID());
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (taxCode != null) {
+				for (ClientTransactionItem record : customerTransactionGrid
+						.getRecords()) {
+					record.setTaxItemGroup(taxCode.getID());
 
-					}
 				}
-				salesOrder.setSalesTaxAmount(this.salesTax);
-			} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				salesOrder.setNetAmount(netAmountLabel.getAmount());
-				// salesOrder.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-				// .getValue());
 			}
+			salesOrder.setSalesTaxAmount(this.salesTax);
+		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			salesOrder.setNetAmount(netAmountLabel.getAmount());
+			// salesOrder.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+			// .getValue());
+		}
 
-			salesOrder.setTotal(transactionTotalNonEditableText.getAmount());
+		salesOrder.setTotal(transactionTotalNonEditableText.getAmount());
 
-			salesOrder.setMemo(getMemoTextAreaItem());
-			// salesOrder.setReference(getRefText());
-			if (selectedEstimateId != 0)
-				salesOrder.setEstimate(selectedEstimateId);
+		salesOrder.setMemo(getMemoTextAreaItem());
+		// salesOrder.setReference(getRefText());
+		if (selectedEstimateId != 0)
+			salesOrder.setEstimate(selectedEstimateId);
 
-			transactionObject = salesOrder;
-			super.saveAndUpdateView();
+		transactionObject = salesOrder;
+		super.saveAndUpdateView();
 
-			if (transactionObject.getID() != 0) {
-				alterObject((ClientSalesOrder) transactionObject);
+		if (transactionObject.getID() != 0) {
+			alterObject((ClientSalesOrder) transactionObject);
 
-			} else {
-				createObject((ClientSalesOrder) transactionObject);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
+		} else {
+			createObject((ClientSalesOrder) transactionObject);
 		}
 	}
 
@@ -764,11 +758,11 @@ public class SalesOrderView extends
 	protected void customerSelected(final ClientCustomer customer) {
 
 		if (customer != null) {
-			if (this.customer != null && !this.customer.equals(customer)
+			if (this.getCustomer() != null && !this.getCustomer().equals(customer)
 					&& transactionObject == null)
 				customerTransactionGrid.removeAllRecords();
 			selectedSalesOrders = new ArrayList<ClientEstimate>();
-			this.customer = customer;
+			this.setCustomer(customer);
 			super.customerSelected(customer);
 			customerCombo.setComboItem(customer);
 			// if (transactionObject == null)
@@ -915,10 +909,10 @@ public class SalesOrderView extends
 	private void getEstimates() {
 		if (this.rpcUtilService == null)
 			return;
-		if (customer == null) {
+		if (getCustomer() == null) {
 			Accounter.showError(Accounter.constants().pleaseSelectCustomer());
 		} else {
-			this.rpcUtilService.getEstimates(customer.getID(),
+			this.rpcUtilService.getEstimates(getCustomer().getID(),
 					new AccounterAsyncCallback<List<ClientEstimate>>() {
 
 						public void onException(AccounterException caught) {

@@ -340,7 +340,7 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 
 	protected void customerSelected(ClientCustomer customer) {
 
-		this.customer = customer;
+		this.setCustomer(customer);
 		if (customer == null)
 			return;
 
@@ -442,9 +442,9 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 
 	protected void initAddressAndContacts() {
 
-		initContacts(customer);
-		initPhones(customer);
-		addressListOfCustomer = customer.getAddress();
+		initContacts(getCustomer());
+		initPhones(getCustomer());
+		addressListOfCustomer = getCustomer().getAddress();
 		initBillToCombo();
 		initShipToCombo();
 	}
@@ -913,7 +913,7 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 	@Override
 	public void reload() {
 
-		customer = null;
+		setCustomer(null);
 		super.reload();
 
 	}
@@ -1024,8 +1024,8 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 					}
 				}
 			}
-			transactionItem.setTaxCode(customer != null ? (customer
-					.getTAXCode() != 0 ? customer.getTAXCode() : ztaxCodeid)
+			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
+					.getTAXCode() != 0 ? getCustomer().getTAXCode() : ztaxCodeid)
 					: 0);
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
@@ -1040,7 +1040,7 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 					}
 				}
 				transactionItem
-						.setTaxCode(customer != null ? (customer.getTAXCode() != 0 ? customer
+						.setTaxCode(getCustomer() != null ? (getCustomer().getTAXCode() != 0 ? getCustomer()
 								.getTAXCode() : staxCodeid)
 								: 0);
 			}
@@ -1061,8 +1061,8 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 					}
 				}
 			}
-			transactionItem.setTaxCode(customer != null ? (customer
-					.getTAXCode() != 0 ? customer.getTAXCode() : ztaxCodeid)
+			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
+					.getTAXCode() != 0 ? getCustomer().getTAXCode() : ztaxCodeid)
 					: 0);
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
@@ -1151,6 +1151,14 @@ public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
 		if (billToCombo != null)
 			billToCombo.setDisabled(isEdit);
 		super.onEdit();
+	}
+
+	public ClientCustomer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(ClientCustomer customer) {
+		this.customer = customer;
 	}
 
 }

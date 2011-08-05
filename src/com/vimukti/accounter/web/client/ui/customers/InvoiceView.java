@@ -679,11 +679,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		updateSalesOrderOrEstimate(customer);
 
-		if (this.customer != null && !this.customer.equals(customer)
+		if (this.getCustomer() != null && !this.getCustomer().equals(customer)
 				&& transactionObject == null)
 			customerTransactionGrid.removeAllRecords();
 
-		this.customer = customer;
+		this.setCustomer(customer);
 		super.customerSelected(customer);
 		selectedOrdersAndEstimates = new ArrayList<ClientTransaction>();
 
@@ -716,7 +716,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	 * @param customer
 	 */
 	private void updateSalesOrderOrEstimate(ClientCustomer customer) {
-		if (this.customer != null && this.customer != customer) {
+		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientInvoice inv = (ClientInvoice) this.transactionObject;
 
 			if (inv.getCustomer() == customer.getID()) {
@@ -875,7 +875,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		initTransactionViewData();
 		ClientInvoice invoiceToBeEdited = (ClientInvoice) transactionObject;
 		ClientCompany company = Accounter.getCompany();
-		this.customer = company.getCustomer(invoiceToBeEdited.getCustomer());
+		this.setCustomer(company.getCustomer(invoiceToBeEdited.getCustomer()));
 		this.contact = invoiceToBeEdited.getContact();
 		// customerSelected(company.getCustomer(invoiceToBeEdited.getCustomer()));
 
@@ -903,13 +903,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 						.getOrderNum() : "");
 		// this.taxCode =
 		// getTaxItemGroupForTransactionItems(this.transactionItems);
-		if (customer != null && customerCombo != null) {
-			customerCombo.setComboItem(customer);
+		if (getCustomer() != null && customerCombo != null) {
+			customerCombo.setComboItem(getCustomer());
 		}
 
 		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
-		if (customer != null)
-			addresses.addAll(customer.getAddress());
+		if (getCustomer() != null)
+			addresses.addAll(getCustomer().getAddress());
 		shipToAddress.setListOfCustomerAdress(addresses);
 		if (shippingAddress != null) {
 			shipToAddress.businessSelect.setValue(shippingAddress
@@ -917,7 +917,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			shipToAddress.setAddres(shippingAddress);
 		}
 
-		this.addressListOfCustomer = customer.getAddress();
+		this.addressListOfCustomer = getCustomer().getAddress();
 
 		if (billingAddress != null) {
 
@@ -1043,7 +1043,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		transactionObject = getInvoiceObject();
 		ClientInvoice invoice = transactionObject != null ? (ClientInvoice) transactionObject
 				: new ClientInvoice();
-		invoice.setCustomer(customer.getID());
+		invoice.setCustomer(getCustomer().getID());
 
 		if (dueDateItem.getEnteredDate() != null)
 			invoice.setDueDate((dueDateItem.getEnteredDate()).getDate());
@@ -1128,8 +1128,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	private ClientTransaction getInvoiceObject() {
 		ClientInvoice invoice = transactionObject != null ? (ClientInvoice) transactionObject
 				: new ClientInvoice();
-		if (customer != null)
-			invoice.setCustomer(customer.getID());
+		if (getCustomer() != null)
+			invoice.setCustomer(getCustomer().getID());
 
 		if (dueDateItem.getEnteredDate() != null)
 			invoice.setDueDate((dueDateItem.getEnteredDate()).getDate());
@@ -1208,8 +1208,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		ClientCustomer previousCustomer = customer;
-		if (customer != null && customer != previousCustomer) {
+		ClientCustomer previousCustomer = getCustomer();
+		if (getCustomer() != null && getCustomer() != previousCustomer) {
 			getEstimatesAndSalesOrder();
 		}
 		result.add(super.validate());
@@ -1296,7 +1296,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	private void getEstimatesAndSalesOrder() {
 		if (this.rpcUtilService == null)
 			return;
-		if (customer == null) {
+		if (getCustomer() == null) {
 			Accounter.showError(Accounter.constants().pleaseSelectCustomer());
 		} else {
 
@@ -1331,7 +1331,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			};
 
 			this.rpcUtilService.getEstimatesAndSalesOrdersList(
-					customer.getID(), callback);
+					getCustomer().getID(), callback);
 
 		}
 	}

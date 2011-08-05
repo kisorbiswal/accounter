@@ -115,12 +115,12 @@ public class ReceivePaymentView extends
 			receivePaymentTransactionList = null;
 			return;
 		}
-		if (customer != null && customerCombo != null) {
+		if (getCustomer() != null && customerCombo != null) {
 			customerCombo.setComboItem(getCompany().getCustomer(
 					selectedCustomer.getID()));
 		}
-		this.customer = selectedCustomer;
-		this.gridView.setCustomer(customer);
+		this.setCustomer(selectedCustomer);
+		this.gridView.setCustomer(getCustomer());
 
 		gotCreditsAndPayments = false;
 		/*
@@ -129,7 +129,7 @@ public class ReceivePaymentView extends
 		 */
 		gridView.creditsAndPaymentsDialiog = null;
 		gridView.creditsStack = null;
-		gridView.initCreditsAndPayments(customer);
+		gridView.initCreditsAndPayments(getCustomer());
 
 		if (transactionObject == null) {
 			gridView.removeAllRecords();
@@ -313,7 +313,7 @@ public class ReceivePaymentView extends
 	private void initListGrid() {
 		gridView = new TransactionReceivePaymentGrid(!isEdit, true);
 		gridView.setPaymentView(this);
-		gridView.setCustomer(this.customer);
+		gridView.setCustomer(this.getCustomer());
 		gridView.setCanEdit(!isEdit);
 		gridView.isEnable = false;
 		gridView.init();
@@ -343,7 +343,7 @@ public class ReceivePaymentView extends
 		adjustAmountAndEndingBalance();
 	}
 
-	private void createOrAlterReceivePayment() throws Exception {
+	private void createOrAlterReceivePayment() {
 
 		ClientReceivePayment receivePayment = getReceivePaymentObject();
 
@@ -364,8 +364,8 @@ public class ReceivePaymentView extends
 			receivePayment.setPaymentMethod(paymentMethod);
 		if (depositInAccount != null)
 			receivePayment.setDepositIn(depositInAccount.getID());
-		if (customer != null)
-			receivePayment.setCustomer(customer.getID());
+		if (getCustomer() != null)
+			receivePayment.setCustomer(getCustomer().getID());
 		if (transactionNumber != null)
 			receivePayment.setNumber(transactionNumber.getValue().toString());
 		// if (refText != null)
@@ -716,14 +716,7 @@ public class ReceivePaymentView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		try {
-			createOrAlterReceivePayment();
-
-		} catch (Exception e) {
-
-			throw e;
-		}
-
+		createOrAlterReceivePayment();
 	}
 
 	private void distributeEnteredAmount(Double amount) {
@@ -841,8 +834,8 @@ public class ReceivePaymentView extends
 
 		paymentToBeEdited = (ClientReceivePayment) transactionObject;
 
-		this.customer = getCompany().getCustomer(
-				paymentToBeEdited.getCustomer());
+		this.setCustomer(getCompany().getCustomer(
+				paymentToBeEdited.getCustomer()));
 		customerSelected(getCompany().getCustomer(
 				paymentToBeEdited.getCustomer()));
 
@@ -1324,7 +1317,7 @@ public class ReceivePaymentView extends
 		initListGrid();
 		gridLayout.insert(gridView, 2);
 
-		getTransactionReceivePayments(this.customer);
+		getTransactionReceivePayments(this.getCustomer());
 		memoTextAreaItem.setDisabled(isEdit);
 		transactionObject = null;
 
