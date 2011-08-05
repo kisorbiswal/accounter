@@ -78,4 +78,9 @@ public class ClientItemBackUp implements IAccounterCore {
 		return AccounterCoreType.ITEMBACKUP;
 	}
 
+	public ClientItemBackUp clone() {
+		return null;
+
+	}
+
 }
