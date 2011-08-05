@@ -161,6 +161,10 @@ public class CreateTaxesDialog extends BaseDialog {
 			this.id = id;
 		}
 
+		public CreateTax clone() {
+			return null;
+		}
+
 	}
 
 }

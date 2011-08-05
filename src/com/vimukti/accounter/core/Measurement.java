@@ -144,8 +144,6 @@ public class Measurement implements IAccounterCore {
 		return null;
 	}
 
-	
-
 	@Override
 	public String getClientClassSimpleName() {
 		// TODO Auto-generated method stub
@@ -155,7 +153,7 @@ public class Measurement implements IAccounterCore {
 	@Override
 	public void setID(long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -164,4 +162,7 @@ public class Measurement implements IAccounterCore {
 		return 0;
 	}
 
+	public Measurement clone() {
+		return null;
+	}
 }

@@ -607,4 +607,7 @@ public class GraphPoints implements IAccounterCore {
 		this.minPoint = minPoint;
 	}
 
+	public GraphPoints clone() {
+		return null;
+	}
 }

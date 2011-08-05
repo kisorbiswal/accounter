@@ -63,7 +63,7 @@ public class PayeeList implements IAccounterCore {
 	/**
 	 * @return the id
 	 */
-	public long getID(){
+	public long getID() {
 		return id;
 	}
 
@@ -71,8 +71,8 @@ public class PayeeList implements IAccounterCore {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	/**
@@ -227,6 +227,10 @@ public class PayeeList implements IAccounterCore {
 
 	@Override
 	public AccounterCoreType getObjectType() {
+		return null;
+	}
+
+	public PayeeList clone() {
 		return null;
 	}
 
