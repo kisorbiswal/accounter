@@ -1979,6 +1979,10 @@ form{
 	background-color: #FFEBE8;
     border-color: #CC0000;
 }
+#login_success{
+	background-color: #FFEBE8;
+    border-color: #99C68E;
+}
 #forgot-password_error{
     background-color: #FFFFE0;
     border-color: #E6DB55;
