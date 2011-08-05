@@ -80,7 +80,6 @@ public class PaySalesTaxView extends
 
 		super(ClientTransaction.TYPE_PAY_SALES_TAX,
 				PAYSALESTAX_TRANSACTION_GRID);
-		this.validationCount = 3;
 	}
 
 	private void getTaxItems() {

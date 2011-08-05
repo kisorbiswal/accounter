@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -30,6 +31,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
 
@@ -326,11 +328,11 @@ public class IssuePaymentDialog extends BaseDialog {
 
 	}
 
-	protected boolean validate() {
-
-		return (payMethodSelect.validate(true) && accountCombo.validate(true) && grid
-				.validateGrid());
-
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		result.add(FormItem.validate(payMethodSelect, accountCombo));
+		result.add(grid.validateGrid());
+		return result;
 	}
 
 	private boolean validateCheckNo() {

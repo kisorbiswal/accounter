@@ -44,7 +44,7 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
  * @author Fernandez
  */
 @SuppressWarnings("serial")
-public abstract class AbstractBaseView<T extends IAccounterCore> extends
+public abstract class AbstractBaseView<T> extends
 		ParentCanvas<T> implements IAccounterWidget, WidgetWithErrors {
 
 	public AbstractBaseView() {
@@ -144,7 +144,6 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 	private DialogBox dialog;
 
 	private boolean isViewModfied;
-	protected boolean isEdit;
 	private VerticalPanel errorPanel;
 	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
 
@@ -227,21 +226,12 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 		// TO BE OVERRIDDEN
 	}
 
-	protected void updateCompany(IAccounterCore obj) {
-
-		getCompany().processCommand(obj);
-
-	}
-
 	protected void refreshData() {
 		// TODDO Refresh the View Data
 	}
 
 	public void setData(T data) {
 		super.setData(data);
-
-		this.isEdit = (data != null && data.getID() != 0);
-
 	}
 
 	public void disableSaveButtons() {

@@ -40,11 +40,6 @@ public class SalesTaxItemsGrid extends BaseListGrid<ClientTAXItem> {
 	}
 
 	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		return false;
-	}
-
-	@Override
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().name(),
 				Accounter.constants().currentRate() };
