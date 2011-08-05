@@ -98,4 +98,9 @@ public class ClientShippingTerms implements IAccounterCore {
 		return "ClientShippingTerms";
 	}
 
+	public ClientShippingTerms clone() {
+		return null;
+
+	}
+
 }
