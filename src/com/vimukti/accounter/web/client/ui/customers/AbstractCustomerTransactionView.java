@@ -67,14 +67,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	AccounterConstants customerConstants = Accounter.constants();
 
-	/**
-	 * 
-	 */
-
-	@Override
-	protected abstract void initTransactionViewData(
-			ClientTransaction transactionObject);
-
 	protected List<ClientCustomer> customers;
 
 	protected Set<ClientContact> contacts;

@@ -637,10 +637,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	@Override
 	public void initData() {
-		if (transaction != null)
-			initTransactionViewData(transaction);
-		else
-			initTransactionViewData();
+		// if (transaction != null)
+		// initTransactionViewData(transaction);
+		// else
+		initTransactionViewData();
 
 		super.initData();
 

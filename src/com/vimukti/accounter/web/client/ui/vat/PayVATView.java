@@ -305,7 +305,16 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
+	protected void initTransactionViewData() {
+
+		if (transaction == null) {
+			setData(new ClientPayVAT());
+			initTransactionNumber();
+			fillGrid();
+			initPayFromAccounts();
+			return;
+		}
+
 		selectedPayFromAccount = getCompany().getAccount(
 				transaction.getPayFrom());
 		payFromAccCombo.setComboItem(selectedPayFromAccount);
@@ -335,13 +344,6 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		// grid.updateFooterValues("Total"
 		// + DataUtils.getAmountAsString(transaction.getTotal()), 2);
 
-	}
-
-	@Override
-	protected void initTransactionViewData() {
-		initTransactionNumber();
-		fillGrid();
-		initPayFromAccounts();
 	}
 
 	protected void initPayFromAccounts() {

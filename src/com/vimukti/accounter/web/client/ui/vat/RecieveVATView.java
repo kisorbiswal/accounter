@@ -325,7 +325,15 @@ public class RecieveVATView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientReceiveVAT());
+			initTransactionNumber();
+			fillGrid();
+			initPayFromAccounts();
+			return;
+		}
+
 		selectedDepositInAccount = getCompany().getAccount(
 				transaction.getDepositIn());
 		depositInAccCombo.setComboItem(selectedDepositInAccount);
@@ -354,13 +362,6 @@ public class RecieveVATView extends
 		// grid.updateFooterValues("Total"
 		// + DataUtils.getAmountAsString(receiveVAT.getTotal()), 2);
 
-	}
-
-	@Override
-	protected void initTransactionViewData() {
-		initTransactionNumber();
-		fillGrid();
-		initPayFromAccounts();
 	}
 
 	protected void initPayFromAccounts() {

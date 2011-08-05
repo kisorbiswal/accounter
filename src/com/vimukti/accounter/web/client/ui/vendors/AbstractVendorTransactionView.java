@@ -96,14 +96,6 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected void initTransactionTotalNonEditableItem() {
 	}
 
-	/**
-	 * provide a Valid Vendor Transaction Type
-	 */
-
-	@Override
-	protected abstract void initTransactionViewData(
-			ClientTransaction transactionObject);
-
 	public AbstractVendorTransactionView(int transactionType,
 			int transactionViewType) {
 		super(transactionType, transactionViewType);

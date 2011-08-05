@@ -455,7 +455,16 @@ public class PaySalesTaxView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientPaySalesTax());
+			initTransactionNumber();
+			initTaxAgencyCombo();
+			getTaxItems();
+			getPayFromAccounts();
+			fillGrid();
+			return;
+		}
 		isEdit = true;
 
 		selectedPayFromAccount = getCompany().getAccount(
@@ -484,17 +493,6 @@ public class PaySalesTaxView extends
 		}
 		// grid.updateFooterValues(FinanceApplication.constants().total()
 		// + DataUtils.getAmountAsString(paySalesTax.getTotal()), 2);
-
-	}
-
-	@Override
-	protected void initTransactionViewData() {
-
-		initTransactionNumber();
-		initTaxAgencyCombo();
-		getTaxItems();
-		getPayFromAccounts();
-		fillGrid();
 
 	}
 

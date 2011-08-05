@@ -298,12 +298,6 @@ public class VATPaymentView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		// currently not using
-
-	}
-
-	@Override
 	public void updateNonEditableItems() {
 		// currently not using
 

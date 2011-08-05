@@ -76,7 +76,6 @@ public class JournalEntryView extends
 		updateTransaction();
 		super.saveAndUpdateView();
 		saveOrUpdate(transaction);
-		Object clone = takenJournalEntry.clone();
 	}
 
 	@Override
@@ -416,7 +415,15 @@ public class JournalEntryView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
+	protected void initTransactionViewData() {
+
+		if (transaction == null) {
+			setData(new ClientJournalEntry());
+			initJournalNumber();
+			if (!isEdit)
+				initVocherNumer();
+		}
+
 		jourNoText.setValue(transaction.getNumber());
 		transactionDateItem.setEnteredDate(transaction.getDate());
 		grid.setVoucherNumber(transaction.getNumber());
@@ -464,15 +471,6 @@ public class JournalEntryView extends
 			memoText.setValue(transaction.getMemo());
 		updateTransaction();
 
-		initTransactionViewData();
-
-	}
-
-	@Override
-	protected void initTransactionViewData() {
-		initJournalNumber();
-		if (!isEdit)
-			initVocherNumer();
 	}
 
 	private void initJournalNumber() {
