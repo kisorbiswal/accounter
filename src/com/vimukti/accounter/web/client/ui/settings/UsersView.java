@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -221,6 +222,10 @@ public class UsersView extends BaseView<ClientUserInfo> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().users();
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
 	}
 
 }
