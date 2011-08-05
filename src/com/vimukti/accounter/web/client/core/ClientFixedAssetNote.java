@@ -30,13 +30,13 @@ public class ClientFixedAssetNote implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	public String getNote() {
@@ -47,4 +47,8 @@ public class ClientFixedAssetNote implements IAccounterCore {
 		this.note = note;
 	}
 
+	public ClientFixedAssetNote clone() {
+		return null;
+
+	}
 }
