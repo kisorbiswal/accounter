@@ -42,4 +42,9 @@ public class ClientBankAccount extends ClientAccount {
 	public void setLastReconcilationDate(long lastReconcilationDate) {
 		this.lastReconcilationDate = lastReconcilationDate;
 	}
+
+	public ClientBankAccount clone() {
+		return null;
+
+	}
 }
