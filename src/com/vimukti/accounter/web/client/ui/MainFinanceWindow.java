@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
+import com.vimukti.accounter.web.client.ui.setup.SetupWizard;
 
 /**
  * 
@@ -45,7 +46,6 @@ public class MainFinanceWindow extends VerticalPanel {
 	private int width;
 	private HelpItem item;
 	public Map<String, Action> actions;
-
 
 	public static String oldToken;
 	public static boolean shouldExecuteRun = true;
@@ -83,32 +83,39 @@ public class MainFinanceWindow extends VerticalPanel {
 	}-*/;
 
 	private void createControls() {
-
 		viewManager = new ViewManager(this);
-
 		header = new Header();
-		
+
+		ClientCompany company = Accounter.getCompany();
 		VerticalPanel vpanel = new VerticalPanel();
 		vpanel.addStyleName("header");
 		vpanel.setSize("100%", "100%");
-		HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
 		vpanel.add(header);
-		vpanel.add(hMenuBar);
 		add(vpanel);
-		add(viewManager);
-		Label help = new Label(Accounter.constants().helpLinks());
-		help.addStyleName("down-panel");
-		if (item == null) {
-			item = new HelpItem();
-		}
-		addStyleName(Accounter.constants().financeWindow());
+		//If company is configured then show the dashboard
+		if (company.isConfigured()) {
+			HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
+			vpanel.add(hMenuBar);
+			add(viewManager);
+			Label help = new Label(Accounter.constants().helpLinks());
+			help.addStyleName("down-panel");
+			if (item == null) {
+				item = new HelpItem();
+			}
+			addStyleName(Accounter.constants().financeWindow());
 
-		if (UIUtils.isMSIEBrowser()) {
-			this.getElement().getStyle().setPaddingTop(0, Unit.PX);
-			this.getElement().getStyle().setPaddingBottom(0, Unit.PX);
+			if (UIUtils.isMSIEBrowser()) {
+				this.getElement().getStyle().setPaddingTop(0, Unit.PX);
+				this.getElement().getStyle().setPaddingBottom(0, Unit.PX);
+			}
+
+			ActionFactory.getCompanyHomeAction().run(null, false);
+		} else {
+			//if company is not configured then show the setupwizard
+			SetupWizard setupWizard = new SetupWizard();
+			add(setupWizard);
 		}
 
-		ActionFactory.getCompanyHomeAction().run(null, false);
 	}
 
 	public HelpItem getHelpItem() {
@@ -697,7 +704,6 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		this.height = height;
 		this.width = width - 20;
-
 
 		viewManager.fitToSize(height, width - 10 - 15);
 
