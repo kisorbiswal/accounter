@@ -119,6 +119,19 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	public void onSave() {
 		// TODO Auto-generated method stub
 	}
-		// not required for this page
+
+	// not required for this page
+
+	@Override
+	protected void onBack() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void onNext() {
+		// TODO Auto-generated method stub
+
+	}
 
 }

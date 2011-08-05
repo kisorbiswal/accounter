@@ -28,4 +28,16 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		
 	}
 
+	@Override
+	protected void onBack() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onNext() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -15,17 +15,28 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 		return null;
 	}
 
-
 	@Override
 	public void onLoad() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onSave() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	protected void onBack() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void onNext() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -24,11 +24,11 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	private void createControls() {
 		industryVerticalPanel = new VerticalPanel();
-		HTML industryinfoHTML = new HTML(
-				this.accounterMessages.selectIndustryInfoHTML());
+		HTML industryinfoHTML = new HTML(this.accounterMessages
+				.selectIndustryInfoHTML());
 		DynamicForm industryDynamicForm = new DynamicForm();
-		SelectCombo industryCombo = new SelectCombo(
-				this.accounterConstants.industry());
+		SelectCombo industryCombo = new SelectCombo(this.accounterConstants
+				.industry());
 		industryCombo.initCombo(getIndustryList());
 		industryVerticalPanel.add(industryinfoHTML);
 		industryDynamicForm.setFields(industryCombo);
@@ -81,6 +81,18 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	@Override
 	public void onSave() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void onBack() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void onNext() {
 		// TODO Auto-generated method stub
 
 	}
