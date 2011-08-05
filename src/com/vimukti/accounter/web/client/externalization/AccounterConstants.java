@@ -4470,4 +4470,6 @@ public interface AccounterConstants extends Constants {
 
 	public String bothservicesandProduct_labelonly();
 
+	public String doyouchargesalestax();
+
 }
