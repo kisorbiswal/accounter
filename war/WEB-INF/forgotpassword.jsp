@@ -61,7 +61,7 @@ $(document).ready(function() {
 		   <div id="forgot-password_error" class="common-box">
 		      <p>Please enter your username or email address. You will receive a link to create a new password via email.</p>	
 		   </div>
-		   <form id="accounterForm" method="post" action="/site/forgotpassword">
+		   <form id="accounterForm" method="post" action="/forgotpassword">
 		      <div>
 			    <label>E-mail<label>
 				<br>

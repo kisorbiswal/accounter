@@ -15,7 +15,7 @@
 <!--                                           -->
 <!-- Any title is fine                         -->
 <!--                                           -->
-<title>DefBiz</title>
+<title>Create Company - Accounter</title>
 
 <script type="text/javascript">
     String.prototype.trim = function() { return this.replace(/^\s*/, "").replace(/\s*$/, ""); };
@@ -290,9 +290,9 @@ p {
 <div id="hiddenDiv" class="hiddenPic">
   <img src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50">
 </div>
-<c:if test="${message != null}">
+<c:if test="${errormessage != null}">
 <div id="login_error" class="common-box">
-  <b>${message} </b> 
+  <b>${errormessage} </b> 
 </div> 
 </c:if>	
 

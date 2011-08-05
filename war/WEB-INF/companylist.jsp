@@ -8,7 +8,7 @@
       <link type="text/css" rel="stylesheet" href="../css/Finance.css?version=<%= version%>">
   </head>
   <body>
-  <table class="header">
+  <!--<table class="header">
 	   <tr>
 	      <td width="25%"><img src="/images/Accounter_logo_title.png" /></td>
 	      <td width="50%"><div class="companyName">Company Lists</div></td>
@@ -20,7 +20,10 @@
 	        </ul>
 	      </td>
 	   </tr>
-	</table>
+	</table>-->
+	<div>
+		<img src="../images/Accounter_logo_title.png" class="accounterLogo" />
+	</div>
     <div class="company_lists">
        <ul>
        
