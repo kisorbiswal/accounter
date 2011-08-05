@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -15,6 +16,7 @@ public class SetupStartPage extends AbstractSetupPage {
 	Label desclable, question1Lable, ClickSkipLabel, question2Lable,
 			ClickSetupLabel;
 	Button skipButton, StartButton;
+	Image titleimage;
 
 	public SetupStartPage() {
 		// TODO Auto-generated constructor stub
@@ -33,26 +35,25 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	private void creatControls() {
 		mainVerticalPanel = new VerticalPanel();
-		description = new HTML("Description"); // TODO need to get description
+		description = new HTML(this.accounterConstants.userGuidelinesMessage());
 		mainVerticalPanel.add(description);
 		question1Panel = new VerticalPanel();
-		question1Lable = new Label(
-				"Are you an Accountant or Expert ni Accounter?");
+		question1Lable = new Label(this.accounterConstants.expertInAccounter());
 		question1Panel.add(question1Lable);
-		clickSkipDesc = new HTML("Description");
+		clickSkipDesc = new HTML(this.accounterConstants.clickSkipButtonMsg());
 		question1Panel.add(clickSkipDesc);
-		skipButton = new Button("Skip Setup");
+		skipButton = new Button(this.accounterConstants.skipSetup());
 		question1Panel.add(skipButton);
 		hpanel = new HorizontalPanel();
 		hpanel.add(question1Panel);
 
 		question2Panel = new VerticalPanel();
-		question1Lable = new Label(
-				"Are you new to Accounting or new to Accounter?");
+		question1Lable = new Label(this.accounterConstants
+				.areYouaNewAccounter());
 		question2Panel.add(question1Lable);
-		clickStartDesc = new HTML("Description");
+		clickStartDesc = new HTML(this.accounterConstants.clickStartButtonMsg());
 		question2Panel.add(clickStartDesc);
-		StartButton = new Button("Start Setup");
+		StartButton = new Button(this.accounterConstants.startSetup());
 		question2Panel.add(StartButton);
 		hpanel.add(question2Panel);
 		mainVerticalPanel.add(hpanel);
@@ -89,17 +90,7 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	}
 
-	@Override
-	protected void onBack() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	protected void onNext() {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 }
