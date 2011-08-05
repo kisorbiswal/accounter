@@ -99,4 +99,9 @@ public class ClientTAXAgency extends ClientPayee {
 		VATReturn = vATReturn;
 	}
 
+	public ClientTAXAgency clone() {
+		return null;
+
+	}
+
 }
