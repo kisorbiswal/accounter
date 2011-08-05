@@ -26,12 +26,6 @@ public class SetupStartPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean getProgress() {
-		// here we have to check the validation for the page
-		return true;
-	}
-
-	@Override
 	public VerticalPanel getPageBody() {
 		creatControls();
 		return null;
@@ -95,12 +89,6 @@ public class SetupStartPage extends AbstractSetupPage {
 		// TODO Auto-generated method stub
 		// not required for this page
 
-	}
-
-	@Override
-	public boolean setProgress() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }
