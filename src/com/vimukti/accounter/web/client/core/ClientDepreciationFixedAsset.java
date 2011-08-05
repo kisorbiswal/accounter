@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 @SuppressWarnings("serial")
 public class ClientDepreciationFixedAsset implements IAccounterCore {
 
@@ -62,6 +61,11 @@ public class ClientDepreciationFixedAsset implements IAccounterCore {
 	@Override
 	public void setID(long id) {
 		this.id = id;
+	}
+
+	public ClientDepreciationFixedAsset clone() {
+		return null;
+
 	}
 
 }
