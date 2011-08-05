@@ -2223,7 +2223,11 @@ public class ClientCompany implements IAccounterCore {
 	 * @param string
 	 */
 	public ClientCurrency getCurrency(String code) {
-		// TODO
+		for (ClientCurrency currency : currencies) {
+			if (currency.getSymbol().equals(code)) {
+				return currency;
+			}
+		}
 		return null;
 	}
 }
