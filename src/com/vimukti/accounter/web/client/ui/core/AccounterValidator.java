@@ -1312,7 +1312,7 @@ public class AccounterValidator {
 		} else {
 			// BaseView.errordata.setHTML("");
 			// BaseView.commentPanel.setVisible(false);
-			
+
 		}
 		return false;
 
@@ -1332,7 +1332,7 @@ public class AccounterValidator {
 		} else {
 			// BaseView.errordata.setHTML("");
 			// BaseView.commentPanel.setVisible(false);
-			
+
 		}
 		return false;
 
@@ -1408,28 +1408,6 @@ public class AccounterValidator {
 
 	}
 
-	/**
-	 * This method Validates the TransactionGrid with Multisection Property
-	 * 
-	 * @param transactionGrid
-	 * @return
-	 * @throws InvalidTransactionEntryException
-	 */
-
-	public static boolean validateGrid(AbstractTransactionGrid transactionGrid)
-			throws InvalidTransactionEntryException {
-		if (transactionGrid == null || transactionGrid.getRecords().isEmpty()
-				|| transactionGrid.getSelectedRecords().size() == 0) {
-			throw new InvalidTransactionEntryException(
-					AccounterErrorType.blankTransaction);
-		} else if (!transactionGrid.validateGrid()) {
-			return false;
-		}
-
-		return true;
-
-	}
-
 	public static boolean validate_Radiovalue(Object object)
 			throws InvalidTransactionEntryException {
 		if (object == null) {
@@ -1480,7 +1458,7 @@ public class AccounterValidator {
 	 * @throws InvalidTransactionEntryException
 	 */
 
-	public static boolean validateGridItem(Object value){
+	public static boolean validateGridItem(Object value) {
 		if (value == null || value == "") {
 			// throw new InvalidTransactionEntryException(Accounter.messages()
 			// .pleaseEnter(itemName));
