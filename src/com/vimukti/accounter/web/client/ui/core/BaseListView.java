@@ -43,8 +43,9 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
  * @param <T>
  */
 
-public abstract class BaseListView<T> extends AbstractBaseView<T> implements
-		IAccounterList<T>, AsyncCallback<List<T>> {
+public abstract class BaseListView<T extends IAccounterCore> extends
+		AbstractBaseView<T> implements IAccounterList<T>,
+		AsyncCallback<List<T>> {
 	protected List<String> listOfTypes;
 
 	protected BaseListGrid grid;

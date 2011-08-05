@@ -199,7 +199,7 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 
 		this.account = takenaccount;
 
-		this.rpcReportService.getAccountRegister(startDate, endDate,
+		Accounter.createReportService().getAccountRegister(startDate, endDate,
 				takenaccount.getID(),
 				new AccounterAsyncCallback<List<AccountRegister>>() {
 
@@ -217,11 +217,6 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 					}
 
 				});
-
-	}
-
-	@Override
-	public void saveAndUpdateView() throws Exception {
 
 	}
 

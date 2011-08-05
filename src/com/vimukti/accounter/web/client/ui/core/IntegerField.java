@@ -5,13 +5,15 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class IntegerField extends TextItem {
 	private Long number;
+	private WidgetWithErrors errorsWidget;
 
-	public IntegerField(final String name) {
+	public IntegerField(WidgetWithErrors errorsWidget, final String name) {
+		this.errorsWidget = errorsWidget;
 		setName(name);
 		setTitle(name);
 		((TextBox) getMainWidget()).setTextAlignment(TextBoxBase.ALIGN_RIGHT);
@@ -55,7 +57,7 @@ public class IntegerField extends TextItem {
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							addError(this,
+							errorsWidget.addError(this,
 									AccounterErrorType.INCORRECTINFORMATION);
 						}
 						// Accounter

@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -37,12 +38,11 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -116,7 +116,6 @@ public class WriteChequeView extends
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK, 0);
 		this.company = getCompany();
-		this.validationCount = 5;
 	}
 
 	public static WriteChequeView getInstance() {
@@ -487,56 +486,44 @@ public class WriteChequeView extends
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
 		if (takenPaySalesTax == null) {
 
-			switch (this.validationCount) {
-			case 5:
-				return AccounterValidator.validateForm(payForm, false);
-			case 4:
-				return AccounterValidator.validateForm(bankAccForm, false);
-			case 3:
-				if (transactionObject == null && payee != null) {
-					switch (payee.getType()) {
-					case ClientPayee.TYPE_CUSTOMER:
-						return AccounterValidator
-								.isBlankTransaction(transactionCustomerGrid)
-								&& transactionCustomerGrid.validateGrid();
-					case ClientPayee.TYPE_VENDOR:
-					case ClientPayee.TYPE_TAX_AGENCY:
-						return AccounterValidator
-								.isBlankTransaction(transactionVendorGrid)
-								&& transactionVendorGrid.validateGrid();
-						// case ClientPayee.TYPE_TAX_AGENCY:
-						// return AccounterValidator
-						// .isBlankTransaction(taxAgencyGrid);
+			result.add(DynamicForm.validate(payForm, bankAccForm));
+
+			if (transactionObject == null && payee != null) {
+				switch (payee.getType()) {
+				case ClientPayee.TYPE_CUSTOMER:
+					if (AccounterValidator
+							.isBlankTransaction(transactionCustomerGrid)) {
+						result.addError(transactionCustomerGrid,
+								AccounterErrorType.blankTransaction);
 					}
+					result.add(transactionCustomerGrid.validateGrid());
+				case ClientPayee.TYPE_VENDOR:
+				case ClientPayee.TYPE_TAX_AGENCY:
+					if (AccounterValidator
+							.isBlankTransaction(transactionVendorGrid)) {
+						result.addError(transactionVendorGrid,
+								AccounterErrorType.blankTransaction);
+					}
+					result.add(transactionVendorGrid.validateGrid());
+					// case ClientPayee.TYPE_TAX_AGENCY:
+					// return AccounterValidator
+					// .isBlankTransaction(taxAgencyGrid);
 				}
-				break;
-			case 2:
-				// if (transactionObject == null && selectBankAcc != null)
-				// return AccounterValidator
-				// .validate_Total_Exceeds_BankBalance(balText
-				// .getAmount(), amtText.getAmount(),
-				// selectBankAcc.isIncrease(), this);
-				// break;
-				return false;
-
-			case 1:
-				if (transactionObject == null)
-					return validateAmount();
-				break;
-
-			default:
-				return false;
-
 			}
+
+			if (transactionObject == null)
+				if (!validateAmount()) {
+					result.addError(memoTextAreaItem, AccounterErrorType.amount);
+				}
 		}
-		return true;
+		return result;
 	}
 
-	private boolean validateAmount() throws InvalidEntryException {
+	private boolean validateAmount() {
 		if (payee != null) {
 			double total = 0.0;
 
@@ -558,7 +545,7 @@ public class WriteChequeView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		if (takenPaySalesTax != null) {
 			updatePaySalesTax();
@@ -664,7 +651,6 @@ public class WriteChequeView extends
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw e;
 		}
 	}
 
