@@ -615,7 +615,6 @@ public class ViewManager extends DockPanel {
 					@Override
 					public boolean onYesClick() throws Exception {
 
-						((AbstractBaseView) currentCanvas).errorOccured = false;
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
 						// AccounterExecute execute = new AccounterExecute(
@@ -1120,7 +1119,6 @@ public class ViewManager extends DockPanel {
 					@Override
 					public boolean onYesClick() throws Exception {
 
-						((AbstractBaseView) view).errorOccured = false;
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
 						// AccounterExecute execute = new AccounterExecute(

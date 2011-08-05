@@ -335,7 +335,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		assetType = new TextItem(Accounter.constants().assetType());
 
-		depreciationRate = new PercentageField(Accounter.constants()
+		depreciationRate = new PercentageField(this, Accounter.constants()
 				.depreciationRate());
 		depreciationRate.addBlurHandler(new BlurHandler() {
 

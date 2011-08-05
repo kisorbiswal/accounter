@@ -349,8 +349,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	@Override
 	public void saveFailed(Throwable exception) {
-		BaseDialog.errordata.setHTML(Accounter.constants()
-				.creationorupdationfailed());
+		addError(this, Accounter.constants().creationorupdationfailed());
 		BaseDialog.commentPanel.setVisible(true);
 	}
 

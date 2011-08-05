@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public abstract class BaseView<T extends IAccounterCore> extends
 		AbstractBaseView<T> {
 
-	protected ButtonBar buttonBar;
+	private ButtonBar buttonBar;
 
 	protected int accountType;
 
@@ -82,7 +82,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		// Insert widgets above button bar
 		super.insert(child, index);
 	}
-
 
 	protected void createButtons(ButtonBar buttonBar) {
 		this.saveAndCloseButton = new SaveAndCloseButton(this);

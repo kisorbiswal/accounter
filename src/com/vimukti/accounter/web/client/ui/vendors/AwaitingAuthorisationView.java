@@ -129,18 +129,11 @@ public class AwaitingAuthorisationView extends BaseView {
 		delete.enabledButton(AccounterButton.DELETE_BUTTON, "close-image",
 				"ibutton1");
 
-		buttonBar.setVisible(false);
-
 		panel.add(grid);
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		this.add(panel);
 		// mainPanel.removeStyleName("main-class-pannel");
-		buttonBar.getElement().getParentElement()
-				.removeClassName("bottom-view");
-		bottomShadow.getElement().getParentElement()
-				.removeClassName("bottom-shadow");
-
 	}
 
 	protected List<BillsList> getRecordsToApprove() {

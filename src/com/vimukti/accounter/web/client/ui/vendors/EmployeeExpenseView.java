@@ -2,6 +2,8 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -14,18 +16,22 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 
 public class EmployeeExpenseView extends CashPurchaseView {
 
 	private EmployeeCombo employee;
 	// private List<String> hrEmployees = new ArrayList<String>();
 	public int status;
+	private ImageButton approveButton;
+	private ImageButton submitForApprove;
 
 	public EmployeeExpenseView() {
 		super(ClientTransaction.TYPE_EMPLOYEE_EXPENSE);
@@ -272,5 +278,42 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().employeeExpense();
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		super.createButtons(buttonBar);
+		approveButton = new ImageButton(Accounter.constants().approve(),
+				Accounter.getFinanceImages().approve());
+		approveButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				approve();
+			}
+		});
+
+		submitForApprove = new ImageButton(Accounter.constants()
+				.submitForApproval(), Accounter.getFinanceImages()
+				.submitForApproval());
+		submitForApprove.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				onSubmitForApproval();
+			}
+		});
+		buttonBar.add(approveButton);
+		buttonBar.add(submitForApprove);
+	}
+
+	protected void onSubmitForApproval() {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void approve() {
+		// TODO Auto-generated method stub
+
 	}
 }

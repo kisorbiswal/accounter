@@ -47,9 +47,6 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 public abstract class AbstractBaseView<T extends IAccounterCore> extends
 		ParentCanvas<T> implements IAccounterWidget, WidgetWithErrors {
 
-	public boolean errorOccured = false;
-	public boolean warnOccured = false;
-
 	public AbstractBaseView() {
 
 		sinkEvents(Event.ONCHANGE | Event.KEYEVENTS);

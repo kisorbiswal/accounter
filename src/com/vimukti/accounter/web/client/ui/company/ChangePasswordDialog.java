@@ -59,7 +59,7 @@ public class ChangePasswordDialog extends BaseDialog {
 			@Override
 			public void onClick(ClickEvent event) {
 				try {
-					
+
 					validate();
 				} catch (Exception e) {
 				}
@@ -105,24 +105,18 @@ public class ChangePasswordDialog extends BaseDialog {
 											.constants()
 											.passwordSuccessfullyChanged());
 								} else {
-									MainFinanceWindow
-											.getViewManager()
-											.showErrorInCurrectDialog(
-													Accounter
-															.constants()
-															.yourPresentPasswordisWrong());
+									addError(this, Accounter.constants()
+											.yourPresentPasswordisWrong());
 								}
 							}
 
 						});
 			} else {
-				MainFinanceWindow.getViewManager().showErrorInCurrectDialog(
-						Accounter.constants().passwordsnotmatched());
+				addError(this, Accounter.constants().passwordsnotmatched());
 			}
 		} else {
-			MainFinanceWindow.getViewManager().showErrorInCurrectDialog(
-					Accounter.constants()
-							.passwordshouldcontainminimum6characters());
+			addError(this, Accounter.constants()
+					.passwordshouldcontainminimum6characters());
 		}
 
 	}

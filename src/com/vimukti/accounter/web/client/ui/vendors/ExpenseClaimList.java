@@ -107,7 +107,6 @@ public class ExpenseClaimList extends BaseView {
 		buttonPanel.add(submitApproval);
 		buttonPanel.add(deleteButton);
 		panel.add(addNew);
-		buttonBar.setVisible(false);
 		panel.add(grid);
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
@@ -120,11 +119,6 @@ public class ExpenseClaimList extends BaseView {
 		deleteButton.enabledButton(AccounterButton.DELETE_BUTTON,
 				"close-image", "ibutton1");
 		this.removeStyleName("main-class-pannel");
-		buttonBar.getElement().getParentElement()
-				.removeClassName("bottom-view");
-		bottomShadow.getElement().getParentElement()
-				.removeClassName("bottom-shadow");
-
 	}
 
 	private void initGrid() {

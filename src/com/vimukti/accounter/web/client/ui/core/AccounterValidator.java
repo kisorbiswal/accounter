@@ -1551,31 +1551,28 @@ public class AccounterValidator {
 	}
 
 	public static boolean validate_FileVat(final AbstractBaseView view) {
-		if (!AbstractBaseView.errorOccured) {
-			Accounter.showWarning(Accounter.constants().sureToSaveFileVAT(),
-					AccounterType.WARNING, new ErrorDialogHandler() {
+		// if (!AbstractBaseView.errorOccured) {
+		Accounter.showWarning(Accounter.constants().sureToSaveFileVAT(),
+				AccounterType.WARNING, new ErrorDialogHandler() {
 
-						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
-							view.validationCount--;
-							return true;
-						}
+					@Override
+					public boolean onYesClick() throws InvalidEntryException {
+						view.validationCount--;
+						return true;
+					}
 
-						@Override
-						public boolean onNoClick() throws InvalidEntryException {
-							// Accounter.stopExecution();
-							return true;
-						}
+					@Override
+					public boolean onNoClick() throws InvalidEntryException {
+						// Accounter.stopExecution();
+						return true;
+					}
 
-						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
-							return false;
-						}
-					});
-			AbstractBaseView.warnOccured = true;
-		}
+					@Override
+					public boolean onCancelClick() throws InvalidEntryException {
+						return false;
+					}
+				});
+		// }
 		return false;
 	}
 

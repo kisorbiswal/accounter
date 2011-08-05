@@ -156,4 +156,10 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("reviewJournal.png")
 	ImageResource reviewJournal();
+
+	@Source("approve.png")
+	ImageResource approve();
+
+	@Source("submitForApproval.png")
+	ImageResource submitForApproval();
 }

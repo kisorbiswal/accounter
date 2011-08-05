@@ -266,17 +266,16 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 			public boolean onOkClick() {
 
-				errorOccured = false;
 				if (taxGroup != null) {
 					editTaxGroup(taxGroup);
-					return !errorOccured;
+					return true;
 				} else {
 					if (salesTaxGroupDialog.form1.validate(true)) {
 						if (salesTaxGroupDialog.taxGroupText.getValue() != null
 								&& !salesTaxGroupDialog.taxGroupText.getValue()
 										.toString().isEmpty()) {
 							newTaxGroup();
-							return !errorOccured;
+							return true;
 						}
 					} else {
 						// Accounter.showError(FinanceApplication
@@ -299,7 +298,6 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 						.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? false
 						: true))) {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
-			errorOccured = true;
 		} else {
 			taxGroup.setName(UIUtils.toStr(salesTaxGroupDialog.taxGroupText
 					.getValue()));
@@ -352,7 +350,6 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 						taxGroup.getName())) {
 
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
-			errorOccured = true;
 		} else
 			createObject(taxGroup);
 

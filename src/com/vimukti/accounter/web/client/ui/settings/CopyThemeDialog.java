@@ -53,10 +53,8 @@ public class CopyThemeDialog extends BaseDialog {
 							ViewManager.getInstance().createObject(
 									brandingTheme, CopyThemeDialog.this);
 						} else {
-							MainFinanceWindow.getViewManager()
-									.showErrorInCurrectDialog(
-											Accounter.constants()
-													.themenamealreadyexist());
+							addError(this, Accounter.constants()
+									.themenamealreadyexist());
 						}
 						// removeFromParent();
 					}
@@ -88,8 +86,7 @@ public class CopyThemeDialog extends BaseDialog {
 			InvalidEntryException {
 		String name = nameBox.getValue();
 		if (name == null || name.isEmpty()) {
-			MainFinanceWindow.getViewManager().showErrorInCurrectDialog(
-					Accounter.constants().pleaseenterThemename());
+			addError(this, Accounter.constants().pleaseenterThemename());
 			return false;
 		} else
 			return true;
