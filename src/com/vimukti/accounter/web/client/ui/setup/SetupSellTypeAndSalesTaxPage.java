@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
@@ -22,6 +24,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 		serviceOnlyRadioButton = new RadioButton(SELL_TYPES,
 				accounterConstants.services_labelonly());
+		serviceOnlyRadioButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		mainVerticalPanel.add(serviceOnlyRadioButton);
 		mainVerticalPanel
 				.add(new CustomLabel(accounterConstants.servicesOnly()));
@@ -29,6 +38,12 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 		productOnlyRadioButton = new RadioButton(SELL_TYPES,
 				accounterConstants.products_labelonly());
+		productOnlyRadioButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
 		mainVerticalPanel.add(productOnlyRadioButton);
 		mainVerticalPanel
 				.add(new CustomLabel(accounterConstants.productsOnly()));
@@ -36,6 +51,12 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 		bothserviceandprductRadioButton = new RadioButton(SELL_TYPES,
 				accounterConstants.bothservicesandProduct_labelonly());
+		bothserviceandprductRadioButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
 		mainVerticalPanel.add(bothserviceandprductRadioButton);
 		mainVerticalPanel.add(new CustomLabel(accounterConstants
 				.bothServicesandProducts()));
@@ -44,8 +65,21 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		mainVerticalPanel.add(new CustomLabel(accounterConstants
 				.doyouchargesalestax()));
 		yesRadioButton = new RadioButton(SALES_TAX, accounterConstants.yes());
-		noRadioButton = new RadioButton(SALES_TAX, accounterConstants.no());
+		yesRadioButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
 		mainVerticalPanel.add(yesRadioButton);
+
+		noRadioButton = new RadioButton(SALES_TAX, accounterConstants.no());
+		noRadioButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
 		mainVerticalPanel.add(noRadioButton);
 
 		return mainVerticalPanel;
