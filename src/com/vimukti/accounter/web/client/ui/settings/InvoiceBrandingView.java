@@ -420,7 +420,7 @@ public class InvoiceBrandingView<T> extends
 		verticalPanel.add(panel);
 		panel.getElement().getParentElement().setAttribute("align", "center");
 		uploadPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
-		
+
 		if (theme.getFileName() == null) {
 			panel.setVisible(false);
 		} else {
@@ -657,8 +657,8 @@ public class InvoiceBrandingView<T> extends
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(ViewManager manager) {
+		super.init(manager);
 		try {
 			createControls();
 		} catch (Exception e) {

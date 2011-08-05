@@ -70,7 +70,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 
 		createControls();
 
@@ -499,8 +499,6 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		super.fitToSize(height, width);
 
 	}
-
-
 
 	@Override
 	public void onEdit() {

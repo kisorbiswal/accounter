@@ -85,8 +85,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(ViewManager manager) {
+		super.init(manager);
 		try {
 			createControls();
 		} catch (Exception e) {

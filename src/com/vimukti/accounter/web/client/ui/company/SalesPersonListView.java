@@ -33,7 +33,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 
 	}
 
@@ -85,7 +85,6 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 		getTotalLayout(grid);
 	}
 
-	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();

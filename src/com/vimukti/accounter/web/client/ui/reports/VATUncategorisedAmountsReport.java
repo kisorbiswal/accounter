@@ -7,11 +7,9 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.serverreports.VATUncategorisedAmountsServerReport;
 
-
 public class VATUncategorisedAmountsReport extends
 		AbstractReportView<UncategorisedAmountsReport> {
 
-	
 	private double balance = 0.0;
 
 	public VATUncategorisedAmountsReport() {
@@ -31,7 +29,7 @@ public class VATUncategorisedAmountsReport extends
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 	}
 
 	public int getToolbarType() {
@@ -45,8 +43,6 @@ public class VATUncategorisedAmountsReport extends
 				end, this);
 
 	}
-
-
 
 	@Override
 	public void onEdit() {

@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -73,8 +74,9 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		this.taxAgency = taxAgency;
 	}
 
-	public void init() {
-		super.init();
+	@Override
+	public void init(ViewManager manger) {
+		super.init(manger);
 		// vatAdjustment = (ClientVATAdjustment) this.data;
 		createControls();
 		setSize("100%", "100%");

@@ -45,7 +45,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	 * called for initialise object
 	 */
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		super.init();
 		super.setSize("100%", "170px");
 	}

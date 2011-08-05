@@ -22,19 +22,19 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-public class AwaitingAuthorisationView extends BaseView<BillsList> {
+public class AwaitingAuthorisationView extends BaseView {
 	AwaitingAuthorisationgrid grid;
 	public boolean isProcessingAdded;
 
 	public AwaitingAuthorisationView() {
-		init();
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(ViewManager manager) {
+		super.init(manager);
 		createControls();
 	}
 
@@ -47,13 +47,13 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
 
-		AccounterButton approve = new AccounterButton(Accounter
-				.constants().approveButton());
+		AccounterButton approve = new AccounterButton(Accounter.constants()
+				.approveButton());
 		approve.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				isProcessingAdded = false;
 				setAction(ActionFactory.getAwaitingAuthorisationAction());
 				// boolean isErrorOccured = checkPayFromAccount();
@@ -74,13 +74,13 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 			}
 		});
 
-		AccounterButton decline = new AccounterButton(Accounter
-				.constants().declineButton());
+		AccounterButton decline = new AccounterButton(Accounter.constants()
+				.declineButton());
 		decline.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				isProcessingAdded = false;
 				setAction(ActionFactory.getAwaitingAuthorisationAction());
 				List<BillsList> records = getRecordsToApprove();
@@ -94,13 +94,13 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 			}
 		});
 
-		AccounterButton delete = new AccounterButton(Accounter
-				.constants().delete());
+		AccounterButton delete = new AccounterButton(Accounter.constants()
+				.delete());
 		delete.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				isProcessingAdded = false;
 				setAction(ActionFactory.getAwaitingAuthorisationAction());
 				List<BillsList> records = getRecordsToApprove();
@@ -184,8 +184,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 						@Override
 						public void onSuccess(ClientCashPurchase result) {
 							result.setExpenseStatus(expenceStatus);
-							setAction(ActionFactory
-									.getExpenseClaimsAction(2));
+							setAction(ActionFactory.getExpenseClaimsAction(2));
 							updateTransactionItems(result);
 							alterObject(result);
 						}

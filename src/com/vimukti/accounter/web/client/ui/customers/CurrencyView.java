@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -28,8 +29,8 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(ViewManager manager) {
+		super.init(manager);
 		createControls();
 		setSize("100%", "100%");
 

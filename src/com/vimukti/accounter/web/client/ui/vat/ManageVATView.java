@@ -22,7 +22,7 @@ public class ManageVATView extends AbstractBaseView {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 		createControls();
 	}
 

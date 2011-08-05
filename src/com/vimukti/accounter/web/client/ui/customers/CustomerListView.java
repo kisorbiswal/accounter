@@ -35,7 +35,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	public void init(ViewManager manager) {
 		customerConstants = Accounter.constants();
-		super.init();
+		super.init(manager);
 
 	}
 
@@ -63,7 +63,6 @@ public class CustomerListView extends BaseListView<PayeeList> {
 		return customerConstants.customerList();
 	}
 
-	
 	@Override
 	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
 		// grid.addFooterValue(FinanceApplication.constants().total(),
@@ -92,7 +91,6 @@ public class CustomerListView extends BaseListView<PayeeList> {
 		// getTotalLayout(grid);
 	}
 
-	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();

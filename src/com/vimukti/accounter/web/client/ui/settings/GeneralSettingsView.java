@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class GeneralSettingsView extends AbstractBaseView {
 	private VerticalPanel mainPanel, conversationPanel, invoiceBrandingPanel,
@@ -51,8 +52,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(ViewManager manager) {
+		super.init(manager);
 		createControls();
 	}
 
@@ -74,7 +75,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		conversionHTML = new HTML(messages.conversionHTML());
 		conversationCommentHTML = new HTML(messages.conversionCommet());
 		invoiceBrandingHTML = new HTML(messages.invoiceBrandingHTML());
-//		invoiceBrandingHTML.setWidth("145px");
+		// invoiceBrandingHTML.setWidth("145px");
 		invoiceBrandingHTML.setStyleName("invoice-branding-html");
 		invoiceCommentHtml = new HTML(messages.invoiceComment());
 		userHtml = new HTML(messages.userHTML());
@@ -83,7 +84,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		userCommentHtml = new HTML(messages.usersComment());
 		companySettingsHtml = new HTML(messages.companySettingsTitle());
 		companySettingsHtml.setStyleName("company-settings-html");
-//		companySettingsHtml.setWidth("161px");
+		// companySettingsHtml.setWidth("161px");
 		companyCommentHtml = new HTML(messages.companyCommentHtml());
 
 		titlePanel.add(titleHtml);

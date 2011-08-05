@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -47,8 +48,9 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 
 	}
 
-	public void init() {
-		super.init();
+	@Override
+	public void init(ViewManager manger) {
+		super.init(manger);
 		createControls();
 		initView();
 		setSize("100%", "100%");
@@ -271,8 +273,6 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	public void fitToSize(int height, int width) {
 
 	}
-
-
 
 	@Override
 	public void onEdit() {

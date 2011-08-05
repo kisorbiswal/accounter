@@ -68,9 +68,10 @@ public class VendorTransactionUSGrid extends
 	}
 
 	@Override
-	public void init(ViewManager manager) {
-		super.isEnable = false;
+	public void init() {
 		super.init();
+		super.isEnable = false;
+
 		if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
 			createControls();
 			initTransactionData();

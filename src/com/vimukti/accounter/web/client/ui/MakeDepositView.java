@@ -657,10 +657,11 @@ public class MakeDepositView extends
 
 	@Override
 	public void init(ViewManager manager) {
+		super.init(manager);
 		TYPE_FINANCIAL_ACCOUNT = ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT;
 		TYPE_VENDOR = ClientTransactionMakeDeposit.TYPE_VENDOR;
 		TYPE_CUSTOMER = ClientTransactionMakeDeposit.TYPE_CUSTOMER;
-		super.init();
+
 		// createControls();
 		// setSize("100%", "100%");
 		// setOverflow(Overflow.AUTO);

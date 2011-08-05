@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class WarehouseTransferListView extends
 		BaseListView<ClientStockTransfer> {
@@ -14,9 +15,9 @@ public class WarehouseTransferListView extends
 	private AccounterConstants customerConstants;
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
+		super.init(manager);
 		customerConstants = Accounter.constants();
-		super.init();
 	}
 
 	@Override

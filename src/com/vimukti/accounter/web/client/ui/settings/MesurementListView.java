@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class MesurementListView extends BaseView {
 
@@ -68,8 +69,8 @@ public class MesurementListView extends BaseView {
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(ViewManager manager) {
+		super.init(manager);
 		mesurementPanel = new VerticalPanel();
 		mesurementPanel.setSpacing(20);
 		setSize("100%", "100%");
@@ -86,8 +87,7 @@ public class MesurementListView extends BaseView {
 		addMeasurementButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getAddMeasurementAction()
-						.run(null, false);
+				ActionFactory.getAddMeasurementAction().run(null, false);
 				;
 			}
 		});

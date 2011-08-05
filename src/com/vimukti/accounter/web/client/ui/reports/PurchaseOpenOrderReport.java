@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseOpenOrderServerReport;
 
-
 public class PurchaseOpenOrderReport extends
 		AbstractReportView<OpenAndClosedOrders> {
 
@@ -19,7 +18,7 @@ public class PurchaseOpenOrderReport extends
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 		toolbar.setDateRanageOptions(Accounter.constants().all(), Accounter
 				.constants().thisWeek(), Accounter.constants().thisMonth(),
 				Accounter.constants().lastWeek(), Accounter.constants()
@@ -66,8 +65,6 @@ public class PurchaseOpenOrderReport extends
 					this);
 		this.status = status;
 	}
-
-
 
 	@Override
 	public void onEdit() {

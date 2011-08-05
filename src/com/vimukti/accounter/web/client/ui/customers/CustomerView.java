@@ -1150,7 +1150,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 		createControls();
 		setSize("100%", "100%");
 	}

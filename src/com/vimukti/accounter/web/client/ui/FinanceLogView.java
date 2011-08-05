@@ -44,7 +44,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 		createControls();
 	}
 
@@ -310,8 +310,6 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 	public void deleteSuccess(Boolean result) {
 
 	}
-
-
 
 	@Override
 	public void fitToSize(int height, int width) {

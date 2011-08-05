@@ -67,7 +67,7 @@ public class TransactionReceivePaymentGrid extends
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		super.init();
 		this.header.setStyleName("gridHeader HEADER_GRID");
 		// this.addFooterValue(FinanceApplication.constants().subTotal(),

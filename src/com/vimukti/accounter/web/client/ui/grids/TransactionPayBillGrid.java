@@ -67,7 +67,7 @@ public class TransactionPayBillGrid extends
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		super.init();
 		this.header.setStyleName("gridHeader HEADER_GRID");
 		// this.addFooterValue(FinanceApplication.constants().subTotal(),
@@ -238,7 +238,7 @@ public class TransactionPayBillGrid extends
 	@Override
 	public void editComplete(ClientTransactionPayBill editingRecord,
 			Object value, int col) {
-	
+
 		try {
 
 			// if (value != null

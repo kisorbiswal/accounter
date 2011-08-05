@@ -27,7 +27,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 		toolbar.setDateRanageOptions(Accounter.constants().all(), Accounter
 				.constants().thisWeek(), Accounter.constants().thisMonth(),
 				Accounter.constants().lastWeek(), Accounter.constants()
@@ -90,8 +90,6 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 
 	}
-
-
 
 	@Override
 	public void onEdit() {

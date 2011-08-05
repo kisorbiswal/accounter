@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -29,26 +30,24 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * @author Uday Kumar
  * 
  */
-public class ExpenseClaimView extends BaseView<BillsList> {
+public class ExpenseClaimView extends BaseView {
 
 	ExpenseClaimGrid grid;
 	public boolean isProcessingAdded;
 
 	public ExpenseClaimView() {
-		init();
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(ViewManager manager) {
+		super.init(manager);
 		createControls();
 	}
 
 	private void createControls() {
 
 		VerticalPanel panel = new VerticalPanel();
-		HTML addNew = new HTML(Accounter.constants()
-				.addNewEmployeeExpense());
+		HTML addNew = new HTML(Accounter.constants().addNewEmployeeExpense());
 		addNew.setStyleName("add-new-expense");
 		addNew.getElement().getStyle().setMarginBottom(10, Unit.PX);
 		addNew.addClickHandler(new ClickHandler() {
@@ -70,7 +69,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				isProcessingAdded = false;
 				setAction(ActionFactory.getExpenseClaimsAction(0));
 
@@ -153,8 +152,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 						public void onSuccess(ClientCashPurchase result) {
 							result.setExpenseStatus(expenceStatus);
 							updateTransactionItems(result);
-							setAction(ActionFactory
-									.getExpenseClaimsAction(0));
+							setAction(ActionFactory.getExpenseClaimsAction(0));
 							alterObject(result);
 						}
 					});

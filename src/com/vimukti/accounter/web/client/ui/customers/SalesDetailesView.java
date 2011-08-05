@@ -41,7 +41,6 @@ public class SalesDetailesView extends ParentCanvas {
 		super();
 
 		this.setStyleName("selectedview");
-		init();
 	}
 
 	/**
@@ -288,8 +287,6 @@ public class SalesDetailesView extends ParentCanvas {
 	public void saveSuccess(IAccounterCore object) {
 
 	}
-
-
 
 	@Override
 	public void onEdit() {

@@ -7,10 +7,8 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
 
-
 public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 
-	
 	private int row = -1;
 	private long vatAgency;
 
@@ -23,7 +21,7 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 	}
 
 	@Override
@@ -52,8 +50,6 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 		removeLoadingImage();
 
 	}
-
-
 
 	@Override
 	public void onEdit() {

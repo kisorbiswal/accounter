@@ -50,7 +50,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		super.init();
 	}
 
@@ -527,8 +527,8 @@ public abstract class TreeGrid<T> extends CustomTable {
 		removeAllNodes();
 
 		for (Object obj : getParents(objs)) {
-			addParentWithChilds(obj.toString(), getChildNodesByParent(obj
-					.toString(), objs));
+			addParentWithChilds(obj.toString(),
+					getChildNodesByParent(obj.toString(), objs));
 		}
 		this.isDecending = !isDecending;
 	}

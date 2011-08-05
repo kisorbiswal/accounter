@@ -662,7 +662,7 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 		createControls();
 		// if (this.data != null) {
 		// UIUtils.disableView(this.canvas);

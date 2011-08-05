@@ -57,7 +57,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 		editableTAXCode = (ClientTAXCode) this.data;
 		createControls();
 		setSize("100%", "");

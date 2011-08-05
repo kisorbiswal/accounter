@@ -34,7 +34,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		super.init();
 	}
 

@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -409,11 +410,13 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected void showMenu(AccounterButton button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().service(), Accounter.constants().product());
+					.constants().serviceItem(), Accounter.constants()
+					.productItem());
 		// FinanceApplication.constants().salesTax());
 		else
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().service(), Accounter.constants().product());
+					.constants().serviceItem(), Accounter.constants()
+					.productItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
 
@@ -1057,7 +1060,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	@Override
 	public void init(ViewManager manager) {
 
-		super.init();
+		super.init(manager);
 	}
 
 	@Override
@@ -1105,7 +1108,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 					: 0);
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
-		} else if (item.equals(Accounter.constants().product())) {
+		} else if (item.equals(Accounter.constants().productItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
@@ -1120,7 +1123,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 								.getTAXCode() : staxCodeid)
 								: 0);
 			}
-		} else if (item.equals(Accounter.constants().service())) {
+		} else if (item.equals(Accounter.constants().serviceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long ztaxCodeid = 0;

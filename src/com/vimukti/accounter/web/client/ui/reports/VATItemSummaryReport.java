@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.serverreports.VATItemSummaryServerReport;
 
-
 public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 
 	public VATItemSummaryReport() {
@@ -27,7 +26,7 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 	}
 
 	@Override
@@ -65,8 +64,6 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 	public void printPreview() {
 
 	}
-
-
 
 	public int sort(VATItemSummary obj1, VATItemSummary obj2, int col) {
 

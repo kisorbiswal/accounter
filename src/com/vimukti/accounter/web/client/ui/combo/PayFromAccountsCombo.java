@@ -27,8 +27,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 	public List<ClientAccount> getAccounts() {
 		payFromAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (Arrays.asList(ClientAccount.TYPE_BANK,
 			// ClientAccount.TYPE_CASH,
 			// ClientAccount.TYPE_CREDIT_CARD,
@@ -38,11 +37,9 @@ public class PayFromAccountsCombo extends AccountCombo {
 			// ClientAccount.TYPE_FIXED_ASSET
 					).contains(account.getType()))
 				if (!account.getName().equalsIgnoreCase(
-						Accounter.constants()
-								.pendingItemReceipts())
+						Accounter.constants().pendingItemReceipts())
 						&& !account.getName().equalsIgnoreCase(
-								Accounter.constants()
-										.salesTaxPayable())) {
+								Accounter.constants().salesTaxPayable())) {
 					payFromAccounts.add(account);
 				}
 		}
@@ -52,8 +49,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 	public void setAccounts() {
 		payFromAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (Arrays.asList(ClientAccount.TYPE_BANK,
 			// ClientAccount.TYPE_CASH,
 			// ClientAccount.TYPE_CREDIT_CARD,
@@ -63,11 +59,9 @@ public class PayFromAccountsCombo extends AccountCombo {
 			// ClientAccount.TYPE_FIXED_ASSET
 					).contains(account.getType()))
 				if (!account.getName().equalsIgnoreCase(
-						Accounter.constants()
-								.pendingItemReceipts())
+						Accounter.constants().pendingItemReceipts())
 						&& !account.getName().equalsIgnoreCase(
-								Accounter.constants()
-										.salesTaxPayable())) {
+								Accounter.constants().salesTaxPayable())) {
 
 					payFromAccounts.add(account);
 				}
@@ -77,8 +71,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 
 	public void setDefaultPayFromAccount() {
 		/* Default deposit in account is set to Bank Current Account */
-		List<ClientAccount> accounts = getCompany()
-				.getAccounts();
+		List<ClientAccount> accounts = getCompany().getAccounts();
 		for (ClientAccount account : accounts) {
 			if (account.getNumber().equals("1100")) {
 				this.addItemThenfireEvent(account);
@@ -96,10 +89,10 @@ public class PayFromAccountsCombo extends AccountCombo {
 		action.setActionSource(this);
 		action.setAccountTypes(Arrays.asList(
 		// ClientAccount.TYPE_BANK,
-				// ClientAccount.TYPE_CASH,
-				// ClientAccount.TYPE_CREDIT_CARD,
+		// ClientAccount.TYPE_CASH,
+		// ClientAccount.TYPE_CREDIT_CARD,
 				ClientAccount.TYPE_OTHER_CURRENT_ASSET));
-		
+
 		action.run(null, true);
 
 	}
@@ -113,9 +106,9 @@ public class PayFromAccountsCombo extends AccountCombo {
 	public void addItemThenfireEvent(ClientAccount obj) {
 		if (Arrays.asList(
 		// ClientAccount.TYPE_BANK, ClientAccount.TYPE_CASH,
-				// ClientAccount.TYPE_CREDIT_CARD,
-				// ClientAccount.TYPE_LONG_TERM_LIABILITY,
-				// ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+		// ClientAccount.TYPE_CREDIT_CARD,
+		// ClientAccount.TYPE_LONG_TERM_LIABILITY,
+		// ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 				ClientAccount.TYPE_OTHER_CURRENT_ASSET
 		// ClientAccount.TYPE_FIXED_ASSET
 				).contains(obj.getType())) {
@@ -125,7 +118,7 @@ public class PayFromAccountsCombo extends AccountCombo {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		super.init();
 		setDefaultPayFromAccount();
 	}

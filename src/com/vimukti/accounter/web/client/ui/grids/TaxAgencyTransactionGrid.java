@@ -99,7 +99,7 @@ public class TaxAgencyTransactionGrid extends
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		super.init();
 		createControls();
 		ClientTransaction transactionObject = transactionView

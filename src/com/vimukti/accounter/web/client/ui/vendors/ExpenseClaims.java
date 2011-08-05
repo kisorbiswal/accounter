@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -18,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * 
  */
 
-public class ExpenseClaims extends BaseView<BillsList> {
+public class ExpenseClaims extends BaseView {
 	DecoratedTabPanel tabset;
 	public int selectTab;
 
@@ -31,9 +32,9 @@ public class ExpenseClaims extends BaseView<BillsList> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		this.clear();
-		super.init();
+		super.init(manager);
 		createControls();
 	}
 
@@ -57,7 +58,7 @@ public class ExpenseClaims extends BaseView<BillsList> {
 
 			@Override
 			public void onTabSelected(SourcesTabEvents sender, int tabIndex) {
-				
+
 			}
 
 			@Override

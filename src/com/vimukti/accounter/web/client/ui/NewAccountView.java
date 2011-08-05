@@ -1,4 +1,3 @@
-
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
@@ -182,8 +181,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 					}
 				});
-		
-	
 
 		accNoText = new IntegerField(Accounter.constants().accountNo());
 		accNoText.setHelpInformation(true);
@@ -353,15 +350,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
 			// opBalText, asofDate, catSelect);
 
-			if(ClientCompanyPreferences.get().getUseAccountNumbers() == true)
-			{
+			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 						statusBox, opBalText, asofDate);
-			}
-			else{
-					accNoText.setNumber(autoGenerateAccountnumber(1100,1179));
-				accInfoForm.setFields(accTypeSelect, accNameText,
-						statusBox, opBalText, asofDate);
+			} else {
+				accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
+				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
+						opBalText, asofDate);
 			}
 
 			leftLayout.add(accInfoForm);
@@ -371,15 +366,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, cashFlowCatSelect, opBalText, asofDate,
 			// catSelect);
-			if(ClientCompanyPreferences.get().getUseAccountNumbers() == true)
-			{
+			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 						statusBox, opBalText, asofDate);
-			}
-			else{
-					accNoText.setNumber(autoGenerateAccountnumber(1100,1179));
-				accInfoForm.setFields(accTypeSelect, accNameText,
-						statusBox, opBalText, asofDate);
+			} else {
+				accNoText.setNumber(autoGenerateAccountnumber(1100, 1179));
+				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
+						opBalText, asofDate);
 			}
 
 			leftLayout.add(accInfoForm);
@@ -489,15 +482,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
 			// opBalText, asofDate, catSelect);
-			if(ClientCompanyPreferences.get().getUseAccountNumbers() == true)
-			{
+			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 						statusBox, opBalText, asofDate);
-			}
-			else{
-				accNoText.setNumber(autoGenerateAccountnumber(4000,4999));
-				accInfoForm.setFields(accTypeSelect, accNameText,
-						statusBox, opBalText, asofDate);
+			} else {
+				accNoText.setNumber(autoGenerateAccountnumber(4000, 4999));
+				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
+						opBalText, asofDate);
 			}
 			// leftLayout.add(accInfoForm);
 			reset(accInfoForm);
@@ -517,15 +508,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, cashFlowCatSelect, opBalText, asofDate,
 			// catSelect);
-			if(ClientCompanyPreferences.get().getUseAccountNumbers() == true)
-			{
+			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 						statusBox, opBalText, asofDate);
-			}
-			else{
-				accNoText.setNumber(autoGenerateAccountnumber(4000,4999));
-				accInfoForm.setFields(accTypeSelect, accNameText,
-						statusBox, opBalText, asofDate);
+			} else {
+				accNoText.setNumber(autoGenerateAccountnumber(4000, 4999));
+				accInfoForm.setFields(accTypeSelect, accNameText, statusBox,
+						opBalText, asofDate);
 			}
 			leftLayout.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 			leftLayout.add(accInfoForm);
@@ -1088,7 +1077,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 		createControls();
 		// setSize("100%", "100%");
 		// setOverflow(Overflow.AUTO);
@@ -1313,34 +1302,31 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	//
 	// });
 	// }
-	
-	
-/**
- * This function autogenerates a account number when its disabled
- * @param range1
- * @param range2
- * @return long number
- */
-	public long autoGenerateAccountnumber(int range1,int range2){
-		List<ClientAccount> accounts =  getCompany().getAccounts();
+
+	/**
+	 * This function autogenerates a account number when its disabled
+	 * 
+	 * @param range1
+	 * @param range2
+	 * @return long number
+	 */
+	public long autoGenerateAccountnumber(int range1, int range2) {
+		List<ClientAccount> accounts = getCompany().getAccounts();
 		Long number = null;
-		if (number == null)
-		{
+		if (number == null) {
 			number = (long) range1;
 			System.out.println("empty");
 			for (ClientAccount account : accounts) {
-				while(number.toString().equals(account.getNumber())) {
+				while (number.toString().equals(account.getNumber())) {
 					number++;
-					if(number >=range2)
-					{
-						number = (long)range1;
+					if (number >= range2) {
+						number = (long) range1;
 					}
-				}	
+				}
 			}
 		}
 		return number;
 	}
-	
 
 	private boolean validateAccountNumber(Long number) {
 
@@ -1382,7 +1368,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			} else {
 				// BaseView.errordata.setHTML("");
 				// BaseView.commentPanel.setVisible(false);
-				
+
 			}
 		} else {
 			accountSubBaseType = UIUtils.getAccountSubBaseType(accountType);
@@ -1424,7 +1410,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			} else {
 				// BaseView.errordata.setHTML("");
 				// BaseView.commentPanel.setVisible(false);
-				
+
 			}
 		}
 		accNoText.setValue(number);

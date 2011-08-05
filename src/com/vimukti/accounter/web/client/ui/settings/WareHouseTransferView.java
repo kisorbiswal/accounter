@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 
@@ -25,18 +26,16 @@ public class WareHouseTransferView extends BaseView<ClientWarehouse> {
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(ViewManager manager) {
+		super.init(manager);
 		createControls();
 	}
 
 	private void createControls() {
 		try {
 			mainPanel = new VerticalPanel();
-			fromCombo = new OtherAccountsCombo(Accounter.constants()
-					.from());
-			toCombo = new OtherAccountsCombo(Accounter.constants()
-					.to());
+			fromCombo = new OtherAccountsCombo(Accounter.constants().from());
+			toCombo = new OtherAccountsCombo(Accounter.constants().to());
 			commentArea = new TextAreaItem();
 			form = new DynamicForm();
 			form.setNumCols(2);

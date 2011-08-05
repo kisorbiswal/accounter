@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	private VerticalPanel mainPanel;
@@ -18,9 +19,9 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	private ClientUser clientUser;
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
+		super.init(manager);
 		createControls();
-		super.init();
 	}
 
 	private void createControls() {
@@ -32,8 +33,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 		mailIdLabel = new Label(Accounter.constants().mailIDColon()
 				+ Accounter.getUser().getEmail());
 		mailIdLabel.setStyleName("user-name");
-		changePasswordHtml = new HTML(Accounter.messages()
-				.changePasswordHTML());
+		changePasswordHtml = new HTML(Accounter.messages().changePasswordHTML());
 		changePasswordHtml.setStyleName("change-password");
 		changePasswordHtml.setWidth("12%");
 		changePasswordHtml.addClickHandler(new ClickHandler() {

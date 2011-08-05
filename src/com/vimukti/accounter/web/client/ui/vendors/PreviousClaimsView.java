@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -25,18 +26,17 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * @author Uday Kumar
  * 
  */
-public class PreviousClaimsView extends BaseView<BillsList> {
+public class PreviousClaimsView extends BaseView {
 
 	PreviousClaimGrid grid;
 	public boolean isProcessingAdded;
 
 	public PreviousClaimsView() {
-		init();
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(ViewManager manager) {
+		super.init(manager);
 		createControls();
 	}
 
@@ -44,14 +44,14 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 
 		VerticalPanel panel = new VerticalPanel();
 
-		Label previous = new Label(Accounter.constants()
-				.previousClaims());
+		Label previous = new Label(Accounter.constants().previousClaims());
 
 		initGrid();
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		AccounterButton notShowInList = new AccounterButton(Accounter.constants().dontShowinList());
+		AccounterButton notShowInList = new AccounterButton(Accounter
+				.constants().dontShowinList());
 		notShowInList.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -111,7 +111,8 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 						});
 			}
 		} else {
-			Accounter.showInformation(Accounter.constants().noRecordsSelected());
+			Accounter
+					.showInformation(Accounter.constants().noRecordsSelected());
 		}
 
 	}

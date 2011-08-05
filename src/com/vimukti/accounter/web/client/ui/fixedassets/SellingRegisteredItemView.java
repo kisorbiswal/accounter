@@ -73,7 +73,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 		createControls();
 		dateSelected();
 	}
@@ -135,8 +135,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		buttonBar.clear();
 		buttonBar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		buttonBar.add(saveAndCloseButton);
-		buttonBar
-				.setCellHorizontalAlignment(saveAndCloseButton, ALIGN_RIGHT);
+		buttonBar.setCellHorizontalAlignment(saveAndCloseButton, ALIGN_RIGHT);
 
 		notesArea = new TextAreaItem();
 		notesArea.setWidth(100);

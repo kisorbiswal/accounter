@@ -79,8 +79,8 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void init(ViewManager manager) {
+		super.init(manager);
 		createControls();
 	}
 

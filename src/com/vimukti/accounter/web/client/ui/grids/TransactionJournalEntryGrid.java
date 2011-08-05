@@ -62,7 +62,7 @@ public class TransactionJournalEntryGrid extends
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		isEnable = false;
 		super.init();
 		createControls();

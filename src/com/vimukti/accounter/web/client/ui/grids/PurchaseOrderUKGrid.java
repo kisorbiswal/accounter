@@ -38,7 +38,7 @@ public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		super.init();
 	}
 

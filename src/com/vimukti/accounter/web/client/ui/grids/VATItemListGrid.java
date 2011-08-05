@@ -48,7 +48,7 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		super.init();
 		// addFooterValues("", FinanceApplication.constants().groupRate()
 		// + groupRate + "%");

@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.grids.CompanyFinancialWidgetGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerWidgetGrid;
@@ -51,7 +52,8 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
+		super.init(manager);
 		getLeftLayout().add(createControl());
 		setSize("100%", "100%");
 

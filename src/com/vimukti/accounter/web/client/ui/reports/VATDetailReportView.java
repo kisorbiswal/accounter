@@ -22,7 +22,7 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 
 	@Override
 	public void init(ViewManager manager) {
-		super.init();
+		super.init(manager);
 	}
 
 	@Override
@@ -42,8 +42,6 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 		Accounter.createReportService().getPriorVATReturnVATDetailReport(start,
 				end, this);
 	}
-
-
 
 	@Override
 	public void onEdit() {

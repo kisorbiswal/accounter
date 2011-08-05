@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -31,18 +32,13 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private LabelItem titleItem;
 	private boolean wait;
 
-	public AccounterConstants settingsConstants=Accounter.constants();
+	public AccounterConstants settingsConstants = Accounter.constants();
 
 	@Override
-	public void init() {
-		super.init();
-		try {
-			createControls();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void init(ViewManager manager) {
+		super.init(manager);
+		createControls();
 	}
-
 
 	private void createControls() {
 
@@ -104,6 +100,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		vPanel.add(leftRightPanel);
 		vPanel.add(buttonBar);
 
+		mainPanel.setSize("100%", "100%");
 		mainPanel.add(vPanel);
 
 	}
@@ -128,7 +125,6 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		}
 	}
 
-	
 	@Override
 	public void saveAndUpdateView() throws Exception {
 

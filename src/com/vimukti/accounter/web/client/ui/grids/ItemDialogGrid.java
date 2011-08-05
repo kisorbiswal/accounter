@@ -22,7 +22,7 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		super.init();
 		createControls();
 
