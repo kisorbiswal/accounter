@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
@@ -46,8 +47,8 @@ import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
  * 
  *         This Class serves as the Base Class For all Vendor Transactions
  */
-public abstract class AbstractVendorTransactionView<T> extends
-		AbstractTransactionBaseView<T> {
+public abstract class AbstractVendorTransactionView<T extends IAccounterCore>
+		extends AbstractTransactionBaseView<T> {
 
 	protected AbstractVendorTransactionView<T> vendorTransactionViewInstance;
 

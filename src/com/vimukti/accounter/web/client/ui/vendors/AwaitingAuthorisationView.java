@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -295,6 +296,10 @@ public class AwaitingAuthorisationView extends BaseView {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().awaitingAuthorisation();
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
 	}
 
 }

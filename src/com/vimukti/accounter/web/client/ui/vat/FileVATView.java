@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -525,5 +526,12 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().fileVAT();
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		super.createButtons(buttonBar);
+		this.saveAndCloseButton.setText(Accounter.constants().fileVATReturn());
+		buttonBar.remove(this.saveAndNewButton);
 	}
 }
