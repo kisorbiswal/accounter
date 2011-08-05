@@ -115,4 +115,9 @@ public class ClientContact implements IAccounterCore {
 		return "ClientContact";
 	}
 
+	public ClientContact clone() {
+		return null;
+
+	}
+
 }
