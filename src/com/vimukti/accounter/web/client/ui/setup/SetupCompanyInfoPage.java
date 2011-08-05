@@ -37,7 +37,6 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		return null;
 	}
 
-<<<<<<< .mine
 	private void creatControls() {
 		mainVerticalPanel = new VerticalPanel();
 		description = new HTML("Description"); // TODO need to get description
@@ -77,8 +76,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
-
+				setProgress(true);
 			}
 		});
 
@@ -96,12 +94,6 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		// TODO Auto-generated method stub
 		// not required for this page
 
-	}
-
-	@Override
-	public boolean setProgress() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

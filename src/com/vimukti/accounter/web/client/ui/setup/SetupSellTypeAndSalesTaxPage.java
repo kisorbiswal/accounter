@@ -16,11 +16,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		return null;
 	}
 
-	@Override
-	public boolean getProgress() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public void onLoad() {
@@ -32,12 +27,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	public void onSave() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public boolean setProgress() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

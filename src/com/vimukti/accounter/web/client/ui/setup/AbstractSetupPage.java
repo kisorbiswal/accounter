@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public abstract class AbstractSetupPage extends VerticalPanel {
-
+	boolean progress;
 	private Label header;
 	private VerticalPanel mainPanel;
 
@@ -17,9 +17,13 @@ public abstract class AbstractSetupPage extends VerticalPanel {
 	// public abstract String getFooter() {
 	// return null;
 	// }
-	public abstract boolean getProgress();
+	public boolean getProgress() {
+		return progress;
+	}
 
-	public abstract boolean setProgress();
+	public void setProgress(boolean progress) {
+		this.progress = progress;
+	}
 
 	public abstract VerticalPanel getPageBody();
 

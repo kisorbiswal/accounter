@@ -17,12 +17,6 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean getProgress() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void onLoad() {
 		// TODO Auto-generated method stub
 		
@@ -32,12 +26,6 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	public void onSave() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public boolean setProgress() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

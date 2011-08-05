@@ -17,12 +17,6 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean getProgress() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void onLoad() {
 		// TODO Auto-generated method stub
 		
@@ -34,10 +28,5 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		
 	}
 
-	@Override
-	public boolean setProgress() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }
