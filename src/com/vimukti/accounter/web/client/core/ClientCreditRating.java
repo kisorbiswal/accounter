@@ -77,4 +77,9 @@ public class ClientCreditRating implements IAccounterCore {
 		return "ClientCreditRating";
 	}
 
+	public ClientCreditRating clone() {
+		return null;
+
+	}
+
 }
