@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.visualization.client.Selectable;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 
 public class SetupOrganisationSelectionPage extends AbstractSetupPage {
@@ -13,6 +15,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	private RadioButton sCorporationRadio;
 	private RadioButton nonProfitRadio;
 	private RadioButton otherNoneRadio;
+	private ListBox llcFormList;
 
 	@Override
 	public String getHeader() {
@@ -42,6 +45,12 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		viewContainer.add(llcRadio);
 		viewContainer.add(new CustomLabel(accounterConstants.LLCDesc()));
 
+		llcFormList = new ListBox();
+		llcFormList.addItem(accounterConstants.llcSingleMemberForm());
+		llcFormList.addItem(accounterConstants.llcMultiMemberForm());
+		
+		viewContainer.add(llcFormList);
+		
 		corporationRadio = new RadioButton(ORG_TYPE,
 				accounterConstants.corporation());
 		viewContainer.add(corporationRadio);
@@ -62,7 +71,6 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		otherNoneRadio = new RadioButton(ORG_TYPE,
 				accounterConstants.otherNone());
 		viewContainer.add(otherNoneRadio);
-		viewContainer.add(new CustomLabel(accounterConstants.otherNoneDesc()));
 
 		return viewContainer;
 	}
