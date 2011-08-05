@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
@@ -55,11 +54,6 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 			ActionFactory.getNewVatItemAction().run(obj, true);
 		}
 
-	}
-
-	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		return false;
 	}
 
 	@Override

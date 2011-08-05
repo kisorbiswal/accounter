@@ -201,12 +201,6 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-
-		return false;
-	}
-
-	@Override
 	protected void executeDelete(PaymentsList object) {
 
 	}
@@ -267,8 +261,6 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		}
 		return 0;
 	}
-
-
 
 	public AccounterCoreType getType() {
 		return null;

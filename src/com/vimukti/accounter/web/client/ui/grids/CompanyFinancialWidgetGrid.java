@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.KeyFinancialIndicator;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> {
 
@@ -101,11 +100,6 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 	protected int sort(KeyFinancialIndicator obj1, KeyFinancialIndicator obj2,
 			int index) {
 		return 0;
-	}
-
-	@Override
-	public boolean validateGrid() {
-		return true;
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FinanceLogView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 
 /**
  * @author Sujana.B This grid displays the log information
@@ -82,18 +81,13 @@ public class FinanceLogginGrid extends ListGrid<ClientFinanceLogger> {
 	}
 
 	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		return false;
-	}
-
-	@Override
 	protected int getCellWidth(int index) {
 		return 0;
 	}
 
 	@Override
 	protected String[] getColumns() {
-		AccounterConstants messages =Accounter.constants();
+		AccounterConstants messages = Accounter.constants();
 		return new String[] { messages.description(), messages.createdBy(),
 				messages.date() };
 	}

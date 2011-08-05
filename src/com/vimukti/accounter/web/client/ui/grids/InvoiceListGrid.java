@@ -186,11 +186,6 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		return false;
-	}
-
-	@Override
 	protected int getCellWidth(int index) {
 		if (index == 8)
 			return 50;
@@ -254,8 +249,6 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 		return 0;
 	}
-
-
 
 	private long getTransactionID(InvoicesList obj) {
 		return obj.getTransactionId();

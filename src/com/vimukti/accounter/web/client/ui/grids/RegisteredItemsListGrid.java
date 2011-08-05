@@ -111,7 +111,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	@Override
 	protected void onClick(ClientFixedAsset obj, int row, int col) {
-		
+
 		List<ClientFixedAsset> records = getRecords();
 		switch (col) {
 		case 6:
@@ -127,14 +127,12 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private void openHistoryView(ClientFixedAsset obj) {
 		Action action = ActionFactory.getHistoryListAction();
-		action.catagory = Accounter.constants()
-				.fixedAssetsPendingItemsList();
+		action.catagory = Accounter.constants().fixedAssetsPendingItemsList();
 		action.run(obj, true);
 	}
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(Accounter.constants()
-				.addNote(), "");
+		noteDialog = new NoteDialog(Accounter.constants().addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -155,7 +153,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	}
 
 	private void executeUpdate(ClientFixedAsset asset, String value) {
-		
+
 		List<ClientFixedAssetNote> noteList = asset.getFixedAssetNotes();
 		ClientFixedAssetNote note = new ClientFixedAssetNote();
 		note.setNote(value);
@@ -166,14 +164,6 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	protected void executeDelete(ClientFixedAsset asset) {
 		ViewManager.getInstance().deleteObject(asset,
 				AccounterCoreType.FIXEDASSET, this);
-	}
-
-	/*
-	 * @see com.vimukti.accounter.web.client.ui.grids.ListGrid#validateGrid()
-	 */
-	@Override
-	public boolean validateGrid() {
-		return false;
 	}
 
 	/*

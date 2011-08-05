@@ -63,12 +63,6 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		// NOTHING TO DO.
-		return false;
-	}
-
-	@Override
 	protected int getCellWidth(int index) {
 		if (index == 0)
 			return 75;

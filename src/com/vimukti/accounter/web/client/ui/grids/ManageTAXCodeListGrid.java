@@ -80,14 +80,6 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	}
 
 	/*
-	 * @see com.vimukti.accounter.web.client.ui.grids.ListGrid#validateGrid()
-	 */
-	@Override
-	public boolean validateGrid() {
-		return false;
-	}
-
-	/*
 	 * @see com.vimukti.accounter.web.client.ui.grids.CustomTable#getColumns()
 	 */
 	@Override

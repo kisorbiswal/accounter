@@ -137,11 +137,6 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		return true;
-	}
-
-	@Override
 	protected int getCellWidth(int index) {
 		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
 			if (index == 6) {
@@ -228,8 +223,6 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 		super.addData(obj);
 		((CheckBox) this.getWidget(currentRow, 0)).setEnabled(false);
 	}
-
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.ACCOUNT;

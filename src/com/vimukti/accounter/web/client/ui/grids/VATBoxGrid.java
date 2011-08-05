@@ -82,14 +82,6 @@ public class VATBoxGrid extends ListGrid<ClientBox> {
 		return 0;
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
-	@Override
-	public boolean validateGrid() {
-		return false;
-	}
-
 	@Override
 	protected int getCellWidth(int index) {
 		// if (index == 1) {

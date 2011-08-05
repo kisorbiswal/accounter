@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -24,8 +25,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 
 public class MakeDepositTransactionGrid extends
@@ -243,24 +242,29 @@ public class MakeDepositTransactionGrid extends
 	}
 
 	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
+	public ValidationResult validateGrid() {
+
+		ValidationResult result = new ValidationResult();
+
 		for (ClientTransactionMakeDeposit record : getRecords()) {
 			if (((record.getType() == ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT && record
 					.getAccount() == 0)
 					|| (record.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR && record
 							.getVendor() == 0) || (record.getType() == ClientTransactionMakeDeposit.TYPE_CUSTOMER && record
 					.getCustomer() == 0))) {
-				throw new InvalidTransactionEntryException(Accounter.messages()
-						.pleaseselectvalidtransactionGrid(
+				result.addError(
+						this,
+						Accounter.messages().pleaseselectvalidtransactionGrid(
 								getTypeAsString(record.getType())));
 			}
 
 		}
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
-			Accounter.showError(AccounterErrorType.InvalidTransactionAmount);
-			return false;
+			// FIXME
+			result.addError("GridTotalLineTotal",
+					AccounterErrorType.InvalidTransactionAmount);
 		}
-		return true;
+		return result;
 	}
 
 	private String getTypeAsString(int type) {

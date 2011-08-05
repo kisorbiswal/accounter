@@ -96,12 +96,6 @@ public class SaleTaxCodeGrid extends ListGrid<ClientTaxRates> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		// NOTHING TO DO.
-		return true;
-	}
-
-	@Override
 	public void editComplete(ClientTaxRates item, Object value, int col) {
 		switch (col) {
 		case 0:

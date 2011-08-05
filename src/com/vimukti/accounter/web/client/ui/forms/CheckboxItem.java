@@ -35,17 +35,17 @@ public class CheckboxItem extends FormItem {
 
 	public CheckboxItem(String name, String description) {
 
-	this.checkBox = new CheckBox() ;
-//			@Override
-//			public void sinkEvents(int eventBitsToAdd) {
-//				super.sinkEvents(Event.ONFOCUS);
-//			}
-//
-//			@Override
-//			public void onBrowserEvent(Event event) {
-//				CheckboxItem.this.showValidated();
-//				super.onBrowserEvent(event);
-//			}
+		this.checkBox = new CheckBox();
+		// @Override
+		// public void sinkEvents(int eventBitsToAdd) {
+		// super.sinkEvents(Event.ONFOCUS);
+		// }
+		//
+		// @Override
+		// public void onBrowserEvent(Event event) {
+		// CheckboxItem.this.showValidated();
+		// super.onBrowserEvent(event);
+		// }
 		this.setName(name);
 		this.checkBox.setText(description);
 
@@ -64,12 +64,6 @@ public class CheckboxItem extends FormItem {
 	@Override
 	public Widget getMainWidget() {
 		return this.checkBox;
-	}
-
-	@Override
-	public boolean validate(boolean isDialog) {
-		return true;
-
 	}
 
 	@Override

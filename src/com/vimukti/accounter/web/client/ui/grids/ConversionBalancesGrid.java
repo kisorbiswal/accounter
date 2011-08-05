@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 
 public class ConversionBalancesGrid extends ListGrid {
 
@@ -60,12 +59,6 @@ public class ConversionBalancesGrid extends ListGrid {
 	protected int sort(Object obj1, Object obj2, int index) {
 
 		return 0;
-	}
-
-	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-
-		return false;
 	}
 
 	@Override

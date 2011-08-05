@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IssuePaymentDialog;
@@ -39,17 +40,12 @@ public class TransactionIssuePaymentGrid extends
 	}
 
 	@Override
-	public boolean validateGrid() {
-		boolean flag = true;
-
-		if (this.getRecords().isEmpty()) {
-			flag = false;
-		} else if (flag) {
-			flag = isEmptyGrid();
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
+		if (this.getRecords().isEmpty() || isEmptyGrid()) {
+			result.addError(this, AccounterErrorType.blankTransaction);
 		}
-		if (!flag)
-			Accounter.showError(AccounterErrorType.blankTransaction);
-		return flag;
+		return result;
 	}
 
 	public boolean isEmptyGrid() {

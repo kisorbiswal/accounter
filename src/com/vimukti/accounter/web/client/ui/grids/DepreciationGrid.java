@@ -83,11 +83,6 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		return true;
-	}
-
-	@Override
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 0:

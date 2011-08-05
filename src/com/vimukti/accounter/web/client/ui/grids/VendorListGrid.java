@@ -300,14 +300,6 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 	protected void onValueChange(PayeeList obj, int col, Object value) {
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
-	@Override
-	public boolean validateGrid() {
-		return true;
-	}
-
 	protected void updateTotal(PayeeList supplier, boolean add) {
 
 		if (add) {

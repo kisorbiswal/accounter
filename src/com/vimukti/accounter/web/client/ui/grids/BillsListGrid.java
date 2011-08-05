@@ -154,11 +154,6 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		return false;
-	}
-
-	@Override
 	protected void executeDelete(BillsList object) {
 
 	}
@@ -207,8 +202,6 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		}
 		return 0;
 	}
-
-
 
 	private long getTransactionID(BillsList obj) {
 		return obj.getTransactionId();

@@ -54,7 +54,7 @@ public class TransactionPaySalesTaxGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		if (!paySalesTaxView.isEditMode())
+		if (!paySalesTaxView.isEdit())
 
 			return new String[] { companyConstants.taxAgency(),
 					companyConstants.taxItem(), companyConstants.taxDue(),
@@ -74,7 +74,7 @@ public class TransactionPaySalesTaxGrid extends
 	@Override
 	protected Object getColumnValue(ClientTransactionPaySalesTax paySalesTax,
 			int index) {
-		if (!paySalesTaxView.isEditMode()) {
+		if (!paySalesTaxView.isEdit()) {
 			switch (index) {
 			case 0:
 				return Accounter.getCompany()
@@ -89,10 +89,13 @@ public class TransactionPaySalesTaxGrid extends
 						.getName()) : "")
 						: " ";
 			case 2:
-				return DataUtils.getAmountAsString(getAmountInForeignCurrency(paySalesTax.getTaxDue()));
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(paySalesTax
+								.getTaxDue()));
 			case 3:
 				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(paySalesTax.getAmountToPay()));
+						.getAmountAsString(getAmountInForeignCurrency(paySalesTax
+								.getAmountToPay()));
 			default:
 				break;
 			}
@@ -197,7 +200,7 @@ public class TransactionPaySalesTaxGrid extends
 		if (col == 3) {
 			Double amt = DataUtils.getReformatedAmount(value.toString());
 			paySalesTax.setAmountToPay(getAmountInBaseCurrency(amt));
-					
+
 			updateRecord(paySalesTax, indexOf(paySalesTax), 3);
 			updateFotterTotal();
 

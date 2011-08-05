@@ -193,12 +193,6 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		// NOTHING TO DO.
-		return true;
-	}
-
-	@Override
 	public void onDoubleClick(PaymentsList obj) {
 		// NOTHING TO DO.
 	}

@@ -26,12 +26,6 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-
-		return false;
-	}
-
-	@Override
 	protected String[] getColumns() {
 		return new String[] {
 				Accounter.constants().date(),
@@ -88,8 +82,6 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	protected void executeDelete(PurchaseOrdersList object) {
 
 	}
-
-
 
 	public AccounterCoreType getType() {
 		return null;

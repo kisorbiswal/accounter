@@ -181,14 +181,6 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 				AccounterCoreType.FIXEDASSET, this);
 	}
 
-	/*
-	 * @see com.vimukti.accounter.web.client.ui.grids.ListGrid#validateGrid()
-	 */
-	@Override
-	public boolean validateGrid() {
-		return false;
-	}
-
 	@Override
 	protected int sort(ClientFixedAsset obj1, ClientFixedAsset obj2, int index) {
 

@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.FocusWidget;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 public class DialogGrid extends ListGrid<IsSerializable> {
@@ -279,11 +278,6 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	public void addRecordDoubleClickHandler(
 			RecordDoubleClickHandler doubleClickHandler) {
 		this.doubleClickHandler = doubleClickHandler;
-	}
-
-	@Override
-	public boolean validateGrid() {
-		return false;
 	}
 
 	@Override

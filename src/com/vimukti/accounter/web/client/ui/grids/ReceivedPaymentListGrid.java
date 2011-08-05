@@ -171,12 +171,6 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		// its not using any where return null;
-		return false;
-	}
-
-	@Override
 	protected int getCellWidth(int index) {
 		if (index == 4)
 			return 150;

@@ -111,8 +111,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	private void showWarningDialog(final CustomerRefundsList obj, final int col) {
 		String msg = null;
 		if (col == 8) {
-			msg = Accounter.constants()
-					.doyouwanttoVoidtheTransaction();
+			msg = Accounter.constants().doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -173,12 +172,6 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		};
 		AccounterCoreType type = UIUtils.getAccounterCoreType(obj.getType());
 		rpcDoSerivce.deleteTransaction(type, obj.getTransactionId(), callback);
-	}
-
-	@Override
-	public boolean validateGrid() {
-		// its not using any where
-		return false;
 	}
 
 	@Override

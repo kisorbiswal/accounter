@@ -123,14 +123,6 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		ActionFactory.getNewVatItemAction().run(obj, true);
 	}
 
-	/*
-	 * @see com.vimukti.accounter.web.client.ui.grids.ListGrid#validateGrid()
-	 */
-	@Override
-	public boolean validateGrid() {
-		return false;
-	}
-
 	@Override
 	protected int sort(ClientTAXItem obj1, ClientTAXItem obj2, int index) {
 		switch (index) {

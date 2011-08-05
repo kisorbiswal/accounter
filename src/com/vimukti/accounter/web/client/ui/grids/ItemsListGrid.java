@@ -78,8 +78,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		return new String[] { Accounter.constants().active(),
 				Accounter.constants().itemName(),
 				Accounter.constants().description(),
-				Accounter.constants().type(),
-				Accounter.constants().price(), "" };
+				Accounter.constants().type(), Accounter.constants().price(), "" };
 	}
 
 	@Override
@@ -87,11 +86,6 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			ActionFactory.getNewItemAction().run(obj, true);
 		}
-	}
-
-	@Override
-	public boolean validateGrid() {
-		return true;
 	}
 
 	protected void onClick(ClientItem item, int row, int col) {
@@ -155,8 +149,6 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 		return 0;
 	}
-
-
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.ITEM;

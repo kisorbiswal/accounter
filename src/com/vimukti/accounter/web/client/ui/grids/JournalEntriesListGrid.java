@@ -222,12 +222,6 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		// NOTHING TO DO.
-		return false;
-	}
-
-	@Override
 	protected void executeDelete(ClientJournalEntry object) {
 		// NOTHING TO DO.
 	}

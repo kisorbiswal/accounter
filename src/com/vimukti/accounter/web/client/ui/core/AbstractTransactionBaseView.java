@@ -498,7 +498,7 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 
 	}
 
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		try {
 			if (this.transactionObject.getTotal() <= 0) {
 				throw new InvalidOperationException(Accounter.constants()
@@ -521,7 +521,8 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 
 			// SC.logWarn("Exception While Saving"
 			// + String.valueOf(e.getMessage()));
-			throw e;
+			// FIXME
+			addError("", e.getMessage());
 		}
 
 	}

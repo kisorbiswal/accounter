@@ -98,11 +98,6 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		return false;
-	}
-
-	@Override
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().changes(),
 				Accounter.constants().date(), Accounter.constants().user(),

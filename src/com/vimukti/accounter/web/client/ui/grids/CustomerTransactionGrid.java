@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -1338,36 +1339,32 @@ public class CustomerTransactionGrid extends
 	}
 
 	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		int validationcount = 1;
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
 		for (ClientTransactionItem item : this.getRecords()) {
-			if (item.getType() != ClientTransactionItem.TYPE_COMMENT) {
-				switch (validationcount++) {
-				case 1:
-					AccounterValidator.validateGridItem(
-							this.getColumnValue(item, 1),
-							UIUtils.getTransactionTypeName(item.getType()));
-				case 2:
-					if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
-							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
-						AccounterValidator.validateGridItem(this
-								.getColumnValue(item, 7), Accounter.constants()
-								.vatCode());
-						validationcount = 1;
-					} else
-						validationcount = 1;
-					break;
-				default:
-					break;
+			if (item.getType() == ClientTransactionItem.TYPE_COMMENT) {
+				continue;
+			}
+			if (!AccounterValidator.validateGridItem(this.getColumnValue(item,
+					1))) {
+				result.addError(
+						"GridItem-" + item.getAccount(),
+						Accounter.messages().pleaseEnter(
+								UIUtils.getTransactionTypeName(item.getType())));
+			}
+			if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
+					&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
+				if (!AccounterValidator.validateGridItem(this.getColumnValue(
+						item, 7))) {
+					result.addError(
+							"GridItemUK-" + item.getAccount(),
+							Accounter.messages().pleaseEnter(
+									Accounter.constants().vatCode()));
 				}
 
 			}
 		}
-		// if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
-		// Accounter.showError(AccounterErrorType.InvalidTransactionAmount);
-		// return false;
-		// }
-		return true;
+		return result;
 	}
 
 	private void update_quantity_inAllRecords(double d) {

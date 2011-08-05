@@ -5,7 +5,6 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.ItemCombo;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 
 public class ItemGroupGrid extends ListGrid<ClientItem> {
 
@@ -16,8 +15,7 @@ public class ItemGroupGrid extends ListGrid<ClientItem> {
 			ClientItemGroup itemGroup) {
 		super(isMultiSelectionEnable);
 		this.itemGroup = itemGroup;
-		itemCombo = new ItemCombo(Accounter.constants().item(), 1,
-				false);
+		itemCombo = new ItemCombo(Accounter.constants().item(), 1, false);
 	}
 
 	@Override
@@ -89,12 +87,6 @@ public class ItemGroupGrid extends ListGrid<ClientItem> {
 			item.setItemGroup(itemGroup.getID());
 		}
 		super.editComplete(item, value, col);
-	}
-
-	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// NOTHING TO DO.
-		return false;
 	}
 
 	@Override

@@ -238,12 +238,6 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
-	@Override
-	public boolean validateGrid() {
-		// NOTHING TO DO
-		return true;
-	}
-
 	protected void updateTotal(PayeeList customer, boolean add) {
 
 		if (add) {

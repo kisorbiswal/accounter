@@ -222,12 +222,6 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	// this is not using any where
 	@Override
-	public boolean validateGrid() {
-		return false;
-	}
-
-	// this is not using any where
-	@Override
 	protected void executeDelete(ClientEstimate object) {
 
 	}
@@ -334,7 +328,6 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	}
 
 	// this is not using any where
-
 
 	// this is not using any where
 	public AccounterCoreType getType() {

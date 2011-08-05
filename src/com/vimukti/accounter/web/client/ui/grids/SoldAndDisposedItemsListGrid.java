@@ -123,7 +123,7 @@ public class SoldAndDisposedItemsListGrid extends
 
 	@Override
 	protected void onClick(ClientFixedAsset obj, int row, int col) {
-		
+
 		List<ClientFixedAsset> records = getRecords();
 		switch (col) {
 		case 6:
@@ -139,14 +139,12 @@ public class SoldAndDisposedItemsListGrid extends
 
 	private void openHistoryView(ClientFixedAsset obj) {
 		Action action = ActionFactory.getHistoryListAction();
-		action.catagory = Accounter.constants()
-				.fixedAssetsPendingItemsList();
+		action.catagory = Accounter.constants().fixedAssetsPendingItemsList();
 		action.run(obj, true);
 	}
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(Accounter.constants()
-				.addNote(), "");
+		noteDialog = new NoteDialog(Accounter.constants().addNote(), "");
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -178,15 +176,6 @@ public class SoldAndDisposedItemsListGrid extends
 	protected void executeDelete(ClientFixedAsset asset) {
 		ViewManager.getInstance().deleteObject(asset,
 				AccounterCoreType.FIXEDASSET, this);
-	}
-
-	/*
-	 * @see com.vimukti.accounter.web.client.ui.grids.ListGrid#validateGrid()
-	 */
-	// its not using any where
-	@Override
-	public boolean validateGrid() {
-		return false;
 	}
 
 	/*
@@ -251,7 +240,6 @@ public class SoldAndDisposedItemsListGrid extends
 	}
 
 	// its not using any where
-
 
 	public AccounterCoreType getType() {
 		return null;

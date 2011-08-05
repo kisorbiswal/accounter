@@ -51,12 +51,6 @@ public class ManageVATGroupListGrid extends BaseListGrid<ClientTAXGroup> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		// NOTHING TO DO.
-		return true;
-	}
-
-	@Override
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().active(),
 				Accounter.constants().vatGroup(),
