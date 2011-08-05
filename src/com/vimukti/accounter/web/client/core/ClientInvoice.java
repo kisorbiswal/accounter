@@ -526,4 +526,7 @@ public class ClientInvoice extends ClientTransaction {
 		this.orderNum = orderNum;
 	}
 
+	public ClientInvoice clone() {
+		return null;
+	}
 }

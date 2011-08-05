@@ -159,4 +159,8 @@ public class ClientCreditCardCharge extends ClientTransaction {
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.CREDITCARDCHARGE;
 	}
+
+	public ClientCreditCardCharge clone() {
+		return null;
+	}
 }

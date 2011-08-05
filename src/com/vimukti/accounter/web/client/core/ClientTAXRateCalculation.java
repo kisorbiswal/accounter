@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
-
 public class ClientTAXRateCalculation implements IAccounterCore {
 
 	/**
@@ -19,7 +17,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	long transactionDate;
 	String transactionItem;
 	boolean isVATGroupEntry;
-	
+
 	ClientTAXAgency taxAgency;
 	double rate;
 	ClientVATReturnBox vatReturnBox;
@@ -50,7 +48,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	/**
 	 * @return the id
 	 */
-	public long getID(){
+	public long getID() {
 		return id;
 	}
 
@@ -58,8 +56,8 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	/**
@@ -193,7 +191,8 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 		return purchaseLiabilityAccount;
 	}
 
-	public void setPurchaseLiabilityAccount(ClientAccount purchaseLiabilityAccount) {
+	public void setPurchaseLiabilityAccount(
+			ClientAccount purchaseLiabilityAccount) {
 		this.purchaseLiabilityAccount = purchaseLiabilityAccount;
 	}
 
@@ -214,5 +213,9 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	// this.transactionDate = transactionItem.getTransaction().getDate();
 	//
 	// }
+
+	public ClientTAXRateCalculation clone() {
+		return null;
+	}
 
 }

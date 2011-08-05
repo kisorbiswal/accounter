@@ -20,7 +20,7 @@ public class ClientTAXItem extends ClientTAXItemGroup {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 
 	}
@@ -119,6 +119,10 @@ public class ClientTAXItem extends ClientTAXItemGroup {
 	public AccounterCoreType getObjectType() {
 
 		return AccounterCoreType.TAXITEM;
+	}
+
+	public ClientTAXItem clone() {
+		return null;
 	}
 
 }

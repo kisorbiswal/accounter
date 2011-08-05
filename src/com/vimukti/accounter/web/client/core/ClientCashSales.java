@@ -314,4 +314,8 @@ public class ClientCashSales extends ClientTransaction {
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.CASHSALES;
 	}
+
+	public ClientCashSales clone() {
+		return null;
+	}
 }

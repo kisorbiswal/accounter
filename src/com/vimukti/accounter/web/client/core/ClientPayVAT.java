@@ -159,4 +159,7 @@ public class ClientPayVAT extends ClientTransaction {
 		this.transactionPayVAT = clientTransactionPayVAT;
 	}
 
+	public ClientPayVAT clone() {
+		return null;
+	}
 }

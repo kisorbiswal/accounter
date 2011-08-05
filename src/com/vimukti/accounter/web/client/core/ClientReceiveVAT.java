@@ -160,4 +160,7 @@ public class ClientReceiveVAT extends ClientTransaction {
 		this.transactionReceiveVAT = transactionReceiveVATList;
 	}
 
+	public ClientReceiveVAT clone() {
+		return null;
+	}
 }

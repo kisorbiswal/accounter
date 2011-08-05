@@ -130,4 +130,7 @@ public class ClientTransactionPaySalesTax implements IAccounterCore {
 		return taxRateCalculation;
 	}
 
+	public ClientTransactionPaySalesTax clone() {
+		return null;
+	}
 }

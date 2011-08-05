@@ -71,13 +71,13 @@ public class ClientTransferFund extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -92,4 +92,7 @@ public class ClientTransferFund extends ClientTransaction {
 		return AccounterCoreType.TRANSFERFUND;
 	}
 
+	public ClientTAXAdjustment clone() {
+		return null;
+	}
 }

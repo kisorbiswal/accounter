@@ -449,4 +449,7 @@ public class ClientTransactionItem implements IAccounterCore {
 		return taxitem;
 	}
 
+	public ClientTransactionItem clone() {
+		return null;
+	}
 }

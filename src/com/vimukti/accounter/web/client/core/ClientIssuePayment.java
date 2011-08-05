@@ -74,4 +74,8 @@ public class ClientIssuePayment extends ClientTransaction implements
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.ISSUEPAYMENT;
 	}
+
+	public ClientIssuePayment clone() {
+		return null;
+	}
 }

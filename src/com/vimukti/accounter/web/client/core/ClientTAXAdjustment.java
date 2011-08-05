@@ -3,7 +3,6 @@
  */
 package com.vimukti.accounter.web.client.core;
 
-
 /**
  * @author vimukti5
  * 
@@ -218,4 +217,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 		this.taxAgency = taxAgency;
 	}
 
+	public ClientTAXAdjustment clone() {
+		return null;
+	}
 }

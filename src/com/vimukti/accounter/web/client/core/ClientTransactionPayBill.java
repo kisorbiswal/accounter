@@ -351,4 +351,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 		return dummyDue;
 	}
 
+	public ClientTransactionPayBill clone() {
+		return null;
+	}
 }

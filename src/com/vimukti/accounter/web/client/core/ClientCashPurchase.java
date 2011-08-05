@@ -144,5 +144,9 @@ public class ClientCashPurchase extends ClientTransaction {
 	public void setExpenseStatus(int expenseStatus) {
 		this.expenseStatus = expenseStatus;
 	}
+	
+	public ClientCashPurchase clone() {
+		return null;
+	}
 
 }

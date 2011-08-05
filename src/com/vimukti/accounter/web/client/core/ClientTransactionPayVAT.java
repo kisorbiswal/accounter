@@ -160,4 +160,7 @@ public class ClientTransactionPayVAT implements IAccounterCore {
 		return null;
 	}
 
+	public ClientTransactionPayVAT clone() {
+		return null;
+	}
 }

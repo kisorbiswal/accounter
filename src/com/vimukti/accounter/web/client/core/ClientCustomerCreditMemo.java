@@ -257,4 +257,8 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.CUSTOMERCREDITMEMO;
 	}
+
+	public ClientCustomerCreditMemo clone() {
+		return null;
+	}
 }

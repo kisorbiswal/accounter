@@ -260,4 +260,7 @@ public class ClientEstimate extends ClientTransaction {
 		return AccounterCoreType.ESTIMATE;
 	}
 
+	public ClientEstimate clone() {
+		return null;
+	}
 }

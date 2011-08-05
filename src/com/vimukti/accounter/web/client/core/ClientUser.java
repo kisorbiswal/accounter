@@ -469,4 +469,8 @@ public class ClientUser implements IAccounterCore {
 		employee.setPermissions(permissions);
 		return employee;
 	}
+
+	public ClientUser clone() {
+		return null;
+	}
 }

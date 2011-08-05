@@ -248,4 +248,7 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 		return Utility.getTransactionName(ClientTransaction.TYPE_MAKE_DEPOSIT);
 	}
 
+	public ClientTransactionMakeDeposit clone() {
+		return null;
+	}
 }

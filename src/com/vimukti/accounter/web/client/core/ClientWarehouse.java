@@ -104,4 +104,8 @@ public class ClientWarehouse implements IAccounterCore {
 		return 0;
 	}
 
+	public ClientWarehouse clone() {
+		return null;
+	}
+
 }

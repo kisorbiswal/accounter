@@ -744,4 +744,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 		return currencyFactor;
 	}
 
+	public ClientTransaction clone() {
+		return null;
+	}
+
 }

@@ -103,13 +103,13 @@ public class ClientVendorCreditMemo extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -122,5 +122,9 @@ public class ClientVendorCreditMemo extends ClientTransaction {
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.VENDORCREDITMEMO;
+	}
+
+	public ClientVendorCreditMemo clone() {
+		return null;
 	}
 }

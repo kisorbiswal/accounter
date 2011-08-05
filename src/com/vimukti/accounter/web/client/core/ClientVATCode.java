@@ -6,7 +6,7 @@ public class ClientVATCode implements IAccounterCore {
 	long id;
 	String name;
 	String description;
-	boolean isTaxable ;
+	boolean isTaxable;
 	boolean isActive;
 	String VATItemGrpForPurchases;
 	String VATItemGrpForSales;
@@ -98,13 +98,13 @@ public class ClientVATCode implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	public boolean isDefault() {
@@ -115,4 +115,7 @@ public class ClientVATCode implements IAccounterCore {
 		this.isDefault = isDefault;
 	}
 
+	public ClientVATCode clone() {
+		return null;
+	}
 }

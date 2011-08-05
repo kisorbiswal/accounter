@@ -116,4 +116,7 @@ public class ClientTransactionMakeDepositEntries implements IAccounterCore {
 		this.id = id;
 	}
 
+	public ClientTransactionMakeDepositEntries clone() {
+		return null;
+	}
 }

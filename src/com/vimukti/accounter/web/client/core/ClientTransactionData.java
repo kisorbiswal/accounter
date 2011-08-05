@@ -190,37 +190,37 @@ public class ClientTransactionData implements IAccounterCore {
 	/**
 	 * @return the taxCodes
 	 */
-//	public List<ClientTaxCode> getTaxCodes() {
-//		return taxCodes;
-//	}
-//
-//	/**
-//	 * @param taxCodes
-//	 *            the taxCodes to set
-//	 */
-//	public void setTaxCodes(List<ClientTaxCode> taxCodes) throws Exception {
-//		if (taxCodes == null)
-//			throw new Exception("Tax Codes Could Not Be Initiated....");
-//		this.taxCodes = taxCodes;
-//	}
+	// public List<ClientTaxCode> getTaxCodes() {
+	// return taxCodes;
+	// }
+	//
+	// /**
+	// * @param taxCodes
+	// * the taxCodes to set
+	// */
+	// public void setTaxCodes(List<ClientTaxCode> taxCodes) throws Exception {
+	// if (taxCodes == null)
+	// throw new Exception("Tax Codes Could Not Be Initiated....");
+	// this.taxCodes = taxCodes;
+	// }
 
 	/**
 	 * @return the taxAgencies
 	 */
-//	public List<ClientTaxAgency> getTaxAgencies() {
-//		return taxAgencies;
-//	}
+	// public List<ClientTaxAgency> getTaxAgencies() {
+	// return taxAgencies;
+	// }
 
 	/**
 	 * @param taxAgencies
 	 *            the taxAgencies to set
 	 */
-//	public void setTaxAgencies(List<ClientTaxAgency> taxAgencies)
-//			throws Exception {
-//		if (taxAgencies == null)
-//			throw new Exception("TaxAgency List Could not be Initiated...");
-//		this.taxAgencies = taxAgencies;
-//	}
+	// public void setTaxAgencies(List<ClientTaxAgency> taxAgencies)
+	// throws Exception {
+	// if (taxAgencies == null)
+	// throw new Exception("TaxAgency List Could not be Initiated...");
+	// this.taxAgencies = taxAgencies;
+	// }
 
 	/**
 	 * @return the payee
@@ -290,7 +290,7 @@ public class ClientTransactionData implements IAccounterCore {
 
 	// List<ClientTaxCode> taxCodes;
 
-//	List<ClientTaxAgency> taxAgencies;
+	// List<ClientTaxAgency> taxAgencies;
 
 	List<ClientPayee> payee;
 
@@ -319,13 +319,13 @@ public class ClientTransactionData implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -335,4 +335,7 @@ public class ClientTransactionData implements IAccounterCore {
 		return "ClientTransactionData";
 	}
 
+	public ClientTransactionData clone() {
+		return null;
+	}
 }

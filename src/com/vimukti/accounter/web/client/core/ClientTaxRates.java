@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 @SuppressWarnings("serial")
 public class ClientTaxRates implements IAccounterCore {
 
@@ -103,4 +102,7 @@ public class ClientTaxRates implements IAccounterCore {
 		return "ClientTaxRates";
 	}
 
+	public ClientTaxRates clone() {
+		return null;
+	}
 }

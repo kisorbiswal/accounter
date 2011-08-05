@@ -313,4 +313,7 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 		return customerPrepayment;
 	}
 
+	public ClientTransactionIssuePayment clone() {
+		return null;
+	}
 }

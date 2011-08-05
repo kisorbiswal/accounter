@@ -112,4 +112,8 @@ public class ClientCustomerPrePayment extends ClientTransaction {
 		return checkNumber;
 	}
 
+	public ClientCustomerPrePayment clone() {
+		return null;
+	}
+
 }

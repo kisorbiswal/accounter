@@ -155,4 +155,7 @@ public class ClientTransactionCreditsAndPayments implements IAccounterCore {
 	// this.setAmountToUse(0.0);
 	// }
 
+	public ClientTransactionCreditsAndPayments clone() {
+		return null;
+	}
 }

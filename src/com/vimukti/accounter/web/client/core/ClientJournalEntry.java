@@ -259,4 +259,7 @@ public class ClientJournalEntry extends ClientTransaction implements
 		this.transactionPayBills = transactionPayBills;
 	}
 
+	public ClientJournalEntry clone() {
+		return null;
+	}
 }

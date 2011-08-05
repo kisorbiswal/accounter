@@ -7,7 +7,9 @@ public class ClientUserPreferences implements IAccounterCore {
 
 	String dashBoardPreferences = "WELCOME,BANKING_SUMMARY,PROFIT_AND_LOSS,CREDIT_OVERVIEW,DEBIT_OVERVIEW,LATEST_QUOTE,EXPENSES";
 	String customerSectionViewPreferences = "NEW_CUSTOMER,SALES_ITEM,PAYMENT_RECEIVED,CASH_SALES,CREDIT_AND_REFUNDS";
-	String vendorSectionViewPreferences = UIUtils.getVendorString("NEW_SUPPLIER","NEW_VENDOR")+",ITEM_PURCHASE,BILL_PAID,CASH_PURCHASE";
+	String vendorSectionViewPreferences = UIUtils.getVendorString(
+			"NEW_SUPPLIER", "NEW_VENDOR")
+			+ ",ITEM_PURCHASE,BILL_PAID,CASH_PURCHASE";
 	String bankingSectionViewPreferences = "BANKING_SUMMARY,CHECK_ISSUED,DEPOSITE,FUND_TRANSFERED,CREDIT_CARD_CHARGES";
 
 	public ClientUserPreferences() {
@@ -81,12 +83,12 @@ public class ClientUserPreferences implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return 0;
 	}
 
 	@Override
-	public void setID(long id){
+	public void setID(long id) {
 		// this.id=id;
 
 	}
@@ -97,4 +99,7 @@ public class ClientUserPreferences implements IAccounterCore {
 		return "ClientUserPreferences";
 	}
 
+	public ClientUserPreferences clone() {
+		return null;
+	}
 }

@@ -238,4 +238,7 @@ public class ClientUserInfo implements IAccounterCore {
 		return "ClientUserInfo";
 	}
 
+	public ClientUserInfo clone() {
+		return null;
+	}
 }

@@ -115,4 +115,8 @@ public class ClientPaySalesTax extends ClientTransaction {
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.PAY_SALES_TAX;
 	}
+
+	public ClientPaySalesTax clone() {
+		return null;
+	}
 }

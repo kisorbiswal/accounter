@@ -180,4 +180,7 @@ public class ClientVATReturn extends ClientTransaction {
 
 	}
 
+	public ClientVATReturn clone() {
+		return null;
+	}
 }

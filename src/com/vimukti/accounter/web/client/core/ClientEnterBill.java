@@ -260,4 +260,7 @@ public class ClientEnterBill extends ClientTransaction {
 		return discountDate;
 	}
 
+	public ClientEnterBill clone() {
+		return null;
+	}
 }

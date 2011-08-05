@@ -34,7 +34,7 @@ public class ClientTAXGroup extends ClientTAXItemGroup {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
@@ -102,6 +102,10 @@ public class ClientTAXGroup extends ClientTAXItemGroup {
 	public AccounterCoreType getObjectType() {
 
 		return AccounterCoreType.TAX_GROUP;
+	}
+
+	public ClientTAXGroup clone() {
+		return null;
 	}
 
 }

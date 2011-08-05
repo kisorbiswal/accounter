@@ -219,4 +219,8 @@ public class ClientPayBill extends ClientTransaction {
 		this.UnUsedCredits = UnUsedCredits;
 
 	}
+
+	public ClientPayBill clone() {
+		return null;
+	}
 }

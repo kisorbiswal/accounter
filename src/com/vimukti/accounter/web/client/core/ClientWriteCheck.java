@@ -263,4 +263,7 @@ public class ClientWriteCheck extends ClientTransaction {
 		return AccounterCoreType.WRITECHECK;
 	}
 
+	public ClientWriteCheck clone() {
+		return null;
+	}
 }

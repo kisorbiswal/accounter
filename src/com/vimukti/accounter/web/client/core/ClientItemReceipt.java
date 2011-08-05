@@ -155,13 +155,13 @@ public class ClientItemReceipt extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	public void setPurchaseOrder(long purchaseOrder) {
@@ -172,4 +172,7 @@ public class ClientItemReceipt extends ClientTransaction {
 		return purchaseOrder;
 	}
 
+	public ClientItemReceipt clone() {
+		return null;
+	}
 }

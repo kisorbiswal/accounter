@@ -105,4 +105,7 @@ public class ClientMakeDeposit extends ClientTransaction {
 		return AccounterCoreType.MAKEDEPOSIT;
 	}
 
+	public ClientMakeDeposit clone() {
+		return null;
+	}
 }

@@ -316,15 +316,18 @@ public class ClientSalesOrder extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
+	public void setID(long id) {
 
-		this.id=id;
+		this.id = id;
 	}
 
+	public ClientSalesOrder clone() {
+		return null;
+	}
 }

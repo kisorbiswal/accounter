@@ -53,7 +53,6 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 
 	private double dummyDue;
 
-	
 	public boolean isCreditsApplied() {
 		return isCreditsApplied;
 	}
@@ -359,4 +358,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 		return dummyDue;
 	}
 
+	public ClientTransactionReceivePayment clone() {
+		return null;
+	}
 }

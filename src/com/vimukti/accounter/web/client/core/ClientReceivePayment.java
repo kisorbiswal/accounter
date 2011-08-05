@@ -42,10 +42,10 @@ public class ClientReceivePayment extends ClientTransaction {
 	private double unusedAmount = 0D;
 
 	// ClientTaxCode VATCode;
-	//	
+	//
 	// double VATFraction;
-	//	
-	//	
+	//
+	//
 	//
 	//
 	// public ClientTaxCode getVATCode() {
@@ -213,13 +213,13 @@ public class ClientReceivePayment extends ClientTransaction {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -298,4 +298,7 @@ public class ClientReceivePayment extends ClientTransaction {
 		return unusedAmount;
 	}
 
+	public ClientReceivePayment clone() {
+		return null;
+	}
 }

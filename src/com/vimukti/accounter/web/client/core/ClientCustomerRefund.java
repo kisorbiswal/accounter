@@ -172,4 +172,8 @@ public class ClientCustomerRefund extends ClientTransaction {
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.CUSTOMERREFUND;
 	}
+
+	public ClientCustomerRefund clone() {
+		return null;
+	}
 }

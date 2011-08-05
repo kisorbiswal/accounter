@@ -123,15 +123,18 @@ public class ClientUserPermissions implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setID(long id){
+	public void setID(long id) {
 		// TODO Auto-generated method stub
 
 	}
 
+	public ClientUserPreferences clone() {
+		return null;
+	}
 }

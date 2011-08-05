@@ -111,20 +111,19 @@ public class ClientVATReturnBox implements IAccounterCore {
 	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#getID()
 	 */
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
+	 * @see com.vimukti.accounter.web.client.core.IAccounterCore#setID(java
 	 * .lang.String)
 	 */
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	/**
@@ -140,6 +139,10 @@ public class ClientVATReturnBox implements IAccounterCore {
 	 */
 	public void setVatReturnType(int vatReturnType) {
 		this.vatReturnType = vatReturnType;
+	}
+
+	public ClientVATReturnBox clone() {
+		return null;
 	}
 
 }
