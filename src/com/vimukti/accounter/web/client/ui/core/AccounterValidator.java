@@ -83,8 +83,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validateForm(DynamicForm form, boolean isDialog)
-			throws InvalidEntryException {
+	public static boolean validateForm(DynamicForm form, boolean isDialog) {
 
 		if (!form.validate(isDialog)) {
 			// throw new
@@ -590,74 +589,6 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validate_SalesPrice(final AbstractBaseView view,
-			Double salesprice) {
-
-		if (DecimalUtil.isEquals(salesprice, 0.0D)) {
-			Accounter.showWarning(AccounterWarningType.sales_price_zero,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
-
-							return false;
-						}
-
-						@Override
-						public boolean onNoClick() throws InvalidEntryException {
-							// Accounter.stopExecution();
-							return true;
-						}
-
-						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
-							view.validationCount--;
-							return true;
-						}
-
-					});
-			AbstractBaseView.warnOccured = true;
-		} else
-			view.validationCount--;
-		return false;
-
-	}
-
-	public static boolean validate_PurchasePrice(final AbstractBaseView view,
-			Double purchaseprice) {
-		if (DecimalUtil.isEquals(purchaseprice, 0.0D)) {
-			Accounter.showWarning(AccounterWarningType.purchase_price_zero,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
-
-							return false;
-						}
-
-						@Override
-						public boolean onNoClick() throws InvalidEntryException {
-							// Accounter.stopExecution();
-							return true;
-						}
-
-						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
-							view.validationCount--;
-							return true;
-						}
-
-					});
-			AbstractBaseView.warnOccured = true;
-		} else
-			view.validationCount--;
-		return false;
-	}
-
 	public static boolean duplicate_itemName() throws InvalidEntryException {
 		Accounter.showError(AccounterErrorType.duplicate_ItemName);
 		return false;
@@ -940,44 +871,6 @@ public class AccounterValidator {
 
 	}
 
-	/**
-	 * in Receivepayment, after all validations, we need to display warning.if
-	 * yes clicked, then we will save the Receivepayment .
-	 * 
-	 * if NO clicked, we won't save the Receivepayment .
-	 * 
-	 * if Cancel clicked, we just close the warning dialog.
-	 * 
-	 * @param view
-	 * @return
-	 */
-	public static boolean validateRecievePayment(final ReceivePaymentView view) {
-		Accounter.showWarning(AccounterWarningType.recievePayment,
-				AccounterType.WARNING, new ErrorDialogHandler() {
-
-					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
-						return false;
-					}
-
-					@Override
-					public boolean onNoClick() throws InvalidEntryException {
-						// Accounter.stopExecution();
-						return true;
-					}
-
-					@Override
-					public boolean onYesClick() throws InvalidEntryException {
-						view.validationCount--;
-						return true;
-					}
-
-				});
-		AbstractBaseView.warnOccured = true;
-		return false;
-
-	}
-
 	public static boolean validate_Receive_Payment(double amountDue,
 			double totalValue, String errormessg) {
 		if (DecimalUtil.isLessThan(totalValue, 0.00)) {
@@ -988,43 +881,6 @@ public class AccounterValidator {
 				|| DecimalUtil.isEquals(totalValue, 0)) {
 			Accounter.showError(errormessg);
 			// Accounter.stopExecution();
-			return false;
-		}
-		return true;
-	}
-
-	public static boolean validate_Total_Exceeds_BankBalance(
-			double bankBalance, double amount, boolean isIncrease,
-			final AbstractBaseView view) {
-		if (isIncrease == false
-				&& DecimalUtil.isLessThan((bankBalance - amount), 0.00)
-				&& !AbstractBaseView.errorOccured) {
-			Accounter.showWarning(
-					AccounterWarningType.total_Exceeds_BankBalance,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
-
-							return false;
-						}
-
-						@Override
-						public boolean onNoClick() throws InvalidEntryException {
-							// Accounter.stopExecution();
-							return true;
-						}
-
-						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
-							view.validationCount--;
-							return true;
-						}
-
-					});
-			AbstractBaseView.warnOccured = true;
 			return false;
 		}
 		return true;
@@ -1497,45 +1353,6 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean sinceDate(ClientFinanceDate sinceDate,
-			final AbstractBaseView view) {
-		ClientFinanceDate companyStartDate = new ClientFinanceDate(getCompany()
-				.getPreferences().getPreventPostingBeforeDate());
-
-		if (sinceDate.before(companyStartDate)) {
-			String msg;
-			if (view instanceof CustomerView)
-				msg = AccounterWarningType.prior_CustomerSinceDate;
-			else
-				msg = AccounterWarningType.prior_VendorSinceDate;
-
-			Accounter.showWarning(msg, AccounterType.WARNING,
-					new ErrorDialogHandler() {
-
-						public boolean onCancelClick()
-								throws InvalidEntryException {
-
-							return false;
-						}
-
-						public boolean onNoClick() throws InvalidEntryException {
-							// Accounter.stopExecution();
-							return true;
-						}
-
-						public boolean onYesClick()
-								throws InvalidEntryException {
-							view.validationCount--;
-							return true;
-						}
-
-					});
-			return false;
-		}
-		return true;
-
-	}
-
 	public static boolean isPriorAsOfDate(ClientFinanceDate asOfDate) {
 
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(getCompany()
@@ -1548,32 +1365,6 @@ public class AccounterValidator {
 		}
 		return false;
 
-	}
-
-	public static boolean validate_FileVat(final AbstractBaseView view) {
-		// if (!AbstractBaseView.errorOccured) {
-		Accounter.showWarning(Accounter.constants().sureToSaveFileVAT(),
-				AccounterType.WARNING, new ErrorDialogHandler() {
-
-					@Override
-					public boolean onYesClick() throws InvalidEntryException {
-						view.validationCount--;
-						return true;
-					}
-
-					@Override
-					public boolean onNoClick() throws InvalidEntryException {
-						// Accounter.stopExecution();
-						return true;
-					}
-
-					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
-						return false;
-					}
-				});
-		// }
-		return false;
 	}
 
 	public static boolean validatePayment() {
