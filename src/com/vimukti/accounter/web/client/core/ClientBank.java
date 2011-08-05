@@ -51,13 +51,13 @@ public class ClientBank implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -65,6 +65,11 @@ public class ClientBank implements IAccounterCore {
 	public String getClientClassSimpleName() {
 
 		return "ClientBank";
+	}
+
+	public Object clone() {
+		return null;
+
 	}
 
 }
