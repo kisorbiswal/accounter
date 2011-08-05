@@ -12,22 +12,15 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author Prasanna Kumar G
  * 
  */
-public class ClientStockTransfer implements
-		Serializable, IsSerializable {
+public class ClientStockTransfer implements IAccounterCore {
 
 	private ClientWarehouse fromWarehouse;
 	private ClientWarehouse toWarehouse;
 
 	private long id;
-	
+
 	private Set<ClientStockTransferItem> stockTransferItems;
 
-	
-
-	public long getId() {
-		return id;
-	}
-	
 	/**
 	 * @return the fromWarehouse
 	 */
@@ -74,4 +67,33 @@ public class ClientStockTransfer implements
 		this.stockTransferItems = stockTransferItems;
 	}
 
+	@Override
+	public String getName() {
+		return null;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return null;
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.STOCK_TRANSFER;
+	}
+
+	@Override
+	public void setID(long id) {
+		this.id = id;
+	}
+
+	@Override
+	public long getID() {
+		return this.id;
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+		return "ClientStockTransfer";
+	}
 }
