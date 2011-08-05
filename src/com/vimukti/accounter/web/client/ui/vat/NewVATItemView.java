@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
@@ -92,7 +91,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		vatRateText.setWidth(80);
 		vatRateText.setRequired(true);
 
-		vatRateTextPerT = new PercentageField(Accounter.constants()
+		vatRateTextPerT = new PercentageField(this, Accounter.constants()
 				.vatRateInPerc());
 		vatRateTextPerT.setHelpInformation(true);
 		vatRateTextPerT.setWidth(80);

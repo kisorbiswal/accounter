@@ -98,7 +98,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
 		// adjustDate.setWidth(100);
 
-		entryNo = new IntegerField(Accounter.constants().no());
+		entryNo = new IntegerField(this, Accounter.constants().no());
 		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 

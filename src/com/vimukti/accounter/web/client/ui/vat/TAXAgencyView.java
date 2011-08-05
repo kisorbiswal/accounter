@@ -442,14 +442,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			addrsForm = new AddressForm(takenVATAgency.getAddress());
 			addrsForm.setWidth("100%");
 			// Setting Phone Fax Form
-			phoneFaxForm = new PhoneFaxForm(null, null);
+			phoneFaxForm = new PhoneFaxForm(null, null, this);
 			phoneFaxForm.setWidth("100%");
 			phoneFaxForm.businessPhoneText
 					.setValue(takenVATAgency.getPhoneNo());
 			phoneFaxForm.businessFaxText.setValue(takenVATAgency.getFaxNo());
 
 			// Setting Email Form
-			emailForm = new EmailForm(null, takenVATAgency.getWebPageAddress());
+			emailForm = new EmailForm(null, takenVATAgency.getWebPageAddress(),
+					this);
 			emailForm.businesEmailText.setValue(takenVATAgency.getEmail());
 			emailForm.setWidth("100%");
 
@@ -524,9 +525,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		} else { // For Creating TaxAgency
 			addrsForm = new AddressForm(null);
 			addrsForm.setWidth("100%");
-			phoneFaxForm = new PhoneFaxForm(null, null);
+			phoneFaxForm = new PhoneFaxForm(null, null, this);
 			phoneFaxForm.setWidth("100%");
-			emailForm = new EmailForm(null, null);
+			emailForm = new EmailForm(null, null, this);
 			emailForm.setWidth("100%");
 		}
 

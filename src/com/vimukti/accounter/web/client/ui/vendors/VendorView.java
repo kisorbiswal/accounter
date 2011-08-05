@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -280,7 +279,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
-		balanceText = new AmountField(Accounter.constants().balance(),this);
+		balanceText = new AmountField(Accounter.constants().balance(), this);
 		balanceText.setHelpInformation(true);
 		balanceDate = new DateField(Accounter.constants().balanceAsOf());
 		balanceDate.setHelpInformation(true);
@@ -368,12 +367,13 @@ public class VendorView extends BaseView<ClientVendor> {
 			// addrsForm.setStyleName(FinanceApplication.constants()
 			// .venderForm());
 			// Setting Phone Fax Form
-			fonFaxForm = new PhoneFaxForm(null, null);
+			fonFaxForm = new PhoneFaxForm(null, null, this);
 			fonFaxForm.businessPhoneText.setValue(takenVendor.getPhoneNo());
 			fonFaxForm.businessFaxText.setValue(takenVendor.getFaxNo());
 			fonFaxForm.setWidth("100%");
 			// Setting Email Form
-			emailForm = new EmailForm(null, takenVendor.getWebPageAddress());
+			emailForm = new EmailForm(null, takenVendor.getWebPageAddress(),
+					this);
 			emailForm.businesEmailText.setValue(takenVendor.getEmail());
 			emailForm.setWidth("100%");
 			// Setting Status Check
@@ -408,9 +408,9 @@ public class VendorView extends BaseView<ClientVendor> {
 			addrsForm.setWidth("100%");
 			// addrsForm.setStyleName(FinanceApplication.constants()
 			// .venderForm());
-			fonFaxForm = new PhoneFaxForm(null, null);
+			fonFaxForm = new PhoneFaxForm(null, null, this);
 			fonFaxForm.setWidth("100%");
-			emailForm = new EmailForm(null, null);
+			emailForm = new EmailForm(null, null, this);
 			emailForm.setWidth("100%");
 		}
 		DynamicForm memoForm = new DynamicForm();
@@ -514,7 +514,8 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 				});
 
-		creditLimitText = new AmountField(Accounter.constants().creditLimit(),this);
+		creditLimitText = new AmountField(Accounter.constants().creditLimit(),
+				this);
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 
@@ -809,7 +810,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		// BaseView.errordata.setHTML(msg);
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this,msg);
+		addError(this, msg);
 	}
 
 	@Override
