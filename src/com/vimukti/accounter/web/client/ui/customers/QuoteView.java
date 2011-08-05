@@ -50,18 +50,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	}
 
-	@Override
-	protected void initTransactionViewData() {
-		super.initTransactionViewData();
-		initAllItems();
-	}
-
 	private void initAllItems() {
 		initPaymentTerms();
-		if (isEdit) {
-			this.quoteExpiryDate.setValue(new ClientFinanceDate(transaction
+		if (this.transaction != null) {
+			this.quoteExpiryDate.setValue(new ClientFinanceDate(this.transaction
 					.getExpirationDate()));
-			this.deliveryDate.setValue(new ClientFinanceDate(transaction
+			this.deliveryDate.setValue(new ClientFinanceDate(this.transaction
 					.getDeliveryDate()));
 		}
 
@@ -148,54 +142,50 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	public void saveAndUpdateView() {
-		updateNonEditableItems();
+
+		ClientEstimate quote = transaction != null ? (ClientEstimate) transaction
+				: new ClientEstimate();
+
+		if (quoteExpiryDate.getEnteredDate() != null)
+			quote.setExpirationDate(quoteExpiryDate.getEnteredDate().getDate());
+		if (getCustomer() != null)
+			quote.setCustomer(getCustomer());
+		if (contact != null)
+			quote.setContact(contact);
+		if (phoneSelect.getValue() != null)
+			quote.setPhone(phoneSelect.getValue().toString());
+
+		if (deliveryDate.getEnteredDate() != null)
+			quote.setDeliveryDate(deliveryDate.getEnteredDate().getDate());
+
+		if (salesPerson != null)
+			quote.setSalesPerson(salesPerson);
+
+		if (priceLevel != null)
+			quote.setPriceLevel(priceLevel);
+
+		quote.setMemo(memoTextAreaItem.getValue().toString());
+
+		if (billingAddress != null)
+			quote.setAddress(billingAddress);
+
+		// quote.setReference(this.refText.getValue() != null ? this.refText
+		// .getValue().toString() : "");
+		quote.setPaymentTerm(Utility.getID(paymentTerm));
+		quote.setNetAmount(netAmountLabel.getAmount());
+
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
+		} else
+			quote.setSalesTax(this.salesTax);
+
+		quote.setTotal(transactionTotalNonEditableText.getAmount());
+		transaction = quote;
 
 		super.saveAndUpdateView();
 
 		saveOrUpdate((ClientEstimate) transaction);
 
-	}
-
-	protected void updateTransaction() {
-		super.updateTransaction();
-		if (quoteExpiryDate.getEnteredDate() != null)
-			transaction.setExpirationDate(quoteExpiryDate.getEnteredDate()
-					.getDate());
-		if (getCustomer() != null)
-			transaction.setCustomer(getCustomer());
-		if (contact != null)
-			transaction.setContact(contact);
-		if (phoneSelect.getValue() != null)
-			transaction.setPhone(phoneSelect.getValue().toString());
-
-		if (deliveryDate.getEnteredDate() != null)
-			transaction
-					.setDeliveryDate(deliveryDate.getEnteredDate().getDate());
-
-		if (salesPerson != null)
-			transaction.setSalesPerson(salesPerson);
-
-		if (priceLevel != null)
-			transaction.setPriceLevel(priceLevel);
-
-		transaction.setMemo(memoTextAreaItem.getValue().toString());
-
-		if (billingAddress != null)
-			transaction.setAddress(billingAddress);
-
-		// transaction.setReference(this.refText.getValue() != null ?
-		// this.refText
-		// .getValue().toString() : "");
-		transaction.setPaymentTerm(Utility.getID(paymentTerm));
-		transaction.setNetAmount(netAmountLabel.getAmount());
-
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
-		} else
-			transaction.setSalesTax(this.salesTax);
-
-		transaction.setTotal(transactionTotalNonEditableText.getAmount());
 	}
 
 	@Override
@@ -444,7 +434,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void initMemoAndReference() {
 
-		if (isEdit) {
+		if (this.transaction != null) {
 
 			ClientEstimate quote = (ClientEstimate) transaction;
 
@@ -461,7 +451,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void initSalesTaxNonEditableItem() {
-		if (isEdit) {
+		if (transaction != null) {
 			Double salesTaxAmout = ((ClientEstimate) transaction).getSalesTax();
 			if (salesTaxAmout != null) {
 				salesTaxTextNonEditable.setAmount(salesTaxAmout);
@@ -473,7 +463,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (isEdit) {
+		if (transaction != null) {
 			Double transactionTotal = ((ClientEstimate) transaction).getTotal();
 			if (transactionTotal != null) {
 				transactionTotalNonEditableText.setAmount(transactionTotal);
@@ -484,74 +474,75 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
+	protected void initTransactionViewData() {
 
-		initTransactionViewData();
-		ClientEstimate estimate = (ClientEstimate) transactionObject;
+		if (transaction == null) {
+			setData(new ClientEstimate());
+		} else {
+			ClientCompany company = getCompany();
+			this.setCustomer(company.getCustomer(transaction.getCustomer()));
+			if (this.getCustomer() != null) {
+				this.contacts = getCustomer().getContacts();
+			}
 
-		estimate = (ClientEstimate) transactionObject;
+			// customerSelected(FinanceApplication.getCompany().getCustomer(
+			// estimate.getCustomer()));
+			this.contact = transaction.getContact();
 
-		ClientCompany company = getCompany();
-		this.setCustomer(company.getCustomer(estimate.getCustomer()));
-		this.transaction = estimate;
-		if (this.getCustomer() != null) {
+			this.phoneNo = transaction.getPhone();
+			phoneSelect.setValue(this.phoneNo);
+			this.billingAddress = transaction.getAddress();
+			this.paymentTerm = company.getPaymentTerms(transaction
+					.getPaymentTerm());
+			this.priceLevel = company.getPriceLevel(transaction.getPriceLevel());
+			this.salesPerson = company
+					.getSalesPerson(transaction.getSalesPerson());
+			initTransactionNumber();
+			if (getCustomer() != null) {
+				customerCombo.setComboItem(getCustomer());
+			}
+			// billToaddressSelected(this.billingAddress);
+			if (billingAddress != null) {
 
-			this.contacts = getCustomer().getContacts();
+				billToTextArea.setValue(getValidAddress(billingAddress));
+
+			} else
+				billToTextArea.setValue("");
+			contactSelected(this.contact);
+			paymentTermsSelected(this.paymentTerm);
+			priceLevelSelected(this.priceLevel);
+			salesPersonSelected(this.salesPerson);
+			this.transactionItems = transaction.getTransactionItems();
+
+			if (transaction.getDeliveryDate() != 0)
+				this.deliveryDate.setValue(new ClientFinanceDate(transaction
+						.getDeliveryDate()));
+			if (transaction.getExpirationDate() != 0)
+				this.quoteExpiryDate.setValue(new ClientFinanceDate(transaction
+						.getExpirationDate()));
+
+			if (transaction.getID() != 0) {
+				isEdit = Boolean.TRUE;
+			}
+			this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+			// taxCodeSelected(this.taxCode);
+			if (taxCode != null) {
+				this.taxCodeSelect
+						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+			}
+			memoTextAreaItem.setValue(transaction.getMemo());
+			// refText.setValue(estimate.getReference());
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				netAmountLabel.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setValue(transaction.getTotal()
+						- transaction.getNetAmount());
+			}
+			memoTextAreaItem.setDisabled(true);
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+			customerTransactionGrid.setCanEdit(false);
 		}
-
-		// customerSelected(FinanceApplication.getCompany().getCustomer(
-		// estimate.getCustomer()));
-		this.contact = estimate.getContact();
-
-		this.phoneNo = estimate.getPhone();
-		phoneSelect.setValue(this.phoneNo);
-		this.billingAddress = estimate.getAddress();
-		this.paymentTerm = company.getPaymentTerms(estimate.getPaymentTerm());
-		this.priceLevel = company.getPriceLevel(estimate.getPriceLevel());
-		this.salesPerson = company.getSalesPerson(estimate.getSalesPerson());
-		initTransactionNumber();
-		if (getCustomer() != null) {
-			customerCombo.setComboItem(getCustomer());
-		}
-		// billToaddressSelected(this.billingAddress);
-		if (billingAddress != null) {
-
-			billToTextArea.setValue(getValidAddress(billingAddress));
-
-		} else
-			billToTextArea.setValue("");
-		contactSelected(this.contact);
-		paymentTermsSelected(this.paymentTerm);
-		priceLevelSelected(this.priceLevel);
-		salesPersonSelected(this.salesPerson);
-		this.transactionItems = estimate.getTransactionItems();
-
-		if (estimate.getDeliveryDate() != 0)
-			this.deliveryDate.setValue(new ClientFinanceDate(estimate
-					.getDeliveryDate()));
-		if (estimate.getExpirationDate() != 0)
-			this.quoteExpiryDate.setValue(new ClientFinanceDate(estimate
-					.getExpirationDate()));
-
-		if (estimate.getID() != 0) {
-			isEdit = Boolean.TRUE;
-		}
-		this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-		// taxCodeSelected(this.taxCode);
-		if (taxCode != null) {
-			this.taxCodeSelect
-					.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
-		}
-		memoTextAreaItem.setValue(estimate.getMemo());
-		// refText.setValue(estimate.getReference());
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmountLabel.setAmount(estimate.getNetAmount());
-			vatTotalNonEditableText.setValue(estimate.getTotal()
-					- estimate.getNetAmount());
-		}
-		memoTextAreaItem.setDisabled(true);
-		transactionTotalNonEditableText.setAmount(estimate.getTotal());
-		customerTransactionGrid.setCanEdit(false);
+		super.initTransactionViewData();
+		initAllItems();
 	}
 
 	@Override

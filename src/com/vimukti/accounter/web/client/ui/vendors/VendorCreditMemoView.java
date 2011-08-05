@@ -39,15 +39,6 @@ public class VendorCreditMemoView extends
 	}
 
 	@Override
-	protected void initTransactionViewData() {
-		// if (transactionObject == null)
-		// resetElements();
-		super.initTransactionViewData();
-		// initTransactionNumber();
-
-	}
-
-	@Override
 	protected void vendorSelected(ClientVendor vendor) {
 		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientVendorCreditMemo ent = (ClientVendorCreditMemo) this.transaction;
@@ -72,26 +63,30 @@ public class VendorCreditMemoView extends
 	}
 
 	@Override
-	public void initTransactionViewData(ClientTransaction transactionObject) {
+	public void initTransactionViewData() {
 
-		ClientVendorCreditMemo vendorCreditMemo = (ClientVendorCreditMemo) transactionObject;
-		vendorSelected(getCompany().getVendor(vendorCreditMemo.getVendor()));
-		contactSelected(vendorCreditMemo.getContact());
-		phoneSelect.setValue(vendorCreditMemo.getPhone());
-		transactionNumber.setValue(vendorCreditMemo.getNumber());
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(vendorCreditMemo.getNetAmount());
-			vatTotalNonEditableText.setAmount(vendorCreditMemo.getTotal()
-					- vendorCreditMemo.getNetAmount());
-		}
-		transactionTotalNonEditableText.setAmount(vendorCreditMemo.getTotal());
+		if (transaction == null) {
+			setData(new ClientVendorCreditMemo());
+		} else {
 
-		if (vatinclusiveCheck != null) {
-			setAmountIncludeChkValue(transactionObject.isAmountsIncludeVAT());
+			vendorSelected(getCompany().getVendor(transaction.getVendor()));
+			contactSelected(transaction.getContact());
+			phoneSelect.setValue(transaction.getPhone());
+			transactionNumber.setValue(transaction.getNumber());
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				netAmount.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setAmount(transaction.getTotal()
+						- transaction.getNetAmount());
+			}
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+
+			if (vatinclusiveCheck != null) {
+				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+			}
+			vendorTransactionGrid.setCanEdit(false);
 		}
-		vendorTransactionGrid.setCanEdit(false);
 		initMemoAndReference();
-		initTransactionViewData();
+		super.initTransactionViewData();
 
 	}
 

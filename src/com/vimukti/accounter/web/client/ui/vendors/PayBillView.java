@@ -626,31 +626,36 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientPayBill());
+		} else {
 
-		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
+			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 
-		this.transactionItems = transaction.getTransactionItems();
+			this.transactionItems = transaction.getTransactionItems();
 
-		payFromCombo.setComboItem(getCompany().getAccount(
-				transaction.getPayFrom()));
-		date.setValue(transaction.getDate());
-		date.setDisabled(true);
-		accountSelected(getCompany().getAccount(transaction.getPayFrom()));
+			payFromCombo.setComboItem(getCompany().getAccount(
+					transaction.getPayFrom()));
+			date.setValue(transaction.getDate());
+			date.setDisabled(true);
+			accountSelected(getCompany().getAccount(transaction.getPayFrom()));
 
-		dueDate.setValue(new ClientFinanceDate(transaction
-				.getBillDueOnOrBefore()));
-		dueDate.setDisabled(true);
+			dueDate.setValue(new ClientFinanceDate(transaction
+					.getBillDueOnOrBefore()));
+			dueDate.setDisabled(true);
 
-		this.setVendor(getCompany().getVendor(transaction.getVendor()));
-		vendorSelected(getCompany().getVendor(transaction.getVendor()));
+			this.setVendor(getCompany().getVendor(transaction.getVendor()));
+			vendorSelected(getCompany().getVendor(transaction.getVendor()));
 
-		amtText.setAmount(transaction.getTotal());
-		endBalText.setAmount(transaction.getEndingBalance());
-		initListGridData(this.transaction.getTransactionPayBill());
-		initTransactionTotalNonEditableItem();
-		memoTextAreaItem.setDisabled(true);
-		initTransactionViewData();
+			amtText.setAmount(transaction.getTotal());
+			endBalText.setAmount(transaction.getEndingBalance());
+			initListGridData(this.transaction.getTransactionPayBill());
+			initTransactionTotalNonEditableItem();
+			memoTextAreaItem.setDisabled(true);
+		}
+		super.initTransactionViewData();
+		initPayFromAccounts();
 	}
 
 	private void initListGridData(List<ClientTransactionPayBill> list) {
@@ -705,14 +710,6 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			}
 		}
 		return result;
-	}
-
-	@Override
-	protected void initTransactionViewData() {
-
-		super.initTransactionViewData();
-		initPayFromAccounts();
-
 	}
 
 	@Override

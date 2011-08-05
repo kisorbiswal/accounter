@@ -586,102 +586,93 @@ public class PurchaseOrderView extends
 
 	@Override
 	protected void initTransactionViewData() {
-		super.initTransactionViewData();
+		if (transaction == null) {
+			setData(new ClientPurchaseOrder());
+			super.initTransactionViewData();
+			initVendorAddressCombo();
+			initShipToCombo();
+			initPaymentTerms();
+			initShippingTerms();
+			initShippingMethod();
+		} else {
 
-		// initTransactionNumber();
+			ClientCompany company = getCompany();
 
-		initVendorAddressCombo();
+			// String status;
+			// if (purchaseOrderToBeEdited.getStatus() ==
+			// ClientPurchaseOrder.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			// status = "Un-Applied";
+			// else if (purchaseOrderToBeEdited.getStatus() ==
+			// ClientPurchaseOrder.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
+			// status = "Partially Applied";
+			// else
+			// status = "Applied";
+			// lab1.setText(FinanceApplication.constants().purchaseOrder()
+			// + " (" + status + ")");
+			this.dueDate = transaction.getDueDate();
+			this.despatchDate = transaction.getDespatchDate();
+			this.deliveryDate = transaction.getDeliveryDate();
 
-		initShipToCombo();
+			this.transactionItems = transaction.getTransactionItems();
 
-		initPaymentTerms();
+			initTransactionNumber();
+			vendorSelected(company.getVendor(transaction.getVendor()));
+			contactSelected(transaction.getContact());
+			phoneSelect.setValue(transaction.getPhone());
+			// vendoraddressSelected(purchaseOrderToBeEdited.getVendorAddress());
+			// shipToAddressSelected(purchaseOrderToBeEdited.getShippingAddress());
 
-		initShippingTerms();
+			List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+			if (getVendor() != null)
+				addresses.addAll(getVendor().getAddress());
+			shipToAddress.setListOfCustomerAdress(addresses);
+			if (shippingAddress != null) {
+				shipToAddress.businessSelect.setValue(shippingAddress
+						.getAddressTypes().get(shippingAddress.getType()));
+				shipToAddress.setAddres(shippingAddress);
+			}
+			shipToAddress.businessSelect.setDisabled(true);
 
-		initShippingMethod();
-	}
+			this.addressListOfVendor = getVendor().getAddress();
 
-	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		ClientPurchaseOrder purchaseOrderToBeEdited = (ClientPurchaseOrder) transactionObject;
+			if (billingAddress != null) {
 
-		ClientCompany company = getCompany();
+				billtoAreaItem.setValue(getValidAddress(billingAddress));
 
-		// String status;
-		// if (purchaseOrderToBeEdited.getStatus() ==
-		// ClientPurchaseOrder.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-		// status = "Un-Applied";
-		// else if (purchaseOrderToBeEdited.getStatus() ==
-		// ClientPurchaseOrder.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
-		// status = "Partially Applied";
-		// else
-		// status = "Applied";
-		// lab1.setText(FinanceApplication.constants().purchaseOrder()
-		// + " (" + status + ")");
-		this.dueDate = purchaseOrderToBeEdited.getDueDate();
-		this.despatchDate = purchaseOrderToBeEdited.getDespatchDate();
-		this.deliveryDate = purchaseOrderToBeEdited.getDeliveryDate();
+			} else
+				billtoAreaItem.setValue("");
 
-		this.transactionItems = purchaseOrderToBeEdited.getTransactionItems();
+			purchaseOrderText.setValue(transaction.getPurchaseOrderNumber());
 
-		initTransactionNumber();
-		vendorSelected(company.getVendor(purchaseOrderToBeEdited.getVendor()));
-		contactSelected(purchaseOrderToBeEdited.getContact());
-		phoneSelect.setValue(purchaseOrderToBeEdited.getPhone());
-		// vendoraddressSelected(purchaseOrderToBeEdited.getVendorAddress());
-		// shipToAddressSelected(purchaseOrderToBeEdited.getShippingAddress());
+			paymentTermsSelected(company.getPaymentTerms(transaction
+					.getPaymentTerm()));
+			shippingTermsSelected(company.getShippingTerms(transaction
+					.getShippingTerms()));
+			shippingMethodSelected(company.getShippingMethod(transaction
+					.getShippingMethod()));
+			dueDateItem.setEnteredDate(new ClientFinanceDate(transaction
+					.getDueDate()));
+			despatchDateItem.setEnteredDate(new ClientFinanceDate(transaction
+					.getDespatchDate()));
+			deliveryDateItem.setEnteredDate(new ClientFinanceDate(transaction
+					.getDeliveryDate()));
+			memoTextAreaItem.setValue(transaction.getMemo());
+			// refText.setValue(purchaseOrderToBeEdited.getReference());
+			vendorTransactionGrid.setCanEdit(false);
 
-		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
-		if (getVendor() != null)
-			addresses.addAll(getVendor().getAddress());
-		shipToAddress.setListOfCustomerAdress(addresses);
-		if (shippingAddress != null) {
-			shipToAddress.businessSelect.setValue(shippingAddress
-					.getAddressTypes().get(shippingAddress.getType()));
-			shipToAddress.setAddres(shippingAddress);
-		}
-		shipToAddress.businessSelect.setDisabled(true);
-
-		this.addressListOfVendor = getVendor().getAddress();
-
-		if (billingAddress != null) {
-
-			billtoAreaItem.setValue(getValidAddress(billingAddress));
-
-		} else
-			billtoAreaItem.setValue("");
-
-		purchaseOrderText.setValue(purchaseOrderToBeEdited
-				.getPurchaseOrderNumber());
-
-		paymentTermsSelected(company.getPaymentTerms(purchaseOrderToBeEdited
-				.getPaymentTerm()));
-		shippingTermsSelected(company.getShippingTerms(purchaseOrderToBeEdited
-				.getShippingTerms()));
-		shippingMethodSelected(company
-				.getShippingMethod(purchaseOrderToBeEdited.getShippingMethod()));
-		dueDateItem.setEnteredDate(new ClientFinanceDate(
-				purchaseOrderToBeEdited.getDueDate()));
-		despatchDateItem.setEnteredDate(new ClientFinanceDate(
-				purchaseOrderToBeEdited.getDespatchDate()));
-		deliveryDateItem.setEnteredDate(new ClientFinanceDate(
-				purchaseOrderToBeEdited.getDeliveryDate()));
-		memoTextAreaItem.setValue(purchaseOrderToBeEdited.getMemo());
-		// refText.setValue(purchaseOrderToBeEdited.getReference());
-		vendorTransactionGrid.setCanEdit(false);
-
-		int status = purchaseOrderToBeEdited.getStatus();
-		switch (status) {
-		case ClientTransaction.STATUS_OPEN:
-			statusSelect.setComboItem(OPEN);
-			break;
-		case ClientTransaction.STATUS_COMPLETED:
-			statusSelect.setComboItem(COMPLETED);
-			break;
-		case ClientTransaction.STATUS_CANCELLED:
-			statusSelect.setComboItem(CANCELLED);
-		default:
-			break;
+			int status = transaction.getStatus();
+			switch (status) {
+			case ClientTransaction.STATUS_OPEN:
+				statusSelect.setComboItem(OPEN);
+				break;
+			case ClientTransaction.STATUS_COMPLETED:
+				statusSelect.setComboItem(COMPLETED);
+				break;
+			case ClientTransaction.STATUS_CANCELLED:
+				statusSelect.setComboItem(CANCELLED);
+			default:
+				break;
+			}
 		}
 
 	}

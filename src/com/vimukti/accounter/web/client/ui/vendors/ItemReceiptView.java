@@ -305,14 +305,6 @@ public class ItemReceiptView extends
 
 	}
 
-	@Override
-	protected void initTransactionViewData() {
-		super.initTransactionViewData();
-		initTransactionNumber();
-		initPaymentTerms();
-		// initPayFromAccounts();
-	}
-
 	private void initPaymentTerms() {
 
 		List<ClientPaymentTerms> paymentTermsList = Accounter.getCompany()
@@ -340,43 +332,46 @@ public class ItemReceiptView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		ClientItemReceipt itemReceipt = (ClientItemReceipt) transactionObject;
-		ClientCompany company = getCompany();
-		this.setVendor(company.getVendor(itemReceipt.getVendor()));
-		this.contact = itemReceipt.getContact();
-		if (itemReceipt.getPhone() != null)
-			this.phoneNo = itemReceipt.getPhone();
-		phoneSelect.setValue(this.phoneNo);
-		// this.ve = itemReceipt.getVendorAddress();
-		this.billingAddress = itemReceipt.getVendorAddress();
-		this.paymentTerm = company
-				.getPaymentTerms(itemReceipt.getPaymentTerm());
-		if (itemReceipt.getDeliveryDate() != 0) {
-			deliveryDateItem.setValue(new ClientFinanceDate(itemReceipt
-					.getDeliveryDate()));
-		}
-		this.deliveryDate = itemReceipt.getDeliveryDate();
-		this.transactionItems = itemReceipt.getTransactionItems();
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientItemReceipt());
+		} else {
+			ClientCompany company = getCompany();
+			this.setVendor(company.getVendor(transaction.getVendor()));
+			this.contact = transaction.getContact();
+			if (transaction.getPhone() != null)
+				this.phoneNo = transaction.getPhone();
+			phoneSelect.setValue(this.phoneNo);
+			// this.ve = itemReceipt.getVendorAddress();
+			this.billingAddress = transaction.getVendorAddress();
+			this.paymentTerm = company.getPaymentTerms(transaction
+					.getPaymentTerm());
+			if (transaction.getDeliveryDate() != 0) {
+				deliveryDateItem.setValue(new ClientFinanceDate(transaction
+						.getDeliveryDate()));
+			}
+			this.deliveryDate = transaction.getDeliveryDate();
+			this.transactionItems = transaction.getTransactionItems();
 
+			vendorSelected(this.getVendor());
+			paymentTermsSelected(this.paymentTerm);
+
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				netAmount.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setAmount(transaction.getTotal()
+						- transaction.getNetAmount());
+			}
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+
+			if (vatinclusiveCheck != null) {
+				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+			}
+			if (transaction.getMemo() != null)
+				memoTextAreaItem.setValue(transaction.getMemo());
+		}
+		super.initTransactionViewData();
+		initPaymentTerms();
 		initTransactionNumber();
-		vendorSelected(this.getVendor());
-		paymentTermsSelected(this.paymentTerm);
-
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(itemReceipt.getNetAmount());
-			vatTotalNonEditableText.setAmount(itemReceipt.getTotal()
-					- itemReceipt.getNetAmount());
-		}
-		transactionTotalNonEditableText.setAmount(itemReceipt.getTotal());
-
-		if (vatinclusiveCheck != null) {
-			setAmountIncludeChkValue(itemReceipt.isAmountsIncludeVAT());
-		}
-		if (itemReceipt.getMemo() != null)
-			memoTextAreaItem.setValue(itemReceipt.getMemo());
-		// if (itemReceipt.getReference() != null)
-		// refText.setValue(itemReceipt.getReference());
 	}
 
 	@Override

@@ -172,8 +172,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	 */
 	protected String[] customerChanges;
 
-	private CashSalesView CashSalesView;
-
 	protected ClientCustomer customer;
 
 	@Override

@@ -315,13 +315,6 @@ public class CashSalesView extends
 	}
 
 	@Override
-	protected void initTransactionViewData() {
-		super.initTransactionViewData();
-		initCashSalesView();
-
-	}
-
-	@Override
 	protected void customerSelected(ClientCustomer customer) {
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCashSales ent = (ClientCashSales) this.transaction;
@@ -476,93 +469,94 @@ public class CashSalesView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		initTransactionViewData();
-		ClientCashSales cashSale = (ClientCashSales) transactionObject;
-		ClientCompany company = getCompany();
-		if (cashSale == null) {
-			UIUtils.err(Accounter.constants().unableToLoadRequiredQuote());
-			return;
-		}
-
-		this.transaction = cashSale;
-		this.setCustomer(company.getCustomer(cashSale.getCustomer()));
-		// customerSelected(FinanceApplication.getCompany().getCustomer(
-		// cashSale.getCustomer()));
-
-		if (this.getCustomer() != null) {
-
-			this.contacts = getCustomer().getContacts();
-		}
-		this.contact = cashSale.getContact();
-		this.phoneNo = cashSale.getPhone();
-		phoneSelect.setValue(this.phoneNo);
-
-		this.billingAddress = cashSale.getBillingAddress();
-		this.shippingAddress = cashSale.getShippingAdress();
-
-		this.priceLevel = company.getPriceLevel(cashSale.getPriceLevel());
-
-		this.salesPerson = company.getSalesPerson(cashSale.getSalesPerson());
-		this.shippingTerm = company
-				.getShippingTerms(cashSale.getShippingTerm());
-		this.shippingMethod = company.getShippingMethod(cashSale
-				.getShippingMethod());
-		this.depositInAccount = company.getAccount(cashSale.getDepositIn());
-
-		initTransactionNumber();
-		if (getCustomer() != null) {
-			customerCombo.setComboItem(getCustomer());
-		}
-		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
-		if (getCustomer() != null)
-			addresses.addAll(getCustomer().getAddress());
-		shipToAddress.setListOfCustomerAdress(addresses);
-		if (shippingAddress != null) {
-			shipToAddress.businessSelect.setValue(shippingAddress
-					.getAddressTypes().get(shippingAddress.getType()));
-			shipToAddress.setAddres(shippingAddress);
-		}
-		if (billingAddress != null) {
-
-			billToTextArea.setValue(getValidAddress(billingAddress));
-
-		} else
-			billToTextArea.setValue("");
-		contactSelected(this.contact);
-		priceLevelSelected(this.priceLevel);
-		salesPersonSelected(this.salesPerson);
-		shippingMethodSelected(this.shippingMethod);
-		shippingTermSelected(this.shippingTerm);
-		depositInAccountSelected(this.depositInAccount);
-
-		this.transactionItems = cashSale.getTransactionItems();
-		paymentMethodCombo.setComboItem(cashSale.getPaymentMethod());
-
-		if (cashSale.getDeliverydate() != 0)
-			this.deliveryDate.setEnteredDate(new ClientFinanceDate(cashSale
-					.getDeliverydate()));
-
-		if (cashSale.getID() != 0) {
-			isEdit = Boolean.TRUE;
-		}
-		memoTextAreaItem.setValue(cashSale.getMemo());
-		// refText.setValue(cashSale.getReference());
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmountLabel.setAmount(cashSale.getNetAmount());
-			vatTotalNonEditableText.setAmount(cashSale.getTotal()
-					- cashSale.getNetAmount());
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientCashSales());
 		} else {
-			this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-			if (taxCode != null) {
-				this.taxCodeSelect
-						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+
+			ClientCompany company = getCompany();
+
+			this.setCustomer(company.getCustomer(transaction.getCustomer()));
+			// customerSelected(FinanceApplication.getCompany().getCustomer(
+			// cashSale.getCustomer()));
+
+			if (this.getCustomer() != null) {
+
+				this.contacts = getCustomer().getContacts();
 			}
-			this.salesTaxTextNonEditable.setValue(cashSale.getSalesTax());
+			this.contact = transaction.getContact();
+			this.phoneNo = transaction.getPhone();
+			phoneSelect.setValue(this.phoneNo);
+
+			this.billingAddress = transaction.getBillingAddress();
+			this.shippingAddress = transaction.getShippingAdress();
+
+			this.priceLevel = company.getPriceLevel(transaction.getPriceLevel());
+
+			this.salesPerson = company
+					.getSalesPerson(transaction.getSalesPerson());
+			this.shippingTerm = company.getShippingTerms(transaction
+					.getShippingTerm());
+			this.shippingMethod = company.getShippingMethod(transaction
+					.getShippingMethod());
+			this.depositInAccount = company.getAccount(transaction.getDepositIn());
+
+			initTransactionNumber();
+			if (getCustomer() != null) {
+				customerCombo.setComboItem(getCustomer());
+			}
+			List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+			if (getCustomer() != null)
+				addresses.addAll(getCustomer().getAddress());
+			shipToAddress.setListOfCustomerAdress(addresses);
+			if (shippingAddress != null) {
+				shipToAddress.businessSelect.setValue(shippingAddress
+						.getAddressTypes().get(shippingAddress.getType()));
+				shipToAddress.setAddres(shippingAddress);
+			}
+			if (billingAddress != null) {
+
+				billToTextArea.setValue(getValidAddress(billingAddress));
+
+			} else
+				billToTextArea.setValue("");
+			contactSelected(this.contact);
+			priceLevelSelected(this.priceLevel);
+			salesPersonSelected(this.salesPerson);
+			shippingMethodSelected(this.shippingMethod);
+			shippingTermSelected(this.shippingTerm);
+			depositInAccountSelected(this.depositInAccount);
+
+			this.transactionItems = transaction.getTransactionItems();
+			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
+
+			if (transaction.getDeliverydate() != 0)
+				this.deliveryDate.setEnteredDate(new ClientFinanceDate(transaction
+						.getDeliverydate()));
+
+			if (transaction.getID() != 0) {
+				isEdit = Boolean.TRUE;
+			}
+			memoTextAreaItem.setValue(transaction.getMemo());
+			// refText.setValue(cashSale.getReference());
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				netAmountLabel.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setAmount(transaction.getTotal()
+						- transaction.getNetAmount());
+			} else {
+				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+				if (taxCode != null) {
+					this.taxCodeSelect
+							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+				}
+				this.salesTaxTextNonEditable.setValue(transaction.getSalesTax());
+			}
+			memoTextAreaItem.setDisabled(true);
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+			customerTransactionGrid.setCanEdit(false);
 		}
-		memoTextAreaItem.setDisabled(true);
-		transactionTotalNonEditableText.setAmount(cashSale.getTotal());
-		customerTransactionGrid.setCanEdit(false);
+		super.initTransactionViewData();
+		initCashSalesView();
 	}
 
 	@Override

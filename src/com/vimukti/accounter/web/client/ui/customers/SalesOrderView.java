@@ -469,39 +469,6 @@ public class SalesOrderView extends
 
 	}
 
-	@Override
-	protected void initTransactionViewData() {
-
-		initCustomers();
-
-		initPriceLevels();
-
-		initSalesPersons();
-
-		// initTaxGroups();
-		// =======
-		initTaxItemGroups();
-
-		initSalesTaxNonEditableItem();
-
-		initTransactionTotalNonEditableItem();
-
-		initMemoAndReference();
-
-		initPaymentTerms();
-
-		initShippingTerms();
-
-		initShippingMethod();
-
-		initDueDate();
-
-		// initPayments();
-
-		// initBalanceDue();
-
-	}
-
 	private void initDueDate() {
 
 		// if (transactionObject != null) {
@@ -527,125 +494,118 @@ public class SalesOrderView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientSalesOrder());
+			initCustomers();
+			initPriceLevels();
+			initTaxItemGroups();
+			initSalesTaxNonEditableItem();
+			initTransactionTotalNonEditableItem();
+			initMemoAndReference();
+			initPaymentTerms();
+			initShippingTerms();
+			initShippingMethod();
+			initDueDate();
+		} else {
 
-		ClientSalesOrder salesOrderToBeEdited = (ClientSalesOrder) transactionObject;
+			ClientCompany company = getCompany();
+			this.setCustomer(company.getCustomer(transaction.getCustomer()));
+			this.billingAddress = transaction.getBillingAddress();
 
-		ClientCompany company = getCompany();
-		this.setCustomer(company.getCustomer(salesOrderToBeEdited.getCustomer()));
-		this.billingAddress = salesOrderToBeEdited.getBillingAddress();
+			this.contact = transaction.getContact();
+			this.addressListOfCustomer = getCustomer().getAddress();
 
-		this.contact = salesOrderToBeEdited.getContact();
-		this.addressListOfCustomer = getCustomer().getAddress();
+			if (billingAddress != null) {
+				billToTextArea.setValue(billingAddress.getAddress1() + "\n"
+						+ billingAddress.getStreet() + "\n"
+						+ billingAddress.getCity() + "\n"
+						+ billingAddress.getStateOrProvinence() + "\n"
+						+ billingAddress.getZipOrPostalCode() + "\n"
+						+ billingAddress.getCountryOrRegion());
 
-		if (billingAddress != null) {
-			billToTextArea.setValue(billingAddress.getAddress1() + "\n"
-					+ billingAddress.getStreet() + "\n"
-					+ billingAddress.getCity() + "\n"
-					+ billingAddress.getStateOrProvinence() + "\n"
-					+ billingAddress.getZipOrPostalCode() + "\n"
-					+ billingAddress.getCountryOrRegion());
+			}
+			this.shippingAddress = transaction.getShippingAdress();
+			List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+			if (getCustomer() != null)
+				addresses.addAll(getCustomer().getAddress());
+			shipToAddress.setListOfCustomerAdress(addresses);
+			if (shippingAddress != null) {
+				shipToAddress.businessSelect.setValue(shippingAddress
+						.getAddressTypes().get(shippingAddress.getType()));
+				shipToAddress.setAddres(shippingAddress);
+			}
 
+			// this.priceLevel = company.getPriceLevel(salesOrderToBeEdited
+			// .getPriceLevel());
+			shippingMethodSelected(company.getShippingMethod(transaction
+					.getShippingMethod()));
+			this.paymentTerm = company.getPaymentTerms(transaction
+					.getPaymentTerm());
+			shippingTermSelected(company.getShippingTerms(transaction
+					.getShippingTerm()));
+			this.transactionItems = transaction.getTransactionItems();
+			// this.taxCode =
+			// getTaxItemGroupForTransactionItems(this.transactionItems);
+
+			customerSelected(this.getCustomer());
+			int status = transaction.getStatus();
+			switch (status) {
+			case ClientTransaction.STATUS_OPEN:
+				statusSelect.setComboItem(OPEN);
+				break;
+			case ClientTransaction.STATUS_COMPLETED:
+				statusSelect.setComboItem(COMPLETED);
+				break;
+			case ClientTransaction.STATUS_CANCELLED:
+				statusSelect.setComboItem(CANCELLED);
+			default:
+				break;
+			}
+
+			if (transaction.getPhone() != null)
+				phoneNo = transaction.getPhone();
+			if (getCustomer().getPhoneNo().isEmpty())
+				phoneSelect.setValue(phoneNo);
+
+			contactSelected(this.contact);
+
+			// billToaddressSelected(this.billingAddress);
+			// shipToAddressSelected(shippingAddress);
+
+			customerOrderText.setValue(transaction.getCustomerOrderNumber());
+			paymentTermsSelected(this.paymentTerm);
+			// priceLevelSelected(this.priceLevel);
+			salesPersonSelected(company.getSalesPerson(transaction
+					.getSalesPerson()));
+			shippingMethodSelected(this.shippingMethod);
+			shippingTermSelected(this.shippingTerm);
+			taxCodeSelected(this.taxCode);
+			dueDateItem.setEnteredDate(new ClientFinanceDate(transaction
+					.getDueDate()));
+
+			memoTextAreaItem.setValue(transaction.getMemo());
+			// refText.setValue(salesOrderToBeEdited.getReference());
+
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				netAmountLabel.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setAmount(transaction.getTotal()
+						- transaction.getNetAmount());
+			} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
+				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+				if (taxCode != null) {
+					this.taxCodeSelect
+							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+				}
+				this.salesTaxTextNonEditable.setAmount(transaction
+						.getSalesTaxAmount());
+				this.transactionTotalNonEditableText.setAmount(transaction
+						.getTotal());
+			}
+			customerTransactionGrid.setCanEdit(false);
 		}
-		this.shippingAddress = salesOrderToBeEdited.getShippingAdress();
-		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
-		if (getCustomer() != null)
-			addresses.addAll(getCustomer().getAddress());
-		shipToAddress.setListOfCustomerAdress(addresses);
-		if (shippingAddress != null) {
-			shipToAddress.businessSelect.setValue(shippingAddress
-					.getAddressTypes().get(shippingAddress.getType()));
-			shipToAddress.setAddres(shippingAddress);
-		}
-
-		// this.priceLevel = company.getPriceLevel(salesOrderToBeEdited
-		// .getPriceLevel());
-		shippingMethodSelected(company.getShippingMethod(salesOrderToBeEdited
-				.getShippingMethod()));
-		this.paymentTerm = company.getPaymentTerms(salesOrderToBeEdited
-				.getPaymentTerm());
-		shippingTermSelected(company.getShippingTerms(salesOrderToBeEdited
-				.getShippingTerm()));
-		this.transactionItems = salesOrderToBeEdited.getTransactionItems();
-		// this.taxCode =
-		// getTaxItemGroupForTransactionItems(this.transactionItems);
-
-		customerSelected(this.getCustomer());
-		int status = salesOrderToBeEdited.getStatus();
-		switch (status) {
-		case ClientTransaction.STATUS_OPEN:
-			statusSelect.setComboItem(OPEN);
-			break;
-		case ClientTransaction.STATUS_COMPLETED:
-			statusSelect.setComboItem(COMPLETED);
-			break;
-		case ClientTransaction.STATUS_CANCELLED:
-			statusSelect.setComboItem(CANCELLED);
-		default:
-			break;
-		}
-
 		initTransactionNumber();
 		initSalesPersons();
-
-		if (salesOrderToBeEdited.getPhone() != null)
-			phoneNo = salesOrderToBeEdited.getPhone();
-		if (getCustomer().getPhoneNo().isEmpty())
-			phoneSelect.setValue(phoneNo);
-
-		contactSelected(this.contact);
-
-		// billToaddressSelected(this.billingAddress);
-		// shipToAddressSelected(shippingAddress);
-
-		customerOrderText.setValue(salesOrderToBeEdited
-				.getCustomerOrderNumber());
-		paymentTermsSelected(this.paymentTerm);
-		// priceLevelSelected(this.priceLevel);
-		salesPersonSelected(company.getSalesPerson(salesOrderToBeEdited
-				.getSalesPerson()));
-		shippingMethodSelected(this.shippingMethod);
-		shippingTermSelected(this.shippingTerm);
-		taxCodeSelected(this.taxCode);
-		dueDateItem.setEnteredDate(new ClientFinanceDate(salesOrderToBeEdited
-				.getDueDate()));
-
-		memoTextAreaItem.setValue(salesOrderToBeEdited.getMemo());
-		// refText.setValue(salesOrderToBeEdited.getReference());
-
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmountLabel.setAmount(salesOrderToBeEdited.getNetAmount());
-			vatTotalNonEditableText.setAmount(salesOrderToBeEdited.getTotal()
-					- salesOrderToBeEdited.getNetAmount());
-		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_US) {
-			this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-			if (taxCode != null) {
-				this.taxCodeSelect
-						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
-			}
-			this.salesTaxTextNonEditable.setAmount(salesOrderToBeEdited
-					.getSalesTaxAmount());
-			this.transactionTotalNonEditableText.setAmount(salesOrderToBeEdited
-					.getTotal());
-		}
-		customerTransactionGrid.setCanEdit(false);
-
-	}
-
-	@Override
-	protected void initMemoAndReference() {
-		if (this.isEdit) {
-
-			ClientSalesOrder salesOrder = (ClientSalesOrder) transaction;
-
-			if (salesOrder != null) {
-
-				memoTextAreaItem.setValue(salesOrder.getMemo());
-				// refText.setValue(salesOrder.getReference());
-
-			}
-
-		}
 	}
 
 	@Override

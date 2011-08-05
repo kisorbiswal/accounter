@@ -67,19 +67,6 @@ public class CustomerRefundView extends
 				CUSTOMER_TRANSACTION_GRID);
 	}
 
-	@Override
-	protected void initTransactionViewData() {
-
-		initRPCService();
-
-		initTransactionNumber();
-
-		initCustomers();
-
-		initPayFromAccounts();
-
-	}
-
 	private void initPayFromAccounts() {
 		// payFromSelect.initCombo(payFromAccounts);
 		// getPayFromAccounts();
@@ -273,9 +260,7 @@ public class CustomerRefundView extends
 							checkNoText.setValueField(Accounter.constants()
 									.toBePrinted());
 						else if (transaction != null) {
-							checkNoText
-									.setValue(((ClientCustomerPrePayment) transaction)
-											.getCheckNumber());
+							checkNoText.setValue(transaction.getCheckNumber());
 						}
 					}
 				} else
@@ -525,53 +510,53 @@ public class CustomerRefundView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		ClientCustomerRefund customerRefundTobeEdited = (ClientCustomerRefund) transactionObject;
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientCustomerRefund());
+		} else {
+			this.setCustomer(getCompany().getCustomer(transaction.getPayTo()));
+			customerSelected(getCompany().getCustomer(transaction.getPayTo()));
 
-		this.setCustomer(getCompany().getCustomer(
-				customerRefundTobeEdited.getPayTo()));
-		customerSelected(getCompany().getCustomer(
-				customerRefundTobeEdited.getPayTo()));
-
-		amtText.setAmount(customerRefundTobeEdited.getTotal());
-		paymentMethodSelected(customerRefundTobeEdited.getPaymentMethod());
-		if (transactionObject != null) {
+			amtText.setAmount(transaction.getTotal());
+			paymentMethodSelected(transaction.getPaymentMethod());
 			printCheck.setDisabled(true);
 
 			checkNoText.setDisabled(true);
-			ClientCustomerRefund clientCustomerRefund = (ClientCustomerRefund) transactionObject;
-			paymentMethodCombo
-					.setValue(clientCustomerRefund.getPaymentMethod());
-		}
+			paymentMethodCombo.setValue(transaction.getPaymentMethod());
 
-		if (customerRefundTobeEdited.getCheckNumber() != null) {
-			if (customerRefundTobeEdited.getCheckNumber().equals(
-					Accounter.constants().toBePrinted())) {
-				checkNoText.setValue(Accounter.constants().toBePrinted());
-				printCheck.setValue(true);
-			} else {
-				checkNoText.setValue(customerRefundTobeEdited.getCheckNumber());
-				printCheck.setValue(false);
+			if (transaction.getCheckNumber() != null) {
+				if (transaction.getCheckNumber().equals(
+						Accounter.constants().toBePrinted())) {
+					checkNoText.setValue(Accounter.constants().toBePrinted());
+					printCheck.setValue(true);
+				} else {
+					checkNoText.setValue(transaction.getCheckNumber());
+					printCheck.setValue(false);
+				}
 			}
-		}
-		this.selectedAccount = getCompany().getAccount(
-				customerRefundTobeEdited.getPayFrom());
-		if (selectedAccount != null)
-			payFromSelect.setComboItem(selectedAccount);
-		this.billingAddress = customerRefundTobeEdited.getAddress();
-		if (billingAddress != null)
-			billToaddressSelected(billingAddress);
+			this.selectedAccount = getCompany().getAccount(
+					transaction.getPayFrom());
+			if (selectedAccount != null)
+				payFromSelect.setComboItem(selectedAccount);
+			this.billingAddress = transaction.getAddress();
+			if (billingAddress != null)
+				billToaddressSelected(billingAddress);
 
-		endBalText
-				.setValue(DataUtils.getAmountAsString(customerRefundTobeEdited
-						.getEndingBalance()));
-		custBalText.setValue(DataUtils
-				.getAmountAsString(customerRefundTobeEdited
-						.getCustomerBalance()));
-		memoTextAreaItem.setDisabled(true);
-		memoTextAreaItem.setValue(customerRefundTobeEdited.getMemo());
-		// refText.setValue(customerRefundTobeEdited.getReference());
+			endBalText.setValue(DataUtils.getAmountAsString(transaction
+					.getEndingBalance()));
+			custBalText.setValue(DataUtils.getAmountAsString(transaction
+					.getCustomerBalance()));
+			memoTextAreaItem.setDisabled(true);
+			memoTextAreaItem.setValue(transaction.getMemo());
+			// refText.setValue(customerRefundTobeEdited.getReference());
+		}
+		initRPCService();
+
 		initTransactionNumber();
+
+		initCustomers();
+
+		initPayFromAccounts();
 	}
 
 	public void setCustomerBalance(Double amount) {

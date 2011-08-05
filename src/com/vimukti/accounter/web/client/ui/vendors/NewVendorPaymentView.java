@@ -61,18 +61,6 @@ public class NewVendorPaymentView extends
 
 	}
 
-	@Override
-	protected void initTransactionViewData() {
-		// if (transactionObject == null)
-		// resetElements();
-		super.initTransactionViewData();
-		initTransactionNumber();
-		if (transaction == null)
-			if (transaction == null)
-				initPayFromAccounts();
-
-	}
-
 	public void resetElements() {
 		this.setVendor(null);
 		this.addressListOfVendor = null;
@@ -89,44 +77,49 @@ public class NewVendorPaymentView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		ClientCompany comapny = getCompany();
+	protected void initTransactionViewData() {
 
-		ClientPayBill payBillToBeEdited = (ClientPayBill) transactionObject;
-		amountText.setAmount((Double) payBillToBeEdited.getUnusedAmount());
-		ClientVendor vendor = comapny.getVendor(payBillToBeEdited.getVendor());
-		vendorSelected(vendor);
-		billToaddressSelected(payBillToBeEdited.getAddress());
-		// accountSelected(comapny.getAccount(payBillToBeEdited.getPayFrom()));
-		this.payFromAccount = comapny
-				.getAccount(payBillToBeEdited.getPayFrom());
-		if (payFromAccount != null)
-			payFromCombo.setComboItem(payFromAccount);
-		amountText.setDisabled(true);
-		paymentMethodSelected(payBillToBeEdited.getPaymentMethod());
-		if (transactionObject != null) {
-			printCheck.setDisabled(true);
-			checkNo.setDisabled(true);
-			ClientPayBill clientPayBill = (ClientPayBill) transactionObject;
-			paymentMethodCombo.setComboItem(clientPayBill.getPaymentMethod());
-		}
+		if (transaction == null) {
+			setData(new ClientPayBill());
+		} else {
+			ClientCompany comapny = getCompany();
 
-		endBalText.setAmount(payBillToBeEdited.getEndingBalance());
-		vendorBalText.setAmount(vendor.getBalance());
+			amountText.setAmount((Double) transaction.getUnusedAmount());
+			ClientVendor vendor = comapny.getVendor(transaction.getVendor());
+			vendorSelected(vendor);
+			billToaddressSelected(transaction.getAddress());
+			// accountSelected(comapny.getAccount(payBillToBeEdited.getPayFrom()));
+			this.payFromAccount = comapny.getAccount(transaction.getPayFrom());
+			if (payFromAccount != null)
+				payFromCombo.setComboItem(payFromAccount);
+			amountText.setDisabled(true);
+			paymentMethodSelected(transaction.getPaymentMethod());
+			if (transaction != null) {
+				printCheck.setDisabled(true);
+				checkNo.setDisabled(true);
+				ClientPayBill clientPayBill = (ClientPayBill) transaction;
+				paymentMethodCombo.setComboItem(clientPayBill
+						.getPaymentMethod());
+			}
 
-		if (payBillToBeEdited.getCheckNumber() != null) {
-			if (payBillToBeEdited.getCheckNumber().equals(
-					Accounter.constants().toBePrinted())) {
-				checkNo.setValue(Accounter.constants().toBePrinted());
-				printCheck.setValue(true);
-			} else {
-				checkNo.setValue(payBillToBeEdited.getCheckNumber());
-				printCheck.setValue(false);
+			endBalText.setAmount(transaction.getEndingBalance());
+			vendorBalText.setAmount(vendor.getBalance());
+
+			if (transaction.getCheckNumber() != null) {
+				if (transaction.getCheckNumber().equals(
+						Accounter.constants().toBePrinted())) {
+					checkNo.setValue(Accounter.constants().toBePrinted());
+					printCheck.setValue(true);
+				} else {
+					checkNo.setValue(transaction.getCheckNumber());
+					printCheck.setValue(false);
+				}
 			}
 		}
 		initMemoAndReference();
-		initTransactionViewData();
-
+		super.initTransactionViewData();
+		initTransactionNumber();
+		initPayFromAccounts();
 	}
 
 	@Override

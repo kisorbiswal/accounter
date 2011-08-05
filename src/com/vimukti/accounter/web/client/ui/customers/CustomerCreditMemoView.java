@@ -47,13 +47,6 @@ public class CustomerCreditMemoView extends
 	}
 
 	@Override
-	protected void initTransactionViewData() {
-
-		super.initTransactionViewData();
-
-	}
-
-	@Override
 	protected void createControls() {
 
 		Label lab1 = new Label(customerConstants.customerCreditNote());
@@ -330,53 +323,55 @@ public class CustomerCreditMemoView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		initTransactionViewData();
-		ClientCustomerCreditMemo creditToBeEdited = (ClientCustomerCreditMemo) transactionObject;
-
-		this.setCustomer(getCompany().getCustomer(
-				creditToBeEdited.getCustomer()));
-		this.transaction = creditToBeEdited;
-		this.billingAddress = creditToBeEdited.getBillingAddress();
-		this.contact = creditToBeEdited.getContact();
-		this.phoneNo = creditToBeEdited.getPhone();
-		phoneSelect.setValue(this.phoneNo);
-		this.salesPerson = getCompany().getSalesPerson(
-				creditToBeEdited.getSalesPerson());
-		this.priceLevel = getCompany().getPriceLevel(
-				creditToBeEdited.getPriceLevel());
-		this.transactionItems = creditToBeEdited.getTransactionItems();
-
-		initTransactionNumber();
-		if (getCustomer() != null)
-			customerCombo.setComboItem(getCustomer());
-		// billToaddressSelected(this.billingAddress);
-		contactSelected(this.contact);
-		priceLevelSelected(this.priceLevel);
-		salesPersonSelected(this.salesPerson);
-		memoTextAreaItem.setValue(creditToBeEdited.getMemo());
-		// refText.setValue(creditToBeEdited.getReference());
-		if (billingAddress != null) {
-			billToTextArea.setValue(getValidAddress(billingAddress));
-
-		} else
-			billToTextArea.setValue("");
-
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmountLabel.setAmount(creditToBeEdited.getNetAmount());
-			vatTotalNonEditableText.setAmount(creditToBeEdited.getTotal()
-					- creditToBeEdited.getNetAmount());
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientCustomerCreditMemo());
 		} else {
-			this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-			if (taxCode != null) {
-				this.taxCodeSelect
-						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+
+			this.setCustomer(getCompany()
+					.getCustomer(transaction.getCustomer()));
+			this.billingAddress = transaction.getBillingAddress();
+			this.contact = transaction.getContact();
+			this.phoneNo = transaction.getPhone();
+			phoneSelect.setValue(this.phoneNo);
+			this.salesPerson = getCompany().getSalesPerson(
+					transaction.getSalesPerson());
+			this.priceLevel = getCompany().getPriceLevel(
+					transaction.getPriceLevel());
+			this.transactionItems = transaction.getTransactionItems();
+
+			initTransactionNumber();
+			if (getCustomer() != null)
+				customerCombo.setComboItem(getCustomer());
+			// billToaddressSelected(this.billingAddress);
+			contactSelected(this.contact);
+			priceLevelSelected(this.priceLevel);
+			salesPersonSelected(this.salesPerson);
+			memoTextAreaItem.setValue(transaction.getMemo());
+			// refText.setValue(creditToBeEdited.getReference());
+			if (billingAddress != null) {
+				billToTextArea.setValue(getValidAddress(billingAddress));
+
+			} else
+				billToTextArea.setValue("");
+
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				netAmountLabel.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setAmount(transaction.getTotal()
+						- transaction.getNetAmount());
+			} else {
+				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+				if (taxCode != null) {
+					this.taxCodeSelect
+							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+				}
+				salesTaxTextNonEditable.setAmount(transaction.getSalesTax());
 			}
-			salesTaxTextNonEditable.setAmount(creditToBeEdited.getSalesTax());
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+			memoTextAreaItem.setDisabled(true);
+			customerTransactionGrid.setCanEdit(false);
 		}
-		transactionTotalNonEditableText.setAmount(creditToBeEdited.getTotal());
-		memoTextAreaItem.setDisabled(true);
-		customerTransactionGrid.setCanEdit(false);
+		super.initTransactionViewData();
 	}
 
 	@Override

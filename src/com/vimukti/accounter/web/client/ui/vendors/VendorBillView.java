@@ -77,15 +77,6 @@ public class VendorBillView extends
 		super(ClientTransaction.TYPE_ENTER_BILL, VENDOR_TRANSACTION_GRID);
 	}
 
-	@Override
-	protected void initTransactionViewData() {
-
-		super.initTransactionViewData();
-		// initTransactionNumber();
-		initPaymentTerms();
-
-	}
-
 	private void resetGlobalVariables() {
 
 		this.setVendor(null);
@@ -109,31 +100,38 @@ public class VendorBillView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
+	protected void initTransactionViewData() {
 
-		ClientVendor vendor = getCompany().getVendor(transaction.getVendor());
-		contactSelected(transaction.getContact());
-		billToaddressSelected(transaction.getVendorAddress());
-		selectedVendor(vendor);
-		transactionNumber.setValue(transaction.getNumber());
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(transaction.getNetAmount());
-			vatTotalNonEditableText.setAmount(transaction.getTotal()
-					- transaction.getNetAmount());
+		if (transaction == null) {
+			setData(new ClientEnterBill());
+		} else {
+
+			ClientVendor vendor = getCompany().getVendor(
+					transaction.getVendor());
+			contactSelected(transaction.getContact());
+			billToaddressSelected(transaction.getVendorAddress());
+			selectedVendor(vendor);
+			transactionNumber.setValue(transaction.getNumber());
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				netAmount.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setAmount(transaction.getTotal()
+						- transaction.getNetAmount());
+			}
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+
+			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
+
+			if (vatinclusiveCheck != null) {
+				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+			}
+			this.dueDateItem
+					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
+							transaction.getDueDate()) : getTransactionDate());
+			initMemoAndReference();
+			vendorTransactionGrid.setCanEdit(false);
 		}
-		transactionTotalNonEditableText.setAmount(transaction.getTotal());
-
-		balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
-
-		if (vatinclusiveCheck != null) {
-			setAmountIncludeChkValue(transactionObject.isAmountsIncludeVAT());
-		}
-		this.dueDateItem
-				.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
-						transaction.getDueDate()) : getTransactionDate());
-		initMemoAndReference();
-		initTransactionViewData();
-		vendorTransactionGrid.setCanEdit(false);
+		super.initTransactionViewData();
+		initPaymentTerms();
 
 	}
 

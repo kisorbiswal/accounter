@@ -109,14 +109,6 @@ public class NewCustomerPaymentView extends
 
 	}
 
-	@Override
-	protected void initTransactionViewData() {
-		// super.initTransactionViewData();
-		initTransactionNumber();
-		if (transaction == null)
-			initDepositInAccounts();
-	}
-
 	public void resetElements() {
 		this.setCustomer(null);
 		this.addressListOfCustomer = null;
@@ -185,45 +177,44 @@ public class NewCustomerPaymentView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		ClientCompany comapny = getCompany();
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientCustomerPrePayment());
+			initDepositInAccounts();
+		} else {
+			ClientCompany comapny = getCompany();
 
-		ClientCustomerPrePayment customerPrePaymentToBeEdited = (ClientCustomerPrePayment) transactionObject;
-		ClientCustomer customer = comapny
-				.getCustomer(customerPrePaymentToBeEdited.getCustomer());
-		customerSelected(comapny.getCustomer(customerPrePaymentToBeEdited
-				.getCustomer()));
-		this.billingAddress = customerPrePaymentToBeEdited.getAddress();
-		if (billingAddress != null)
-			billToaddressSelected(billingAddress);
-		// accountSelected(comapny.getAccount(customerPrePaymentToBeEdited
-		// .getDepositIn()));
-		amountText.setDisabled(true);
-		amountText.setAmount(customerPrePaymentToBeEdited.getTotal());
-		customerBalText.setAmount(customer.getBalance());
-		endBalText.setAmount(customerPrePaymentToBeEdited.getEndingBalance());
-		paymentMethodSelected(customerPrePaymentToBeEdited.getPaymentMethod());
-		this.depositInAccount = comapny.getAccount(customerPrePaymentToBeEdited
-				.getDepositIn());
-		if (depositInAccount != null)
-			depositInCombo.setComboItem(depositInAccount);
-		if (transactionObject != null) {
+			ClientCustomer customer = comapny.getCustomer(transaction
+					.getCustomer());
+			customerSelected(comapny.getCustomer(transaction.getCustomer()));
+			this.billingAddress = transaction.getAddress();
+			if (billingAddress != null)
+				billToaddressSelected(billingAddress);
+			// accountSelected(comapny.getAccount(customerPrePaymentToBeEdited
+			// .getDepositIn()));
+			amountText.setDisabled(true);
+			amountText.setAmount(transaction.getTotal());
+			customerBalText.setAmount(customer.getBalance());
+			endBalText.setAmount(transaction.getEndingBalance());
+			paymentMethodSelected(transaction.getPaymentMethod());
+			this.depositInAccount = comapny.getAccount(transaction
+					.getDepositIn());
+			if (depositInAccount != null)
+				depositInCombo.setComboItem(depositInAccount);
 			printCheck.setDisabled(true);
 
 			checkNo.setDisabled(true);
-			ClientCustomerPrePayment clientCustomerPrePayment = (ClientCustomerPrePayment) transactionObject;
-			paymentMethodCombo.setValue(clientCustomerPrePayment
-					.getPaymentMethod());
-		}
+			paymentMethodCombo.setValue(transaction.getPaymentMethod());
 
-		if (customerPrePaymentToBeEdited.getCheckNumber() != null) {
-			if (customerPrePaymentToBeEdited.getCheckNumber().equals(
-					Accounter.constants().toBePrinted())) {
-				checkNo.setValue(Accounter.constants().toBePrinted());
-				printCheck.setValue(true);
-			} else {
-				checkNo.setValue(customerPrePaymentToBeEdited.getCheckNumber());
-				printCheck.setValue(false);
+			if (transaction.getCheckNumber() != null) {
+				if (transaction.getCheckNumber().equals(
+						Accounter.constants().toBePrinted())) {
+					checkNo.setValue(Accounter.constants().toBePrinted());
+					printCheck.setValue(true);
+				} else {
+					checkNo.setValue(transaction.getCheckNumber());
+					printCheck.setValue(false);
+				}
 			}
 		}
 		// else if (customerPrePaymentToBeEdited.getCheckNumber() == null) {
@@ -232,7 +223,7 @@ public class NewCustomerPaymentView extends
 		// printCheck.setValue(true);
 		// }
 		initMemoAndReference();
-		initTransactionViewData();
+		initTransactionNumber();
 	}
 
 	private void accountSelected(ClientAccount account) {

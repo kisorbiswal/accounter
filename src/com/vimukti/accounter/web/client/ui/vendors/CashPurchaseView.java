@@ -373,52 +373,44 @@ public class CashPurchaseView extends
 
 	@Override
 	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientCashPurchase());
+		} else {
+			contactSelected(transaction.getContact());
+			vendorSelected(getCompany().getVendor(transaction.getVendor()));
+			phoneSelect.setValue(transaction.getPhone());
+			this.billingAddress = transaction.getVendorAddress();
+			if (billingAddress != null) {
+
+				billToAreaItem.setValue(getValidAddress(billingAddress));
+
+			} else
+				billToAreaItem.setValue("");
+			// paymentMethodSelected(cashPurchaseToBeEdited.getPaymentMethod()
+			// !=
+			// null ? cashPurchaseToBeEdited
+			// .getPaymentMethod()
+			// : "");
+			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
+			accountSelected(getCompany().getAccount(transaction.getPayFrom()));
+			// transactionDateItem.setEnteredDate(cashPurchaseToBeEdited.get)
+			initMemoAndReference();
+			checkNo.setDisabled(true);
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				netAmount.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setAmount(transaction.getTotal()
+						- transaction.getNetAmount());
+			}
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+
+			if (vatinclusiveCheck != null) {
+				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+			}
+			vendorTransactionGrid.setCanEdit(false);
+		}
 		super.initTransactionViewData();
 		initTransactionNumber();
-		if (transaction == null)
-			initPayFromAccounts();
-
-	}
-
-	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		ClientCashPurchase cashPurchaseToBeEdited = (ClientCashPurchase) transactionObject;
-		contactSelected(cashPurchaseToBeEdited.getContact());
-		vendorSelected(getCompany().getVendor(
-				cashPurchaseToBeEdited.getVendor()));
-		phoneSelect.setValue(cashPurchaseToBeEdited.getPhone());
-		this.billingAddress = cashPurchaseToBeEdited.getVendorAddress();
-		if (billingAddress != null) {
-
-			billToAreaItem.setValue(getValidAddress(billingAddress));
-
-		} else
-			billToAreaItem.setValue("");
-		// paymentMethodSelected(cashPurchaseToBeEdited.getPaymentMethod() !=
-		// null ? cashPurchaseToBeEdited
-		// .getPaymentMethod()
-		// : "");
-		paymentMethodCombo.setComboItem(cashPurchaseToBeEdited
-				.getPaymentMethod());
-		accountSelected(getCompany().getAccount(
-				cashPurchaseToBeEdited.getPayFrom()));
-		// transactionDateItem.setEnteredDate(cashPurchaseToBeEdited.get)
-		initMemoAndReference();
-		checkNo.setDisabled(true);
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(cashPurchaseToBeEdited.getNetAmount());
-			vatTotalNonEditableText.setAmount(cashPurchaseToBeEdited.getTotal()
-					- cashPurchaseToBeEdited.getNetAmount());
-		}
-		transactionTotalNonEditableText.setAmount(cashPurchaseToBeEdited
-				.getTotal());
-
-		if (vatinclusiveCheck != null) {
-			setAmountIncludeChkValue(transactionObject.isAmountsIncludeVAT());
-		}
-		vendorTransactionGrid.setCanEdit(false);
-
-		initTransactionViewData();
+		initPayFromAccounts();
 
 	}
 
