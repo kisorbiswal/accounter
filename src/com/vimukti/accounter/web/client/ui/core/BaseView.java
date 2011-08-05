@@ -46,7 +46,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		setHeight("100%");
 
 		buttonBar = new ButtonBar(this);
-		
+
 		super.add(buttonBar);
 	}
 
@@ -74,5 +74,10 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		int index = this.getWidgetIndex(buttonBar);
 		// Insert widgets above button bar
 		super.insert(child, index);
+	}
+
+	@Override
+	public void processupdateView(IAccounterCore core, int command) {
+
 	}
 }
