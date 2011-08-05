@@ -603,17 +603,11 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	@Override
 	public void saveAndUpdateView() {
 		ClientBrandingTheme brandingTheme = getBrandingThemeObject();
-		if (takenTheme == null) {
-			if (!Utility.isObjectExist(Accounter.getCompany()
-					.getBrandingTheme(), brandingTheme.getThemeName())) {
-				ViewManager.getInstance().createObject(brandingTheme,
-						NewBrandingThemeView.this);
-				HistoryTokenUtils.setPresentToken(
-						ActionFactory.getInvoiceBrandingAction(), null);
-			}
-		} else
-			ViewManager.getInstance().alterObject(brandingTheme,
-					NewBrandingThemeView.this);
+		if (!Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
+				brandingTheme.getThemeName())) {
+			//TODO Do this checking in validation method
+		}
+		saveOrUpdate(brandingTheme);
 	}
 
 	@Override
