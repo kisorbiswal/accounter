@@ -2218,4 +2218,12 @@ public class ClientCompany implements IAccounterCore {
 	public Set<ClientCurrency> getCurrencies() {
 		return currencies;
 	}
+
+	/**
+	 * @param string
+	 */
+	public ClientCurrency getCurrency(String code) {
+		// TODO
+		return null;
+	}
 }
