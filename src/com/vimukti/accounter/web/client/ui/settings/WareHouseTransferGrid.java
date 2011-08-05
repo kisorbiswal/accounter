@@ -37,7 +37,7 @@ public class WareHouseTransferGrid extends
 
 	@Override
 	public List<ClientTransactionItem> getallTransactions(
-			ClientTransaction object) throws InvalidEntryException {
+			ClientTransaction object) {
 		// TODO Auto-generated method stub
 		return null;
 	}

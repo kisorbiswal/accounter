@@ -514,7 +514,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			result.addError(selectedVatAgency, Accounter.constants()
 					.pleaseSelectValidVATAgency());
 		} else {
-			AccounterValidator.validate_FileVat(this);
+			result.addWarning(this, Accounter.constants().sureToSaveFileVAT());
 		}
 		if (!canSaveFileVat) {
 			result.addError(this, Accounter.constants()
