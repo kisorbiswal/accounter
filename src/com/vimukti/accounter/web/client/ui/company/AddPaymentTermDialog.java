@@ -3,19 +3,16 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.IntegerRangeValidator;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
@@ -78,7 +75,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 					}
 				});
 
-		dayText = new IntegerField(Accounter.constants().and());
+		dayText = new IntegerField(this, Accounter.constants().and());
 		dayText.setHelpInformation(true);
 		// dayText.setWidth(20);
 		dayText.setValidators(integerRangeValidator);
@@ -90,13 +87,14 @@ public class AddPaymentTermDialog extends BaseDialog {
 		nameDescForm.setFields(payTermText, descText);
 		nameDescForm.setSize("100%", "100%");
 
-		discText = new PercentageField(Accounter.constants().discount());
+		discText = new PercentageField(this, Accounter.constants().discount());
 		discText.setHelpInformation(true);
 		discText.setColSpan(1);
 		discText.setWidth(90);
 		discText.setHint(Accounter.constants().ifpaidwithin());
 
-		discDayText = new IntegerField(Accounter.constants().ifpaidwithin());
+		discDayText = new IntegerField(this, Accounter.constants()
+				.ifpaidwithin());
 		discDayText.setHelpInformation(true);
 		discDayText.setColSpan(1);
 		discDayText.setHint(Accounter.constants().days());

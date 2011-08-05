@@ -491,7 +491,7 @@ public class CashPurchaseView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		ClientCashPurchase cashPurchase = prepareObject();
 		transactionObject = cashPurchase;
 

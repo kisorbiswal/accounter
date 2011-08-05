@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -36,12 +35,6 @@ public class TaxGroupGrid extends BaseListGrid<ClientTAXGroup> {
 	protected void onClick(ClientTAXGroup obj, int row, int col) {
 		if (recordClickHandler != null)
 			recordClickHandler.onRecordClick(obj, col);
-	}
-
-	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-
-		return false;
 	}
 
 	@Override

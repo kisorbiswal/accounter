@@ -31,7 +31,8 @@ public class AddPriceLevelDialog extends BaseDialog {
 		levelText = new TextItem(Accounter.constants().priceLevel());
 		levelText.setHelpInformation(true);
 		levelText.setRequired(true);
-		percentText = new PercentageField(Accounter.constants().percentage());
+		percentText = new PercentageField(this, Accounter.constants()
+				.percentage());
 		percentText.setHelpInformation(true);
 		percentText.setPercentage(1.0);
 		percentText.setRequired(true);

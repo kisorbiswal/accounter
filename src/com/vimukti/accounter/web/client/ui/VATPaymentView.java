@@ -15,13 +15,13 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaySalesTax;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -314,18 +314,10 @@ public class VATPaymentView extends
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException {
-
-		if (!accountInformationForm.validate(false)) {
-			// throw new InvalidTransactionEntryException(FinanceApplication
-			// .constants().boldFieldsShouldFill());
-		}
-		if (!paymentMethodForm.validate(false)) {
-			// throw new InvalidTransactionEntryException(FinanceApplication
-			// .constants().blankTransIsNotAllowed());
-		}
-
-		return true;
+	public ValidationResult validate() {
+		ValidationResult result = accountInformationForm.validate();
+		result.add(paymentMethodForm.validate());
+		return result;
 	}
 
 	public List<DynamicForm> getForms() {

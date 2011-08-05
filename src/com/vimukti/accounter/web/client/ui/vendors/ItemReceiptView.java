@@ -391,61 +391,56 @@ public class ItemReceiptView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
-		try {
-			ClientItemReceipt itemReceipt = transactionObject != null ? (ClientItemReceipt) transactionObject
-					: new ClientItemReceipt();
+		ClientItemReceipt itemReceipt = transactionObject != null ? (ClientItemReceipt) transactionObject
+				: new ClientItemReceipt();
 
-			// Setting Vendor
-			itemReceipt.setVendor(this.vendor.getID());
+		// Setting Vendor
+		itemReceipt.setVendor(this.vendor.getID());
 
-			// Setting Contact
-			if (contact != null)
-				itemReceipt.setContact(this.contact);
+		// Setting Contact
+		if (contact != null)
+			itemReceipt.setContact(this.contact);
 
-			// Setting Address
-			if (billingAddress != null)
-				itemReceipt.setVendorAddress((billingAddress));
+		// Setting Address
+		if (billingAddress != null)
+			itemReceipt.setVendorAddress((billingAddress));
 
-			// Setting Phone
-			if (phoneNo != null)
-				itemReceipt.setPhone(phoneNo);
+		// Setting Phone
+		if (phoneNo != null)
+			itemReceipt.setPhone(phoneNo);
 
-			if (paymentTerm != null)
-				itemReceipt.setPaymentTerm(paymentTerm.getID());
-			if (deliveryDateItem != null)
-				itemReceipt.setDeliveryDate(deliveryDateItem.getEnteredDate()
-						.getDate());
+		if (paymentTerm != null)
+			itemReceipt.setPaymentTerm(paymentTerm.getID());
+		if (deliveryDateItem != null)
+			itemReceipt.setDeliveryDate(deliveryDateItem.getEnteredDate()
+					.getDate());
 
-			itemReceipt.setMemo(getMemoTextAreaItem());
-			// itemReceipt.setReference(getRefText());
-			itemReceipt.setTotal(vendorTransactionGrid.getTotal());
+		itemReceipt.setMemo(getMemoTextAreaItem());
+		// itemReceipt.setReference(getRefText());
+		itemReceipt.setTotal(vendorTransactionGrid.getTotal());
 
-			if (vatinclusiveCheck != null)
-				itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
+		if (vatinclusiveCheck != null)
+			itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+					.getValue());
 
-			itemReceipt.setPurchaseOrder(selectedPurchaseOrder);
+		itemReceipt.setPurchaseOrder(selectedPurchaseOrder);
 
-			transactionObject = itemReceipt;
+		transactionObject = itemReceipt;
 
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-				itemReceipt.setNetAmount(netAmount.getAmount());
-			// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-			// .getValue());
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
+			itemReceipt.setNetAmount(netAmount.getAmount());
+		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+		// .getValue());
 
-			super.saveAndUpdateView();
+		super.saveAndUpdateView();
 
-			if (transactionObject.getID() != 0) {
-				alterObject(itemReceipt);
+		if (transactionObject.getID() != 0) {
+			alterObject(itemReceipt);
 
-			} else {
-				createObject(itemReceipt);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
+		} else {
+			createObject(itemReceipt);
 		}
 	}
 

@@ -131,7 +131,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	}
 
 	@Override
-	protected ClientCreditCardCharge prepareObject() throws Exception {
+	protected ClientCreditCardCharge prepareObject() {
 
 		ClientCreditCardCharge creditCardCharge = transactionObject != null ? (ClientCreditCardCharge) transactionObject
 				: new ClientCreditCardCharge();
