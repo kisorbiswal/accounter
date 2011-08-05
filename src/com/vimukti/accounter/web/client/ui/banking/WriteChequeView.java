@@ -89,7 +89,6 @@ public class WriteChequeView extends
 
 	protected TaxAgencyTransactionGrid taxAgencyGrid;
 
-	protected ClientWriteCheck writeCheckTaken;
 	private CheckboxItem vatInclusiveCheck;
 	private DateField date;
 
@@ -97,8 +96,6 @@ public class WriteChequeView extends
 	// private String transactionNumber = "";
 
 	private DynamicForm amtForm;
-
-	private ClientPaySalesTax takenPaySalesTax;
 
 	private ClientCompany company;
 	private List<ClientAccount> payFromAccounts;
@@ -181,10 +178,10 @@ public class WriteChequeView extends
 
 		}
 		// getAddreses(add);
-		if (writeCheckTaken != null) {
-			if (writeCheckTaken.getAddress() != null)
-				billToaddressSelected(getAddressById(writeCheckTaken
-						.getAddress().getID()));
+		if (transaction != null) {
+			if (transaction.getAddress() != null)
+				billToaddressSelected(getAddressById(transaction.getAddress()
+						.getID()));
 		}
 		initBillToCombo();
 
@@ -250,9 +247,9 @@ public class WriteChequeView extends
 	protected void getAddreses(Set<ClientAddress> allAddress) {
 		ClientAddress toBeShown = null;
 
-		if (writeCheckTaken != null && writeCheckTaken.getAddress() != null) {
+		if (transaction != null && transaction.getAddress() != null) {
 			addressList = payee.getAddress();
-			toBeShown = getAddressById(writeCheckTaken.getAddress().getID());
+			toBeShown = getAddressById(transaction.getAddress().getID());
 		} else {
 			for (ClientAddress to : allAddress) {
 				if (to.getType() == ClientAddress.TYPE_BUSINESS) {
@@ -290,17 +287,18 @@ public class WriteChequeView extends
 		payFromAccounts = bankAccSelect.getAccounts();
 
 		bankAccSelect.initCombo(payFromAccounts);
-		if (writeCheckTaken != null) {
+		if (transaction != null) {
 
-			selectBankAcc = this.company.getAccount(writeCheckTaken
+			selectBankAcc = this.company.getAccount(transaction
 					.getBankAccount());
 
-		} else if (takenPaySalesTax != null) {
-
-			selectBankAcc = getCompany().getAccount(
-					takenPaySalesTax.getPayFrom());
-
 		}
+		// else if (takenPaySalesTax != null) {
+		//
+		// selectBankAcc = getCompany().getAccount(
+		// takenPaySalesTax.getPayFrom());
+		//
+		// }
 		if (selectBankAcc != null) {
 
 			bankAccSelect.setComboItem(selectBankAcc);
@@ -318,8 +316,8 @@ public class WriteChequeView extends
 		if (payees != null) {
 
 			paytoSelect.initCombo(payees);
-			if (takenPaySalesTax != null) {
-				selectedTaxAgency = company.getTaxAgency(takenPaySalesTax
+			if (transaction != null) {
+				selectedTaxAgency = company.getTaxAgency(transaction
 						.getTaxAgency());
 				if (selectedTaxAgency != null) {
 					// paytoSelect.setPayee((Payee) selectedTaxAgency);
@@ -335,27 +333,25 @@ public class WriteChequeView extends
 	}
 
 	protected void newPayToMethod() {
-		if (writeCheckTaken != null) {
-			switch (writeCheckTaken.getPayToType()) {
+		if (transaction != null) {
+			switch (transaction.getPayToType()) {
 			case ClientWriteCheck.TYPE_VENDOR:
 				paytoSelect.setComboItem(getCompany().getVendor(
-						writeCheckTaken.getVendor()));
-				payee = this.company.getVendor(writeCheckTaken.getVendor());
+						transaction.getVendor()));
+				payee = this.company.getVendor(transaction.getVendor());
 
 				break;
 			case ClientWriteCheck.TYPE_CUSTOMER:
 				ClientCompany clientCompany = this.company;
-				paytoSelect.setComboItem(clientCompany
-						.getCustomer(writeCheckTaken.getCustomer()));
-				payee = clientCompany
-						.getCustomer(writeCheckTaken.getCustomer());
+				paytoSelect.setComboItem(clientCompany.getCustomer(transaction
+						.getCustomer()));
+				payee = clientCompany.getCustomer(transaction.getCustomer());
 
 				break;
 			case ClientWriteCheck.TYPE_TAX_AGENCY:
 				paytoSelect.setComboItem(getCompany().getTaxAgency(
-						writeCheckTaken.getTaxAgency()));
-				payee = this.company.getTaxAgency(writeCheckTaken
-						.getTaxAgency());
+						transaction.getTaxAgency()));
+				payee = this.company.getTaxAgency(transaction.getTaxAgency());
 				break;
 			}
 			paytoSelect.setDisabled(isEdit);
@@ -368,27 +364,24 @@ public class WriteChequeView extends
 
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 
-		if (takenPaySalesTax == null) {
+		if (transaction == null) {
+			setData(new ClientWriteCheck());
+		} else {
+			if (transaction == null) {
 
-			writeCheckTaken = (ClientWriteCheck) transactionObject;
-			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transactionObject
-						.isAmountsIncludeVAT());
+				transaction = (ClientWriteCheck) transactionObject;
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(transactionObject
+							.isAmountsIncludeVAT());
+				}
+				initMemoAndReference();
+
 			}
-			initMemoAndReference();
-
 		}
-
-		initTransactionViewData();
-
-	}
-
-	protected void initTransactionViewData() {
 		initTransactionNumber();
 		initPayToCombo();
 		setDisableFields();
 		initBankaccountCombo();
-
 	}
 
 	private void setDisableFields() {
@@ -488,7 +481,7 @@ public class WriteChequeView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (takenPaySalesTax == null) {
+		if (transaction == null) {
 
 			result.add(DynamicForm.validate(payForm, bankAccForm));
 
@@ -547,7 +540,7 @@ public class WriteChequeView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		if (takenPaySalesTax != null) {
+		if (transaction != null) {
 			updatePaySalesTax();
 			return;
 		}
@@ -555,8 +548,8 @@ public class WriteChequeView extends
 
 			ClientWriteCheck writeCheck = transaction != null ? (ClientWriteCheck) transaction
 					: new ClientWriteCheck();
-			if (writeCheckTaken != null)
-				writeCheck = writeCheckTaken;
+			if (transaction != null)
+				writeCheck = transaction;
 			else
 				writeCheck = new ClientWriteCheck();
 			// Setting Type of the write check
@@ -651,7 +644,7 @@ public class WriteChequeView extends
 	}
 
 	private void updatePaySalesTax() {
-		transactionSuccess(takenPaySalesTax);
+		transactionSuccess(transaction);
 
 	}
 
@@ -664,7 +657,7 @@ public class WriteChequeView extends
 		Label lab1 = new Label(Accounter.constants().writeCheck() + "("
 				+ getTransactionStatus() + ")");
 		lab1.addStyleName(Accounter.constants().labelTitle());
-		if (takenPaySalesTax != null)
+		if (transaction != null)
 			lab1.setText(Accounter.constants().taxAgentPayment());
 
 		transactionNumber = createTransactionNumberItem();
@@ -937,19 +930,19 @@ public class WriteChequeView extends
 		// if{
 		if (transaction != null) {
 			transactionItems = transaction.getTransactionItems();
-			writeCheckTaken = (ClientWriteCheck) transaction;
-			transactionNumber.setValue(writeCheckTaken.getNumber());
+			transaction = (ClientWriteCheck) transaction;
+			transactionNumber.setValue(transaction.getNumber());
 
-			amtText.setAmount(writeCheckTaken.getTotal());
-			memoTextAreaItem.setValue(writeCheckTaken.getMemo());
-			date.setValue(writeCheckTaken.getDate());
-			text.setValue(writeCheckTaken.getInWords());
-			toprintCheck.setValue(writeCheckTaken.isToBePrinted());
+			amtText.setAmount(transaction.getTotal());
+			memoTextAreaItem.setValue(transaction.getMemo());
+			date.setValue(transaction.getDate());
+			text.setValue(transaction.getInWords());
+			toprintCheck.setValue(transaction.isToBePrinted());
 			toprintCheck.setDisabled(true);
 			// nText.setValue(writeCheckTaken.isToBePrinted() ? bankingConstants
 			// .toBePrinted()
 			// : transactionNumber != null ? transactionNumber : "");
-			switch (writeCheckTaken.getPayToType()) {
+			switch (transaction.getPayToType()) {
 			case ClientWriteCheck.TYPE_CUSTOMER:
 
 				setGridType(CUSTOMER_TRANSACTION_GRID);
@@ -1112,13 +1105,6 @@ public class WriteChequeView extends
 	@Override
 	public void setData(ClientWriteCheck data) {
 		super.setData(data);
-		if (isEdit) {
-			if (transaction.isPaySalesTax()) {
-				takenPaySalesTax = (ClientPaySalesTax) transaction;
-				transactionType = ClientTransaction.TYPE_PAY_SALES_TAX;
-			}
-
-		}
 	}
 
 	@Override
