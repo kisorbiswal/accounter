@@ -145,4 +145,9 @@ public class ClientPaySalesTaxEntries implements IAccounterCore {
 		return taxAdjustment;
 	}
 
+	public ClientPaySalesTaxEntries clone() {
+		return null;
+
+	}
+
 }
