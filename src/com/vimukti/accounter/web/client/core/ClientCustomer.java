@@ -472,4 +472,9 @@ public class ClientCustomer extends ClientPayee {
 		return "ClientCustomer";
 	}
 
+	public ClientCustomer clone() {
+		return null;
+
+	}
+
 }

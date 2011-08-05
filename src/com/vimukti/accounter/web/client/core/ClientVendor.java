@@ -459,4 +459,9 @@ public class ClientVendor extends ClientPayee {
 		// TODO Auto-generated method stub
 		return "ClientVendor";
 	}
+
+	public ClientVendor clone() {
+		return null;
+
+	}
 }
