@@ -72,42 +72,6 @@ public class CustomerStatementReport extends
 		return super.getObject(parent, child);
 	}
 
-	@Override
-	public int sort(PayeeStatementsList obj1, PayeeStatementsList obj2, int col) {
-		//TODO
-		int ret = UIUtils.compareInt(obj1.getCategory(), obj2.getCategory());
-		if (ret != 0) {
-			return ret;
-		}
-		switch (col) {
-		case 2:
-			int num1 = UIUtils.isInteger(obj1.getTransactionNumber()) ? Integer
-					.parseInt(obj1.getTransactionNumber()) : 0;
-			int num2 = UIUtils.isInteger(obj2.getTransactionNumber()) ? Integer
-					.parseInt(obj2.getTransactionNumber()) : 0;
-			if (num1 != 0 && num2 != 0)
-				return UIUtils.compareInt(num1, num2);
-			else
-				return UIUtils.compareTo(obj1.getTransactionNumber(),
-						obj2.getTransactionNumber());
-
-		case 1:
-			return UIUtils.compareInt(obj1.getTransactiontype(),
-					obj2.getTransactiontype());
-
-		case 3:
-			return UIUtils.compareDouble(obj1.getAgeing(), obj2.getAgeing());
-
-		case 0:
-			return UIUtils.compareTo(obj1.getTransactionDate(),
-					obj2.getTransactionDate());
-
-		case 4:
-			return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
-
-		}
-		return 0;
-	}
 
 	@Override
 	public String getDefaultDateRange() {
