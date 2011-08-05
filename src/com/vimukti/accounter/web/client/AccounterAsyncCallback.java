@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
  */
 public abstract class AccounterAsyncCallback<T> implements AsyncCallback<T> {
 
-	private PopupPanel processDialog;
+	protected PopupPanel processDialog;
 
 	public AccounterAsyncCallback() {
 		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
@@ -24,7 +24,7 @@ public abstract class AccounterAsyncCallback<T> implements AsyncCallback<T> {
 	@Override
 	public void onFailure(Throwable exception) {
 		processDialog.removeFromParent();
-		
+
 		if (exception instanceof AccounterException) {
 			onException((AccounterException) exception);
 			return;

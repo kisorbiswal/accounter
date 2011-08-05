@@ -48,7 +48,7 @@ import com.vimukti.accounter.web.client.ui.customers.SalesOrderListAction;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 import com.vimukti.accounter.web.client.ui.settings.UsersView;
-import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimView;
+import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimList;
 import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaims;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
 
@@ -408,7 +408,7 @@ public class ViewManager extends DockPanel {
 		// if yes validating object & saving it other wise getting last
 		// view from history & showing it
 		if (currentCanvas instanceof BaseView
-				&& !(currentCanvas instanceof ExpenseClaimView)
+				&& !(currentCanvas instanceof ExpenseClaimList)
 				&& ((AbstractBaseView<?>) currentCanvas).isViewModfied()) {
 			showWarning(currentCanvas);
 		} else {
@@ -517,7 +517,7 @@ public class ViewManager extends DockPanel {
 		if (!dependent) {
 			if (currentCanvas != null && currentCanvas instanceof BaseView
 					&& !currentCanvas.isSaveAndNew
-					&& !(currentCanvas instanceof ExpenseClaimView)
+					&& !(currentCanvas instanceof ExpenseClaimList)
 					&& ((AbstractBaseView<?>) currentCanvas).isViewModfied()) {
 				isShowWarningDialog = true;
 				showWarningDialog(view, input, dependent, action);

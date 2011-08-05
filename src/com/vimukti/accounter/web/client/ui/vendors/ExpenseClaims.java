@@ -6,9 +6,7 @@ import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.TabListener;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -42,7 +40,7 @@ public class ExpenseClaims extends BaseView {
 
 		tabset = new DecoratedTabPanel();
 		AwaitingAuthorisationView awaitingview = new AwaitingAuthorisationView();
-		ExpenseClaimView expenseview = new ExpenseClaimView();
+		ExpenseClaimList expenseview = new ExpenseClaimList();
 		PreviousClaimsView claimsView = new PreviousClaimsView();
 
 		tabset.add(expenseview, Accounter.constants().presentClaims());
@@ -51,8 +49,7 @@ public class ExpenseClaims extends BaseView {
 			tabset.add(awaitingview, Accounter.constants()
 					.awaitingAuthorisation());
 		setSize("100%", "100%");
-		mainPanel.add(tabset);
-		mainPanel.removeStyleName("main-class-pannel");
+		this.add(tabset);
 		tabset.selectTab(selectTab);
 		tabset.addTabListener(new TabListener() {
 

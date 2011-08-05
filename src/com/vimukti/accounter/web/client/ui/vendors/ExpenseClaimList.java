@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -30,12 +29,12 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * @author Uday Kumar
  * 
  */
-public class ExpenseClaimView extends BaseView {
+public class ExpenseClaimList extends BaseView {
 
 	ExpenseClaimGrid grid;
 	public boolean isProcessingAdded;
 
-	public ExpenseClaimView() {
+	public ExpenseClaimList() {
 	}
 
 	@Override
@@ -112,14 +111,14 @@ public class ExpenseClaimView extends BaseView {
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		panel.setWidth("100%");
-		mainPanel.add(panel);
+		this.add(panel);
 		submitApproval.setWidth("160px");
 		submitApproval.enabledButton(AccounterButton.SUBMIT_BUTTON,
 				"submit-approve-image", "ibutton1");
 		deleteButton.setWidth("90px");
 		deleteButton.enabledButton(AccounterButton.DELETE_BUTTON,
 				"close-image", "ibutton1");
-		mainPanel.removeStyleName("main-class-pannel");
+		this.removeStyleName("main-class-pannel");
 		buttonBar.getElement().getParentElement()
 				.removeClassName("bottom-view");
 		bottomShadow.getElement().getParentElement()

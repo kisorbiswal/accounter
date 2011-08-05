@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
  */
 public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 
-	ExpenseClaimView view;
+	ExpenseClaimList view;
 
 	public ExpenseClaimGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
@@ -31,7 +31,7 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 		return ListGrid.COLUMN_TYPE_TEXT;
 	}
 
-	public void setView(ExpenseClaimView view) {
+	public void setView(ExpenseClaimList view) {
 		this.view = view;
 	}
 

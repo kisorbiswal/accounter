@@ -175,7 +175,7 @@ public class ItemView extends BaseView<ClientItem> {
 		skuText.setWidth(100);
 		skuText.setTitle(Accounter.constants().upcsku());
 
-		weightText = new IntegerField(Accounter.constants().weight());
+		weightText = new IntegerField(this, Accounter.constants().weight());
 		weightText.setHelpInformation(true);
 		weightText.setWidth(100);
 		weightText.setValidators(integerRangeValidator);
@@ -250,7 +250,8 @@ public class ItemView extends BaseView<ClientItem> {
 		salesInfoForm = UIUtils.form(Accounter.constants().salesInformation());
 		salesInfoForm.setWidth("98%");
 
-		stdCostText = new AmountField(Accounter.constants().standardCost(),this);
+		stdCostText = new AmountField(Accounter.constants().standardCost(),
+				this);
 		stdCostText.setHelpInformation(true);
 		stdCostText.setWidth(100);
 		// FIXME--needto implement this feature
@@ -296,7 +297,7 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseDescArea.setTitle(Accounter.constants().purchaseDescription());
 
 		purchasePriceTxt = new AmountField(Accounter.constants()
-				.purchasePrice(),this);
+				.purchasePrice(), this);
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
 		// FIXME--needto implement this feature
@@ -337,7 +338,7 @@ public class ItemView extends BaseView<ClientItem> {
 						selectVendor = selectItem;
 					}
 				});
-		vendItemNumText = new IntegerField(
+		vendItemNumText = new IntegerField(this,
 				this.type != TYPE_SERVICE ? UIUtils.getVendorString(Accounter
 						.constants().supplierProductNo(), Accounter.constants()
 						.vendorProductNo()) : UIUtils.getVendorString(Accounter
@@ -478,14 +479,17 @@ public class ItemView extends BaseView<ClientItem> {
 		DynamicForm stockForm = new DynamicForm();
 		measurement = new SelectCombo(Accounter.constants().measurement());
 		wareHouse = new SelectCombo(Accounter.constants().wareHouse());
-		minStock = new IntegerField(Accounter.constants().minStockAlertLevel());
-		maxStock = new IntegerField(Accounter.constants().maxStockAlertLevel());
-		defaultSellPrice = new IntegerField(Accounter.constants()
+		minStock = new IntegerField(this, Accounter.constants()
+				.minStockAlertLevel());
+		maxStock = new IntegerField(this, Accounter.constants()
+				.maxStockAlertLevel());
+		defaultSellPrice = new IntegerField(this, Accounter.constants()
 				.defaultSellPrice());
-		defaultPurchasePrice = new IntegerField(Accounter.constants()
+		defaultPurchasePrice = new IntegerField(this, Accounter.constants()
 				.defaultPurchasePrice());
-		salesTaxRate = new IntegerField(Accounter.constants().salesTaxRate());
-		purcahseTaxRate = new IntegerField(Accounter.constants()
+		salesTaxRate = new IntegerField(this, Accounter.constants()
+				.salesTaxRate());
+		purcahseTaxRate = new IntegerField(this, Accounter.constants()
 				.purchaseTaxRate());
 		stockForm.setFields(measurement, wareHouse, minStock, maxStock,
 				defaultSellPrice, defaultPurchasePrice, salesTaxRate,
