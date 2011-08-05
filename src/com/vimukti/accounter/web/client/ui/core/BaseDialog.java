@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
@@ -328,9 +329,8 @@ public abstract class BaseDialog extends CustomDialog implements
 
 	// }
 
-	protected boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-		return true;
+	protected ValidationResult validate() {
+		return new ValidationResult();
 	}
 
 	@Override
