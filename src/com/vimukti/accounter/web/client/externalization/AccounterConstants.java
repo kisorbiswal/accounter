@@ -4414,6 +4414,10 @@ public interface AccounterConstants extends Constants {
 	
 	public String LLCDesc();
 	
+	public String llcSingleMemberForm();
+	
+	public String llcMultiMemberForm();
+	
 	public String corporation();
 	
 	public String corporationDesc();
@@ -4427,8 +4431,6 @@ public interface AccounterConstants extends Constants {
 	public String nonProfitDesc();
 	
 	public String otherNone();
-	
-	public String otherNoneDesc();
 	
 	public String enterYourCompanyInfo();
 
