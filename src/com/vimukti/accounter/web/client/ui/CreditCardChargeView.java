@@ -61,8 +61,6 @@ public class CreditCardChargeView extends
 
 	protected String selectPaymentMethod;
 
-	protected ClientCreditCardCharge creditCardChargeTaken;
-
 	// protected ClientVendor selectedVendor;
 
 	private DynamicForm totForm;
@@ -90,18 +88,6 @@ public class CreditCardChargeView extends
 
 	}
 
-	@Override
-	public void setData(ClientCreditCardCharge data) {
-		super.setData(data);
-		if (isEdit && (!transaction.isCreditCardCharge()))
-			try {
-				throw new Exception(Accounter.constants()
-						.unableToLoadRequiredCreditCardCharge());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	}
-
 	// public CreditCardChargeView(CreditCardCharge creditCardChargeTaken) {
 	// // this.creditCardChargeTaken = creditCardChargeTaken;
 	//
@@ -110,11 +96,6 @@ public class CreditCardChargeView extends
 	// // createControls();
 	// super(creditCardChargeTaken);
 	// }
-
-	public static CreditCardChargeView getInstance() {
-
-		return new CreditCardChargeView();
-	}
 
 	protected void addPhonesContactsAndAddress() {
 		// Set<Address> allAddress = selectedVendor.getAddress();
@@ -140,28 +121,25 @@ public class CreditCardChargeView extends
 		contactNameSelect.initCombo(idNamesForContacts);
 		// phoneSelect.initCombo(phones);
 
-		if (creditCardChargeTaken != null) {
-			// ClientVendor cv = FinanceApplication.getCompany().getVendor(
-			// creditCardChargeTaken.getVendor());
-			if (creditCardChargeTaken.getContact() != null)
-				contactNameSelect.setSelected(creditCardChargeTaken
-						.getContact().getName());
-			if (creditCardChargeTaken.getPhone() != null)
-				// FIXME check and fix the below code
-				phoneSelect.setValue(creditCardChargeTaken.getPhone());
+		// ClientVendor cv = FinanceApplication.getCompany().getVendor(
+		// creditCardChargeTaken.getVendor());
+		if (transaction.getContact() != null)
+			contactNameSelect.setSelected(transaction.getContact().getName());
+		if (transaction.getPhone() != null)
+			// FIXME check and fix the below code
+			phoneSelect.setValue(transaction.getPhone());
 
-			contactNameSelect.setDisabled(isEdit);
-			phoneSelect.setDisabled(isEdit);
-			return;
-		}
-		if (primaryContact == null) {
-			contactNameSelect.setSelected("");
-			phoneSelect.setValue("");
-			return;
-		}
+		contactNameSelect.setDisabled(isEdit);
+		phoneSelect.setDisabled(isEdit);
+		return;
+		// if (primaryContact == null) {
+		// contactNameSelect.setSelected("");
+		// phoneSelect.setValue("");
+		// return;
+		// }
 
-		contactNameSelect.setSelected(primaryContact.getName());
-		phoneSelect.setValue(primaryContact.getBusinessPhone());
+		// contactNameSelect.setSelected(primaryContact.getName());
+		// phoneSelect.setValue(primaryContact.getBusinessPhone());
 
 		// for (Address toBeShown : allAddress) {
 		// if (toBeShown.getType() == Address.TYPE_BILL_TO) {
@@ -201,14 +179,14 @@ public class CreditCardChargeView extends
 	protected void initVendorsList(List<ClientVendor> result) {
 		// First identify existing selected vendor
 		for (ClientVendor vendor : result) {
-			if (creditCardChargeTaken != null)
-				if (vendor.getID() == creditCardChargeTaken.getVendor()) {
+			if (transaction != null)
+				if (vendor.getID() == transaction.getVendor()) {
 					selectedVendor = vendor;
 				}
 		}
 		vendorNameSelect.initCombo(result);
 		vendorNameSelect.setDisabled(isEdit);
-		if (creditCardChargeTaken != null) {
+		if (transaction != null) {
 			vendorNameSelect.setComboItem(selectedVendor);
 			billToaddressSelected(selectedVendor.getSelectedAddress());
 			addPhonesContactsAndAddress();
@@ -236,20 +214,6 @@ public class CreditCardChargeView extends
 
 	}
 
-	protected void initTransactionViewData() {
-
-		if (transaction == null) {
-			resetElements();
-			initpayFromAccountCombo();
-		}
-		// super.initTransactionViewData();
-		// initMemoAndReference();
-		initTransactionNumber();
-		addVendorsList();
-		// setDisableStaeForFormItems();
-
-	}
-
 	@Override
 	protected void paymentMethodSelected(String paymentMethod2) {
 		super.paymentMethodSelected(paymentMethod2);
@@ -257,9 +221,9 @@ public class CreditCardChargeView extends
 				&& (paymentMethod
 						.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || paymentMethod
 						.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
-			if (creditCardChargeTaken != null) {
+			if (transaction != null) {
 				cheqNoText
-						.setValue(creditCardChargeTaken.getCheckNumber() != null ? creditCardChargeTaken
+						.setValue(transaction.getCheckNumber() != null ? transaction
 								.getCheckNumber() : "");
 
 			}
@@ -282,42 +246,46 @@ public class CreditCardChargeView extends
 	}
 
 	@Override
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		creditCardChargeTaken = (ClientCreditCardCharge) transactionObject;
-		transactionDateItem.setValue(creditCardChargeTaken.getDate());
-		contact = creditCardChargeTaken.getContact();
-		delivDate.setValue(new ClientFinanceDate(creditCardChargeTaken
-				.getDeliveryDate()));
-		delivDate.setDisabled(isEdit);
-		phoneSelect.setValue(creditCardChargeTaken.getPhone());
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(creditCardChargeTaken.getNetAmount());
-			vatTotalNonEditableText.setAmount(creditCardChargeTaken.getTotal()
-					- creditCardChargeTaken.getNetAmount());
-		}
-		transactionTotalNonEditableText.setAmount(creditCardChargeTaken
-				.getTotal());
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientCreditCardCharge());
+			resetElements();
+			initpayFromAccountCombo();
+		} else {
+			transactionDateItem.setValue(transaction.getDate());
+			contact = transaction.getContact();
+			delivDate.setValue(new ClientFinanceDate(transaction
+					.getDeliveryDate()));
+			delivDate.setDisabled(isEdit);
+			phoneSelect.setValue(transaction.getPhone());
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				netAmount.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setAmount(transaction.getTotal()
+						- transaction.getNetAmount());
+			}
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 
-		if (vatinclusiveCheck != null) {
-			setAmountIncludeChkValue(transactionObject.isAmountsIncludeVAT());
+			if (vatinclusiveCheck != null) {
+				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+			}
+			if (transaction.getPayFrom() != 0)
+				payFromAccountSelected(transaction.getPayFrom());
+			payFrmSelect.setComboItem(getCompany().getAccount(payFromAccount));
+			payFrmSelect.setDisabled(isEdit);
+			cheqNoText.setDisabled(true);
+			paymentMethodSelected(transaction.getPaymentMethod());
+			payMethSelect.setComboItem(transaction.getPaymentMethod());
+			cheqNoText.setDisabled(true);
+			vendorTransactionGrid.setCanEdit(false);
 		}
-		if (creditCardChargeTaken.getPayFrom() != 0)
-			payFromAccountSelected(creditCardChargeTaken.getPayFrom());
-		payFrmSelect.setComboItem(getCompany().getAccount(payFromAccount));
-		payFrmSelect.setDisabled(isEdit);
-		cheqNoText.setDisabled(true);
-		paymentMethodSelected(creditCardChargeTaken.getPaymentMethod());
-		payMethSelect.setComboItem(creditCardChargeTaken.getPaymentMethod());
-		cheqNoText.setDisabled(true);
-		vendorTransactionGrid.setCanEdit(false);
 		initMemoAndReference();
-		initTransactionViewData();
-
+		initTransactionNumber();
+		addVendorsList();
 	}
 
 	private void resetElements() {
 		selectedVendor = null;
-		creditCardChargeTaken = null;
+		transaction = null;
 		billingAddress = null;
 		addressList = null;
 		// billToCombo.setDisabled(isEdit);
@@ -655,8 +623,8 @@ public class CreditCardChargeView extends
 
 		ClientCreditCardCharge creditCardCharge = transaction != null ? (ClientCreditCardCharge) transaction
 				: new ClientCreditCardCharge();
-		if (creditCardChargeTaken != null)
-			creditCardCharge = creditCardChargeTaken;
+		if (transaction != null)
+			creditCardCharge = transaction;
 		else
 			creditCardCharge = new ClientCreditCardCharge();
 
@@ -908,5 +876,11 @@ public class CreditCardChargeView extends
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().creditCardCharge();
+	}
+
+	@Override
+	protected void updateTransaction() {
+		// TODO Auto-generated method stub
+
 	}
 }
