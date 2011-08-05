@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
@@ -44,6 +45,7 @@ import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -1225,14 +1227,26 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
 		ClientCustomer previousCustomer = customer;
 		if (customer != null && customer != previousCustomer) {
 			getEstimatesAndSalesOrder();
 		}
-		return super.validate();
-
+		result.add(super.validate());
+		if (AccounterValidator.validate_dueOrDelivaryDates(
+				((InvoiceView) this).dueDateItem.getDate(),
+				getTransactionDate(), customerConstants.dueDate())) {
+			result.addError(((InvoiceView) this).dueDateItem, Accounter
+					.constants().the()
+					+ " "
+					+ customerConstants.dueDate()
+					+ " "
+					+ " "
+					+ Accounter.constants()
+							.cannotbeearlierthantransactiondate());
+		}
+		return result;
 	}
 
 	private int isNumberCorrect(String value) {
@@ -1314,11 +1328,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 					if (result == null)
 						onFailure(new Exception());
 
-					if (result.size() > 0) {
-						showQuotesDialog(result);
-					} else {
-						showQuotesDialog(result);
-					}
+					// if (result.size() > 0) {
+					showQuotesDialog(result);
+					// } else {
+					// showQuotesDialog(result);
+					// }
 
 				}
 

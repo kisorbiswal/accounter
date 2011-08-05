@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -220,7 +222,7 @@ public class CustomerRefundView extends
 						// + FinanceApplication.constants()
 						// .noNegativeAmounts() + ".");
 						// BaseView.commentPanel.setVisible(true);
-						addError(this, Accounter.constants()
+						addError(amtText, Accounter.constants()
 								.noNegativeAmounts());
 						// Accounter.showError(FinanceApplication
 						// .constants().noNegativeAmounts());
@@ -601,15 +603,13 @@ public class CustomerRefundView extends
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-
-		// if (custForm != null)
-		// AccounterValidator.validateForm(custForm);
-		// if (DecimalUtil.isEquals(amtText.getAmount(), 0))
-		// throw new InvalidTransactionEntryException(
-		// AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
-		return super.validate();
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		result.add(super.validate());
+		if (AccounterValidator.validateAmount(this.amtText.getAmount(), false)) {
+			result.addError(amtText, AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+		}
+		return result;
 	}
 
 	@Override

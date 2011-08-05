@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
@@ -60,8 +61,8 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionGrid;
  * @author Fernandez
  * 
  */
-public abstract class AbstractCustomerTransactionView<T> extends
-		AbstractTransactionBaseView<T> {
+public abstract class AbstractCustomerTransactionView<T extends IAccounterCore>
+		extends AbstractTransactionBaseView<T> {
 
 	private AbstractCustomerTransactionView<T> customerTransactionViewInstance;
 
@@ -917,116 +918,54 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	}
 
 	@Override
-	public boolean validate() {
+	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
-			if(!AccounterValidator
-					.validateTransactionDate(this.transactionDate)) {
-				result.addError(transactionDateItem, AccounterErrorType.InvalidTransactionDate);
-			}else if(AccounterValidator.isInPreventPostingBeforeDate(this.transactionDate)) {
-				result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
-			}
 
-		case 8:
-			return AccounterValidator.validateForm(custForm, false);
-
-		case 7:
-			if (this.transactionType == ClientTransaction.TYPE_ESTIMATE) {
-				QuoteView quoteView = (QuoteView) this;
-				return AccounterValidator.validate_dueOrDelivaryDates(
-						quoteView.quoteExpiryDate.getEnteredDate(),
-						this.transactionDate,
-						customerConstants.expirationDate());
-			}
-		case 6:
-			if (this.transactionType == ClientTransaction.TYPE_INVOICE)
-				return AccounterValidator.validate_dueOrDelivaryDates(
-						((InvoiceView) this).dueDateItem.getDate(),
-						getTransactionDate(), customerConstants.dueDate());
-			return true;
-
-		case 5:
-
-			// This case is for all customer transactions except
-			// CustomerRefunds.
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS)) {
-					if (!taxCodeSelect.validate()) {
-						result.addError(taxCodeSelect, Accounter.messages()
-								.pleaseEnter(taxCodeSelect.getTitle()));
-					}
-				}
-
-			}
-			// this is for CustomerRefunds only.
-			else if (this instanceof CustomerRefundView) {
-				CustomerRefundView view = (CustomerRefundView) this;
-				if (!isEdit) {
-					return (
-					// AccounterValidator.validateForm(view.custForm)
-					// &&
-					AccounterValidator
-							.validate_TaxAgency_FinanceAcount(view.selectedAccount)
-							&& AccounterValidator.validateAmount(
-									((CustomerRefundView) this).amtText
-											.getAmount(), false) && AccounterValidator
-								.validateCustomerRefundAmount(this,
-										view.amtText.getAmount(),
-										view.selectedAccount));
-				}
-			}
-			return true;
-
-			// This case is for CashSales only.
-		case 4:
-
-			if (this.transactionType == ClientTransaction.TYPE_CASH_SALES) {
-				CashSalesView = (CashSalesView) this;
-				return (AccounterValidator.validateFormItem(false,
-						CashSalesView.paymentMethodCombo,
-						CashSalesView.depositInCombo) && AccounterValidator
-						.validate_TaxAgency_FinanceAcount(depositInAccount));
-			}
-			return true;
-			// This is for invoice only.
-		case 3:
-			// ClientCompany company = FinanceApplication.getCompany();
-			// if (company.getAccountingType() ==
-			// ClientCompany.ACCOUNTING_TYPE_US)
-			// if (this.transactionType == ClientTransaction.TYPE_INVOICE
-			// || this.transactionType == ClientTransaction.TYPE_CASH_SALES
-			// || this.transactionType ==
-			// ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO)
-			// return AccounterValidator.validateFormItem(taxCodeSelect);
-			// if (!((this.transactionType == ClientTransaction.TYPE_INVOICE
-			// ||
-			// this.transactionType ==
-			// ClientTransaction.TYPE_CUSTOMER_REFUNDS)
-			// || (this.transactionType ==
-			// ClientTransaction.TYPE_RECEIVE_PAYMENT ||
-			// this.transactionType ==
-			// ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) ||
-			// this.transactionType == ClientTransaction.TYPE_SALES_ORDER))
-			// {
-			// return AccounterValidator.validate_dueOrDelivaryDates(
-			// deliveryDate.getEnteredDate(), this.transactionDate,
-			// customerConstants.deliveryDate());
-			// }
-			return true;
-		case 2:
-			if (this.transactionType == ClientTransaction.TYPE_RECEIVE_PAYMENT)
-				return AccounterValidator.validateGrid(customerTransactionGrid);
-			else if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS))
-				return AccounterValidator
-						.isBlankTransaction(customerTransactionGrid);
-			return true;
-		case 1:
-			if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS))
-				return customerTransactionGrid.validateGrid();
-			return true;
-		default:
-			return true;
+		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
+			result.addError(transactionDateItem,
+					AccounterErrorType.InvalidTransactionDate);
+		} else if (AccounterValidator
+				.isInPreventPostingBeforeDate(this.transactionDate)) {
+			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
 		}
+
+		result.add(custForm.validate());
+		if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS)) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+				if (!taxCodeSelect.validate()) {
+					result.addError(taxCodeSelect, Accounter.messages()
+							.pleaseEnter(taxCodeSelect.getTitle()));
+				}
+			}
+
+			if (AccounterValidator.isBlankTransaction(customerTransactionGrid)) {
+				result.addError(customerTransactionGrid,
+						AccounterErrorType.blankTransaction);
+			}
+			result.add(customerTransactionGrid.validateGrid());
+
+		} else if (this instanceof CustomerRefundView) {
+			CustomerRefundView view = (CustomerRefundView) this;
+			if (!isEdit) {
+				if (
+				// AccounterValidator
+				// .validate_TaxAgency_FinanceAcount(view.selectedAccount)
+				// &&
+				// AccounterValidator.validateAmount(
+				// ((CustomerRefundView) this).amtText.getAmount(), false)
+				// &&
+				AccounterValidator.validateCustomerRefundAmount(this,
+						view.amtText.getAmount(), view.selectedAccount)) {
+
+				}
+			}
+		}
+		// if (this.transactionType == ClientTransaction.TYPE_CASH_SALES) {
+		// AccounterValidator
+		// .validate_TaxAgency_FinanceAcount(depositInAccount);
+		// }
+		return result;
 
 	}
 

@@ -26,9 +26,11 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
@@ -615,10 +617,21 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-
-		return super.validate();
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		result.add(super.validate());
+		if (AccounterValidator.validate_dueOrDelivaryDates(
+				this.quoteExpiryDate.getEnteredDate(), this.transactionDate,
+				customerConstants.expirationDate())) {
+			result.addError(this.quoteExpiryDate, Accounter.constants().the()
+					+ " "
+					+ customerConstants.expirationDate()
+					+ " "
+					+ " "
+					+ Accounter.constants()
+							.cannotbeearlierthantransactiondate());
+		}
+		return result;
 
 	}
 
