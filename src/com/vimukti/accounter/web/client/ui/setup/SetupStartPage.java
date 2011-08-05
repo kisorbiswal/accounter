@@ -24,7 +24,7 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	@Override
 	public String getHeader() {
-			return this.accounterConstants.welcomeToStartup();
+		return this.accounterConstants.welcomeToStartup();
 	}
 
 	@Override
@@ -90,7 +90,16 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	}
 
+	@Override
+	protected void onBack() {
+		// TODO Auto-generated method stub
 
+	}
 
+	@Override
+	protected void onNext() {
+		// TODO Auto-generated method stub
+
+	}
 
 }
