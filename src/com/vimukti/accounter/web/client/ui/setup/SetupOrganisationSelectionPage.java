@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.setup;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.visualization.client.Selectable;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 
 public class SetupOrganisationSelectionPage extends AbstractSetupPage {
@@ -48,9 +47,9 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		llcFormList = new ListBox();
 		llcFormList.addItem(accounterConstants.llcSingleMemberForm());
 		llcFormList.addItem(accounterConstants.llcMultiMemberForm());
-		
+
 		viewContainer.add(llcFormList);
-		
+
 		corporationRadio = new RadioButton(ORG_TYPE,
 				accounterConstants.corporation());
 		viewContainer.add(corporationRadio);
