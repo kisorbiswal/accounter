@@ -237,7 +237,7 @@ public class ClientAddress implements IAccounterCore {
 		return null;
 	}
 
-	public Object clone() {
+	public ClientAddress clone() {
 		return null;
 
 	}
