@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
@@ -93,8 +94,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	private boolean isVerified = false;
 
 	public NewFixedAssetView() {
-		super(true);
-		this.validationCount = 4;
+		super();
 	}
 
 	@Override
@@ -700,8 +700,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				.getSelectedValue();
 		if (assetAccount != null && selectItem != null
 				&& assetAccount.getID() == selectItem.getID()) {
-			Accounter.showError(Accounter.constants()
-					.accandaccumulatedDepreciationAccShouldnotbesame());
 			return false;
 		}
 		return true;
@@ -821,22 +819,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
-		try {
-			ClientFixedAsset asset = getAssetObject();
-			if (fixedAsset == null) {
-				if (Utility.isObjectExist(getCompany().getFixedAssets(),
-						itemTxt.getValue().toString())) {
-					throw new InvalidEntryException("FixedAsset"
-							+ AccounterErrorType.ALREADYEXIST);
-				} else
-					createObject(asset);
-			} else
-				alterObject(asset);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
+	public void saveAndUpdateView() {
+		ClientFixedAsset asset = getAssetObject();
+		if (fixedAsset == null) {
+			createObject(asset);
+		} else
+			alterObject(asset);
 	}
 
 	@Override
@@ -961,12 +949,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	 * mandatory. If "Register" button clicked,all the fileds are mandatory
 	 */
 	@Override
-	public boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
-		if (!isVerified
-				&& validateName(itemTxt.getValue() != null ? itemTxt.getValue()
-						.toString() : "")) {
-			throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (Utility.isObjectExist(getCompany().getFixedAssets(), itemTxt
+				.getValue().toString())) {
+			result.addError(itemTxt, AccounterErrorType.ALREADYEXIST);
 		}
 
 		if (isRegister) {
@@ -985,66 +972,54 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				accumulatedDepreciationAccount.setRequired(true);
 			}
 
-			if (AccounterValidator.validateForm(itmNameForm, false)
-					&& AccounterValidator.validateForm(itemInfoForm, false)
-					&& AccounterValidator.validateForm(purchaseInfoForm, false)
-					&& AccounterValidator.validateForm(assetTypeForm, false)
-					&& AccounterValidator.validateForm(depreciationForm, false)
-					&& (isAssetAccumulated ? AccounterValidator.validateForm(
-							acumulatedDeprcForm, false) : true)
-					&& (isAccumltd ? AccounterValidator.validateForm(
-							accumulatedDepreciationAccountForm, false) : true)) {
-				double price = purchasePriceTxt.getAmount();
-				if (DecimalUtil.isEquals(price, 0.0)) {
-					throw new InvalidEntryException(Accounter.constants()
-							.purchasePricShouldNotBeZero());
-
-				}
-
-				if (!AccounterValidator.validatePurchaseDate(purchaseDateTxt
-						.getEnteredDate())) {
-					throw new InvalidTransactionEntryException(
-							AccounterErrorType.invalidPurchaseDate);
-				}
-
-				/*
-				 * avoiding the invoking of validate()
-				 * twice(becoz,validationcount=2)
-				 */
-				validationCount = 0;
-				return true;
+			result.add(itmNameForm.validate());
+			result.add(itemInfoForm.validate());
+			result.add(purchaseInfoForm.validate());
+			result.add(assetTypeForm.validate());
+			result.add(depreciationForm.validate());
+			if (isAssetAccumulated) {
+				result.add((acumulatedDeprcForm.validate()));
 			}
+			if (isAccumltd) {
+				result.add((accumulatedDepreciationAccountForm.validate()));
+			}
+			double price = purchasePriceTxt.getAmount();
+			if (DecimalUtil.isEquals(price, 0.0)) {
+				result.addError(purchasePriceTxt, Accounter.constants()
+						.purchasePricShouldNotBeZero());
+
+			}
+
+			if (!AccounterValidator.validatePurchaseDate(purchaseDateTxt
+					.getEnteredDate())) {
+				result.addError(purchaseDateTxt,
+						AccounterErrorType.invalidPurchaseDate);
+			}
+
 		} else {
-			switch (validationCount) {
-			case 4:
-				return AccounterValidator.validateForm(itmNameForm, false);
-			case 3:
-				if (assetNumberTxt.getValue().toString().length() != 0)
-					return AccounterValidator.isNull(assetNumberTxt.getValue());
-				else {
-					throw new InvalidEntryException(Accounter.constants()
-							.assetNumberShouldNotBeEmpty());
+			result.add(itmNameForm.validate());
+			result.add(itemInfoForm.validate());
 
+			if (!AccounterValidator.validatePurchaseDate(purchaseDateTxt
+					.getEnteredDate())) {
+				result.addError(purchaseDateTxt,
+						AccounterErrorType.invalidPurchaseDate);
+			}
+
+			if (accountCombo != null && accumulatedDepreciationAccount != null) {
+				if (validateAccount()) {
+					result.addError(accountCombo, Accounter.constants()
+							.accandaccumulatedDepreciationAccShouldnotbesame());
 				}
-			case 2:
-				return AccounterValidator.validatePurchaseDate(purchaseDateTxt
-						.getEnteredDate());
-
-			case 1:
-				if (accountCombo != null
-						&& accumulatedDepreciationAccount != null)
-					return validateAccount();
-			default:
-				return true;
 			}
 		}
 		if (!AccounterValidator
 				.isFixedAssetPurchaseDateWithinRange(purchaseDateTxt
 						.getEnteredDate())) {
-			throw new InvalidEntryException(
+			result.addError(purchaseDateTxt,
 					AccounterErrorType.PURHASEDATESUDBEWITHINFISCALYEARRANGE);
 		}
-		return true;
+		return result;
 	}
 
 	private boolean validateName(String name) {

@@ -1281,8 +1281,7 @@ public class AccounterValidator {
 	public static boolean isNullValue(Object object)
 			throws InvalidTransactionEntryException {
 		if (object == null || object.equals(" ")) {
-			throw new InvalidTransactionEntryException(
-					AccounterErrorType.REQUIRED_FIELDS);
+			return false;
 		}
 		return true;
 
@@ -1408,8 +1407,7 @@ public class AccounterValidator {
 	public static boolean validate_Radiovalue(Object object)
 			throws InvalidTransactionEntryException {
 		if (object == null) {
-			throw new InvalidTransactionEntryException(
-					AccounterErrorType.SHOULD_SELECT_RADIO);
+			return false;
 		}
 		return true;
 	}
@@ -1467,13 +1465,12 @@ public class AccounterValidator {
 	public static boolean validate_ZeroAmount(Double amount)
 			throws InvalidEntryException {
 		if (DecimalUtil.isEquals(amount, 0.00)) {
-			throw new InvalidEntryException(AccounterErrorType.ZERO_AMOUNT);
+			return false;
 		}
 		return true;
 	}
 
-	public static boolean validatePurchaseDate(ClientFinanceDate transactionDate)
-			throws InvalidTransactionEntryException {
+	public static boolean validatePurchaseDate(ClientFinanceDate transactionDate) {
 		boolean validDate = true;
 		List<ClientFiscalYear> openFiscalYears = getOpenFiscalYears();
 		for (ClientFiscalYear openFiscalYear : openFiscalYears) {
@@ -1487,9 +1484,6 @@ public class AccounterValidator {
 				break;
 
 		}
-		if (!validDate)
-			throw new InvalidTransactionEntryException(
-					AccounterErrorType.invalidPurchaseDate);
 
 		return validDate;
 

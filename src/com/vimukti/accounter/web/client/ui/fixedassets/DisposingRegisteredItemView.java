@@ -21,7 +21,6 @@ public class DisposingRegisteredItemView extends SellingRegisteredItemView {
 	private ArrayList<DynamicForm> listforms;
 
 	public DisposingRegisteredItemView() {
-		this.validationCount = 3;
 	}
 
 	@Override
