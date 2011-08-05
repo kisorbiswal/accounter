@@ -38,8 +38,12 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.CancleButtom;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
+import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
+import com.vimukti.accounter.web.client.ui.core.SaveAndNewButtom;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -1500,6 +1504,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().companyPrefeTitle();
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		super.createButtons(buttonBar);
+		buttonBar.remove(this.saveAndNewButton);
 	}
 
 }

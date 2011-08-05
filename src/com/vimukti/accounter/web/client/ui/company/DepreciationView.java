@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
 import com.vimukti.accounter.web.client.core.Lists.LinkAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -359,7 +358,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (!(assets.size() > 0)) {
-			result.addError(this, Accounter.constants().pleaseselectaFixedAsset());
+			result.addError(this, Accounter.constants()
+					.pleaseselectaFixedAsset());
 		}
 		result.add(super.validate());
 		return result;

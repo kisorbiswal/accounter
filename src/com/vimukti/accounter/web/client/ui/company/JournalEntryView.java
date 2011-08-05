@@ -134,8 +134,8 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		// .duplicationOfJournalEntriesNotAllowed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this,
-				Accounter.constants().duplicationOfJournalEntriesNotAllowed());
+		addError(this, Accounter.constants()
+				.duplicationOfJournalEntriesNotAllowed());
 	}
 
 	@Override
@@ -241,7 +241,6 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		{
 			journalEntry = takenJournalEntry;
 
-			saveAndCloseButton.setEnabled(true);
 			jourNoText.setDisabled(true);
 			memoText.setDisabled(true);
 			// memoText.setDisabled(true);
@@ -288,7 +287,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			// BaseView.errordata.setHTML("i am here");
 			// BaseView.commentPanel.setVisible(true);
 			// AbstractBaseView.errorOccured = true;
-			addError(this,"i am here");
+			addError(this, "i am here");
 
 		} else
 			journalEntry.setMemo(memoText.getValue() != null ? memoText
