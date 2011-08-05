@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -29,7 +30,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
 import com.vimukti.accounter.web.client.ui.vendors.PayBillView;
 
@@ -262,16 +262,22 @@ public class TransactionPayBillGrid extends
 	}
 
 	@Override
-	public boolean validateGrid() {
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
 		for (ClientTransactionPayBill transactionPayBill : this
 				.getSelectedRecords()) {
 
 			double totalValue = getTotalValue(transactionPayBill);
-			return AccounterValidator.validate_Receive_Payment(
+			if (!AccounterValidator.validate_Receive_Payment(
 					transactionPayBill.getAmountDue(), totalValue,
-					AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS);
+					AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS)) {
+				// FIXME
+				result.addError(transactionPayBill.getBillNumber(),
+						AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS);
+			}
 		}
-		return true;
+
+		return result;
 	}
 
 	@Override

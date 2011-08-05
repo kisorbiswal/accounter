@@ -12,15 +12,15 @@ import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class InviteUserView extends BaseView<ClientUser> {
@@ -191,7 +191,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		ClientUser user = takenUser != null ? takenUser : new ClientUser();
 		String prevoiusEmail = takenUser != null ? takenUser.getEmail() : "";
 		user.setFirstName(firstNametext.getValue().toString());
@@ -222,21 +222,10 @@ public class InviteUserView extends BaseView<ClientUser> {
 			user.setCanDoUserManagement(selectedRole.isCanDoUserManagement());
 		}
 
-		if (user.getID() != 0)
-			if (!user.getEmail().equals(prevoiusEmail))
-				if (isExist(user))
-					throw new InvalidEntryException(Accounter.constants()
-							.userExistsWithThisMailId());
-				else
-					alterObject(user);
-			else
-				alterObject(user);
-		else {
-			if (isExist(user))
-				throw new InvalidEntryException(Accounter.constants()
-						.userExistsWithThisMailId());
-			else
-				createObject(user);
+		if (user.getID() != 0) {
+			alterObject(user);
+		} else {
+			createObject(user);
 		}
 	}
 
@@ -375,10 +364,15 @@ public class InviteUserView extends BaseView<ClientUser> {
 	}
 
 	@Override
-	public boolean validate() throws Exception {
-		return AccounterValidator.validateFormItem(false, firstNametext,
-				lastNametext, emailField);
-		// return super.validate();
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (isExist(takenUser)) {
+			// FIXME
+			result.addError("TakenUser", Accounter.constants()
+					.userExistsWithThisMailId());
+		}
+		result.add(FormItem.validate(firstNametext, lastNametext, emailField));
+		return result;
 	}
 
 	private boolean isExist(ClientUser object) {

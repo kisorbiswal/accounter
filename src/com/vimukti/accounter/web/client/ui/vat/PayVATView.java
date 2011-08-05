@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayVAT;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -27,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -34,7 +36,6 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPayVATGrid;
@@ -71,7 +72,6 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	public PayVATView() {
 		super(ClientTransaction.TYPE_PAY_SALES_TAX, PAYVAT_TRANSACTION_GRID);
-		this.validationCount = 3;
 	}
 
 	@Override
@@ -442,24 +442,23 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
-		switch (this.validationCount) {
-		case 3:
-			return AccounterValidator.validateForm(mainform, false);
-		case 2:
-			if (grid.getRecords().isEmpty()) {
-				throw new InvalidTransactionEntryException(Accounter
-						.constants().youdonthaveanyfiledVATentriestoselect());
-			} else {
-				return AccounterValidator.validateGrid(grid);
-			}
-		case 1:
-			return AccounterValidator.validateAmount(totalAmount);
-		default:
-			return false;
-		}
+	public ValidationResult validate() {
 
+		ValidationResult result = new ValidationResult();
+
+		result.add(mainform.validate());
+
+		if (grid == null || grid.getRecords().isEmpty()) {
+			result.addError(grid, Accounter.constants()
+					.youdonthaveanyfiledVATentriestoselect());
+		} else {
+			result.add(grid.validateGrid());
+		}
+		if (!AccounterValidator.validateAmount(totalAmount)) {
+			// FIXME Confirm Object
+			result.addError("TotalAmount", AccounterErrorType.amount);
+		}
+		return result;
 	}
 
 	@Override

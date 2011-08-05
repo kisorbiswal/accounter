@@ -19,11 +19,11 @@ import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -60,7 +59,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 	public FileVATView() {
 		super();
-		validationCount = 2;
 	}
 
 	@Override
@@ -378,7 +376,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		if (this.selectedVatAgency != null && this.vatReturn != null) {
 			vatReturn.setTransactionDate(new ClientFinanceDate().getDate());
@@ -507,36 +505,21 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException {
-		switch (validationCount) {
-		case 1:
-			if (this.selectedVatAgency == null && this.vatReturn == null) {
-				// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-				// + "<li> "
-				// + FinanceApplication.constants()
-				// .pleaseSelectValidVATAgency() + ".");
-				// BaseView.commentPanel.setVisible(true);
-				// AbstractBaseView.errorOccured = true;
-				MainFinanceWindow.getViewManager().appendError(
-						Accounter.constants().pleaseSelectValidVATAgency());
-				// UIUtils.err(FinanceApplication.constants()
-				// .pleaseSelectValidVATAgency());
-				return false;
-			} else
-				return AccounterValidator.validate_FileVat(this);
-		case 2:
-			if (!canSaveFileVat) {
-				// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-				// + "<li> File VAT cant save with empty values.");
-				// BaseView.commentPanel.setVisible(true);
-				// AbstractBaseView.errorOccured = true;
-				MainFinanceWindow.getViewManager().appendError(
-						Accounter.constants().fileVATcantsavewithemptyvalues());
-				// UIUtils.err("File VAT cant save with empty values");
-				return false;
-			}
+	public ValidationResult validate() {
+
+		ValidationResult result = new ValidationResult();
+
+		if (this.selectedVatAgency == null && this.vatReturn == null) {
+			result.addError(selectedVatAgency, Accounter.constants()
+					.pleaseSelectValidVATAgency());
+		} else {
+			AccounterValidator.validate_FileVat(this);
 		}
-		return true;
+		if (!canSaveFileVat) {
+			result.addError(this, Accounter.constants()
+					.fileVATcantsavewithemptyvalues());
+		}
+		return result;
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -189,39 +190,22 @@ public class AddMeasurementView extends BaseView {
 	}
 
 	@Override
-	public boolean validate() throws Exception {
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
 		if (nameItem.getValue().toString() == null
 				|| nameItem.getValue().toString().isEmpty()) {
-			addError(this,
-					Accounter.constants().pleaseEnteraValidMeasurementName());
-			return false;
+			result.addError(nameItem, Accounter.constants()
+					.pleaseEnteraValidMeasurementName());
 		}
-		List<ClientUnit> unitRecords = addUnitsGrid.getRecords();
-		if (unitRecords.size() == 0) {
-			addError(this,
-					Accounter.constants().unitsMustnotbeNull());
-			return false;
+		if (addUnitsGrid.getRecords().isEmpty()) {
+			result.addError(addUnitsGrid, Accounter.constants()
+					.unitsMustnotbeNull());
 		}
-		// List<Unit> unitRecords = addUnitsGrid.getRecords();
-		// if (unitRecords != null) {
-		// for (Unit unit : unitRecords) {
-		// if (unit.getType().toString().isEmpty()) {
-		// addError(this,
-		// "Units Must not be Null");
-		// return false;
-		// }
-		// }
-		// } else {
-		// addError(this,
-		// "Units Must not be Null");
-		// return false;
-		// }
-		// }
-		return true;
+		return result;
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		addSelectedItemsToList();
 		super.saveAndUpdateView();
 		MainFinanceWindow.getViewManager().createObject(measurment, this);

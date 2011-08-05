@@ -452,13 +452,14 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		payForm.setGroupTitle(Accounter.constants().payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
-		amtText = new AmountField(Accounter.constants().amount(),this);
+		amtText = new AmountField(Accounter.constants().amount(), this);
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		amtText.setDisabled(true);
 
-		endBalText = new AmountField(Accounter.constants().endingBalance(),this);
+		endBalText = new AmountField(Accounter.constants().endingBalance(),
+				this);
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -710,8 +711,11 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			result.add(filterForm.validate());
 		}
 		if (!isEdit) {
-			if (!AccounterValidator.validateReceivePaymentGrid(gridView)) {
+			if (gridView == null || gridView.getRecords().isEmpty()
+					|| gridView.getSelectedRecords().size() == 0) {
 				result.addError(gridView, AccounterErrorType.selectTransaction);
+			} else {
+				result.add(gridView.validateGrid());
 			}
 		}
 		return result;

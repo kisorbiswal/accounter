@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -351,11 +352,13 @@ public class CreditsandPaymentsGrid extends
 	}
 
 	@Override
-	public boolean validateGrid() {
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
 		if (this.getRecords().size() > 0
-				&& this.getSelectedRecords().size() == 0)
-			return false;
-		return true;
+				&& this.getSelectedRecords().size() == 0) {
+			result.addError(this, AccounterErrorType.selectTransaction);
+		}
+		return result;
 	}
 
 	public boolean isSelected(ClientCreditsAndPayments transactionList) {

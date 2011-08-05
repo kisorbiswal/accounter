@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -68,11 +67,6 @@ public class WareHouseTransferGrid extends
 		default:
 			return ListGrid.COLUMN_TYPE_TEXT;
 		}
-	}
-
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override

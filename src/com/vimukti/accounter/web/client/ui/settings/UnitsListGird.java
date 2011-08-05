@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class UnitsListGird extends ListGrid<ClientMeasurement> {
@@ -30,12 +29,6 @@ public class UnitsListGird extends ListGrid<ClientMeasurement> {
 	protected int getCellWidth(int index) {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public void setView(MesurementListView preAddedListView) {

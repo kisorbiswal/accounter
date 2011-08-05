@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
@@ -401,7 +400,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		// }
 	}
 
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		ClientTAXAdjustment vatItem = getObject();
 		if (taxAdjustment == null)
 			createObject(vatItem);

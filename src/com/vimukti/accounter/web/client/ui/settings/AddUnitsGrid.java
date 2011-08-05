@@ -1,9 +1,9 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.core.ClientUnit;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class AddUnitsGrid extends ListGrid<ClientUnit> {
@@ -28,8 +28,8 @@ public class AddUnitsGrid extends ListGrid<ClientUnit> {
 	}
 
 	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		return true;
+	public ValidationResult validateGrid() {
+		return new ValidationResult();
 	}
 
 	@Override

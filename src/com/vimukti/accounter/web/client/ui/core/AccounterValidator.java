@@ -1620,18 +1620,18 @@ public class AccounterValidator {
 	//
 	// }
 
-	public static boolean validateReceivePaymentGrid(
-			AbstractTransactionGrid<?> transactionGrid) {
-		if (transactionGrid == null || transactionGrid.getRecords().isEmpty()
-				|| transactionGrid.getSelectedRecords().size() == 0) {
-			return false;
-		} else if (!transactionGrid.validateGrid()) {
-			return false;
-		}
-
-		return true;
-
-	}
+	// public static boolean validateReceivePaymentGrid(
+	// AbstractTransactionGrid<?> transactionGrid) {
+	// if (transactionGrid == null || transactionGrid.getRecords().isEmpty()
+	// || transactionGrid.getSelectedRecords().size() == 0) {
+	// return false;
+	// } else if (!transactionGrid.validateGrid()) {
+	// return false;
+	// }
+	//
+	// return true;
+	//
+	// }
 
 	public static boolean isAmountTooLarge(Double amount)
 			throws InvalidEntryException {

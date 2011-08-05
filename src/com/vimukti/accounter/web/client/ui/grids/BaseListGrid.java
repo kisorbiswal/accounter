@@ -256,4 +256,10 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 			view.initListCallback();
 		}
 	}
+
+	@Override
+	public void processupdateView(IAccounterCore core, int command) {
+		// TODO Auto-generated method stub
+
+	}
 }

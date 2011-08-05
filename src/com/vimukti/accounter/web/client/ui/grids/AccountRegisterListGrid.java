@@ -246,12 +246,6 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	}
 
 	@Override
-	public boolean validateGrid() {
-		// NOTHING TO DO.
-		return true;
-	}
-
-	@Override
 	protected void executeDelete(AccountRegister object) {
 		// NOTHING TO DO.
 	}

@@ -126,7 +126,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		ClientWarehouse warehouse = getWarehouseObject();
 		if (warehouse.getID() == 0) {

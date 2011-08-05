@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class UserRoleGrid extends ListGrid<RolePermissions> {
@@ -26,7 +25,7 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 	protected Object getColumnValue(RolePermissions obj, int index) {
 		switch (index) {
 		case 0:
-			if (view.isEditMode()) {
+			if (view.isEditMode) {
 				if (obj.getRoleName().equals(view.takenUser.getUserRole())) {
 					// if (!view.canDoUserManagement(obj))
 					// view.userManagementBox.setEnabled(false);
@@ -128,14 +127,6 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 	@Override
 	protected int sort(RolePermissions obj1, RolePermissions obj2, int index) {
 		return 0;
-	}
-
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
-	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		return false;
 	}
 
 	@Override

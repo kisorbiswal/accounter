@@ -32,13 +32,8 @@ public class ManageVATView extends AbstractBaseView {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		super.saveAndUpdateView();
-	}
-
-	@Override
-	public boolean validate() throws Exception {
-		return super.validate();
 	}
 
 	private void createControls() {

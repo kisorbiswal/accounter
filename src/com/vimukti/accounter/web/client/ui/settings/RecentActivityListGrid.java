@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class RecentActivityListGrid extends ListGrid<ClientUser> {
@@ -30,12 +29,6 @@ public class RecentActivityListGrid extends ListGrid<ClientUser> {
 
 	public void setRecentActivityGridView(UsersView view) {
 		this.usersView = view;
-	}
-
-	// its not using any where
-	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		return false;
 	}
 
 	@Override

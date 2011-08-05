@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.combo.VatReturnBoxCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -58,7 +57,6 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	public NewVATItemView() {
 		super();
-		this.validationCount = 7;
 	}
 
 	private void createControls() {
@@ -303,85 +301,31 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
-		switch (this.validationCount) {
+		DynamicForm.validate(this.getForms().toArray(
+				new DynamicForm[getForms().size()]));
 
-		case 7:
-			List<DynamicForm> forms = this.getForms();
-			boolean validate = true;
-			for (DynamicForm form : forms) {
-				if (form != null) {
-					if (!form.validate(false)) {
-						validate = false;
-						// throw new InvalidEntryException(
-						// AccounterErrorType.REQUIRED_FIELDS);
-					}
-
-				}
-			}
-			return validate;
-		case 6:
-			String name = vatItemNameText.getValue().toString() != null ? vatItemNameText
-					.getValue().toString() : "";
-			if (((takenVATItem == null && Utility.isObjectExist(getCompany()
-					.getTaxItems(), name)) ? false : true)
-					|| (takenVATItem != null ? (takenVATItem.getName()
-							.equalsIgnoreCase(name) ? true
-							: (Utility.isObjectExist(
-									getCompany().getTaxItems(), name) ? false
-									: true)) : true)) {
-				return true;
-			} else
-				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
-		case 5:
-			// if ((Boolean) isPercentatateAmtCheck.getValue() == false) {
-			// if (!vatRateText.validate()) {
-			// throw new InvalidEntryException(
-			// AccounterErrorType.REQUIRED_FIELDS);
-			// }
-			// }
-			return true;
-		case 4:
-			// if ((Boolean) isPercentatateAmtCheck.getValue() == true) {
-			// if (!vatRateTextPerT.validate()) {
-			// throw new InvalidEntryException(
-			// AccounterErrorType.REQUIRED_FIELDS);
-			// }
-			// }
-			return true;
-
-		case 3:
-			// if (!vatAgencyCombo.validate()) {
-			// throw new InvalidEntryException(
-			// AccounterErrorType.REQUIRED_FIELDS);
-			// }
-			return true;
-
-		case 2:
-			if (accountType == 0)
-				return true;
-			else {
-				// if (!vatReturnBoxCombo.validate()) {
-				// throw new InvalidEntryException(
-				// AccounterErrorType.REQUIRED_FIELDS);
-				// }
-				return true;
-			}
-		case 1:
-			if (takenVATItem == null) {
-				if (Utility.isObjectExist(getCompany().getTaxItems(),
-						this.vatItemNameText.getValue().toString())) {
-					throw new InvalidEntryException(
-							AccounterErrorType.ALREADYEXIST);
-				}
-			}
-		default:
-			return true;
-
+		String name = vatItemNameText.getValue().toString() != null ? vatItemNameText
+				.getValue().toString() : "";
+		if (!((takenVATItem == null && Utility.isObjectExist(getCompany()
+				.getTaxItems(), name)) ? false : true)
+				|| (takenVATItem != null ? (takenVATItem.getName()
+						.equalsIgnoreCase(name) ? true
+						: (Utility.isObjectExist(getCompany().getTaxItems(),
+								name) ? false : true)) : true)) {
+			result.addError(vatItemNameText, AccounterErrorType.ALREADYEXIST);
 		}
+
+		if (takenVATItem == null) {
+			if (Utility.isObjectExist(getCompany().getTaxItems(),
+					this.vatItemNameText.getValue().toString())) {
+				result.addError(takenVATItem, AccounterErrorType.ALREADYEXIST);
+			}
+		}
+		return result;
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		ClientTAXItem vatItem = getObject();
 		if (takenVATItem == null)
 			createObject(vatItem);

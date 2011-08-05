@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -36,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionReceiveVATGrid;
@@ -81,7 +81,6 @@ public class RecieveVATView extends
 
 	public RecieveVATView() {
 		super(ClientTransaction.TYPE_PAY_SALES_TAX, RECEIVEVAT_TRANSACTION_GRID);
-		this.validationCount = 4;
 	}
 
 	protected void createControls() {
@@ -468,35 +467,27 @@ public class RecieveVATView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		switch (this.validationCount) {
-		case 4:
-			return AccounterValidator.validateForm(mainform, false);
-		case 3:
-			if (isEdit) {
-				if (grid.getRecords().isEmpty()) {
-					throw new InvalidTransactionEntryException(Accounter
-							.constants()
-							.youdonthaveanyfiledVATentriestoselect());
-				}
-			} else {
-				return true;
-			}
-		case 2:
+		result.add(mainform.validate());
+		if (isEdit) {
 			if (grid.getRecords().isEmpty()) {
-				throw new InvalidTransactionEntryException(Accounter
-						.constants().youdonthaveanyfiledVATentriestoselect());
-			} else {
-				return AccounterValidator.validateReceivePaymentGrid(grid);
+				result.addError(grid, Accounter.constants()
+						.youdonthaveanyfiledVATentriestoselect());
 			}
-		case 1:
-			if (isEdit) {
-				return AccounterValidator.validateAmount(totalAmount);
-			} else {
-				return true;
-			}
-		default:
-			return false;
 		}
+		if (grid == null || grid.getRecords().isEmpty()
+				|| grid.getSelectedRecords().size() == 0) {
+			result.addError(grid, Accounter.constants()
+					.youdonthaveanyfiledVATentriestoselect());
+		} else {
+			result.add(grid.validateGrid());
+		}
+		if (isEdit) {
+			if (!AccounterValidator.validateAmount(totalAmount)) {
+				// FIXME Need to Configm Object
+				result.addError("TotalAmount", AccounterErrorType.amount);
+			}
+		}
+		return result;
 
 	}
 

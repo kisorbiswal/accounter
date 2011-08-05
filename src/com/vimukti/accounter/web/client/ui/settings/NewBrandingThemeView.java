@@ -20,19 +20,17 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -205,9 +203,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			public void onBlur(BlurEvent event) {
 				if (!UIUtils.isDouble(topMarginBox.getValue())) {
 					Accounter.showError(messages.numberForTopMarginField());
-					MainFinanceWindow.getViewManager()
-							.showErrorInCurrectDialog(
-									messages.errorForTopMarginField());
+					addError(topMarginBox, messages.errorForTopMarginField());
 					topMarginBox.setValue("");
 				}
 			}
@@ -217,9 +213,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			public void onBlur(BlurEvent event) {
 				if (!UIUtils.isDouble(bottomMarginBox.getValue())) {
 					Accounter.showError(messages.numberForbottomMarginField());
-					MainFinanceWindow.getViewManager()
-							.showErrorInCurrectDialog(
-									messages.errorForbottomMarginField());
+					addError(bottomMarginBox,
+							messages.errorForbottomMarginField());
 					bottomMarginBox.setValue("");
 				}
 			}
@@ -229,9 +224,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			public void onBlur(BlurEvent event) {
 				if (!UIUtils.isDouble(addressPadBox.getValue())) {
 					Accounter.showError(messages.numberForAddresspadField());
-					MainFinanceWindow.getViewManager()
-							.showErrorInCurrectDialog(
-									messages.errorForaddresspadField());
+					addError(addressPadBox, messages.errorForaddresspadField());
 					addressPadBox.setValue("");
 				}
 			}
@@ -575,9 +568,15 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		return textBoxHorizontalPanel;
 	}
 
-	public boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-		return nameForm.validate(true);
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (takenTheme == null
+				&& Utility.isObjectExist(Accounter.getCompany()
+						.getBrandingTheme(), brandingTheme.getThemeName())) {
+			result.addError("TakenTheme", "Theme Name already exists");
+		}
+		result.add(nameForm.validate());
+		return result;
 	}
 
 	@Override
@@ -601,26 +600,19 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
-		if (NewBrandingThemeView.this.validate()) {
-			ClientBrandingTheme brandingTheme = getBrandingThemeObject();
-			if (takenTheme == null) {
-				if (!Utility.isObjectExist(Accounter.getCompany()
-						.getBrandingTheme(), brandingTheme.getThemeName())) {
-					ViewManager.getInstance().createObject(brandingTheme,
-							NewBrandingThemeView.this);
-					HistoryTokenUtils.setPresentToken(
-							ActionFactory.getInvoiceBrandingAction(), null);
-				} else {
-					MainFinanceWindow.getViewManager()
-							.showErrorInCurrectDialog(
-									"Theme Name already exists");
-				}
-			} else
-				ViewManager.getInstance().alterObject(brandingTheme,
+	public void saveAndUpdateView() {
+		ClientBrandingTheme brandingTheme = getBrandingThemeObject();
+		if (takenTheme == null) {
+			if (!Utility.isObjectExist(Accounter.getCompany()
+					.getBrandingTheme(), brandingTheme.getThemeName())) {
+				ViewManager.getInstance().createObject(brandingTheme,
 						NewBrandingThemeView.this);
-		}
-		super.saveAndUpdateView();
+				HistoryTokenUtils.setPresentToken(
+						ActionFactory.getInvoiceBrandingAction(), null);
+			}
+		} else
+			ViewManager.getInstance().alterObject(brandingTheme,
+					NewBrandingThemeView.this);
 	}
 
 	@Override

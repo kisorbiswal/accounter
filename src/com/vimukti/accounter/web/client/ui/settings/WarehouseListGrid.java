@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -43,12 +42,6 @@ public class WarehouseListGrid extends BaseListGrid<ClientStockTransfer> {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
-	}
-
-	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// currently not using
-		return false;
 	}
 
 	@Override

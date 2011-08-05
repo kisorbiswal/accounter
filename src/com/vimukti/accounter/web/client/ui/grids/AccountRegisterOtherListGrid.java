@@ -112,11 +112,6 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	}
 
 	@Override
-	public boolean validateGrid() {
-		return false;
-	}
-
-	@Override
 	protected void executeDelete(AccountRegister object) {
 
 	}
@@ -141,8 +136,6 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 		return super.getCellWidth(index);
 		// return -1;
 	}
-
-
 
 	protected void onClick(AccountRegister obj, int row, int col) {
 		// if (col == 8 && !obj.isVoided()) {

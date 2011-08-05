@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
@@ -52,7 +51,6 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	public NewTAXCodeView() {
 		super();
-		this.validationCount = 4;
 	}
 
 	@Override
@@ -253,7 +251,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
 		String exceptionMessage = exception.getMessage();
-		addError(this,exception.getMessage());
+		addError(this, exception.getMessage());
 		ClientTAXCode clientTAXCode = getVATCode();
 		if (exceptionMessage.contains("name")) {
 			clientTAXCode.setName(vatCode);
@@ -313,7 +311,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		ValidationResult result = new ValidationResult();
 
 		result.add(DynamicForm.validate(this.getForms().toArray(
-				new DynamicForm[] {})));
+				new DynamicForm[getForms().size()])));
 		String name = vatCodeTxt.getValue() != null ? vatCodeTxt.getValue()
 				.toString() : "";
 		if (!((editableTAXCode == null && Utility.isObjectExist(getCompany()
