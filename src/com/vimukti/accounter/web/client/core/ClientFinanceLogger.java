@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 public class ClientFinanceLogger implements IAccounterCore {
 
 	public ClientFinanceLogger() {
@@ -75,6 +74,11 @@ public class ClientFinanceLogger implements IAccounterCore {
 	@Override
 	public void setID(long id) {
 		this.id = id;
+	}
+
+	public ClientFinanceLogger clone() {
+		return null;
+
 	}
 
 }
