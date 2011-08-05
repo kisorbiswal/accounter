@@ -42,7 +42,7 @@ public class AccounterCore implements IAccounterCore {
 		return "AccounterCore";
 	}
 
-	public Object clone() {
+	public AccounterCore clone() {
 		return null;
 
 	}
