@@ -322,7 +322,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 		return isLogoAdded;
 	}
 
-	public Object clone() {
+	public ClientBrandingTheme clone() {
 		return null;
 
 	}
