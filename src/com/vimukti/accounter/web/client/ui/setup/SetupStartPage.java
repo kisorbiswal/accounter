@@ -22,13 +22,13 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	@Override
 	public String getHeader() {
-		return this.accounterConstants.welcomeToStartup();
+			return this.accounterConstants.welcomeToStartup();
 	}
 
 	@Override
 	public VerticalPanel getPageBody() {
 		creatControls();
-		return null;
+		return mainVerticalPanel;
 	}
 
 	private void creatControls() {
@@ -61,7 +61,6 @@ public class SetupStartPage extends AbstractSetupPage {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -70,7 +69,6 @@ public class SetupStartPage extends AbstractSetupPage {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -90,5 +88,6 @@ public class SetupStartPage extends AbstractSetupPage {
 		// not required for this page
 
 	}
+
 
 }
