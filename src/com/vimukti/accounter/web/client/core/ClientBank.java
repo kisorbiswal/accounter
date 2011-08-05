@@ -67,7 +67,7 @@ public class ClientBank implements IAccounterCore {
 		return "ClientBank";
 	}
 
-	public Object clone() {
+	public ClientBank clone() {
 		return null;
 
 	}
