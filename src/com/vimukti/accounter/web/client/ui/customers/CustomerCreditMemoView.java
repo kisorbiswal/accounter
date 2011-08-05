@@ -28,8 +28,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -297,19 +295,14 @@ public class CustomerCreditMemoView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
-		try {
-			transactionObject = getCreditMemoObject();
-			super.saveAndUpdateView();
-			if (transactionObject.getID() == 0)
-				createObject((ClientCustomerCreditMemo) transactionObject);
-			else
-				alterObject((ClientCustomerCreditMemo) transactionObject);
+	public void saveAndUpdateView() {
+		transactionObject = getCreditMemoObject();
+		super.saveAndUpdateView();
+		if (transactionObject.getID() == 0)
+			createObject((ClientCustomerCreditMemo) transactionObject);
+		else
+			alterObject((ClientCustomerCreditMemo) transactionObject);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
 	}
 
 	private ClientTransaction getCreditMemoObject() {

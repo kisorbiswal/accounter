@@ -35,8 +35,6 @@ import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -394,65 +392,58 @@ public class CashSalesView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
-		try {
+		ClientCashSales cashSale = transactionObject != null ? (ClientCashSales) transactionObject
+				: new ClientCashSales();
 
-			ClientCashSales cashSale = transactionObject != null ? (ClientCashSales) transactionObject
-					: new ClientCashSales();
-
-			cashSale.setCustomer(customer.getID());
-			cashSale.setPaymentMethod(paymentMethodCombo.getSelectedValue());
-			if (depositInAccount != null)
-				cashSale.setDepositIn(depositInAccount.getID());
-			if (contact != null)
-				cashSale.setContact(contact);
-			// if (phoneNo != null)
-			cashSale.setPhone(phoneSelect.getValue().toString());
-			if (salesPerson != null) {
-				cashSale.setSalesPerson(salesPerson.getID());
-			}
-			if (billingAddress != null)
-				cashSale.setBillingAddress(billingAddress);
-			if (shippingAddress != null)
-				cashSale.setShippingAdress(shippingAddress);
-			if (shippingTerm != null)
-				cashSale.setShippingTerm(shippingTerm.getID());
-			if (shippingMethod != null)
-				cashSale.setShippingMethod(shippingMethod.getID());
-			if (deliveryDate != null && deliveryDate.getEnteredDate() != null)
-				cashSale.setDeliverydate(deliveryDate.getEnteredDate()
-						.getDate());
-
-			if (priceLevel != null)
-				cashSale.setPriceLevel(priceLevel.getID());
-			cashSale.setMemo(getMemoTextAreaItem());
-			// cashSale.setReference(getRefText());
-
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				cashSale.setNetAmount(netAmountLabel.getAmount());
-				cashSale.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
-			} else {
-				if (salesTax != null)
-					cashSale.setSalesTax(salesTax);
-
-			}
-
-			cashSale.setTotal(transactionTotalNonEditableText.getAmount());
-
-			transactionObject = cashSale;
-
-			super.saveAndUpdateView();
-
-			if (transactionObject.getID() == 0)
-				createObject(cashSale);
-			else
-				alterObject(cashSale);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
+		cashSale.setCustomer(customer.getID());
+		cashSale.setPaymentMethod(paymentMethodCombo.getSelectedValue());
+		if (depositInAccount != null)
+			cashSale.setDepositIn(depositInAccount.getID());
+		if (contact != null)
+			cashSale.setContact(contact);
+		// if (phoneNo != null)
+		cashSale.setPhone(phoneSelect.getValue().toString());
+		if (salesPerson != null) {
+			cashSale.setSalesPerson(salesPerson.getID());
 		}
+		if (billingAddress != null)
+			cashSale.setBillingAddress(billingAddress);
+		if (shippingAddress != null)
+			cashSale.setShippingAdress(shippingAddress);
+		if (shippingTerm != null)
+			cashSale.setShippingTerm(shippingTerm.getID());
+		if (shippingMethod != null)
+			cashSale.setShippingMethod(shippingMethod.getID());
+		if (deliveryDate != null && deliveryDate.getEnteredDate() != null)
+			cashSale.setDeliverydate(deliveryDate.getEnteredDate().getDate());
+
+		if (priceLevel != null)
+			cashSale.setPriceLevel(priceLevel.getID());
+		cashSale.setMemo(getMemoTextAreaItem());
+		// cashSale.setReference(getRefText());
+
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			cashSale.setNetAmount(netAmountLabel.getAmount());
+			cashSale.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+					.getValue());
+		} else {
+			if (salesTax != null)
+				cashSale.setSalesTax(salesTax);
+
+		}
+
+		cashSale.setTotal(transactionTotalNonEditableText.getAmount());
+
+		transactionObject = cashSale;
+
+		super.saveAndUpdateView();
+
+		if (transactionObject.getID() == 0)
+			createObject(cashSale);
+		else
+			alterObject(cashSale);
 
 	}
 

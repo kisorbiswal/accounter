@@ -149,7 +149,7 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 
 		VerticalPanel panel = new VerticalPanel();
 		panel.add(currencyForm);
-		mainPanel.add(panel);
+		this.add(panel);
 
 	}
 

@@ -29,18 +29,15 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.EmailForm;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.GridAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -265,7 +262,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			}
 			addrArea.setValue(toToSet);
 
-			fonFaxForm = new PhoneFaxForm(null, null);
+			fonFaxForm = new PhoneFaxForm(null, null, this);
 			fonFaxForm.setWidth("90%");
 			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
 			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
@@ -273,7 +270,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 					.setValue(takenSalesperson.getPhoneNo());
 			fonFaxForm.businessFaxText.setValue(takenSalesperson.getFaxNo());
 			emailForm = new EmailForm(null,
-					takenSalesperson.getWebPageAddress());
+					takenSalesperson.getWebPageAddress(), this);
 			emailForm.setWidth("100%");
 			emailForm.getCellFormatter().setWidth(0, 0, "159");
 			emailForm.getCellFormatter().setWidth(0, 1, "125");
@@ -298,11 +295,11 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		} else {
 			// addrsForm = new AddressForm(null);
-			fonFaxForm = new PhoneFaxForm(null, null);
+			fonFaxForm = new PhoneFaxForm(null, null, this);
 			fonFaxForm.setWidth("90%");
 			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
 			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
-			emailForm = new EmailForm(null, null);
+			emailForm = new EmailForm(null, null, this);
 			emailForm.setWidth("100%");
 			emailForm.getCellFormatter().setWidth(0, 0, "150");
 			emailForm.getCellFormatter().setWidth(0, 1, "125");

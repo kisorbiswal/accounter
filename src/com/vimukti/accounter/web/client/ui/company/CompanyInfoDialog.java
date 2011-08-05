@@ -194,10 +194,11 @@ public class CompanyInfoDialog extends BaseDialog {
 
 		VerticalPanel mainVLay2 = new VerticalPanel();
 
-		phoneText = new IntegerField(Accounter.constants().businessPhone());
+		phoneText = new IntegerField(this, Accounter.constants()
+				.businessPhone());
 		phoneText.setHelpInformation(true);
 
-		faxText = new IntegerField(Accounter.constants().businessFax());
+		faxText = new IntegerField(this, Accounter.constants().businessFax());
 		faxText.setHelpInformation(true);
 
 		emailText = new EmailField(Accounter.constants().email());
@@ -455,8 +456,6 @@ public class CompanyInfoDialog extends BaseDialog {
 	public void saveFailed(Throwable exception) {
 
 	}
-
-
 
 	@Override
 	protected ValidationResult validate() {

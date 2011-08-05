@@ -42,7 +42,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CreditRatingCombo;
@@ -63,7 +62,6 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -738,12 +736,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			addrsForm = new AddressForm(takenCustomer.getAddress());
 			addrsForm.setWidth("100%");
 			// Setting Phone Fax Form
-			fonFaxForm = new PhoneFaxForm(null, null);
+			fonFaxForm = new PhoneFaxForm(null, null, this);
 			fonFaxForm.businessPhoneText.setValue(takenCustomer.getPhoneNo());
 			fonFaxForm.businessFaxText.setValue(takenCustomer.getFaxNo());
 			fonFaxForm.setWidth("100%");
 			// Setting Email Form
-			emailForm = new EmailForm(null, takenCustomer.getWebPageAddress());
+			emailForm = new EmailForm(null, takenCustomer.getWebPageAddress(),
+					this);
 			emailForm.businesEmailText.setValue(takenCustomer.getEmail());
 			emailForm.setWidth("100%");
 			// Setting Status Check
@@ -776,9 +775,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		} else { // For Creating customer
 			addrsForm = new AddressForm(null);
 			addrsForm.setWidth("100%");
-			fonFaxForm = new PhoneFaxForm(null, null);
+			fonFaxForm = new PhoneFaxForm(null, null, this);
 			fonFaxForm.setWidth("100%");
-			emailForm = new EmailForm(null, null);
+			emailForm = new EmailForm(null, null, this);
 			emailForm.setWidth("100%");
 		}
 

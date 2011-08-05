@@ -328,12 +328,12 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 		center();
 	}
 
-	public void validateTransaction() throws Exception {
-		if (!grid.validateGrid()) {
-			throw new Exception(Accounter.constants()
-					.selectatleastSelectRecord());
-		}
-	}
+	// public void validateTransaction() throws Exception {
+	// if (!grid.validateGrid()) {
+	// throw new Exception(Accounter.constants()
+	// .selectatleastSelectRecord());
+	// }
+	// }
 
 	private void setAdjustPaymentText(double totalAmountToUse) {
 		adjustPayment = initialAdjustPayment - totalAmountToUse;

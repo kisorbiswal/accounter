@@ -30,7 +30,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -40,7 +39,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -387,62 +385,54 @@ public class CustomerRefundView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
-		try {
-			if (transactionObject == null)
-				refund = new ClientCustomerRefund();
-			else
-				refund = (ClientCustomerRefund) transactionObject;
+		if (transactionObject == null)
+			refund = new ClientCustomerRefund();
+		else
+			refund = (ClientCustomerRefund) transactionObject;
 
-			refund.setDate(transactionDateItem.getEnteredDate().getDate());
+		refund.setDate(transactionDateItem.getEnteredDate().getDate());
 
-			refund.setNumber(transactionNumber.getValue().toString());
+		refund.setNumber(transactionNumber.getValue().toString());
 
-			refund.setPayTo(customer.getID());
+		refund.setPayTo(customer.getID());
 
-			if (billingAddress != null)
-				refund.setAddress(billingAddress);
+		if (billingAddress != null)
+			refund.setAddress(billingAddress);
 
-			refund.setEndingBalance(endingBalance);
+		refund.setEndingBalance(endingBalance);
 
-			refund.setCustomerBalance(customerBalanceAmount);
-			if (selectedAccount != null)
-				refund.setPayFrom(selectedAccount.getID());
+		refund.setCustomerBalance(customerBalanceAmount);
+		if (selectedAccount != null)
+			refund.setPayFrom(selectedAccount.getID());
 
-			refund.setPaymentMethod(paymentMethod);
-			if (checkNoText.getValue() != null
-					&& !checkNoText.getValue().equals("")) {
-				refund.setCheckNumber(getCheckValue());
-			} else
-				refund.setCheckNumber("");
+		refund.setPaymentMethod(paymentMethod);
+		if (checkNoText.getValue() != null
+				&& !checkNoText.getValue().equals("")) {
+			refund.setCheckNumber(getCheckValue());
+		} else
+			refund.setCheckNumber("");
 
-			refund.setIsToBePrinted(isChecked);
-			refund.setMemo(memoTextAreaItem.getValue().toString());
+		refund.setIsToBePrinted(isChecked);
+		refund.setMemo(memoTextAreaItem.getValue().toString());
 
-			// refund.setReference(refText.getValue().toString());
+		// refund.setReference(refText.getValue().toString());
 
-			refund.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+		refund.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 
-			refund.setTotal(amtText.getAmount());
+		refund.setTotal(amtText.getAmount());
 
-			refund.setBalanceDue(amtText.getAmount());
+		refund.setBalanceDue(amtText.getAmount());
 
-			transactionObject = refund;
+		transactionObject = refund;
 
-			super.saveAndUpdateView();
+		super.saveAndUpdateView();
 
-			if (transactionObject.getID() == 0)
-				createObject((ClientCustomerRefund) transactionObject);
-			else
-				alterObject((ClientCustomerRefund) transactionObject);
-
-		} catch (Exception e) {
-			// Accounter.showError(FinanceApplication.constants()
-			// .error()
-			// + e.getMessage());
-			throw e;
-		}
+		if (transactionObject.getID() == 0)
+			createObject((ClientCustomerRefund) transactionObject);
+		else
+			alterObject((ClientCustomerRefund) transactionObject);
 
 	}
 

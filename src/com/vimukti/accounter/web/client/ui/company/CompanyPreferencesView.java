@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.Header;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -368,10 +367,11 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		VerticalPanel mainVLay2 = new VerticalPanel();
 
-		phoneText = new IntegerField(Accounter.constants().businessPhone());
+		phoneText = new IntegerField(this, Accounter.constants()
+				.businessPhone());
 		phoneText.setHelpInformation(true);
 
-		faxText = new IntegerField(Accounter.constants().businessFax());
+		faxText = new IntegerField(this, Accounter.constants().businessFax());
 		faxText.setHelpInformation(true);
 
 		emailText = new EmailField(Accounter.constants().email());
@@ -380,14 +380,14 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		websiteText = new TextItem(Accounter.constants().webPageAddress());
 		websiteText.setHelpInformation(true);
 
-		registrationNumberText = new IntegerField(Accounter.constants()
+		registrationNumberText = new IntegerField(this, Accounter.constants()
 				.companyRegistrationNumber());
 		registrationNumberText.setHelpInformation(true);
 
 		taxIDText = new TextItem(Accounter.constants().federalTaxId());
 		taxIDText.setHelpInformation(true);
 
-		bankAccountText = new IntegerField(Accounter.constants()
+		bankAccountText = new IntegerField(this, Accounter.constants()
 				.bankAccountNo());
 		// bankAccountText.setTitle();
 		bankAccountText.setHelpInformation(true);
@@ -757,8 +757,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// .failedToUpdate());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this,
-				Accounter.constants().failedToUpdate());
+		addError(this, Accounter.constants().failedToUpdate());
 	}
 
 	private Double getDoubleValue(FormItem item) {

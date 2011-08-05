@@ -264,7 +264,6 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	}
 
-	@Override
 	public void setPrevoiusOutput(Object preObject) {
 
 		Accounter.createHomeService().getPayeeList(

@@ -100,8 +100,8 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		vPanel.add(leftRightPanel);
 		vPanel.add(buttonBar);
 
-		mainPanel.setSize("100%", "100%");
-		mainPanel.add(vPanel);
+		this.setSize("100%", "100%");
+		this.add(vPanel);
 
 	}
 

@@ -49,7 +49,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -1039,109 +1038,89 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
-		try {
-			transactionObject = getInvoiceObject();
-			ClientInvoice invoice = transactionObject != null ? (ClientInvoice) transactionObject
-					: new ClientInvoice();
-			invoice.setCustomer(customer.getID());
+		transactionObject = getInvoiceObject();
+		ClientInvoice invoice = transactionObject != null ? (ClientInvoice) transactionObject
+				: new ClientInvoice();
+		invoice.setCustomer(customer.getID());
 
-			if (dueDateItem.getEnteredDate() != null)
-				invoice.setDueDate((dueDateItem.getEnteredDate()).getDate());
-			if (deliveryDate.getEnteredDate() != null)
-				invoice.setDeliverydate(deliveryDate.getEnteredDate().getDate());
-			if (Accounter.getCompany().getAccountingType() == 0)
-				invoice.setSalesTaxAmount(salesTaxTextNonEditable.getAmount());
+		if (dueDateItem.getEnteredDate() != null)
+			invoice.setDueDate((dueDateItem.getEnteredDate()).getDate());
+		if (deliveryDate.getEnteredDate() != null)
+			invoice.setDeliverydate(deliveryDate.getEnteredDate().getDate());
+		if (Accounter.getCompany().getAccountingType() == 0)
+			invoice.setSalesTaxAmount(salesTaxTextNonEditable.getAmount());
 
-			if (contactCombo.getSelectedValue() != null) {
-				contact = contactCombo.getSelectedValue();
-				invoice.setContact(contact);
-			}
-			if (phoneNo != null)
-				invoice.setPhone(phoneNo);
-			if (billingAddress != null)
-				invoice.setBillingAddress(billingAddress);
-			if (shippingAddress != null)
-				invoice.setShippingAdress(shippingAddress);
-			if (salesPerson != null)
-				invoice.setSalesPerson(salesPerson.getID());
-			if (paymentTerm != null)
-				invoice.setPaymentTerm(paymentTerm.getID());
-			if (shippingTerm != null)
-				invoice.setShippingTerm(shippingTerm.getID());
-			if (shippingMethod != null)
-				invoice.setShippingMethod(shippingMethod.getID());
-			if (priceLevel != null)
-				invoice.setPriceLevel(priceLevel.getID());
+		if (contactCombo.getSelectedValue() != null) {
+			contact = contactCombo.getSelectedValue();
+			invoice.setContact(contact);
+		}
+		if (phoneNo != null)
+			invoice.setPhone(phoneNo);
+		if (billingAddress != null)
+			invoice.setBillingAddress(billingAddress);
+		if (shippingAddress != null)
+			invoice.setShippingAdress(shippingAddress);
+		if (salesPerson != null)
+			invoice.setSalesPerson(salesPerson.getID());
+		if (paymentTerm != null)
+			invoice.setPaymentTerm(paymentTerm.getID());
+		if (shippingTerm != null)
+			invoice.setShippingTerm(shippingTerm.getID());
+		if (shippingMethod != null)
+			invoice.setShippingMethod(shippingMethod.getID());
+		if (priceLevel != null)
+			invoice.setPriceLevel(priceLevel.getID());
 
-			if (orderNumText.getValue() != null
-					&& !orderNumText.getValue().equals(""))
-				orderNum = orderNumText.getValue().toString();
+		if (orderNumText.getValue() != null
+				&& !orderNumText.getValue().equals(""))
+			orderNum = orderNumText.getValue().toString();
 
-			if (orderNum != null)
-				invoice.setOrderNum(orderNum);
-			// if (taxItemGroup != null)
-			// invoice.setTaxItemGroup(taxItemGoup);
-			if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				if (taxCode != null) {
-					for (ClientTransactionItem record : customerTransactionGrid
-							.getRecords()) {
-						record.setTaxCode(taxCode.getID());
+		if (orderNum != null)
+			invoice.setOrderNum(orderNum);
+		// if (taxItemGroup != null)
+		// invoice.setTaxItemGroup(taxItemGoup);
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (taxCode != null) {
+				for (ClientTransactionItem record : customerTransactionGrid
+						.getRecords()) {
+					record.setTaxCode(taxCode.getID());
 
-					}
-				}
-				invoice.setSalesTaxAmount(this.salesTax);
-			} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				invoice.setNetAmount(netAmountLabel.getAmount());
-				invoice.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
-			}
-			invoice.setTotal(transactionTotalNonEditableText.getAmount());
-			// invoice.setBalanceDue(getBalanceDue());
-			invoice.setPayments(getPayments());
-			invoice.setMemo(getMemoTextAreaItem());
-			// invoice.setReference(getRefText());
-
-			ClientFinanceDate discountDate = Utility.getCalculatedDiscountDate(
-					transactionDateItem.getEnteredDate(), paymentTerm);
-			invoice.setDiscountDate(discountDate.getDate());
-
-			if (selectedEstimateId != 0)
-				invoice.setEstimate(selectedEstimateId);
-			if (selectedSalesOrder != 0)
-				invoice.setSalesOrder(selectedSalesOrder);
-
-			if (customerTransactionGrid != null)
-				// invoice.setTotal(transactionGrid.getTotal());
-
-				transactionObject = invoice;
-
-			super.saveAndUpdateView();
-
-			if (!orderNumText.getValue().equals("")) {
-				if (isNumberCorrect((String) orderNumText.getValue()) == 1) {
-					throw new InvalidEntryException(
-							AccounterErrorType.SALESORDERNUMBER);
-				} else if (isNumberCorrect((String) orderNumText.getValue()) == 2) {
-					throw new InvalidEntryException(
-							AccounterErrorType.SALESORDERNUMBERPOSITIVE);
-				} else if (isNumberCorrect((String) orderNumText.getValue()) == 3) {
-					throw new InvalidEntryException(
-							AccounterErrorType.SALESORDERNUMBERGREATER0);
 				}
 			}
+			invoice.setSalesTaxAmount(this.salesTax);
+		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			invoice.setNetAmount(netAmountLabel.getAmount());
+			invoice.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
+		}
+		invoice.setTotal(transactionTotalNonEditableText.getAmount());
+		// invoice.setBalanceDue(getBalanceDue());
+		invoice.setPayments(getPayments());
+		invoice.setMemo(getMemoTextAreaItem());
+		// invoice.setReference(getRefText());
 
-			if (transactionObject.getID() != 0) {
-				alterObject(invoice);
+		ClientFinanceDate discountDate = Utility.getCalculatedDiscountDate(
+				transactionDateItem.getEnteredDate(), paymentTerm);
+		invoice.setDiscountDate(discountDate.getDate());
 
-			} else {
-				createObject(invoice);
-			}
+		if (selectedEstimateId != 0)
+			invoice.setEstimate(selectedEstimateId);
+		if (selectedSalesOrder != 0)
+			invoice.setSalesOrder(selectedSalesOrder);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
+		if (customerTransactionGrid != null)
+			// invoice.setTotal(transactionGrid.getTotal());
+
+			transactionObject = invoice;
+
+		super.saveAndUpdateView();
+
+		if (transactionObject.getID() != 0) {
+			alterObject(invoice);
+
+		} else {
+			createObject(invoice);
 		}
 
 	}
@@ -1245,6 +1224,19 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 					+ " "
 					+ Accounter.constants()
 							.cannotbeearlierthantransactiondate());
+		}
+
+		if (!orderNumText.getValue().equals("")) {
+			if (isNumberCorrect((String) orderNumText.getValue()) == 1) {
+				result.addError(orderNumText,
+						AccounterErrorType.SALESORDERNUMBER);
+			} else if (isNumberCorrect((String) orderNumText.getValue()) == 2) {
+				result.addError(orderNumText,
+						AccounterErrorType.SALESORDERNUMBERPOSITIVE);
+			} else if (isNumberCorrect((String) orderNumText.getValue()) == 3) {
+				result.addError(orderNumText,
+						AccounterErrorType.SALESORDERNUMBERGREATER0);
+			}
 		}
 		return result;
 	}
