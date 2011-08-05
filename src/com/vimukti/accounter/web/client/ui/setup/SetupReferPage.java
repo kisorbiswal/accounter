@@ -92,7 +92,6 @@ public class SetupReferPage extends AbstractSetupPage {
 				});
 		customerCombo.setRequired(true);
 		return customerCombo;
-
 	}
 
 	@Override
