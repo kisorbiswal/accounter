@@ -99,4 +99,9 @@ public class ClientEmail implements IAccounterCore {
 		return "ClientEmail";
 	}
 
+	public ClientEmail clone() {
+		return null;
+
+	}
+
 }
