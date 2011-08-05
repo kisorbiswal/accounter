@@ -146,4 +146,9 @@ public class ClientBox implements IAccounterCore {
 		this.taxRateCalculations = taxRateCalculations;
 	}
 
+	public Object clone() {
+		return null;
+
+	}
+
 }
