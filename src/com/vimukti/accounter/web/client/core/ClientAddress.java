@@ -220,13 +220,13 @@ public class ClientAddress implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return 0;
-//		return this.id;
+		// return this.id;
 	}
 
 	@Override
-	public void setID(long id){
+	public void setID(long id) {
 		// this.id=id;
 
 	}
@@ -235,5 +235,10 @@ public class ClientAddress implements IAccounterCore {
 	public String getClientClassSimpleName() {
 
 		return null;
+	}
+
+	public Object clone() {
+		return null;
+
 	}
 }
