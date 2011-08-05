@@ -658,9 +658,6 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 	public void init(ViewManager manager) {
 		super.init(manager);
 		createControls();
-		// if (this.data != null) {
-		// UIUtils.disableView(this.canvas);
-		// }
 		setSize("100%", "100%");
 	}
 
@@ -953,4 +950,5 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 	public CurrencyWidget getCurrencyWidget() {
 		return currencyWidget;
 	}
+
 }

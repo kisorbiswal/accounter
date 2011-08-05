@@ -15,6 +15,12 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	protected int accountType;
 
+	protected SaveAndCloseButton saveAndCloseButton;
+
+	protected SaveAndNewButtom saveAndNewButton;
+
+	protected CancleButtom cancelButton;
+
 	public BaseView() {
 		super();
 	}
@@ -25,6 +31,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	public void init(ViewManager manager) {
 		super.init(manager);
 		createView();
+		createButtons(getButtonBar());
 		this.accountType = getCompany().getAccountingType();
 
 	}
@@ -76,4 +83,13 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		super.insert(child, index);
 	}
 
+
+	protected void createButtons(ButtonBar buttonBar) {
+		this.saveAndCloseButton = new SaveAndCloseButton(this);
+		this.saveAndNewButton = new SaveAndNewButtom(this);
+		this.cancelButton = new CancleButtom(this);
+		buttonBar.add(saveAndCloseButton);
+		buttonBar.add(saveAndNewButton);
+		buttonBar.add(cancelButton);
+	}
 }

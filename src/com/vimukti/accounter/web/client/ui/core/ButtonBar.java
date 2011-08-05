@@ -14,18 +14,6 @@ public class ButtonBar extends HorizontalPanel {
 		this.setHeight("30px");
 	}
 
-	public void addCancel() {
-		this.add(new CancleButtom(view));
-	}
-
-	public void addSaveAndClose() {
-		this.add(new SaveAndCloseButton(view));
-	}
-
-	public void addSaveAndNew() {
-		this.add(new SaveAndNewButtom(view));
-	}
-
 	public void add(Widget widget) {
 		this.add(widget, HasHorizontalAlignment.ALIGN_RIGHT);
 	}
