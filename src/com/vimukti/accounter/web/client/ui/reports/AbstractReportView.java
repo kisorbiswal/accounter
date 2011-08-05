@@ -48,7 +48,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	public boolean isVATDetailReport;
 	public boolean isVATSummaryReport;
 
-	IFinanceReport<R> serverReport = null;
+	protected IFinanceReport<R> serverReport = null;
 
 	ReportGrid<R> grid;
 	private String emptyMsg;
