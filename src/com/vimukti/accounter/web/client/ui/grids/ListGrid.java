@@ -885,7 +885,9 @@ public abstract class ListGrid<T> extends CustomTable {
 	 */
 	protected abstract int sort(T obj1, T obj2, int index);
 
-	public abstract ValidationResult validateGrid();
+	public ValidationResult validateGrid() {
+		return null;
+	}
 
 	public void setCanEdit(boolean enabled) {
 		this.isEditEnable = enabled;
