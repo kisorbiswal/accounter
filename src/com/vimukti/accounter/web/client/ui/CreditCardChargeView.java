@@ -179,14 +179,14 @@ public class CreditCardChargeView extends
 	protected void initVendorsList(List<ClientVendor> result) {
 		// First identify existing selected vendor
 		for (ClientVendor vendor : result) {
-			if (transaction != null)
+			if (isEdit)
 				if (vendor.getID() == transaction.getVendor()) {
 					selectedVendor = vendor;
 				}
 		}
 		vendorNameSelect.initCombo(result);
 		vendorNameSelect.setDisabled(isEdit);
-		if (transaction != null) {
+		if (isEdit) {
 			vendorNameSelect.setComboItem(selectedVendor);
 			billToaddressSelected(selectedVendor.getSelectedAddress());
 			addPhonesContactsAndAddress();
@@ -205,7 +205,7 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (transaction != null) {
+		if (isEdit) {
 			memoTextAreaItem.setDisabled(true);
 			setMemoTextAreaItem(((ClientCreditCardCharge) transaction)
 					.getMemo());
@@ -221,7 +221,7 @@ public class CreditCardChargeView extends
 				&& (paymentMethod
 						.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || paymentMethod
 						.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
-			if (transaction != null) {
+			if (isEdit) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
 								.getCheckNumber() : "");
@@ -592,10 +592,9 @@ public class CreditCardChargeView extends
 		if (UIUtils.isMSIEBrowser())
 			resetFormView();
 
-		if (transaction != null) {
-			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transaction;
+		if (isEdit) {
 			payFrmSelect.setComboItem(getCompany().getAccount(
-					creditCardCharge.getPayFrom()));
+					transaction.getPayFrom()));
 		}
 	}
 
@@ -606,11 +605,10 @@ public class CreditCardChargeView extends
 
 	public void saveAndUpdateView() {
 
-		ClientCreditCardCharge creditCardCharge = prepareObject();
-		transaction = creditCardCharge;
+		updateTransaction();
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			creditCardCharge.setNetAmount(netAmount.getAmount());
+			transaction.setNetAmount(netAmount.getAmount());
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 
@@ -619,37 +617,30 @@ public class CreditCardChargeView extends
 		createAlterObject();
 	}
 
-	protected ClientCreditCardCharge prepareObject() {
-
-		ClientCreditCardCharge creditCardCharge = transaction != null ? (ClientCreditCardCharge) transaction
-				: new ClientCreditCardCharge();
-		if (transaction != null)
-			creditCardCharge = transaction;
-		else
-			creditCardCharge = new ClientCreditCardCharge();
-
+	protected void updateTransaction() {
+		super.saveAndUpdateView();
 		// Setting Type
-		creditCardCharge.setType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
+		transaction.setType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
 
 		// setting date
 		if (transactionDateItem != null)
-			creditCardCharge.setDate(transactionDateItem.getValue().getDate());
+			transaction.setDate(transactionDateItem.getValue().getDate());
 		// setting number
 		if (transactionNumber != null)
-			creditCardCharge.setNumber(transactionNumber.getValue().toString());
+			transaction.setNumber(transactionNumber.getValue().toString());
 		if (selectedVendor != null) {
 
 			// setting vendor
-			creditCardCharge.setVendor(selectedVendor.getID());
+			transaction.setVendor(selectedVendor.getID());
 
 			// setting contact
 			if (contact != null) {
-				creditCardCharge.setContact(contact);
+				transaction.setContact(contact);
 			}
 			// if (contactNameSelect.getValue() != null) {
 			// // ClientContact contact = getContactBasedOnId(contactNameSelect
 			// // .getValue().toString());
-			// creditCardCharge
+			// transaction
 			// .setContact(getContactBasedOnId(contactNameSelect
 			// .getValue().toString()));
 			//
@@ -658,50 +649,47 @@ public class CreditCardChargeView extends
 
 		// Setting Address
 		if (billingAddress != null)
-			creditCardCharge.setVendorAddress(billingAddress);
+			transaction.setVendorAddress(billingAddress);
 
 		// setting phone
 		if (phoneSelect.getValue() != null)
-			creditCardCharge.setPhone(phoneSelect.getValue().toString());
+			transaction.setPhone(phoneSelect.getValue().toString());
 
 		// Setting payment method
 
-		creditCardCharge.setPaymentMethod(paymentMethod);
+		transaction.setPaymentMethod(paymentMethod);
 
 		// Setting pay from
 		payFromAccount = payFrmSelect.getSelectedValue().getID();
 		if (payFromAccount != 0) {
 
-			creditCardCharge.setPayFrom(getCompany().getAccount(payFromAccount)
+			transaction.setPayFrom(getCompany().getAccount(payFromAccount)
 					.getID());
 		}
 
 		// setting check no
 		if (cheqNoText.getValue() != null)
-			creditCardCharge.setCheckNumber(cheqNoText.getValue().toString());
+			transaction.setCheckNumber(cheqNoText.getValue().toString());
 
 		if (vatinclusiveCheck != null) {
-			creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
 		}
 
 		// setting delivery date
-		creditCardCharge.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));
+		transaction.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));
 
 		// Setting transactions
-		creditCardCharge.setTransactionItems(vendorTransactionGrid
-				.getallTransactions(creditCardCharge));
+		transaction.setTransactionItems(vendorTransactionGrid
+				.getallTransactions(transaction));
 
 		// setting total
-		creditCardCharge.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setTotal(vendorTransactionGrid.getTotal());
 		// setting memo
-		creditCardCharge.setMemo(getMemoTextAreaItem());
+		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
 		// creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
 
-		transaction = creditCardCharge;
-
-		return creditCardCharge;
 	}
 
 	public void createAlterObject() {
@@ -878,9 +866,4 @@ public class CreditCardChargeView extends
 		return Accounter.constants().creditCardCharge();
 	}
 
-	@Override
-	protected void updateTransaction() {
-		// TODO Auto-generated method stub
-
-	}
 }

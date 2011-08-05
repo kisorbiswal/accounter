@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -31,7 +30,7 @@ import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
  *         modified by Ravi Kiran.G
  * 
  */
-public abstract class AbstractBankTransactionView<T extends IAccounterCore>
+public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		extends AbstractTransactionBaseView<T> {
 
 	// private ClientTransaction bankingTransactionObject;
@@ -76,9 +75,6 @@ public abstract class AbstractBankTransactionView<T extends IAccounterCore>
 		bankingTransactionViewInstance = this;
 
 	}
-
-	protected abstract void initTransactionViewData(
-			ClientTransaction transactionObject);
 
 	protected void initTransactionViewData() {
 

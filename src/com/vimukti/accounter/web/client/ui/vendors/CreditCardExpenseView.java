@@ -113,7 +113,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 				.setAttribute(Accounter.constants().width(), "203px");
 		hPanel.add(termsForm);
 
-		if (transaction != null) {
+		if (isEdit) {
 			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transaction;
 			Ccard.setComboItem(getCompany().getVendor(
 					creditCardCharge.getVendor()));
@@ -131,37 +131,29 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	}
 
 	@Override
-	protected ClientCreditCardCharge prepareObject() {
-
-		ClientCreditCardCharge creditCardCharge = transaction != null ? (ClientCreditCardCharge) transaction
-				: new ClientCreditCardCharge();
-		if (creditCardChargeTaken != null)
-			creditCardCharge = creditCardChargeTaken;
-		else
-			creditCardCharge = new ClientCreditCardCharge();
+	protected void updateTransaction() {
 
 		// Setting Type
-		creditCardCharge.setType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
+		transaction.setType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
 
 		// setting date
 		if (transactionDateItem != null)
 
-			creditCardCharge
-					.setDate((transactionDateItem.getValue()).getDate());
+			transaction.setDate((transactionDateItem.getValue()).getDate());
 		// setting number
 		if (transactionNumber != null)
-			creditCardCharge.setNumber(transactionNumber.getValue().toString());
+			transaction.setNumber(transactionNumber.getValue().toString());
 		ClientVendor vendor = Ccard.getSelectedValue();
 		if (vendor != null)
-			creditCardCharge.setVendor(vendor.getID());
+			transaction.setVendor(vendor.getID());
 		// setting contact
 		if (contact != null) {
-			creditCardCharge.setContact(contact);
+			transaction.setContact(contact);
 		}
 		// if (contactNameSelect.getValue() != null) {
 		// // ClientContact contact = getContactBasedOnId(contactNameSelect
 		// // .getValue().toString());
-		// creditCardCharge
+		// transaction
 		// .setContact(getContactBasedOnId(contactNameSelect
 		// .getValue().toString()));
 		//
@@ -169,48 +161,45 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 		// Setting Address
 		if (billingAddress != null)
-			creditCardCharge.setVendorAddress(billingAddress);
+			transaction.setVendorAddress(billingAddress);
 
 		// setting phone
 		if (phoneSelect.getValue() != null)
-			creditCardCharge.setPhone(phoneSelect.getValue().toString());
+			transaction.setPhone(phoneSelect.getValue().toString());
 
 		// Setting payment method
 
-		creditCardCharge.setPaymentMethod(paymentMethod);
+		transaction.setPaymentMethod(paymentMethod);
 
 		// Setting pay from
 		payFromAccount = payFrmSelect.getSelectedValue().getID();
 		if (payFromAccount != 0)
-			creditCardCharge.setPayFrom(getCompany().getAccount(payFromAccount)
+			transaction.setPayFrom(getCompany().getAccount(payFromAccount)
 					.getID());
 
 		// setting check no
 		if (cheqNoText.getValue() != null)
-			creditCardCharge.setCheckNumber(cheqNoText.getValue().toString());
+			transaction.setCheckNumber(cheqNoText.getValue().toString());
 
 		if (vatinclusiveCheck != null) {
-			creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
 		}
 
 		// setting delivery date
-		creditCardCharge.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));
+		transaction.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));
 
 		// Setting transactions
-		creditCardCharge.setTransactionItems(vendorTransactionGrid
-				.getallTransactions(creditCardCharge));
+		transaction.setTransactionItems(vendorTransactionGrid
+				.getallTransactions(transaction));
 
 		// setting total
-		creditCardCharge.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setTotal(vendorTransactionGrid.getTotal());
 		// setting memo
-		creditCardCharge.setMemo(getMemoTextAreaItem());
+		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
-		// creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
+		// transaction.setReference(UIUtils.toStr(refText.getValue()));
 
-		transaction = creditCardCharge;
-
-		return creditCardCharge;
 	}
 
 	@Override

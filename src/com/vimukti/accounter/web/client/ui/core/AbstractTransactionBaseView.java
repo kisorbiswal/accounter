@@ -17,7 +17,6 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -130,8 +129,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected abstract void createControls();
 
-	protected abstract void initTransactionViewData(
-			ClientTransaction transactionObject);
+	// protected abstract void initTransactionViewData(
+	// ClientTransaction transactionObject);
 
 	protected abstract void initTransactionViewData();
 
@@ -499,42 +498,18 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public void saveAndUpdateView() {
-		try {
-			if (this.transaction.getTotal() <= 0) {
-				throw new InvalidOperationException(Accounter.constants()
-						.transactiontotalcannotbe0orlessthan0());
-			}
-			transaction.setType(transactionType);
-			if (transactionDate != null)
-				transaction.setDate(transactionDate.getDate());
-			if (transactionNumber != null)
-				transaction.setNumber(transactionNumber.getValue().toString());
-			processTransactionItems();
-			if (transactionItems != null)
-				validateTransactionItems(transactionItems);
-			transaction.setTransactionItems(transactionItems);
-			// transactionObject.setModifiedOn(new Date());
-			if (transactionItems != null)
-				validateVATCODEBaseOnTransactionDate();
-		} catch (Exception e) {
-
-			// SC.logWarn("Exception While Saving"
-			// + String.valueOf(e.getMessage()));
-			// FIXME
-			addError("", e.getMessage());
-		}
 
 	}
 
 	private void validateTransactionItems(
-			List<ClientTransactionItem> transactionItems2)
-			throws InvalidOperationException {
+			List<ClientTransactionItem> transactionItems2) {
 		if (transactionItems == null)
 			return;
 		for (ClientTransactionItem transactionItem : transactionItems)
 			if (transactionItem.getLineTotal() <= 0)
-				throw new InvalidOperationException(Accounter.constants()
-						.transactionitemtotalcannotbe0orlessthan0());
+				addError("TransactionItem" + transactionItem.getAccount(),
+						Accounter.constants()
+								.transactionitemtotalcannotbe0orlessthan0());
 	}
 
 	public AccounterButton createAddNewButton() {
@@ -559,7 +534,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	}
 
-	private void processTransactionItems() throws InvalidEntryException {
+	private void processTransactionItems() {
 		if (customerTransactionGrid != null)
 			this.transactionItems = customerTransactionGrid
 					.getallTransactions(transaction);
@@ -581,7 +556,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return transaction;
 	}
 
-	public void setTransactionObject(ClientTransaction transactionObject) {
+	public void setTransactionObject(T transactionObject) {
 		this.transaction = transactionObject;
 	}
 
@@ -887,8 +862,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return isEdit;
 	}
 
-	public void validateVATCODEBaseOnTransactionDate()
-			throws InvalidEntryException {
+	public void validateVATCODEBaseOnTransactionDate() {
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			for (ClientTransactionItem selectItem : this.transactionItems) {
@@ -900,8 +874,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 							&& getTransactionDate().before(
 									new ClientFinanceDate(2011 - 1900, 01 - 1,
 											04))) {
-						throw new InvalidEntryException(Accounter.constants()
-								.vat4thJanError());
+						addError("TransactionDate" + selectItem.getAccount(),
+								Accounter.constants().vat4thJanError());
 					}
 				}
 			}
@@ -953,6 +927,24 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	/**
 	 * Updates the Transaction Obejct from the GUI Fields before saving.
 	 */
-	protected abstract void updateTransaction();
+	protected void updateTransaction() {
+		if (this.transaction.getTotal() <= 0) {
+			addError(this, Accounter.constants()
+					.transactiontotalcannotbe0orlessthan0());
+		}
+		transaction.setType(transactionType);
+		if (transactionDate != null)
+			transaction.setDate(transactionDate.getDate());
+		if (transactionNumber != null)
+			transaction.setNumber(transactionNumber.getValue().toString());
+		processTransactionItems();
+		if (transactionItems != null)
+			validateTransactionItems(transactionItems);
+		transaction.setTransactionItems(transactionItems);
+		// transactionObject.setModifiedOn(new Date());
+		if (transactionItems != null)
+			validateVATCODEBaseOnTransactionDate();
+
+	}
 
 }

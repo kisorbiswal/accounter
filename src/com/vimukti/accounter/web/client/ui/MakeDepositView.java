@@ -592,7 +592,7 @@ public class MakeDepositView extends
 
 		getDepositInAccounts();
 
-		if (transaction != null) {
+		if (isEdit) {
 			depositInSelect.setComboItem(getCompany().getAccount(
 					((ClientMakeDeposit) transaction).getDepositIn()));
 			this.selectedDepositInAccount = getCompany().getAccount(
@@ -848,7 +848,7 @@ public class MakeDepositView extends
 		vPanel.add(panel);
 		vPanel.add(botHLay);
 
-		if (transaction != null) {
+		if (isEdit) {
 			date.setValue(transaction.getDate());
 			depositInSelect.setComboItem(getCompany().getAccount(
 					((ClientMakeDeposit) transaction).getDepositIn()));
@@ -1180,7 +1180,6 @@ public class MakeDepositView extends
 		return Accounter.constants().makeDeposit();
 	}
 
-	@Override
 	protected void updateTransaction() {
 
 		// Setting date
