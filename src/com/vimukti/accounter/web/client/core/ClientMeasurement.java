@@ -180,4 +180,8 @@ public class ClientMeasurement implements IAccounterCore {
 		return "ClientMeasurement";
 	}
 
+	public ClientMeasurement clone() {
+		return null;
+
+	}
 }
