@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 public class ClientPayVATEntries implements IAccounterCore {
 
 	private static final long serialVersionUID = 1L;
@@ -78,6 +77,11 @@ public class ClientPayVATEntries implements IAccounterCore {
 
 	public long getVatReturn() {
 		return vatReturn;
+	}
+
+	public ClientPayVATEntries clone() {
+		return null;
+
 	}
 
 }
