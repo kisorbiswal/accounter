@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -27,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -34,7 +36,6 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPaySalesTaxGrid;
@@ -508,19 +509,19 @@ public class PaySalesTaxView extends
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
-		switch (this.validationCount) {
-		case 3:
-			return AccounterValidator.validateForm(filterForm, false);
-		case 2:
-			return AccounterValidator.validateGrid(grid);
-		case 1:
-			return AccounterValidator.validateAmount(totalAmount);
-		default:
-			return false;
-		}
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
 
+		result.add(filterForm.validate());
+		if (grid == null || grid.getRecords().isEmpty()) {
+			result.addError(grid, AccounterErrorType.blankTransaction);
+		} else {
+			result.add(grid.validateGrid());
+		}
+		if (!AccounterValidator.validateAmount(totalAmount)) {
+			result.addError(amountText, AccounterErrorType.amount);
+		}
+		return result;
 	}
 
 	@Override
