@@ -42,11 +42,8 @@ import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -690,7 +687,7 @@ public class SalesOrderView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		try {
 			ClientSalesOrder salesOrder = transactionObject != null ? (ClientSalesOrder) transactionObject
 					: new ClientSalesOrder();

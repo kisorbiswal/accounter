@@ -462,7 +462,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		transactionObject = getPaySalesTax();
 		ClientPayVAT payVAT = getPaySalesTax();
 		super.saveAndUpdateView();

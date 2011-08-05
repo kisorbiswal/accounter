@@ -234,7 +234,7 @@ public class PaySalesTaxView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		ClientPaySalesTax paySalesTax = getPaySalesTax();
 		createObject(paySalesTax);
 	}

@@ -131,7 +131,7 @@ public class VATPaymentView extends
 		paymentInformationForm.setFields(vatBalance, amount, memo, referenceNo);
 
 		endingBalanceText = new AmountField(Accounter.constants()
-				.endingBalance(),this);
+				.endingBalance(), this);
 		// endingBalanceText.setWidth("*");
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// endingBalanceText.setAlign(Alignment.RIGHT);
@@ -253,7 +253,7 @@ public class VATPaymentView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		ClientPaySalesTax paySalesTax = getPaySalesTax();
 		createObject(paySalesTax);

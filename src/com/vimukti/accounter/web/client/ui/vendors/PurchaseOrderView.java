@@ -829,76 +829,68 @@ public class PurchaseOrderView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
-		try {
-			ClientPurchaseOrder purchaseOrder = transactionObject != null ? (ClientPurchaseOrder) transactionObject
-					: new ClientPurchaseOrder();
-			purchaseOrder.setVendor(vendor.getID());
+	public void saveAndUpdateView() {
+		ClientPurchaseOrder purchaseOrder = transactionObject != null ? (ClientPurchaseOrder) transactionObject
+				: new ClientPurchaseOrder();
+		purchaseOrder.setVendor(vendor.getID());
 
-			if (statusSelect.getSelectedValue().equals(OPEN))
-				purchaseOrder.setStatus(ClientTransaction.STATUS_OPEN);
-			else if (statusSelect.getSelectedValue().equals(COMPLETED))
-				purchaseOrder.setStatus(ClientTransaction.STATUS_COMPLETED);
-			else if (statusSelect.getSelectedValue().equals(CANCELLED))
-				purchaseOrder.setStatus(ClientTransaction.STATUS_CANCELLED);
+		if (statusSelect.getSelectedValue().equals(OPEN))
+			purchaseOrder.setStatus(ClientTransaction.STATUS_OPEN);
+		else if (statusSelect.getSelectedValue().equals(COMPLETED))
+			purchaseOrder.setStatus(ClientTransaction.STATUS_COMPLETED);
+		else if (statusSelect.getSelectedValue().equals(CANCELLED))
+			purchaseOrder.setStatus(ClientTransaction.STATUS_CANCELLED);
 
-			if (contact != null)
-				purchaseOrder.setContact(contact);
-			if (phoneSelect.getValue() != null)
-				purchaseOrder.setPhone(phoneSelect.getValue().toString());
-			if (billingAddress != null)
-				purchaseOrder.setVendorAddress(billingAddress);
-			if (shippingAddress != null)
-				purchaseOrder.setShippingAddress(shippingAddress);
+		if (contact != null)
+			purchaseOrder.setContact(contact);
+		if (phoneSelect.getValue() != null)
+			purchaseOrder.setPhone(phoneSelect.getValue().toString());
+		if (billingAddress != null)
+			purchaseOrder.setVendorAddress(billingAddress);
+		if (shippingAddress != null)
+			purchaseOrder.setShippingAddress(shippingAddress);
 
-			if (purchaseOrderText.getValue() != null)
-				purchaseOrder.setPurchaseOrderNumber(purchaseOrderText
-						.getValue().toString());
-			if (paymentTerms != null)
-				purchaseOrder.setPaymentTerm(paymentTerms.getID());
-			if (shippingTerms != null)
-				purchaseOrder.setShippingTerms(shippingTerms.getID());
-			if (shippingMethod != null)
-				purchaseOrder.setShippingMethod(shippingMethod.getID());
-			if (dueDateItem.getEnteredDate() != null) {
-				purchaseOrder
-						.setDueDate(dueDateItem.getEnteredDate().getDate());
-			}
-			if (despatchDateItem.getEnteredDate() != null) {
-				purchaseOrder.setDespatchDate(despatchDateItem.getEnteredDate()
-						.getDate());
-			}
-			if (deliveryDateItem.getEnteredDate() != null)
-				purchaseOrder.setDeliveryDate((deliveryDateItem
-						.getEnteredDate().getDate()));
+		if (purchaseOrderText.getValue() != null)
+			purchaseOrder.setPurchaseOrderNumber(purchaseOrderText.getValue()
+					.toString());
+		if (paymentTerms != null)
+			purchaseOrder.setPaymentTerm(paymentTerms.getID());
+		if (shippingTerms != null)
+			purchaseOrder.setShippingTerms(shippingTerms.getID());
+		if (shippingMethod != null)
+			purchaseOrder.setShippingMethod(shippingMethod.getID());
+		if (dueDateItem.getEnteredDate() != null) {
+			purchaseOrder.setDueDate(dueDateItem.getEnteredDate().getDate());
+		}
+		if (despatchDateItem.getEnteredDate() != null) {
+			purchaseOrder.setDespatchDate(despatchDateItem.getEnteredDate()
+					.getDate());
+		}
+		if (deliveryDateItem.getEnteredDate() != null)
+			purchaseOrder.setDeliveryDate((deliveryDateItem.getEnteredDate()
+					.getDate()));
 
-			purchaseOrder.setMemo(getMemoTextAreaItem());
-			purchaseOrder.setNetAmount(vendorTransactionGrid.getGrandTotal());
-			purchaseOrder.setTotal(vendorTransactionGrid.getTotal());
-			// purchaseOrder.setReference(getRefText());
+		purchaseOrder.setMemo(getMemoTextAreaItem());
+		purchaseOrder.setNetAmount(vendorTransactionGrid.getGrandTotal());
+		purchaseOrder.setTotal(vendorTransactionGrid.getTotal());
+		// purchaseOrder.setReference(getRefText());
 
-			transactionObject = purchaseOrder;
-			super.saveAndUpdateView();
+		transactionObject = purchaseOrder;
+		super.saveAndUpdateView();
 
-			if (transactionObject.getID() != 0) {
-				alterObject((ClientPurchaseOrder) transactionObject);
+		if (transactionObject.getID() != 0) {
+			alterObject((ClientPurchaseOrder) transactionObject);
 
-			} else {
-				createObject((ClientPurchaseOrder) transactionObject);
-			}
+		} else {
+			createObject((ClientPurchaseOrder) transactionObject);
+		}
 
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_US
-					|| accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				netAmount.setAmount(purchaseOrder.getNetAmount());
-				vatTotalNonEditableText.setAmount(purchaseOrder.getTotal()
-						- purchaseOrder.getNetAmount());
-				transactionTotalNonEditableText.setAmount(purchaseOrder
-						.getTotal());
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_US
+				|| accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			netAmount.setAmount(purchaseOrder.getNetAmount());
+			vatTotalNonEditableText.setAmount(purchaseOrder.getTotal()
+					- purchaseOrder.getNetAmount());
+			transactionTotalNonEditableText.setAmount(purchaseOrder.getTotal());
 		}
 
 	}

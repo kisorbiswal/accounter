@@ -29,7 +29,6 @@ public class SelectExpenseType extends BaseDialog {
 
 	public SelectExpenseType(AccounterAsyncCallback<IAccounterCore> callBack) {
 		super(Accounter.constants().recordExpenses(), "");
-		this.callBack = callBack;
 		setText(Accounter.constants().recordExpenses());
 		createControls();
 		center();

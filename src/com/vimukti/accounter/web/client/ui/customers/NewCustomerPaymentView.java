@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -548,18 +547,13 @@ public class NewCustomerPaymentView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
-		try {
-			transactionObject = getPrePaymentObject();
-			if (transactionObject.getID() == 0)
-				createObject((ClientCustomerPrePayment) transactionObject);
-			else
-				alterObject((ClientCustomerPrePayment) transactionObject);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
+		transactionObject = getPrePaymentObject();
+		if (transactionObject.getID() == 0)
+			createObject((ClientCustomerPrePayment) transactionObject);
+		else
+			alterObject((ClientCustomerPrePayment) transactionObject);
 	}
 
 	private String getCheckNoValue() {

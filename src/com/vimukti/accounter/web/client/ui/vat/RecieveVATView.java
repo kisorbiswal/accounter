@@ -492,7 +492,7 @@ public class RecieveVATView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		ClientReceiveVAT receiveVAT = getReceiveSalesTax();
 		createObject(receiveVAT);
 	}

@@ -32,8 +32,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -150,61 +148,54 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
-		try {
+	public void saveAndUpdateView() {
 
-			ClientEstimate quote = transactionObject != null ? (ClientEstimate) transactionObject
-					: new ClientEstimate();
+		ClientEstimate quote = transactionObject != null ? (ClientEstimate) transactionObject
+				: new ClientEstimate();
 
-			if (quoteExpiryDate.getEnteredDate() != null)
-				quote.setExpirationDate(quoteExpiryDate.getEnteredDate()
-						.getDate());
-			if (customer != null)
-				quote.setCustomer(customer);
-			if (contact != null)
-				quote.setContact(contact);
-			if (phoneSelect.getValue() != null)
-				quote.setPhone(phoneSelect.getValue().toString());
+		if (quoteExpiryDate.getEnteredDate() != null)
+			quote.setExpirationDate(quoteExpiryDate.getEnteredDate().getDate());
+		if (customer != null)
+			quote.setCustomer(customer);
+		if (contact != null)
+			quote.setContact(contact);
+		if (phoneSelect.getValue() != null)
+			quote.setPhone(phoneSelect.getValue().toString());
 
-			if (deliveryDate.getEnteredDate() != null)
-				quote.setDeliveryDate(deliveryDate.getEnteredDate().getDate());
+		if (deliveryDate.getEnteredDate() != null)
+			quote.setDeliveryDate(deliveryDate.getEnteredDate().getDate());
 
-			if (salesPerson != null)
-				quote.setSalesPerson(salesPerson);
+		if (salesPerson != null)
+			quote.setSalesPerson(salesPerson);
 
-			if (priceLevel != null)
-				quote.setPriceLevel(priceLevel);
+		if (priceLevel != null)
+			quote.setPriceLevel(priceLevel);
 
-			quote.setMemo(memoTextAreaItem.getValue().toString());
+		quote.setMemo(memoTextAreaItem.getValue().toString());
 
-			if (billingAddress != null)
-				quote.setAddress(billingAddress);
+		if (billingAddress != null)
+			quote.setAddress(billingAddress);
 
-			// quote.setReference(this.refText.getValue() != null ? this.refText
-			// .getValue().toString() : "");
-			quote.setPaymentTerm(Utility.getID(paymentTerm));
-			quote.setNetAmount(netAmountLabel.getAmount());
+		// quote.setReference(this.refText.getValue() != null ? this.refText
+		// .getValue().toString() : "");
+		quote.setPaymentTerm(Utility.getID(paymentTerm));
+		quote.setNetAmount(netAmountLabel.getAmount());
 
-			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
-			} else
-				quote.setSalesTax(this.salesTax);
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+			quote.setAmountsIncludeVAT((Boolean) vatinclusiveCheck.getValue());
+		} else
+			quote.setSalesTax(this.salesTax);
 
-			quote.setTotal(transactionTotalNonEditableText.getAmount());
-			transactionObject = quote;
+		quote.setTotal(transactionTotalNonEditableText.getAmount());
+		transactionObject = quote;
 
-			super.saveAndUpdateView();
+		super.saveAndUpdateView();
 
-			if (transactionObject.getID() == 0)
-				createObject((ClientEstimate) transactionObject);
-			else
-				alterObject((ClientEstimate) transactionObject);
+		if (transactionObject.getID() == 0)
+			createObject((ClientEstimate) transactionObject);
+		else
+			alterObject((ClientEstimate) transactionObject);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
 	}
 
 	@Override

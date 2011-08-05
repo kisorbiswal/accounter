@@ -337,7 +337,7 @@ public class NewVendorPaymentView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		ClientPayBill payBill;
 		if (transactionObject != null)
 			payBill = (ClientPayBill) transactionObject;

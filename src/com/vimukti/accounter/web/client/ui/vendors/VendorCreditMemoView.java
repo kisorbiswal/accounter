@@ -341,7 +341,7 @@ public class VendorCreditMemoView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		ClientVendorCreditMemo vendorCreditMemo;
 		if (transactionObject != null)

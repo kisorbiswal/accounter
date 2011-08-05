@@ -431,7 +431,7 @@ public class VendorBillView extends
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		balanceDueNonEditableText = new AmountField(Accounter.constants()
-				.balanceDue(),this);
+				.balanceDue(), this);
 		balanceDueNonEditableText.setHelpInformation(true);
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
@@ -600,7 +600,7 @@ public class VendorBillView extends
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		ClientEnterBill enterBill = transactionObject != null ? (ClientEnterBill) transactionObject
 				: new ClientEnterBill();

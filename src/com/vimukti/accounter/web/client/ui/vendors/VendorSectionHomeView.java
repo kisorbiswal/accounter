@@ -259,7 +259,6 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	}
 
-	@Override
 	public void setPrevoiusOutput(Object preObject) {
 		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_VENDOR,

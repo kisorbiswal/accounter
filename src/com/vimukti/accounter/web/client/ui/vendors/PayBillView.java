@@ -730,7 +730,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		ClientPayBill payBill = getPayBillObject();
 		if (transactionObject == null) {

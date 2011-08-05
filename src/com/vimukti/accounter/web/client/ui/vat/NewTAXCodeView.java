@@ -236,7 +236,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 
 		ClientTAXCode vatCode = getVATCode();
 
