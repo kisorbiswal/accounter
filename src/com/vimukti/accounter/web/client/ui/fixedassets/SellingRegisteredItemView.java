@@ -19,17 +19,19 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.DebitAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.CustomButton;
 import com.vimukti.accounter.web.client.ui.core.CustomButtonType;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -67,8 +69,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	private ArrayList<DynamicForm> listforms;
 
 	public SellingRegisteredItemView() {
-		super(true);
-		this.validationCount = 5;
+		super();
 	}
 
 	@Override
@@ -391,42 +392,48 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	 */
 
 	@Override
-	public boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
-		switch (this.validationCount) {
-		case 5:
-			return AccounterValidator.validateForm(detailsForm, false);
-		case 4:
-			return AccounterValidator.validate_ZeroAmount(salepriceText
-					.getAmount());
-		case 3:
-			return AccounterValidator.validate_Radiovalue(QuestionItem
-					.getValue());
-		case 2:
-
-			if (QuestionItem.getValue().equals(allDepOption)) {
-				return AccounterValidator.isNullValue(dateItemCombo.getValue());
-			}
-		case 1:
-			ClientFixedAsset asset = (ClientFixedAsset) data;
-			if (asset != null)
-				return AccounterValidator.validateSellorDisposeDate(
-						new ClientFinanceDate(asset.getPurchaseDate()),
-						getSoldorDisposedDateField().getEnteredDate(),
-						Accounter.constants().datesold());
-
-		default:
-			return true;
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		result.add(detailsForm.validate());
+		if (AccounterValidator.validate_ZeroAmount(salepriceText.getAmount())) {
+			result.addError(salepriceText, AccounterErrorType.ZERO_AMOUNT);
 		}
+		if (AccounterValidator.validate_Radiovalue(QuestionItem.getValue())) {
+			result.addError(QuestionItem,
+					AccounterErrorType.SHOULD_SELECT_RADIO);
+		}
+
+		if (QuestionItem.getValue().equals(allDepOption)) {
+			if (AccounterValidator.isNullValue(dateItemCombo.getValue())) {
+				result.addError(dateItemCombo,
+						AccounterErrorType.REQUIRED_FIELDS);
+			}
+		}
+		ClientFixedAsset asset = (ClientFixedAsset) data;
+		if (asset != null)
+			if (AccounterValidator.validateSellorDisposeDate(
+					new ClientFinanceDate(asset.getPurchaseDate()),
+					getSoldorDisposedDateField().getEnteredDate())) {
+				result.addError(
+						dateItemCombo,
+						Accounter.constants().datesold()
+								+ " "
+								+ Accounter.constants().conditionalMsg()
+								+ "  ("
+								+ UIUtils
+										.getDateStringFormat(new ClientFinanceDate(
+												asset.getPurchaseDate()))
+								+ "  )");
+			}
+		return result;
 	}
 
 	protected DateField getSoldorDisposedDateField() {
 		return datesold;
 	}
 
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		getJournalViewObjet(getTempFixedAssetObject());
-
 	}
 
 	/**

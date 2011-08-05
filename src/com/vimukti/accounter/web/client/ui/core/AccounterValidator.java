@@ -1278,8 +1278,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean isNullValue(Object object)
-			throws InvalidTransactionEntryException {
+	public static boolean isNullValue(Object object) {
 		if (object == null || object.equals(" ")) {
 			return false;
 		}
@@ -1404,8 +1403,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validate_Radiovalue(Object object)
-			throws InvalidTransactionEntryException {
+	public static boolean validate_Radiovalue(Object object) {
 		if (object == null) {
 			return false;
 		}
@@ -1423,13 +1421,10 @@ public class AccounterValidator {
 	 */
 
 	public static boolean validateSellorDisposeDate(
-			ClientFinanceDate purchaseDate, ClientFinanceDate sellingDate,
-			String constant) throws InvalidTransactionEntryException {
+			ClientFinanceDate purchaseDate, ClientFinanceDate sellingDate) {
 		if (sellingDate.before(purchaseDate)) {
 			if (!UIUtils.isdateEqual(sellingDate, purchaseDate))
-				throw new InvalidTransactionEntryException(constant + " "
-						+ Accounter.constants().conditionalMsg() + "  ("
-						+ UIUtils.getDateStringFormat(purchaseDate) + "  )");
+				return false;
 		}
 
 		return true;
@@ -1462,8 +1457,7 @@ public class AccounterValidator {
 		return true;
 	}
 
-	public static boolean validate_ZeroAmount(Double amount)
-			throws InvalidEntryException {
+	public static boolean validate_ZeroAmount(Double amount) {
 		if (DecimalUtil.isEquals(amount, 0.00)) {
 			return false;
 		}
