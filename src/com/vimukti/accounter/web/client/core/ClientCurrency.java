@@ -95,13 +95,13 @@ public class ClientCurrency implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -109,6 +109,11 @@ public class ClientCurrency implements IAccounterCore {
 	public String getClientClassSimpleName() {
 
 		return "ClientCurrency";
+	}
+
+	public ClientCurrency clone() {
+		return null;
+
 	}
 
 }
