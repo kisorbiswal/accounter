@@ -52,4 +52,9 @@ public class ClientCommodityCode implements IAccounterCore {
 		return "ClientCommodityCode";
 	}
 
+	public ClientCommodityCode clone() {
+		return null;
+
+	}
+
 }
