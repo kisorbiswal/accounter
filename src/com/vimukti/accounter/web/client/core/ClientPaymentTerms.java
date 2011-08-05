@@ -27,8 +27,8 @@ public class ClientPaymentTerms implements IAccounterCore {
 	}
 
 	public ClientPaymentTerms(ClientCompany company, String name,
-			String description, int ifPaidWithIn, double discountPercent, int due,
-			int dueDays) {
+			String description, int ifPaidWithIn, double discountPercent,
+			int due, int dueDays) {
 
 		this.name = name;
 		this.description = description;
@@ -133,13 +133,13 @@ public class ClientPaymentTerms implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -155,6 +155,11 @@ public class ClientPaymentTerms implements IAccounterCore {
 
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
+	}
+
+	public ClientPaymentTerms clone() {
+		return null;
+
 	}
 
 }
