@@ -112,12 +112,10 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	@Override
 	public void onLoad() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onSave() {
 		// TODO Auto-generated method stub
-
 	}
 }
