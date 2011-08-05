@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -267,13 +268,11 @@ public class IssuePaymentView extends BaseDialog {
 
 	}
 
-	protected boolean validate() throws InvalidEntryException,
-			InvalidTransactionEntryException {
-		if (AccounterValidator.validateForm(payForm, true)
-				&& grid.validateGrid())
-			return true;
-		else
-			return false;
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		result.add(payForm.validate());
+		result.add(grid.validateGrid());
+		return result;
 	}
 
 	private boolean validateCheckNo() {
@@ -493,8 +492,8 @@ public class IssuePaymentView extends BaseDialog {
 
 	@Override
 	public void saveFailed(Throwable exception) {
-		BaseDialog.errordata.setHTML(AccounterErrorType.FAILEDREQUEST);
-		BaseDialog.commentPanel.setVisible(true);
+		// BaseDialog.errordata.setHTML(AccounterErrorType.FAILEDREQUEST);
+		// BaseDialog.commentPanel.setVisible(true);
 	}
 
 }

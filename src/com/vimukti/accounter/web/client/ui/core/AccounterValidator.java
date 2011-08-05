@@ -102,10 +102,8 @@ public class AccounterValidator {
 		return true;
 	}
 
-	public static boolean validateNagtiveAmount(Double amt)
-			throws InvalidEntryException {
+	public static boolean validateNagtiveAmount(Double amt) {
 		if (DecimalUtil.isLessThan(amt, 0.00)) {
-			Accounter.showError(AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
 			return false;
 		}
 		return true;
@@ -521,74 +519,74 @@ public class AccounterValidator {
 
 	public static boolean validate_IncomeAccount(final AbstractBaseView view,
 			ClientAccount income_account) {
-		if (!AbstractBaseView.errorOccured
-				&& income_account.getType() != ClientAccount.TYPE_INCOME) {
-			Accounter.showWarning(
-					AccounterWarningType.different_IncomeAccountType,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
-
-							return false;
-						}
-
-						@Override
-						public boolean onNoClick() throws InvalidEntryException {
-							// Accounter.stopExecution();
-							return true;
-						}
-
-						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
-							view.validationCount--;
-							return true;
-						}
-
-					});
-			AbstractBaseView.warnOccured = true;
+		if (income_account.getType() != ClientAccount.TYPE_INCOME) {
+			return false;
+			// Accounter.showWarning(
+			// AccounterWarningType.different_IncomeAccountType,
+			// AccounterType.WARNING, new ErrorDialogHandler() {
+			//
+			// @Override
+			// public boolean onCancelClick()
+			// throws InvalidEntryException {
+			//
+			// return false;
+			// }
+			//
+			// @Override
+			// public boolean onNoClick() throws InvalidEntryException {
+			// // Accounter.stopExecution();
+			// return true;
+			// }
+			//
+			// @Override
+			// public boolean onYesClick()
+			// throws InvalidEntryException {
+			// view.validationCount--;
+			// return true;
+			// }
+			//
+			// });
+			// AbstractBaseView.warnOccured = true;
 		} else
-			view.validationCount--;
+			// view.validationCount--;
 
-		return false;
+			return false;
 	}
 
-	public static boolean validate_ExpenseAccount(final AbstractBaseView view,
-			ClientAccount expense_account) {
-		if (!AbstractBaseView.errorOccured
-				&& expense_account.getType() != ClientAccount.TYPE_EXPENSE
+	public static boolean validate_ExpenseAccount(ClientAccount expense_account) {
+		if (expense_account.getType() != ClientAccount.TYPE_EXPENSE
 				&& expense_account.getType() != ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
-			Accounter.showWarning(
-					AccounterWarningType.different_ExpenseAccountType,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
-
-							return false;
-						}
-
-						@Override
-						public boolean onNoClick() throws InvalidEntryException {
-							// Accounter.stopExecution();
-							return true;
-						}
-
-						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
-							view.validationCount--;
-							return true;
-						}
-
-					});
-			AbstractBaseView.warnOccured = true;
-		} else
-			view.validationCount--;
-		return false;
+			return false;
+			// Accounter.showWarning(
+			// AccounterWarningType.different_ExpenseAccountType,
+			// AccounterType.WARNING, new ErrorDialogHandler() {
+			//
+			// @Override
+			// public boolean onCancelClick()
+			// throws InvalidEntryException {
+			//
+			// return false;
+			// }
+			//
+			// @Override
+			// public boolean onNoClick() throws InvalidEntryException {
+			// // Accounter.stopExecution();
+			// return true;
+			// }
+			//
+			// @Override
+			// public boolean onYesClick()
+			// throws InvalidEntryException {
+			// view.validationCount--;
+			// return true;
+			// }
+			//
+			// });
+			// AbstractBaseView.warnOccured = true;
+		}
+		// else
+		// view.validationCount--;
+		return true;
 
 	}
 
@@ -1043,11 +1041,10 @@ public class AccounterValidator {
 	}
 
 	public static boolean validate_MakeDeposit_CashBackAmount(double amount,
-			double totalDepositAmount) throws InvalidEntryException {
+			double totalDepositAmount) {
 
 		if (!DecimalUtil.isEquals(amount, 0.0)
 				&& DecimalUtil.isGreaterThan(amount, totalDepositAmount)) {
-			Accounter.showError(AccounterErrorType.makeDeposit_CashBackAmount);
 			return false;
 		}
 		return true;
@@ -1056,14 +1053,12 @@ public class AccounterValidator {
 
 	public static boolean validate_MakeDeposit_accountcombo(
 			ClientAccount selectedDepositInAccount,
-			AbstractTransactionGrid gridView) throws InvalidEntryException {
+			AbstractTransactionGrid gridView) {
 		List<ClientTransactionMakeDeposit> selectedRecords = gridView
 				.getSelectedRecords();
 
 		for (ClientTransactionMakeDeposit rec : selectedRecords) {
 			if (rec.getAccount() == (selectedDepositInAccount.getID())) {
-				Accounter
-						.showError(AccounterErrorType.makedepositAccountValidation);
 				return false;
 			}
 		}
@@ -1431,9 +1426,9 @@ public class AccounterValidator {
 	}
 
 	public static boolean isSellorBuyCheck(CheckboxItem sellCheck,
-			CheckboxItem buyCheck) throws InvalidEntryException {
-		if (!isChecked(sellCheck) && !isChecked(buyCheck)) {
-			throw new InvalidEntryException(AccounterErrorType.CHECK_ANYONE);
+			CheckboxItem buyCheck) {
+		if (!sellCheck.isChecked() && !buyCheck.isChecked()) {
+			return false;
 		}
 		return true;
 	}
@@ -1541,8 +1536,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean isPriorAsOfDate(ClientFinanceDate asOfDate,
-			final AbstractBaseView view) {
+	public static boolean isPriorAsOfDate(ClientFinanceDate asOfDate) {
 
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(getCompany()
 				.getPreferences().getPreventPostingBeforeDate());

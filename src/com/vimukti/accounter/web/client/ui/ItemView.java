@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ItemGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.PurchaseItemCombo;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.FloatRangeValidator;
@@ -98,7 +100,6 @@ public class ItemView extends BaseView<ClientItem> {
 		this.type = type;
 		this.company = getCompany();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
-		this.validationCount = 9;
 
 	}
 
@@ -557,16 +558,13 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
+	public void saveAndUpdateView() {
 		ClientItem item = null;
 		item = getItem(saveAndClose);
 
 		if (takenItem == null) {
 
-			if (Utility.isObjectExist(getCompany().getItems(), item.getName())) {
-				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
-			} else
-				createObject(item);
+			createObject(item);
 
 		} else {
 			alterObject(item);
@@ -856,85 +854,62 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException {
-
-		switch (this.validationCount) {
-		case 9:
-			String name = nameText.getValue().toString();
-			if (takenItem == null) {
-				if (Utility.isObjectExist(company.getItems(), name)) {
-					// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-					// + "<li> An Item already exists with this name.");
-					// BaseView.commentPanel.setVisible(true);
-					// AbstractBaseView.errorOccured = true;
-					MainFinanceWindow.getViewManager().appendError(
-							Accounter.constants()
-									.aItemGroupAlreadyExistswiththisname());
-					// Accounter
-					// .showError("An Item already exists with this name");
-					return false;
-				} else
-					return true;
-			}/*
-			 * else if (takenItem != null &&
-			 * (!takenItem.getName().equalsIgnoreCase(name))) { if
-			 * (Utility.isObjectExist(company.getItems(), name)) throw new
-			 * InvalidEntryException( AccounterErrorType.ALREADYEXIST); else
-			 * return true; }
-			 */
-
-		case 8:
-			return AccounterValidator.validateForm(itemForm, false);
-		case 7:
-			return AccounterValidator.isSellorBuyCheck(isellCheck, ibuyCheck);
-		case 6:
-			if (isellCheck.isChecked())
-				return AccounterValidator.validateForm(salesInfoForm, false);
-			return true;
-		case 5:
-			boolean result = true;
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				result = AccounterValidator.validateForm(itemInfoForm, false);
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		String name = nameText.getValue().toString();
+		if (takenItem == null) {
+			if (Utility.isObjectExist(company.getItems(), name)) {
+				result.addError(nameText, Accounter.constants()
+						.aItemGroupAlreadyExistswiththisname());
 			}
-			if (ibuyCheck.isChecked())
-				result = AccounterValidator.validateForm(purchaseInfoForm,
-						false);
-			return result;
-
-		case 4:
-			if (isellCheck.isChecked())
-				return AccounterValidator.validateAmount(salesPriceText
-						.getAmount());
-			else
-				return true;
-
-		case 3:
-			if (ibuyCheck.isChecked())
-				return AccounterValidator.validateAmount(purchasePriceTxt
-						.getAmount());
-			else
-				return true;
-
-		case 2:
-			if (selectAccount != null) {
-				if (isellCheck.isChecked())
-					return AccounterValidator.validate_IncomeAccount(this,
-							selectAccount);
-				else
-					return true;
-			}
-			return true;
-		case 1:
-			if (selectExpAccount != null) {
-				if (isellCheck.isChecked())
-					return AccounterValidator.validate_ExpenseAccount(this,
-							selectExpAccount);
-				else
-					return true;
-			}
-		default:
-			return false;
 		}
+
+		result.add(itemForm.validate());
+		if (!AccounterValidator.isSellorBuyCheck(isellCheck, ibuyCheck)) {
+			result.addError(isellCheck, AccounterErrorType.CHECK_ANYONE);
+		}
+		if (isellCheck.isChecked()) {
+			result.add(salesInfoForm.validate());
+		}
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			result.add(itemInfoForm.validate());
+		}
+		if (ibuyCheck.isChecked()) {
+			result.add(purchaseInfoForm.validate());
+		}
+
+		if (isellCheck.isChecked()) {
+			if (!AccounterValidator.validateAmount(salesPriceText.getAmount())) {
+				result.addError(salesPriceText, AccounterErrorType.amount);
+			}
+		}
+
+		if (ibuyCheck.isChecked()) {
+			if (!AccounterValidator
+					.validateAmount(purchasePriceTxt.getAmount())) {
+				result.addError(purchasePriceTxt, AccounterErrorType.amount);
+			}
+		}
+
+		if (selectAccount != null) {
+			if (isellCheck.isChecked()) {
+				if (!AccounterValidator.validate_IncomeAccount(this,
+						selectAccount)) {
+					result.addWarning(accountCombo,
+							AccounterWarningType.different_IncomeAccountType);
+				}
+			}
+		}
+		if (selectExpAccount != null) {
+			if (ibuyCheck.isChecked()) {
+				if (!AccounterValidator
+						.validate_ExpenseAccount(selectExpAccount)) {
+					result.addWarning(expAccCombo,
+							AccounterWarningType.different_ExpenseAccountType);
+				}
+			}
+		}
+		return result;
 	}
 
 	public List<DynamicForm> getForms() {

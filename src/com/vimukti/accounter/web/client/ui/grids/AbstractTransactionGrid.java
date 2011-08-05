@@ -91,7 +91,7 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	}
 
 	public abstract List<ClientTransactionItem> getallTransactions(
-			ClientTransaction object) throws InvalidEntryException;
+			ClientTransaction object);
 
 	@Override
 	protected void addOrEditSelectBox(T obj, Object value) {

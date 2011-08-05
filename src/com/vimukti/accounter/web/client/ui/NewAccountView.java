@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.BankNameCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.DropDownCombo;
@@ -182,7 +183,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					}
 				});
 
-		accNoText = new IntegerField(Accounter.constants().accountNo());
+		accNoText = new IntegerField(this, Accounter.constants().accountNo());
 		accNoText.setHelpInformation(true);
 		accNoText.setRequired(true);
 		accNoText.setWidth(100);
@@ -458,11 +459,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private void resetView() {
 		accInfoForm.setWidth("100%");
-		if (accountType == ClientAccount.TYPE_CREDIT_CARD)
-			validationCount = 5;
-		else
-			validationCount = 5;
-		totalValidations = validationCount;
 		reset(cashBasisForm);
 		reset(commentsForm);
 		if (accountType == ClientAccount.TYPE_INVENTORY_ASSET)
@@ -617,7 +613,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				}
 
 			});
-			cardNumText = new IntegerField(Accounter.constants()
+			cardNumText = new IntegerField(this, Accounter.constants()
 					.cardOrLoadNumber());
 			cardNumText.setHelpInformation(true);
 			cardNumText.setWidth(100);
@@ -818,27 +814,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	@Override
-	public void saveAndUpdateView() throws Exception {
-		try {
-			ClientAccount account = getAccountObject();
+	public void saveAndUpdateView() {
+		ClientAccount account = getAccountObject();
 
-			if (takenAccount == null) {
-				if (Utility.isNumberCorrect(account)) {
-					throw new InvalidEntryException(
-							AccounterErrorType.INVALIDNUMBER);
-				} else if (Utility.isObjectExist(getCompany().getAccounts(),
-						account.getName())) {
-					throw new InvalidEntryException(
-							AccounterErrorType.ALREADYEXIST);
-				} else {
-					createObject(account);
-				}
-			} else
-				alterObject(account);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
+		if (takenAccount == null) {
+			createObject(account);
+		} else
+			alterObject(account);
 
 	}
 
@@ -891,86 +873,31 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	@Override
-	public boolean validate() throws InvalidEntryException {
-
-		// if (totalValidations == 2){
-		// AccounterValidator.validateForm(accInfoForm);
-		// totalValidations--;
-		// }else {
-
-		/*
-		 * If the account type is CreditCard,then a special case need to be
-		 * check using onCreditCardAccountSaved(),otherwise validate only
-		 * account name
-		 */
-		if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
-			switch (validationCount) {
-			case 5:
-				String name = accNameText.getValue().toString() != null ? accNameText
-						.getValue().toString() : "";
-				if (takenAccount != null ? (takenAccount.getName()
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		result.add(accInfoForm.validate());
+		String name = accNameText.getValue().toString() != null ? accNameText
+				.getValue().toString() : "";
+		if (name != null
+				&& !name.isEmpty()
+				&& !(takenAccount != null ? (takenAccount.getName()
 						.equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getAccounts(),
-								name) ? false : true)) : true) {
-					return true;
-				} else
-					throw new InvalidEntryException(
-							AccounterErrorType.ALREADYEXIST);
-			case 4:
-				return AccounterValidator.validateForm(accInfoForm, false);
-			case 3:
-				if (takenAccount != null
-						&& takenAccount.getName().equalsIgnoreCase(
-								Accounter.constants().openingBalances()))
-					return true;
-				else
-					return validateAccountNumber(accNoText.getNumber());
-			case 2:
-				return AccounterValidator.onCreditCardAccountSaved(this);
-			case 1:
-				ClientFinanceDate asOfDate = asofDate.getEnteredDate();
-				return AccounterValidator.isPriorAsOfDate(asOfDate, this);
-			default:
-				break;
-			}
-		} else {
-			switch (validationCount) {
-			case 5:
-				String name = accNameText.getValue().toString() != null ? accNameText
-						.getValue().toString() : "";
-				if (takenAccount != null ? (takenAccount.getName()
-						.equalsIgnoreCase(name) ? true
-						: (Utility.isObjectExist(getCompany().getAccounts(),
-								name) ? false : true)) : true) {
-					return true;
-				} else
-					throw new InvalidEntryException(
-							AccounterErrorType.ALREADYEXIST);
-			case 4:
-				return validateAccountNumber(accNoText.getNumber());
-			case 3:
-				return AccounterValidator.validateForm(accInfoForm, false);
-			case 2:
-				if (accountType == ClientAccount.TYPE_BANK)
-					return AccounterValidator.validateForm(bankForm, false);
-				return true;
-			case 1:
-				ClientFinanceDate asOfDate = asofDate.getEnteredDate();
-				return AccounterValidator.isPriorAsOfDate(asOfDate, this);
-			default:
-				break;
-			}
+								name) ? false : true)) : true)) {
+			result.addError(accNameText, AccounterErrorType.ALREADYEXIST);
 		}
+		if (!(takenAccount != null && takenAccount.getName().equalsIgnoreCase(
+				Accounter.constants().openingBalances()))) {
+			validateAccountNumber(accNoText.getNumber());
+		}
+		if (AccounterValidator.isPriorAsOfDate(asofDate.getEnteredDate())) {
+			result.addError(asofDate, AccounterErrorType.prior_asOfDate);
+		}
+		if (accountType == ClientAccount.TYPE_BANK) {
+			result.add(bankForm.validate());
+		}
+		return result;
 
-		return validateAccountNumber(accNoText.getNumber());
-
-		// if (!accInfoForm.validate())
-		// throw new InvalidEntryException(
-		// "Required Fields are shown in bold.Those Fields should be Filled");
-		// // if(this.accountType!=selectedSubAccount.getType())
-		// // throw new InvalidEntryException(
-		// // "Parent and Child financial Account Types must Match..");
-		// return true;
 	}
 
 	public Double getOpeningBalance() {
@@ -987,15 +914,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	public void setCreditLimit(Double creditLimit) {
 		this.creditLimit = creditLimit;
-	}
-
-	protected boolean validateForm() {
-		if (accountType != ClientAccount.TYPE_BANK
-				&& accountType != ClientAccount.TYPE_CREDIT_CARD) {
-			return accInfoForm.validate(false);
-
-		} else
-			return accInfoForm.validate(false) && commonForm.validate(false);
 	}
 
 	// protected SimplePanel getWidget() {
@@ -1095,7 +1013,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			getSubAccounts();
 		if (takenAccount != null)
 			initView();
-		validationCount = totalValidations;
 		super.initData();
 		// if (takenAccount == null)
 		// getNextAccountNumber();
@@ -1339,36 +1256,20 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (takenAccount == null) {
 			for (ClientAccount account : accounts) {
 				if (number.toString().equals(account.getNumber())) {
-					// BaseView.errordata.setHTML("<li> "
-					// + FinanceApplication.constants()
-					// .alreadyAccountExist() + ".");
-					// BaseView.commentPanel.setVisible(true);
-					// AbstractBaseView.errorOccured = true;
-					addError(this, Accounter.constants().alreadyAccountExist());
-					// Accounter.showError(FinanceApplication.constants()
-					// .alreadyAccountExist());
+					addError(accNoText, Accounter.constants()
+							.alreadyAccountExist());
 					return false;
 				}
 			}
 		}
 		if (isNewBankAccount()) {
 			if (number < 1100 || number > 1179) {
-				// BaseView.errordata
-				// .setHTML("<li> The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179.");
-				// BaseView.commentPanel.setVisible(true);
 				addError(
-						this,
+						accNoText,
 						Accounter
 								.constants()
 								.theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179());
-				// Accounter
-				// .showError("The Account Number chosen is incorrect. Please choose a Number between 1100 and 1179");
-				// accNoText.setNumber(null);
 				return false;
-			} else {
-				// BaseView.errordata.setHTML("");
-				// BaseView.commentPanel.setVisible(false);
-
 			}
 		} else {
 			accountSubBaseType = UIUtils.getAccountSubBaseType(accountType);
@@ -1382,15 +1283,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 
 			if (number < nominalCodeRange[0] || number > nominalCodeRange[1]) {
-				// BaseView.errordata
-				// .setHTML("<li> The Account Number chosen is incorrect. Please choose a Number between"
-				// + "  "
-				// + nominalCodeRange[0]
-				// + " and "
-				// + nominalCodeRange[1] + ".");
-				// BaseView.commentPanel.setVisible(true);
 				addError(
-						this,
+						accNoText,
 						Accounter
 								.constants()
 								.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
@@ -1398,18 +1292,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 								+ nominalCodeRange[0]
 								+ Accounter.constants().and()
 								+ nominalCodeRange[1]);
-				// Accounter
-				// .showError("The Account Number chosen is incorrect. Please choose a Number between"
-				// + "  "
-				// + nominalCodeRange[0]
-				// + " and "
-				// + nominalCodeRange[1]);
-				// accNoText.setNumber(null);
 				return false;
-			} else {
-				// BaseView.errordata.setHTML("");
-				// BaseView.commentPanel.setVisible(false);
-
 			}
 		}
 		accNoText.setValue(number);
