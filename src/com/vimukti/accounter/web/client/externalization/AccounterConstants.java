@@ -4464,4 +4464,10 @@ public interface AccounterConstants extends Constants {
 
 	public String bothServicesandProducts();
 
+	public String products_labelonly();
+
+	public String services_labelonly();
+
+	public String bothservicesandProduct_labelonly();
+
 }
