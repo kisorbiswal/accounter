@@ -480,4 +480,9 @@ public class ClientAccount implements IAccounterCore {
 		return "ClientAccount";
 	}
 
+	public Object clone() {
+		return null;
+
+	}
+
 }
