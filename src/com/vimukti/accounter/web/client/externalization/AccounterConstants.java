@@ -4426,4 +4426,24 @@ public interface AccounterConstants extends Constants {
 	
 	public String otherNone();
 	
+	public String enterYourCompanyInfo();
+
+	public String selectYourIndustry();
+
+	public String howisYourCompanyOrganized();
+
+	public String howDoYouRefer();
+
+	public String reviewIncomeAndExpensesAccounts();
+
+	public String selectFirstMonthOfFiscalYear();
+
+	public String whatDoYouSell();
+
+	public String welcomeToStartup();
+
+	public String managingBills();
+
+	public String doyouHaveEmployees();
+
 }
