@@ -16,6 +16,7 @@
 <!-- Any title is fine                         -->
 <!--                                           -->
 <title>DefBiz</title>
+
 <script type="text/javascript">
     String.prototype.trim = function() { return this.replace(/^\s*/, "").replace(/\s*$/, ""); };
     	function validation(formObject){
@@ -139,117 +140,156 @@
            		
     </script>
 <!--CSS for loading message at application Startup-->
+<link rel="shortcut icon" href="../images/favicon.ico" />
+<link type="text/css" href="../css/ss.css" rel="stylesheet">
 <style type="text/css">
-*{
-  margin:0px;
-  padding:0px;
+body {
+	overflow: hidden
 }
-form{
-  font-weight:normal;
-  font-family:sans-serif;
+
+#loading {
+	border: 1px solid #ccc;
+	position: absolute;
+	left: 45%;
+	top: 40%;
+	padding: 2px;
+	z-index: 20001;
+	height: auto;
 }
-#commanContainer{
-    margin: 7em auto;
-    width: 320px;
+
+#loading a {
+	color: #225588;
 }
-#commanContainer label{
-    color: #777777;
-    font-size: 14px;
+
+#loading .loadingIndicator {
+	background: white;
+	font: bold 13px tahoma, arial, helvetica;
+	padding: 10px;
+	margin: 0;
+	height: auto;
+	color: #444;
 }
-#commanContainer form{
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #E5E5E5;
-    border-radius: 3px 3px 3px 3px;
-    box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
-    font-weight: normal;
-    margin-left: 8px;
-    padding: 26px 24px 46px;
+
+#loadingMsg {
+	font: normal 10px arial, tahoma, sans-serif;
 }
-#commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select{
-    background: none repeat scroll 0 0 #FBFBFB;
-    border: 1px solid #E5E5E5;
-    box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
-    margin:2px 6px 16px 0px;
-    outline: medium none;
-    padding: 3px;
-    width: 97%;
-	height:40px;
+
+html body {
+	font-family: Verdana, sans-serif;
+	font-size: 13px;
 }
-.rememberMe{
-    float:left;
+
+html	table,tr,td {
+	font-family: Verdana, sans-serif;
+	font-size: 13px;
+	border-spacing: 0pt;
 }
-.loginbutton,#forgot-login,.signup-submit,.reset-button{
-    float:right;
-	margin-right: 8px;
+
+body {
+	/*font-size: 13px;
+	background: LightSteelBlue none repeat scroll 0 0;*/
 }
-.allviews-common-button{
-    background: none repeat scroll 0 0 #28757D;
-    border: 1px solid #28757D;
-    border-radius: 11px 11px 11px 11px;
-    color: white;
-    cursor: pointer;
-    font-family: sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    margin-top: -3px;
-    padding: 3px 10px;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+
+.login {
+	margin: 140px auto;
+	background-color: #f2f3f5;
+	padding: 10px;
+	border: 1px solid #000;
+	width: 45%;
 }
-.loginbutton input:active,.loginbutton input:hover,.loginbutton input:focus{
-    background:#1a5158;
-	border:1px solid #9ebfc3;
+
+.image {
+	text-align: center;
 }
-.form-bottom-options{
-    margin: 0 0 0 16px;
-    padding: 16px 16px 0;
-    text-shadow: 0 1px 0 #FFFFFF;
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
 }
-.form-bottom-options a,#commanContainer a{
-   color:#28757D;
-   text-decoration:underline;
+
+fieldset {
+	border: 1px solid #000;
+	padding: 10px;
+	background-color: #e9edf0;
+	margin: 5px 0px;
+	width: 300px;
 }
-.accounterLogo{
-   padding:0 0 15px 10px;
+
+fieldset table td {
+	float: left;
 }
-.common-box{
-    border-radius: 3px 3px 3px 3px;
-    border-style: solid;
-    border-width: 1px;
-    margin: 0 0 16px 8px;
-    padding: 12px;
-    font-size:12px;
-	font-family:sans-serif;
+
+.login img[src="logo.png"] {
+	text-align: center;
 }
-#login_error{
-	background-color: #FFEBE8;
-    border-color: #CC0000;
+
+.login img[src="lock.png"] {
+	float: left;
 }
-#forgot-password_error{
-    background-color: #FFFFE0;
-    border-color: #E6DB55;
+
+p {
+	text-align: left;
+	clear: left;
+	line-height: 30px;
+	margin: 0px;
 }
-.signup-container{
-   width:500px !important;
-   margin:0 auto !important;
+
+.loginbox {
+	float: right;
 }
-.signup-submit{
-   margin-top:15px;
+
+.loginlabel {
+	font-weight: bold;
+	color: #c64933;
 }
-.reset-header{
-   color:#28757D;
-   margin-bottom:10px;
+
+.loginbox a {
+	font-weight: bold;
+	color: #0000ff;
+	margin-left: 20px;
+	text-decoration: none;
 }
-.createbutton{
-	float:right;
+
+/*#formDiv input[type="text"],#formDiv input[type="password"] {
+	border: 1px solid #9cb0ce;
+}*/
+
+.loginbox a:hover {
+	text-decoration: underline;
+}
+
+#admin_info {
+	font-size: large;
+	padding-left: 10px;
+}
+
+#red {
+	color: red;
+}
+
+.hiddenPic {
+	display: none;
+	float: left;
+	margin-top: 25%;
+	margin-left: 50%;
+}
+
+#middlePos {
+	float: left;
+	margin-top: 20%;
+	margin-left: 40%;
 }
 </style>
 </head>
 <body>
 <div id="commanContainer">	
 <img src="../images/Accounter_logo_title.png" class="accounterLogo" />	
-<!--<div id="hiddenDiv" class="hiddenPic">
+<div id="hiddenDiv" class="hiddenPic">
   <img src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50">
-</div>-->
+</div>
 <c:if test="${message != null}">
 <div id="login_error" class="common-box">
   <b>${message} </b> 
@@ -260,7 +300,7 @@ form{
  <div id="formDiv">
 	<form method="post" action="/createcompany"
 		onsubmit="return validation(this)">
-		 <strong> Create Company</strong><br>
+		 <h2 class="company-heading"> Create Company</h2>
 	     <div>
 		    <label>Name</label>
 			<input type="text" name="name" id="name"
@@ -273,9 +313,9 @@ form{
 				<option value="0">US</option>
 			</select>
 		 </div>
-		 <div class="createbutton">
-			     <input type="submit" tabindex="6" value="Create" name="create" class="allviews-common-button" style="width:60px" id="submitButton">
-			  </div>
+		  <div class="createbutton">
+		  <input type="submit" tabindex="6" value="Create" name="create" class="allviews-common-button" style="width:60px" id="submitButton">
+	     </div>
 	</form>
 	</div>
 </c:if>
