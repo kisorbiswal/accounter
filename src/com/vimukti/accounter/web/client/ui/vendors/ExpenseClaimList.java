@@ -147,7 +147,7 @@ public class ExpenseClaimList extends BaseView {
 							result.setExpenseStatus(expenceStatus);
 							updateTransactionItems(result);
 							setAction(ActionFactory.getExpenseClaimsAction(0));
-							alterObject(result);
+							saveOrUpdate(result);
 						}
 					});
 		}

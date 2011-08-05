@@ -76,7 +76,7 @@ public class JournalEntryView extends
 		updateTransaction();
 		super.saveAndUpdateView();
 		saveOrUpdate(transaction);
-
+		Object clone = takenJournalEntry.clone();
 	}
 
 	@Override

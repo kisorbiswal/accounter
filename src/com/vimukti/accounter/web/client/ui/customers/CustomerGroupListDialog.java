@@ -147,7 +147,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 					.customerGroupAlreadyExists());
 		} else {
 			customerGroup.setName(inputDlg.getTextValueByIndex(0));
-			alterObject(customerGroup);
+			saveOrUpdate(customerGroup);
 		}
 	}
 

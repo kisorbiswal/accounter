@@ -145,7 +145,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else {
 			creditRating.setName(inputDlg.getTextValueByIndex(0));
-			alterObject(creditRating);
+			saveOrUpdate(creditRating);
 		}
 
 	}

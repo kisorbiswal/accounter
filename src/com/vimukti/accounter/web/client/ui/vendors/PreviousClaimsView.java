@@ -106,7 +106,7 @@ public class PreviousClaimsView extends BaseView {
 								updateTransactionItems(result);
 								setAction(ActionFactory
 										.getExpenseClaimsAction(1));
-								alterObject(result);
+								saveOrUpdate(result);
 							}
 						});
 			}

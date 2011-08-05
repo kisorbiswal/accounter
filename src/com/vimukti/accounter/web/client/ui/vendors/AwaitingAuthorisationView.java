@@ -181,7 +181,7 @@ public class AwaitingAuthorisationView extends BaseView {
 							result.setExpenseStatus(expenceStatus);
 							setAction(ActionFactory.getExpenseClaimsAction(2));
 							updateTransactionItems(result);
-							alterObject(result);
+							saveOrUpdate(result);
 						}
 					});
 		}

@@ -591,7 +591,7 @@ public class InvoiceBrandingView<T> extends
 
 		theme.setLogoAdded(false);
 		theme.setFileName(null);
-		ViewManager.getInstance().alterObject(theme, InvoiceBrandingView.this);
+		saveOrUpdate(theme);
 
 	}
 
@@ -600,8 +600,7 @@ public class InvoiceBrandingView<T> extends
 		ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
 			@Override
 			public void execute(ClientBrandingTheme value) {
-				ViewManager.getInstance().alterObject(value,
-						InvoiceBrandingView.this);
+				saveOrUpdate(value);
 			}
 		};
 		FileUploadDilaog dilaog = new FileUploadDilaog("Upload file", "parent",
