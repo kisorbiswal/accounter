@@ -386,4 +386,9 @@ public class ClientItem extends BaseReport implements IAccounterCore {
 		return "ClientItem";
 	}
 
+	public ClientItem clone() {
+		return null;
+
+	}
+
 }
