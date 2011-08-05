@@ -5,7 +5,7 @@ import com.google.gwt.i18n.client.Constants;
 public interface AccounterConstants extends Constants {
 
 	public String textId();
-
+	
 	public String a2Code();
 
 	public String a3Code();
@@ -4453,5 +4453,9 @@ public interface AccounterConstants extends Constants {
 	public String doyouHaveEmployees();
 
 	public String wanttoCreateEstimatesInAccounter();
+
+	public String accounterToWorkBestForYou();
+
+	public String industry();
 
 }
