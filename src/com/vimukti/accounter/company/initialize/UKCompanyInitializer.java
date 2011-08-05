@@ -12,8 +12,6 @@ import com.vimukti.accounter.core.AccounterConstants;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
-import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.NominalCodeRange;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXAgency;

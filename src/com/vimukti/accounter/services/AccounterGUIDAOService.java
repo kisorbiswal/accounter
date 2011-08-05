@@ -3,8 +3,6 @@ package com.vimukti.accounter.services;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -26,11 +24,9 @@ import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransferFund;
-import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;

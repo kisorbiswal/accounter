@@ -147,4 +147,7 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("busyindicator.gif")
 	ImageResource busyIndicator();
+
+	@Source("Save-&-close.png")
+	ImageResource saveAndClose();
 }

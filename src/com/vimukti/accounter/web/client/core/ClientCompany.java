@@ -1347,14 +1347,13 @@ public class ClientCompany implements IAccounterCore {
 		return activeAccounts;
 	}
 
-	public void processUpdateOrCreateObject(AccounterCommand cmd) {
+	public void processUpdateOrCreateObject(IAccounterCore accounterCoreObject) {
 
 		try {
 
 			// Accounter.showInformation("I came to processUpdateOrCreateObject.......");
-			IAccounterCore accounterCoreObject = cmd.getData();
 			if (accounterCoreObject != null)
-				switch (cmd.getObjectType()) {
+				switch (accounterCoreObject.getObjectType()) {
 
 				case ACCOUNT:
 
@@ -1648,10 +1647,6 @@ public class ClientCompany implements IAccounterCore {
 					Utility.updateClientList(theme, brandingTheme);
 					break;
 				}
-			ViewManager.getInstance().operationSuccessFull(cmd);
-			// if (accounterCoreObject instanceof ClientTransaction)
-			// ViewManager.getInstance().updateDashBoardData(
-			// accounterCoreObject);
 		} catch (Exception e) {
 			if (e instanceof JavaScriptException) {
 				Accounter.showInformation(Accounter.constants()
@@ -1829,7 +1824,6 @@ public class ClientCompany implements IAccounterCore {
 			deleteBrandingTheme(id);
 			break;
 		}
-		ViewManager.getInstance().deleteSuccess(accounterCoreObject);
 	}
 
 	// private void deleteSoldDisposedAsset(String id) {
