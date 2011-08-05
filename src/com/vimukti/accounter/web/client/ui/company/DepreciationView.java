@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.fixedassets.RollBackDepreciationDialog;
 import com.vimukti.accounter.web.client.ui.fixedassets.StartDateDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -68,7 +69,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 
 		createControls();
@@ -499,10 +500,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

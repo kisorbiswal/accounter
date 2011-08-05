@@ -233,7 +233,7 @@ public class CustomerRefundView extends
 							refundAmountChanged(givenAmount);
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
-						MainFinanceWindow.getViewManager().restoreErrorBox();
+						
 						setRefundAmount(givenAmount);
 
 					}

@@ -27,7 +27,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
-import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
@@ -41,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -505,7 +505,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 		setSize("100%", "100%");

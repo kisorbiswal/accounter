@@ -6,7 +6,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -30,7 +29,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class TransactionJournalEntryGrid extends
 		AbstractTransactionGrid<ClientEntry> {
@@ -63,7 +62,7 @@ public class TransactionJournalEntryGrid extends
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		isEnable = false;
 		super.init();
 		createControls();

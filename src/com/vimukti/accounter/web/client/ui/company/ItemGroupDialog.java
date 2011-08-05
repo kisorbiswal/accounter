@@ -6,7 +6,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -103,10 +102,7 @@ public class ItemGroupDialog extends BaseDialog {
 		return this.itemgroup;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public Object getGridColumnValue(IsSerializable obj, int index) {

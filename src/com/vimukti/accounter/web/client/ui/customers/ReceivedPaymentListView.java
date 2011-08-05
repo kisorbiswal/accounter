@@ -159,10 +159,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

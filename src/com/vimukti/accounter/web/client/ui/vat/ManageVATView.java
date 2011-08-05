@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ManageVATView extends AbstractBaseView {
 
@@ -20,7 +21,7 @@ public class ManageVATView extends AbstractBaseView {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 	}

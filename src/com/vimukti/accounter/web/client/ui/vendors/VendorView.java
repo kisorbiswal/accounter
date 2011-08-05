@@ -60,6 +60,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -1051,7 +1052,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 		setSize("100%", "100%");

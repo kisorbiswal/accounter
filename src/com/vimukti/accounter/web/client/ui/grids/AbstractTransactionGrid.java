@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 
 public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 

@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
@@ -24,7 +25,7 @@ public class DisposingRegisteredItemView extends SellingRegisteredItemView {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 	}
 

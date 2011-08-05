@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
@@ -71,7 +72,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 		dateSelected();
@@ -131,10 +132,10 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		radioVlayout.add(dateForm);
 		saveAndCloseButton = new CustomButton(CustomButtonType.REVIEW_JOURNAL,
 				this);
-		buttonLayout.clear();
-		buttonLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		buttonLayout.add(saveAndCloseButton);
-		buttonLayout
+		buttonBar.clear();
+		buttonBar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		buttonBar.add(saveAndCloseButton);
+		buttonBar
 				.setCellHorizontalAlignment(saveAndCloseButton, ALIGN_RIGHT);
 
 		notesArea = new TextAreaItem();
@@ -154,7 +155,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		mainLayout.add(depriciationForFinancialyearLabel);
 		mainLayout.add(radioVlayout);
 		mainLayout.add(textAreaForm);
-		mainLayout.setCellHorizontalAlignment(buttonLayout, ALIGN_RIGHT);
+		mainLayout.setCellHorizontalAlignment(buttonBar, ALIGN_RIGHT);
 
 		canvas.add(mainLayout);
 

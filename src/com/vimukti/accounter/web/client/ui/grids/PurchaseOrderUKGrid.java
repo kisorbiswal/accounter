@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 
@@ -37,7 +38,7 @@ public class PurchaseOrderUKGrid extends VendorTransactionUKGrid {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 	}
 

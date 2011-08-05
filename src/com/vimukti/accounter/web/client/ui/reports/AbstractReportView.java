@@ -240,7 +240,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 
 		if (UIUtils.isMSIEBrowser())
 			createControlsForIE();

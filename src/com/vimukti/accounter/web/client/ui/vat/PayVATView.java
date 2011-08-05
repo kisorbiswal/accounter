@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayVAT;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -570,10 +569,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	public void onEdit() {
 

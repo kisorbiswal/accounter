@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -143,10 +142,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 		// return -1;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	protected void onClick(AccountRegister obj, int row, int col) {
 		// if (col == 8 && !obj.isVoided()) {

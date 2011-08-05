@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.ItemsGrid;
 
 /**
@@ -41,14 +42,13 @@ public class PurchaseDetailesView extends ParentCanvas {
 		super();
 
 		this.setStyleName("selectedview");
-		init();
 	}
 
 	/**
 	 * here all guicomponents will create
 	 */
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		this.setWidth("300px");
 		this.setHeight("100%");
 		flexTable = new FlexTable();
@@ -268,7 +268,6 @@ public class PurchaseDetailesView extends ParentCanvas {
 	public void fitToSize(int height, int width) {
 	}
 
-	@Override
 	public void onEdit() {
 
 	}

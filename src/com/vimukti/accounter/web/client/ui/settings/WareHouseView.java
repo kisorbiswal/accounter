@@ -102,7 +102,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 		vPanel = new VerticalPanel();
 		vPanel.add(leftRightPanel);
-		vPanel.add(buttonLayout);
+		vPanel.add(buttonBar);
 
 		mainPanel.add(vPanel);
 

@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gwt.user.client.ui.DecoratedTabPanel;
+
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;

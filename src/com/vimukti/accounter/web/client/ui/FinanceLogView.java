@@ -17,9 +17,9 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceLogger;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.FinanceLogginGrid;
@@ -43,7 +43,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 	private Anchor nextHyprLnk;
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 	}
@@ -311,10 +311,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void fitToSize(int height, int width) {

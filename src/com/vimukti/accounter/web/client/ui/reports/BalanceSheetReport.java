@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -42,10 +41,7 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 		Accounter.createReportService().getBalanceSheetReport(start, end, this);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

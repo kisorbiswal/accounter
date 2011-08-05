@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class SalesPersonListView extends BaseListView<ClientPayee> {
 
@@ -31,7 +32,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 
 	}

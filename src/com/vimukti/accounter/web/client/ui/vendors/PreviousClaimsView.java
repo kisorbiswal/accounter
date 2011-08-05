@@ -62,7 +62,7 @@ public class PreviousClaimsView extends BaseView<BillsList> {
 			}
 		});
 		buttonPanel.add(notShowInList);
-		buttonLayout.setVisible(false);
+		buttonBar.setVisible(false);
 
 		panel.add(previous);
 		panel.add(grid);

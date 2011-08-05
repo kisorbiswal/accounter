@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ProductCombo;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ItemDialogGrid extends ListGrid<ClientItem> {
 
@@ -21,7 +22,7 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 

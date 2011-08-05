@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
  * 
@@ -47,7 +48,7 @@ public class SalesDetailesView extends ParentCanvas {
 	 * here all guicomponents will create
 	 */
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		this.setWidth("300px");
 		this.setHeight("100%");
 		flexTable = new FlexTable();
@@ -288,10 +289,7 @@ public class SalesDetailesView extends ParentCanvas {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

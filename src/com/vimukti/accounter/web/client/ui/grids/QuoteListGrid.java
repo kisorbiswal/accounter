@@ -334,10 +334,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	}
 
 	// this is not using any where
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	// this is not using any where
 	public AccounterCoreType getType() {

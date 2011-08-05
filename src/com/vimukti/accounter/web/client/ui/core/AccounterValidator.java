@@ -1312,7 +1312,7 @@ public class AccounterValidator {
 		} else {
 			// BaseView.errordata.setHTML("");
 			// BaseView.commentPanel.setVisible(false);
-			MainFinanceWindow.getViewManager().restoreErrorBox();
+			
 		}
 		return false;
 
@@ -1332,7 +1332,7 @@ public class AccounterValidator {
 		} else {
 			// BaseView.errordata.setHTML("");
 			// BaseView.commentPanel.setVisible(false);
-			MainFinanceWindow.getViewManager().restoreErrorBox();
+			
 		}
 		return false;
 

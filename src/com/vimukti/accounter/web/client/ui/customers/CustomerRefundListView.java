@@ -165,10 +165,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

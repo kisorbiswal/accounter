@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
@@ -66,7 +67,7 @@ public class TransactionReceivePaymentGrid extends
 			ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX };
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		this.header.setStyleName("gridHeader HEADER_GRID");
 		// this.addFooterValue(FinanceApplication.constants().subTotal(),

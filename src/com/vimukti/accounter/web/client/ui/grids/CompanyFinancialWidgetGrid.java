@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.KeyFinancialIndicator;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> {
 
@@ -33,7 +34,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 	}
 

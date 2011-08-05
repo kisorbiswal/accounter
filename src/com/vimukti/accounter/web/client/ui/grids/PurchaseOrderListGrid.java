@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -90,10 +89,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	public AccounterCoreType getType() {
 		return null;

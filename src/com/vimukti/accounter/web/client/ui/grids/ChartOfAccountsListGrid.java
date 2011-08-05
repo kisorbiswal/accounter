@@ -4,7 +4,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -230,10 +229,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 		((CheckBox) this.getWidget(currentRow, 0)).setEnabled(false);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.ACCOUNT;

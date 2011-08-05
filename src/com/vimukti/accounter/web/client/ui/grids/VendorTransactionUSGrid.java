@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class VendorTransactionUSGrid extends
 		AbstractTransactionGrid<ClientTransactionItem> {
@@ -67,7 +68,7 @@ public class VendorTransactionUSGrid extends
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.isEnable = false;
 		super.init();
 		if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {

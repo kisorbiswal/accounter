@@ -633,7 +633,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 		setSize("100%", "100%");

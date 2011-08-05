@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.vat.VATGroupView;
@@ -47,7 +48,7 @@ public class VATItemListGrid extends ListGrid<ClientTAXItem> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		// addFooterValues("", FinanceApplication.constants().groupRate()
 		// + groupRate + "%");

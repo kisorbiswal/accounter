@@ -455,10 +455,7 @@ public class CompanyInfoDialog extends BaseDialog {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	protected boolean validate() throws InvalidTransactionEntryException,

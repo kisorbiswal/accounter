@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -34,14 +35,11 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	TextItem taxCodeText;
 	TextItem descriptionText;
-	// TaxAgencyCombo taxAgencyCombo;
-	// TaxAgencyCombo taxAgencyCombo;
-	// TaxCode takenTaxCode;
 
 	CheckboxItem statusCheck;
 	DynamicForm taxCodeForm;
 	SaleTaxCodeGrid gridView;
-	// private ClientTaxAgency selectedTaxAgency;
+
 	private ClientTAXCode selectedTaxCode;
 	protected ClientCompany company;
 	private ClientTAXCode takenTaxCode;
@@ -56,11 +54,6 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	public AddEditSalesTaxCodeView(String title) {
 		this.title = title;
 		info = Accounter.constants().addOrEdit() + " " + title;
-		// FinanceApplication.constants().codeToEnterNew()
-		// + title
-		// + FinanceApplication.constants()
-		// .typeTheRateAndSelectDateIn() + title
-		// + FinanceApplication.constants().settingsList();
 	}
 
 	protected void initCompany() {
@@ -224,7 +217,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		// bodyLayout.add(buttonsLayout);
 		setSize("100%", "100%");
 
-		canvas.add(bodyLayout);
+		add(bodyLayout);
 
 	}
 
@@ -344,7 +337,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	// }
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		initCompany();
 		createControls();

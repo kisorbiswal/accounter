@@ -59,7 +59,7 @@ public class ChangePasswordDialog extends BaseDialog {
 			@Override
 			public void onClick(ClickEvent event) {
 				try {
-					MainFinanceWindow.getViewManager().restoreErrorBox();
+					
 					validate();
 				} catch (Exception e) {
 				}

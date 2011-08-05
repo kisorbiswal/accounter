@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerListGrid;
 
@@ -32,7 +33,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		customerConstants = Accounter.constants();
 		super.init();
 

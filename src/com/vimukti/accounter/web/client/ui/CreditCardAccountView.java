@@ -2,10 +2,10 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -124,7 +124,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 
 	}
 
@@ -157,10 +157,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

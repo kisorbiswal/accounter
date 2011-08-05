@@ -163,10 +163,7 @@ public class CreateTaxesDialog extends BaseDialog {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	protected String getViewTitle() {

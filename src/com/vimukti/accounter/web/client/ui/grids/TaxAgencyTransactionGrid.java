@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class TaxAgencyTransactionGrid extends
 		AbstractTransactionGrid<ClientTransactionItem> {
@@ -98,7 +99,7 @@ public class TaxAgencyTransactionGrid extends
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 		ClientTransaction transactionObject = transactionView

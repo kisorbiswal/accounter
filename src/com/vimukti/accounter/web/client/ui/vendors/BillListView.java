@@ -198,10 +198,7 @@ public class BillListView extends BaseListView<BillsList> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

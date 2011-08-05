@@ -53,7 +53,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				MainFinanceWindow.getViewManager().restoreErrorBox();
+				
 				isProcessingAdded = false;
 				setAction(ActionFactory.getAwaitingAuthorisationAction());
 				// boolean isErrorOccured = checkPayFromAccount();
@@ -80,7 +80,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				MainFinanceWindow.getViewManager().restoreErrorBox();
+				
 				isProcessingAdded = false;
 				setAction(ActionFactory.getAwaitingAuthorisationAction());
 				List<BillsList> records = getRecordsToApprove();
@@ -100,7 +100,7 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				MainFinanceWindow.getViewManager().restoreErrorBox();
+				
 				isProcessingAdded = false;
 				setAction(ActionFactory.getAwaitingAuthorisationAction());
 				List<BillsList> records = getRecordsToApprove();
@@ -128,13 +128,13 @@ public class AwaitingAuthorisationView extends BaseView<BillsList> {
 		delete.enabledButton(AccounterButton.DELETE_BUTTON, "close-image",
 				"ibutton1");
 
-		buttonLayout.setVisible(false);
+		buttonBar.setVisible(false);
 		panel.add(grid);
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		mainPanel.add(panel);
 		// mainPanel.removeStyleName("main-class-pannel");
-		buttonLayout.getElement().getParentElement()
+		buttonBar.getElement().getParentElement()
 				.removeClassName("bottom-view");
 		bottomShadow.getElement().getParentElement()
 				.removeClassName("bottom-shadow");

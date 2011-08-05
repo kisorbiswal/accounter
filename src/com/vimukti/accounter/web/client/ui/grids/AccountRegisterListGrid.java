@@ -1,10 +1,11 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -214,39 +215,29 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 					}
 
 				});
-
 	}
 
 	protected void voidTransaction(final AccountRegister obj) {
-		// AccounterAsyncCallback<Boolean> callback = new
-		// AccounterAsyncCallback<Boolean>() {
-		//
-		// @Override
-		// public void onException(AccounterException caught) {
-		//
-		// }
-		//
-		// @Override
-		// public void onSuccess(Boolean result) {
-		// if (result) {
-		// obj.setVoided(true);
-		// updateData(obj);
-		//
-		// }
-		//
-		// }
-		// };
-		//
-		// AccounterCoreType coretype = UIUtils
-		// .getAccounterCoreType(obj.getType());
-		// if (coretype != null) {
-		// rpcDoSerivce.voidTransaction(coretype, obj.getTransactionId(),
-		// callback);
-		// }
+		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
-		ViewManager.getInstance().voidTransaction(
-				UIUtils.getAccounterCoreType(obj.getType()),
-				obj.getTransactionId(), this);
+			@Override
+			public void onException(AccounterException caught) {
+
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				if (result) {
+					obj.setVoided(true);
+					updateData(obj);
+				}
+			}
+		};
+		AccounterCoreType coretype = UIUtils
+				.getAccounterCoreType(obj.getType());
+
+		rpcDoSerivce
+				.voidTransaction(coretype, obj.getTransactionId(), callback);
 	}
 
 	@Override
@@ -263,11 +254,6 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	@Override
 	protected void executeDelete(AccountRegister object) {
 		// NOTHING TO DO.
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
 	}
 
 	public AccounterCoreType getType() {

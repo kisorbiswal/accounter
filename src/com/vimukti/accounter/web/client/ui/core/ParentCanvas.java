@@ -6,9 +6,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 
 public abstract class ParentCanvas<T> extends VerticalPanel {
 
-	abstract public void init();
-
-	abstract public void initData();
+	abstract public void init(ViewManager viewManager);
 
 	private Action action;
 
@@ -112,6 +110,11 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 	public abstract void print();
 
 	public void exportToCsv() {
+	}
+
+	public void initData() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

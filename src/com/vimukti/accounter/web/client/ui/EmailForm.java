@@ -80,7 +80,7 @@ public class EmailForm extends DynamicForm {
 					} else {
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
-						MainFinanceWindow.getViewManager().restoreErrorBox();
+						
 						ClientEmail email = new ClientEmail();
 						email.setType(UIUtils.getEmailType(businesEmailSelect
 								.getSelectedValue()));

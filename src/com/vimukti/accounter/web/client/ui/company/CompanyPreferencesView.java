@@ -36,14 +36,11 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -214,7 +211,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 		setSize("100%", "100%");

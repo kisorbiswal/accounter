@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -118,10 +117,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 		return null;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	protected String getViewTitle() {

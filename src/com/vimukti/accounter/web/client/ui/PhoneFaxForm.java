@@ -148,7 +148,7 @@ public class PhoneFaxForm extends DynamicForm {
 					} else {
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
-						MainFinanceWindow.getViewManager().restoreErrorBox();
+						
 						ClientFax fax = new ClientFax();
 						fax.setType(UIUtils.getFaxType(businessFaxSelect
 								.getDisplayValue().toString()));

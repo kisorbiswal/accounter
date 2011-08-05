@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -655,7 +656,7 @@ public class MakeDepositView extends
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		TYPE_FINANCIAL_ACCOUNT = ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT;
 		TYPE_VENDOR = ClientTransactionMakeDeposit.TYPE_VENDOR;
 		TYPE_CUSTOMER = ClientTransactionMakeDeposit.TYPE_CUSTOMER;

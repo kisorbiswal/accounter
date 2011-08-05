@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
  * @author Murali.A
@@ -37,7 +38,7 @@ public class VendorTransactionUKGrid extends VendorTransactionUSGrid {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.isEnable = false;
 		super.init();
 		createControls();

@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -41,10 +40,7 @@ public class ReverseChargeListDetailReport extends
 		this.vatAgency = transactionDetails.getName();
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

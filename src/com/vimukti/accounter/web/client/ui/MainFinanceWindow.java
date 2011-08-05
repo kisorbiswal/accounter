@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 
@@ -696,19 +695,11 @@ public class MainFinanceWindow extends VerticalPanel {
 
 	public void fitToSize(int height, int width) {
 
-		BaseView<?> view = viewManager.getContentPanel();
-
 		this.height = height;
 		this.width = width - 20;
 
-		// this.setWidth(width - 10 + "px");
 
-		// if (view == null)
 		viewManager.fitToSize(height, width - 10 - 15);
-		// else {
-		// view.setHeightForCanvas(height + "");
-		// view.getButtonPanel().setHeight("30px");
-		// }
 
 	}
 

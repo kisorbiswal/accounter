@@ -179,10 +179,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

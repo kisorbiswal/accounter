@@ -1,99 +1,41 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ui.core.Action;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.Button;
+import com.vimukti.accounter.web.client.theme.ThemesUtil;
 
-public class ImageButton {
-	private String title;
-	private ImageResource url;
-	private Action action;
-	private VerticalPanel panel;
-	private Image imgLabel;
-	private Label txtLabel;
+public class ImageButton extends Button {
 
-	public ImageButton(String title) {
+	private ImageResource res;
 
-		createControls();
-
+	public ImageButton(String title, ImageResource res) {
+		this.setText(title);
+		this.res = res;
 	}
 
-	public ImageButton(String title, ImageResource url) {
-		this.title = title;
-		this.url = url;
+	/**
+	 * Should be called only after adding to view
+	 * 
+	 * @param res
+	 */
+	private void setImage(ImageResource res) {
+		Element closeseparator = DOM.createSpan();
+		closeseparator.addClassName("button-separator");
+		DOM.appendChild(this.getElement(), closeseparator);
 
-		createControls();
-		addClickHandler();
+		Element closeimage = DOM.createSpan();
+		closeimage.addClassName("button-image");
+		DOM.appendChild(this.getElement(), closeimage);
+
+		ThemesUtil.addDivToButton(this, res, "image-button-right-image");
 	}
 
-	private void createControls() {
-
-		panel = new VerticalPanel() {
-			@Override
-			protected void onAttach() {
-				this.getParent().getElement().setAttribute("width", "198px");
-				super.onAttach();
-			}
-		};
-		panel.setTitle(title);
-		panel.setSpacing(5);
-		imgLabel = new Image(url);
-		panel.add(imgLabel);
-		txtLabel = new Label(title);
-		txtLabel.addStyleName("link-lable");
-		panel.add(txtLabel);
-		int value = title.length();
-		int paddingValue = (value / 2) * 5 - 1;
-		if (value > 6)
-			imgLabel.getElement().getParentElement().getStyle().setPaddingLeft(
-					paddingValue, Unit.PX);
-		panel.getElement().setAttribute("align", "center");
-
-	}
-
-	public VerticalPanel getImagePanel() {
-		return panel;
-	}
-
-	public Action getAction() {
-		return action;
-	}
-
-	public void setAction(Action action) {
-		this.action = action;
-	}
-
-	public VerticalPanel getPanel() {
-		return panel;
-	}
-
-	private void addClickHandler() {
-		imgLabel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!History.getToken().equals(getAction().getHistoryToken())) {
-
-				}
-				getAction().run(null, false);
-			}
-		});
-		txtLabel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!History.getToken().equals(getAction().getHistoryToken())) {
-
-				}
-				getAction().run(null, false);
-			}
-		});
+	@Override
+	protected void onLoad() {
+		super.onLoad();
+		setImage(res);
 	}
 
 }

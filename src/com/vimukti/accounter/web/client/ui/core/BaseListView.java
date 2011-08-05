@@ -76,7 +76,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	public AccounterButton updateButton;
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 
 		createControls();
 	}

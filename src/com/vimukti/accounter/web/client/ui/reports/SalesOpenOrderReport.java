@@ -1,10 +1,10 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesOpenOrderServerReport;
 
 
@@ -18,7 +18,7 @@ public class SalesOpenOrderReport extends
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 
 		super.init();
 		toolbar.setDateRanageOptions(Accounter.constants().all(), Accounter
@@ -78,10 +78,7 @@ public class SalesOpenOrderReport extends
 		this.status = status;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

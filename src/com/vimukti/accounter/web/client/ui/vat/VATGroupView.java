@@ -272,10 +272,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

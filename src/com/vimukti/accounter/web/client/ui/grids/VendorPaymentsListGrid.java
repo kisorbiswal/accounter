@@ -5,7 +5,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -269,10 +268,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		return 0;
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	public AccounterCoreType getType() {
 		return null;

@@ -98,7 +98,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 	}

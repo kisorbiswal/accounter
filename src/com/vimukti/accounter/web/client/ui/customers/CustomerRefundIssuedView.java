@@ -3,12 +3,12 @@ package com.vimukti.accounter.web.client.ui.customers;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -139,7 +139,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 
 	}
 
@@ -170,10 +170,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
 
-	}
 
 	@Override
 	public void onEdit() {

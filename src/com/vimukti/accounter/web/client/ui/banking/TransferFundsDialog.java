@@ -387,11 +387,6 @@ public class TransferFundsDialog extends BaseDialog {
 		Accounter.showError(AccounterErrorType.FAILEDREQUEST);
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// currently not using anywhere in the project.
-
-	}
 
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {

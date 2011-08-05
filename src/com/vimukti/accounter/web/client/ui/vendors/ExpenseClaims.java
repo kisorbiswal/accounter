@@ -57,7 +57,7 @@ public class ExpenseClaims extends BaseView<BillsList> {
 
 			@Override
 			public void onTabSelected(SourcesTabEvents sender, int tabIndex) {
-				MainFinanceWindow.getViewManager().restoreErrorBox();
+				
 			}
 
 			@Override
@@ -66,7 +66,7 @@ public class ExpenseClaims extends BaseView<BillsList> {
 				return true;
 			}
 		});
-		buttonLayout.setVisible(false);
+		buttonBar.setVisible(false);
 	}
 
 	@Override

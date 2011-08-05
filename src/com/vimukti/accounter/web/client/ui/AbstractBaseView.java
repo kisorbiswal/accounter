@@ -79,7 +79,7 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 	protected IAccounterGETServiceAsync rpcGetService;
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		// OverRidden in Sub-Classes
 
 	}
@@ -240,9 +240,6 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 		// TODDO Refresh the View Data
 	}
 
-	public void initData() {
-
-	}
 
 	public void setData(T data) {
 		super.setData(data);
@@ -319,11 +316,11 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 
 	}
 
-	protected <P extends IAccounterCore> void createObject(final P core) {
+	protected <P extends IAccounterCore> void createObject(P core) {
 		ViewManager.getInstance().createObject(core, this);
 	}
 
-	protected <P extends IAccounterCore> void alterObject(final P core) {
+	protected <P extends IAccounterCore> void alterObject(P core) {
 		ViewManager.getInstance().alterObject(core, this);
 	}
 
@@ -418,6 +415,10 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 				errorPanel.setVisible(false);
 			}
 		}
+	}
+
+	public void setCloseOnSave(boolean closeOnSave) {
+		this.saveAndClose=true;
 	}
 
 }

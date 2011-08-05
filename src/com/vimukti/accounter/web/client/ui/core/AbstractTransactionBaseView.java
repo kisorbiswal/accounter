@@ -16,7 +16,6 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -662,14 +661,13 @@ public abstract class AbstractTransactionBaseView<T> extends BaseView<T> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 		// if (this.data != null) {
 		// UIUtils.disableView(this.canvas);
 		// }
 		setSize("100%", "100%");
-		// setOverflow(Overflow.AUTO);
 	}
 
 	@Override

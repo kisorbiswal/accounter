@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;

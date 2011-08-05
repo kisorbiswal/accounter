@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.FocusWidget;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 public class DialogGrid extends ListGrid<IsSerializable> {
@@ -44,7 +45,7 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	 * called for initialise object
 	 */
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		super.setSize("100%", "170px");
 	}

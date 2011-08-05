@@ -146,7 +146,7 @@ public class AddMeasurementView extends BaseView {
 		// horizontalPanel.setSpacing(20);
 		// horizontalPanel.add(cancelButton);
 		// panel.add(horizontalPanel);
-		buttonLayout.setVisible(true);
+		buttonBar.setVisible(true);
 		mainPanel.add(panel);
 	}
 

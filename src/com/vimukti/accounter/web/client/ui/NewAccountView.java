@@ -11,9 +11,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -44,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -1089,7 +1087,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	@Override
-	public void init() {
+	public void init(ViewManager manager) {
 		super.init();
 		createControls();
 		// setSize("100%", "100%");
@@ -1384,7 +1382,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			} else {
 				// BaseView.errordata.setHTML("");
 				// BaseView.commentPanel.setVisible(false);
-				MainFinanceWindow.getViewManager().restoreErrorBox();
+				
 			}
 		} else {
 			accountSubBaseType = UIUtils.getAccountSubBaseType(accountType);
@@ -1426,7 +1424,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			} else {
 				// BaseView.errordata.setHTML("");
 				// BaseView.commentPanel.setVisible(false);
-				MainFinanceWindow.getViewManager().restoreErrorBox();
+				
 			}
 		}
 		accNoText.setValue(number);

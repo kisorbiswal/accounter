@@ -70,7 +70,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				MainFinanceWindow.getViewManager().restoreErrorBox();
+				
 				isProcessingAdded = false;
 				setAction(ActionFactory.getExpenseClaimsAction(0));
 
@@ -108,7 +108,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		buttonPanel.add(submitApproval);
 		buttonPanel.add(deleteButton);
 		panel.add(addNew);
-		buttonLayout.setVisible(false);
+		buttonBar.setVisible(false);
 		panel.add(grid);
 		panel.add(buttonPanel);
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
@@ -121,7 +121,7 @@ public class ExpenseClaimView extends BaseView<BillsList> {
 		deleteButton.enabledButton(AccounterButton.DELETE_BUTTON,
 				"close-image", "ibutton1");
 		mainPanel.removeStyleName("main-class-pannel");
-		buttonLayout.getElement().getParentElement()
+		buttonBar.getElement().getParentElement()
 				.removeClassName("bottom-view");
 		bottomShadow.getElement().getParentElement()
 				.removeClassName("bottom-shadow");
