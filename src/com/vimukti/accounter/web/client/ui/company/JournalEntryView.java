@@ -45,7 +45,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.TransactionJournalEntryGrid;
 
-public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
+public class JournalEntryView extends
+		AbstractTransactionBaseView<ClientJournalEntry> {
 
 	private TransactionJournalEntryGrid grid;
 	double debit, credit;
@@ -59,7 +60,6 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	boolean voucharNocame = false;
 	AmountLabel creditTotalText, deditTotalText;
 
-	private ClientJournalEntry takenJournalEntry;
 	// private HorizontalPanel lablPanel;
 	private VerticalPanel gridPanel;
 
@@ -73,11 +73,9 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 	@Override
 	public void saveAndUpdateView() {
-		transaction = getJournalEntryObject();
-		ClientJournalEntry journalEntry = getJournalEntryObject();
+		updateTransaction();
 		super.saveAndUpdateView();
-		if (takenJournalEntry == null)
-			saveOrUpdate(journalEntry);
+		saveOrUpdate(transaction);
 
 	}
 
@@ -230,14 +228,8 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		return transactionItems;
 	}
 
-	private ClientJournalEntry getJournalEntryObject() {
-		ClientJournalEntry journalEntry;
-
-		if (takenJournalEntry != null)
-
-		{
-			journalEntry = takenJournalEntry;
-
+	protected void updateTransaction() {
+		if (isEdit) {
 			jourNoText.setDisabled(true);
 			memoText.setDisabled(true);
 			// memoText.setDisabled(true);
@@ -253,29 +245,20 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			// grid.setEditDisableCells(0, 1, 2, 3, 4, 5, 6, 7);
 		}
 
-		else
-			journalEntry = new ClientJournalEntry();
-
-		journalEntry.setNumber(jourNoText.getValue().toString());
-		journalEntry.setDate(transactionDateItem.getEnteredDate().getDate());
-		journalEntry.setMemo(memoText.getValue().toString() != null ? memoText
+		transaction.setNumber(jourNoText.getValue().toString());
+		transaction.setDate(transactionDateItem.getEnteredDate().getDate());
+		transaction.setMemo(memoText.getValue().toString() != null ? memoText
 				.getValue().toString() : "");
-		// initMemo(journalEntry);
-		journalEntry.setDate(new ClientFinanceDate().getDate());
+		// initMemo(transaction);
+		transaction.setDate(new ClientFinanceDate().getDate());
 		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
 				grid.getTotalCredittotal())) {
-			journalEntry.setDebitTotal(grid.getTotalDebittotal());
-			journalEntry.setCreditTotal(grid.getTotalCredittotal());
-			journalEntry.setTotal(grid.getTotalDebittotal());
+			transaction.setDebitTotal(grid.getTotalDebittotal());
+			transaction.setCreditTotal(grid.getTotalCredittotal());
+			transaction.setTotal(grid.getTotalDebittotal());
 		}
-
 		List<ClientEntry> allGivenRecords = grid.getRecords();
-		// for (ClientEntry entry : allGivenRecords) {
-		// entry.setID("");
-		// }
-		journalEntry.setEntry(allGivenRecords);
-		transaction = journalEntry;
-		return journalEntry;
+		transaction.setEntry(allGivenRecords);
 	}
 
 	private void initMemo(ClientJournalEntry journalEntry) {
@@ -403,9 +386,9 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		// gridPanel.add(labelPanel);
 
-		if (takenJournalEntry != null) {
-			jourNoText.setValue(takenJournalEntry.getNumber());
-			memoText.setValue(takenJournalEntry.getMemo());
+		if (isEdit) {
+			jourNoText.setValue(transaction.getNumber());
+			memoText.setValue(transaction.getMemo());
 
 			// journalEntry.setEntry(getallEntries(journalEntry));
 			// journalEntry.setDebitTotal(totalDebittotal);
@@ -434,24 +417,23 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		takenJournalEntry = (ClientJournalEntry) transactionObject;
-		jourNoText.setValue(takenJournalEntry.getNumber());
-		transactionDateItem.setEnteredDate(takenJournalEntry.getDate());
-		grid.setVoucherNumber(takenJournalEntry.getNumber());
+		jourNoText.setValue(transaction.getNumber());
+		transactionDateItem.setEnteredDate(transaction.getDate());
+		grid.setVoucherNumber(transaction.getNumber());
 
-		List<ClientEntry> entries = takenJournalEntry.getEntry();
+		List<ClientEntry> entries = transaction.getEntry();
 
 		ClientEntry rec[] = new ClientEntry[entries.size()];
 		int i = 0;
 		ClientEntry temp = null;
-		for (ClientEntry entry : takenJournalEntry.getEntry()) {
+		for (ClientEntry entry : transaction.getEntry()) {
 
-			rec[i] = takenJournalEntry.getEntry().get(i);
+			rec[i] = transaction.getEntry().get(i);
 			ClientCompany company = getCompany();
 			rec[i].setVoucherNumber(entry.getVoucherNumber());
 
 			// --The date need to be set for every record
-			rec[i].setEntryDate(takenJournalEntry.getDate().getDate());
+			rec[i].setEntryDate(transaction.getDate().getDate());
 
 			if (entry.getType() == ClientEntry.TYPE_FINANCIAL_ACCOUNT) {
 				rec[i].setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
@@ -478,9 +460,9 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			i++;
 		}
 		grid.setAllRecords(Arrays.asList(rec));
-		if (takenJournalEntry.getMemo() != null)
-			memoText.setValue(takenJournalEntry.getMemo());
-		getJournalEntryObject();
+		if (transaction.getMemo() != null)
+			memoText.setValue(transaction.getMemo());
+		updateTransaction();
 
 		initTransactionViewData();
 
@@ -494,8 +476,8 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 	}
 
 	private void initJournalNumber() {
-		if (isEdit && takenJournalEntry != null) {
-			jourNoText.setValue(takenJournalEntry.getNumber());
+		if (isEdit) {
+			jourNoText.setValue(transaction.getNumber());
 			return;
 		} else {
 			rpcUtilService.getNextTransactionNumber(

@@ -329,19 +329,19 @@ public class RecieveVATView extends
 		selectedDepositInAccount = getCompany().getAccount(
 				transaction.getDepositIn());
 		depositInAccCombo.setComboItem(selectedDepositInAccount);
-		selectedVATAgency = getCompany()
-				.getTaxAgency(receiveVAT.getVatAgency());
+		selectedVATAgency = getCompany().getTaxAgency(
+				transaction.getVatAgency());
 		if (selectedVATAgency != null)
 			vatAgencyCombo.setComboItem(selectedVATAgency);
 
-		billsDue.setEnteredDate(new ClientFinanceDate(receiveVAT
+		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getReturnsDueOnOrBefore()));
-		transactionDateItem.setEnteredDate(receiveVAT.getDate());
-		transNumber.setValue(receiveVAT.getNumber());
-		endingBalanceText.setAmount(receiveVAT.getEndingBalance());
-		paymentMethodCombo.setComboItem(receiveVAT.getPaymentMethod());
-		amountText.setValue(receiveVAT.getTotal());
-		List<ClientTransactionReceiveVAT> list = receiveVAT
+		transactionDateItem.setEnteredDate(transaction.getDate());
+		transNumber.setValue(transaction.getNumber());
+		endingBalanceText.setAmount(transaction.getEndingBalance());
+		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
+		amountText.setValue(transaction.getTotal());
+		List<ClientTransactionReceiveVAT> list = transaction
 				.getClientTransactionReceiveVAT();
 		int count = 0;
 		for (ClientTransactionReceiveVAT record : list) {
@@ -624,12 +624,12 @@ public class RecieveVATView extends
 								}
 
 							};
-							if (receiveVAT != null) {
+							if (transaction != null) {
 								AccounterCoreType type = UIUtils
-										.getAccounterCoreType(receiveVAT
+										.getAccounterCoreType(transaction
 												.getType());
 								rpcDoSerivce.voidTransaction(type,
-										receiveVAT.id, callback);
+										transaction.id, callback);
 							}
 
 						}

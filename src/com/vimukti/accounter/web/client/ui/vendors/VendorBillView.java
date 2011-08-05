@@ -54,7 +54,6 @@ public class VendorBillView extends
 	private PaymentTermsCombo paymentTermsCombo;
 	private ClientPaymentTerms selectedPaymentTerm;
 	private DateField dueDateItem;
-	private ClientEnterBill enterBillToBeEdited;
 
 	private CheckboxItem euVATexempVendor;
 
@@ -112,31 +111,26 @@ public class VendorBillView extends
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 
-		enterBillToBeEdited = (ClientEnterBill) transactionObject;
-		ClientVendor vendor = getCompany().getVendor(
-				enterBillToBeEdited.getVendor());
-		contactSelected(enterBillToBeEdited.getContact());
-		billToaddressSelected(enterBillToBeEdited.getVendorAddress());
+		ClientVendor vendor = getCompany().getVendor(transaction.getVendor());
+		contactSelected(transaction.getContact());
+		billToaddressSelected(transaction.getVendorAddress());
 		selectedVendor(vendor);
-		transactionNumber.setValue(enterBillToBeEdited.getNumber());
+		transactionNumber.setValue(transaction.getNumber());
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(enterBillToBeEdited.getNetAmount());
-			vatTotalNonEditableText.setAmount(enterBillToBeEdited.getTotal()
-					- enterBillToBeEdited.getNetAmount());
+			netAmount.setAmount(transaction.getNetAmount());
+			vatTotalNonEditableText.setAmount(transaction.getTotal()
+					- transaction.getNetAmount());
 		}
-		transactionTotalNonEditableText.setAmount(enterBillToBeEdited
-				.getTotal());
+		transactionTotalNonEditableText.setAmount(transaction.getTotal());
 
-		balanceDueNonEditableText
-				.setAmount(enterBillToBeEdited.getBalanceDue());
+		balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
 
 		if (vatinclusiveCheck != null) {
 			setAmountIncludeChkValue(transactionObject.isAmountsIncludeVAT());
 		}
 		this.dueDateItem
-				.setValue(enterBillToBeEdited.getDueDate() != 0 ? new ClientFinanceDate(
-						enterBillToBeEdited.getDueDate())
-						: getTransactionDate());
+				.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
+						transaction.getDueDate()) : getTransactionDate());
 		initMemoAndReference();
 		initTransactionViewData();
 		vendorTransactionGrid.setCanEdit(false);
@@ -215,8 +209,7 @@ public class VendorBillView extends
 			vendorTransactionGrid.removeAllRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
-		if (!(transaction != null && vendor.getID() == enterBillToBeEdited
-				.getVendor()))
+		if (!(transaction != null && vendor.getID() == transaction.getVendor()))
 			setPaymentTermsCombo(vendor);
 		if (transaction == null)
 			getPurchaseOrdersAndItemReceipt();
@@ -602,67 +595,68 @@ public class VendorBillView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientEnterBill enterBill = transaction != null ? (ClientEnterBill) transaction
-				: new ClientEnterBill();
-
-		// Setting Vendor
-		enterBill.setVendor(getVendor());
-
-		// Setting Contact
-		if (contact != null)
-			enterBill.setContact(contact);
-
-		// Setting Address
-		if (billingAddress != null)
-			enterBill.setVendorAddress(billingAddress);
-
-		// Setting Phone
-		if (phoneNo != null)
-			enterBill.setPhone(phoneNo);
-
-		// Setting Payment Terms
-		if (selectedPaymentTerm != null)
-			enterBill.setPaymentTerm(selectedPaymentTerm);
-
-		// Setting Due date
-		if (dueDateItem.getEnteredDate() != null)
-			enterBill.setDueDate((dueDateItem.getEnteredDate()).getDate());
-
-		// Setting Delivery date
-		if (deliveryDateItem.getEnteredDate() != null)
-			enterBill.setDeliveryDate(deliveryDateItem.getEnteredDate());
-
-		// Setting Total
-		enterBill.setTotal(vendorTransactionGrid.getTotal());
-
-		// Setting Memo
-		enterBill.setMemo(getMemoTextAreaItem());
-		// Setting Reference
-		// enterBill.setReference(getRefText());
-
-		ClientFinanceDate discountDate = Utility.getCalculatedDiscountDate(
-				transactionDateItem.getEnteredDate(), selectedPaymentTerm);
-		enterBill.setDiscountDate(discountDate.getDate());
-
-		if (selectedItemReceipt != 0)
-			enterBill.setItemReceipt(selectedItemReceipt);
-		if (vatinclusiveCheck != null)
-			enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
-
-		if (selectedPurchaseOrder != 0)
-			enterBill.setPurchaseOrder(selectedPurchaseOrder);
-		transaction = enterBill;
-
-		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			enterBill.setNetAmount(netAmount.getAmount());
-		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-		// .getValue());
+		updateTransaction();
 
 		super.saveAndUpdateView();
 
 		saveOrUpdate((ClientEnterBill) transaction);
 
+	}
+
+	protected void updateTransaction() {
+
+		// Setting Vendor
+		transaction.setVendor(getVendor());
+
+		// Setting Contact
+		if (contact != null)
+			transaction.setContact(contact);
+
+		// Setting Address
+		if (billingAddress != null)
+			transaction.setVendorAddress(billingAddress);
+
+		// Setting Phone
+		if (phoneNo != null)
+			transaction.setPhone(phoneNo);
+
+		// Setting Payment Terms
+		if (selectedPaymentTerm != null)
+			transaction.setPaymentTerm(selectedPaymentTerm);
+
+		// Setting Due date
+		if (dueDateItem.getEnteredDate() != null)
+			transaction.setDueDate((dueDateItem.getEnteredDate()).getDate());
+
+		// Setting Delivery date
+		if (deliveryDateItem.getEnteredDate() != null)
+			transaction.setDeliveryDate(deliveryDateItem.getEnteredDate());
+
+		// Setting Total
+		transaction.setTotal(vendorTransactionGrid.getTotal());
+
+		// Setting Memo
+		transaction.setMemo(getMemoTextAreaItem());
+		// Setting Reference
+		// transaction.setReference(getRefText());
+
+		ClientFinanceDate discountDate = Utility.getCalculatedDiscountDate(
+				transactionDateItem.getEnteredDate(), selectedPaymentTerm);
+		transaction.setDiscountDate(discountDate.getDate());
+
+		if (selectedItemReceipt != 0)
+			transaction.setItemReceipt(selectedItemReceipt);
+		if (vatinclusiveCheck != null)
+			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+					.getValue());
+
+		if (selectedPurchaseOrder != 0)
+			transaction.setPurchaseOrder(selectedPurchaseOrder);
+
+		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
+			transaction.setNetAmount(netAmount.getAmount());
+		// enterBill.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+		// .getValue());
 	}
 
 	@Override

@@ -71,7 +71,6 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	public double totalOrginalAmt = 0.0D, totalDueAmt = 0.0D,
 			totalPayment = 0.0D, cashDiscount = 0.0d;
 	private ArrayList<DynamicForm> listforms;
-	private ClientPayBill billToBeEdited;
 	private VerticalPanel gridLayout;
 
 	public PayBillView() {
@@ -123,45 +122,37 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 	}
 
-	private ClientPayBill getPayBillObject() {
-
-		ClientPayBill payBill = null;
-		if (transaction == null)
-			payBill = new ClientPayBill();
-		else {
-			payBill = (ClientPayBill) transaction;
-			return payBill;
-		}
+	protected void updateTransaction() {
 
 		// Setting Type of Enter Bill
-		payBill.setType(ClientTransaction.TYPE_PAY_BILL);
-		payBill.setPayBillType(ClientPayBill.TYPE_PAYBILL);
+		transaction.setType(ClientTransaction.TYPE_PAY_BILL);
+		transaction.setPayBillType(ClientPayBill.TYPE_PAYBILL);
 
 		// Setting Accounts Payable
-		payBill.setAccountsPayable(getCompany()
+		transaction.setAccountsPayable(getCompany()
 
 		.getAccountsPayableAccount());
 
 		// Setting Date
-		payBill.setDate(date.getEnteredDate().getDate());
+		transaction.setDate(date.getEnteredDate().getDate());
 
 		// Setting Pay From
-		payBill.setPayFrom(payFromAccount);
+		transaction.setPayFrom(payFromAccount);
 
 		// Setting payment method
-		payBill.setPaymentMethod(paymentMethodCombo.getSelectedValue());
+		transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 
 		// Setting Bill due or before
 		if (dueDate.getEnteredDate() != null)
-			payBill.setBillDueOnOrBefore(dueDate.getEnteredDate());
+			transaction.setBillDueOnOrBefore(dueDate.getEnteredDate());
 		// Setting Vendor
 		if (getVendor() != null)
-			payBill.setVendor(getVendor());
+			transaction.setVendor(getVendor());
 		// Setting Amount
-		payBill.setTotal(amtText.getAmount());
+		transaction.setTotal(amtText.getAmount());
 
 		// Setting ending Balance
-		payBill.setEndingBalance(endBalText.getAmount());
+		transaction.setEndingBalance(endBalText.getAmount());
 
 		// Setting Transactions
 		List<ClientTransactionPayBill> selectedRecords = gridView
@@ -182,7 +173,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			}
 			tpbRecord.setAccountsPayable(getCompany()
 					.getAccountsPayableAccount());
-			tpbRecord.setPayBill(payBill);
+			tpbRecord.setPayBill(transaction);
 
 			ClientAccount cashAcc = getCompany().getAccountByName(
 					gridView.getAttribute(Accounter.constants().cashAccount(),
@@ -203,11 +194,9 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			transactionPayBill.add(tpbRecord);
 		}
 		if (transaction == null)
-			payBill.setTransactionPayBill(transactionPayBill);
+			transaction.setTransactionPayBill(transactionPayBill);
 
-		payBill.setUnUsedCredits(this.unUsedCreditsText.getAmount());
-
-		return payBill;
+		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
 
 	}
 
@@ -639,27 +628,26 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		billToBeEdited = (ClientPayBill) transactionObject;
 
-		paymentMethodCombo.setComboItem(billToBeEdited.getPaymentMethod());
+		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 
-		this.transactionItems = billToBeEdited.getTransactionItems();
+		this.transactionItems = transaction.getTransactionItems();
 
 		payFromCombo.setComboItem(getCompany().getAccount(
-				billToBeEdited.getPayFrom()));
-		date.setValue(billToBeEdited.getDate());
+				transaction.getPayFrom()));
+		date.setValue(transaction.getDate());
 		date.setDisabled(true);
-		accountSelected(getCompany().getAccount(billToBeEdited.getPayFrom()));
+		accountSelected(getCompany().getAccount(transaction.getPayFrom()));
 
-		dueDate.setValue(new ClientFinanceDate(billToBeEdited
+		dueDate.setValue(new ClientFinanceDate(transaction
 				.getBillDueOnOrBefore()));
 		dueDate.setDisabled(true);
 
-		this.setVendor(getCompany().getVendor(billToBeEdited.getVendor()));
-		vendorSelected(getCompany().getVendor(billToBeEdited.getVendor()));
+		this.setVendor(getCompany().getVendor(transaction.getVendor()));
+		vendorSelected(getCompany().getVendor(transaction.getVendor()));
 
-		amtText.setAmount(billToBeEdited.getTotal());
-		endBalText.setAmount(billToBeEdited.getEndingBalance());
+		amtText.setAmount(transaction.getTotal());
+		endBalText.setAmount(transaction.getEndingBalance());
 		initListGridData(this.transaction.getTransactionPayBill());
 		initTransactionTotalNonEditableItem();
 		memoTextAreaItem.setDisabled(true);
@@ -731,8 +719,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientPayBill payBill = getPayBillObject();
-		saveOrUpdate(payBill);
+		updateTransaction();
+		saveOrUpdate(transaction);
 
 	}
 
@@ -895,12 +883,12 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 								}
 
 							};
-							if (billToBeEdited != null) {
+							if (isEdit) {
 								AccounterCoreType type = UIUtils
-										.getAccounterCoreType(billToBeEdited
+										.getAccounterCoreType(transaction
 												.getType());
 								rpcDoSerivce.voidTransaction(type,
-										billToBeEdited.id, callback);
+										transaction.id, callback);
 							}
 
 						}

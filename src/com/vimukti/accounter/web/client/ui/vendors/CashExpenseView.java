@@ -106,53 +106,50 @@ public class CashExpenseView extends CashPurchaseView {
 	}
 
 	@Override
-	protected ClientCashPurchase prepareObject() {
-		ClientCashPurchase cashPurchase = transaction != null ? (ClientCashPurchase) transaction
-				: new ClientCashPurchase();
+	protected void updateTransaction() {
 
 		// Setting Type
-		cashPurchase.setType(ClientTransaction.TYPE_CASH_EXPENSE);
+		transaction.setType(ClientTransaction.TYPE_CASH_EXPENSE);
 
-		cashPurchase.setCashExpenseAccount(petycash.getSelectedValue());
+		transaction.setCashExpenseAccount(petycash.getSelectedValue());
 
 		// Setting Contact
 		if (contact != null)
-			cashPurchase.setContact(this.contact);
+			transaction.setContact(this.contact);
 
 		// Setting Address
 		if (billingAddress != null)
-			cashPurchase.setVendorAddress((billingAddress));
+			transaction.setVendorAddress((billingAddress));
 
 		// Setting Phone
 		if (phoneNo != null)
-			cashPurchase.setPhone(phoneNo);
+			transaction.setPhone(phoneNo);
 
 		// Setting Payment Methods
-		cashPurchase.setPaymentMethod(paymentMethod);
+		transaction.setPaymentMethod(paymentMethod);
 
 		// Setting Pay From Account
-		cashPurchase.setPayFrom(payFromAccount.getID());
+		transaction.setPayFrom(payFromAccount.getID());
 
 		// Setting Check number
-		cashPurchase.setCheckNumber(checkNo.getValue().toString());
-		// cashPurchase
+		transaction.setCheckNumber(checkNo.getValue().toString());
+		// transaction
 		// .setCheckNumber(getCheckNoValue() ==
 		// ClientWriteCheck.IS_TO_BE_PRINTED ? "0"
 		// : getCheckNoValue() + "");
 
 		// Setting Delivery date
 		if (deliveryDateItem.getEnteredDate() != null)
-			cashPurchase.setDeliveryDate(deliveryDateItem.getEnteredDate()
+			transaction.setDeliveryDate(deliveryDateItem.getEnteredDate()
 					.getDate());
 
 		// Setting Total
-		cashPurchase.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setTotal(vendorTransactionGrid.getTotal());
 
 		// Setting Memo
-		cashPurchase.setMemo(getMemoTextAreaItem());
+		transaction.setMemo(getMemoTextAreaItem());
 		// Setting Reference
 		// cashPurchase.setReference(getRefText());
-		return cashPurchase;
 	}
 
 	@Override

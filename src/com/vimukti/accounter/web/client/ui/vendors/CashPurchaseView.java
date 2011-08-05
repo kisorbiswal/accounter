@@ -492,11 +492,10 @@ public class CashPurchaseView extends
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientCashPurchase cashPurchase = prepareObject();
-		transaction = cashPurchase;
+		updateTransaction();
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			cashPurchase.setNetAmount(netAmount.getAmount());
+			transaction.setNetAmount(netAmount.getAmount());
 			// if (vatinclusiveCheck != null)
 			// cashPurchase.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 			// .getValue());
@@ -507,54 +506,51 @@ public class CashPurchaseView extends
 		createAlterObject();
 	}
 
-	protected ClientCashPurchase prepareObject() {
-		ClientCashPurchase cashPurchase = transaction != null ? (ClientCashPurchase) transaction
-				: new ClientCashPurchase();
+	protected void updateTransaction() {
 
 		// Setting Type
-		cashPurchase.setType(ClientTransaction.TYPE_CASH_PURCHASE);
+		transaction.setType(ClientTransaction.TYPE_CASH_PURCHASE);
 
 		// Setting Vendor
-		cashPurchase.setVendor(this.getVendor().getID());
+		transaction.setVendor(this.getVendor().getID());
 
 		// Setting Contact
 		if (contact != null)
-			cashPurchase.setContact(this.contact);
+			transaction.setContact(this.contact);
 
 		// Setting Address
 		if (billingAddress != null)
-			cashPurchase.setVendorAddress((billingAddress));
+			transaction.setVendorAddress((billingAddress));
 
 		// Setting Phone
 		// if (phoneNo != null)
-		cashPurchase.setPhone(phoneSelect.getValue().toString());
+		transaction.setPhone(phoneSelect.getValue().toString());
 
 		// Setting Payment Methods
-		cashPurchase.setPaymentMethod(paymentMethodCombo.getValue().toString());
+		transaction.setPaymentMethod(paymentMethodCombo.getValue().toString());
 
 		// Setting Pay From Account
-		cashPurchase.setPayFrom(payFromAccount.getID());
+		transaction.setPayFrom(payFromAccount.getID());
 
 		// Setting Check number
-		cashPurchase.setCheckNumber(checkNo.getValue().toString());
-		// cashPurchase
+		transaction.setCheckNumber(checkNo.getValue().toString());
+		// transaction
 		// .setCheckNumber(getCheckNoValue() ==
 		// ClientWriteCheck.IS_TO_BE_PRINTED ? "0"
 		// : getCheckNoValue() + "");
 
 		// Setting Delivery date
 		if (deliveryDateItem.getEnteredDate() != null)
-			cashPurchase.setDeliveryDate(deliveryDateItem.getEnteredDate()
+			transaction.setDeliveryDate(deliveryDateItem.getEnteredDate()
 					.getDate());
 
 		// Setting Total
-		cashPurchase.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setTotal(vendorTransactionGrid.getTotal());
 
 		// Setting Memo
-		cashPurchase.setMemo(getMemoTextAreaItem());
+		transaction.setMemo(getMemoTextAreaItem());
 		// Setting Reference
 		// cashPurchase.setReference(getRefText());
-		return cashPurchase;
 	}
 
 	public void createAlterObject() {

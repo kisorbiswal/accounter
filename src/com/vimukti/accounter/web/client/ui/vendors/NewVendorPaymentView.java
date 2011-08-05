@@ -41,7 +41,6 @@ public class NewVendorPaymentView extends
 
 	private CheckboxItem printCheck;
 	private AmountField amountText, endBalText, vendorBalText;
-	protected ClientPayBill takenPayBill;
 	protected double enteredBalance;
 	private DynamicForm vendorForm;
 	private DynamicForm payForm;
@@ -338,25 +337,30 @@ public class NewVendorPaymentView extends
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientPayBill payBill;
-		if (transaction != null)
-			payBill = (ClientPayBill) transaction;
-		else
-			payBill = new ClientPayBill();
 
-		payBill.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
+		updateTransaction();
+		super.saveAndUpdateView();
+		transaction.setType(ClientTransaction.TYPE_PAY_BILL);
 
-		payBill.setVendor(getVendor());
+		saveOrUpdate(transaction);
+
+	}
+
+	protected void updateTransaction() {
+
+		transaction.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
+
+		transaction.setVendor(getVendor());
 
 		if (billingAddress != null)
-			payBill.setAddress(billingAddress);
+			transaction.setAddress(billingAddress);
 
-		payBill.setPayFrom(payFromAccount);
+		transaction.setPayFrom(payFromAccount);
 
 		// adjustBalance();
-		payBill.setTotal(enteredBalance);
+		transaction.setTotal(enteredBalance);
 
-		payBill.setPaymentMethod(paymentMethodCombo.getSelectedValue());
+		transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 
 		if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 			String value;
@@ -366,33 +370,26 @@ public class NewVendorPaymentView extends
 			} else {
 				value = String.valueOf(checkNo.getValue());
 			}
-			payBill.setCheckNumber(value);
+			transaction.setCheckNumber(value);
 
 		} else {
-			payBill.setCheckNumber("");
+			transaction.setCheckNumber("");
 
 		}
-		printCheck.setValue(payBill.isToBePrinted());
+		printCheck.setValue(transaction.isToBePrinted());
 
 		// Setting Memo
-		payBill.setMemo(getMemoTextAreaItem());
+		transaction.setMemo(getMemoTextAreaItem());
 
 		// Setting Ref
-		// payBill.setReference(getRefText());
+		// transaction.setReference(getRefText());
 
-		payBill.setEndingBalance(toBeSetEndingBalance);
+		transaction.setEndingBalance(toBeSetEndingBalance);
 
-		payBill.setVendorBalance(toBeSetVendorBalance);
+		transaction.setVendorBalance(toBeSetVendorBalance);
 
 		// Setting UnusedAmount
-		payBill.setUnusedAmount(amountText.getAmount());
-
-		transaction = payBill;
-
-		super.saveAndUpdateView();
-		payBill.setType(ClientTransaction.TYPE_PAY_BILL);
-
-		saveOrUpdate(payBill);
+		transaction.setUnusedAmount(amountText.getAmount());
 
 	}
 

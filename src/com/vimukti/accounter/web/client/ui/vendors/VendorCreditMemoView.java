@@ -342,45 +342,43 @@ public class VendorCreditMemoView extends
 
 	@Override
 	public void saveAndUpdateView() {
+		updateTransaction();
 
-		ClientVendorCreditMemo vendorCreditMemo;
-		if (transaction != null)
-			vendorCreditMemo = (ClientVendorCreditMemo) transaction;
-		else
-			vendorCreditMemo = new ClientVendorCreditMemo();
+		super.saveAndUpdateView();
+
+		saveOrUpdate(transaction);
+
+	}
+
+	protected void updateTransaction() {
 
 		// Setting Vendor
-		vendorCreditMemo.setVendor(getVendor().getID());
+		transaction.setVendor(getVendor().getID());
 
 		// Setting Contact
 		if (contact != null)
-			vendorCreditMemo.setContact(contact);
+			transaction.setContact(contact);
 
 		// Setting Phone
 		if (phoneSelect.getValue() != null)
-			vendorCreditMemo.setPhone(phoneSelect.getValue().toString());
+			transaction.setPhone(phoneSelect.getValue().toString());
 
 		// Setting Total
-		vendorCreditMemo.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setTotal(vendorTransactionGrid.getTotal());
 
 		// Setting Memo
-		vendorCreditMemo.setMemo(getMemoTextAreaItem());
+		transaction.setMemo(getMemoTextAreaItem());
 		// Setting Reference
-		// vendorCreditMemo.setReference(getRefText());
+		// transaction.setReference(getRefText());
 
-		transaction = vendorCreditMemo;
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			vendorCreditMemo.setNetAmount(netAmount.getAmount());
+			transaction.setNetAmount(netAmount.getAmount());
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 
 		if (vatinclusiveCheck != null)
-			vendorCreditMemo.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
-		super.saveAndUpdateView();
-
-		saveOrUpdate(vendorCreditMemo);
-
 	}
 
 	@Override

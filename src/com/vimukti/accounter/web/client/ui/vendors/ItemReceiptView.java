@@ -393,50 +393,49 @@ public class ItemReceiptView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientItemReceipt itemReceipt = transaction != null ? (ClientItemReceipt) transaction
-				: new ClientItemReceipt();
+		updateTransaction();
+		super.saveAndUpdateView();
+
+		saveOrUpdate(transaction);
+	}
+
+	protected void updateTransaction() {
 
 		// Setting Vendor
-		itemReceipt.setVendor(this.getVendor().getID());
+		transaction.setVendor(this.getVendor().getID());
 
 		// Setting Contact
 		if (contact != null)
-			itemReceipt.setContact(this.contact);
+			transaction.setContact(this.contact);
 
 		// Setting Address
 		if (billingAddress != null)
-			itemReceipt.setVendorAddress((billingAddress));
+			transaction.setVendorAddress((billingAddress));
 
 		// Setting Phone
 		if (phoneNo != null)
-			itemReceipt.setPhone(phoneNo);
+			transaction.setPhone(phoneNo);
 
 		if (paymentTerm != null)
-			itemReceipt.setPaymentTerm(paymentTerm.getID());
+			transaction.setPaymentTerm(paymentTerm.getID());
 		if (deliveryDateItem != null)
-			itemReceipt.setDeliveryDate(deliveryDateItem.getEnteredDate()
+			transaction.setDeliveryDate(deliveryDateItem.getEnteredDate()
 					.getDate());
 
-		itemReceipt.setMemo(getMemoTextAreaItem());
-		// itemReceipt.setReference(getRefText());
-		itemReceipt.setTotal(vendorTransactionGrid.getTotal());
+		transaction.setMemo(getMemoTextAreaItem());
+		// transaction.setReference(getRefText());
+		transaction.setTotal(vendorTransactionGrid.getTotal());
 
 		if (vatinclusiveCheck != null)
-			itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 					.getValue());
 
-		itemReceipt.setPurchaseOrder(selectedPurchaseOrder);
-
-		transaction = itemReceipt;
+		transaction.setPurchaseOrder(selectedPurchaseOrder);
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
-			itemReceipt.setNetAmount(netAmount.getAmount());
+			transaction.setNetAmount(netAmount.getAmount());
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
-
-		super.saveAndUpdateView();
-
-		saveOrUpdate(itemReceipt);
 	}
 
 	public void selectedPurchaseOrder(ClientPurchaseOrder purchaseOrder) {

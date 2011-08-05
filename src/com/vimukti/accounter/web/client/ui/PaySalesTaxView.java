@@ -72,7 +72,6 @@ public class PaySalesTaxView extends
 	List<ClientTAXAgency> taxAgencies = new ArrayList<ClientTAXAgency>();
 	private ArrayList<DynamicForm> listforms;
 
-	private ClientPaySalesTax paySalesTax;
 	private TextItem transNumber;
 
 	public PaySalesTaxView() {
@@ -232,49 +231,44 @@ public class PaySalesTaxView extends
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientPaySalesTax paySalesTax = getPaySalesTax();
-		saveOrUpdate(paySalesTax);
+		updateTransaction();
+		saveOrUpdate(transaction);
 	}
 
-	private ClientPaySalesTax getPaySalesTax() {
+	protected void updateTransaction() {
 
-		ClientPaySalesTax paySalesTax = new ClientPaySalesTax();
+		transaction.setNumber(transactionNumber);
 
-		paySalesTax.setNumber(transactionNumber);
-
-		paySalesTax.setType(ClientTransaction.TYPE_PAY_SALES_TAX);
+		transaction.setType(ClientTransaction.TYPE_PAY_SALES_TAX);
 		if (date.getEnteredDate() != null)
 
-			paySalesTax.setDate(date.getEnteredDate().getDate());
+			transaction.setDate(date.getEnteredDate().getDate());
 
-		paySalesTax.setPayFrom(selectedPayFromAccount.getID());
+		transaction.setPayFrom(selectedPayFromAccount.getID());
 
-		paySalesTax.setPaymentMethod(paymentMethod);
+		transaction.setPaymentMethod(paymentMethod);
 		if (billsDue.getValue() != null)
 
-			paySalesTax.setBillsDueOnOrBefore(((ClientFinanceDate) billsDue
+			transaction.setBillsDueOnOrBefore(((ClientFinanceDate) billsDue
 					.getValue()).getDate());
 
 		if (selectedTaxAgency != null)
-			paySalesTax.setTaxAgency(selectedTaxAgency.getID());
+			transaction.setTaxAgency(selectedTaxAgency.getID());
 
-		paySalesTax.setTotal(totalAmount);
+		transaction.setTotal(totalAmount);
 
-		paySalesTax.setEndingBalance(endingBalance);
+		transaction.setEndingBalance(endingBalance);
 
-		paySalesTax
-				.setTransactionPaySalesTax(getTransactionPatSalesTaxList(paySalesTax));
+		transaction.setTransactionPaySalesTax(getTransactionPatSalesTaxList());
 
-		return paySalesTax;
 	}
 
-	private List<ClientTransactionPaySalesTax> getTransactionPatSalesTaxList(
-			ClientPaySalesTax paySalesTax) {
+	private List<ClientTransactionPaySalesTax> getTransactionPatSalesTaxList() {
 
 		List<ClientTransactionPaySalesTax> tpsList = new ArrayList<ClientTransactionPaySalesTax>();
 
 		for (ClientTransactionPaySalesTax rec : grid.getSelectedRecords()) {
-			rec.setTransaction(paySalesTax);
+			rec.setTransaction(transaction);
 			tpsList.add(rec);
 
 		}
@@ -463,22 +457,21 @@ public class PaySalesTaxView extends
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		isEdit = true;
-		paySalesTax = (ClientPaySalesTax) transactionObject;
 
 		selectedPayFromAccount = getCompany().getAccount(
-				paySalesTax.getPayFrom());
+				transaction.getPayFrom());
 		payFromAccCombo.setComboItem(selectedPayFromAccount);
 		selectedTaxAgency = getCompany().getTaxAgency(
-				paySalesTax.getTaxAgency());
+				transaction.getTaxAgency());
 		if (selectedTaxAgency != null)
 			taxAgencyCombo.setComboItem(selectedTaxAgency);
-		billsDue.setEnteredDate(new ClientFinanceDate(paySalesTax
+		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getBillsDueOnOrBefore()));
-		date.setEnteredDate(paySalesTax.getDate());
-		endingBalanceText.setAmount(paySalesTax.getEndingBalance());
+		date.setEnteredDate(transaction.getDate());
+		endingBalanceText.setAmount(transaction.getEndingBalance());
 		paymentMethodCombo.setComboItem(paymentMethod);
-		amountText.setAmount(paySalesTax.getTotal());
-		List<ClientTransactionPaySalesTax> list = paySalesTax
+		amountText.setAmount(transaction.getTotal());
+		List<ClientTransactionPaySalesTax> list = transaction
 				.getTransactionPaySalesTax();
 		int count = 0;
 		for (ClientTransactionPaySalesTax record : list) {
@@ -615,12 +608,12 @@ public class PaySalesTaxView extends
 								}
 
 							};
-							if (paySalesTax != null) {
+							if (isEdit) {
 								AccounterCoreType type = UIUtils
-										.getAccounterCoreType(paySalesTax
+										.getAccounterCoreType(transaction
 												.getType());
 								rpcDoSerivce.voidTransaction(type,
-										paySalesTax.id, callback);
+										transaction.id, callback);
 							}
 
 						}

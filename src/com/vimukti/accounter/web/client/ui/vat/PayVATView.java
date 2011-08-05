@@ -61,7 +61,6 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	protected List<ClientPayVATEntries> entries;
 	private ClientTAXAgency selectedTaxAgency;
 	private double endingBalance;
-	private ClientPayVAT payVAT;
 	private ArrayList<ClientPayVATEntries> filterList;
 	private ArrayList<ClientPayVATEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
@@ -78,7 +77,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		listforms = new ArrayList<DynamicForm>();
 
 		// setTitle(UIUtils.title(FinanceApplication.constants()
-		// .payVAT()));
+		// .transaction()));
 
 		Label lab = new Label(Accounter.constants().payVAT());
 		lab.removeStyleName("gwt-Label");
@@ -307,22 +306,23 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		payVAT = (ClientPayVAT) transactionObject;
-		selectedPayFromAccount = getCompany().getAccount(payVAT.getPayFrom());
+		selectedPayFromAccount = getCompany().getAccount(
+				transaction.getPayFrom());
 		payFromAccCombo.setComboItem(selectedPayFromAccount);
-		selectedVATAgency = getCompany().getTaxAgency(payVAT.getVatAgency());
+		selectedVATAgency = getCompany().getTaxAgency(
+				transaction.getVatAgency());
 		if (selectedVATAgency != null)
 			taxAgencyCombo.setComboItem(selectedVATAgency);
 
-		billsDue.setEnteredDate(new ClientFinanceDate(payVAT
+		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getReturnsDueOnOrBefore()));
-		transactionDateItem.setEnteredDate(payVAT.getDate());
-		transNumber.setValue(payVAT.getNumber());
+		transactionDateItem.setEnteredDate(transaction.getDate());
+		transNumber.setValue(transaction.getNumber());
 
-		endingBalanceText.setAmount(payVAT.getEndingBalance());
-		paymentMethodCombo.setComboItem(payVAT.getPaymentMethod());
-		amountText.setValue(payVAT.getTotal());
-		List<ClientTransactionPayVAT> list = payVAT
+		endingBalanceText.setAmount(transaction.getEndingBalance());
+		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
+		amountText.setValue(transaction.getTotal());
+		List<ClientTransactionPayVAT> list = transaction
 				.getClientTransactionPayVAT();
 		int count = 0;
 		for (ClientTransactionPayVAT record : list) {
@@ -333,7 +333,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 			}
 		}
 		// grid.updateFooterValues("Total"
-		// + DataUtils.getAmountAsString(payVAT.getTotal()), 2);
+		// + DataUtils.getAmountAsString(transaction.getTotal()), 2);
 
 	}
 
@@ -462,37 +462,33 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	@Override
 	public void saveAndUpdateView() {
-		transaction = getPaySalesTax();
-		ClientPayVAT payVAT = getPaySalesTax();
+		updateTransaction();
 		super.saveAndUpdateView();
-	saveOrUpdate(payVAT);
+		saveOrUpdate(transaction);
 	}
 
-	private ClientPayVAT getPaySalesTax() {
+	protected void updateTransaction() {
 
-		ClientPayVAT payVAT = new ClientPayVAT();
-
-		payVAT.setNumber(transactionNumber);
-		payVAT.setType(ClientTransaction.TYPE_PAY_VAT);
+		transaction.setNumber(transactionNumber);
+		transaction.setType(ClientTransaction.TYPE_PAY_VAT);
 
 		if (transactionDateItem.getEnteredDate() != null)
-			payVAT.setDate(transactionDateItem.getEnteredDate().getDate());
+			transaction.setDate(transactionDateItem.getEnteredDate().getDate());
 
-		payVAT.setPayFrom(selectedPayFromAccount.getID());
-		payVAT.setPaymentMethod(paymentMethod);
+		transaction.setPayFrom(selectedPayFromAccount.getID());
+		transaction.setPaymentMethod(paymentMethod);
 
 		if (billsDue.getValue() != null)
-			payVAT.setReturnsDueOnOrBefore((billsDue.getValue()).getDate());
+			transaction
+					.setReturnsDueOnOrBefore((billsDue.getValue()).getDate());
 
 		if (selectedTaxAgency != null)
-			payVAT.setVatAgency(selectedTaxAgency.getID());
+			transaction.setVatAgency(selectedTaxAgency.getID());
 
-		payVAT.setTotal(totalAmount);
-		payVAT.setEndingBalance(endingBalance);
+		transaction.setTotal(totalAmount);
+		transaction.setEndingBalance(endingBalance);
 
-		payVAT.setClientTransactionPayVAT(getTransactionPayVATList());
-		transaction = payVAT;
-		return payVAT;
+		transaction.setClientTransactionPayVAT(getTransactionPayVATList());
 	}
 
 	private List<ClientTransactionPayVAT> getTransactionPayVATList() {
@@ -601,11 +597,12 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 								}
 
 							};
-							if (payVAT != null) {
+							if (transaction != null) {
 								AccounterCoreType type = UIUtils
-										.getAccounterCoreType(payVAT.getType());
-								rpcDoSerivce.voidTransaction(type, payVAT.id,
-										callback);
+										.getAccounterCoreType(transaction
+												.getType());
+								rpcDoSerivce.voidTransaction(type,
+										transaction.id, callback);
 							}
 
 						}

@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -800,16 +799,11 @@ public class PurchaseOrderView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (this.transaction != null) {
 
-			ClientSalesOrder salesOrder = (ClientSalesOrder) transaction;
+		if (isEdit) {
 
-			if (salesOrder != null) {
-
-				memoTextAreaItem.setValue(salesOrder.getMemo());
-				// refText.setValue(salesOrder.getReference());
-
-			}
+			memoTextAreaItem.setValue(transaction.getMemo());
+			// refText.setValue(salesOrder.getReference());
 
 		}
 
@@ -830,63 +824,64 @@ public class PurchaseOrderView extends
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientPurchaseOrder purchaseOrder = transaction != null ? (ClientPurchaseOrder) transaction
-				: new ClientPurchaseOrder();
-		purchaseOrder.setVendor(getVendor().getID());
 
-		if (statusSelect.getSelectedValue().equals(OPEN))
-			purchaseOrder.setStatus(ClientTransaction.STATUS_OPEN);
-		else if (statusSelect.getSelectedValue().equals(COMPLETED))
-			purchaseOrder.setStatus(ClientTransaction.STATUS_COMPLETED);
-		else if (statusSelect.getSelectedValue().equals(CANCELLED))
-			purchaseOrder.setStatus(ClientTransaction.STATUS_CANCELLED);
-
-		if (contact != null)
-			purchaseOrder.setContact(contact);
-		if (phoneSelect.getValue() != null)
-			purchaseOrder.setPhone(phoneSelect.getValue().toString());
-		if (billingAddress != null)
-			purchaseOrder.setVendorAddress(billingAddress);
-		if (shippingAddress != null)
-			purchaseOrder.setShippingAddress(shippingAddress);
-
-		if (purchaseOrderText.getValue() != null)
-			purchaseOrder.setPurchaseOrderNumber(purchaseOrderText.getValue()
-					.toString());
-		if (paymentTerms != null)
-			purchaseOrder.setPaymentTerm(paymentTerms.getID());
-		if (shippingTerms != null)
-			purchaseOrder.setShippingTerms(shippingTerms.getID());
-		if (shippingMethod != null)
-			purchaseOrder.setShippingMethod(shippingMethod.getID());
-		if (dueDateItem.getEnteredDate() != null) {
-			purchaseOrder.setDueDate(dueDateItem.getEnteredDate().getDate());
-		}
-		if (despatchDateItem.getEnteredDate() != null) {
-			purchaseOrder.setDespatchDate(despatchDateItem.getEnteredDate()
-					.getDate());
-		}
-		if (deliveryDateItem.getEnteredDate() != null)
-			purchaseOrder.setDeliveryDate((deliveryDateItem.getEnteredDate()
-					.getDate()));
-
-		purchaseOrder.setMemo(getMemoTextAreaItem());
-		purchaseOrder.setNetAmount(vendorTransactionGrid.getGrandTotal());
-		purchaseOrder.setTotal(vendorTransactionGrid.getTotal());
-		// purchaseOrder.setReference(getRefText());
-
-		transaction = purchaseOrder;
 		super.saveAndUpdateView();
 
 		saveOrUpdate((ClientPurchaseOrder) transaction);
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_US
 				|| accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
-			netAmount.setAmount(purchaseOrder.getNetAmount());
-			vatTotalNonEditableText.setAmount(purchaseOrder.getTotal()
-					- purchaseOrder.getNetAmount());
-			transactionTotalNonEditableText.setAmount(purchaseOrder.getTotal());
+			netAmount.setAmount(transaction.getNetAmount());
+			vatTotalNonEditableText.setAmount(transaction.getTotal()
+					- transaction.getNetAmount());
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 		}
+
+	}
+
+	protected void updateTransaction() {
+		transaction.setVendor(getVendor().getID());
+
+		if (statusSelect.getSelectedValue().equals(OPEN))
+			transaction.setStatus(ClientTransaction.STATUS_OPEN);
+		else if (statusSelect.getSelectedValue().equals(COMPLETED))
+			transaction.setStatus(ClientTransaction.STATUS_COMPLETED);
+		else if (statusSelect.getSelectedValue().equals(CANCELLED))
+			transaction.setStatus(ClientTransaction.STATUS_CANCELLED);
+
+		if (contact != null)
+			transaction.setContact(contact);
+		if (phoneSelect.getValue() != null)
+			transaction.setPhone(phoneSelect.getValue().toString());
+		if (billingAddress != null)
+			transaction.setVendorAddress(billingAddress);
+		if (shippingAddress != null)
+			transaction.setShippingAddress(shippingAddress);
+
+		if (purchaseOrderText.getValue() != null)
+			transaction.setPurchaseOrderNumber(purchaseOrderText.getValue()
+					.toString());
+		if (paymentTerms != null)
+			transaction.setPaymentTerm(paymentTerms.getID());
+		if (shippingTerms != null)
+			transaction.setShippingTerms(shippingTerms.getID());
+		if (shippingMethod != null)
+			transaction.setShippingMethod(shippingMethod.getID());
+		if (dueDateItem.getEnteredDate() != null) {
+			transaction.setDueDate(dueDateItem.getEnteredDate().getDate());
+		}
+		if (despatchDateItem.getEnteredDate() != null) {
+			transaction.setDespatchDate(despatchDateItem.getEnteredDate()
+					.getDate());
+		}
+		if (deliveryDateItem.getEnteredDate() != null)
+			transaction.setDeliveryDate((deliveryDateItem.getEnteredDate()
+					.getDate()));
+
+		transaction.setMemo(getMemoTextAreaItem());
+		transaction.setNetAmount(vendorTransactionGrid.getGrandTotal());
+		transaction.setTotal(vendorTransactionGrid.getTotal());
+		// transaction.setReference(getRefText());
 
 	}
 
@@ -1056,8 +1051,8 @@ public class PurchaseOrderView extends
 			result.addError(statusSelect, statusSelect.getTitle());
 		}
 
-		if (!AccounterValidator.validate_dueOrDelivaryDates(dueDateItem
-				.getDate(), transactionDateItem.getDate())) {
+		if (!AccounterValidator.validate_dueOrDelivaryDates(
+				dueDateItem.getDate(), transactionDateItem.getDate())) {
 			result.addError(dueDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().dueDate()
@@ -1094,8 +1089,8 @@ public class PurchaseOrderView extends
 
 			};
 
-			AccounterCoreType type = UIUtils
-					.getAccounterCoreType(transaction.getType());
+			AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+					.getType());
 			this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 		}

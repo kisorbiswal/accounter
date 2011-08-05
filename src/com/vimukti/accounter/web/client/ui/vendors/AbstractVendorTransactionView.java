@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
@@ -47,8 +46,8 @@ import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
  * 
  *         This Class serves as the Base Class For all Vendor Transactions
  */
-public abstract class AbstractVendorTransactionView<T extends IAccounterCore> extends
-		AbstractTransactionBaseView<T> {
+public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
+		extends AbstractTransactionBaseView<T> {
 
 	protected AbstractVendorTransactionView<T> vendorTransactionViewInstance;
 
@@ -615,8 +614,8 @@ public abstract class AbstractVendorTransactionView<T extends IAccounterCore> ex
 				// if (zvatCodeid != null)
 				// transactionItem.setVatCode(zvatCodeid);
 				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-						.getTAXCode() != 0 ? getVendor().getTAXCode() : staxCodeid)
-						: 0);
+						.getTAXCode() != 0 ? getVendor().getTAXCode()
+						: staxCodeid) : 0);
 			}
 		} else if (menuItem.equals(Accounter.constants().productItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
@@ -629,8 +628,8 @@ public abstract class AbstractVendorTransactionView<T extends IAccounterCore> ex
 					}
 				}
 				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-						.getTAXCode() != 0 ? getVendor().getTAXCode() : staxCodeid)
-						: 0);
+						.getTAXCode() != 0 ? getVendor().getTAXCode()
+						: staxCodeid) : 0);
 			}
 		} else if (menuItem.equals(Accounter.constants().serviceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
@@ -643,8 +642,8 @@ public abstract class AbstractVendorTransactionView<T extends IAccounterCore> ex
 					}
 				}
 				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-						.getTAXCode() != 0 ? getVendor().getTAXCode() : ztaxCodeid)
-						: 0);
+						.getTAXCode() != 0 ? getVendor().getTAXCode()
+						: ztaxCodeid) : 0);
 			} else {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {
