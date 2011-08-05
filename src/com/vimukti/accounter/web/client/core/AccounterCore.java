@@ -25,14 +25,14 @@ public class AccounterCore implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -40,6 +40,11 @@ public class AccounterCore implements IAccounterCore {
 	public String getClientClassSimpleName() {
 
 		return "AccounterCore";
+	}
+
+	public Object clone() {
+		return null;
+
 	}
 
 }
