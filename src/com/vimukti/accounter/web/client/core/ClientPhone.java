@@ -111,4 +111,9 @@ public class ClientPhone implements IAccounterCore {
 		return null;
 	}
 
+	public ClientPhone clone() {
+		return null;
+
+	}
+
 }
