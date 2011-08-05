@@ -2230,4 +2230,9 @@ public class ClientCompany implements IAccounterCore {
 		}
 		return null;
 	}
+
+	public ClientCompany clone() {
+		return null;
+
+	}
 }
