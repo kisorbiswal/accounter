@@ -10,7 +10,7 @@
 		 <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
 		 <form action="/activation" method="post">
 		    <div class="reset-header">
-			   <h2>Reset Activation Code</h2>
+			  <!-- <h2>Reset Activation Code</h2>-->
 			</div>
 			<div>
 			  <label>Enter valid activation code</label>
