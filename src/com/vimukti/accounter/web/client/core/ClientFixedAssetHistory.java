@@ -46,13 +46,13 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 
 	}
 
@@ -66,7 +66,7 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 
 	// public String getActionAsString(String actionType) {
 	// if(actionType.equalsIgnoreCase(anotherString))
-	//		
+	//
 	// switch (actionType) {
 	// case 1:
 	// return "Note";
@@ -124,6 +124,11 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+	public ClientFixedAssetHistory clone() {
+		return null;
+
 	}
 
 }
