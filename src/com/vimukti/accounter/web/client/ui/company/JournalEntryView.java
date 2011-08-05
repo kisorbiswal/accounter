@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
@@ -74,13 +73,11 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 	@Override
 	public void saveAndUpdateView() {
-		transactionObject = getJournalEntryObject();
+		transaction = getJournalEntryObject();
 		ClientJournalEntry journalEntry = getJournalEntryObject();
 		super.saveAndUpdateView();
 		if (takenJournalEntry == null)
-			createObject(journalEntry);
-		else
-			alterObject(journalEntry);
+			saveOrUpdate(journalEntry);
 
 	}
 
@@ -277,7 +274,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		// entry.setID("");
 		// }
 		journalEntry.setEntry(allGivenRecords);
-		transactionObject = journalEntry;
+		transaction = journalEntry;
 		return journalEntry;
 	}
 
@@ -644,9 +641,9 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

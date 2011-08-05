@@ -7,8 +7,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -17,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class CurrencyView extends BaseView<ClientCurrency> {
 	TextItem currencyNameText, formalNameText;
 	private ClientCurrency currency;
-	private ClientCurrency existCurrency;
+	// private ClientCurrency existCurrency;
 	private AccounterConstants currencyConstants;
 	private DynamicForm currencyForm;
 	private boolean wait;
@@ -91,22 +93,27 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	public void saveAndUpdateView() {
 
 		if (!wait) {
-			// try {
 			ClientCurrency currency = getCurrencyObject();
 			if (existCurrency == null) {
 				List<ClientCurrency> list = new ArrayList<ClientCurrency>(
 						company.getCurrencies());
 
-				if (!isObjectExist(list, currency))
-					createObject(currency);
+				saveOrUpdate(currency);
 			} else
 				alterObject(currency);
-			// } catch (Exception e) {
-			// e.printStackTrace();
-			// throw e;
-			// }
 		}
 
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ClientCurrency currency = company.getCurrency(currencyNameText
+				.getValue().toString());
+		ValidationResult result = new ValidationResult();
+		if (currency != null) {
+			result.addError(currencyNameText, AccounterErrorType.ALREADYEXIST);
+		}
+		return result;
 	}
 
 	private boolean isObjectExist(List<ClientCurrency> list,

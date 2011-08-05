@@ -84,7 +84,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 			Accounter.showError(Accounter.constants()
 					.aItemGroupAlreadyExistswiththisname());
 		} else {
-			createObject(itemGroupDg.createOrEditItemGroup());
+		saveOrUpdate(itemGroupDg.createOrEditItemGroup());
 		}
 	}
 

@@ -31,7 +31,6 @@ public class AccounterDialog extends CustomDialog {
 		this.type = type;
 		createControls();
 		show();
-		center();
 		// if (type == AccounterType.INFORMATION) {
 		// Timer timer = new Timer() {
 		//
@@ -56,7 +55,6 @@ public class AccounterDialog extends CustomDialog {
 		this.dialogHandler = handler;
 		createControls();
 		show();
-		center();
 	}
 
 	public void createControls() {
@@ -240,5 +238,15 @@ public class AccounterDialog extends CustomDialog {
 		}
 
 		super.onLoad();
+	}
+
+	protected void setDialogHandler(ErrorDialogHandler dialogHandler) {
+		this.dialogHandler = dialogHandler;
+	}
+
+	@Override
+	public void show() {
+		super.show();
+		center();
 	}
 }

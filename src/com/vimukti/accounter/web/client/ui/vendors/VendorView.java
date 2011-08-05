@@ -209,7 +209,7 @@ public class VendorView extends BaseView<ClientVendor> {
 						}
 
 					} else
-						createObject(vendor);
+					saveOrUpdate(vendor);
 				} else
 					alterObject(vendor);
 			} catch (Exception e) {

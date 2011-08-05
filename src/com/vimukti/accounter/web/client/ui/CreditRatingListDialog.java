@@ -85,7 +85,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 			creditRating.setName(inputDlg.getTextItems().get(0).getValue()
 					.toString());
 
-			createObject(creditRating);
+		saveOrUpdate(creditRating);
 		}
 	}
 

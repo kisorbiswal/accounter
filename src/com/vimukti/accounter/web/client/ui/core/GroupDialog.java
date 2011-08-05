@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 
@@ -303,14 +304,6 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		listGridView.deleteRecord(listGridView.getSelection());
 	}
 
-	public <S extends IAccounterCore> void createObject(S core) {
-		ViewManager.getInstance().createObject(core, this);
-	}
-
-	public void alterObject(IAccounterCore core) {
-		ViewManager.getInstance().alterObject(core, this);
-	}
-
 	public void deleteObject(IAccounterCore core) {
 		ViewManager.getInstance()
 				.deleteObject(core, core.getObjectType(), this);
@@ -395,5 +388,32 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	public void addCallBack(AccounterAsyncCallback<T> callback) {
 		this.callBack = callback;
+	}
+
+	protected <P extends IAccounterCore> void saveOrUpdate(final P core) {
+
+		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+				saveFailed(caught);
+				caught.printStackTrace();
+				// TODO handle other kind of errors
+			}
+
+			public void onSuccess(Long result) {
+				core.setID(result);
+				Accounter.getCompany().processUpdateOrCreateObject(core);
+				saveSuccess(core);
+			}
+
+		};
+		if (core.getID() == 0) {
+			Accounter.createCRUDService().create((IAccounterCore) core,
+					transactionCallBack);
+		} else {
+			Accounter.createCRUDService().update((IAccounterCore) core,
+					transactionCallBack);
+		}
+
 	}
 }

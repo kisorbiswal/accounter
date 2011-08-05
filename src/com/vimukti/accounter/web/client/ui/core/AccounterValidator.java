@@ -15,13 +15,10 @@ import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsDialog;
-import com.vimukti.accounter.web.client.ui.customers.CustomerView;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 
@@ -267,19 +264,19 @@ public class AccounterValidator {
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
+					public boolean onCancelClick() {
 
 						return true;
 					}
 
 					@Override
-					public boolean onNoClick() throws InvalidEntryException {
+					public boolean onNoClick() {
 
 						return true;
 					}
 
 					@Override
-					public boolean onYesClick() throws InvalidEntryException {
+					public boolean onYesClick() {
 
 						return true;
 					}
@@ -299,22 +296,19 @@ public class AccounterValidator {
 						AccounterType.WARNING, new ErrorDialogHandler() {
 
 							@Override
-							public boolean onCancelClick()
-									throws InvalidEntryException {
+							public boolean onCancelClick() {
 
 								return false;
 							}
 
 							@Override
-							public boolean onNoClick()
-									throws InvalidEntryException {
+							public boolean onNoClick() {
 
 								return true;
 							}
 
 							@Override
-							public boolean onYesClick()
-									throws InvalidEntryException {
+							public boolean onYesClick() {
 								if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 									company.setUkServiceItemDefaultIncomeAccount(selectItem
 											.getName());
@@ -342,21 +336,19 @@ public class AccounterValidator {
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
+						public boolean onCancelClick() {
 
 							return false;
 						}
 
 						@Override
-						public boolean onNoClick() throws InvalidEntryException {
+						public boolean onNoClick() {
 
 							return true;
 						}
 
 						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
+						public boolean onYesClick() {
 							if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 								company.setUkNonInventoryItemDefaultIncomeAccount(selectItem
 										.getName());
@@ -384,22 +376,19 @@ public class AccounterValidator {
 						AccounterType.WARNING, new ErrorDialogHandler() {
 
 							@Override
-							public boolean onCancelClick()
-									throws InvalidEntryException {
+							public boolean onCancelClick() {
 
 								return false;
 							}
 
 							@Override
-							public boolean onNoClick()
-									throws InvalidEntryException {
+							public boolean onNoClick() {
 
 								return true;
 							}
 
 							@Override
-							public boolean onYesClick()
-									throws InvalidEntryException {
+							public boolean onYesClick() {
 								if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 									company.setUkServiceItemDefaultExpenseAccount(selectItem
 											.getName());
@@ -431,22 +420,19 @@ public class AccounterValidator {
 								new ErrorDialogHandler() {
 
 									@Override
-									public boolean onCancelClick()
-											throws InvalidEntryException {
+									public boolean onCancelClick() {
 
 										return false;
 									}
 
 									@Override
-									public boolean onNoClick()
-											throws InvalidEntryException {
+									public boolean onNoClick() {
 
 										return true;
 									}
 
 									@Override
-									public boolean onYesClick()
-											throws InvalidEntryException {
+									public boolean onYesClick() {
 										if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 											company.setUkNonInventoryItemDefaultExpenseAccount(selectExpAccount
 													.getName());
@@ -703,17 +689,17 @@ public class AccounterValidator {
 		AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 			@Override
-			public boolean onCancelClick() throws InvalidEntryException {
+			public boolean onCancelClick() {
 				return true;
 			}
 
 			@Override
-			public boolean onNoClick() throws InvalidEntryException {
+			public boolean onNoClick() {
 				return true;
 			}
 
 			@Override
-			public boolean onYesClick() throws InvalidEntryException {
+			public boolean onYesClick() {
 
 				Double amount = amountToDistribute;
 				double updatedValue = 0.0D;
@@ -843,30 +829,7 @@ public class AccounterValidator {
 		if (!fromAccount.isIncrease()
 				&& DecimalUtil.isLessThan(
 						(fromAccount.getTotalBalance() - transferAmount), 0.00)) {
-			// Accounter.showWarning(AccounterWarningType.transferFromAccount,
-			// AccounterType.WARNING, new ErrorDialogHandler() {
-			//
-			// @Override
-			// public boolean onCancelClick()
-			// throws InvalidEntryException {
-			//
-			// return false;
-			// }
-			//
-			// @Override
-			// public boolean onNoClick() throws InvalidEntryException {
-			// // Accounter.stopExecution();
-			// return true;
-			// }
-			//
-			// @Override
-			// public boolean onYesClick()
-			// throws InvalidEntryException {
-			// dialog.isValidatedTransferAmount = true;
-			// return true;
-			//
-			// }
-			// });
+
 			return false;
 		} else {
 			dialog.isValidatedTransferAmount = true;

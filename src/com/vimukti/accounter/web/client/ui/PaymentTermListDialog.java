@@ -88,7 +88,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			Accounter.showError(Accounter.constants().paytermsAlreadyExists());
 		} else {
 			ClientPaymentTerms clientPaymentTerms = getPaymentTerms();
-			createObject(clientPaymentTerms);
+		saveOrUpdate(clientPaymentTerms);
 		}
 	}
 

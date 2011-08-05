@@ -24,7 +24,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientPaySalesTax;
@@ -596,7 +595,7 @@ public class ViewManager extends DockPanel {
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
+					public boolean onCancelClick() {
 						return true;
 					}
 
@@ -613,7 +612,7 @@ public class ViewManager extends DockPanel {
 					}
 
 					@Override
-					public boolean onYesClick() throws Exception {
+					public boolean onYesClick() {
 
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
@@ -1106,18 +1105,18 @@ public class ViewManager extends DockPanel {
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
+					public boolean onCancelClick() {
 						return true;
 					}
 
 					@Override
-					public boolean onNoClick() throws InvalidEntryException {
+					public boolean onNoClick() {
 						getPreviousView(null);
 						return true;
 					}
 
 					@Override
-					public boolean onYesClick() throws Exception {
+					public boolean onYesClick() {
 
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
@@ -1185,81 +1184,6 @@ public class ViewManager extends DockPanel {
 			break;
 		}
 
-	}
-
-	private <T extends IAccounterCore, P extends IAccounterCore> void saveOrUpdate(
-			final P core, final IAccounterWidget widget, boolean save) {
-		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
-				.processingRequest());
-
-		processDialog.center();
-
-		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
-
-			public void onException(AccounterException caught) {
-				if (processDialog != null) {
-					processDialog.removeFromParent();
-				}
-				widget.saveFailed(caught);
-				caught.printStackTrace();
-				// TODO handle other kind of errors
-			}
-
-			public void onSuccess(Long result) {
-				if (processDialog != null) {
-					processDialog.removeFromParent();
-				}
-				core.setID(result);
-				Accounter.getCompany().processUpdateOrCreateObject(core);
-				widget.saveSuccess(core);
-			}
-
-		};
-		if (save) {
-			Accounter.createCRUDService().create(((IAccounterCore) core),
-					transactionCallBack);
-		} else {
-
-		}
-
-	}
-
-	public <T extends IAccounterCore, P extends IAccounterCore> void createObject(
-			final P core, final IAccounterWidget widget) {
-		saveOrUpdate(core, widget, true);
-	}
-
-	public <T extends IAccounterCore, P extends IAccounterCore> void alterObject(
-			final P core, final IAccounterWidget widget) {
-
-		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
-
-			public void onException(AccounterException caught) {
-				if (caught instanceof AccounterException) {
-					AccounterException exception = (AccounterException) caught;
-					widget.saveFailed(exception);
-					exception.printStackTrace();
-				}
-				// TODO handle other kind of errors
-			}
-
-			public void onSuccess(Long result) {
-				super.onSuccess(result);
-				core.setID(result);
-				Accounter.getCompany().processUpdateOrCreateObject(core);
-				widget.saveSuccess(core);
-			}
-
-		};
-		// widget.setID(core.getID());
-		// when you edit transaction, previous transactionitems and related
-		// objects has to delete, below code is to clear lists that transaction
-		// item has, those no longer need after editing transactions
-		if (core instanceof ClientTransaction)
-			cleanTransactionitems((ClientTransaction) core);
-
-		Accounter.createCRUDService().update(((IAccounterCore) core),
-				transactionCallBack);
 	}
 
 	/**
@@ -1373,50 +1297,6 @@ public class ViewManager extends DockPanel {
 		};
 		// widget.setID(clientCompany.getID());
 		Accounter.createCRUDService().updateCompany(clientCompany,
-				transactionCallBack);
-
-	}
-
-	public void updateCompanyPreferences(
-			final ClientCompanyPreferences preferences,
-			final IAccounterWidget widget) {
-		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
-				.processingRequest());
-
-		processDialog.center();
-		// currentrequestedWidget = widget;
-
-		AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
-
-			public void onException(AccounterException caught) {
-
-				if (caught instanceof AccounterException) {
-					AccounterException exception = (AccounterException) caught;
-					// exception.setID(currentrequestedWidget.getID());
-					// getCompany().processCommand(exception);
-					operationFailed(exception);
-				}
-			}
-
-			public void onSuccess(Boolean result) {
-
-				if (!GWT.isScript()) {
-					if (result != null) {
-						AccounterCommand cmd = new AccounterCommand();
-						cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
-						cmd.setData(preferences);
-						cmd.setID(getCompany().getID());
-						cmd.setObjectType(preferences.getObjectType());
-						getCompany().processCommand(cmd);
-					} else {
-						onFailure(null);
-					}
-				}
-			}
-
-		};
-		// widget.setID(getCompany().getID());
-		Accounter.createCRUDService().updateCompanyPreferences(preferences,
 				transactionCallBack);
 
 	}

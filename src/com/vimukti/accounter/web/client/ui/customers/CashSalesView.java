@@ -324,7 +324,7 @@ public class CashSalesView extends
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
-			ClientCashSales ent = (ClientCashSales) this.transactionObject;
+			ClientCashSales ent = (ClientCashSales) this.transaction;
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
 				this.customerTransactionGrid.removeAllRecords();
@@ -383,7 +383,7 @@ public class CashSalesView extends
 					priceLevel.getID()));
 
 		}
-		if (transactionObject == null && customerTransactionGrid != null) {
+		if (transaction == null && customerTransactionGrid != null) {
 			customerTransactionGrid.priceLevelSelected(priceLevel);
 			customerTransactionGrid.updatePriceLevel();
 		}
@@ -394,7 +394,7 @@ public class CashSalesView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientCashSales cashSale = transactionObject != null ? (ClientCashSales) transactionObject
+		ClientCashSales cashSale = transaction != null ? (ClientCashSales) transaction
 				: new ClientCashSales();
 
 		cashSale.setCustomer(getCustomer().getID());
@@ -436,14 +436,11 @@ public class CashSalesView extends
 
 		cashSale.setTotal(transactionTotalNonEditableText.getAmount());
 
-		transactionObject = cashSale;
+		transaction = cashSale;
 
 		super.saveAndUpdateView();
 
-		if (transactionObject.getID() == 0)
-			createObject(cashSale);
-		else
-			alterObject(cashSale);
+		saveOrUpdate(cashSale);
 
 	}
 
@@ -489,7 +486,7 @@ public class CashSalesView extends
 			return;
 		}
 
-		this.transactionObject = cashSale;
+		this.transaction = cashSale;
 		this.setCustomer(company.getCustomer(cashSale.getCustomer()));
 		// customerSelected(FinanceApplication.getCompany().getCustomer(
 		// cashSale.getCustomer()));
@@ -580,9 +577,9 @@ public class CashSalesView extends
 	@Override
 	protected void initMemoAndReference() {
 
-		if (this.transactionObject != null) {
+		if (this.transaction != null) {
 
-			ClientCashSales cashSales = (ClientCashSales) transactionObject;
+			ClientCashSales cashSales = (ClientCashSales) transaction;
 
 			if (cashSales != null) {
 
@@ -601,8 +598,8 @@ public class CashSalesView extends
 	@Override
 	protected void initSalesTaxNonEditableItem() {
 
-		if (transactionObject != null) {
-			Double salesTaxAmout = ((ClientCashSales) transactionObject)
+		if (transaction != null) {
+			Double salesTaxAmout = ((ClientCashSales) transaction)
 					.getSalesTax();
 			setSalesTax(salesTaxAmout);
 
@@ -613,8 +610,8 @@ public class CashSalesView extends
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
 
-		if (transactionObject != null) {
-			this.transactionTotal = ((ClientCashSales) transactionObject)
+		if (transaction != null) {
+			this.transactionTotal = ((ClientCashSales) transaction)
 					.getTotal();
 			this.transactionTotalNonEditableText
 					.setAmount(this.transactionTotal);
@@ -763,9 +760,9 @@ public class CashSalesView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

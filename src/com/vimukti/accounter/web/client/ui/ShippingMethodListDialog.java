@@ -90,7 +90,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 			ClientShippingMethod method = new ClientShippingMethod();
 			method.setName(inputDlg.getTextValueByIndex(0));
 			method.setDescription(inputDlg.getTextValueByIndex(1));
-			createObject(method);
+		saveOrUpdate(method);
 		}
 	}
 

@@ -95,8 +95,8 @@ public class CashExpenseView extends CashPurchaseView {
 		// vendorForm.removeFromParent();
 		// verticalPanel.add(vendorForm);
 
-		if (transactionObject != null) {
-			ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
+		if (transaction != null) {
+			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			petycash.setComboItem(cashPurchase.getCashExpenseAccount());
 			petycash.setDisabled(true);
 			deliveryDateItem.setValue(new ClientFinanceDate(cashPurchase
@@ -107,7 +107,7 @@ public class CashExpenseView extends CashPurchaseView {
 
 	@Override
 	protected ClientCashPurchase prepareObject() {
-		ClientCashPurchase cashPurchase = transactionObject != null ? (ClientCashPurchase) transactionObject
+		ClientCashPurchase cashPurchase = transaction != null ? (ClientCashPurchase) transaction
 				: new ClientCashPurchase();
 
 		// Setting Type
@@ -210,9 +210,9 @@ public class CashExpenseView extends CashPurchaseView {
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 	}
 
 	@Override

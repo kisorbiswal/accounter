@@ -57,12 +57,12 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * @author Fernandez This Class serves as the Base Class for All Transactions
  * 
  */
-public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
+public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		extends BaseView<T> {
 
 	protected int transactionType;
 
-	protected ClientTransaction transactionObject;
+	protected T transaction;
 
 	public static final int CUSTOMER_TRANSACTION_GRID = 1;
 	public static final int VENDOR_TRANSACTION_GRID = 2;
@@ -139,7 +139,7 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 
 	protected final String getTransactionStatus() {
 		return Utility.getStatus(transactionType,
-				transactionObject != null ? transactionObject.getStatus() : 0);
+				transaction != null ? transaction.getStatus() : 0);
 	}
 
 	protected ClientTAXCode getTaxCodeForTransactionItems(
@@ -253,9 +253,9 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 		if (transactionNumber == null)
 			return;
 
-		if (transactionObject != null) {
+		if (transaction != null) {
 
-			transactionNumber.setValue(transactionObject.getNumber());
+			transactionNumber.setValue(transaction.getNumber());
 			return;
 		}
 
@@ -327,9 +327,9 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 			}
 		});
 
-		if (transactionObject != null && transactionObject.getDate() != null) {
-			dateItem.setEnteredDate(transactionObject.getDate());
-			setTransactionDate(transactionObject.getDate());
+		if (transaction != null && transaction.getDate() != null) {
+			dateItem.setEnteredDate(transaction.getDate());
+			setTransactionDate(transaction.getDate());
 
 		} else {
 			setTransactionDate(new ClientFinanceDate());
@@ -467,7 +467,7 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 	}
 
 	protected void reload() {
-		transactionObject = null;
+		transaction = null;
 		if (customerTransactionGrid != null) {
 			customerTransactionGrid.canDeleteRecord(true);
 			// FIXME ::: no need of this statement
@@ -500,20 +500,19 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 
 	public void saveAndUpdateView() {
 		try {
-			if (this.transactionObject.getTotal() <= 0) {
+			if (this.transaction.getTotal() <= 0) {
 				throw new InvalidOperationException(Accounter.constants()
 						.transactiontotalcannotbe0orlessthan0());
 			}
-			transactionObject.setType(transactionType);
+			transaction.setType(transactionType);
 			if (transactionDate != null)
-				transactionObject.setDate(transactionDate.getDate());
+				transaction.setDate(transactionDate.getDate());
 			if (transactionNumber != null)
-				transactionObject.setNumber(transactionNumber.getValue()
-						.toString());
+				transaction.setNumber(transactionNumber.getValue().toString());
 			processTransactionItems();
 			if (transactionItems != null)
 				validateTransactionItems(transactionItems);
-			transactionObject.setTransactionItems(transactionItems);
+			transaction.setTransactionItems(transactionItems);
 			// transactionObject.setModifiedOn(new Date());
 			if (transactionItems != null)
 				validateVATCODEBaseOnTransactionDate();
@@ -563,10 +562,10 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 	private void processTransactionItems() throws InvalidEntryException {
 		if (customerTransactionGrid != null)
 			this.transactionItems = customerTransactionGrid
-					.getallTransactions(transactionObject);
+					.getallTransactions(transaction);
 		if (vendorTransactionGrid != null)
 			this.transactionItems = vendorTransactionGrid
-					.getallTransactions(transactionObject);
+					.getallTransactions(transaction);
 
 	}
 
@@ -579,11 +578,11 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 	}
 
 	public ClientTransaction getTransactionObject() {
-		return transactionObject;
+		return transaction;
 	}
 
 	public void setTransactionObject(ClientTransaction transactionObject) {
-		this.transactionObject = transactionObject;
+		this.transaction = transactionObject;
 	}
 
 	// public String getRefText() {
@@ -663,8 +662,8 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 
 	@Override
 	public void initData() {
-		if (transactionObject != null)
-			initTransactionViewData(transactionObject);
+		if (transaction != null)
+			initTransactionViewData(transaction);
 		else
 			initTransactionViewData();
 
@@ -676,9 +675,9 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 	public void setData(T data) {
 		super.setData(data);
 		if (data != null)
-			transactionObject = (ClientTransaction) data;
+			transaction = data;
 		else
-			transactionObject = null;
+			transaction = null;
 
 	}
 
@@ -950,5 +949,10 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
 	public CurrencyWidget getCurrencyWidget() {
 		return currencyWidget;
 	}
+
+	/**
+	 * Updates the Transaction Obejct from the GUI Fields before saving.
+	 */
+	protected abstract void updateTransaction();
 
 }

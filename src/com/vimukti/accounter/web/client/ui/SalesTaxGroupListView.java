@@ -351,7 +351,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else
-			createObject(taxGroup);
+		saveOrUpdate(taxGroup);
 
 	}
 

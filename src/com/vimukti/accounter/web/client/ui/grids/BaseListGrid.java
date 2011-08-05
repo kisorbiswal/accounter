@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public abstract class BaseListGrid<T> extends ListGrid<T> implements
@@ -129,17 +128,17 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 				new ErrorDialogHandler() {
 
 					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
+					public boolean onCancelClick() {
 						return false;
 					}
 
 					@Override
-					public boolean onNoClick() throws InvalidEntryException {
+					public boolean onNoClick() {
 						return true;
 					}
 
 					@Override
-					public boolean onYesClick() throws InvalidEntryException {
+					public boolean onYesClick() {
 						if (col == 6)
 							voidTransaction(coreType, transactionsID);
 						// else if (col == 7)
@@ -174,18 +173,18 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 				new ErrorDialogHandler() {
 
 					@Override
-					public boolean onYesClick() throws InvalidEntryException {
+					public boolean onYesClick() {
 						executeDelete(object);
 						return true;
 					}
 
 					@Override
-					public boolean onNoClick() throws InvalidEntryException {
+					public boolean onNoClick() {
 						return true;
 					}
 
 					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
+					public boolean onCancelClick() {
 						return false;
 					}
 				});

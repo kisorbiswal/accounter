@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
@@ -187,10 +186,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		else
 			vatGroup.setSalesType(false);
 
-		if (takenVatGroup == null)
-			createObject(vatGroup);
-		else
-			alterObject(vatGroup);
+		saveOrUpdate(vatGroup);
 
 	}
 
@@ -201,8 +197,8 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		// .duplicationOfVATGroupIsNotAllowed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this,
-				Accounter.constants().duplicationOfVATGroupIsNotAllowed());
+		addError(this, Accounter.constants()
+				.duplicationOfVATGroupIsNotAllowed());
 	}
 
 	@Override

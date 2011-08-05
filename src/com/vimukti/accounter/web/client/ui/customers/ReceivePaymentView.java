@@ -131,7 +131,7 @@ public class ReceivePaymentView extends
 		gridView.creditsStack = null;
 		gridView.initCreditsAndPayments(getCustomer());
 
-		if (transactionObject == null) {
+		if (transaction == null) {
 			gridView.removeAllRecords();
 			gridView.addLoadingImagePanel();
 			getTransactionReceivePayments(selectedCustomer);
@@ -347,16 +347,13 @@ public class ReceivePaymentView extends
 
 		ClientReceivePayment receivePayment = getReceivePaymentObject();
 
-		if (transactionObject == null)
-			createObject(receivePayment);
-		else
-			alterObject(receivePayment);
+		saveOrUpdate(receivePayment);
 
 	}
 
 	private ClientReceivePayment getReceivePaymentObject() {
 
-		ClientReceivePayment receivePayment = (transactionObject != null) ? (ClientReceivePayment) transactionObject
+		ClientReceivePayment receivePayment = (transaction != null) ? (ClientReceivePayment) transaction
 				: new ClientReceivePayment();
 
 		receivePayment.setDate(transactionDateItem.getValue().getDate());
@@ -378,7 +375,7 @@ public class ReceivePaymentView extends
 		receivePayment.setAmount(this.amountRecieved);
 		receivePayment.setTotal(this.gridView.getTotal());
 
-		if (transactionObject == null)
+		if (transaction == null)
 			receivePayment
 					.setTransactionReceivePayment(getTransactionRecievePayments(receivePayment));
 
@@ -443,8 +440,8 @@ public class ReceivePaymentView extends
 
 	@Override
 	protected void createControls() {
-		if (transactionObject == null
-				|| transactionObject.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+		if (transaction == null
+				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 			lab = new Label(Utility.getTransactionName(transactionType));
 		else {
 			// lab = new Label(Utility.getTransactionName(transactionType) + "("
@@ -781,10 +778,10 @@ public class ReceivePaymentView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (transactionObject == null)
+		if (transaction == null)
 			return;
 
-		String memo = ((ClientReceivePayment) transactionObject).getMemo();
+		String memo = ((ClientReceivePayment) transaction).getMemo();
 
 		if (memo != null) {
 			memoTextAreaItem.setValue(memo);
@@ -812,10 +809,10 @@ public class ReceivePaymentView extends
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (transactionObject == null)
+		if (transaction == null)
 			return;
 
-		ClientReceivePayment recievePayment = ((ClientReceivePayment) transactionObject);
+		ClientReceivePayment recievePayment = ((ClientReceivePayment) transaction);
 
 		setCustomerBalance(recievePayment.getCustomerBalance());
 
@@ -1244,32 +1241,30 @@ public class ReceivePaymentView extends
 
 	@Override
 	public void onEdit() {
-		if (transactionObject.canEdit && !transactionObject.isVoid()) {
+		if (transaction.canEdit && !transaction.isVoid()) {
 
 			Accounter.showWarning(AccounterWarningType.RECEIVEPAYMENT_EDITING,
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
+						public boolean onCancelClick() {
 							return true;
 						}
 
 						@Override
-						public boolean onNoClick() throws InvalidEntryException {
+						public boolean onNoClick() {
 							return true;
 
 						}
 
 						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
+						public boolean onYesClick() {
 							voidTransaction();
 							return true;
 						}
 					});
 
-		} else if (transactionObject.isVoid() || transactionObject.isDeleted())
+		} else if (transaction.isVoid() || transaction.isDeleted())
 
 			Accounter.showError(Accounter.constants()
 					.youcanteditreceivePaymentitisvoidedordeleted());
@@ -1319,7 +1314,7 @@ public class ReceivePaymentView extends
 
 		getTransactionReceivePayments(this.getCustomer());
 		memoTextAreaItem.setDisabled(isEdit);
-		transactionObject = null;
+		transaction = null;
 
 		// this.rpcUtilService.getTransactionReceivePayments(customer
 		// .getID(),

@@ -108,9 +108,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	private void initBalanceDue() {
 
-		if (transactionObject != null) {
+		if (transaction != null) {
 
-			setBalanceDue(((ClientInvoice) transactionObject).getBalanceDue());
+			setBalanceDue(((ClientInvoice) transaction).getBalanceDue());
 
 		}
 
@@ -122,9 +122,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	private void initPayments() {
 
-		if (transactionObject != null) {
+		if (transaction != null) {
 
-			ClientInvoice invoice = (ClientInvoice) transactionObject;
+			ClientInvoice invoice = (ClientInvoice) transaction;
 
 			setPayments(invoice.getPayments());
 		}
@@ -148,8 +148,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	private void initDueDate() {
 
-		if (transactionObject != null) {
-			ClientInvoice invoice = (ClientInvoice) transactionObject;
+		if (transaction != null) {
+			ClientInvoice invoice = (ClientInvoice) transaction;
 			if (invoice.getDueDate() != 0) {
 				dueDateItem.setEnteredDate(new ClientFinanceDate(invoice
 						.getDueDate()));
@@ -176,8 +176,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	protected void createControls() {
 		Label lab1;
 
-		if (transactionObject == null
-				|| transactionObject.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+		if (transaction == null
+				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 
 			lab1 = new Label(Accounter.constants().invoice());
 
@@ -290,7 +290,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 					}
 				});
 
-		if (transactionObject != null)
+		if (transaction != null)
 			shipToAddress.businessSelect.setDisabled(true);
 		// phoneSelect = new SelectItem();
 		// phoneSelect.setWidth(100);
@@ -318,7 +318,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		custForm.setStyleName("align-form");
 
 		if (UIUtils.isMSIEBrowser()) {
-			if (transactionObject != null)
+			if (transaction != null)
 				custForm.setWidth("74%");
 		}
 
@@ -342,7 +342,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		orderNumText = new TextItem(Accounter.constants().salesorderno());
 		orderNumText.setHelpInformation(true);
 		orderNumText.setWidth(38);
-		if (transactionObject != null)
+		if (transaction != null)
 			orderNumText.setDisabled(true);
 
 		DynamicForm termsForm = new DynamicForm();
@@ -616,7 +616,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 					priceLevel.getID()));
 
 		}
-		if (this.transactionObject == null || customerTransactionGrid != null) {
+		if (this.transaction == null || customerTransactionGrid != null) {
 			customerTransactionGrid.priceLevelSelected(priceLevel);
 			customerTransactionGrid.updatePriceLevel();
 		}
@@ -666,7 +666,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			}
 		}
 		Double payments = this.paymentsNonEditableText.getAmount();
-		if (transactionObject != null) {
+		if (transaction != null) {
 			payments = this.transactionTotal < payments ? this.transactionTotal
 					: payments;
 			setPayments(payments);
@@ -680,7 +680,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		updateSalesOrderOrEstimate(customer);
 
 		if (this.getCustomer() != null && !this.getCustomer().equals(customer)
-				&& transactionObject == null)
+				&& transaction == null)
 			customerTransactionGrid.removeAllRecords();
 
 		this.setCustomer(customer);
@@ -717,7 +717,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	 */
 	private void updateSalesOrderOrEstimate(ClientCustomer customer) {
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
-			ClientInvoice inv = (ClientInvoice) this.transactionObject;
+			ClientInvoice inv = (ClientInvoice) this.transaction;
 
 			if (inv.getCustomer() == customer.getID()) {
 				this.customerTransactionGrid.removeAllRecords();
@@ -978,8 +978,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	@Override
 	protected void initSalesTaxNonEditableItem() {
 
-		if (transactionObject != null) {
-			Double salesTaxAmout = ((ClientInvoice) transactionObject)
+		if (transaction != null) {
+			Double salesTaxAmout = ((ClientInvoice) transaction)
 					.getSalesTaxAmount();
 			setSalesTax(salesTaxAmout);
 
@@ -989,8 +989,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (transactionObject != null) {
-			Double transactionTotal = ((ClientInvoice) transactionObject)
+		if (transaction != null) {
+			Double transactionTotal = ((ClientInvoice) transaction)
 					.getTotal();
 			setTransactionTotal(transactionTotal);
 
@@ -1000,9 +1000,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	@Override
 	protected void initMemoAndReference() {
-		if (this.transactionObject != null) {
+		if (this.transaction != null) {
 
-			ClientInvoice invoice = (ClientInvoice) transactionObject;
+			ClientInvoice invoice = (ClientInvoice) transaction;
 
 			if (invoice != null) {
 
@@ -1040,8 +1040,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	@Override
 	public void saveAndUpdateView() {
 
-		transactionObject = getInvoiceObject();
-		ClientInvoice invoice = transactionObject != null ? (ClientInvoice) transactionObject
+		transaction = getInvoiceObject();
+		ClientInvoice invoice = transaction != null ? (ClientInvoice) transaction
 				: new ClientInvoice();
 		invoice.setCustomer(getCustomer().getID());
 
@@ -1112,21 +1112,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		if (customerTransactionGrid != null)
 			// invoice.setTotal(transactionGrid.getTotal());
 
-			transactionObject = invoice;
+			transaction = invoice;
 
 		super.saveAndUpdateView();
 
-		if (transactionObject.getID() != 0) {
-			alterObject(invoice);
-
-		} else {
-			createObject(invoice);
-		}
+		saveOrUpdate(invoice);
 
 	}
 
 	private ClientTransaction getInvoiceObject() {
-		ClientInvoice invoice = transactionObject != null ? (ClientInvoice) transactionObject
+		ClientInvoice invoice = transaction != null ? (ClientInvoice) transaction
 				: new ClientInvoice();
 		if (getCustomer() != null)
 			invoice.setCustomer(getCustomer().getID());
@@ -1195,14 +1190,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		if (customerTransactionGrid != null)
 			// invoice.setTotal(transactionGrid.getTotal());
-			transactionObject = invoice;
+			transaction = invoice;
 		try {
 			super.saveAndUpdateView();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return transactionObject;
+		return transaction;
 	}
 
 	@Override
@@ -1440,9 +1435,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

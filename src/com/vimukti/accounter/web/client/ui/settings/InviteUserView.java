@@ -222,11 +222,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 			user.setCanDoUserManagement(selectedRole.isCanDoUserManagement());
 		}
 
-		if (user.getID() != 0) {
-			alterObject(user);
-		} else {
-			createObject(user);
-		}
+		saveOrUpdate(user);
 	}
 
 	private RolePermissions getSelectedRolePermission() {

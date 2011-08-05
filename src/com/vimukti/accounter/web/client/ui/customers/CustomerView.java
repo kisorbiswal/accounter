@@ -274,10 +274,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		if (!wait) {
 			// try {
 			ClientCustomer customer = getCustomerObject();
-			if (takenCustomer == null) {
-				createObject(customer);
-			} else
-				alterObject(customer);
+			saveOrUpdate(customer);
 			// } catch (Exception e) {
 			// e.printStackTrace();
 			// throw e;

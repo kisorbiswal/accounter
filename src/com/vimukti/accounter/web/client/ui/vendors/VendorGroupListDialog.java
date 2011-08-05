@@ -87,7 +87,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 					.supplierGroupAlreadyExists(), Accounter.constants()
 					.vendorGroupAlreadyExists()));
 		} else {
-			createObject(vendorGroup);
+		saveOrUpdate(vendorGroup);
 		}
 	}
 

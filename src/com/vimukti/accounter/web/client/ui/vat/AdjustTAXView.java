@@ -402,10 +402,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	public void saveAndUpdateView() {
 		ClientTAXAdjustment vatItem = getObject();
-		if (taxAdjustment == null)
-			createObject(vatItem);
-		else
-			alterObject(vatItem);
+		saveOrUpdate(vatItem);
 	}
 
 	public void setData(ClientTAXAdjustment data) {

@@ -274,7 +274,7 @@ public class CustomerCreditMemoView extends
 
 		}
 
-		if (transactionObject == null && customerTransactionGrid != null) {
+		if (transaction == null && customerTransactionGrid != null) {
 			customerTransactionGrid.priceLevelSelected(priceLevel);
 			customerTransactionGrid.updatePriceLevel();
 		}
@@ -296,19 +296,16 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public void saveAndUpdateView() {
-		transactionObject = getCreditMemoObject();
+		transaction = getCreditMemoObject();
 		super.saveAndUpdateView();
-		if (transactionObject.getID() == 0)
-			createObject((ClientCustomerCreditMemo) transactionObject);
-		else
-			alterObject((ClientCustomerCreditMemo) transactionObject);
+		saveOrUpdate((ClientCustomerCreditMemo) transaction);
 
 	}
 
 	private ClientTransaction getCreditMemoObject() {
 		try {
 
-			ClientCustomerCreditMemo creditMemo = transactionObject != null ? (ClientCustomerCreditMemo) transactionObject
+			ClientCustomerCreditMemo creditMemo = transaction != null ? (ClientCustomerCreditMemo) transaction
 					: new ClientCustomerCreditMemo();
 
 			creditMemo.setCustomer(getCustomer().getID());
@@ -333,12 +330,12 @@ public class CustomerCreditMemoView extends
 				creditMemo.setSalesTax(this.salesTax);
 
 			creditMemo.setTotal(transactionTotalNonEditableText.getAmount());
-			transactionObject = creditMemo;
+			transaction = creditMemo;
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return transactionObject;
+		return transaction;
 	}
 
 	@Override
@@ -346,9 +343,9 @@ public class CustomerCreditMemoView extends
 		initTransactionViewData();
 		ClientCustomerCreditMemo creditToBeEdited = (ClientCustomerCreditMemo) transactionObject;
 
-		this.setCustomer(getCompany()
-				.getCustomer(creditToBeEdited.getCustomer()));
-		this.transactionObject = creditToBeEdited;
+		this.setCustomer(getCompany().getCustomer(
+				creditToBeEdited.getCustomer()));
+		this.transaction = creditToBeEdited;
 		this.billingAddress = creditToBeEdited.getBillingAddress();
 		this.contact = creditToBeEdited.getContact();
 		this.phoneNo = creditToBeEdited.getPhone();
@@ -393,9 +390,9 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (this.transactionObject != null) {
+		if (this.transaction != null) {
 
-			ClientCustomerCreditMemo creditMemo = (ClientCustomerCreditMemo) transactionObject;
+			ClientCustomerCreditMemo creditMemo = (ClientCustomerCreditMemo) transaction;
 
 			if (creditMemo != null) {
 
@@ -411,8 +408,8 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	protected void initSalesTaxNonEditableItem() {
-		if (transactionObject != null) {
-			Double salesTaxAmout = ((ClientCustomerCreditMemo) transactionObject)
+		if (transaction != null) {
+			Double salesTaxAmout = ((ClientCustomerCreditMemo) transaction)
 					.getSalesTax();
 			if (salesTaxAmout != null) {
 				salesTaxTextNonEditable.setAmount(salesTaxAmout);
@@ -424,8 +421,8 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (transactionObject != null) {
-			Double transactionTotal = ((ClientCustomerCreditMemo) transactionObject)
+		if (transaction != null) {
+			Double transactionTotal = ((ClientCustomerCreditMemo) transaction)
 					.getTotal();
 			if (transactionTotal != null) {
 				transactionTotalNonEditableText.setAmount(transactionTotal);
@@ -504,7 +501,7 @@ public class CustomerCreditMemoView extends
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
-			ClientCustomerCreditMemo ent = (ClientCustomerCreditMemo) this.transactionObject;
+			ClientCustomerCreditMemo ent = (ClientCustomerCreditMemo) this.transaction;
 
 			if (ent != null && ent.getCustomer() == customer.getID()) {
 				this.customerTransactionGrid.removeAllRecords();
@@ -630,9 +627,9 @@ public class CustomerCreditMemoView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

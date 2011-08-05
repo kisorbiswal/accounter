@@ -36,7 +36,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
@@ -101,7 +100,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		for (ClientTransactionPayBill rec : selectedRecords) {
 			toBeSetAmount += rec.getPayment();
 		}
-		if (this.transactionObject == null) {
+		if (this.transaction == null) {
 			amtText.setAmount(toBeSetAmount);
 
 			if (payFromAccount != null) {
@@ -127,10 +126,10 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	private ClientPayBill getPayBillObject() {
 
 		ClientPayBill payBill = null;
-		if (transactionObject == null)
+		if (transaction == null)
 			payBill = new ClientPayBill();
 		else {
-			payBill = (ClientPayBill) transactionObject;
+			payBill = (ClientPayBill) transaction;
 			return payBill;
 		}
 
@@ -203,7 +202,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 				tpbRecord.getTempCredits().clear();
 			transactionPayBill.add(tpbRecord);
 		}
-		if (transactionObject == null)
+		if (transaction == null)
 			payBill.setTransactionPayBill(transactionPayBill);
 
 		payBill.setUnUsedCredits(this.unUsedCreditsText.getAmount());
@@ -544,7 +543,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		this.add(mainVLay);
 		setSize("100%", "100%");
-		isEdit = transactionObject != null;
+		isEdit = transaction != null;
 
 		/* Adding dynamic forms in list */
 		listforms.add(payForm);
@@ -586,7 +585,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		gridView.initCreditsAndPayments(vendor);
 		gridView.removeAllRecords();
 
-		if (transactionObject == null) {
+		if (transaction == null) {
 			gridView.addLoadingImagePanel();
 			getTransactionPayBills(vendor);
 
@@ -661,7 +660,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 		amtText.setAmount(billToBeEdited.getTotal());
 		endBalText.setAmount(billToBeEdited.getEndingBalance());
-		initListGridData(this.transactionObject.getTransactionPayBill());
+		initListGridData(this.transaction.getTransactionPayBill());
 		initTransactionTotalNonEditableItem();
 		memoTextAreaItem.setDisabled(true);
 		initTransactionViewData();
@@ -683,9 +682,9 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (transactionObject == null)
+		if (transaction == null)
 			return;
-		ClientPayBill paybill = ((ClientPayBill) transactionObject);
+		ClientPayBill paybill = ((ClientPayBill) transaction);
 		Double unusedCredits = paybill.getUnUsedCredits();
 		setUnUsedCredits(unusedCredits);
 	}
@@ -733,11 +732,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	public void saveAndUpdateView() {
 
 		ClientPayBill payBill = getPayBillObject();
-		if (transactionObject == null) {
-			createObject(payBill);
-		} else {
-			alterObject(payBill);
-		}
+		saveOrUpdate(payBill);
 
 	}
 
@@ -869,13 +864,12 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	}
 
 	public void onEdit() {
-		if (!transactionObject.isVoid()) {
+		if (!transaction.isVoid()) {
 			Accounter.showWarning(AccounterWarningType.PAYBILL_EDITING,
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
+						public boolean onYesClick() {
 							voidTransaction();
 							return true;
 						}
@@ -912,19 +906,18 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 						}
 
 						@Override
-						public boolean onNoClick() throws InvalidEntryException {
+						public boolean onNoClick() {
 
 							return true;
 						}
 
 						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
+						public boolean onCancelClick() {
 
 							return true;
 						}
 					});
-		} else if (transactionObject.isVoid() || transactionObject.isDeleted())
+		} else if (transaction.isVoid() || transaction.isDeleted())
 			Accounter
 					.showError(Accounter.constants().failedtovoidTransaction());
 	}
@@ -944,7 +937,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		gridLayout.insert(gridView, 2);
 		getTransactionPayBills(this.getVendor());
 		memoTextAreaItem.setDisabled(isEdit);
-		transactionObject = null;
+		transaction = null;
 
 	}
 

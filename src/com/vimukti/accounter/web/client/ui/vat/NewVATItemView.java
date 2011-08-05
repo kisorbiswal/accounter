@@ -326,10 +326,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	@Override
 	public void saveAndUpdateView() {
 		ClientTAXItem vatItem = getObject();
-		if (takenVATItem == null)
-			createObject(vatItem);
-		else
-			alterObject(vatItem);
+		saveOrUpdate(vatItem);
 	}
 
 	@Override

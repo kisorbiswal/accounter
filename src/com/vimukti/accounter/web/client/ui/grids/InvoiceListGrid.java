@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -128,18 +127,18 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 				new ErrorDialogHandler() {
 
 					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
+					public boolean onCancelClick() {
 						// TODO Auto-generated method stub
 						return false;
 					}
 
 					@Override
-					public boolean onNoClick() throws InvalidEntryException {
+					public boolean onNoClick() {
 						return true;
 					}
 
 					@Override
-					public boolean onYesClick() throws InvalidEntryException {
+					public boolean onYesClick() {
 						if (col == 8)
 							voidTransaction(obj);
 						else if (col == 9)

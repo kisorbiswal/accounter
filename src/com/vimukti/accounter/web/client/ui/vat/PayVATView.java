@@ -35,7 +35,6 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPayVATGrid;
@@ -128,7 +127,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 			@Override
 			public void onDateValueChange(ClientFinanceDate date) {
-				if (transactionObject == null) {
+				if (transaction == null) {
 					dueDateOnOrBefore = date;
 					filterGrid();
 				}
@@ -463,10 +462,10 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	@Override
 	public void saveAndUpdateView() {
-		transactionObject = getPaySalesTax();
+		transaction = getPaySalesTax();
 		ClientPayVAT payVAT = getPaySalesTax();
 		super.saveAndUpdateView();
-		createObject(payVAT);
+	saveOrUpdate(payVAT);
 	}
 
 	private ClientPayVAT getPaySalesTax() {
@@ -492,7 +491,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		payVAT.setEndingBalance(endingBalance);
 
 		payVAT.setClientTransactionPayVAT(getTransactionPayVATList());
-		transactionObject = payVAT;
+		transaction = payVAT;
 		return payVAT;
 	}
 
@@ -522,7 +521,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		// for (ClientTransactionPayVAT rec : selectedRecords) {
 		// toBeSetAmount += rec.getAmountToPay();
 		// }
-		if (this.transactionObject == null) {
+		if (this.transaction == null) {
 			amountText.setAmount(toBeSetAmount);
 			totalAmount = toBeSetAmount;
 			if (selectedPayFromAccount != null) {
@@ -571,13 +570,12 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 	public void onEdit() {
 
-		if (transactionObject.canEdit) {
+		if (transaction.canEdit) {
 			Accounter.showWarning(AccounterWarningType.PAYVAT_EDITING,
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
+						public boolean onYesClick() {
 							voidTransaction();
 							return true;
 						}
@@ -613,14 +611,13 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						}
 
 						@Override
-						public boolean onNoClick() throws InvalidEntryException {
+						public boolean onNoClick() {
 
 							return true;
 						}
 
 						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
+						public boolean onCancelClick() {
 
 							return true;
 						}
@@ -639,7 +636,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		super.onEdit();
 
 		fillGrid();
-		transactionObject = null;
+		transaction = null;
 
 	}
 

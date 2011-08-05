@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
@@ -29,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.Header;
@@ -39,11 +41,8 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
-import com.vimukti.accounter.web.client.ui.core.CancleButtom;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
-import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
-import com.vimukti.accounter.web.client.ui.core.SaveAndNewButtom;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -644,8 +643,43 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// company.setpreferences(companyPreferences);
 
 		saveAndClose = true;
-		ViewManager.getInstance().updateCompanyPreferences(companyPreferences,
-				this);
+		update(companyPreferences);
+	}
+
+	public void update(final ClientCompanyPreferences preferences) {
+		// currentrequestedWidget = widget;
+
+		AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			public void onException(AccounterException caught) {
+
+				if (caught instanceof AccounterException) {
+					AccounterException exception = (AccounterException) caught;
+					// exception.setID(currentrequestedWidget.getID());
+					// getCompany().processCommand(exception);
+					saveFailed(exception);
+				}
+			}
+
+			public void onSuccess(Boolean result) {
+				super.onSuccess(result);
+				if (result != null) {
+					AccounterCommand cmd = new AccounterCommand();
+					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
+					cmd.setData(preferences);
+					cmd.setID(getCompany().getID());
+					cmd.setObjectType(preferences.getObjectType());
+					getCompany().processCommand(cmd);
+				} else {
+					onFailure(null);
+				}
+			}
+
+		};
+		// widget.setID(getCompany().getID());
+		Accounter.createCRUDService().updateCompanyPreferences(preferences,
+				transactionCallBack);
+
 	}
 
 	protected void updatedCompany() {

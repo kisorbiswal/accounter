@@ -513,9 +513,9 @@ public abstract class AbstractVendorTransactionView<T extends IAccounterCore> ex
 		checkNo.setHelpInformation(true);
 		checkNo.setDisabled(isEdit);
 		// checkNo.setShowDisabled(false);
-		if (transactionObject != null) {
+		if (transaction != null) {
 			if (transactionType == ClientTransaction.TYPE_CASH_PURCHASE) {
-				ClientCashPurchase clientCashPurchase = (ClientCashPurchase) transactionObject;
+				ClientCashPurchase clientCashPurchase = (ClientCashPurchase) transaction;
 				checkNo.setValue(clientCashPurchase.getCheckNumber());
 			}
 		}
@@ -534,21 +534,21 @@ public abstract class AbstractVendorTransactionView<T extends IAccounterCore> ex
 		dateItem.setHelpInformation(true);
 		// dateItem.setTitle("Delivery Date");
 		// dateItem.setUseTextField(true);
-		if (transactionObject == null) {
+		if (transaction == null) {
 			dateItem.setEnteredDate(getTransactionDate());
 		}
 
-		if (transactionObject != null) {
+		if (transaction != null) {
 			long date;
 			if (transactionType == ClientTransaction.TYPE_ENTER_BILL) {
-				ClientEnterBill enterBill = (ClientEnterBill) transactionObject;
+				ClientEnterBill enterBill = (ClientEnterBill) transaction;
 				if ((date = enterBill.getDeliveryDate()) != 0)
 					dateItem.setEnteredDate(new ClientFinanceDate(date));
 			}
 
 			else if (transactionType == ClientTransaction.TYPE_CASH_PURCHASE) {
 
-				ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
+				ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 				if ((date = cashPurchase.getDeliveryDate()) != 0)
 					dateItem.setEnteredDate(new ClientFinanceDate(date));
 

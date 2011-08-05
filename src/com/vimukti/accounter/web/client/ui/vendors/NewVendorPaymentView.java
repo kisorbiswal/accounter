@@ -68,8 +68,8 @@ public class NewVendorPaymentView extends
 		// resetElements();
 		super.initTransactionViewData();
 		initTransactionNumber();
-		if (transactionObject == null)
-			if (transactionObject == null)
+		if (transaction == null)
+			if (transaction == null)
 				initPayFromAccounts();
 
 	}
@@ -241,8 +241,8 @@ public class NewVendorPaymentView extends
 						if (payFromAccount == null)
 							checkNo.setValueField(Accounter.constants()
 									.toBePrinted());
-						else if (transactionObject != null) {
-							checkNo.setValue(((ClientPayBill) transactionObject)
+						else if (transaction != null) {
+							checkNo.setValue(((ClientPayBill) transaction)
 									.getCheckNumber());
 						}
 					}
@@ -339,8 +339,8 @@ public class NewVendorPaymentView extends
 	@Override
 	public void saveAndUpdateView() {
 		ClientPayBill payBill;
-		if (transactionObject != null)
-			payBill = (ClientPayBill) transactionObject;
+		if (transaction != null)
+			payBill = (ClientPayBill) transaction;
 		else
 			payBill = new ClientPayBill();
 
@@ -387,15 +387,12 @@ public class NewVendorPaymentView extends
 		// Setting UnusedAmount
 		payBill.setUnusedAmount(amountText.getAmount());
 
-		transactionObject = payBill;
+		transaction = payBill;
 
 		super.saveAndUpdateView();
 		payBill.setType(ClientTransaction.TYPE_PAY_BILL);
 
-		if (transactionObject.getID() != 0)
-			alterObject(payBill);
-		else
-			createObject(payBill);
+		saveOrUpdate(payBill);
 
 	}
 
@@ -504,9 +501,9 @@ public class NewVendorPaymentView extends
 	@Override
 	protected void initMemoAndReference() {
 
-		if (this.transactionObject != null) {
+		if (this.transaction != null) {
 
-			ClientPayBill payBill = (ClientPayBill) transactionObject;
+			ClientPayBill payBill = (ClientPayBill) transaction;
 
 			if (payBill != null) {
 				memoTextAreaItem.setDisabled(true);
@@ -672,9 +669,9 @@ public class NewVendorPaymentView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

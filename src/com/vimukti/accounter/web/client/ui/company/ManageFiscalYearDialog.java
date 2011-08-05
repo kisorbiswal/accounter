@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ManageFiscalYearDialog extends BaseDialog {
@@ -265,7 +264,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 				AccounterType.WARNING, new ErrorDialogHandler() {
 
 					@Override
-					public boolean onYesClick() throws InvalidEntryException {
+					public boolean onYesClick() {
 						final ClientFiscalYear clientFiscalYear = listOfperiods
 								.getSelection();
 						clientFiscalYear
@@ -276,13 +275,13 @@ public class ManageFiscalYearDialog extends BaseDialog {
 					}
 
 					@Override
-					public boolean onNoClick() throws InvalidEntryException {
+					public boolean onNoClick() {
 
 						return true;
 					}
 
 					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
+					public boolean onCancelClick() {
 
 						return true;
 					}

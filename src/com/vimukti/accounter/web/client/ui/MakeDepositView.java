@@ -41,8 +41,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -452,10 +450,10 @@ public class MakeDepositView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientMakeDeposit makeDeposit = transactionObject != null ? (ClientMakeDeposit) transactionObject
+		ClientMakeDeposit makeDeposit = transaction != null ? (ClientMakeDeposit) transaction
 				: new ClientMakeDeposit();
-		if (transactionObject != null)
-			makeDeposit = (ClientMakeDeposit) transactionObject;
+		if (transaction != null)
+			makeDeposit = (ClientMakeDeposit) transaction;
 		else
 			makeDeposit = new ClientMakeDeposit();
 
@@ -505,16 +503,12 @@ public class MakeDepositView extends
 
 		// Setting Transaction type
 		makeDeposit.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
-		transactionObject = makeDeposit;
+		transaction = makeDeposit;
 
 		// Setting Transaction number
 		// makeDeposit.setNumber(transactionNumber);
 		super.saveAndUpdateView();
-		if (transactionObject.getID() != 0) {
-			alterObject(makeDeposit);
-		} else {
-			createObject(makeDeposit);
-		}
+		saveOrUpdate(makeDeposit);
 
 	}
 
@@ -671,11 +665,11 @@ public class MakeDepositView extends
 
 		getDepositInAccounts();
 
-		if (transactionObject != null) {
+		if (transaction != null) {
 			depositInSelect.setComboItem(getCompany().getAccount(
-					((ClientMakeDeposit) transactionObject).getDepositIn()));
+					((ClientMakeDeposit) transaction).getDepositIn()));
 			this.selectedDepositInAccount = getCompany().getAccount(
-					((ClientMakeDeposit) transactionObject).getDepositIn());
+					((ClientMakeDeposit) transaction).getDepositIn());
 		}
 
 		initFianancialAccounts();
@@ -928,20 +922,20 @@ public class MakeDepositView extends
 		vPanel.add(panel);
 		vPanel.add(botHLay);
 
-		if (transactionObject != null) {
-			date.setValue(transactionObject.getDate());
+		if (transaction != null) {
+			date.setValue(transaction.getDate());
 			depositInSelect.setComboItem(getCompany().getAccount(
-					((ClientMakeDeposit) transactionObject).getDepositIn()));
+					((ClientMakeDeposit) transaction).getDepositIn()));
 			memoText.setDisabled(true);
-			if (((ClientMakeDeposit) transactionObject).getMemo() != null)
-				memoText.setValue(((ClientMakeDeposit) transactionObject)
+			if (((ClientMakeDeposit) transaction).getMemo() != null)
+				memoText.setValue(((ClientMakeDeposit) transaction)
 						.getMemo());
 			cashBackAccountSelect.setComboItem(getCompany().getAccount(
-					((ClientMakeDeposit) transactionObject)
+					((ClientMakeDeposit) transaction)
 							.getCashBackAccount()));
-			if (((ClientMakeDeposit) transactionObject).getCashBackMemo() != null)
+			if (((ClientMakeDeposit) transaction).getCashBackMemo() != null)
 				cashBackMemoText
-						.setValue(((ClientMakeDeposit) transactionObject)
+						.setValue(((ClientMakeDeposit) transaction)
 								.getCashBackMemo());
 			// totAmtText
 			// .setValue(UIUtils.format(((MakeDeposit) transactionObject)
@@ -950,15 +944,15 @@ public class MakeDepositView extends
 			// .getTotal());
 			// totText.setValue(UIUtils.format(((MakeDeposit) transactionObject)
 			// .getTotal()));
-			totText.setAmount(((ClientMakeDeposit) transactionObject)
+			totText.setAmount(((ClientMakeDeposit) transaction)
 					.getTotal());
 			// cashBackAmountText.setValue(UIUtils
 			// .format(((MakeDeposit) transactionObject)
 			// .getCashBackAmount()));
 			cashBackAmountText
-					.setAmount(((ClientMakeDeposit) transactionObject)
+					.setAmount(((ClientMakeDeposit) transaction)
 							.getCashBackAmount());
-			addTransactionMakeDepositsToGrid(transactionObject
+			addTransactionMakeDepositsToGrid(transaction
 					.getTransactionMakeDeposit());
 
 			date.setDisabled(true);
@@ -1009,7 +1003,7 @@ public class MakeDepositView extends
 	public void setData(ClientMakeDeposit data) {
 
 		super.setData(data);
-		if (isEdit && (!transactionObject.isMakeDeposit()))
+		if (isEdit && (!transaction.isMakeDeposit()))
 			try {
 				throw new Exception(Accounter.constants()
 						.unabletoLoadTheRequiredDeposit());
@@ -1213,9 +1207,9 @@ public class MakeDepositView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 
@@ -1230,7 +1224,7 @@ public class MakeDepositView extends
 		cashBackAccountSelect.setDisabled(isEdit);
 		memoText.setDisabled(isEdit);
 		// For deleting the transctionItems after we edit
-		for (ClientTransactionMakeDeposit ctmd : transactionObject
+		for (ClientTransactionMakeDeposit ctmd : transaction
 				.getTransactionMakeDeposit())
 			ctmd.setIsNewEntry(true);
 		// transactionObject = null;

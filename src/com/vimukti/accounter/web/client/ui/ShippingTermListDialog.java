@@ -86,7 +86,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 			ClientShippingTerms shippingTerm = new ClientShippingTerms();
 			shippingTerm.setName(inputDlg.getTextValueByIndex(0));
 			shippingTerm.setDescription(inputDlg.getTextValueByIndex(1));
-			createObject(shippingTerm);
+		saveOrUpdate(shippingTerm);
 		}
 	}
 

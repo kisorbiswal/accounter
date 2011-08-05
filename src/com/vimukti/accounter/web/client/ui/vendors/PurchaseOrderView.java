@@ -279,7 +279,7 @@ public class PurchaseOrderView extends
 		dueDateItem = new DateField(Accounter.constants().dueDate());
 		dueDateItem.setDisabled(isEdit);
 		// dueDateItem.setWidth(100);
-		if (transactionObject != null) {
+		if (transaction != null) {
 			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
 		} else
 			setDueDate(new ClientFinanceDate().getDate());
@@ -300,7 +300,7 @@ public class PurchaseOrderView extends
 		});
 		despatchDateItem = new DateField(Accounter.constants().despatchDate());
 		despatchDateItem.setDisabled(isEdit);
-		if (transactionObject != null) {
+		if (transaction != null) {
 		} else
 			setDespatchDate(new ClientFinanceDate().getDate());
 		despatchDateItem.addChangedHandler(new ChangeHandler() {
@@ -689,8 +689,8 @@ public class PurchaseOrderView extends
 
 	private void initDeliveryDate() {
 
-		if (transactionObject != null) {
-			ClientPurchaseOrder purchaseOrder = (ClientPurchaseOrder) transactionObject;
+		if (transaction != null) {
+			ClientPurchaseOrder purchaseOrder = (ClientPurchaseOrder) transaction;
 			deliveryDateItem.setEnteredDate(new ClientFinanceDate(purchaseOrder
 					.getDeliveryDate()));
 
@@ -800,9 +800,9 @@ public class PurchaseOrderView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (this.transactionObject != null) {
+		if (this.transaction != null) {
 
-			ClientSalesOrder salesOrder = (ClientSalesOrder) transactionObject;
+			ClientSalesOrder salesOrder = (ClientSalesOrder) transaction;
 
 			if (salesOrder != null) {
 
@@ -830,7 +830,7 @@ public class PurchaseOrderView extends
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientPurchaseOrder purchaseOrder = transactionObject != null ? (ClientPurchaseOrder) transactionObject
+		ClientPurchaseOrder purchaseOrder = transaction != null ? (ClientPurchaseOrder) transaction
 				: new ClientPurchaseOrder();
 		purchaseOrder.setVendor(getVendor().getID());
 
@@ -875,15 +875,10 @@ public class PurchaseOrderView extends
 		purchaseOrder.setTotal(vendorTransactionGrid.getTotal());
 		// purchaseOrder.setReference(getRefText());
 
-		transactionObject = purchaseOrder;
+		transaction = purchaseOrder;
 		super.saveAndUpdateView();
 
-		if (transactionObject.getID() != 0) {
-			alterObject((ClientPurchaseOrder) transactionObject);
-
-		} else {
-			createObject((ClientPurchaseOrder) transactionObject);
-		}
+		saveOrUpdate((ClientPurchaseOrder) transaction);
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_US
 				|| accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -1081,7 +1076,7 @@ public class PurchaseOrderView extends
 	}
 
 	public void onEdit() {
-		if (transactionObject.getStatus() == ClientTransaction.STATUS_COMPLETED)
+		if (transaction.getStatus() == ClientTransaction.STATUS_COMPLETED)
 			Accounter.showError("Completed purchase order can't be edited");
 		else {
 			AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
@@ -1100,8 +1095,8 @@ public class PurchaseOrderView extends
 			};
 
 			AccounterCoreType type = UIUtils
-					.getAccounterCoreType(transactionObject.getType());
-			this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+					.getAccounterCoreType(transaction.getType());
+			this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 		}
 

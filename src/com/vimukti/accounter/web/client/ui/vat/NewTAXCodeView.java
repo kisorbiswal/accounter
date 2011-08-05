@@ -240,10 +240,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 		ClientTAXCode vatCode = getVATCode();
 
-		if (editableTAXCode == null)
-			createObject(vatCode);
-		else
-			alterObject(vatCode);
+		saveOrUpdate(vatCode);
 
 	}
 

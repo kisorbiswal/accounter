@@ -374,10 +374,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		ClientTAXCode taxCode = getTaxCode();
 
-		if (takenTaxCode == null)
-			createObject(taxCode);
-		else
-			alterObject(taxCode);
+		saveOrUpdate(taxCode);
 
 	}
 
@@ -420,10 +417,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		ClientTAXCode taxCode = getTaxCode();
 
-		if (takenTaxCode == null)
-			createObject(taxCode);
-		else
-			alterObject(taxCode);
+		saveOrUpdate(taxCode);
 
 	}
 
@@ -440,8 +434,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		// BaseView.errordata.setHTML("Duplication of TaxCode is not allowed");
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this,
-				Accounter.constants().duplicationOfTaxCodeIsNotAllowed());
+		addError(this, Accounter.constants().duplicationOfTaxCodeIsNotAllowed());
 
 	}
 

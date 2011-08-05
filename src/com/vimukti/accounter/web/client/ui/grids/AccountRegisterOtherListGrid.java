@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 
 public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> {
 
@@ -205,17 +204,17 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 				new ErrorDialogHandler() {
 
 					@Override
-					public boolean onCancelClick() throws InvalidEntryException {
+					public boolean onCancelClick() {
 						return false;
 					}
 
 					@Override
-					public boolean onNoClick() throws InvalidEntryException {
+					public boolean onNoClick() {
 						return true;
 					}
 
 					@Override
-					public boolean onYesClick() throws InvalidEntryException {
+					public boolean onYesClick() {
 						voidTransaction(obj);
 						return true;
 					}

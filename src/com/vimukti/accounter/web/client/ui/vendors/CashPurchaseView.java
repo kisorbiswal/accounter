@@ -101,7 +101,7 @@ public class CashPurchaseView extends
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		labeldateNoLayout.add(datepanel);
 
-		if (this.transactionObject != null)
+		if (this.transaction != null)
 			// --the form need to be disabled here
 			dateNoForm.setDisabled(true);
 
@@ -124,7 +124,7 @@ public class CashPurchaseView extends
 		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		if (transactionObject != null)
+		if (transaction != null)
 			phoneSelect.setDisabled(true);
 
 		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
@@ -168,9 +168,9 @@ public class CashPurchaseView extends
 						}
 
 						if (paymentMethod.equals(Accounter.constants().check())
-								&& transactionObject != null
+								&& transaction != null
 								&& payFromAccount != null) {
-							ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
+							ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 							checkNo.setValue(cashPurchase.getCheckNumber());
 						}
 					}
@@ -339,8 +339,8 @@ public class CashPurchaseView extends
 				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 				.equalsIgnoreCase(Accounter.constants().cheque())
 				: paymentMethod.equalsIgnoreCase(Accounter.constants().check())
-						&& transactionObject != null) {
-			ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
+						&& transaction != null) {
+			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			checkNo.setValue(cashPurchase.getCheckNumber());
 			// setCheckNumber();
 		} else if (account == null) {
@@ -376,7 +376,7 @@ public class CashPurchaseView extends
 	protected void initTransactionViewData() {
 		super.initTransactionViewData();
 		initTransactionNumber();
-		if (transactionObject == null)
+		if (transaction == null)
 			initPayFromAccounts();
 
 	}
@@ -426,7 +426,7 @@ public class CashPurchaseView extends
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
 		if (this.getVendor() != null && this.getVendor() != vendor) {
-			ClientCashPurchase ent = (ClientCashPurchase) this.transactionObject;
+			ClientCashPurchase ent = (ClientCashPurchase) this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
 				this.vendorTransactionGrid.removeAllRecords();
@@ -477,7 +477,7 @@ public class CashPurchaseView extends
 			checkNo.setDisabled(true);
 
 		}
-		if (transactionObject != null) {
+		if (transaction != null) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 					.equalsIgnoreCase(Accounter.constants().cheque())
 					: paymentMethod.equalsIgnoreCase(Accounter.constants()
@@ -493,7 +493,7 @@ public class CashPurchaseView extends
 	@Override
 	public void saveAndUpdateView() {
 		ClientCashPurchase cashPurchase = prepareObject();
-		transactionObject = cashPurchase;
+		transaction = cashPurchase;
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			cashPurchase.setNetAmount(netAmount.getAmount());
@@ -508,7 +508,7 @@ public class CashPurchaseView extends
 	}
 
 	protected ClientCashPurchase prepareObject() {
-		ClientCashPurchase cashPurchase = transactionObject != null ? (ClientCashPurchase) transactionObject
+		ClientCashPurchase cashPurchase = transaction != null ? (ClientCashPurchase) transaction
 				: new ClientCashPurchase();
 
 		// Setting Type
@@ -559,18 +559,14 @@ public class CashPurchaseView extends
 
 	public void createAlterObject() {
 
-		if (transactionObject.getID() != 0) {
-			alterObject((ClientCashPurchase) transactionObject);
-		} else {
-			createObject((ClientCashPurchase) transactionObject);
-		}
+		saveOrUpdate((ClientCashPurchase) transaction);
 
 	}
 
 	@Override
 	protected void initMemoAndReference() {
 		memoTextAreaItem.setDisabled(true);
-		setMemoTextAreaItem(((ClientCashPurchase) transactionObject).getMemo());
+		setMemoTextAreaItem(((ClientCashPurchase) transaction).getMemo());
 		// setRefText(((ClientCashPurchase) transactionObject).getReference());
 	}
 
@@ -705,9 +701,9 @@ public class CashPurchaseView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

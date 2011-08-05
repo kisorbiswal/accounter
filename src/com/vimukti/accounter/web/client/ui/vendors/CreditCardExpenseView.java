@@ -113,8 +113,8 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 				.setAttribute(Accounter.constants().width(), "203px");
 		hPanel.add(termsForm);
 
-		if (transactionObject != null) {
-			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transactionObject;
+		if (transaction != null) {
+			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transaction;
 			Ccard.setComboItem(getCompany().getVendor(
 					creditCardCharge.getVendor()));
 			Ccard.setDisabled(true);
@@ -133,7 +133,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	@Override
 	protected ClientCreditCardCharge prepareObject() {
 
-		ClientCreditCardCharge creditCardCharge = transactionObject != null ? (ClientCreditCardCharge) transactionObject
+		ClientCreditCardCharge creditCardCharge = transaction != null ? (ClientCreditCardCharge) transaction
 				: new ClientCreditCardCharge();
 		if (creditCardChargeTaken != null)
 			creditCardCharge = creditCardChargeTaken;
@@ -208,7 +208,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		// setting ref
 		// creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
 
-		transactionObject = creditCardCharge;
+		transaction = creditCardCharge;
 
 		return creditCardCharge;
 	}
@@ -254,9 +254,9 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 	}
 
 	public void enableFormItems() {

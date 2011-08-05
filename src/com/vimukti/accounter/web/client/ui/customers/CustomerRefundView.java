@@ -86,9 +86,9 @@ public class CustomerRefundView extends
 		// getPayFromAccounts();
 		payFromSelect.setAccounts();
 
-		if (transactionObject != null) {
+		if (transaction != null) {
 			payFromSelect.setComboItem(getCompany().getAccount(
-					((ClientCustomerRefund) transactionObject).getPayFrom()));
+					((ClientCustomerRefund) transaction).getPayFrom()));
 		}
 
 		selectedAccount = payFromSelect.getSelectedValue();
@@ -273,9 +273,9 @@ public class CustomerRefundView extends
 						if (payFromSelect.getValue() == null)
 							checkNoText.setValueField(Accounter.constants()
 									.toBePrinted());
-						else if (transactionObject != null) {
+						else if (transaction != null) {
 							checkNoText
-									.setValue(((ClientCustomerPrePayment) transactionObject)
+									.setValue(((ClientCustomerPrePayment) transaction)
 											.getCheckNumber());
 						}
 					}
@@ -387,10 +387,10 @@ public class CustomerRefundView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		if (transactionObject == null)
+		if (transaction == null)
 			refund = new ClientCustomerRefund();
 		else
-			refund = (ClientCustomerRefund) transactionObject;
+			refund = (ClientCustomerRefund) transaction;
 
 		refund.setDate(transactionDateItem.getEnteredDate().getDate());
 
@@ -425,14 +425,11 @@ public class CustomerRefundView extends
 
 		refund.setBalanceDue(amtText.getAmount());
 
-		transactionObject = refund;
+		transaction = refund;
 
 		super.saveAndUpdateView();
 
-		if (transactionObject.getID() == 0)
-			createObject((ClientCustomerRefund) transactionObject);
-		else
-			alterObject((ClientCustomerRefund) transactionObject);
+		saveOrUpdate((ClientCustomerRefund) transaction);
 
 	}
 
@@ -494,10 +491,10 @@ public class CustomerRefundView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (transactionObject == null)
+		if (transaction == null)
 			return;
 
-		String memo = ((ClientCustomerRefund) transactionObject).getMemo();
+		String memo = ((ClientCustomerRefund) transaction).getMemo();
 
 		if (memo != null) {
 			memoTextAreaItem.setValue(memo);
@@ -521,10 +518,10 @@ public class CustomerRefundView extends
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
 
-		if (transactionObject == null)
+		if (transaction == null)
 			return;
 
-		ClientCustomerRefund customerRefund = ((ClientCustomerRefund) transactionObject);
+		ClientCustomerRefund customerRefund = ((ClientCustomerRefund) transaction);
 
 		setCustomerBalance(customerRefund.getCustomerBalance());
 		setEndingBalance(customerRefund.getEndingBalance());
@@ -700,9 +697,9 @@ public class CustomerRefundView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

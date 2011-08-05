@@ -50,7 +50,7 @@ public class VendorCreditMemoView extends
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
 		if (this.getVendor() != null && this.getVendor() != vendor) {
-			ClientVendorCreditMemo ent = (ClientVendorCreditMemo) this.transactionObject;
+			ClientVendorCreditMemo ent = (ClientVendorCreditMemo) this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
 				this.vendorTransactionGrid.removeAllRecords();
@@ -112,8 +112,8 @@ public class VendorCreditMemoView extends
 				+ "(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
-		if (transactionObject == null
-				|| transactionObject.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+		if (transaction == null
+				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 			lab1 = new Label(UIUtils.getVendorString(Accounter.constants()
 					.supplierCredit(), Accounter.constants().vendorCredit()));
 
@@ -155,7 +155,7 @@ public class VendorCreditMemoView extends
 
 		contactCombo = createContactComboItem();
 
-		if (this.transactionObject != null)
+		if (this.transaction != null)
 			// FIXME--need to disable the form
 			// vendorForm.setDisabled(true);
 
@@ -168,7 +168,7 @@ public class VendorCreditMemoView extends
 		DynamicForm phoneForm = UIUtils.form(Accounter.constants()
 				.phoneNumber());
 		phoneForm.setFields(phoneSelect);
-		if (this.transactionObject != null) {
+		if (this.transaction != null) {
 			// FiXME--The form need to be disabled
 			// phoneForm.setDisabled(true);
 		}
@@ -327,9 +327,9 @@ public class VendorCreditMemoView extends
 	@Override
 	public void initMemoAndReference() {
 
-		if (this.transactionObject != null) {
+		if (this.transaction != null) {
 
-			ClientVendorCreditMemo vendorCreditMemo = (ClientVendorCreditMemo) transactionObject;
+			ClientVendorCreditMemo vendorCreditMemo = (ClientVendorCreditMemo) transaction;
 
 			if (vendorCreditMemo != null) {
 				memoTextAreaItem.setDisabled(true);
@@ -344,8 +344,8 @@ public class VendorCreditMemoView extends
 	public void saveAndUpdateView() {
 
 		ClientVendorCreditMemo vendorCreditMemo;
-		if (transactionObject != null)
-			vendorCreditMemo = (ClientVendorCreditMemo) transactionObject;
+		if (transaction != null)
+			vendorCreditMemo = (ClientVendorCreditMemo) transaction;
 		else
 			vendorCreditMemo = new ClientVendorCreditMemo();
 
@@ -368,7 +368,7 @@ public class VendorCreditMemoView extends
 		// Setting Reference
 		// vendorCreditMemo.setReference(getRefText());
 
-		transactionObject = vendorCreditMemo;
+		transaction = vendorCreditMemo;
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			vendorCreditMemo.setNetAmount(netAmount.getAmount());
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
@@ -379,10 +379,7 @@ public class VendorCreditMemoView extends
 					.getValue());
 		super.saveAndUpdateView();
 
-		if (transactionObject.getID() != 0)
-			alterObject(vendorCreditMemo);
-		else
-			createObject(vendorCreditMemo);
+		saveOrUpdate(vendorCreditMemo);
 
 	}
 
@@ -503,9 +500,9 @@ public class VendorCreditMemoView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

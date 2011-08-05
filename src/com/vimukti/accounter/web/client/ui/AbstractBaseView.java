@@ -26,9 +26,14 @@ import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.core.ValidationResult.Error;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -43,9 +48,14 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
  * 
  * @author Fernandez
  */
+/**
+ * @author Prasanna Kumar G
+ * 
+ * @param <T>
+ */
 @SuppressWarnings("serial")
-public abstract class AbstractBaseView<T> extends
-		ParentCanvas<T> implements IAccounterWidget, WidgetWithErrors {
+public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
+		IAccounterWidget, WidgetWithErrors {
 
 	public AbstractBaseView() {
 
@@ -146,6 +156,7 @@ public abstract class AbstractBaseView<T> extends
 	private boolean isViewModfied;
 	private VerticalPanel errorPanel;
 	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
+	private boolean isDirty;
 
 	/**
 	 * Convenience Method to Set CallBack
@@ -302,12 +313,31 @@ public abstract class AbstractBaseView<T> extends
 
 	}
 
-	protected <P extends IAccounterCore> void createObject(P core) {
-		ViewManager.getInstance().createObject(core, this);
-	}
+	protected <P extends IAccounterCore> void saveOrUpdate(final P core) {
 
-	protected <P extends IAccounterCore> void alterObject(P core) {
-		ViewManager.getInstance().alterObject(core, this);
+		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+				saveFailed(caught);
+				caught.printStackTrace();
+				// TODO handle other kind of errors
+			}
+
+			public void onSuccess(Long result) {
+				core.setID(result);
+				Accounter.getCompany().processUpdateOrCreateObject(core);
+				saveSuccess(core);
+			}
+
+		};
+		if (core.getID() == 0) {
+			Accounter.createCRUDService().create((IAccounterCore) core,
+					transactionCallBack);
+		} else {
+			Accounter.createCRUDService().update((IAccounterCore) core,
+					transactionCallBack);
+		}
+
 	}
 
 	@Override
@@ -411,4 +441,75 @@ public abstract class AbstractBaseView<T> extends
 	public void processupdateView(IAccounterCore core, int command) {
 
 	}
+
+	/**
+	 * @param b
+	 */
+	public void onSave(boolean reopen) {
+		clearAllErrors();
+		ValidationResult validationResult = this.validate();
+		if (validationResult.haveErrors()) {
+			for (Error error : validationResult.getErrors()) {
+				HTML err = new HTML("<li>" + error.getMessage() + "</li>");
+				errorPanel.add(err);
+			}
+		} else if (validationResult.haveWarnings()) {
+
+			new WarningsDialog(validationResult.getWarnings(),
+					new ErrorDialogHandler() {
+
+						@Override
+						public boolean onYesClick() {
+							saveAndUpdateView();
+							return true;
+						}
+
+						@Override
+						public boolean onNoClick() {
+							return true;
+						}
+
+						@Override
+						public boolean onCancelClick() {
+							return true;
+						}
+					});
+		} else {
+			this.saveAndClose = !reopen;
+			saveAndUpdateView();
+		}
+	}
+
+	/**
+	 * Closes the View
+	 */
+	public void onClose() {
+		if (isDirty) {
+			Accounter.showWarning(AccounterWarningType.saveOrClose,
+					AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
+
+						@Override
+						public boolean onCancelClick() {
+							return true;
+						}
+
+						@Override
+						public boolean onNoClick() {
+							close();
+							return true;
+						}
+
+						@Override
+						public boolean onYesClick() {
+							onSave(false);
+							return true;
+
+						}
+
+					});
+		} else {
+			close();
+		}
+	}
+
 }

@@ -140,7 +140,7 @@ public class WriteChequeView extends
 	// bankAccSelect.initCombo(payFromAccounts);
 	// }
 	public void updateTotals() {
-		if (transactionObject == null) {
+		if (transaction == null) {
 			transactionVendorGrid.setVisible(true);
 			changeGrid(transactionVendorGrid);
 			transactionVendorGrid.updateTotals();
@@ -152,7 +152,7 @@ public class WriteChequeView extends
 		if (payee instanceof ClientCustomer) {
 			selectedCustomer = (ClientCustomer) payee;
 			addressList = selectedCustomer.getAddress();
-			if (transactionObject == null) {
+			if (transaction == null) {
 				transactionCustomerGrid.setVisible(true);
 				changeGrid(transactionCustomerGrid);
 				transactionCustomerGrid.updateTotals();
@@ -392,7 +392,7 @@ public class WriteChequeView extends
 	}
 
 	private void setDisableFields() {
-		if (transactionObject != null) {
+		if (transaction != null) {
 			payForm.setDisabled(true);
 			bankAccForm.setDisabled(true);
 			if (transactionCustomerGrid != null) {
@@ -474,8 +474,8 @@ public class WriteChequeView extends
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (transactionObject != null) {
-			Double transactionTotal = ((ClientWriteCheck) transactionObject)
+		if (transaction != null) {
+			Double transactionTotal = ((ClientWriteCheck) transaction)
 					.getTotal();
 			if (transactionTotal != null) {
 				amtText.setAmount(transactionTotal.doubleValue());
@@ -492,7 +492,7 @@ public class WriteChequeView extends
 
 			result.add(DynamicForm.validate(payForm, bankAccForm));
 
-			if (transactionObject == null && payee != null) {
+			if (transaction == null && payee != null) {
 				switch (payee.getType()) {
 				case ClientPayee.TYPE_CUSTOMER:
 					if (AccounterValidator
@@ -515,7 +515,7 @@ public class WriteChequeView extends
 				}
 			}
 
-			if (transactionObject == null)
+			if (transaction == null)
 				if (!validateAmount()) {
 					result.addError(memoTextAreaItem, AccounterErrorType.amount);
 				}
@@ -553,7 +553,7 @@ public class WriteChequeView extends
 		}
 		try {
 
-			ClientWriteCheck writeCheck = transactionObject != null ? (ClientWriteCheck) transactionObject
+			ClientWriteCheck writeCheck = transaction != null ? (ClientWriteCheck) transaction
 					: new ClientWriteCheck();
 			if (writeCheckTaken != null)
 				writeCheck = writeCheckTaken;
@@ -640,14 +640,10 @@ public class WriteChequeView extends
 				writeCheck.setToBePrinted((Boolean) toprintCheck.getValue());
 
 			}
-			transactionObject = writeCheck;
+			transaction = writeCheck;
 			// super.saveAndUpdateView();
 
-			if (transactionObject.getID() == 0)
-				createObject(transactionObject);
-			else
-
-				alterObject(transactionObject);
+			saveOrUpdate(transaction);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -764,11 +760,11 @@ public class WriteChequeView extends
 						text.setValue(Utility.getNumberInWords("0.00"));
 						if (payee != null) {
 							if (payee instanceof ClientCustomer) {
-								if (transactionObject == null)
+								if (transaction == null)
 									transactionCustomerGrid.removeAllRecords();
 							} else if (payee instanceof ClientVendor
 									|| payee instanceof ClientTAXAgency) {
-								if (transactionObject == null)
+								if (transaction == null)
 									transactionVendorGrid.removeAllRecords();
 								// } else if (payee instanceof ClientTAXAgency)
 								// {
@@ -776,7 +772,7 @@ public class WriteChequeView extends
 							}
 						}
 
-						if (transactionObject != null && payee != null) {
+						if (transaction != null && payee != null) {
 							if (payee.getType() != selectItem.getType()) {
 								Accounter
 										.showError(Accounter
@@ -939,9 +935,9 @@ public class WriteChequeView extends
 		//
 		// }
 		// if{
-		if (transactionObject != null) {
-			transactionItems = transactionObject.getTransactionItems();
-			writeCheckTaken = (ClientWriteCheck) transactionObject;
+		if (transaction != null) {
+			transactionItems = transaction.getTransactionItems();
+			writeCheckTaken = (ClientWriteCheck) transaction;
 			transactionNumber.setValue(writeCheckTaken.getNumber());
 
 			amtText.setAmount(writeCheckTaken.getTotal());
@@ -1088,7 +1084,7 @@ public class WriteChequeView extends
 	@Override
 	protected void initMemoAndReference() {
 		memoTextAreaItem.setDisabled(true);
-		setMemoTextAreaItem(transactionObject.getMemo());
+		setMemoTextAreaItem(transaction.getMemo());
 
 	}
 
@@ -1117,8 +1113,8 @@ public class WriteChequeView extends
 	public void setData(ClientWriteCheck data) {
 		super.setData(data);
 		if (isEdit) {
-			if (transactionObject.isPaySalesTax()) {
-				takenPaySalesTax = (ClientPaySalesTax) transactionObject;
+			if (transaction.isPaySalesTax()) {
+				takenPaySalesTax = (ClientPaySalesTax) transaction;
 				transactionType = ClientTransaction.TYPE_PAY_SALES_TAX;
 			}
 
@@ -1352,9 +1348,9 @@ public class WriteChequeView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 
@@ -1392,7 +1388,7 @@ public class WriteChequeView extends
 	}
 
 	public void PayToSelected(ClientPayee selectItem) {
-		ClientWriteCheck check = (ClientWriteCheck) this.transactionObject;
+		ClientWriteCheck check = (ClientWriteCheck) this.transaction;
 
 		if (selectItem instanceof ClientCustomer) {
 			transactionCustomerGrid.removeAllRecords();

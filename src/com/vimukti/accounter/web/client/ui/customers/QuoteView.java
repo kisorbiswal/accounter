@@ -75,7 +75,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void customerSelected(ClientCustomer customer) {
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
-			ClientEstimate ent = (ClientEstimate) this.transactionObject;
+			ClientEstimate ent = (ClientEstimate) this.transaction;
 
 			if (ent != null && ent.getCustomer() == (customer.getID())) {
 				this.customerTransactionGrid.removeAllRecords();
@@ -150,7 +150,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientEstimate quote = transactionObject != null ? (ClientEstimate) transactionObject
+		ClientEstimate quote = transaction != null ? (ClientEstimate) transaction
 				: new ClientEstimate();
 
 		if (quoteExpiryDate.getEnteredDate() != null)
@@ -187,14 +187,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			quote.setSalesTax(this.salesTax);
 
 		quote.setTotal(transactionTotalNonEditableText.getAmount());
-		transactionObject = quote;
+		transaction = quote;
 
 		super.saveAndUpdateView();
 
-		if (transactionObject.getID() == 0)
-			createObject((ClientEstimate) transactionObject);
-		else
-			alterObject((ClientEstimate) transactionObject);
+		saveOrUpdate((ClientEstimate) transaction);
 
 	}
 
@@ -444,9 +441,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	protected void initMemoAndReference() {
 
-		if (this.transactionObject != null) {
+		if (this.transaction != null) {
 
-			ClientEstimate quote = (ClientEstimate) transactionObject;
+			ClientEstimate quote = (ClientEstimate) transaction;
 
 			if (quote != null) {
 
@@ -461,8 +458,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void initSalesTaxNonEditableItem() {
-		if (transactionObject != null) {
-			Double salesTaxAmout = ((ClientEstimate) transactionObject)
+		if (transaction != null) {
+			Double salesTaxAmout = ((ClientEstimate) transaction)
 					.getSalesTax();
 			if (salesTaxAmout != null) {
 				salesTaxTextNonEditable.setAmount(salesTaxAmout);
@@ -474,8 +471,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (transactionObject != null) {
-			Double transactionTotal = ((ClientEstimate) transactionObject)
+		if (transaction != null) {
+			Double transactionTotal = ((ClientEstimate) transaction)
 					.getTotal();
 			if (transactionTotal != null) {
 				transactionTotalNonEditableText.setAmount(transactionTotal);
@@ -495,7 +492,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		ClientCompany company = getCompany();
 		this.setCustomer(company.getCustomer(estimate.getCustomer()));
-		this.transactionObject = estimate;
+		this.transaction = estimate;
 		if (this.getCustomer() != null) {
 
 			this.contacts = getCustomer().getContacts();
@@ -566,7 +563,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					priceLevel.getID()));
 
 		}
-		if (transactionObject == null && customerTransactionGrid != null) {
+		if (transaction == null && customerTransactionGrid != null) {
 			customerTransactionGrid.priceLevelSelected(this.priceLevel);
 			customerTransactionGrid.updatePriceLevel();
 		}
@@ -742,9 +739,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

@@ -175,7 +175,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 						.equals(Accounter.constants()
 								.decreasePriceLevelByThisPercentage()));
 			}
-			createObject(priceLevel);
+		saveOrUpdate(priceLevel);
 		}
 	}
 

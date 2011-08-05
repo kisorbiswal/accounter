@@ -227,7 +227,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	protected void createSellingObject() {
 		ClientFixedAsset sellingAsset = getSellingObject();
-		alterObject(sellingAsset);
+		saveOrUpdate(sellingAsset);
 	}
 
 	/**

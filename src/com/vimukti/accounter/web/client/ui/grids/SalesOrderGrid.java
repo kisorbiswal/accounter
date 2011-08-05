@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 
 public class SalesOrderGrid extends CustomerTransactionGrid {
 
@@ -119,22 +118,19 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 							new ErrorDialogHandler() {
 
 								@Override
-								public boolean onYesClick()
-										throws InvalidEntryException {
+								public boolean onYesClick() {
 									SalesOrderGrid.super.editComplete(item,
 											value, col);
 									return false;
 								}
 
 								@Override
-								public boolean onNoClick()
-										throws InvalidEntryException {
+								public boolean onNoClick() {
 									return false;
 								}
 
 								@Override
-								public boolean onCancelClick()
-										throws InvalidEntryException {
+								public boolean onCancelClick() {
 									return false;
 								}
 							});

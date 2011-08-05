@@ -2,10 +2,10 @@ package com.vimukti.accounter.web.client.ui.core;
 
 public interface ErrorDialogHandler {
 
-	public boolean onYesClick() throws Exception;
+	public boolean onYesClick();
 
-	public boolean onNoClick() throws InvalidEntryException;
+	public boolean onNoClick();
 
-	public boolean onCancelClick() throws InvalidEntryException;
+	public boolean onCancelClick();
 
 }

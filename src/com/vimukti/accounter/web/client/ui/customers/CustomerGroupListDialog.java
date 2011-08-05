@@ -91,7 +91,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 			Accounter.showError(Accounter.constants()
 					.customerGroupAlreadyExists());
 		} else {
-			createObject(customerGroup);
+		saveOrUpdate(customerGroup);
 		}
 	}
 

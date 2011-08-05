@@ -53,7 +53,7 @@ public class DisposingRegisteredItemView extends SellingRegisteredItemView {
 
 	protected void createDisposingObject() {
 		ClientFixedAsset disposingAsset = getSellOrDisposeObject();
-		alterObject(disposingAsset);
+		saveOrUpdate(disposingAsset);
 	}
 
 	@Override

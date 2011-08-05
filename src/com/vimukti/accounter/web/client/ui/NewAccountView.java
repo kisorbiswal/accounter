@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -817,10 +816,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	public void saveAndUpdateView() {
 		ClientAccount account = getAccountObject();
 
-		if (takenAccount == null) {
-			createObject(account);
-		} else
-			alterObject(account);
+		saveOrUpdate(account);
 
 	}
 

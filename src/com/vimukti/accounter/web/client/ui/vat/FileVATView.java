@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -381,7 +380,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 		if (this.selectedVatAgency != null && this.vatReturn != null) {
 			vatReturn.setTransactionDate(new ClientFinanceDate().getDate());
-			createObject(this.vatReturn);
+		saveOrUpdate(this.vatReturn);
 		}
 		// else {
 		//
@@ -514,7 +513,9 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			result.addError(selectedVatAgency, Accounter.constants()
 					.pleaseSelectValidVATAgency());
 		} else {
-			result.addWarning(this, Accounter.constants().sureToSaveFileVAT());
+			result.addWarning(selectedVatAgency, Accounter.constants()
+					.sureToSaveFileVAT());
+			// AccounterValidator.validate_FileVat(this);
 		}
 		if (!canSaveFileVat) {
 			result.addError(this, Accounter.constants()

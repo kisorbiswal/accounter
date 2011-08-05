@@ -36,7 +36,6 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionReceiveVATGrid;
@@ -70,7 +69,6 @@ public class RecieveVATView extends
 	protected List<ClientReceiveVATEntries> entries;
 	private ClientTAXAgency selectedTaxAgency;
 	private double endingBalance;
-	private ClientReceiveVAT receiveVAT;
 	private ArrayList<ClientReceiveVATEntries> filterList;
 	private ArrayList<ClientReceiveVATEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
@@ -141,7 +139,7 @@ public class RecieveVATView extends
 
 			@Override
 			public void onDateValueChange(ClientFinanceDate date) {
-				if (transactionObject == null) {
+				if (transaction == null) {
 					dueDateOnOrBefore = date;
 					filterGrid();
 				}
@@ -328,9 +326,8 @@ public class RecieveVATView extends
 
 	@Override
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
-		receiveVAT = (ClientReceiveVAT) transactionObject;
 		selectedDepositInAccount = getCompany().getAccount(
-				receiveVAT.getDepositIn());
+				transaction.getDepositIn());
 		depositInAccCombo.setComboItem(selectedDepositInAccount);
 		selectedVATAgency = getCompany()
 				.getTaxAgency(receiveVAT.getVatAgency());
@@ -493,36 +490,34 @@ public class RecieveVATView extends
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientReceiveVAT receiveVAT = getReceiveSalesTax();
-		createObject(receiveVAT);
+		updateTransaction();
+		saveOrUpdate(transaction);
 	}
 
-	private ClientReceiveVAT getReceiveSalesTax() {
+	protected void updateTransaction() {
 
-		ClientReceiveVAT receiveVAT = new ClientReceiveVAT();
-
-		receiveVAT.setNumber(transactionNumber);
-		receiveVAT.setType(ClientTransaction.TYPE_RECEIVE_VAT);
+		transaction.setNumber(transactionNumber);
+		transaction.setType(ClientTransaction.TYPE_RECEIVE_VAT);
 
 		if (transactionDateItem.getEnteredDate() != null)
-			receiveVAT.setDate(transactionDateItem.getEnteredDate().getDate());
+			transaction.setDate(transactionDateItem.getEnteredDate().getDate());
 
-		receiveVAT.setDepositIn(selectedDepositInAccount.getID());
-		receiveVAT.setPaymentMethod(paymentMethod);
+		transaction.setDepositIn(selectedDepositInAccount.getID());
+		transaction.setPaymentMethod(paymentMethod);
 
 		if (billsDue.getValue() != null)
-			receiveVAT.setReturnsDueOnOrBefore((billsDue.getValue()).getDate());
+			transaction
+					.setReturnsDueOnOrBefore((billsDue.getValue()).getDate());
 
 		if (selectedTaxAgency != null)
-			receiveVAT.setVatAgency(selectedTaxAgency.getID());
+			transaction.setVatAgency(selectedTaxAgency.getID());
 
-		receiveVAT.setTotal(totalAmount);
-		receiveVAT.setEndingBalance(endingBalance);
+		transaction.setTotal(totalAmount);
+		transaction.setEndingBalance(endingBalance);
 
-		receiveVAT
+		transaction
 				.setClientTransactionReceiveVAT(getTransactionReceiveVATList());
 
-		return receiveVAT;
 	}
 
 	private List<ClientTransactionReceiveVAT> getTransactionReceiveVATList() {
@@ -551,7 +546,7 @@ public class RecieveVATView extends
 		// for (ClientTransactionPayVAT rec : selectedRecords) {
 		// toBeSetAmount += rec.getAmountToPay();
 		// }
-		if (this.transactionObject == null) {
+		if (this.transaction == null) {
 			amountText.setAmount(toBeSetAmount);
 			totalAmount = toBeSetAmount;
 			if (selectedDepositInAccount != null) {
@@ -598,13 +593,12 @@ public class RecieveVATView extends
 
 	public void onEdit() {
 
-		if (transactionObject.canEdit) {
+		if (transaction.canEdit) {
 			Accounter.showWarning(AccounterWarningType.PAYVAT_EDITING,
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
+						public boolean onYesClick() {
 							voidTransaction();
 							return true;
 						}
@@ -641,14 +635,13 @@ public class RecieveVATView extends
 						}
 
 						@Override
-						public boolean onNoClick() throws InvalidEntryException {
+						public boolean onNoClick() {
 
 							return true;
 						}
 
 						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
+						public boolean onCancelClick() {
 
 							return true;
 						}
@@ -667,7 +660,7 @@ public class RecieveVATView extends
 		super.onEdit();
 
 		fillGrid();
-		transactionObject = null;
+		transaction = null;
 
 	}
 

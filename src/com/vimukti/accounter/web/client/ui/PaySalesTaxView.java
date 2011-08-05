@@ -35,7 +35,6 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPaySalesTaxGrid;
@@ -95,7 +94,6 @@ public class PaySalesTaxView extends
 	}
 
 	protected void initTransactionNumber() {
-
 		rpcUtilService.getNextTransactionNumber(
 				ClientTransaction.TYPE_PAY_SALES_TAX,
 				new AccounterAsyncCallback<String>() {
@@ -235,7 +233,7 @@ public class PaySalesTaxView extends
 	@Override
 	public void saveAndUpdateView() {
 		ClientPaySalesTax paySalesTax = getPaySalesTax();
-		createObject(paySalesTax);
+		saveOrUpdate(paySalesTax);
 	}
 
 	private ClientPaySalesTax getPaySalesTax() {
@@ -587,13 +585,12 @@ public class PaySalesTaxView extends
 	}
 
 	public void onEdit() {
-		if (transactionObject.canEdit) {
+		if (transaction.canEdit) {
 			Accounter.showWarning(AccounterWarningType.PAYSALESTAX_EDITING,
 					AccounterType.WARNING, new ErrorDialogHandler() {
 
 						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
+						public boolean onYesClick() {
 							voidTransaction();
 							return true;
 						}
@@ -629,14 +626,13 @@ public class PaySalesTaxView extends
 						}
 
 						@Override
-						public boolean onNoClick() throws InvalidEntryException {
+						public boolean onNoClick() {
 
 							return true;
 						}
 
 						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
+						public boolean onCancelClick() {
 
 							return true;
 						}
@@ -657,7 +653,7 @@ public class PaySalesTaxView extends
 
 		super.onEdit();
 		fillGrid();
-		transactionObject = null;
+		transaction = null;
 
 	}
 

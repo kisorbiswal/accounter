@@ -39,7 +39,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 	@Override
 	protected ClientCashPurchase prepareObject() {
-		ClientCashPurchase cashPurchase = transactionObject != null ? (ClientCashPurchase) transactionObject
+		ClientCashPurchase cashPurchase = transaction != null ? (ClientCashPurchase) transaction
 				: new ClientCashPurchase();
 
 		if (status == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
@@ -171,8 +171,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		termsForm.setWidth("100%");
 		vPanel.add(termsForm);
 
-		if (transactionObject != null) {
-			ClientCashPurchase cashPurchase = (ClientCashPurchase) transactionObject;
+		if (transaction != null) {
+			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			employee.setComboItem(cashPurchase.getEmployee());
 			employee.setDisabled(true);
 			if (Accounter.getUser().isAdmin()) {
@@ -241,7 +241,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			@Override
 			public void onSuccess(Boolean result) {
 				if (result) {
-					ClientCashPurchase purchase = (ClientCashPurchase) transactionObject;
+					ClientCashPurchase purchase = (ClientCashPurchase) transaction;
 					if (purchase.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED) {
 						Accounter.showError(Accounter.constants()
 								.expenseisApproved());
@@ -252,9 +252,9 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 	}
 
 	@Override

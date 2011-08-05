@@ -239,7 +239,7 @@
 //		ClientVATCode vatCode = getVATCode();
 //
 //		if (editableVATCode == null)
-//			createObject(vatCode);
+//		saveOrUpdate(vatCode);
 //		else
 //			alterObject(vatCode);
 //

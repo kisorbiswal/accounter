@@ -12,7 +12,10 @@ public class ValidationResult {
 	}
 
 	public void add(ValidationResult result) {
-		errors.addAll(result.errors);
+		if (result != null) {
+			errors.addAll(result.errors);
+			warnings.addAll(result.warnings);
+		}
 	}
 
 	public void addWarning(Object obj, String msg) {
@@ -75,5 +78,26 @@ public class ValidationResult {
 
 	public boolean haveErrors() {
 		return !this.errors.isEmpty();
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean haveWarnings() {
+		return !this.warnings.isEmpty();
+	}
+
+	/**
+	 * @return the errors
+	 */
+	public List<Error> getErrors() {
+		return errors;
+	}
+
+	/**
+	 * @return the warnings
+	 */
+	public List<Warning> getWarnings() {
+		return warnings;
 	}
 }

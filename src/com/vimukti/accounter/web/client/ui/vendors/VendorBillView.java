@@ -145,9 +145,9 @@ public class VendorBillView extends
 
 	private void initBalanceDue() {
 
-		if (transactionObject != null) {
+		if (transaction != null) {
 
-			setBalanceDue(((ClientEnterBill) transactionObject).getBalanceDue());
+			setBalanceDue(((ClientEnterBill) transaction).getBalanceDue());
 
 		}
 
@@ -170,10 +170,10 @@ public class VendorBillView extends
 		paymentTermsCombo.initCombo(paymentTermsList);
 		paymentTermsCombo.setDisabled(isEdit);
 
-		if (transactionObject != null
-				&& ((ClientEnterBill) transactionObject).getPaymentTerm() != 0) {
+		if (transaction != null
+				&& ((ClientEnterBill) transaction).getPaymentTerm() != 0) {
 			ClientPaymentTerms paymentTerm = getCompany().getPaymentTerms(
-					((ClientEnterBill) transactionObject).getPaymentTerm());
+					((ClientEnterBill) transaction).getPaymentTerm());
 			paymentTermsCombo.setComboItem(paymentTerm);
 			selectedPaymentTerm = paymentTerm;
 
@@ -193,13 +193,13 @@ public class VendorBillView extends
 		updatePurchaseOrderOrItemReceipt(vendor);
 
 		super.vendorSelected(vendor);
-		if (transactionObject == null)
+		if (transaction == null)
 			vendorTransactionGrid.removeAllRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
-		if (transactionObject != null && this.selectedPaymentTerm != null)
+		if (transaction != null && this.selectedPaymentTerm != null)
 			paymentTermSelected(selectedPaymentTerm);
-		if (transactionObject == null)
+		if (transaction == null)
 			getPurchaseOrdersAndItemReceipt();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			super.setVendorTaxcodeToAccount();
@@ -211,14 +211,14 @@ public class VendorBillView extends
 		updatePurchaseOrderOrItemReceipt(vendor);
 
 		super.vendorSelected(vendor);
-		if (transactionObject == null)
+		if (transaction == null)
 			vendorTransactionGrid.removeAllRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
-		if (!(transactionObject != null && vendor.getID() == enterBillToBeEdited
+		if (!(transaction != null && vendor.getID() == enterBillToBeEdited
 				.getVendor()))
 			setPaymentTermsCombo(vendor);
-		if (transactionObject == null)
+		if (transaction == null)
 			getPurchaseOrdersAndItemReceipt();
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			super.setVendorTaxcodeToAccount();
@@ -231,7 +231,7 @@ public class VendorBillView extends
 
 	private void updatePurchaseOrderOrItemReceipt(ClientVendor vendor) {
 		if (this.getVendor() != null && this.getVendor() != vendor) {
-			ClientEnterBill ent = (ClientEnterBill) this.transactionObject;
+			ClientEnterBill ent = (ClientEnterBill) this.transaction;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
 				this.vendorTransactionGrid.removeAllRecords();
@@ -361,7 +361,7 @@ public class VendorBillView extends
 		// contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
-		if (this.transactionObject != null)
+		if (this.transaction != null)
 			billToCombo.setDisabled(true);
 
 		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
@@ -484,7 +484,7 @@ public class VendorBillView extends
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
 
-		if (this.transactionObject != null)
+		if (this.transaction != null)
 			totalForm.setFields(balanceDueNonEditableText);
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -589,7 +589,7 @@ public class VendorBillView extends
 	private void paymentTermSelected(ClientPaymentTerms selectItem) {
 		selectedPaymentTerm = selectItem;
 		// paymentTermsCombo.setComboItem(selectedPaymentTerm);
-		if (transactionObject != null) {
+		if (transaction != null) {
 			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
 			setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
 					selectedPaymentTerm).getDate());
@@ -602,7 +602,7 @@ public class VendorBillView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientEnterBill enterBill = transactionObject != null ? (ClientEnterBill) transactionObject
+		ClientEnterBill enterBill = transaction != null ? (ClientEnterBill) transaction
 				: new ClientEnterBill();
 
 		// Setting Vendor
@@ -652,7 +652,7 @@ public class VendorBillView extends
 
 		if (selectedPurchaseOrder != 0)
 			enterBill.setPurchaseOrder(selectedPurchaseOrder);
-		transactionObject = enterBill;
+		transaction = enterBill;
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			enterBill.setNetAmount(netAmount.getAmount());
@@ -661,11 +661,7 @@ public class VendorBillView extends
 
 		super.saveAndUpdateView();
 
-		if (transactionObject.getID() != 0)
-			alterObject((ClientEnterBill) transactionObject);
-
-		else
-			createObject((ClientEnterBill) transactionObject);
+		saveOrUpdate((ClientEnterBill) transaction);
 
 	}
 
@@ -683,7 +679,7 @@ public class VendorBillView extends
 	@Override
 	protected void initMemoAndReference() {
 		memoTextAreaItem.setDisabled(true);
-		setMemoTextAreaItem(((ClientEnterBill) transactionObject).getMemo());
+		setMemoTextAreaItem(((ClientEnterBill) transaction).getMemo());
 		// setRefText(((ClientEnterBill) transactionObject).getReference());
 
 	}
@@ -970,9 +966,9 @@ public class VendorBillView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

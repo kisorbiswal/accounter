@@ -188,7 +188,7 @@ public class SalesOrderView extends
 					shipToAddress.addrArea.setValue("");
 			}
 		});
-		if (transactionObject != null)
+		if (transaction != null)
 			shipToAddress.businessSelect.setDisabled(true);
 
 		phoneSelect = new TextItem(customerConstants.phone());
@@ -634,9 +634,9 @@ public class SalesOrderView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (this.transactionObject != null) {
+		if (this.transaction != null) {
 
-			ClientSalesOrder salesOrder = (ClientSalesOrder) transactionObject;
+			ClientSalesOrder salesOrder = (ClientSalesOrder) transaction;
 
 			if (salesOrder != null) {
 
@@ -650,8 +650,8 @@ public class SalesOrderView extends
 
 	@Override
 	protected void initSalesTaxNonEditableItem() {
-		if (transactionObject != null) {
-			Double salesTaxAmout = ((ClientSalesOrder) transactionObject)
+		if (transaction != null) {
+			Double salesTaxAmout = ((ClientSalesOrder) transaction)
 					.getSalesTaxAmount();
 			setSalesTax(salesTaxAmout);
 
@@ -661,8 +661,8 @@ public class SalesOrderView extends
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (transactionObject != null) {
-			Double transactionTotal = ((ClientSalesOrder) transactionObject)
+		if (transaction != null) {
+			Double transactionTotal = ((ClientSalesOrder) transaction)
 					.getTotal();
 			setTransactionTotal(transactionTotal);
 
@@ -672,9 +672,9 @@ public class SalesOrderView extends
 
 	private void initPayments() {
 
-		if (transactionObject != null) {
+		if (transaction != null) {
 
-			ClientInvoice invoice = (ClientInvoice) transactionObject;
+			ClientInvoice invoice = (ClientInvoice) transaction;
 
 			// setPayments(invoice.getPayments());
 			Double payment = invoice.getPayments();
@@ -688,7 +688,7 @@ public class SalesOrderView extends
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientSalesOrder salesOrder = transactionObject != null ? (ClientSalesOrder) transactionObject
+		ClientSalesOrder salesOrder = transaction != null ? (ClientSalesOrder) transaction
 				: new ClientSalesOrder();
 		if (statusSelect.getSelectedValue().equals(OPEN))
 			salesOrder.setStatus(ClientTransaction.STATUS_OPEN);
@@ -743,23 +743,19 @@ public class SalesOrderView extends
 		if (selectedEstimateId != 0)
 			salesOrder.setEstimate(selectedEstimateId);
 
-		transactionObject = salesOrder;
+		transaction = salesOrder;
 		super.saveAndUpdateView();
 
-		if (transactionObject.getID() != 0) {
-			alterObject((ClientSalesOrder) transactionObject);
-
-		} else {
-			createObject((ClientSalesOrder) transactionObject);
-		}
+		saveOrUpdate((ClientSalesOrder) transaction);
 	}
 
 	@Override
 	protected void customerSelected(final ClientCustomer customer) {
 
 		if (customer != null) {
-			if (this.getCustomer() != null && !this.getCustomer().equals(customer)
-					&& transactionObject == null)
+			if (this.getCustomer() != null
+					&& !this.getCustomer().equals(customer)
+					&& transaction == null)
 				customerTransactionGrid.removeAllRecords();
 			selectedSalesOrders = new ArrayList<ClientEstimate>();
 			this.setCustomer(customer);
@@ -1089,7 +1085,7 @@ public class SalesOrderView extends
 	}
 
 	public void onEdit() {
-		if (transactionObject.getStatus() == ClientTransaction.STATUS_COMPLETED)
+		if (transaction.getStatus() == ClientTransaction.STATUS_COMPLETED)
 			Accounter.showError(Accounter.constants()
 					.completedSalesOrdercantbeedited());
 		else {
@@ -1112,8 +1108,8 @@ public class SalesOrderView extends
 			};
 
 			AccounterCoreType type = UIUtils
-					.getAccounterCoreType(transactionObject.getType());
-			this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+					.getAccounterCoreType(transaction.getType());
+			this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 		}
 	}
 

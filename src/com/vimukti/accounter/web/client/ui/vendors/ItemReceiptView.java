@@ -90,7 +90,7 @@ public class ItemReceiptView extends
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		labeldateNoLayout.add(datepanel);
 
-		if (this.transactionObject != null)
+		if (this.transaction != null)
 
 			dateNoForm.setDisabled(true);
 
@@ -255,14 +255,14 @@ public class ItemReceiptView extends
 	protected void vendorSelected(ClientVendor vendor) {
 		super.vendorSelected(vendor);
 
-		if (transactionObject == null)
+		if (transaction == null)
 			vendorTransactionGrid.removeAllRecords();
 		selectedPurchaseOrders = new ArrayList<ClientPurchaseOrder>();
 
 		vendorCombo.setComboItem(vendor);
 		paymentTermsSelected(getCompany().getPaymentTerms(
 				vendor.getPaymentTerms()));
-		if (transactionObject == null)
+		if (transaction == null)
 			getPurchaseOrders();
 	}
 
@@ -324,9 +324,9 @@ public class ItemReceiptView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (this.transactionObject != null) {
+		if (this.transaction != null) {
 
-			ClientItemReceipt itemReceipt = (ClientItemReceipt) transactionObject;
+			ClientItemReceipt itemReceipt = (ClientItemReceipt) transaction;
 
 			if (itemReceipt != null) {
 
@@ -393,7 +393,7 @@ public class ItemReceiptView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientItemReceipt itemReceipt = transactionObject != null ? (ClientItemReceipt) transactionObject
+		ClientItemReceipt itemReceipt = transaction != null ? (ClientItemReceipt) transaction
 				: new ClientItemReceipt();
 
 		// Setting Vendor
@@ -427,7 +427,7 @@ public class ItemReceiptView extends
 
 		itemReceipt.setPurchaseOrder(selectedPurchaseOrder);
 
-		transactionObject = itemReceipt;
+		transaction = itemReceipt;
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			itemReceipt.setNetAmount(netAmount.getAmount());
@@ -436,12 +436,7 @@ public class ItemReceiptView extends
 
 		super.saveAndUpdateView();
 
-		if (transactionObject.getID() != 0) {
-			alterObject(itemReceipt);
-
-		} else {
-			createObject(itemReceipt);
-		}
+		saveOrUpdate(itemReceipt);
 	}
 
 	public void selectedPurchaseOrder(ClientPurchaseOrder purchaseOrder) {
@@ -490,8 +485,8 @@ public class ItemReceiptView extends
 					.pleaseSelectSupplier(), Accounter.constants()
 					.pleaseSelectVendor()));
 		} else {
-			this.rpcUtilService.getNotReceivedPurchaseOrdersList(
-					getVendor().getID(),
+			this.rpcUtilService.getNotReceivedPurchaseOrdersList(getVendor()
+					.getID(),
 					new AccounterAsyncCallback<List<PurchaseOrdersList>>() {
 
 						public void onException(AccounterException caught) {
@@ -645,9 +640,9 @@ public class ItemReceiptView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

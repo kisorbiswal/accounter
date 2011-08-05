@@ -334,7 +334,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		map.setFixedAssetLinkedAccounts(linkedAccounts);
 		// depreciation.setLinkedAccounts(map);
 
-		createObject(depreciation);
+	saveOrUpdate(depreciation);
 		Accounter.createHomeService().runDepreciation(
 				depreciationStartDate.getDate(), depreciationEndDate.getDate(),
 				map, new AccounterAsyncCallback() {

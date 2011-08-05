@@ -128,11 +128,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	public void saveAndUpdateView() {
 
 		ClientWarehouse warehouse = getWarehouseObject();
-		if (warehouse.getID() == 0) {
-			createObject(warehouse);
-		} else {
-			alterObject(warehouse);
-		}
+		saveOrUpdate(warehouse);
 
 		super.saveAndUpdateView();
 	}

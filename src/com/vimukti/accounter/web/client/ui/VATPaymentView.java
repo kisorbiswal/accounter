@@ -255,35 +255,31 @@ public class VATPaymentView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientPaySalesTax paySalesTax = getPaySalesTax();
-		createObject(paySalesTax);
+		updateTransaction();
+		saveOrUpdate(transaction);
 	}
 
-	private ClientPaySalesTax getPaySalesTax() {
+	protected void updateTransaction() {
 
-		ClientPaySalesTax paySalesTax = new ClientPaySalesTax();
+		transaction.setType(ClientTransaction.TYPE_PAY_SALES_TAX);
 
-		paySalesTax.setType(ClientTransaction.TYPE_PAY_SALES_TAX);
+		transaction.setNumber(transactionNumber.getValue().toString());
 
-		paySalesTax.setNumber(transactionNumber.getValue().toString());
-
-		paySalesTax
+		transaction
 				.setDate(((ClientFinanceDate) transactionDateItem.getValue())
 						.getDate());
 
-		paySalesTax.setTotal(amount.getAmount());
+		transaction.setTotal(amount.getAmount());
 
-		paySalesTax.setMemo(memo.getValue().toString());
+		transaction.setMemo(memo.getValue().toString());
 
-		paySalesTax.setReference(referenceNo.getValue().toString());
+		transaction.setReference(referenceNo.getValue().toString());
 
-		paySalesTax.setPayFrom(selectedPayFromAccount.getID());
+		transaction.setPayFrom(selectedPayFromAccount.getID());
 
-		paySalesTax.setEndingBalance(endingBalance);
+		transaction.setEndingBalance(endingBalance);
 
-		paySalesTax.setPaymentMethod(paymentMethod);
-
-		return paySalesTax;
+		transaction.setPaymentMethod(paymentMethod);
 
 	}
 

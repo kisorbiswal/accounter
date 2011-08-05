@@ -93,7 +93,7 @@ public class CreditCardChargeView extends
 	@Override
 	public void setData(ClientCreditCardCharge data) {
 		super.setData(data);
-		if (isEdit && (!transactionObject.isCreditCardCharge()))
+		if (isEdit && (!transaction.isCreditCardCharge()))
 			try {
 				throw new Exception(Accounter.constants()
 						.unableToLoadRequiredCreditCardCharge());
@@ -227,9 +227,9 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (transactionObject != null) {
+		if (transaction != null) {
 			memoTextAreaItem.setDisabled(true);
-			setMemoTextAreaItem(((ClientCreditCardCharge) transactionObject)
+			setMemoTextAreaItem(((ClientCreditCardCharge) transaction)
 					.getMemo());
 		}
 		// refText.setValue(creditCardChargeTaken.getReference());
@@ -238,7 +238,7 @@ public class CreditCardChargeView extends
 
 	protected void initTransactionViewData() {
 
-		if (transactionObject == null) {
+		if (transaction == null) {
 			resetElements();
 			initpayFromAccountCombo();
 		}
@@ -624,8 +624,8 @@ public class CreditCardChargeView extends
 		if (UIUtils.isMSIEBrowser())
 			resetFormView();
 
-		if (transactionObject != null) {
-			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transactionObject;
+		if (transaction != null) {
+			ClientCreditCardCharge creditCardCharge = (ClientCreditCardCharge) transaction;
 			payFrmSelect.setComboItem(getCompany().getAccount(
 					creditCardCharge.getPayFrom()));
 		}
@@ -639,7 +639,7 @@ public class CreditCardChargeView extends
 	public void saveAndUpdateView() {
 
 		ClientCreditCardCharge creditCardCharge = prepareObject();
-		transactionObject = creditCardCharge;
+		transaction = creditCardCharge;
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			creditCardCharge.setNetAmount(netAmount.getAmount());
@@ -653,7 +653,7 @@ public class CreditCardChargeView extends
 
 	protected ClientCreditCardCharge prepareObject() {
 
-		ClientCreditCardCharge creditCardCharge = transactionObject != null ? (ClientCreditCardCharge) transactionObject
+		ClientCreditCardCharge creditCardCharge = transaction != null ? (ClientCreditCardCharge) transaction
 				: new ClientCreditCardCharge();
 		if (creditCardChargeTaken != null)
 			creditCardCharge = creditCardChargeTaken;
@@ -731,16 +731,13 @@ public class CreditCardChargeView extends
 		// setting ref
 		// creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
 
-		transactionObject = creditCardCharge;
+		transaction = creditCardCharge;
 
 		return creditCardCharge;
 	}
 
 	public void createAlterObject() {
-		if (transactionObject.getID() != 0)
-			alterObject((ClientCreditCardCharge) transactionObject);
-		else
-			createObject((ClientCreditCardCharge) transactionObject);
+		saveOrUpdate((ClientCreditCardCharge) transaction);
 
 	}
 
@@ -851,9 +848,9 @@ public class CreditCardChargeView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 

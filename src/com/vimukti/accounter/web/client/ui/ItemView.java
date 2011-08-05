@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.FloatRangeValidator;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.IntegerRangeValidator;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -562,14 +561,7 @@ public class ItemView extends BaseView<ClientItem> {
 		ClientItem item = null;
 		item = getItem(saveAndClose);
 
-		if (takenItem == null) {
-
-			createObject(item);
-
-		} else {
-			alterObject(item);
-
-		}
+		saveOrUpdate(item);
 
 	}
 

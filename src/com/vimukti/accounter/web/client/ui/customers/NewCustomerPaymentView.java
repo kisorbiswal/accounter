@@ -72,9 +72,9 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (this.transactionObject != null) {
+		if (this.transaction != null) {
 
-			ClientCustomerPrePayment customerPrePayment = (ClientCustomerPrePayment) transactionObject;
+			ClientCustomerPrePayment customerPrePayment = (ClientCustomerPrePayment) transaction;
 
 			if (customerPrePayment != null) {
 				memoTextAreaItem.setDisabled(true);
@@ -114,7 +114,7 @@ public class NewCustomerPaymentView extends
 	protected void initTransactionViewData() {
 		// super.initTransactionViewData();
 		initTransactionNumber();
-		if (transactionObject == null)
+		if (transaction == null)
 			initDepositInAccounts();
 	}
 
@@ -136,7 +136,7 @@ public class NewCustomerPaymentView extends
 	private ClientTransaction getPrePaymentObject() {
 		try {
 
-			ClientCustomerPrePayment customerPrePayment = transactionObject != null ? (ClientCustomerPrePayment) transactionObject
+			ClientCustomerPrePayment customerPrePayment = transaction != null ? (ClientCustomerPrePayment) transaction
 					: new ClientCustomerPrePayment();
 
 			customerPrePayment.setNumber(transactionNumber.getValue()
@@ -174,10 +174,10 @@ public class NewCustomerPaymentView extends
 			// customerPrePayment.setToBePrinted(isChecked);
 			printCheck.setValue(customerPrePayment.isToBePrinted());
 
-			transactionObject = customerPrePayment;
+			transaction = customerPrePayment;
 
 			if (transactionDate != null)
-				transactionObject.setDate(transactionDate.getDate());
+				transaction.setDate(transactionDate.getDate());
 			customerPrePayment.setMemo(getMemoTextAreaItem());
 			// customerPrePayment.setReference(getRefText());
 
@@ -191,12 +191,12 @@ public class NewCustomerPaymentView extends
 
 			customerPrePayment
 					.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
-			transactionObject = customerPrePayment;
+			transaction = customerPrePayment;
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return transactionObject;
+		return transaction;
 	}
 
 	@Override
@@ -263,7 +263,7 @@ public class NewCustomerPaymentView extends
 	}
 
 	private void adjustBalance(double amount) {
-		ClientCustomerPrePayment customerPrePayment = (ClientCustomerPrePayment) transactionObject;
+		ClientCustomerPrePayment customerPrePayment = (ClientCustomerPrePayment) transaction;
 		enteredBalance = amount;
 
 		if (DecimalUtil.isLessThan(enteredBalance, 0)
@@ -272,16 +272,18 @@ public class NewCustomerPaymentView extends
 			enteredBalance = 0D;
 		}
 		if (getCustomer() != null) {
-			if (transactionObject != null
-					&& getCustomer().getID() == (customerPrePayment.getCustomer())
+			if (transaction != null
+					&& getCustomer().getID() == (customerPrePayment
+							.getCustomer())
 					&& !DecimalUtil.isEquals(enteredBalance, 0)) {
-				double cusBal = DecimalUtil
-						.isLessThan(getCustomer().getBalance(), 0) ? -1
-						* getCustomer().getBalance() : getCustomer().getBalance();
-				toBeSetCustomerBalance = (cusBal - transactionObject.getTotal())
+				double cusBal = DecimalUtil.isLessThan(getCustomer()
+						.getBalance(), 0) ? -1 * getCustomer().getBalance()
+						: getCustomer().getBalance();
+				toBeSetCustomerBalance = (cusBal - transaction.getTotal())
 						+ enteredBalance;
 			} else {
-				toBeSetCustomerBalance = getCustomer().getBalance() - enteredBalance;
+				toBeSetCustomerBalance = getCustomer().getBalance()
+						- enteredBalance;
 			}
 			customerBalText.setAmount(toBeSetCustomerBalance);
 
@@ -295,12 +297,12 @@ public class NewCustomerPaymentView extends
 				toBeSetEndingBalance = depositInAccount.getTotalBalance()
 						- enteredBalance;
 			}
-			if (transactionObject != null
+			if (transaction != null
 					&& depositInAccount.getID() == (customerPrePayment
 							.getDepositIn())
 					&& !DecimalUtil.isEquals(enteredBalance, 0)) {
 				toBeSetEndingBalance = toBeSetEndingBalance
-						- transactionObject.getTotal();
+						- transaction.getTotal();
 			}
 			endBalText.setAmount(toBeSetEndingBalance);
 
@@ -423,8 +425,8 @@ public class NewCustomerPaymentView extends
 						if (depositInAccount == null)
 							checkNo.setValueField(Accounter.constants()
 									.toBePrinted());
-						else if (transactionObject != null) {
-							checkNo.setValue(((ClientCustomerPrePayment) transactionObject)
+						else if (transaction != null) {
+							checkNo.setValue(((ClientCustomerPrePayment) transaction)
 									.getCheckNumber());
 						}
 					}
@@ -549,11 +551,8 @@ public class NewCustomerPaymentView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		transactionObject = getPrePaymentObject();
-		if (transactionObject.getID() == 0)
-			createObject((ClientCustomerPrePayment) transactionObject);
-		else
-			alterObject((ClientCustomerPrePayment) transactionObject);
+		transaction = getPrePaymentObject();
+		saveOrUpdate((ClientCustomerPrePayment) transaction);
 	}
 
 	private String getCheckNoValue() {
@@ -700,9 +699,9 @@ public class NewCustomerPaymentView extends
 
 		};
 
-		AccounterCoreType type = UIUtils.getAccounterCoreType(transactionObject
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 				.getType());
-		this.rpcDoSerivce.canEdit(type, transactionObject.id, editCallBack);
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 
 	}
 
