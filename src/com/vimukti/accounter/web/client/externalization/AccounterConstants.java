@@ -5,7 +5,7 @@ import com.google.gwt.i18n.client.Constants;
 public interface AccounterConstants extends Constants {
 
 	public String textId();
-	
+
 	public String a2Code();
 
 	public String a3Code();
@@ -4399,39 +4399,39 @@ public interface AccounterConstants extends Constants {
 	public String productItem();
 
 	public String howIsYourCompanyOrganized();
-	
+
 	public String howIsYourCompanyOrganizedDesc();
-	
+
 	public String soleProprietorship();
-	
+
 	public String soleProprietorshipDesc();
-	
+
 	public String partnershipOrLLP();
-	
+
 	public String partnershipOrLLPDesc();
-	
+
 	public String LLC();
-	
+
 	public String LLCDesc();
-	
+
 	public String llcSingleMemberForm();
-	
+
 	public String llcMultiMemberForm();
-	
+
 	public String corporation();
-	
+
 	public String corporationDesc();
-	
+
 	public String sCorporation();
-	
+
 	public String sCorporationDesc();
-	
+
 	public String nonProfit();
-	
+
 	public String nonProfitDesc();
-	
+
 	public String otherNone();
-	
+
 	public String enterYourCompanyInfo();
 
 	public String selectYourIndustry();
@@ -4457,5 +4457,11 @@ public interface AccounterConstants extends Constants {
 	public String accounterToWorkBestForYou();
 
 	public String industry();
+
+	public String productsOnly();
+
+	public String servicesOnly();
+
+	public String bothServicesandProducts();
 
 }
