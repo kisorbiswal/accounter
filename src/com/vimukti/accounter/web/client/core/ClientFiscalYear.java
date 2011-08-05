@@ -156,4 +156,9 @@ public class ClientFiscalYear implements IAccounterCore {
 		return "ClientFiscalYear";
 	}
 
+	public ClientFiscalYear clone() {
+		return null;
+
+	}
+
 }
