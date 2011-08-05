@@ -106,4 +106,9 @@ public class ClientFax implements IAccounterCore {
 		// its not using any whereb
 		return null;
 	}
+
+	public ClientFax clone() {
+		return null;
+
+	}
 }
