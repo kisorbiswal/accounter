@@ -89,12 +89,6 @@ public class PreviousClaimGrid extends BaseListGrid<BillsList> {
 	}
 
 	@Override
-	public boolean validateGrid() throws InvalidTransactionEntryException {
-		// NOTHING TO DO.
-		return false;
-	}
-
-	@Override
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().receiptFrom(),
 				Accounter.constants().receiptDate(),

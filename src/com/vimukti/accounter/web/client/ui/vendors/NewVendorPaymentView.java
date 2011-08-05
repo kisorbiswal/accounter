@@ -75,7 +75,7 @@ public class NewVendorPaymentView extends
 	}
 
 	public void resetElements() {
-		this.vendor = null;
+		this.setVendor(null);
 		this.addressListOfVendor = null;
 		this.payFromAccount = null;
 		this.paymentMethod = UIUtils
@@ -346,7 +346,7 @@ public class NewVendorPaymentView extends
 
 		payBill.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
 
-		payBill.setVendor(vendor);
+		payBill.setVendor(getVendor());
 
 		if (billingAddress != null)
 			payBill.setAddress(billingAddress);
@@ -427,7 +427,7 @@ public class NewVendorPaymentView extends
 
 		if (vendor == null)
 			return;
-		this.vendor = vendor;
+		this.setVendor(vendor);
 		if (vendor != null && vendorCombo != null) {
 			vendorCombo.setComboItem(getCompany().getVendor(vendor.getID()));
 		}
@@ -483,8 +483,8 @@ public class NewVendorPaymentView extends
 			amountText.setAmount(0D);
 			enteredBalance = 0D;
 		}
-		if (vendor != null) {
-			toBeSetVendorBalance = vendor.getBalance() - enteredBalance;
+		if (getVendor() != null) {
+			toBeSetVendorBalance = getVendor().getBalance() - enteredBalance;
 			vendorBalText.setAmount(toBeSetVendorBalance);
 
 		}

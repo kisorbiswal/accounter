@@ -124,7 +124,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 	}
 
-	private ClientPayBill getPayBillObject() throws Exception {
+	private ClientPayBill getPayBillObject() {
 
 		ClientPayBill payBill = null;
 		if (transactionObject == null)
@@ -156,8 +156,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		if (dueDate.getEnteredDate() != null)
 			payBill.setBillDueOnOrBefore(dueDate.getEnteredDate());
 		// Setting Vendor
-		if (vendor != null)
-			payBill.setVendor(vendor);
+		if (getVendor() != null)
+			payBill.setVendor(getVendor());
 		// Setting Amount
 		payBill.setTotal(amtText.getAmount());
 
@@ -576,7 +576,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			return;
 		}
 
-		this.vendor = vendor;
+		this.setVendor(vendor);
 		/*
 		 * resetting the crdits dialog's refernce,so that a new object will
 		 * created for opening credits dialog
@@ -656,7 +656,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 				.getBillDueOnOrBefore()));
 		dueDate.setDisabled(true);
 
-		this.vendor = getCompany().getVendor(billToBeEdited.getVendor());
+		this.setVendor(getCompany().getVendor(billToBeEdited.getVendor()));
 		vendorSelected(getCompany().getVendor(billToBeEdited.getVendor()));
 
 		amtText.setAmount(billToBeEdited.getTotal());
@@ -769,10 +769,10 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			tempList.clear();
 		}
 
-		if (vendor != null) {
+		if (getVendor() != null) {
 
 			for (PayBillTransactionList cont : filterList) {
-				if (vendor.getName().toString()
+				if (getVendor().getName().toString()
 						.equalsIgnoreCase(cont.getVendorName().toString())) {
 
 					tempList.add(cont);
@@ -942,7 +942,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		gridView.removeFromParent();
 		initListGrid();
 		gridLayout.insert(gridView, 2);
-		getTransactionPayBills(this.vendor);
+		getTransactionPayBills(this.getVendor());
 		memoTextAreaItem.setDisabled(isEdit);
 		transactionObject = null;
 

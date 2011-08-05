@@ -49,7 +49,7 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
-		if (this.vendor != null && this.vendor != vendor) {
+		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientVendorCreditMemo ent = (ClientVendorCreditMemo) this.transactionObject;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
@@ -96,7 +96,7 @@ public class VendorCreditMemoView extends
 	}
 
 	public void resetElements() {
-		this.vendor = null;
+		this.setVendor(null);
 		this.contact = null;
 		this.phoneNo = null;
 		setMemoTextAreaItem("");
@@ -350,7 +350,7 @@ public class VendorCreditMemoView extends
 			vendorCreditMemo = new ClientVendorCreditMemo();
 
 		// Setting Vendor
-		vendorCreditMemo.setVendor(vendor.getID());
+		vendorCreditMemo.setVendor(getVendor().getID());
 
 		// Setting Contact
 		if (contact != null)

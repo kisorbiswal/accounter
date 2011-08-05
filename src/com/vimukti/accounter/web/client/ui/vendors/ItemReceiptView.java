@@ -343,7 +343,7 @@ public class ItemReceiptView extends
 	protected void initTransactionViewData(ClientTransaction transactionObject) {
 		ClientItemReceipt itemReceipt = (ClientItemReceipt) transactionObject;
 		ClientCompany company = getCompany();
-		this.vendor = company.getVendor(itemReceipt.getVendor());
+		this.setVendor(company.getVendor(itemReceipt.getVendor()));
 		this.contact = itemReceipt.getContact();
 		if (itemReceipt.getPhone() != null)
 			this.phoneNo = itemReceipt.getPhone();
@@ -360,7 +360,7 @@ public class ItemReceiptView extends
 		this.transactionItems = itemReceipt.getTransactionItems();
 
 		initTransactionNumber();
-		vendorSelected(this.vendor);
+		vendorSelected(this.getVendor());
 		paymentTermsSelected(this.paymentTerm);
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -397,7 +397,7 @@ public class ItemReceiptView extends
 				: new ClientItemReceipt();
 
 		// Setting Vendor
-		itemReceipt.setVendor(this.vendor.getID());
+		itemReceipt.setVendor(this.getVendor().getID());
 
 		// Setting Contact
 		if (contact != null)
@@ -485,13 +485,13 @@ public class ItemReceiptView extends
 	private void getPurchaseOrders() {
 		if (this.rpcUtilService == null)
 			return;
-		if (vendor == null) {
+		if (getVendor() == null) {
 			Accounter.showError(UIUtils.getVendorString(Accounter.constants()
 					.pleaseSelectSupplier(), Accounter.constants()
 					.pleaseSelectVendor()));
 		} else {
 			this.rpcUtilService.getNotReceivedPurchaseOrdersList(
-					vendor.getID(),
+					getVendor().getID(),
 					new AccounterAsyncCallback<List<PurchaseOrdersList>>() {
 
 						public void onException(AccounterException caught) {

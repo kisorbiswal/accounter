@@ -47,8 +47,8 @@ import com.vimukti.accounter.web.client.ui.grids.VendorTransactionGrid;
  * 
  *         This Class serves as the Base Class For all Vendor Transactions
  */
-public abstract class AbstractVendorTransactionView<T extends IAccounterCore>
-		extends AbstractTransactionBaseView<T> {
+public abstract class AbstractVendorTransactionView<T extends IAccounterCore> extends
+		AbstractTransactionBaseView<T> {
 
 	protected AbstractVendorTransactionView<T> vendorTransactionViewInstance;
 
@@ -162,8 +162,8 @@ public abstract class AbstractVendorTransactionView<T extends IAccounterCore>
 		vendorCombo.initCombo(result);
 		vendorCombo.setDisabled(isEdit);
 
-		if (vendor != null)
-			vendorCombo.setComboItem(vendor);
+		if (getVendor() != null)
+			vendorCombo.setComboItem(getVendor());
 	}
 
 	private void getPayFromAccounts() {
@@ -175,7 +175,7 @@ public abstract class AbstractVendorTransactionView<T extends IAccounterCore>
 
 		if (vendor == null)
 			return;
-		this.vendor = vendor;
+		this.setVendor(vendor);
 		initContacts(vendor);
 		// initPhones(vendor);
 		paymentMethodSelected(vendor.getPaymentMethod());
@@ -614,8 +614,8 @@ public abstract class AbstractVendorTransactionView<T extends IAccounterCore>
 				}
 				// if (zvatCodeid != null)
 				// transactionItem.setVatCode(zvatCodeid);
-				transactionItem.setTaxCode(vendor != null ? (vendor
-						.getTAXCode() != 0 ? vendor.getTAXCode() : staxCodeid)
+				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
+						.getTAXCode() != 0 ? getVendor().getTAXCode() : staxCodeid)
 						: 0);
 			}
 		} else if (menuItem.equals(Accounter.constants().productItem())) {
@@ -628,8 +628,8 @@ public abstract class AbstractVendorTransactionView<T extends IAccounterCore>
 						staxCodeid = taxCode.getID();
 					}
 				}
-				transactionItem.setTaxCode(vendor != null ? (vendor
-						.getTAXCode() != 0 ? vendor.getTAXCode() : staxCodeid)
+				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
+						.getTAXCode() != 0 ? getVendor().getTAXCode() : staxCodeid)
 						: 0);
 			}
 		} else if (menuItem.equals(Accounter.constants().serviceItem())) {
@@ -642,8 +642,8 @@ public abstract class AbstractVendorTransactionView<T extends IAccounterCore>
 						ztaxCodeid = taxCode.getID();
 					}
 				}
-				transactionItem.setTaxCode(vendor != null ? (vendor
-						.getTAXCode() != 0 ? vendor.getTAXCode() : ztaxCodeid)
+				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
+						.getTAXCode() != 0 ? getVendor().getTAXCode() : ztaxCodeid)
 						: 0);
 			} else {
 				for (ClientTAXCode taxCode : taxCodes) {
@@ -689,5 +689,13 @@ public abstract class AbstractVendorTransactionView<T extends IAccounterCore>
 	// }
 
 	protected abstract Double getTransactionTotal();
+
+	public ClientVendor getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(ClientVendor vendor) {
+		this.vendor = vendor;
+	}
 
 }

@@ -633,8 +633,8 @@ public class PurchaseOrderView extends
 		// shipToAddressSelected(purchaseOrderToBeEdited.getShippingAddress());
 
 		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
-		if (vendor != null)
-			addresses.addAll(vendor.getAddress());
+		if (getVendor() != null)
+			addresses.addAll(getVendor().getAddress());
 		shipToAddress.setListOfCustomerAdress(addresses);
 		if (shippingAddress != null) {
 			shipToAddress.businessSelect.setValue(shippingAddress
@@ -643,7 +643,7 @@ public class PurchaseOrderView extends
 		}
 		shipToAddress.businessSelect.setDisabled(true);
 
-		this.addressListOfVendor = vendor.getAddress();
+		this.addressListOfVendor = getVendor().getAddress();
 
 		if (billingAddress != null) {
 
@@ -832,7 +832,7 @@ public class PurchaseOrderView extends
 	public void saveAndUpdateView() {
 		ClientPurchaseOrder purchaseOrder = transactionObject != null ? (ClientPurchaseOrder) transactionObject
 				: new ClientPurchaseOrder();
-		purchaseOrder.setVendor(vendor.getID());
+		purchaseOrder.setVendor(getVendor().getID());
 
 		if (statusSelect.getSelectedValue().equals(OPEN))
 			purchaseOrder.setStatus(ClientTransaction.STATUS_OPEN);
@@ -897,7 +897,7 @@ public class PurchaseOrderView extends
 
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
-		this.vendor = vendor;
+		this.setVendor(vendor);
 		if (vendor == null)
 			return;
 

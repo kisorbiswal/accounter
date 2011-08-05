@@ -425,7 +425,7 @@ public class CashPurchaseView extends
 
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
-		if (this.vendor != null && this.vendor != vendor) {
+		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientCashPurchase ent = (ClientCashPurchase) this.transactionObject;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
@@ -515,7 +515,7 @@ public class CashPurchaseView extends
 		cashPurchase.setType(ClientTransaction.TYPE_CASH_PURCHASE);
 
 		// Setting Vendor
-		cashPurchase.setVendor(this.vendor.getID());
+		cashPurchase.setVendor(this.getVendor().getID());
 
 		// Setting Contact
 		if (contact != null)

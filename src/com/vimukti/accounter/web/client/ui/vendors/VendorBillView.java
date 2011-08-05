@@ -89,7 +89,7 @@ public class VendorBillView extends
 
 	private void resetGlobalVariables() {
 
-		this.vendor = null;
+		this.setVendor(null);
 		this.billingAddress = null;
 		this.contact = null;
 		this.phoneNo = null;
@@ -230,7 +230,7 @@ public class VendorBillView extends
 	}
 
 	private void updatePurchaseOrderOrItemReceipt(ClientVendor vendor) {
-		if (this.vendor != null && this.vendor != vendor) {
+		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientEnterBill ent = (ClientEnterBill) this.transactionObject;
 
 			if (ent != null && ent.getVendor() == vendor.getID()) {
@@ -606,7 +606,7 @@ public class VendorBillView extends
 				: new ClientEnterBill();
 
 		// Setting Vendor
-		enterBill.setVendor(vendor);
+		enterBill.setVendor(getVendor());
 
 		// Setting Contact
 		if (contact != null)
@@ -747,12 +747,12 @@ public class VendorBillView extends
 
 		if (this.rpcUtilService == null)
 			return;
-		if (vendor == null) {
+		if (getVendor() == null) {
 			Accounter.showError(Accounter.constants().pleaseSelectTheVendor());
 		} else {
 
 			if (dialog != null && dialog.preVendor != null
-					&& dialog.preVendor == this.vendor) {
+					&& dialog.preVendor == this.getVendor()) {
 				return;
 			}
 			AccounterAsyncCallback<List<PurchaseOrdersAndItemReceiptsList>> callback = new AccounterAsyncCallback<List<PurchaseOrdersAndItemReceiptsList>>() {
@@ -781,7 +781,7 @@ public class VendorBillView extends
 				}
 			};
 
-			this.rpcUtilService.getPurchasesAndItemReceiptsList(vendor.getID(),
+			this.rpcUtilService.getPurchasesAndItemReceiptsList(getVendor().getID(),
 					callback);
 		}
 
