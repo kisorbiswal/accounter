@@ -8,7 +8,6 @@ import java.util.Set;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -24,6 +23,7 @@ import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReview
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.DebitAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -32,11 +32,11 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.CustomButtonType;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.CancleButtom;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -67,6 +67,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	protected LinkedHashMap<Integer, Integer> monthsKey = new LinkedHashMap<Integer, Integer>();
 
 	private ArrayList<DynamicForm> listforms;
+	private ImageButton reviewJournal;
 
 	public SellingRegisteredItemView() {
 		super();
@@ -131,12 +132,6 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		radioVlayout.add(QuestionLabel);
 		radioVlayout.add(radioForm);
 		radioVlayout.add(dateForm);
-		saveAndCloseButton = new CustomButton(CustomButtonType.REVIEW_JOURNAL,
-				this);
-		buttonBar.clear();
-		buttonBar.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		buttonBar.add(saveAndCloseButton);
-		buttonBar.setCellHorizontalAlignment(saveAndCloseButton, ALIGN_RIGHT);
 
 		notesArea = new TextAreaItem();
 		notesArea.setWidth(100);
@@ -155,7 +150,6 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		mainLayout.add(depriciationForFinancialyearLabel);
 		mainLayout.add(radioVlayout);
 		mainLayout.add(textAreaForm);
-		mainLayout.setCellHorizontalAlignment(buttonBar, ALIGN_RIGHT);
 
 		add(mainLayout);
 
@@ -662,4 +656,28 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	protected String getViewTitle() {
 		return Accounter.constants().sellingRegisteredItem();
 	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		reviewJournal = new ImageButton(Accounter.constants().reviewJournal(),
+				Accounter.getFinanceImages().reviewJournal());
+		reviewJournal.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				reviewJournal();
+			}
+		});
+
+		this.cancelButton = new CancleButtom(this);
+
+		buttonBar.add(reviewJournal);
+		buttonBar.add(cancelButton);
+	}
+
+	protected void reviewJournal() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

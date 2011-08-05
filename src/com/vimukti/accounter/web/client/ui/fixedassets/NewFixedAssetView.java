@@ -9,8 +9,11 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -28,6 +31,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
+import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.DepreciationAccountCombo;
@@ -41,12 +45,15 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.CancleButtom;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
+import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
@@ -92,6 +99,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	private double depAmount;
 	protected String selectedOption;
 	private boolean isVerified = false;
+	private ImageButton registerButton;
 
 	public NewFixedAssetView() {
 		super();
@@ -1121,5 +1129,31 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().newFixedAsset();
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		this.saveAndCloseButton = new SaveAndCloseButton(this);
+		buttonBar.add(this.saveAndCloseButton,
+				HasHorizontalAlignment.ALIGN_LEFT);
+
+		registerButton = new ImageButton(Accounter.constants().register(),
+				Accounter.getFinanceImages().register());
+		registerButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				registerAsset();
+
+			}
+		});
+		buttonBar.add(registerButton, HasHorizontalAlignment.ALIGN_RIGHT);
+		this.cancelButton = new CancleButtom(this);
+		buttonBar.add(this.cancelButton, HasHorizontalAlignment.ALIGN_RIGHT);
+	}
+
+	protected void registerAsset() {
+		// TODO Auto-generated method stub
+
 	}
 }
