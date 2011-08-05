@@ -6,8 +6,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.accounterConstants.reviewIncomeAndExpensesAccounts();
 	}
 
 	@Override

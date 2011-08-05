@@ -2,14 +2,18 @@ package com.vimukti.accounter.web.client.ui.setup;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractSetupPage extends VerticalPanel {
 	boolean progress;
 	private Label header;
 	private VerticalPanel mainPanel;
+	public AccounterConstants accounterConstants;
 
 	public AbstractSetupPage() {
 		SetupWizard.setupPage = this;
+		accounterConstants = Accounter.constants();
 	}
 
 	public abstract String getHeader();

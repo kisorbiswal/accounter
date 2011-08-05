@@ -22,7 +22,7 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	@Override
 	public String getHeader() {
-		return "Welcome to Startup Start Accounter Company Setup";
+		return this.accounterConstants.welcomeToStartup();
 	}
 
 	@Override

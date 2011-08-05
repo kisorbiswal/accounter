@@ -4446,4 +4446,6 @@ public interface AccounterConstants extends Constants {
 
 	public String doyouHaveEmployees();
 
+	public String wanttoCreateEstimatesInAccounter();
+
 }

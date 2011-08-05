@@ -33,7 +33,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	@Override
 	public String getHeader() {
-		return "Enter Your Company Information";
+		return this.accounterConstants.enterYourCompanyInfo();
 	}
 
 	@Override
@@ -112,10 +112,13 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	@Override
 	public void onLoad() {
 		// TODO Auto-generated method stub
+		// not required for this page
 	}
 
 	@Override
 	public void onSave() {
 		// TODO Auto-generated method stub
 	}
+		// not required for this page
+
 }

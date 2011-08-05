@@ -6,8 +6,7 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.accounterConstants.doyouHaveEmployees();
 	}
 
 	@Override
