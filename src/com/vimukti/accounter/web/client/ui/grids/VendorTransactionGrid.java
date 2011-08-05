@@ -802,14 +802,17 @@ public class VendorTransactionGrid extends
 				}
 				try {
 					ClientQuantity quant = new ClientQuantity();
-					if (!AccounterValidator.validateGridQuantity(quantity)) {
+					if (AccounterValidator.validateGridQuantity(quantity)) {
 						quant.setValue(Integer.parseInt(qty));
 						item.setQuantity(quant);
 						update_quantity_inAllRecords(item.getQuantity()
 								.getValue());
-					} else
+					} else {
 						quant.setValue(isItem ? 1 : 0);
-					item.setQuantity(quant);
+						item.setQuantity(quant);
+						transactionView.addError(this,
+								AccounterErrorType.quantity);
+					}
 				} catch (InvalidTransactionEntryException e) {
 					e.printStackTrace();
 				}
@@ -838,11 +841,13 @@ public class VendorTransactionGrid extends
 				Double d = Double.parseDouble(DataUtils
 						.getReformatedAmount(unitPriceString) + "");
 
-				if (!AccounterValidator.validateGridUnitPrice(d)) {
+				if (AccounterValidator.validateGridUnitPrice(d)) {
 					item.setUnitPrice(getAmountInBaseCurrency(d.doubleValue()));
 				} else {
 					d = 0.0D;
 					item.setUnitPrice(d);
+					transactionView
+							.addError(this, AccounterErrorType.unitPrice);
 				}
 				priceLevelSelected(priceLevel);
 				refreshVatValue();

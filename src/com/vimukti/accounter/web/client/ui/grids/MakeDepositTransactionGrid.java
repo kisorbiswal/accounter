@@ -419,7 +419,7 @@ public class MakeDepositTransactionGrid extends
 				Double lineTotal = Double.parseDouble(DataUtils
 						.getReformatedAmount(lineTotalAmtString) + "");
 
-				if (!AccounterValidator.validateAmount(lineTotal, true)) {
+				if (!AccounterValidator.validateAmount(lineTotal)) {
 					lineTotal = 0.0D;
 					item.setAmount(getAmountInBaseCurrency(lineTotal));
 				} else {

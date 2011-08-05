@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.combo.SalesAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.ServiceCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -522,8 +523,9 @@ public class CustomerTransactionGrid extends
 				selectedObject
 						.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
 								.getTaxCode()
-								: view.getCustomer().getTAXCode() != 0 ? view.getCustomer()
-										.getTAXCode() : ztaxCodeid);
+								: view.getCustomer().getTAXCode() != 0 ? view
+										.getCustomer().getTAXCode()
+										: ztaxCodeid);
 		}
 		updateTotals();
 		updateData(selectedObject);
@@ -1028,7 +1030,7 @@ public class CustomerTransactionGrid extends
 				}
 				try {
 					ClientQuantity quant = new ClientQuantity();
-					if (!AccounterValidator.validateGridQuantity(quantity)) {
+					if (AccounterValidator.validateGridQuantity(quantity)) {
 						quant.setValue(Integer.parseInt(qty));
 						item.setQuantity(quant);
 						update_quantity_inAllRecords(item.getQuantity()
@@ -1036,6 +1038,8 @@ public class CustomerTransactionGrid extends
 					} else {
 						quant.setValue(isItem ? 1 : 0);
 						item.setQuantity(quant);
+						transactionView.addError(this,
+								AccounterErrorType.quantity);
 					}
 				} catch (InvalidTransactionEntryException e) {
 					e.printStackTrace();
@@ -1065,13 +1069,15 @@ public class CustomerTransactionGrid extends
 				// convert this value to base currency, if the selected currency
 				// is not in baseCurreny.
 
-				if (!AccounterValidator.validateGridUnitPrice(d)) {
+				if (AccounterValidator.validateGridUnitPrice(d)) {
 					d = getAmountInBaseCurrency(d);
 					// the value is in BaseCurrency now.
 					item.setUnitPrice(d);
 				} else {
 					d = 0.0D; // zero. no need conversions.
 					item.setUnitPrice(d);
+					transactionView
+							.addError(this, AccounterErrorType.unitPrice);
 				}
 
 				break;

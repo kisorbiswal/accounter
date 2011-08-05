@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -154,11 +155,11 @@ public class WriteOffDialog extends BaseDialog {
 		show();
 	}
 
-	public boolean validate() throws InvalidEntryException {
-		if (getSelectedWriteOffAccount() == null) {
-			AccounterValidator.validateForm(form, true);
-		}
-		return true;
+	public ValidationResult validate() {
+		// if (getSelectedWriteOffAccount() == null) {
+		// AccounterValidator.validateForm(form, true);
+		// }
+		return form.validate();
 	}
 
 	@Override

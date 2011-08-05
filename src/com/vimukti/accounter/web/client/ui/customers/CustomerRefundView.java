@@ -597,7 +597,7 @@ public class CustomerRefundView extends
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		result.add(super.validate());
-		if (AccounterValidator.validateAmount(this.amtText.getAmount(), false)) {
+		if (!AccounterValidator.validateAmount(this.amtText.getAmount())) {
 			result.addError(amtText, AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
 		}
 		if (AccounterValidator.validateCustomerRefundAmount(

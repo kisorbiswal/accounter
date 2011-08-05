@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -137,16 +138,11 @@ public class ChangePasswordDialog extends BaseDialog {
 	}
 
 	@Override
-	public boolean validate() {
+	public ValidationResult validate() {
 		// switch (this.validationCount) {
 		// case 1:
-		try {
-			return AccounterValidator.validateForm(textItemsForm, true);
-		} catch (InvalidEntryException e) {
-			e.printStackTrace();
-		}
+		return textItemsForm.validate();
 		// default:
-		return true;
 		// }
 	}
 

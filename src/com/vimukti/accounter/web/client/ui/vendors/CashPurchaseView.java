@@ -604,8 +604,7 @@ public class CashPurchaseView extends
 		result.add(termsForm.validate());
 
 		if (!AccounterValidator.validate_dueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate,
-				Accounter.constants().deliveryDate())) {
+				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()

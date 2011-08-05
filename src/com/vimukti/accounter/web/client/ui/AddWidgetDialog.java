@@ -60,7 +60,6 @@ public class AddWidgetDialog extends BaseDialog {
 
 	private void createControl() {
 
-		setText();
 		setSize("650", "380");
 		// setIsModal(true);
 		// setShowModalMask(true);

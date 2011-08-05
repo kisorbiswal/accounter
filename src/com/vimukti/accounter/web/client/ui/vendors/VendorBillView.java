@@ -702,9 +702,8 @@ public class VendorBillView extends
 		}
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.validate_dueOrDelivaryDates(dueDateItem
-				.getEnteredDate(), this.transactionDate, Accounter.constants()
-				.dueDate())) {
+		if (!AccounterValidator.validate_dueOrDelivaryDates(
+				dueDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(dueDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().dueDate()
@@ -781,8 +780,8 @@ public class VendorBillView extends
 				}
 			};
 
-			this.rpcUtilService.getPurchasesAndItemReceiptsList(getVendor().getID(),
-					callback);
+			this.rpcUtilService.getPurchasesAndItemReceiptsList(getVendor()
+					.getID(), callback);
 		}
 
 		// if (vendor == null)

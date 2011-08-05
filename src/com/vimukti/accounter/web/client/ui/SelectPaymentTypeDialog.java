@@ -57,13 +57,11 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 			}
 
 			public boolean onOkClick() {
-				if (!typeForm.validate(true)) {
-					// Accounter.showError(FinanceApplication
-					// .constants().pleaseSelecPaymentType());
-					return false;
-				}
-
-				ItemView itemView;
+				// if (!typeForm.validate(true)) {
+				// Accounter.showError(FinanceApplication
+				// .constants().pleaseSelecPaymentType());
+				// return false;
+				// }
 
 				if (typeRadio.getValue() != null) {
 					String radio = typeRadio.getValue().toString();

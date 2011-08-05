@@ -37,61 +37,6 @@ public class AccounterValidator {
 
 	private static ClientCompany company;
 
-	/**
-	 * this method checks whether the given amount is in the range or not. if
-	 * canAllowNegativeAmount is false, it checks against posive range only.
-	 * otherwise , it will check both negative and positive range.
-	 * 
-	 * @param amount
-	 * @param canAllowNegativeAmount
-	 * @return
-	 */
-	public static boolean validateAmount(Double amount,
-			boolean canAllowNegativeAmount) {
-
-		if (canAllowNegativeAmount) {
-			if (DecimalUtil.isLessThan(amount, -1000000000000.00)
-					|| DecimalUtil.isGreaterThan(amount, 1000000000000.00)) {
-				// Accounter.showError(AccounterErrorType.AMOUNTEXCEEDS);
-				// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-				// + "<li> " + AccounterErrorType.AMOUNTEXCEEDS + ".");
-				// BaseView.commentPanel.setVisible(true);
-				// AbstractBaseView.errorOccured = true;
-				MainFinanceWindow.getViewManager().appendError(
-						AccounterErrorType.AMOUNTEXCEEDS);
-				// Accounter.stopExecution();
-				return false;
-			}
-
-		} else {
-			if (DecimalUtil.isLessThan(amount, 0.00)
-					|| DecimalUtil.isGreaterThan(amount, 1000000000000.00)) {
-				// Accounter.showError(AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
-				// BaseView.errordata.setHTML(BaseView.errordata.getHTML()
-				// + "<li> " + AccounterErrorType.INVALID_NEGATIVE_AMOUNT
-				// + ".");
-				// BaseView.commentPanel.setVisible(true);
-				// AbstractBaseView.errorOccured = true;
-				MainFinanceWindow.getViewManager().appendError(
-						AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
-				// Accounter.stopExecution();
-				return false;
-			}
-
-		}
-		return true;
-
-	}
-
-	public static boolean validateForm(DynamicForm form, boolean isDialog) {
-
-		if (!form.validate(isDialog)) {
-			// throw new
-			// InvalidEntryException(AccounterErrorType.REQUIRED_FIELDS);
-		}
-		return true;
-	}
-
 	public static boolean validateAmount(Double amt) {
 		if (DecimalUtil.isLessThan(amt, 0.00)
 				|| DecimalUtil.isEquals(amt, 0.00)) {
@@ -128,21 +73,21 @@ public class AccounterValidator {
 
 	// creating necessary fiscalYears
 
-	public static boolean createNecessaryFiscalYears(
-			final ClientFiscalYear fiscalYear1,
-			final ClientFinanceDate asOfDate, final AbstractBaseView view) {
-		List<ClientFiscalYear> openFiscalYears = getOpenFiscalYears();
-		ClientFiscalYear firstOPenFiscalYear = openFiscalYears.get(0);
-		ClientFiscalYear lastOPenFiscalYear = openFiscalYears
-				.get(openFiscalYears.size() - 1);
-		if (asOfDate.before(firstOPenFiscalYear.getStartDate())) {
-			return createFiscalYears(view, asOfDate);
-		} else if (asOfDate.after(lastOPenFiscalYear.getEndDate())) {
-			return createFiscalYears(view, asOfDate);
-		} else {
-			return true;
-		}
-	}
+	// public static boolean createNecessaryFiscalYears(
+	// final ClientFiscalYear fiscalYear1,
+	// final ClientFinanceDate asOfDate, final AbstractBaseView view) {
+	// List<ClientFiscalYear> openFiscalYears = getOpenFiscalYears();
+	// ClientFiscalYear firstOPenFiscalYear = openFiscalYears.get(0);
+	// ClientFiscalYear lastOPenFiscalYear = openFiscalYears
+	// .get(openFiscalYears.size() - 1);
+	// if (asOfDate.before(firstOPenFiscalYear.getStartDate())) {
+	// return createFiscalYears(view, asOfDate);
+	// } else if (asOfDate.after(lastOPenFiscalYear.getEndDate())) {
+	// return createFiscalYears(view, asOfDate);
+	// } else {
+	// return true;
+	// }
+	// }
 
 	public static boolean validateClosedFiscalYear(ClientFinanceDate asofDate) {
 		List<ClientFiscalYear> closedFiscalYears = getClosedFiscalYears();
@@ -630,38 +575,6 @@ public class AccounterValidator {
 
 	}
 
-	public static void validate_TaxAgency_LiabilityAccount(
-			final ParentCanvas view, ClientAccount liabilityAccount) {
-		if (liabilityAccount.getName().equalsIgnoreCase(
-				Accounter.constants().salesTaxPayable())) {
-			Accounter.showWarning(
-					AccounterWarningType.different_CurrentLiabilityAccount,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
-
-							return false;
-						}
-
-						@Override
-						public boolean onNoClick() throws InvalidEntryException {
-							view.isSave = false;
-							return true;
-						}
-
-						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
-							view.isSave = true;
-							return true;
-						}
-
-					});
-		}
-	}
-
 	/**
 	 * validates whether the account passed is a TaxAgency Account or not.
 	 * 
@@ -764,19 +677,11 @@ public class AccounterValidator {
 	 */
 	public static boolean validate_dueOrDelivaryDates(
 			ClientFinanceDate dueorDelivaryDate,
-			ClientFinanceDate transactionDate, String dateConstant) {
+			ClientFinanceDate transactionDate) {
 
 		if (dueorDelivaryDate.before(transactionDate)) {
 			if (!UIUtils.isdateEqual(dueorDelivaryDate, transactionDate)) {
-				MainFinanceWindow.getViewManager().appendError(
-						Accounter.constants().the()
-								+ " "
-								+ dateConstant
-								+ " "
-								+ " "
-								+ Accounter.constants()
-										.cannotbeearlierthantransactiondate());
-				// Accounter.stopExecution();
+				return false;
 			}
 
 		}
@@ -924,12 +829,10 @@ public class AccounterValidator {
 	}
 
 	public static boolean validate_TransferFunds(ClientAccount from,
-			ClientAccount to) throws InvalidEntryException {
+			ClientAccount to) {
 		if (from.getID() == to.getID()) {
-			Accounter.showError(AccounterErrorType.transferFunds);
 			return false;
 		}
-
 		return true;
 
 	}
@@ -940,30 +843,30 @@ public class AccounterValidator {
 		if (!fromAccount.isIncrease()
 				&& DecimalUtil.isLessThan(
 						(fromAccount.getTotalBalance() - transferAmount), 0.00)) {
-			Accounter.showWarning(AccounterWarningType.transferFromAccount,
-					AccounterType.WARNING, new ErrorDialogHandler() {
-
-						@Override
-						public boolean onCancelClick()
-								throws InvalidEntryException {
-
-							return false;
-						}
-
-						@Override
-						public boolean onNoClick() throws InvalidEntryException {
-							// Accounter.stopExecution();
-							return true;
-						}
-
-						@Override
-						public boolean onYesClick()
-								throws InvalidEntryException {
-							dialog.isValidatedTransferAmount = true;
-							return true;
-
-						}
-					});
+			// Accounter.showWarning(AccounterWarningType.transferFromAccount,
+			// AccounterType.WARNING, new ErrorDialogHandler() {
+			//
+			// @Override
+			// public boolean onCancelClick()
+			// throws InvalidEntryException {
+			//
+			// return false;
+			// }
+			//
+			// @Override
+			// public boolean onNoClick() throws InvalidEntryException {
+			// // Accounter.stopExecution();
+			// return true;
+			// }
+			//
+			// @Override
+			// public boolean onYesClick()
+			// throws InvalidEntryException {
+			// dialog.isValidatedTransferAmount = true;
+			// return true;
+			//
+			// }
+			// });
 			return false;
 		} else {
 			dialog.isValidatedTransferAmount = true;
@@ -1152,17 +1055,17 @@ public class AccounterValidator {
 			// BaseView.errordata.setHTML("<li> " + AccounterErrorType.unitPrice
 			// + ".");
 			// BaseView.commentPanel.setVisible(true);
-			MainFinanceWindow.getViewManager().appendError(
-					AccounterErrorType.unitPrice);
+			// MainFinanceWindow.getViewManager().appendError(
+			// AccounterErrorType.unitPrice);
 			// Accounter.showError(AccounterErrorType.unitPrice);
 			// Accounter.stopExecution();
-			return true;
+			return false;
 		} else {
 			// BaseView.errordata.setHTML("");
 			// BaseView.commentPanel.setVisible(false);
 
 		}
-		return false;
+		return true;
 
 	}
 
@@ -1172,17 +1075,17 @@ public class AccounterValidator {
 			// BaseView.errordata.setHTML("<li> " + AccounterErrorType.quantity
 			// + ".");
 			// BaseView.commentPanel.setVisible(true);
-			MainFinanceWindow.getViewManager().appendError(
-					AccounterErrorType.quantity);
+			// MainFinanceWindow.getViewManager().appendError(
+			// AccounterErrorType.quantity);
 			// Accounter.showError(AccounterErrorType.quantity);
 			// Accounter.stopExecution();
-			return true;
+			return false;
 		} else {
 			// BaseView.errordata.setHTML("");
 			// BaseView.commentPanel.setVisible(false);
 
 		}
-		return false;
+		return true;
 
 	}
 

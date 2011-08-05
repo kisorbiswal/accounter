@@ -1062,8 +1062,7 @@ public class PurchaseOrderView extends
 		}
 
 		if (!AccounterValidator.validate_dueOrDelivaryDates(dueDateItem
-				.getDate(), transactionDateItem.getDate(), Accounter
-				.constants().dueDate())) {
+				.getDate(), transactionDateItem.getDate())) {
 			result.addError(dueDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().dueDate()

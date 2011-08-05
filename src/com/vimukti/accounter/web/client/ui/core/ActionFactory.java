@@ -312,13 +312,6 @@ public class ActionFactory {
 		return new TransferFundsAction(actionsConstants.transferFunds());
 	}
 
-	public static TransferFundsAction getTransferFundsAction(
-			ClientTransferFund transferFund,
-			AccounterAsyncCallback<Object> callBackObject) {
-		return new TransferFundsAction(actionsConstants.transferFunds(),
-				transferFund, callBackObject);
-	}
-
 	public static EnterPaymentsAction getEnterPaymentsAction() {
 		return new EnterPaymentsAction(actionsConstants.enterPayments());
 	}

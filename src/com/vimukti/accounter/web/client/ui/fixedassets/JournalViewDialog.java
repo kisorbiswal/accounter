@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -308,10 +309,11 @@ public class JournalViewDialog extends BaseDialog {
 			this.totalCapitalGainAccount = account;
 	}
 
-	public boolean validate() throws InvalidEntryException {
-		for (DynamicForm form : this.forms)
-			return AccounterValidator.validateForm(form, true);
-		return true;
+	public ValidationResult validate() {
+		// for (DynamicForm form : this.forms)
+		// return AccounterValidator.validateForm(form, true);
+		return DynamicForm.validate(this.forms
+				.toArray(new DynamicForm[this.forms.size()]));
 	}
 
 	/**

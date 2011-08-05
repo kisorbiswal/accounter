@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -26,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.combo.IncomeAndExpensesAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -280,24 +282,23 @@ public class TransferFundsDialog extends BaseDialog {
 		show();
 	}
 
-	protected boolean validateTransaction() throws InvalidEntryException {
+	protected ValidationResult validateTransaction() {
 
-		if (AccounterValidator.validateForm(transferFromForm, true)
-				&& AccounterValidator.validateForm(transferToForm, true)) {
-			if (!AccounterValidator.validate_TransferFunds(accountFrom,
-					accountTo)) {
-				return false;
+		ValidationResult result = transferFromForm.validate();
+		result.add(transferToForm.validate());
 
-			} else if (isValidatedTransferAmount == false) {
-				return AccounterValidator.validate_TransferFromAccount(
-						accountFrom, amountText.getAmount(), this);
+		if (!AccounterValidator.validate_TransferFunds(accountFrom, accountTo)) {
+			result.addError(accountFrom, AccounterErrorType.transferFunds);
 
-			} else
-				return true;
+		} else if (isValidatedTransferAmount == false) {
+			if (AccounterValidator.validate_TransferFromAccount(accountFrom,
+					amountText.getAmount(), this)) {
+				result.addWarning(amountText,
+						AccounterWarningType.transferFromAccount);
+			}
 
 		}
-
-		return true;
+		return result;
 	}
 
 	protected void updateToBalance(ClientAccount accountTo) {

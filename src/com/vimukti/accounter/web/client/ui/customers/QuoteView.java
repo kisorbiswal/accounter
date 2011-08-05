@@ -611,9 +611,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		result.add(super.validate());
-		if (AccounterValidator.validate_dueOrDelivaryDates(
-				this.quoteExpiryDate.getEnteredDate(), this.transactionDate,
-				customerConstants.expirationDate())) {
+		if (!AccounterValidator.validate_dueOrDelivaryDates(
+				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()
 					+ " "
 					+ customerConstants.expirationDate()

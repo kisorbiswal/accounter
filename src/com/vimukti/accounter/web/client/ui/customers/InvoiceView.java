@@ -1213,9 +1213,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			getEstimatesAndSalesOrder();
 		}
 		result.add(super.validate());
-		if (AccounterValidator.validate_dueOrDelivaryDates(
+		if (!AccounterValidator.validate_dueOrDelivaryDates(
 				((InvoiceView) this).dueDateItem.getDate(),
-				getTransactionDate(), customerConstants.dueDate())) {
+				getTransactionDate())) {
 			result.addError(((InvoiceView) this).dueDateItem, Accounter
 					.constants().the()
 					+ " "
@@ -1330,8 +1330,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 			};
 
-			this.rpcUtilService.getEstimatesAndSalesOrdersList(
-					getCustomer().getID(), callback);
+			this.rpcUtilService.getEstimatesAndSalesOrdersList(getCustomer()
+					.getID(), callback);
 
 		}
 	}

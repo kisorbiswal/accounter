@@ -140,9 +140,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 					financeDates[0], financeDates[1], accountId);
 
 			AccountRegister obj = new AccountRegister();
-			if (accountRegisterList != null)
-				accountRegisterList.add((AccountRegister) setStartEndDates(obj,
-						financeDates));
+			// if (accountRegisterList != null)
+			// accountRegisterList.add((AccountRegister) setStartEndDates(obj,
+			// financeDates));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2043,7 +2043,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public List<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
-		if(tool != null) {
+		if (tool != null) {
 			return tool.getCustomerStatement(customer, fromDate, toDate);
 		}
 		return null;

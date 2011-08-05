@@ -210,9 +210,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 						Accounter.messages().pleaseEnter(
 								payFromCombo.getTitle()));
 			}
-		if (AccounterValidator.validate_dueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate,
-				Accounter.constants().deliveryDate())) {
+		if (!AccounterValidator.validate_dueOrDelivaryDates(
+				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
