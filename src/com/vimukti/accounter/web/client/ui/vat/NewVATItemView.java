@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -299,7 +300,9 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	}
 
 	@Override
-	public boolean validate() throws Exception {
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+
 		switch (this.validationCount) {
 
 		case 7:

@@ -170,4 +170,13 @@ public class DynamicForm extends FlexTable {
 		this.formItems = formitems;
 	}
 
+	public static ValidationResult validate(DynamicForm... dynamicForms) {
+		ValidationResult result = new ValidationResult();
+		for (DynamicForm form : dynamicForms) {
+			if (form != null) {
+				result.add(form.validate());
+			}
+		}
+		return result;
+	}
 }

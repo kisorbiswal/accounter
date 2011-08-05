@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -21,7 +22,6 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -308,59 +308,23 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	@Override
-	public boolean validate() throws Exception {
+	public ValidationResult validate() {
 
-		switch (this.validationCount) {
-		case 4:
-			List<DynamicForm> forms = this.getForms();
-			for (DynamicForm form : forms) {
-				if (form != null) {
-					form.validate(false);
-				}
-			}
-			return true;
-		case 3:
-			String name = vatCodeTxt.getValue() != null ? vatCodeTxt.getValue()
-					.toString() : "";
-			// if (name == null || name.equals(""))
-			// throw new InvalidEntryException(
-			// AccounterErrorType.REQUIRED_FIELDS);
-			if (((editableTAXCode == null && Utility.isObjectExist(getCompany()
-					.getTaxCodes(), name)) ? false : true)
-					|| (editableTAXCode != null ? (editableTAXCode.getName()
-							.equalsIgnoreCase(name) ? true
-							: (Utility.isObjectExist(
-									getCompany().getTaxCodes(), name) ? false
-									: true)) : true)) {
-				return true;
-			} else
-				throw new InvalidEntryException(AccounterErrorType.ALREADYEXIST);
-		case 2:
-			// if (!isComboDisabled && !vatItemComboForPurchases.validate()) {
-			// if (!vatItemComboForSales.validate()) {
-			// throw new InvalidEntryException(
-			// AccounterErrorType.REQUIRED_FIELDS
-			// // + " AnyOne Of This Sales Or Purchase"
-			// );
-			// }
-			// }
-			return true;
+		ValidationResult result = new ValidationResult();
 
-		case 1:
-			// if (!isComboDisabled && !vatItemComboForSales.validate()) {
-			// if (!vatItemComboForPurchases.validate()) {
-			// throw new InvalidEntryException(
-			// AccounterErrorType.REQUIRED_FIELDS
-			// // + " AnyOne Of This Sales Or Purchase"
-			// );
-			// }
-			// }
-			return true;
-
-		default:
-			return false;
-
+		result.add(DynamicForm.validate(this.getForms().toArray(
+				new DynamicForm[] {})));
+		String name = vatCodeTxt.getValue() != null ? vatCodeTxt.getValue()
+				.toString() : "";
+		if (!((editableTAXCode == null && Utility.isObjectExist(getCompany()
+				.getTaxCodes(), name)) ? false : true)
+				|| (editableTAXCode != null ? (editableTAXCode.getName()
+						.equalsIgnoreCase(name) ? true
+						: (Utility.isObjectExist(getCompany().getTaxCodes(),
+								name) ? false : true)) : true)) {
+			result.addError(vatCodeTxt, AccounterErrorType.ALREADYEXIST);
 		}
+		return result;
 	}
 
 	public List<DynamicForm> getForms() {

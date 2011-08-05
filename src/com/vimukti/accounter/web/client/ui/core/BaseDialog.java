@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
 /**
@@ -34,7 +35,7 @@ import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
  * 
  */
 public abstract class BaseDialog extends CustomDialog implements
-		IAccounterWidget {
+		IAccounterWidget, WidgetWithErrors {
 
 	// private String title;
 	protected HorizontalPanel headerLayout;

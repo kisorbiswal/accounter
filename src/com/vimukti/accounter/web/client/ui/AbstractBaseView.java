@@ -45,13 +45,13 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractBaseView<T extends IAccounterCore> extends
-		ParentCanvas<T> implements IAccounterWidget {
+		ParentCanvas<T> implements IAccounterWidget, WidgetWithErrors {
 
 	protected boolean errorOccured = false;
 	protected boolean warnOccured = false;
 
 	public AbstractBaseView() {
-		
+
 		sinkEvents(Event.ONCHANGE | Event.KEYEVENTS);
 
 		initRPCService();
@@ -240,7 +240,6 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 		// TODDO Refresh the View Data
 	}
 
-
 	public void setData(T data) {
 		super.setData(data);
 
@@ -418,7 +417,7 @@ public abstract class AbstractBaseView<T extends IAccounterCore> extends
 	}
 
 	public void setCloseOnSave(boolean closeOnSave) {
-		this.saveAndClose=true;
+		this.saveAndClose = true;
 	}
 
 }
