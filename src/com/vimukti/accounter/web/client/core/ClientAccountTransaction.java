@@ -115,7 +115,7 @@ public class ClientAccountTransaction implements IAccounterCore {
 
 	}
 
-	public Object clone() {
+	public ClientAccountTransaction clone() {
 		return null;
 
 	}
