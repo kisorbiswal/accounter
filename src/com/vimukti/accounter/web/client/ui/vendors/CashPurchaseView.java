@@ -307,7 +307,7 @@ public class CashPurchaseView extends
 		mainVLay.add(bottompanel);
 
 		// setOverflow(Overflow.SCROLL);
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 		// addChild(mainVLay);
 
 		setSize("100%", "100%");

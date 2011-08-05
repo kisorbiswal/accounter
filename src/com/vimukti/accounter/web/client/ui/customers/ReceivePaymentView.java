@@ -479,7 +479,7 @@ public class ReceivePaymentView extends
 		customerCombo = createCustomerComboItem(customerConstants
 				.receivedFrom());
 
-		amtText = new AmountField(customerConstants.amountReceived());
+		amtText = new AmountField(customerConstants.amountReceived(), this);
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setDisabled(isEdit);
@@ -563,7 +563,7 @@ public class ReceivePaymentView extends
 		forms.add(payForm);
 
 		customerNonEditablebalText = new AmountField(
-				customerConstants.customerBalance());
+				customerConstants.customerBalance(), this);
 		customerNonEditablebalText.setHelpInformation(true);
 		customerNonEditablebalText.setWidth(100);
 		customerNonEditablebalText.setDisabled(true);
@@ -658,7 +658,7 @@ public class ReceivePaymentView extends
 		if (UIUtils.isMSIEBrowser())
 			payForm.getCellFormatter().setWidth(0, 1, "200px");
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */

@@ -32,7 +32,7 @@ public class WriteOffDialog extends BaseDialog {
 	private ClientAccount selectedWriteOffAccount;
 	private AmountField discAmtText;
 	private Double writeOffAmount;
-	
+
 	private ClientTransactionReceivePayment record;
 	private static AccounterConstants customerConstants = Accounter.constants();
 	public DynamicForm form;
@@ -98,7 +98,7 @@ public class WriteOffDialog extends BaseDialog {
 		if (getSelectedWriteOffAccount() != null)
 			discAccSelect.setComboItem(getSelectedWriteOffAccount());
 
-		discAmtText = new AmountField(customerConstants.writeOffAmount());
+		discAmtText = new AmountField(customerConstants.writeOffAmount(), this);
 		discAmtText.setDisabled(!canEdit);
 		setCashDiscountValue(writeOffAmount);
 

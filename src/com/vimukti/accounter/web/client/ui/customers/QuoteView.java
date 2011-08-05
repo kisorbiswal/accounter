@@ -426,7 +426,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			phoneForm.setWidth("60%");
 		}
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		setSize("100%", "100%");
 

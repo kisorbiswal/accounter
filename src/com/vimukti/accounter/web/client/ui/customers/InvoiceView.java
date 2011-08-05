@@ -573,7 +573,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		if (UIUtils.isMSIEBrowser())
 			resetFromView();
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 	}
 

@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class AmountField extends TextItem {
@@ -14,7 +15,7 @@ public class AmountField extends TextItem {
 
 	private BlurHandler blurHandler;
 
-	public AmountField(final String name) {
+	public AmountField(final String name, WidgetWithErrors errorsViewGrid) {
 
 		setName(name);
 		setTitle(name);
@@ -69,8 +70,7 @@ public class AmountField extends TextItem {
 					if (e instanceof InvalidEntryException) {
 						// BaseView.errordata.setHTML("<li>" + e.getMessage());
 						// BaseView.commentPanel.setVisible(true);
-						MainFinanceWindow.getViewManager().showError(
-								e.getMessage());
+						addError(this, e.getMessage());
 						// Accounter.showError(e.getMessage());
 					}
 

@@ -57,7 +57,8 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * @author Fernandez This Class serves as the Base Class for All Transactions
  * 
  */
-public abstract class AbstractTransactionBaseView<T extends IAccounterCore> extends BaseView<T> {
+public abstract class AbstractTransactionBaseView<T extends IAccounterCore>
+		extends BaseView<T> {
 
 	protected int transactionType;
 
@@ -378,7 +379,7 @@ public abstract class AbstractTransactionBaseView<T extends IAccounterCore> exte
 
 	protected AmountField createNetAmountField() {
 		AmountField netAmountField = new AmountField(Accounter.constants()
-				.netAmount());
+				.netAmount(), this);
 		netAmountField.setHelpInformation(true);
 		netAmountField.setDefaultValue("£0.00");
 		netAmountField.setDisabled(true);

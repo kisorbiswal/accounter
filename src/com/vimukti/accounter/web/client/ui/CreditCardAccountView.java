@@ -40,7 +40,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 		// cashFlowSelect.setWidth("*");
 		cashFlowSelect.setValue(Accounter.constants().operating());
 		AmountField opBalText = new AmountField(Accounter.constants()
-				.openingBalance());
+				.openingBalance(), this);
 		// opBalText.setWidth("*");
 		DateItem asofDate = UIUtils.date(Accounter.constants().asOf());
 		// asofDate.setWidth("*");
@@ -74,7 +74,6 @@ public class CreditCardAccountView extends AbstractBaseView {
 		TextItem bankName = new TextItem(Accounter.constants().bankName());
 		// bankName.setWidth("*");
 		AmountField limitText = new AmountField(Accounter.constants()
-				.creditLimit());
 		// limitText.setWidth("*");
 		IntegerField cardNumText = new IntegerField(Accounter.constants()
 				.cardOrLoadNumber());
@@ -156,8 +155,6 @@ public class CreditCardAccountView extends AbstractBaseView {
 	public void fitToSize(int height, int width) {
 
 	}
-
-
 
 	@Override
 	public void onEdit() {

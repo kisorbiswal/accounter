@@ -428,7 +428,7 @@ public class SalesOrderView extends
 			termsForm.getCellFormatter().setWidth(0, 1, "230px");
 			termsForm.setWidth("90%");
 		}
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

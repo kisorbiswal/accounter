@@ -607,7 +607,7 @@ public class CreditCardChargeView extends
 		mainVLay.add(topHLay);
 		mainVLay.add(vLay1);
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		setSize("100%", "100%");
 

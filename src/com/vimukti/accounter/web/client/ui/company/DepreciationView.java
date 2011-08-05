@@ -163,7 +163,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		HorizontalPanel actionButtonPanel = new HorizontalPanel();
 		mainPanel.add(actionButtonPanel);
 
-		canvas.add(mainPanel);
+		this.add(mainPanel);
 
 	}
 
@@ -388,7 +388,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		// BaseView.errordata.setHTML("Can not able to apply Deprecition");
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		MainFinanceWindow.getViewManager().showError(
+		addError(this,
 				Accounter.constants().cannotabletoapplyDeprecition());
 	}
 

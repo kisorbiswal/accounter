@@ -265,7 +265,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		});
 
 		purchasePriceTxt = new AmountField(Accounter.constants()
-				.purchasePrice());
+				.purchasePrice(), this);
 		purchasePriceTxt.setWidth(90);
 		purchasePriceTxt.addBlurHandler(new BlurHandler() {
 
@@ -562,7 +562,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			registerButton.setVisible(false);
 			saveAndCloseButton.setVisible(false);
 		}
-		canvas.add(mainVPanel);
+		this.add(mainVPanel);
 
 		setSize("100%", "100%");
 
@@ -730,7 +730,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				accmulatdDepreciationTxt = new AmountField(Accounter
 						.constants().accumulatedDepreciationTo()
 						+ " "
-						+ UIUtils.getDateStringByDate(enteredDate.toString()));
+						+ UIUtils.getDateStringByDate(enteredDate.toString()),
+						this);
 				accmulatdDepreciationTxt.setValue(getDepreciationAmount());
 
 				if (fixedAsset != null)
@@ -864,13 +865,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (fixedAsset == null)
 			// BaseView.errordata.setHTML(FinanceApplication
 			// .constants().duplicationOfAssets());
-			MainFinanceWindow.getViewManager().showError(
-					Accounter.constants().duplicationOfAssets());
+			addError(this, Accounter.constants().duplicationOfAssets());
 		// BaseView.errordata.setHTML(FinanceApplication
 		else
 			// .constants().assetApdationFailed());
-			MainFinanceWindow.getViewManager().showError(
-					Accounter.constants().accountUpdationFailed());
+			addError(this, Accounter.constants().accountUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 	}

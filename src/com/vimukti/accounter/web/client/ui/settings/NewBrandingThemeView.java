@@ -198,7 +198,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		panel.add(mainLayoutPanel);
 		button_textBoxPanel.add(panel);
 
-		canvas.add(button_textBoxPanel);
+		this.add(button_textBoxPanel);
 
 		topMarginBox.addBlurHandler(new BlurHandler() {
 			@Override

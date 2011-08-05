@@ -55,7 +55,7 @@ public class IntegerField extends TextItem {
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							MainFinanceWindow.getViewManager().showError(
+							addError(this,
 									AccounterErrorType.INCORRECTINFORMATION);
 						}
 						// Accounter

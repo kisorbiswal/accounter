@@ -452,13 +452,13 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		payForm.setGroupTitle(Accounter.constants().payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
-		amtText = new AmountField(Accounter.constants().amount());
+		amtText = new AmountField(Accounter.constants().amount(),this);
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
 		amtText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		amtText.setDisabled(true);
 
-		endBalText = new AmountField(Accounter.constants().endingBalance());
+		endBalText = new AmountField(Accounter.constants().endingBalance(),this);
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -541,7 +541,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			balForm.getCellFormatter().setWidth(0, 1, "150px");
 		}
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 		setSize("100%", "100%");
 		isEdit = transactionObject != null;
 

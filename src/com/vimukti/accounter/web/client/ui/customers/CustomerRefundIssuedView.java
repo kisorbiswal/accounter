@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-
 // // its not using any where
 public class CustomerRefundIssuedView extends AbstractBaseView {
 	AccounterConstants customerConstants = Accounter.constants();
@@ -27,8 +26,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		// setCanDragReposition(true);
 		// setShowCloseButton(true);
 
-		Label lab1 = new Label(Accounter.constants()
-				.customerRefundIssued());
+		Label lab1 = new Label(Accounter.constants().customerRefundIssued());
 		// lab1.setWrap(false);
 
 		TextItem pay2Text = new TextItem();
@@ -51,7 +49,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		// payFromText.setWidth("*");
 		payFromText.setDisabled(true);
 
-		AmountField amtText = new AmountField(customerConstants.amount());
+		AmountField amtText = new AmountField(customerConstants.amount(), this);
 
 		// amtText.setWidth("*");
 		amtText.setDisabled(true);
@@ -90,7 +88,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		leftVLay.add(payForm);
 
 		AmountField endBalText = new AmountField(
-				customerConstants.endingBalance());
+				customerConstants.endingBalance(),this);
 		// endBalText.setWidth("*");
 		endBalText.setDisabled(true);
 
@@ -137,7 +135,6 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		setSize("100%", "100%");
 	}
 
-
 	@Override
 	public void init(ViewManager manager) {
 
@@ -169,8 +166,6 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 	public void fitToSize(int height, int width) {
 
 	}
-
-
 
 	@Override
 	public void onEdit() {

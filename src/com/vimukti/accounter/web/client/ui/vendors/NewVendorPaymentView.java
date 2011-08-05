@@ -171,14 +171,15 @@ public class NewVendorPaymentView extends
 		billToCombo = createBillToComboItem();
 
 		// Ending and Vendor Balance
-		endBalText = new AmountField(Accounter.constants().endingBalance());
+		endBalText = new AmountField(Accounter.constants().endingBalance(),
+				this);
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
 		vendorBalText = new AmountField(UIUtils.getVendorString(Accounter
 				.constants().supplierBalance(), Accounter.constants()
-				.vendorBalance()));
+				.vendorBalance()), this);
 		vendorBalText.setHelpInformation(true);
 		vendorBalText.setDisabled(true);
 		vendorBalText.setWidth(100);
@@ -192,7 +193,7 @@ public class NewVendorPaymentView extends
 		// Payment
 		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
 		payFromCombo.setPopupWidth("500px");
-		amountText = new AmountField(Accounter.constants().amount());
+		amountText = new AmountField(Accounter.constants().amount(), this);
 		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
 		amountText.setRequired(true);
@@ -325,7 +326,7 @@ public class NewVendorPaymentView extends
 			balForm.getCellFormatter().setWidth(0, 1, "150px");
 		}
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		setSize("100%", "100%");
 		/* Adding dynamic forms in list */

@@ -302,7 +302,7 @@ public class CashSalesView extends
 		if (UIUtils.isMSIEBrowser())
 			resetFormView();
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		setSize("100%", "100%");
 

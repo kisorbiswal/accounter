@@ -89,7 +89,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		descriptionText.setHelpInformation(true);
 		descriptionText.setWidth(80);
 
-		vatRateText = new AmountField(Accounter.constants().vatAmount());
+		vatRateText = new AmountField(Accounter.constants().vatAmount(), this);
 		vatRateText.setHelpInformation(true);
 		vatRateText.setWidth(80);
 		vatRateText.setRequired(true);
@@ -269,7 +269,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			form1.setWidth("50%");
 		}
 
-		canvas.add(mainPanel);
+		this.add(mainPanel);
 
 		/* Adding dynamic forms in list */
 		listforms.add(form1);
@@ -422,12 +422,12 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
 		String exceptionMessage = exception.getMessage();
-		// MainFinanceWindow.getViewManager().showError(
+		// addError(this,
 		// "A Vat Name already exists with this name");
 		// BaseView.errordata.setHTML(exception.getMessage());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		MainFinanceWindow.getViewManager().showError(exception.getMessage());
+		addError(this, exception.getMessage());
 		ClientTAXItem clientTAXItem = getObject();
 		if (exceptionMessage.contains("name")) {
 			clientTAXItem.setName(vatName);

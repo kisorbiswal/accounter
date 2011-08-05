@@ -209,7 +209,8 @@ public class ItemView extends BaseView<ClientItem> {
 		salesDescArea.setWidth(100);
 		salesDescArea.setTitle(Accounter.constants().salesDescription());
 
-		salesPriceText = new AmountField(Accounter.constants().salesPrice());
+		salesPriceText = new AmountField(Accounter.constants().salesPrice(),
+				this);
 		salesPriceText.setHelpInformation(true);
 		salesPriceText.setWidth(100);
 		// FIXME--needto implement this feature
@@ -249,7 +250,7 @@ public class ItemView extends BaseView<ClientItem> {
 		salesInfoForm = UIUtils.form(Accounter.constants().salesInformation());
 		salesInfoForm.setWidth("98%");
 
-		stdCostText = new AmountField(Accounter.constants().standardCost());
+		stdCostText = new AmountField(Accounter.constants().standardCost(),this);
 		stdCostText.setHelpInformation(true);
 		stdCostText.setWidth(100);
 		// FIXME--needto implement this feature
@@ -295,7 +296,7 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseDescArea.setTitle(Accounter.constants().purchaseDescription());
 
 		purchasePriceTxt = new AmountField(Accounter.constants()
-				.purchasePrice());
+				.purchasePrice(),this);
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
 		// FIXME--needto implement this feature
@@ -501,7 +502,7 @@ public class ItemView extends BaseView<ClientItem> {
 		mainVLay.add(topHLay);
 		mainVLay.add(stockPanel);
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		if (takenItem != null) {
 			nameText.setValue(takenItem.getName());
@@ -647,7 +648,7 @@ public class ItemView extends BaseView<ClientItem> {
 		super.saveFailed(exception);
 
 		String exceptionMessage = exception.getMessage();
-		// MainFinanceWindow.getViewManager().showError(exceptionMessage);
+		// addError(this,exceptionMessage);
 
 		// BaseView.errordata
 		// .setHTML(this.type != TYPE_SERVICE ?
@@ -655,11 +656,9 @@ public class ItemView extends BaseView<ClientItem> {
 		// : "Duplication of Service name are not allowed...");
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		MainFinanceWindow.getViewManager().showError(
-				this.type != TYPE_SERVICE ? Accounter.constants()
-						.duplicationofProductnamearenotallowed3dots()
-						: Accounter.constants()
-								.duplicationofServicenamearenotallowed3dots());
+		addError(this, this.type != TYPE_SERVICE ? Accounter.constants()
+				.duplicationofProductnamearenotallowed3dots() : Accounter
+				.constants().duplicationofServicenamearenotallowed3dots());
 
 		ClientItem item = getItem(false);
 		if (exceptionMessage.contains(Accounter.constants().failed())) {

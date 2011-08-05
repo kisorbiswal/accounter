@@ -103,7 +103,8 @@ public class CashDiscountDialog extends BaseDialog {
 				});
 		discAccSelect.setRequired(true);
 
-		discAmtText = new AmountField(Accounter.constants().discountAmount());
+		discAmtText = new AmountField(Accounter.constants().discountAmount(),
+				this);
 		discAmtText.setAmount(cashDiscountValue);
 
 		form = new DynamicForm();

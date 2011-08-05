@@ -265,8 +265,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(tabSet);
 
-		canvas.add(mainVLay);
-		canvas.getParent().removeStyleName("main-class-pannel");
+		this.add(mainVLay);
+		this.getParent().removeStyleName("main-class-pannel");
 		setSize("100%", "100%");
 	}
 
@@ -334,7 +334,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// BaseView.errordata.setHTML(exception.getMessage());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		MainFinanceWindow.getViewManager().showError(exception.getMessage());
+		addError(this, exception.getMessage());
 	}
 
 	@Override
@@ -644,7 +644,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customerSinceDate.setHelpInformation(true);
 		customerSinceDate.setEnteredDate(new ClientFinanceDate());
 
-		balanceText = new AmountField(customerConstants.balance());
+		balanceText = new AmountField(customerConstants.balance(), this);
 		balanceText.setHelpInformation(true);
 		balanceDate = new DateField(customerConstants.balanceAsOf());
 		balanceDate.setHelpInformation(true);
@@ -902,7 +902,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// salesForm.setFields(salesPersonSelect);
 		// salesForm.setWidth("100%");
 
-		creditLimitText = new AmountField(customerConstants.creditLimit());
+		creditLimitText = new AmountField(customerConstants.creditLimit(), this);
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 

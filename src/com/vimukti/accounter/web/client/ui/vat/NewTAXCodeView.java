@@ -197,7 +197,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 			vatNameForm.getCellFormatter().setWidth(0, 1, "270px");
 			vatNameForm.setWidth("50%");
 		}
-		canvas.add(mainVPanel);
+		this.add(mainVPanel);
 
 		/* Adding dynamic forms in list */
 		listforms.add(vatNameForm);
@@ -253,7 +253,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
 		String exceptionMessage = exception.getMessage();
-		MainFinanceWindow.getViewManager().showError(exception.getMessage());
+		addError(this,exception.getMessage());
 		ClientTAXCode clientTAXCode = getVATCode();
 		if (exceptionMessage.contains("name")) {
 			clientTAXCode.setName(vatCode);

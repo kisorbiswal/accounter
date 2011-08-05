@@ -58,7 +58,8 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 		incDecRadio.setValueMap(Accounter.constants().increase(), Accounter
 				.constants().decrease());
 
-		AmountField amtText = new AmountField(Accounter.constants().amount());
+		AmountField amtText = new AmountField(Accounter.constants().amount(),
+				this);
 		TextItem memoText = new TextItem();
 		memoText.setTitle(Accounter.constants().memo());
 

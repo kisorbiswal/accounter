@@ -313,8 +313,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		mainLayout.add(tabSet);
 		// mainLayout.add(hlLayout);
 
-		canvas.add(mainLayout);
-		canvas.getParent().removeStyleName("main-class-pannel");
+		this.add(mainLayout);
+		this.getParent().removeStyleName("main-class-pannel");
 	}
 
 	private HorizontalPanel getCompanyInfo() {
@@ -757,7 +757,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// .failedToUpdate());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		MainFinanceWindow.getViewManager().showError(
+		addError(this,
 				Accounter.constants().failedToUpdate());
 	}
 

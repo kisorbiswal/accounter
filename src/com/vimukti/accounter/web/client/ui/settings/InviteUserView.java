@@ -98,7 +98,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 		vPanel.add(grid);
 		// vPanel.add(manageLabel);
 		// vPanel.add(userManagementBox);
-		canvas.add(vPanel);
+		this.add(vPanel);
 	}
 
 	@Override

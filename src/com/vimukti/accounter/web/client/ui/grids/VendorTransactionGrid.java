@@ -891,7 +891,7 @@ public class VendorTransactionGrid extends
 							// e.getMessage()
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							MainFinanceWindow.getViewManager().showError(
+							addError(this,
 									e.getMessage());
 						}
 					}

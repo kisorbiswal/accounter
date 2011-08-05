@@ -877,7 +877,7 @@ public class MakeDepositView extends
 		form1.setWidth("70%");
 
 		cashBackAmountText = new AmountField(Accounter.constants()
-				.cashBackAmount());
+				.cashBackAmount(), this);
 		cashBackAmountText.setHelpInformation(true);
 		cashBackAmountText.setWidth(100);
 		cashBackAmountText.setDefaultValue("" + UIUtils.getCurrencySymbol()
@@ -988,7 +988,7 @@ public class MakeDepositView extends
 			resetFormView();
 		}
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		// setSize("700", "600");
 

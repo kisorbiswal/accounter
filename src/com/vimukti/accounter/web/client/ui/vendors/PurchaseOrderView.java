@@ -441,7 +441,7 @@ public class PurchaseOrderView extends
 			statusSelect.setWidth("150px");
 		}
 		// setOverflow(Overflow.SCROLL);
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 		// addChild(mainVLay);
 
 		setSize("100%", "100%");

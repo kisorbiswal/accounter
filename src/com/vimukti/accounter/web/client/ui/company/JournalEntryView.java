@@ -134,7 +134,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		// .duplicationOfJournalEntriesNotAllowed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		MainFinanceWindow.getViewManager().showError(
+		addError(this,
 				Accounter.constants().duplicationOfJournalEntriesNotAllowed());
 	}
 
@@ -288,7 +288,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 			// BaseView.errordata.setHTML("i am here");
 			// BaseView.commentPanel.setVisible(true);
 			// AbstractBaseView.errorOccured = true;
-			MainFinanceWindow.getViewManager().showError("i am here");
+			addError(this,"i am here");
 
 		} else
 			journalEntry.setMemo(memoText.getValue() != null ? memoText
@@ -425,7 +425,7 @@ public class JournalEntryView extends AbstractTransactionBaseView<ClientEntry> {
 		mainVLay.add(bottomPanel);
 		// mainVLay.add(labelPane);
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 		setSize("100%", "100%");
 
 		listforms.add(dateForm);

@@ -258,7 +258,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		cashFlowCatSelect.setValueMap(cashFlowof);
 
-		opBalText = new AmountField(Accounter.constants().openingBalance());
+		opBalText = new AmountField(Accounter.constants().openingBalance(),this);
 		opBalText.setHelpInformation(true);
 
 		opBalText.setWidth(100);
@@ -424,7 +424,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		mainVLay.add(cashBasisForm);
 		mainVLay.add(commentsForm);
 		// setHeightForCanvas("450");
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		/* Adding dynamic forms in list */
 		listforms.add(accInfoForm);
@@ -581,7 +581,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		if (creditCardForm == null) {
 
-			limitText = new AmountField(Accounter.constants().creditLimit());
+			limitText = new AmountField(Accounter.constants().creditLimit(),
+					this);
 			limitText.setHelpInformation(true);
 			limitText.setWidth(100);
 			limitText.setValue("" + UIUtils.getCurrencySymbol() + "0");
@@ -847,7 +848,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		String exceptionMessage = exception.getMessage();
-		MainFinanceWindow.getViewManager().showError(exceptionMessage);
+		addError(this, exceptionMessage);
 
 		ClientAccount account = getAccountObject();
 		if (exceptionMessage.contains("number"))
@@ -1342,8 +1343,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					// .alreadyAccountExist() + ".");
 					// BaseView.commentPanel.setVisible(true);
 					// AbstractBaseView.errorOccured = true;
-					MainFinanceWindow.getViewManager().showError(
-							Accounter.constants().alreadyAccountExist());
+					addError(this, Accounter.constants().alreadyAccountExist());
 					// Accounter.showError(FinanceApplication.constants()
 					// .alreadyAccountExist());
 					return false;

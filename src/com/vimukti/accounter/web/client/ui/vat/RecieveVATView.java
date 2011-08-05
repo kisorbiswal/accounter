@@ -186,12 +186,13 @@ public class RecieveVATView extends
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
 
-		amountText = new AmountField(companyConstants.amount());
+		amountText = new AmountField(companyConstants.amount(), this);
 		amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
-		endingBalanceText = new AmountField(companyConstants.endingBalance());
+		endingBalanceText = new AmountField(companyConstants.endingBalance(),
+				this);
 		endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
@@ -228,7 +229,7 @@ public class RecieveVATView extends
 		mainVLay.add(topHLay);
 		mainVLay.add(lab1);
 		mainVLay.add(gridLayout);
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 		setSize("100%", "100%");
 		/* Adding dynamic forms in list */
 		listforms.add(mainform);

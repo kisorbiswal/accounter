@@ -431,7 +431,7 @@ public class VendorBillView extends
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		balanceDueNonEditableText = new AmountField(Accounter.constants()
-				.balanceDue());
+				.balanceDue(),this);
 		balanceDueNonEditableText.setHelpInformation(true);
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
@@ -571,7 +571,7 @@ public class VendorBillView extends
 			dateform.setWidth("100%");
 		}
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */

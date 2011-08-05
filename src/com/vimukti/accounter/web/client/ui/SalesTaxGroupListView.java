@@ -155,7 +155,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		mainVlay.add(lab);
 		mainVlay.add(bodyLayout);
 		mainVlay.add(itemsGrid);
-		canvas.add(mainVlay);
+		this.add(mainVlay);
 
 		grid.addRecordClickHandler(new RecordClickHandler<ClientTAXGroup>() {
 

@@ -73,7 +73,7 @@ public class PhoneFaxForm extends DynamicForm {
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							MainFinanceWindow.getViewManager().showError(
+							addError(this,
 									AccounterErrorType.INCORRECTINFORMATION);
 							// Accounter
 							// .showError(AccounterErrorType.INCORRECTINFORMATION);
@@ -140,7 +140,7 @@ public class PhoneFaxForm extends DynamicForm {
 						// + AccounterErrorType.INCORRECTINFORMATION
 						// + ".");
 						// BaseView.commentPanel.setVisible(true);
-						MainFinanceWindow.getViewManager().showError(
+						addError(this,
 								AccounterErrorType.INCORRECTINFORMATION);
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);

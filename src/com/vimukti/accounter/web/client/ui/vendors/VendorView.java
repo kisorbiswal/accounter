@@ -180,8 +180,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(tabSet);
-		canvas.add(mainVLay);
-		canvas.getParent().removeStyleName("main-class-pannel");
+		this.add(mainVLay);
+		this.getParent().removeStyleName("main-class-pannel");
 
 	}
 
@@ -280,7 +280,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
-		balanceText = new AmountField(Accounter.constants().balance());
+		balanceText = new AmountField(Accounter.constants().balance(),this);
 		balanceText.setHelpInformation(true);
 		balanceDate = new DateField(Accounter.constants().balanceAsOf());
 		balanceDate.setHelpInformation(true);
@@ -514,7 +514,7 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 				});
 
-		creditLimitText = new AmountField(Accounter.constants().creditLimit());
+		creditLimitText = new AmountField(Accounter.constants().creditLimit(),this);
 		creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
 
@@ -809,7 +809,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		// BaseView.errordata.setHTML(msg);
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		MainFinanceWindow.getViewManager().showError(msg);
+		addError(this,msg);
 	}
 
 	@Override

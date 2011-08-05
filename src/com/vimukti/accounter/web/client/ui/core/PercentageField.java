@@ -78,7 +78,7 @@ public class PercentageField extends TextItem {
 								// BaseView.errordata
 								// .setHTML("<li> You cannot enter a negative Percentage.");
 								// BaseView.commentPanel.setVisible(true);
-								MainFinanceWindow.getViewManager().showError(
+								addError(this,
 										Accounter.constants()
 												.cantenternegnumber());
 								// Accounter
@@ -89,7 +89,7 @@ public class PercentageField extends TextItem {
 								// BaseView.errordata
 								// .setHTML("<li> You cannot enter a percentage more than 100.");
 								// BaseView.commentPanel.setVisible(true);
-								MainFinanceWindow.getViewManager().showError(
+								addError(this,
 										Accounter.constants()
 												.cantentermorethat100());
 								// Accounter
@@ -106,7 +106,7 @@ public class PercentageField extends TextItem {
 					// BaseView.errordata.setHTML("<li> "
 					// + AccounterErrorType.INVALIDENTRY + ".");
 					// BaseView.commentPanel.setVisible(true);
-					MainFinanceWindow.getViewManager().showError(
+					addError(this,
 							AccounterErrorType.INVALIDENTRY);
 					// Accounter.showError(AccounterErrorType.INVALIDENTRY);
 					setPercentage(0.0);

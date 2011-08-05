@@ -737,7 +737,7 @@ public class WriteChequeView extends
 		forms.add(numForm);
 		formItems.add(date);
 
-		balText = new AmountField(Accounter.constants().balance());
+		balText = new AmountField(Accounter.constants().balance(), this);
 		balText.setWidth(100);
 		balText.setDisabled(true);
 
@@ -1049,8 +1049,8 @@ public class WriteChequeView extends
 		mainVLay.add(vPanel);
 		menuButton.setType(AccounterButton.ADD_BUTTON);
 
-		canvas.setWidth("100%");
-		canvas.add(mainVLay);
+		this.setWidth("100%");
+		this.add(mainVLay);
 
 		/* Adding dynamic forms in list */
 		listforms.add(numForm);

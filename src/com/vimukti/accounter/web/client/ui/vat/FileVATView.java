@@ -212,7 +212,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		AccounterDOM.setParentElementHeight(topLayout.getElement(), 10);
 		AccounterDOM.setParentElementHeight(gridView.getElement(), 60);
 
-		canvas.add(mainLayout);
+		this.add(mainLayout);
 
 		/* Adding dynamic forms in list */
 		listforms.add(topForm);

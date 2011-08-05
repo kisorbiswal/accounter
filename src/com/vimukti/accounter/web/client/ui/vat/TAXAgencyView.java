@@ -118,7 +118,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(topLayout);
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 		setSize("100%", "100%");
 	}
 

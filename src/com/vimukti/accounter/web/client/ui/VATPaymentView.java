@@ -103,13 +103,13 @@ public class VATPaymentView extends
 		// vatAgencyForm.setAutoHeight();
 		vatAgencyForm.setFields(vatAgency);
 
-		amount = new AmountField(Accounter.constants().amount());
+		amount = new AmountField(Accounter.constants().amount(), this);
 		// amount.setWidth("*");
 		amount.setRequired(true);
 		amount.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// amount.setTextAlign(Alignment.RIGHT);
 
-		vatBalance = new AmountField(Accounter.constants().vatBalance());
+		vatBalance = new AmountField(Accounter.constants().vatBalance(), this);
 		// vatBalance.setWidth("*");
 		// vatBalance.setTextAlign(Alignment.RIGHT);
 		vatBalance.setDisabled(true);
@@ -131,7 +131,7 @@ public class VATPaymentView extends
 		paymentInformationForm.setFields(vatBalance, amount, memo, referenceNo);
 
 		endingBalanceText = new AmountField(Accounter.constants()
-				.endingBalance());
+				.endingBalance(),this);
 		// endingBalanceText.setWidth("*");
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// endingBalanceText.setAlign(Alignment.RIGHT);
@@ -229,7 +229,7 @@ public class VATPaymentView extends
 		mainLayout.add(lab);
 		mainLayout.add(dateNoForm);
 		mainLayout.add(hPanel);
-		canvas.add(mainLayout);
+		this.add(mainLayout);
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

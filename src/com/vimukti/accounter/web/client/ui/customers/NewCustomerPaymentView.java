@@ -382,12 +382,13 @@ public class NewCustomerPaymentView extends
 		billToCombo = createBillToComboItem(customerConstants.address());
 
 		// Ending and Vendor Balance
-		endBalText = new AmountField(customerConstants.endingBalance());
+		endBalText = new AmountField(customerConstants.endingBalance(), this);
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
-		customerBalText = new AmountField(customerConstants.customerBalance());
+		customerBalText = new AmountField(customerConstants.customerBalance(),
+				this);
 		customerBalText.setHelpInformation(true);
 		customerBalText.setDisabled(true);
 		customerBalText.setWidth(100);
@@ -401,7 +402,7 @@ public class NewCustomerPaymentView extends
 		depositInCombo = createDepositInComboItem();
 		depositInCombo.setPopupWidth("500px");
 
-		amountText = new AmountField(customerConstants.amount());
+		amountText = new AmountField(customerConstants.amount(), this);
 		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
 		amountText.setRequired(true);
@@ -510,7 +511,7 @@ public class NewCustomerPaymentView extends
 			balForm.getCellFormatter().setWidth(0, 1, "150px");
 		}
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		setSize("100%", "100%");
 

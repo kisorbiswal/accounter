@@ -373,12 +373,12 @@ public class PaySalesTaxView extends
 				taxAgencyCombo);
 		filterForm.getCellFormatter().setWidth(0, 0, "210px");
 
-		amountText = new AmountField(Accounter.constants().amount());
+		amountText = new AmountField(Accounter.constants().amount(), this);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		amountText.setDisabled(true);
 
 		endingBalanceText = new AmountField(Accounter.constants()
-				.endingBalance());
+				.endingBalance(), this);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setDisabled(true);
 
@@ -411,7 +411,7 @@ public class PaySalesTaxView extends
 		mainVLay.add(topHLay);
 		mainVLay.add(lab1);
 		mainVLay.add(gridLayout);
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 		setSize("100%", "100%");
 		/* Adding dynamic forms in list */
 		listforms.add(filterForm);

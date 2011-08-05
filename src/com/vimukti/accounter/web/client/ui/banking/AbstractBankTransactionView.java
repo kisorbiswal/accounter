@@ -79,7 +79,6 @@ public abstract class AbstractBankTransactionView<T> extends
 	protected abstract void initTransactionViewData(
 			ClientTransaction transactionObject);
 
-
 	protected void initTransactionViewData() {
 
 		initAccounts();
@@ -115,7 +114,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	public AmountField createBalanceText() {
 
-		AmountField balText = new AmountField(Accounter.constants().balance());
+		AmountField balText = new AmountField(Accounter.constants().balance(),this);
 		// balText.setWidth("*");
 
 		balText.setDisabled(isEdit);
@@ -138,7 +137,8 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	public AmountField createAmountText() {
 
-		AmountField amtText = new AmountField(Accounter.constants().amount());
+		AmountField amtText = new AmountField(Accounter.constants().amount(),
+				this);
 		// amtText.setWidth("*");
 
 		amtText.setColSpan(1);
@@ -153,7 +153,8 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter.constants().vat());
+		AmountField amountItem = new AmountField(Accounter.constants().vat(),
+				this);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -298,7 +299,7 @@ public abstract class AbstractBankTransactionView<T> extends
 
 	protected AmountField createTransactionTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter.constants().total());
+		AmountField amountItem = new AmountField(Accounter.constants().total(),this);
 		amountItem.setDisabled(true);
 
 		return amountItem;

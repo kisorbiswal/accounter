@@ -184,7 +184,8 @@ public class ItemReceiptView extends
 		memoForm.setFields(memoTextAreaItem);
 		forms.add(memoForm);
 
-		transactionTotalItem = new AmountField(Accounter.constants().total());
+		transactionTotalItem = new AmountField(Accounter.constants().total(),
+				this);
 		transactionTotalItem.setDisabled(true);
 		DynamicForm amountForm = new DynamicForm();
 		amountForm.setFields(transactionTotalItem);
@@ -233,7 +234,7 @@ public class ItemReceiptView extends
 		mainVLay.add(vendorTransactionGrid);
 		mainVLay.add(bottomLayout);
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		menuButton.setType(AccounterButton.ADD_BUTTON);
 

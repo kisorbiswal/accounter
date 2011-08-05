@@ -191,7 +191,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		// adjustAccountCombo.setWidth(100);
 		adjustAccountCombo.setPopupWidth("600px");
 		adjustAccountCombo.setRequired(true);
-		amount = new AmountField(Accounter.constants().amount());
+		amount = new AmountField(Accounter.constants().amount(), this);
 		amount.setHelpInformation(true);
 		amount.setRequired(true);
 		amount.setWidth(100);
@@ -254,7 +254,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		mainPanel.add(memoForm);
 		mainPanel.setSpacing(10);
 
-		canvas.add(mainPanel);
+		this.add(mainPanel);
 		listforms.add(memoForm);
 		listforms.add(topform);
 
@@ -342,8 +342,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		// .failedToApplyChanges());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		MainFinanceWindow.getViewManager().showError(
-				Accounter.constants().failedToApplyChanges());
+		addError(this, Accounter.constants().failedToApplyChanges());
 
 	}
 

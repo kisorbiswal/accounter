@@ -188,7 +188,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		accountCombo.setRequired(true);
 
 		salepriceText = new AmountField(Accounter.constants()
-				.salepriceExcludingTax());
+				.salepriceExcludingTax(), this);
 		salepriceText.setRequired(true);
 		salepriceText.setWidth(100);
 		DynamicForm detailForm = new DynamicForm();

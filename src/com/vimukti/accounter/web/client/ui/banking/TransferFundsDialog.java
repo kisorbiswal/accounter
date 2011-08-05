@@ -144,7 +144,7 @@ public class TransferFundsDialog extends BaseDialog {
 
 				});
 
-		balanceFromText = new AmountField(bankingConstants.balance());
+		balanceFromText = new AmountField(bankingConstants.balance(), this);
 		balanceFromText.setDisabled(Boolean.TRUE);
 		memoText = new TextItem(bankingConstants.memo());
 
@@ -186,10 +186,10 @@ public class TransferFundsDialog extends BaseDialog {
 					}
 
 				});
-		balanceToText = new AmountField(bankingConstants.balance());
+		balanceToText = new AmountField(bankingConstants.balance(), this);
 		balanceToText.setDisabled(Boolean.TRUE);
 
-		amountText = new AmountField(bankingConstants.amount());
+		amountText = new AmountField(bankingConstants.amount(), this);
 		amountText.setRequired(true);
 		amountText.setAmount(0.00);
 		amountText.addBlurHandler(new BlurHandler() {
@@ -386,7 +386,6 @@ public class TransferFundsDialog extends BaseDialog {
 	public void saveFailed(Throwable exception) {
 		Accounter.showError(AccounterErrorType.FAILEDREQUEST);
 	}
-
 
 	public void onEdit() {
 		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {

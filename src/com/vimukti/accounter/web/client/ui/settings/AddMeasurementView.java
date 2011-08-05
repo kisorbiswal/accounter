@@ -192,13 +192,13 @@ public class AddMeasurementView extends BaseView {
 	public boolean validate() throws Exception {
 		if (nameItem.getValue().toString() == null
 				|| nameItem.getValue().toString().isEmpty()) {
-			MainFinanceWindow.getViewManager().showError(
+			addError(this,
 					Accounter.constants().pleaseEnteraValidMeasurementName());
 			return false;
 		}
 		List<ClientUnit> unitRecords = addUnitsGrid.getRecords();
 		if (unitRecords.size() == 0) {
-			MainFinanceWindow.getViewManager().showError(
+			addError(this,
 					Accounter.constants().unitsMustnotbeNull());
 			return false;
 		}
@@ -206,13 +206,13 @@ public class AddMeasurementView extends BaseView {
 		// if (unitRecords != null) {
 		// for (Unit unit : unitRecords) {
 		// if (unit.getType().toString().isEmpty()) {
-		// MainFinanceWindow.getViewManager().showError(
+		// addError(this,
 		// "Units Must not be Null");
 		// return false;
 		// }
 		// }
 		// } else {
-		// MainFinanceWindow.getViewManager().showError(
+		// addError(this,
 		// "Units Must not be Null");
 		// return false;
 		// }

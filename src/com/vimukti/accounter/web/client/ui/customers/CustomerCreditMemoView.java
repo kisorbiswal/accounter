@@ -255,7 +255,7 @@ public class CustomerCreditMemoView extends
 			// refText.setWidth(130);
 		}
 
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

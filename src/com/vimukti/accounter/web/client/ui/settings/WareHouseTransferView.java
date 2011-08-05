@@ -44,7 +44,7 @@ public class WareHouseTransferView extends BaseView<ClientWarehouse> {
 			initGrid();
 			mainPanel.add(grid);
 
-			canvas.add(mainPanel);
+			this.add(mainPanel);
 		} catch (Exception e) {
 			System.err.println(e);
 		}

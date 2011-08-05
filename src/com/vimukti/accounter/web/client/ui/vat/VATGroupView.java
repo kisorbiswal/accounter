@@ -129,7 +129,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		AccounterDOM.setParentElementHeight(addButton.getElement(), 2);
 		AccounterDOM.setParentElementHeight(label.getElement(), 2);
 
-		canvas.add(mainPanel);
+		this.add(mainPanel);
 
 		/* Adding dynamic forms in list */
 		listforms.add(form);
@@ -201,7 +201,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		// .duplicationOfVATGroupIsNotAllowed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		MainFinanceWindow.getViewManager().showError(
+		addError(this,
 				Accounter.constants().duplicationOfVATGroupIsNotAllowed());
 	}
 

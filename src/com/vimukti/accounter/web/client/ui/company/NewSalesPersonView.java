@@ -180,7 +180,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				long mustdate = new ClientFinanceDate().getDate() - 180000;
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
-					MainFinanceWindow.getViewManager().showError(
+					addError(this,
 							Accounter.constants()
 									.dateofBirthshouldshowmorethan18years());
 				}
@@ -344,7 +344,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			emailForm.getCellFormatter().setWidth(1, 0, "195px");
 			emailForm.getCellFormatter().setWidth(1, 1, "150px");
 		}
-		canvas.add(mainVlay);
+		this.add(mainVlay);
 
 		/* Adding dynamic forms in list */
 		listforms.add(salesPersonForm);
@@ -390,7 +390,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				long mustdate = new ClientFinanceDate().getDate() - 180000;
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
-					MainFinanceWindow.getViewManager().showError(
+					addError(this,
 							Accounter.constants()
 									.dateofBirthshouldshowmorethan18years());
 				} else {
@@ -411,12 +411,12 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		if (takenSalesperson == null)
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .DuplicationOfSalesPesonNotAllowed());
-			MainFinanceWindow.getViewManager().showError(
+			addError(this,
 					Accounter.constants().duplicationOfSalesPersonNotAllowed());
 		else
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .salesPersonUpdationFailed());
-			MainFinanceWindow.getViewManager().showError(
+			addError(this,
 					Accounter.constants().salesPersonUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;

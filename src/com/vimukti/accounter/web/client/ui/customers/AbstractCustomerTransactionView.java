@@ -854,7 +854,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 	protected AmountField createSalesTaxNonEditableItem() {
 
 		AmountField amountItem = new AmountField(Accounter.constants()
-				.salesTax());
+				.salesTax(),this);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -872,7 +872,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountField createTransactionTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter.constants().total());
+		AmountField amountItem = new AmountField(Accounter.constants().total(),this);
 		amountItem.setDisabled(true);
 
 		return amountItem;
@@ -889,7 +889,7 @@ public abstract class AbstractCustomerTransactionView<T> extends
 
 	protected AmountField createVATTotalNonEditableItem() {
 
-		AmountField amountItem = new AmountField(Accounter.constants().vat());
+		AmountField amountItem = new AmountField(Accounter.constants().vat(),this);
 		amountItem.setDisabled(true);
 
 		return amountItem;

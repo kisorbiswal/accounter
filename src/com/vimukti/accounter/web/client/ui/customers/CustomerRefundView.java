@@ -201,7 +201,7 @@ public class CustomerRefundView extends
 
 				});
 
-		amtText = new AmountField(customerConstants.amount());
+		amtText = new AmountField(customerConstants.amount(), this);
 		amtText.setHelpInformation(true);
 		amtText.setRequired(true);
 		amtText.setWidth(100);
@@ -220,8 +220,8 @@ public class CustomerRefundView extends
 						// + FinanceApplication.constants()
 						// .noNegativeAmounts() + ".");
 						// BaseView.commentPanel.setVisible(true);
-						MainFinanceWindow.getViewManager().showError(
-								Accounter.constants().noNegativeAmounts());
+						addError(this, Accounter.constants()
+								.noNegativeAmounts());
 						// Accounter.showError(FinanceApplication
 						// .constants().noNegativeAmounts());
 						setRefundAmount(0.00D);
@@ -233,7 +233,7 @@ public class CustomerRefundView extends
 							refundAmountChanged(givenAmount);
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
-						
+
 						setRefundAmount(givenAmount);
 
 					}
@@ -314,12 +314,12 @@ public class CustomerRefundView extends
 		// printCheck, checkNoText);
 		// forms.add(payForm);
 
-		endBalText = new AmountField(customerConstants.endingBalance());
+		endBalText = new AmountField(customerConstants.endingBalance(), this);
 		endBalText.setHelpInformation(true);
 		endBalText.setDisabled(true);
 		setEndingBalance(null);
 
-		custBalText = new AmountField(customerConstants.customerBalance());
+		custBalText = new AmountField(customerConstants.customerBalance(), this);
 		custBalText.setHelpInformation(true);
 		custBalText.setDisabled(true);
 		setCustomerBalance(null);
@@ -372,7 +372,7 @@ public class CustomerRefundView extends
 			custForm.getCellFormatter().setWidth(0, 1, "300px");
 			custForm.setWidth("75%");
 		}
-		canvas.add(mainVLay);
+		this.add(mainVLay);
 
 		setSize("100%", "100%");
 
