@@ -1990,12 +1990,15 @@ form{
 .signup-submit{
    margin-top:15px;
 }
-.reset-header{
+.reset-header,.company-heading{
    color:#28757D;
    margin-bottom:10px;
 }
 #select-box{
   padding:0px !important;	
 }
+.createbutton{
+  float:right;	
 }
+
 /* End of the new Login and forgot password page*/
