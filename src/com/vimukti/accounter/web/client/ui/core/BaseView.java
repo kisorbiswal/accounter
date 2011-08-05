@@ -14,6 +14,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	private ButtonBar buttonBar;
 
 	protected int accountType;
+	protected boolean isEdit;
 
 	protected SaveAndCloseButton saveAndCloseButton;
 
@@ -83,6 +84,14 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		super.insert(child, index);
 	}
 
+<<<<<<< .mine
+	public void setData(T data) {
+		super.setData(data);
+		this.isEdit = (data != null && data.getID() != 0);
+	}
+
+=======
+>>>>>>> .r3919
 	protected void createButtons(ButtonBar buttonBar) {
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.saveAndNewButton = new SaveAndNewButtom(this);
