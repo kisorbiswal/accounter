@@ -69,8 +69,8 @@ public class MesurementListView extends BaseView {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 		mesurementPanel = new VerticalPanel();
 		mesurementPanel.setSpacing(20);
 		setSize("100%", "100%");

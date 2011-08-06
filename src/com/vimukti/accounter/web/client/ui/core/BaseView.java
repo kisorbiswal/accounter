@@ -29,8 +29,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	protected abstract String getViewTitle();
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 		createView();
 		createButtons(getButtonBar());
 		this.accountType = getCompany().getAccountingType();

@@ -39,8 +39,8 @@ public class ExpenseClaimList extends BaseView {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 		createControls();
 	}
 

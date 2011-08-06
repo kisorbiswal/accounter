@@ -77,7 +77,7 @@ public abstract class BaseListView<T> extends
 	public AccounterButton updateButton;
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 
 		createControls();
 	}

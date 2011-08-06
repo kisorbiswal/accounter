@@ -30,7 +30,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
-import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -69,8 +68,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 
 	protected abstract String getViewTitle();
 
-	private Map<SelectItemType, List<CustomCombo>> comboMap = new HashMap<SelectItemType, List<CustomCombo>>();
-
 	/**
 	 * To Maintain a list of all Accounts, for Every View, (Optional)
 	 */
@@ -86,7 +83,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	protected IAccounterGETServiceAsync rpcGetService;
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		// OverRidden in Sub-Classes
 
 	}
@@ -124,19 +121,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 
 	protected List<DynamicForm> forms = new ArrayList<DynamicForm>();
 
-	protected List<FormItem> formItems = new ArrayList<FormItem>() {
-
-		@Override
-		public boolean add(FormItem e) {
-			if (super.add(e)) {
-				if (e instanceof CustomCombo) {
-					addComboItemToMap((CustomCombo) e);
-				}
-				return true;
-			} else
-				return false;
-		};
-	};
+	protected List<FormItem> formItems = new ArrayList<FormItem>();
 
 	public boolean yesClicked;
 
@@ -270,46 +255,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 		//
 		// this.saveAndNewButton.setDisabled(false);
 		// }
-
-	}
-
-	public List<CustomCombo> getComboItems() {
-
-		ArrayList<CustomCombo> items = new ArrayList<CustomCombo>();
-
-		for (FormItem formItem : formItems) {
-
-			if (formItem instanceof CustomCombo) {
-				items.add((CustomCombo) formItem);
-			}
-		}
-
-		return items;
-
-	}
-
-	private void addComboItemToMap(CustomCombo comboItem) {
-		// FIXED --replaced comboItem.getComboType() with
-		// comboItem.getSelectItemType()
-		if (comboItem == null)
-			return;
-
-		List<CustomCombo> comboList = comboMap.get(comboItem
-				.getSelectItemType());
-
-		if (comboList == null) {
-			comboList = new ArrayList<CustomCombo>();
-		}
-
-		comboList.add(comboItem);
-
-		comboMap.put(comboItem.getSelectItemType(), comboList);
-
-	}
-
-	public List<CustomCombo> getComboList(SelectItemType type) {
-
-		return comboMap.get(type);
 
 	}
 

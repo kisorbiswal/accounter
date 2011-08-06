@@ -48,7 +48,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		createControls();
 	}
 

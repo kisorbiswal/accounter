@@ -14,14 +14,6 @@ import com.vimukti.accounter.web.client.ui.core.History;
  */
 public class HistoryTokenUtils {
 
-	public void setPreviousToken() {
-		History history = MainFinanceWindow.getViewManager().getTempHistory();
-		if (history != null) {
-			setPresentToken(history.getAction(), null);
-		} else {
-			setPresentToken(ActionFactory.getCompanyHomeAction(), null);
-		}
-	}
 
 	public static String getTokenWithID(String historyToken,
 			IAccounterCore object) {

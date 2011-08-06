@@ -48,8 +48,8 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	}
 
 	@Override
-	public void init(ViewManager manger) {
-		super.init(manger);
+	public void init() {
+		super.init();
 		createControls();
 		initView();
 		setSize("100%", "100%");

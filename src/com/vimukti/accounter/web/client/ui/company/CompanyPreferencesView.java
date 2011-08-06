@@ -213,8 +213,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 		createControls();
 		setSize("100%", "100%");
 		// setOverflow(Overflow.AUTO);

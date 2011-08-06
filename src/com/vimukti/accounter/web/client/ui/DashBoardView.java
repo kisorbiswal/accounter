@@ -52,8 +52,8 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 		getLeftLayout().add(createControl());
 		setSize("100%", "100%");
 

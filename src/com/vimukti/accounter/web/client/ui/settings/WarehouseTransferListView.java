@@ -15,8 +15,8 @@ public class WarehouseTransferListView extends
 	private AccounterConstants customerConstants;
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 		customerConstants = Accounter.constants();
 	}
 

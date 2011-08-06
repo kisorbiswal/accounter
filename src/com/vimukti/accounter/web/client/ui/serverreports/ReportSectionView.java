@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 public class ReportSectionView extends BaseHomeView {
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		getLeftLayout().add(createControl());
 		setSize("100%", "100%");
 

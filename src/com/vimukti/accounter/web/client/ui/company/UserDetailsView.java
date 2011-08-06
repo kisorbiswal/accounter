@@ -19,8 +19,8 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	private ClientUser clientUser;
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 		createControls();
 	}
 

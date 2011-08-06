@@ -47,7 +47,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		getLeftLayout().add(createControl());
 		setSize("100%", "100%");
 

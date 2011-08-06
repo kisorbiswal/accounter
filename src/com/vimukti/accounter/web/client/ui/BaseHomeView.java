@@ -165,7 +165,7 @@ public class BaseHomeView extends ParentCanvas<Object> {
 
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		// TODO Auto-generated method stub
 		
 	}

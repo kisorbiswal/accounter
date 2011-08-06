@@ -136,7 +136,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 
 	}
 

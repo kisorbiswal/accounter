@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 
 public abstract class ParentCanvas<T> extends VerticalPanel {
 
-	abstract public void init(ViewManager viewManager);
+	abstract public void init();
 
 	private Action action;
 
@@ -16,6 +16,8 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 
 	protected T data;
 
+	private ViewManager manager;
+
 	public T getData() {
 		return data;
 	}
@@ -23,9 +25,10 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 	public void setData(T data) {
 		this.data = data;
 	}
+	
 
 	public void close() {
-		MainFinanceWindow.getViewManager().closeCurrentView();
+		getManager().closeCurrentView();
 	}
 
 	// public void setHasHistory(boolean hasHistory) {
@@ -115,6 +118,14 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 	public void initData() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public ViewManager getManager() {
+		return manager;
+	}
+
+	public void setManager(ViewManager manager) {
+		this.manager = manager;
 	}
 
 }

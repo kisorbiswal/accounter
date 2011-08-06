@@ -701,8 +701,8 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 		createControls();
 		setSize("100%", "100%");
 	}

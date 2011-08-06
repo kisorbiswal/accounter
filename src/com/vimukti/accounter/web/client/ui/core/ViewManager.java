@@ -314,8 +314,8 @@ public class ViewManager extends DockPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (canvas != null)
-					canvas.onEdit();
+				if (currentCanvas != null)
+					currentCanvas.onEdit();
 
 			}
 		});
@@ -533,7 +533,7 @@ public class ViewManager extends DockPanel {
 
 	}
 
-	public void showPresentView(ParentCanvas view, Object input,
+	private void showPresentView(ParentCanvas view, Object input,
 			boolean dependent, Action action) throws Exception {
 		// Checking for any duplication of Company Home Page. due to should save
 		// in history This are just stacking up. so need to remove.
@@ -788,37 +788,6 @@ public class ViewManager extends DockPanel {
 		return history;
 	}
 
-	public History getTempHistory() {
-
-		// SC.logWarn("ViewManager getPreviousHistory Called...With HistoryList "
-		// + historyList.size() + "index@" + index);
-		History history = new History();
-
-		try {
-			if (historyList != null) {
-				if (index <= 0) {
-					history = null;
-				} else {
-
-					if (index > historyList.size()) {
-						history = historyList
-								.get(historyList.size() > 1 ? historyList
-										.size() - 2 : 0);
-						// index = historyList.size() -1;
-					} else
-						history = historyList.get(index - 1);
-					// index--;
-				}
-			}
-
-		} catch (Exception e) {
-			// SC
-			// .logWarn("ViewManager Error While Calling getPreviousHistory Called...");
-			history = null;
-			e.printStackTrace();
-		}
-		return history;
-	}
 
 	/**
 	 * Provides next History object
@@ -927,8 +896,8 @@ public class ViewManager extends DockPanel {
 		if (currentCanvas != null) {
 			return;
 		}
-
-		canvas.init(this);
+		canvas.setManager(this);
+		canvas.init();
 		canvas.initData();
 		currentCanvas = canvas;
 		rightCanvas.add(currentCanvas);

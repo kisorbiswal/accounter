@@ -33,9 +33,9 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		customerConstants = Accounter.constants();
-		super.init(manager);
+		super.init();
 
 	}
 

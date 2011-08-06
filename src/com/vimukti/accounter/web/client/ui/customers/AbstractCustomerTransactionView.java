@@ -966,9 +966,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 
-		super.init(manager);
+		super.init();
 	}
 
 	@Override

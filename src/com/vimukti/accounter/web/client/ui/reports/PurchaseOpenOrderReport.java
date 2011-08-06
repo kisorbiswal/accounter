@@ -17,8 +17,8 @@ public class PurchaseOpenOrderReport extends
 	}
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 		toolbar.setDateRanageOptions(Accounter.constants().all(), Accounter
 				.constants().thisWeek(), Accounter.constants().thisMonth(),
 				Accounter.constants().lastWeek(), Accounter.constants()

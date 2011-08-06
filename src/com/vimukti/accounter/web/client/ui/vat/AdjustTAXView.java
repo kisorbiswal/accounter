@@ -74,8 +74,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	}
 
 	@Override
-	public void init(ViewManager manger) {
-		super.init(manger);
+	public void init() {
+		super.init();
 		// vatAdjustment = (ClientVATAdjustment) this.data;
 		createControls();
 		setSize("100%", "100%");

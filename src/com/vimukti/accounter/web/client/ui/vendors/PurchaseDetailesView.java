@@ -48,7 +48,7 @@ public class PurchaseDetailesView extends ParentCanvas {
 	 * here all guicomponents will create
 	 */
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		this.setWidth("300px");
 		this.setHeight("100%");
 		flexTable = new FlexTable();

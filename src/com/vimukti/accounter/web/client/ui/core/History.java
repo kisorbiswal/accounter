@@ -5,8 +5,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 /**
  * For History Management
  * 
- * @author Raj Vimal
- * 
  */
 public class History {
 

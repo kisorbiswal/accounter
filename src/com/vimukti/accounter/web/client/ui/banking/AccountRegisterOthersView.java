@@ -221,7 +221,7 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
+	public void init() {
 		createControls();
 	}
 

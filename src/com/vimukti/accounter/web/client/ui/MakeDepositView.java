@@ -576,8 +576,8 @@ public class MakeDepositView extends
 	}
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 		TYPE_FINANCIAL_ACCOUNT = ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT;
 		TYPE_VENDOR = ClientTransactionMakeDeposit.TYPE_VENDOR;
 		TYPE_CUSTOMER = ClientTransactionMakeDeposit.TYPE_CUSTOMER;

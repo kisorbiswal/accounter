@@ -11,8 +11,8 @@ import com.vimukti.accounter.web.client.ui.core.ViewManager;
 public class WarehouseListView extends BaseListView<ClientStockTransfer> {
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 	}
 
 	@Override

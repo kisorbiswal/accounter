@@ -62,8 +62,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	}
 
 	@Override
-	public void init(ViewManager manager) {
-		super.init(manager);
+	public void init() {
+		super.init();
 		createControls();
 		setSize("100%", "100%");
 	}
@@ -490,7 +490,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			}
 		};
 		report.setAction(ActionFactory.getVAT100ReportAction());
-		report.init(ViewManager.getInstance());
+		report.init();
 		report.initData();
 		report.makeReportRequest(selectedVatAgency.getID(),
 				fromDate.getEnteredDate(), toDate.getEnteredDate());
