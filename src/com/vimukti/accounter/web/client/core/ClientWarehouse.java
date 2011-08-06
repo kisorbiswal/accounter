@@ -107,12 +107,12 @@ public class ClientWarehouse implements IAccounterCore {
 
 	public ClientWarehouse clone() {
 		ClientWarehouse clientWarehouse = (ClientWarehouse) this.clone();
-		// Set<ClientItemStatus> clientItemStatus=new
-		// HashSet<ClientItemStatus>();
-		// for(ClientItemStatus ClientItemStatus:this.itemStatuses)
-		// {
-		// clientItemStatus.add(ClientItemStatus.)
-		// }
+		 Set<ClientItemStatus> clientItemStatus=new
+		 HashSet<ClientItemStatus>();
+		 for(ClientItemStatus ClientItemStatus:this.itemStatuses)
+		 {
+		 clientItemStatus.add(ClientItemStatus.);
+		 }
 		clientWarehouse.contact = this.contact.clone();
 		clientWarehouse.address = this.address.clone();
 		return clientWarehouse;
