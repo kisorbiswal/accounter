@@ -14,8 +14,6 @@ import com.google.gwt.core.client.JavaScriptException;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ClientCompany implements IAccounterCore {
 
@@ -1380,13 +1378,6 @@ public class ClientCompany implements IAccounterCore {
 						UIUtils.updateAccountsInSortedOrder(accounts, account);
 					}
 
-					ViewManager.updateComboDataInViews(SelectItemType.ACCOUNT,
-							account);
-					ViewManager.getInstance().updateHomePageLists(
-							accounterCoreObject);
-					// if (account.getType() == ClientAccount.TYPE_BANK)
-					// ViewManager.getInstance().updateDashBoardData(
-					// accounterCoreObject);
 					break;
 
 				case CUSTOMER:
@@ -1395,9 +1386,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(customer, customers);
 					Utility.updateClientList(customer, payees);
-
-					ViewManager.updateComboDataInViews(SelectItemType.CUSTOMER,
-							accounterCoreObject);
 
 					break;
 
@@ -1408,9 +1396,6 @@ public class ClientCompany implements IAccounterCore {
 					Utility.updateClientList(vendor, vendors);
 					Utility.updateClientList(vendor, payees);
 
-					ViewManager.updateComboDataInViews(SelectItemType.VENDOR,
-							accounterCoreObject);
-
 					break;
 
 				case TAXAGENCY:
@@ -1420,9 +1405,6 @@ public class ClientCompany implements IAccounterCore {
 					Utility.updateClientList(taxAgency, taxAgencies);
 					Utility.updateClientList(taxAgency, payees);
 
-					ViewManager.updateComboDataInViews(
-							SelectItemType.TAX_AGENCY, accounterCoreObject);
-
 					break;
 
 				case ITEM:
@@ -1430,9 +1412,6 @@ public class ClientCompany implements IAccounterCore {
 					ClientItem item = (ClientItem) accounterCoreObject;
 
 					Utility.updateClientList(item, items);
-
-					ViewManager.updateComboDataInViews(SelectItemType.ITEM,
-							accounterCoreObject);
 
 					break;
 
@@ -1448,9 +1427,6 @@ public class ClientCompany implements IAccounterCore {
 						// Utility.updateClientList(code, taxCodes);
 					}
 
-					ViewManager.updateComboDataInViews(
-							SelectItemType.TAX_GROUP, accounterCoreObject);
-
 					break;
 
 				case TAX_CODE:
@@ -1459,8 +1435,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(taxCode, taxCodes);
 
-					ViewManager.updateComboDataInViews(SelectItemType.TAX_CODE,
-							accounterCoreObject);
 
 					break;
 
@@ -1476,8 +1450,6 @@ public class ClientCompany implements IAccounterCore {
 						// Utility.updateClientList(code, taxCodes);
 					}
 
-					ViewManager.updateComboDataInViews(SelectItemType.TAXITEM,
-							accounterCoreObject);
 
 					break;
 
@@ -1487,8 +1459,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(customerGroup, customerGroups);
 
-					ViewManager.updateComboDataInViews(
-							SelectItemType.CUSTOMER_GROUP, accounterCoreObject);
 
 					break;
 
@@ -1498,8 +1468,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(vendorGroup, vendorGroups);
 
-					ViewManager.updateComboDataInViews(
-							SelectItemType.VENDOR_GROUP, accounterCoreObject);
 
 					break;
 
@@ -1509,8 +1477,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(paymentsTerms, paymentTerms);
 
-					ViewManager.updateComboDataInViews(
-							SelectItemType.PAYMENT_TERMS, accounterCoreObject);
 
 					break;
 
@@ -1520,10 +1486,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(shippingMethod, shippingMethods);
 
-					ViewManager
-							.updateComboDataInViews(
-									SelectItemType.SHIPPING_METHOD,
-									accounterCoreObject);
 
 					break;
 
@@ -1533,9 +1495,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(shippingTerm, shippingTerms);
 
-					ViewManager.updateComboDataInViews(
-							SelectItemType.SHIPPING_TERMS, accounterCoreObject);
-
 					break;
 
 				case PRICE_LEVEL:
@@ -1543,9 +1502,6 @@ public class ClientCompany implements IAccounterCore {
 					ClientPriceLevel priceLevel = (ClientPriceLevel) accounterCoreObject;
 
 					Utility.updateClientList(priceLevel, priceLevels);
-
-					ViewManager.updateComboDataInViews(
-							SelectItemType.PRICE_LEVEL, accounterCoreObject);
 
 					break;
 
@@ -1555,8 +1511,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(itemGroup, ItemGroups);
 
-					ViewManager.updateComboDataInViews(
-							SelectItemType.ITEM_GROUP, accounterCoreObject);
 
 					break;
 
@@ -1566,8 +1520,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(salesPerson, salesPersons);
 
-					ViewManager.updateComboDataInViews(
-							SelectItemType.SALES_PERSON, accounterCoreObject);
 
 					break;
 
@@ -1577,8 +1529,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(creditRating, creditRatings);
 
-					ViewManager.updateComboDataInViews(
-							SelectItemType.CREDIT_RATING, accounterCoreObject);
 
 					break;
 
@@ -1594,8 +1544,6 @@ public class ClientCompany implements IAccounterCore {
 
 					ClientBank clientBank = (ClientBank) accounterCoreObject;
 					Utility.updateClientList(clientBank, banks);
-					ViewManager.updateComboDataInViews(
-							SelectItemType.BANK_ACCOUNT, accounterCoreObject);
 					break;
 
 				case FIXEDASSET:

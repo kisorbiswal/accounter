@@ -25,7 +25,7 @@ public class NewCustomerAction extends Action {
 		this.catagory = Accounter.constants().customer();
 	}
 
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		runAsync(data, isDependent);
 	}
 

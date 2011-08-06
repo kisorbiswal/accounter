@@ -58,7 +58,7 @@ public class ManageTAXCodesListAction extends Action {
 	 * java.lang.Boolean)
 	 */
 	@Override
-	public void run(final Object data, final Boolean isDependent) {
+	public void run() {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {

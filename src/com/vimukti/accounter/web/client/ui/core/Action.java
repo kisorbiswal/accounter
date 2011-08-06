@@ -1,11 +1,12 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Command;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 /**
  */
-public abstract class Action {
+public abstract class Action implements Command {
 
 	/**
 	 * This action's text, or <code>null</code> if none.
@@ -24,6 +25,10 @@ public abstract class Action {
 	private FormItem formItemResponsibleForAction;
 
 	private boolean allowMultiple;
+
+	protected Object data;
+
+	protected boolean isDependent;
 
 	/**
 	 * setting Text for Action
@@ -74,15 +79,19 @@ public abstract class Action {
 	 * Runs this action. Each action implementation must define the steps needed
 	 * to carry out this action. The default implementation of this method in
 	 * <code>Action</code> does nothing.
+	 * @return 
 	 * 
 	 * @throws Throwable
 	 */
-	// public abstract void run();
-	public abstract void run(Object data, Boolean isDependent);
+	public abstract void run();
+	
+	public void execute(){
+		run();
+	}
 
-	// public void run(IsSerializable data, Boolean isDependent, Date startDate,
-	// Date endDate) {
-	// }
+	public void setInput(Object data) {
+		this.data = data;
+	}
 
 	/**
 	 * Setter for the Text for the action
@@ -144,8 +153,8 @@ public abstract class Action {
 
 		else {
 
-			boolean isSameClass = object.getClass().getName().equals(
-					this.getClass().getName());
+			boolean isSameClass = object.getClass().getName()
+					.equals(this.getClass().getName());
 
 			// boolean hasSameHashCode = object.hashCode() == this.hashCode();
 
@@ -161,4 +170,16 @@ public abstract class Action {
 
 	public abstract String getHistoryToken();
 
+	public boolean isDependent() {
+		return isDependent;
+	}
+
+	public void setDependent(boolean isDependent) {
+		this.isDependent = isDependent;
+	}
+	public void run(Object object, boolean isDependent) {
+		setInput(object);
+		setDependent(isDependent);
+		run();
+	}
 }

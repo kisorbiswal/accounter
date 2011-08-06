@@ -4,14 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -47,8 +42,6 @@ public class MainFinanceWindow extends VerticalPanel {
 	private HelpItem item;
 	public Map<String, Action> actions;
 
-	public static String oldToken;
-	public static boolean shouldExecuteRun = true;
 
 	public MainFinanceWindow() {
 		initializeActionsWithTokens();
@@ -56,20 +49,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		sinkEvents(Event.ONMOUSEOVER);
 		removeLoadingImage();
 
-		History.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-
-				if (shouldExecuteRun)
-					historyChanged(event.getValue());
-			}
-		});
-		oldToken = ActionFactory.getCompanyHomeAction().getHistoryToken();
-		HistoryTokenUtils.setPresentToken(ActionFactory.getCompanyHomeAction(),
-				null);
-		shouldExecuteRun = true;
-		handleBackSpaceEvent();
 	}
 
 	private Widget getSalesMenuBar() {
@@ -92,7 +71,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		vpanel.setSize("100%", "100%");
 		vpanel.add(header);
 		add(vpanel);
-		//If company is configured then show the dashboard
+		// If company is configured then show the dashboard
 		if (company.isConfigured()) {
 			HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
 			vpanel.add(hMenuBar);
@@ -111,7 +90,7 @@ public class MainFinanceWindow extends VerticalPanel {
 
 			ActionFactory.getCompanyHomeAction().run(null, false);
 		} else {
-			//if company is not configured then show the setupwizard
+			// if company is not configured then show the setupwizard
 			SetupWizard setupWizard = new SetupWizard();
 			add(setupWizard);
 		}
@@ -206,7 +185,6 @@ public class MainFinanceWindow extends VerticalPanel {
 				String historyToken = ActionFactory.getCompanyHomeAction()
 						.getHistoryToken();
 				if (!History.getToken().equals(historyToken)) {
-					oldToken = History.getToken();
 					ActionFactory.getExpensesAction(null).run(null, true);
 				}
 				ActionFactory.getCompanyHomeAction().run(null, false);
@@ -770,28 +748,9 @@ public class MainFinanceWindow extends VerticalPanel {
 		AccounterCometClient.cometStop();
 	}
 
-	private void handleBackSpaceEvent() {
-		Event.addNativePreviewHandler(new NativePreviewHandler() {
-			@Override
-			public void onPreviewNativeEvent(final NativePreviewEvent event) {
-				Event e = Event.as(event.getNativeEvent());
+	
 
-				if (e.getKeyCode() == KeyCodes.KEY_BACKSPACE) {
-					if (!defaultPresumtion(e.getEventTarget().toString())) {
-						e.preventDefault();
-						// viewManager.closeCurrentView();
-					}
-					return;
-				}
-			}
-		});
-	}
 
-	protected boolean defaultPresumtion(String eventTarget) {
-		return eventTarget.contains("HTMLInputElement")
-				|| eventTarget.contains("HTMLSelectElement")
-				|| eventTarget.contains("HTMLTextAreaElement");
-	}
 
 	public <T extends IAccounterCore> void historyChanged(String value) {
 		if (actions == null || value == null)
@@ -817,7 +776,8 @@ public class MainFinanceWindow extends VerticalPanel {
 
 					public void onSuccess(T result) {
 						if (result != null) {
-							action.run(result, false);
+							action.setInput(result);
+							action.execute();
 						}
 					}
 

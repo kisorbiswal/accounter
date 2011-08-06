@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -33,15 +32,8 @@ public class CustomMenuBar extends MenuBar {
 	}
 
 	public void addItem(final Action action) {
-		Command cmd = new Command() {
 
-			@Override
-			public void execute() {
-				action.run(null, false);
-
-			}
-		};
-		CustomMenuItem menuItem = new CustomMenuItem(action.getText(), cmd);
+		CustomMenuItem menuItem = new CustomMenuItem(action.getText(), action);
 		this.menuItems.add(menuItem);
 		super.addItem(menuItem);
 		// menuItem.setIcon(action.getSmallImage());

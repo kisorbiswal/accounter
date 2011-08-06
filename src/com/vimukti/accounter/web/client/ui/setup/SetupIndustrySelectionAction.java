@@ -13,7 +13,7 @@ public class SetupIndustrySelectionAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		view = new SetupIndustrySelectionPage();
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,

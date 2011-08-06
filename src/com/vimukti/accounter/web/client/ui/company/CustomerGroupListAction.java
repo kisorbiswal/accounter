@@ -15,7 +15,7 @@ public class CustomerGroupListAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreateFailed(Throwable t) {

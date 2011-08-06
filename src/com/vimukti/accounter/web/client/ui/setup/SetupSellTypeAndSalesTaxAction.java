@@ -13,7 +13,7 @@ public class SetupSellTypeAndSalesTaxAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		view = new SetupSellTypeAndSalesTaxPage();
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,

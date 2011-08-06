@@ -29,7 +29,7 @@ public class DeleteThemeAction extends Action {
 
 	
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		try {
 			DeleteThemeDialog deleteThemeDialog = new DeleteThemeDialog(
 					Accounter.constants().deleteThemeLabel(), "",

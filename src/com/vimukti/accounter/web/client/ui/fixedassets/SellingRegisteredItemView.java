@@ -33,7 +33,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
-import com.vimukti.accounter.web.client.ui.core.CancleButtom;
+import com.vimukti.accounter.web.client.ui.core.CancelButtom;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -669,7 +669,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			}
 		});
 
-		this.cancelButton = new CancleButtom(this);
+		this.cancelButton = new CancelButtom(this);
 
 		buttonBar.add(reviewJournal);
 		buttonBar.add(cancelButton);

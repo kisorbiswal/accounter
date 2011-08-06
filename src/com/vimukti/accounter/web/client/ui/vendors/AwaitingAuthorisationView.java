@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -13,17 +12,13 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
-import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class AwaitingAuthorisationView extends BaseView {
@@ -223,32 +218,7 @@ public class AwaitingAuthorisationView extends BaseView {
 						});
 	}
 
-	@Override
-	public void setAction(Action action) {
-		super.setAction(action);
-	}
 
-	@Override
-	public void saveSuccess(IAccounterCore object) {
-		try {
-			if (this.callback != null) {
-				this.callback.onSuccess(object);
-			}
-			if (saveAndClose)
-				MainFinanceWindow.getViewManager().closeView(this.getAction(),
-						object);
-			else {
-				if (getAction() instanceof ExpenseClaimsAction)
-					((ExpenseClaimsAction) getAction()).run(null, true);
-				else
-					getAction().run(null, true);
-			}
-		} catch (Exception e) {
-			Accounter.showInformation(((JavaScriptException) e)
-					.getDescription());
-		}
-
-	}
 
 	@Override
 	public List<DynamicForm> getForms() {
@@ -256,20 +226,6 @@ public class AwaitingAuthorisationView extends BaseView {
 		return null;
 	}
 
-	@Override
-	public void onEdit() {
-
-	}
-
-	@Override
-	public void print() {
-
-	}
-
-	@Override
-	public void printPreview() {
-
-	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
@@ -281,10 +237,6 @@ public class AwaitingAuthorisationView extends BaseView {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	@Override
 	protected String getViewTitle() {

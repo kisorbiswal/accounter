@@ -15,7 +15,7 @@ public class CustomerPaymentsAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		runAsync(data, isDependent);
 	}
 

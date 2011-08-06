@@ -26,7 +26,7 @@ public class BrandingThemeComboAction extends Action {
 //		return null;
 //	}
 
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		runAsync(data, isDependent);
 	}
 

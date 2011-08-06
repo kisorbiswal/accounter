@@ -28,7 +28,7 @@ public class CopyThemeAction extends Action {
 //	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		try {
 			CopyThemeDialog copyThemeDialog = new CopyThemeDialog(Accounter
 					.constants().copyTheme(), "",

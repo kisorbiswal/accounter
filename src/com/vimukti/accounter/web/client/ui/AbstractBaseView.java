@@ -34,8 +34,8 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
+import com.vimukti.accounter.web.client.ui.core.IEditableView;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
  * and Editing), VendorView , Account View, ListViews, etc., and all Transaction
  * Related View Classes
  * 
- * @author Fernandez
  */
 /**
  * @author Prasanna Kumar G
@@ -54,7 +53,43 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
-		IAccounterWidget, WidgetWithErrors {
+		IAccounterWidget, WidgetWithErrors,IEditableView {
+
+	@Override
+	public boolean canEdit() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isDirty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void fitToSize(int height, int width) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onEdit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void printPreview() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void print() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	public AbstractBaseView() {
 
@@ -196,9 +231,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 				this.callback.onSuccess(object);
 			}
 			if (saveAndClose) {
-
-				MainFinanceWindow.getViewManager().closeView(this.getAction(),
-						object);
+				getManager().closeCurrentView();
 			} else {
 				if (!History.getToken().equals(getAction().getHistoryToken())) {
 
@@ -448,9 +481,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 						public boolean onYesClick() {
 							onSave(false);
 							return true;
-
 						}
-
 					});
 		} else {
 			close();

@@ -12,7 +12,7 @@ public class NewCurrencyAction extends Action {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		runAsync(data, isDependent);
 
 	}

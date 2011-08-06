@@ -13,14 +13,14 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * @author Prasanna Kumar G
  * 
  */
-public class CancleButtom extends Button {
+public class CancelButtom extends Button {
 
-	private AbstractBaseView currentView;
+	private AbstractBaseView<?> currentView;
 
 	/**
 	 * Creates new Instance
 	 */
-	public CancleButtom(AbstractBaseView view) {
+	public CancelButtom(AbstractBaseView<?> view) {
 		super(Accounter.constants().cancel());
 		this.currentView = view;
 		this.addStyleName("cancle-Btn");

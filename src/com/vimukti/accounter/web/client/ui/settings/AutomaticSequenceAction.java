@@ -26,7 +26,7 @@ public class AutomaticSequenceAction extends Action {
 //	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		try {
 			AutomaticSequenceDialog automaticSequenceDialog = new AutomaticSequenceDialog(
 					Accounter.constants()

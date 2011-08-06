@@ -13,7 +13,7 @@ public class SetupReferAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		view = new SetupReferPage();
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,

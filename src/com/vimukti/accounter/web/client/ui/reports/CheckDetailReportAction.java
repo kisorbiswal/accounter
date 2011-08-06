@@ -33,7 +33,7 @@ public class CheckDetailReportAction extends Action {
 //	}
 
 	@Override
-	public void run(final Object data, final Boolean isDependent) {
+	public void run() {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override

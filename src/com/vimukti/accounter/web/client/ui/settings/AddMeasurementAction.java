@@ -10,11 +10,10 @@ public class AddMeasurementAction extends Action {
 
 	public AddMeasurementAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 
 		addMeasurementAction(data, isDependent);
 

@@ -36,7 +36,7 @@ public class ExpenseClaimsAction extends Action {
 	// }
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		view = new ExpenseClaims(selectedTab);
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,

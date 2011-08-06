@@ -32,7 +32,7 @@ public class SetupTrackEmployeesAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		trackEmployeesPage = new SetupTrackEmployeesPage();
 		try {
 			MainFinanceWindow.getViewManager().showView(trackEmployeesPage,

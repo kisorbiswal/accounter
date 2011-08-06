@@ -22,7 +22,7 @@ public class RecordExpensesAction extends Action {
 	// }
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		new SelectExpenseType().show();
 
 	}

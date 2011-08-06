@@ -28,7 +28,7 @@ public class AwaitingAuthorisationAction extends Action {
 //	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		view = new AwaitingAuthorisationView();
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,

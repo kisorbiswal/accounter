@@ -29,7 +29,7 @@ public class CustomThemeAction extends Action {
 //	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		try {
 			CustomThemeDialog customThemeDialog = new CustomThemeDialog(
 					Accounter.constants().newBrandThemeLabel(), "");

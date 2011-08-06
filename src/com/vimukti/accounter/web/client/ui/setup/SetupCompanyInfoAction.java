@@ -14,7 +14,7 @@ public class SetupCompanyInfoAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		companyInfoPage = new SetupCompanyInfoPage();
 		try {
 			MainFinanceWindow.getViewManager().showView(companyInfoPage, data,

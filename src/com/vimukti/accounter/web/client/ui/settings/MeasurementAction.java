@@ -15,7 +15,7 @@ public class MeasurementAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		preAddedListView(data, isDependent);
 	}
 

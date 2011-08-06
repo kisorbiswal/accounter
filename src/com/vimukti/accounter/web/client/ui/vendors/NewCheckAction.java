@@ -31,7 +31,7 @@ public class NewCheckAction extends Action {
 	// }
 
 	@Override
-	public void run(Object data, Boolean isEditable) {
+	public void run() {
 		runAsync(data, isEditable);
 	}
 

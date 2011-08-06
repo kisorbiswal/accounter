@@ -31,7 +31,7 @@ public class SetupUsingEstimatesAndStatementsAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		statementsPage = new SetupUsingEstimatesAndStatementsPage();
 		try {
 			MainFinanceWindow.getViewManager().showView(statementsPage, data,

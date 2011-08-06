@@ -28,7 +28,7 @@ public class ConversionDateAction extends Action {
 //	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		try {
 			view = new ConversionDateView();
 			MainFinanceWindow.getViewManager().showView(view, data,

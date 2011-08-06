@@ -31,9 +31,6 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 		getManager().closeCurrentView();
 	}
 
-	// public void setHasHistory(boolean hasHistory) {
-	// this.hasHistory = hasHistory;
-	// }
 
 	public void setAction(Action action) {
 		this.action = action;

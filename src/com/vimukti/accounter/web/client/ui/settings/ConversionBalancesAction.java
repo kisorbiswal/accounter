@@ -35,7 +35,7 @@ public class ConversionBalancesAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		runAsync(data, isDependent, null, null);
 	}
 
@@ -66,5 +66,6 @@ public class ConversionBalancesAction extends Action {
 	public String getHistoryToken() {
 		return null;
 	}
+
 
 }

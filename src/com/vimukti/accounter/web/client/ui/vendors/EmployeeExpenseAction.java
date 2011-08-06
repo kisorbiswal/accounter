@@ -27,7 +27,7 @@ public class EmployeeExpenseAction extends Action {
 				.supplier(), Accounter.constants().vendor());
 	}
 
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		runAsync(data, isDependent);
 	}
 

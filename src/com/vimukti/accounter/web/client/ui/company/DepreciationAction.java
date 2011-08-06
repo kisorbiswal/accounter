@@ -33,7 +33,7 @@ public class DepreciationAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		view = new DepreciationView();
 
 		try {

@@ -26,7 +26,7 @@ public class ReconcileAccountAction extends Action {
 
 	// its not using any where
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 
 	}
 

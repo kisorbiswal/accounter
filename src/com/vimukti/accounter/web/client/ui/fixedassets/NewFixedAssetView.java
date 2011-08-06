@@ -44,7 +44,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
-import com.vimukti.accounter.web.client.ui.core.CancleButtom;
+import com.vimukti.accounter.web.client.ui.core.CancelButtom;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -1117,7 +1117,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			}
 		});
 		buttonBar.add(registerButton, HasHorizontalAlignment.ALIGN_RIGHT);
-		this.cancelButton = new CancleButtom(this);
+		this.cancelButton = new CancelButtom(this);
 		buttonBar.add(this.cancelButton, HasHorizontalAlignment.ALIGN_RIGHT);
 	}
 

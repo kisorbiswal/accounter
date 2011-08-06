@@ -18,7 +18,7 @@ public class CompanyInfoAction extends Action {
 	// }
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		new CompanyInfoDialog(Accounter.constants().companyInformation(), "")
 				.show();
 	}

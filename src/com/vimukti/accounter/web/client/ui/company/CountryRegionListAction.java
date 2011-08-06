@@ -22,7 +22,7 @@ public class CountryRegionListAction extends Action {
 	// }
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override

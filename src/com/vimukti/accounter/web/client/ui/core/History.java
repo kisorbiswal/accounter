@@ -5,10 +5,12 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 /**
  * For History Management
  * 
+ * @author Raj Vimal
+ * 
  */
 public class History {
 
-	ParentCanvas view;
+	ParentCanvas<?> view;
 
 	Action action;
 
@@ -20,7 +22,7 @@ public class History {
 
 	}
 
-	public History(ParentCanvas view, IAccounterCore input, Action action,
+	public History(ParentCanvas<?> view, IAccounterCore input, Action action,
 			boolean dependent) {
 
 		setView(view);

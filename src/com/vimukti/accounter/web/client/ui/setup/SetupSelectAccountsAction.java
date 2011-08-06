@@ -13,7 +13,7 @@ public class SetupSelectAccountsAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean isDependent) {
+	public void run() {
 		view = new SetupSelectAccountsPage();
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,
