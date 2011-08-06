@@ -126,9 +126,47 @@ public class CompanyPreferences implements IAccounterServerCore {
 	// currency related properties
 	private Currency primaryCurrency;
 	private List<Currency> supportingCurrenciesList;
-	
-	//Organization type
+
+	// Organization type
 	private int organizationType;
+
+	// for tracking employes in setup page
+	boolean haveEpmloyees;
+	boolean haveW_2Employees;
+	boolean have1099contractors;
+	boolean trackEmployeeExpenses;
+
+	public boolean isHaveEpmloyees() {
+		return haveEpmloyees;
+	}
+
+	public void setHaveEpmloyees(boolean haveEpmloyees) {
+		this.haveEpmloyees = haveEpmloyees;
+	}
+
+	public boolean isHaveW_2Employees() {
+		return haveW_2Employees;
+	}
+
+	public void setHaveW_2Employees(boolean haveW_2Employees) {
+		this.haveW_2Employees = haveW_2Employees;
+	}
+
+	public boolean isHave1099contractors() {
+		return have1099contractors;
+	}
+
+	public void setHave1099contractors(boolean have1099contractors) {
+		this.have1099contractors = have1099contractors;
+	}
+
+	public boolean isTrackEmployeeExpenses() {
+		return trackEmployeeExpenses;
+	}
+
+	public void setTrackEmployeeExpenses(boolean trackEmployeeExpenses) {
+		this.trackEmployeeExpenses = trackEmployeeExpenses;
+	}
 
 	public Currency getPrimaryCurrency() {
 		return primaryCurrency;
@@ -142,7 +180,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 		return supportingCurrenciesList;
 	}
 
-	public void setSupportingCurrenciesList(List<Currency> supportingCurrenciesList) {
+	public void setSupportingCurrenciesList(
+			List<Currency> supportingCurrenciesList) {
 		this.supportingCurrenciesList = supportingCurrenciesList;
 	}
 
