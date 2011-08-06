@@ -48,6 +48,7 @@ public abstract class AbstractSetupPage extends AbstractBaseView {
 	private void createControls() {
 		mainPanel = new VerticalPanel();
 		setupMainPanel = new HorizontalPanel();
+		HorizontalPanel back_nextbuttonPanel = new HorizontalPanel();
 		// progressPanel = new SetupProgressPanel(setupPage);
 
 		buttonPanel = new HorizontalPanel();
@@ -56,8 +57,11 @@ public abstract class AbstractSetupPage extends AbstractBaseView {
 		nextButton = new Button(Accounter.constants().next());
 
 		buttonPanel.add(skipButton);
-		buttonPanel.add(backButton);
-		buttonPanel.add(nextButton);
+		skipButton.getElement().setAttribute("float", "left");
+		back_nextbuttonPanel.add(backButton);
+		back_nextbuttonPanel.add(nextButton);
+		buttonPanel.add(back_nextbuttonPanel);
+		back_nextbuttonPanel.getElement().setAttribute("float", "right");
 		header = new Label(getHeader());
 		mainPanel.add(header);
 		header.addStyleName("setup_header_label");
