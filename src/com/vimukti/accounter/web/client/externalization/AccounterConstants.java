@@ -4524,4 +4524,8 @@ public interface AccounterConstants extends Constants {
 
 	public String needToEnterTransactionsFromthisdate();
 
+	public String supportingCurrencies();
+
+	public String primaryCurrency();
+
 }
