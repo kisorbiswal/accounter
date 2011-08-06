@@ -386,7 +386,7 @@ public class SalesOrderView extends
 		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vpanel.add(panel);
 
-		menuButton.setType(AccounterButton.ADD_BUTTON);
+		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		vpanel.add(prodAndServiceHLay);
 
