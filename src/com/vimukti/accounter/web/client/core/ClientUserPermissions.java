@@ -135,6 +135,10 @@ public class ClientUserPermissions implements IAccounterCore {
 	}
 
 	public ClientUserPermissions clone() {
-		return null;
+		ClientUserPermissions clientUserPreferencesClone = (ClientUserPermissions) this
+				.clone();
+		clientUserPreferencesClone.user = this.user.clone();
+
+		return clientUserPreferencesClone;
 	}
 }
