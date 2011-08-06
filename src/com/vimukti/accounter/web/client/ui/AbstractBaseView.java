@@ -430,6 +430,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 			for (Error error : validationResult.getErrors()) {
 				HTML err = new HTML("<li>" + error.getMessage() + "</li>");
 				errorPanel.add(err);
+				errorsMap.put(error.getSource(), err);
 			}
 		} else if (validationResult.haveWarnings()) {
 

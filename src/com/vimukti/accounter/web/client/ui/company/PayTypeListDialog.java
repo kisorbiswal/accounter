@@ -78,4 +78,9 @@ public class PayTypeListDialog extends GroupDialog {
 		return null;
 	}
 
+	@Override
+	protected boolean onOK() {
+		return true;
+	}
+
 }

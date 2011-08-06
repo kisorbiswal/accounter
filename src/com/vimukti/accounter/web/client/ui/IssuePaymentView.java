@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -259,7 +258,7 @@ public class IssuePaymentView extends BaseDialog {
 
 	protected void createIssuePayment() {
 		ClientIssuePayment issuePayment = getIssuePaymentObject();
-		ViewManager.getInstance().createObject(issuePayment, this);
+		saveOrUpdate(issuePayment);
 	}
 
 	private ClientIssuePayment getIssuePaymentObject() {
@@ -470,4 +469,5 @@ public class IssuePaymentView extends BaseDialog {
 		createIssuePayment();
 		return true;
 	}
+
 }

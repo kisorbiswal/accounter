@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -146,7 +145,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	/**
 	 * Called when Ok button clicked
 	 */
-	protected void okClicked() {
+	protected void processOK() {
 		rollBackDepreciation();
 		removeFromParent();
 
@@ -181,6 +180,12 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 		Accounter.showInformation(AccounterWarningType.NOT_YET_IMPLEMENTED);
 
+	}
+
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

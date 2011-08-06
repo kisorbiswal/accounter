@@ -94,7 +94,7 @@ public class JournalViewDialog extends BaseDialog {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				okClicked();
+				processOK();
 			}
 		});
 		okbtn.setWidth("100px");

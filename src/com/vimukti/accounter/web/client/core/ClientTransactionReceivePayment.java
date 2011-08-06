@@ -370,9 +370,9 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 		clientTransactionReceivePaymentClone.transactionCreditsAndPayments = transactionCreditsAndPayments;
 		Map<Integer, Object> tempCredit = new HashMap<Integer, Object>();
 		for (Entry<Integer, Object> entrySet : tempCredits.entrySet()) {
-			tempCredit.put(entrySet.getKey(), (entrySet.getValue()))
+			tempCredit.put(entrySet.getKey(), (entrySet.getValue()));
 
-		}//TODO
+		}// TODO
 
 		return clientTransactionReceivePaymentClone;
 	}

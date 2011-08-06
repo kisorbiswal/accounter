@@ -24,9 +24,11 @@ import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.WarningsDialog;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
@@ -141,7 +143,7 @@ public abstract class BaseDialog extends CustomDialog implements
 
 			public void onClick(ClickEvent event) {
 
-				okClicked();
+				processOK();
 			}
 		});
 		okbtn.setFocus(true);
@@ -223,14 +225,44 @@ public abstract class BaseDialog extends CustomDialog implements
 	/**
 	 * Called when Ok button clicked
 	 */
-	protected void okClicked() {
+	protected void processOK() {
 		clearAllErrors();
 		okbtn.setFocus(true);
-		if (dialogHandler != null)
-			if (dialogHandler.onOK()) {
-				removeFromParent();
-				// setGlassEnabled(false);
+		ValidationResult validationResult = validate();
+		if (validationResult.haveErrors()) {
+			for (Error error : validationResult.getErrors()) {
+				HTML err = new HTML("<li>" + error.getMessage() + "</li>");
+				errorPanel.add(err);
+				errorsMap.put(error.getSource(), err);
 			}
+		} else if (validationResult.haveWarnings()) {
+
+			new WarningsDialog(validationResult.getWarnings(),
+					new ErrorDialogHandler() {
+
+						@Override
+						public boolean onYesClick() {
+							onOK();
+							return true;
+						}
+
+						@Override
+						public boolean onNoClick() {
+							return true;
+						}
+
+						@Override
+						public boolean onCancelClick() {
+							return true;
+						}
+					});
+		} else {
+			onOK();
+			if (dialogHandler != null) {
+				dialogHandler.onOK();
+			}
+			this.removeFromParent();
+		}
 
 	}
 

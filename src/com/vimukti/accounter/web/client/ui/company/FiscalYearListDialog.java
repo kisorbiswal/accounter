@@ -169,4 +169,10 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	public void editCallBack() {
 	}
 
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 }

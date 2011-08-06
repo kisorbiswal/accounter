@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -115,7 +114,7 @@ public class StartDateDialog extends BaseDialog {
 	/**
 	 * Called when Ok button clicked
 	 */
-	protected void okClicked() {
+	protected void processOK() {
 		if (isDateChanged)
 			changeStartDate();
 		removeFromParent();
@@ -170,6 +169,12 @@ public class StartDateDialog extends BaseDialog {
 		};
 		Accounter.createHomeService().getFinancialYearStartDates(callBack);
 
+	}
+
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

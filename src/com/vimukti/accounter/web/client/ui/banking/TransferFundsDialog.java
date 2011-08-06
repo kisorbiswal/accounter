@@ -32,9 +32,6 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -312,13 +309,7 @@ public class TransferFundsDialog extends BaseDialog {
 	}
 
 	private void createTransferFundsDialog() {
-		ClientTransferFund transferFund1 = getTransferFundsObject();
-		if (transferFund == null) {
-			ViewManager.getInstance().createObject(transferFund1, this);
-		} else {
-			transferFund1.setID(transferFund.id);
-			ViewManager.getInstance().alterObject(transferFund1, this);
-		}
+		saveOrUpdate(transferFund);
 
 	}
 

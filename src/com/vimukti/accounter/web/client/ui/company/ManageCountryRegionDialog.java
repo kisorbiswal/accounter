@@ -80,4 +80,10 @@ public class ManageCountryRegionDialog extends GroupDialog {
 	public void editCallBack() {
 	}
 
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 }// end of ManageCountryRegionDialog

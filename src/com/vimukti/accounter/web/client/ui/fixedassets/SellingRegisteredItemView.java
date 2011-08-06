@@ -36,8 +36,6 @@ import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButtom;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
@@ -204,13 +202,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 			@Override
 			public boolean onOK() {
-				try {
-					if (dialog.validate())
-						okClicked();
-				} catch (InvalidEntryException e) {
-					Accounter.showError(e.getMessage());
-					return false;
-				}
+				okClicked();
 				return true;
 			}
 

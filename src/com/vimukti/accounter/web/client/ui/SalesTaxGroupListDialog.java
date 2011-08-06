@@ -149,7 +149,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 			taxGroup.setName(UIUtils.toStr(salesTaxGroupDialog.taxGroupText
 					.getValue()));
 			taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
-			alterObject(taxGroup);
+			saveOrUpdate(taxGroup);
 		}
 	}
 
@@ -197,7 +197,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else
-		saveOrUpdate(taxGroup);
+			saveOrUpdate(taxGroup);
 
 	}
 
@@ -224,6 +224,12 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	@Override
 	protected List<ClientTAXGroup> getRecords() {
 		return getCompany().getTaxGroups();
+	}
+
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

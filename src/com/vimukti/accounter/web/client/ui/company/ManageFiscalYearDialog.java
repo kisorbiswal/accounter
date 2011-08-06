@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ManageFiscalYearDialog extends BaseDialog {
@@ -62,18 +61,6 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		mainVlayout.add(descriptionLabel);
 		mainVlayout.add(listHpanel);
 		setBodyLayout(mainVlayout);
-		addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public boolean onOK() {
-				return true;
-			}
-
-			@Override
-			public void onCancel() {
-				hide();
-			}
-		});
 		initDataToFiscalYearList();
 	}
 
@@ -123,8 +110,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 				final ClientFiscalYear clientFiscalYear = listOfperiods
 						.getSelection();
 				clientFiscalYear.setStatus(ClientFiscalYear.STATUS_OPEN);
-				ViewManager.getInstance().alterObject(clientFiscalYear,
-						ManageFiscalYearDialog.this);
+				saveOrUpdate(clientFiscalYear);
 			}
 		});
 		editFiscalYear = new AccounterButton();
@@ -269,8 +255,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 								.getSelection();
 						clientFiscalYear
 								.setStatus(ClientFiscalYear.STATUS_CLOSE);
-						ViewManager.getInstance().alterObject(clientFiscalYear,
-								ManageFiscalYearDialog.this);
+						saveOrUpdate(clientFiscalYear);
 						return true;
 					}
 
@@ -281,7 +266,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 					}
 
 					@Override
-					public boolean onCancel() {
+					public boolean onCancelClick() {
 
 						return true;
 					}
@@ -413,6 +398,12 @@ public class ManageFiscalYearDialog extends BaseDialog {
 	public void saveSuccess(IAccounterCore object) {
 		// ClientFiscalYear fiscalY = (ClientFiscalYear) object;
 		initDataToFiscalYearList();
+	}
+
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

@@ -32,7 +32,6 @@ public class VendorPurchaseListDialog extends BaseDialog {
 	private AccounterConstants financeConstants = GWT
 			.create(AccounterConstants.class);
 
-	private PurchaseOrdersList selectedPurchaseOrder;
 	private DialogGrid grid;
 
 	public VendorPurchaseListDialog(ItemReceiptView view,
@@ -207,7 +206,11 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 	}
 
-
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
 	// protected String getViewTitle() {
 	// return FinanceApplication.constants().purchaseOrderList();

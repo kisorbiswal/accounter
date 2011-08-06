@@ -29,8 +29,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.WriteOffDialog;
@@ -407,38 +405,24 @@ public class TransactionReceivePaymentGrid extends
 			@Override
 			public boolean onOK() {
 				if (canEdit) {
-					try {
-						if (cashDiscountDialog.validate()) {
-							if (cashDiscountDialog.getSelectedDiscountAccount() != null) {
-								selectedObject.setPayment(0.0);
-								selectedObject
-										.setCashDiscount(cashDiscountDialog
-												.getCashDiscount());
-								selectedObject
-										.setDiscountAccount(cashDiscountDialog
-												.getSelectedDiscountAccount()
-												.getID());
-								if (validatePaymentValue()) {
-									updatePayment(selectedObject);
-								} else {
-									selectedObject.setCashDiscount(0.0D);
-									updatePayment(selectedObject);
-								}
-
-								updateData(selectedObject);
-								paymentView.recalculateGridAmounts();
-							} else
-								return false;
-							// paymentView.updateFooterValues();
+					if (cashDiscountDialog.getSelectedDiscountAccount() != null) {
+						selectedObject.setPayment(0.0);
+						selectedObject.setCashDiscount(cashDiscountDialog
+								.getCashDiscount());
+						selectedObject.setDiscountAccount(cashDiscountDialog
+								.getSelectedDiscountAccount().getID());
+						if (validatePaymentValue()) {
+							updatePayment(selectedObject);
+						} else {
+							selectedObject.setCashDiscount(0.0D);
+							updatePayment(selectedObject);
 						}
 
-						else
-							return false;
-
-					} catch (Exception e) {
-						// Accounter.showError(e.getMessage());
+						updateData(selectedObject);
+						paymentView.recalculateGridAmounts();
+					} else
 						return false;
-					}
+					// paymentView.updateFooterValues();
 					paymentView.recalculateGridAmounts();
 				}
 				return true;
@@ -709,36 +693,24 @@ public class TransactionReceivePaymentGrid extends
 			@Override
 			public boolean onOK() {
 				if (canEdit) {
-					try {
-						if (writeOffDialog.validate()) {
-							if (writeOffDialog.getSelectedWriteOffAccount() != null) {
-								selectedObject.setPayment(0.0);
-								selectedObject.setWriteOff(writeOffDialog
-										.getCashDiscountValue());
-								selectedObject
-										.setWriteOffAccount(writeOffDialog
-												.getSelectedWriteOffAccount()
-												.getID());
-								if (validatePaymentValue()) {
-									updatePayment(selectedObject);
-								} else {
-									selectedObject.setWriteOff(0.0D);
-									updatePayment(selectedObject);
-								}
-								updateData(selectedObject);
-								paymentView.recalculateGridAmounts();
-								// paymentView.updateFooterValues();
-							} else
-								return false;
-
-						} else
-							return false;
-					} catch (Exception e) {
-						// Accounter.showError(e.getMessage());
-						return false;
+					if (writeOffDialog.getSelectedWriteOffAccount() != null) {
+						selectedObject.setPayment(0.0);
+						selectedObject.setWriteOff(writeOffDialog
+								.getCashDiscountValue());
+						selectedObject.setWriteOffAccount(writeOffDialog
+								.getSelectedWriteOffAccount().getID());
+						if (validatePaymentValue()) {
+							updatePayment(selectedObject);
+						} else {
+							selectedObject.setWriteOff(0.0D);
+							updatePayment(selectedObject);
+						}
+						updateData(selectedObject);
+						paymentView.recalculateGridAmounts();
+						// paymentView.updateFooterValues();
 					}
-				}
 
+				}
 				return true;
 			}
 		});

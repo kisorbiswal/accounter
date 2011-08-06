@@ -20,6 +20,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 	// private ViewConfiguration configuration;
 	private NewItemAction action;
 	boolean isGeneratedFromCustomer;
+	private DynamicForm typeForm;
 
 	public SelectItemTypeDialog(NewItemAction action,
 			boolean isGeneratedFromCustomer) {
@@ -46,7 +47,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 				.constants().product());
 		typeRadio.setDefaultValue(Accounter.constants().service());
 
-		final DynamicForm typeForm = new DynamicForm();
+		typeForm = new DynamicForm();
 		typeForm.setFields(typeRadio);
 		typeForm.setWidth("100%");
 
@@ -61,12 +62,7 @@ public class SelectItemTypeDialog extends BaseDialog {
 
 	@Override
 	protected ValidationResult validate() {
-		if (!typeForm.validate(true)) {
-			// Accounter.showError(FinanceApplication
-			// .constants().pleaseSelectItemType());
-			return null;
-		}
-		return super.validate();
+		return typeForm.validate();
 	}
 
 	@Override
