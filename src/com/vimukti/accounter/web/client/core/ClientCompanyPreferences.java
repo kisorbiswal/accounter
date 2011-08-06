@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.OrganizationTypeConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 @SuppressWarnings("serial")
@@ -109,8 +110,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	// currency related properties
 	private Currency primaryCurrency;
-
 	private List<ClientCurrency> supportingCurrenciesList;
+	
+	//Organization type
+	private OrganizationTypeConstants organizationType;
 
 	// String legalName;
 
@@ -729,5 +732,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public void setSupportingCurrenciesList(
 			List<ClientCurrency> supportingCurrenciesList) {
 		this.supportingCurrenciesList = supportingCurrenciesList;
+	}
+
+	public OrganizationTypeConstants getOrganizationType() {
+		return organizationType;
+	}
+
+	public void setOrganizationType(OrganizationTypeConstants organizationType) {
+		this.organizationType = organizationType;
 	}
 }
