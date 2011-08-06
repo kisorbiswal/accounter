@@ -372,7 +372,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 		for (Entry<Integer, Object> entrySet : tempCredits.entrySet()) {
 			tempCredit.put(entrySet.getKey(), (entrySet.getValue()))
 
-		}
+		}//TODO
 
 		return clientTransactionReceivePaymentClone;
 	}
