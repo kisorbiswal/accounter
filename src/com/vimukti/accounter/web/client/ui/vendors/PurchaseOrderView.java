@@ -413,7 +413,7 @@ public class PurchaseOrderView extends
 		bottomLayout.setWidth("100%");
 		bottomLayout.setHorizontalAlignment(ALIGN_RIGHT);
 
-		menuButton.setType(AccounterButton.ADD_BUTTON);
+		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		bottomLayout.add(memoForm);
 		bottomLayout.add(panel);

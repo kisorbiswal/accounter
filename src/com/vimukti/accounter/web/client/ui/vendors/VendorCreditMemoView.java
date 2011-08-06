@@ -287,7 +287,7 @@ public class VendorCreditMemoView extends
 			bottomPanel.add(vPanel);
 		}
 
-		menuButton.setType(AccounterButton.ADD_BUTTON);
+		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");

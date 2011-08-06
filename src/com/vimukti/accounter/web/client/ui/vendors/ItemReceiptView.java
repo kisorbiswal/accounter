@@ -236,7 +236,7 @@ public class ItemReceiptView extends
 
 		this.add(mainVLay);
 
-		menuButton.setType(AccounterButton.ADD_BUTTON);
+		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		setSize("100%", "100%");
 

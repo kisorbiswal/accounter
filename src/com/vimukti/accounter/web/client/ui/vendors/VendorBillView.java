@@ -501,7 +501,7 @@ public class VendorBillView extends
 		hpanel.add(createAddNewButton());
 		hpanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		menuButton.setType(AccounterButton.ADD_BUTTON);
+		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
