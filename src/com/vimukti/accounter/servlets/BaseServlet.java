@@ -153,7 +153,7 @@ public class BaseServlet extends HttpServlet {
 	 */
 	protected void dispatchMessage(String message, HttpServletRequest req,
 			HttpServletResponse resp, String page) {
-		req.setAttribute("message", message);
+		req.setAttribute("errormessage", message);
 		try {
 			req.getRequestDispatcher(page).forward(req, resp);
 		} catch (ServletException e) {
