@@ -4504,4 +4504,8 @@ public interface AccounterConstants extends Constants {
 
 	public String weWillHelpYou();
 
+	public String baseCurrency();
+
+	public String setSupportedCurrencies();
+
 }
