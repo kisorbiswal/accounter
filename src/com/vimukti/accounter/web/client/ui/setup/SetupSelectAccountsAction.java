@@ -19,7 +19,6 @@ public class SetupSelectAccountsAction extends Action {
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, this);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
