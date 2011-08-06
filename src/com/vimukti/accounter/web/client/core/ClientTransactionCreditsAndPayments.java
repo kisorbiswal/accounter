@@ -156,6 +156,14 @@ public class ClientTransactionCreditsAndPayments implements IAccounterCore {
 	// }
 
 	public ClientTransactionCreditsAndPayments clone() {
-		return null;
+		ClientTransactionCreditsAndPayments clientTransactionCreditsAndPaymentsClone = (ClientTransactionCreditsAndPayments) this
+				.clone();
+		clientTransactionCreditsAndPaymentsClone.transactionReceivePayment = this.transactionReceivePayment
+				.clone();
+		clientTransactionCreditsAndPaymentsClone.transactionPayBill = this.transactionPayBill
+				.clone();
+		clientTransactionCreditsAndPaymentsClone.creditsAndPayments = this.creditsAndPayments
+				.clone();
+		return clientTransactionCreditsAndPaymentsClone;
 	}
 }
