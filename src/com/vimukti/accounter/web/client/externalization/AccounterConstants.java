@@ -4524,8 +4524,24 @@ public interface AccounterConstants extends Constants {
 
 	public String needToEnterTransactionsFromthisdate();
 
-	public String supportingCurrencies();
+	public String billstrackingdescription();
 
-	public String primaryCurrency();
+	public String billstrackingmanageCashflowStep1();
+
+	public String billstrackingmanageCashflowStep2();
+
+	public String billstrackingmanageCashflowStep3();
+
+	public String doyouwantTrackBills();
+
+	public String timetrackingdescription();
+
+	public String timetrackingflowStep1();
+
+	public String timetrackingflowStep2();
+
+	public String timetrackingflowStep3();
+
+	public String doyouwantTrackTime();
 
 }
