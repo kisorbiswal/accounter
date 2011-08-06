@@ -5,42 +5,32 @@
         <meta content="IE=100" http-equiv="X-UA-Compatible">
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		<% String version = application.getInitParameter("version"); %>
-      <link type="text/css" rel="stylesheet" href="../css/Finance.css?version=<%= version%>">
+      <link type="text/css" rel="stylesheet" href="../css/ss.css?version=<%= version%>">
   </head>
   <body>
-  <!--<table class="header">
-	   <tr>
-	      <td width="25%"><img src="/images/Accounter_logo_title.png" /></td>
-	      <td width="50%"><div class="companyName">Company Lists</div></td>
-	      <td width="25%">
-	        <ul>
-	           <li><img src="images/User.png" /><a href="">Welcome ${userName}</a></li>
-	           <li><img src="images/Help.png" /><a href='http://help.accounter.com'>Help</a></li>
-	           <li><img src="images/logout.png" /><a href='/do/logout'>Logout</a></li>
-	        </ul>
-	      </td>
-	   </tr>
-	</table>-->
+  <div id="commanContainer">
 	<div>
 		<img src="../images/Accounter_logo_title.png" class="accounterLogo" />
 	</div>
     <div class="company_lists">
-       <ul>
+       
        
         <c:if test="${message != null}">
        		<div>${message}</div>
         </c:if>
-       
+       <div class="form-box">
       	<div> <a href="/createcompany">Create New Company </a></div>
-      	
+      	<ul>
 	    <c:if test="${companeyList != null}">
 		   <c:forEach var="company" items="${companeyList}">
 			   <c:set var='url' value="/companies?companyId=${company.id}"/>
-			   <h3><a href=${url}>${company.companyName}</a></h3>
+			   <li><a href=${url}>${company.companyName}</a></li>
 		   </c:forEach>
 	    </c:if>
 	    
 	   </ul>
+	  </div>
     </div>
+   </div>
   </body>
 </html>
