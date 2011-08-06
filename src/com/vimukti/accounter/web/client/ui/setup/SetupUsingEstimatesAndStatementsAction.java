@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class SetupUsingEstimatesAndStatementsAction extends Action {
@@ -31,15 +30,9 @@ public class SetupUsingEstimatesAndStatementsAction extends Action {
 	}
 
 	@Override
-	public void run() {
-		statementsPage = new SetupUsingEstimatesAndStatementsPage();
-		try {
-			MainFinanceWindow.getViewManager().showView(statementsPage, data,
-					isDependent, this);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void run(Object data, Boolean isDependent) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
