@@ -31,14 +31,14 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	// long id;
 
-	BaseListView view;
+	BaseListView<T> view;
 
-	public BaseListView getView() {
+	public BaseListView<T> getView() {
 		return view;
 
 	}
 
-	public void setView(BaseListView view) {
+	public void setView(BaseListView<T> view) {
 		this.view = view;
 
 	}

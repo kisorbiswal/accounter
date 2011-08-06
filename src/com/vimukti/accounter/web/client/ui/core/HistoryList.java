@@ -3,6 +3,13 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Used to keep track of what views we have opened last. We will keep the size
+ * of this limited;
+ * 
+ * @author rajesh
+ * 
+ */
 public class HistoryList {
 	private int size;
 	List<HistoryItem> list = new ArrayList<HistoryItem>();
@@ -24,6 +31,7 @@ public class HistoryList {
 			list.remove(0);
 		}
 	}
+
 	public static class HistoryItem {
 		HistoryItem(String token, ParentCanvas<?> view) {
 			this.token = token;
@@ -33,9 +41,10 @@ public class HistoryList {
 		String token;
 		ParentCanvas<?> view;
 	}
+
 	public ParentCanvas<?> getView(String token) {
-		for(HistoryItem item:list){
-			if(item.token.equals(token)){
+		for (HistoryItem item : list) {
+			if (item.token.equals(token)) {
 				return item.view;
 			}
 		}
@@ -44,10 +53,11 @@ public class HistoryList {
 
 	/**
 	 * Return previous view
+	 * 
 	 * @param i
 	 */
 	public HistoryItem get(int index) {
-		return list.get(list.size()-1-index);
-		
+		return list.get(list.size() - 1 - index);
+
 	}
 }
