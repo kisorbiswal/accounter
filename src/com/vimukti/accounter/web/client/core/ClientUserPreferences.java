@@ -100,6 +100,8 @@ public class ClientUserPreferences implements IAccounterCore {
 	}
 
 	public ClientUserPreferences clone() {
-		return null;
+		ClientUserPreferences clientUserPreferencesClone = (ClientUserPreferences) this
+				.clone();
+		return clientUserPreferencesClone;
 	}
 }
