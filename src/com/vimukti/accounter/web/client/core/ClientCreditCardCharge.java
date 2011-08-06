@@ -161,6 +161,11 @@ public class ClientCreditCardCharge extends ClientTransaction {
 	}
 
 	public ClientCreditCardCharge clone() {
-		return null;
+		ClientCreditCardCharge clientCreditCardChargeClone = (ClientCreditCardCharge) this
+				.clone();
+		clientCreditCardChargeClone.contact = this.contact.clone();
+		clientCreditCardChargeClone.vendorAddress = this.vendorAddress.clone();
+
+		return clientCreditCardChargeClone;
 	}
 }
