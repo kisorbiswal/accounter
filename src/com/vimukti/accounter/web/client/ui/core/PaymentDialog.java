@@ -46,48 +46,6 @@ public class PaymentDialog extends BaseDialog {
 		typeForm.setGroupTitle(customerConstants.setPaymentType());
 		typeForm.setFields(typeRadio);
 
-		addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public boolean onOkClick() {
-				if (typeRadio.getValue() != null) {
-					String radio = typeRadio.getValue().toString();
-					if (radio.equals(RECEIVE_PAYMENT)) {
-						try {
-							ActionFactory.getReceivePaymentAction().run(null,
-									false);
-						} catch (Throwable e) {
-							Accounter.showError(Accounter.constants()
-									.failedToloadWriteCheck()
-
-							);
-							e.printStackTrace();
-						}
-
-					} else if (radio.equals(CUSTOMER_PREPAYMENT)) {
-						try {
-							ActionFactory.getNewCustomerPaymentAction().run(
-									null, false);
-						} catch (Throwable e) {
-							Accounter.showError(Accounter.constants()
-									.failedToLoadCreditCardCharg());
-							e.printStackTrace();
-
-						}
-
-					}
-				}
-				removeFromParent();
-				return true;
-			}
-
-			@Override
-			public void onCancelClick() {
-				removeFromParent();
-				// Action.cancle();
-			}
-		});
-
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(typeForm);
@@ -99,5 +57,19 @@ public class PaymentDialog extends BaseDialog {
 
 	public void setFocus() {
 		cancelBtn.setFocus(true);
+	}
+
+	@Override
+	protected boolean onOK() {
+		if (typeRadio.getValue() != null) {
+			String radio = typeRadio.getValue().toString();
+			if (radio.equals(RECEIVE_PAYMENT)) {
+				ActionFactory.getReceivePaymentAction().run(null, false);
+			} else if (radio.equals(CUSTOMER_PREPAYMENT)) {
+				ActionFactory.getNewCustomerPaymentAction().run(null, false);
+			}
+		}
+		removeFromParent();
+		return true;
 	}
 }
