@@ -7,16 +7,17 @@ import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.IRpcResultNotifier;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public abstract class BaseListGrid<T> extends ListGrid<T> implements
-		IAccounterWidget {
+		IAccounterWidget, IRpcResultNotifier {
 
 	private List<Integer> cellsWidth = new ArrayList<Integer>();
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
@@ -150,12 +151,6 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 				});
 	}
 
-	protected void voidTransaction(AccounterCoreType coreType,
-			long transactionsID) {
-		ViewManager.getInstance().voidTransaction(coreType, transactionsID,
-				this);
-	}
-
 	protected void initRPCService() {
 		this.rpcDoSerivce = Accounter.createCRUDService();
 
@@ -260,5 +255,37 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
+	}
+
+	protected <D extends IAccounterCore> void deleteObject(final D data) {
+		Accounter.deleteObject(this, data);
+	}
+
+	protected void voidTransaction(final AccounterCoreType coreType,
+			final long transactionsID) {
+
+		Accounter.voidTransaction(this, coreType, transactionsID);
+	}
+
+	@Override
+	public void onSaveSuccess(IAccounterCore codeObj) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSaveFailure(AccounterException exception) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDeleteSuccess(boolean delete) {
+
+	}
+
+	@Override
+	public void onDeleteFailure(AccounterException exception) {
+		deleteFailed(exception);
 	}
 }

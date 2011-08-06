@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class CustomerListGrid extends BaseListGrid<PayeeList> {
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
@@ -213,8 +212,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 			public void onSuccess(ClientCustomer result) {
 				if (result != null) {
-					ViewManager.getInstance().deleteObject(result,
-							AccounterCoreType.CUSTOMER, CustomerListGrid.this);
+					deleteObject(result);
 
 				}
 			}

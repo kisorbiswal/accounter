@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
  * 
@@ -78,8 +77,7 @@ public class ManageVATGroupListGrid extends BaseListGrid<ClientTAXGroup> {
 
 	@Override
 	protected void executeDelete(ClientTAXGroup vatGroup) {
-		ViewManager.getInstance().deleteObject(vatGroup,
-				AccounterCoreType.TAX_GROUP, this);
+		deleteObject(vatGroup);
 
 	}
 

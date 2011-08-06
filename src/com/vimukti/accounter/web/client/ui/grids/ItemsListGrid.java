@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
@@ -99,8 +98,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	}
 
 	protected void executeDelete(final ClientItem recordToBeDeleted) {
-		ViewManager.getInstance().deleteObject(recordToBeDeleted,
-				AccounterCoreType.ITEM, this);
+		deleteObject(recordToBeDeleted);
 	}
 
 	@Override

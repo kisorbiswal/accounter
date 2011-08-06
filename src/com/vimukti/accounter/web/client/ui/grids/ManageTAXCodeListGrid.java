@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
  * @author gwt
@@ -113,8 +112,7 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 
 	@Override
 	protected void executeDelete(ClientTAXCode taxCode) {
-		ViewManager.getInstance().deleteObject(taxCode,
-				AccounterCoreType.TAX_CODE, this);
+		deleteObject(taxCode);
 	}
 
 	@Override

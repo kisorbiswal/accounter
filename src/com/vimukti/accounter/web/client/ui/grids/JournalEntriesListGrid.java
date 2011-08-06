@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
@@ -192,8 +191,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	// rpcDoSerivce.voidTransaction(type, obj.getID(), callback);
 	// }
 	protected void voidTransaction(final ClientJournalEntry obj) {
-		ViewManager.getInstance().voidTransaction(
-				UIUtils.getAccounterCoreType(obj.getType()), obj.getID(), this);
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
+				obj.getID());
 	}
 
 	protected void deleteTransaction(final ClientJournalEntry obj) {

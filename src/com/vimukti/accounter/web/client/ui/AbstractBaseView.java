@@ -53,7 +53,7 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
-		IAccounterWidget, WidgetWithErrors,IEditableView {
+		IAccounterWidget, WidgetWithErrors, IEditableView, IRpcResultNotifier {
 
 	@Override
 	public boolean canEdit() {
@@ -70,25 +70,25 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	@Override
 	public void fitToSize(int height, int width) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public AbstractBaseView() {
@@ -293,29 +293,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 
 	protected <P extends IAccounterCore> void saveOrUpdate(final P core) {
 
-		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
-
-			public void onException(AccounterException caught) {
-				saveFailed(caught);
-				caught.printStackTrace();
-				// TODO handle other kind of errors
-			}
-
-			public void onSuccess(Long result) {
-				core.setID(result);
-				Accounter.getCompany().processUpdateOrCreateObject(core);
-				saveSuccess(core);
-			}
-
-		};
-		if (core.getID() == 0) {
-			Accounter.createCRUDService().create((IAccounterCore) core,
-					transactionCallBack);
-		} else {
-			Accounter.createCRUDService().update((IAccounterCore) core,
-					transactionCallBack);
-		}
-
 	}
 
 	@Override
@@ -487,6 +464,26 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 		} else {
 			close();
 		}
+	}
+
+	@Override
+	public void onSaveSuccess(IAccounterCore coreObj) {
+		saveSuccess(coreObj);
+	}
+
+	@Override
+	public void onSaveFailure(AccounterException exception) {
+		saveFailed(exception);
+	}
+
+	@Override
+	public void onDeleteSuccess(boolean delete) {
+		deleteSuccess(delete);
+	}
+
+	@Override
+	public void onDeleteFailure(AccounterException exception) {
+		deleteFailed(exception);
 	}
 
 }

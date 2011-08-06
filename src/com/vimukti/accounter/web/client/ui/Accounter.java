@@ -21,9 +21,12 @@ import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.ValueCallBack;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -313,4 +316,84 @@ public class Accounter implements EntryPoint {
 		return eventBus;
 	}
 
+	public static <D extends IAccounterCore> void createOrUpdate(
+			final IRpcResultNotifier source, final D coreObj) {
+		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+				source.onSaveFailure(caught);
+				caught.printStackTrace();
+				// TODO handle other kind of errors
+			}
+
+			public void onSuccess(Long result) {
+				super.onSuccess(result);
+				coreObj.setID(result);
+				company.processUpdateOrCreateObject(coreObj);
+				source.onSaveSuccess(coreObj);
+			}
+
+		};
+		if (coreObj.getID() == 0) {
+			Accounter.createCRUDService().create((IAccounterCore) coreObj,
+					transactionCallBack);
+		} else {
+			Accounter.createCRUDService().update((IAccounterCore) coreObj,
+					transactionCallBack);
+		}
+	}
+
+	public static <D extends IAccounterCore> void deleteObject(
+			final IRpcResultNotifier source, final D data) {
+		AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			public void onException(AccounterException caught) {
+				AccounterException exception = (AccounterException) caught;
+				// exception.setID(currentrequestedWidget.getID());
+				// getCompany().processCommand(exception);
+				source.onDeleteFailure(exception);
+			}
+
+			public void onSuccess(Boolean result) {
+				super.onSuccess(result);
+				getCompany().processDeleteObject(data);
+				source.onDeleteSuccess(result);
+			}
+
+		};
+		Accounter.createCRUDService().delete(data.getObjectType(),
+				data.getID(), transactionCallBack);
+	}
+
+	public static void voidTransaction(final IRpcResultNotifier source,
+			final AccounterCoreType coreType, final long transactionsID) {
+
+		// currentrequestedWidget = widget;
+		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				AccounterException exception = (AccounterException) caught;
+				// exception.setID(currentrequestedWidget.getID());
+				getCompany().processCommand(exception);
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				super.onSuccess(result);
+				if (result) {
+					AccounterCommand cmd = new AccounterCommand();
+					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
+					cmd.setData(null);
+					cmd.setID(transactionsID);
+					cmd.setObjectType(coreType);
+					getCompany().processUpdateOrCreateObject(cmd);
+				}
+
+			}
+		};
+		// widget.setID(transactionID);
+		Accounter.createCRUDService().voidTransaction(coreType, transactionsID,
+				callback);
+	}
 }
