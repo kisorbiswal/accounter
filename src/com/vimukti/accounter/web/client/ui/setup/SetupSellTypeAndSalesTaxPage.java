@@ -119,7 +119,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			break;
 		}
 
-		switch (preferences.getSalesTax()) {
+		switch (preferences.getSalesTaxs()) {
 		case YES:
 			yesRadioButton.setValue(true);
 			break;
@@ -137,7 +137,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			preferences.setSellType(slectedsellTYpeValue);
 		}
 		if (selectedSaleTaxvalue != 0) {
-			preferences.setSalesTax(selectedSaleTaxvalue);
+			preferences.setSalesTaxs(selectedSaleTaxvalue);
 		}
 	}
 
