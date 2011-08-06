@@ -357,7 +357,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		vPanel.setWidth("100%");
 		vPanel.add(panel);
 
-		menuButton.setType(AccounterButton.ADD_BUTTON);
+		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		vPanel.add(prodAndServiceForm2);
 
