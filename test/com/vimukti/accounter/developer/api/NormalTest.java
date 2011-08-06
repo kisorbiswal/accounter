@@ -19,8 +19,8 @@ public class NormalTest {
 	private static String prefixUrl = "http://localhost:8890/api/xmlreports/";
 	private static final String DATE_FORMAT = "yyyy.MM.dd G 'at' HH:mm:ss z";
 
-	private String apikey = "y14c6lde";
-	private String secretKey = "c7hinn7j6uba998x";
+	private String apikey = "v0l5mtpv";
+	private String secretKey = "f8a2yrcoo2zpp5cb";
 	private long companyId = 1;
 	private SimpleDateFormat simpleDateFormat;
 
@@ -52,21 +52,25 @@ public class NormalTest {
 		return null;
 	}
 
+	private String getURLEncode(String string) {
+		return new UrlEncoded(string).encode();
+	}
+
 	private void testSalesByCustomerSummary() throws IOException {
 		String exprDate = simpleDateFormat.format(System.currentTimeMillis());
-		String queryStr = "ApiKey="
-				+ apikey
-				+ "&CompanyId="
-				+ companyId
-				+ "&Expire="
-				+ exprDate
-				+ "&StartDate=2011-07-01 12:00:00Z&EndDate=2011-08-30 12:00:00Z";
-		
-		String encodeString = new UrlEncoded(queryStr).encode();
-		
-		String signature = doSigning(encodeString);
-		String queryString = encodeString + "&" + SIGNATURE + "=" + signature;
+		String queryStr = "ApiKey=" + getURLEncode(apikey) + "&CompanyId="
+				+ getURLEncode(companyId) + "&Expire=" + getURLEncode(exprDate)
+				+ "&StartDate=" + getURLEncode("2011.07.01 AD at 17:18:31 IST")
+				+ "&EndDate=" + getURLEncode("2011.08.30 AD at 17:18:31 IST");
+
+		String signature = doSigning(queryStr);
+		String queryString = queryStr + "&" + SIGNATURE + "="
+				+ getURLEncode(signature);
 		sendRequest(prefixUrl + "salesbycustomersummary?" + queryString);
+	}
+
+	private String getURLEncode(long num) {
+		return getURLEncode(num + "");
 	}
 
 	private void sendRequest(String urlStr) throws IOException {
