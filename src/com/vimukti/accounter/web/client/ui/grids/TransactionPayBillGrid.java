@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCreditsAndPaymentsDialiog;
 import com.vimukti.accounter.web.client.ui.vendors.PayBillView;
 
@@ -363,21 +362,14 @@ public class TransactionPayBillGrid extends
 			@Override
 			public boolean onOK() {
 				try {
-					if (cashDiscountDialog.validate()) {
-						selectedObject.setCashDiscount(cashDiscountDialog
-								.getCashDiscount());
-						setAttribute("cashAccount",
-								cashDiscountDialog.selectedDiscountAccount
-										.getName(), currentRow);
-						updateRecord(selectedObject, currentRow, 3);
-						paybillView.adjustPaymentValue(selectedObject);
-						updateFootervalues(selectedObject);
-					} else {
-						Accounter.showError(Accounter.constants()
-								.noDiscountAccountSelected());
-						return false;
-					}
-
+					selectedObject.setCashDiscount(cashDiscountDialog
+							.getCashDiscount());
+					setAttribute("cashAccount",
+							cashDiscountDialog.selectedDiscountAccount
+									.getName(), currentRow);
+					updateRecord(selectedObject, currentRow, 3);
+					paybillView.adjustPaymentValue(selectedObject);
+					updateFootervalues(selectedObject);
 				} catch (Exception e) {
 					Accounter.showError(e.getMessage());
 					return false;

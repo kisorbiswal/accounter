@@ -35,4 +35,9 @@ public class NoteDialog extends BaseDialog {
 		setWidth("350");
 	}
 
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -369,4 +369,10 @@ public class JournalViewDialog extends BaseDialog {
 		return totalCapitalGainAmount;
 	}
 
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

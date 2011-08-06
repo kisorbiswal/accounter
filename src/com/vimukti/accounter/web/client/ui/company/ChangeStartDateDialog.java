@@ -64,4 +64,10 @@ public class ChangeStartDateDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -808,4 +808,11 @@ public class AddWidgetDialog extends BaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
+
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

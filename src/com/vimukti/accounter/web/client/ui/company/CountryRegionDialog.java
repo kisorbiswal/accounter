@@ -60,4 +60,10 @@ public class CountryRegionDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
