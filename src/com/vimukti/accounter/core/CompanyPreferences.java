@@ -122,7 +122,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private boolean sellServices;
 	private boolean sellProducts;
-
+	private int sellType;
+	private int salesTaxs;
 	// currency related properties
 	private Currency primaryCurrency;
 	private List<Currency> supportingCurrenciesList;
@@ -732,6 +733,22 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public void setOrganizationType(int organizationType) {
 		this.organizationType = organizationType;
+	}
+
+	public int getSellType() {
+		return sellType;
+	}
+
+	public void setSellType(int sellType) {
+		this.sellType = sellType;
+	}
+
+	public int getSalesTaxs() {
+		return salesTaxs;
+	}
+
+	public void setSalesTaxs(int salesTaxs) {
+		this.salesTaxs = salesTaxs;
 	}
 
 	/*
