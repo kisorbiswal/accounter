@@ -260,6 +260,22 @@ public class ClientJournalEntry extends ClientTransaction implements
 	}
 
 	public ClientJournalEntry clone() {
-		return null;
+		ClientJournalEntry clientJournalEntryClone = (ClientJournalEntry) this
+				.clone();
+		Set<ClientTransactionReceivePayment> transactionReceivePaymentsSet = new HashSet<ClientTransactionReceivePayment>();
+		for (ClientTransactionReceivePayment ClientTransactionReceivePayment : this.transactionReceivePayments) {
+			transactionReceivePaymentsSet.add(ClientTransactionReceivePayment
+					.clone());
+
+		}
+		clientJournalEntryClone.transactionReceivePayments = transactionReceivePaymentsSet;
+
+		Set<ClientTransactionPayBill> transactionPayBillsSet = new HashSet<ClientTransactionPayBill>();
+		for (ClientTransactionPayBill clientTransactionPayBill : this.transactionPayBill) {
+			transactionPayBillsSet.add(clientTransactionPayBill.clone());
+		}
+		clientJournalEntryClone.transactionPayBills = transactionPayBillsSet;
+
+		return clientJournalEntryClone;
 	}
 }

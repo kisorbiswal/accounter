@@ -106,6 +106,9 @@ public class ClientMakeDeposit extends ClientTransaction {
 	}
 
 	public ClientMakeDeposit clone() {
-		return null;
+		ClientMakeDeposit clientMakeDepositClone = (ClientMakeDeposit) this
+				.clone();
+
+		return clientMakeDepositClone;
 	}
 }

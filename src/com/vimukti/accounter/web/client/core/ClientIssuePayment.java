@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 @SuppressWarnings("serial")
 public class ClientIssuePayment extends ClientTransaction implements
-		IsSerializable, Serializable {
+		IsSerializable, Serializable, Cloneable {
 
 	long account;
 
@@ -76,6 +76,8 @@ public class ClientIssuePayment extends ClientTransaction implements
 	}
 
 	public ClientIssuePayment clone() {
-		return null;
+		ClientIssuePayment clientIssuePaymentClone = (ClientIssuePayment) this
+				.clone();
+		return clientIssuePaymentClone;
 	}
 }

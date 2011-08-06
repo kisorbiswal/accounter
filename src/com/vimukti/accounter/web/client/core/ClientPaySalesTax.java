@@ -117,6 +117,8 @@ public class ClientPaySalesTax extends ClientTransaction {
 	}
 
 	public ClientPaySalesTax clone() {
-		return null;
+		ClientPaySalesTax clientPaySalesTaxClone = (ClientPaySalesTax) this
+				.clone();
+		return clientPaySalesTaxClone;
 	}
 }

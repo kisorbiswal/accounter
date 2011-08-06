@@ -173,6 +173,12 @@ public class ClientItemReceipt extends ClientTransaction {
 	}
 
 	public ClientItemReceipt clone() {
-		return null;
+		ClientItemReceipt clientItemReceiptClone = (ClientItemReceipt) this
+				.clone();
+		clientItemReceiptClone.shipTo = this.shipTo.clone();
+		clientItemReceiptClone.contact = this.contact.clone();
+		clientItemReceiptClone.vendorAddress = this.vendorAddress.clone();
+		clientItemReceiptClone.shippingAddress = this.shippingAddress.clone();
+		return clientItemReceiptClone;
 	}
 }

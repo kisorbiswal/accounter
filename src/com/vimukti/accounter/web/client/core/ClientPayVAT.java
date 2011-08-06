@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientPayVAT extends ClientTransaction {
@@ -160,6 +161,14 @@ public class ClientPayVAT extends ClientTransaction {
 	}
 
 	public ClientPayVAT clone() {
-		return null;
+		ClientPayVAT clientPayVATClone = (ClientPayVAT) this.clone();
+		List<ClientTransactionPayVAT> transactionPayVATList = new ArrayList<ClientTransactionPayVAT>();
+		for (ClientTransactionPayVAT clientTransactionPayVAT : this.transactionPayVAT) {
+			transactionPayVATList.add(clientTransactionPayVAT.clone());
+		}
+		clientPayVATClone.transactionPayVAT = transactionPayVATList;
+
+		return clientPayVATClone;
 	}
+
 }

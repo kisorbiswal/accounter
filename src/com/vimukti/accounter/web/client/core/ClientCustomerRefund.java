@@ -174,6 +174,15 @@ public class ClientCustomerRefund extends ClientTransaction {
 	}
 
 	public ClientCustomerRefund clone() {
-		return null;
+		ClientCustomerRefund clientCustomerRefundClone = (ClientCustomerRefund) this
+				.clone();
+		clientCustomerRefundClone.address = this.address.clone();
+		Set<ClientTransactionReceivePayment> transactionReceivePayments = new HashSet<ClientTransactionReceivePayment>();
+		for (ClientTransactionReceivePayment clientTransactionReceivePayment : this.transactionReceivePayments) {
+			transactionReceivePayments.add(clientTransactionReceivePayment);
+		}
+		clientCustomerRefundClone.transactionReceivePayments = transactionReceivePayments;
+
+		return clientCustomerRefundClone;
 	}
 }

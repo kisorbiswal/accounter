@@ -261,6 +261,9 @@ public class ClientEstimate extends ClientTransaction {
 	}
 
 	public ClientEstimate clone() {
-		return null;
+		ClientEstimate clientEstimateClone = (ClientEstimate) this.clone();
+		clientEstimateClone.address = this.address.clone();
+		clientEstimateClone.contact = this.contact.clone();
+		return clientEstimateClone;
 	}
 }

@@ -221,6 +221,8 @@ public class ClientPayBill extends ClientTransaction {
 	}
 
 	public ClientPayBill clone() {
-		return null;
+		ClientPayBill clientPayBillClone = (ClientPayBill) this.clone();
+
+		return clientPayBillClone;
 	}
 }
