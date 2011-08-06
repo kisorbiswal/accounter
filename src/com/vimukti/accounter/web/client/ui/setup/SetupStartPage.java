@@ -76,9 +76,6 @@ public class SetupStartPage extends AbstractSetupPage {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				SetupCompanyInfoAction action = new SetupCompanyInfoAction(
-						"Company Info");
-				action.run(null, false);
 			}
 		});
 
