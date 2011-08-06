@@ -44,7 +44,8 @@ public class ClientBankAccount extends ClientAccount {
 	}
 
 	public ClientBankAccount clone() {
-		return null;
+		ClientBankAccount clientBankAccount = (ClientBankAccount) this.clone();
+		return clientBankAccount;
 
 	}
 }

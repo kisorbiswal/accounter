@@ -68,7 +68,8 @@ public class ClientBank implements IAccounterCore {
 	}
 
 	public ClientBank clone() {
-		return null;
+		ClientBank clientBank = (ClientBank) this.clone();
+		return clientBank;
 
 	}
 

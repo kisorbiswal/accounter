@@ -323,7 +323,9 @@ public class ClientBrandingTheme implements IAccounterCore {
 	}
 
 	public ClientBrandingTheme clone() {
-		return null;
+		ClientBrandingTheme clientBrandingTheme = (ClientBrandingTheme) this
+				.clone();
+		return clientBrandingTheme;
 
 	}
 

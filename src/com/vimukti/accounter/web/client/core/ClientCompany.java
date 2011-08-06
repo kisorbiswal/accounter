@@ -2232,7 +2232,26 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ClientCompany clone() {
-		return null;
+		ClientCompany clientCompany = (ClientCompany) this.clone();
+		List<ClientAccount> accounts = new ArrayList<ClientAccount>();
+		for (ClientAccount clientAccount : this.accounts) {
+			accounts.add(clientAccount.clone());
+		}
+		clientCompany.accounts = accounts;
+
+		List<ClientBank> banks = new ArrayList<ClientBank>();
+		for (ClientBank clientBank : this.banks) {
+			banks.add(clientBank.clone());
+		}
+		clientCompany.banks = banks;
+
+		List<ClientBrandingTheme> brandingThemes = new ArrayList<ClientBrandingTheme>();
+		for (ClientBrandingTheme clientBrandingTheme : this.brandingTheme) {
+			brandingThemes.add(clientBrandingTheme.clone());
+		}
+		clientCompany.brandingTheme = brandingTheme;
+
+		return clientCompany;
 
 	}
 }

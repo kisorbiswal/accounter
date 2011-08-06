@@ -53,7 +53,9 @@ public class ClientCommodityCode implements IAccounterCore {
 	}
 
 	public ClientCommodityCode clone() {
-		return null;
+		ClientCommodityCode clientCommodityCode = (ClientCommodityCode) this
+				.clone();
+		return clientCommodityCode;
 
 	}
 

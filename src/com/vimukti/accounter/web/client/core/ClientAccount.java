@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.Map;
-
 /**
  * @author vimukti21
  * 
@@ -113,8 +111,6 @@ public class ClientAccount implements IAccounterCore {
 	boolean isDefault;
 
 	boolean isOpeningBalanceEditable = Boolean.TRUE;
-
-	Map<Integer, Double> monthViceAmounts;
 
 	String hierarchy;
 	String flow;
@@ -481,7 +477,8 @@ public class ClientAccount implements IAccounterCore {
 	}
 
 	public ClientAccount clone() {
-		return null;
+		ClientAccount clientAccount = (ClientAccount) this.clone();
+		return clientAccount;
 
 	}
 

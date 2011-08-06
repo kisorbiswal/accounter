@@ -43,7 +43,8 @@ public class AccounterCore implements IAccounterCore {
 	}
 
 	public AccounterCore clone() {
-		return null;
+		AccounterCore accounterCore = (AccounterCore) this.clone();
+		return accounterCore;
 
 	}
 

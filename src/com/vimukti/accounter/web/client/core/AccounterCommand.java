@@ -74,8 +74,8 @@ public class AccounterCommand implements IAccounterCore {
 	}
 
 	public AccounterCommand clone() {
-		return null;
-
+		AccounterCommand command = (AccounterCommand) this.clone();
+		return command;
 	}
 
 }

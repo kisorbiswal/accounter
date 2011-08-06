@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -147,8 +148,13 @@ public class ClientBox implements IAccounterCore {
 	}
 
 	public ClientBox clone() {
-		return null;
+		ClientBox clientBox = (ClientBox) this.clone();
+		List<ClientTAXRateCalculation> taxRateCalculations = new ArrayList<ClientTAXRateCalculation>();
+		for (ClientTAXRateCalculation clientTAXRateCalculation : this.taxRateCalculations) {
+			taxRateCalculations.add(clientTAXRateCalculation.clone());
+		}
+		clientBox.taxRateCalculations = taxRateCalculations;
+		return clientBox;
 
 	}
-
 }
