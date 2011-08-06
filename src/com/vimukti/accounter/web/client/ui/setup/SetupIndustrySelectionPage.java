@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -87,65 +86,9 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected void onBack() {
+	public boolean doShow() {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void onNext() {
-		SetupOrganisationSelectionAction action = new SetupOrganisationSelectionAction(
-				"Company Info");
-		action.run(null, false);
-
-	}
-
-	@Override
-	protected String getViewTitle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onEdit() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void print() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void printPreview() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 }
