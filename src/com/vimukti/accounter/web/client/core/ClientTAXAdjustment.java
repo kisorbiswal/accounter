@@ -222,7 +222,9 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 
 	public ClientTAXAdjustment clone() {
 		ClientTAXAdjustment taxAdjustment = (ClientTAXAdjustment) this.clone();
+
 		taxAdjustment.creditsAndPayments = this.creditsAndPayments.clone();
+
 		List<ClientEntry> entries = new ArrayList<ClientEntry>();
 		for (ClientEntry clientEntry : this.entry) {
 			entries.add(clientEntry.clone());

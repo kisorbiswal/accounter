@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SuppressWarnings("serial")
 public class ClientTransferFund extends ClientTransaction {
 
@@ -93,6 +96,59 @@ public class ClientTransferFund extends ClientTransaction {
 	}
 
 	public ClientTAXAdjustment clone() {
-		return null;
+		ClientTAXAdjustment taxAdjustment = (ClientTAXAdjustment) this.clone();
+
+		List<ClientEntry> entries = new ArrayList<ClientEntry>();
+		for (ClientEntry clientEntry : this.entry) {
+			entries.add(clientEntry.clone());
+		}
+		taxAdjustment.entry = entries;
+
+		// transactionItems list
+		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem clientTransactionItem : this.transactionItems) {
+			transactionItems.add(clientTransactionItem.clone());
+		}
+		taxAdjustment.transactionItems = transactionItems;
+
+		// transactionMakeDeposit list
+		List<ClientTransactionMakeDeposit> transactionMakeDeposit = new ArrayList<ClientTransactionMakeDeposit>();
+		for (ClientTransactionMakeDeposit clientTransactionMakeDeposit : this.transactionMakeDeposit) {
+			transactionMakeDeposit.add(clientTransactionMakeDeposit.clone());
+		}
+		taxAdjustment.transactionMakeDeposit = transactionMakeDeposit;
+
+		// transactionPayBill list
+		List<ClientTransactionPayBill> transactionPayBillList = new ArrayList<ClientTransactionPayBill>();
+		for (ClientTransactionPayBill clientTransactionPayBill : this.transactionPayBill) {
+			transactionPayBillList.add(clientTransactionPayBill.clone());
+		}
+		taxAdjustment.transactionPayBill = transactionPayBillList;
+
+		// transactionReceivePayment list
+		List<ClientTransactionReceivePayment> transactionReceivePaymentList = new ArrayList<ClientTransactionReceivePayment>();
+		for (ClientTransactionReceivePayment clientTransactionReceivePayment : this.transactionReceivePayment) {
+			transactionReceivePaymentList.add(clientTransactionReceivePayment
+					.clone());
+		}
+		taxAdjustment.transactionReceivePayment = transactionReceivePaymentList;
+
+		// transactionIssuePayment list
+		List<ClientTransactionIssuePayment> transactionIssuePayment = new ArrayList<ClientTransactionIssuePayment>();
+		for (ClientTransactionIssuePayment clientTransactionIssuePayment : this.transactionIssuePayment) {
+			transactionIssuePayment.add(clientTransactionIssuePayment.clone());
+		}
+		taxAdjustment.transactionIssuePayment = transactionIssuePayment;
+
+		// transactionPaySalestax list
+		List<ClientTransactionPaySalesTax> transactionPaySalesTax = new ArrayList<ClientTransactionPaySalesTax>();
+		for (ClientTransactionPaySalesTax clientTransactionPaySalesTax : this.transactionPaySalesTax) {
+			transactionPaySalesTax.add(clientTransactionPaySalesTax.clone());
+		}
+		taxAdjustment.transactionPaySalesTax = transactionPaySalesTax;
+
+		taxAdjustment.creditsAndPayments = this.creditsAndPayments.clone();
+
+		return taxAdjustment;
 	}
 }
