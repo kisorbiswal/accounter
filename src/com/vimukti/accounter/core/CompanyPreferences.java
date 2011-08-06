@@ -126,6 +126,9 @@ public class CompanyPreferences implements IAccounterServerCore {
 	// currency related properties
 	private Currency primaryCurrency;
 	private List<Currency> supportingCurrenciesList;
+	
+	//Organization type
+	private OrganizationTypeConstants organizationType;
 
 	public Currency getPrimaryCurrency() {
 		return primaryCurrency;
@@ -682,6 +685,14 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public void setSalesPerson(boolean isSalesPersonEnabled) {
 		this.isSalesPersonEnabled = isSalesPersonEnabled;
+	}
+
+	public OrganizationTypeConstants getOrganizationType() {
+		return organizationType;
+	}
+
+	public void setOrganizationType(OrganizationTypeConstants organizationType) {
+		this.organizationType = organizationType;
 	}
 
 	/*
