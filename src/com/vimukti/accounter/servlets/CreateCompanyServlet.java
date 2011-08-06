@@ -29,16 +29,34 @@ public class CreateCompanyServlet extends BaseServlet {
 	private String view = "/WEB-INF/CreateCompany.jsp";
 
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String emailID = (String) session.getAttribute(EMAIL_ID);
+	protected void doPost(final HttpServletRequest request,
+			final HttpServletResponse response) throws ServletException,
+			IOException {
+		final HttpSession session = request.getSession();
+		final String emailID = (String) session.getAttribute(EMAIL_ID);
 		if (emailID == null) {
 			return;
 		}
 
-		doCreateCompany(request, response, emailID);
+		Thread thread = new Thread(new Runnable() {
 
+			@Override
+			public void run() {
+				session.setAttribute("STATUS", "Creating");
+				doCreateCompany(request, response, emailID);
+				try {
+					redirectExternal(request, response, "/WEB-INF/refresh.jsp");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				session.setAttribute("STATUS", "Completed");
+
+			}
+		});
+		thread.start();
+		
+//		doCreateCompany(request, response, emailID);
+		
 	}
 
 	private void doCreateCompany(HttpServletRequest request,
@@ -72,7 +90,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			int responseCode = connection.getResponseCode();
 
 			if (responseCode == 200) {
-				redirectExternal(request, response, ACCOUNTER_URL);
+				redirectExternal(request, response, COMPANIES_URL);
 				return;
 			} else {
 				rollback(serverCompany, client);
