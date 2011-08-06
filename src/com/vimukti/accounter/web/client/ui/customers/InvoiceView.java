@@ -36,7 +36,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
@@ -503,6 +502,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		hpanel = new HorizontalPanel();
 		hpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		hpanel.add(createAddNewButton());
+		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		hpanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
@@ -510,7 +510,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
 		panel.setWidth("100%");
 		panel.add(hpanel);
-		menuButton.setType(AccounterButton.ADD_BUTTON);
+
 		panel.add(amountsForm);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
