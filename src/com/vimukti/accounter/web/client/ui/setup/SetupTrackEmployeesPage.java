@@ -83,9 +83,14 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		}
 		if (preferences.isHaveW_2Employees()) {
 			employesCheckBox.setValue(true);
+		} else {
+			employesCheckBox.setValue(false);
 		}
+
 		if (preferences.isHave1099contractors()) {
 			contractorscCheckBox.setValue(true);
+		} else {
+			contractorscCheckBox.setValue(false);
 		}
 
 	}
