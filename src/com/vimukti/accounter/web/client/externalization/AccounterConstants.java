@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Constants;
 
+
 public interface AccounterConstants extends Constants {
 
 	public String textId();
@@ -4543,5 +4544,23 @@ public interface AccounterConstants extends Constants {
 	public String timetrackingflowStep3();
 
 	public String doyouwantTrackTime();
+
+	public String setCompanyInfo();
+
+	public String setFiscalYear();
+
+	public String selectRequiredAccounts();
+
+	public String setEstimatesAndStatements();
+
+	public String selectReferringNames();
+
+	public String companyOrganization();
+
+	public String selectIndustryType();
+
+	public String setBillTracking();
+
+	public String gotoAccounter();
 
 }
