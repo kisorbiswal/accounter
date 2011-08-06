@@ -25,11 +25,11 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	private void createControls() {
 		industryVerticalPanel = new VerticalPanel();
-		HTML industryinfoHTML = new HTML(this.accounterMessages
-				.selectIndustryInfoHTML());
+		HTML industryinfoHTML = new HTML(
+				this.accounterMessages.selectIndustryInfoHTML());
 		DynamicForm industryDynamicForm = new DynamicForm();
-		SelectCombo industryCombo = new SelectCombo(this.accounterConstants
-				.industry());
+		SelectCombo industryCombo = new SelectCombo(
+				this.accounterConstants.industry());
 		industryCombo.initCombo(getIndustryList());
 		industryVerticalPanel.add(industryinfoHTML);
 		industryDynamicForm.setFields(industryCombo);
@@ -94,7 +94,9 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	@Override
 	protected void onNext() {
-		// TODO Auto-generated method stub
+		SetupOrganisationSelectionAction action = new SetupOrganisationSelectionAction(
+				"Company Info");
+		action.run(null, false);
 
 	}
 
@@ -107,43 +109,43 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	@Override
 	public void fitToSize(int height, int width) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

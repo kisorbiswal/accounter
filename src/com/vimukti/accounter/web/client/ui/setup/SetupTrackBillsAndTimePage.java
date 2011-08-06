@@ -129,8 +129,9 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 	@Override
 	protected void onNext() {
-		// TODO Auto-generated method stub
-
+		SetupSelectFiscalYrDateAction action = new SetupSelectFiscalYrDateAction(
+				"Fiscal year");
+		action.run(null, false);
 	}
 
 	@Override

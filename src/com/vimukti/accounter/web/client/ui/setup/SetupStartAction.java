@@ -10,7 +10,6 @@ public class SetupStartAction extends Action {
 
 	public SetupStartAction(String text) {
 		super(text);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
