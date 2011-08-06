@@ -12,26 +12,30 @@ public class CompanyStatusServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String SUCCESS = "Your company is created successfully";
+	private static final String CREATING = "Creating the company...";
+	private static final String FAIL = "Company creation failed";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.getRequestDispatcher("refresh.jsp").forward(req, resp);
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
 		HttpSession session = req.getSession();
 		if (session == null) {
-			req.setAttribute("successmessage", "Fail");
+			req.setAttribute("successmessage", FAIL);
 		} else {
 			String status = (String) session.getAttribute("COM_STATUS");
 			if (status == null) {
-				req.setAttribute("successmessage", "Fail");
+				req.setAttribute("successmessage", FAIL);
 			} else {
-				req.setAttribute("successmessage", status);
+				if (status.equals("Creating")) {
+					req.setAttribute("successmessage", CREATING);
+				} else if (status.equals("Success")) {
+					req.setAttribute("successmessage", SUCCESS);
+				} else {
+					req.setAttribute("successmessage", FAIL);
+				}
 			}
 		}
+		req.getRequestDispatcher("refresh.jsp").forward(req, resp);
 	}
 }
