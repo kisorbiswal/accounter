@@ -56,63 +56,11 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected void onBack() {
+	public boolean doShow() {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
-	@Override
-	protected void onNext() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected String getViewTitle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onEdit() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void print() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void printPreview() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 }
