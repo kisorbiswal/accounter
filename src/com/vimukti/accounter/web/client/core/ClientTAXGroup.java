@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -105,8 +106,13 @@ public class ClientTAXGroup extends ClientTAXItemGroup {
 	}
 
 	public ClientTAXGroup clone() {
-
-		return null;
+		ClientTAXGroup taxGroup = (ClientTAXGroup) this.clone();
+		List<ClientTAXItem> taxItems = new ArrayList<ClientTAXItem>();
+		for (ClientTAXItem clientTAXItem : this.taxItems) {
+			taxItems.add(clientTAXItem.clone());
+		}
+		taxGroup.taxItems = taxItems;
+		return taxGroup;
 	}
 
 }

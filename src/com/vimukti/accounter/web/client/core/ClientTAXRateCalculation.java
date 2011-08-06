@@ -215,7 +215,16 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	// }
 
 	public ClientTAXRateCalculation clone() {
-		return null;
+		ClientTAXRateCalculation taxRateCalculation = (ClientTAXRateCalculation) this
+				.clone();
+		taxRateCalculation.purchaseLiabilityAccount = this.purchaseLiabilityAccount
+				.clone();
+		taxRateCalculation.salesLiabilityAccount = this.salesLiabilityAccount
+				.clone();
+		taxRateCalculation.taxAgency = this.taxAgency.clone();
+		taxRateCalculation.vatReturn = this.vatReturn.clone();
+		taxRateCalculation.vatReturnBox = this.vatReturnBox.clone();
+		return taxRateCalculation;
 	}
 
 }

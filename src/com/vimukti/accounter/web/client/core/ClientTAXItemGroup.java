@@ -144,4 +144,9 @@ public class ClientTAXItemGroup implements IAccounterCore {
 		this.isDefault = isDefault;
 	}
 
+	public ClientTAXItemGroup clone() {
+		ClientTAXItemGroup taxItemGroup = (ClientTAXItemGroup) this.clone();
+		return taxItemGroup;
+	}
+
 }

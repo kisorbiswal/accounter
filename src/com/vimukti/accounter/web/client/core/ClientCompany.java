@@ -2311,6 +2311,99 @@ public class ClientCompany implements IAccounterCore {
 		}
 		clientCompany.payees = payees;
 
+		// TODO clientCompany.paymentMethods
+
+		List<ClientPaymentTerms> paymentTerms = new ArrayList<ClientPaymentTerms>();
+		for (ClientPaymentTerms clientPaymentTerms : this.paymentTerms) {
+			paymentTerms.add(clientPaymentTerms.clone());
+		}
+		clientCompany.paymentTerms = paymentTerms;
+
+		List<ClientPaySalesTax> paySalesTaxs = new ArrayList<ClientPaySalesTax>();
+		for (ClientPaySalesTax clientPaySalesTax : this.paySalesTaxs) {
+			paySalesTaxs.add(clientPaySalesTax.clone());
+		}
+		clientCompany.paySalesTaxs = paySalesTaxs;
+
+		List<ClientPriceLevel> priceLevels = new ArrayList<ClientPriceLevel>();
+		for (ClientPriceLevel clientPriceLevel : this.priceLevels) {
+			priceLevels.add(clientPriceLevel.clone());
+		}
+		clientCompany.priceLevels = priceLevels;
+
+		List<ClientSalesPerson> salesPersons = new ArrayList<ClientSalesPerson>();
+		for (ClientSalesPerson clientSalesPerson : this.salesPersons) {
+			salesPersons.add(clientSalesPerson.clone());
+		}
+		clientCompany.salesPersons = salesPersons;
+
+		List<ClientShippingMethod> shippingMethods = new ArrayList<ClientShippingMethod>();
+		for (ClientShippingMethod clientShippingMethod : this.shippingMethods) {
+			shippingMethods.add(clientShippingMethod.clone());
+		}
+		clientCompany.shippingMethods = shippingMethods;
+
+		List<ClientShippingTerms> shippingTerms = new ArrayList<ClientShippingTerms>();
+		for (ClientShippingTerms clientShippingTerms : this.shippingTerms) {
+			shippingTerms.add(clientShippingTerms.clone());
+		}
+		clientCompany.shippingTerms = shippingTerms;
+
+		List<ClientTAXAdjustment> taxAdjustments = new ArrayList<ClientTAXAdjustment>();
+		for (ClientTAXAdjustment clientTAXAdjustment : this.taxAdjustments) {
+			taxAdjustments.add(clientTAXAdjustment.clone());
+		}
+		clientCompany.taxAdjustments = taxAdjustments;
+
+		List<ClientTAXAgency> taxAgencies = new ArrayList<ClientTAXAgency>();
+		for (ClientTAXAgency clientTAXAgency : this.taxAgencies) {
+			taxAgencies.add(clientTAXAgency.clone());
+		}
+		clientCompany.taxAgencies = taxAgencies;
+
+		List<ClientTAXCode> taxCodes = new ArrayList<ClientTAXCode>();
+		for (ClientTAXCode clientTAXCode : this.taxCodes) {
+			taxCodes.add(clientTAXCode.clone());
+		}
+		clientCompany.taxCodes = taxCodes;
+
+		List<ClientTAXGroup> taxGroups = new ArrayList<ClientTAXGroup>();
+		for (ClientTAXGroup clientTAXGroup : this.taxGroups) {
+			taxGroups.add(clientTAXGroup.clone());
+		}
+		clientCompany.taxGroups = taxGroups;
+
+		List<ClientTAXItem> taxItems = new ArrayList<ClientTAXItem>();
+		for (ClientTAXItem clientTAXItem : this.taxItems) {
+			taxItems.add(clientTAXItem.clone());
+		}
+		clientCompany.taxItems = taxItems;
+
+		List<ClientEmployee> usersList = new ArrayList<ClientEmployee>();
+		for (ClientEmployee clientEmployee : this.usersList) {
+			usersList.add(clientEmployee.clone());
+		}
+		clientCompany.usersList = usersList;
+
+		List<ClientTAXGroup> vatGroups = new ArrayList<ClientTAXGroup>();
+		for (ClientTAXGroup clientTAXGroup : this.vatGroups) {
+			vatGroups.add(clientTAXGroup.clone());
+		}
+		clientCompany.vatGroups = vatGroups;
+
+		List<ClientVendor> vendors = new ArrayList<ClientVendor>();
+		for (ClientVendor clientVendor : this.vendors) {
+			vendors.add(clientVendor.clone());
+		}
+		clientCompany.vendors = vendors;
+
+		clientCompany.loggedInUser = this.loggedInUser.clone();
+		clientCompany.preferences = this.preferences.clone();
+		clientCompany.registeredAddress = this.registeredAddress.clone();
+		clientCompany.tradingAddress = this.tradingAddress.clone();
+		clientCompany.transactionEndDate = this.transactionEndDate.clone();
+		clientCompany.transactionStartDate = this.transactionStartDate.clone();
+
 		return clientCompany;
 
 	}

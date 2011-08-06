@@ -122,7 +122,8 @@ public class ClientTAXItem extends ClientTAXItemGroup {
 	}
 
 	public ClientTAXItem clone() {
-		return null;
+		ClientTAXItem taxItem = (ClientTAXItem) this.clone();
+		return taxItem;
 	}
 
 }

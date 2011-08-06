@@ -11,7 +11,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 
 public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
-		IsSerializable {
+		IsSerializable, Cloneable {
 
 	int year, month, day;
 
@@ -59,7 +59,6 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 		return (year * 10000) + (month * 100) + day;
 	}
 
-	
 	public Date getDateAsObject() {
 		Date date = new Date(this.year - 1900, this.month - 1, this.day);
 		date.setHours(00);
@@ -264,6 +263,11 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	 */
 	public boolean isEmpty() {
 		return year == 0 && month == 0 && day == 0;
+	}
+
+	public ClientFinanceDate clone() {
+		ClientFinanceDate financeDate = this.clone();
+		return financeDate;
 	}
 
 }

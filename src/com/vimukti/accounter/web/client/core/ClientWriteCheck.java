@@ -264,6 +264,7 @@ public class ClientWriteCheck extends ClientTransaction {
 	}
 
 	public ClientWriteCheck clone() {
-		return null;
+		ClientWriteCheck writeCheck = (ClientWriteCheck) this.clone();
+		return writeCheck;
 	}
 }
