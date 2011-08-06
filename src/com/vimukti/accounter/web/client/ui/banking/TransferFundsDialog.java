@@ -247,25 +247,6 @@ public class TransferFundsDialog extends BaseDialog {
 			}
 		});
 
-		addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancelClick() {
-				removeFromParent();
-			}
-
-			public boolean onOkClick() {
-				try {
-					if (validateTransaction())
-						createTransferFundsDialog();
-				} catch (InvalidEntryException e) {
-					Accounter.showError(AccounterErrorType.REQUIRED_FIELDS);
-					e.printStackTrace();
-				}
-
-				return false;
-			}
-
-		});
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 
@@ -418,6 +399,17 @@ public class TransferFundsDialog extends BaseDialog {
 		memoText.setDisabled(false);
 		;
 
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		return validateTransaction();
+	}
+
+	@Override
+	protected boolean onOK() {
+		createTransferFundsDialog();
+		return false;
 	}
 
 }

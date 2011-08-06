@@ -3,13 +3,13 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.LinkedHashMap;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -67,63 +67,46 @@ public class SelectPayeeDialog extends BaseDialog {
 		typeForm.setFields(typeRadio);
 		typeForm.setWidth("100%");
 
-		addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancelClick() {
-				removeFromParent();
-				// Action.cancle();
-			}
-
-			public boolean onOkClick() {
-				if (typeRadio.getValue() != null) {
-					String radio = typeRadio.getValue().toString();
-					// FIXME--an action is required here
-					// okClick();
-					if (radio.equals(Accounter.constants().supplier())) {
-						// new VendorPaymentsAction("Not Issued").run();
-
-						try {
-							Action action = ActionFactory.getNewVendorAction();
-							action.setActionSource(actionSource);
-
-							action.run(null, true);
-
-						} catch (Throwable e) {
-							// //UIUtils.logError("Failed to Load Vendor View",
-							// e);
-						}
-
-					} else if (radio.equals(Accounter.constants().customer())) {
-						try {
-							Action action = ActionFactory
-									.getNewCustomerAction();
-							action.setActionSource(actionSource);
-
-							action.run(null, true);
-
-							hide();
-
-						} catch (Throwable e) {
-							// //UIUtils.logError("Failed to Load Customer View",
-							// e);
-						}
-
-					}
-				} else {
-					Accounter.showError(Accounter.constants()
-							.pleaseSelecPaymentType());
-				}
-				return true;
-			}
-
-		});
-
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(typeForm);
 
 		setBodyLayout(mainVLay);
 		setSize("350", "220");
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (typeRadio.getValue() != null) {
+			result.addError(this, Accounter.constants()
+					.pleaseSelecPaymentType());
+		}
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		String radio = typeRadio.getValue().toString();
+		// FIXME--an action is required here
+		// okClick();
+		if (radio.equals(Accounter.constants().supplier())) {
+			// new VendorPaymentsAction("Not Issued").run();
+			Action action = ActionFactory.getNewVendorAction();
+			action.setActionSource(actionSource);
+
+			action.run(null, true);
+
+		} else if (radio.equals(Accounter.constants().customer())) {
+			Action action = ActionFactory.getNewCustomerAction();
+			action.setActionSource(actionSource);
+
+			action.run(null, true);
+
+			hide();
+
+		}
+		return true;
 	}
 
 }
