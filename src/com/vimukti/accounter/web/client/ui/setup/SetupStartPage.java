@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class SetupStartPage extends AbstractSetupPage {
 	private VerticalPanel mainVerticalPanel, question1Panel, question2Panel;
@@ -55,8 +54,8 @@ public class SetupStartPage extends AbstractSetupPage {
 		hpanel.add(question1Panel);
 
 		question2Panel = new VerticalPanel();
-		question1Lable = new Label(this.accounterConstants
-				.areYouaNewAccounter());
+		question1Lable = new Label(
+				this.accounterConstants.areYouaNewAccounter());
 		question2Panel.add(question1Lable);
 		clickStartDesc = new HTML(this.accounterConstants.clickStartButtonMsg());
 		question2Panel.add(clickStartDesc);
@@ -100,63 +99,9 @@ public class SetupStartPage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected void onBack() {
+	public boolean doShow() {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void onNext() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected String getViewTitle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onEdit() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void print() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void printPreview() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 }
