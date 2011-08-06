@@ -25,18 +25,18 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	@Override
 	public VerticalPanel getPageBody() {
 		VerticalPanel viewContainer = new VerticalPanel();
-		CustomLabel headerDesc = new CustomLabel(
-				accounterConstants.howIsYourCompanyOrganizedDesc());
+		CustomLabel headerDesc = new CustomLabel(accounterConstants
+				.howIsYourCompanyOrganizedDesc());
 
 		viewContainer.add(headerDesc);
-		soleProprietorshipRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.soleProprietorship());
+		soleProprietorshipRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.soleProprietorship());
 		viewContainer.add(soleProprietorshipRadio);
 		viewContainer.add(new CustomLabel(accounterConstants
 				.soleProprietorshipDesc()));
 
-		partnershipRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.partnershipOrLLP());
+		partnershipRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.partnershipOrLLP());
 		viewContainer.add(partnershipRadio);
 		viewContainer.add(new CustomLabel(accounterConstants
 				.partnershipOrLLPDesc()));
@@ -51,25 +51,25 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 
 		viewContainer.add(llcFormList);
 
-		corporationRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.corporation());
+		corporationRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.corporation());
 		viewContainer.add(corporationRadio);
 		viewContainer
 				.add(new CustomLabel(accounterConstants.corporationDesc()));
 
-		sCorporationRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.sCorporation());
+		sCorporationRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.sCorporation());
 		viewContainer.add(sCorporationRadio);
 		viewContainer
 				.add(new CustomLabel(accounterConstants.sCorporationDesc()));
 
-		nonProfitRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.nonProfit());
+		nonProfitRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.nonProfit());
 		viewContainer.add(nonProfitRadio);
 		viewContainer.add(new CustomLabel(accounterConstants.nonProfitDesc()));
 
-		otherNoneRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.otherNone());
+		otherNoneRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.otherNone());
 		viewContainer.add(otherNoneRadio);
 
 		return viewContainer;
@@ -82,7 +82,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		case OrganizationTypeConstants.SOLE_PROPRIETORSHIP:
 			soleProprietorshipRadio.setValue(true);
 			break;
-		case OrganizationTypeConstants.CORPORATION :
+		case OrganizationTypeConstants.CORPORATION:
 			corporationRadio.setValue(true);
 			break;
 		case OrganizationTypeConstants.S_CORPORATION:
@@ -104,7 +104,26 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
+		if (soleProprietorshipRadio.getValue()) {
+			preferences
+					.setOrganizationType(OrganizationTypeConstants.SOLE_PROPRIETORSHIP);
+		} else if (corporationRadio.getValue()) {
+			preferences
+					.setOrganizationType(OrganizationTypeConstants.CORPORATION);
+		} else if (sCorporationRadio.getValue()) {
+			preferences
+					.setOrganizationType(OrganizationTypeConstants.S_CORPORATION);
+		} else if (llcRadio.getValue()) {
+			preferences.setOrganizationType(OrganizationTypeConstants.LLC);
+		} else if (partnershipRadio.getValue()) {
+			preferences
+					.setOrganizationType(OrganizationTypeConstants.PARTNERSHIP);
+		} else if (nonProfitRadio.getValue()) {
+			preferences
+					.setOrganizationType(OrganizationTypeConstants.NON_PROFIT);
+		} else {
+			preferences.setOrganizationType(OrganizationTypeConstants.OTHER);
+		}
 
 	}
 
@@ -114,5 +133,4 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		return true;
 	}
 
-	
 }
