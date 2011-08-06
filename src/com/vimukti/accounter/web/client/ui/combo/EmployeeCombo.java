@@ -18,7 +18,7 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 		Accounter.createHomeService().getAllEmployees(
 				new AccounterAsyncCallback<List<ClientEmployee>>() {
 					@Override
-					public void onSuccess(List<ClientEmployee> result) {
+					public void onResultSuccess(List<ClientEmployee> result) {
 						users = result;
 						if (isAdmin) {
 							initCombo(users);

@@ -141,7 +141,7 @@ public class ExpenseClaimList extends BaseView {
 						}
 
 						@Override
-						public void onSuccess(ClientCashPurchase result) {
+						public void onResultSuccess(ClientCashPurchase result) {
 							result.setExpenseStatus(expenceStatus);
 							updateTransactionItems(result);
 							setAction(ActionFactory.getExpenseClaimsAction(0));
@@ -172,7 +172,7 @@ public class ExpenseClaimList extends BaseView {
 				new AccounterAsyncCallback<List<BillsList>>() {
 
 					@Override
-					public void onSuccess(List<BillsList> result) {
+					public void onResultSuccess(List<BillsList> result) {
 						if (result.size() > 0) {
 							for (BillsList list : result)
 								grid.addData(list);

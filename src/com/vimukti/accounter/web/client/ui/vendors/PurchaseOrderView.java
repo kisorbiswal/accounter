@@ -1073,7 +1073,7 @@ public class PurchaseOrderView extends
 				}
 
 				@Override
-				public void onSuccess(Boolean result) {
+				public void onResultSuccess(Boolean result) {
 					if (result)
 						enableFormItems();
 				}

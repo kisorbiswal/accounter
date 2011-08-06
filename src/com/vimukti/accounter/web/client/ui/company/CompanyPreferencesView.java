@@ -659,8 +659,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 				}
 			}
 
-			public void onSuccess(Boolean result) {
-				super.onSuccess(result);
+			public void onResultSuccess(Boolean result) {
+				
 				if (result != null) {
 					AccounterCommand cmd = new AccounterCommand();
 					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);

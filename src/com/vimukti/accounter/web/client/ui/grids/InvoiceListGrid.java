@@ -163,7 +163,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result) {
 
 					if (viewType.equalsIgnoreCase("Open")

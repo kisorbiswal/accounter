@@ -524,7 +524,7 @@ public class UIUtils {
 				view.saveFailed(caught);
 			}
 
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result == null || !result) {
 					onFailure(new Exception(Accounter.constants()
 							.unKnownExceptionGotNull()));
@@ -578,7 +578,7 @@ public class UIUtils {
 				view.deleteFailed(caught);
 			}
 
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result == null || !result) {
 					onFailure(new Exception(Accounter.constants()
 							.unKnownExceptionGotNull()));

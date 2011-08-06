@@ -228,7 +228,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	public void saveSuccess(IAccounterCore object) {
 		try {
 			if (this.callback != null) {
-				this.callback.onSuccess(object);
+				this.callback.onResultSuccess(object);
 			}
 			if (saveAndClose) {
 				getManager().closeCurrentView();

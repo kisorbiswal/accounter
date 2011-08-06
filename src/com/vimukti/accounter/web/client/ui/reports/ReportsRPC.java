@@ -42,7 +42,7 @@ public class ReportsRPC {
 				Accounter.showMessage(Accounter.constants().sessionExpired());
 			}
 
-			public void onSuccess(T result) {
+			public void onResultSuccess(T result) {
 				if (result != null) {
 					UIUtils.runAction(result, a);
 				}

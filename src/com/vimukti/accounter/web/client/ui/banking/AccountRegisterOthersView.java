@@ -210,7 +210,7 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 
 					}
 
-					public void onSuccess(List<AccountRegister> result) {
+					public void onResultSuccess(List<AccountRegister> result) {
 						accountRegister = result;
 						getAccountRegisterGrid(result);
 

@@ -127,7 +127,7 @@ public class MakeDepositView extends
 
 			}
 
-			public void onSuccess(String result) {
+			public void onResultSuccess(String result) {
 
 				if (result != null)
 					setTransactionNumber(result);
@@ -254,7 +254,7 @@ public class MakeDepositView extends
 				gridView.removeAllRecords();
 			}
 
-			public void onSuccess(List<ClientTransactionMakeDeposit> result) {
+			public void onResultSuccess(List<ClientTransactionMakeDeposit> result) {
 				if (result == null) {
 					onFailure(null);
 					return;
@@ -1120,7 +1120,7 @@ public class MakeDepositView extends
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result)
 					enableFormItems();
 			}

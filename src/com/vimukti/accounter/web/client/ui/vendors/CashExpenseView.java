@@ -200,7 +200,7 @@ public class CashExpenseView extends CashPurchaseView {
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result)
 					enableFormItems();
 			}

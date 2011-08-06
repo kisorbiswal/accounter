@@ -37,7 +37,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 			}
 
-			public void onSuccess(List<ClientFiscalYear> result) {
+			public void onResultSuccess(List<ClientFiscalYear> result) {
 				savedFiscalYear = result;
 				fillFiscalYear(result);
 			}

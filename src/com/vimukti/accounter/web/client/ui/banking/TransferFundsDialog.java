@@ -369,7 +369,7 @@ public class TransferFundsDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result)
 					enableFormItems();
 			}

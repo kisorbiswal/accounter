@@ -197,7 +197,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			public void onException(AccounterException caught) {
 			}
 
-			public void onSuccess(ClientPayee result) {
+			public void onResultSuccess(ClientPayee result) {
 				if (result != null) {
 					if (result instanceof ClientVendor) {
 						ActionFactory.getNewVendorAction().run(result, true);
@@ -255,7 +255,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			public void onException(AccounterException caught) {
 			}
 
-			public void onSuccess(ClientPayee result) {
+			public void onResultSuccess(ClientPayee result) {
 				if (result != null) {
 					if (result instanceof ClientVendor) {
 						deleteObject(result);

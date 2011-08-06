@@ -449,7 +449,7 @@ public class NewVendorPaymentView extends
 						return;
 					}
 
-					public void onSuccess(Long result) {
+					public void onResultSuccess(Long result) {
 						if (result == null)
 							onFailure(null);
 
@@ -652,7 +652,7 @@ public class NewVendorPaymentView extends
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result)
 					enableFormItems();
 			}

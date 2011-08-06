@@ -98,7 +98,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 		AccounterAsyncCallback<IAccounterCore> callbackforsalesOrder = new AccounterAsyncCallback<IAccounterCore>() {
 
 			@Override
-			public void onSuccess(IAccounterCore result) {
+			public void onResultSuccess(IAccounterCore result) {
 				if (result != null)
 					salesDetailView.setObjValues((ClientSalesOrder) result);
 			}
@@ -239,7 +239,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 			AccounterAsyncCallback<IAccounterCore> callbackforsalesOrder = new AccounterAsyncCallback<IAccounterCore>() {
 
 				@Override
-				public void onSuccess(IAccounterCore result) {
+				public void onResultSuccess(IAccounterCore result) {
 					if (result != null)
 						salesDetailView.setObjValues((ClientSalesOrder) result);
 				}

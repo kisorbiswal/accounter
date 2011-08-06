@@ -232,7 +232,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result) {
 					obj.setVoided(true);
 					updateData(obj);

@@ -101,7 +101,7 @@ public class PreviousClaimsView extends BaseView {
 							}
 
 							@Override
-							public void onSuccess(ClientCashPurchase result) {
+							public void onResultSuccess(ClientCashPurchase result) {
 								result.setExpenseStatus(expenceStatus);
 								updateTransactionItems(result);
 								setAction(ActionFactory
@@ -137,7 +137,7 @@ public class PreviousClaimsView extends BaseView {
 				new AccounterAsyncCallback<List<BillsList>>() {
 
 					@Override
-					public void onSuccess(List<BillsList> result) {
+					public void onResultSuccess(List<BillsList> result) {
 						for (BillsList list : result)
 							grid.addData(list);
 
@@ -154,7 +154,7 @@ public class PreviousClaimsView extends BaseView {
 				new AccounterAsyncCallback<List<BillsList>>() {
 
 					@Override
-					public void onSuccess(List<BillsList> result) {
+					public void onResultSuccess(List<BillsList> result) {
 						for (BillsList list : result)
 							grid.addData(list);
 					}
@@ -173,7 +173,7 @@ public class PreviousClaimsView extends BaseView {
 						new AccounterAsyncCallback<List<BillsList>>() {
 
 							@Override
-							public void onSuccess(List<BillsList> result) {
+							public void onResultSuccess(List<BillsList> result) {
 								for (BillsList list : result)
 									grid.addData(list);
 							}

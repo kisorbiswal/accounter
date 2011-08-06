@@ -213,7 +213,7 @@ public class PortalLayout extends VerticalPanel {
 
 			}
 
-			public void onSuccess(Long result) {
+			public void onResultSuccess(Long result) {
 			}
 
 		};

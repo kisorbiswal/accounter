@@ -102,7 +102,7 @@ public class PaySalesTaxView extends
 								.failedToGetTransactionNumber());
 					}
 
-					public void onSuccess(String result) {
+					public void onResultSuccess(String result) {
 						if (result == null)
 							onFailure(null);
 						transactionNumber = result;
@@ -128,7 +128,7 @@ public class PaySalesTaxView extends
 
 					}
 
-					public void onSuccess(List<ClientPaySalesTaxEntries> result) {
+					public void onResultSuccess(List<ClientPaySalesTaxEntries> result) {
 
 						if (result == null) {
 
@@ -597,7 +597,7 @@ public class PaySalesTaxView extends
 								}
 
 								@Override
-								public void onSuccess(Boolean result) {
+								public void onResultSuccess(Boolean result) {
 									if (result) {
 										enableFormItems();
 									} else

@@ -63,7 +63,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 				new AccounterAsyncCallback<List<ClientUserInfo>>() {
 
 					@Override
-					public void onSuccess(List<ClientUserInfo> result) {
+					public void onResultSuccess(List<ClientUserInfo> result) {
 						usersListGrid.removeLoadingImage();
 						usersListGrid.removeAllRecords();
 						usersListGrid.setRecords(result);

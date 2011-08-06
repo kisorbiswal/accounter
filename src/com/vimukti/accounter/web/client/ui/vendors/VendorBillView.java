@@ -753,7 +753,7 @@ public class VendorBillView extends
 				}
 
 				@Override
-				public void onSuccess(
+				public void onResultSuccess(
 						List<PurchaseOrdersAndItemReceiptsList> result) {
 					if (result == null)
 						onFailure(new Exception());
@@ -950,7 +950,7 @@ public class VendorBillView extends
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result)
 					enableFormItems();
 			}

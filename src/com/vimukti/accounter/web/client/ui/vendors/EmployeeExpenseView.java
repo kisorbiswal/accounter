@@ -236,7 +236,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result) {
 					ClientCashPurchase purchase = (ClientCashPurchase) transaction;
 					if (purchase.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED) {

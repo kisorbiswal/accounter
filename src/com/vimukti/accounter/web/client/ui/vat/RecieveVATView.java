@@ -391,7 +391,7 @@ public class RecieveVATView extends
 					}
 
 					@Override
-					public void onSuccess(List<ClientReceiveVATEntries> result) {
+					public void onResultSuccess(List<ClientReceiveVATEntries> result) {
 						if (result == null) {
 
 							onFailure(null);
@@ -451,7 +451,7 @@ public class RecieveVATView extends
 								.failedToGetTransactionNumber());
 					}
 
-					public void onSuccess(String result) {
+					public void onResultSuccess(String result) {
 						if (result == null)
 							onFailure(null);
 						transactionNumber = result;
@@ -616,7 +616,7 @@ public class RecieveVATView extends
 								}
 
 								@Override
-								public void onSuccess(Boolean result) {
+								public void onResultSuccess(Boolean result) {
 									if (result) {
 										enableFormItems();
 									} else

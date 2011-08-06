@@ -72,7 +72,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 					}
 
-					public void onSuccess(ClientCompany result) {
+					public void onResultSuccess(ClientCompany result) {
 
 						if (result == null) {
 							onFailure(new Exception());

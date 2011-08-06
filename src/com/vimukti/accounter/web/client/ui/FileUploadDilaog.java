@@ -202,7 +202,7 @@ public class FileUploadDilaog extends CustomDialog {
 					}
 
 					@Override
-					public void onSuccess(ClientBrandingTheme result) {
+					public void onResultSuccess(ClientBrandingTheme result) {
 						processUploadAttachments(result, callback);
 					}
 				});
@@ -341,8 +341,8 @@ public class FileUploadDilaog extends CustomDialog {
 		post("/do/uploadfile?parentId=" + parentID,
 				new AccounterAsyncCallback<ClientBrandingTheme>() {
 
-					public void onSuccess(ClientBrandingTheme value) {
-						callback.onSuccess(value);
+					public void onResultSuccess(ClientBrandingTheme value) {
+						callback.onResultSuccess(value);
 					}
 
 					@Override
@@ -368,7 +368,7 @@ public class FileUploadDilaog extends CustomDialog {
 				// ClientBrandingTheme attachment =
 				// parseStringAttachment(response
 				// .getText());
-				callback.onSuccess(brandingTheme);
+				callback.onResultSuccess(brandingTheme);
 			}
 		};
 		try {

@@ -162,7 +162,7 @@ public class StartDateDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onSuccess(List<ClientFinanceDate> result) {
+			public void onResultSuccess(List<ClientFinanceDate> result) {
 				startDateList = result;
 			}
 

@@ -774,7 +774,7 @@ public class MainFinanceWindow extends VerticalPanel {
 								.unableToshowtheview());
 					}
 
-					public void onSuccess(T result) {
+					public void onResultSuccess(T result) {
 						if (result != null) {
 							action.setInput(result);
 							action.execute();

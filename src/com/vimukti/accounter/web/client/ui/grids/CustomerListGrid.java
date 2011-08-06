@@ -193,7 +193,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 			public void onException(AccounterException caught) {
 			}
 
-			public void onSuccess(ClientCustomer result) {
+			public void onResultSuccess(ClientCustomer result) {
 				if (result != null) {
 					ActionFactory.getNewCustomerAction().run(result, true);
 				}
@@ -210,7 +210,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 			public void onException(AccounterException caught) {
 			}
 
-			public void onSuccess(ClientCustomer result) {
+			public void onResultSuccess(ClientCustomer result) {
 				if (result != null) {
 					deleteObject(result);
 

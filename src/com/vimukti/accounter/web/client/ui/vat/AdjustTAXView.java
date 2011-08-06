@@ -267,7 +267,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 						.failedToGetTransactionNumber());
 			}
 
-			public void onSuccess(String result) {
+			public void onResultSuccess(String result) {
 				if (result == null) {
 					onFailure(new Exception());
 				}

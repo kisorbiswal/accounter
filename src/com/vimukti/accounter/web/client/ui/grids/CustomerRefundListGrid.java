@@ -155,7 +155,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result) {
 					if (!viewType.equalsIgnoreCase("All"))
 						deleteRecord(obj);

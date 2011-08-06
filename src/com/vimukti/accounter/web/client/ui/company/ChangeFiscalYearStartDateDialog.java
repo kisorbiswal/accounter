@@ -79,7 +79,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result) {
 					ClientCompanyPreferences preferences = Accounter
 							.getCompany().getPreferences();

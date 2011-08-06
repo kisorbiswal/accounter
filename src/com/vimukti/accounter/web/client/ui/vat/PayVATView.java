@@ -373,7 +373,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 					}
 
 					@Override
-					public void onSuccess(List<ClientPayVATEntries> result) {
+					public void onResultSuccess(List<ClientPayVATEntries> result) {
 						if (result == null) {
 
 							onException(null);
@@ -431,7 +431,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 								.failedToGetTransactionNumber());
 					}
 
-					public void onSuccess(String result) {
+					public void onResultSuccess(String result) {
 						if (result == null)
 							onFailure(null);
 						transactionNumber = result;
@@ -590,7 +590,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 								}
 
 								@Override
-								public void onSuccess(Boolean result) {
+								public void onResultSuccess(Boolean result) {
 									if (result) {
 										enableFormItems();
 									} else

@@ -264,7 +264,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			}
 
-			public void onSuccess(String result) {
+			public void onResultSuccess(String result) {
 				if (result == null) {
 					onException(null);
 				}

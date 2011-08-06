@@ -370,7 +370,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result != null && result) {
 					// Accounter.showInformation("Deleted Successfully");
 					deleteFromGrid(object);
@@ -457,7 +457,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	@Override
 	public void deleteSuccess(Boolean result) {
 		if (callback != null)
-			callback.onSuccess(result);
+			callback.onResultSuccess(result);
 	}
 
 	@Override

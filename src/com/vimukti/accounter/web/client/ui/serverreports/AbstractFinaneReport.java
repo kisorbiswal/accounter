@@ -103,7 +103,7 @@ public abstract class AbstractFinaneReport<R> extends
 	 * call back.
 	 */
 	@Override
-	public void onSuccess(List<R> result) {
+	public void onResultSuccess(List<R> result) {
 		try {
 			if (result != null && result.size() > 1) {
 				removeAllRows();

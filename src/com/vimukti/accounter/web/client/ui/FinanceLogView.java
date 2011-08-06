@@ -182,7 +182,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 				new AccounterAsyncCallback<List<ClientFinanceLogger>>() {
 
 					@Override
-					public void onSuccess(List<ClientFinanceLogger> result) {
+					public void onResultSuccess(List<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							grid.setRecords(result);
 							firstRecordID = result.get(0).getID();
@@ -213,7 +213,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 				new AccounterAsyncCallback<List<ClientFinanceLogger>>() {
 
 					@Override
-					public void onSuccess(List<ClientFinanceLogger> result) {
+					public void onResultSuccess(List<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							if (result.size() < 20) {
 								prvsHyprLink.setEnabled(false);
@@ -249,7 +249,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 				new AccounterAsyncCallback<List<ClientFinanceLogger>>() {
 
 					@Override
-					public void onSuccess(List<ClientFinanceLogger> result) {
+					public void onResultSuccess(List<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							if (result.size() < 20)
 								nextHyprLnk.setEnabled(false);
@@ -277,7 +277,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 				new AccounterAsyncCallback<List<ClientFinanceLogger>>() {
 
 					@Override
-					public void onSuccess(List<ClientFinanceLogger> result) {
+					public void onResultSuccess(List<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							if (result.size() < 20)
 								prvsHyprLink.setEnabled(false);

@@ -84,7 +84,7 @@ public class IssuePaymentDialog extends BaseDialog {
 						return;
 					}
 
-					public void onSuccess(String result) {
+					public void onResultSuccess(String result) {
 						if (result == null)
 							onFailure(null);
 						IssuePaymentDialog.this.transactionNumber = result;
@@ -285,7 +285,7 @@ public class IssuePaymentDialog extends BaseDialog {
 
 						}
 
-						public void onSuccess(Long result) {
+						public void onResultSuccess(Long result) {
 
 							if (result == null) {
 								onFailure(null);
@@ -414,7 +414,7 @@ public class IssuePaymentDialog extends BaseDialog {
 
 								}
 
-								public void onSuccess(
+								public void onResultSuccess(
 										List<IssuePaymentTransactionsList> result) {
 
 									if (result == null) {

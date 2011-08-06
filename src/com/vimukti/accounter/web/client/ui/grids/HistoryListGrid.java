@@ -85,7 +85,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 						}
 
 						@Override
-						public void onSuccess(ClientJournalEntry journalEntry) {
+						public void onResultSuccess(ClientJournalEntry journalEntry) {
 							if (journalEntry != null) {
 								ActionFactory.getNewJournalEntryAction().run(
 										journalEntry, true);

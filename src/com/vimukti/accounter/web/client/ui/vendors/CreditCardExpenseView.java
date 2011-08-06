@@ -236,7 +236,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result)
 					enableFormItems();
 			}

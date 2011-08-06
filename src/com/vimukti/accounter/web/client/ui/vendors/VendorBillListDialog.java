@@ -199,7 +199,7 @@ public class VendorBillListDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onSuccess(ClientItemReceipt result) {
+			public void onResultSuccess(ClientItemReceipt result) {
 				if (result != null)
 					view.selectedItemReceipt(result);
 
@@ -221,7 +221,7 @@ public class VendorBillListDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onSuccess(ClientPurchaseOrder result) {
+			public void onResultSuccess(ClientPurchaseOrder result) {
 				if (result != null)
 					view.selectedPurchaseOrder(result);
 

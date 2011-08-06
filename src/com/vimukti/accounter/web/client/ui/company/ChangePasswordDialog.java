@@ -71,7 +71,7 @@ public class ChangePasswordDialog extends BaseDialog {
 							}
 
 							@Override
-							public void onSuccess(Boolean result) {
+							public void onResultSuccess(Boolean result) {
 								if (result) {
 									removeFromParent();
 									Accounter.showInformation(Accounter

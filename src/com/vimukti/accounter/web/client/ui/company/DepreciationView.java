@@ -175,7 +175,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			}
 
-			public void onSuccess(ClientFinanceDate date) {
+			public void onResultSuccess(ClientFinanceDate date) {
 				if (date == null) {
 					ClientFinanceDate date2 = new ClientFinanceDate(
 							getCompany().getPreferences()
@@ -345,7 +345,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 					}
 
 					@Override
-					public void onSuccess(Object result) {
+					public void onResultSuccess(Object result) {
 
 					}
 
@@ -402,7 +402,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 				}
 
-				public void onSuccess(DepreciableFixedAssetsList result) {
+				public void onResultSuccess(DepreciableFixedAssetsList result) {
 					setValuesInGrid(result);
 
 				}

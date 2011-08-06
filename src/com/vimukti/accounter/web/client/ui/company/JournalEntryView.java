@@ -489,7 +489,7 @@ public class JournalEntryView extends
 						}
 
 						@Override
-						public void onSuccess(String result) {
+						public void onResultSuccess(String result) {
 							if (result == null) {
 								onFailure(new Exception());
 							}
@@ -506,7 +506,7 @@ public class JournalEntryView extends
 				.getNextVoucherNumber(new AccounterAsyncCallback<String>() {
 
 					@Override
-					public void onSuccess(String result) {
+					public void onResultSuccess(String result) {
 						voucharNocame = true;
 						vouchNo = result;
 						grid.setVoucherNumber(vouchNo);
@@ -613,7 +613,7 @@ public class JournalEntryView extends
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				// if (result)
 				// enableFormItems();
 				Accounter.showError("Journal Entry can't be edited.");

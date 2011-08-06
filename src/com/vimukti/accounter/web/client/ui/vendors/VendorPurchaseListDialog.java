@@ -171,7 +171,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onSuccess(ClientPurchaseOrder result) {
+			public void onResultSuccess(ClientPurchaseOrder result) {
 				if (itemReceiptView != null && result != null)
 					itemReceiptView.selectedPurchaseOrder(result);
 				removeFromParent();

@@ -94,7 +94,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onSuccess(ClientFinanceDate result) {
+			public void onResultSuccess(ClientFinanceDate result) {
 				lastDepreciationDate = result;
 				getAllDepreciationDates();
 			}

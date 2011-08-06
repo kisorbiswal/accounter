@@ -128,7 +128,7 @@ public class WidgetCreator {
 				new AccounterAsyncCallback<KeyFinancialIndicators>() {
 
 					@Override
-					public void onSuccess(KeyFinancialIndicators result) {
+					public void onResultSuccess(KeyFinancialIndicators result) {
 						// if (continueRequest) {
 						List<KeyFinancialIndicator> financialIndicators = new ArrayList<KeyFinancialIndicator>();
 						for (String key : result.getIndicators().keySet()) {
@@ -267,7 +267,7 @@ public class WidgetCreator {
 					new AccounterAsyncCallback<List<DummyDebitor>>() {
 
 						@Override
-						public void onSuccess(List<DummyDebitor> result) {
+						public void onResultSuccess(List<DummyDebitor> result) {
 							// if (continueRequest) {
 							result.remove(result.size() - 1);
 							Collections.sort(result,

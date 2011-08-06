@@ -566,7 +566,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					new AccounterAsyncCallback<String>() {
 
 						@Override
-						public void onSuccess(String result) {
+						public void onResultSuccess(String result) {
 							custNoText.setValue(result);
 						}
 

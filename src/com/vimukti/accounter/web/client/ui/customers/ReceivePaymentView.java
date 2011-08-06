@@ -154,7 +154,7 @@ public class ReceivePaymentView extends
 										.noRecordsToShow());
 							}
 
-							public void onSuccess(
+							public void onResultSuccess(
 									List<ReceivePaymentTransactionList> result) {
 
 								receivePaymentTransactionList = result;
@@ -1258,7 +1258,7 @@ public class ReceivePaymentView extends
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result) {
 					enableFormItems();
 

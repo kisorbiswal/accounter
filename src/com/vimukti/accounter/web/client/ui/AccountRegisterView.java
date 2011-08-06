@@ -243,7 +243,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 					}
 
-					public void onSuccess(List<AccountRegister> result) {
+					public void onResultSuccess(List<AccountRegister> result) {
 						accountRegister = result;
 
 						getAccountRegisterGrid(result);

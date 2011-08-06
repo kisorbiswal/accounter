@@ -156,7 +156,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 					}
 
 					@Override
-					public void onSuccess(String result) {
+					public void onResultSuccess(String result) {
 						if (result != null)
 							assetNumberTxt.setValue(result);
 
@@ -790,7 +790,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 										}
 
 										@Override
-										public void onSuccess(Double result) {
+										public void onResultSuccess(Double result) {
 											depAmount = result;
 											if (accmulatdDepreciationTxt != null) {
 												accmulatdDepreciationTxt

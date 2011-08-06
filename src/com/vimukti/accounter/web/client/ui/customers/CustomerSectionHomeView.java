@@ -201,7 +201,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 				new AccounterAsyncCallback<List<PayeeList>>() {
 
 					@Override
-					public void onSuccess(List<PayeeList> result) {
+					public void onResultSuccess(List<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
 					}
@@ -271,7 +271,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 				new AccounterAsyncCallback<List<PayeeList>>() {
 
 					@Override
-					public void onSuccess(List<PayeeList> result) {
+					public void onResultSuccess(List<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
 					}

@@ -124,7 +124,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 			}
 
 			@Override
-			public void onSuccess(List<Double> result) {
+			public void onResultSuccess(List<Double> result) {
 				if (result != null && result.size() != 0) {
 					cashExpenseAmount = result.get(0);
 					ccExpenseAmount = result.get(1);

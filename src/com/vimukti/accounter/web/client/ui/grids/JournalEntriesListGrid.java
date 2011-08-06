@@ -204,7 +204,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 
 				if (viewType != null && !viewType.equalsIgnoreCase("All"))
 					deleteRecord(obj);

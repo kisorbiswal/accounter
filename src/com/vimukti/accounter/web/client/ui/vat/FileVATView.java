@@ -309,7 +309,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 					}
 
 					@Override
-					public void onSuccess(ClientVATReturn result) {
+					public void onResultSuccess(ClientVATReturn result) {
 						gridView.removeLoadingImage();
 						setData(result);
 

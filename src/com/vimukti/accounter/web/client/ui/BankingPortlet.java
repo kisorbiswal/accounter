@@ -148,7 +148,7 @@ public class BankingPortlet extends DashBoardPortlet {
 					}
 
 					@Override
-					public void onSuccess(final List<Double> result) {
+					public void onResultSuccess(final List<Double> result) {
 						Runnable runnable = new Runnable() {
 
 							@Override

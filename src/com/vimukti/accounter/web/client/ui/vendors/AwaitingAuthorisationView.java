@@ -172,7 +172,7 @@ public class AwaitingAuthorisationView extends BaseView {
 						}
 
 						@Override
-						public void onSuccess(ClientCashPurchase result) {
+						public void onResultSuccess(ClientCashPurchase result) {
 							result.setExpenseStatus(expenceStatus);
 							setAction(ActionFactory.getExpenseClaimsAction(2));
 							updateTransactionItems(result);
@@ -206,7 +206,7 @@ public class AwaitingAuthorisationView extends BaseView {
 						new AccounterAsyncCallback<List<BillsList>>() {
 
 							@Override
-							public void onSuccess(List<BillsList> result) {
+							public void onResultSuccess(List<BillsList> result) {
 								for (BillsList list : result)
 									grid.addData(list);
 							}

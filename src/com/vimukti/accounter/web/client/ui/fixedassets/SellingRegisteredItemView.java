@@ -439,7 +439,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			}
 
 			@Override
-			public void onSuccess(FixedAssetSellOrDisposeReviewJournal result) {
+			public void onResultSuccess(FixedAssetSellOrDisposeReviewJournal result) {
 				if (result == null) {
 					onFailure(new Exception());
 				}

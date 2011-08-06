@@ -1,29 +1,30 @@
 package com.vimukti.accounter.web.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**
+ * 
+ * TODO Show Processing Dialog if Rasponse is taking time
+ * 
  * @author Prasanna Kumar G
  * 
  */
 public abstract class AccounterAsyncCallback<T> implements AsyncCallback<T> {
 
-	protected PopupPanel processDialog;
+	// protected PopupPanel processDialog;
 
 	public AccounterAsyncCallback() {
-		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
-				.processingRequest());
-
-		processDialog.center();
+		// processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
+		// .processingRequest());
+		//
+		// processDialog.center();
 	}
 
 	@Override
 	public void onFailure(Throwable exception) {
-		processDialog.removeFromParent();
+		// processDialog.removeFromParent();
 
 		if (exception instanceof AccounterException) {
 			onException((AccounterException) exception);
@@ -36,8 +37,10 @@ public abstract class AccounterAsyncCallback<T> implements AsyncCallback<T> {
 
 	public abstract void onException(AccounterException exception);
 
-	@Override
+	public abstract void onResultSuccess(T result);
+
 	public void onSuccess(T result) {
-		processDialog.removeFromParent();
-	}
+		// processDialog.removeFromParent();
+		onResultSuccess(result);
+	};
 }

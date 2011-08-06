@@ -492,7 +492,7 @@ public class ItemReceiptView extends
 
 						}
 
-						public void onSuccess(List<PurchaseOrdersList> result) {
+						public void onResultSuccess(List<PurchaseOrdersList> result) {
 							if (result == null)
 								onFailure(new Exception());
 
@@ -627,7 +627,7 @@ public class ItemReceiptView extends
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result)
 					enableFormItems();
 			}

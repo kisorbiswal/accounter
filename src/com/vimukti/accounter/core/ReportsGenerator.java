@@ -166,7 +166,7 @@ public class ReportsGenerator {
 			updateReport(profitAndLossServerReport, finaTool);
 			profitAndLossServerReport.resetVariables();
 			try {
-				profitAndLossServerReport.onSuccess(reportsSerivce
+				profitAndLossServerReport.onResultSuccess(reportsSerivce
 						.getProfitAndLossReport(
 								startDate.toClientFinanceDate(),
 								endDate.toClientFinanceDate()));
@@ -188,7 +188,7 @@ public class ReportsGenerator {
 			updateReport(balanceSheetServerReport, finaTool);
 			balanceSheetServerReport.resetVariables();
 			try {
-				balanceSheetServerReport.onSuccess(reportsSerivce
+				balanceSheetServerReport.onResultSuccess(reportsSerivce
 						.getBalanceSheetReport(startDate.toClientFinanceDate(),
 								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
@@ -209,7 +209,7 @@ public class ReportsGenerator {
 			updateReport(trialBalanceServerReport, finaTool);
 			trialBalanceServerReport.resetVariables();
 			try {
-				trialBalanceServerReport.onSuccess(reportsSerivce
+				trialBalanceServerReport.onResultSuccess(reportsSerivce
 						.getTrialBalance(startDate.toClientFinanceDate(),
 								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
@@ -230,7 +230,7 @@ public class ReportsGenerator {
 			updateReport(transactionDetailByTaxItemServerReport, finaTool);
 			transactionDetailByTaxItemServerReport.resetVariables();
 			try {
-				transactionDetailByTaxItemServerReport.onSuccess(finaTool
+				transactionDetailByTaxItemServerReport.onResultSuccess(finaTool
 						.getTransactionDetailByTaxItem(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -250,7 +250,7 @@ public class ReportsGenerator {
 			updateReport(transactionDetailByAccountServerReport, finaTool);
 			transactionDetailByAccountServerReport.resetVariables();
 			try {
-				transactionDetailByAccountServerReport.onSuccess(reportsSerivce
+				transactionDetailByAccountServerReport.onResultSuccess(reportsSerivce
 						.getTransactionDetailByAccount(
 								startDate.toClientFinanceDate(),
 								endDate.toClientFinanceDate()));
@@ -272,7 +272,7 @@ public class ReportsGenerator {
 			updateReport(expenseServerReport, finaTool);
 			expenseServerReport.resetVariables();
 			try {
-				expenseServerReport.onSuccess(reportsSerivce
+				expenseServerReport.onResultSuccess(reportsSerivce
 						.getExpenseReportByType(Integer.parseInt(status),
 								startDate.toClientFinanceDate(),
 								endDate.toClientFinanceDate()));
@@ -294,7 +294,7 @@ public class ReportsGenerator {
 			updateReport(arAgingSummaryServerReport, finaTool);
 			arAgingSummaryServerReport.resetVariables();
 			try {
-				arAgingSummaryServerReport.onSuccess(reportsSerivce
+				arAgingSummaryServerReport.onResultSuccess(reportsSerivce
 						.getDebitors(startDate.toClientFinanceDate(),
 								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
@@ -315,7 +315,7 @@ public class ReportsGenerator {
 			updateReport(arAgingDetailServerReport, finaTool);
 			arAgingDetailServerReport.resetVariables();
 			try {
-				arAgingDetailServerReport.onSuccess(finaTool.getAgedDebtors(
+				arAgingDetailServerReport.onResultSuccess(finaTool.getAgedDebtors(
 						startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -335,7 +335,7 @@ public class ReportsGenerator {
 			updateReport(customerTransactionHistoryServerReport, finaTool);
 			customerTransactionHistoryServerReport.resetVariables();
 			try {
-				customerTransactionHistoryServerReport.onSuccess(finaTool
+				customerTransactionHistoryServerReport.onResultSuccess(finaTool
 						.getCustomerTransactionHistory(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -355,7 +355,7 @@ public class ReportsGenerator {
 			updateReport(customerTransactionHistoryServerReport1, finaTool);
 			customerTransactionHistoryServerReport1.resetVariables();
 			try {
-				customerTransactionHistoryServerReport1.onSuccess(finaTool
+				customerTransactionHistoryServerReport1.onResultSuccess(finaTool
 						.getCustomerTransactionHistory(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -375,7 +375,7 @@ public class ReportsGenerator {
 			updateReport(salesByCustomerSummaryServerReport, finaTool);
 			salesByCustomerSummaryServerReport.resetVariables();
 			try {
-				salesByCustomerSummaryServerReport.onSuccess(finaTool
+				salesByCustomerSummaryServerReport.onResultSuccess(finaTool
 						.getSalesByCustomerSummary(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -395,7 +395,7 @@ public class ReportsGenerator {
 			updateReport(salesByCustomerDetailServerReport, finaTool);
 			salesByCustomerDetailServerReport.resetVariables();
 			try {
-				salesByCustomerDetailServerReport.onSuccess(finaTool
+				salesByCustomerDetailServerReport.onResultSuccess(finaTool
 						.getSalesByCustomerDetailReport(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -415,7 +415,7 @@ public class ReportsGenerator {
 			updateReport(salesByItemSummaryServerReport, finaTool);
 			salesByItemSummaryServerReport.resetVariables();
 			try {
-				salesByItemSummaryServerReport.onSuccess(finaTool
+				salesByItemSummaryServerReport.onResultSuccess(finaTool
 						.getSalesByItemSummary(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -436,10 +436,10 @@ public class ReportsGenerator {
 			salesByItemDetailServerReport.resetVariables();
 			try {
 				if (status == null) {
-					salesByItemDetailServerReport.onSuccess(finaTool
+					salesByItemDetailServerReport.onResultSuccess(finaTool
 							.getSalesByItemDetail(startDate, endDate));
 				} else {
-					salesByItemDetailServerReport.onSuccess(finaTool
+					salesByItemDetailServerReport.onResultSuccess(finaTool
 							.getSalesByItemDetail(status, startDate, endDate));
 				}
 
@@ -462,22 +462,22 @@ public class ReportsGenerator {
 			salesOpenOrderServerReport.resetVariables();
 			try {
 				if (Integer.parseInt(status) == 1) {
-					salesOpenOrderServerReport.onSuccess(reportsSerivce
+					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
 							.getSalesOpenOrderReport(
 									startDate.toClientFinanceDate(),
 									endDate.toClientFinanceDate()));
 				} else if (Integer.parseInt(status) == 2) {
-					salesOpenOrderServerReport.onSuccess(reportsSerivce
+					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
 							.getSalesCompletedOrderReport(
 									startDate.toClientFinanceDate(),
 									endDate.toClientFinanceDate()));
 				} else if (Integer.parseInt(status) == 3) {
-					salesOpenOrderServerReport.onSuccess(reportsSerivce
+					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
 							.getSalesCancelledOrderReport(
 									startDate.toClientFinanceDate(),
 									endDate.toClientFinanceDate()));
 				} else {
-					salesOpenOrderServerReport.onSuccess(reportsSerivce
+					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
 							.getSalesOrderReport(
 									startDate.toClientFinanceDate(),
 									endDate.toClientFinanceDate()));
@@ -500,7 +500,7 @@ public class ReportsGenerator {
 			updateReport(salesClosedOrderServerReport, finaTool);
 			salesClosedOrderServerReport.resetVariables();
 			try {
-				salesClosedOrderServerReport.onSuccess(finaTool
+				salesClosedOrderServerReport.onResultSuccess(finaTool
 						.getClosedSalesOrders(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -520,7 +520,7 @@ public class ReportsGenerator {
 			updateReport(apAgingSummaryServerReport, finaTool);
 			apAgingSummaryServerReport.resetVariables();
 			try {
-				apAgingSummaryServerReport.onSuccess(reportsSerivce
+				apAgingSummaryServerReport.onResultSuccess(reportsSerivce
 						.getCreditors(startDate.toClientFinanceDate(),
 								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
@@ -542,10 +542,10 @@ public class ReportsGenerator {
 			apAgingDetailServerReport.resetVariables();
 			try {
 				if (status == null) {
-					apAgingDetailServerReport.onSuccess(finaTool
+					apAgingDetailServerReport.onResultSuccess(finaTool
 							.getAgedCreditors(startDate, endDate));
 				} else {
-					apAgingDetailServerReport.onSuccess(reportsSerivce
+					apAgingDetailServerReport.onResultSuccess(reportsSerivce
 							.getAgedCreditors(status,
 									startDate.toClientFinanceDate(),
 									endDate.toClientFinanceDate()));
@@ -571,7 +571,7 @@ public class ReportsGenerator {
 			updateReport(vendorTransactionHistoryServerReport, finaTool);
 			vendorTransactionHistoryServerReport.resetVariables();
 			try {
-				vendorTransactionHistoryServerReport.onSuccess(finaTool
+				vendorTransactionHistoryServerReport.onResultSuccess(finaTool
 						.getVendorTransactionHistory(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -591,7 +591,7 @@ public class ReportsGenerator {
 			updateReport(purchaseByVendorSummaryServerReport, finaTool);
 			purchaseByVendorSummaryServerReport.resetVariables();
 			try {
-				purchaseByVendorSummaryServerReport.onSuccess(finaTool
+				purchaseByVendorSummaryServerReport.onResultSuccess(finaTool
 						.getPurchasesByVendorSummary(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -613,10 +613,10 @@ public class ReportsGenerator {
 			try {
 				if (status == null) {
 
-					purchaseByVendorDetailServerReport.onSuccess(finaTool
+					purchaseByVendorDetailServerReport.onResultSuccess(finaTool
 							.getPurchasesByVendorDetail(startDate, endDate));
 				} else {
-					purchaseByVendorDetailServerReport.onSuccess(finaTool
+					purchaseByVendorDetailServerReport.onResultSuccess(finaTool
 							.getPurchasesByVendorDetail(status, startDate,
 									endDate));
 				}
@@ -639,7 +639,7 @@ public class ReportsGenerator {
 			purchaseByItemSummaryServerReport.resetVariables();
 			try {
 
-				purchaseByItemSummaryServerReport.onSuccess(finaTool
+				purchaseByItemSummaryServerReport.onResultSuccess(finaTool
 						.getPurchasesByItemSummary(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -660,10 +660,10 @@ public class ReportsGenerator {
 			purchaseByItemDetailServerReport.resetVariables();
 			try {
 				if (status == null) {
-					purchaseByItemDetailServerReport.onSuccess(finaTool
+					purchaseByItemDetailServerReport.onResultSuccess(finaTool
 							.getPurchasesByItemDetail(startDate, endDate));
 				} else {
-					purchaseByItemDetailServerReport.onSuccess(finaTool
+					purchaseByItemDetailServerReport.onResultSuccess(finaTool
 							.getPurchasesByItemDetail(status, startDate,
 									endDate));
 				}
@@ -686,22 +686,22 @@ public class ReportsGenerator {
 			purchaseOpenOrderServerReport.resetVariables();
 			try {
 				if (Integer.parseInt(status) == 1) {
-					purchaseOpenOrderServerReport.onSuccess(reportsSerivce
+					purchaseOpenOrderServerReport.onResultSuccess(reportsSerivce
 							.getPurchaseOpenOrderReport(
 									startDate.toClientFinanceDate(),
 									endDate.toClientFinanceDate()));
 				} else if (Integer.parseInt(status) == 2) {
-					purchaseOpenOrderServerReport.onSuccess(reportsSerivce
+					purchaseOpenOrderServerReport.onResultSuccess(reportsSerivce
 							.getPurchaseCompletedOrderReport(
 									startDate.toClientFinanceDate(),
 									endDate.toClientFinanceDate()));
 				} else if (Integer.parseInt(status) == 3) {
-					purchaseOpenOrderServerReport.onSuccess(reportsSerivce
+					purchaseOpenOrderServerReport.onResultSuccess(reportsSerivce
 							.getPurchaseCancelledOrderReport(
 									startDate.toClientFinanceDate(),
 									endDate.toClientFinanceDate()));
 				} else {
-					purchaseOpenOrderServerReport.onSuccess(reportsSerivce
+					purchaseOpenOrderServerReport.onResultSuccess(reportsSerivce
 							.getPurchaseOrderReport(
 									startDate.toClientFinanceDate(),
 									endDate.toClientFinanceDate()));
@@ -724,7 +724,7 @@ public class ReportsGenerator {
 			updateReport(purchaseClosedOrderServerReport, finaTool);
 			purchaseClosedOrderServerReport.resetVariables();
 			try {
-				purchaseClosedOrderServerReport.onSuccess(finaTool
+				purchaseClosedOrderServerReport.onResultSuccess(finaTool
 						.getClosedPurchaseOrders(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -744,7 +744,7 @@ public class ReportsGenerator {
 			updateReport(priorVATReturnsServerReport, finaTool);
 			priorVATReturnsServerReport.resetVariables();
 			try {
-				priorVATReturnsServerReport.onSuccess(reportsSerivce
+				priorVATReturnsServerReport.onResultSuccess(reportsSerivce
 						.getPriorReturnVATSummary(Long.parseLong(status),
 								endDate.toClientFinanceDate()));
 
@@ -766,7 +766,7 @@ public class ReportsGenerator {
 			updateReport(vat100ServerReport, finaTool);
 			vat100ServerReport.resetVariables();
 			try {
-				vat100ServerReport.onSuccess(reportsSerivce.getVAT100Report(
+				vat100ServerReport.onResultSuccess(reportsSerivce.getVAT100Report(
 						Long.parseLong(status),
 						startDate.toClientFinanceDate(),
 						endDate.toClientFinanceDate()));
@@ -788,7 +788,7 @@ public class ReportsGenerator {
 			updateReport(vatDetailServerReportView, finaTool);
 			vatDetailServerReportView.resetVariables();
 			try {
-				vatDetailServerReportView.onSuccess(finaTool
+				vatDetailServerReportView.onResultSuccess(finaTool
 						.getVATDetailReport(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -808,7 +808,7 @@ public class ReportsGenerator {
 			updateReport(vatItemDetailServerReport, finaTool);
 			vatItemDetailServerReport.resetVariables();
 			try {
-				vatItemDetailServerReport.onSuccess(finaTool
+				vatItemDetailServerReport.onResultSuccess(finaTool
 						.getVATItemDetailReport(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -828,7 +828,7 @@ public class ReportsGenerator {
 			updateReport(vatUncategorisedAmountsServerReport, finaTool);
 			vatUncategorisedAmountsServerReport.resetVariables();
 			try {
-				vatUncategorisedAmountsServerReport.onSuccess(finaTool
+				vatUncategorisedAmountsServerReport.onResultSuccess(finaTool
 						.getUncategorisedAmountsReport(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -848,7 +848,7 @@ public class ReportsGenerator {
 			updateReport(vatItemSummaryServerReport, finaTool);
 			vatItemSummaryServerReport.resetVariables();
 			try {
-				vatItemSummaryServerReport.onSuccess(finaTool
+				vatItemSummaryServerReport.onResultSuccess(finaTool
 						.getVATItemSummaryReport(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -885,7 +885,7 @@ public class ReportsGenerator {
 			updateReport(ecSalesListServerReport, finaTool);
 			ecSalesListServerReport.resetVariables();
 			try {
-				ecSalesListServerReport.onSuccess(finaTool
+				ecSalesListServerReport.onResultSuccess(finaTool
 						.getECSalesListReport(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -906,7 +906,7 @@ public class ReportsGenerator {
 			ecSalesListDetailServerReport.resetVariables();
 			try {
 				ecSalesListDetailServerReport
-						.onSuccess(finaTool.getECSalesListDetailReport(status,
+						.onResultSuccess(finaTool.getECSalesListDetailReport(status,
 								startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -926,7 +926,7 @@ public class ReportsGenerator {
 			updateReport(salesTaxLiabilityServerReport, finaTool);
 			salesTaxLiabilityServerReport.resetVariables();
 			try {
-				salesTaxLiabilityServerReport.onSuccess(finaTool
+				salesTaxLiabilityServerReport.onResultSuccess(finaTool
 						.getSalesTaxLiabilityReport(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -946,7 +946,7 @@ public class ReportsGenerator {
 			updateReport(reverseChargeListServerReport, finaTool);
 			reverseChargeListServerReport.resetVariables();
 			try {
-				reverseChargeListServerReport.onSuccess(finaTool
+				reverseChargeListServerReport.onResultSuccess(finaTool
 						.getReverseChargeListReport(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -966,7 +966,7 @@ public class ReportsGenerator {
 			updateReport(reverseChargeListDetailServerReport, finaTool);
 			reverseChargeListDetailServerReport.resetVariables();
 			try {
-				reverseChargeListDetailServerReport.onSuccess(finaTool
+				reverseChargeListDetailServerReport.onResultSuccess(finaTool
 						.getReverseChargeListDetailReport(status, startDate,
 								endDate));
 			} catch (Exception e) {
@@ -987,7 +987,7 @@ public class ReportsGenerator {
 			updateReport(mostProfitableCustomerServerReport, finaTool);
 			mostProfitableCustomerServerReport.resetVariables();
 			try {
-				mostProfitableCustomerServerReport.onSuccess(finaTool
+				mostProfitableCustomerServerReport.onResultSuccess(finaTool
 						.getMostProfitableCustomers(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1007,7 +1007,7 @@ public class ReportsGenerator {
 			updateReport(cashFlowStatementServerReport, finaTool);
 			cashFlowStatementServerReport.resetVariables();
 			try {
-				cashFlowStatementServerReport.onSuccess(reportsSerivce
+				cashFlowStatementServerReport.onResultSuccess(reportsSerivce
 						.getCashFlowReport(startDate.toClientFinanceDate(),
 								endDate.toClientFinanceDate()));
 			} catch (Exception e) {
@@ -1028,7 +1028,7 @@ public class ReportsGenerator {
 			updateReport(amountsDueToVendorServerReport, finaTool);
 			amountsDueToVendorServerReport.resetVariables();
 			try {
-				amountsDueToVendorServerReport.onSuccess(finaTool
+				amountsDueToVendorServerReport.onResultSuccess(finaTool
 						.getAmountsDueToVendor(startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1048,7 +1048,7 @@ public class ReportsGenerator {
 			updateReport(statementReport, finaTool);
 			statementReport.resetVariables();
 			try {
-				statementReport.onSuccess(finaTool.getPayeeStatementsList(
+				statementReport.onResultSuccess(finaTool.getPayeeStatementsList(
 						Long.parseLong(status),
 						new ClientFinanceDate().getDate(), startDate, endDate,
 						0, false, false, 0.00, false, false));

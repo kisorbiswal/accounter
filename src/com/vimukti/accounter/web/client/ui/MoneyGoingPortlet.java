@@ -114,7 +114,7 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 			}
 
 			@Override
-			public void onSuccess(final List<Double> result) {
+			public void onResultSuccess(final List<Double> result) {
 				if (result != null && result.size() > 0) {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);

@@ -82,8 +82,8 @@ public class Accounter implements EntryPoint {
 				caught.printStackTrace();
 			}
 
-			public void onSuccess(ClientCompany company) {
-				super.onSuccess(company);
+			public void onResultSuccess(ClientCompany company) {
+				super.onResultSuccess(company);
 				if (company == null) {
 					// TODO Redirect to Companies Servlet
 				}
@@ -326,8 +326,8 @@ public class Accounter implements EntryPoint {
 				// TODO handle other kind of errors
 			}
 
-			public void onSuccess(Long result) {
-				super.onSuccess(result);
+			public void onResultSuccess(Long result) {
+				
 				coreObj.setID(result);
 				company.processUpdateOrCreateObject(coreObj);
 				source.saveSuccess(coreObj);
@@ -354,8 +354,8 @@ public class Accounter implements EntryPoint {
 				source.deleteFailed(exception);
 			}
 
-			public void onSuccess(Boolean result) {
-				super.onSuccess(result);
+			public void onResultSuccess(Boolean result) {
+				
 				getCompany().processDeleteObject(data);
 				source.deleteSuccess(result);
 			}
@@ -379,8 +379,8 @@ public class Accounter implements EntryPoint {
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
-				super.onSuccess(result);
+			public void onResultSuccess(Boolean result) {
+				
 				if (result) {
 					AccounterCommand cmd = new AccounterCommand();
 					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
@@ -408,8 +408,8 @@ public class Accounter implements EntryPoint {
 				}
 			}
 
-			public void onSuccess(Long result) {
-				super.onSuccess(result);
+			public void onResultSuccess(Long result) {
+				
 				if (result != null) {
 					AccounterCommand cmd = new AccounterCommand();
 					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);

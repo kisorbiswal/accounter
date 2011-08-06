@@ -430,7 +430,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 				}
 
 				@Override
-				public void onSuccess(List<ClientFinanceDate> result) {
+				public void onResultSuccess(List<ClientFinanceDate> result) {
 
 					if (result == null)
 						onFailure(new Exception());

@@ -370,7 +370,7 @@ public class TransactionReceivePaymentGrid extends
 
 					}
 
-					public void onSuccess(List<ClientCreditsAndPayments> result) {
+					public void onResultSuccess(List<ClientCreditsAndPayments> result) {
 						if (result == null)
 							onFailure(null);
 

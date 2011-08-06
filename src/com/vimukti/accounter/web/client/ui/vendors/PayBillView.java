@@ -593,7 +593,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 								.noRecordsToShow());
 					}
 
-					public void onSuccess(List<PayBillTransactionList> result) {
+					public void onResultSuccess(List<PayBillTransactionList> result) {
 
 						paybillTransactionList = result;
 						if (result.size() > 0) {
@@ -870,7 +870,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 								}
 
 								@Override
-								public void onSuccess(Boolean result) {
+								public void onResultSuccess(Boolean result) {
 									if (result) {
 										enableFormItems();
 									} else

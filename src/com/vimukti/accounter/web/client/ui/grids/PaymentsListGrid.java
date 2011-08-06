@@ -164,7 +164,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 			}
 
 			@Override
-			public void onSuccess(Boolean result) {
+			public void onResultSuccess(Boolean result) {
 				if (result) {
 					if (!viewType.equalsIgnoreCase("All"))
 						deleteRecord(obj);

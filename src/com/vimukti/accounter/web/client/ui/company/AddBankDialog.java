@@ -104,7 +104,7 @@ public class AddBankDialog extends BaseDialog {
 	@Override
 	public void saveSuccess(IAccounterCore object) {
 		if (callBack != null) {
-			callBack.onSuccess((ClientBank) object);
+			callBack.onResultSuccess((ClientBank) object);
 		}
 		// Accounter.showInformation(FinanceApplication.constants()
 		// .bankCreated());

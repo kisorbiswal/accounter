@@ -881,7 +881,7 @@ public class SalesOrderView extends
 
 						}
 
-						public void onSuccess(List<ClientEstimate> result) {
+						public void onResultSuccess(List<ClientEstimate> result) {
 
 							if (result == null)
 								onFailure(new Exception());
@@ -1058,7 +1058,7 @@ public class SalesOrderView extends
 				}
 
 				@Override
-				public void onSuccess(Boolean result) {
+				public void onResultSuccess(Boolean result) {
 					// if (statusSelect.getValue().equals(COMPLETED))
 					// Accounter
 					// .showError("Completed sales order can't be edited.");

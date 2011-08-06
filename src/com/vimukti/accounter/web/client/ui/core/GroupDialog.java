@@ -296,7 +296,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 		listGridView.addData((IsSerializable) obj);
 		if (callBack != null) {
-			callBack.onSuccess(obj);
+			callBack.onResultSuccess(obj);
 		}
 	}
 
@@ -399,7 +399,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 				// TODO handle other kind of errors
 			}
 
-			public void onSuccess(Long result) {
+			public void onResultSuccess(Long result) {
 				core.setID(result);
 				Accounter.getCompany().processUpdateOrCreateObject(core);
 				saveSuccess(core);
