@@ -292,7 +292,16 @@
 		<servlet-name>createcompany</servlet-name>
 		<url-pattern>/createcompany</url-pattern>
 	</servlet-mapping>
-
+	
+	<servlet>
+		<servlet-name>Company Status</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.CompanyStatusServlet </servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Company Status</servlet-name>
+		<url-pattern>/companystatus</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>companyAuthentication</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.AuthenticationServlet
