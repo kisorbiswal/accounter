@@ -75,7 +75,7 @@ public class CreditCardChargeView extends
 	protected Label titlelabel;
 	protected TextAreaItem billToAreaItem;
 
-	protected CreditCardChargeView() {
+	public CreditCardChargeView() {
 
 		super(ClientTransaction.TYPE_CREDIT_CARD_CHARGE,
 				VENDOR_TRANSACTION_GRID);

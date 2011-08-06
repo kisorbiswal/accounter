@@ -41,7 +41,7 @@ public class CreditCardChargeAction extends Action {
 			public void onCreated() {
 
 				try {
-					view = CreditCardChargeView.getInstance();
+					view =new CreditCardChargeView();
 
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isEditable, CreditCardChargeAction.this);
