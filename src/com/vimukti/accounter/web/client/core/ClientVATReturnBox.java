@@ -142,7 +142,9 @@ public class ClientVATReturnBox implements IAccounterCore {
 	}
 
 	public ClientVATReturnBox clone() {
-		return null;
+		ClientVATReturnBox clientVATReturnBoxClone = (ClientVATReturnBox) this
+				.clone();
+		return clientVATReturnBoxClone;
 	}
 
 }
