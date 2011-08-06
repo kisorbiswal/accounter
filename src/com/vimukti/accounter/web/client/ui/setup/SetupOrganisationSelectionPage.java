@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.setup;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.OrganizationTypeConstants;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 
@@ -78,8 +79,29 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
 
+		switch (preferences.getOrganizationType()) {
+		case OrganizationTypeConstants.SOLE_PROPRIETORSHIP:
+			soleProprietorshipRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.CORPORATION :
+			corporationRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.S_CORPORATION:
+			sCorporationRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.LLC:
+			llcRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.PARTNERSHIP:
+			partnershipRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.NON_PROFIT:
+			nonProfitRadio.setValue(true);
+			break;
+		case OrganizationTypeConstants.OTHER:
+			otherNoneRadio.setValue(true);
+		}
 	}
 
 	@Override
