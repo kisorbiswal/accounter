@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -18,8 +17,6 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CurrencyView extends BaseView<ClientCurrency> {
 	TextItem currencyNameText, formalNameText;
-	private ClientCurrency currency;
-	// private ClientCurrency existCurrency;
 	private AccounterConstants currencyConstants;
 	private DynamicForm currencyForm;
 	private boolean wait;
@@ -75,32 +72,18 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	 * }
 	 */
 
-	private ClientCurrency getCurrencyObject() {
-
-		if (existCurrency != null) {
-			currency = existCurrency;
-
-		} else {
-			currency = new ClientCurrency();
-			currency.setName(currencyNameText.getValue().toString());
-			currency.setFormalName(formalNameText.getValue().toString());
-
-		}
-		return currency;
-
+	private void updateData() {
+		data.setName(currencyNameText.getValue().toString());
+		data.setFormalName(formalNameText.getValue().toString());
 	}
 
 	public void saveAndUpdateView() {
 
 		if (!wait) {
-			ClientCurrency currency = getCurrencyObject();
-			if (existCurrency == null) {
-				List<ClientCurrency> list = new ArrayList<ClientCurrency>(
-						company.getCurrencies());
-
-				saveOrUpdate(currency);
-			} else
-				alterObject(currency);
+			updateData();
+			// List<ClientCurrency> list = new ArrayList<ClientCurrency>(
+			// company.getCurrencies());
+			saveOrUpdate(data);
 		}
 
 	}
@@ -114,22 +97,6 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 			result.addError(currencyNameText, AccounterErrorType.ALREADYEXIST);
 		}
 		return result;
-	}
-
-	private boolean isObjectExist(List<ClientCurrency> list,
-			ClientCurrency currency2) {
-
-		if (list == null || list.isEmpty())
-			return false;
-		for (ClientCurrency s : list) {
-			if (s.getName() != null
-					&& s.getName().toLowerCase()
-							.equals(currency2.getName().toLowerCase())) {
-				return true;
-			}
-
-		}
-		return false;
 	}
 
 	private void createControls() {
@@ -148,10 +115,11 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 		currencyForm.setWidth("100%");
 		currencyForm.getCellFormatter().setWidth(0, 0, "205");
 
-		if (existCurrency != null) {
-			currencyNameText.setValue(existCurrency.getName());
-			formalNameText.setValue(existCurrency.getFormalName());
-
+		if (getData() != null) {
+			currencyNameText.setValue(data.getName());
+			formalNameText.setValue(data.getFormalName());
+		} else {
+			setData(new ClientCurrency());
 		}
 
 		VerticalPanel panel = new VerticalPanel();
