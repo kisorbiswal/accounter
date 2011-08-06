@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
@@ -11,13 +9,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	private static final String SALES_TAX = "Sales Tax";
 	private RadioButton serviceOnlyRadioButton, productOnlyRadioButton,
 			bothserviceandprductRadioButton, yesRadioButton, noRadioButton;
-	private static final int SERVICES_ONLY = 1;
-	private static final int PRODUCT_ONLY = 2;
-	private static final int BOTH_SERVICES_AND_PRODUCTS = 3;
-	private static final int YES = 1;
-	private static final int NO = 2;
-	int slectedsellTYpeValue = 0;
-	int selectedSaleTaxvalue = 0;
+	boolean servicvalue;
 
 	public SetupSellTypeAndSalesTaxPage() {
 		super();
@@ -35,14 +27,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 		serviceOnlyRadioButton = new RadioButton(SELL_TYPES,
 				accounterConstants.services_labelonly());
-		serviceOnlyRadioButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent arg0) {
-				slectedsellTYpeValue = 1;
-				productOnlyRadioButton.setValue(false);
-				bothserviceandprductRadioButton.setValue(false);
-			}
-		});
+
 		mainVerticalPanel.add(serviceOnlyRadioButton);
 		mainVerticalPanel
 				.add(new CustomLabel(accounterConstants.servicesOnly()));
@@ -50,14 +35,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 		productOnlyRadioButton = new RadioButton(SELL_TYPES,
 				accounterConstants.products_labelonly());
-		productOnlyRadioButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent arg0) {
-				slectedsellTYpeValue = 2;
-				serviceOnlyRadioButton.setValue(false);
-				bothserviceandprductRadioButton.setValue(false);
-			}
-		});
+
 		mainVerticalPanel.add(productOnlyRadioButton);
 		mainVerticalPanel
 				.add(new CustomLabel(accounterConstants.productsOnly()));
@@ -65,14 +43,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 		bothserviceandprductRadioButton = new RadioButton(SELL_TYPES,
 				accounterConstants.bothservicesandProduct_labelonly());
-		bothserviceandprductRadioButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent arg0) {
-				slectedsellTYpeValue = 3;
-				serviceOnlyRadioButton.setValue(false);
-				productOnlyRadioButton.setValue(false);
-			}
-		});
+
 		mainVerticalPanel.add(bothserviceandprductRadioButton);
 		mainVerticalPanel.add(new CustomLabel(accounterConstants
 				.bothServicesandProducts()));
@@ -81,23 +52,11 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		mainVerticalPanel.add(new CustomLabel(accounterConstants
 				.doyouchargesalestax()));
 		yesRadioButton = new RadioButton(SALES_TAX, accounterConstants.yes());
-		yesRadioButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent arg0) {
-				selectedSaleTaxvalue = 1;
-				noRadioButton.setValue(false);
-			}
-		});
+
 		mainVerticalPanel.add(yesRadioButton);
 
 		noRadioButton = new RadioButton(SALES_TAX, accounterConstants.no());
-		noRadioButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent arg0) {
-				selectedSaleTaxvalue = 2;
-				yesRadioButton.setValue(false);
-			}
-		});
+
 		mainVerticalPanel.add(noRadioButton);
 
 		return mainVerticalPanel;
@@ -105,26 +64,19 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	@Override
 	public void onLoad() {
-
-		switch (preferences.getSellType()) {
-		case SERVICES_ONLY:
+		boolean sellServices = preferences.isSellServices();
+		if (sellServices)
 			serviceOnlyRadioButton.setValue(true);
-			break;
-		case PRODUCT_ONLY:
+		boolean sellProducts = preferences.isSellProducts();
+		if (sellProducts)
 			productOnlyRadioButton.setValue(true);
-			break;
-		case BOTH_SERVICES_AND_PRODUCTS:
+		if (sellServices && sellProducts)
 			bothserviceandprductRadioButton.setValue(true);
-			break;
-		}
 
-		switch (preferences.getSalesTaxs()) {
-		case YES:
+		if (preferences.isDoYouChargesalesTax()) {
 			yesRadioButton.setValue(true);
-			break;
-		case NO:
+		} else {
 			noRadioButton.setValue(true);
-			break;
 		}
 
 	}
@@ -132,11 +84,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	@Override
 	public void onSave() {
 
-		if (slectedsellTYpeValue != 0) {
-			preferences.setSellType(slectedsellTYpeValue);
-		}
-		if (selectedSaleTaxvalue != 0) {
-			preferences.setSalesTaxs(selectedSaleTaxvalue);
+		if (serviceOnlyRadioButton.getValue())
+			preferences.setSellServices(true);
+		if (productOnlyRadioButton.getValue())
+			preferences.setSellProducts(true);
+		if (bothserviceandprductRadioButton.getValue()) {
+			preferences.setSellServices(true);
+			preferences.setSellProducts(true);
 		}
 	}
 
