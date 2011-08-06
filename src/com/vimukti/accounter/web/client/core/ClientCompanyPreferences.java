@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.List;
+
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 @SuppressWarnings("serial")
@@ -103,6 +106,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private boolean sellServices;
 	private boolean sellProducts;
 
+	
+	// currency related properties
+	private Currency primaryCurrency;
+	
+
+	private List<Currency> supportingCurrenciesList;
 	// String legalName;
 
 	/**
@@ -696,5 +705,21 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public ClientCompanyPreferences clone() {
 		return null;
 
+	}
+	
+	public Currency getPrimaryCurrency() {
+		return primaryCurrency;
+	}
+
+	public void setPrimaryCurrency(Currency primaryCurrency) {
+		this.primaryCurrency = primaryCurrency;
+	}
+
+	public List<Currency> getSupportingCurrenciesList() {
+		return supportingCurrenciesList;
+	}
+
+	public void setSupportingCurrenciesList(List<Currency> supportingCurrenciesList) {
+		this.supportingCurrenciesList = supportingCurrenciesList;
 	}
 }
