@@ -2016,5 +2016,6 @@ form{
 }
 .form-box{
 	height:200px;
+	overflow:auto;
 }
 /* End of the new Login and forgot password page*/
