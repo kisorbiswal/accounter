@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
  * Subclasses must pass the Record type.
@@ -30,7 +29,7 @@ import com.vimukti.accounter.web.client.ui.core.ViewManager;
  * @param <R>
  */
 
-public abstract class AbstractReportView<R> extends ParentCanvas implements
+public abstract class AbstractReportView<R> extends ParentCanvas<List<R>> implements
 		ISorting<R>, IFinanceReport<R>, AsyncCallback<List<R>> {
 
 	public static final int TOOLBAR_TYPE_DATE_RANGE = 1;
@@ -638,19 +637,6 @@ public abstract class AbstractReportView<R> extends ParentCanvas implements
 	@Override
 	public void fitToSize(int height, int width) {
 
-		// if (UIUtils.isMSIEBrowser()) {
-		if (height == 0) {
-			return;
-		}
-		height = 500;
-		fitHeight = height;
-		System.err.println("Height_1: " + height);
-		height = height - ViewManager.TOP_MENUBAR;
-		this.setHeight(height + "px");
-		grid.setHeight(height + "px");
-		System.err.println("Height_2: " + height);
-		mainLayout.setHeight(height - 5 + "px");
-		// }
 	}
 
 	public void refresh() {
