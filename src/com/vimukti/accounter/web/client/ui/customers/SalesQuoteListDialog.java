@@ -208,4 +208,10 @@ public class SalesQuoteListDialog extends BaseDialog {
 
 	}
 	// setTitle(customerConstants.createForm());
+
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
