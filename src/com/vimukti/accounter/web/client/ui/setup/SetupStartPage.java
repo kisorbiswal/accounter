@@ -19,6 +19,7 @@ public class SetupStartPage extends AbstractSetupPage {
 	Image titleimage;
 
 	public SetupStartPage() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

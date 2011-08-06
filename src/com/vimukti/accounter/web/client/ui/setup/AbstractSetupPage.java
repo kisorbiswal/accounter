@@ -26,6 +26,7 @@ public abstract class AbstractSetupPage extends VerticalPanel {
 		preferences = Accounter.getCompany().getPreferences();
 		accounterConstants = Accounter.constants();
 		accounterMessages = Accounter.messages();
+		createControls();
 	}
 
 	public abstract String getHeader();
