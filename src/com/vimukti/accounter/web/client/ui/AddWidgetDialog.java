@@ -28,7 +28,7 @@ public class AddWidgetDialog extends BaseDialog {
 	@SuppressWarnings("unused")
 	private WidgetCreator creator;
 
-	public AddWidgetDialog(AbstractBaseView parent) {
+	public AddWidgetDialog(BaseHomeView parent) {
 		super(Accounter.constants().addWidget());
 
 		if (parent instanceof CustomerSectionHomeView) {
@@ -54,9 +54,6 @@ public class AddWidgetDialog extends BaseDialog {
 
 	}
 
-	public AddWidgetDialog(BaseHomeView homeView) {
-		// TODO Auto-generated constructor stub
-	}
 
 	private void createControl() {
 
