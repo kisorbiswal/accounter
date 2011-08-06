@@ -14,19 +14,6 @@
 				<span>${successmessage}</span>
 			</div>
   		  </c:if>
-  		  
-		 <form action="/activation" method="post">
-		    <div class="reset-header">
-			   <h2>Activation Code</h2>
-			</div>
-			<div>
-			  <label>Enter valid activation code</label>
-			  <input type="text" name="code">
-			</div>
-			<div class="reset-button">
-			   <input type="submit" tabindex="3" value="Activate" name="activate" class="allviews-common-button" id="submitButton">
-			</div>
-		 </form>
-     </div>
+     	</div>
 	</body>
 </html>
