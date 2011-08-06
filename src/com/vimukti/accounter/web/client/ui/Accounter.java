@@ -83,6 +83,7 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onSuccess(ClientCompany company) {
+				super.onSuccess(company);
 				if (company == null) {
 					// TODO Redirect to Companies Servlet
 				}
