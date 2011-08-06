@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
@@ -31,6 +32,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	private TextAreaItem streetadressText;
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 	private DynamicForm dynamicForm;
+	private ClientCompany company;
 
 	public SetupCompanyInfoPage() {
 		super();
@@ -116,13 +118,77 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
-		// not required for this page
+
+		this.company = Accounter.getCompany();
+		if (this.company != null) {
+			companynameText.setValue(company.getName());
+			legalnameText.setValue(company.getTradingName());
+			this.textId.setValue(company.getTaxId());
+			this.faxNumberText.setValue(company.getFax());
+			this.phonenumberText.setValue(company.getPhone());
+			this.webaddressText.setValue(company.getWebSite());
+			this.emailText.setValue(company.getCompanyEmail());
+			allAddresses.put(ClientAddress.TYPE_COMPANY,
+					company.getTradingAddress());
+			setAddressToTextItem(streetadressText, company.getTradingAddress());
+		}
+	}
+
+	/**
+	 * client address values will be set to textItem
+	 * 
+	 * @param textItem
+	 * @param address
+	 */
+	public void setAddressToTextItem(TextAreaItem textItem,
+			ClientAddress address) {
+		String toToSet = new String();
+		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
+			toToSet = address.getAddress1().toString() + "\n";
+		}
+
+		if (address.getStreet() != null && !address.getStreet().isEmpty()) {
+			toToSet += address.getStreet().toString() + "\n";
+		}
+
+		if (address.getCity() != null && !address.getCity().isEmpty()) {
+			toToSet += address.getCity().toString() + "\n";
+		}
+
+		if (address.getStateOrProvinence() != null
+				&& !address.getStateOrProvinence().isEmpty()) {
+			toToSet += address.getStateOrProvinence() + "\n";
+		}
+		if (address.getZipOrPostalCode() != null
+				&& !address.getZipOrPostalCode().isEmpty()) {
+			toToSet += address.getZipOrPostalCode() + "\n";
+		}
+		if (address.getCountryOrRegion() != null
+				&& !address.getCountryOrRegion().isEmpty()) {
+			toToSet += address.getCountryOrRegion();
+		}
+		streetadressText.setValue(toToSet);
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
+
+		ClientCompany clientCompany = new ClientCompany();
+		clientCompany.id = company.id;
+		clientCompany.setName(companynameText.getValue().toString());
+		clientCompany.setTradingName(streetadressText.getValue().toString());
+		clientCompany.setPhone(phonenumberText.getValue().toString());
+		clientCompany.setCompanyEmail(emailText.getValue().toString());
+		clientCompany.setTaxId(textId.getValue().toString());
+		clientCompany.setFax(faxNumberText.getValue().toString());
+		clientCompany.setWebSite(webaddressText.getValue().toString());
+		if (!allAddresses.isEmpty()) {
+			clientCompany.setTradingAddress(allAddresses
+					.get(ClientAddress.TYPE_COMPANY));
+		} else {
+			clientCompany.setTradingAddress(getCompany().getTradingAddress());
+		}
+		Accounter.setCompany(clientCompany);
 	}
 
 	// not required for this page

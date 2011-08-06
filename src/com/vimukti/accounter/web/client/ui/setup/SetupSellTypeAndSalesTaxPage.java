@@ -12,6 +12,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	private static final String SALES_TAX = "Sales Tax";
 	private RadioButton serviceOnlyRadioButton, productOnlyRadioButton,
 			bothserviceandprductRadioButton, yesRadioButton, noRadioButton;
+	private static final int SERVICES_ONLY = 1;
+	private static final int PRODUCT_ONLY = 2;
+	private static final int BOTH_SERVICES_AND_PRODUCTS = 3;
+	private static final int YES = 1;
+	private static final int NO = 2;
+	int slectedsellTYpeValue = 0;
+	int selectedSaleTaxvalue = 0;
 
 	public SetupSellTypeAndSalesTaxPage() {
 		super();
@@ -32,8 +39,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		serviceOnlyRadioButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
-
+				slectedsellTYpeValue = 1;
+				productOnlyRadioButton.setValue(false);
+				bothserviceandprductRadioButton.setValue(false);
 			}
 		});
 		mainVerticalPanel.add(serviceOnlyRadioButton);
@@ -46,7 +54,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		productOnlyRadioButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
+				slectedsellTYpeValue = 2;
+				serviceOnlyRadioButton.setValue(false);
+				bothserviceandprductRadioButton.setValue(false);
 			}
 		});
 		mainVerticalPanel.add(productOnlyRadioButton);
@@ -59,7 +69,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		bothserviceandprductRadioButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
+				slectedsellTYpeValue = 3;
+				serviceOnlyRadioButton.setValue(false);
+				productOnlyRadioButton.setValue(false);
 			}
 		});
 		mainVerticalPanel.add(bothserviceandprductRadioButton);
@@ -73,7 +85,8 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		yesRadioButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
+				selectedSaleTaxvalue = 1;
+				noRadioButton.setValue(false);
 			}
 		});
 		mainVerticalPanel.add(yesRadioButton);
@@ -82,7 +95,8 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		noRadioButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
+				selectedSaleTaxvalue = 2;
+				yesRadioButton.setValue(false);
 			}
 		});
 		mainVerticalPanel.add(noRadioButton);
@@ -92,14 +106,39 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
+
+		switch (preferences.getSellType()) {
+		case SERVICES_ONLY:
+			serviceOnlyRadioButton.setValue(true);
+			break;
+		case PRODUCT_ONLY:
+			productOnlyRadioButton.setValue(true);
+			break;
+		case BOTH_SERVICES_AND_PRODUCTS:
+			bothserviceandprductRadioButton.setValue(true);
+			break;
+		}
+
+		switch (preferences.getSalesTax()) {
+		case YES:
+			yesRadioButton.setValue(true);
+			break;
+		case NO:
+			noRadioButton.setValue(true);
+			break;
+		}
 
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
 
+		if (slectedsellTYpeValue != 0) {
+			preferences.setSellType(slectedsellTYpeValue);
+		}
+		if (selectedSaleTaxvalue != 0) {
+			preferences.setSalesTax(selectedSaleTaxvalue);
+		}
 	}
 
 	@Override
