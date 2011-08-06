@@ -858,8 +858,6 @@ public class HorizontalMenuBar extends HorizontalPanel {
 						.getHistoryToken();
 				if (!History.getToken().equals(historyToken)) {
 					MainFinanceWindow.oldToken = History.getToken();
-					HistoryTokenUtils.setPresentToken(
-							ActionFactory.getCompanyHomeAction(), null);
 				}
 				ActionFactory.getCompanyHomeAction().run(null, false);
 			}

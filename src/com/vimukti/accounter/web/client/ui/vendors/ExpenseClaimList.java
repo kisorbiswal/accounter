@@ -54,8 +54,6 @@ public class ExpenseClaimList extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				HistoryTokenUtils.setPresentToken(
-						ActionFactory.EmployeeExpenseAction(), null);
 				ActionFactory.EmployeeExpenseAction().run(null, false);
 			}
 		});

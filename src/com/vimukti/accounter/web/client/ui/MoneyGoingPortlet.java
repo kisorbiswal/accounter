@@ -50,8 +50,6 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void goToClicked() {
-		HistoryTokenUtils.setPresentToken(
-				ActionFactory.getAccountRegisterAction(), creditors);
 		ActionFactory.getAccountRegisterAction().run(creditors, true);
 	}
 
@@ -79,8 +77,6 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				HistoryTokenUtils.setPresentToken(
-						ActionFactory.getEnterBillsAction(), null);
 				ActionFactory.getEnterBillsAction().run(null, true);
 			}
 		});
@@ -113,7 +109,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.constants().failedtogetmoneygoingportletvalues());
+				Accounter.showError(Accounter.constants()
+						.failedtogetmoneygoingportletvalues());
 			}
 
 			@Override
@@ -221,8 +218,6 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 
 	@Override
 	public void titleClicked() {
-		HistoryTokenUtils.setPresentToken(
-				ActionFactory.getAccountRegisterAction(), creditors);
 		ActionFactory.getAccountRegisterAction().run(creditors, true);
 	}
 

@@ -63,8 +63,6 @@ public class Header extends HorizontalPanel {
 							.getHistoryToken();
 					if (!History.getToken().equals(historyToken)) {
 						MainFinanceWindow.oldToken = History.getToken();
-						HistoryTokenUtils.setPresentToken(
-								ActionFactory.getUserDetailsAction(), null);
 					}
 					ActionFactory.getUserDetailsAction().run(null, false);
 				}

@@ -125,9 +125,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (selectedVatAgency != null) {
-					HistoryTokenUtils.setPresentToken(
-							ActionFactory.getVatAdjustmentAction(),
-							selectedVatAgency);
 					ActionFactory.getVatAdjustmentAction().run(
 							selectedVatAgency, true);
 				}

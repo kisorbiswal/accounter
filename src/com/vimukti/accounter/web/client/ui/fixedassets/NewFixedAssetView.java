@@ -440,7 +440,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 								.getSellingRegisteredItemAction();
 						action.catagory = Accounter.constants()
 								.fixedAssetsNewFixedAsset();
-						HistoryTokenUtils.setPresentToken(action, data);
 						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
 							.constants().dispose())) {
@@ -448,14 +447,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 								.getDiposingRegisteredItemAction();
 						action.catagory = Accounter.constants()
 								.fixedAssetsNewFixedAsset();
-						HistoryTokenUtils.setPresentToken(action, data);
 						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
 							.constants().showHistory())) {
 						Action action = ActionFactory.getHistoryListAction();
 						action.catagory = Accounter.constants()
 								.fixedAssetsNewFixedAsset();
-						HistoryTokenUtils.setPresentToken(action, data);
 						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
 							.constants().addNote())) {

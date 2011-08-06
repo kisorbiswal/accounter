@@ -578,8 +578,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	public void saveSuccess(IAccounterCore object) {
 		NewBrandingThemeView.this.removeFromParent();
 		super.saveSuccess(object);
-		HistoryTokenUtils.setPresentToken(
-				ActionFactory.getInvoiceBrandingAction(), null);
 		ActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
 

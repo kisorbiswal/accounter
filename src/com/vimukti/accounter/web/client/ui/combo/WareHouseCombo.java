@@ -34,7 +34,6 @@ public class WareHouseCombo extends CustomCombo<ClientWarehouse> {
 	public void onAddNew() {
 		Action action = ActionFactory.getWareHouseViewAction();
 		action.setActionSource(this);
-		HistoryTokenUtils.setPresentToken(action, null);
 		action.run(null, true);
 
 	}
