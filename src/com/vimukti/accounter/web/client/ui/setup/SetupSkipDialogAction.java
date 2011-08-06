@@ -1,9 +1,11 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class SetupSkipDialogAction extends Action {
+	private SetupSkipDialog dialog;
 
 	public SetupSkipDialogAction(String text) {
 		super(text);
@@ -12,8 +14,15 @@ public class SetupSkipDialogAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		// TODO Auto-generated method stub
-
+		dialog = new SetupSkipDialog();
+		try {
+			// MainFinanceWindow.getViewManager().showView(view, data,
+			// isDependent, this);
+			dialog.show();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

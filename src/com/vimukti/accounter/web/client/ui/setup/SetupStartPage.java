@@ -8,19 +8,25 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class SetupStartPage extends AbstractSetupPage {
-	VerticalPanel mainVerticalPanel, question1Panel, question2Panel;
-	HTML description, clickSkipDesc, clickStartDesc;
-	HorizontalPanel hpanel;
-	Label desclable, question1Lable, ClickSkipLabel, question2Lable,
+	private VerticalPanel mainVerticalPanel, question1Panel, question2Panel;
+	private HTML description, clickSkipDesc, clickStartDesc;
+	private HorizontalPanel hpanel;
+	private Label desclable, question1Lable, ClickSkipLabel, question2Lable,
 			ClickSetupLabel;
-	Button skipButton, StartButton;
-	Image titleimage;
+	private Button skipButton, StartButton;
+	private Image titleimage;
+	private SetupWizard setupWizard;
 
 	public SetupStartPage() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public SetupStartPage(SetupWizard setupWizard) {
+		this.setupWizard = setupWizard;
 	}
 
 	@Override
@@ -71,7 +77,8 @@ public class SetupStartPage extends AbstractSetupPage {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-
+				setupWizard.setView(new SetupCompanyInfoPage());
+				setupWizard.creteControls();
 			}
 		});
 
@@ -101,6 +108,54 @@ public class SetupStartPage extends AbstractSetupPage {
 	protected void onNext() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void fitToSize(int height, int width) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onEdit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void print() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void printPreview() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteFailed(Throwable caught) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteSuccess(Boolean result) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void processupdateView(IAccounterCore core, int command) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -9,9 +9,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
-public abstract class AbstractSetupPage extends VerticalPanel {
+public abstract class AbstractSetupPage extends AbstractBaseView {
 	protected boolean progress;
 	protected Label header;
 	protected AccounterConstants accounterConstants;
@@ -59,9 +60,10 @@ public abstract class AbstractSetupPage extends VerticalPanel {
 		buttonPanel.add(nextButton);
 		header = new Label(getHeader());
 		mainPanel.add(header);
+		header.addStyleName("setup_header_label");
 		mainPanel.add(getPageBody());
 		if ((this instanceof SetupStartPage)
-				|| (this instanceof SetupComplitionView)) {
+				|| (this instanceof SetupComplitionPage)) {
 
 		} else {
 			mainPanel.add(buttonPanel);
@@ -72,6 +74,7 @@ public abstract class AbstractSetupPage extends VerticalPanel {
 		setupMainPanel.setSize("100%", "100%");
 		add(setupMainPanel);
 		setSize("100%", "100%");
+		addStyleName("setup_panel");
 		skipButton.addClickHandler(new ClickHandler() {
 
 			@Override

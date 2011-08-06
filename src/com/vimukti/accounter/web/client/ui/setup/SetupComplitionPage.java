@@ -2,12 +2,13 @@ package com.vimukti.accounter.web.client.ui.setup;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 
-public class SetupComplitionView extends AbstractSetupPage {
+public class SetupComplitionPage extends AbstractSetupPage {
 	HTML row1, row2, row3;
 	VerticalPanel vpanel;
 
-	public SetupComplitionView() {
+	public SetupComplitionPage() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -52,6 +53,54 @@ public class SetupComplitionView extends AbstractSetupPage {
 	protected void onNext() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected String getViewTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void fitToSize(int height, int width) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onEdit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void print() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void printPreview() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteFailed(Throwable caught) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteSuccess(Boolean result) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void processupdateView(IAccounterCore core, int command) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,11 +1,13 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class SetupUsingEstimatesAndStatementsPageAction extends Action {
+public class SetupTrackBillsAndTimeAction extends Action {
+	private SetupTrackBillsAndTimePage view;
 
-	public SetupUsingEstimatesAndStatementsPageAction(String text) {
+	public SetupTrackBillsAndTimeAction(String text) {
 		super(text);
 		// TODO Auto-generated constructor stub
 	}
@@ -30,8 +32,14 @@ public class SetupUsingEstimatesAndStatementsPageAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		// TODO Auto-generated method stub
-
+		view = new SetupTrackBillsAndTimePage();
+		try {
+			MainFinanceWindow.getViewManager().showView(view, data,
+					isDependent, this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
