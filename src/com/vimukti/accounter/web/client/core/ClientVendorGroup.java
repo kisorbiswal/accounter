@@ -95,7 +95,9 @@ public class ClientVendorGroup implements IAccounterCore {
 	}
 
 	public ClientVendorGroup clone() {
-		return null;
+		ClientVendorGroup clientVendorGroupClone = (ClientVendorGroup) this
+				.clone();
+		return clientVendorGroupClone;
 	}
 
 }
