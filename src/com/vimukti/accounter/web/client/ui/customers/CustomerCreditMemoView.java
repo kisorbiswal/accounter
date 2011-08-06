@@ -199,7 +199,7 @@ public class CustomerCreditMemoView extends
 		vpanel.setWidth("100%");
 		vpanel.add(panel);
 
-		menuButton.setType(AccounterButton.ADD_BUTTON);
+		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		vpanel.add(prodAndServiceForm2);
 
