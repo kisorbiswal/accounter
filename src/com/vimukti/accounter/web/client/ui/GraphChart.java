@@ -143,8 +143,8 @@ public class GraphChart {
 		// options.setDisplayExactValues(true);
 		// options.setAllowHtml(true);
 		// options.setWindowMode(WindowMode.OPAQUE);
-		options.setWidth(950);
-		options.setHeight(225);
+		options.setWidth(425);
+		options.setHeight(125);
 		options.setLegend(LegendPosition.NONE);
 		options.setMin(100);
 		options.setColors("#6CA92F");
