@@ -3,10 +3,10 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
@@ -47,70 +47,6 @@ public class SelectExpenseType extends BaseDialog {
 				.selectHowYouPaidForExpense());
 		typeForm.setFields(typeRadio);
 
-		addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public boolean onOkClick() {
-				if (typeRadio.getValue() != null) {
-					String radio = typeRadio.getValue().toString();
-					if (radio.equals(EMPLOYEE)) {
-						ActionFactory.EmployeeExpenseAction().run(null, false);
-					} else if (radio.equals(CHECK)) {
-						try {
-							ActionFactory.getWriteChecksAction().run(null,
-									false);
-						} catch (Throwable e) {
-							Accounter.showError(Accounter.constants()
-									.failedToloadWriteCheck()
-
-							);
-							e.printStackTrace();
-						}
-
-					} else if (radio.equals(CREDIT_CARD)) {
-						try {
-							ActionFactory.CreditCardExpenseAction().run(null,
-									false);
-						} catch (Throwable e) {
-							Accounter.showError(Accounter.constants()
-									.failedToLoadCreditCardCharg());
-							e.printStackTrace();
-
-						}
-
-					} else if (radio.equals(CASH)) {
-						try {
-							ActionFactory.CashExpenseAction().run(null, false);
-						} catch (Throwable e) {
-							Accounter.showError(Accounter.constants()
-									.failedToLoadCashPurchase());
-							e.printStackTrace();
-						}
-					} else if (radio.equals(EMPLOYEE)) {
-						try {
-							ActionFactory.EmployeeExpenseAction().run(null,
-									false);
-						} catch (Throwable e) {
-							Accounter.showError(Accounter.constants()
-									.failedToLoadCashPurchase());
-							e.printStackTrace();
-						}
-					} else {
-						Accounter.showError(Accounter.constants()
-								.pleaseSelectExpenseType());
-					}
-
-				}
-				removeFromParent();
-				return true;
-			}
-
-			@Override
-			public void onCancelClick() {
-				removeFromParent();
-			}
-		});
-
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(typeForm);
@@ -127,5 +63,40 @@ public class SelectExpenseType extends BaseDialog {
 		cancelBtn.setFocus(true);
 	}
 
-	// setTitle(vendorsConstants.selectExpenseType());
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		String radio = typeRadio.getValue().toString();
+		if (!radio.equals(EMPLOYEE) && !radio.equals(CHECK)
+				&& !radio.equals(CREDIT_CARD) && !radio.equals(CASH)
+				&& !radio.equals(EMPLOYEE)) {
+			result.addError(this, Accounter.constants()
+					.pleaseSelectExpenseType());
+		}
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		if (typeRadio.getValue() != null) {
+			String radio = typeRadio.getValue().toString();
+			if (radio.equals(EMPLOYEE)) {
+				ActionFactory.EmployeeExpenseAction().run(null, false);
+			} else if (radio.equals(CHECK)) {
+				ActionFactory.getWriteChecksAction().run(null, false);
+			} else if (radio.equals(CREDIT_CARD)) {
+				ActionFactory.CreditCardExpenseAction().run(null, false);
+			} else if (radio.equals(CASH)) {
+				ActionFactory.CashExpenseAction().run(null, false);
+			} else if (radio.equals(EMPLOYEE)) {
+				ActionFactory.EmployeeExpenseAction().run(null, false);
+			} else {
+				Accounter.showError(Accounter.constants()
+						.pleaseSelectExpenseType());
+			}
+
+		}
+		removeFromParent();
+		return true;
+	}
 }
