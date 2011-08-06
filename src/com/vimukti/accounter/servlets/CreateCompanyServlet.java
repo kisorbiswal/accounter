@@ -31,9 +31,15 @@ public class CreateCompanyServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
 		HttpSession session = request.getSession();
 		String emailID = (String) session.getAttribute(EMAIL_ID);
 		if (emailID == null) {
+			return;
+		}
+		String status = (String) session.getAttribute("COM_STATUS");
+		if (status != null) {
+			response.sendRedirect("/companystatus");
 			return;
 		}
 		doCreateCompany(request, response, emailID);
@@ -218,6 +224,14 @@ public class CreateCompanyServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		if (session != null) {
+			String status = (String) session.getAttribute("COM_STATUS");
+			if (status != null) {
+				response.sendRedirect("/companystatus");
+				return;
+			}
+		}
 		dispatch(request, response, view);
 	}
 }
