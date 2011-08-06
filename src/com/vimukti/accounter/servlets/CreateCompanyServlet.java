@@ -31,6 +31,15 @@ public class CreateCompanyServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		// Set standard HTTP/1.1 no-cache headers.
+		response.setHeader("Cache-Control",
+				"max-age=0,no-store, no-cache, must-revalidate");
+
+		// Set IE extended HTTP/1.1 no-cache headers (use addHeader).
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+
+		// Set standard HTTP/1.0 no-cache header.
+		response.setHeader("Pragma", "no-cache");
 
 		HttpSession session = request.getSession();
 		String emailID = (String) session.getAttribute(EMAIL_ID);
@@ -232,6 +241,15 @@ public class CreateCompanyServlet extends BaseServlet {
 				return;
 			}
 		}
+		// Set standard HTTP/1.1 no-cache headers.
+		response.setHeader("Cache-Control",
+				"max-age=0,no-store, no-cache, must-revalidate");
+
+		// Set IE extended HTTP/1.1 no-cache headers (use addHeader).
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+
+		// Set standard HTTP/1.0 no-cache header.
+		response.setHeader("Pragma", "no-cache");
 		dispatch(request, response, view);
 	}
 }
