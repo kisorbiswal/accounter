@@ -119,18 +119,10 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 				if (taxGroup != null) {
 					editTaxGroup(taxGroup);
-
-					return true;
 				} else {
-					if (salesTaxGroupDialog.taxGroupText.getValue() != null) {
-						newTaxGroup();
-						return true;
-					} else {
-						Accounter.showError(Accounter.constants()
-								.pleaseEnterTaxGroupName());
-						return false;
-					}
+					newTaxGroup();
 				}
+				return false;
 
 			}// onOkClick
 		});// InputDialogHandler;

@@ -269,19 +269,13 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 					editTaxGroup(taxGroup);
 					return true;
 				} else {
-					if (salesTaxGroupDialog.form1.validate(true)) {
-						if (salesTaxGroupDialog.taxGroupText.getValue() != null
-								&& !salesTaxGroupDialog.taxGroupText.getValue()
-										.toString().isEmpty()) {
-							newTaxGroup();
-							return true;
-						}
-					} else {
-						// Accounter.showError(FinanceApplication
-						// .constants()
-						// .pleaseEnterTaxGroupName());
-						return false;
+					if (salesTaxGroupDialog.taxGroupText.getValue() != null
+							&& !salesTaxGroupDialog.taxGroupText.getValue()
+									.toString().isEmpty()) {
+						newTaxGroup();
+						return true;
 					}
+
 				}
 				return true;
 			}// onOkClick

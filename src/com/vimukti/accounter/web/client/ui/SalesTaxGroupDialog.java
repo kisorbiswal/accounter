@@ -326,8 +326,12 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	@Override
 	protected ValidationResult validate() {
+		
 		ValidationResult result = new ValidationResult();
 		result.add(form1.validate());
+		if (taxGroupText.getValue() != null) {
+			//TODO 
+		}....
 		return result;
 	}
 
