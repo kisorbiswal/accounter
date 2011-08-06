@@ -1,6 +1,10 @@
 package com.vimukti.accounter.developer.api;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -13,6 +17,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Session;
+import org.mortbay.util.UrlEncoded;
 
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import com.vimukti.accounter.core.Client;
@@ -24,6 +29,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 public class ApiFilter implements Filter {
 	public static final String SIGNATURE = "Signature";
 	private static final String ALGORITHM = "hmacSHA256";
+	private static final String DATE_FORMAT = "yyyy.MM.dd G 'at' HH:mm:ss z";
 
 	@Override
 	public void destroy() {
@@ -37,9 +43,17 @@ public class ApiFilter implements Filter {
 		HttpServletRequest req2 = (HttpServletRequest) req;
 		String url = req2.getQueryString();
 		String signature = req.getParameter(SIGNATURE);
-		String remainingUrl = url
-				.replace("&" + SIGNATURE + "=" + signature, "");
+		String signatureProperty = new String("&" + SIGNATURE + "="
+				+ new UrlEncoded(signature).encode());
+		String remainingUrl = url.replace(signatureProperty, "");
 		String apiKey = req.getParameter("ApiKey");
+		SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+		try {
+			Date expire = format.parse(req.getParameter("Expire"));
+			// TODO
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		ServerCompany company = null;
 		Session session = HibernateUtil.openSession(BaseServlet.LOCAL_DATABASE);
 		try {
@@ -50,6 +64,7 @@ public class ApiFilter implements Filter {
 
 			String secretKey = developer.getSecretKey();
 			String sighned = doSigning(remainingUrl, secretKey);
+			sighned = getURLDecode(new UrlEncoded(sighned).encode());
 			if (!sighned.equals(signature)) {
 				throw new ServletException("Signature was not matched.");
 			}
@@ -73,7 +88,7 @@ public class ApiFilter implements Filter {
 		if (company == null) {
 			throw new ServletException("You don't have permission.");
 		} else {
-			req.setAttribute("companyName", company.getCompanyName());
+			req.setAttribute("companyId", company.getID());
 			arg2.doFilter(req, resp);
 		}
 	}
@@ -114,4 +129,12 @@ public class ApiFilter implements Filter {
 
 	}
 
+	private String getURLDecode(String string) {
+		// try {
+		return URLDecoder.decode(string);
+		// } catch (UnsupportedEncodingException e) {
+		// e.printStackTrace();
+		// }
+		// return string;
+	}
 }

@@ -20,6 +20,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -35,13 +36,13 @@ public class ReportsApiServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String DATE_FORMAT = "yyy-MM-ddTHH:mm:ssZ";
+	private static final String DATE_FORMAT = "yyyy.MM.dd G 'at' HH:mm:ss z";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String companyName = (String) req.getAttribute("companyName");
-		Session session = HibernateUtil.openSession(companyName);
+		Long companyId = (Long) req.getAttribute("companyId");
+		Session session = HibernateUtil.openSession(Server.COMPANY + companyId);
 		try {
 			String methodName = getNameFromReq(req, 1);
 			SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
@@ -398,6 +399,7 @@ public class ReportsApiServlet extends HttpServlet {
 				sendBaseReportResult(req, resp, result);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (session != null) {
 				session.close();
@@ -486,6 +488,6 @@ public class ReportsApiServlet extends HttpServlet {
 		String url = req.getRequestURI();
 		String[] urlParts = url.split("/");
 		String last = urlParts[urlParts.length - indexFromLast];
-		return last.split("?")[0];
+		return last;
 	}
 }
