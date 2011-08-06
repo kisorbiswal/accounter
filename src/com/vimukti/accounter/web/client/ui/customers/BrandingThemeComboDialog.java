@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
@@ -50,26 +48,6 @@ public class BrandingThemeComboDialog extends BaseDialog {
 					}
 				});
 
-		okbtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (brandingThemeTypeCombo.getSelectedValue().equals(null)) {
-					brandingThemeTypeCombo.setSelected(Accounter.constants()
-							.standardTheme());
-				}
-				print();
-				hide();
-			}
-		});
-		cancelBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				hide();
-			}
-		});
-
 		DynamicForm dynamicForm = new DynamicForm();
 		VerticalPanel comboPanel = new VerticalPanel();
 		HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -85,6 +63,16 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	private void print() {
 		UIUtils.downloadAttachment(((ClientInvoice) clientTransaction).getID(),
 				ClientTransaction.TYPE_INVOICE, brandingTheme.getID());
+	}
+
+	@Override
+	protected boolean onOK() {
+		if (brandingThemeTypeCombo.getSelectedValue().equals(null)) {
+			brandingThemeTypeCombo.setSelected(Accounter.constants()
+					.standardTheme());
+		}
+		print();
+		return true;
 	}
 
 }
