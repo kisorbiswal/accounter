@@ -295,6 +295,10 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 		Accounter.createOrUpdate(this, core);
 	}
 
+	protected <P extends IAccounterCore> void deleteObject(final P core) {
+		Accounter.deleteObject(this, core);
+	}
+
 	@Override
 	public void setFocus() {
 

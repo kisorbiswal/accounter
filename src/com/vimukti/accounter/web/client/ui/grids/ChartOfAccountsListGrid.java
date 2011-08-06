@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
@@ -185,8 +184,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected void executeDelete(ClientAccount obj) {
-		ViewManager.getInstance().deleteObject(obj, AccounterCoreType.ACCOUNT,
-				this);
+		deleteObject(obj);
 	}
 
 	@Override

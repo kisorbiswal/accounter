@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordClickHandler;
 
@@ -211,11 +210,6 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	public void addGroupButtonsHandler(
 			GroupDialogButtonsHandler dialogButtonsHandler) {
 		this.dialogButtonsHandler = dialogButtonsHandler;
-	}
-
-	public void deleteObject(IAccounterCore core) {
-		ViewManager.getInstance()
-				.deleteObject(core, core.getObjectType(), this);
 	}
 
 	public void addInputDialogHandler(InputDialogHandler handler) {

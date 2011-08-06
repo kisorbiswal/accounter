@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
 
 /**
@@ -170,12 +169,11 @@ public class SoldAndDisposedItemsListGrid extends
 		note.setNote(value);
 		noteList.add(note);
 		asset.setFixedAssetNotes(noteList);
-		ViewManager.getInstance().alterObject(asset, this);
+		Accounter.createOrUpdate(this, asset);
 	}
 
 	protected void executeDelete(ClientFixedAsset asset) {
-		ViewManager.getInstance().deleteObject(asset,
-				AccounterCoreType.FIXEDASSET, this);
+		deleteObject(asset);
 	}
 
 	/*

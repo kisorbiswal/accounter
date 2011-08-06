@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 /**
  * @author Murali.A
@@ -109,8 +108,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	}
 
 	protected void executeDelete(ClientTAXItem item) {
-		ViewManager.getInstance().deleteObject(item, AccounterCoreType.TAXITEM,
-				this);
+		deleteObject(item);
 	}
 
 	/*

@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
@@ -632,17 +631,17 @@ public class SalesOrderView extends
 
 	private void initPayments() {
 
-		if (isEdit) {
-
-			ClientInvoice invoice = (ClientInvoice) transaction;
-
-			// setPayments(invoice.getPayments());
-			Double payment = invoice.getPayments();
-			if (payment == null)
-				payment = 0.0D;
-			this.payments = payment;
-			paymentsNonEditableText.setAmount(payment);
-		}
+		// if (isEdit) {
+		//
+		// ClientInvoice invoice = (ClientInvoice) transaction;
+		//
+		// // setPayments(invoice.getPayments());
+		// Double payment = invoice.getPayments();
+		// if (payment == null)
+		// payment = 0.0D;
+		// this.payments = payment;
+		// paymentsNonEditableText.setAmount(payment);
+		// }
 
 	}
 
@@ -1130,6 +1129,12 @@ public class SalesOrderView extends
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().salesOrder();
+	}
+
+	@Override
+	protected void initMemoAndReference() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

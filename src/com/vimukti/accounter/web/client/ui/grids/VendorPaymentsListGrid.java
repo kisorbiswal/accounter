@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
@@ -98,9 +97,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 	}
 
 	protected void voidTransaction(final PaymentsList obj) {
-		ViewManager.getInstance().voidTransaction(
-				UIUtils.getAccounterCoreType(obj.getType()),
-				obj.getTransactionId(), this);
+		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
+				obj.getTransactionId());
 	}
 
 	protected void deleteTransaction(final PaymentsList obj) {

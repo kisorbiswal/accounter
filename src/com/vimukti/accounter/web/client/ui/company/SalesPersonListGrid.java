@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -119,8 +118,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 	}
 
 	protected void executeDelete(ClientSalesPerson object) {
-		ViewManager.getInstance().deleteObject(object,
-				AccounterCoreType.SALES_PERSON, this);
+		deleteObject(object);
 
 	}
 

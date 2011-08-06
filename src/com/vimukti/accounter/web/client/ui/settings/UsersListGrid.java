@@ -5,12 +5,10 @@ import java.util.List;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.InvalidOperationException;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -146,8 +144,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 
 	@Override
 	protected void executeDelete(ClientUserInfo object) {
-		ViewManager.getInstance().deleteObject(object, AccounterCoreType.USER,
-				this);
+		deleteObject(object);
 	}
 
 	@Override

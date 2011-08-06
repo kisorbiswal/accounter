@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
@@ -191,7 +190,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	protected void updateEstimate(final ClientEstimate obj) {
 		obj.setStatus(ClientEstimate.STATUS_REJECTED);
-		ViewManager.getInstance().alterObject(obj, this);
+		Accounter.createOrUpdate(this, obj);
 	}
 
 	protected void deleteTransaction(final ClientEstimate obj) {

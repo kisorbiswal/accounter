@@ -392,8 +392,38 @@ public class Accounter implements EntryPoint {
 
 			}
 		};
-		// widget.setID(transactionID);
 		Accounter.createCRUDService().voidTransaction(coreType, transactionsID,
 				callback);
+	}
+
+	public static void updateCompany(final ISaveCallback callback,
+			final ClientCompany clientCompany) {
+
+		AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+
+				if (caught instanceof AccounterException) {
+					callback.saveFailed(caught);
+				}
+			}
+
+			public void onSuccess(Long result) {
+				super.onSuccess(result);
+				if (result != null) {
+					AccounterCommand cmd = new AccounterCommand();
+					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
+					cmd.setData(clientCompany);
+					cmd.setID(result);
+					cmd.setObjectType(clientCompany.getObjectType());
+					getCompany().processCommand(cmd);
+				}
+				callback.saveSuccess(clientCompany);
+			}
+
+		};
+		Accounter.createCRUDService().updateCompany(clientCompany,
+				transactionCallBack);
+
 	}
 }

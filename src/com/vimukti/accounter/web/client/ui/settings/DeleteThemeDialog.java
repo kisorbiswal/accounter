@@ -2,14 +2,12 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class DeleteThemeDialog extends BaseDialog {
 
@@ -65,8 +63,7 @@ public class DeleteThemeDialog extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-		ViewManager.getInstance().deleteObject(brandingTheme,
-				AccounterCoreType.BRANDINGTHEME, DeleteThemeDialog.this);
+		Accounter.deleteObject(this, brandingTheme);
 		return true;
 	}
 

@@ -41,7 +41,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -769,7 +768,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		clientCompany
 				.setRegistrationNumber(getStringValue(registrationNumberText));
 
-		ViewManager.getInstance().updateCompany(clientCompany, this);
+		Accounter.updateCompany(this, clientCompany);
 
 	}
 

@@ -43,9 +43,8 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
  * @param <T>
  */
 
-public abstract class BaseListView<T> extends
-		AbstractBaseView<T> implements IAccounterList<T>,
-		AsyncCallback<List<T>> {
+public abstract class BaseListView<T> extends AbstractBaseView<T> implements
+		IAccounterList<T>, AsyncCallback<List<T>> {
 	protected List<String> listOfTypes;
 
 	protected BaseListGrid grid;
@@ -439,7 +438,7 @@ public abstract class BaseListView<T> extends
 
 	protected <A extends IAccounterCore> void deleteObject(final A core,
 			AccounterCoreType coreType) {
-		ViewManager.getInstance().deleteObject(core, coreType, this);
+		Accounter.deleteObject(this, core);
 	}
 
 	/**

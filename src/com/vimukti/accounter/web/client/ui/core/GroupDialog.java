@@ -305,8 +305,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 	}
 
 	public void deleteObject(IAccounterCore core) {
-		ViewManager.getInstance()
-				.deleteObject(core, core.getObjectType(), this);
+		Accounter.deleteObject(this, core);
 	}
 
 	@Override

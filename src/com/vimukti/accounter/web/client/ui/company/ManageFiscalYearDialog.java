@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -13,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ManageFiscalYearDialog extends BaseDialog {
 
@@ -278,9 +276,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			// if (listOfperiods.getRecordByIndex(listOfperiods.getRowCount() -
 			// 1) == listOfperiods
 			// .getSelection()) {
-			ViewManager.getInstance().deleteObject(
-					listOfperiods.getSelection(), AccounterCoreType.FISCALYEAR,
-					this);
+			Accounter.deleteObject(this, listOfperiods.getSelection());
 			// }
 		} else {
 			Accounter.showInformation(Accounter.constants()

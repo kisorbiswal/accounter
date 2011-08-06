@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class VendorListGrid extends BaseListGrid<PayeeList> {
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
@@ -259,16 +258,13 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			public void onSuccess(ClientPayee result) {
 				if (result != null) {
 					if (result instanceof ClientVendor) {
-						ViewManager.getInstance().deleteObject(result,
-								AccounterCoreType.VENDOR, VendorListGrid.this);
+						deleteObject(result);
 						// } else if (result instanceof ClientTaxAgency) {
 						// ViewManager.getInstance().deleteObject(result,
 						// AccounterCoreType.TAXAGENCY,
 						// VendorListGrid.this);
 					} else if (result instanceof ClientTAXAgency) {
-						ViewManager.getInstance().deleteObject(result,
-								AccounterCoreType.TAXAGENCY,
-								VendorListGrid.this);
+						deleteObject(result);
 					}
 
 				}
