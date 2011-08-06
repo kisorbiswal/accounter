@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.DebitAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -65,7 +66,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	protected LinkedHashMap<Integer, Integer> monthsKey = new LinkedHashMap<Integer, Integer>();
 
 	private ArrayList<DynamicForm> listforms;
-	private ImageButton reviewJournal;
+	private AccounterButton reviewJournal;
 
 	public SellingRegisteredItemView() {
 		super();
@@ -651,8 +652,9 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
-		reviewJournal = new ImageButton(Accounter.constants().reviewJournal(),
-				Accounter.getFinanceImages().reviewJournal());
+		reviewJournal = new AccounterButton(Accounter.constants()
+				.reviewJournal());
+
 		reviewJournal.addClickHandler(new ClickHandler() {
 
 			@Override

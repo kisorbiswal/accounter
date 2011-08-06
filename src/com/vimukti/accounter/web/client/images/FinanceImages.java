@@ -151,15 +151,12 @@ public interface FinanceImages extends ClientBundle {
 	@Source("Save-&-close.png")
 	ImageResource saveAndClose();
 
-	@Source("register.png")
+	@Source("approve.png")
 	ImageResource register();
-
-	@Source("reviewJournal.png")
-	ImageResource reviewJournal();
 
 	@Source("approve.png")
 	ImageResource approve();
 
-	@Source("submitForApproval.png")
+	@Source("submit_for_approval.png")
 	ImageResource submitForApproval();
 }
