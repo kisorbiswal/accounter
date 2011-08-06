@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -43,11 +41,11 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		question1 = new Label(this.accounterConstants.doYouhavEmployes());
 		yesRadioButton1 = new RadioButton(this.accounterConstants.yes());
 		vPanel.add(yesRadioButton1);
-		employesCheckBox = new CheckBox(
-				this.accounterConstants.wehavW2Employes());
+		employesCheckBox = new CheckBox(this.accounterConstants
+				.wehavW2Employes());
 		vPanel.add(employesCheckBox);
-		contractorscCheckBox = new CheckBox(
-				this.accounterConstants.wehavContractors());
+		contractorscCheckBox = new CheckBox(this.accounterConstants
+				.wehavContractors());
 		vPanel.add(contractorscCheckBox);
 		noRadioButton1 = new RadioButton(this.accounterConstants.no());
 		vPanel.add(noRadioButton1);
@@ -60,58 +58,45 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		noRadioButton2 = new RadioButton(this.accounterConstants.no());
 		vPanel.add(noRadioButton2);
 		hpanel = new HorizontalPanel();
-		bottemDescription = new HTML(
-				this.accounterConstants.accounterPayrollDescription());
+		bottemDescription = new HTML(this.accounterConstants
+				.accounterPayrollDescription());
 		hpanel.add(bottemDescription);
 		payrollImage = new Image(Accounter.getFinanceImages().balnkImage());
 		// TODo we have to give the Image
 		// resource here .I given a example image
 		hpanel.add(payrollImage);
 		vPanel.add(hpanel);
-		yesRadioButton1.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		yesRadioButton2.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		noRadioButton1.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		noRadioButton2.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 	}
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
+		if (preferences.isHaveEpmloyees()) {
+			yesRadioButton1.setValue(true);
+		} else {
+			noRadioButton1.setValue(true);
+		}
+
+		if (preferences.isTrackEmployeeExpenses()) {
+			yesRadioButton2.setValue(true);
+		} else {
+			noRadioButton2.setValue(true);
+		}
+		if (preferences.isHaveW_2Employees()) {
+			employesCheckBox.setValue(true);
+		}
+		if (preferences.isHave1099contractors()) {
+			contractorscCheckBox.setValue(true);
+		}
 
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
-
+		preferences.setHaveEpmloyees(yesRadioButton1.getValue());
+		preferences.setTrackEmployeeExpenses(yesRadioButton2.getValue());
+		preferences.setHaveW_2Employees(employesCheckBox.getValue());
+		preferences.setHave1099contractors(contractorscCheckBox.getValue());
 	}
 
 	@Override
