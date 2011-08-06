@@ -19,7 +19,7 @@ public class SetupComplitionView extends AbstractSetupPage {
 	@Override
 	public VerticalPanel getPageBody() {
 		creatControls();
-		return null;
+		return vpanel;
 	}
 
 	private void creatControls() {
