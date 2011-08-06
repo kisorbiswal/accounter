@@ -113,7 +113,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private List<ClientCurrency> supportingCurrenciesList;
 	
 	//Organization type
-	private OrganizationTypeConstants organizationType;
+	private int organizationType;
 
 	// String legalName;
 
@@ -734,11 +734,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		this.supportingCurrenciesList = supportingCurrenciesList;
 	}
 
-	public OrganizationTypeConstants getOrganizationType() {
+	public int getOrganizationType() {
 		return organizationType;
 	}
 
-	public void setOrganizationType(OrganizationTypeConstants organizationType) {
+	public void setOrganizationType(int organizationType) {
 		this.organizationType = organizationType;
 	}
 }
