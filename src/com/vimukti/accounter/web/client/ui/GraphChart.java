@@ -144,7 +144,7 @@ public class GraphChart {
 		// options.setAllowHtml(true);
 		// options.setWindowMode(WindowMode.OPAQUE);
 		options.setWidth(425);
-		options.setHeight(125);
+		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		options.setMin(100);
 		options.setColors("#6CA92F");
