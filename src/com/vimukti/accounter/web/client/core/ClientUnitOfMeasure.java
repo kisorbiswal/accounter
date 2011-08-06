@@ -106,6 +106,8 @@ public class ClientUnitOfMeasure implements IAccounterCore {
 	}
 
 	public ClientUnitOfMeasure clone() {
-		return null;
+		ClientUnitOfMeasure clientUnitOfMeasureClone = (ClientUnitOfMeasure) this
+				.clone();
+		return clientUnitOfMeasureClone;
 	}
 }
