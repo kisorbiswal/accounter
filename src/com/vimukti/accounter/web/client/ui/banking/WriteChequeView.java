@@ -1015,7 +1015,7 @@ public class WriteChequeView extends
 		vPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		mainVLay.add(vPanel);
-		menuButton.setType(AccounterButton.ADD_BUTTON);
+		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		this.setWidth("100%");
 		this.add(mainVLay);
