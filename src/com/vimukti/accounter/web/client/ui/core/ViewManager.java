@@ -257,5 +257,11 @@ public class ViewManager extends VerticalPanel {
 		ImageButton closeButton = new ImageButton(
 				Accounter.constants().close(), Accounter.getFinanceImages()
 						.dialougueCloseicon());
+		toolBar.add(previousButton);
+		toolBar.add(nextbutton);
+		toolBar.add(printButton);
+		toolBar.add(editButton);
+		toolBar.add(closeButton);
+		
 	}
 }
