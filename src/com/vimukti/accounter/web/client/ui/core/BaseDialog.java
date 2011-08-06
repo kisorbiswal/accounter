@@ -17,12 +17,14 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
@@ -209,7 +211,7 @@ public abstract class BaseDialog extends CustomDialog implements
 	protected void cancelClicked() {
 
 		if (dialogHandler != null) {
-			dialogHandler.onCancelClick();
+			dialogHandler.onCancel();
 			removeFromParent();
 		}
 	}
@@ -225,7 +227,7 @@ public abstract class BaseDialog extends CustomDialog implements
 		clearAllErrors();
 		okbtn.setFocus(true);
 		if (dialogHandler != null)
-			if (dialogHandler.onOkClick()) {
+			if (dialogHandler.onOK()) {
 				removeFromParent();
 				// setGlassEnabled(false);
 			}
@@ -335,6 +337,39 @@ public abstract class BaseDialog extends CustomDialog implements
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
+
+	}
+
+	protected <D extends IAccounterCore> void saveOrUpdate(final D core) {
+
+		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+				saveFailed(caught);
+				caught.printStackTrace();
+				// TODO handle other kind of errors
+			}
+
+			public void onSuccess(Long result) {
+				core.setID(result);
+				Accounter.getCompany().processUpdateOrCreateObject(core);
+				saveSuccess(core);
+			}
+
+		};
+		if (core.getID() == 0) {
+			Accounter.createCRUDService().create((IAccounterCore) core,
+					transactionCallBack);
+		} else {
+			Accounter.createCRUDService().update((IAccounterCore) core,
+					transactionCallBack);
+		}
+
+	}
+
+	protected abstract boolean onOK();
+
+	protected void onCancel() {
 
 	}
 
