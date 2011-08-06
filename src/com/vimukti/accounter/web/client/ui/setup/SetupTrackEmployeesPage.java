@@ -34,7 +34,7 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	@Override
 	public VerticalPanel getPageBody() {
 		creatControls();
-		return null;
+		return vPanel;
 	}
 
 	private void creatControls() {
