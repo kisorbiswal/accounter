@@ -36,6 +36,8 @@ public class ViewManager extends VerticalPanel {
 
 	private HistoryList views = new HistoryList();
 
+	private ToolBar toolBar;
+
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
 
@@ -47,7 +49,9 @@ public class ViewManager extends VerticalPanel {
 				historyChanged(event.getValue());
 			}
 		});
-//		handleBackSpaceEvent();
+		// handleBackSpaceEvent();
+		this.toolBar=new ToolBar();
+		this.add(toolBar);
 	}
 
 	private void handleBackSpaceEvent() {
@@ -79,6 +83,7 @@ public class ViewManager extends VerticalPanel {
 			token = new HistoryToken(value);
 		} catch (Exception e) {
 			// Unable to parse the token, done do anything
+			e.printStackTrace();
 		}
 		// Check if it some thing we have kept alive
 		ParentCanvas<?> view = getViewFromHistory(token.getToken());
@@ -106,12 +111,12 @@ public class ViewManager extends VerticalPanel {
 					});
 				} else {
 					// We can just remove it and put new one
-					this.remove(this.existingView);
+					this.existingView.removeFromParent();
 					showNewView(newview, token, null);
 				}
 			} else {
 				// We can just remove it and put new one
-				this.remove(this.existingView);
+				this.existingView.removeFromParent();
 				showNewView(newview, token, null);
 			}
 		} else {
@@ -158,13 +163,17 @@ public class ViewManager extends VerticalPanel {
 		newview.initData();
 
 		this.views.add(new HistoryItem(token, newview));
-		
-		if(input instanceof IAccounterCore){
-			token=HistoryTokenUtils.getTokenWithID(token, (IAccounterCore) input);
+
+		if (input instanceof IAccounterCore) {
+			token = HistoryTokenUtils.getTokenWithID(token,
+					(IAccounterCore) input);
 		}
 		History.newItem(token, false);
-		
-		existingView=newview;
+
+		if (existingView != null) {
+			existingView.removeFromParent();
+		}
+		existingView = newview;
 		add(newview);
 	}
 
@@ -185,7 +194,7 @@ public class ViewManager extends VerticalPanel {
 		if (this.existingView == null) {
 			return;
 		}
-		this.remove(this.existingView);
+		this.existingView.removeFromParent();
 		HistoryItem item = this.views.get(-1);
 		this.add(item.view);
 		this.views.add(item);
