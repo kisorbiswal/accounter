@@ -20,7 +20,7 @@ public class DashBoardView extends BaseHomeView {
 	private String dashboardPreference;
 	private PortalLayout portalLayout;
 	private Portlet[] portlet;
-	private WidgetCreator creator;
+	private WidgetCreator creator = new WidgetCreator();
 	private String[] widgetOnSectionPage;
 	private CustomerWidgetGrid customerWidgetGrid;
 	private CompanyFinancialWidgetGrid grid;
@@ -55,8 +55,6 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	private Widget createControl() {
-		creator = new WidgetCreator();
-
 		portalLayout = new PortalLayout(this, 1);
 
 		widgetOnSectionPage = dashboardPreference.split(",");

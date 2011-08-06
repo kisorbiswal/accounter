@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerWidgetGrid;
 
 public class WidgetCreator {
 	Portlet welcomePortlet;
-	private static Portlet bankingSummaryPortlet;
+	private Portlet bankingSummaryPortlet;
 	private CustomerWidgetGrid customerWidgetGrid;
 	private CompanyFinancialWidgetGrid grid;
 
@@ -255,9 +255,6 @@ public class WidgetCreator {
 		return bankingSummaryPortlet;
 	}
 
-	public static Portlet getDebitorsWidget() {
-		return bankingSummaryPortlet;
-	}
 
 	public void reloadDebitors(final CustomerWidgetGrid grid) {
 

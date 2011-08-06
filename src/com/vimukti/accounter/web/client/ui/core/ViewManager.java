@@ -160,11 +160,14 @@ public class ViewManager extends VerticalPanel {
 	}
 
 	private void showNewView(ParentCanvas newview, String token, Object input) {
-		newview.init();
-		if (input != null) {
-			newview.setData(input);
+		if (newview.getManager() == null) {
+			newview.init();
+			if (input != null) {
+				newview.setData(input);
+			}
+			newview.initData();
+			newview.setManager(this);
 		}
-		newview.initData();
 
 		this.views.add(new HistoryItem(token, newview));
 
