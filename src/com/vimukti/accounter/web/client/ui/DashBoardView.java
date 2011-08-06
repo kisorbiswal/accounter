@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.grids.CompanyFinancialWidgetGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerWidgetGrid;
@@ -18,7 +17,6 @@ public class DashBoardView extends BaseHomeView {
 
 	ArrayList<String> addablePortletList = new ArrayList<String>();
 
-	private DashBoardView dashboard = null;
 	private String dashboardPreference;
 	private PortalLayout portalLayout;
 	private Portlet[] portlet;
@@ -27,13 +25,11 @@ public class DashBoardView extends BaseHomeView {
 	private CustomerWidgetGrid customerWidgetGrid;
 	private CompanyFinancialWidgetGrid grid;
 
-	public static DashBoardPortlet gettingStartedPortlet;
+	public DashBoardPortlet gettingStartedPortlet;
 	public DashBoardPortlet bankingPortlet;
 	public DashBoardPortlet moneyComingPortlet;
 	public DashBoardPortlet moneyGoingPortlet;
 	public DashBoardPortlet expenseClaimsPortlet;
-
-	public static VerticalPanel mainLayOut;
 
 	private Timer timer;
 
@@ -42,7 +38,6 @@ public class DashBoardView extends BaseHomeView {
 	// private String[] firstColumn;
 
 	public DashBoardView() {
-		dashboard = this;
 		dashboardPreference = Accounter.constants().welcomeBankingSummary();
 		/*
 		 * FinanceApplication.getUser().getUserPreferences()
@@ -59,8 +54,7 @@ public class DashBoardView extends BaseHomeView {
 
 	}
 
-	private VerticalPanel createControl() {
-		mainLayOut = new VerticalPanel();
+	private Widget createControl() {
 		creator = new WidgetCreator();
 
 		portalLayout = new PortalLayout(this, 1);
@@ -112,16 +106,13 @@ public class DashBoardView extends BaseHomeView {
 		fTable.getCellFormatter().setVerticalAlignment(1, 0,
 				HasVerticalAlignment.ALIGN_TOP);
 
-		// VerticalPanel leftLayout = new VerticalPanel();
-		mainLayOut.setSize("100%", "100%");
 
 		// mainLayOut.add(gettingStartedPortlet);
-		mainLayOut.add(fTable);
 		fTable.setWidth("100%");
 		gettingStartedPortlet.setVisible(true);
 		// leftLayout.add(addWidgetLinkLayout);
 		// leftLayout.add(portalLayout);
-		return mainLayOut;
+		return fTable;
 
 	}
 
@@ -192,36 +183,10 @@ public class DashBoardView extends BaseHomeView {
 		this.addablePortletList = addablePortletList;
 	}
 
-	@Override
-	public boolean shouldSaveInHistory() {
-		// Company Home Should always be in History so shouldSaveInHistory
-		// should true
-		return true;
-	}
-
-	@Override
-	public void fitToSize(int height, int width) {
-
-		// if (height > 0) {
-		// if (height - 205 > 220) {
-		// creator.setCustomerWidgetHeight(height - 305);
-		// creator.setCompanyFinancialWidgetHeight(205);
-		// } else {
-		// creator.setCustomerWidgetHeight(height - 260);
-		// creator.setCompanyFinancialWidgetHeight(205);
-		// }
-		//
-		// }
-		if (height > 0) {
-			creator.setCompanyFinancialWidgetHeight(205);
-			creator.setCustomerWidgetHeight(height - 200);
-		}
-	}
 
 	@Override
 	protected void onAttach() {
 		creator.setContinueRequest(true);
-		// timer.scheduleRepeating(60000);
 		super.onAttach();
 	}
 
@@ -234,52 +199,17 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	public void refreshWidgetData(IAccounterCore accounterCoreObject) {
-		// int transactionType = 0;
-		// if (accounterCoreObject == null) {
 		bankingPortlet.refreshWidget();
 		moneyComingPortlet.refreshWidget();
 		moneyGoingPortlet.refreshWidget();
 		expenseClaimsPortlet.refreshWidget();
-		// }
-
-		// if (accounterCoreObject instanceof ClientTransaction)
-		// transactionType = ((ClientTransaction) accounterCoreObject)
-		// .getType();
-		// else if (accounterCoreObject instanceof ClientAccount
-		// && ((ClientAccount) accounterCoreObject).getType() ==
-		// ClientAccount.TYPE_BANK)
-		// bankingPortlet.refreshWidget();
-		//
-		// if (transactionType == ClientTransaction.TYPE_CASH_EXPENSE
-		// || transactionType == ClientTransaction.TYPE_EMPLOYEE_EXPENSE
-		// || transactionType == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE) {
-		// expenseClaimsPortlet.refreshWidget();
-		// }
-		// if (transactionType == ClientTransaction.TYPE_INVOICE
-		// || transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO
-		// || transactionType == ClientTransaction.TYPE_CUSTOMER_PREPAYMENT
-		// || transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS
-		// || transactionType == ClientTransaction.TYPE_RECEIVE_PAYMENT) {
-		// moneyComingPortlet.refreshWidget();
-		// }
-		// if (transactionType == ClientTransaction.TYPE_CREDIT_CARD_CHARGE
-		// || transactionType == ClientTransaction.TYPE_ENTER_BILL
-		// || transactionType == ClientTransaction.TYPE_PAY_BILL
-		// || transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO
-		// || transactionType == ClientTransaction.TYPE_VENDOR_PAYMENT
-		// || transactionType == ClientTransaction.TYPE_WRITE_CHECK) {
-		// moneyGoingPortlet.refreshWidget();
-		// bankingPortlet.refreshWidget();
-		// moneyComingPortlet.refreshWidget();
-		// }
 	}
 
-	public static void showGettingStarted() {
-		// mainLayOut.insert(gettingStartedPortlet, 1);
+	public void showGettingStarted() {
 		gettingStartedPortlet.setVisible(true);
 	}
 
-	public static void hideGettingStarted() {
+	public void hideGettingStarted() {
 		gettingStartedPortlet.setVisible(false);
 	}
 

@@ -147,11 +147,11 @@ public class Header extends HorizontalPanel {
 			public void execute() {
 				if (gettingStartedStatus.equals(Accounter.constants()
 						.hideGettingStarted())) {
-					DashBoardView.hideGettingStarted();
+//					DashBoardView.hideGettingStarted();
 					changeHelpBarContent(Accounter.constants()
 							.showGettingStarted());
 				} else {
-					DashBoardView.showGettingStarted();
+//					DashBoardView.showGettingStarted();
 					changeHelpBarContent(Accounter.constants()
 							.hideGettingStarted());
 				}

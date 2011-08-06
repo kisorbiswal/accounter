@@ -34,7 +34,7 @@ public class TextAreaItem extends FormItem {
 	}
 
 	public void setValue(Object value) {
-		this.textArea.setValue(value.toString());
+		this.textArea.setValue(String.valueOf(value));
 	}
 
 	public String getDisplayValue() {

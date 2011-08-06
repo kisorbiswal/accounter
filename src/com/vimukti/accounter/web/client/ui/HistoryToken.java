@@ -27,7 +27,7 @@ public class HistoryToken {
 	 */
 	private void parseToke(String history) throws Exception {
 
-		String[] split = history.split("?");
+		String[] split = history.split("\\?");
 		this.token = split[0];
 
 		if (split.length == 1) {
