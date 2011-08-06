@@ -526,8 +526,6 @@ public class CreditCardChargeView extends
 			bottompanel.add(vpanel);
 		}
 
-		menuButton.setType(AccounterButton.ADD_BUTTON);
-
 		leftVLay = new VerticalPanel();
 		// leftVLay.setWidth("80%");
 		leftVLay.add(vendorForm);
