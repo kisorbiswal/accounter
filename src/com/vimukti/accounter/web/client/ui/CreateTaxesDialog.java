@@ -147,7 +147,8 @@ public class CreateTaxesDialog extends BaseDialog {
 
 			}
 
-			public void onSuccess(Long result) {
+			public void onResultSuccess(Long result) {
+				super.onSuccess(result);
 				processOK();
 			}
 

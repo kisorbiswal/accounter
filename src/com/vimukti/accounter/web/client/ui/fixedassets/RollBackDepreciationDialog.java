@@ -165,7 +165,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onSuccess(Object result) {
+			public void onResultSuccess(Object result) {
 				History.newItem(ActionFactory.getDepriciationAction()
 						.getHistoryToken());
 				// ActionFactory.getDepriciationAction().run(null, true);

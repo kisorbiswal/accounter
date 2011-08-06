@@ -181,7 +181,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onSuccess(ClientSalesOrder result) {
+			public void onResultSuccess(ClientSalesOrder result) {
 				if (invoiceView != null && result != null)
 					invoiceView.selectedSalesOrder(result);
 				removeFromParent();
@@ -203,7 +203,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onSuccess(ClientEstimate result) {
+			public void onResultSuccess(ClientEstimate result) {
+				super.onSuccess(result);
 				if (invoiceView != null && result != null)
 					invoiceView.selectedQuote(result);
 				removeFromParent();

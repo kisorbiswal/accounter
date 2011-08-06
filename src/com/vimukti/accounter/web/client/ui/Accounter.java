@@ -83,7 +83,6 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(ClientCompany company) {
-				super.onResultSuccess(company);
 				if (company == null) {
 					// TODO Redirect to Companies Servlet
 				}
@@ -327,7 +326,7 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(Long result) {
-				
+
 				coreObj.setID(result);
 				company.processUpdateOrCreateObject(coreObj);
 				source.saveSuccess(coreObj);
@@ -355,7 +354,7 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(Boolean result) {
-				
+
 				getCompany().processDeleteObject(data);
 				source.deleteSuccess(result);
 			}
@@ -380,7 +379,7 @@ public class Accounter implements EntryPoint {
 
 			@Override
 			public void onResultSuccess(Boolean result) {
-				
+
 				if (result) {
 					AccounterCommand cmd = new AccounterCommand();
 					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
@@ -409,7 +408,7 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(Long result) {
-				
+
 				if (result != null) {
 					AccounterCommand cmd = new AccounterCommand();
 					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
