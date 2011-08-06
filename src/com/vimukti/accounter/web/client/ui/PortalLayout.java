@@ -25,7 +25,7 @@ public class PortalLayout extends VerticalPanel {
 	ClientUser user;
 
 	
-	public PortalLayout(AbstractBaseView parent, int numColumns) {
+	public PortalLayout(BaseHomeView parent, int numColumns) {
 		setSize("100%", "100%");
 		if (parent instanceof CustomerSectionHomeView) {
 			this.customerParent = (CustomerSectionHomeView) parent;
