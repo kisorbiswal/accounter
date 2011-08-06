@@ -300,9 +300,9 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	 * @return
 	 */
 
-	protected boolean isMultiCurrencyEnabled() {
-		return transactionView.getCurrencyWidget() != null;
-	}
+//	protected boolean isMultiCurrencyEnabled() {
+//		return transactionView.getCurrencyWidget() != null;
+//	}
 
 	/**
 	 * This method will check for multiple currency enable criteria internally.
@@ -311,10 +311,10 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	 * @return amount/factor if multiCurrency enabled.
 	 */
 	protected double getAmountInBaseCurrency(double amount) {
-		if (isMultiCurrencyEnabled()) {
-			return amount
-					/ transactionView.getCurrencyWidget().getCurrencyFactor();
-		}
+//		if (isMultiCurrencyEnabled()) {
+//			return amount
+//					/ transactionView.getCurrencyWidget().getCurrencyFactor();
+//		}
 		return amount;
 	}
 
@@ -326,10 +326,10 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	 * @return amount*factor if multiCurrency enabled.
 	 */
 	protected double getAmountInForeignCurrency(double amount) {
-		if (isMultiCurrencyEnabled()) {
-			return amount
-					* transactionView.getCurrencyWidget().getCurrencyFactor();
-		}
+//		if (isMultiCurrencyEnabled()) {
+//			return amount
+//					* transactionView.getCurrencyWidget().getCurrencyFactor();
+//		}
 		return amount;
 	}
 }

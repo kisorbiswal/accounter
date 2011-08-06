@@ -39,15 +39,9 @@ public class NewInvoiceAction extends Action {
 
 			public void onCreated() {
 
-				try {
-
-					view = InvoiceView.getInstance();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, NewInvoiceAction.this);
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+				view = InvoiceView.getInstance();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewInvoiceAction.this);
 
 			}
 

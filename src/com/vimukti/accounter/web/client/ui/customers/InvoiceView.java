@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -55,7 +54,6 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -289,7 +287,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		custForm.setNumCols(3);
 		custForm.setWidth("100%");
 		forms.add(custForm);
-		forms.add(currencyWidget);
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
 				billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
@@ -351,26 +348,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				.setAttribute(Accounter.constants().width(), "200px");
 		forms.add(termsForm);
 		// multi
-		if (ClientCompanyPreferences.get().isEnableMultiCurrency() == false) {
-			if (currencyWidget == null) {
-
-				currencyWidget = bulidCurrencyWidget();
-			} else
-				currencyWidget = getCurrencyWidget();
-
-			currencyWidget.setListener(new CurrencyChangeListener() {
-
-				@Override
-				public void currencyChanged(ClientCurrency currency,
-						double factor) {
-					/*
-					 * customerTransactionGrid.refreshAllRecords();
-					 * vendorTransactionGrid.refreshAllRecords();
-					 */
-				}
-			});
-
-		}
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
 
@@ -395,7 +372,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				"memoFormAlign");
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setNumCols(2);
-		prodAndServiceForm1.add(currencyWidget);
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 		// memoTextAreaItem.getMainWidget().getParent().setWidth("70%");
 

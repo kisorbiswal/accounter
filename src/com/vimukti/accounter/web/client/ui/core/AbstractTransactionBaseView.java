@@ -107,7 +107,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public CheckboxItem vatinclusiveCheck;
 
-	protected CurrencyWidget currencyWidget;
+//	protected CurrencyWidget currencyWidget;
 
 	protected int gridType;
 
@@ -894,34 +894,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	}
 
-	public CurrencyWidget createCurrencyWidget(List<ClientCurrency> currencies,
-			ClientCurrency baseCurrency) {
-		/*
-		 * if (!((currencies == null) && (baseCurrency == null))) {
-		 * getCurrencyWidget(); }
-		 */
-		return new CurrencyWidget(currencies, baseCurrency);
-
-	}
-
-	/**
-	 * creates currency widgets from the existing currencies.
-	 * 
-	 * @return
-	 */
-	public CurrencyWidget bulidCurrencyWidget() {
-		List<ClientCurrency> currencies = new ArrayList<ClientCurrency>(
-				Accounter.getCompany().getCurrencies());
-
-		CurrencyWidget currencyWidget = createCurrencyWidget(currencies,
-				Accounter.getCompany().getPreferences().getBaseCurrency());
-
-		return currencyWidget;
-	}
-
-	public CurrencyWidget getCurrencyWidget() {
-		return currencyWidget;
-	}
 
 	/**
 	 * Updates the Transaction Obejct from the GUI Fields before saving.

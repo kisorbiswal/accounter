@@ -47,7 +47,7 @@ public class ViewManager extends VerticalPanel {
 				historyChanged(event.getValue());
 			}
 		});
-		handleBackSpaceEvent();
+//		handleBackSpaceEvent();
 	}
 
 	private void handleBackSpaceEvent() {
@@ -163,6 +163,9 @@ public class ViewManager extends VerticalPanel {
 			token=HistoryTokenUtils.getTokenWithID(token, (IAccounterCore) input);
 		}
 		History.newItem(token, false);
+		
+		existingView=newview;
+		add(newview);
 	}
 
 	/**

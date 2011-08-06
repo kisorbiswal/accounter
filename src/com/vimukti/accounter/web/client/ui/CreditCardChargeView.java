@@ -548,20 +548,6 @@ public class CreditCardChargeView extends
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
 		// multi currency combo
-		if (ClientCompanyPreferences.get().isEnableMultiCurrency() == true) {
-			CurrencyWidget currencyWidget = getCurrencyWidget();
-			vLay1.add(currencyWidget);
-			currencyWidget.setListener(new CurrencyChangeListener() {
-
-				@Override
-				public void currencyChanged(ClientCurrency currency,
-						double factor) {
-					// TODO Auto-generated method stub
-
-				}
-			});
-
-		}
 		vLay1.add(vendorTransactionGrid);
 		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
