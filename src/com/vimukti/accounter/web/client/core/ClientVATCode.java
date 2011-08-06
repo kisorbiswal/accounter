@@ -116,6 +116,7 @@ public class ClientVATCode implements IAccounterCore {
 	}
 
 	public ClientVATCode clone() {
-		return null;
+		ClientVATCode clientVATCodeClone = (ClientVATCode) this.clone();
+		return clientVATCodeClone;
 	}
 }
