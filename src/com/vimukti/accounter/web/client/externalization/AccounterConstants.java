@@ -4508,4 +4508,10 @@ public interface AccounterConstants extends Constants {
 
 	public String setSupportedCurrencies();
 
+	public String fiscalYearsaemasTaxyear();
+
+	public String myFiscalYearsStartsIn();
+
+	public String selectdateToTrackFinance();
+
 }
