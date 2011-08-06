@@ -25,10 +25,8 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 	protected Object getColumnValue(RolePermissions obj, int index) {
 		switch (index) {
 		case 0:
-			if (view.isEditMode) {
-				if (obj.getRoleName().equals(view.takenUser.getUserRole())) {
-					// if (!view.canDoUserManagement(obj))
-					// view.userManagementBox.setEnabled(false);
+			if (view.isEdit()) {
+				if (obj.getRoleName().equals(view.getData().getUserRole())) {
 					return true;
 				} else
 					return false;

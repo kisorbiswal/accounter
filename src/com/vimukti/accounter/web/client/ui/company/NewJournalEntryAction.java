@@ -24,7 +24,7 @@ public class NewJournalEntryAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, isEditable);
+		runAsync(data, isDependent);
 	}
 
 	public void runAsync(final Object data, final Boolean isEditable) {

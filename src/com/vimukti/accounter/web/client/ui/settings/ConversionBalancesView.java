@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import java.util.List;
+
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,18 +16,16 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
+import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
-public class ConversionBalancesView extends AbstractBaseView {
+public class ConversionBalancesView extends BaseView {
 	private HTML superHeaderHtml, headerHtml, footerCommentHtml;
 	private VerticalPanel headerPanel, bodyPanel, mainPanel, tabBodyPanel,
 			footerPanel;
@@ -173,7 +173,7 @@ public class ConversionBalancesView extends AbstractBaseView {
 		removeZeroBalance.setValue(Accounter.constants().removeZeroBalances());
 		removeZeroBalance.addStyleName("falseHyperlink");
 		removeZeroBalance.setShowTitle(false);
-		removeZeroBalance.setDisabled(isEdit);
+		removeZeroBalance.setDisabled(isEdit());
 		showAllAccounts = new LabelItem();
 		showAllAccounts.setValue(Accounter.constants().showAllAccounts());
 		showAllAccounts.addStyleName("falseHyperlink");
@@ -218,25 +218,6 @@ public class ConversionBalancesView extends AbstractBaseView {
 
 	}
 
-	@Override
-	public void initData() {
-		super.initData();
-	}
-
-	@Override
-	public void onEdit() {
-
-	}
-
-	@Override
-	public void print() {
-
-	}
-
-	@Override
-	public void printPreview() {
-		// its not usiong any where
-	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
@@ -248,10 +229,6 @@ public class ConversionBalancesView extends AbstractBaseView {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-
-	}
 
 	@Override
 	protected String getViewTitle() {
@@ -261,6 +238,11 @@ public class ConversionBalancesView extends AbstractBaseView {
 	@Override
 	public void fitToSize(int height, int width) {
 
+	}
+
+	@Override
+	public List getForms() {
+		return null;
 	}
 
 }

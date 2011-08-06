@@ -89,6 +89,14 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		this.isEdit = (data != null && data.getID() != 0);
 	}
 
+	public boolean isEdit() {
+		return isEdit;
+	}
+
+	public void setEdit(boolean isEdit) {
+		this.isEdit = isEdit;
+	}
+
 	protected void createButtons(ButtonBar buttonBar) {
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.saveAndNewButton = new SaveAndNewButtom(this);

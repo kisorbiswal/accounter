@@ -1,8 +1,6 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.WidgetCollection;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 
 public abstract class ParentCanvas<T> extends VerticalPanel {
 
@@ -79,10 +77,6 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 	public void onSelectBoxValueChange(int colIndex, Object value) {
 	}
 
-	@Override
-	public WidgetCollection getChildren() {
-		return super.getChildren();
-	}
 
 	/**
 	 * call this method to set focus in View
@@ -91,17 +85,6 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 
 	public abstract void fitToSize(int height, int width);
 
-	public void createID() {
-
-	}
-
-	// public long getID() {
-	// return this.id;
-	// }
-	//
-	// public void setID(long id) {
-	// this.id = id;
-	// }
 
 	public abstract void onEdit();
 

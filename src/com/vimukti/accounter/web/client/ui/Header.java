@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -59,11 +58,6 @@ public class Header extends HorizontalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					String historyToken = ActionFactory.getUserDetailsAction()
-							.getHistoryToken();
-					if (!History.getToken().equals(historyToken)) {
-						MainFinanceWindow.oldToken = History.getToken();
-					}
 					ActionFactory.getUserDetailsAction().run(null, false);
 				}
 			});
