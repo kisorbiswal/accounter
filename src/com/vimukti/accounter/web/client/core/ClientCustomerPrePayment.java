@@ -113,7 +113,10 @@ public class ClientCustomerPrePayment extends ClientTransaction {
 	}
 
 	public ClientCustomerPrePayment clone() {
-		return null;
+		ClientCustomerPrePayment clientCustomerPrePaymentClone = (ClientCustomerPrePayment) this
+				.clone();
+		clientCustomerPrePaymentClone.address = this.address.clone();
+		return clientCustomerPrePaymentClone;
 	}
 
 }
