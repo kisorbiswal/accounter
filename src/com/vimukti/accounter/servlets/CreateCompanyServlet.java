@@ -29,41 +29,22 @@ public class CreateCompanyServlet extends BaseServlet {
 	private String view = "/WEB-INF/CreateCompany.jsp";
 
 	@Override
-	protected void doPost(final HttpServletRequest request,
-			final HttpServletResponse response) throws ServletException,
-			IOException {
-		final HttpSession session = request.getSession();
-		final String emailID = (String) session.getAttribute(EMAIL_ID);
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String emailID = (String) session.getAttribute(EMAIL_ID);
 		if (emailID == null) {
 			return;
 		}
+		doCreateCompany(request, response, emailID);
 
-		Thread thread = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				session.setAttribute("STATUS", "Creating");
-				doCreateCompany(request, response, emailID);
-				try {
-					redirectExternal(request, response, "/WEB-INF/refresh.jsp");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				session.setAttribute("STATUS", "Completed");
-
-			}
-		});
-		thread.start();
-		
-//		doCreateCompany(request, response, emailID);
-		
 	}
 
 	private void doCreateCompany(HttpServletRequest request,
-			HttpServletResponse response, String emailID) {
-		ServerCompany serverCompany = getCompany(request);
+			HttpServletResponse response, String emailID) throws IOException {
+		final ServerCompany serverCompany = getCompany(request);
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		Client client = getClient(emailID);
+		final Client client = getClient(emailID);
 		Transaction transaction = session.beginTransaction();
 		try {
 			session.save(serverCompany);
@@ -82,28 +63,30 @@ public class CreateCompanyServlet extends BaseServlet {
 			dispatch(request, response, view);
 		}
 
-		try {
-			String urlString = getUrlString(serverCompany, emailID, client);
-			URL url = new URL(urlString.toString());
-			HttpURLConnection connection = (HttpURLConnection) url
-					.openConnection();
-			int responseCode = connection.getResponseCode();
+		final String urlString = getUrlString(serverCompany, emailID, client);
+		final HttpSession httpSession = request.getSession(true);
+		new Thread(new Runnable() {
 
-			if (responseCode == 200) {
-				redirectExternal(request, response, COMPANIES_URL);
-				return;
-			} else {
-				rollback(serverCompany, client);
-				request.setAttribute("message", "Company creation failed."
-						+ connection.getResponseMessage());
-				dispatch(request, response, view);
-				return;
+			@Override
+			public void run() {
+				try {
+					httpSession.setAttribute("COM_STATUS", "Creating");
+					URL url = new URL(urlString.toString());
+					HttpURLConnection connection = (HttpURLConnection) url
+							.openConnection();
+					int responseCode = connection.getResponseCode();
+					if (responseCode == 200) {
+						httpSession.setAttribute("COM_STATUS", "Success");
+					} else {
+						rollback(serverCompany, client);
+						httpSession.setAttribute("COM_STATUS", "Fail");
+					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
-
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
+		});
+		response.sendRedirect("/companystatus");
 	}
 
 	/**
