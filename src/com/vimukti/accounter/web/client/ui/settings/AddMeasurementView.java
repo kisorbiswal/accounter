@@ -13,26 +13,25 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
-public class AddMeasurementView extends BaseView {
+public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
 	private TextItem nameItem, description;
 	private SelectCombo defaultItem;
 	private AddUnitsGrid addUnitsGrid;
 	private DynamicForm addMeasurmentForm, defaultForm;
 	private AccounterConstants settingsMessages = Accounter.constants();
-	private ClientMeasurement measurment;
-	private List defaultList;
-	private AddUnitsListGridData addUnitsListGridData;
+	// private ClientMeasurement measurment;
+	private List<ClientUnit> defaultList;
+
+	// private AddUnitsListGridData addUnitsListGridData;
 
 	public AddMeasurementView() {
 		// init();
@@ -63,7 +62,7 @@ public class AddMeasurementView extends BaseView {
 	}
 
 	@Override
-	public List getForms() {
+	public List<DynamicForm> getForms() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -94,7 +93,7 @@ public class AddMeasurementView extends BaseView {
 
 	private void createControls() {
 		VerticalPanel panel = new VerticalPanel();
-		defaultList = new ArrayList();
+		defaultList = new ArrayList<ClientUnit>();
 		panel.setSpacing(10);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		addMeasurmentForm = new DynamicForm();
@@ -170,22 +169,11 @@ public class AddMeasurementView extends BaseView {
 
 	public void setDefaultComboValue(ClientUnit unitData) {
 		defaultList.add(unitData);
-		if (((ClientUnit) (defaultList.get(0))).getType().equals(
-				unitData.getType())) {
+		if ((defaultList.get(0)).getType().equals(unitData.getType())) {
 			defaultItem.setComboItem(unitData.getType());
 			return;
 		}
 		defaultItem.addComboItem(unitData.getType());
-	}
-
-	private void addSelectedItemsToList() {
-		measurment = new ClientMeasurement();
-		measurment.setName(nameItem.getValue().toString());
-		measurment.setDesctiption(description.getValue().toString());
-		for (Object iterable_element : defaultList) {
-			ClientUnit unit = (ClientUnit) iterable_element;
-			measurment.addUnit(unit.getType(), unit.getFactor());
-		}
 	}
 
 	@Override
@@ -205,8 +193,15 @@ public class AddMeasurementView extends BaseView {
 
 	@Override
 	public void saveAndUpdateView() {
-		addSelectedItemsToList();
-		super.saveAndUpdateView();
-		MainFinanceWindow.getViewManager().createObject(measurment, this);
+		updateData();
+		saveOrUpdate(getData());
+	}
+
+	private void updateData() {
+		data.setName(nameItem.getValue().toString());
+		data.setDesctiption(description.getValue().toString());
+		for (ClientUnit unit : defaultList) {
+			data.addUnit(unit.getType(), unit.getFactor());
+		}
 	}
 }

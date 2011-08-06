@@ -31,7 +31,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -51,12 +50,12 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	private TextAreaItem memo;
 	private DynamicForm vatform;
 
-	private ClientTAXItem clientVATItem;
+	// private ClientTAXItem clientVATItem;
 	private ClientTAXAgency clientTAXAgency;
 
-	private ClientTAXAdjustment taxAdjustment;
+	// private ClientTAXAdjustment taxAdjustment;
 
-	private AccounterAsyncCallback<Boolean> refreshFileVat;
+	// private AccounterAsyncCallback<Boolean> refreshFileVat;
 	private ClientTAXAgency taxAgency;
 	// private static TextItem vatLine, vatLinetxt, vatAccounttxt, vatAccount;
 	private LabelItem vatLine, vatLinetxt, vatAccounttxt, vatAccount;
@@ -140,7 +139,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 					@Override
 					public void selectedComboBoxItem(ClientTAXItem selectItem) {
-						clientVATItem = selectItem;
+						// clientVATItem = selectItem;
 						refreshVatLineLabel(vatLinetxt,
 								selectItem.getVatReturnBox());
 
@@ -299,7 +298,6 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	protected void refreshVatAccountLabel(LabelItem vatAccountLabel,
 			ClientTAXItem selectItem) {
 
-		String str = "";
 		if (this.clientTAXAgency != null) {
 
 			if (selectItem.isSalesType()) {
@@ -345,20 +343,6 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	}
 
-	public void saveSuccess(IAccounterCore result) {
-		if (taxAdjustment == null) {
-			// Accounter.showInformation(FinanceApplication.constants()
-			// .VATAdjustmentSuccessfull());
-			removeFromParent();
-
-		} else {
-			// Accounter.showInformation(FinanceApplication.constants()
-			// .VATItemUpdatedSuccessfully());
-		}
-		super.saveSuccess(result);
-
-	}
-
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		// switch (this.validationCount) {
@@ -401,51 +385,33 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	}
 
 	public void saveAndUpdateView() {
-		ClientTAXAdjustment vatItem = getObject();
-		saveOrUpdate(vatItem);
+		updateData();
+		saveOrUpdate(getData());
 	}
 
-	public void setData(ClientTAXAdjustment data) {
-		super.setData(data);
-		if (data != null)
-			taxAdjustment = (ClientTAXAdjustment) data;
-		else
-			taxAdjustment = null;
-	}
+	private void updateData() {
 
-	private ClientTAXAdjustment getObject() {
+		data.setNumber(entryNo.getValue().toString());
 
-		ClientTAXAdjustment TAXadjust;
-
-		if (taxAdjustment != null) {
-			TAXadjust = taxAdjustment;
-		} else {
-			TAXadjust = new ClientTAXAdjustment();
-		}
-
-		TAXadjust.setNumber(entryNo.getValue().toString());
-
-		TAXadjust.setTransactionDate(adjustDate.getDate().getDate());
+		data.setTransactionDate(adjustDate.getDate().getDate());
 
 		// vatAdjustment.setVatAgency(clientVATAgency.getID());s
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			TAXadjust.setTaxItem(0);
+			data.setTaxItem(0);
 		else
-			TAXadjust.setTaxItem(clientVATItem.getID());
-		TAXadjust.setTaxAgency(clientTAXAgency.getID());
+			data.setTaxItem(vatItemCombo.getSelectedValue().getID());
+		data.setTaxAgency(clientTAXAgency.getID());
 
-		TAXadjust.setAdjustmentAccount(adjustAccountCombo.getSelectedValue()
-				.getID());
+		data.setAdjustmentAccount(adjustAccountCombo.getSelectedValue().getID());
 
-		TAXadjust.setTotal(amount.getAmount());
+		data.setTotal(amount.getAmount());
 		if (typeRadio.getValue()
 				.equals(Accounter.constants().increaseVATLine()))
-			TAXadjust.setIncreaseVATLine(true);
+			data.setIncreaseVATLine(true);
 		else
-			TAXadjust.setIncreaseVATLine(false);
-		TAXadjust.setMemo(String.valueOf(memo.getValue()));
+			data.setIncreaseVATLine(false);
+		data.setMemo(String.valueOf(memo.getValue()));
 
-		return TAXadjust;
 	}
 
 	@Override
@@ -526,4 +492,11 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		return Accounter.constants().taxAdjustment();
 	}
 
+	@Override
+	public void initData() {
+		if (data == null) {
+			setData(new ClientTAXAdjustment());
+		}
+		super.initData();
+	}
 }

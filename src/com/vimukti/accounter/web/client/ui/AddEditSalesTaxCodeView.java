@@ -40,9 +40,9 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	DynamicForm taxCodeForm;
 	SaleTaxCodeGrid gridView;
 
-	private ClientTAXCode selectedTaxCode;
+	// private ClientTAXCode selectedTaxCode;
 	protected ClientCompany company;
-	private ClientTAXCode takenTaxCode;
+	// private ClientTAXCode takenTaxCode;
 	protected String changedValue;
 	boolean isRateInValid;
 	private String title;
@@ -347,16 +347,17 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	public void initData() {
-		this.takenTaxCode = (ClientTAXCode) this.getData();
-		if (takenTaxCode != null) {
-			taxCodeText.setValue(takenTaxCode.getName());
-			if (takenTaxCode.getDescription() != null)
-				descriptionText.setValue(takenTaxCode.getDescription());
+		if (data == null) {
+			setData(new ClientTAXCode());
+		} else {
+			taxCodeText.setValue(data.getName());
+			if (data.getDescription() != null)
+				descriptionText.setValue(data.getDescription());
 			// selectedTaxAgency = FinanceApplication.getCompany().getTaxAgency(
 			// takenTaxCode.getTaxAgency());
 			// taxAgencyCombo.setComboItem(selectedTaxAgency);
-			statusCheck.setValue(takenTaxCode.isActive());
-			typeRadio.setValue(takenTaxCode.isTaxable() ? Accounter.constants()
+			statusCheck.setValue(data.isActive());
+			typeRadio.setValue(data.isTaxable() ? Accounter.constants()
 					.taxable() : Accounter.constants().nonTaxable());
 			// Set<ClientTaxRates> clientTaxRates = (Set<ClientTaxRates>)
 			// takenTaxCode
@@ -369,15 +370,6 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 	}
 
-	// creates a new tax code OR edits an existing tax code.
-	protected void createOrEditTaxCode() {
-
-		ClientTAXCode taxCode = getTaxCode();
-
-		saveOrUpdate(taxCode);
-
-	}
-
 	@Override
 	public ValidationResult validate() {
 
@@ -385,12 +377,11 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		result.add(taxCodeForm.validate());
 
-		if ((takenTaxCode == null
+		if ((!isEdit
 				&& Utility.isObjectExist(company.getTaxCodes(),
 						UIUtils.toStr(taxCodeText.getValue())) ? true : false)
-				|| (takenTaxCode != null && !(takenTaxCode
-						.getName()
-						.equalsIgnoreCase(UIUtils.toStr(taxCodeText.getValue())) ? true
+				|| (isEdit && !(data.getName().equalsIgnoreCase(
+						UIUtils.toStr(taxCodeText.getValue())) ? true
 						: (Utility.isObjectExist(company.getTaxCodes(),
 								UIUtils.toStr(taxCodeText.getValue())) ? false
 								: true)))) {
@@ -415,9 +406,8 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientTAXCode taxCode = getTaxCode();
-
-		saveOrUpdate(taxCode);
+		updateData();
+		saveOrUpdate(getData());
 
 	}
 
@@ -436,42 +426,6 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		// this.errorOccured = true;
 		addError(this, Accounter.constants().duplicationOfTaxCodeIsNotAllowed());
 
-	}
-
-	private ClientTAXCode getTaxCode() {
-
-		ClientTAXCode taxCode;
-
-		if (takenTaxCode != null)
-			taxCode = takenTaxCode;
-		else
-			taxCode = new ClientTAXCode();
-
-		// Setting Tax Code
-		taxCode.setName(UIUtils.toStr(taxCodeText.getValue()));
-
-		// Setting description
-		if (descriptionText.getValue() != null)
-			taxCode.setDescription(descriptionText.getValue().toString());
-
-		// Setting Tax Agency
-		// taxCode.setTaxAgency(getSelectedTaxAgency().getID());
-
-		// Setting status check
-		taxCode.setTaxable(typeRadio.getValue().equals(
-				Accounter.constants().taxable()) ? true : false);
-		boolean isActive = (Boolean) statusCheck.getValue();
-		taxCode.setActive(isActive);
-
-		// Setting Tax Rates
-
-		// List<ClientTaxRates> records = gridView.getRecords();
-		// Set<ClientTaxRates> allTaxRates = new
-		// HashSet<ClientTaxRates>(records);
-
-		// taxCode.setTaxRates(allTaxRates);
-
-		return taxCode;
 	}
 
 	public void setValidRate(double rate) {
@@ -564,4 +518,30 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 		return constant;
 	}
 
+	private void updateData() {
+
+		// Setting Tax Code
+		data.setName(UIUtils.toStr(taxCodeText.getValue()));
+
+		// Setting description
+		if (descriptionText.getValue() != null)
+			data.setDescription(descriptionText.getValue().toString());
+
+		// Setting Tax Agency
+		// taxCode.setTaxAgency(getSelectedTaxAgency().getID());
+
+		// Setting status check
+		data.setTaxable(typeRadio.getValue().equals(
+				Accounter.constants().taxable()) ? true : false);
+		boolean isActive = (Boolean) statusCheck.getValue();
+		data.setActive(isActive);
+
+		// Setting Tax Rates
+
+		// List<ClientTaxRates> records = gridView.getRecords();
+		// Set<ClientTaxRates> allTaxRates = new
+		// HashSet<ClientTaxRates>(records);
+
+		// taxCode.setTaxRates(allTaxRates);
+	}
 }

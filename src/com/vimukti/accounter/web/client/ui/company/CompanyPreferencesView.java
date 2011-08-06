@@ -18,8 +18,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
-import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -64,9 +62,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private AccounterButton ok;
 	private AccounterButton cancel;
 
-	private IAccounterGETServiceAsync getService;
+	// private IAccounterGETServiceAsync getService;
 
-	private IAccounterCRUDServiceAsync crudService;
+	// private IAccounterCRUDServiceAsync crudService;
 	private CheckboxItem useAccountscheckbox, useCustomertID, useVendorId,
 			allowDocumentNos, doupaySalesChecBox, playsounds;
 	private DateItem dateItem;
@@ -96,13 +94,14 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	DynamicForm companyDetailsForm, phoneAndFaxForm, taxIDForm,
 			RegistrationNumberForm;
 
-	private TextAreaItem address;
+	// private TextAreaItem address;
 
-	private LinkedHashMap<String, ClientAddress> addresses = new LinkedHashMap<String, ClientAddress>();
+	// private LinkedHashMap<String, ClientAddress> addresses = new
+	// LinkedHashMap<String, ClientAddress>();
 
 	protected String str;
 
-	private String string;
+	// private String string;
 
 	private TextAreaItem textareaItem, textareaItem2;
 
@@ -111,8 +110,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	public CompanyPreferencesView() {
 		// this.validationCount = 2;
 		this.company = getCompany();
-		this.getService = Accounter.createGETService();
-		this.crudService = Accounter.createCRUDService();
+		// this.getService = Accounter.createGETService();
+		// this.crudService = Accounter.createCRUDService();
 
 	}
 
@@ -330,7 +329,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyNameText.setHelpInformation(true);
 		companyNameText.setRequired(true);
 		companyNameText.setWidth(100);
-		string = "[a-zA-Z0-9 /s]";
+		// string = "[a-zA-Z0-9 /s]";
 
 		textareaItem = new TextAreaItem(Accounter.constants()
 				.registeredAddress());
