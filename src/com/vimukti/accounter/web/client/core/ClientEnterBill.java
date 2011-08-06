@@ -261,6 +261,14 @@ public class ClientEnterBill extends ClientTransaction {
 	}
 
 	public ClientEnterBill clone() {
-		return null;
+		ClientEnterBill clientEnterBillClone = (ClientEnterBill) this.clone();
+		clientEnterBillClone.contact = this.contact.clone();
+		clientEnterBillClone.vendorAddress = this.vendorAddress.clone();
+		Set<ClientTransactionPayBill> transactionPayBills = new HashSet<ClientTransactionPayBill>();
+		for (ClientTransactionPayBill clientTransactionPayBill : this.transactionPayBills) {
+			transactionPayBills.add(clientTransactionPayBill.clone());
+		}
+		clientEnterBillClone.transactionPayBills = transactionPayBills;
+		return clientEnterBillClone;
 	}
 }
