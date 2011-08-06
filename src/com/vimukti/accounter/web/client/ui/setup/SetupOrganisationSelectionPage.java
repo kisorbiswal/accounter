@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 
 public class SetupOrganisationSelectionPage extends AbstractSetupPage {
+
 	private static final String ORG_TYPE = "OrganizationType";
 	private RadioButton soleProprietorshipRadio;
 	private RadioButton partnershipRadio;
