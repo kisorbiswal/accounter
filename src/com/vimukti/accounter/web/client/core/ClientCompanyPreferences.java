@@ -119,6 +119,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean haveW_2Employees;
 	boolean have1099contractors;
 	boolean trackEmployeeExpenses;
+	private int sellType;
+	private int salesTaxs;
 
 	// String legalName;
 
@@ -777,5 +779,21 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setTrackEmployeeExpenses(boolean trackEmployeeExpenses) {
 		this.trackEmployeeExpenses = trackEmployeeExpenses;
+	}
+
+	public int getSellType() {
+		return sellType;
+	}
+
+	public void setSellType(int sellType) {
+		this.sellType = sellType;
+	}
+
+	public int getSalesTaxs() {
+		return salesTaxs;
+	}
+
+	public void setSalesTaxs(int salesTaxs) {
+		this.salesTaxs = salesTaxs;
 	}
 }
