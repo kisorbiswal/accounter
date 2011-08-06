@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
@@ -321,6 +322,19 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 		}
 
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		result.add(form1.validate());
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	// @Override
