@@ -19,6 +19,9 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	SelectCombo monthsCombo;
 	RadioButton beginingYear, todaysDate;
 	DateField datepicker;
+	List<String> monthNam;
+
+	String[] monthNames;
 
 	@Override
 	public String getHeader() {
@@ -34,14 +37,14 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	private void creatControls() {
 		mainPanel = new VerticalPanel();
-		selectFirstMonth = new Label(
-				accounterConstants.selectFirstMonthOfFiscalYear());
+		selectFirstMonth = new Label(accounterConstants
+				.selectFirstMonthOfFiscalYear());
 		mainPanel.add(selectFirstMonth);
-		fiscalYearsameLabel = new Label(
-				accounterConstants.fiscalYearsaemasTaxyear());
+		fiscalYearsameLabel = new Label(accounterConstants
+				.fiscalYearsaemasTaxyear());
 		mainPanel.add(fiscalYearsameLabel);
-		monthsCombo = new SelectCombo(
-				accounterConstants.myFiscalYearsStartsIn());
+		monthsCombo = new SelectCombo(accounterConstants
+				.myFiscalYearsStartsIn());
 		monthsCombo.initCombo(getMonthNames());
 		DynamicForm dynmicform = new DynamicForm();
 		dynmicform.setFields(monthsCombo);
@@ -51,20 +54,20 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 		secondHeading = new Label(accounterConstants.selectdateToTrackFinance());
 		mainPanel.add(secondHeading);
-		theDateisStartdateLabel = new Label(
-				accounterConstants.yourSelecteddateisStartdate());
+		theDateisStartdateLabel = new Label(accounterConstants
+				.yourSelecteddateisStartdate());
 		mainPanel.add(theDateisStartdateLabel);
-		beginingYear = new RadioButton(
-				accounterConstants.beginingOfthefiscalYear());
+		beginingYear = new RadioButton("bottomRadioGroup", accounterConstants
+				.beginingOfthefiscalYear());
 		mainPanel.add(beginingYear);
-		inOrdertoComplete = new Label(
-				accounterConstants.enterTransactionsTocompleteTaxreturns());
+		inOrdertoComplete = new Label(accounterConstants
+				.enterTransactionsTocompleteTaxreturns());
 		mainPanel.add(inOrdertoComplete);
-		todaysDate = new RadioButton(
-				accounterConstants.useTodaysDateasStartdate());
+		todaysDate = new RadioButton("bottomRadioGroup", accounterConstants
+				.useTodaysDateasStartdate());
 		mainPanel.toString();
-		enterTransaction = new Label(
-				accounterConstants.enterTransactionsTocompleteTaxreturns());
+		enterTransaction = new Label(accounterConstants
+				.enterTransactionsTocompleteTaxreturns());
 		mainPanel.add(enterTransaction);
 		datepicker = new DateField("");
 		DynamicForm dynamicform = new DynamicForm();
@@ -74,14 +77,14 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	}
 
 	private List<String> getMonthNames() {
-		String[] monthNames = { accounterConstants.january(),
+		monthNames = new String[] { accounterConstants.january(),
 				accounterConstants.february(), accounterConstants.march(),
 				accounterConstants.april(), accounterConstants.may(),
 				accounterConstants.june(), accounterConstants.july(),
 				accounterConstants.august(), accounterConstants.september(),
 				accounterConstants.october(), accounterConstants.november(),
 				accounterConstants.december() };
-		List<String> monthNam = new ArrayList<String>();
+		monthNam = new ArrayList<String>();
 		for (int i = 0; i < monthNames.length; i++) {
 			monthNam.add(monthNames[i]);
 
@@ -92,12 +95,25 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
+		monthsCombo.setValue(monthNam
+				.get(preferences.getFiscalYearFirstMonth()));
+		if (preferences.isBeginingorTodaysdate()) {
+			beginingYear.setValue(true);
+			datepicker.setDisabled(true);
+		} else {
+			todaysDate.setValue(true);
+			datepicker.setDisabled(false);
+			datepicker.setEnteredDate(preferences.getTrackFinanceDate());
+		}
 
 	}
 
 	@Override
 	public void onSave() {
+		preferences.setFiscalYearFirstMonth(monthNam.indexOf(monthsCombo
+				.getSelectedValue()));
+		preferences.setBeginingorTodaysdate(beginingYear.getValue());
+		preferences.setTrackFinanceDate(datepicker.getDate());
 		// TODO Auto-generated method stub
 
 	}
