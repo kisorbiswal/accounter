@@ -10,6 +10,7 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.HistoryToken;
@@ -31,14 +32,6 @@ public class ViewManager extends VerticalPanel {
 	 */
 	private ParentCanvas<?> existingView;
 
-	public final static int CMD_Sucess = 1;
-	public final static int CMD_SAVEFAILED = 2;
-	public final static int CMD_UPDATEFAILED = 3;
-	public final static int CMD_DELETEFAILED = 3;
-
-	public final static int TOP_MENUBAR = 75;
-	private final int BORDER = 15;
-
 	private MainFinanceWindow mainWindow;
 
 	private HistoryList views = new HistoryList();
@@ -54,8 +47,6 @@ public class ViewManager extends VerticalPanel {
 				historyChanged(event.getValue());
 			}
 		});
-		HistoryTokenUtils.setPresentToken(ActionFactory.getCompanyHomeAction(),
-				null);
 		handleBackSpaceEvent();
 	}
 
@@ -167,6 +158,10 @@ public class ViewManager extends VerticalPanel {
 		newview.initData();
 
 		this.views.add(new HistoryItem(token, newview));
+		
+		if(input instanceof IAccounterCore){
+			token=HistoryTokenUtils.getTokenWithID(token, (IAccounterCore) input);
+		}
 		History.newItem(token, false);
 	}
 
