@@ -1171,10 +1171,10 @@ table tr.parentRow:HOVER {
 .gridHeader {
 	border-collapse: collapse;
 	cursor: pointer;
-	background: url("/images/Form_Title_bar_mid.png") repeat-x scroll 0 0
-		transparent; /*url('images/header.png') repeat-x scroll 0 0;*/
+	background:#A0A0A0 !important;
 	height: 21px;
 	width: 100%;
+	border-bottom:1px solid #1a1a1a;
 }
 
 .gridHeaderLastTd {
@@ -1182,7 +1182,7 @@ table tr.parentRow:HOVER {
 }
 
 .gridHeader td {
-	border-right: 1px solid #AAAAAA;
+	border-right:1px solid #1a1a1a;
 	overflow-x: hidden;
 }
 
@@ -1228,10 +1228,11 @@ noindex:-o-prefocus,.gridBody tr td {
 	overflow: hidden;
 }
 
-.gridBody tr td { /*border-right: 1px solid #AAAAAA;*/
+.gridBody tr td { 
 	padding-left: 5px;
 	overflow-x: hidden;
 	font-size: 13px;
+	border-right:1px solid #1A1A1A;
 }
 
 .grid-resizeable-proxy-column {
@@ -1268,11 +1269,9 @@ noindex:-o-prefocus,.gridBody tr td {
 }
 
 .listgrid {
-	/*background:url("/images/Table-form-strip.png") repeat scroll 0 0 #EEEEEE;*/
 	border-style: solid !important;
-	border-width: 0 1px 1px !important;
-	/*overflow-y: scroll;*/
-	border-color: #AAAAAA !important;
+	border-width: 1px 1px 1px !important;
+	border-color: #1A1A1A !important;
 	overflow-y: visible !important;
 }
 
@@ -1295,10 +1294,11 @@ input[type="checkbox"] {
 .gridEvenRow {
 	width: 100%;
 	height:20px;
-	/*background:none repeat scroll 0 0 #E8E8E8;*/
+	background:none repeat scroll 0 0 #E8E8E8;
 }
 
-.gridOddRow { /*background:none repeat scroll 0 0 #F0F0F0;*/
+.gridOddRow { 
+    background:none repeat scroll 0 0 #f4f4f4;
 	width:100%;
 	height:20px;
 }
@@ -1866,17 +1866,16 @@ noindex:-o-prefocus,.table-checkbox-cell span input[type="checkbox"] {
 	background-color:inherit !important;
 }*/
 input[disabled],input[disabled='disabled'] {
-	background: url("/images/Text Feild_diabled.png") no-repeat scroll 0 0
-		#e6e0da !important;
+	background: none repeat scroll 0 0 #E6E0DA !important;
+    border: 1px solid #B1B1B1;
 	color: #b1a7ad;
-	border: 0 none;
 }
 
 textarea[disabled] {
-	background: url("/images/Text Feild_disabled_180x64.png") no-repeat
-		scroll 0 0 #e6e0da !important;
-	color: #b1a7ad;
-	border: 0 none;
+	background: none repeat scroll 0 0 #E6E0DA !important;
+    border: 1px solid #B1B1B1 !important;
+    border-radius: 3px 3px 3px 3px;
+    color: #B1A7AD;
 }
 
 .requiredField { /*font-weight: bold;*/
@@ -4971,16 +4970,10 @@ div.link:hover {
 
 .bottom-view { /*border-top: 1px solid #AAAAAA;*/
 	background: #DFDFDF;
-	border-color: #989898;
+	border-color: #1A5158;
 	border-style: solid;
 	border-width: 0 1px 1px;
 	padding-bottom: 4px;
-}
-
-.bottom-shadow {
-	background: url("../images/widget-shadow-image.png") repeat-x scroll 0 0
-		transparent;
-	height: 5px;
 }
 
 .nav-content {
@@ -5036,15 +5029,14 @@ td.gridDecimalCell {
 }
 
 .custom-combo {
-	background: url("/images/Text Feild_enabled_180x22.png") no-repeat scroll
-		0 0 #fff;
-	border: 0 none;
-	height: 22px !important;
-	overflow: hidden;
-	position: relative;
-	width: 180px !important;
-	float: left;
-	padding: 0px\0  !important;
+	border: 1px solid #B1B1B1;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 1px 2px 2px #CCCCCC inset;
+    float: left;
+    height: 22px !important;
+    overflow: hidden;
+    position: relative;
+    width: 180px !important;
 }
 
 .dropdownTable {
@@ -5227,12 +5219,16 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 /**End --- Styles for Finance **/ /* this changes by praveena */
 	/* this changes by praveena */
-.gwt-Button:active {
-	/*border: medium none !important;*/
+.add-button button:active {
+	border: 1px solid #002E36 !important;
+    color: white;
+    background:url("/images/Add_item.png") no-repeat scroll 43px center #002E36 !important;
 }
 
-.gwt-Button:hover {
-	/*border-color: #9FC2FF !important;*/
+.add-button button:hover {
+	border: 1px solid #002E36 !important;
+    color: white;
+    background:url("/images/Add_item.png") no-repeat scroll 43px center #002E36 !important;
 }
 
 .gwt-Button[disabled] {
@@ -5267,7 +5263,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .gwt-MenuBar-vertical .subMenuIcon-selected {
-	background: none repeat scroll 0 0 #28757d !important;
+	background: none repeat scroll 0 0 #29646C !important;
 	border: 0px none !important;
 	/*background:url("/images/header-c1.jpg")repeat-x scroll 0 0 transparent ;  praveena*/
 }
@@ -5380,9 +5376,9 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	color: white !important;
 	cursor: pointer;
 	height: 29px !important;
-	padding: 0 5px 5px !important;
+	padding: 0 25px 5px 5px !important;
 	border: 0px none !important;
-	border-radius: 0 0 0 0 !important;
+	border-radius: 3px 3px 3px 3px !important;
 	font-size: 13px !important;
 }
 
@@ -5566,21 +5562,20 @@ solid
 }
 
 .bottom-view table tr td {
-	background: url("/images/Button_left_1x27.png") no-repeat scroll 0 0
-		transparent;
-	padding: 0 0 0 3px;
+	
 }
 
 .custom-button-right-image {
 	float: left;
 	height: 29px;
 	width: 5px;
+	display:none;
 }
 
 .gwt-TextBox {
-	border: 1px solid #7A7A7A;
+	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
-    box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
+    box-shadow: 1px 2px 2px #CCCCCC inset;
     height: 25px !important;
 }
 
@@ -5601,19 +5596,16 @@ solid
 }
 
 .memoTextArea {
-	background: url("/images/Text-area-img.png") no-repeat scroll 0 0 #fff
-		!important;
-	border: 0 none !important;
-	height: 65px;
-	width: 359px !important;
-	resize: none
+	border: 1px solid #B1B1B1;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 1px 2px 2px #CCCCCC inset;
+    height: 65px;
+    resize: none;
+    width: 359px !important;
 }
 
 .memoTextArea[disabled] {
-	background: url("/images/Text-area-img.png") no-repeat scroll 0 0 #e6e0da
-		!important;
 	color: #b1a7ad;
-	border: 0 none;
 }
 
 .downarrow-button {
@@ -5650,7 +5642,7 @@ solid
 }
 
 .gwt-TabPanelBottom {
-	border-color: #989898 !important;
+	border-color: #1A5158 !important;
 	border-width: 1px 1px 0 !important;
 }
 
@@ -5730,12 +5722,7 @@ important
 }
 
 .bottom-view table tr td button {
-	background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
-		transparent;
-	float: left;
-	margin: 0 !important;
-	padding-right: 30px !important;
-	border-radius: 0 0 0 0 !important;
+	
 }
 
 .gridSelectBoxCell .downarrow-button {
@@ -5754,42 +5741,32 @@ important
 }
 
 .save-new-separator {
-	background: url("/images/Divider.png") no-repeat scroll 0 0 transparent
-		!important;
+	
 }
 
 .save-close-separator {
-	background: url("/images/Divider.png") no-repeat scroll 0 0 transparent
-		!important;
+	
 }
 
 .close-separator {
-	background: url("/images/gray_Seperator1.png") no-repeat scroll 0 0
-		transparent !important;
+	
 }
 
 .add-separator {
-	background: url("/images/Divider.png") no-repeat scroll 0 0 transparent
-		!important;
+	
 }
 
 .save-new-separator,.save-close-separator,.close-separator,.add-separator
 	{
-	height: 23px;
-	margin-left: 5px;
-	margin-top: -3px;
-	position: absolute;
-	width: 2px;
+	margin:0 3px 0 5px; 
 }
 
 .save-new-image {
-	background: url("/images/Save-&-New.png") no-repeat scroll 0 0
-		transparent !important;
+	
 }
 
 .save-close-image {
-	background: url("/images/Save-&-close.png") no-repeat scroll 0 0
-		transparent !important;
+	
 }
 
 .accounter-button-seperater {
@@ -5818,49 +5795,35 @@ important
 }
 
 .save-new-image,.save-close-image {
-	width: 20px;
-	height: 20px;
-	margin-left: 10px;
-	position: absolute;
+	
 }
 
 .close-image,.add-image,.approve-image,.submit-approve-image,.decline-image
 	{
-	height: 16px;
-	margin-left: 10px;
-	position: absolute;
-	width: 16px;
-	margin-top: 2px;
+	
 }
 
 .add-image {
-	background: url("/images/Add_item.png") no-repeat scroll 0 0 transparent
-		!important;
+	
 }
 
 .close-image {
-	background: url("/images/cross.png") no-repeat scroll 0 0 transparent
-		!important;
+	
 }
 
 .cancel-button button {
-	background: url("/images/gray_Button_2_mid.png") repeat-x scroll 0 0
-		transparent !important;
-	color: #000 !important;
-	padding-top: 2px !important;
-	font-size: 13px !important;
+	background: url("/images/cross.png") no-repeat scroll 63px center #5F5F5F !important;
+    font-size: 13px !important;
+    padding-right: 20px !important;
+    border: 1px solid #2F2F2F !important;
 }
 
 .cancel-button {
-	background: url("/images/gray_Button_2_left.png") no-repeat scroll 0 0
-		transparent !important;
+	
 }
 
 .add-button {
-	background: url("/images/blue_Left_sideNew.png") no-repeat scroll 0 0
-		transparent !important;
-	padding: 0 3px;
-	float: right;
+
 }
 
 .ibutton {
@@ -5903,17 +5866,19 @@ important
 }
 
 .add-button button {
-	background: url("/images/Button_1x25New.png") repeat-x scroll 0 0
-		transparent !important;
-	padding: 1px 25px 6px 0 !important;
-	border-radius: 0 0 0 0 !important;
-	margin: 0 !important;
+	background: url("/images/Add_item.png") no-repeat scroll 43px center #1A5158 !important;
+    border-radius: 4px 4px 4px 4px !important;
+    color: white;
+    margin: 0 !important;
+    padding: 2px 15px 6px 3px !important;
+    border:1px solid #002E36;
 }
 
 .add-right-image {
 	height: 25px;
 	width: 3px;
 	float: right;
+	display:none;
 }
 
 .subMenuIcon img {
@@ -6063,11 +6028,6 @@ iframe { /*display:none;*/
 	z-index: 1;
 }
 
-.list-grid-body {
-	background: url("/images/Table-form-strip.png") repeat scroll 0 0 #EEEEEE
-		;
-}
-
 .gwt-DialogBox .dialogTopLeftInner,.dialogMiddleRightInner {
 	width: 5px !important;
 }
@@ -6077,8 +6037,6 @@ iframe { /*display:none;*/
 }
 
 .report-toolbar input[type="text"] {
-	background: url("/images/Text-Field_2.png") no-repeat scroll 0 0 #FFFFFF
-		!important;
 	width: 140px !important;
 }
 
@@ -6120,7 +6078,7 @@ iframe { /*display:none;*/
 .main-class-pannel { /*border-color: #989898;
 	border-style: solid;
 	border-width: 1px 1px 0px;*/
-	border: 1px solid #aaa;
+	border: 1px solid #1A5158;
 	background: #fff;
 	padding: 10px;
 }
@@ -6505,6 +6463,31 @@ input[type="text"],textarea {
 }
 .gwt-DialogBox .dialogTopRightInner{
 	width:5px !important;
+}
+.save_close_button{
+	background: url("/images/Save-&-close.png") no-repeat scroll 116px center #1A5158 !important;
+	border:1px solid #002E36 !important
+}
+.save_new_button{
+	background: url("/images/Save-&-New.png") no-repeat scroll 107px center #1A5158 !important;
+	border:1px solid #002E36 !important
+}
+.savenew-button-hover{
+	background: url("/images/Save-&-New.png") no-repeat scroll 107px center #002E36 !important;
+}
+.saveclose-button-hover{
+    background: url("/images/Save-&-close.png") no-repeat scroll 116px center #002E36 !important;
+}
+.cancel-button-hover,.cancel-button button:hover{
+	background: url("/images/cross.png") no-repeat scroll 63px center #2F2F2F !important
+}
+.add-newitem-button button{
+	background: url("/images/Add_item.png") no-repeat scroll 108px center #1A5158 !important;
+    border-radius: 4px 4px 4px 4px !important;
+    color: white;
+    margin: 0 !important;
+    padding: 2px 15px 6px 3px !important;
+    border:1px solid #002E36;
 }
 .setup_panel{
  	border: 1px solid gray;
