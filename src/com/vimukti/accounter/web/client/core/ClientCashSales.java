@@ -316,6 +316,10 @@ public class ClientCashSales extends ClientTransaction {
 	}
 
 	public ClientCashSales clone() {
-		return null;
+		ClientCashSales clientCashSalesClone = (ClientCashSales) this.clone();
+		clientCashSalesClone.contact = this.contact.clone();
+		clientCashSalesClone.billingAddress = this.billingAddress.clone();
+		clientCashSalesClone.shippingAdress = this.shippingAdress.clone();
+		return clientCashSalesClone;
 	}
 }
