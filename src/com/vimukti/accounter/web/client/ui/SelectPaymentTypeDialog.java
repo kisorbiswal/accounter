@@ -4,7 +4,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
@@ -49,55 +48,6 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		typeForm.setGroupTitle(Accounter.constants().paymentDocuments());
 		typeForm.setFields(typeRadio);
 
-		addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancelClick() {
-				removeFromParent();
-				// Action.cancle();
-			}
-
-			public boolean onOkClick() {
-				// if (!typeForm.validate(true)) {
-				// Accounter.showError(FinanceApplication
-				// .constants().pleaseSelecPaymentType());
-				// return false;
-				// }
-
-				if (typeRadio.getValue() != null) {
-					String radio = typeRadio.getValue().toString();
-					String paymentType;
-					if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-						paymentType = Accounter.constants().vendorPayment();
-					} else {
-						paymentType = Accounter.constants().supplierPayment();
-					}
-
-					if (radio.equals(paymentType)) {
-						try {
-							ActionFactory.getNewVendorPaymentAction().run(null,
-									false);
-							;
-						} catch (Throwable e) {
-							// //UIUtils.logError("Failed...", e);
-
-						}
-					} else if (radio.equals(Accounter.constants()
-							.customerRefund())) {
-
-						try {
-							ActionFactory.getCustomerRefundAction().run(null,
-									false);
-							;
-						} catch (Throwable e) {
-							// //UIUtils.logError("Failed...", e);
-						}
-					}
-				}
-				return true;
-			}
-
-		});
-
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(typeForm);
@@ -108,6 +58,26 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		setBodyLayout(mainVLay);
 		setWidth("300");
 		show();
+	}
+
+	@Override
+	protected boolean onOK() {
+		if (typeRadio.getValue() != null) {
+			String radio = typeRadio.getValue().toString();
+			String paymentType;
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+				paymentType = Accounter.constants().vendorPayment();
+			} else {
+				paymentType = Accounter.constants().supplierPayment();
+			}
+			if (radio.equals(paymentType)) {
+				ActionFactory.getNewVendorPaymentAction().run(null, false);
+			} else if (radio.equals(Accounter.constants().customerRefund())) {
+
+				ActionFactory.getCustomerRefundAction().run(null, false);
+			}
+		}
+		return true;
 	}
 
 }

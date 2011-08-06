@@ -1,9 +1,9 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
@@ -50,55 +50,6 @@ public class SelectItemTypeDialog extends BaseDialog {
 		typeForm.setFields(typeRadio);
 		typeForm.setWidth("100%");
 
-		addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancelClick() {
-				removeFromParent();
-				// Action.cancle();
-			}
-
-			public boolean onOkClick() {
-				if (!typeForm.validate(true)) {
-					// Accounter.showError(FinanceApplication
-					// .constants().pleaseSelectItemType());
-					return false;
-				}
-
-				ItemView itemView;
-
-				if (typeRadio.getValue() != null) {
-					String radio = typeRadio.getValue().toString();
-					if (radio.equals(Accounter.constants().service())) {
-						try {
-							ItemView view = new ItemView(null, TYPE_SERVICE,
-									isGeneratedFromCustomer);
-							MainFinanceWindow.getViewManager().showView(view,
-									null, false, action);
-						} catch (Throwable e) {
-							// //UIUtils.logError("Failed...", e);
-
-						}
-					} else if (radio.equals(Accounter.constants().product())) {
-
-						try {
-							ItemView view = new ItemView(null,
-									TYPE_NON_INVENTORY_PART,
-									isGeneratedFromCustomer);
-							MainFinanceWindow.getViewManager().showView(view,
-									null, false, action);
-							// UIUtils.setCanvas(itemView, configuration);
-						} catch (Throwable e) {
-							// //UIUtils.logError("Failed...", e);
-						}
-
-					}
-				}
-
-				return true;
-			}
-
-		});
-
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(typeForm);
@@ -108,4 +59,42 @@ public class SelectItemTypeDialog extends BaseDialog {
 		show();
 	}
 
+	@Override
+	protected ValidationResult validate() {
+		if (!typeForm.validate(true)) {
+			// Accounter.showError(FinanceApplication
+			// .constants().pleaseSelectItemType());
+			return null;
+		}
+		return super.validate();
+	}
+
+	@Override
+	protected boolean onOK() {
+		if (typeRadio.getValue() != null) {
+			String radio = typeRadio.getValue().toString();
+			if (radio.equals(Accounter.constants().service())) {
+				try {
+					ItemView view = new ItemView(null, TYPE_SERVICE,
+							isGeneratedFromCustomer);
+					MainFinanceWindow.getViewManager().showView(view, null,
+							false, action);
+				} catch (Throwable e) {
+					return false;
+				}
+			} else if (radio.equals(Accounter.constants().product())) {
+				ItemView view = new ItemView(null, TYPE_NON_INVENTORY_PART,
+						isGeneratedFromCustomer);
+				try {
+					MainFinanceWindow.getViewManager().showView(view, null,
+							false, action);
+				} catch (Exception e) {
+					return false;
+				}
+				// UIUtils.setCanvas(itemView, configuration);
+			}
+		}
+
+		return true;
+	}
 }

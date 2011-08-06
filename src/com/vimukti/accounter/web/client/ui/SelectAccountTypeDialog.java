@@ -5,10 +5,8 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewConfiguration;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -86,33 +84,6 @@ public class SelectAccountTypeDialog extends BaseDialog {
 		incomeAndExpenseRadioGroup.setDefaultValue(defaultId);
 		incomeAndExpenseForm.setFields(incomeAndExpenseRadioGroup);
 
-		addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancelClick() {
-
-			}
-
-			public boolean onOkClick() {
-				String val = incomeAndExpenseRadioGroup.getValue().toString();
-				int type = Integer.parseInt(val);
-				String typeName = Utility.getAccountTypeString(type);
-				typeName = UIUtils.unbsp(typeName);
-
-				NewAccountView accountView = new NewAccountView();
-				try {
-					// FIX ME
-					// UIUtils.setCanvas(accountView, configuration);
-					return true;
-				} catch (Throwable e) {
-					Accounter.showError(Accounter.constants()
-							.failed2exlematorymarks());
-					e.printStackTrace();
-				}
-				return false;
-			}
-
-		});
-
 		VerticalPanel MVLay = new VerticalPanel();
 		MVLay.setWidth("420");
 		MVLay.add(incomeAndExpenseForm);
@@ -132,4 +103,16 @@ public class SelectAccountTypeDialog extends BaseDialog {
 		return null;
 	}
 
+	@Override
+	protected boolean onOK() {
+		String val = incomeAndExpenseRadioGroup.getValue().toString();
+		int type = Integer.parseInt(val);
+		String typeName = Utility.getAccountTypeString(type);
+		typeName = UIUtils.unbsp(typeName);
+
+		NewAccountView accountView = new NewAccountView();
+		// FIX ME
+		// UIUtils.setCanvas(accountView, configuration);
+		return true;
+	}
 }
