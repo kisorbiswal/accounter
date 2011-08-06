@@ -82,4 +82,10 @@ public class ClientItemStatus implements Serializable, IsSerializable,
 		this.warehouse = warehouse;
 	}
 
+	public ClientItemStatus clone() {
+		ClientItemStatus clientItemStatusClone = (ClientItemStatus) this
+				.clone();
+		return clientItemStatusClone;
+	}
+
 }
