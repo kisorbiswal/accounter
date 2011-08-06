@@ -471,6 +471,10 @@ public class ClientUser implements IAccounterCore {
 	}
 
 	public ClientUser clone() {
-		return null;
+		ClientUser clientUserClone = (ClientUser) this.clone();
+		clientUserClone.permissions = this.permissions.clone();
+		clientUserClone.address = this.address.clone();
+		clientUserClone.contact = this.contact.clone();
+		return clientUserClone;
 	}
 }
