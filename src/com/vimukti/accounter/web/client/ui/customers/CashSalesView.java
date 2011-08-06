@@ -268,7 +268,7 @@ public class CashSalesView extends
 		vPanel.setWidth("100%");
 		vPanel.add(panel);
 
-		menuButton.setType(AccounterButton.ADD_BUTTON);
+		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		vPanel.add(prodAndServiceHLay);
 
