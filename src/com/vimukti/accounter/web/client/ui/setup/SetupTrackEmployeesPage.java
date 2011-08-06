@@ -38,27 +38,31 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	private void creatControls() {
 		vPanel = new VerticalPanel();
 		question1 = new Label(this.accounterConstants.doYouhavEmployes());
-		yesRadioButton1 = new RadioButton(this.accounterConstants.yes());
+		yesRadioButton1 = new RadioButton("topRadioGroup",
+				this.accounterConstants.yes());
 		vPanel.add(yesRadioButton1);
-		employesCheckBox = new CheckBox(
-				this.accounterConstants.wehavW2Employes());
+		employesCheckBox = new CheckBox(this.accounterConstants
+				.wehavW2Employes());
 		vPanel.add(employesCheckBox);
-		contractorscCheckBox = new CheckBox(
-				this.accounterConstants.wehavContractors());
+		contractorscCheckBox = new CheckBox(this.accounterConstants
+				.wehavContractors());
 		vPanel.add(contractorscCheckBox);
-		noRadioButton1 = new RadioButton(this.accounterConstants.no());
+		noRadioButton1 = new RadioButton("topRadioGroup",
+				this.accounterConstants.no());
 		vPanel.add(noRadioButton1);
 
 		// here for second question
 
 		question2 = new Label(this.accounterConstants.trackEmployeeExpenses());
-		yesRadioButton2 = new RadioButton(this.accounterConstants.yes());
+		yesRadioButton2 = new RadioButton("bottomRadioGroup",
+				this.accounterConstants.yes());
 		vPanel.add(yesRadioButton2);
-		noRadioButton2 = new RadioButton(this.accounterConstants.no());
+		noRadioButton2 = new RadioButton("bottomRadioGroup",
+				this.accounterConstants.no());
 		vPanel.add(noRadioButton2);
 		hpanel = new HorizontalPanel();
-		bottemDescription = new HTML(
-				this.accounterConstants.accounterPayrollDescription());
+		bottemDescription = new HTML(this.accounterConstants
+				.accounterPayrollDescription());
 		hpanel.add(bottemDescription);
 		payrollImage = new Image(Accounter.getFinanceImages().balnkImage());
 		// TODo we have to give the Image
