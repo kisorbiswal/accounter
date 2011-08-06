@@ -1,39 +1,97 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ui.Header;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class SetupWizard extends VerticalPanel {
-	private VerticalPanel panel;
-	private Header header;
-	private AbstractSetupPage setupPage;
+	private VerticalPanel viewPanel;
+	private HorizontalPanel buttonPanel;
+	private VerticalPanel progressPanel;
+	private Button skipButton, backButton, nextButton;
+	private ClientCompanyPreferences preferences;
+
+	private int currentViewIndex = 0;
+
+	private AbstractSetupPage viewList[] = new AbstractSetupPage[] {
+			new SetupStartPage(), new SetupCompanyInfoPage(),
+			new SetupIndustrySelectionPage(),
+			new SetupOrganisationSelectionPage(), new SetupReferPage(),
+			new SetupTrackEmployeesPage(), new SetupSellTypeAndSalesTaxPage(),
+			new SetupUsingEstimatesAndStatementsPage(),
+			new SetupTrackBillsAndTimePage(),
+			new SetupSelectFiscalYrDatePage(), new SetupSelectAccountsPage(),
+			new SetupComplitionPage() };
 
 	public SetupWizard() {
-		header = new Header();
-		setupPage = new SetupStartPage(this);
+		preferences = Accounter.getCompany().getPreferences();
 		creteControls();
-		add(panel);
-	}
-
-	public void setView(AbstractSetupPage setupPage) {
-		this.setupPage = setupPage;
-	}
-
-	public AbstractSetupPage getView() {
-		return setupPage;
 	}
 
 	public void creteControls() {
-		try {
-			if (panel != null) {
-				panel.removeFromParent();
-			}
+		HorizontalPanel topPanel = new HorizontalPanel();
+		viewPanel = new VerticalPanel();
+		progressPanel = new VerticalPanel();
 
-			panel = new VerticalPanel();
-			panel.add(header);
-			panel.add(getView());
-		} catch (Exception e) {
-			System.err.println(e);
+		buttonPanel = new HorizontalPanel();
+
+		topPanel.add(viewPanel);
+		topPanel.add(progressPanel);
+
+		this.add(topPanel);
+		this.add(buttonPanel);
+
+		// adding buttons to button panel
+		skipButton = new Button(Accounter.constants().skip());
+		backButton = new Button(Accounter.constants().back());
+		nextButton = new Button(Accounter.constants().next());
+
+		buttonPanel.add(skipButton);
+		buttonPanel.add(backButton);
+		buttonPanel.add(nextButton);
+
+		// adding handlers
+
+		skipButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				currentViewIndex = viewList.length;
+				showView();
+			}
+		});
+
+		nextButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				currentViewIndex++;
+				showView();
+			}
+		});
+
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				currentViewIndex--;
+				showView();
+			}
+		});
+	}
+
+	protected void showView() {
+		AbstractSetupPage viewToShow = viewList[currentViewIndex];
+		viewToShow.setPreferences(preferences);
+		while (!viewToShow.doShow()) {
+			currentViewIndex++;
+			viewToShow = viewList[currentViewIndex];
+			viewToShow.setPreferences(preferences);
 		}
+		this.viewPanel.add(viewToShow);
 	}
 }
