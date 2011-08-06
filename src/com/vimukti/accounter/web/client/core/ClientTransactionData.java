@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -336,6 +337,14 @@ public class ClientTransactionData implements IAccounterCore {
 	}
 
 	public ClientTransactionData clone() {
-		return null;
+		ClientTransactionData clientTransactionDataClone = (ClientTransactionData) this
+				.clone();
+		List<ClientPaymentTerms> paymentTerms = new ArrayList<ClientPaymentTerms>();
+		for (ClientPaymentTerms clientPaymentTerm : this.paymentTerms) {
+			paymentTerms.add(clientPaymentTerm.clone());
+		}
+		clientTransactionDataClone.paymentTerms = paymentTerms;
+
+		return clientTransactionDataClone;
 	}
 }

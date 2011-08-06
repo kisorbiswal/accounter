@@ -314,6 +314,10 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 	}
 
 	public ClientTransactionIssuePayment clone() {
-		return null;
+		ClientTransactionIssuePayment clientTransactionIssuePaymentClone = (ClientTransactionIssuePayment) this
+				.clone();
+		clientTransactionIssuePaymentClone.transaction = this.transaction
+				.clone();
+		return clientTransactionIssuePaymentClone;
 	}
 }

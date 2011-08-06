@@ -103,6 +103,7 @@ public class ClientTaxRates implements IAccounterCore {
 	}
 
 	public ClientTaxRates clone() {
-		return null;
+		ClientTaxRates clientTaxRatesClone = (ClientTaxRates) this.clone();
+		return clientTaxRatesClone;
 	}
 }

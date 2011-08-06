@@ -450,6 +450,12 @@ public class ClientTransactionItem implements IAccounterCore {
 	}
 
 	public ClientTransactionItem clone() {
-		return null;
+		ClientTransactionItem clientTransactionItemClone = (ClientTransactionItem) this
+				.clone();
+		clientTransactionItemClone.taxItem = this.taxItem.clone();
+		clientTransactionItemClone.taxGroup = this.taxGroup.clone();
+		clientTransactionItemClone.transaction = this.transaction.clone();
+
+		return clientTransactionItemClone;
 	}
 }

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -745,7 +746,50 @@ public abstract class ClientTransaction implements IAccounterCore {
 	}
 
 	public ClientTransaction clone() {
-		return null;
+		ClientTransaction clientTransactionClone = (ClientTransaction) this
+				.clone();
+		// transactionItems list
+		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem clientTransactionItem : this.transactionItems) {
+			transactionItems.add(clientTransactionItem.clone());
+		}
+		clientTransactionClone.transactionItems = transactionItems;
+
+		// transactionMakeDeposit list
+		List<ClientTransactionMakeDeposit> transactionMakeDeposit = new ArrayList<ClientTransactionMakeDeposit>();
+		for (ClientTransactionMakeDeposit clientTransactionMakeDeposit : this.transactionMakeDeposit) {
+			transactionMakeDeposit.add(clientTransactionMakeDeposit.clone());
+		}
+		clientTransactionClone.transactionMakeDeposit = transactionMakeDeposit;
+
+		// transactionPayBill list
+		List<ClientTransactionPayBill> transactionPayBillList = new ArrayList<ClientTransactionPayBill>();
+		for (ClientTransactionPayBill clientTransactionPayBill : this.transactionPayBill) {
+			transactionPayBillList.add(clientTransactionPayBill.clone());
+		}
+		clientTransactionClone.transactionPayBill = transactionPayBillList;
+
+		// transactionReceivePayment list
+		List<ClientTransactionReceivePayment> transactionReceivePaymentList = new ArrayList<ClientTransactionReceivePayment>();
+		for (ClientTransactionReceivePayment clientTransactionReceivePayment : this.transactionReceivePayment) {
+			transactionReceivePaymentList.add(clientTransactionReceivePayment
+					.clone());
+		}
+		clientTransactionClone.transactionReceivePayment = transactionReceivePaymentList;
+		// transactionIssuePayment list
+		List<ClientTransactionIssuePayment> transactionIssuePayment = new ArrayList<ClientTransactionIssuePayment>();
+		for (ClientTransactionIssuePayment clientTransactionIssuePayment : this.transactionIssuePayment) {
+			transactionIssuePayment.add(clientTransactionIssuePayment.clone());
+		}
+		clientTransactionClone.transactionIssuePayment = transactionIssuePayment;
+		// transactionPaySalestax list
+		List<ClientTransactionPaySalesTax> transactionPaySalesTax = new ArrayList<ClientTransactionPaySalesTax>();
+		for (ClientTransactionPaySalesTax clientTransactionPaySalesTax : this.transactionPaySalesTax) {
+			transactionPaySalesTax.add(clientTransactionPaySalesTax.clone());
+		}
+		clientTransactionClone.transactionPaySalesTax = transactionPaySalesTax;
+
+		return clientTransactionClone;
 	}
 
 }

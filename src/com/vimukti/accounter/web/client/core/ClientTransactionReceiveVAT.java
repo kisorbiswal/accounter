@@ -161,6 +161,10 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 	}
 
 	public ClientTransactionReceiveVAT clone() {
-		return null;
+		ClientTransactionReceiveVAT clientTransactionReceiveVATClone = (ClientTransactionReceiveVAT) this
+				.clone();
+		clientTransactionReceiveVATClone.receiveVAT = this.receiveVAT.clone();
+
+		return clientTransactionReceiveVATClone;
 	}
 }

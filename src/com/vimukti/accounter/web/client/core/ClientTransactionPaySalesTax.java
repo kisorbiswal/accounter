@@ -131,6 +131,11 @@ public class ClientTransactionPaySalesTax implements IAccounterCore {
 	}
 
 	public ClientTransactionPaySalesTax clone() {
-		return null;
+		ClientTransactionPaySalesTax clientTransactionPaySalesTaxClone = (ClientTransactionPaySalesTax) this
+				.clone();
+		clientTransactionPaySalesTaxClone.transaction = this.transaction
+				.clone();
+		clientTransactionPaySalesTaxClone.paySalesTaxEntry = this.paySalesTaxEntry;
+		return clientTransactionPaySalesTaxClone;
 	}
 }

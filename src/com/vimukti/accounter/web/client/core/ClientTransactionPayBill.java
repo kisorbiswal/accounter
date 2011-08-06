@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -352,6 +353,15 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	}
 
 	public ClientTransactionPayBill clone() {
+		ClientTransactionPayBill clientTransactionCreditsAndPaymentsClone = (ClientTransactionPayBill) this
+				.clone();
+		clientTransactionCreditsAndPaymentsClone.payBill = this.payBill.clone();
+		List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayment = new ArrayList<ClientTransactionCreditsAndPayments>();
+		for (ClientTransactionCreditsAndPayments clientPayments : this.transactionCreditsAndPayments) {
+			transactionCreditsAndPayments.add(clientPayments.clone());
+		}
+		clientTransactionCreditsAndPaymentsClone.transactionCreditsAndPayments = transactionCreditsAndPayment;
+
 		return null;
 	}
 }

@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 @SuppressWarnings("serial")
 public class ClientTransactionReceivePayment implements IAccounterCore {
@@ -359,6 +361,19 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 	}
 
 	public ClientTransactionReceivePayment clone() {
-		return null;
+		ClientTransactionReceivePayment clientTransactionReceivePaymentClone = (ClientTransactionReceivePayment) this
+				.clone();
+		List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
+		for (ClientTransactionCreditsAndPayments creditsAndPayments : this.transactionCreditsAndPayments) {
+			transactionCreditsAndPayments.add(creditsAndPayments.clone());
+		}
+		clientTransactionReceivePaymentClone.transactionCreditsAndPayments = transactionCreditsAndPayments;
+		Map<Integer, Object> tempCredit = new HashMap<Integer, Object>();
+		for (Entry<Integer, Object> entrySet : tempCredits.entrySet()) {
+			tempCredit.put(entrySet.getKey(), (entrySet.getValue()))
+
+		}
+
+		return clientTransactionReceivePaymentClone;
 	}
 }

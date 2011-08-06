@@ -105,6 +105,7 @@ public class ClientTAXGroup extends ClientTAXItemGroup {
 	}
 
 	public ClientTAXGroup clone() {
+
 		return null;
 	}
 
