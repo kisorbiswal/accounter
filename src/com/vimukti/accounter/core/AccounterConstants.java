@@ -525,7 +525,7 @@ public class AccounterConstants implements IsSerializable, Serializable {
 
 	// Other Constants
 
-	public static final String LESS_ACCUMULATED_DEPRECIATION_ON = "Less Accumulated Depreciation on ";
+	public static final String LESS_ACCUMULATaED_DEPRECIATION_ON = "Less Accumulated Depreciation on ";
 	public static final String JOURNAL_ENTRY_FOR_DEPRECIATION = "Journal Entry for Running Depreciation";
 	public static final String CREDIT_CARD_COMPANIES = "Credit Card Companies";
 
