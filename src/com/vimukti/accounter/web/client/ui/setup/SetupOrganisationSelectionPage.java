@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.setup;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.core.OrganizationTypeConstants;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 
 public class SetupOrganisationSelectionPage extends AbstractSetupPage {
