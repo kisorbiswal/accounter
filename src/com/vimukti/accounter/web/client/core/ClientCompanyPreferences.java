@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Currency;
-import com.vimukti.accounter.core.OrganizationTypeConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 @SuppressWarnings("serial")
@@ -111,9 +110,15 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	// currency related properties
 	private Currency primaryCurrency;
 	private List<ClientCurrency> supportingCurrenciesList;
-	
-	//Organization type
+
+	// Organization type
 	private int organizationType;
+
+	// for tracking employes in setup page
+	boolean haveEpmloyees;
+	boolean haveW_2Employees;
+	boolean have1099contractors;
+	boolean trackEmployeeExpenses;
 
 	// String legalName;
 
@@ -740,5 +745,37 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setOrganizationType(int organizationType) {
 		this.organizationType = organizationType;
+	}
+
+	public boolean isHaveEpmloyees() {
+		return haveEpmloyees;
+	}
+
+	public void setHaveEpmloyees(boolean haveEpmloyees) {
+		this.haveEpmloyees = haveEpmloyees;
+	}
+
+	public boolean isHaveW_2Employees() {
+		return haveW_2Employees;
+	}
+
+	public void setHaveW_2Employees(boolean haveW_2Employees) {
+		this.haveW_2Employees = haveW_2Employees;
+	}
+
+	public boolean isHave1099contractors() {
+		return have1099contractors;
+	}
+
+	public void setHave1099contractors(boolean have1099contractors) {
+		this.have1099contractors = have1099contractors;
+	}
+
+	public boolean isTrackEmployeeExpenses() {
+		return trackEmployeeExpenses;
+	}
+
+	public void setTrackEmployeeExpenses(boolean trackEmployeeExpenses) {
+		this.trackEmployeeExpenses = trackEmployeeExpenses;
 	}
 }
