@@ -36,6 +36,6 @@ public class CompanyStatusServlet extends BaseServlet {
 				}
 			}
 		}
-		req.getRequestDispatcher("refresh.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/refresh.jsp").forward(req, resp);
 	}
 }

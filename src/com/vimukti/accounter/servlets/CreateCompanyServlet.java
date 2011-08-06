@@ -85,7 +85,7 @@ public class CreateCompanyServlet extends BaseServlet {
 					e1.printStackTrace();
 				}
 			}
-		});
+		}).start();
 		response.sendRedirect("/companystatus");
 	}
 
