@@ -7,17 +7,17 @@ import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
-import com.vimukti.accounter.web.client.ui.IRpcResultNotifier;
+import com.vimukti.accounter.web.client.ui.IDeleteCallback;
+import com.vimukti.accounter.web.client.ui.ISaveCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
 
 public abstract class BaseListGrid<T> extends ListGrid<T> implements
-		IAccounterWidget, IRpcResultNotifier {
+		IAccounterWidget, ISaveCallback, IDeleteCallback {
 
 	private List<Integer> cellsWidth = new ArrayList<Integer>();
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
@@ -257,35 +257,16 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	}
 
-	protected <D extends IAccounterCore> void deleteObject(final D data) {
+	protected <D extends IAccounterCore> void deleteObject(D data) {
 		Accounter.deleteObject(this, data);
 	}
 
-	protected void voidTransaction(final AccounterCoreType coreType,
-			final long transactionsID) {
-
+	protected void voidTransaction(AccounterCoreType coreType,
+			long transactionsID) {
 		Accounter.voidTransaction(this, coreType, transactionsID);
 	}
 
-	@Override
-	public void onSaveSuccess(IAccounterCore codeObj) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSaveFailure(AccounterException exception) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onDeleteSuccess(boolean delete) {
-
-	}
-
-	@Override
-	public void onDeleteFailure(AccounterException exception) {
-		deleteFailed(exception);
+	public <D extends IAccounterCore> void createOrUpdate(D core) {
+		Accounter.createOrUpdate(this, core);
 	}
 }

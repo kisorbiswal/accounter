@@ -317,11 +317,11 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static <D extends IAccounterCore> void createOrUpdate(
-			final IRpcResultNotifier source, final D coreObj) {
+			final ISaveCallback source, final D coreObj) {
 		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
 
 			public void onException(AccounterException caught) {
-				source.onSaveFailure(caught);
+				source.saveFailed(caught);
 				caught.printStackTrace();
 				// TODO handle other kind of errors
 			}
@@ -330,7 +330,7 @@ public class Accounter implements EntryPoint {
 				super.onSuccess(result);
 				coreObj.setID(result);
 				company.processUpdateOrCreateObject(coreObj);
-				source.onSaveSuccess(coreObj);
+				source.saveSuccess(coreObj);
 			}
 
 		};
@@ -344,20 +344,20 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static <D extends IAccounterCore> void deleteObject(
-			final IRpcResultNotifier source, final D data) {
+			final IDeleteCallback source, final D data) {
 		AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			public void onException(AccounterException caught) {
 				AccounterException exception = (AccounterException) caught;
 				// exception.setID(currentrequestedWidget.getID());
 				// getCompany().processCommand(exception);
-				source.onDeleteFailure(exception);
+				source.deleteFailed(exception);
 			}
 
 			public void onSuccess(Boolean result) {
 				super.onSuccess(result);
 				getCompany().processDeleteObject(data);
-				source.onDeleteSuccess(result);
+				source.deleteSuccess(result);
 			}
 
 		};
@@ -365,7 +365,7 @@ public class Accounter implements EntryPoint {
 				data.getID(), transactionCallBack);
 	}
 
-	public static void voidTransaction(final IRpcResultNotifier source,
+	public static void voidTransaction(final ISaveCallback source,
 			final AccounterCoreType coreType, final long transactionsID) {
 
 		// currentrequestedWidget = widget;

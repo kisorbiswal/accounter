@@ -27,7 +27,6 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -53,7 +52,8 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
-		IAccounterWidget, WidgetWithErrors, IEditableView, IRpcResultNotifier {
+		IAccounterWidget, WidgetWithErrors, IEditableView, ISaveCallback,
+		IDeleteCallback {
 
 	@Override
 	public boolean canEdit() {
@@ -292,7 +292,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	}
 
 	protected <P extends IAccounterCore> void saveOrUpdate(final P core) {
-
+		Accounter.createOrUpdate(this, core);
 	}
 
 	@Override
@@ -464,26 +464,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 		} else {
 			close();
 		}
-	}
-
-	@Override
-	public void onSaveSuccess(IAccounterCore coreObj) {
-		saveSuccess(coreObj);
-	}
-
-	@Override
-	public void onSaveFailure(AccounterException exception) {
-		saveFailed(exception);
-	}
-
-	@Override
-	public void onDeleteSuccess(boolean delete) {
-		deleteSuccess(delete);
-	}
-
-	@Override
-	public void onDeleteFailure(AccounterException exception) {
-		deleteFailed(exception);
 	}
 
 }

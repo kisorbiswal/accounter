@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
 
 /**
@@ -173,12 +172,11 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		ClientFixedAssetNote note = new ClientFixedAssetNote();
 		note.setNote(value);
 		asset.getFixedAssetNotes().add(note);
-		ViewManager.getInstance().alterObject(asset, this);
+		createOrUpdate(asset);
 	}
 
 	protected void executeDelete(ClientFixedAsset asset) {
-		ViewManager.getInstance().deleteObject(asset,
-				AccounterCoreType.FIXEDASSET, this);
+		deleteObject(asset);
 	}
 
 	@Override
