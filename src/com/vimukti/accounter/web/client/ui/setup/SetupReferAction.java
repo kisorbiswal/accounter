@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class SetupReferAction extends Action {
-	private SetupReferPage setupReferPage;
+	private SetupReferPage view;
 
 	public SetupReferAction(String text) {
 		super(text);
@@ -14,14 +14,14 @@ public class SetupReferAction extends Action {
 
 	@Override
 	public void run(Object data, Boolean isDependent) {
-		setupReferPage = new SetupReferPage();
+		view = new SetupReferPage();
 		try {
-			MainFinanceWindow.getViewManager().showView(setupReferPage, data,
+			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, this);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override

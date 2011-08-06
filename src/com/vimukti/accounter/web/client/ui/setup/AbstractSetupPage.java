@@ -73,7 +73,7 @@ public abstract class AbstractSetupPage extends AbstractBaseView {
 		// setupMainPanel.add(progressPanel);
 		setupMainPanel.setSize("100%", "100%");
 		add(setupMainPanel);
-		setSize("100%", "100%");
+		setSize("96%", "100%");
 		addStyleName("setup_panel");
 		skipButton.addClickHandler(new ClickHandler() {
 

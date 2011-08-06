@@ -77,8 +77,9 @@ public class SetupStartPage extends AbstractSetupPage {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				setupWizard.setView(new SetupCompanyInfoPage());
-				setupWizard.creteControls();
+				SetupCompanyInfoAction action = new SetupCompanyInfoAction(
+						"Company Info");
+				action.run(null, false);
 			}
 		});
 
@@ -119,43 +120,43 @@ public class SetupStartPage extends AbstractSetupPage {
 	@Override
 	public void fitToSize(int height, int width) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onEdit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void print() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void printPreview() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteFailed(Throwable caught) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteSuccess(Boolean result) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
