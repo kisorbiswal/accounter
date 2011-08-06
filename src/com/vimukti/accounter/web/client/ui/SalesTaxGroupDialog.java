@@ -331,7 +331,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		result.add(form1.validate());
 		if (taxGroupText.getValue() != null) {
 			//TODO 
-		}....
+		}
 		return result;
 	}
 

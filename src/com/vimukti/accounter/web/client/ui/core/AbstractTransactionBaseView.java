@@ -30,7 +30,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -454,8 +453,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			} else {
 
-				MainFinanceWindow.getViewManager().closeView(this.getAction(),
-						result);
+				getManager().closeCurrentView();
 			}
 
 		} catch (Exception e) {
