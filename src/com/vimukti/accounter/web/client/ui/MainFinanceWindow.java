@@ -72,7 +72,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		vpanel.add(header);
 		add(vpanel);
 		// If company is configured then show the dashboard
-		if (company.isConfigured()) {
+//		if (company.isConfigured()) { 
 			HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
 			vpanel.add(hMenuBar);
 			add(viewManager);
@@ -89,11 +89,11 @@ public class MainFinanceWindow extends VerticalPanel {
 			}
 
 			ActionFactory.getCompanyHomeAction().run(null, false);
-		} else {
-			// if company is not configured then show the setupwizard
-			SetupWizard setupWizard = new SetupWizard();
-			add(setupWizard);
-		}
+//		} else {
+//			// if company is not configured then show the setupwizard
+//			SetupWizard setupWizard = new SetupWizard();
+//			add(setupWizard);
+//		}
 
 	}
 

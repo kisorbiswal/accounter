@@ -232,7 +232,6 @@ public class Accounter implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		// TODO Need Send Request to get Company
 		getCompany("");
 	}
 
