@@ -231,7 +231,8 @@ public class PayeeList implements IAccounterCore {
 	}
 
 	public PayeeList clone() {
-		return null;
+		PayeeList payeeListClone = (PayeeList) this.clone();
+		return payeeListClone;
 	}
 
 }
