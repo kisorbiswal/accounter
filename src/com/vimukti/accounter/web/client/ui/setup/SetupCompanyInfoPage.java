@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -186,7 +185,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			clientCompany.setTradingAddress(allAddresses
 					.get(ClientAddress.TYPE_COMPANY));
 		} else {
-			clientCompany.setTradingAddress(getCompany().getTradingAddress());
+			clientCompany.setTradingAddress(Accounter.getCompany()
+					.getTradingAddress());
 		}
 		Accounter.setCompany(clientCompany);
 	}
@@ -194,64 +194,9 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	// not required for this page
 
 	@Override
-	protected void onBack() {
+	public boolean doShow() {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void onNext() {
-		SetupIndustrySelectionAction action = new SetupIndustrySelectionAction(
-				"industry Info");
-		action.run(null, false);
-	}
-
-	@Override
-	protected String getViewTitle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void fitToSize(int height, int width) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onEdit() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void print() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void printPreview() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteFailed(Throwable caught) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 }
