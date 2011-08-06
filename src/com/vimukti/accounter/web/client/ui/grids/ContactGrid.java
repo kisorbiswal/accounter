@@ -62,6 +62,8 @@ public class ContactGrid extends ListGrid<ClientContact> {
 		}
 		if (col == 5)
 			return ListGrid.COLUMN_TYPE_IMAGE;
+		if (col == 6)
+			return ListGrid.COLUMN_TYPE_IMAGE;
 
 		return ListGrid.COLUMN_TYPE_TEXTBOX;
 	}
@@ -81,6 +83,8 @@ public class ContactGrid extends ListGrid<ClientContact> {
 			return contact.getEmail();
 		case 5:
 			return Accounter.getFinanceMenuImages().delete();
+		case 6:
+			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
 		}
 		return "";
@@ -91,7 +95,8 @@ public class ContactGrid extends ListGrid<ClientContact> {
 		companyConstants = Accounter.constants();
 		return new String[] { companyConstants.primary(),
 				companyConstants.contactName(), companyConstants.title(),
-				companyConstants.businessPhone(), companyConstants.email(), " " };
+				companyConstants.businessPhone(), companyConstants.email(),
+				" ", " " };
 	}
 
 	@Override
@@ -161,7 +166,6 @@ public class ContactGrid extends ListGrid<ClientContact> {
 			}
 		}
 		return true;
-
 	}
 
 	@Override
