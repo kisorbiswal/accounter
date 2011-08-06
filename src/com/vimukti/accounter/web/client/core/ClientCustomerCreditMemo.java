@@ -259,6 +259,12 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	}
 
 	public ClientCustomerCreditMemo clone() {
-		return null;
+		ClientCustomerCreditMemo clientCustomerCreditMemoClone = (ClientCustomerCreditMemo) this
+				.clone();
+		clientCustomerCreditMemoClone.contact = this.contact.clone();
+		clientCustomerCreditMemoClone.billingAddress = this.billingAddress
+				.clone();
+
+		return clientCustomerCreditMemoClone;
 	}
 }
