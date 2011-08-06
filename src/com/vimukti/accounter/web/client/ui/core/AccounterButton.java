@@ -10,7 +10,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class AccounterButton extends Button {
 
-	public static final int ADD_BUTTON = 1;
+	public static final int ADD_BUTTON = 6;
+	public static final int ADD_NEW_BUTTON = 1;
 	public static final int APPROVE_BUTTON = 2;
 	public static final int DECLINE_BUTTON = 3;
 	public static final int SUBMIT_BUTTON = 4;
@@ -52,7 +53,10 @@ public class AccounterButton extends Button {
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		if (enabled) {
-			if (type == ADD_BUTTON) {
+			if (this.type == ADD_NEW_BUTTON) {
+				disabledAddNewButton();
+				enabledAddNewButton();
+			} else if (this.type == ADD_BUTTON) {
 				disabledAddButton();
 				enabledAddButton();
 			} else {
@@ -61,18 +65,58 @@ public class AccounterButton extends Button {
 			}
 
 		} else {
-			if (type == ADD_BUTTON) {
+			if (this.type == ADD_BUTTON) {
 				disabledAddButton();
+			} else if (this.type == ADD_NEW_BUTTON) {
+				disabledAddNewButton();
 			} else {
 				disabledButton();
 			}
 		}
 	}
 
+	public void enabledAddNewButton() {
+		try {
+			this.getElement().getParentElement()
+					.setClassName("add-newitem-button");
+
+			Element addseparator = DOM.createSpan();
+			addseparator.setInnerText("|");
+			addseparator.addClassName("add-separator");
+			DOM.appendChild(this.getElement(), addseparator);
+
+			Element addimage = DOM.createSpan();
+			addimage.addClassName("add-image");
+			DOM.appendChild(this.getElement(), addimage);
+
+			ThemesUtil.addDivToButton(this, Accounter.getThemeImages()
+					.button_right_blue_image(), "add-right-image");
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+	}
+
+	public void disabledAddNewButton() {
+		try {
+			if (this.getElement().getParentElement().getClassName() != null) {
+				this.getElement().getParentElement()
+						.removeClassName("add-newitem-button");
+			}
+			if (this.getText() != null) {
+				ThemesUtil.removeDivToButton(this);
+			}
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+	}
+
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			if (type == ADD_BUTTON) {
+			if (this.type == ADD_NEW_BUTTON) {
+				disabledAddNewButton();
+				enabledAddNewButton();
+			} else if (this.type == ADD_BUTTON) {
 				disabledAddButton();
 				enabledAddButton();
 			} else {
@@ -81,8 +125,10 @@ public class AccounterButton extends Button {
 			}
 
 		} else {
-			if (type == ADD_BUTTON) {
+			if (this.type == ADD_BUTTON) {
 				disabledAddButton();
+			} else if (this.type == ADD_NEW_BUTTON) {
+				disabledAddNewButton();
 			} else {
 				disabledButton();
 			}
@@ -95,6 +141,7 @@ public class AccounterButton extends Button {
 			this.getElement().getParentElement().setClassName("add-button");
 
 			Element addseparator = DOM.createSpan();
+			addseparator.setInnerText("|");
 			addseparator.addClassName("add-separator");
 			DOM.appendChild(this.getElement(), addseparator);
 
