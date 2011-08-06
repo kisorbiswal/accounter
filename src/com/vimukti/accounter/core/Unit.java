@@ -1,6 +1,6 @@
 package com.vimukti.accounter.core;
 
-public class Unit {
+public class Unit implements Cloneable {
 	private long id;
 
 	private Measurement measurement;
@@ -41,5 +41,10 @@ public class Unit {
 
 	public long getId() {
 		return id;
+	}
+
+	public Unit clone() {
+		Unit unitClone = (Unit) this.clone();
+		return unitClone;
 	}
 }
