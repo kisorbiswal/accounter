@@ -22,8 +22,8 @@ public class CashFlowStatementAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean dependent) {
-		runAsync(data, dependent);
+	public void run() {
+		runAsync(data, isDependent);
 	}
 
 	public void runAsync(final Object data, final Boolean dependent) {

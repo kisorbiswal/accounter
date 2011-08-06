@@ -45,8 +45,8 @@ public class CustomerTransactionHistoryAction extends Action {
 	}
 
 	@Override
-	public void run(Object data, Boolean dependent) {
-		runAsync(data, dependent);
+	public void run() {
+		runAsync(data, isDependent);
 	}
 
 	// @Override

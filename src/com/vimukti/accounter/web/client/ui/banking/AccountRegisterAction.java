@@ -24,11 +24,6 @@ public class AccountRegisterAction extends Action {
 		this.catagory = Accounter.constants().banking();
 	}
 
-	public void run() {
-
-		runAsync(null, false);
-
-	}
 
 	@Override
 	public void run() {
