@@ -548,7 +548,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(panel);
 		// mainVlay.add(memoForm);
 
-		addButton.setType(AccounterButton.ADD_BUTTON);
+		addButton.setType(AccounterButton.ADD_NEW_BUTTON);
 		addButton.enabledAddButton();
 
 		/* Adding dynamic forms in list */
