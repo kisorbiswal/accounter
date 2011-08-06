@@ -76,6 +76,7 @@ public class SetupStartPage extends AbstractSetupPage {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
+				setupWizard.showView();
 			}
 		});
 
