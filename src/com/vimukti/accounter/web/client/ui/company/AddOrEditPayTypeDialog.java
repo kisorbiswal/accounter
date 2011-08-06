@@ -75,4 +75,8 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 		account.initCombo(getCompany().getActiveAccounts());
 	}
 
+	@Override
+	protected boolean onOK() {
+		return true;
+	}
 }
