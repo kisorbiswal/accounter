@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.InvalidOperationException;
 
 public class CompanyPreferences implements IAccounterServerCore {
@@ -120,6 +122,26 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private boolean sellServices;
 	private boolean sellProducts;
+
+	// currency related properties
+	private Currency primaryCurrency;
+	private List<Currency> supportingCurrenciesList;
+
+	public Currency getPrimaryCurrency() {
+		return primaryCurrency;
+	}
+
+	public void setPrimaryCurrency(Currency primaryCurrency) {
+		this.primaryCurrency = primaryCurrency;
+	}
+
+	public List<Currency> getSupportingCurrenciesList() {
+		return supportingCurrenciesList;
+	}
+
+	public void setSupportingCurrenciesList(List<Currency> supportingCurrenciesList) {
+		this.supportingCurrenciesList = supportingCurrenciesList;
+	}
 
 	public boolean isSellServices() {
 		return sellServices;
