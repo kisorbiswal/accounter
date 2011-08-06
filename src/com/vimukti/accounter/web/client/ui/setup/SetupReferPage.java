@@ -13,6 +13,10 @@ public class SetupReferPage extends AbstractSetupPage {
 	private SelectCombo customerCombo, supplierCombo, accountCombo;
 	private DynamicForm customerForm, supplierForm, accountForm;
 
+	public SetupReferPage() {
+		super();
+	}
+
 	@Override
 	public String getHeader() {
 		return this.accounterConstants.howDoYouRefer();
@@ -45,8 +49,11 @@ public class SetupReferPage extends AbstractSetupPage {
 		accountForm.setFields(accountCombo);
 
 		mainPanel.add(referCustomerLabel);
+		mainPanel.add(customerForm);
 		mainPanel.add(refersuppliersLabel);
+		mainPanel.add(supplierForm);
 		mainPanel.add(referaccountsLabel);
+		mainPanel.add(accountForm);
 
 		return mainPanel;
 

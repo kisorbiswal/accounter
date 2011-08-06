@@ -31,6 +31,10 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 	private DynamicForm dynamicForm;
 
+	public SetupCompanyInfoPage() {
+		super();
+	}
+
 	@Override
 	public String getHeader() {
 		return this.accounterConstants.enterYourCompanyInfo();
@@ -42,7 +46,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		Label label = new Label(
-				"accounter uses this information on ypur tax forms and froms you use to communicate with ypur cusomers and vendors");
+				"accounter uses this information on ypur tax forms and froms you use to communicate with your cusomers and vendors");
 
 		companynameText = new TextItem(Accounter.constants().companyName());
 		companynameText.setHelpInformation(true);

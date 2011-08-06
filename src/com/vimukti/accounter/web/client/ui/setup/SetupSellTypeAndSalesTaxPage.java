@@ -12,6 +12,10 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	private RadioButton serviceOnlyRadioButton, productOnlyRadioButton,
 			bothserviceandprductRadioButton, yesRadioButton, noRadioButton;
 
+	public SetupSellTypeAndSalesTaxPage() {
+		super();
+	}
+
 	@Override
 	public String getHeader() {
 		return this.accounterConstants.whatDoYouSell();
@@ -100,13 +104,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	@Override
 	protected void onBack() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void onNext() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
