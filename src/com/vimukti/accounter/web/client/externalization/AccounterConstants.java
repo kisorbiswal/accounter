@@ -4514,4 +4514,14 @@ public interface AccounterConstants extends Constants {
 
 	public String selectdateToTrackFinance();
 
+	public String yourSelecteddateisStartdate();
+
+	public String beginingOfthefiscalYear();
+
+	public String enterTransactionsTocompleteTaxreturns();
+
+	public String useTodaysDateasStartdate();
+
+	public String needToEnterTransactionsFromthisdate();
+
 }
