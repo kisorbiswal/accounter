@@ -608,6 +608,8 @@ public class GraphPoints implements IAccounterCore {
 	}
 
 	public GraphPoints clone() {
-		return null;
+		GraphPoints graphpointClone = (GraphPoints) this.clone();
+
+		return graphpointClone;
 	}
 }
