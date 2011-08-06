@@ -153,7 +153,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		mainLayout.add(buttonLayout);
 		mainLayout.setSize("100%", "100%");
 
-		add(mainLayout);
+		// add(mainLayout);
+		setBodyLayout(grid);
 	}
 
 	protected void setRecord(EstimatesAndSalesOrdersList record) {
@@ -166,8 +167,6 @@ public class CustomerQuoteListDialog extends BaseDialog {
 				getSalesOrder(record);
 			}
 		}
-
-		removeFromParent();
 
 	}
 
@@ -259,5 +258,14 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
 	// setTitle(customerConstants.createForm());
+
+	@Override
+	protected boolean onOK() {
+		EstimatesAndSalesOrdersList record = (EstimatesAndSalesOrdersList) grid
+				.getSelection();
+		setRecord(record);
+		return true;
+	}
 }

@@ -38,7 +38,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -65,7 +64,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	protected boolean isClose;
 	private CheckboxItem statusCheck;
-	private ClientSalesPerson takenSalesperson;
 	private DynamicForm addrsForm;
 	private PhoneFaxForm fonFaxForm;
 	private EmailForm emailForm;
@@ -219,16 +217,15 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			}
 		});
 
-		if (takenSalesperson != null) {
+		if (getData() != null) {
 
-			employeeNameText.setValue(takenSalesperson.getFirstName());
-			salesPersonName = takenSalesperson.getFirstName();
-			jobTitleText
-					.setValue(takenSalesperson.getJobTitle() != null ? takenSalesperson
-							.getJobTitle() : "");
-			fileAsText.setValue(takenSalesperson.getFileAs());
+			employeeNameText.setValue(data.getFirstName());
+			salesPersonName = data.getFirstName();
+			jobTitleText.setValue(data.getJobTitle() != null ? data
+					.getJobTitle() : "");
+			fileAsText.setValue(data.getFileAs());
 
-			setAddresses(takenSalesperson.getAddress());
+			setAddresses(data.getAddress());
 
 			ClientAddress toBeShown = allAddresses
 					.get(ClientAddress.TYPE_BILL_TO);
@@ -266,34 +263,31 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			fonFaxForm.setWidth("90%");
 			fonFaxForm.getCellFormatter().setWidth(0, 0, "");
 			fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
-			fonFaxForm.businessPhoneText
-					.setValue(takenSalesperson.getPhoneNo());
-			fonFaxForm.businessFaxText.setValue(takenSalesperson.getFaxNo());
-			emailForm = new EmailForm(null,
-					takenSalesperson.getWebPageAddress(), this);
+			fonFaxForm.businessPhoneText.setValue(data.getPhoneNo());
+			fonFaxForm.businessFaxText.setValue(data.getFaxNo());
+			emailForm = new EmailForm(null, data.getWebPageAddress(), this);
 			emailForm.setWidth("100%");
 			emailForm.getCellFormatter().setWidth(0, 0, "159");
 			emailForm.getCellFormatter().setWidth(0, 1, "125");
-			emailForm.businesEmailText.setValue(takenSalesperson.getEmail());
-			emailForm.webText.setValue(takenSalesperson.getWebPageAddress());
-			statusCheck.setValue(takenSalesperson.isActive());
-			if (takenSalesperson.getExpenseAccount() != 0) {
+			emailForm.businesEmailText.setValue(data.getEmail());
+			emailForm.webText.setValue(data.getWebPageAddress());
+			statusCheck.setValue(data.isActive());
+			if (data.getExpenseAccount() != 0) {
 				selectedExpenseAccount = getCompany().getAccount(
-						takenSalesperson.getExpenseAccount());
+						data.getExpenseAccount());
 				expenseSelect.setComboItem(selectedExpenseAccount);
 			}
-			genderSelect.setComboItem(takenSalesperson.getGender());
-			dateOfBirth.setValue(new ClientFinanceDate(takenSalesperson
-					.getDateOfBirth()));
-			dateOfHire.setValue(new ClientFinanceDate(takenSalesperson
-					.getDateOfHire()));
-			dateOfLastReview.setValue(new ClientFinanceDate(takenSalesperson
+			genderSelect.setComboItem(data.getGender());
+			dateOfBirth.setValue(new ClientFinanceDate(data.getDateOfBirth()));
+			dateOfHire.setValue(new ClientFinanceDate(data.getDateOfHire()));
+			dateOfLastReview.setValue(new ClientFinanceDate(data
 					.getDateOfLastReview()));
-			dateOfRelease.setValue(new ClientFinanceDate(takenSalesperson
+			dateOfRelease.setValue(new ClientFinanceDate(data
 					.getDateOfRelease()));
-			memoArea.setValue(takenSalesperson.getMemo());
+			memoArea.setValue(data.getMemo());
 
 		} else {
+			setData(new ClientSalesPerson());
 			// addrsForm = new AddressForm(null);
 			fonFaxForm = new PhoneFaxForm(null, null, this);
 			fonFaxForm.setWidth("90%");
@@ -368,35 +362,32 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		}
 		result.add(salesPersonForm.validate());
 		String name = employeeNameText.getValue().toString();
-		if (!(takenSalesperson != null ? (takenSalesperson.getName()
-				.equalsIgnoreCase(name) ? true : (Utility.isObjectExist(
-				getCompany().getSalesPersons(), name) ? false : true)) : true)) {
+		if (!(isEdit ? (data.getName().equalsIgnoreCase(name) ? true : (Utility
+				.isObjectExist(getCompany().getSalesPersons(), name) ? false
+				: true)) : true)) {
 			result.addError(employeeNameText, AccounterErrorType.ALREADYEXIST);
+		}
+
+		long mustdate = new ClientFinanceDate().getDate() - 180000;
+		if (new ClientFinanceDate(mustdate)
+				.before(dateOfBirth.getEnteredDate())) {
+			addError(this, Accounter.constants()
+					.dateofBirthshouldshowmorethan18years());
 		}
 		return result;
 	}
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientSalesPerson salesPerson = getSalesPersonObject();
-		if (takenSalesperson == null) {
-			long mustdate = new ClientFinanceDate().getDate() - 180000;
-			if (new ClientFinanceDate(mustdate).before(dateOfBirth
-					.getEnteredDate())) {
-				addError(this, Accounter.constants()
-						.dateofBirthshouldshowmorethan18years());
-			} else {
-				this.createObject(salesPerson);
-			}
-		} else
-			this.alterObject(salesPerson);
+		updateSalesPersonObject();
+		saveOrUpdate(getData());
 
 	}
 
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		if (takenSalesperson == null)
+		if (!isEdit)
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .DuplicationOfSalesPesonNotAllowed());
 			addError(this, Accounter.constants()
@@ -439,39 +430,31 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		}
 	}
 
-	private ClientSalesPerson getSalesPersonObject() {
+	private void updateSalesPersonObject() {
 
-		ClientSalesPerson salesPerson;
-		if (takenSalesperson != null)
-			salesPerson = takenSalesperson;
-		else
-			salesPerson = new ClientSalesPerson();
-		salesPerson.setMemo(UIUtils.toStr(memoArea.getValue()));
+		data.setMemo(UIUtils.toStr(memoArea.getValue()));
 		if (selectedExpenseAccount != null)
-			salesPerson.setExpenseAccount(selectedExpenseAccount.getID());
-		salesPerson.setJobTitle(jobTitleText.getValue().toString());
-		salesPerson.setFileAs(fileAsText.getValue().toString());
+			data.setExpenseAccount(selectedExpenseAccount.getID());
+		data.setJobTitle(jobTitleText.getValue().toString());
+		data.setFileAs(fileAsText.getValue().toString());
 
-		salesPerson.setDateOfHire(UIUtils.toDate(dateOfHire.getValue()));
-		salesPerson.setDateOfLastReview(UIUtils.toDate(dateOfLastReview
-				.getValue()));
-		salesPerson.setDateOfRelease(UIUtils.toDate(dateOfRelease.getValue()));
+		data.setDateOfHire(UIUtils.toDate(dateOfHire.getValue()));
+		data.setDateOfLastReview(UIUtils.toDate(dateOfLastReview.getValue()));
+		data.setDateOfRelease(UIUtils.toDate(dateOfRelease.getValue()));
 		if (statusCheck.getValue() != null)
-			salesPerson.setActive((Boolean) statusCheck.getValue());
+			data.setActive((Boolean) statusCheck.getValue());
 
-		salesPerson.setFirstName(employeeNameText.getValue().toString());
-		salesPerson.setAddress(getAddresss());
-		salesPerson.setPhoneNo(fonFaxForm.businessPhoneText.getValue()
-				.toString());
-		salesPerson.setGender(genderSelect.getSelectedValue());
+		data.setFirstName(employeeNameText.getValue().toString());
+		data.setAddress(getAddresss());
+		data.setPhoneNo(fonFaxForm.businessPhoneText.getValue().toString());
+		data.setGender(genderSelect.getSelectedValue());
 
-		salesPerson.setFaxNo(fonFaxForm.businessFaxText.getValue().toString());
+		data.setFaxNo(fonFaxForm.businessFaxText.getValue().toString());
 
-		salesPerson.setEmail(emailForm.businesEmailText.getValue().toString());
-		salesPerson.setWebPageAddress(emailForm.getWebTextValue());
-		salesPerson.setType(ClientPayee.TYPE_EMPLOYEE);
+		data.setEmail(emailForm.businesEmailText.getValue().toString());
+		data.setWebPageAddress(emailForm.getWebTextValue());
+		data.setType(ClientPayee.TYPE_EMPLOYEE);
 
-		return salesPerson;
 	}
 
 	@Override
@@ -492,15 +475,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	private void initGridAccounts() {
 		listOfAccounts = expenseSelect.getAccounts();
 		expenseSelect.initCombo(listOfAccounts);
-	}
-
-	@Override
-	public void setData(ClientSalesPerson data) {
-		super.setData(data);
-		if (data != null)
-			takenSalesperson = (ClientSalesPerson) data;
-		else
-			takenSalesperson = null;
 	}
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {

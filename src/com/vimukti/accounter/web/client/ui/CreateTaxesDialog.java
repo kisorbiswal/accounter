@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 
 public class CreateTaxesDialog extends BaseDialog {
@@ -43,47 +42,6 @@ public class CreateTaxesDialog extends BaseDialog {
 
 		listGridView.addData(c);
 		listGridView.addData(c1);
-
-		addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public boolean onOkClick() {
-
-				final int[] index = new int[2];
-				List list = listGridView.getSelectedRecords();
-				for (Object o : list) {
-					CreateTax c = (CreateTax) o;
-					if (c.getIsChecheked()
-							&& c.getName().equals(
-									Accounter.constants().ireland()))
-						index[i] = 2;
-					if (c.getIsChecheked()
-							&& c.getName().equals(Accounter.constants().uk()))
-						index[i] = 1;
-					i++;
-				}
-
-				AccounterAsyncCallback<Long> createTaxesCallback = new AccounterAsyncCallback<Long>() {
-
-					public void onException(AccounterException caught) {
-
-					}
-
-					public void onSuccess(Long result) {
-						okClicked();
-					}
-
-				};
-				// Accounter.createHomeService().createTaxes(index,
-				// createTaxesCallback);
-				return true;
-			}
-
-			@Override
-			public void onCancelClick() {
-
-			}
-		});
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
@@ -165,6 +123,39 @@ public class CreateTaxesDialog extends BaseDialog {
 			return null;
 		}
 
+	}
+
+	@Override
+	protected boolean onOK() {
+
+		final int[] index = new int[2];
+		List<?> list = listGridView.getSelectedRecords();
+		for (Object o : list) {
+			CreateTax c = (CreateTax) o;
+			if (c.getIsChecheked()
+					&& c.getName().equals(Accounter.constants().ireland()))
+				index[i] = 2;
+			if (c.getIsChecheked()
+					&& c.getName().equals(Accounter.constants().uk()))
+				index[i] = 1;
+			i++;
+		}
+
+		AccounterAsyncCallback<Long> createTaxesCallback = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+
+			}
+
+			public void onSuccess(Long result) {
+				okClicked();
+			}
+
+		};
+		// FIXME
+		// Accounter.createHomeService().createTaxes(index,
+		// createTaxesCallback);
+		return true;
 	}
 
 }

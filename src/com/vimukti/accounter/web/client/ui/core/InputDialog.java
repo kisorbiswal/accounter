@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -26,12 +26,15 @@ public class InputDialog extends BaseDialog {
 	private List<TextItem> textItems = new ArrayList<TextItem>();
 	private TextItem textItem;
 	private String[] itemsNames;
+	private GroupDialog<?> parent;
 
-	public InputDialog(String title, String desc, String... itemNames) {
+	public InputDialog(GroupDialog<?> parentDialog, String title, String desc,
+			String... itemNames) {
 		super(title, desc);
 		this.itemsNames = itemNames;
 		initialise();
 		center();
+		this.parent = parentDialog;
 	}
 
 	/**
@@ -111,6 +114,18 @@ public class InputDialog extends BaseDialog {
 
 	public void setFocus() {
 		cancelBtn.setFocus(true);
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = form.validate();
+		result.add(parent.validate());
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		return parent.onOK();
 	}
 
 }

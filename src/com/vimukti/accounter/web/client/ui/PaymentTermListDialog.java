@@ -6,11 +6,11 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.company.AddPaymentTermDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
 /**
@@ -83,17 +83,12 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	}
 
 	public void createPaymentTerms() {
-		if (Utility.isObjectExist(getCompany().getPaymentsTerms(),
-				dialog.payTermText.getValue().toString())) {
-			Accounter.showError(Accounter.constants().paytermsAlreadyExists());
-		} else {
-			ClientPaymentTerms clientPaymentTerms = getPaymentTerms();
+		ClientPaymentTerms clientPaymentTerms = getPaymentTerms();
 		saveOrUpdate(clientPaymentTerms);
-		}
 	}
 
 	public void showAddEditTermDialog(ClientPaymentTerms rec) {
-		dialog = new AddPaymentTermDialog(Accounter.constants()
+		dialog = new AddPaymentTermDialog(this, Accounter.constants()
 				.addPaymentTermTitle(), Accounter.constants()
 				.addPaymentTermTitleDesc());
 
@@ -111,30 +106,6 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			dialog.discDayText.setValue(paymentTerm.getIfPaidWithIn());
 
 		}
-		dialog.addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancelClick() {
-
-			}
-
-			public boolean onOkClick() {
-
-				if (dialog.nameDescForm.validate(true)) {
-
-					if (paymentTerm != null) {
-						editPaymentTerms();
-					} else
-						createPaymentTerms();
-				} else {
-					// Accounter.showError(FinanceApplication
-					// .constants()
-					// .detailsHighlightedInRedMustBeEntered());
-					return false;
-				}
-				return true;
-			}
-
-		});
 		dialog.show();
 	}
 
@@ -192,13 +163,9 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	}
 
 	protected void editPaymentTerms() {
-		if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
-				.getValue().toString() : "")) {
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
-		} else {
-			ClientPaymentTerms clientPaymentTerms = getPaymentTerms();
-			alterObject(clientPaymentTerms);
-		}
+
+		ClientPaymentTerms clientPaymentTerms = getPaymentTerms();
+		saveOrUpdate(clientPaymentTerms);
 	}
 
 	@Override
@@ -233,6 +200,34 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	@Override
 	protected List<ClientPaymentTerms> getRecords() {
 		return (List<ClientPaymentTerms>) getCompany().getPaymentsTerms();
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (paymentTerm != null) {
+			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
+					.getValue().toString() : "")) {
+				result.addError(this, AccounterErrorType.ALREADYEXIST);
+			}
+		} else {
+			if (Utility.isObjectExist(getCompany().getPaymentsTerms(),
+					dialog.payTermText.getValue().toString())) {
+				result.addError(this, Accounter.constants()
+						.paytermsAlreadyExists());
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean onOK() {
+		if (paymentTerm != null) {
+			editPaymentTerms();
+		} else {
+			createPaymentTerms();
+		}
+		return true;
 	}
 
 }

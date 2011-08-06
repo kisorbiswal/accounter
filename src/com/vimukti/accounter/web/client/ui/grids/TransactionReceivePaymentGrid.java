@@ -400,12 +400,12 @@ public class TransactionReceivePaymentGrid extends
 		cashDiscountDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
-			public void onCancelClick() {
+			public void onCancel() {
 
 			}
 
 			@Override
-			public boolean onOkClick() {
+			public boolean onOK() {
 				if (canEdit) {
 					try {
 						if (cashDiscountDialog.validate()) {
@@ -547,7 +547,7 @@ public class TransactionReceivePaymentGrid extends
 				.addInputDialogHandler(new InputDialogHandler() {
 
 					@Override
-					public void onCancelClick() {
+					public void onCancel() {
 						creditsAndPaymentsDialiog.cancelClicked = true;
 						// selectedObject
 						// .setAppliedCredits(creditsAndPaymentsDialiog
@@ -556,7 +556,7 @@ public class TransactionReceivePaymentGrid extends
 					}
 
 					@Override
-					public boolean onOkClick() {
+					public boolean onOK() {
 
 						List<ClientCreditsAndPayments> appliedCreditsForThisRec = creditsAndPaymentsDialiog.grid
 								.getSelectedRecords();
@@ -702,12 +702,12 @@ public class TransactionReceivePaymentGrid extends
 		writeOffDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
-			public void onCancelClick() {
+			public void onCancel() {
 
 			}
 
 			@Override
-			public boolean onOkClick() {
+			public boolean onOK() {
 				if (canEdit) {
 					try {
 						if (writeOffDialog.validate()) {

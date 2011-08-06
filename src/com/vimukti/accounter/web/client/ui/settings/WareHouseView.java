@@ -4,14 +4,11 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -26,11 +23,8 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private VerticalPanel vPanel;
 	private CheckboxItem defaultWareHouse;
 	private HorizontalPanel leftRightPanel;
-	private ClientContact contact;
 	private ClientWarehouse takenWarehouse;
-	private ClientCompany company = getCompany();
 	private LabelItem titleItem;
-	private boolean wait;
 
 	public AccounterConstants settingsConstants = Accounter.constants();
 

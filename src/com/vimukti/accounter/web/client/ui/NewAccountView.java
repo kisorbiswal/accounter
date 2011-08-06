@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -55,7 +54,6 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class NewAccountView extends BaseView<ClientAccount> {
 
 	private int accountType;
-	private ClientAccount takenAccount;
 	private SelectCombo accTypeSelect;
 	private TextItem accNameText, bankAccNumText, hierText;
 	private CheckboxItem statusBox;
@@ -121,9 +119,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private void getSubAccounts() {
 		subAccounts = getCompany().getAccounts(accountType);
-		if (takenAccount != null) {
+		if (isEdit) {
 			for (ClientAccount account : subAccounts) {
-				if (account.getID() == takenAccount.getID()) {
+				if (account.getID() == getData().getID()) {
 					subAccounts.remove(account);
 					break;
 				}
@@ -148,10 +146,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		bankNameSelect.initCombo(allBanks);
 
-		if (takenAccount != null
-				&& takenAccount instanceof ClientBankAccount
+		if (isEdit
+				&& data instanceof ClientBankAccount
 				&& (selectedBank = getCompany().getBank(
-						((ClientBankAccount) takenAccount).getBank())) != null) {
+						((ClientBankAccount) data).getBank())) != null) {
 			bankNameSelect.setComboItem(selectedBank);
 		}
 
@@ -414,7 +412,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		commentsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "200");
 
-		if (takenAccount != null) {
+		if (getData() == null) {
+			ClientAccount account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount()
+					: new ClientBankAccount();
+			setData(account);
 		}
 
 		mainVLay = new VerticalPanel();
@@ -704,17 +705,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			accTypeSelect.setDisabled(true);
 		} else {
 
-			if (takenAccount == null) {
+			if (!isEdit) {
 				accTypeSelect.initCombo(getAccountsList());
 				setAccountType(Integer.parseInt(defaultId));
 				accounttype_selected();
 
-			} else if (takenAccount != null) {
+			} else {
 
-				accTypeSelect.setComboItem(Utility
-						.getAccountTypeString(takenAccount.getType()));
+				accTypeSelect.setComboItem(Utility.getAccountTypeString(data
+						.getType()));
 				accTypeSelect.setDisabled(true);
-				setAccountType(takenAccount.getType());
+				setAccountType(data.getType());
 			}
 		}
 		if (isNewBankAccount())
@@ -814,9 +815,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientAccount account = getAccountObject();
+		updateAccountObject();
 
-		saveOrUpdate(account);
+		saveOrUpdate(getData());
 
 	}
 
@@ -829,11 +830,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		String exceptionMessage = exception.getMessage();
 		addError(this, exceptionMessage);
 
-		ClientAccount account = getAccountObject();
+		updateAccountObject();
 		if (exceptionMessage.contains("number"))
-			account.setNumber(accountNo);
+			data.setNumber(accountNo);
 		if (exceptionMessage.contains("name"))
-			account.setName(accountName);
+			data.setName(accountName);
 		// if (takenAccount == null)
 		// else
 		// Accounter.showError(FinanceApplication.constants()
@@ -876,13 +877,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				.getValue().toString() : "";
 		if (name != null
 				&& !name.isEmpty()
-				&& !(takenAccount != null ? (takenAccount.getName()
-						.equalsIgnoreCase(name) ? true
+				&& !(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getAccounts(),
 								name) ? false : true)) : true)) {
 			result.addError(accNameText, AccounterErrorType.ALREADYEXIST);
 		}
-		if (!(takenAccount != null && takenAccount.getName().equalsIgnoreCase(
+		if (!(isEdit && data.getName().equalsIgnoreCase(
 				Accounter.constants().openingBalances()))) {
 			validateAccountNumber(accNoText.getNumber());
 		}
@@ -916,33 +916,27 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	// return this;
 	// }
 
-	private ClientAccount getAccountObject() {
-		ClientAccount account;
-		if (takenAccount != null)
-			account = takenAccount;
-		else
-			account = accountType != ClientAccount.TYPE_BANK ? new ClientAccount()
-					: new ClientBankAccount();
-		account.setType(accountType);
-		account.setNumber(accNoText.getNumber() != null ? accNoText.getNumber()
+	private void updateAccountObject() {
+
+		data.setType(accountType);
+		data.setNumber(accNoText.getNumber() != null ? accNoText.getNumber()
 				.toString() : "");
-		account.setName(accNameText.getValue().toString() != null ? accNameText
+		data.setName(accNameText.getValue().toString() != null ? accNameText
 				.getValue().toString() : "");
-		account.setIsActive(statusBox.getValue() != null ? (Boolean) statusBox
+		data.setIsActive(statusBox.getValue() != null ? (Boolean) statusBox
 				.getValue() : Boolean.FALSE);
 		if (cashAccountCheck != null)
-			account.setConsiderAsCashAccount((Boolean) cashAccountCheck
-					.getValue());
+			data.setConsiderAsCashAccount((Boolean) cashAccountCheck.getValue());
 
 		if (cashFlowCatSelect.getValue() != null)
-			account.setCashFlowCategory(cashFlowCatSelect.getSelectedIndex() + 1);
-		// account.setCashFlowCategory(0);
-		account.setOpeningBalance(opBalText.getAmount());
-		account.setAsOf(asofDate.getEnteredDate().getDate());
+			data.setCashFlowCategory(cashFlowCatSelect.getSelectedIndex() + 1);
+		// data.setCashFlowCategory(0);
+		data.setOpeningBalance(opBalText.getAmount());
+		data.setAsOf(asofDate.getEnteredDate().getDate());
 
 		switch (accountType) {
 		case ClientAccount.TYPE_BANK:
-			((ClientBankAccount) account).setBank(Utility.getID(selectedBank));
+			((ClientBankAccount) data).setBank(Utility.getID(selectedBank));
 			if (typeSelect.getSelectedValue() != null) {
 				int type = 0;
 				if (typeSelect.getSelectedValue().equals(
@@ -954,41 +948,40 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				else if (typeSelect.getSelectedValue().equals(
 						AccounterConstants.BANK_ACCCOUNT_TYPE_SAVING))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_SAVING;
-				((ClientBankAccount) account).setBankAccountType(type);
+				((ClientBankAccount) data).setBankAccountType(type);
 			}
-			((ClientBankAccount) account).setBankAccountNumber(bankAccNumText
+			((ClientBankAccount) data).setBankAccountNumber(bankAccNumText
 					.getValue().toString());
-			account.setIncrease(Boolean.FALSE);
+			data.setIncrease(Boolean.FALSE);
 			break;
 		case ClientAccount.TYPE_CREDIT_CARD:
-			// account.setBank(Utility.getID(selectedBank));
+			// data.setBank(Utility.getID(selectedBank));
 			if (limitText.getValue() != null)
-				account.setCreditLimit(getCreditLimit());
+				data.setCreditLimit(getCreditLimit());
 			if (cardNumText.getValue() != null)
-				account.setCardOrLoanNumber(cardNumText.getValue().toString());
+				data.setCardOrLoanNumber(cardNumText.getValue().toString());
 			break;
 		default:
 			if (selectedSubAccount != null)
-				account.setParent(selectedSubAccount.getID());
+				data.setParent(selectedSubAccount.getID());
 			if (hierText != null)
-				account.setHierarchy(UIUtils.toStr(hierText.getValue()));
+				data.setHierarchy(UIUtils.toStr(hierText.getValue()));
 			break;
 		}
-		account.setComment(commentsArea.getValue() != null ? commentsArea
+		data.setComment(commentsArea.getValue() != null ? commentsArea
 				.getValue().toString() : "");
-		if (account.getType() == ClientAccount.TYPE_INCOME
-				|| account.getType() == ClientAccount.TYPE_OTHER_INCOME
-				|| account.getType() == ClientAccount.TYPE_CREDIT_CARD
-				|| account.getType() == ClientAccount.TYPE_PAYROLL_LIABILITY
-				|| account.getType() == ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-				|| account.getType() == ClientAccount.TYPE_LONG_TERM_LIABILITY
-				|| account.getType() == ClientAccount.TYPE_EQUITY
-				|| account.getType() == ClientAccount.TYPE_ACCOUNT_PAYABLE) {
-			account.setIncrease(Boolean.TRUE);
+		if (data.getType() == ClientAccount.TYPE_INCOME
+				|| data.getType() == ClientAccount.TYPE_OTHER_INCOME
+				|| data.getType() == ClientAccount.TYPE_CREDIT_CARD
+				|| data.getType() == ClientAccount.TYPE_PAYROLL_LIABILITY
+				|| data.getType() == ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
+				|| data.getType() == ClientAccount.TYPE_LONG_TERM_LIABILITY
+				|| data.getType() == ClientAccount.TYPE_EQUITY
+				|| data.getType() == ClientAccount.TYPE_ACCOUNT_PAYABLE) {
+			data.setIncrease(Boolean.TRUE);
 		} else {
-			account.setIncrease(Boolean.FALSE);
+			data.setIncrease(Boolean.FALSE);
 		}
-		return account;
 	}
 
 	@Override
@@ -1007,7 +1000,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (accountType != ClientAccount.TYPE_BANK
 				&& accountType != ClientAccount.TYPE_CREDIT_CARD)
 			getSubAccounts();
-		if (takenAccount != null)
+		if (isEdit)
 			initView();
 		super.initData();
 		// if (takenAccount == null)
@@ -1017,72 +1010,67 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private void initView() {
 
-		accTypeSelect.setComboItem(Utility.getAccountTypeString(takenAccount
-				.getType()));
-		accNoText.setValue(takenAccount.getNumber() != null ? takenAccount
-				.getNumber() : 0);
-		accountNo = takenAccount.getNumber() != null ? takenAccount.getNumber()
-				: "0";
+		accTypeSelect
+				.setComboItem(Utility.getAccountTypeString(data.getType()));
+		accNoText.setValue(data.getNumber() != null ? data.getNumber() : 0);
+		accountNo = data.getNumber() != null ? data.getNumber() : "0";
 
-		if (takenAccount.getName().equalsIgnoreCase("Opening Balances"))
+		if (data.getName().equalsIgnoreCase("Opening Balances"))
 			accNoText.setDisabled(true);
 
-		accNameText.setValue(takenAccount.getName());
-		accountName = takenAccount.getName();
+		accNameText.setValue(data.getName());
+		accountName = data.getName();
 		if (accountName.equalsIgnoreCase("Opening Balances")
 				|| accountName.equalsIgnoreCase("Un Deposited Funds")
 				|| accountName.equalsIgnoreCase("Accounts Receivable")
 				|| accountName.equalsIgnoreCase("Accounts Payable"))
 			accNameText.setDisabled(true);
-		// statusBox.setValue(takenAccount.getIsActive() != null ? takenAccount
+		// statusBox.setValue(data.getIsActive() != null ? data
 		// .getIsActive() : Boolean.FALSE);
-		statusBox.setValue(takenAccount.getIsActive());
-		if (takenAccount.getCashFlowCategory() != 0) {
-			String cashFlow = getCashFlowCategory(takenAccount
-					.getCashFlowCategory());
+		statusBox.setValue(data.getIsActive());
+		if (data.getCashFlowCategory() != 0) {
+			String cashFlow = getCashFlowCategory(data.getCashFlowCategory());
 			cashFlowCatSelect.setValue(cashFlow);
 		}
 
-		opBalText.setAmount(takenAccount.getTotalBalance());
-		if (!takenAccount.isOpeningBalanceEditable()) {
+		opBalText.setAmount(data.getTotalBalance());
+		if (!data.isOpeningBalanceEditable()) {
 			opBalText.setDisabled(true);
 		}
 		// Enable Opening Balance to All Balancesheet accounts
 		enableOpeningBalaceTxtByType();
 
 		asofDate.setValue(new ClientFinanceDate(
-				takenAccount.getAsOf() == 0 ? new ClientFinanceDate().getDate()
-						: takenAccount.getAsOf()));
+				data.getAsOf() == 0 ? new ClientFinanceDate().getDate() : data
+						.getAsOf()));
 		asofDate.setDisabled(true);
-		cashAccountCheck.setValue(takenAccount.isConsiderAsCashAccount());
-		commentsArea.setValue(takenAccount.getComment());
+		cashAccountCheck.setValue(data.isConsiderAsCashAccount());
+		commentsArea.setValue(data.getComment());
 		if (accountType == ClientAccount.TYPE_BANK) {
 
-			if (((ClientBankAccount) takenAccount).getBankAccountType() != 0) {
-				String type = getBankAccountType(((ClientBankAccount) takenAccount)
+			if (((ClientBankAccount) data).getBankAccountType() != 0) {
+				String type = getBankAccountType(((ClientBankAccount) data)
 						.getBankAccountType());
 				typeSelect.setComboItem(type);
-				bankAccNumText.setValue(((ClientBankAccount) takenAccount)
+				bankAccNumText.setValue(((ClientBankAccount) data)
 						.getBankAccountNumber());
 			}
 
 		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
-			setCreditLimit(!DecimalUtil.isEquals(takenAccount.getCreditLimit(),
-					0) ? takenAccount.getCreditLimit() : 0D);
+			setCreditLimit(!DecimalUtil.isEquals(data.getCreditLimit(), 0) ? data
+					.getCreditLimit() : 0D);
 			limitText.setValue(DataUtils.getAmountAsString(getCreditLimit()));
-			cardNumText
-					.setValue(takenAccount.getCardOrLoanNumber() != null ? takenAccount
-							.getCardOrLoanNumber() : "");
+			cardNumText.setValue(data.getCardOrLoanNumber() != null ? data
+					.getCardOrLoanNumber() : "");
 		} else {
-			selectedSubAccount = getCompany().getAccount(
-					takenAccount.getParent());
+			selectedSubAccount = getCompany().getAccount(data.getParent());
 
 			if (selectedSubAccount != null) {
 				subAccSelect.setComboItem(selectedSubAccount);
 				subhierarchy = Utility.getHierarchy(selectedSubAccount);
 			}
-			if (takenAccount.getHierarchy() != null) {
-				hierText.setValue(takenAccount.getHierarchy());
+			if (data.getHierarchy() != null) {
+				hierText.setValue(data.getHierarchy());
 			}
 
 		}
@@ -1095,15 +1083,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 				ClientAccount.TYPE_FIXED_ASSET,
 				ClientAccount.TYPE_LONG_TERM_LIABILITY,
-				ClientAccount.TYPE_EQUITY).contains(takenAccount.getType());
+				ClientAccount.TYPE_EQUITY).contains(data.getType());
 
-		long number = Long.parseLong(takenAccount.getNumber());
+		long number = Long.parseLong(data.getNumber());
 		// Checking whether type is under others accounts category.
 		isBalanceSheetTye = !isBalanceSheetTye ? number >= 9501
 				&& number <= 9600 : isBalanceSheetTye;
 
 		if (isBalanceSheetTye
-				&& !DecimalUtil.isEquals(takenAccount.getTotalBalance(), 0.0)) {
+				&& !DecimalUtil.isEquals(data.getTotalBalance(), 0.0)) {
 			opBalText.setDisabled(false);
 		}
 
@@ -1133,10 +1121,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	public void setData(ClientAccount data) {
 		super.setData(data);
 		if (data != null) {
-			takenAccount = (ClientAccount) data;
-			setAccountType(takenAccount.getType());
-		} else
-			takenAccount = null;
+			setAccountType(data.getType());
+		}
 	}
 
 	public void setAccountTypes(List<Integer> accountTypes) {
@@ -1249,7 +1235,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			return true;
 
 		List<ClientAccount> accounts = getCompany().getAccounts();
-		if (takenAccount == null) {
+		if (!isEdit) {
 			for (ClientAccount account : accounts) {
 				if (number.toString().equals(account.getNumber())) {
 					addError(accNoText, Accounter.constants()

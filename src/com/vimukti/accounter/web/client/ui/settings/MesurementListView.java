@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class MesurementListView extends BaseView {
 
@@ -93,7 +92,7 @@ public class MesurementListView extends BaseView {
 		});
 		initGrid();
 		mesurementPanel.add(grid);
-		mainPanel.add(mesurementPanel);
+		this.add(mesurementPanel);
 	}
 
 	private void initGrid() {

@@ -6,11 +6,11 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.company.AddPriceLevelDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
 /**
@@ -87,7 +87,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	}
 
 	public void showAddEditPriceLevel(ClientPriceLevel rec) {
-		dialog = new AddPriceLevelDialog(Accounter.constants().priceLevel(), "");
+		dialog = new AddPriceLevelDialog(this, Accounter.constants()
+				.priceLevel(), "");
 		priceLevel = rec;
 		if (priceLevel != null) {
 
@@ -105,78 +106,42 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 		}
 
-		dialog.addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancelClick() {
-
-			}
-
-			public boolean onOkClick() {
-				if (dialog.nameDescForm.validate(true)) {
-					if (priceLevel != null) {
-						editPriceLevels();
-					} else
-						createPriceLevels();
-				} else {
-					// Accounter.showError(FinanceApplication
-					// .constants()
-					// .detailsHighlightedInRedMustBeEntered());
-					return false;
-				}
-				return true;
-			}
-
-		});
 		dialog.show();
 
 	}
 
 	protected void editPriceLevels() {
-		if (!(priceLevel.getName().equalsIgnoreCase(
-				UIUtils.toStr(dialog.levelText.getValue().toString())) ? true
-				: (Utility.isObjectExist(company.getPriceLevels(),
-						UIUtils.toStr(dialog.levelText.getValue().toString()))) ? false
-						: true)) {
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
-		} else {
-			priceLevel
-					.setName(dialog.levelText.getValue() != null ? dialog.levelText
-							.getValue().toString() : "");
-			priceLevel
-					.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-							.getPercentage() : 0.0);
-			String val = dialog.getIncrOrDecrPercentValue();
-			if (val != null) {
-				priceLevel.setPriceLevelDecreaseByThisPercentage(val
-						.equals(Accounter.constants()
-								.decreasePriceLevelByThisPercentage()));
-			}
-			alterObject(priceLevel);
+		priceLevel
+				.setName(dialog.levelText.getValue() != null ? dialog.levelText
+						.getValue().toString() : "");
+		priceLevel
+				.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
+						.getPercentage() : 0.0);
+		String val = dialog.getIncrOrDecrPercentValue();
+		if (val != null) {
+			priceLevel.setPriceLevelDecreaseByThisPercentage(val
+					.equals(Accounter.constants()
+							.decreasePriceLevelByThisPercentage()));
 		}
+		saveOrUpdate(priceLevel);
 	}
 
 	private void createPriceLevels() {
-		if (Utility.isObjectExist(getCompany().getPriceLevels(),
-				dialog.levelText.getValue().toString())) {
-			Accounter
-					.showError(Accounter.constants().priceLevelAlreadyExists());
-		} else {
-			ClientPriceLevel priceLevel = new ClientPriceLevel();
+		ClientPriceLevel priceLevel = new ClientPriceLevel();
 
-			priceLevel
-					.setName(dialog.levelText.getValue() != null ? dialog.levelText
-							.getValue().toString() : "");
-			priceLevel
-					.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-							.getPercentage() : 0.0);
-			String val = dialog.getIncrOrDecrPercentValue();
-			if (val != null) {
-				priceLevel.setPriceLevelDecreaseByThisPercentage(val
-						.equals(Accounter.constants()
-								.decreasePriceLevelByThisPercentage()));
-			}
-		saveOrUpdate(priceLevel);
+		priceLevel
+				.setName(dialog.levelText.getValue() != null ? dialog.levelText
+						.getValue().toString() : "");
+		priceLevel
+				.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
+						.getPercentage() : 0.0);
+		String val = dialog.getIncrOrDecrPercentValue();
+		if (val != null) {
+			priceLevel.setPriceLevelDecreaseByThisPercentage(val
+					.equals(Accounter.constants()
+							.decreasePriceLevelByThisPercentage()));
 		}
+		saveOrUpdate(priceLevel);
 	}
 
 	@Override
@@ -202,6 +167,37 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	@Override
 	protected List<ClientPriceLevel> getRecords() {
 		return getCompany().getPriceLevels();
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (priceLevel != null) {
+			if (!(priceLevel.getName().equalsIgnoreCase(
+					UIUtils.toStr(dialog.levelText.getValue().toString())) ? true
+					: (Utility.isObjectExist(company.getPriceLevels(), UIUtils
+							.toStr(dialog.levelText.getValue().toString()))) ? false
+							: true)) {
+				result.addError(this, AccounterErrorType.ALREADYEXIST);
+			}
+		} else {
+			if (Utility.isObjectExist(getCompany().getPriceLevels(),
+					dialog.levelText.getValue().toString())) {
+				result.addError(this, Accounter.constants()
+						.priceLevelAlreadyExists());
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean onOK() {
+		if (priceLevel != null) {
+			editPriceLevels();
+		} else {
+			createPriceLevels();
+		}
+		return true;
 	}
 
 }

@@ -5,7 +5,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.PriceLevelListDialog;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -19,10 +21,13 @@ public class AddPriceLevelDialog extends BaseDialog {
 	public RadioGroupItem levelRadio;
 	public DynamicForm nameDescForm;
 	private String incrOrDecrPercentValue;
+	private PriceLevelListDialog parent;
 
-	public AddPriceLevelDialog(String title, String desc) {
+	public AddPriceLevelDialog(PriceLevelListDialog parent, String title,
+			String desc) {
 		super(title, desc);
 		initiliase();
+		this.parent = parent;
 		center();
 	}
 
@@ -98,6 +103,18 @@ public class AddPriceLevelDialog extends BaseDialog {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = nameDescForm.validate();
+		result.add(parent.validate());
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		return parent.onOK();
 	}
 
 }

@@ -7,11 +7,11 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
@@ -81,17 +81,11 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	}
 
 	public void createShippingMethod() {
-		if (Utility.isObjectExist(getCompany().getShippingMethods(),
-				inputDlg.getTextValueByIndex(0))) {
-			Accounter.showError(Accounter.constants()
-					.shippingMethodAlreadyExists());
-		} else {
 
-			ClientShippingMethod method = new ClientShippingMethod();
-			method.setName(inputDlg.getTextValueByIndex(0));
-			method.setDescription(inputDlg.getTextValueByIndex(1));
+		ClientShippingMethod method = new ClientShippingMethod();
+		method.setName(inputDlg.getTextValueByIndex(0));
+		method.setDescription(inputDlg.getTextValueByIndex(1));
 		saveOrUpdate(method);
-		}
 	}
 
 	public void deleteRecord() {
@@ -107,8 +101,8 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 		String arr[] = new String[2];
 		arr[0] = Accounter.constants().shippingMethod();
 		arr[1] = Accounter.constants().description();
-		inputDlg = new InputDialog(Accounter.constants().shippingMethod(), "",
-				arr) {
+		inputDlg = new InputDialog(this,
+				Accounter.constants().shippingMethod(), "", arr) {
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
 		inputDlg.setWidth("320");
@@ -118,44 +112,13 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 			inputDlg.setTextItemValue(0, shippingMethod.getName());
 			inputDlg.setTextItemValue(1, shippingMethod.getDescription());
 		}
-		InputDialogHandler dialogHandler = new InputDialogHandler() {
-
-			public void onCancelClick() {
-
-			}
-
-			public boolean onOkClick() {
-				if (inputDlg.getForm().validate(true)) {
-					if (shippingMethod == null)
-						createShippingMethod();
-					else
-						editShippingMethod();
-				} else {
-					// Accounter.showError(FinanceApplication
-					// .constants().detailsHighlightedInRedMustBeEntered());
-					return false;
-				}
-
-				return true;
-			}
-
-		};
-		inputDlg.addInputDialogHandler(dialogHandler);
 		inputDlg.show();
 	}
 
 	protected void editShippingMethod() {
-		if (!(shippingMethod.getName().equalsIgnoreCase(
-				UIUtils.toStr(inputDlg.getTextValueByIndex(0).toString())) ? true
-				: (Utility.isObjectExist(company.getShippingMethods(), UIUtils
-						.toStr(inputDlg.getTextValueByIndex(0).toString()))) ? false
-						: true)) {
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
-		} else {
-			shippingMethod.setName(inputDlg.getTextValueByIndex(0));
-			shippingMethod.setDescription(inputDlg.getTextValueByIndex(1));
-			alterObject(shippingMethod);
-		}
+		shippingMethod.setName(inputDlg.getTextValueByIndex(0));
+		shippingMethod.setDescription(inputDlg.getTextValueByIndex(1));
+		saveOrUpdate(shippingMethod);
 	}
 
 	@Override
@@ -186,6 +149,40 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	@Override
 	public String toString() {
 		return Accounter.constants().shippingMethodListDialog();
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+
+		if (shippingMethod == null) {
+			if (Utility.isObjectExist(getCompany().getShippingMethods(),
+					inputDlg.getTextValueByIndex(0))) {
+				result.addError(this, Accounter.constants()
+						.shippingMethodAlreadyExists());
+			}
+		} else {
+			if (!(shippingMethod.getName().equalsIgnoreCase(
+					UIUtils.toStr(inputDlg.getTextValueByIndex(0).toString())) ? true
+					: (Utility.isObjectExist(company.getShippingMethods(),
+							UIUtils.toStr(inputDlg.getTextValueByIndex(0)
+									.toString()))) ? false : true)) {
+				result.addError(this, AccounterErrorType.ALREADYEXIST);
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		if (shippingMethod == null)
+			createShippingMethod();
+		else {
+			editShippingMethod();
+		}
+
+		return true;
 	}
 
 }

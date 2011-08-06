@@ -10,12 +10,9 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.IGenericCallback;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -109,22 +106,6 @@ public class CashDiscountDialog extends BaseDialog {
 		discAmtText.setAmount(cashDiscountValue);
 
 		form = new DynamicForm();
-		addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public void onCancelClick() {
-
-			}
-
-			@Override
-			public boolean onOkClick() {
-				discountAccounts.put(key + "", selectedDiscountAccount);
-
-				callback.called(discAmtText.getAmount().toString());
-
-				return true;
-			}
-		});
 		form.setFields(discAccSelect, discAmtText);
 		if (!canEdit) {
 			discAccSelect.setDisabled(true);
@@ -181,6 +162,15 @@ public class CashDiscountDialog extends BaseDialog {
 			this.discAccSelect.addItemThenfireEvent((ClientAccount) core);
 		}
 
+	}
+
+	@Override
+	protected boolean onOK() {
+		discountAccounts.put(key + "", selectedDiscountAccount);
+
+		callback.called(discAmtText.getAmount().toString());
+
+		return true;
 	}
 
 }

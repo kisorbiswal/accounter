@@ -7,13 +7,13 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
 /**
@@ -86,13 +86,8 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 		ClientCustomerGroup customerGroup = new ClientCustomerGroup();
 		customerGroup.setName(inputDlg.getTextItems().get(0).getValue()
 				.toString());
-		if (Utility.isObjectExist(getCompany().getCustomerGroups(),
-				customerGroup.getName())) {
-			Accounter.showError(Accounter.constants()
-					.customerGroupAlreadyExists());
-		} else {
+
 		saveOrUpdate(customerGroup);
-		}
 	}
 
 	// public long getSelectedCustomerId() {
@@ -101,54 +96,21 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	public void showAddEditGroupDialog(ClientCustomerGroup rec) {
 		customerGroup = rec;
-		inputDlg = new InputDialog(customerConstants.customerGroup(), "",
+		inputDlg = new InputDialog(this, customerConstants.customerGroup(), "",
 				Accounter.constants().customerGroup()) {
 		};
 
 		if (customerGroup != null) {
 			inputDlg.setTextItemValue(0, customerGroup.getName());
 		}
-		InputDialogHandler dialogHandler = new InputDialogHandler() {
-
-			public void onCancelClick() {
-
-			}
-
-			public boolean onOkClick() {
-				if (inputDlg.getForm().validate(true)) {
-					if (customerGroup != null) {
-						editCustomerGroups();
-					} else {
-						createCustomerGroups();
-					}
-				} else {
-					// Accounter.showError(FinanceApplication
-					// .constants().detailsHighlightedInRedMustBeEntered());
-					return false;
-				}
-				return true;
-			}
-
-		};
-		inputDlg.addInputDialogHandler(dialogHandler);
 		// inputDlg.setWidth(350);
 		inputDlg.show();
 	}
 
 	protected void editCustomerGroups() {
 
-		if (!(customerGroup.getName().equalsIgnoreCase(
-				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-						.toString())) ? true : (Utility.isObjectExist(
-				company.getCustomerGroups(),
-				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-						.toString())) ? false : true))) {
-			Accounter.showError(Accounter.constants()
-					.customerGroupAlreadyExists());
-		} else {
-			customerGroup.setName(inputDlg.getTextValueByIndex(0));
-			saveOrUpdate(customerGroup);
-		}
+		customerGroup.setName(inputDlg.getTextValueByIndex(0));
+		saveOrUpdate(customerGroup);
 	}
 
 	@Override
@@ -179,6 +141,39 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 			deleteObject(custGrp);
 		}
 
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (customerGroup != null) {
+			if (!(customerGroup.getName().equalsIgnoreCase(
+					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
+							.toString())) ? true : (Utility.isObjectExist(
+					company.getCustomerGroups(),
+					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
+							.toString())) ? false : true))) {
+				result.addError(this, Accounter.constants()
+						.customerGroupAlreadyExists());
+			}
+		} else {
+			if (Utility.isObjectExist(getCompany().getCustomerGroups(),
+					customerGroup.getName())) {
+				result.addError(this, Accounter.constants()
+						.customerGroupAlreadyExists());
+			}
+		}
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		if (customerGroup != null) {
+			editCustomerGroups();
+		} else {
+			createCustomerGroups();
+		}
+		return true;
 	}
 
 }

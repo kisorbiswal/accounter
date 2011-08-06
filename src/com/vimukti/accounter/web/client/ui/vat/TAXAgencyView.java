@@ -40,8 +40,6 @@ import com.vimukti.accounter.web.client.ui.combo.VATAgencyAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -77,8 +75,6 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	private ContactGrid gridView;
 
-	private ClientTAXAgency takenVATAgency;
-
 	private ClientPaymentTerms selectedPaymentTerm;
 	private ClientAccount selectedSalesAccount, selectedPurchaseAccount;
 
@@ -100,9 +96,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private void initPaymentTermsCombo() {
 
 		paymentTermsCombo.initCombo(getCompany().getPaymentsTerms());
-		if (takenVATAgency != null && (takenVATAgency.getPaymentTerm()) != 0) {
+		if (isEdit && (data.getPaymentTerm()) != 0) {
 			selectedPaymentTerm = getCompany().getPaymentTerms(
-					takenVATAgency.getPaymentTerm());
+					data.getPaymentTerm());
 			paymentTermsCombo.setComboItem(selectedPaymentTerm);
 		}
 
@@ -124,29 +120,14 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	public void saveAndUpdateView() {
-		try {
-			ClientTAXAgency vatAgency = getTaxAgency();
-			if (takenVATAgency == null) {
-				if (Utility.isObjectExist(getCompany().getTaxAgencies(),
-						vatAgency.getName())) {
-					throw new InvalidEntryException(
-							AccounterErrorType.ALREADYEXIST);
-				}
-				ViewManager.getInstance().createObject(vatAgency, this);
-			}
-
-			else
-				ViewManager.getInstance().alterObject(vatAgency, this);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		updateTaxAgency();
+		saveOrUpdate(getData());
 	}
 
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		if (takenVATAgency == null)
+		if (!isEdit)
 			// BaseView.errordata.setHTML(FinanceApplication.constants()
 			// .duplicationOfTaxAgencyNameAreNotAllowed());
 			addError(this, Accounter.constants()
@@ -186,10 +167,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		}
 
 		String name = taxAgencyText.getValue().toString();
-		if (!((takenVATAgency == null && Utility.isObjectExist(getCompany()
-				.getTaxAgencies(), name)) ? false : true)
-				|| (takenVATAgency != null ? (takenVATAgency.getName()
-						.equalsIgnoreCase(name) ? true
+		if (!((!isEdit && Utility.isObjectExist(getCompany().getTaxAgencies(),
+				name)) ? false : true)
+				|| (!isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getTaxAgencies(),
 								name) ? false : true)) : true)) {
 			result.addError(taxAgencyText, AccounterErrorType.ALREADYEXIST);
@@ -197,62 +177,54 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		return result;
 	}
 
-	private ClientTAXAgency getTaxAgency() {
-		ClientTAXAgency vatAgency;
-		if (takenVATAgency != null)
-			vatAgency = takenVATAgency;
-		else
-			vatAgency = new ClientTAXAgency();
-		// Setting Company
+	private void updateTaxAgency() {
 
 		// Setting TaxAgency
-		vatAgency.setName(taxAgencyText.getValue().toString());
+		data.setName(taxAgencyText.getValue().toString());
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			if (vatReturnCombo.getSelectedValue() == "") {
-				vatAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
+				data.setVATReturn(ClientTAXAgency.RETURN_TYPE_NONE);
 			} else if (vatReturnCombo.getSelectedValue() == "UK VAT") {
-				vatAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_UK_VAT);
+				data.setVATReturn(ClientTAXAgency.RETURN_TYPE_UK_VAT);
 			} else {
-				vatAgency.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
+				data.setVATReturn(ClientTAXAgency.RETURN_TYPE_IRELAND_VAT);
 			}
 		} else
-			vatAgency.setVATReturn(0);
+			data.setVATReturn(0);
 		// Setting File As
-		vatAgency.setFileAs(fileAsText.getValue().toString());
+		data.setFileAs(fileAsText.getValue().toString());
 
-		vatAgency.setType(ClientPayee.TYPE_TAX_AGENCY);
+		data.setType(ClientPayee.TYPE_TAX_AGENCY);
 
 		// Setting Addresses
-		vatAgency.setAddress(addrsForm.getAddresss());
+		data.setAddress(addrsForm.getAddresss());
 
 		// Setting Phone
-		vatAgency.setPhoneNo(phoneFaxForm.businessPhoneText.getValue()
-				.toString());
+		data.setPhoneNo(phoneFaxForm.businessPhoneText.getValue().toString());
 
 		// Setting Fax
-		vatAgency.setFaxNo(phoneFaxForm.businessFaxText.getValue().toString());
+		data.setFaxNo(phoneFaxForm.businessFaxText.getValue().toString());
 
 		// Setting Email and Internet
-		vatAgency.setEmail(emailForm.businesEmailText.getValue().toString());
+		data.setEmail(emailForm.businesEmailText.getValue().toString());
 
 		// Setting web page Address
-		vatAgency.setWebPageAddress(emailForm.getWebTextValue());
+		data.setWebPageAddress(emailForm.getWebTextValue());
 
 		// Setting Active
-		vatAgency.setActive((Boolean) statusCheck.getValue());
+		data.setActive((Boolean) statusCheck.getValue());
 
 		// Setting Payment Terms
-		vatAgency.setPaymentTerm(selectedPaymentTerm.getID());
+		data.setPaymentTerm(selectedPaymentTerm.getID());
 
 		// Setting Sales Liability account
-		vatAgency.setSalesLiabilityAccount(selectedSalesAccount.getID());
+		data.setSalesLiabilityAccount(selectedSalesAccount.getID());
 
 		// Setting Purchase Liability account
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-			vatAgency.setPurchaseLiabilityAccount(selectedPurchaseAccount
-					.getID());
+			data.setPurchaseLiabilityAccount(selectedPurchaseAccount.getID());
 		else
-			vatAgency.setPurchaseLiabilityAccount(0);
+			data.setPurchaseLiabilityAccount(0);
 
 		// Setting Contacts
 
@@ -271,12 +243,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			contact.setEmail(record.getEmail());
 			allContacts.add(contact);
 		}
-		vatAgency.setContacts(allContacts);
+		data.setContacts(allContacts);
 
 		// Setting Memo
-		vatAgency.setMemo(UIUtils.toStr(memoArea.getValue()));
+		data.setMemo(UIUtils.toStr(memoArea.getValue()));
 
-		return vatAgency;
 	}
 
 	private VerticalPanel getTopLayout() {
@@ -426,36 +397,32 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		});
 
 		// For Editing taxAgency
-		if (takenVATAgency != null) {
+		if (getData() != null) {
 
 			// Setting TaxAgency Name
 			taxAgencyText
-					.setValue(takenVATAgency.getName() != null ? takenVATAgency
-							.getName() : "");
+					.setValue(data.getName() != null ? data.getName() : "");
 
 			// Setting File as
-			fileAsText
-					.setValue(takenVATAgency.getFileAs() != null ? takenVATAgency
-							.getFileAs() : "");
+			fileAsText.setValue(data.getFileAs() != null ? data.getFileAs()
+					: "");
 
 			// Setting AddressForm
-			addrsForm = new AddressForm(takenVATAgency.getAddress());
+			addrsForm = new AddressForm(data.getAddress());
 			addrsForm.setWidth("100%");
 			// Setting Phone Fax Form
 			phoneFaxForm = new PhoneFaxForm(null, null, this);
 			phoneFaxForm.setWidth("100%");
-			phoneFaxForm.businessPhoneText
-					.setValue(takenVATAgency.getPhoneNo());
-			phoneFaxForm.businessFaxText.setValue(takenVATAgency.getFaxNo());
+			phoneFaxForm.businessPhoneText.setValue(data.getPhoneNo());
+			phoneFaxForm.businessFaxText.setValue(data.getFaxNo());
 
 			// Setting Email Form
-			emailForm = new EmailForm(null, takenVATAgency.getWebPageAddress(),
-					this);
-			emailForm.businesEmailText.setValue(takenVATAgency.getEmail());
+			emailForm = new EmailForm(null, data.getWebPageAddress(), this);
+			emailForm.businesEmailText.setValue(data.getEmail());
 			emailForm.setWidth("100%");
 
 			// Setting Status Check
-			statusCheck.setValue(takenVATAgency.isActive());
+			statusCheck.setValue(data.isActive());
 
 			// // Setting Payment terms Combo
 			// selectedPaymentTerm = takenTaxAgency.getPaymentTerm();
@@ -467,8 +434,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 			// Setting contacts
 
-			Set<ClientContact> contactsOfEditableTaxAgency = takenVATAgency
-					.getContacts();
+			Set<ClientContact> contactsOfEditableTaxAgency = data.getContacts();
 			ClientContact records[] = new ClientContact[contactsOfEditableTaxAgency
 					.size()];
 			int i = 0;
@@ -487,29 +453,29 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				records[i++].setEmail(contact.getEmail());
 
 			}
-			if (takenVATAgency.getPaymentTerm() != 0) {
+			if (data.getPaymentTerm() != 0) {
 				ClientPaymentTerms payment = getCompany().getPaymentTerms(
-						takenVATAgency.getPaymentTerm());
+						data.getPaymentTerm());
 				paymentTermsCombo.setComboItem(payment);
 			}
 
-			if (takenVATAgency.getVATReturn() == ClientTAXAgency.RETURN_TYPE_NONE)
+			if (data.getVATReturn() == ClientTAXAgency.RETURN_TYPE_NONE)
 				vatReturnCombo.setComboItem("");
-			else if (takenVATAgency.getVATReturn() == ClientTAXAgency.RETURN_TYPE_UK_VAT)
+			else if (data.getVATReturn() == ClientTAXAgency.RETURN_TYPE_UK_VAT)
 				vatReturnCombo.setComboItem(Accounter.constants().ukVAT());
 			else
 				vatReturnCombo
 						.setComboItem(Accounter.constants().vat3Ireland());
 
-			if (takenVATAgency.getSalesLiabilityAccount() != 0) {
+			if (data.getSalesLiabilityAccount() != 0) {
 				ClientAccount account = getCompany().getAccount(
-						takenVATAgency.getSalesLiabilityAccount());
+						data.getSalesLiabilityAccount());
 				liabilitySalesAccountCombo.setComboItem(account);
 			}
 
-			if (takenVATAgency.getPurchaseLiabilityAccount() != 0) {
+			if (data.getPurchaseLiabilityAccount() != 0) {
 				ClientAccount account = getCompany().getAccount(
-						takenVATAgency.getSalesLiabilityAccount());
+						data.getSalesLiabilityAccount());
 				liabilityPurchaseAccountCombo.setComboItem(account);
 			}
 
@@ -519,10 +485,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			// if (temp != null)
 			// gridView.selectRecord(temp);
 			// Setting Memo
-			memoArea.setValue(takenVATAgency.getMemo() != null ? takenVATAgency
-					.getMemo() : "");
+			memoArea.setValue(data.getMemo() != null ? data.getMemo() : "");
 
-		} else { // For Creating TaxAgency
+		} else {
+			// For Creating TaxAgency
+			setData(new ClientTAXAgency());
 			addrsForm = new AddressForm(null);
 			addrsForm.setWidth("100%");
 			phoneFaxForm = new PhoneFaxForm(null, null, this);
@@ -618,11 +585,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	public void initData() {
 
 		initPaymentTermsCombo();
-		if (this.takenVATAgency != null) {
+		if (isEdit) {
 			this.selectedSalesAccount = getCompany().getAccount(
-					this.takenVATAgency.getSalesLiabilityAccount());
+					data.getSalesLiabilityAccount());
 			this.selectedPurchaseAccount = getCompany().getAccount(
-					this.takenVATAgency.getPurchaseLiabilityAccount());
+					data.getPurchaseLiabilityAccount());
 		}
 		// initLiabilityAccounts();
 		super.initData();
@@ -660,15 +627,6 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		return taxAgencyView;
 
-	}
-
-	@Override
-	public void setData(ClientTAXAgency data) {
-		super.setData(data);
-		if (data != null)
-			takenVATAgency = data;
-		else
-			takenVATAgency = null;
 	}
 
 	// protected void adjustFormWidths(int titlewidth, int listBoxWidth) {

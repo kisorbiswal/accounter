@@ -34,7 +34,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.fixedassets.RollBackDepreciationDialog;
 import com.vimukti.accounter.web.client.ui.fixedassets.StartDateDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -308,9 +307,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientDepreciation depreciation = new ClientDepreciation();
-		depreciation.setDepreciateFrom(depreciationStartDate.getDate());
-		depreciation.setDepreciateTo(depreciationEndDate.getDate());
+		data.setDepreciateFrom(depreciationStartDate.getDate());
+		data.setDepreciateTo(depreciationEndDate.getDate());
 		// depreciation
 		// .setDepreciationFor(ClientDepreciation.DEPRECIATION_FOR_ALL_FIXEDASSET);
 		// depreciation.setFixedAsset(getAssetsList())
@@ -334,10 +332,10 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		map.setFixedAssetLinkedAccounts(linkedAccounts);
 		// depreciation.setLinkedAccounts(map);
 
-	saveOrUpdate(depreciation);
+		saveOrUpdate(data);
 		Accounter.createHomeService().runDepreciation(
 				depreciationStartDate.getDate(), depreciationEndDate.getDate(),
-				map, new AccounterAsyncCallback() {
+				map, new AccounterAsyncCallback<Object>() {
 
 					@Override
 					public void onException(AccounterException caught) {

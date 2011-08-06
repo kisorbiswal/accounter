@@ -356,12 +356,12 @@ public class TransactionPayBillGrid extends
 		cashDiscountDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
-			public void onCancelClick() {
+			public void onCancel() {
 
 			}
 
 			@Override
-			public boolean onOkClick() {
+			public boolean onOK() {
 				try {
 					if (cashDiscountDialog.validate()) {
 						selectedObject.setCashDiscount(cashDiscountDialog
@@ -500,7 +500,7 @@ public class TransactionPayBillGrid extends
 					.addInputDialogHandler(new InputDialogHandler() {
 
 						@Override
-						public void onCancelClick() {
+						public void onCancel() {
 							creditsAndPaymentsDialiog.cancelClicked = true;
 							// selectedObject
 							// .setAppliedCredits(creditsAndPaymentsDialiog
@@ -509,7 +509,7 @@ public class TransactionPayBillGrid extends
 						}
 
 						@Override
-						public boolean onOkClick() {
+						public boolean onOK() {
 							List<ClientCreditsAndPayments> appliedCreditsForThisRec = creditsAndPaymentsDialiog.grid
 									.getSelectedRecords();
 							Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();

@@ -8,7 +8,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.PaymentTermListDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -36,13 +38,15 @@ public class AddPaymentTermDialog extends BaseDialog {
 	private List<String> listOfDueValues;
 	private Label dayLabel;
 
-	private DynamicForm paymentForm;
 	private IntegerRangeValidator integerRangeValidator;
 	private DynamicForm dueForm;
+	private PaymentTermListDialog parent;
 
-	public AddPaymentTermDialog(String title, String desc) {
+	public AddPaymentTermDialog(PaymentTermListDialog parent, String title,
+			String desc) {
 		super(title, desc);
 		initiliase();
+		this.parent = parent;
 		center();
 	}
 
@@ -187,6 +191,19 @@ public class AddPaymentTermDialog extends BaseDialog {
 						.getValue().toString() : "0"));
 
 		return paymentTerm;
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = nameDescForm.validate();
+		result.add(parent.validate());
+		return result;
+
+	}
+
+	@Override
+	protected boolean onOK() {
+		return parent.onOK();
 	}
 
 }

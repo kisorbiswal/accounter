@@ -6,7 +6,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -67,18 +66,6 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 		taxForm.setFields(effectDate, entryText, incSelect, codeSelect,
 				incDecRadio, amtText, memoText);
 
-		addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancelClick() {
-
-			}
-
-			public boolean onOkClick() {
-				return taxForm.validate(true);
-			}
-
-		});
-
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		// mainVLay.setTop(30);
@@ -121,5 +108,10 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected boolean onOK() {
+		return true;
 	}
 }

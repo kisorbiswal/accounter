@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -31,10 +30,6 @@ public class InviteUserView extends BaseView<ClientUser> {
 	DynamicForm custForm;
 	UserRoleGrid grid;
 	CheckBox userManagementBox;
-
-	boolean isEditMode;
-
-	public ClientUser takenUser;
 
 	@Override
 	public void init() {
@@ -104,13 +99,13 @@ public class InviteUserView extends BaseView<ClientUser> {
 	@Override
 	public void initData() {
 		super.initData();
-		if (takenUser != null) {
-			firstNametext.setValue(takenUser.getFirstName());
-			lastNametext.setValue(takenUser.getLastName());
-			emailField.setValue(takenUser.getEmail());
+		if (getData() != null) {
+			firstNametext.setValue(data.getFirstName());
+			lastNametext.setValue(data.getLastName());
+			emailField.setValue(data.getEmail());
 			// userManagementBox.setValue(takenUser.isCanDoUserManagement());
-			grid.setRecords(getRolePermissionsForUser(takenUser));
-			if (takenUser.isActive()) {
+			grid.setRecords(getRolePermissionsForUser(data));
+			if (data.isActive()) {
 				firstNametext.setDisabled(true);
 				lastNametext.setDisabled(true);
 				emailField.setDisabled(true);
@@ -121,6 +116,8 @@ public class InviteUserView extends BaseView<ClientUser> {
 			// if(takenUser.isAdmin()) {
 			// grid.setDisabled(true);
 			// }
+		} else {
+			setData(new ClientUser());
 		}
 	}
 
@@ -172,7 +169,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 	public void checkBoxClicked(RolePermissions obj) {
 		if (canDoUserManagement(obj)) {
 			userManagementBox.setValue(true);
-			if (takenUser != null && takenUser.isAdmin())
+			if (isEdit && data.isAdmin())
 				userManagementBox.setEnabled(false);
 			else
 				userManagementBox.setEnabled(true);
@@ -192,17 +189,15 @@ public class InviteUserView extends BaseView<ClientUser> {
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientUser user = takenUser != null ? takenUser : new ClientUser();
-		String prevoiusEmail = takenUser != null ? takenUser.getEmail() : "";
-		user.setFirstName(firstNametext.getValue().toString());
-		user.setLastName(lastNametext.getValue().toString());
-		user.setFullName(user.getName());
-		user.setEmail(emailField.getValue().toString());
+		data.setFirstName(firstNametext.getValue().toString());
+		data.setLastName(lastNametext.getValue().toString());
+		data.setFullName(data.getName());
+		data.setEmail(emailField.getValue().toString());
 		// user.setCanDoUserManagement(userManagementBox.getValue());
 
 		RolePermissions selectedRole = getSelectedRolePermission();
 		if (selectedRole != null) {
-			user.setUserRole(selectedRole.getRoleName());
+			data.setUserRole(selectedRole.getRoleName());
 
 			ClientUserPermissions permissions = new ClientUserPermissions();
 			permissions.setTypeOfBankReconcilation(selectedRole
@@ -217,12 +212,12 @@ public class InviteUserView extends BaseView<ClientUser> {
 					.getTypeOfPublishReports());
 			permissions.setTypeOfLockDates(selectedRole.getTypeOfLockDates());
 
-			user.setPermissions(permissions);
+			data.setPermissions(permissions);
 
-			user.setCanDoUserManagement(selectedRole.isCanDoUserManagement());
+			data.setCanDoUserManagement(selectedRole.isCanDoUserManagement());
 		}
 
-		saveOrUpdate(user);
+		saveOrUpdate(data);
 	}
 
 	private RolePermissions getSelectedRolePermission() {
@@ -231,15 +226,6 @@ public class InviteUserView extends BaseView<ClientUser> {
 				return grid.getRecordByIndex(i);
 		}
 		return null;
-	}
-
-	@Override
-	public void setData(ClientUser data) {
-		super.setData(data);
-		if (data != null)
-			takenUser = data;
-		else
-			takenUser = null;
 	}
 
 	public List<RolePermissions> getDefaultRolesAndPermissions() {
@@ -362,7 +348,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (isExist(takenUser)) {
+		if (isExist(getData())) {
 			// FIXME
 			result.addError("TakenUser", Accounter.constants()
 					.userExistsWithThisMailId());

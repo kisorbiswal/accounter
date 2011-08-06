@@ -130,11 +130,11 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		cancelBtn.setTitle(this.constants.close());
 		dialogHandler = new InputDialogHandler() {
 
-			public void onCancelClick() {
+			public void onCancel() {
 				closeWindow();
 			}
 
-			public boolean onOkClick() {
+			public boolean onOK() {
 
 				return true;
 			}

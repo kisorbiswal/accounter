@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -43,7 +42,6 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	private DynamicForm vatNameForm;
 	public long selectedVATPurchaseAcc;
 	public long selectedVATSAlesAcc;
-	private ClientTAXCode editableTAXCode;
 	protected boolean isComboDisabled = false;
 	private String vatCode;
 
@@ -56,7 +54,6 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	public void init() {
 		super.init();
-		editableTAXCode = (ClientTAXCode) this.data;
 		createControls();
 		setSize("100%", "");
 
@@ -65,7 +62,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	public void initData() {
 		ClientTAXCode vat = (ClientTAXCode) getData();
-		if (vat != null) {
+		if (isEdit) {
 			vatCodeTxt.setValue(vat.getName() != null ? vat.getName() : "");
 			vatCode = vat.getName() != null ? vat.getName() : "";
 			description.setValue(vat.getDescription() != null ? vat
@@ -163,26 +160,25 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatNameForm.setFields(vatCodeTxt, description, taxableGroupRadio,
 				isActive, vatItemComboForSales, vatItemComboForPurchases);
 
-		if (editableTAXCode != null) {
-			vatCodeTxt
-					.setValue(editableTAXCode.getName() != null ? editableTAXCode
+		if (getData() != null) {
+			vatCodeTxt.setValue(data.getName() != null ? data.getName() : "");
+			description.setValue(data.getDescription() != null ? data
+					.getDescription() : "");
+			isActive.setValue(data.isActive());
+			taxableGroupRadio.setValue(data.isTaxable() ? Accounter.constants()
+					.taxable() : Accounter.constants().taxExempt());
+			vatItemComboForPurchases
+					.setValue(data.getTAXItemGrpForPurchases() != 0 ? Accounter
+							.getCompany()
+							.getTAXItemGroup(data.getTAXItemGrpForPurchases())
 							.getName() : "");
-			description
-					.setValue(editableTAXCode.getDescription() != null ? editableTAXCode
-							.getDescription() : "");
-			isActive.setValue(editableTAXCode.isActive());
-			taxableGroupRadio.setValue(editableTAXCode.isTaxable() ? Accounter
-					.constants().taxable() : Accounter.constants().taxExempt());
-			vatItemComboForPurchases.setValue(editableTAXCode
-					.getTAXItemGrpForPurchases() != 0 ? Accounter
-					.getCompany()
-					.getTAXItemGroup(
-							editableTAXCode.getTAXItemGrpForPurchases())
-					.getName() : "");
-			vatItemComboForSales.setValue(editableTAXCode
-					.getTAXItemGrpForSales() != 0 ? Accounter.getCompany()
-					.getTAXItemGroup(editableTAXCode.getTAXItemGrpForSales())
-					.getName() : "");
+			vatItemComboForSales
+					.setValue(data.getTAXItemGrpForSales() != 0 ? Accounter
+							.getCompany()
+							.getTAXItemGroup(data.getTAXItemGrpForSales())
+							.getName() : "");
+		} else {
+			setData(new ClientTAXCode());
 		}
 
 		VerticalPanel mainVPanel = new VerticalPanel();
@@ -238,9 +234,9 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	public void saveAndUpdateView() {
 
-		ClientTAXCode vatCode = getVATCode();
+		updateVATCode();
 
-		saveOrUpdate(vatCode);
+		saveOrUpdate(getData());
 
 	}
 
@@ -249,9 +245,9 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		super.saveFailed(exception);
 		String exceptionMessage = exception.getMessage();
 		addError(this, exception.getMessage());
-		ClientTAXCode clientTAXCode = getVATCode();
+		updateVATCode();
 		if (exceptionMessage.contains("name")) {
-			clientTAXCode.setName(vatCode);
+			data.setName(vatCode);
 
 		}
 	}
@@ -275,31 +271,25 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		}
 	}
 
-	protected ClientTAXCode getVATCode() {
-		ClientTAXCode vatCode;
-		if (editableTAXCode != null) {
-			vatCode = editableTAXCode;
-		} else
-			vatCode = new ClientTAXCode();
+	protected void updateVATCode() {
 
-		vatCode.setName(vatCodeTxt.getValue() != null ? vatCodeTxt.getValue()
+		data.setName(vatCodeTxt.getValue() != null ? vatCodeTxt.getValue()
 				.toString() : "");
-		vatCode.setDescription(description.getValue() != null ? description
+		data.setDescription(description.getValue() != null ? description
 				.getValue().toString() : "");
-		vatCode.setActive((Boolean) isActive.getValue());
+		data.setActive((Boolean) isActive.getValue());
 		if (taxableGroupRadio.getValue() != null) {
 			if (taxableGroupRadio.getValue().toString()
 					.equalsIgnoreCase("Taxable"))
-				vatCode.setTaxable(true);
+				data.setTaxable(true);
 			else
-				vatCode.setTaxable(false);
+				data.setTaxable(false);
 		} else
-			vatCode.setTaxable(false);
+			data.setTaxable(false);
 
-		vatCode.setTAXItemGrpForPurchases(selectedVATPurchaseAcc);
-		vatCode.setTAXItemGrpForSales(selectedVATSAlesAcc);
+		data.setTAXItemGrpForPurchases(selectedVATPurchaseAcc);
+		data.setTAXItemGrpForSales(selectedVATSAlesAcc);
 
-		return vatCode;
 	}
 
 	@Override
@@ -311,10 +301,9 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				new DynamicForm[getForms().size()])));
 		String name = vatCodeTxt.getValue() != null ? vatCodeTxt.getValue()
 				.toString() : "";
-		if (!((editableTAXCode == null && Utility.isObjectExist(getCompany()
-				.getTaxCodes(), name)) ? false : true)
-				|| (editableTAXCode != null ? (editableTAXCode.getName()
-						.equalsIgnoreCase(name) ? true
+		if (!((!isEdit && Utility.isObjectExist(getCompany().getTaxCodes(),
+				name)) ? false : true)
+				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getTaxCodes(),
 								name) ? false : true)) : true)) {
 			result.addError(vatCodeTxt, AccounterErrorType.ALREADYEXIST);

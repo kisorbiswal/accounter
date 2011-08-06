@@ -58,8 +58,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -133,7 +131,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	private PhoneFaxForm fonFaxForm;
 	private EmailForm emailForm;
 
-	private ClientVendor takenVendor;
+	// private ClientVendor takenVendor;
 	protected ClientAccount accountPayableAccount;
 	private ClientCompany company;
 	private boolean wait;
@@ -148,7 +146,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	private void getFiscalYear() {
 		List<ClientFiscalYear> result = getCompany().getFiscalYears();
-		if (result != null && takenVendor == null) {
+		if (result != null && !isEdit) {
 			for (ClientFiscalYear fiscalYear : result) {
 				if (fiscalYear != null && fiscalYear.getIsCurrentFiscalYear()) {
 					if (fiscalYear != null
@@ -187,34 +185,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	@Override
 	public void saveAndUpdateView() {
 		if (!wait) {
-			try {
-				ClientVendor vendor = getVendorObject();
-				if (takenVendor == null) {
-					// if (!vendor.getAccountNumber().equals("")
-					// && !vendor.getAccountNumber().equals(null)) {
-					// if (Utility.isNumberCorrect(vendor)) {
-					// if (tabSet.getTabBar().isTabEnabled(1)) {
-					// tabSet.selectTab(0);
-					// throw new InvalidEntryException(
-					// AccounterErrorType.INVALIDACCOUNTNUMBER);
-					// }
-					// }
-					// }
-					if (Utility.isObjectExist(getCompany().getVendors(),
-							vendorNameText.getValue().toString())) {
-						if (tabSet.getTabBar().isTabEnabled(1)) {
-							tabSet.selectTab(0);
-							throw new InvalidEntryException("Vendor"
-									+ AccounterErrorType.ALREADYEXIST);
-						}
-
-					} else
-					saveOrUpdate(vendor);
-				} else
-					alterObject(vendor);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			updateVendorObject();
+			saveOrUpdate(getData());
 		}
 	}
 
@@ -223,16 +195,16 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		ValidationResult result = new ValidationResult();
 		String name = vendorNameText.getValue().toString();
-		if (takenVendor == null
-				&& Utility.isObjectExist(company.getVendors(), name)) {
+		if (!isEdit && Utility.isObjectExist(company.getVendors(), name)) {
 			result.addError(vendorNameText, AccounterErrorType.ALREADYEXIST);
 		}
 		result.add(vendorForm.validate());
 
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
-		if (!AccounterValidator.isPriorAsOfDate(asOfDate, this)) {
+		if (!AccounterValidator.isPriorAsOfDate(asOfDate)) {
 			result.addError(balanceDate, AccounterErrorType.prior_asOfDate);
 		}
+
 		return result;
 	}
 
@@ -290,7 +262,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 			@Override
 			public void onDateValueChange(ClientFinanceDate date) {
-				if (takenVendor == null) {
+				if (!isEdit) {
 					ClientFinanceDate vendSinceDate = vendorSinceDate.getDate();
 					if (date.before(vendSinceDate)) {
 						String msg = Accounter.constants().msg();
@@ -355,55 +327,56 @@ public class VendorView extends BaseView<ClientVendor> {
 		memoArea.setTitle(Accounter.constants().memo());
 
 		// For Editing Vendor
-		if (takenVendor != null) {
+		if (getData() != null) {
 			// Setting Vendor Name
-			vendorNameText.setValue(takenVendor.getName());
+			vendorNameText.setValue(data.getName());
 			// Setting File as
-			fileAsText.setValue(takenVendor.getFileAs());
-			takenVendor.getPrimaryContact();
+			fileAsText.setValue(data.getFileAs());
+			data.getPrimaryContact();
 			// Setting AddressForm
-			addrsForm = new AddressForm(takenVendor.getAddress());
+			addrsForm = new AddressForm(data.getAddress());
 			addrsForm.setWidth("100%");
 			// addrsForm.setStyleName(FinanceApplication.constants()
 			// .venderForm());
 			// Setting Phone Fax Form
 			fonFaxForm = new PhoneFaxForm(null, null, this);
-			fonFaxForm.businessPhoneText.setValue(takenVendor.getPhoneNo());
-			fonFaxForm.businessFaxText.setValue(takenVendor.getFaxNo());
+			fonFaxForm.businessPhoneText.setValue(data.getPhoneNo());
+			fonFaxForm.businessFaxText.setValue(data.getFaxNo());
 			fonFaxForm.setWidth("100%");
 			// Setting Email Form
-			emailForm = new EmailForm(null, takenVendor.getWebPageAddress(),
-					this);
-			emailForm.businesEmailText.setValue(takenVendor.getEmail());
+			emailForm = new EmailForm(null, data.getWebPageAddress(), this);
+			emailForm.businesEmailText.setValue(data.getEmail());
 			emailForm.setWidth("100%");
 			// Setting Status Check
-			statusCheck.setValue(takenVendor.isActive());
+			statusCheck.setValue(data.isActive());
 
-			vendorSinceDate.setEnteredDate(new ClientFinanceDate(takenVendor
+			vendorSinceDate.setEnteredDate(new ClientFinanceDate(data
 					.getPayeeSince()));
 
 			// Setting Account No
 			// accountText.setValue(takenVendor.getBankAccountNo());
 			// Setting Balance
-			if (!DecimalUtil.isEquals(takenVendor.getBalance(), 0)) {
-				balanceText.setAmount(takenVendor.getBalance());
+			if (!DecimalUtil.isEquals(data.getBalance(), 0)) {
+				balanceText.setAmount(data.getBalance());
 
 			} else {
 				balanceText.setAmount(0.0);
 			}
-			balanceText.setDisabled(!takenVendor.isOpeningBalanceEditable());
+			balanceText.setDisabled(!data.isOpeningBalanceEditable());
 			// Setting Balance as of
-			balanceDate.setEnteredDate(new ClientFinanceDate(takenVendor
+			balanceDate.setEnteredDate(new ClientFinanceDate(data
 					.getBalanceAsOf()));
 			balanceDate.setDisabled(true);
 
 			// Setting Contacts
-			gridView.initContacts(takenVendor.getContacts());
+			gridView.initContacts(data.getContacts());
 
 			// Setting Memo
-			memoArea.setValue(takenVendor.getMemo());
+			memoArea.setValue(data.getMemo());
 
-		} else { // For Creating Vendor
+		} else {
+			// For Creating Vendor
+			setData(new ClientVendor());
 			addrsForm = new AddressForm(null);
 			addrsForm.setWidth("100%");
 			// addrsForm.setStyleName(FinanceApplication.constants()
@@ -685,49 +658,47 @@ public class VendorView extends BaseView<ClientVendor> {
 		mainVLayout.add(lab);
 		mainVLayout.add(mainHLay);
 
-		if (takenVendor != null) {
+		if (isEdit) {
 			// Setting Account
 			selectAccountFromDetailsTab = getCompany().getAccount(
-					takenVendor.getExpenseAccount());
+					data.getExpenseAccount());
 
-			accountText.setValue(takenVendor.getBankAccountNo().toString());
-			bankNameText.setValue(takenVendor.getBankName().toString());
-			bankBranchText.setValue(takenVendor.getBankBranch().toString());
+			accountText.setValue(data.getBankAccountNo().toString());
+			bankNameText.setValue(data.getBankName().toString());
+			bankBranchText.setValue(data.getBankBranch().toString());
 
 			// Setting Credit Limit Text
-			if (!DecimalUtil.isEquals(takenVendor.getCreditLimit(), 0))
-				creditLimitText.setAmount(takenVendor.getCreditLimit());
+			if (!DecimalUtil.isEquals(data.getCreditLimit(), 0))
+				creditLimitText.setAmount(data.getCreditLimit());
 
 			// Setting Preferred shipping method
 			selectShippingMethodFromDetailsTab = Accounter.getCompany()
-					.getShippingMethod(takenVendor.getShippingMethod());
+					.getShippingMethod(data.getShippingMethod());
 
 			// Setting Payment Method
-			selectPaymentMethodFromDetialsTab = takenVendor.getPaymentMethod();
+			selectPaymentMethodFromDetialsTab = data.getPaymentMethod();
 
 			// Setting payment Terms
 			selectPaymentTermFromDetailsTab = getCompany().getPaymentTerms(
-					(takenVendor.getPaymentTermsId()));
+					(data.getPaymentTermsId()));
 
 			// Setting Vendor Group
 			selectVendorGroupFromDetailsTab = getCompany().getVendorGroup(
-					takenVendor.getVendorGroup());
+					data.getVendorGroup());
 
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 				// if (vatRegistrationNumber.getValue() != null)
 				// vendor.setVATRegistrationNumber(vatRegistrationNumber.getValue().toString());
-				vatRegistrationNumber.setValue(takenVendor
-						.getVATRegistrationNumber());
-				vendorTaxCode
-						.setSelected(vendorTaxCode.getDisplayName(takenVendor
-								.getTAXCode() != 0 ? Accounter.getCompany()
-								.getTAXCode(takenVendor.getTAXCode()) : null));
+				vatRegistrationNumber.setValue(data.getVATRegistrationNumber());
+				vendorTaxCode.setSelected(vendorTaxCode.getDisplayName(data
+						.getTAXCode() != 0 ? Accounter.getCompany().getTAXCode(
+						data.getTAXCode()) : null));
 			} else {
 				// Setting Federal Id
-				federalText.setValue(takenVendor.getFederalTaxId());
+				federalText.setValue(data.getFederalTaxId());
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-					panNumberText.setValue(takenVendor.getPanNumber());
-					serviceTaxRegisterationNumber.setValue(takenVendor
+					panNumberText.setValue(data.getPanNumber());
+					serviceTaxRegisterationNumber.setValue(data
 							.getServiceTaxRegistrationNumber());
 				}
 			}
@@ -837,63 +808,57 @@ public class VendorView extends BaseView<ClientVendor> {
 		ActionFactory.getNewVendorAction().run(null, true);
 	}
 
-	private ClientVendor getVendorObject() {
-
-		ClientVendor vendor;
-		if (takenVendor != null)
-			vendor = takenVendor;
-		else
-			vendor = new ClientVendor();
+	private void updateVendorObject() {
 
 		// Setting data from General Tab
 
 		// Setting Vendor Name
-		vendor.setName(vendorNameText.getValue().toString() != null ? vendorNameText
+		data.setName(vendorNameText.getValue().toString() != null ? vendorNameText
 				.getValue().toString() : "");
 
 		// Setting File As
-		vendor.setFileAs(fileAsText.getValue().toString());
+		data.setFileAs(fileAsText.getValue().toString());
 
-		vendor.setType(ClientPayee.TYPE_VENDOR);
+		data.setType(ClientPayee.TYPE_VENDOR);
 
 		// Setting Addresses
-		vendor.setAddress(addrsForm.getAddresss());
+		data.setAddress(addrsForm.getAddresss());
 
 		// Setting Phone
-		// vendor.setPhoneNumbers(fonFaxForm.getAllPhones());
-		vendor.setPhoneNo(fonFaxForm.businessPhoneText.getValue().toString());
+		// data.setPhoneNumbers(fonFaxForm.getAllPhones());
+		data.setPhoneNo(fonFaxForm.businessPhoneText.getValue().toString());
 
 		// Setting Fax
-		// vendor.setFaxNumbers(fonFaxForm.getAllFaxes());
-		vendor.setFaxNo(fonFaxForm.businessFaxText.getValue().toString());
+		// data.setFaxNumbers(fonFaxForm.getAllFaxes());
+		data.setFaxNo(fonFaxForm.businessFaxText.getValue().toString());
 
 		// Setting Email and Internet
-		vendor.setEmail(emailForm.businesEmailText.getValue().toString());
+		data.setEmail(emailForm.businesEmailText.getValue().toString());
 
 		// Setting web page Address
-		vendor.setWebPageAddress(emailForm.getWebTextValue());
+		data.setWebPageAddress(emailForm.getWebTextValue());
 
 		// Setting Active
-		vendor.setActive((Boolean) statusCheck.getValue());
+		data.setActive((Boolean) statusCheck.getValue());
 
 		// Setting Vendor Since
-		vendor.setPayeeSince(vendorSinceDate.getEnteredDate().getDate());
+		data.setPayeeSince(vendorSinceDate.getEnteredDate().getDate());
 
 		// Setting Balance
-		if (takenVendor == null) {
+		if (!isEdit) {
 			double bal = balanceText.getAmount() != null ? balanceText
 					.getAmount().doubleValue() : 0.0;
-			vendor.setOpeningBalance(bal);
+			data.setOpeningBalance(bal);
 		} else {
-			if (DecimalUtil.isEquals(takenVendor.getOpeningBalance(), 0)) {
-				vendor.setOpeningBalance(balanceText.getAmount());
+			if (DecimalUtil.isEquals(data.getOpeningBalance(), 0)) {
+				data.setOpeningBalance(balanceText.getAmount());
 			} else
-				vendor.setBalance(balanceText.getAmount());
+				data.setBalance(balanceText.getAmount());
 		}
 
 		// Setting Balance As of
 		if (balanceDate.getEnteredDate() != null)
-			vendor.setBalanceAsOf(balanceDate.getEnteredDate().getDate());
+			data.setBalanceAsOf(balanceDate.getEnteredDate().getDate());
 		// Setting Contacts
 		List<ClientContact> allGivenRecords = gridView.getRecords();
 
@@ -922,58 +887,57 @@ public class VendorView extends BaseView<ClientVendor> {
 
 			}
 		}
-		vendor.setContacts(allContacts);
+		data.setContacts(allContacts);
 
 		// Setting Memo
 		if (memoArea.getValue() != null)
-			vendor.setMemo((String) memoArea.getValue());
+			data.setMemo((String) memoArea.getValue());
 
 		// Setting Data from Details Tab
 
 		// Setting Expense Account
-		vendor.setExpenseAccount(Utility.getID(selectAccountFromDetailsTab));
+		data.setExpenseAccount(Utility.getID(selectAccountFromDetailsTab));
 
 		// Setting Credit Limit
-		vendor.setCreditLimit(creditLimitText.getAmount());
+		data.setCreditLimit(creditLimitText.getAmount());
 
 		// Setting Preferred Shipping Method
-		vendor.setShippingMethod(Utility
+		data.setShippingMethod(Utility
 				.getID(selectShippingMethodFromDetailsTab));
 
 		// Setting Preferred Payment Method
-		vendor.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
+		data.setPaymentMethod(selectPaymentMethodFromDetialsTab != null ? selectPaymentMethodFromDetialsTab
 				: preferredPaymentSelect.getSelectedValue());
 		// Setting Preferred Payment Terms
-		vendor.setPaymentTerms(Utility.getID(selectPaymentTermFromDetailsTab));
+		data.setPaymentTerms(Utility.getID(selectPaymentTermFromDetailsTab));
 
 		// Setting Vendor Group
-		vendor.setVendorGroup(Utility.getID(selectVendorGroupFromDetailsTab));
+		data.setVendorGroup(Utility.getID(selectVendorGroupFromDetailsTab));
 		if (getCompany().getAccountingType() == 0)
 			if (federalText.getValue() != null) {
-				vendor.setFederalTaxId(federalText.getValue().toString());
+				data.setFederalTaxId(federalText.getValue().toString());
 			}
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
 			if (panNumberText.getValue() != null) {
-				vendor.setPanNumber(panNumberText.getValue().toString());
+				data.setPanNumber(panNumberText.getValue().toString());
 			}
 			if (serviceTaxRegisterationNumber.getValue() != null) {
-				vendor.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
+				data.setServiceTaxRegistrationNumber(serviceTaxRegisterationNumber
 						.getValue().toString());
 			}
 		}
 		// Setting Account Number
-		vendor.setBankAccountNo(accountText.getValue().toString());
-		vendor.setBankName(bankNameText.getValue().toString());
-		vendor.setBankBranch(bankBranchText.getValue().toString());
+		data.setBankAccountNo(accountText.getValue().toString());
+		data.setBankName(bankNameText.getValue().toString());
+		data.setBankBranch(bankBranchText.getValue().toString());
 
 		// Here No Need to Set AccountPayableAccount. All Vendors will have the
 		// Only one Payable Account
 
-		// vendor.setAccountsPayable(getCompany().getAccountsPayableAccount());
+		// data.setAccountsPayable(getCompany().getAccountsPayableAccount());
 		// Seting opening balance accounts
-		vendor.setOpeningBalanceAccount(getCompany()
-				.getOpeningBalancesAccount());
-		// vendor.setAccountsPayable(getCompany().getAccountsPayableAccount());
+		data.setOpeningBalanceAccount(getCompany().getOpeningBalancesAccount());
+		// data.setAccountsPayable(getCompany().getAccountsPayableAccount());
 
 		// Setting opening balance accounts
 
@@ -982,14 +946,13 @@ public class VendorView extends BaseView<ClientVendor> {
 
 				String vatReg = vatRegistrationNumber.getValue() != null ? vatRegistrationNumber
 						.getValue().toString() : "";
-				vendor.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
+				data.setVATRegistrationNumber(vatReg.length() != 0 ? vatReg
 						: null);
 
 			}
 			if (vendorTaxCode != null)
-				vendor.setTAXCode(Utility.getID(selectTaxCodeFromDetailsTab));
+				data.setTAXCode(Utility.getID(selectTaxCodeFromDetailsTab));
 		}
-		return vendor;
 
 	}
 
@@ -997,9 +960,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		List<ClientAccount> allAccounts = expenseAccountsSelect.getAccounts();
 		expenseAccountsSelect.initCombo(allAccounts);
 
-		if (takenVendor != null) {
+		if (isEdit) {
 			ClientAccount temp = getCompany().getAccount(
-					takenVendor.getExpenseAccount());
+					data.getExpenseAccount());
 			// Setting Expense Account
 			if (temp != null)
 				expenseAccountsSelect.setComboItem(temp);
@@ -1011,10 +974,10 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		vendorGroupSelect.initCombo(getCompany().getVendorGroups());
 		// Setting Vendor Group
-		if (takenVendor != null) {
-			if (takenVendor.getVendorGroup() != 0)
-				vendorGroupSelect.setComboItem(company
-						.getVendorGroup(takenVendor.getVendorGroup()));
+		if (isEdit) {
+			if (data.getVendorGroup() != 0)
+				vendorGroupSelect.setComboItem(company.getVendorGroup(data
+						.getVendorGroup()));
 		}
 
 	}
@@ -1022,18 +985,18 @@ public class VendorView extends BaseView<ClientVendor> {
 	public void addShippingMethodList() {
 		preferredShippingSelect.initCombo(getCompany().getShippingMethods());
 		// Setting Preferred Shipping Method
-		if (takenVendor != null) {
-			if (takenVendor.getShippingMethod() != 0)
+		if (isEdit) {
+			if (data.getShippingMethod() != 0)
 				preferredShippingSelect.setComboItem(company
-						.getShippingMethod(takenVendor.getShippingMethod()));
+						.getShippingMethod(data.getShippingMethod()));
 
 		}
 	}
 
 	public void addPaymentMethodList() {
 		// Setting Preferred Payment Method
-		if (takenVendor != null) {
-			if (takenVendor.getPaymentMethod() != null)
+		if (isEdit) {
+			if (getData().getPaymentMethod() != null)
 				preferredPaymentSelect
 						.setComboItem(selectPaymentMethodFromDetialsTab);
 		}
@@ -1044,9 +1007,9 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		payTermsSelect.initCombo(getCompany().getPaymentsTerms());
 		// Setting Payment Term
-		if (takenVendor != null) {
-			if (takenVendor.getPaymentTermsId() != 0)
-				payTermsSelect.setComboItem(company.getPaymentTerms(takenVendor
+		if (isEdit) {
+			if (getData().getPaymentTermsId() != 0)
+				payTermsSelect.setComboItem(company.getPaymentTerms(getData()
 						.getPaymentTermsId()));
 		}
 
@@ -1071,31 +1034,22 @@ public class VendorView extends BaseView<ClientVendor> {
 		addShippingMethodList();
 		addPaymentMethodList();
 		addPaymentTermsList();
-		if (takenVendor != null && takenVendor.getPhoneNo() != null)
-			takenVendor.setPhoneNo(takenVendor.getPhoneNo());
-		if (takenVendor != null && takenVendor.getFaxNo() != null)
-			takenVendor.setFaxNo(takenVendor.getFaxNo());
+		if (data != null && data.getPhoneNo() != null)
+			data.setPhoneNo(data.getPhoneNo());
+		if (data != null && data.getFaxNo() != null)
+			data.setFaxNo(data.getFaxNo());
 
 	}
 
 	private void addSuplierTaxCode() {
 		vendorTaxCode.initCombo(getCompany().getActiveTaxCodes());
-		if (takenVendor != null) {
-			vendorTaxCode.setSelected(vendorTaxCode.getDisplayName(takenVendor
+		if (isEdit) {
+			vendorTaxCode.setSelected(vendorTaxCode.getDisplayName(data
 					.getTAXCode() != 0 ? getCompany().getTAXCode(
-					takenVendor.getTAXCode()) : null));
+					data.getTAXCode()) : null));
 			vendorTaxCode.setComboItem(getCompany().getTAXCode(
-					takenVendor.getTAXCode()));
+					data.getTAXCode()));
 		}
-	}
-
-	@Override
-	public void setData(ClientVendor data) {
-		super.setData(data);
-		if (data != null)
-			takenVendor = (ClientVendor) data;
-		else
-			takenVendor = null;
 	}
 
 	public List<DynamicForm> getForms() {

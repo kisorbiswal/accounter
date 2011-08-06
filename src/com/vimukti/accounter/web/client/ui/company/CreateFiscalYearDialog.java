@@ -5,10 +5,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -112,44 +111,6 @@ public class CreateFiscalYearDialog extends BaseDialog {
 		mainVlayout.add(descriptionLabel);
 		mainVlayout.add(dynamicForm);
 		setBodyLayout(mainVlayout);
-		addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public boolean onOkClick() {
-				if (startOfFiscalYear.getDateBox().getValue().isEmpty()) {
-					addError(startOfFiscalYear, Accounter.messages()
-							.startFiscalHTML());
-					return false;
-				} else if (endOfFiscalYear.getDateBox().getValue().isEmpty()) {
-					addError(startOfFiscalYear, Accounter.messages()
-							.endFiscalHTML());
-					return false;
-				} else if (endOfFiscalYear.getDate().before(
-						startOfFiscalYear.getDate())) {
-					addError(this, Accounter.messages()
-							.fiscalStartEndCompreHTML());
-					return false;
-				}
-				if (title.equalsIgnoreCase(Accounter.constants()
-						.editFiscalYear())) {
-
-					final ClientFiscalYear updateFiscalYear = getEditFiscalYear();
-					ViewManager.getInstance().alterObject(updateFiscalYear,
-							CreateFiscalYearDialog.this);
-				} else if (title.equalsIgnoreCase(Accounter.constants()
-						.createFascalYear())) {
-					final ClientFiscalYear fiscalYear = getNewFiscalYear();
-					ViewManager.getInstance().createObject(fiscalYear,
-							CreateFiscalYearDialog.this);
-				}
-				return true;
-			}
-
-			@Override
-			public void onCancelClick() {
-				hide();
-			}
-		});
 	}
 
 	protected ClientFiscalYear getEditFiscalYear() {
@@ -205,4 +166,33 @@ public class CreateFiscalYearDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (startOfFiscalYear.getDateBox().getValue().isEmpty()) {
+			result.addError(startOfFiscalYear, Accounter.messages()
+					.startFiscalHTML());
+		} else if (endOfFiscalYear.getDateBox().getValue().isEmpty()) {
+			result.addError(startOfFiscalYear, Accounter.messages()
+					.endFiscalHTML());
+		} else if (endOfFiscalYear.getDate()
+				.before(startOfFiscalYear.getDate())) {
+			result.addError(this, Accounter.messages()
+					.fiscalStartEndCompreHTML());
+		}
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		ClientFiscalYear fiscalYear = null;
+		if (title.equalsIgnoreCase(Accounter.constants().editFiscalYear())) {
+			fiscalYear = getEditFiscalYear();
+		} else if (title.equalsIgnoreCase(Accounter.constants()
+				.createFascalYear())) {
+			fiscalYear = getNewFiscalYear();
+		}
+		saveOrUpdate(fiscalYear);
+		return true;
+	}
 }

@@ -136,7 +136,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
-			public boolean onOkClick() {
+			public boolean onOK() {
 				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
 						.getValue().toString() : "";
 				// setAttribute("note", note, currentRow);
@@ -146,7 +146,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			}
 
 			@Override
-			public void onCancelClick() {
+			public void onCancel() {
 
 			}
 		});

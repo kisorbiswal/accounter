@@ -1,20 +1,15 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class CopyThemeDialog extends BaseDialog {
 
@@ -39,41 +34,6 @@ public class CopyThemeDialog extends BaseDialog {
 		VerticalPanel copyPanel = new VerticalPanel();
 		Label yourLabel = new Label(Accounter.constants().yourTitle());
 		nameBox = new TextBox();
-		okbtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				try {
-					if (validate()) {
-						if (!Utility.isObjectExist(Accounter.getCompany()
-								.getBrandingTheme(), nameBox.getText())) {
-							ClientBrandingTheme brandingTheme = new ClientBrandingTheme();
-							brandingTheme = setValues();
-							brandingTheme.setThemeName(nameBox.getText());
-							ViewManager.getInstance().createObject(
-									brandingTheme, CopyThemeDialog.this);
-						} else {
-							addError(this, Accounter.constants()
-									.themenamealreadyexist());
-						}
-						// removeFromParent();
-					}
-				} catch (InvalidTransactionEntryException e) {
-					e.printStackTrace();
-				} catch (InvalidEntryException e) {
-					e.printStackTrace();
-				}
-
-			}
-		});
-		cancelBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				removeFromParent();
-			}
-		});
 		copyPanel.add(yourLabel);
 		copyPanel.add(nameBox);
 
@@ -82,14 +42,19 @@ public class CopyThemeDialog extends BaseDialog {
 	}
 
 	@Override
-	protected boolean validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
 		String name = nameBox.getValue();
 		if (name == null || name.isEmpty()) {
-			addError(this, Accounter.constants().pleaseenterThemename());
-			return false;
-		} else
-			return true;
+			result.addError(this, Accounter.constants().pleaseenterThemename());
+		}
+
+		if (Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
+				nameBox.getText())) {
+			result.addError(this, Accounter.constants().themenamealreadyexist());
+		}
+
+		return result;
 	}
 
 	protected ClientBrandingTheme setValues() {
@@ -127,6 +92,15 @@ public class CopyThemeDialog extends BaseDialog {
 		removeFromParent();
 		super.saveSuccess(object);
 		ActionFactory.getInvoiceBrandingAction().run(null, true);
+	}
+
+	@Override
+	protected boolean onOK() {
+		ClientBrandingTheme brandingTheme = new ClientBrandingTheme();
+		brandingTheme = setValues();
+		brandingTheme.setThemeName(nameBox.getText());
+		saveOrUpdate(brandingTheme);
+		return true;
 	}
 
 }

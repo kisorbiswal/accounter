@@ -7,13 +7,13 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
 /**
@@ -81,14 +81,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	protected void createVendorGroups() {
 		ClientVendorGroup vendorGroup = new ClientVendorGroup();
 		vendorGroup.setName(inputDlg.getTextValueByIndex(0));
-		if (Utility.isObjectExist(getCompany().getVendorGroups(),
-				vendorGroup.getName())) {
-			Accounter.showError(UIUtils.getVendorString(Accounter.constants()
-					.supplierGroupAlreadyExists(), Accounter.constants()
-					.vendorGroupAlreadyExists()));
-		} else {
 		saveOrUpdate(vendorGroup);
-		}
 	}
 
 	public long getSelectedVendorId() {
@@ -103,7 +96,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	public void showAddEditGroupDialog(ClientVendorGroup rec) {
 		vendorGroup = rec;
-		inputDlg = new InputDialog(UIUtils.getVendorString(Accounter
+		inputDlg = new InputDialog(this, UIUtils.getVendorString(Accounter
 				.constants().supplierGroup(), Accounter.constants()
 				.vendorGroup()), "", UIUtils.getVendorString(Accounter
 				.constants().supplierGroup(), Accounter.constants()
@@ -113,29 +106,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 		if (vendorGroup != null) {
 			inputDlg.setTextItemValue(0, vendorGroup.getName());
 		}
-		InputDialogHandler dialogHandler = new InputDialogHandler() {
 
-			public void onCancelClick() {
-
-			}
-
-			public boolean onOkClick() {
-				if (inputDlg.getForm().validate(true)) {
-					if (vendorGroup != null) {
-						editVendorGroups();
-					} else
-						createVendorGroups();
-				} else {
-					// Accounter.showError(FinanceApplication
-					// .constants()
-					// .detailsHighlightedInRedMustBeEntered());
-					return false;
-				}
-				return true;
-			}
-
-		};
-		inputDlg.addInputDialogHandler(dialogHandler);
 		inputDlg.center();
 	}
 
@@ -152,17 +123,8 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	protected void editVendorGroups() {
 
-		if (!(vendorGroup.getName().equalsIgnoreCase(
-				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-						.toString())) ? true : (Utility.isObjectExist(
-				company.getVendorGroups(),
-				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-						.toString())) ? false : true))) {
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
-		} else {
-			vendorGroup.setName(inputDlg.getTextValueByIndex(0));
-			alterObject(vendorGroup);
-		}
+		vendorGroup.setName(inputDlg.getTextValueByIndex(0));
+		saveOrUpdate(vendorGroup);
 
 	}
 
@@ -174,6 +136,41 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	@Override
 	protected List<ClientVendorGroup> getRecords() {
 		return getCompany().getVendorGroups();
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+
+		if (vendorGroup != null) {
+			if (!(vendorGroup.getName().equalsIgnoreCase(
+					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
+							.toString())) ? true : (Utility.isObjectExist(
+					company.getVendorGroups(),
+					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
+							.toString())) ? false : true))) {
+				result.addError(this, AccounterErrorType.ALREADYEXIST);
+			}
+		} else {
+			if (Utility.isObjectExist(getCompany().getVendorGroups(),
+					vendorGroup.getName())) {
+				result.addError(this, UIUtils.getVendorString(Accounter
+						.constants().supplierGroupAlreadyExists(), Accounter
+						.constants().vendorGroupAlreadyExists()));
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		if (vendorGroup != null) {
+			editVendorGroups();
+		} else {
+			createVendorGroups();
+		}
+		return true;
 	}
 
 }

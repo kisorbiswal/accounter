@@ -1,8 +1,8 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 public interface InputDialogHandler {
-	public boolean onOkClick();
+	public boolean onOK();
 
-	public void onCancelClick();
+	public void onCancel();
 
 }

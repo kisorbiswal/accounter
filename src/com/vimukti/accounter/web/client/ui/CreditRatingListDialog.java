@@ -6,11 +6,11 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
 /**
@@ -76,17 +76,11 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	}
 
 	public void createCreditRatings() {
-		if (Utility.isObjectExist(getCompany().getCreditRatings(), inputDlg
-				.getTextItems().get(0).getValue().toString())) {
-			Accounter.showError(Accounter.constants()
-					.creditRatingAlreadyExists());
-		} else {
-			ClientCreditRating creditRating = new ClientCreditRating();
-			creditRating.setName(inputDlg.getTextItems().get(0).getValue()
-					.toString());
+		ClientCreditRating creditRating = new ClientCreditRating();
+		creditRating.setName(inputDlg.getTextItems().get(0).getValue()
+				.toString());
 
 		saveOrUpdate(creditRating);
-		}
 	}
 
 	public long getSelectedCreditGroupId() {
@@ -102,52 +96,20 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	public void showAddEditGroupDialog(ClientCreditRating rec) {
 		creditRating = rec;
 		String creditRateString = Accounter.constants().creditRating();
-		inputDlg = new InputDialog(Accounter.constants().creditRating(), "",
-				creditRateString) {
+		inputDlg = new InputDialog(this, Accounter.constants().creditRating(),
+				"", creditRateString) {
 		};
 
 		if (creditRating != null) {
 			inputDlg.setTextItemValue(0, creditRating.getName());
 		}
 
-		InputDialogHandler dialogHandler = new InputDialogHandler() {
-			public void onCancelClick() {
-
-			}
-
-			public boolean onOkClick() {
-				if (inputDlg.getForm().validate(true)) {
-					if (creditRating != null) {
-						EditCreditRatings();
-					} else
-						createCreditRatings();
-				} else {
-					// Accounter.showError(FinanceApplication
-					// .constants()
-					// .detailsHighlightedInRedMustBeEntered());
-					return false;
-				}
-				return true;
-			}
-
-		};
-		inputDlg.addInputDialogHandler(dialogHandler);
 		inputDlg.show();
 	}
 
 	protected void EditCreditRatings() {
-		if (!(creditRating.getName().equalsIgnoreCase(
-				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-						.toString())) ? true : (Utility.isObjectExist(
-				company.getItemGroups(),
-				UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-						.toString()))) ? false : true)) {
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
-		} else {
-			creditRating.setName(inputDlg.getTextValueByIndex(0));
-			saveOrUpdate(creditRating);
-		}
-
+		creditRating.setName(inputDlg.getTextValueByIndex(0));
+		saveOrUpdate(creditRating);
 	}
 
 	@Override
@@ -170,6 +132,38 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	@Override
 	protected List<ClientCreditRating> getRecords() {
 		return (List<ClientCreditRating>) getCompany().getCreditRatings();
+	}
+
+	@Override
+	protected ValidationResult validate() {
+
+		ValidationResult result = new ValidationResult();
+		if (creditRating != null) {
+			if (!(creditRating.getName().equalsIgnoreCase(
+					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
+							.toString())) ? true : (Utility.isObjectExist(
+					company.getItemGroups(),
+					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
+							.toString()))) ? false : true)) {
+				result.addError(this, AccounterErrorType.ALREADYEXIST);
+			}
+		} else {
+			if (Utility.isObjectExist(getCompany().getCreditRatings(), inputDlg
+					.getTextItems().get(0).getValue().toString())) {
+				result.addError(this, Accounter.constants()
+						.creditRatingAlreadyExists());
+			}
+		}
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		if (creditRating != null) {
+			EditCreditRatings();
+		} else
+			createCreditRatings();
+		return true;
 	}
 
 }

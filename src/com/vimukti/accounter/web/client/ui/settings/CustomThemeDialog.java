@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -9,7 +7,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 
 public class CustomThemeDialog extends BaseDialog {
 
@@ -37,39 +34,17 @@ public class CustomThemeDialog extends BaseDialog {
 		subTable.setWidget(1, 0, titleBox);
 
 		buttonPanel = new HorizontalPanel();
-		okbtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				okClicked();
-			}
-		});
-		cancelBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				cancelClicked();
-			}
-		});
-		addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public boolean onOkClick() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public void onCancelClick() {
-				hide();
-
-			}
-		});
 
 		flexTable = new FlexTable();
 		flexTable.setWidget(0, 0, subTable);
 		flexTable.setWidget(1, 0, buttonPanel);
 		setBodyLayout(flexTable);
+	}
+
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

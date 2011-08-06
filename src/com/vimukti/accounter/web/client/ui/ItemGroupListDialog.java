@@ -6,11 +6,11 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.company.ItemGroupDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
 /**
@@ -79,13 +79,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	}
 
 	public void createItemSGroups() {
-		if (Utility.isObjectExist(getCompany().getItemGroups(),
-				itemGroupDg.getItemGroupName())) {
-			Accounter.showError(Accounter.constants()
-					.aItemGroupAlreadyExistswiththisname());
-		} else {
 		saveOrUpdate(itemGroupDg.createOrEditItemGroup());
-		}
 	}
 
 	public long getSelectedItemGroupId() {
@@ -98,45 +92,15 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	public void showAddEditGroupDialog(ClientItemGroup rec) {
 		itemGroup = rec;
-		itemGroupDg = new ItemGroupDialog(Accounter.constants().itemGroup(),
-				"", itemGroup);
+		itemGroupDg = new ItemGroupDialog(this, Accounter.constants()
+				.itemGroup(), "", itemGroup);
 
-		InputDialogHandler dialogHandler = new InputDialogHandler() {
-
-			public void onCancelClick() {
-				closeWindow();
-			}
-
-			public boolean onOkClick() {
-				if (itemGroupDg.validate()) {
-					if (itemGroup != null) {
-						editItemGroups();
-					} else
-						createItemSGroups();
-				} else {
-					// Accounter.showError(FinanceApplication
-					// .constants()
-					// .detailsHighlightedInRedMustBeEntered());
-					return false;
-				}
-				return true;
-			}
-
-		};
-		itemGroupDg.addInputDialogHandler(dialogHandler);
 		itemGroupDg.show();
 	}
 
 	protected void editItemGroups() {
 
-		if (!(itemGroup.getName().equalsIgnoreCase(
-				itemGroupDg.getItemGroupName()) ? true : (Utility
-				.isObjectExist(company.getItemGroups(),
-						itemGroupDg.getItemGroupName())) ? false : true)) {
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
-		} else {
-			alterObject(itemGroupDg.createOrEditItemGroup());
-		}
+		saveOrUpdate(itemGroupDg.createOrEditItemGroup());
 
 	}
 
@@ -162,6 +126,39 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	@Override
 	protected List<ClientItemGroup> getRecords() {
 		return (List<ClientItemGroup>) getCompany().getItemGroups();
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		result.add(itemGroupDg.validate());
+
+		if (itemGroup != null) {
+			if (!(itemGroup.getName().equalsIgnoreCase(
+					itemGroupDg.getItemGroupName()) ? true : (Utility
+					.isObjectExist(company.getItemGroups(),
+							itemGroupDg.getItemGroupName())) ? false : true)) {
+				result.addError(this, AccounterErrorType.ALREADYEXIST);
+			}
+		} else {
+			if (Utility.isObjectExist(getCompany().getItemGroups(),
+					itemGroupDg.getItemGroupName())) {
+				result.addError(this, Accounter.constants()
+						.aItemGroupAlreadyExistswiththisname());
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	public boolean onOK() {
+		if (itemGroup != null) {
+			editItemGroups();
+		} else {
+			createItemSGroups();
+		}
+		return true;
 	}
 
 }

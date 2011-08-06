@@ -9,13 +9,13 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -26,7 +26,7 @@ public class AddBankDialog extends BaseDialog {
 
 	public AddBankDialog(AbstractBaseView<ClientBank> parent) {
 		super(Accounter.constants().addBank(), null);
-		createControls();
+		// createControls();
 		center();
 	}
 
@@ -58,12 +58,12 @@ public class AddBankDialog extends BaseDialog {
 		canButt.enabledButton();
 		okButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if (!bankForm.validate(true)) {
-					// Accounter.showError(FinanceApplication.constants()
-					// .youMustEnterBankName());
-					return;
-				}
-				createBank();
+				// if (!bankForm.validate(true)) {
+				// // Accounter.showError(FinanceApplication.constants()
+				// // .youMustEnterBankName());
+				// return;
+				// }
+				// createBank();
 
 			}
 		});
@@ -86,13 +86,19 @@ public class AddBankDialog extends BaseDialog {
 	}
 
 	protected void createBank() {
-		final ClientBank bank = new ClientBank();
+		ClientBank bank = new ClientBank();
 		bank.setName(UIUtils.toStr(bankNameText.getValue()));
-		if (Utility.isObjectExist(company.getTaxItems(), bank.getName())) {
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
-		} else {
-			ViewManager.getInstance().createObject(bank, this);
+		saveOrUpdate(bank);
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (Utility.isObjectExist(company.getTaxItems(), bankNameText
+				.getValue().toString())) {
+			result.addError(this, AccounterErrorType.ALREADYEXIST);
 		}
+		return result;
 	}
 
 	@Override
@@ -120,6 +126,12 @@ public class AddBankDialog extends BaseDialog {
 
 	public void addCallBack(AccounterAsyncCallback<ClientBank> callback) {
 		this.callBack = callback;
+	}
+
+	@Override
+	protected boolean onOK() {
+		createBank();
+		return false;
 	}
 
 }

@@ -23,10 +23,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -338,28 +335,6 @@ public class CompanyInfoDialog extends BaseDialog {
 		mainHLay.add(mainVLay);
 		mainHLay.add(mainVLay2);
 
-		addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancelClick() {
-
-			}
-
-			public boolean onOkClick() {
-
-				try {
-					if (CompanyInfoDialog.this.validate())
-						updatedCompany();
-					return true;
-				} catch (InvalidTransactionEntryException e) {
-					e.printStackTrace();
-				} catch (InvalidEntryException e) {
-					Accounter.showError(e.getMessage());
-				}
-				return false;
-			}
-
-		});
-
 		okbtn.setText(Accounter.constants().update());
 
 		mainHLay.setWidth("600");
@@ -461,5 +436,11 @@ public class CompanyInfoDialog extends BaseDialog {
 	protected ValidationResult validate() {
 		return companyDetailsForm.validate();
 
+	}
+
+	@Override
+	protected boolean onOK() {
+		updatedCompany();
+		return true;
 	}
 }

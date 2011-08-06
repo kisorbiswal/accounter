@@ -203,7 +203,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		dialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
-			public boolean onOkClick() {
+			public boolean onOK() {
 				try {
 					if (dialog.validate())
 						okClicked();
@@ -215,7 +215,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			}
 
 			@Override
-			public void onCancelClick() {
+			public void onCancel() {
 				// Accounter.stopExecution();
 			}
 		});

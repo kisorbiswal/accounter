@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ItemGroupListDialog;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -19,16 +20,19 @@ public class ItemGroupDialog extends BaseDialog {
 	// private ItemDialogGrid dialoggrid;
 	private TextItem itemGtext;
 	private DynamicForm dform;
+	private ItemGroupListDialog parent;
 
 	// private Button menuButton;
 
-	public ItemGroupDialog(String title, String desc, ClientItemGroup itemGroup) {
+	public ItemGroupDialog(ItemGroupListDialog parent, String title,
+			String desc, ClientItemGroup itemGroup) {
 		super(title, desc);
 		setWidth("300");
 		// setHeight("300");
 		this.itemgroup = itemGroup;
 
 		initdialog();
+		this.parent = parent;
 		// initGridData();
 	}
 
@@ -126,7 +130,13 @@ public class ItemGroupDialog extends BaseDialog {
 	}
 
 	public ValidationResult validate() {
-		return this.dform.validate();
+		ValidationResult result = dform.validate();
+		result.add(parent.validate());
+		return result;
 	}
 
+	@Override
+	protected boolean onOK() {
+		return parent.onOK();
+	}
 }

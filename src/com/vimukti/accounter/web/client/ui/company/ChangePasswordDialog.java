@@ -1,17 +1,12 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
 
@@ -54,29 +49,6 @@ public class ChangePasswordDialog extends BaseDialog {
 		okbtn.setText(Accounter.constants().saveButton());
 
 		setBodyLayout(mainPanel);
-
-		okbtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				try {
-
-					validate();
-				} catch (Exception e) {
-				}
-				savePassword();
-			}
-		});
-
-		cancelBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				// MainFinanceWindow.getViewManager().closeCurrentView();
-				removeFromParent();
-			}
-		});
 
 	}
 
@@ -139,11 +111,13 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	@Override
 	public ValidationResult validate() {
-		// switch (this.validationCount) {
-		// case 1:
 		return textItemsForm.validate();
-		// default:
-		// }
+	}
+
+	@Override
+	protected boolean onOK() {
+		savePassword();
+		return true;
 	}
 
 }

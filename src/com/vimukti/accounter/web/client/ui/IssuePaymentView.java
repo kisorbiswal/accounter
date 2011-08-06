@@ -205,11 +205,11 @@ public class IssuePaymentView extends BaseDialog {
 
 		addInputDialogHandler(new InputDialogHandler() {
 
-			public void onCancelClick() {
+			public void onCancel() {
 
 			}
 
-			public boolean onOkClick() {
+			public boolean onOK() {
 
 				try {
 					if (validate()) {

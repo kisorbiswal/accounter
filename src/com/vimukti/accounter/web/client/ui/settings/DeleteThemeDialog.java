@@ -1,12 +1,11 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -39,30 +38,6 @@ public class DeleteThemeDialog extends BaseDialog {
 		undoneHtml = new HTML(Accounter.messages().undoneHtml());
 
 		okbtn.setText(Accounter.constants().deleteButton());
-		okbtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				removeFromParent();
-				if (!brandingTheme.isDefault()) {
-					ViewManager.getInstance().deleteObject(brandingTheme,
-							AccounterCoreType.BRANDINGTHEME,
-							DeleteThemeDialog.this);
-				} else
-					Accounter.showError(Accounter
-							.messages()
-							.wecantDeleteThisTheme(brandingTheme.getThemeName()));
-
-			}
-		});
-
-		cancelBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				removeFromParent();
-			}
-		});
 
 		deletePanel.add(deleteHtml);
 		deletePanel.add(undoneHtml);
@@ -74,6 +49,25 @@ public class DeleteThemeDialog extends BaseDialog {
 	public void deleteSuccess(Boolean result) {
 		super.deleteSuccess(result);
 		ActionFactory.getInvoiceBrandingAction().run(null, true);
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (brandingTheme.isDefault()) {
+			result.addError(
+					this,
+					Accounter.messages().wecantDeleteThisTheme(
+							brandingTheme.getThemeName()));
+		}
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		ViewManager.getInstance().deleteObject(brandingTheme,
+				AccounterCoreType.BRANDINGTHEME, DeleteThemeDialog.this);
+		return true;
 	}
 
 }

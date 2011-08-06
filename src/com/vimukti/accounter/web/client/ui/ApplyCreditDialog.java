@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.IGenericCallback;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -237,46 +235,48 @@ public class ApplyCreditDialog extends BaseDialog {
 		// });
 		// okbtn.setAutoFit(true);
 		okbtn.setTitle(Accounter.constants().adjust());
-		addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancelClick() {
-
-			}
-
-			public boolean onOkClick() {
-
-				ClientCreditsAndPayments selectedRecords = (ClientCreditsAndPayments) grid
-						.getSelection();
-
-				List<ClientTransactionCreditsAndPayments> creditsAndPaymentsSet = new ArrayList<ClientTransactionCreditsAndPayments>();
-				// for (ListGridRecord rec : selectedRecords) {
-				// ClientTransactionCreditsAndPayments customerPaymentCredits11
-				// = new ClientTransactionCreditsAndPayments();
-				// customerPaymentCredits11.setMemo(rec
-				// .getAttribute(ATTR_MEMO));
-				//
-				// customerPaymentCredits11.setAmountToUse(DataUtils
-				// .getBalance(rec.getAttribute(ATTR_AMOUNT_TO_USE))
-				// .doubleValue());
-				// System.out.println("Getting ID is "
-				// + rec.getAttribute(ATTR_ID));
-				// long key = Long.parseLong(rec.getAttribute(ATTR_ID));
-				// for (ClientCreditsAndPayments tempcrditandpayment :
-				// creditsAndPayments) {
-				// if (tempcrditandpayment.getID() == key) {
-				// customerPaymentCredits11
-				// .setCreditsAndPayments(tempcrditandpayment);
-				// break;
-				// }
-				// }
-				// creditsAndPaymentsSet.add(customerPaymentCredits11);
-				// }
-				// creditsAndPaymentsMap.put(key + "", creditsAndPaymentsSet);?
-				callback.called(totAmtUseText.getValue().toString());
-				return true;
-			}
-
-		});
+		// addInputDialogHandler(new InputDialogHandler() {
+		//
+		// public void onCancel() {
+		//
+		// }
+		//
+		// public boolean onOK() {
+		//
+		// ClientCreditsAndPayments selectedRecords = (ClientCreditsAndPayments)
+		// grid
+		// .getSelection();
+		//
+		// List<ClientTransactionCreditsAndPayments> creditsAndPaymentsSet = new
+		// ArrayList<ClientTransactionCreditsAndPayments>();
+		// // for (ListGridRecord rec : selectedRecords) {
+		// // ClientTransactionCreditsAndPayments customerPaymentCredits11
+		// // = new ClientTransactionCreditsAndPayments();
+		// // customerPaymentCredits11.setMemo(rec
+		// // .getAttribute(ATTR_MEMO));
+		// //
+		// // customerPaymentCredits11.setAmountToUse(DataUtils
+		// // .getBalance(rec.getAttribute(ATTR_AMOUNT_TO_USE))
+		// // .doubleValue());
+		// // System.out.println("Getting ID is "
+		// // + rec.getAttribute(ATTR_ID));
+		// // long key = Long.parseLong(rec.getAttribute(ATTR_ID));
+		// // for (ClientCreditsAndPayments tempcrditandpayment :
+		// // creditsAndPayments) {
+		// // if (tempcrditandpayment.getID() == key) {
+		// // customerPaymentCredits11
+		// // .setCreditsAndPayments(tempcrditandpayment);
+		// // break;
+		// // }
+		// // }
+		// // creditsAndPaymentsSet.add(customerPaymentCredits11);
+		// // }
+		// // creditsAndPaymentsMap.put(key + "", creditsAndPaymentsSet);?
+		// callback.called(totAmtUseText.getValue().toString());
+		// return true;
+		// }
+		//
+		// });
 
 		// Button helpButt = new Button("Help");
 		// helpButt.setAutoFit(true);
@@ -368,6 +368,12 @@ public class ApplyCreditDialog extends BaseDialog {
 	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected boolean onOK() {
+		callback.called(totAmtUseText.getValue().toString());
+		return true;
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -14,8 +13,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class ChangeFiscalYearStartDateDialog extends BaseDialog {
@@ -69,47 +66,6 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		mainVlayout.add(enterStartDateLabel);
 		mainVlayout.add(dynamicForm);
 		setBodyLayout(mainVlayout);
-		addInputDialogHandler(new InputDialogHandler() {
-
-			private ArrayList<ClientFiscalYear> listofNewFiscalYears = new ArrayList<ClientFiscalYear>();
-
-			@Override
-			public boolean onOkClick() {
-				ClientFiscalYear firstFiscalYear = listofperiods
-						.getRecordByIndex(0);
-				ClientFiscalYear latestFiscalYear = listofperiods
-						.getRecordByIndex(listofperiods.getRowCount() - 1);
-				ClientFinanceDate changedFiscalStartDate = startDateItem
-						.getDate();
-				if (changedFiscalStartDate.before(firstFiscalYear
-						.getStartDate())
-						&& firstFiscalYear.getStatus() == ClientFiscalYear.STATUS_CLOSE) {
-					Accounter
-							.showError(Accounter
-									.constants()
-									.newfiscalyearstartdatemustbeginlaterthantheenddateofthemostrecent());
-					return false;
-				}
-				// if (changedFiscalStartDate.before(firstFiscalYear
-				// .getStartDate())
-				// || changedFiscalStartDate.after(latestFiscalYear
-				// .getStartDate())) {
-				// createFiscalYear(changedFiscalStartDate);
-				// return true;
-				// } else
-				// Accounter
-				// .showError("Fiscal year for this year already created");
-				// return false;
-
-				createFiscalYear(changedFiscalStartDate);
-				return true;
-			}
-
-			@Override
-			public void onCancelClick() {
-				hide();
-			}
-		});
 	}
 
 	protected void createFiscalYear(ClientFinanceDate changedFiscalStartDate) {
@@ -137,12 +93,6 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		};
 		rpcUtilService.changeFiscalYearsStartDateTo(convertedStartDate,
 				callback);
-	}
-
-	private List<ClientFiscalYear> getModifiedFiscalYears() {
-		// AccounterValidator.createNecessaryFiscalYears(fiscalYear1, asOfDate,
-		// view)
-		return null;
 	}
 
 	@SuppressWarnings({ "deprecation", "unused" })
@@ -208,7 +158,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 		}
 
 		for (final ClientFiscalYear latestFiscalYear : listofNewFiscalYears) {
-			ViewManager.getInstance().createObject(latestFiscalYear, this);
+			saveOrUpdate(latestFiscalYear);
 		}
 		// listofperiods.sortList();
 	}
@@ -255,6 +205,35 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				.getFiscalYears()) {
 			listofperiods.addData(clientFiscalYear);
 		}
+	}
+
+	@Override
+	protected boolean onOK() {
+		ClientFiscalYear firstFiscalYear = listofperiods.getRecordByIndex(0);
+		// ClientFiscalYear latestFiscalYear = listofperiods
+		// .getRecordByIndex(listofperiods.getRowCount() - 1);
+		ClientFinanceDate changedFiscalStartDate = startDateItem.getDate();
+		if (changedFiscalStartDate.before(firstFiscalYear.getStartDate())
+				&& firstFiscalYear.getStatus() == ClientFiscalYear.STATUS_CLOSE) {
+			Accounter
+					.showError(Accounter
+							.constants()
+							.newfiscalyearstartdatemustbeginlaterthantheenddateofthemostrecent());
+			return false;
+		}
+		// if (changedFiscalStartDate.before(firstFiscalYear
+		// .getStartDate())
+		// || changedFiscalStartDate.after(latestFiscalYear
+		// .getStartDate())) {
+		// createFiscalYear(changedFiscalStartDate);
+		// return true;
+		// } else
+		// Accounter
+		// .showError("Fiscal year for this year already created");
+		// return false;
+
+		createFiscalYear(changedFiscalStartDate);
+		return true;
 	}
 
 }

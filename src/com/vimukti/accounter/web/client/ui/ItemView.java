@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.FloatRangeValidator;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.IntegerRangeValidator;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -78,7 +77,6 @@ public class ItemView extends BaseView<ClientItem> {
 	private DynamicForm salesInfoForm;
 	private FloatRangeValidator floatRangeValidator;
 	private IntegerRangeValidator integerRangeValidator;
-	private ClientItem takenItem;
 	protected ClientAccount selectAccount, selectExpAccount,
 			defaultIncomeAccount, defaultExpAccount;
 
@@ -95,7 +93,7 @@ public class ItemView extends BaseView<ClientItem> {
 	public ItemView(ClientItem item, int type, boolean isGeneratedFromCustomer) {
 
 		super();
-		this.takenItem = item;
+		setData(item);
 		this.type = type;
 		this.company = getCompany();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
@@ -107,9 +105,9 @@ public class ItemView extends BaseView<ClientItem> {
 			List<ClientTAXCode> result = getCompany().getActiveTaxCodes();
 			if (result != null) {
 				taxCode.initCombo(getCompany().getActiveTaxCodes());
-				if (takenItem != null) {
+				if (isEdit) {
 					taxCode.setComboItem(getCompany().getTAXCode(
-							takenItem.getTaxCode()));
+							data.getTaxCode()));
 				} else if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
 					// vatCode.setDisabled(true);
 					List<ClientTAXCode> taxCodes = Accounter.getCompany()
@@ -187,8 +185,9 @@ public class ItemView extends BaseView<ClientItem> {
 		itemForm.setStyleName("item-form-view");
 		itemForm.setIsGroup(true);
 		itemForm.setGroupTitle(Accounter.constants().item());
-		if (isEdit)
-			this.type = takenItem.getType();
+		if (isEdit) {
+			this.type = data.getType();
+		}
 		if (type == TYPE_SERVICE) {
 			lab1.setText(Accounter.constants().newService());
 			if (getCompany().getAccountingType() == 1)
@@ -508,42 +507,44 @@ public class ItemView extends BaseView<ClientItem> {
 
 		this.add(mainVLay);
 
-		if (takenItem != null) {
-			nameText.setValue(takenItem.getName());
-			name = takenItem.getName();
+		if (getData() != null) {
+			nameText.setValue(data.getName());
+			name = data.getName();
 			System.out.println(name + Accounter.constants().beforesaving());
-			stdCostText.setAmount(takenItem.getStandardCost());
+			stdCostText.setAmount(data.getStandardCost());
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-				skuText.setValue(takenItem.getUPCorSKU() != null ? takenItem
+				skuText.setValue(data.getUPCorSKU() != null ? data
 						.getUPCorSKU() : "");
 
-			weightText.setValue(UIUtils.toLong(takenItem.getWeight()));
+			weightText.setValue(UIUtils.toLong(data.getWeight()));
 
-			isellCheck.setValue(takenItem.isISellThisItem());
-			if (takenItem.getSalesDescription() != null)
-				salesDescArea.setValue(takenItem.getSalesDescription());
-			salesPriceText.setAmount(takenItem.getSalesPrice());
+			isellCheck.setValue(data.isISellThisItem());
+			if (data.getSalesDescription() != null)
+				salesDescArea.setValue(data.getSalesDescription());
+			salesPriceText.setAmount(data.getSalesPrice());
 
 			ClientCompany company = getCompany();
-			selectAccount = company.getAccount(takenItem.getIncomeAccount());
-			comCheck.setValue(takenItem.isCommissionItem());
+			selectAccount = company.getAccount(data.getIncomeAccount());
+			comCheck.setValue(data.isCommissionItem());
 
-			selectItemGroup = company.getItemGroup(takenItem.getItemGroup());
-			activeCheck.setValue((takenItem.isActive()));
+			selectItemGroup = company.getItemGroup(data.getItemGroup());
+			activeCheck.setValue((data.isActive()));
 
-			ibuyCheck.setValue(takenItem.isIBuyThisItem());
-			if (takenItem.getPurchaseDescription() != null)
-				purchaseDescArea.setValue(takenItem.getPurchaseDescription());
-			purchasePriceTxt.setAmount(takenItem.getPurchasePrice());
+			ibuyCheck.setValue(data.isIBuyThisItem());
+			if (data.getPurchaseDescription() != null)
+				purchaseDescArea.setValue(data.getPurchaseDescription());
+			purchasePriceTxt.setAmount(data.getPurchasePrice());
 
-			selectVendor = company.getVendor(takenItem.getPreferredVendor());
-			if (takenItem.getVendorItemNumber() != null)
-				vendItemNumText.setValue(takenItem.getVendorItemNumber());
+			selectVendor = company.getVendor(data.getPreferredVendor());
+			if (data.getVendorItemNumber() != null)
+				vendItemNumText.setValue(data.getVendorItemNumber());
 			if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-				selectTaxCode = company.getTAXCode(takenItem.getTaxCode());
+				selectTaxCode = company.getTAXCode(data.getTaxCode());
 
-			itemTaxCheck.setValue(takenItem.isTaxable());
+			itemTaxCheck.setValue(data.isTaxable());
 
+		} else {
+			setData(new ClientItem());
 		}
 
 		/* Adding dynamic forms in list */
@@ -558,10 +559,9 @@ public class ItemView extends BaseView<ClientItem> {
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientItem item = null;
-		item = getItem(saveAndClose);
+		updateItem();
 
-		saveOrUpdate(item);
+		saveOrUpdate(data);
 
 	}
 
@@ -581,60 +581,51 @@ public class ItemView extends BaseView<ClientItem> {
 	 *            if it is true, than it means it will close View, if false,than
 	 *            reset values to new View
 	 */
-	protected ClientItem getItem(boolean isSaveClose) {
+	protected void updateItem() {
 
-		final boolean isSaveOrReset = isSaveClose;
-		ClientItem item;
-		if (takenItem == null)
-			item = new ClientItem();
-		else {
-			item = takenItem;
-		}
-
-		item.setActive(getBooleanValue(activeCheck));
-		item.setType(type);
+		data.setActive(getBooleanValue(activeCheck));
+		data.setType(type);
 		if (nameText.getValue() != null)
-			item.setName(nameText.getValue().toString());
+			data.setName(nameText.getValue().toString());
 		if (selectItemGroup != null)
-			item.setItemGroup(selectItemGroup.getID());
-		item.setStandardCost(stdCostText.getAmount());
+			data.setItemGroup(selectItemGroup.getID());
+		data.setStandardCost(stdCostText.getAmount());
 
-		item.setUPCorSKU((String) skuText.getValue());
+		data.setUPCorSKU((String) skuText.getValue());
 
 		if (type == NON_INVENTORY_PART && weightText.getNumber() != null)
-			item.setWeight(UIUtils.toInt(weightText.getNumber()));
+			data.setWeight(UIUtils.toInt(weightText.getNumber()));
 
-		item.setISellThisItem(getBooleanValue(isellCheck));
-		item.setIBuyThisItem(getBooleanValue(ibuyCheck));
+		data.setISellThisItem(getBooleanValue(isellCheck));
+		data.setIBuyThisItem(getBooleanValue(ibuyCheck));
 
 		if (getBooleanValue(isellCheck)) {
 			if (salesDescArea.getValue() != null)
-				item.setSalesDescription(salesDescArea.getValue().toString());
-			item.setSalesPrice(salesPriceText.getAmount());
+				data.setSalesDescription(salesDescArea.getValue().toString());
+			data.setSalesPrice(salesPriceText.getAmount());
 			if (selectAccount != null)
-				item.setIncomeAccount(selectAccount.getID());
-			item.setCommissionItem(getBooleanValue(comCheck));
+				data.setIncomeAccount(selectAccount.getID());
+			data.setCommissionItem(getBooleanValue(comCheck));
 		}
 
 		if (getBooleanValue(ibuyCheck)) {
 
-			item.setPurchaseDescription(getStringValue(purchaseDescArea));
-			item.setPurchasePrice(purchasePriceTxt.getAmount());
+			data.setPurchaseDescription(getStringValue(purchaseDescArea));
+			data.setPurchasePrice(purchasePriceTxt.getAmount());
 			if (selectVendor != null)
-				item.setPreferredVendor(selectVendor.getID());
+				data.setPreferredVendor(selectVendor.getID());
 			if (selectExpAccount != null)
-				item.setExpenseAccount(selectExpAccount.getID());
+				data.setExpenseAccount(selectExpAccount.getID());
 
-			item.setVendorItemNumber(vendItemNumText.getValue().toString());
+			data.setVendorItemNumber(vendItemNumText.getValue().toString());
 		}
 		if (getCompany().getAccountingType() == 0)
-			item.setTaxable(getBooleanValue(itemTaxCheck));
+			data.setTaxable(getBooleanValue(itemTaxCheck));
 		else
-			item.setTaxable(true);
+			data.setTaxable(true);
 		if (type == NON_INVENTORY_PART || type == TYPE_SERVICE)
-			item.setTaxCode(selectTaxCode != null ? selectTaxCode.getID()
+			data.setTaxCode(selectTaxCode != null ? selectTaxCode.getID()
 					: null);
-		return item;
 	}
 
 	@Override
@@ -654,9 +645,9 @@ public class ItemView extends BaseView<ClientItem> {
 				.duplicationofProductnamearenotallowed3dots() : Accounter
 				.constants().duplicationofServicenamearenotallowed3dots());
 
-		ClientItem item = getItem(false);
+		updateItem();
 		if (exceptionMessage.contains(Accounter.constants().failed())) {
-			item.setName(name);
+			data.setName(name);
 			System.out.println(name + Accounter.constants().aftersaving());
 		}
 
@@ -723,19 +714,19 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (clientItemgroup != null) {
 			itemGroupCombo.initCombo(clientItemgroup);
-			if (takenItem != null) {
+			if (isEdit) {
 				itemGroupCombo.setComboItem(getCompany().getItemGroup(
-						takenItem.getItemGroup()));
+						data.getItemGroup()));
 			}
 		}
-		if (takenItem != null) {
-			if (takenItem.isISellThisItem()) {
+		if (isEdit) {
+			if (data.isISellThisItem()) {
 				isellCheck.setDisabled(false);
 				ibuyCheck.setDisabled(true);
 				disablePurchaseFormItems(true);
 			}
 
-			if (takenItem.isIBuyThisItem()) {
+			if (data.isIBuyThisItem()) {
 				isellCheck.setDisabled(true);
 				disableSalesFormItems(true);
 			}
@@ -750,10 +741,10 @@ public class ItemView extends BaseView<ClientItem> {
 		List<ClientVendor> clientVendor = getCompany().getActiveVendors();
 		if (clientVendor != null) {
 			prefVendorCombo.initCombo(clientVendor);
-			if (takenItem != null) {
+			if (isEdit) {
 				prefVendorCombo.setComboItem(getCompany().getVendor(
-						takenItem.getPreferredVendor()));
-				if (takenItem.isIBuyThisItem() == false)
+						data.getPreferredVendor()));
+				if (data.isIBuyThisItem() == false)
 					prefVendorCombo.setDisabled(true);
 				else
 					prefVendorCombo.setDisabled(false);
@@ -809,16 +800,16 @@ public class ItemView extends BaseView<ClientItem> {
 				expAccCombo.setComboItem(defaultExpAccount);
 			}
 		}
-		if (takenItem != null) {
+		if (isEdit) {
 
 			accountCombo.setComboItem(getCompany().getAccount(
-					takenItem.getIncomeAccount()));
-			if (takenItem.isISellThisItem() == false)
+					data.getIncomeAccount()));
+			if (data.isISellThisItem() == false)
 				accountCombo.setDisabled(true);
-			selectExpAccount = getCompany().getAccount(
-					takenItem.getExpenseAccount());
+			selectExpAccount = getCompany()
+					.getAccount(data.getExpenseAccount());
 			expAccCombo.setComboItem(selectExpAccount);
-			if (takenItem.isIBuyThisItem() == false)
+			if (data.isIBuyThisItem() == false)
 				expAccCombo.setDisabled(true);
 			else
 				expAccCombo.setDisabled(false);
@@ -826,15 +817,6 @@ public class ItemView extends BaseView<ClientItem> {
 		} else
 			expAccCombo.setDisabled(true);
 
-	}
-
-	@Override
-	public void setData(ClientItem data) {
-		super.setData(data);
-		if (data != null)
-			takenItem = (ClientItem) data;
-		else
-			takenItem = null;
 	}
 
 	public void onDraw() {
@@ -849,7 +831,7 @@ public class ItemView extends BaseView<ClientItem> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		String name = nameText.getValue().toString();
-		if (takenItem == null) {
+		if (!isEdit) {
 			if (Utility.isObjectExist(company.getItems(), name)) {
 				result.addError(nameText, Accounter.constants()
 						.aItemGroupAlreadyExistswiththisname());

@@ -27,7 +27,6 @@ import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordC
 public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 	protected List<ClientTAXGroup> savedSalesTaxGroup;
-	ClientTAXGroup taxGroup;
 	protected GroupDialogButtonsHandler groupDialogButtonHandler;
 	protected FocusHandler focusChangedHandler;
 	private SalesTaxGroupDialog salesTaxGroupDialog;
@@ -182,9 +181,9 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 			public void onSecondButtonClick() {
 
-				taxGroup = (ClientTAXGroup) grid.getSelection();
-				if (taxGroup != null) {
-					showAddEditTaxGroup(taxGroup);
+				data = (ClientTAXGroup) grid.getSelection();
+				if (isEdit) {
+					showAddEditTaxGroup(data);
 				} else {
 					Accounter
 							.showError(Accounter.constants().selectATaxGroup());
@@ -260,11 +259,11 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		salesTaxGroupDialog.addInputDialogHandler(new InputDialogHandler() {
 
-			public void onCancelClick() {
+			public void onCancel() {
 
 			}
 
-			public boolean onOkClick() {
+			public boolean onOK() {
 
 				if (taxGroup != null) {
 					editTaxGroup(taxGroup);
@@ -302,7 +301,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			taxGroup.setName(UIUtils.toStr(salesTaxGroupDialog.taxGroupText
 					.getValue()));
 			taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
-			alterObject(taxGroup);
+			saveOrUpdate(taxGroup);
 		}
 	}
 
@@ -351,7 +350,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else
-		saveOrUpdate(taxGroup);
+			saveOrUpdate(taxGroup);
 
 	}
 

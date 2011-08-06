@@ -28,8 +28,6 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -258,30 +256,6 @@ public class IssuePaymentDialog extends BaseDialog {
 		label.setText(Accounter.constants().paymentsToBeIssued());
 		initListGrid();
 
-		addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancelClick() {
-				removeFromParent();
-				// Action.cancle();
-			}
-
-			public boolean onOkClick() {
-
-				try {
-					if (validate()) {
-						createIssuePayment();
-						// return true;
-					}
-				} catch (Exception e) {
-					Accounter.showError(e.getMessage() == null ? e.toString()
-							: e.getMessage());
-					return false;
-				}
-				return false;
-			}
-
-		});
-
 		mainVLay = new VerticalPanel();
 		mainVLay.setWidth("800");
 
@@ -329,8 +303,8 @@ public class IssuePaymentDialog extends BaseDialog {
 	}
 
 	protected ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
-		result.add(FormItem.validate(payMethodSelect, accountCombo));
+		ValidationResult result = FormItem.validate(payMethodSelect,
+				accountCombo);
 		result.add(grid.validateGrid());
 		return result;
 	}
@@ -351,7 +325,7 @@ public class IssuePaymentDialog extends BaseDialog {
 	protected void createIssuePayment() {
 
 		ClientIssuePayment issuePayment = getIssuePaymentObject();
-		ViewManager.getInstance().createObject(issuePayment, this);
+		saveOrUpdate(issuePayment);
 		// Accounter.showError(AccounterErrorType.FAILEDREQUEST);
 
 		// public void onSuccess(String result) {
@@ -630,6 +604,12 @@ public class IssuePaymentDialog extends BaseDialog {
 				accountCombo.removeComboItem((ClientAccount) core);
 			break;
 		}
+	}
+
+	@Override
+	protected boolean onOK() {
+		createIssuePayment();
+		return true;
 	}
 
 }

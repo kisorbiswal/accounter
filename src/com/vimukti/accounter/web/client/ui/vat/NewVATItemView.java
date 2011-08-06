@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -46,7 +45,6 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	private TAXAgencyCombo vatAgencyCombo;
 	private CheckboxItem statusCheck;
 	private VatReturnBoxCombo vatReturnBoxCombo;
-	private ClientTAXItem takenVATItem;
 	protected ClientVATReturnBox selectedBox;
 	protected ClientTAXAgency selectedVATAgency;
 	private CheckboxItem isPercentatateAmtCheck;
@@ -193,33 +191,30 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		form1.getCellFormatter().setWidth(0, 0, "250px");
 		form1.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 
-		if (takenVATItem != null) {
-			vatItemNameText
-					.setValue(takenVATItem.getName() != null ? takenVATItem
-							.getName() : "");
-			vatName = takenVATItem.getName() != null ? takenVATItem.getName()
-					: "";
-			descriptionText
-					.setValue(takenVATItem.getDescription() != null ? takenVATItem
-							.getDescription() : "");
-			isPercentatateAmtCheck.setValue(takenVATItem.isPercentage());
+		if (getData() != null) {
+			vatItemNameText.setValue(data.getName() != null ? data.getName()
+					: "");
+			vatName = data.getName() != null ? data.getName() : "";
+			descriptionText.setValue(data.getDescription() != null ? data
+					.getDescription() : "");
+			isPercentatateAmtCheck.setValue(data.isPercentage());
 
-			if (takenVATItem.getTaxAgency() != 0) {
+			if (data.getTaxAgency() != 0) {
 				selectedVATAgency = getCompany().getTaxAgency(
-						takenVATItem.getTaxAgency());
+						data.getTaxAgency());
 				vatAgencyCombo.setComboItem(selectedVATAgency);
 				loadVATReturnBoxes(selectedVATAgency);
 			}
 
-			if (takenVATItem.getVatReturnBox() != 0) {
+			if (data.getVatReturnBox() != 0) {
 				selectedBox = getCompany().getVatReturnBox(
-						takenVATItem.getVatReturnBox());
+						data.getVatReturnBox());
 				vatReturnBoxCombo.setComboItem(selectedBox);
 			}
-			statusCheck.setValue(takenVATItem.isActive());
+			statusCheck.setValue(data.isActive());
 
-			if (takenVATItem.isPercentage()) {
-				vatRateTextPerT.setPercentage(takenVATItem.getTaxRate());
+			if (data.isPercentage()) {
+				vatRateTextPerT.setPercentage(data.getTaxRate());
 				if (accounttype == 0)
 					form1.setFields(vatItemNameText, descriptionText,
 							isPercentatateAmtCheck, vatRateTextPerT,
@@ -230,7 +225,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 							vatAgencyCombo, vatReturnBoxCombo, statusCheck);
 			} else {
 
-				vatRateText.setAmount(takenVATItem.getTaxRate());
+				vatRateText.setAmount(data.getTaxRate());
 				if (accounttype == 0)
 					form1.setFields(vatItemNameText, descriptionText,
 							isPercentatateAmtCheck, vatRateText,
@@ -242,6 +237,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			}
 
 		} else {
+			setData(new ClientTAXItem());
 			if (accounttype == 0)
 				form1.setFields(vatItemNameText, descriptionText,
 						isPercentatateAmtCheck, vatRateTextPerT,
@@ -286,14 +282,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	@Override
 	public void init() {
 		super.init();
-		takenVATItem = (ClientTAXItem) this.data;
 		createControls();
 		setSize("100%", "100%");
-	}
-
-	@Override
-	public void initData() {
-		super.initData();
 	}
 
 	@Override
@@ -305,19 +295,18 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 		String name = vatItemNameText.getValue().toString() != null ? vatItemNameText
 				.getValue().toString() : "";
-		if (!((takenVATItem == null && Utility.isObjectExist(getCompany()
-				.getTaxItems(), name)) ? false : true)
-				|| (takenVATItem != null ? (takenVATItem.getName()
-						.equalsIgnoreCase(name) ? true
+		if (!((!isEdit && Utility.isObjectExist(getCompany().getTaxItems(),
+				name)) ? false : true)
+				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getTaxItems(),
 								name) ? false : true)) : true)) {
 			result.addError(vatItemNameText, AccounterErrorType.ALREADYEXIST);
 		}
 
-		if (takenVATItem == null) {
+		if (!isEdit) {
 			if (Utility.isObjectExist(getCompany().getTaxItems(),
 					this.vatItemNameText.getValue().toString())) {
-				result.addError(takenVATItem, AccounterErrorType.ALREADYEXIST);
+				result.addError(data, AccounterErrorType.ALREADYEXIST);
 			}
 		}
 		return result;
@@ -325,17 +314,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientTAXItem vatItem = getObject();
-		saveOrUpdate(vatItem);
-	}
-
-	@Override
-	public void setData(ClientTAXItem data) {
-		super.setData(data);
-		if (data != null)
-			takenVATItem = (ClientTAXItem) data;
-		else
-			takenVATItem = null;
+		updateObject();
+		saveOrUpdate(data);
 	}
 
 	@Override
@@ -368,37 +348,29 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		addError(this, exception.getMessage());
-		ClientTAXItem clientTAXItem = getObject();
+		updateObject();
 		if (exceptionMessage.contains("name")) {
-			clientTAXItem.setName(vatName);
+			data.setName(vatName);
 			System.out.println(vatName + "After saving");
 		}
 
 	}
 
-	private ClientTAXItem getObject() {
-		ClientTAXItem vatItem;
-		if (takenVATItem != null) {
-			vatItem = takenVATItem;
-		} else {
-			vatItem = new ClientTAXItem();
-		}
+	private void updateObject() {
 
-		vatItem.setName(vatItemNameText.getValue().toString() != null ? vatItemNameText
+		data.setName(vatItemNameText.getValue().toString() != null ? vatItemNameText
 				.getValue().toString() : "");
-		vatItem.setDescription(descriptionText.getValue().toString() != null ? descriptionText
+		data.setDescription(descriptionText.getValue().toString() != null ? descriptionText
 				.getValue().toString() : "");
-		vatItem.setVatReturnBox(selectedBox != null ? selectedBox.getID()
-				: takenVATItem != null ? takenVATItem.getVatReturnBox() : null);
-		vatItem.setTaxAgency(selectedVATAgency != null ? selectedVATAgency
-				.getID() : takenVATItem != null ? takenVATItem.getTaxAgency()
-				: null);
-		vatItem.setActive((Boolean) statusCheck.getValue());
+		data.setVatReturnBox(selectedBox != null ? selectedBox.getID()
+				: data != null ? data.getVatReturnBox() : null);
+		data.setTaxAgency(selectedVATAgency != null ? selectedVATAgency.getID()
+				: data != null ? data.getTaxAgency() : null);
+		data.setActive((Boolean) statusCheck.getValue());
 
-		vatItem.setTaxRate((Boolean) this.isPercentatateAmtCheck.getValue() ? vatRateTextPerT
+		data.setTaxRate((Boolean) this.isPercentatateAmtCheck.getValue() ? vatRateTextPerT
 				.getPercentage() : vatRateText.getAmount());
-		vatItem.setPercentage((Boolean) this.isPercentatateAmtCheck.getValue());
-		return vatItem;
+		data.setPercentage((Boolean) this.isPercentatateAmtCheck.getValue());
 	}
 
 	public List<DynamicForm> getForms() {

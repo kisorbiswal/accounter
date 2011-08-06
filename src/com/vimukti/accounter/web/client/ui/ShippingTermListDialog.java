@@ -6,11 +6,11 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
 
@@ -78,16 +78,10 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	}
 
 	public void createShippingTerms() {
-		if (Utility.isObjectExist(getCompany().getShippingTerms(),
-				inputDlg.getTextValueByIndex(0))) {
-			Accounter.showError(Accounter.constants()
-					.shippingTermAlreadyExists());
-		} else {
-			ClientShippingTerms shippingTerm = new ClientShippingTerms();
-			shippingTerm.setName(inputDlg.getTextValueByIndex(0));
-			shippingTerm.setDescription(inputDlg.getTextValueByIndex(1));
+		ClientShippingTerms shippingTerm = new ClientShippingTerms();
+		shippingTerm.setName(inputDlg.getTextValueByIndex(0));
+		shippingTerm.setDescription(inputDlg.getTextValueByIndex(1));
 		saveOrUpdate(shippingTerm);
-		}
 	}
 
 	public ClientShippingTerms getSelectedShippingTerms() {
@@ -95,17 +89,10 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	}
 
 	private void EditShippingTerms() {
-		if (!(shippingTerm.getName().equalsIgnoreCase(
-				UIUtils.toStr(inputDlg.getTextValueByIndex(0).toString())) ? true
-				: (Utility.isObjectExist(company.getShippingTerms(), UIUtils
-						.toStr(inputDlg.getTextValueByIndex(0).toString()))) ? false
-						: true)) {
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
-		} else {
-			shippingTerm.setName(inputDlg.getTextValueByIndex(0));
-			shippingTerm.setDescription(inputDlg.getTextValueByIndex(1));
-			alterObject(shippingTerm);
-		}
+
+		shippingTerm.setName(inputDlg.getTextValueByIndex(0));
+		shippingTerm.setDescription(inputDlg.getTextValueByIndex(1));
+		saveOrUpdate(shippingTerm);
 
 	}
 
@@ -113,8 +100,8 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 		String arr[] = new String[2];
 		arr[0] = Accounter.constants().shippingTerm();
 		arr[1] = Accounter.constants().description();
-		inputDlg = new InputDialog(Accounter.constants().shippingTerm(), "",
-				arr) {
+		inputDlg = new InputDialog(this, Accounter.constants().shippingTerm(),
+				"", arr) {
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
 
@@ -124,29 +111,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 			inputDlg.setTextItemValue(0, shippingTerm.getName());
 			inputDlg.setTextItemValue(1, shippingTerm.getDescription());
 		}
-		InputDialogHandler dialogHandler = new InputDialogHandler() {
 
-			public void onCancelClick() {
-
-			}
-
-			public boolean onOkClick() {
-				if (inputDlg.getForm().validate(true)) {
-					if (shippingTerm != null)
-						EditShippingTerms();
-					else
-						createShippingTerms();
-				} else {
-					// Accounter.showError(FinanceApplication
-					// .constants()
-					// .detailsHighlightedInRedMustBeEntered());
-					return false;
-				}
-				return true;
-			}
-
-		};
-		inputDlg.addInputDialogHandler(dialogHandler);
 		inputDlg.show();
 	}
 
@@ -173,6 +138,38 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	@Override
 	protected List getRecords() {
 		return getCompany().getShippingTerms();
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+
+		if (shippingTerm != null) {
+			if (!(shippingTerm.getName().equalsIgnoreCase(
+					UIUtils.toStr(inputDlg.getTextValueByIndex(0).toString())) ? true
+					: (Utility.isObjectExist(company.getShippingTerms(),
+							UIUtils.toStr(inputDlg.getTextValueByIndex(0)
+									.toString()))) ? false : true)) {
+				result.addError(this, AccounterErrorType.ALREADYEXIST);
+			}
+		} else {
+			if (Utility.isObjectExist(getCompany().getShippingTerms(),
+					inputDlg.getTextValueByIndex(0))) {
+				result.addError(this, Accounter.constants()
+						.shippingTermAlreadyExists());
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		if (shippingTerm != null)
+			EditShippingTerms();
+		else
+			createShippingTerms();
+		return true;
 	}
 
 }

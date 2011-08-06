@@ -65,12 +65,12 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
-			public boolean onOkClick() {
+			public boolean onOK() {
 				return true;
 			}
 
 			@Override
-			public void onCancelClick() {
+			public void onCancel() {
 				hide();
 			}
 		});
@@ -281,7 +281,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 					}
 
 					@Override
-					public boolean onCancelClick() {
+					public boolean onCancel() {
 
 						return true;
 					}

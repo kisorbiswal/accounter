@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.VATBoxGrid;
@@ -49,7 +48,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	private VATBoxGrid gridView;
 	private AccounterButton adjustButton;
 	private AccounterButton printButton;
-	protected ClientVATReturn vatReturn;
 	private ClientTAXAgency selectedVatAgency;
 	private ArrayList<DynamicForm> listforms;
 	private double amt;
@@ -316,11 +314,10 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 					@Override
 					public void onSuccess(ClientVATReturn result) {
 						gridView.removeLoadingImage();
-						FileVATView.this.vatReturn = result;
+						setData(result);
 
-						FileVATView.this.vatReturn
-								.setTAXAgency(FileVATView.this.selectedVatAgency
-										.getID());
+						getData().setTAXAgency(
+								FileVATView.this.selectedVatAgency.getID());
 
 						gridView.clear();
 
@@ -378,10 +375,11 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	@Override
 	public void saveAndUpdateView() {
 
-		if (this.selectedVatAgency != null && this.vatReturn != null) {
-			vatReturn.setTransactionDate(new ClientFinanceDate().getDate());
-		saveOrUpdate(this.vatReturn);
+		if (this.selectedVatAgency != null && isEdit) {
+			data.setTransactionDate(new ClientFinanceDate().getDate());
+
 		}
+		saveOrUpdate(data);
 		// else {
 		//
 		// UIUtils.err(FinanceApplication.constants()
@@ -509,7 +507,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 		ValidationResult result = new ValidationResult();
 
-		if (this.selectedVatAgency == null && this.vatReturn == null) {
+		if (this.selectedVatAgency == null && this.isEdit) {
 			result.addError(selectedVatAgency, Accounter.constants()
 					.pleaseSelectValidVATAgency());
 		} else {

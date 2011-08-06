@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -34,8 +33,6 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	private TextItem desc;
 	private VATItemListGrid gridView;
 	private CheckboxItem checkbox;
-	private ClientTAXGroup vatGroup;
-	private ClientTAXGroup takenVatGroup;
 	private DynamicForm form;
 	public RadioGroupItem salesTypeRadio;
 
@@ -86,15 +83,17 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		});
 		salesTypeRadio.setValueMap(Accounter.constants().salesType(), Accounter
 				.constants().purchaseType());
-		if (takenVatGroup != null) {
-			if (takenVatGroup.isSalesType())
+		if (getData() != null) {
+			if (data.isSalesType())
 				salesTypeRadio.setDefaultValue(Accounter.constants()
 						.salesType());
 			else
 				salesTypeRadio.setDefaultValue(Accounter.constants()
 						.purchaseType());
-		} else
+		} else {
+			setData(new ClientTAXGroup());
 			salesTypeRadio.setDefaultValue(Accounter.constants().salesType());
+		}
 		checkbox = new CheckboxItem(Accounter.constants().itemIsActive());
 		checkbox.setValue(true);
 
@@ -148,22 +147,13 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 
 	}
 
-	@Override
-	public void setData(ClientTAXGroup data) {
-		super.setData(data);
-		if (data != null)
-			takenVatGroup = (ClientTAXGroup) data;
-		else
-			takenVatGroup = null;
-	}
-
 	private void initView() {
-		if (takenVatGroup != null) {
-			groupName.setValue(takenVatGroup.getName());
-			desc.setValue(takenVatGroup.getDescription());
-			salesTypeRadio.setValue(takenVatGroup.isSalesType());
-			checkbox.setValue(takenVatGroup.isActive());
-			gridView.addRecords(takenVatGroup.getTaxItems());
+		if (isEdit) {
+			groupName.setValue(data.getName());
+			desc.setValue(data.getDescription());
+			salesTypeRadio.setValue(data.isSalesType());
+			checkbox.setValue(data.isActive());
+			gridView.addRecords(data.getTaxItems());
 			gridView.updateGroupRate();
 		}
 
@@ -172,21 +162,16 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	@Override
 	public void saveAndUpdateView() {
 
-		if (takenVatGroup == null)
-			vatGroup = new ClientTAXGroup();
-		else
-			vatGroup = takenVatGroup;
-
-		vatGroup.setName(groupName.getValue().toString());
-		vatGroup.setDescription(desc.getValue().toString());
-		vatGroup.setActive((Boolean) checkbox.getValue());
-		vatGroup.setTaxItems(gridView.getRecords());
+		data.setName(groupName.getValue().toString());
+		data.setDescription(desc.getValue().toString());
+		data.setActive((Boolean) checkbox.getValue());
+		data.setTaxItems(gridView.getRecords());
 		if (salesTypeRadio.getValue().equals("Sales Type"))
-			vatGroup.setSalesType(true);
+			data.setSalesType(true);
 		else
-			vatGroup.setSalesType(false);
+			data.setSalesType(false);
 
-		saveOrUpdate(vatGroup);
+		saveOrUpdate(data);
 
 	}
 
@@ -223,10 +208,9 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		String name = groupName.getValue().toString();
-		if (!((takenVatGroup == null && Utility.isObjectExist(getCompany()
-				.getVatGroups(), name)) ? false : true)
-				|| (takenVatGroup != null ? (takenVatGroup.getName()
-						.equalsIgnoreCase(name) ? true
+		if (!((isEdit && Utility.isObjectExist(getCompany().getVatGroups(),
+				name)) ? false : true)
+				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getVatGroups(),
 								name) ? false : true)) : true)) {
 			result.addError(groupName, AccounterErrorType.ALREADYEXIST);

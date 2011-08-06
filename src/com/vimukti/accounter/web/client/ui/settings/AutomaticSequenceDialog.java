@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -62,24 +60,16 @@ public class AutomaticSequenceDialog extends BaseDialog {
 		optionsTable.setWidget(0, 2, nextPanel);
 
 		okbtn.setText(messages.saveButton());
-		okbtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				okClicked();
-			}
-		});
-		cancelBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				cancelClicked();
-			}
-		});
 
 		subLayoutPanel.add(paraHTML);
 		subLayoutPanel.add(optionsTable);
-		mainPanel.add(subLayoutPanel);
+		setBodyLayout(subLayoutPanel);
+	}
+
+	@Override
+	protected boolean onOK() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

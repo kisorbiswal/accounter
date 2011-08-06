@@ -111,11 +111,11 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 		salesTaxGroupDialog.addInputDialogHandler(new InputDialogHandler() {
 
-			public void onCancelClick() {
+			public void onCancel() {
 
 			}
 
-			public boolean onOkClick() {
+			public boolean onOK() {
 
 				if (taxGroup != null) {
 					editTaxGroup(taxGroup);

@@ -50,7 +50,6 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -80,7 +79,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	private PercentageField depreciationRate;
 	// private String financialYrStartDate = "1st Jan 2010",
 	// deprciatedDate = "1st Jan 2009";
-	private ClientFixedAsset fixedAsset;
 
 	private ClientAccount selectedAssetAccount;
 
@@ -110,13 +108,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	@Override
 	public void initData() {
 
-		if (fixedAsset == null)
+		if (!isEdit) {
 			initAssetNumber();
-		if (fixedAsset != null) {
+		} else {
 			selectedAssetAccount = getCompany().getAccount(
-					fixedAsset.getAssetAccount());
-		}
-		if (fixedAsset != null) {
+					data.getAssetAccount());
 			disableFields(true);
 		}
 	}
@@ -142,7 +138,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (selectedOption != null
 				&& selectedOption
 						.equalsIgnoreCase(Accounter.constants().edit())
-				&& fixedAsset != null && fixedAsset.getAssetAccount() != 0
+				&& isEdit && data.getAssetAccount() != 0
 				&& accumltdAccVPanel != null
 				&& mainVPanel.getWidgetIndex(accumltdAccVPanel) == -1) {
 			showAccumltdAccountForm();
@@ -176,8 +172,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		Label labl = new Label(Accounter.constants().newAsset());
 		labl.setStyleName(Accounter.constants().requiredField());
-		if (fixedAsset != null) {
-			switch (fixedAsset.getStatus()) {
+		if (getData() != null) {
+			switch (data.getStatus()) {
 			case 0:
 			case ClientFixedAsset.STATUS_PENDING:
 				labl.setText(Accounter.constants().pendingAsset());
@@ -188,8 +184,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			case ClientFixedAsset.STATUS_SOLD_OR_DISPOSED:
 				labl.setText(Accounter.constants().assetSold());
 			}
-		} else
+		} else {
+			setData(new ClientFixedAsset());
 			labl.setText(Accounter.constants().newAsset());
+		}
 
 		HorizontalPanel lablHPanel = new HorizontalPanel();
 		lablHPanel.setStyleName("margin-b");
@@ -416,14 +414,14 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		mainVPanel = new VerticalPanel();
 		mainVPanel.setSize("100%", "");
-		if (fixedAsset != null) {
+		if (isEdit) {
 			assetOptions = new SelectItem(Accounter.constants().assetOptions());
-			if (fixedAsset.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
+			if (data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
 				assetOptions.setValueMap("", Accounter.constants().edit(),
 						Accounter.constants().sell(), Accounter.constants()
 								.dispose(), Accounter.constants().addNote(),
 						Accounter.constants().showHistory());
-			} else if (fixedAsset.getStatus() == ClientFixedAsset.STATUS_PENDING) {
+			} else if (data.getStatus() == ClientFixedAsset.STATUS_PENDING) {
 				assetOptions.setValueMap("", Accounter.constants().edit(),
 						Accounter.constants().addNote(), Accounter.constants()
 								.showHistory());
@@ -442,23 +440,23 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 								.getSellingRegisteredItemAction();
 						action.catagory = Accounter.constants()
 								.fixedAssetsNewFixedAsset();
-						HistoryTokenUtils.setPresentToken(action, fixedAsset);
-						action.run(fixedAsset, true);
+						HistoryTokenUtils.setPresentToken(action, data);
+						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
 							.constants().dispose())) {
 						Action action = ActionFactory
 								.getDiposingRegisteredItemAction();
 						action.catagory = Accounter.constants()
 								.fixedAssetsNewFixedAsset();
-						HistoryTokenUtils.setPresentToken(action, fixedAsset);
-						action.run(fixedAsset, true);
+						HistoryTokenUtils.setPresentToken(action, data);
+						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
 							.constants().showHistory())) {
 						Action action = ActionFactory.getHistoryListAction();
 						action.catagory = Accounter.constants()
 								.fixedAssetsNewFixedAsset();
-						HistoryTokenUtils.setPresentToken(action, fixedAsset);
-						action.run(fixedAsset, true);
+						HistoryTokenUtils.setPresentToken(action, data);
+						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(Accounter
 							.constants().addNote())) {
 						openNoteDialog();
@@ -491,60 +489,57 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		showAccumultdDepAmountForm(purchaseDateTxt.getEnteredDate());
 
 		// populating the data into respective fields in edit mode
-		if (fixedAsset != null) {
+		if (isEdit) {
 
-			itemTxt.setValue(fixedAsset.getName() != null ? fixedAsset
-					.getName() : "");
-			assetNumberTxt.setValue(fixedAsset.getAssetNumber());
-			if (getCompany().getAccount(fixedAsset.getAssetAccount()) != null) {
+			itemTxt.setValue(data.getName() != null ? data.getName() : "");
+			assetNumberTxt.setValue(data.getAssetNumber());
+			if (getCompany().getAccount(data.getAssetAccount()) != null) {
 				accountCombo.setComboItem(getCompany().getAccount(
-						fixedAsset.getAssetAccount()));
+						data.getAssetAccount()));
 			}
-			purchaseDateTxt.setEnteredDate(new ClientFinanceDate(fixedAsset
+			purchaseDateTxt.setEnteredDate(new ClientFinanceDate(data
 					.getPurchaseDate()));
-			purchasePriceTxt.setAmount(fixedAsset.getPurchasePrice());
-			descriptionTxtArea.setValue(fixedAsset.getDescription());
-			assetType.setValue(fixedAsset.getAssetType());
-			depreciationRate.setPercentage(fixedAsset.getDepreciationRate());
+			purchasePriceTxt.setAmount(data.getPurchasePrice());
+			descriptionTxtArea.setValue(data.getDescription());
+			assetType.setValue(data.getAssetType());
+			depreciationRate.setPercentage(data.getDepreciationRate());
 			depreciationMethod.setSelected(depreciationMethod
-					.getNameByType(fixedAsset.getDepreciationMethod()));
-			depreciationMethod.setSelectedValue(fixedAsset
-					.getDepreciationMethod());
-			if (fixedAsset.getDepreciationExpenseAccount() != 0) {
+					.getNameByType(data.getDepreciationMethod()));
+			depreciationMethod.setSelectedValue(data.getDepreciationMethod());
+			if (data.getDepreciationExpenseAccount() != 0) {
 				if (getCompany().getAccount(
-						fixedAsset.getDepreciationExpenseAccount()) != null) {
-					depreciationAccount
-							.setComboItem(Accounter.getCompany().getAccount(
-									fixedAsset.getDepreciationExpenseAccount()));
+						data.getDepreciationExpenseAccount()) != null) {
+					depreciationAccount.setComboItem(Accounter.getCompany()
+							.getAccount(data.getDepreciationExpenseAccount()));
 				}
 			} else
 				depreciationAccount.setSelected("");
-			if (!DecimalUtil.isEquals(
-					fixedAsset.getAccumulatedDepreciationAmount(), 0)) {
+			if (!DecimalUtil.isEquals(data.getAccumulatedDepreciationAmount(),
+					0)) {
 				showAccumultdDepAmountForm(new ClientFinanceDate(
-						fixedAsset.getPurchaseDate()));
+						data.getPurchaseDate()));
 			}
 			Label bookValueLbl = new Label();
 			bookValueLbl.setText(Accounter.constants().bookValue()
-					+ fixedAsset.getBookValue());
+					+ data.getBookValue());
 			Label accumDepLbl = new Label();
 			accumDepLbl.setText(Accounter.constants().accumulatedDepreciation()
-					+ fixedAsset.getAccumulatedDepreciationAmount());
+					+ data.getAccumulatedDepreciationAmount());
 			// XXX THIS CLASS IS NOT USED.
 			// -- need to check weder dis field is required or not
 			// Label lastDepreciatedLabl = new Label();
 			// --check whether is it lastdepricaited date or not
 			// lastDepreciatedLabl.setText(FinanceApplication
 			// .constants().lastDepreciation()
-			// + fixedAsset.getLastDate());
+			// + data.getLastDate());
 			ClientAccount assetAcc = accountCombo.getSelectedValue() != null ? accountCombo
 					.getSelectedValue() : null;
 			if (assetAcc != null) {
 				long strID = assetAcc.getLinkedAccumulatedDepreciationAccount();
 				if (strID != 0)
-					fixedAsset.setLinkedAccumulatedDepreciationAccount(strID);
+					data.setLinkedAccumulatedDepreciationAccount(strID);
 			}
-			if (fixedAsset.getLinkedAccumulatedDepreciationAccount() != 0) {
+			if (data.getLinkedAccumulatedDepreciationAccount() != 0) {
 				showAccumltdAccountForm();
 			}
 			showAccumultdDepAmountForm(purchaseDateTxt.getEnteredDate());
@@ -558,11 +553,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 * button should be hide
 		 */
 		if (isEdit
-				&& (fixedAsset.getStatus() == ClientFixedAsset.STATUS_REGISTERED || fixedAsset
+				&& (data.getStatus() == ClientFixedAsset.STATUS_REGISTERED || data
 						.getStatus() == ClientFixedAsset.STATUS_REGISTERED)) {
 			registerButton.setVisible(false);
 		} else if (isEdit
-				&& (fixedAsset.getStatus() == ClientFixedAsset.STATUS_SOLD_OR_DISPOSED)) {
+				&& (data.getStatus() == ClientFixedAsset.STATUS_SOLD_OR_DISPOSED)) {
 			registerButton.setVisible(false);
 			saveAndCloseButton.setVisible(false);
 		}
@@ -592,26 +587,25 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
-			public boolean onOkClick() {
+			public boolean onOK() {
 
 				if (noteDialog.noteArea.getValue() != null) {
 					String value = noteDialog.noteArea.getValue().toString();
-					if (fixedAsset != null && value.length() != 0) {
+					if (isEdit && value.length() != 0) {
 						ClientFixedAssetNote note = new ClientFixedAssetNote();
 						note.setNote(value);
-						List<ClientFixedAssetNote> noteList = fixedAsset
+						List<ClientFixedAssetNote> noteList = data
 								.getFixedAssetNotes();
 						noteList.add(note);
-						fixedAsset.setFixedAssetNotes(noteList);
-						ViewManager.getInstance().alterObject(fixedAsset,
-								NewFixedAssetView.this);
+						data.setFixedAssetNotes(noteList);
+						saveOrUpdate(data);
 					}
 				}
 				return true;
 			}
 
 			@Override
-			public void onCancelClick() {
+			public void onCancel() {
 
 			}
 		});
@@ -666,11 +660,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 * setting the linked Account(AccumulatedDep.Account) for the selected
 		 * AssetAccount in edit mode
 		 */
-		if (fixedAsset != null && fixedAsset.getAssetAccount() != 0) {
-			if (getCompany().getAccount(fixedAsset.getAssetAccount())
+		if (isEdit && data.getAssetAccount() != 0) {
+			if (getCompany().getAccount(data.getAssetAccount())
 					.getLinkedAccumulatedDepreciationAccount() != 0) {
 				long accumulatedAccountID = getCompany().getAccount(
-						fixedAsset.getAssetAccount())
+						data.getAssetAccount())
 						.getLinkedAccumulatedDepreciationAccount();
 				ClientAccount accumultdAcc = getCompany().getAccount(
 						accumulatedAccountID);
@@ -685,8 +679,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (isEdit) {
 			accumulatedDepreciationAccount
 					.setComboItem(getCompany().getAccount(
-							fixedAsset
-									.getLinkedAccumulatedDepreciationAccount()));
+							data.getLinkedAccumulatedDepreciationAccount()));
 		}
 		accumulatedDepreciationAccountForm = new DynamicForm();
 		accumulatedDepreciationAccountForm
@@ -736,8 +729,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						this);
 				accmulatdDepreciationTxt.setValue(getDepreciationAmount());
 
-				if (fixedAsset != null)
-					accmulatdDepreciationTxt.setValue(fixedAsset
+				if (isEdit)
+					accmulatdDepreciationTxt.setValue(data
 							.getAccumulatedDepreciationAmount());
 
 				acumulatedDeprcForm = new DynamicForm();
@@ -765,8 +758,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	public double getDepreciationAmount() {
 		try {
 
-			if (fixedAsset != null && accmulatdDepreciationTxt.getDisabled()) {
-				accmulatdDepreciationTxt.setAmount(fixedAsset
+			if (isEdit && accmulatdDepreciationTxt.getDisabled()) {
+				accmulatdDepreciationTxt.setAmount(data
 						.getAccumulatedDepreciationAmount());
 			} else {
 				ClientFinanceDate purchaseDate = purchaseDateTxt
@@ -824,8 +817,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	public void saveAndUpdateView() {
-		ClientFixedAsset asset = getAssetObject();
-		saveOrUpdate(asset);
+		updateAssetObject();
+		saveOrUpdate(data);
 	}
 
 	@Override
@@ -851,7 +844,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	@Override
 	public void saveFailed(Throwable exception) {
 		super.saveFailed(exception);
-		if (fixedAsset == null)
+		if (!isEdit)
 			// BaseView.errordata.setHTML(FinanceApplication
 			// .constants().duplicationOfAssets());
 			addError(this, Accounter.constants().duplicationOfAssets());
@@ -863,65 +856,58 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// this.errorOccured = true;
 	}
 
-	private ClientFixedAsset getAssetObject() {
-		ClientFixedAsset asset;
-		if (fixedAsset != null)
-			asset = fixedAsset;
-		else
-			asset = new ClientFixedAsset();
-
-		asset.setName(itemTxt.getValue() != null ? itemTxt.getValue()
-				.toString() : "");
-		asset.setAssetNumber(assetNumberTxt.getValue() != null ? assetNumberTxt
+	private void updateAssetObject() {
+		data.setName(itemTxt.getValue() != null ? itemTxt.getValue().toString()
+				: "");
+		data.setAssetNumber(assetNumberTxt.getValue() != null ? assetNumberTxt
 				.getValue().toString() : "");
 		if (selectedAssetAccount != null) {
 			if (accumulatedDepreciationAccount != null) {
-				asset.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
+				data.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
 						.getSelectedValue() != null ? accumulatedDepreciationAccount
 						.getSelectedValue().getID() : 0);
 			}
-			asset.setAssetAccount(selectedAssetAccount.getID());
+			data.setAssetAccount(selectedAssetAccount.getID());
 
 		}
-		asset.setPurchaseDate(purchaseDateTxt.getEnteredDate().getDate());
-		asset.setPurchasePrice(purchasePriceTxt.getAmount());
-		asset.setDescription(descriptionTxtArea.getValue() != null ? descriptionTxtArea
+		data.setPurchaseDate(purchaseDateTxt.getEnteredDate().getDate());
+		data.setPurchasePrice(purchasePriceTxt.getAmount());
+		data.setDescription(descriptionTxtArea.getValue() != null ? descriptionTxtArea
 				.getValue().toString() : "");
 
-		asset.setAssetType(assetType.getValue() != null ? assetType.getValue()
+		data.setAssetType(assetType.getValue() != null ? assetType.getValue()
 				.toString() : "");
-		asset.setDepreciationRate(depreciationRate.getPercentage() != null ? depreciationRate
+		data.setDepreciationRate(depreciationRate.getPercentage() != null ? depreciationRate
 				.getPercentage() : 0.0);
-		asset.setDepreciationMethod(depreciationMethod.getSelectedValue());
-		asset.setDepreciationExpenseAccount(depreciationAccount
+		data.setDepreciationMethod(depreciationMethod.getSelectedValue());
+		data.setDepreciationExpenseAccount(depreciationAccount
 				.getSelectedValue() != null ? depreciationAccount
 				.getSelectedValue().getID() : 0);
 
 		// if (isAssetAccumulated || fixedAsset != null
 		// && accmulatdDepreciationTxt != null) {
-		// asset.setAccumulatedDepreciationAmount(accmulatdDepreciationTxt
+		// data.setAccumulatedDepreciationAmount(accmulatdDepreciationTxt
 		// .getAmount());
 		// }
 
 		if (isAssetAccumulated)
-			asset.setAccumulatedDepreciationAmount(accmulatdDepreciationTxt
+			data.setAccumulatedDepreciationAmount(accmulatdDepreciationTxt
 					.getAmount());
 		else
-			asset.setAccumulatedDepreciationAmount(0.0);
+			data.setAccumulatedDepreciationAmount(0.0);
 
-		/* while registering the asset from viewmode or updating a registeritem */
-		if ((isRegister && fixedAsset != null)
-				|| (fixedAsset != null && fixedAsset.getStatus() == ClientFixedAsset.STATUS_REGISTERED)) {
-			asset.setStatus(ClientFixedAsset.STATUS_REGISTERED);
+		/* while registering the data from viewmode or updating a registeritem */
+		if ((isRegister && data != null)
+				|| (data != null && data.getStatus() == ClientFixedAsset.STATUS_REGISTERED)) {
+			data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
 		} else if (isRegister) {
 			/* while creating a registeritem */
-			asset.setStatus(ClientFixedAsset.STATUS_REGISTERED);
+			data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
 		} else {
 			/* while updating/creating a pending item */
-			asset.setStatus(ClientFixedAsset.STATUS_PENDING);
+			data.setStatus(ClientFixedAsset.STATUS_PENDING);
 		}
 
-		return asset;
 	}
 
 	@Override
@@ -1024,11 +1010,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	private boolean validateName(String name) {
-		if (!(fixedAsset == null
+		if (!(!isEdit
 				&& Utility.isObjectExist(getCompany().getFixedAssets(), name) ? true
 				: false)
-				|| !(fixedAsset != null && !(fixedAsset.getName()
-						.equalsIgnoreCase(name) ? true
+				|| !(isEdit && !(data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getFixedAssets(),
 								name) ? false : true)))) {
 			isVerified = true;
@@ -1036,15 +1021,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		}
 		return true;
 
-	}
-
-	@Override
-	public void setData(ClientFixedAsset data) {
-		super.setData(data);
-		if (data != null)
-			fixedAsset = data;
-		else
-			fixedAsset = null;
 	}
 
 	public List<DynamicForm> getForms() {

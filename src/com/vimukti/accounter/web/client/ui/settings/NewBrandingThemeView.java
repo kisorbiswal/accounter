@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -57,7 +56,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			columnItem, addressItem, logoItem;
 	private TextBox topMarginBox, bottomMarginBox, addressPadBox, overdueBox,
 			creditNoteBox, statementBox, paypalTextBox, logoNameBox;
-	private ClientBrandingTheme brandingTheme;
 	private TextItem nameItem;
 	private String[] fontNameArray, fontSizeArray;
 	private SelectCombo fontNameBox, fontSizeBox;
@@ -80,7 +78,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	public NewBrandingThemeView(String title, String desc,
 			ClientBrandingTheme brandingTheme) {
 		super();
-		this.brandingTheme = brandingTheme;
+		setData(brandingTheme);
 	}
 
 	@Override
@@ -95,16 +93,12 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	@Override
 	public void initData() {
-		try {
-			if (brandingTheme != null) {
-				initThemeData(brandingTheme);
-			} /*
-			 * else { brandingTheme = new ClientBrandingTheme();
-			 * setBrandingTheme(brandingTheme); }
-			 */
-		} catch (Exception e) {
-			System.err.println(e);
-		}
+		if (isEdit) {
+			initThemeData(data);
+		} /*
+		 * else { brandingTheme = new ClientBrandingTheme();
+		 * setBrandingTheme(brandingTheme); }
+		 */
 		super.initData();
 
 	}
@@ -573,7 +567,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		ValidationResult result = new ValidationResult();
 		if (takenTheme == null
 				&& Utility.isObjectExist(Accounter.getCompany()
-						.getBrandingTheme(), brandingTheme.getThemeName())) {
+						.getBrandingTheme(), data.getThemeName())) {
 			result.addError("TakenTheme", "Theme Name already exists");
 		}
 		result.add(nameForm.validate());
@@ -605,7 +599,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		ClientBrandingTheme brandingTheme = getBrandingThemeObject();
 		if (!Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
 				brandingTheme.getThemeName())) {
-			//TODO Do this checking in validation method
+			// TODO Do this checking in validation method
 		}
 		saveOrUpdate(brandingTheme);
 	}
