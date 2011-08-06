@@ -3,6 +3,11 @@
  */
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * @author Murali
  * 
@@ -101,7 +106,37 @@ public class ClientVATAgency extends ClientPayee {
 	}
 
 	public ClientVATAgency clone() {
-		return null;
+		ClientVATAgency vatAgency = (ClientVATAgency) this.clone();
+		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+		for (ClientAddress clientAddress : this.address) {
+			addresses.add(clientAddress.clone());
+		}
+		vatAgency.address = address;
 
+		Set<ClientContact> contacts = new HashSet<ClientContact>();
+		for (ClientContact clientContact : this.contacts) {
+			contacts.add(clientContact.clone());
+		}
+		vatAgency.contacts = contacts;
+
+		Set<ClientEmail> emails = new HashSet<ClientEmail>();
+		for (ClientEmail clientEmail : this.emails) {
+			emails.add(clientEmail.clone());
+		}
+		vatAgency.emails = emails;
+
+		Set<ClientFax> faxes = new HashSet<ClientFax>();
+		for (ClientFax clientFax : this.faxNumbers) {
+			faxes.add(clientFax.clone());
+		}
+		vatAgency.faxNumbers = faxes;
+
+		Set<ClientPhone> phones = new HashSet<ClientPhone>();
+		for (ClientPhone clientPhone : this.phoneNumbers) {
+			phones.add(clientPhone.clone());
+		}
+		vatAgency.phoneNumbers = phones;
+
+		return vatAgency;
 	}
 }

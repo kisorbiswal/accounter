@@ -64,7 +64,9 @@ public class ClientDepreciationFixedAsset implements IAccounterCore {
 	}
 
 	public ClientDepreciationFixedAsset clone() {
-		return null;
+		ClientDepreciationFixedAsset depreciationFixedAsset = (ClientDepreciationFixedAsset) this
+				.clone();
+		return depreciationFixedAsset;
 
 	}
 

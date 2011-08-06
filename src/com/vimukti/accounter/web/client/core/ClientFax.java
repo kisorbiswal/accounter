@@ -108,7 +108,8 @@ public class ClientFax implements IAccounterCore {
 	}
 
 	public ClientFax clone() {
-		return null;
+		ClientFax fax = (ClientFax) this.clone();
+		return fax;
 
 	}
 }

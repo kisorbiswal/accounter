@@ -2251,6 +2251,66 @@ public class ClientCompany implements IAccounterCore {
 		}
 		clientCompany.brandingTheme = brandingTheme;
 
+		List<ClientCreditRating> creditRatings = new ArrayList<ClientCreditRating>();
+		for (ClientCreditRating clientCreditRating : this.creditRatings) {
+			creditRatings.add(clientCreditRating.clone());
+		}
+		clientCompany.creditRatings = creditRatings;
+
+		Set<ClientCurrency> currencies = new HashSet<ClientCurrency>();
+		for (ClientCurrency clientCurrency : this.currencies) {
+			currencies.add(clientCurrency.clone());
+		}
+		clientCompany.currencies = currencies;
+
+		List<ClientCustomerGroup> customerGroups = new ArrayList<ClientCustomerGroup>();
+		for (ClientCustomerGroup clientCustomerGroup : this.customerGroups) {
+			customerGroups.add(clientCustomerGroup.clone());
+		}
+		clientCompany.customerGroups = customerGroups;
+
+		List<ClientCustomer> customers = new ArrayList<ClientCustomer>();
+		for (ClientCustomer clientCustomer : this.customers) {
+			customers.add(clientCustomer.clone());
+		}
+		clientCompany.customers = customers;
+
+		List<ClientFiscalYear> fiscalYears = new ArrayList<ClientFiscalYear>();
+		for (ClientFiscalYear clientFiscalYear : this.fiscalYears) {
+			fiscalYears.add(clientFiscalYear.clone());
+		}
+		clientCompany.fiscalYears = fiscalYears;
+
+		List<ClientFixedAsset> fixedAssets = new ArrayList<ClientFixedAsset>();
+		for (ClientFixedAsset clientfixedAsset : this.fixedAssets) {
+			fixedAssets.add(clientfixedAsset.clone());
+		}
+		clientCompany.fixedAssets = fixedAssets;
+
+		List<ClientItemGroup> itemGroups = new ArrayList<ClientItemGroup>();
+		for (ClientItemGroup clientItemGroup : this.ItemGroups) {
+			itemGroups.add(clientItemGroup.clone());
+		}
+		clientCompany.ItemGroups = itemGroups;
+
+		List<ClientItem> items = new ArrayList<ClientItem>();
+		for (ClientItem clientItem : this.items) {
+			items.add(clientItem.clone());
+		}
+		clientCompany.items = items;
+
+		Set<ClientNominalCodeRange> nominalCodeRanges = new HashSet<ClientNominalCodeRange>();
+		for (ClientNominalCodeRange clientNominalCodeRange : this.nominalCodeRange) {
+			nominalCodeRanges.add(clientNominalCodeRange.clone());
+		}
+		clientCompany.nominalCodeRange = nominalCodeRanges;
+
+		List<ClientPayee> payees = new ArrayList<ClientPayee>();
+		for (ClientPayee clientPayee : this.payees) {
+			payees.add(clientPayee.clone());
+		}
+		clientCompany.payees = payees;
+
 		return clientCompany;
 
 	}

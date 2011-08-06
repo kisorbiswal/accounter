@@ -70,7 +70,8 @@ public class ClientCustomerGroup implements IAccounterCore {
 	}
 
 	public ClientCustomerGroup clone() {
-		return null;
+		ClientCustomerGroup customerGroup = (ClientCustomerGroup) this.clone();
+		return customerGroup;
 
 	}
 }

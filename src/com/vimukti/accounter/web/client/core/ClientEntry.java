@@ -233,7 +233,8 @@ public class ClientEntry implements IAccounterCore {
 	}
 
 	public ClientEntry clone() {
-		return null;
+		ClientEntry entry = (ClientEntry) this.clone();
+		return entry;
 
 	}
 }

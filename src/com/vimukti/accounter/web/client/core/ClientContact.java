@@ -116,7 +116,8 @@ public class ClientContact implements IAccounterCore {
 	}
 
 	public ClientContact clone() {
-		return null;
+		ClientContact contact = (ClientContact) this.clone();
+		return contact;
 
 	}
 

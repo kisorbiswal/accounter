@@ -79,7 +79,8 @@ public class ClientItemBackUp implements IAccounterCore {
 	}
 
 	public ClientItemBackUp clone() {
-		return null;
+		ClientItemBackUp itemBackUp = (ClientItemBackUp) this.clone();
+		return itemBackUp;
 
 	}
 

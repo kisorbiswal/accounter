@@ -703,7 +703,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public ClientCompanyPreferences clone() {
-		return null;
+		ClientCompanyPreferences preferences = (ClientCompanyPreferences) this
+				.clone();
+		preferences.baseCurrency = this.baseCurrency.clone();
+		return preferences;
 
 	}
 	

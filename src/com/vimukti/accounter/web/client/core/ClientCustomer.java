@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SuppressWarnings("serial")
@@ -473,8 +475,38 @@ public class ClientCustomer extends ClientPayee {
 	}
 
 	public ClientCustomer clone() {
-		return null;
+		ClientCustomer customer = (ClientCustomer) this.clone();
+		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
+		for (ClientAddress clientAddress : this.address) {
+			addresses.add(clientAddress.clone());
+		}
+		customer.address = address;
 
+		Set<ClientContact> contacts = new HashSet<ClientContact>();
+		for (ClientContact clientContact : this.contacts) {
+			contacts.add(clientContact.clone());
+		}
+		customer.contacts = contacts;
+
+		Set<ClientEmail> emails = new HashSet<ClientEmail>();
+		for (ClientEmail clientEmail : this.emails) {
+			emails.add(clientEmail.clone());
+		}
+		customer.emails = emails;
+
+		Set<ClientFax> faxes = new HashSet<ClientFax>();
+		for (ClientFax clientFax : this.faxNumbers) {
+			faxes.add(clientFax.clone());
+		}
+		customer.faxNumbers = faxes;
+
+		Set<ClientPhone> phones = new HashSet<ClientPhone>();
+		for (ClientPhone clientPhone : this.phoneNumbers) {
+			phones.add(clientPhone.clone());
+		}
+		customer.phoneNumbers = phones;
+
+		return customer;
 	}
 
 }

@@ -112,7 +112,8 @@ public class ClientCurrency implements IAccounterCore {
 	}
 
 	public ClientCurrency clone() {
-		return null;
+		ClientCurrency currency = (ClientCurrency) this.clone();
+		return currency;
 
 	}
 

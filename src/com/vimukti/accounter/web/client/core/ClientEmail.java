@@ -100,7 +100,8 @@ public class ClientEmail implements IAccounterCore {
 	}
 
 	public ClientEmail clone() {
-		return null;
+		ClientEmail email = (ClientEmail) this.clone();
+		return email;
 
 	}
 

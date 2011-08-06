@@ -158,8 +158,8 @@ public class ClientPaymentTerms implements IAccounterCore {
 	}
 
 	public ClientPaymentTerms clone() {
-		return null;
-
+		ClientPaymentTerms paymentTerms = (ClientPaymentTerms) this.clone();
+		return paymentTerms;
 	}
 
 }

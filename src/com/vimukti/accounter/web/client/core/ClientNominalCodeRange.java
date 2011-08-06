@@ -87,7 +87,9 @@ public class ClientNominalCodeRange implements IAccounterCore {
 	}
 
 	public ClientNominalCodeRange clone() {
-		return null;
+		ClientNominalCodeRange nominalCodeRange = (ClientNominalCodeRange) this
+				.clone();
+		return nominalCodeRange;
 
 	}
 }

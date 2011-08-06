@@ -98,7 +98,9 @@ public class ClientDepreciation implements IAccounterCore {
 	}
 
 	public ClientDepreciation clone() {
-		return null;
+		ClientDepreciation depreciation = (ClientDepreciation) this.clone();
+		depreciation.fixedAsset = this.fixedAsset.clone();
+		return depreciation;
 
 	}
 

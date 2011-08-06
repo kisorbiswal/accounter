@@ -399,8 +399,21 @@ public class ClientFixedAsset implements IAccounterCore {
 	}
 
 	public ClientFixedAsset clone() {
-		return null;
+		ClientFixedAsset fixedAsset = (ClientFixedAsset) this.clone();
+		fixedAsset.accountForSale = this.accountForSale.clone();
+		List<ClientFixedAssetNote> fixedAssetNotes = new ArrayList<ClientFixedAssetNote>();
+		for (ClientFixedAssetNote clientFixedAssetNote : this.fixedAssetNotes) {
+			fixedAssetNotes.add(clientFixedAssetNote.clone());
+		}
+		fixedAsset.fixedAssetNotes = fixedAssetNotes;
+
+		List<ClientFixedAssetHistory> fixedAssetHistories = new ArrayList<ClientFixedAssetHistory>();
+		for (ClientFixedAssetHistory clientFixedAssetHistory : this.fixedAssetsHistory) {
+			fixedAssetHistories.add(clientFixedAssetHistory.clone());
+		}
+		fixedAsset.fixedAssetsHistory = fixedAssetHistories;
+
+		return fixedAsset;
 
 	}
-
 }

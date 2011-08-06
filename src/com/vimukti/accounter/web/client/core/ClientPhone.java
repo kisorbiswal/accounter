@@ -112,7 +112,8 @@ public class ClientPhone implements IAccounterCore {
 	}
 
 	public ClientPhone clone() {
-		return null;
+		ClientPhone phone = (ClientPhone) this.clone();
+		return phone;
 
 	}
 

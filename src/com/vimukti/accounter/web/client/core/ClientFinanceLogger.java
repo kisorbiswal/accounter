@@ -77,7 +77,8 @@ public class ClientFinanceLogger implements IAccounterCore {
 	}
 
 	public ClientFinanceLogger clone() {
-		return null;
+		ClientFinanceLogger financeLogger = (ClientFinanceLogger) this.clone();
+		return financeLogger;
 
 	}
 

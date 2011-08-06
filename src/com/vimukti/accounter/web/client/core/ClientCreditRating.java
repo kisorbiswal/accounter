@@ -78,7 +78,8 @@ public class ClientCreditRating implements IAccounterCore {
 	}
 
 	public ClientCreditRating clone() {
-		return null;
+		ClientCreditRating creditRating = (ClientCreditRating) this.clone();
+		return creditRating;
 
 	}
 

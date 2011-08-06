@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -102,7 +103,13 @@ public class ClientItemGroup implements IAccounterCore {
 	}
 
 	public ClientItemGroup clone() {
-		return null;
+		ClientItemGroup itemGroup = (ClientItemGroup) this.clone();
+		List<ClientItem> items = new ArrayList<ClientItem>();
+		for (ClientItem clientItem : this.items) {
+			items.add(clientItem.clone());
+		}
+		itemGroup.items = items;
+		return itemGroup;
 
 	}
 

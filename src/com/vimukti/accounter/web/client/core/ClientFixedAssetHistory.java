@@ -127,7 +127,9 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 	}
 
 	public ClientFixedAssetHistory clone() {
-		return null;
+		ClientFixedAssetHistory fixedAssetHistory = (ClientFixedAssetHistory) this
+				.clone();
+		return fixedAssetHistory;
 
 	}
 

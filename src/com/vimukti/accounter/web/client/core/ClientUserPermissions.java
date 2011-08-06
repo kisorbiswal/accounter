@@ -134,7 +134,7 @@ public class ClientUserPermissions implements IAccounterCore {
 
 	}
 
-	public ClientUserPreferences clone() {
+	public ClientUserPermissions clone() {
 		return null;
 	}
 }

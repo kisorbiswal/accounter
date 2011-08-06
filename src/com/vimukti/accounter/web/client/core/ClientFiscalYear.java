@@ -157,7 +157,8 @@ public class ClientFiscalYear implements IAccounterCore {
 	}
 
 	public ClientFiscalYear clone() {
-		return null;
+		ClientFiscalYear fiscalYear = (ClientFiscalYear) this.clone();
+		return fiscalYear;
 
 	}
 

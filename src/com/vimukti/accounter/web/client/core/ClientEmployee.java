@@ -153,7 +153,9 @@ public class ClientEmployee implements IAccounterCore {
 	}
 
 	public ClientEmployee clone() {
-		return null;
+		ClientEmployee employee = (ClientEmployee) this.clone();
+		employee.permissions = this.permissions.clone();
+		return employee;
 
 	}
 

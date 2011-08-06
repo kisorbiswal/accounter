@@ -145,7 +145,16 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 	}
 
 	public ClientCreditsAndPayments clone() {
-		return null;
+		ClientCreditsAndPayments creditsAndPayments = (ClientCreditsAndPayments) this
+				.clone();
+		creditsAndPayments.transaction = this.transaction.clone();
+		Set<ClientTransactionCreditsAndPayments> creditsAndPaymentsSet = new HashSet<ClientTransactionCreditsAndPayments>();
+		for (ClientTransactionCreditsAndPayments clientTransactionCreditsAndPayments : this.transactionCreditsAndPayments) {
+			creditsAndPaymentsSet.add(clientTransactionCreditsAndPayments
+					.clone());
+		}
+		creditsAndPayments.transactionCreditsAndPayments = creditsAndPaymentsSet;
+		return creditsAndPayments;
 
 	}
 

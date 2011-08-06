@@ -48,7 +48,9 @@ public class ClientFixedAssetNote implements IAccounterCore {
 	}
 
 	public ClientFixedAssetNote clone() {
-		return null;
+		ClientFixedAssetNote fixedAssetNote = (ClientFixedAssetNote) this
+				.clone();
+		return fixedAssetNote;
 
 	}
 }
