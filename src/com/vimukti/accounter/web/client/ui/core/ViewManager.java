@@ -106,9 +106,7 @@ public class ViewManager extends DockPanel {
 
 	private boolean isShowWarningDialog;
 
-	private ParentCanvas presentView;
-
-	private Object presentDate;
+	private Object presentData;
 
 	private boolean presentViewDependency;
 
@@ -119,18 +117,7 @@ public class ViewManager extends DockPanel {
 	@SuppressWarnings("serial")
 	public ViewManager(MainFinanceWindow financeWindow) {
 		index = -1;
-		historyList = new ArrayList<History>() {
-			@Override
-			public History remove(int index) {
-				return super.remove(index);
-			}
-
-			@Override
-			public boolean remove(Object o) {
-				return super.remove(o);
-			}
-
-		};
+		historyList = new ArrayList<History>();
 		createControl(financeWindow);
 		com.google.gwt.user.client.History
 				.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -439,60 +426,9 @@ public class ViewManager extends DockPanel {
 
 	}
 
-	/**
-	 * 
-	 * @param action
-	 */
-
-	public void showView(Action action) throws Exception {
-
-		// SC.logWarn("ViewManager Show View Called for Action" + action);
-
-		History history = getHistoryForAction(action);
-		ParentCanvas canvas = history.getView();
-		if (canvas == null) {
-			runAction(action, null, history.isDependent());
-		} else {
-			showView(canvas, null, history.isDependent(), action);
-		}
-
-	}
-
 	private void runAction(Action action, Object input, boolean isDependent) {
 		action.run(input, isDependent);
 		// resetTopRightButtons(action, input);
-	}
-
-	private void resetTopRightButtons(Action action, Object input) {
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			boolean enableEdit = input != null
-					&& !action.getCatagory().equals(
-							Accounter.constants().report())
-					&& (input instanceof ClientTransaction)
-					&& !(input instanceof ClientPayVAT)
-					&& !(input instanceof ClientReceiveVAT);
-			edit1Button.setVisible(enableEdit);
-		} else {
-			boolean enableEdit = input != null
-					&& !action.getCatagory().equals(
-							Accounter.constants().report())
-					&& (input instanceof ClientTransaction)
-					&& !(input instanceof ClientPaySalesTax);
-			edit1Button.setVisible(enableEdit);
-		}
-
-		boolean enablePrint = (input != null && (input instanceof ClientInvoice || input instanceof ClientCustomerCreditMemo))
-				|| action.getCatagory().equals(Accounter.constants().report());
-
-		print1Button.setVisible(enablePrint);
-		exportButton.setVisible(action.getCatagory().equals(
-				Accounter.constants().report()));
-
-		boolean enableClose = !(action instanceof CompanyHomeAction)
-				&& !(action instanceof PurchaseOrderListAction)
-				&& !(action instanceof SalesOrderListAction);
-
-		closeButton.setVisible(enableClose);
 	}
 
 	/**
@@ -504,13 +440,19 @@ public class ViewManager extends DockPanel {
 	 * @param dependent
 	 */
 
-	public void showView(ParentCanvas view, Object input, boolean dependent,
+	public void showView(ParentCanvas<?> view, Object input, boolean dependent,
 			Action action) throws Exception {
 
 		// These references are useful, when there is a warning dialog asking to
 		// save the current view.
+		if (currentCanvas == view) {
+			return;
+		}
+		if (currentCanvas instanceof AbstractBaseView<?>) {
+			((AbstractBaseView<?>) currentCanvas).onClose();
+		}
 		presentView = view;
-		presentDate = input;
+		presentData = input;
 		presentViewDependency = dependent;
 		presentAction = action;
 		if (!dependent) {
@@ -643,7 +585,7 @@ public class ViewManager extends DockPanel {
 		if (isShowWarningDialog) {
 			try {
 				isShowWarningDialog = false;
-				showPresentView(presentView, presentDate,
+				showPresentView(presentView, presentData,
 						presentViewDependency, presentAction);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -787,7 +729,6 @@ public class ViewManager extends DockPanel {
 		}
 		return history;
 	}
-
 
 	/**
 	 * Provides next History object
@@ -1230,12 +1171,6 @@ public class ViewManager extends DockPanel {
 
 	public void updateCompany(final ClientCompany clientCompany,
 			final IAccounterWidget widget) {
-
-		processDialog = UIUtils.getLoadingMessageDialog(Accounter.constants()
-				.processingRequest());
-
-		processDialog.center();
-		// currentrequestedWidget = widget;
 
 		AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
 
