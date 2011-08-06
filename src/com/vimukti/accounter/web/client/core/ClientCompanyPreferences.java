@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Currency;
@@ -106,12 +107,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private boolean sellServices;
 	private boolean sellProducts;
 
-	
 	// currency related properties
 	private Currency primaryCurrency;
-	
 
-	private List<Currency> supportingCurrenciesList;
+	private List<ClientCurrency> supportingCurrenciesList;
+
 	// String legalName;
 
 	/**
@@ -706,10 +706,14 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		ClientCompanyPreferences preferences = (ClientCompanyPreferences) this
 				.clone();
 		preferences.baseCurrency = this.baseCurrency.clone();
+		List<ClientCurrency> supportingCurrenciesList = new ArrayList<ClientCurrency>();
+		for (ClientCurrency currency : this.supportingCurrenciesList) {
+			supportingCurrenciesList.add(currency.clone());
+		}
+		preferences.supportingCurrenciesList = supportingCurrenciesList;
 		return preferences;
-
 	}
-	
+
 	public Currency getPrimaryCurrency() {
 		return primaryCurrency;
 	}
@@ -718,11 +722,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		this.primaryCurrency = primaryCurrency;
 	}
 
-	public List<Currency> getSupportingCurrenciesList() {
+	public List<ClientCurrency> getSupportingCurrenciesList() {
 		return supportingCurrenciesList;
 	}
 
-	public void setSupportingCurrenciesList(List<Currency> supportingCurrenciesList) {
+	public void setSupportingCurrenciesList(
+			List<ClientCurrency> supportingCurrenciesList) {
 		this.supportingCurrenciesList = supportingCurrenciesList;
 	}
 }

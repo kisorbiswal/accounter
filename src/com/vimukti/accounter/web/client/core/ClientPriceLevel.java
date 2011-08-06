@@ -117,8 +117,8 @@ public class ClientPriceLevel implements IAccounterCore {
 	}
 
 	public ClientPriceLevel clone() {
-		return null;
-
+		ClientPriceLevel priceLevel = (ClientPriceLevel) this.clone();
+		return priceLevel;
 	}
 
 }

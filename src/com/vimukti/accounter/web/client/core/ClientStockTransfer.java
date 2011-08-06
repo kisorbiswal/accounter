@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.client.core;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -98,7 +99,15 @@ public class ClientStockTransfer implements IAccounterCore {
 	}
 
 	public ClientStockTransfer clone() {
-		return null;
+		ClientStockTransfer stockTransfer = (ClientStockTransfer) this.clone();
+		stockTransfer.fromWarehouse = this.fromWarehouse.clone();
+		Set<ClientStockTransferItem> stockTransferItems = new HashSet<ClientStockTransferItem>();
+		for (ClientStockTransferItem clientStockTransferItem : this.stockTransferItems) {
+			stockTransferItems.add(clientStockTransferItem.clone());
+		}
+		stockTransfer.stockTransferItems = stockTransferItems;
+		stockTransfer.toWarehouse = this.toWarehouse.clone();
+		return stockTransfer;
 
 	}
 }

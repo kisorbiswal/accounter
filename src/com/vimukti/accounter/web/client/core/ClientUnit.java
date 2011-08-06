@@ -11,7 +11,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author Prasanna Kumar G
  * 
  */
-public class ClientUnit implements Serializable, IsSerializable {
+public class ClientUnit implements Serializable, IsSerializable, Cloneable {
 
 	private long id;
 	private ClientMeasurement measurement;
@@ -91,5 +91,11 @@ public class ClientUnit implements Serializable, IsSerializable {
 	 */
 	public void setFactor(double factor) {
 		this.factor = factor;
+	}
+
+	public ClientUnit clone() {
+		ClientUnit unit = this.clone();
+		unit.measurement = this.measurement.clone();
+		return unit;
 	}
 }

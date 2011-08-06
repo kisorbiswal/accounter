@@ -3,8 +3,7 @@
  */
 package com.vimukti.accounter.web.client.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -184,11 +183,11 @@ public class ClientMeasurement implements IAccounterCore {
 
 	public ClientMeasurement clone() {
 		ClientMeasurement measurement = (ClientMeasurement) this.clone();
-		List<ClientUnit> units = new ArrayList<ClientUnit>();
-		// for (ClientUnit clientUnit : this.units) {
-		// units.add(clientUnit.clone());
-		// }
-		// measurement.units=units;
+		Set<ClientUnit> units = new HashSet<ClientUnit>();
+		for (ClientUnit clientUnit : this.units) {
+			units.add(clientUnit.clone());
+		}
+		measurement.units = units;
 		return measurement;
 
 	}

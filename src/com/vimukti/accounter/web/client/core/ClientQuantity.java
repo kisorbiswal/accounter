@@ -11,7 +11,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author Prasanna Kumar G
  * 
  */
-public class ClientQuantity implements IsSerializable, Serializable,
+public class ClientQuantity implements IsSerializable, Serializable, Cloneable,
 		Comparable<ClientQuantity> {
 
 	private ClientUnit unit;
@@ -69,6 +69,12 @@ public class ClientQuantity implements IsSerializable, Serializable,
 		if (unit != null)
 			quantity.setUnit(unit.getMeasurement().getDefaultUnit());
 
+		return quantity;
+	}
+
+	public ClientQuantity clone() {
+		ClientQuantity quantity = (ClientQuantity) this.clone();
+		quantity.unit = this.unit.clone();
 		return quantity;
 	}
 

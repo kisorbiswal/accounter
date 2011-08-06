@@ -11,7 +11,8 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author Prasanna Kumar G
  * 
  */
-public class ClientStockTransferItem implements Serializable, IsSerializable {
+public class ClientStockTransferItem implements Serializable, IsSerializable,
+		Cloneable {
 
 	private ClientItem item;
 	private ClientQuantity quantity;
@@ -60,6 +61,14 @@ public class ClientStockTransferItem implements Serializable, IsSerializable {
 	 */
 	public void setMemo(String memo) {
 		this.memo = memo;
+	}
+
+	public ClientStockTransferItem clone() {
+		ClientStockTransferItem stockTransferItem = (ClientStockTransferItem) this
+				.clone();
+		stockTransferItem.item = this.item.clone();
+		stockTransferItem.quantity = this.quantity.clone();
+		return stockTransferItem;
 	}
 
 }

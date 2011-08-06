@@ -99,13 +99,13 @@ public class ClientTAXCode implements IAccounterCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
 
 	@Override
-	public void setID(long id){
-		this.id=id;
+	public void setID(long id) {
+		this.id = id;
 	}
 
 	public boolean isDefault() {
@@ -122,6 +122,11 @@ public class ClientTAXCode implements IAccounterCore {
 
 	public long getTaxAgency() {
 		return taxAgency;
+	}
+
+	public ClientTAXCode clone() {
+		ClientTAXCode taxCode = (ClientTAXCode) this.clone();
+		return taxCode;
 	}
 
 }

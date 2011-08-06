@@ -80,8 +80,9 @@ public class ClientReceiveVATEntries implements IAccounterCore {
 	}
 
 	public ClientReceiveVATEntries clone() {
-		return null;
-
+		ClientReceiveVATEntries receiveVATEntries = (ClientReceiveVATEntries) this
+				.clone();
+		return receiveVATEntries;
 	}
 
 }

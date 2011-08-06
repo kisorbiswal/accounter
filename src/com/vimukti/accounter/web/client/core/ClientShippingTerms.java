@@ -99,8 +99,8 @@ public class ClientShippingTerms implements IAccounterCore {
 	}
 
 	public ClientShippingTerms clone() {
-		return null;
-
+		ClientShippingTerms shippingTerms = (ClientShippingTerms) this.clone();
+		return shippingTerms;
 	}
 
 }
