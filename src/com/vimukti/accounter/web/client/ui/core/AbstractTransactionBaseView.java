@@ -512,6 +512,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public AccounterButton createAddNewButton() {
 		menuButton = new AccounterButton(Accounter.constants().addNewItem());
+		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 		menuButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -884,7 +885,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected void onAttach() {
 		super.onAttach();
 		if (menuButton != null) {
-			menuButton.setType(AccounterButton.ADD_BUTTON);
+			menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 			menuButton.setEnabled(!isEdit);
 		}
 	}
