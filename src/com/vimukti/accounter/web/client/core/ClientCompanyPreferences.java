@@ -120,6 +120,33 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean trackEmployeeExpenses;
 	private int sellType;
 	private int salesTaxs;
+	int fiscalYearFirstMonth;
+	boolean isBeginingorTodaysdate;
+	ClientFinanceDate trackFinanceDate;
+
+	public ClientFinanceDate getTrackFinanceDate() {
+		return trackFinanceDate;
+	}
+
+	public void setTrackFinanceDate(ClientFinanceDate trackFinanceDate) {
+		this.trackFinanceDate = trackFinanceDate;
+	}
+
+	public boolean isBeginingorTodaysdate() {
+		return isBeginingorTodaysdate;
+	}
+
+	public void setBeginingorTodaysdate(boolean isBeginingorTodaysdate) {
+		this.isBeginingorTodaysdate = isBeginingorTodaysdate;
+	}
+
+	public int getFiscalYearFirstMonth() {
+		return fiscalYearFirstMonth;
+	}
+
+	public void setFiscalYearFirstMonth(int fiscalYearFirstMonth) {
+		this.fiscalYearFirstMonth = fiscalYearFirstMonth;
+	}
 
 	// String legalName;
 
