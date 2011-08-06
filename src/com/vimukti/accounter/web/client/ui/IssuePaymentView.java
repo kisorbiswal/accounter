@@ -10,9 +10,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -26,12 +24,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
@@ -202,30 +195,6 @@ public class IssuePaymentView extends BaseDialog {
 		Label label = new Label();
 		label.setText(Accounter.constants().paymentsToBeIssued());
 		initListGrid();
-
-		addInputDialogHandler(new InputDialogHandler() {
-
-			public void onCancel() {
-
-			}
-
-			public boolean onOK() {
-
-				try {
-					if (validate()) {
-						createIssuePayment();
-						// return true;
-
-					}
-				} catch (Exception e) {
-					Accounter.showError(e.getMessage() == null ? e.toString()
-							: e.getMessage());
-					return false;
-				}
-				return false;
-			}
-
-		});
 
 		mainVLay = new VerticalPanel();
 		mainVLay.setWidth("800");
@@ -496,4 +465,9 @@ public class IssuePaymentView extends BaseDialog {
 		// BaseDialog.commentPanel.setVisible(true);
 	}
 
+	@Override
+	protected boolean onOK() {
+		createIssuePayment();
+		return true;
+	}
 }
