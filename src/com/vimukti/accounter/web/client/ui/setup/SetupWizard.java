@@ -26,6 +26,8 @@ public class SetupWizard extends VerticalPanel {
 			new SetupTrackBillsAndTimePage(),
 			new SetupSelectFiscalYrDatePage(), new SetupSelectAccountsPage(),
 			new SetupComplitionPage() };
+	private AbstractSetupPage previousView;
+	private AbstractSetupPage viewToShow;
 
 	public SetupWizard() {
 		preferences = Accounter.getCompany().getPreferences();
@@ -82,10 +84,15 @@ public class SetupWizard extends VerticalPanel {
 				showView();
 			}
 		});
+		previousView = null;
+		showView();
 	}
 
 	protected void showView() {
-		AbstractSetupPage viewToShow = viewList[currentViewIndex];
+		previousView = viewToShow;
+		if(previousView != null)
+			this.viewPanel.remove(previousView);
+		viewToShow = viewList[currentViewIndex];
 		viewToShow.setPreferences(preferences);
 		while (!viewToShow.doShow()) {
 			currentViewIndex++;
