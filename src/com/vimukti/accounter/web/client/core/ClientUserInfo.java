@@ -239,6 +239,8 @@ public class ClientUserInfo implements IAccounterCore {
 	}
 
 	public ClientUserInfo clone() {
-		return null;
+		ClientUserInfo clientUserInfo = (ClientUserInfo) this.clone();
+		clientUserInfo.permissions = this.permissions.clone();
+		return clientUserInfo;
 	}
 }
