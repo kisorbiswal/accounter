@@ -103,6 +103,8 @@ public class DashBoardView extends BaseHomeView {
 		try {
 			bankingPortlet.getElement().getParentElement()
 					.setClassName("banking-portlet");
+			expenseClaimsPortlet.getElement().getParentElement()
+					.setClassName("expense_claim_portlet");
 		} catch (Exception e) {
 			System.err.println("Exception :" + e);
 		}
