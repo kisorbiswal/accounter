@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class CompanyPreferences implements IAccounterServerCore {
 
@@ -136,6 +137,35 @@ public class CompanyPreferences implements IAccounterServerCore {
 	boolean haveW_2Employees;
 	boolean have1099contractors;
 	boolean trackEmployeeExpenses;
+	// for select fiscal year in setup
+
+	int fiscalYearFirstMonth;
+	boolean isBeginingorTodaysdate;
+	ClientFinanceDate trackFinanceDate;
+
+	public ClientFinanceDate getTrackFinanceDate() {
+		return trackFinanceDate;
+	}
+
+	public void setTrackFinanceDate(ClientFinanceDate trackFinanceDate) {
+		this.trackFinanceDate = trackFinanceDate;
+	}
+
+	public boolean isBeginingorTodaysdate() {
+		return isBeginingorTodaysdate;
+	}
+
+	public void setBeginingorTodaysdate(boolean isBeginingorTodaysdate) {
+		this.isBeginingorTodaysdate = isBeginingorTodaysdate;
+	}
+
+	public int getFiscalYearFirstMonth() {
+		return fiscalYearFirstMonth;
+	}
+
+	public void setFiscalYearFirstMonth(int fiscalYearFirstMonth) {
+		this.fiscalYearFirstMonth = fiscalYearFirstMonth;
+	}
 
 	public boolean isHaveEpmloyees() {
 		return haveEpmloyees;
