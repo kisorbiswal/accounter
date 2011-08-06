@@ -163,6 +163,12 @@ public class Measurement implements IAccounterCore {
 	}
 
 	public Measurement clone() {
+		Measurement measurementClone = (Measurement) this.clone();
+		Set<Unit> units = new HashSet<Unit>();
+		for(Unit unit:this.units){
+			units.add(uni);
+		}
+
 		return null;
 	}
 }
