@@ -11,7 +11,8 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author Prasanna Kumar G
  * 
  */
-public class ClientItemStatus implements Serializable, IsSerializable {
+public class ClientItemStatus implements Serializable, IsSerializable,
+		Cloneable {
 
 	private long id;
 
