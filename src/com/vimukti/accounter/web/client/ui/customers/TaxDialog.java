@@ -2,12 +2,12 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -58,59 +58,6 @@ public class TaxDialog extends BaseDialog {
 		typeForm.setGroupTitle(vendorsConstants.selectHowYouPaidForExpense());
 		typeForm.setFields(typeRadio);
 
-		addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public boolean onOkClick() {
-				if (typeRadio.getValue() != null) {
-					String radio = typeRadio.getValue().toString();
-					if (radio.equals(TAXGROUP)) {
-						try {
-							Action action = ActionFactory
-									.getManageSalesTaxGroupsAction();
-							action.setActionSource(actionSource);
-
-							action.run(null, true);
-						} catch (Throwable e) {
-							Accounter.showError(Accounter.constants()
-									.failedToloadTaxGroup()
-
-							);
-							e.printStackTrace();
-						}
-
-					} else if (radio.equals(TAXITEM)) {
-						try {
-							Action action = ActionFactory.getNewVatItemAction();
-							action.setActionSource(actionSource);
-
-							action.run(null, true);
-							// ActionFactory.getNewVatItemAction().run(null,
-							// true);
-						} catch (Throwable e) {
-							Accounter.showError(Accounter.constants()
-									.failedToloadTaxItem());
-							e.printStackTrace();
-
-						}
-
-					} else {
-						Accounter.showError(Accounter.constants()
-								.pleaseSelectTaxType());
-					}
-
-				}
-				removeFromParent();
-				return true;
-			}
-
-			@Override
-			public void onCancelClick() {
-				removeFromParent();
-				// Action.cancle();
-			}
-		});
-
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(typeForm);
@@ -125,6 +72,55 @@ public class TaxDialog extends BaseDialog {
 
 	public void setFocus() {
 		cancelBtn.setFocus(true);
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		String radio = typeRadio.getValue().toString();
+		if (!radio.equals(TAXGROUP) && !radio.equals(TAXITEM)) {
+			result.addError(this, Accounter.constants().pleaseSelectTaxType());
+		}
+		return result;
+	}
+
+	@Override
+	protected boolean onOK() {
+		if (typeRadio.getValue() != null) {
+			String radio = typeRadio.getValue().toString();
+			if (radio.equals(TAXGROUP)) {
+				// try {
+				Action action = ActionFactory.getManageSalesTaxGroupsAction();
+				action.setActionSource(actionSource);
+
+				action.run(null, true);
+				// } catch (Throwable e) {
+				// Accounter.showError(Accounter.constants()
+				// .failedToloadTaxGroup()
+				//
+				// );
+				// e.printStackTrace();
+				// }
+
+			} else if (radio.equals(TAXITEM)) {
+				// try {
+				Action action = ActionFactory.getNewVatItemAction();
+				action.setActionSource(actionSource);
+
+				action.run(null, true);
+				// ActionFactory.getNewVatItemAction().run(null,
+				// true);
+				// } catch (Throwable e) {
+				// Accounter.showError(Accounter.constants()
+				// .failedToloadTaxItem());
+				// e.printStackTrace();
+				//
+				// }
+
+			}
+
+		}
+		return true;
 	}
 
 }
