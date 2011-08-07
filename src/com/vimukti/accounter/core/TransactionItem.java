@@ -19,8 +19,7 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
  * 
  */
 
-public class TransactionItem extends CreatableObject implements
-		IAccounterServerCore, Lifecycle {
+public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	/**
   * 
@@ -41,6 +40,7 @@ public class TransactionItem extends CreatableObject implements
 		return taxItem;
 	}
 
+	private long id;
 	/**
 	 * @param vatItem
 	 *            the vatItem to set
@@ -181,6 +181,10 @@ public class TransactionItem extends CreatableObject implements
 
 	public TransactionItem() {
 
+	}
+
+	public long getId() {
+		return id;
 	}
 
 	public double getVATfraction() {
