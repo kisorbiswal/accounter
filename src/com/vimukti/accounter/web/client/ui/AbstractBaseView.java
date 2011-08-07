@@ -8,8 +8,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gwt.core.client.JavaScriptException;
+import com.google.gwt.dev.util.collect.HashSet;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -175,6 +177,8 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	private VerticalPanel errorPanel;
 	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
 	private boolean isDirty;
+
+	private Set<Object> lastErrorSourcesFromValidation = new HashSet<Object>();
 
 	/**
 	 * Convenience Method to Set CallBack
@@ -410,18 +414,23 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	 * @param b
 	 */
 	public void onSave(boolean reopen) {
-		// clearAllErrors();
-		if (!errorsMap.isEmpty()) {
-			return;
+		this.saveAndClose = !reopen;
+		for (Object errorSource : lastErrorSourcesFromValidation) {
+			clearError(errorSource);
 		}
+		lastErrorSourcesFromValidation.clear();
+
 		ValidationResult validationResult = this.validate();
 		if (validationResult.haveErrors()) {
 			for (Error error : validationResult.getErrors()) {
-				HTML err = new HTML("<li>" + error.getMessage() + "</li>");
-				errorPanel.add(err);
-				errorsMap.put(error.getSource(), err);
+				addError(error.getSource(), error.getMessage());
+				lastErrorSourcesFromValidation.add(error.getSource());
 			}
-		} else if (validationResult.haveWarnings()) {
+		}
+		if (!errorsMap.isEmpty()) {
+			return;
+		}
+		if (validationResult.haveWarnings()) {
 
 			new WarningsDialog(validationResult.getWarnings(),
 					new ErrorDialogHandler() {
@@ -443,7 +452,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 						}
 					});
 		} else {
-			this.saveAndClose = !reopen;
+
 			saveAndUpdateView();
 		}
 	}
