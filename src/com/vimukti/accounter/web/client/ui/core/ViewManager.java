@@ -235,9 +235,10 @@ public class ViewManager extends VerticalPanel {
 		}
 	}
 
-	public void showView(ParentCanvas<?> report, Object data,
+	public void showView(ParentCanvas<?> view, Object data,
 			Boolean isDependent, Action action) {
-		showView(report, action.getHistoryToken(), data);
+		view.setAction(action);
+		showView(view, action.getHistoryToken(), data);
 	}
 
 	void initilizeToolBar() {
