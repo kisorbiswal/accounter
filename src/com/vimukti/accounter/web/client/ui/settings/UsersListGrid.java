@@ -73,7 +73,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	protected Object getColumnValue(ClientUserInfo obj, int index) {
 		switch (index) {
 		case 0:
-			return obj.getDisplayName();
+			return obj.getFullName();
 		case 1:
 			// if (obj.isCanDoUserManagement())
 			// return obj.getUserRole() + " + Manage Users";

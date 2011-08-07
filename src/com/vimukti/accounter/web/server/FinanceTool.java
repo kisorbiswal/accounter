@@ -4845,8 +4845,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTrialBalance")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
 		Object[] object = null;
@@ -5039,8 +5039,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAgedCreditors")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return prepareAgedDebotOrsorCreditors(l, startDate, endDate);
@@ -6485,8 +6485,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List l = ((Query) session.getNamedQuery("getBalanceSheet")
 
-		.setParameter("startDate", startDate).setParameter("endDate", endDate))
-				.list();
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		double netIncome = 0.0;
 		netIncome = getNetIncome(startDate, endDate,
@@ -6511,7 +6511,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
 			// != 0.0) {
 
-			t.setAccountId((Long) object[0]);
+			t.setAccountId(((BigInteger) object[0]).longValue());
 			t.setAccountName((String) object[1]);
 			t.setAccountNumber((String) object[2]);
 			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
@@ -6571,9 +6571,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List l = ((Query) session.getNamedQuery("getProfitAndLoss")
 
-		.setParameter("startDate", startDate).setParameter("endDate", endDate)
-				.setParameter("startDate1", startDate1)
-				.setParameter("endDate1", endDate1)).list();
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("startDate1", startDate1.getDate())
+				.setParameter("endDate1", endDate1.getDate())).list();
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
@@ -6587,7 +6588,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
 			// != 0.0) {
 
-			t.setAccountId((Long) object[0]);
+			t.setAccountId(((BigInteger) object[0]).longValue());
 			t.setAccountName((String) object[1]);
 			t.setAccountNumber((String) object[2]);
 			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
@@ -6665,25 +6666,26 @@ public class FinanceTool implements IFinanceDAOService {
 
 		ClientFinanceDate date[] = this.getMinimumAndMaximumTransactionDate();
 		long start = date[0] != null ? date[0].getDate() : startDate.getDate();
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		cal.setTime(startDate.getAsDateObject());
+		// Calendar cal = Calendar.getInstance();
+		// SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		// cal.setTime(startDate.getAsDateObject());
 
-		cal.add(Calendar.DAY_OF_MONTH, -1);
+		// cal.add(Calendar.DAY_OF_MONTH, -1);
+		//
+		// String end = cal.get(Calendar.YEAR) + "-";
+		// end += ((((cal.get(Calendar.MONTH) + 1) + "").length() == 1) ? "0"
+		// + cal.get(Calendar.MONTH) : cal.get(Calendar.MONTH) + 1)
+		// + "-";
+		// end += (((cal.get(Calendar.DAY_OF_MONTH)) + "").length() == 1) ? "0"
+		// + cal.get(Calendar.DAY_OF_MONTH) : cal
+		// .get(Calendar.DAY_OF_MONTH);
 
-		String end = cal.get(Calendar.YEAR) + "-";
-		end += ((((cal.get(Calendar.MONTH) + 1) + "").length() == 1) ? "0"
-				+ cal.get(Calendar.MONTH) : cal.get(Calendar.MONTH) + 1)
-				+ "-";
-		end += (((cal.get(Calendar.DAY_OF_MONTH)) + "").length() == 1) ? "0"
-				+ cal.get(Calendar.DAY_OF_MONTH) : cal
-				.get(Calendar.DAY_OF_MONTH);
+		long end = date[1] != null ? date[0].getDate() : endDate.getDate();
 
 		List l = ((Query) session.getNamedQuery("getCashFlowStatement")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate).setParameter("start", start)
-				.setParameter("end", new ClientFinanceDate(end).getDate()))
-				.list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("start", start).setParameter("end", end)).list();
 
 		double netIncome = 0.0;
 		netIncome = getNetIncome(startDate, endDate, "getNetIncome");
@@ -6703,7 +6705,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
 			// != 0.0) {
 
-			t.setAccountId((Long) object[0]);
+			t.setAccountId(((BigInteger) object[0]).longValue());
 			t.setAccountName((String) object[1]);
 			t.setAccountNumber((String) object[2]);
 			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
@@ -6750,9 +6752,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		Query q = session.getNamedQuery(query).setParameter("startDate",
-
-		startDate).setParameter("endDate", endDate);
+		Query q = session.getNamedQuery(query)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l1 = q.list();
 		double netIncome = 0.0;

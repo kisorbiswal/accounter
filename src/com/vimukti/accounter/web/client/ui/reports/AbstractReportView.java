@@ -29,8 +29,8 @@ import com.vimukti.accounter.web.client.ui.core.ReportUtility;
  * @param <R>
  */
 
-public abstract class AbstractReportView<R> extends ParentCanvas<List<R>> implements
-		ISorting<R>, IFinanceReport<R>, AsyncCallback<List<R>> {
+public abstract class AbstractReportView<R> extends ParentCanvas<List<R>>
+		implements ISorting<R>, IFinanceReport<R>, AsyncCallback<List<R>> {
 
 	public static final int TOOLBAR_TYPE_DATE_RANGE = 1;
 	public static final int TOOLBAR_TYPE_AS_OF = 2;
@@ -413,7 +413,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas<List<R>> implem
 					toolbar.getEndDate());
 
 		}
-		// makeReportRequest(toolbar.getStartDate(), toolbar.getEndDate());
+		makeReportRequest(toolbar.getStartDate(), toolbar.getEndDate());
 	}
 
 	private void createReportTable() {
@@ -478,7 +478,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas<List<R>> implem
 					|| this instanceof APAgingSummaryReport) {
 				toolbar.setVisible(false);
 			}
-			mainLayout.add(toolbar);
+			add(toolbar);
 			toolbar.setView(this);
 			toolbar.itemSelectionHandler = new ReportToolBarItemSelectionHandler() {
 

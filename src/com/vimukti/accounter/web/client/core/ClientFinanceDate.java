@@ -41,6 +41,9 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	}
 
 	private void initDate(long date) {
+		if (date == 0) {
+			return;
+		}
 		String stringValue = String.valueOf(date);
 		this.year = Integer.parseInt(stringValue.substring(0, 4));
 		this.month = Integer.parseInt(stringValue.substring(4, 6));

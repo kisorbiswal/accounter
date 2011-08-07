@@ -43,8 +43,6 @@ public class ProfitAndLossReport extends AbstractReportView<TrialBalance> {
 		 */// this.start.getTime(), this.end.getTime(), this);
 	}
 
-
-
 	@Override
 	public void onEdit() {
 

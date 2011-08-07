@@ -864,6 +864,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	@Override
 	public ValidationResult validate() {
+
+		updateTransaction();
+
 		ValidationResult result = new ValidationResult();
 
 		if (this.transaction.getTotal() <= 0) {
