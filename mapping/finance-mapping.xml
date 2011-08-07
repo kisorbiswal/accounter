@@ -221,6 +221,7 @@
 				not-null="true" type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="preventPostingBeforeDate" column="CP_PREVENT_POSTING_DATE"
 				not-null="true" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="dateFormat" column="DATE_FORMAT" not-null="true"></property>
 			<!-- <property name="legalName" column="CP_LEGAL_NAME" not-null="true"></property> -->
 
 			<!-- Customer Preferences -->
