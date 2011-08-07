@@ -37,13 +37,13 @@ public class ObjectConvertUtil {
 		return mapFields;
 	}
 
-	protected <T> String getFieldInstanceID(T obj) {
+	protected <T> Long getFieldInstanceID(T obj) {
 		try {
 			if (obj == null)
 				return null;
 			Field idField = obj.getClass().getDeclaredField("id");
 			idField.setAccessible(true);
-			return (String) idField.get(obj);
+			return (Long) idField.get(obj);
 		} catch (Exception e) {
 			Class<?> superclass = obj.getClass().getSuperclass();
 			while (superclass != null) {
@@ -52,7 +52,7 @@ public class ObjectConvertUtil {
 					if (!idField.isAccessible()) {
 						idField.setAccessible(true);
 					}
-					return (String) idField.get(obj);
+					return  (Long) idField.get(obj);
 				} catch (SecurityException e1) {
 					return null;
 				} catch (IllegalArgumentException e1) {
