@@ -3,14 +3,11 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -257,11 +254,7 @@ public class ViewManager extends VerticalPanel {
 		ImageButton closeButton = new ImageButton(
 				Accounter.constants().close(), Accounter.getFinanceImages()
 						.dialougueCloseicon());
-		toolBar.add(previousButton);
-		toolBar.add(nextbutton);
-		toolBar.add(printButton);
-		toolBar.add(editButton);
-		toolBar.add(closeButton);
-		
+		toolBar.leftAlign(previousButton, nextbutton);
+		toolBar.rightAlign(editButton, printButton, closeButton);
 	}
 }
