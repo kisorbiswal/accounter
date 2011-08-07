@@ -606,8 +606,10 @@ public class NewCustomerPaymentView extends
 			return;
 		this.setCustomer(customer);
 		if (customer != null && customerCombo != null) {
-			customerCombo.setComboItem(getCompany().getCustomer(
-					customer.getID()));
+			// AGAIN Search for ClientCustomer by customerId.
+			// customerCombo.setComboItem(getCompany().getCustomer(
+			// customer.getID()));
+			customerCombo.setComboItem(customer);
 		}
 		this.addressListOfCustomer = customer.getAddress();
 		initBillToCombo();
