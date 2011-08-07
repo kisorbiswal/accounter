@@ -1226,10 +1226,10 @@ public class AccounterValidator {
 		if (asOfDate.before(companyStartDate)) {
 			// throw new
 			// InvalidEntryException(AccounterErrorType.prior_asOfDate);
-			return true;
+			return false;
 			// return false;
 		}
-		return false;
+		return true;
 
 	}
 
