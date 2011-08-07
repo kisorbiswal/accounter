@@ -314,7 +314,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// mainLayout.add(hlLayout);
 
 		this.add(mainLayout);
-		this.getParent().removeStyleName("main-class-pannel");
+		// this.getParent().removeStyleName("main-class-pannel");
 	}
 
 	private HorizontalPanel getCompanyInfo() {
@@ -660,7 +660,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			}
 
 			public void onResultSuccess(Boolean result) {
-				
+
 				if (result != null) {
 					AccounterCommand cmd = new AccounterCommand();
 					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);

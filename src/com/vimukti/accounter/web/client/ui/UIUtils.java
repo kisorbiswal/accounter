@@ -50,11 +50,14 @@ public class UIUtils {
 	public static final int TYPE_SC_LOG = 1;
 	public static final int TYPE_WND_ALERT = 2;
 	public static int logType = TYPE_WND_ALERT;
-	public static int[] accountTypes = { ClientAccount.TYPE_INCOME,
-			ClientAccount.TYPE_OTHER_INCOME, ClientAccount.TYPE_EXPENSE,
+	public static int[] accountTypes = {
+			ClientAccount.TYPE_INCOME,
+			ClientAccount.TYPE_OTHER_INCOME,
+			ClientAccount.TYPE_EXPENSE,
 			ClientAccount.TYPE_OTHER_EXPENSE,
-			ClientAccount.TYPE_COST_OF_GOODS_SOLD, ClientAccount.TYPE_CASH,
-			ClientAccount.TYPE_BANK, ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+			ClientAccount.TYPE_COST_OF_GOODS_SOLD,
+			ClientAccount.TYPE_CASH,
+			/* ClientAccount.TYPE_BANK, */ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 			ClientAccount.TYPE_INVENTORY_ASSET, ClientAccount.TYPE_FIXED_ASSET,
 			ClientAccount.TYPE_CREDIT_CARD,
 			ClientAccount.TYPE_PAYROLL_LIABILITY,

@@ -757,11 +757,11 @@ public class Utility implements IsSerializable, Serializable {
 		}
 		subStringArray[j] = lhs.substring(0, i + 1);
 		String placeValue = "";
-		
+
 		String faceValue = "";
-		
+
 		String subPlaceValue = "";
-		
+
 		String subFaceValue = "";
 		if (subStringArray.length > 1) {
 			for (i = 0; i < subStringArray.length; i++) {
@@ -1255,7 +1255,7 @@ public class Utility implements IsSerializable, Serializable {
 		if (list == null)
 			return null;
 		for (S s : list) {
-			if (s != null && s.getID() != id) {
+			if (s != null && s.getID() == id) {
 				return s;
 			}
 		}
