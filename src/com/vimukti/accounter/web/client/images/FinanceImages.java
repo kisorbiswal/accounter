@@ -159,11 +159,13 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("submit_for_approval.png")
 	ImageResource submitForApproval();
-	
-	@Source("")
+
+	@Source("bar-right.png")
 	ImageResource previousIcon();
 
+	@Source("bar-right.png")
 	ImageResource nextIcon();
 
+	@Source("bar-right.png")
 	ImageResource editIcon();
 }
