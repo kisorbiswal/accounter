@@ -176,19 +176,16 @@ public class DashBoardView extends BaseHomeView {
 
 	@Override
 	protected void onAttach() {
-//		creator.setContinueRequest(true);
+		refreshWidgetData();
 		super.onAttach();
 	}
 
 	@Override
 	protected void onUnload() {
-//		creator.setContinueRequest(false);
-//		if (timer != null)
-//			timer.cancel();
 		super.onUnload();
 	}
 
-	public void refreshWidgetData(IAccounterCore accounterCoreObject) {
+	public void refreshWidgetData() {
 		bankingPortlet.refreshWidget();
 		moneyComingPortlet.refreshWidget();
 		moneyGoingPortlet.refreshWidget();

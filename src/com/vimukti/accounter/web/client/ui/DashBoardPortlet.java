@@ -43,7 +43,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		addStyleName("portlet");
 
 		createHeaderControls();
-		createBody();
+//		createBody();
 
 		// panel.add(body);
 		// panel.setHeight("100%");
