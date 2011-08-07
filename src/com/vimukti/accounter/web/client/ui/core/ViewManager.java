@@ -107,6 +107,7 @@ public class ViewManager extends VerticalPanel {
 						@Override
 						public void execute() {
 							// Called if the prev view can be closed
+							existingView.removeFromParent();
 							showNewView(newview, token, null);
 						}
 					});
@@ -200,6 +201,7 @@ public class ViewManager extends VerticalPanel {
 		}
 		this.existingView.removeFromParent();
 		HistoryItem item = this.views.get(-1);
+		this.existingView=item.view;
 		this.add(item.view);
 		this.views.add(item);
 	}
