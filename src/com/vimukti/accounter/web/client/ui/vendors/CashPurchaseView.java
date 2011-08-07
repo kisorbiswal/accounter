@@ -477,7 +477,6 @@ public class CashPurchaseView extends
 				checkNo.setDisabled(true);
 			}
 		}
-
 	}
 
 	@Override
@@ -497,7 +496,7 @@ public class CashPurchaseView extends
 	}
 
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		// Setting Type
 		transaction.setType(ClientTransaction.TYPE_CASH_PURCHASE);
 
