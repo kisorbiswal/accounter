@@ -6517,3 +6517,16 @@ input[type="text"],textarea {
 .popupContent img{
    padding:5px 0 5px 10px;
 }
+
+.error-panel{
+	border: 1px solid gray;
+	background-color: #FFFFFF;
+	width: 100%;
+	margin: 15px 15px 0px;
+}
+
+.error {
+	padding: 10px;
+	font-weight: bold;
+	color: red;
+}
