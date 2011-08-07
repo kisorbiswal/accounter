@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -385,7 +384,6 @@ public class SalesOrderView extends
 		vpanel.setWidth("100%");
 		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vpanel.add(panel);
-
 
 		vpanel.add(prodAndServiceHLay);
 
@@ -856,7 +854,7 @@ public class SalesOrderView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 		result.add(FormItem.validate(statusSelect));
 		result.add(super.validate());
 		return result;

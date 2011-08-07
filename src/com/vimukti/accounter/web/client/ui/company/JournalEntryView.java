@@ -80,7 +80,7 @@ public class JournalEntryView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 		if (memoText.getValue().toString() != null
 				&& memoText.getValue().toString().length() >= 256) {
 			result.addError(memoText, Accounter.constants()

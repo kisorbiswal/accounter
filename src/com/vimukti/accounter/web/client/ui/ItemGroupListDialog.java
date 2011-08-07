@@ -131,7 +131,6 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		result.add(itemGroupDg.validate());
 
 		if (itemGroup != null) {
 			if (!(itemGroup.getName().equalsIgnoreCase(

@@ -307,6 +307,7 @@ public class VATPaymentView extends
 	public ValidationResult validate() {
 		ValidationResult result = accountInformationForm.validate();
 		result.add(paymentMethodForm.validate());
+		result.add(super.validate());
 		return result;
 	}
 

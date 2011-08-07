@@ -499,7 +499,7 @@ public class PaySalesTaxView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 
 		result.add(filterForm.validate());
 		if (grid == null || grid.getRecords().isEmpty()) {

@@ -191,7 +191,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 		result.add(vendorForm.validate());
 		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
 			result.addError(transactionDateItem,

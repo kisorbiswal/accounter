@@ -27,11 +27,11 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
-import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -500,17 +500,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	}
 
-	private void validateTransactionItems(
-			List<ClientTransactionItem> transactionItems2) {
-		if (transactionItems == null)
-			return;
-		for (ClientTransactionItem transactionItem : transactionItems)
-			if (transactionItem.getLineTotal() <= 0)
-				addError("TransactionItem" + transactionItem.getAccount(),
-						Accounter.constants()
-								.transactionitemtotalcannotbe0orlessthan0());
-	}
-
 	public Button createAddNewButton() {
 		// TODO make this button to Image button
 		menuButton = new Button(Accounter.constants().addNewItem());
@@ -861,26 +850,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return isEdit;
 	}
 
-	public void validateVATCODEBaseOnTransactionDate() {
-
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			for (ClientTransactionItem selectItem : this.transactionItems) {
-				if (selectItem.getTaxCode() != 0) {
-					ClientTAXCode code = getCompany().getTAXCode(
-							selectItem.getTaxCode());
-
-					if (code.getName().equalsIgnoreCase("New S")
-							&& getTransactionDate().before(
-									new ClientFinanceDate(2011 - 1900, 01 - 1,
-											04))) {
-						addError("TransactionDate" + selectItem.getAccount(),
-								Accounter.constants().vat4thJanError());
-					}
-				}
-			}
-		}
-	}
-
 	@Override
 	protected void onAttach() {
 		super.onAttach();
@@ -890,6 +859,49 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected void showMenu(Widget button) {
+
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+
+		if (this.transaction.getTotal() <= 0) {
+			result.addError(this, Accounter.constants()
+					.transactiontotalcannotbe0orlessthan0());
+		}
+
+		if (transactionItems != null) {
+			for (ClientTransactionItem transactionItem : transactionItems) {
+				if (transactionItem.getLineTotal() <= 0) {
+					result.addError(
+							"TransactionItem" + transactionItem.getAccount()
+									+ transactionItem.getAccount(), Accounter
+									.constants()
+									.transactionitemtotalcannotbe0orlessthan0());
+				}
+
+				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+					if (transactionItem.getTaxCode() != 0) {
+						ClientTAXCode code = getCompany().getTAXCode(
+								transactionItem.getTaxCode());
+
+						if (code.getName().equalsIgnoreCase("New S")
+								&& getTransactionDate().before(
+										new ClientFinanceDate(2011 - 1900,
+												01 - 1, 04))) {
+							result.addError(
+									"transactionDate"
+											+ transactionItem.getAccount()
+											+ transactionItem.getAccount(),
+									Accounter.constants().vat4thJanError());
+						}
+					}
+				}
+			}
+		}
+
+		return result;
 
 	}
 
@@ -907,12 +919,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transactionNumber != null)
 			transaction.setNumber(transactionNumber.getValue().toString());
 		processTransactionItems();
-		if (transactionItems != null)
-			validateTransactionItems(transactionItems);
 		transaction.setTransactionItems(transactionItems);
 		// transactionObject.setModifiedOn(new Date());
-		if (transactionItems != null)
-			validateVATCODEBaseOnTransactionDate();
 
 	}
 

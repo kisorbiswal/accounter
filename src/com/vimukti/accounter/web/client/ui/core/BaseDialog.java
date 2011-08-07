@@ -65,14 +65,16 @@ public abstract class BaseDialog extends CustomDialog implements
 	 * Creates new Instance
 	 */
 	public BaseDialog() {
+		super(true);
 	}
 
 	public BaseDialog(String text) {
+		super(true);
 		setText(text);
 	}
 
 	public BaseDialog(String text, String desc) {
-
+		super(true);
 		// setText(getViewTitle());
 		setText(text);
 		setModal(true);
@@ -289,7 +291,7 @@ public abstract class BaseDialog extends CustomDialog implements
 		case Event.ONKEYPRESS:
 			int keycode = event.getKeyCode();
 			if (KeyCodes.KEY_ESCAPE == keycode) {
-				this.onCancel();
+				processCancel();
 			}
 			break;
 		case Event.ONMOUSEOVER:
@@ -380,6 +382,5 @@ public abstract class BaseDialog extends CustomDialog implements
 	}
 
 	protected abstract boolean onOK();
-
 
 }

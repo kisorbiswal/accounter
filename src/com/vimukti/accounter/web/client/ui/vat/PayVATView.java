@@ -445,7 +445,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	@Override
 	public ValidationResult validate() {
 
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 
 		result.add(mainform.validate());
 

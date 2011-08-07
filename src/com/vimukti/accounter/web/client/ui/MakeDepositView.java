@@ -941,7 +941,7 @@ public class MakeDepositView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 		if (gridView != null && gridView.getRecords().isEmpty()) {
 			result.addError(gridView, AccounterErrorType.blankTransaction);
 		} else {

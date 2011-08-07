@@ -479,7 +479,7 @@ public class WriteChequeView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 		if (transaction == null) {
 
 			result.add(DynamicForm.validate(payForm, bankAccForm));

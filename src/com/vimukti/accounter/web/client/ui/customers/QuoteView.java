@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -53,8 +52,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	private void initAllItems() {
 		initPaymentTerms();
 		if (this.transaction != null) {
-			this.quoteExpiryDate.setValue(new ClientFinanceDate(this.transaction
-					.getExpirationDate()));
+			this.quoteExpiryDate.setValue(new ClientFinanceDate(
+					this.transaction.getExpirationDate()));
 			this.deliveryDate.setValue(new ClientFinanceDate(this.transaction
 					.getDeliveryDate()));
 		}
@@ -357,7 +356,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		vPanel.setWidth("100%");
 		vPanel.add(panel);
 
-
 		vPanel.add(prodAndServiceForm2);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
@@ -493,9 +491,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			this.billingAddress = transaction.getAddress();
 			this.paymentTerm = company.getPaymentTerms(transaction
 					.getPaymentTerm());
-			this.priceLevel = company.getPriceLevel(transaction.getPriceLevel());
-			this.salesPerson = company
-					.getSalesPerson(transaction.getSalesPerson());
+			this.priceLevel = company
+					.getPriceLevel(transaction.getPriceLevel());
+			this.salesPerson = company.getSalesPerson(transaction
+					.getSalesPerson());
 			initTransactionNumber();
 			if (getCustomer() != null) {
 				customerCombo.setComboItem(getCustomer());
@@ -597,8 +596,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
-		result.add(super.validate());
+		ValidationResult result = super.validate();
 		if (!AccounterValidator.validate_dueOrDelivaryDates(
 				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()

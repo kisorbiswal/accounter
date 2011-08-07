@@ -465,7 +465,7 @@ public class RecieveVATView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 		result.add(mainform.validate());
 		if (isEdit) {
 			if (grid.getRecords().isEmpty()) {

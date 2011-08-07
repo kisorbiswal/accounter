@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -14,10 +15,8 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -28,7 +27,6 @@ import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -40,8 +38,6 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 
 public class CreditCardChargeView extends
 		AbstractBankTransactionView<ClientCreditCardCharge> {
@@ -699,7 +695,7 @@ public class CreditCardChargeView extends
 	@Override
 	public ValidationResult validate() {
 
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 
 		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
 			result.addError(transactionDate,

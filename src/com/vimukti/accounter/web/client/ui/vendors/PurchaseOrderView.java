@@ -1036,7 +1036,7 @@ public class PurchaseOrderView extends
 	}
 
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 		if (statusSelect.validate()) {
 			result.addError(statusSelect, statusSelect.getTitle());
 		}

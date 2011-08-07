@@ -34,7 +34,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -268,7 +267,6 @@ public class CashSalesView extends
 		vPanel.setWidth("100%");
 		vPanel.add(panel);
 
-
 		vPanel.add(prodAndServiceHLay);
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -490,15 +488,17 @@ public class CashSalesView extends
 			this.billingAddress = transaction.getBillingAddress();
 			this.shippingAddress = transaction.getShippingAdress();
 
-			this.priceLevel = company.getPriceLevel(transaction.getPriceLevel());
+			this.priceLevel = company
+					.getPriceLevel(transaction.getPriceLevel());
 
-			this.salesPerson = company
-					.getSalesPerson(transaction.getSalesPerson());
+			this.salesPerson = company.getSalesPerson(transaction
+					.getSalesPerson());
 			this.shippingTerm = company.getShippingTerms(transaction
 					.getShippingTerm());
 			this.shippingMethod = company.getShippingMethod(transaction
 					.getShippingMethod());
-			this.depositInAccount = company.getAccount(transaction.getDepositIn());
+			this.depositInAccount = company.getAccount(transaction
+					.getDepositIn());
 
 			initTransactionNumber();
 			if (getCustomer() != null) {
@@ -530,8 +530,8 @@ public class CashSalesView extends
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 
 			if (transaction.getDeliverydate() != 0)
-				this.deliveryDate.setEnteredDate(new ClientFinanceDate(transaction
-						.getDeliverydate()));
+				this.deliveryDate.setEnteredDate(new ClientFinanceDate(
+						transaction.getDeliverydate()));
 
 			if (transaction.getID() != 0) {
 				isEdit = Boolean.TRUE;
@@ -548,7 +548,8 @@ public class CashSalesView extends
 					this.taxCodeSelect
 							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 				}
-				this.salesTaxTextNonEditable.setValue(transaction.getSalesTax());
+				this.salesTaxTextNonEditable
+						.setValue(transaction.getSalesTax());
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
@@ -612,8 +613,7 @@ public class CashSalesView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
-		result.add(super.validate());
+		ValidationResult result = super.validate();
 		result.add(FormItem.validate(this.paymentMethodCombo,
 				this.depositInCombo));
 		return result;

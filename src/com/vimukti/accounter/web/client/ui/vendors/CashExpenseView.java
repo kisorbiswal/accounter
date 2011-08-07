@@ -154,7 +154,7 @@ public class CashExpenseView extends CashPurchaseView {
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 
 		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
 			result.addError(transactionDate,

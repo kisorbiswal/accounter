@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
@@ -573,7 +572,7 @@ public class CustomerRefundView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 		result.add(super.validate());
 		if (!AccounterValidator.validateAmount(this.amtText.getAmount())) {
 			result.addError(amtText, AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
