@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
+
 /**
  * Used to keep track of what views we have opened last. We will keep the size
  * of this limited;
@@ -54,10 +56,10 @@ public class HistoryList {
 	/**
 	 * Return previous view
 	 * 
-	 * @param i
 	 */
-	public HistoryItem get(int index) {
-		return list.get(list.size() - (1 - index));
 
+	public HistoryItem previous() {
+		list.remove(list.size() - 1);
+		return list.remove(list.size() - 1);
 	}
 }

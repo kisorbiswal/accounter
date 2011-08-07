@@ -200,7 +200,7 @@ public class ViewManager extends VerticalPanel {
 			return;
 		}
 		this.existingView.removeFromParent();
-		HistoryItem item = this.views.get(-1);
+		HistoryItem item = this.views.previous();
 		this.existingView=item.view;
 		this.add(item.view);
 		this.views.add(item);
