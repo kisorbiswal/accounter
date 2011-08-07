@@ -72,7 +72,7 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public long getID() {
-		return 0;
+		return id;
 	}
 
 	@Override
