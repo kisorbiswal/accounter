@@ -1,17 +1,10 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.ArrayList;
-
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
-import com.vimukti.accounter.web.client.ui.grids.CompanyFinancialWidgetGrid;
-import com.vimukti.accounter.web.client.ui.grids.CustomerWidgetGrid;
 
 public class DashBoardView extends BaseHomeView {
 
