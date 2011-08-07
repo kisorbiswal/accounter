@@ -15,15 +15,15 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerWidgetGrid;
 
 public class DashBoardView extends BaseHomeView {
 
-	ArrayList<String> addablePortletList = new ArrayList<String>();
+//	ArrayList<String> addablePortletList = new ArrayList<String>();
 
-	private String dashboardPreference;
-	private PortalLayout portalLayout;
-	private Portlet[] portlet;
-	private WidgetCreator creator = new WidgetCreator();
-	private String[] widgetOnSectionPage;
-	private CustomerWidgetGrid customerWidgetGrid;
-	private CompanyFinancialWidgetGrid grid;
+//	private String dashboardPreference;
+//	private PortalLayout portalLayout;
+//	private Portlet[] portlet;
+//	private WidgetCreator creator = new WidgetCreator();
+//	private String[] widgetOnSectionPage;
+//	private CustomerWidgetGrid customerWidgetGrid;
+//	private CompanyFinancialWidgetGrid grid;
 
 	public DashBoardPortlet gettingStartedPortlet;
 	public DashBoardPortlet bankingPortlet;
@@ -38,7 +38,7 @@ public class DashBoardView extends BaseHomeView {
 	// private String[] firstColumn;
 
 	public DashBoardView() {
-		dashboardPreference = Accounter.constants().welcomeBankingSummary();
+//		dashboardPreference = Accounter.constants().welcomeBankingSummary();
 		/*
 		 * FinanceApplication.getUser().getUserPreferences()
 		 * .getDashBoardPreferences();
@@ -55,24 +55,23 @@ public class DashBoardView extends BaseHomeView {
 	}
 
 	private Widget createControl() {
-		portalLayout = new PortalLayout(this, 1);
-
-		widgetOnSectionPage = dashboardPreference.split(",");
-		portlet = new Portlet[widgetOnSectionPage.length];
-		for (int i = 0; i < widgetOnSectionPage.length; i++) {
-
-			final int index = i;
-			if (widgetOnSectionPage[i].equals("")) {
-
-			} else {
-				portlet[i] = creator.getWidgetByName(widgetOnSectionPage[i]);
-
-				portalLayout.add(portlet[i]);
-				portlet[i].refreshClicked();
-			}
-		}
-
-		getAddableWidgets(widgetOnSectionPage);
+//		portalLayout = new PortalLayout(this, 1);
+//
+//		widgetOnSectionPage = dashboardPreference.split(",");
+//		portlet = new Portlet[widgetOnSectionPage.length];
+//		for (int i = 0; i < widgetOnSectionPage.length; i++) {
+//
+//			final int index = i;
+//			if (widgetOnSectionPage[i].equals("")) {
+//
+//			} else {
+//				portlet[i] = creator.getWidgetByName(widgetOnSectionPage[i]);
+//
+//				portalLayout.add(portlet[i]);
+//			}
+//		}
+//
+//		getAddableWidgets(widgetOnSectionPage);
 
 		gettingStartedPortlet = new GettingStartedPortlet(Accounter.constants()
 				.gettingStartedusingAccounter());
@@ -116,83 +115,83 @@ public class DashBoardView extends BaseHomeView {
 
 	public void refreshGrids(final IAccounterCore accounterCoreObject) {
 
-		timer = new Timer() {
-
-			@Override
-			public void run() {
-				IAccounterCore core = accounterCoreObject;
-				if (core.getObjectType() == AccounterCoreType.CUSTOMER
-						|| ((ClientAccount) core).getType() == ClientAccount.TYPE_INCOME) {
-					portlet[1].refreshClicked();
-				} else {
-					if (core.getObjectType() == AccounterCoreType.ACCOUNT)
-						portlet[0].refreshClicked();
-				}
-
-			}
-
-		};
-		timer.schedule(600);
-
-	}
-
-	public void getAddableWidgets(String[] widgetOnSectionPage) {
-		String[] totalWidget = { Accounter.constants().welcome(),
-				Accounter.constants().bankingSummary(),
-				Accounter.constants().profitAndLoss(),
-				Accounter.constants().creditOverview(),
-				Accounter.constants().debitOverview(),
-				Accounter.constants().latestQuote(),
-				Accounter.constants().expenses() };
-
-		boolean isAvailable = false;
-
-		for (int i = 0; i < totalWidget.length; i++) {
-			for (int k = 0; k < widgetOnSectionPage.length; k++) {
-				if (totalWidget[i].equals(widgetOnSectionPage[k])) {
-					isAvailable = true;
-					break;
-				} else {
-					isAvailable = false;
-				}
-
-			}
-			if (!isAvailable) {
-				addablePortletList.add(totalWidget[i]);
-				isAvailable = false;
-			}
-		}
+//		timer = new Timer() {
+//
+//			@Override
+//			public void run() {
+//				IAccounterCore core = accounterCoreObject;
+//				if (core.getObjectType() == AccounterCoreType.CUSTOMER
+//						|| ((ClientAccount) core).getType() == ClientAccount.TYPE_INCOME) {
+//					portlet[1].refreshClicked();
+//				} else {
+//					if (core.getObjectType() == AccounterCoreType.ACCOUNT)
+//						portlet[0].refreshClicked();
+//				}
+//
+//			}
+//
+//		};
+//		timer.schedule(600);
 
 	}
 
-	public PortalLayout getPortalLayout() {
-		return portalLayout;
-	}
+//	public void getAddableWidgets(String[] widgetOnSectionPage) {
+//		String[] totalWidget = { Accounter.constants().welcome(),
+//				Accounter.constants().bankingSummary(),
+//				Accounter.constants().profitAndLoss(),
+//				Accounter.constants().creditOverview(),
+//				Accounter.constants().debitOverview(),
+//				Accounter.constants().latestQuote(),
+//				Accounter.constants().expenses() };
+//
+//		boolean isAvailable = false;
+//
+//		for (int i = 0; i < totalWidget.length; i++) {
+//			for (int k = 0; k < widgetOnSectionPage.length; k++) {
+//				if (totalWidget[i].equals(widgetOnSectionPage[k])) {
+//					isAvailable = true;
+//					break;
+//				} else {
+//					isAvailable = false;
+//				}
+//
+//			}
+//			if (!isAvailable) {
+//				addablePortletList.add(totalWidget[i]);
+//				isAvailable = false;
+//			}
+//		}
+//
+//	}
 
-	public void setPortalLayout(PortalLayout portalLayout) {
-		this.portalLayout = portalLayout;
-	}
-
-	public ArrayList<String> getAddablePortletList() {
-		return addablePortletList;
-	}
-
-	public void setAddablePortletList(ArrayList<String> addablePortletList) {
-		this.addablePortletList = addablePortletList;
-	}
+//	public PortalLayout getPortalLayout() {
+//		return portalLayout;
+//	}
+//
+//	public void setPortalLayout(PortalLayout portalLayout) {
+//		this.portalLayout = portalLayout;
+//	}
+//
+//	public ArrayList<String> getAddablePortletList() {
+//		return addablePortletList;
+//	}
+//
+//	public void setAddablePortletList(ArrayList<String> addablePortletList) {
+//		this.addablePortletList = addablePortletList;
+//	}
 
 
 	@Override
 	protected void onAttach() {
-		creator.setContinueRequest(true);
+//		creator.setContinueRequest(true);
 		super.onAttach();
 	}
 
 	@Override
 	protected void onUnload() {
-		creator.setContinueRequest(false);
-		if (timer != null)
-			timer.cancel();
+//		creator.setContinueRequest(false);
+//		if (timer != null)
+//			timer.cancel();
 		super.onUnload();
 	}
 
