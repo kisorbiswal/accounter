@@ -138,7 +138,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	}
 
-	protected void cancelClicked() {
+	protected void processCancel() {
 		removeFromParent();
 	}
 

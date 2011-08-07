@@ -107,7 +107,7 @@ public class StartDateDialog extends BaseDialog {
 		}
 	}
 
-	protected void cancelClicked() {
+	protected void processCancel() {
 		removeFromParent();
 	}
 

@@ -154,7 +154,7 @@ public abstract class BaseDialog extends CustomDialog implements
 
 			public void onClick(ClickEvent event) {
 
-				cancelClicked();
+				processCancel();
 			}
 		});
 
@@ -210,12 +210,12 @@ public abstract class BaseDialog extends CustomDialog implements
 	/**
 	 * called when cancelButton clicks
 	 */
-	protected void cancelClicked() {
-
+	protected void processCancel() {
+		onCancel();
 		if (dialogHandler != null) {
 			dialogHandler.onCancel();
-			removeFromParent();
 		}
+		removeFromParent();
 	}
 
 	protected void updateCompany() {
@@ -286,7 +286,7 @@ public abstract class BaseDialog extends CustomDialog implements
 		case Event.ONKEYPRESS:
 			int keycode = event.getKeyCode();
 			if (KeyCodes.KEY_ESCAPE == keycode) {
-				this.cancelClicked();
+				this.processCancel();
 			}
 			break;
 		case Event.ONMOUSEOVER:

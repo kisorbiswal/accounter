@@ -11,6 +11,13 @@ public class ClientBankAccount extends ClientAccount {
 
 	private long lastReconcilationDate;
 
+	/**
+	 * Creates new Instance
+	 */
+	public ClientBankAccount() {
+		this.type = TYPE_BANK;
+	}
+
 	public long getBank() {
 		return bank;
 	}

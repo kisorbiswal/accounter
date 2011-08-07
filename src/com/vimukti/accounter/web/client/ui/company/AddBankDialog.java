@@ -26,7 +26,7 @@ public class AddBankDialog extends BaseDialog {
 
 	public AddBankDialog(AbstractBaseView<ClientBank> parent) {
 		super(Accounter.constants().addBank(), null);
-		// createControls();
+		createControls();
 		center();
 	}
 
@@ -81,7 +81,8 @@ public class AddBankDialog extends BaseDialog {
 		mainVLay.setCellHorizontalAlignment(buttHLay,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		mainVLay.setSpacing(3);
-		add(mainVLay);
+		// add(mainVLay);
+		setBodyLayout(bankForm);
 		setWidth("275");
 	}
 
