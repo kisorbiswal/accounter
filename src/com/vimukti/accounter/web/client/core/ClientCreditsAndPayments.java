@@ -16,7 +16,7 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 
 	ClientTransaction transaction;
 
-	String payee;
+	long payee;
 
 	Set<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments = new HashSet<ClientTransactionCreditsAndPayments>();
 
@@ -58,11 +58,11 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 		return this.amtTouse;
 	}
 
-	public String getPayee() {
+	public long getPayee() {
 		return payee;
 	}
 
-	public void setPayee(String payee) {
+	public void setPayee(long payee) {
 		this.payee = payee;
 	}
 
