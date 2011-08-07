@@ -34,7 +34,6 @@ public abstract class Payee extends CreatableObject implements
 
 	public static final int TYPE_EMPLOYEE = 3;
 
-	long id;
 	FinanceDate payeeSince;
 	int type;
 
