@@ -176,33 +176,6 @@ public class AddressDialog extends BaseDialog {
 		return list;
 	}
 
-	@Override
-	protected boolean onCloseClick() {
-		if (addNew != null) {
-			String toBeSet = "";
-			if (addNew.getAddress1().trim() != null
-					&& !addNew.getAddress1().trim().isEmpty())
-				toBeSet += addNew.getAddress1().trim() + "\n";
-			if (addNew.getStreet().trim() != null
-					&& !addNew.getStreet().trim().isEmpty())
-				toBeSet += addNew.getStreet().trim() + "\n";
-			if (addNew.getCity().trim() != null
-					&& !addNew.getCity().trim().isEmpty())
-				toBeSet += addNew.getCity().trim() + "\n";
-			if (addNew.getStateOrProvinence().trim() != null
-					&& !addNew.getStateOrProvinence().trim().isEmpty())
-				toBeSet += addNew.getStateOrProvinence().trim() + "\n";
-			if (addNew.getZipOrPostalCode().trim() != null
-					&& !addNew.getZipOrPostalCode().trim().isEmpty())
-				toBeSet += addNew.getZipOrPostalCode().trim() + "\n";
-			if (addNew.getCountryOrRegion().trim() != null
-					&& !addNew.getCountryOrRegion().trim().isEmpty())
-				toBeSet += addNew.getCountryOrRegion().trim();
-			textAreaItem.setValue(toBeSet);
-		} else
-			textAreaItem.setValue("");
-		return super.onCloseClick();
-	}
 
 	@Override
 	protected ValidationResult validate() {
@@ -266,32 +239,6 @@ public class AddressDialog extends BaseDialog {
 		return true;
 	}
 
-	@Override
-	protected void onCancel() {
-		if (addNew != null) {
-			String toBeSet = "";
-			if (addNew.getAddress1().trim() != null
-					&& !addNew.getAddress1().trim().isEmpty())
-				toBeSet += addNew.getAddress1().trim() + "\n";
-			if (addNew.getStreet().trim() != null
-					&& !addNew.getStreet().trim().isEmpty())
-				toBeSet += addNew.getStreet().trim() + "\n";
-			if (addNew.getCity().trim() != null
-					&& !addNew.getCity().trim().isEmpty())
-				toBeSet += addNew.getCity().trim() + "\n";
-			if (addNew.getStateOrProvinence().trim() != null
-					&& !addNew.getStateOrProvinence().trim().isEmpty())
-				toBeSet += addNew.getStateOrProvinence().trim() + "\n";
-			if (addNew.getZipOrPostalCode().trim() != null
-					&& !addNew.getZipOrPostalCode().trim().isEmpty())
-				toBeSet += addNew.getZipOrPostalCode().trim() + "\n";
-			if (addNew.getCountryOrRegion().trim() != null
-					&& !addNew.getCountryOrRegion().trim().isEmpty())
-				toBeSet += addNew.getCountryOrRegion().trim();
-			textAreaItem.setValue(toBeSet);
-		} else {
-			textAreaItem.setValue("");
-		}
-	}
+
 
 }

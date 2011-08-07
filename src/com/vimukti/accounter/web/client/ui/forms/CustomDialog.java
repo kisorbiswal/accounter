@@ -104,11 +104,11 @@ public class CustomDialog extends DialogBox {
 		case Event.ONCLICK:
 			Element element = event.getTarget();
 			if (cross.getElement().equals(element)) {
-				if (onCloseClick())
+				if (onCancel())
 					CustomDialog.this.removeFromParent();
 			} else if (help.getElement().equals(element)) {
 				Window.open("http://help.Accounter.com/", "_blank", "");
-				onHelpClick();
+				onHelp();
 			}
 			break;
 		// case Event.ONMOUSEOVER:
@@ -135,11 +135,11 @@ public class CustomDialog extends DialogBox {
 		super.onBrowserEvent(event);
 	}
 
-	protected boolean onCloseClick() {
+	protected boolean onCancel() {
 		return true;
 	}
 
-	protected void onHelpClick() {
+	protected void onHelp() {
 
 	}
 

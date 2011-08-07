@@ -211,11 +211,13 @@ public abstract class BaseDialog extends CustomDialog implements
 	 * called when cancelButton clicks
 	 */
 	protected void processCancel() {
-		onCancel();
+
 		if (dialogHandler != null) {
 			dialogHandler.onCancel();
+
 		}
-		removeFromParent();
+		if (onCancel())
+			removeFromParent();
 	}
 
 	protected void updateCompany() {
@@ -286,7 +288,7 @@ public abstract class BaseDialog extends CustomDialog implements
 		case Event.ONKEYPRESS:
 			int keycode = event.getKeyCode();
 			if (KeyCodes.KEY_ESCAPE == keycode) {
-				this.processCancel();
+				this.onCancel();
 			}
 			break;
 		case Event.ONMOUSEOVER:
@@ -374,13 +376,9 @@ public abstract class BaseDialog extends CustomDialog implements
 
 	protected <D extends IAccounterCore> void saveOrUpdate(final D core) {
 		Accounter.createOrUpdate(this, core);
-
 	}
 
 	protected abstract boolean onOK();
 
-	protected void onCancel() {
-
-	}
 
 }
