@@ -1108,7 +1108,7 @@ public class ReceivePaymentView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		if (AccounterValidator.validateTransactionDate(this.transactionDate)) {
+		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
 					AccounterErrorType.InvalidTransactionDate);
 		} else if (AccounterValidator
