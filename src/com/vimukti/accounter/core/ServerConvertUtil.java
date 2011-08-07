@@ -308,6 +308,11 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 						if (isFinanceDate(dstfieldType)) {
 							dstField.set(dst, new FinanceDate(longValue));
 
+						} else {
+							// load the object by given Id.
+							Object object = loadObjectByid(session,
+									dstfieldType.getSimpleName(), longValue);
+							dstField.set(dst, object);
 						}
 					} else {
 						// Its Not Primitive and Non Collection Object
