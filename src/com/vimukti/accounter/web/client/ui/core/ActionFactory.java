@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -204,7 +203,7 @@ public class ActionFactory {
 	private static AccounterConstants messages = actionsConstants;
 
 	public static GeneralSettingsAction getGeneralSettingsAction() {
-		return new GeneralSettingsAction(messages.labelTitle());
+		return new GeneralSettingsAction(messages.generalSettings());
 	}
 
 	public static InventoryItemsAction getInventoryItemsAction() {

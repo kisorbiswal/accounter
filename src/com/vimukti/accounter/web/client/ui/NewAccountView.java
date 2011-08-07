@@ -203,6 +203,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			public void onBlur(BlurEvent event) {
 				// Converts the first letter of Account Name to Upper case
 				String name = accNameText.getValue().toString();
+				if (name.isEmpty()) {
+					return;
+				}
 				String lower = name.substring(0, 1);
 				String upper = lower.toUpperCase();
 				accNameText.setValue(name.replaceFirst(lower, upper));

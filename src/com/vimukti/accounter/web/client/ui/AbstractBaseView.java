@@ -44,9 +44,6 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
  * and Editing), VendorView , Account View, ListViews, etc., and all Transaction
  * Related View Classes
  * 
- */
-/**
- * @author Prasanna Kumar G
  * 
  * @param <T>
  */
@@ -119,8 +116,9 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 
 	@Override
 	public void init() {
-		// OverRidden in Sub-Classes
-
+		clearAllErrors();
+		errorPanel.addStyleName("error-panel");
+		super.add(errorPanel);
 	}
 
 	public void setPrevoiusOutput(Object preObject) {
@@ -363,6 +361,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	 */
 	public void addError(Object item, String erroMsg) {
 		HTML error = new HTML("<li>" + erroMsg + "</li>");
+		error.addStyleName("error");
 		this.errorPanel.add(error);
 		this.errorPanel.setVisible(true);
 		this.errorsMap.put(item, error);
@@ -402,10 +401,15 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	}
 
 	/**
+	 * 
+	 * 
 	 * @param b
 	 */
 	public void onSave(boolean reopen) {
-		clearAllErrors();
+		// clearAllErrors();
+		if (!errorsMap.isEmpty()) {
+			return;
+		}
 		ValidationResult validationResult = this.validate();
 		if (validationResult.haveErrors()) {
 			for (Error error : validationResult.getErrors()) {
