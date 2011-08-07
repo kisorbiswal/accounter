@@ -28,7 +28,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -236,7 +235,6 @@ public class ItemReceiptView extends
 
 		this.add(mainVLay);
 
-
 		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
@@ -394,7 +392,7 @@ public class ItemReceiptView extends
 	}
 
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		// Setting Vendor
 		transaction.setVendor(this.getVendor().getID());
 
@@ -491,7 +489,8 @@ public class ItemReceiptView extends
 
 						}
 
-						public void onResultSuccess(List<PurchaseOrdersList> result) {
+						public void onResultSuccess(
+								List<PurchaseOrdersList> result) {
 							if (result == null)
 								onFailure(new Exception());
 

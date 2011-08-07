@@ -39,7 +39,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 	@Override
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		if (status == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			transaction.setExpenseStatus(status);
 		else

@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -287,7 +286,6 @@ public class VendorCreditMemoView extends
 			bottomPanel.add(vPanel);
 		}
 
-
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
@@ -345,7 +343,7 @@ public class VendorCreditMemoView extends
 	}
 
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		// Setting Vendor
 		transaction.setVendor(getVendor().getID());
 

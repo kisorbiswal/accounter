@@ -340,7 +340,7 @@ public class NewVendorPaymentView extends
 	}
 
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		transaction.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
 
 		transaction.setVendor(getVendor());

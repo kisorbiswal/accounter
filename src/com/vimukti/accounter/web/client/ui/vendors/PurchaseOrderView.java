@@ -9,6 +9,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -41,7 +42,6 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -412,7 +412,6 @@ public class PurchaseOrderView extends
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
 		bottomLayout.setHorizontalAlignment(ALIGN_RIGHT);
-
 
 		bottomLayout.add(memoForm);
 		bottomLayout.add(panel);
@@ -830,6 +829,7 @@ public class PurchaseOrderView extends
 	}
 
 	protected void updateTransaction() {
+		super.updateTransaction();
 		transaction.setVendor(getVendor().getID());
 
 		if (statusSelect.getSelectedValue().equals(OPEN))

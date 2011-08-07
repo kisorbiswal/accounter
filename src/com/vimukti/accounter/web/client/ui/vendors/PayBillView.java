@@ -123,7 +123,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	}
 
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		// Setting Type of Enter Bill
 		transaction.setType(ClientTransaction.TYPE_PAY_BILL);
 		transaction.setPayBillType(ClientPayBill.TYPE_PAYBILL);
@@ -593,7 +593,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 								.noRecordsToShow());
 					}
 
-					public void onResultSuccess(List<PayBillTransactionList> result) {
+					public void onResultSuccess(
+							List<PayBillTransactionList> result) {
 
 						paybillTransactionList = result;
 						if (result.size() > 0) {

@@ -132,7 +132,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 	@Override
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		// Setting Type
 		transaction.setType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
 

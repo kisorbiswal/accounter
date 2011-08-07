@@ -260,7 +260,7 @@ public class VATPaymentView extends
 	}
 
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		transaction.setType(ClientTransaction.TYPE_PAY_SALES_TAX);
 
 		transaction.setNumber(transactionNumber.getValue().toString());

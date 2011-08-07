@@ -552,7 +552,7 @@ public class WriteChequeView extends
 
 	@Override
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		// Setting Type of the write check
 		transaction.setType(ClientTransaction.TYPE_WRITE_CHECK);
 

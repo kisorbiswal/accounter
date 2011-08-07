@@ -128,7 +128,8 @@ public class PaySalesTaxView extends
 
 					}
 
-					public void onResultSuccess(List<ClientPaySalesTaxEntries> result) {
+					public void onResultSuccess(
+							List<ClientPaySalesTaxEntries> result) {
 
 						if (result == null) {
 
@@ -236,7 +237,7 @@ public class PaySalesTaxView extends
 	}
 
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		transaction.setNumber(transactionNumber);
 
 		transaction.setType(ClientTransaction.TYPE_PAY_SALES_TAX);

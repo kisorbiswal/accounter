@@ -470,7 +470,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	}
 
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		transaction.setNumber(transactionNumber);
 		transaction.setType(ClientTransaction.TYPE_PAY_VAT);
 

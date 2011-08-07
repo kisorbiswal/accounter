@@ -18,18 +18,8 @@ public class DynamicForm extends FlexTable {
 	private boolean isGroup;
 
 	public ValidationResult validate() {
-		// boolean validate = true;
-		return FormItem.validate(this.formItems.toArray(new FormItem[] {}));
-		// for (FormItem item : this.formItems) {
-		// if (!item.validate()) {
-		// validate = false;
-		// item.highlight();
-		// } else {
-		// item.showValidated();
-		// }
-		// }
-
-		// return validate;
+		return FormItem.validate(this.formItems.toArray(new FormItem[formItems
+				.size()]));
 	}
 
 	public FormItem getField(String name) {

@@ -31,7 +31,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -501,7 +500,6 @@ public class VendorBillView extends
 		hpanel.add(createAddNewButton());
 		hpanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-
 		VerticalPanel bottompanel = new VerticalPanel();
 		bottompanel.setWidth("100%");
 
@@ -600,7 +598,7 @@ public class VendorBillView extends
 	}
 
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		// Setting Vendor
 		transaction.setVendor(getVendor());
 

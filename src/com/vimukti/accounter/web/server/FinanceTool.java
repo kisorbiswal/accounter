@@ -276,7 +276,8 @@ public class FinanceTool implements IFinanceDAOService {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			transaction.rollback();
-			throw new AccounterException(AccounterException.ERROR_INTERNAL);
+			throw new AccounterException(AccounterException.ERROR_INTERNAL,
+					e.getMessage());
 		}
 		transaction.commit();
 		ChangeTracker.put(serverObject);

@@ -391,7 +391,8 @@ public class RecieveVATView extends
 					}
 
 					@Override
-					public void onResultSuccess(List<ClientReceiveVATEntries> result) {
+					public void onResultSuccess(
+							List<ClientReceiveVATEntries> result) {
 						if (result == null) {
 
 							onFailure(null);
@@ -496,7 +497,7 @@ public class RecieveVATView extends
 	}
 
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		transaction.setNumber(transactionNumber);
 		transaction.setType(ClientTransaction.TYPE_RECEIVE_VAT);
 

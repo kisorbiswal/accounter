@@ -107,7 +107,7 @@ public class CashExpenseView extends CashPurchaseView {
 
 	@Override
 	protected void updateTransaction() {
-
+		super.updateTransaction();
 		// Setting Type
 		transaction.setType(ClientTransaction.TYPE_CASH_EXPENSE);
 
