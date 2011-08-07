@@ -360,6 +360,10 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	 * @param erroMsg
 	 */
 	public void addError(Object item, String erroMsg) {
+		Widget widget = errorsMap.get(item);
+		if (widget != null) {
+			errorPanel.remove(widget);
+		}
 		HTML error = new HTML("<li>" + erroMsg + "</li>");
 		error.addStyleName("error");
 		this.errorPanel.add(error);

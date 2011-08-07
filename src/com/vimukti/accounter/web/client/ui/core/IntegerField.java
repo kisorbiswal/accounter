@@ -51,6 +51,7 @@ public class IntegerField extends TextItem {
 						if (enteredNumber != null) {
 							setNumber(enteredNumber);
 						}
+						errorsWidget.clearError(this);
 					} catch (Exception e) {
 						if (value.toString().length() != 0) {
 							// BaseView.errordata.setHTML("<li> "
