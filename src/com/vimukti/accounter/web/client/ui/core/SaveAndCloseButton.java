@@ -15,23 +15,22 @@ import com.vimukti.accounter.web.client.ui.ImageButton;
  */
 public class SaveAndCloseButton extends ImageButton {
 
-	private AbstractBaseView<?> baseView;
+	private AbstractBaseView<?> view;
 
 	/**
 	 * Creates new Instance
 	 */
-	public SaveAndCloseButton(AbstractBaseView<?> view) {
+	public SaveAndCloseButton(AbstractBaseView<?> baseView) {
 
 		super(Accounter.constants().saveAndClose(), Accounter
 				.getFinanceImages().saveAndClose());
-		this.baseView = view;
+		this.view = baseView;
 		this.addStyleName("saveAndClose-Btn");
 		this.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				baseView.setCloseOnSave(true);
-				baseView.saveAndUpdateView();
+				view.onSave(false);
 			}
 		});
 	}
