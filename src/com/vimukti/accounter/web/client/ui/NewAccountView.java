@@ -316,8 +316,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		leftLayout = new HorizontalPanel();
 		leftLayout.setWidth("90%");
 
-		if (accountType == 0 || accountType != ClientAccount.TYPE_BANK
-				&& accountType != ClientAccount.TYPE_CREDIT_CARD) {
+		if (accountType == 0
+				|| (accountType != ClientAccount.TYPE_BANK && accountType != ClientAccount.TYPE_CREDIT_CARD)) {
 			subAccSelect = new OtherAccountsCombo(Accounter.constants()
 					.subCategoryof());
 			subAccSelect

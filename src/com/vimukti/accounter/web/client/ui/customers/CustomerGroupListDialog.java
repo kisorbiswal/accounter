@@ -158,7 +158,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 			}
 		} else {
 			if (Utility.isObjectExist(getCompany().getCustomerGroups(),
-					customerGroup.getName())) {
+					inputDlg.getTextItems().get(0).getValue().toString())) {
 				result.addError(this, Accounter.constants()
 						.customerGroupAlreadyExists());
 			}

@@ -417,59 +417,58 @@ public class JournalEntryView extends
 	@Override
 	protected void initTransactionViewData() {
 
-		if (transaction == null) {
-			setData(new ClientJournalEntry());
-			initJournalNumber();
-			if (!isEdit)
-				initVocherNumer();
-		}
+		if (transaction != null) {
+			jourNoText.setValue(transaction.getNumber());
+			transactionDateItem.setEnteredDate(transaction.getDate());
+			grid.setVoucherNumber(transaction.getNumber());
 
-		jourNoText.setValue(transaction.getNumber());
-		transactionDateItem.setEnteredDate(transaction.getDate());
-		grid.setVoucherNumber(transaction.getNumber());
+			List<ClientEntry> entries = transaction.getEntry();
 
-		List<ClientEntry> entries = transaction.getEntry();
+			ClientEntry rec[] = new ClientEntry[entries.size()];
+			int i = 0;
+			ClientEntry temp = null;
+			for (ClientEntry entry : transaction.getEntry()) {
 
-		ClientEntry rec[] = new ClientEntry[entries.size()];
-		int i = 0;
-		ClientEntry temp = null;
-		for (ClientEntry entry : transaction.getEntry()) {
+				rec[i] = transaction.getEntry().get(i);
+				ClientCompany company = getCompany();
+				rec[i].setVoucherNumber(entry.getVoucherNumber());
 
-			rec[i] = transaction.getEntry().get(i);
-			ClientCompany company = getCompany();
-			rec[i].setVoucherNumber(entry.getVoucherNumber());
+				// --The date need to be set for every record
+				rec[i].setEntryDate(transaction.getDate().getDate());
 
-			// --The date need to be set for every record
-			rec[i].setEntryDate(transaction.getDate().getDate());
+				if (entry.getType() == ClientEntry.TYPE_FINANCIAL_ACCOUNT) {
+					rec[i].setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
+					if (entry.getAccount() != 0)
+						rec[i].setAccount(entry.getAccount());
+				} else if (entry.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR) {
+					rec[i].setType(ClientEntry.TYPE_VENDOR);
+					if (entry.getVendor() != 0)
+						rec[i].setVendor(entry.getVendor());
+				} else {
+					rec[i].setType(ClientEntry.TYPE_CUSTOMER);
+					if (entry.getCustomer() != 0)
+						rec[i].setCustomer(entry.getCustomer());
 
-			if (entry.getType() == ClientEntry.TYPE_FINANCIAL_ACCOUNT) {
-				rec[i].setType(ClientEntry.TYPE_FINANCIAL_ACCOUNT);
-				if (entry.getAccount() != 0)
-					rec[i].setAccount(entry.getAccount());
-			} else if (entry.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR) {
-				rec[i].setType(ClientEntry.TYPE_VENDOR);
-				if (entry.getVendor() != 0)
-					rec[i].setVendor(entry.getVendor());
-			} else {
-				rec[i].setType(ClientEntry.TYPE_CUSTOMER);
-				if (entry.getCustomer() != 0)
-					rec[i].setCustomer(entry.getCustomer());
+				}
 
+				rec[i].setMemo(entry.getMemo());
+				rec[i].setDebit(entry.getDebit());
+				rec[i].setCredit(entry.getCredit());
+
+				// if (temp != null)
+				// grid.selectRecord(grid.getSelectedRecordIndex(temp)));
+
+				i++;
 			}
-
-			rec[i].setMemo(entry.getMemo());
-			rec[i].setDebit(entry.getDebit());
-			rec[i].setCredit(entry.getCredit());
-
-			// if (temp != null)
-			// grid.selectRecord(grid.getSelectedRecordIndex(temp)));
-
-			i++;
+			grid.setAllRecords(Arrays.asList(rec));
+			if (transaction.getMemo() != null)
+				memoText.setValue(transaction.getMemo());
+			updateTransaction();
 		}
-		grid.setAllRecords(Arrays.asList(rec));
-		if (transaction.getMemo() != null)
-			memoText.setValue(transaction.getMemo());
-		updateTransaction();
+		setData(new ClientJournalEntry());
+		initJournalNumber();
+		if (!isEdit)
+			initVocherNumer();
 
 	}
 

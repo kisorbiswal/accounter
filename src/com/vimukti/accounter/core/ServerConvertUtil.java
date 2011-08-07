@@ -12,7 +12,6 @@ import java.util.Set;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -22,7 +21,6 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 	private HashMap<Field, Object> fieldValues;
 	private Session currentSession;
 
-	
 	public <D extends IAccounterServerCore, S extends IAccounterCore> Object toServerList(
 			List<?> set, Session session) {
 		if (set == null)
@@ -43,7 +41,6 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		return result;
 	}
 
-	
 	public <D extends IAccounterServerCore, S extends IAccounterCore> Object toServerSet(
 			Set<?> set, Session session) {
 		if (set == null)
@@ -68,7 +65,6 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		return result;
 	}
 
-	
 	private <D extends IAccounterServerCore, S extends IAccounterCore> void modifyList(
 			Field desField, Field srcField, Object dst, Object src,
 			Session session) {
@@ -103,7 +99,6 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		}
 	}
 
-	
 	private <D extends IAccounterServerCore, S extends IAccounterCore> void modifySet(
 			Field desField, Field srcField, Object dst, Object src,
 			Session session) {
@@ -146,7 +141,6 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		return ret;
 	}
 
-	
 	public <D extends IAccounterServerCore, S extends IAccounterCore> D toServerObject(
 			D dst, S src, Session session) {
 		cache.set(null);
@@ -195,7 +189,6 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		return ret;
 	}
 
-	
 	private <D extends IAccounterServerCore, S extends IAccounterCore> D toServerObjectInternal(
 			D dst, S src, Session session) {
 
@@ -246,15 +239,15 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 					continue;
 				}
 				// create id to object...
-				if (dstFieldName.equals("id")) {
-					String val = (String) srcField.get(src);
-					if (val == null || val != null && val.isEmpty()) {
-						String id = SecureUtils.createID();
-						dstField.set(dst, id);
-						srcField.set(src, id);
-						continue;
-					}
-				}
+				// if (dstFieldName.equals("id")) {
+				// String val = (String) srcField.get(src);
+				// if (val == null || val != null && val.isEmpty()) {
+				// String id = SecureUtils.createID();
+				// dstField.set(dst, id);
+				// srcField.set(src, id);
+				// continue;
+				// }
+				// }
 				// For Collection Objects
 				if (srcField.get(src) == null) {
 					continue;
@@ -398,7 +391,6 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 		return imprtedMap;
 	}
 
-	
 	private <D extends IAccounterServerCore, S extends IAccounterCore> D getServerAfterCheckingInCache(
 			D dst, S src, Session session) {
 		Map<Object, Object> localCache = getCache();
@@ -468,7 +460,6 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 
 	private static ThreadLocal<Comparable<?>[]> mergeSortTemp = new ThreadLocal<Comparable<?>[]>();
 
-	
 	public static <T extends Comparable<? super T>> void mergeSort(T[] src) {
 		int length = src.length;
 		Comparable<?>[] temp = mergeSortTemp.get();
