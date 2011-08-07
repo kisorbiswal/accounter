@@ -36,8 +36,10 @@
 		<property name="isDeposited" column="IS_DEPOSITED"></property>
 		<property name="total" column="TOTAL"></property>
 		<property name="netAmount" column="NET_AMOUNT"></property>
-		<property name="createdBy" column="CREATED_BY" type="string" />
-		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" lazy="false"></many-to-one>
 		<property name="createdDate" column="CREATED_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
@@ -1051,12 +1053,6 @@
 			lazy="false" column="REFERRING_TRANSACTION_ITEM_ID">
 		</many-to-one>
 		<property name="isVoid" column="IS_VOID"></property>
-		<property name="createdBy" column="CREATED_BY" type="string" />
-		<property name="lastModifier" column="LAST_MODIFIER" type="string" />
-		<property name="createdDate" column="CREATED_DATE"
-			type="com.vimukti.accounter.core.LongUseType" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-			type="com.vimukti.accounter.core.LongUseType" />
 	</class>
 	<class name="CreditsAndPayments" table="CREDITS_AND_PAYMENTS">
 		<id name="id" column="ID">
