@@ -3,9 +3,6 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.mapping.Array;
-import org.zefer.html.doc.v;
-
 @SuppressWarnings("serial")
 public class ClientVendorCreditMemo extends ClientTransaction {
 
