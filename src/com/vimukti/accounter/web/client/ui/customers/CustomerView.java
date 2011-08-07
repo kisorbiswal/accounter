@@ -356,6 +356,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		if (AccounterValidator.isPriorAsOfDate(asOfDate)) {
 			result.addError(balanceDate, AccounterErrorType.prior_asOfDate);
 		}
+		data.setName(custNameText.getTitle());
+		data.setNumber(cstNumberText.getTitle());
 		String s = objectExist(data);
 		if (!s.isEmpty()) {
 			result.addError(custNameText, s);
