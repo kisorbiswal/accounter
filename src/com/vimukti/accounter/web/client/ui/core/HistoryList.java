@@ -57,7 +57,7 @@ public class HistoryList {
 	 * @param i
 	 */
 	public HistoryItem get(int index) {
-		return list.get(list.size() - 1 - index);
+		return list.get(list.size() - (1 - index));
 
 	}
 }
