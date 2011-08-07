@@ -205,6 +205,10 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @return the quantity
 	 */
 	public ClientQuantity getQuantity() {
+		if(quantity==null){
+			quantity=new ClientQuantity();
+			quantity.setValue(1);
+		}
 		return quantity;
 	}
 

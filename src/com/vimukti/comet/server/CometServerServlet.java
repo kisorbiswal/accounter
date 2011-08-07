@@ -16,6 +16,8 @@ import org.mortbay.jetty.Request;
 import org.mortbay.util.ajax.Continuation;
 import org.mortbay.util.ajax.ContinuationSupport;
 
+import com.vimukti.accounter.servlets.BaseServlet;
+
 public class CometServerServlet extends HttpServlet {
 
 	/**
@@ -120,7 +122,7 @@ public class CometServerServlet extends HttpServlet {
 			final HttpServletResponse response) throws IOException,
 			ServletException {
 		String identityID = (String) request.getSession().getAttribute(
-				"identityID");
+				BaseServlet.EMAIL_ID);
 		String sessionID = request.getSession().getId();
 
 		String sessionKey = identityID + sessionID;
@@ -359,7 +361,7 @@ public class CometServerServlet extends HttpServlet {
 	protected boolean poll(CometConnection cometConnection)
 			throws ServletException {
 		String sessionKey = (String) getHttpServletRequest().getSession()
-				.getAttribute("identityID");
+				.getAttribute(BaseServlet.EMAIL_ID);
 		String sessionID = getHttpServletRequest().getSession().getId();
 		// log.info("IdentityID:" + sessionKey + " Session:" + sessionID);
 		if (sessionKey == null) {
@@ -368,7 +370,7 @@ public class CometServerServlet extends HttpServlet {
 			return false;
 		}
 		CommandQueue<ObjectPayload> queue = CometManager.getQueue(sessionID,
-				Long.parseLong(sessionKey));
+				sessionKey);
 
 		if (queue == null) {
 			return false;

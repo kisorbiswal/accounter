@@ -28,8 +28,8 @@ public class CometManager {
 	 * @return
 	 */
 	static CommandQueue<ObjectPayload> getQueue(String sessionID,
-			long identityID) {
-		Map<String, CommandQueue<ObjectPayload>> queues = map.get(identityID);
+			String emailID) {
+		Map<String, CommandQueue<ObjectPayload>> queues = map.get(emailID);
 		if (queues != null) {
 			return queues.get(sessionID);
 		}
