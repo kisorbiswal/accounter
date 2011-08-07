@@ -236,52 +236,53 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
+
+		IAccounterCore data = createContext.getData();
+		String userID = createContext.getUserEmail();
+
+		if (data == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
+					"Operation Data Found Null...." + createContext);
+		}
+
+		Class<IAccounterServerCore> serverClass = ObjectConvertUtil
+				.getServerEqivalentClass(data.getClass());
+		IAccounterServerCore serverObject;
 		try {
-			IAccounterCore data = createContext.getData();
-			String userID = createContext.getUserEmail();
+			serverObject = serverClass.newInstance();
+		} catch (Exception e1) {
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
+		}
 
-			if (data == null) {
-				throw new AccounterException(
-						AccounterException.ERROR_ILLEGAL_ARGUMENT,
-						"Operation Data Found Null...." + createContext);
-			}
+		serverObject = new ServerConvertUtil().toServerObject(serverObject,
+				(IAccounterCore) data, session);
 
-			Class<IAccounterServerCore> serverClass = ObjectConvertUtil
-					.getServerEqivalentClass(data.getClass());
-			IAccounterServerCore serverObject;
-			try {
-				serverObject = serverClass.newInstance();
-			} catch (Exception e1) {
-				throw new AccounterException(AccounterException.ERROR_INTERNAL);
-			}
+		ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
+				getCompany());
 
-			serverObject = new ServerConvertUtil().toServerObject(serverObject,
-					(IAccounterCore) data, session);
+		if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
+			// get the user from user id
+			((CreatableObject) serverObject).setCreatedBy(getCompany()
+					.getUserByUserEmail(userID));
+			((CreatableObject) serverObject).setCreatedDate(createContext
+					.getDate());
+		}
+		canEdit(serverObject, data);
 
-			ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
-					getCompany());
-
-			if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
-				// get the user from user id
-				((CreatableObject) serverObject).setCreatedBy(getCompany()
-						.getUserByUserEmail(userID));
-				((CreatableObject) serverObject).setCreatedDate(createContext
-						.getDate());
-			}
-			canEdit(serverObject, data);
-
-			isTransactionNumberExist((IAccounterCore) data);
-
+		isTransactionNumberExist((IAccounterCore) data);
+		try {
 			session.save(serverObject);
-			transaction.commit();
-			ChangeTracker.put(serverObject);
-
-			return serverObject.getID();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			transaction.rollback();
 			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
+		transaction.commit();
+		ChangeTracker.put(serverObject);
+
+		return serverObject.getID();
+
 	}
 
 	/**
@@ -5012,8 +5013,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAgedDebtors")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return prepareAgedDebotOrsorCreditors(l, startDate, endDate);
