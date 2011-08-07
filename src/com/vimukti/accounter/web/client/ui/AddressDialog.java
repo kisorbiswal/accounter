@@ -36,9 +36,10 @@ public class AddressDialog extends BaseDialog {
 			final TextAreaItem textAreaItem, final String addressType,
 			final LinkedHashMap<Integer, ClientAddress> allAddresses) {
 		super(Accounter.constants().address(), "");
-		createControls(textAreaItem, allAddresses);
 		this.addressType = addressType;
 		this.allAddresses = allAddresses;
+		createControls(textAreaItem, allAddresses);
+		
 	}
 
 	protected void createControls(TextAreaItem textAreaItem,
