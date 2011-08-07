@@ -19,12 +19,17 @@ import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
 
 public class CustomComboItem extends FormItem {
 
-	public TextBoxItem textBox;
-	public SimplePanel downarrowpanel;
+	@Override
+	public void setFocus() {
+		textBox.setFocus(true);
+	}
+
+	private TextBoxItem textBox;
+	private SimplePanel downarrowpanel;
 	private CustomFocusWidget customFocusWidget;
-	public ClickHandler clickHandler;
-	public KeyPressHandler keyPressHandler;
-	public KeyDownHandler keyDownHandler;
+	private ClickHandler clickHandler;
+	private KeyPressHandler keyPressHandler;
+	private KeyDownHandler keyDownHandler;
 
 	// public BlurHandler blurHandler;
 

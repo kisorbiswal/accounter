@@ -519,8 +519,8 @@ public class MakeDepositTransactionGrid extends
 				combo = (CustomCombo<E>) customersCombo;
 			}
 
-			combo.downarrowpanel.getElement().getStyle()
-					.setMarginLeft(-20, Unit.PX);
+//			combo.downarrowpanel.getElement().getStyle()
+//					.setMarginLeft(-20, Unit.PX);
 		default:
 			break;
 		}

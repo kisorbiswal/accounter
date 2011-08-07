@@ -43,8 +43,6 @@ public class CustomerTransactionGrid extends
 		AbstractTransactionGrid<ClientTransactionItem> {
 
 	private SalesAccountsCombo accountsCombo;
-	// TaxCodeCombo salesTaxCombo;
-	// ItemCombo itemCombo;
 	ServiceCombo serviceItemCombo;
 	ProductCombo productItemCombo;
 	TAXCodeCombo taxCodeCombo;
@@ -1305,27 +1303,27 @@ public class CustomerTransactionGrid extends
 					combo = (CustomCombo<E>) vatItemCombo;
 			}
 
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				combo.downarrowpanel.getElement().getStyle()
-						.setMarginLeft(-7, Unit.PX);
-			} else {
-				if (this instanceof SalesOrderGrid)
-					combo.downarrowpanel.getElement().getStyle()
-							.setMarginLeft(-7, Unit.PX);
-				else
-					combo.downarrowpanel.getElement().getStyle()
-							.setMarginLeft(-13, Unit.PX);
-			}
+//			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+//				combo.downarrowpanel.getElement().getStyle()
+//						.setMarginLeft(-7, Unit.PX);
+//			} else {
+//				if (this instanceof SalesOrderGrid)
+//					combo.downarrowpanel.getElement().getStyle()
+//							.setMarginLeft(-7, Unit.PX);
+//				else
+//					combo.downarrowpanel.getElement().getStyle()
+//							.setMarginLeft(-13, Unit.PX);
+//			}
 
 			break;
 		case 7:
 			combo = (CustomCombo<E>) taxCodeCombo;
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				combo.downarrowpanel.getElement().getStyle()
-						.setMarginLeft(-7, Unit.PX);
-			} else {
-
-			}
+//			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+//				combo.downarrowpanel.getElement().getStyle()
+//						.setMarginLeft(-7, Unit.PX);
+//			} else {
+//
+//			}
 			break;
 		default:
 			break;

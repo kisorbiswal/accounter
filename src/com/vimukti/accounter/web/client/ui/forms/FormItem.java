@@ -341,10 +341,7 @@ public abstract class FormItem {
 	 */
 	public void setFocus() {
 		if (this.getMainWidget() instanceof FocusWidget) {
-			if (this instanceof CustomComboItem)
-				((CustomComboItem) this).textBox.setFocus(true);
-			else
-				((FocusWidget) this.getMainWidget()).setFocus(true);
+			((FocusWidget) this.getMainWidget()).setFocus(true);
 		}
 	}
 

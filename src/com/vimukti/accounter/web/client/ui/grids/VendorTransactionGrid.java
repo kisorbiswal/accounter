@@ -72,23 +72,21 @@ public class VendorTransactionGrid extends
 	public void init() {
 		super.isEnable = false;
 		super.init();
-		if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
-			createControls();
-			initTransactionData();
+		createControls();
+		initTransactionData();
 
-			ClientTransaction transactionObject = transactionView
-					.getTransactionObject();
+		ClientTransaction transactionObject = transactionView
+				.getTransactionObject();
 
-			if (transactionObject != null) {
-				setAllTransactions(transactionObject.getTransactionItems());
-				if (transactionObject.getID() != 0) {
-					// ITS Edit Mode
-					// setShowMenu(false);
-					// isEdit = true;
-					canDeleteRecord(false);
-					// canAddRecord(false);
-					// setEditDisableCells(new int[] { 0, 1, 2, 3, 4 });
-				}
+		if (transactionObject != null) {
+			setAllTransactions(transactionObject.getTransactionItems());
+			if (transactionObject.getID() != 0) {
+				// ITS Edit Mode
+				// setShowMenu(false);
+				// isEdit = true;
+				canDeleteRecord(false);
+				// canAddRecord(false);
+				// setEditDisableCells(new int[] { 0, 1, 2, 3, 4 });
 			}
 		}
 	}
@@ -1025,37 +1023,37 @@ public class VendorTransactionGrid extends
 				combo = (CustomCombo<E>) vatItemCombo;
 			}
 
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				combo.downarrowpanel.getElement().getStyle()
-						.setMarginLeft(-10, Unit.PX);
-			} else {
-				if (this instanceof PurchaseOrderGrid)
-					combo.downarrowpanel.getElement().getStyle()
-							.setMarginLeft(-8, Unit.PX);
-				else
-					combo.downarrowpanel.getElement().getStyle()
-							.setMarginLeft(-15, Unit.PX);
-			}
+//			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+//				combo.downarrowpanel.getElement().getStyle()
+//						.setMarginLeft(-10, Unit.PX);
+//			} else {
+//				if (this instanceof PurchaseOrderGrid)
+//					combo.downarrowpanel.getElement().getStyle()
+//							.setMarginLeft(-8, Unit.PX);
+//				else
+//					combo.downarrowpanel.getElement().getStyle()
+//							.setMarginLeft(-15, Unit.PX);
+//			}
 			break;
 		case 6:
 			// for UK
 			combo = (CustomCombo<E>) taxCodeCombo;
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				combo.downarrowpanel.getElement().getStyle()
-						.setMarginLeft(-7, Unit.PX);
-			} else {
-
-			}
+//			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+//				combo.downarrowpanel.getElement().getStyle()
+//						.setMarginLeft(-7, Unit.PX);
+//			} else {
+//
+//			}
 			break;
 		case 7:
 			// for purchase Order
 			combo = (CustomCombo<E>) taxCodeCombo;
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-				combo.downarrowpanel.getElement().getStyle()
-						.setMarginLeft(-7, Unit.PX);
-			} else {
-
-			}
+//			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+//				combo.downarrowpanel.getElement().getStyle()
+//						.setMarginLeft(-7, Unit.PX);
+//			} else {
+//
+//			}
 			break;
 		default:
 			break;
