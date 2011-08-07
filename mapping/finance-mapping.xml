@@ -150,7 +150,7 @@
 		<!-- </set> -->
 
 		<set name="nominalCodeRange" table="COMPANY_NOMINAL_CODE_RANGE"
-			lazy="false" cascade="save-update">
+			lazy="true" cascade="save-update">
 			<key column="COMPANY_ID" not-null="true" />
 			<composite-element class="NominalCodeRange">
 				<property name="accountSubBaseType" column="ACCOUNT_SUB_BASE_TYPE"
