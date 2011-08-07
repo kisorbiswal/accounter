@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -160,10 +159,18 @@ public class CustomerTransactionGrid extends
 		case 6:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 7:
-			if (transactionView instanceof WriteChequeView)
+			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+				if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK)
+					return ListGrid.COLUMN_TYPE_SELECT;
+				else {
+					if (transactionView instanceof WriteChequeView)
+						return ListGrid.COLUMN_TYPE_IMAGE;
+					else
+						return ListGrid.COLUMN_TYPE_SELECT;
+				}
+			} else {
 				return ListGrid.COLUMN_TYPE_IMAGE;
-			else
-				return ListGrid.COLUMN_TYPE_SELECT;
+			}
 		case 8:
 			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK)
 				return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
@@ -1224,7 +1231,7 @@ public class CustomerTransactionGrid extends
 		switch (obj.getType()) {
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			switch (col) {
-			case 1:
+			case 0:
 				return false;
 			case 2:
 				return false;
@@ -1303,27 +1310,29 @@ public class CustomerTransactionGrid extends
 					combo = (CustomCombo<E>) vatItemCombo;
 			}
 
-//			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-//				combo.downarrowpanel.getElement().getStyle()
-//						.setMarginLeft(-7, Unit.PX);
-//			} else {
-//				if (this instanceof SalesOrderGrid)
-//					combo.downarrowpanel.getElement().getStyle()
-//							.setMarginLeft(-7, Unit.PX);
-//				else
-//					combo.downarrowpanel.getElement().getStyle()
-//							.setMarginLeft(-13, Unit.PX);
-//			}
+			// if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_UK) {
+			// combo.downarrowpanel.getElement().getStyle()
+			// .setMarginLeft(-7, Unit.PX);
+			// } else {
+			// if (this instanceof SalesOrderGrid)
+			// combo.downarrowpanel.getElement().getStyle()
+			// .setMarginLeft(-7, Unit.PX);
+			// else
+			// combo.downarrowpanel.getElement().getStyle()
+			// .setMarginLeft(-13, Unit.PX);
+			// }
 
 			break;
 		case 7:
 			combo = (CustomCombo<E>) taxCodeCombo;
-//			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-//				combo.downarrowpanel.getElement().getStyle()
-//						.setMarginLeft(-7, Unit.PX);
-//			} else {
-//
-//			}
+			// if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_UK) {
+			// combo.downarrowpanel.getElement().getStyle()
+			// .setMarginLeft(-7, Unit.PX);
+			// } else {
+			//
+			// }
 			break;
 		default:
 			break;
