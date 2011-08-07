@@ -41,6 +41,7 @@ public class ActivationServlet extends BaseServlet {
 
 		if (token == null) {
 			dispatch(req, resp, VIEW);
+			return;
 		}
 
 		// get activation record
