@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -33,9 +33,9 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	protected SalesTaxItemsGrid itemsGrid;
 	private VerticalPanel buttonsLayout;
 	private HorizontalPanel bodyLayout;
-	protected AccounterButton button1;
-	private AccounterButton button2;
-	private AccounterButton button3;
+	protected Button button1;
+	private Button button2;
+	private Button button3;
 	private GroupDialogButtonsHandler dialogButtonsHandler;
 	private InputDialogHandler dialogHandler;
 
@@ -101,7 +101,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		buttonsLayout.setWidth("100");
 		buttonsLayout.setSpacing(5);
 
-		button1 = new AccounterButton(Accounter.constants().add());
+		button1 = new Button(Accounter.constants().add());
 		button1.setWidth("80");
 
 		button1.addClickHandler(new ClickHandler() {
@@ -113,7 +113,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		});
 
-		button2 = new AccounterButton(Accounter.constants().edit());
+		button2 = new Button(Accounter.constants().edit());
 		button2.setEnabled(false);
 		button2.setWidth("80");
 		button2.addClickHandler(new ClickHandler() {
@@ -124,7 +124,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		});
 
-		button3 = new AccounterButton(Accounter.constants().remove());
+		button3 = new Button(Accounter.constants().remove());
 		button3.setEnabled(false);
 		button3.setWidth("80");
 		button3.addClickHandler(new ClickHandler() {
@@ -202,9 +202,6 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			}
 		};
 		addGroupButtonsHandler(groupDialogButtonHandler);
-		button1.enabledButton();
-		button2.enabledButton();
-		button3.enabledButton();
 	}
 
 	public void addGroupButtonsHandler(

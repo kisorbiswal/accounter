@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -49,8 +50,8 @@ public abstract class BaseDialog extends CustomDialog implements
 	protected HorizontalPanel footerLayout;
 	protected AccounterConstants constants;
 
-	protected AccounterButton cancelBtn;
-	protected AccounterButton okbtn;
+	protected Button cancelBtn;
+	protected Button okbtn;
 	private InputDialogHandler dialogHandler;
 	protected IAccounterGETServiceAsync rpcGetService;
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
@@ -135,7 +136,7 @@ public abstract class BaseDialog extends CustomDialog implements
 		footerLayout.setSpacing(3);
 		// footerLayout.addStyleName("dialogfooter");
 
-		this.okbtn = new AccounterButton(constants.ok());
+		this.okbtn = new Button(constants.ok());
 		okbtn.setWidth("80px");
 		this.okbtn.setFocus(true);
 
@@ -148,7 +149,7 @@ public abstract class BaseDialog extends CustomDialog implements
 		});
 		okbtn.setFocus(true);
 
-		cancelBtn = new AccounterButton(constants.cancel());
+		cancelBtn = new Button(constants.cancel());
 		cancelBtn.setWidth("80px");
 		cancelBtn.addClickHandler(new ClickHandler() {
 
@@ -162,9 +163,9 @@ public abstract class BaseDialog extends CustomDialog implements
 		footerLayout.add(okbtn);
 		footerLayout.add(cancelBtn);
 
-		okbtn.enabledButton("ok-cancel-button");
+		okbtn.setEnabled(true);
 
-		cancelBtn.enabledButton("ok-cancel-button");
+		cancelBtn.setEnabled(true);
 
 		footerLayout.setCellHorizontalAlignment(okbtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);

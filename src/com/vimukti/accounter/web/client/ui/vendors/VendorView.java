@@ -49,7 +49,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorGroupCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -279,7 +279,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label l1 = new Label(Accounter.constants().contacts());
 
-		AccounterButton addButton = new AccounterButton(Accounter.constants()
+		Button addButton = new Button(Accounter.constants()
 				.add());
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -317,8 +317,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
 		panel.add(hPanel);
 
-		addButton.setType(AccounterButton.ADD_BUTTON);
-		addButton.enabledAddButton();
 
 		memoArea = new TextAreaItem();
 		memoArea.setHelpInformation(true);

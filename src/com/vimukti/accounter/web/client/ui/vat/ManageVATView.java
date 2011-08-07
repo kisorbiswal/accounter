@@ -9,12 +9,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ManageVATView extends AbstractBaseView {
 
-	AccounterButton vatButton;
+	Button vatButton;
 
 	public ManageVATView() {
 
@@ -49,10 +49,10 @@ public class ManageVATView extends AbstractBaseView {
 		CaptionPanel capTaskPanel = new CaptionPanel(Accounter.constants()
 				.relatedTask());
 
-		vatButton = new AccounterButton(Accounter.constants().fileVATReturn());
-		AccounterButton closeButton = new AccounterButton(Accounter.constants()
+		vatButton = new Button(Accounter.constants().fileVATReturn());
+		Button closeButton = new Button(Accounter.constants()
 				.close());
-		AccounterButton helpButton = new AccounterButton(Accounter.constants()
+		Button helpButton = new Button(Accounter.constants()
 				.help());
 
 		final Image icon = new Image();
@@ -86,15 +86,12 @@ public class ManageVATView extends AbstractBaseView {
 		payVatPanel.add(vatButton, 30, 50);
 		capPayVatPanel.add(payVatPanel);
 
-		vatButton.enabledButton();
 
 		taskPanel.add(viewLink, 50, 10);
 		taskPanel.add(openLink, 50, 30);
 		taskPanel.add(adjLink, 50, 50);
 		taskPanel.add(closeButton, 80, 100);
 		taskPanel.add(helpButton, 180, 100);
-		closeButton.enabledButton();
-		helpButton.enabledButton();
 		capTaskPanel.add(taskPanel);
 
 		vPanel.add(stLabel);

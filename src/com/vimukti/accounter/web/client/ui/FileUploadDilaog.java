@@ -29,7 +29,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
 @SuppressWarnings({ "deprecation" })
@@ -117,20 +117,18 @@ public class FileUploadDilaog extends CustomDialog {
 		vpaPanel.add(panel);
 
 		// Add a 'submit' button.
-		AccounterButton uploadSubmitButton = new AccounterButton(Accounter
+		Button uploadSubmitButton = new Button(Accounter
 				.messages().upload());
 		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
-		AccounterButton closeButton = new AccounterButton(Accounter.constants()
+		Button closeButton = new Button(Accounter.constants()
 				.close());
 		closeButton.setWidth("80px");
 		buttonHlay = new HorizontalPanel();
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
 		buttonHlay.setStyleName("panel-right-align");
-		uploadSubmitButton.enabledButton();
-		closeButton.enabledButton();
 		vpaPanel.add(buttonHlay);
 		/* Make align three Element on there position */
 		// buttonHlay.setCellWidth(uploadSubmitButton);

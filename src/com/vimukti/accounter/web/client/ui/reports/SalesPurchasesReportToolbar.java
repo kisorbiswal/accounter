@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
 /**
@@ -26,7 +26,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 	private DateItem toItem;
 	protected SelectCombo statusCombo, dateRangeCombo;
 	protected List<String> statusList, dateRangeList;
-	private com.vimukti.accounter.web.client.ui.core.AccounterButton updateButton;
+	private Button updateButton;
 	public static int OPEN = 1;
 	public static int COMPLETED = 2;
 	public static int CANCELLED = 3;
@@ -134,7 +134,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 				endDate = toItem.getValue();
 			}
 		});
-		updateButton = new AccounterButton(Accounter.constants()
+		updateButton = new Button(Accounter.constants()
 				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -156,7 +156,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		AccounterButton printButton = new AccounterButton(Accounter
+		Button printButton = new Button(Accounter
 				.constants().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
@@ -174,7 +174,6 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		}
 		addItems(statusCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
-		updateButton.enabledButton();
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}

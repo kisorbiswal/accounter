@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
@@ -42,7 +42,7 @@ public class InvoiceBrandingView<T> extends
 	// helpHtml;
 	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
 			contactDetailsPanel, vPanel;
-	private AccounterButton newBrandButton, automaticButton;
+	private Button newBrandButton, automaticButton;
 	private HorizontalPanel buttonPanel, showPanel, allPanel, nameAndMenuPanel;
 	private AccounterConstants messages = Accounter.constants();
 
@@ -93,7 +93,7 @@ public class InvoiceBrandingView<T> extends
 		titlePanel.add(titleLabel);
 
 		buttonPanel = new HorizontalPanel();
-		newBrandButton = new AccounterButton(messages.newBrandingThemeButton());
+		newBrandButton = new Button(messages.newBrandingThemeButton());
 		newBrandButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -114,7 +114,7 @@ public class InvoiceBrandingView<T> extends
 		// newBrandMenuPanel.setAutoHideEnabled(true);
 		// }
 		// });
-		automaticButton = new AccounterButton(messages.automaticSequencing());
+		automaticButton = new Button(messages.automaticSequencing());
 		automaticButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -126,7 +126,6 @@ public class InvoiceBrandingView<T> extends
 		automaticButton.setVisible(false);
 
 		buttonPanel.add(newBrandButton);
-		newBrandButton.enabledButton();
 		buttonPanel.add(automaticButton);
 
 		mainPanel.add(titlePanel);
@@ -181,13 +180,13 @@ public class InvoiceBrandingView<T> extends
 	private VerticalPanel addingThemeToView(final ClientBrandingTheme theme) {
 
 		final HTML uploadPictureHtml, changeLogoHtml, removeLogoHtml;
-		final AccounterButton editButton, copyThemeButton, deleteButton;
+		final Button editButton, copyThemeButton, deleteButton;
 		titleHtml = new HTML("<strong>" + theme.getThemeName() + "</strong>");
 		vPanel = new VerticalPanel();
 
 		subLayPanel = new VerticalPanel();
 
-		editButton = new AccounterButton(Accounter.constants().edit());
+		editButton = new Button(Accounter.constants().edit());
 		editButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -196,7 +195,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		});
 
-		copyThemeButton = new AccounterButton(Accounter.constants().copy());
+		copyThemeButton = new Button(Accounter.constants().copy());
 		copyThemeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -205,7 +204,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		});
 
-		deleteButton = new AccounterButton(Accounter.constants().delete());
+		deleteButton = new Button(Accounter.constants().delete());
 		deleteButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -452,14 +451,6 @@ public class InvoiceBrandingView<T> extends
 		nameAndMenuPanel.add(copyThemeButton);
 		nameAndMenuPanel.add(deleteButton);
 
-		editButton.getElement().getAbsoluteRight();
-		editButton.enabledButton();
-
-		copyThemeButton.getElement().getAbsoluteRight();
-		copyThemeButton.enabledButton();
-
-		deleteButton.getElement().getAbsoluteRight();
-		deleteButton.enabledButton();
 
 		if (theme.getName().equalsIgnoreCase(Accounter.constants().standard())) {
 			deleteButton.setVisible(false);
@@ -474,7 +465,7 @@ public class InvoiceBrandingView<T> extends
 
 	}
 
-	// protected void optionsMenu(AccounterButton button, ClientBrandingTheme
+	// protected void optionsMenu(Button button, ClientBrandingTheme
 	// theme) {
 	// PopupPanel optionsPanel = new PopupPanel();
 	// if (theme.getThemeName().equals(messages.standard())) {

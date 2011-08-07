@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -33,7 +33,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 	protected InputDialogHandler addInputDialogHandler;
 	protected DialogGrid availTaxItemsGrid;
 	protected DialogGrid selectTaxItemsGrid;
-	protected AccounterButton addButton, removeButton;
+	protected Button addButton, removeButton;
 
 	private ArrayList<ClientTAXItem> tempAvailTaxItemList;
 	private ArrayList<ClientTAXItem> tempSelectedTaxItemList;
@@ -210,7 +210,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		buttonsLayout.setSpacing(3);
 		// buttonsLayout.setMembersMargin(10);
 		// buttonsLayout.setLayoutMargin(10);
-		AccounterButton addButton = new AccounterButton(Accounter.constants()
+		Button addButton = new Button(Accounter.constants()
 				.add());
 		addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
@@ -236,7 +236,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 			}
 		});
 
-		AccounterButton removeButton = new AccounterButton(Accounter
+		Button removeButton = new Button(Accounter
 				.constants().remove());
 		removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
@@ -261,8 +261,6 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 		buttonsLayout.add(addButton);
 		buttonsLayout.add(removeButton);
-		addButton.enabledButton();
-		removeButton.enabledButton();
 		// Selected Tax Codes Layout
 		// DynamicForm selectForm = new DynamicForm();
 

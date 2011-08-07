@@ -15,11 +15,12 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -30,6 +31,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
+import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -48,7 +50,6 @@ import com.vimukti.accounter.web.client.ui.vendors.CashExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
-import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -78,7 +79,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField transactionDateItem;
 	protected TextAreaItem memoTextAreaItem;
 	// protected TextItem refText;
-	protected AccounterButton menuButton;
+	protected Button menuButton;
 	private PopupPanel popupPanel;
 	private CustomMenuBar popupMenuBar;
 
@@ -107,7 +108,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public CheckboxItem vatinclusiveCheck;
 
-//	protected CurrencyWidget currencyWidget;
+	// protected CurrencyWidget currencyWidget;
 
 	protected int gridType;
 
@@ -510,9 +511,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 								.transactionitemtotalcannotbe0orlessthan0());
 	}
 
-	public AccounterButton createAddNewButton() {
-		menuButton = new AccounterButton(Accounter.constants().addNewItem());
-		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
+	public Button createAddNewButton() {
+		// TODO make this button to Image button
+		menuButton = new Button(Accounter.constants().addNewItem());
 		menuButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -674,8 +675,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return isVATInclusive;
 	}
 
-	public void setMenuItems(AccounterButton button,
-			Map<String, ImageResource> items) {
+	public void setMenuItems(Widget button, Map<String, ImageResource> items) {
 		createPopupMenu(button);
 		popupMenuBar.clearItems();
 		for (final String itm : items.keySet()) {
@@ -695,7 +695,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 	}
 
-	public void setMenuItems(AccounterButton button, String... items) {
+	public void setMenuItems(Widget button, String... items) {
 		createPopupMenu(button);
 		popupMenuBar.clearItems();
 
@@ -743,7 +743,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 	}
 
-	private void createPopupMenu(AccounterButton button) {
+	private void createPopupMenu(Widget button) {
 		if (popupPanel == null) {
 			popupPanel = new PopupPanel(true);
 			popupMenuBar = new CustomMenuBar(Accounter.getFinanceMenuImages());
@@ -885,15 +885,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected void onAttach() {
 		super.onAttach();
 		if (menuButton != null) {
-			menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 			menuButton.setEnabled(!isEdit);
 		}
 	}
 
-	protected void showMenu(AccounterButton button) {
+	protected void showMenu(Widget button) {
 
 	}
-
 
 	/**
 	 * Updates the Transaction Obejct from the GUI Fields before saving.

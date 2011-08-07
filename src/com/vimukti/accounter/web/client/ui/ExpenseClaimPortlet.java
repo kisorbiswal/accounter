@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ExpenseClaimPortlet extends DashBoardPortlet {
@@ -65,7 +65,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		VerticalPanel vPanel = new VerticalPanel();
 		FlexTable fTable = new FlexTable();
 
-		AccounterButton addExpenseBtn = new AccounterButton(Accounter
+		Button addExpenseBtn = new Button(Accounter
 				.constants().addExpenses());
 		addExpenseBtn.addStyleName("addAccountPortlet");
 		addExpenseBtn.addClickHandler(new ClickHandler() {
@@ -107,7 +107,6 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vPanel.add(addExpenseBtn);
-			addExpenseBtn.enabledButton();
 		}
 		vPanel.add(fTable);
 

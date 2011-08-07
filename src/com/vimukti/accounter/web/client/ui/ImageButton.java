@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
@@ -11,7 +12,11 @@ public class ImageButton extends Button {
 	private ImageResource res;
 
 	public ImageButton(String title, ImageResource res) {
-		this.setText(title);
+		super(title);
+		this.res = res;
+	}
+	public ImageButton(String title, ImageResource res,ClickHandler handler) {
+		super(title,handler);
 		this.res = res;
 	}
 

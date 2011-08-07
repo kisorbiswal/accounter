@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.Header;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -57,9 +57,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private ClientCompany company;
 	private List<ClientAccount> accounts = new ArrayList<ClientAccount>();
 	private HorizontalPanel hlLayout;
-	private AccounterButton helpButt;
-	private AccounterButton ok;
-	private AccounterButton cancel;
+	private Button helpButt;
+	private Button ok;
+	private Button cancel;
 
 	// private IAccounterGETServiceAsync getService;
 
@@ -70,7 +70,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	private TextItem vatRegNumber;
 	private RadioGroupItem ageingFromTransactionDateORDueDate;
 	private RadioGroupItem whowillrunAccTransfer, paysalesTaxgroupItem;
-	private AccounterButton buttonItem, taxgroupBtn, clearlogBtn,
+	private Button buttonItem, taxgroupBtn, clearlogBtn,
 			mangeServiceMappingsBtn;
 	private OtherAccountsCombo openinBalcombo, accountsreceivablecombo,
 			accountsPayablecombo, salesTaxPayablecombo, cashDiscountGivencombo,
@@ -250,7 +250,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// hlLayout.setLayoutLeftMargin(5);
 		// hlLayout.setLayoutRightMargin(5);
 
-		helpButt = new AccounterButton(Accounter.constants().help());
+		helpButt = new Button(Accounter.constants().help());
 		// helpButt.setHeight("30");
 		// helpButt.setAutoFit(true);
 		helpButt.addClickHandler(new ClickHandler() {
@@ -266,13 +266,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		HorizontalPanel helpLayout = new HorizontalPanel();
 		helpLayout.setWidth("50%");
 		helpLayout.add(helpButt);
-		helpButt.enabledButton();
 		HorizontalPanel okCancelayout = new HorizontalPanel();
 		okCancelayout.setWidth("70%");
 		// okCancelayout.setMembersMargin(10);
 		// okCancelayout.setAlign(Alignment.RIGHT);
 
-		ok = new AccounterButton(Accounter.constants().ok());
+		ok = new Button(Accounter.constants().ok());
 		// ok.setAutoFit(true);
 		ok.addClickHandler(new ClickHandler() {
 
@@ -283,7 +282,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			}
 		});
 
-		cancel = new AccounterButton(Accounter.constants().cancel());
+		cancel = new Button(Accounter.constants().cancel());
 		// cancel.setAutoFit(true);
 		cancel.addClickHandler(new ClickHandler() {
 
@@ -295,11 +294,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			}
 		});
 		okCancelayout.add(ok);
-		ok.enabledButton();
 		okCancelayout.setCellHorizontalAlignment(ok,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		okCancelayout.add(cancel);
-		cancel.enabledButton();
 		hlLayout.add(helpLayout);
 		hlLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		hlLayout.add(okCancelayout);
@@ -473,7 +470,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		}
 		vatRegNumber.setValue(getCompany().getPreferences()
 				.getVATregistrationNumber());
-		taxgroupBtn = new AccounterButton(Accounter.constants().taxgroups());
+		taxgroupBtn = new Button(Accounter.constants().taxgroups());
 		// taxgroupBtn.setColSpan("*");
 		taxgroupBtn.addClickHandler(new ClickHandler() {
 
@@ -948,7 +945,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// }
 		// vatRegNumber.setValue(FinanceApplication.getCompany().getpreferences()
 		// .getVATregistrationNumber());
-		// taxgroupBtn = new AccounterButton(Accounter.constants().taxgroups());
+		// taxgroupBtn = new Button(Accounter.constants().taxgroups());
 		// // taxgroupBtn.setColSpan("*");
 		// taxgroupBtn.addClickHandler(new ClickHandler() {
 		//
@@ -1139,7 +1136,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// playsounds.setTitleOrientation(TitleOrientation.TOP);
 		playsounds.setTitle(Accounter.constants().playsoundswithActions());
 
-		buttonItem = new AccounterButton(Accounter.constants().restoreDefault());
+		buttonItem = new Button(Accounter.constants().restoreDefault());
 		// buttonItem.setAutoFit(true);
 		buttonItem.addClickHandler(new ClickHandler() {
 
@@ -1196,7 +1193,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// serviceMapForm.setPadding(10);
 
 		// --Previusly 'mangeServiceMappingsBtn' is ButtonItem
-		mangeServiceMappingsBtn = new AccounterButton(Accounter.constants()
+		mangeServiceMappingsBtn = new Button(Accounter.constants()
 				.manageServiceMappings());
 		mangeServiceMappingsBtn.setHeight("30");
 
@@ -1223,7 +1220,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		};
 		logspaceTxt.setTitle(Accounter.constants().logSpace());
 
-		clearlogBtn = new AccounterButton();
+		clearlogBtn = new Button();
 		clearlogBtn.setTitle(Accounter.constants().clearLog());
 
 		logContentSelect = new SelectItem();
@@ -1239,7 +1236,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		VerticalPanel suportLogPanel = new VerticalPanel();
 		suportLogPanel.add(supportLogging);
 		suportLogPanel.add(clearlogBtn);
-		clearlogBtn.enabledButton();
 		generalLayOut = new VerticalPanel();
 		// generalLayOut.setSize("100%", "100%");
 		generalLayOut.setWidth("100%");
@@ -1249,7 +1245,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		generalLayOut.add(filingRecordNameForm);
 		generalLayOut.add(serviceMapForm);
 		generalLayOut.add(mangeServiceMappingsBtn);
-		mangeServiceMappingsBtn.enabledButton();
 		generalLayOut.add(supportLogging);
 		// generalLayOut.add(10);
 

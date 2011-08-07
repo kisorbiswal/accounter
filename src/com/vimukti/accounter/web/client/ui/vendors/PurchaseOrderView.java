@@ -41,7 +41,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -60,7 +60,7 @@ public class PurchaseOrderView extends
 	private ShippingTermsCombo shippingTermsCombo;
 	private ShippingMethodsCombo shippingMethodsCombo;
 	private AddressCombo shipToCombo;
-	private AccounterButton addLinksButton;
+	private Button addLinksButton;
 	private TextItem linksText;
 	private DynamicForm vendorForm;
 	private DynamicForm termsForm;
@@ -355,7 +355,7 @@ public class PurchaseOrderView extends
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
-		addLinksButton = new AccounterButton(Accounter.constants().addLinks());
+		addLinksButton = new Button(Accounter.constants().addLinks());
 		// FIXME--need to disable basing on the mode of the view being opened
 
 		// addLinksButton.setEnabled(true);
@@ -413,7 +413,6 @@ public class PurchaseOrderView extends
 		bottomLayout.setWidth("100%");
 		bottomLayout.setHorizontalAlignment(ALIGN_RIGHT);
 
-		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		bottomLayout.add(memoForm);
 		bottomLayout.add(panel);

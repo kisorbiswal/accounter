@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -21,7 +22,6 @@ import com.vimukti.accounter.web.client.ui.CreditCardChargeView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -254,7 +254,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	}
 
 	@Override
-	protected void showMenu(AccounterButton button) {
+	protected void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
 					.constants().serviceItem());

@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -33,7 +34,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.theme.ThemeImages;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
@@ -296,7 +296,7 @@ public class Accounter implements EntryPoint {
 		data.getElement().getStyle().setMargin(10, Unit.PX);
 		data.getElement().getStyle().setFontSize(14, Unit.PX);
 		vPanel.add(data);
-		AccounterButton loginBtn = new AccounterButton(constants().logIn());
+		Button loginBtn = new Button(constants().logIn());
 		loginBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -305,7 +305,7 @@ public class Accounter implements EntryPoint {
 			}
 		});
 		vPanel.add(loginBtn);
-		loginBtn.enabledButton();
+		loginBtn.setEnabled(true);
 		loginBtn.getElement().getParentElement().addClassName("expiredButton");
 		expireDialog.add(vPanel);
 		expireDialog.center();

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -17,7 +18,7 @@ public class ButtonGroup extends HorizontalPanel {
 
 	private Image nextbutton, previousButton, closeButton, printButton,
 			editButton, exportCsvButton;
-	private AccounterButton addButton;
+	private Button addButton;
 	private ViewManager manager;
 
 	public ButtonGroup(int buttonGroup) {
@@ -42,7 +43,7 @@ public class ButtonGroup extends HorizontalPanel {
 
 	public Widget addAddButton() {
 		HorizontalPanel panel = new HorizontalPanel();
-		addButton = new AccounterButton("Add Button");
+		addButton = new Button("Add Button");
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -51,7 +52,6 @@ public class ButtonGroup extends HorizontalPanel {
 			}
 		});
 		panel.add(addButton);
-		addButton.enabledButton();
 		return panel;
 	}
 

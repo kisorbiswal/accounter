@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -51,7 +51,7 @@ public class PreviousClaimsView extends BaseView {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		AccounterButton notShowInList = new AccounterButton(Accounter
+		Button notShowInList = new Button(Accounter
 				.constants().dontShowinList());
 		notShowInList.addClickHandler(new ClickHandler() {
 
@@ -70,7 +70,6 @@ public class PreviousClaimsView extends BaseView {
 		panel.setWidth("100%");
 		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		this.add(panel);
-		notShowInList.enabledButton("ibutton1");
 
 	}
 

@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -31,7 +31,7 @@ public class ConversionBalancesView extends BaseView {
 			footerPanel;
 	private HorizontalPanel headerButtonPanel, footerButtonPanel,
 			addNewButtonPanel;
-	private AccounterButton addComparativeBalancesButton, conversionDateButton,
+	private Button addComparativeBalancesButton, conversionDateButton,
 			saveButton, cancelButton, addNewButton;
 	private LabelItem removeZeroBalance, showAllAccounts;
 	private DynamicForm debit_creditForm, labelsForm, adjustmentsForm;
@@ -132,15 +132,13 @@ public class ConversionBalancesView extends BaseView {
 		});
 		headerHtml = new HTML(messages.conversionBalanaceHeader());
 
-		addComparativeBalancesButton = new AccounterButton(
+		addComparativeBalancesButton = new Button(
 				messages.addComparativeButton());
-		conversionDateButton = new AccounterButton(
+		conversionDateButton = new Button(
 				messages.conversionDateButton());
 
 		headerButtonPanel.add(addComparativeBalancesButton);
 		headerButtonPanel.add(conversionDateButton);
-		addComparativeBalancesButton.enabledButton();
-		conversionDateButton.enabledButton();
 		headerPanel.add(superHeaderHtml);
 		headerPanel.add(headerHtml);
 
@@ -150,9 +148,9 @@ public class ConversionBalancesView extends BaseView {
 		tabBodyPanel = new VerticalPanel();
 		addNewButtonPanel = new HorizontalPanel();
 		footerButtonPanel = new HorizontalPanel();
-		addNewButton = new AccounterButton(messages.addNewLine());
-		saveButton = new AccounterButton(Accounter.constants().saveButton());
-		cancelButton = new AccounterButton(Accounter.constants().cancelButton());
+		addNewButton = new Button(messages.addNewLine());
+		saveButton = new Button(Accounter.constants().saveButton());
+		cancelButton = new Button(Accounter.constants().cancelButton());
 		footerPanel = new VerticalPanel();
 		debit_creditForm = new DynamicForm();
 		debitLabel = new AmountLabel(Accounter.constants().totalDebits());
@@ -186,7 +184,6 @@ public class ConversionBalancesView extends BaseView {
 		labelsForm.setCellSpacing(6);
 		labelsForm.setFields(removeZeroBalance, showAllAccounts);
 		addNewButtonPanel.add(addNewButton);
-		addNewButton.enabledButton();
 		addNewButtonPanel.add(labelsForm);
 
 		debit_creditForm.setNumCols(4);
@@ -202,8 +199,6 @@ public class ConversionBalancesView extends BaseView {
 
 		footerButtonPanel.add(saveButton);
 		footerButtonPanel.add(cancelButton);
-		saveButton.enabledButton();
-		cancelButton.enabledButton();
 
 		footerPanel.add(addNewButtonPanel);
 		footerPanel.add(debit_creditForm);

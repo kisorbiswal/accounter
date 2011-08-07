@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.forms.ComboBoxItem;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
@@ -19,7 +19,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 	private DateItem toItem;
 	protected ComboBoxItem checkDetailCombo;
 	private ComboBoxItem dateRangeItem;
-	private AccounterButton updateButton;
+	private Button updateButton;
 
 	public CheckDetailReportToolbar() {
 		createControls();
@@ -102,7 +102,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new AccounterButton(Accounter.constants()
+		updateButton = new Button(Accounter.constants()
 				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -124,7 +124,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		AccounterButton printButton = new AccounterButton(Accounter
+		Button printButton = new Button(Accounter
 				.constants().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
@@ -142,7 +142,6 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		}
 		addItems(checkDetailCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
-		updateButton.enabledButton();
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}

@@ -36,7 +36,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.MakeDepositAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -110,7 +110,7 @@ public class MakeDepositView extends
 
 	private ArrayList<DynamicForm> listforms;
 
-	private AccounterButton addButton;
+	private Button addButton;
 	private TextItem transNumber;
 
 	// private VerticalPanel botRightPanel;
@@ -756,7 +756,7 @@ public class MakeDepositView extends
 		// Label lab1 = new Label(FinanceApplication.constants()
 		// .paymentsReceived());
 
-		addButton = new AccounterButton(Accounter.constants().add());
+		addButton = new Button(Accounter.constants().add());
 
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -832,7 +832,6 @@ public class MakeDepositView extends
 		panel.add(addButton);
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		addButton.setType(AccounterButton.ADD_BUTTON);
 		addButton.setEnabled(!isEdit);
 
 		HorizontalPanel botHLay = new HorizontalPanel();

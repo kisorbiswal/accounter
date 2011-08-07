@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -43,7 +43,7 @@ public class AwaitingAuthorisationView extends BaseView {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
 
-		AccounterButton approve = new AccounterButton(Accounter.constants()
+		Button approve = new Button(Accounter.constants()
 				.approveButton());
 		approve.addClickHandler(new ClickHandler() {
 
@@ -70,7 +70,7 @@ public class AwaitingAuthorisationView extends BaseView {
 			}
 		});
 
-		AccounterButton decline = new AccounterButton(Accounter.constants()
+		Button decline = new Button(Accounter.constants()
 				.declineButton());
 		decline.addClickHandler(new ClickHandler() {
 
@@ -90,7 +90,7 @@ public class AwaitingAuthorisationView extends BaseView {
 			}
 		});
 
-		AccounterButton delete = new AccounterButton(Accounter.constants()
+		Button delete = new Button(Accounter.constants()
 				.delete());
 		delete.addClickHandler(new ClickHandler() {
 
@@ -115,14 +115,6 @@ public class AwaitingAuthorisationView extends BaseView {
 		buttonPanel.add(delete);
 		approve.getElement().getStyle().setMarginLeft(25, Unit.PX);
 		approve.setWidth("105px");
-		approve.enabledButton(AccounterButton.APPROVE_BUTTON, "approve-image",
-				"ibutton1");
-		decline.setWidth("95px");
-		decline.enabledButton(AccounterButton.DECLINE_BUTTON, "decline-image",
-				"ibutton1");
-		delete.setWidth("90px");
-		delete.enabledButton(AccounterButton.DELETE_BUTTON, "close-image",
-				"ibutton1");
 
 		panel.add(grid);
 		panel.add(buttonPanel);

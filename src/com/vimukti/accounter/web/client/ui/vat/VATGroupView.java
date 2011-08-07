@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -101,7 +101,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		form.setFields(groupName, desc, salesTypeRadio, checkbox);
 
 		HTML label = new HTML(Accounter.constants().enterEachIndividualVAT());
-		AccounterButton addButton = new AccounterButton(Accounter.constants()
+		Button addButton = new Button(Accounter.constants()
 				.add());
 		addButton.addClickHandler(new ClickHandler() {
 

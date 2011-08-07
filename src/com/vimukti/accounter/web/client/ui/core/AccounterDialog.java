@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -21,8 +22,8 @@ public class AccounterDialog extends CustomDialog {
 	public AccounterType type;
 	public String message;
 	private boolean isError;
-	private AccounterButton okButton;
-	private AccounterButton cancelButton;
+	private Button okButton;
+	private Button cancelButton;
 
 	public AccounterDialog(String mesg, AccounterType type) {
 
@@ -69,8 +70,8 @@ public class AccounterDialog extends CustomDialog {
 		// buttonLayout.setAutoHeight();
 		// buttonLayout.setHeight("20%");
 
-		AccounterButton yesButton;
-		AccounterButton noButton;
+		Button yesButton;
+		Button noButton;
 
 		ImageResource imageUrl;
 
@@ -89,12 +90,12 @@ public class AccounterDialog extends CustomDialog {
 				setText("INFORMATION");
 			}
 
-			okButton = new AccounterButton(Accounter.constants().ok());
+			okButton = new Button(Accounter.constants().ok());
 			okButton.setWidth("80px");
 
 			// buttonLayout.setAlign(Alignment.RIGHT);
 			buttonLayout.add(okButton);
-			okButton.enabledButton();
+			okButton.setEnabled(true);
 			okButton.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -109,9 +110,9 @@ public class AccounterDialog extends CustomDialog {
 
 			imageUrl = Accounter.getFinanceImages().warnIcon();
 			setText("WARNING");
-			yesButton = new AccounterButton(Accounter.constants().yes());
+			yesButton = new Button(Accounter.constants().yes());
 			yesButton.setWidth("60");
-			noButton = new AccounterButton(Accounter.constants().no());
+			noButton = new Button(Accounter.constants().no());
 			noButton.setWidth("60");
 			yesButton.addClickHandler(new ClickHandler() {
 
@@ -138,14 +139,11 @@ public class AccounterDialog extends CustomDialog {
 			});
 			// buttonLayout.setAlign(Alignment.RIGHT);
 			if (this.type.equals(AccounterType.WARNINGWITHCANCEL)) {
-				cancelButton = new AccounterButton(Accounter.constants()
+				cancelButton = new Button(Accounter.constants()
 						.cancel());
 				buttonLayout.add(yesButton);
 				buttonLayout.add(noButton);
 				buttonLayout.add(cancelButton);
-				yesButton.enabledButton();
-				noButton.enabledButton();
-				cancelButton.enabledButton();
 				cancelButton.addClickHandler(new ClickHandler() {
 
 					@Override
@@ -157,8 +155,8 @@ public class AccounterDialog extends CustomDialog {
 			} else {
 				buttonLayout.add(yesButton);
 				buttonLayout.add(noButton);
-				yesButton.enabledButton();
-				noButton.enabledButton();
+				yesButton.setEnabled(true);
+				noButton.setEnabled(true);
 			}
 
 		}

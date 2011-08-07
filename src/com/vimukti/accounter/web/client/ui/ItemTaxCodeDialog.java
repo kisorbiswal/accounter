@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -49,30 +49,28 @@ public class ItemTaxCodeDialog extends DialogBox {
 		// grid.setCanResizeFields(true);
 		// grid.setData(createListGridRecords(typeRecords));
 
-		AccounterButton addButt = new AccounterButton(Accounter.constants().add3dots());
+		Button addButt = new Button(Accounter.constants().add3dots());
 		addButt.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				showAddEditDialog();
 			}
 		});
-		AccounterButton editButt = new AccounterButton(Accounter
+		Button editButt = new Button(Accounter
 				.constants().edit());
-		AccounterButton remButt = new AccounterButton(Accounter
+		Button remButt = new Button(Accounter
 				.constants().remove());
 
-		AccounterButton helpButt = new AccounterButton(Accounter
+		Button helpButt = new Button(Accounter
 				.constants().help());
-		AccounterButton closeButt = new AccounterButton(Accounter
+		Button closeButt = new Button(Accounter
 				.constants().close());
 
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		// helpHLay.setAlign(Alignment.LEFT);
 		helpHLay.add(helpButt);
-		helpButt.enabledButton();
 		HorizontalPanel closeHLay = new HorizontalPanel();
 		// closeHLay.setAlign(Alignment.RIGHT);
 		closeHLay.add(closeButt);
-		closeButt.enabledButton();
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setSize("100%", "10%");
 		buttHLay.add(helpHLay);
@@ -82,9 +80,6 @@ public class ItemTaxCodeDialog extends DialogBox {
 		buttVLay.add(addButt);
 		buttVLay.add(editButt);
 		buttVLay.add(remButt);
-		addButt.enabledButton();
-		editButt.enabledButton();
-		remButt.enabledButton();
 		HorizontalPanel groupEditHLay = new HorizontalPanel();
 		// groupEditHLay.setSize("100%", "*");
 		groupEditHLay.add(grid);
@@ -119,18 +114,17 @@ public class ItemTaxCodeDialog extends DialogBox {
 		form.setNumCols(4);
 		form.setFields(taxText, taxableRadio);
 
-		AccounterButton helpButt = new AccounterButton(Accounter
+		Button helpButt = new Button(Accounter
 				.constants().help());
 		// helpButt.setAutoFit(true);
-		AccounterButton okButt = new AccounterButton(Accounter
+		Button okButt = new Button(Accounter
 				.constants().ok());// okButt.setAutoFit(true);
-		AccounterButton canButt = new AccounterButton(Accounter
+		Button canButt = new Button(Accounter
 				.constants().cancel());// canButt.setAutoFit(true);
 		HorizontalPanel helpHLay = new HorizontalPanel();
 
 		helpHLay.setWidth("50%");
 		helpHLay.add(helpButt);
-		helpButt.enabledButton();
 		HorizontalPanel buttHLay = new HorizontalPanel();
 		buttHLay.setWidth("100%");
 		// buttHLay.setMembersMargin(5);
@@ -138,8 +132,6 @@ public class ItemTaxCodeDialog extends DialogBox {
 		buttHLay.add(helpHLay);
 		buttHLay.add(okButt);
 		buttHLay.add(canButt);
-		okButt.enabledButton();
-		canButt.enabledButton();
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		// mainVLay.setTop(30);

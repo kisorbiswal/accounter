@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -268,7 +268,6 @@ public class CashSalesView extends
 		vPanel.setWidth("100%");
 		vPanel.add(panel);
 
-		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		vPanel.add(prodAndServiceHLay);
 

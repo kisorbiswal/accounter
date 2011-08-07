@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
@@ -100,7 +100,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		AccounterButton helpButton = new AccounterButton(
+		Button helpButton = new Button(
 				financeConstants.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
@@ -111,11 +111,10 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		});
 		helpButtonLayout.add(helpButton);
-		helpButton.enabledButton();
 		HorizontalPanel okButtonLayout = new HorizontalPanel();
 		okButtonLayout.setSpacing(3);
 
-		AccounterButton okButton = new AccounterButton(financeConstants.ok());
+		Button okButton = new Button(financeConstants.ok());
 		okButton.setWidth("100px");
 		okButton.addClickHandler(new ClickHandler() {
 
@@ -129,8 +128,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		});
 		okButtonLayout.add(okButton);
-		okButton.enabledButton();
-		AccounterButton cancelButton = new AccounterButton(
+		Button cancelButton = new Button(
 				financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
@@ -141,7 +139,6 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		});
 		okButtonLayout.add(cancelButton);
-		cancelButton.enabledButton();
 		HorizontalPanel buttonLayout = new HorizontalPanel();
 		buttonLayout.setWidth("100%");
 

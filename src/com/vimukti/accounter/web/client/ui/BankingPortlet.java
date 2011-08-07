@@ -19,7 +19,7 @@ import com.google.gwt.visualization.client.visualizations.LineChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class BankingPortlet extends DashBoardPortlet {
@@ -62,12 +62,11 @@ public class BankingPortlet extends DashBoardPortlet {
 			bankAccounts = getCompany().getActiveBankAccounts(
 					ClientAccount.TYPE_BANK);
 		}
-		AccounterButton addAccount = new AccounterButton(Accounter.constants()
+		Button addAccount = new Button(Accounter.constants()
 				.addBankAccount());
 		addAccount.addStyleName("addAccountPortlet");
 		if (Accounter.getUser().canDoBanking()) {
 			body.add(addAccount);
-			addAccount.enabledButton();
 		}
 
 		if (bankAccounts == null || bankAccounts.size() == 0) {

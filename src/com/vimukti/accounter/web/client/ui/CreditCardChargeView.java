@@ -28,7 +28,7 @@ import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -416,7 +416,7 @@ public class CreditCardChargeView extends
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
-		AccounterButton addButton = createAddNewButton();// new
+		Button addButton = createAddNewButton();// new
 		// Button(FinanceApplication
 
 		netAmount = new AmountLabel(Accounter.constants().netAmount());

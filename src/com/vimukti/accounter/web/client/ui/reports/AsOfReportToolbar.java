@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
@@ -22,7 +22,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 	protected SelectCombo reportBasisCombo, dateRangeCombo;
 	protected List<String> statusList, dateRangeList;
 	private DateItem customDate;
-	private AccounterButton updateButton;
+	private Button updateButton;
 
 	public AsOfReportToolbar() {
 		createControls();
@@ -149,7 +149,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		else
 			customDate.setValue(new ClientFinanceDate());
 
-		updateButton = new AccounterButton("Update");
+		updateButton = new Button("Update");
 		// updateButton.setEnabled(false);
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -173,7 +173,6 @@ public class AsOfReportToolbar extends ReportToolbar {
 		}
 		addItems(report, dateRangeCombo, customDate);
 		add(updateButton);
-		updateButton.enabledButton();
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}

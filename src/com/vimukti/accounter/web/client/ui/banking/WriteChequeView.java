@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -36,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -1015,7 +1015,6 @@ public class WriteChequeView extends
 		vPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		mainVLay.add(vPanel);
-		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		this.setWidth("100%");
 		this.add(mainVLay);
@@ -1154,7 +1153,7 @@ public class WriteChequeView extends
 	// }
 
 	@Override
-	protected void showMenu(AccounterButton button) {
+	protected void showMenu(Widget button) {
 		if (payee != null) {
 			switch (payee.getType()) {
 			case ClientWriteCheck.TYPE_CUSTOMER:

@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.IncomeAndExpensesAccountCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -57,7 +57,7 @@ public class TransferFundsDialog extends BaseDialog {
 	ClientTransferFund transferFund;
 
 	private Double transferAmount = 0D;
-	private AccounterButton editButton;
+	private Button editButton;
 	public boolean isValidatedTransferAmount = false;
 
 	public TransferFundsDialog(Object data) {
@@ -231,7 +231,7 @@ public class TransferFundsDialog extends BaseDialog {
 		// hlay.setMembersMargin(10);
 		hlay.add(transferFromForm);
 		hlay.add(transferToForm);
-		editButton = new AccounterButton();
+		editButton = new Button();
 		editButton.setText(Accounter.constants().edit());
 		editButton.setVisible(false);
 
@@ -250,7 +250,6 @@ public class TransferFundsDialog extends BaseDialog {
 		// footerLayout.setCellWidth(okbtn, "85%");
 
 		footerLayout.insert(editButton, getAbsoluteLeft());
-		editButton.enabledButton();
 		mainVLay.add(transferForm);
 		mainVLay.add(hlay);
 		mainVLay.add(footerLayout);

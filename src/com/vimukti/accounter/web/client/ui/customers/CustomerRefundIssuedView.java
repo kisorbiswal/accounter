@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -105,12 +105,12 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		topHLay.add(leftVLay);
 		topHLay.add(balForm);
 
-		AccounterButton saveCloseButt = new AccounterButton(
+		Button saveCloseButt = new Button(
 				customerConstants.saveAndClose());
 		// saveCloseButt.setAutoFit(true);
 		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 
-		AccounterButton saveNewButt = new AccounterButton(
+		Button saveNewButt = new Button(
 				customerConstants.saveAndNew());
 		// saveNewButt.setAutoFit(true);
 		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
@@ -121,8 +121,6 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		// buttHLay.setAutoHeight();
 		buttHLay.add(saveCloseButt);
 		buttHLay.add(saveNewButt);
-		saveCloseButt.enabledButton();
-		saveNewButt.enabledButton();
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
 		// mainVLay.setTop(10);

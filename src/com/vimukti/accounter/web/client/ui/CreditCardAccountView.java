@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -91,12 +91,12 @@ public class CreditCardAccountView extends AbstractBaseView {
 		topHLay.add(leftVLay);
 		topHLay.add(creditForm);
 
-		AccounterButton saveCloseButt = new AccounterButton(Accounter
+		Button saveCloseButt = new Button(Accounter
 				.constants().saveAndClose());
 		// saveCloseButt.setAutoFit(true);
 		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 
-		AccounterButton saveNewButt = new AccounterButton(Accounter.constants()
+		Button saveNewButt = new Button(Accounter.constants()
 				.saveAndNew());
 		// saveNewButt.setAutoFit(true);
 		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
@@ -109,8 +109,6 @@ public class CreditCardAccountView extends AbstractBaseView {
 		// buttHLay.setMembersMargin(20);
 		buttHLay.add(saveCloseButt);
 		buttHLay.add(saveNewButt);
-		saveCloseButt.enabledButton();
-		saveNewButt.enabledButton();
 		VerticalPanel mainVLay = new VerticalPanel();
 		// mainVLay.setMargin(20);
 		mainVLay.setSize("100%", "100%");

@@ -30,7 +30,7 @@ import com.vimukti.accounter.web.client.core.Lists.LinkAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -51,7 +51,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	protected ListBox depreciatedToCombo;
 	private ArrayList<DynamicForm> listforms;
 	protected ClientFinanceDate depreciationEndDate;
-	private AccounterButton startDateButton;
+	private Button startDateButton;
 	protected ClientAccount account;
 	private List<Long> assetIDList;
 	private List<ClientFiscalYear> openFiscalYears;
@@ -84,7 +84,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		titleLabel.setStyleName(Accounter.constants().labelTitle());
 		mainPanel.add(titleLabel);
 
-		startDateButton = new AccounterButton(Accounter.constants().startDate());
+		startDateButton = new Button(Accounter.constants().startDate());
 		startDateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -94,7 +94,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		AccounterButton rollBackDepreciation = new AccounterButton(Accounter
+		Button rollBackDepreciation = new Button(Accounter
 				.constants().rollBackDepreciation());
 		rollBackDepreciation.addClickHandler(new ClickHandler() {
 
@@ -107,9 +107,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setSpacing(10);
 		buttonPanel.add(startDateButton);
-		startDateButton.enabledButton();
 		buttonPanel.add(rollBackDepreciation);
-		rollBackDepreciation.enabledButton();
 		mainPanel.add(buttonPanel);
 
 		fromLabel = new Label(Accounter.constants().depricatiedFrom());
@@ -128,7 +126,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		AccounterButton updateButton = new AccounterButton(Accounter
+		Button updateButton = new Button(Accounter
 				.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 

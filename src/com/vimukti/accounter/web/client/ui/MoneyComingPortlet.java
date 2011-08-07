@@ -20,7 +20,7 @@ import com.google.gwt.visualization.client.visualizations.ColumnChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 
@@ -72,7 +72,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		FlexTable fTable = new FlexTable();
 		hPanel.setWidth("100%");
 
-		AccounterButton addReceivableInvoiceBtn = new AccounterButton(Accounter
+		Button addReceivableInvoiceBtn = new Button(Accounter
 				.constants().addReceivableInvoice());
 		addReceivableInvoiceBtn.addStyleName("addButtonPortlet");
 		addReceivableInvoiceBtn.addClickHandler(new ClickHandler() {
@@ -102,7 +102,6 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			hPanel.add(addReceivableInvoiceBtn);
 
-			addReceivableInvoiceBtn.enabledButton();
 		}
 
 		hPanel.add(fTable);

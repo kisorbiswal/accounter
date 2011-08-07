@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
 public class DateRangeVATAgencyToolbar extends ReportToolbar {
@@ -28,7 +28,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 	private TAXAgencyCombo vatAgencyCombo;
 	protected String selectedEndDate;
 	protected String selectedStartDate;
-	private AccounterButton updateButton;
+	private Button updateButton;
 	private List<String> dateRangeList;
 
 	public DateRangeVATAgencyToolbar() {
@@ -159,7 +159,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 			}
 		});
 
-		updateButton = new AccounterButton(Accounter.constants()
+		updateButton = new Button(Accounter.constants()
 				.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -191,7 +191,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		// set the Date Range to End this Calendar quarter to date
 		// setDefaultDateRange(dateRangeArray);
 
-		AccounterButton printButton = new AccounterButton(Accounter
+		Button printButton = new Button(Accounter
 				.constants().print());
 		printButton.addClickHandler(new ClickHandler() {
 
@@ -208,7 +208,6 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		addItems(vatAgencyCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
-		updateButton.enabledButton();
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 	}

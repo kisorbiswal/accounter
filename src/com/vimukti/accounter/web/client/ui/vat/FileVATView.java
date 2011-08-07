@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -46,12 +46,12 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	private HorizontalPanel topLayout;
 	private VerticalPanel mainLayout;
 	private VATBoxGrid gridView;
-	private AccounterButton adjustButton;
-	private AccounterButton printButton;
+	private Button adjustButton;
+	private Button printButton;
 	private ClientTAXAgency selectedVatAgency;
 	private ArrayList<DynamicForm> listforms;
 	private double amt;
-	private AccounterButton updateButton;
+	private Button updateButton;
 
 	boolean canSaveFileVat = false;
 
@@ -92,7 +92,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		toDate.setWidth(100);
 		listforms = new ArrayList<DynamicForm>();
 
-		updateButton = new AccounterButton(Accounter.constants().update());
+		updateButton = new Button(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -118,7 +118,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				+ Accounter.constants().doYouNeedToMakeAnAdjustment()
 				+ " </strong><br>" + Accounter.constants().useAdjustButton());
 
-		adjustButton = new AccounterButton(Accounter.constants()
+		adjustButton = new Button(Accounter.constants()
 				.adjustVATReturn());
 		adjustButton.addClickHandler(new ClickHandler() {
 
@@ -136,7 +136,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		adjustForm.setSpacing(3);
 		// adjustForm.add(adjustLabel);
 		adjustForm.add(adjustButton);
-		// adjustButton.enabledButton();
 		// if (adjustButton.isEnabled()) {
 		// adjustButton.getElement().getParentElement()
 		// .setClassName("ibutton");
@@ -149,7 +148,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				+ "</strong><br>"
 				+ Accounter.constants().youCanPrintVATReturn());
 
-		printButton = new AccounterButton(Accounter.constants()
+		printButton = new Button(Accounter.constants()
 				.printVATReturn());
 		printButton.addClickHandler(new ClickHandler() {
 
@@ -172,7 +171,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		printForm.setSpacing(3);
 		printForm.add(printLabel);
 		printForm.add(printButton);
-		// printButton.enabledButton();
 		// if (printButton.isEnabled()) {
 		// printButton.getElement().getParentElement().setClassName("ibutton");
 		// ThemesUtil.addDivToButton(printButton, FinanceApplication
@@ -182,7 +180,6 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		topLayout = new HorizontalPanel();
 		topLayout.add(topForm);
 		topLayout.add(updateButton);
-		updateButton.enabledButton();
 
 		// if (updateButton.isEnabled()) {
 		// updateButton.getElement().getParentElement()

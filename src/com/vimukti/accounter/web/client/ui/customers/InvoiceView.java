@@ -42,7 +42,7 @@ import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -352,7 +352,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
 
-		AccounterButton printButton = new AccounterButton();
+		Button printButton = new Button();
 
 		printButton.setText(Accounter.constants().print());
 		printButton.addClickHandler(new ClickHandler() {
@@ -479,7 +479,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		hpanel = new HorizontalPanel();
 		hpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		hpanel.add(createAddNewButton());
-		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		hpanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 

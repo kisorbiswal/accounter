@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -32,7 +32,7 @@ public class ConversionDateView extends AbstractBaseView {
 	private DynamicForm comboForm;
 	private List<String> monthList;
 	private List<String> yearList;
-	private AccounterButton saveButton, cancelButton;
+	private Button saveButton, cancelButton;
 	private AccounterConstants messages = Accounter.constants();
 
 	@Override
@@ -67,8 +67,8 @@ public class ConversionDateView extends AbstractBaseView {
 		bodyPanel = new VerticalPanel();
 		comboForm = new DynamicForm();
 		buttonPanel = new HorizontalPanel();
-		saveButton = new AccounterButton(messages.saveButton());
-		cancelButton = new AccounterButton(messages.cancelButton());
+		saveButton = new Button(messages.saveButton());
+		cancelButton = new Button(messages.cancelButton());
 
 		monthArray = new String[] { messages.january(), messages.february(),
 				messages.march(), messages.april(), messages.may(),
@@ -171,8 +171,6 @@ public class ConversionDateView extends AbstractBaseView {
 
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelButton);
-		saveButton.enabledButton();
-		cancelButton.enabledButton();
 		bodyPanel.add(bodyHtml);
 		bodyPanel.add(comboForm);
 		bodyPanel.add(bodyFooterHtml);

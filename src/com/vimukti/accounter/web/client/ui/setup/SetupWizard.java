@@ -16,7 +16,7 @@ public class SetupWizard extends VerticalPanel {
 	private HorizontalPanel buttonPanel;
 	private VerticalPanel progressPanel;
 	private Button skipButton, backButton, nextButton;
-	private Button gotoAccounterButton;
+	private Button gotoButton;
 	private ClientCompanyPreferences preferences;
 
 	private int currentViewIndex = START_PAGE;
@@ -83,18 +83,18 @@ public class SetupWizard extends VerticalPanel {
 		skipButton = new Button(Accounter.constants().skip());
 		backButton = new Button(Accounter.constants().back());
 		nextButton = new Button(Accounter.constants().next());
-		gotoAccounterButton = new Button(Accounter.constants().gotoAccounter());
+		gotoButton = new Button(Accounter.constants().gotoAccounter());
 
 		// making them invisible at the beginning
 		skipButton.setVisible(false);
 		backButton.setVisible(false);
 		nextButton.setVisible(false);
-		gotoAccounterButton.setVisible(false);
+		gotoButton.setVisible(false);
 
 		buttonPanel.add(skipButton);
 		buttonPanel.add(backButton);
 		buttonPanel.add(nextButton);
-		buttonPanel.add(gotoAccounterButton);
+		buttonPanel.add(gotoButton);
 
 		// adding handlers
 		skipButton.addClickHandler(new ClickHandler() {
@@ -153,9 +153,9 @@ public class SetupWizard extends VerticalPanel {
 				skipButton.setVisible(true);
 				nextButton.setVisible(true);
 
-				gotoAccounterButton.setVisible(false);
+				gotoButton.setVisible(false);
 			} else {
-				gotoAccounterButton.setVisible(true);
+				gotoButton.setVisible(true);
 				skipButton.setVisible(false);
 				nextButton.setVisible(false);
 			}

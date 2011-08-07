@@ -37,7 +37,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATAgencyAccountCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -78,7 +78,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private ClientPaymentTerms selectedPaymentTerm;
 	private ClientAccount selectedSalesAccount, selectedPurchaseAccount;
 
-	private AccounterButton addButton;
+	private Button addButton;
 
 	private List<String> vatReturnList;
 
@@ -383,7 +383,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		addButton = new AccounterButton(Accounter.constants().add());
+		addButton = new Button(Accounter.constants().add());
 		// addButton.setStyleName("addButton");
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -548,8 +548,6 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(panel);
 		// mainVlay.add(memoForm);
 
-		addButton.setType(AccounterButton.ADD_NEW_BUTTON);
-		addButton.enabledAddButton();
 
 		/* Adding dynamic forms in list */
 		listforms.add(taxAgencyForm);

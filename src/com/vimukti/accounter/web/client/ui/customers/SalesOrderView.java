@@ -40,7 +40,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -386,7 +386,6 @@ public class SalesOrderView extends
 		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vpanel.add(panel);
 
-		menuButton.setType(AccounterButton.ADD_NEW_BUTTON);
 
 		vpanel.add(prodAndServiceHLay);
 

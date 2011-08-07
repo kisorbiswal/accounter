@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -15,7 +16,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -102,7 +102,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		nameItem = new TextItem(settingsMessages.measurementName());
 		nameItem.setRequired(true);
 		description = new TextItem(settingsMessages.measurementDescription());
-		AccounterButton addUnitButton = new AccounterButton();
+		Button addUnitButton = new Button();
 		addUnitButton.setText(settingsMessages.getAddUnitButton());
 		addUnitButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -115,7 +115,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		defaultItem = new SelectCombo(settingsMessages.getdefaultUnit());
 		defaultItem.setDisabled(false);
 		defaultItem.setTitleStyleName(settingsMessages.getdefaultUnit());
-		// AccounterButton saveButton = new AccounterButton();
+		// Button saveButton = new Button();
 		// saveButton.setText(settingsMessages.getAddMesurementSaveButton());
 		// saveButton.addClickHandler(new ClickHandler() {
 		// @Override
@@ -124,7 +124,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		// }
 		// });
 		addMeasurmentForm.setFields(nameItem, description);
-		// AccounterButton cancelButton = new AccounterButton();
+		// Button cancelButton = new Button();
 		// cancelButton.setText(settingsMessages.getCancelButton());
 		panel.add(addMeasurmentForm);
 		panel.add(addUnitsGrid);

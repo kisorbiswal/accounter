@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.RevenueAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.RevenueAndExpenseAccountCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -89,7 +89,7 @@ public class JournalViewDialog extends BaseDialog {
 
 		disposalJournalForm.setWidth("100%");
 
-		okbtn = new AccounterButton(Accounter.constants().post());
+		okbtn = new Button(Accounter.constants().post());
 		okbtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -103,8 +103,6 @@ public class JournalViewDialog extends BaseDialog {
 		footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		footerLayout.add(okbtn);
 		footerLayout.add(cancelBtn);
-		okbtn.enabledButton();
-		cancelBtn.enabledButton();
 		// footerLayout.setCellWidth(okbtn, "100%");
 		footerLayout.setCellHorizontalAlignment(okbtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);

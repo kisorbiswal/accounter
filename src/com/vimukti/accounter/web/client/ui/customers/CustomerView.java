@@ -53,7 +53,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.TaxGroupCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -642,7 +642,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				balanceDate);
 
 		Label l1 = new Label(Accounter.constants().contacts());
-		AccounterButton addButton = new AccounterButton(Accounter.constants()
+		Button addButton = new Button(Accounter.constants()
 				.add());
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -678,13 +678,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
 		panel.add(hPanel);
-		addButton.setType(AccounterButton.ADD_BUTTON);
-		addButton.enabledAddButton();
 		memoArea = new TextAreaItem();
 		memoArea.setWidth("400px");
 		memoArea.setTitle(customerConstants.memo());
 
-		// AccounterButton addLinksButt = new AccounterButton("AddLinks");
+		// Button addLinksButt = new Button("AddLinks");
 		// linksText = new TextItem("");
 		// linksText.setWidth(100);
 		DynamicForm memoForm = new DynamicForm();

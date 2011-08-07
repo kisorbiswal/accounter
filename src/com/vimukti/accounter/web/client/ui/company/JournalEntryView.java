@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -64,7 +64,7 @@ public class JournalEntryView extends
 	private VerticalPanel gridPanel;
 
 	private ArrayList<DynamicForm> listforms;
-	private com.vimukti.accounter.web.client.ui.core.AccounterButton addButton;
+	private Button addButton;
 
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY,
@@ -313,7 +313,7 @@ public class JournalEntryView extends
 		initListGrid();
 		grid.initTransactionData();
 		gridPanel = new VerticalPanel();
-		addButton = new AccounterButton(Accounter.constants().add());
+		addButton = new Button(Accounter.constants().add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -332,7 +332,6 @@ public class JournalEntryView extends
 
 		gridPanel.add(hPanel);
 
-		addButton.setType(AccounterButton.ADD_BUTTON);
 		addButton.setEnabled(!isEdit);
 		dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
@@ -638,7 +637,7 @@ public class JournalEntryView extends
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		// addButton.setType(AccounterButton.ADD_BUTTON);
+		// addButton.setType(Button.ADD_BUTTON);
 	}
 
 	@Override

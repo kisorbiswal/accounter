@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
@@ -65,7 +65,7 @@ public class CompanyInfoDialog extends BaseDialog {
 
 	private TextItem vatRegNumber;
 
-	private AccounterButton taxgroupBtn;
+	private Button taxgroupBtn;
 
 	private RadioGroupItem paysalesTaxgroupItem;
 
@@ -289,7 +289,7 @@ public class CompanyInfoDialog extends BaseDialog {
 		}
 		vatRegNumber.setValue(getCompany().getPreferences()
 				.getVATregistrationNumber());
-		taxgroupBtn = new AccounterButton(Accounter.constants().taxgroups());
+		taxgroupBtn = new Button(Accounter.constants().taxgroups());
 		// taxgroupBtn.setColSpan("*");
 		taxgroupBtn.addClickHandler(new ClickHandler() {
 

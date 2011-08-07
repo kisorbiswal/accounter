@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceLogger;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -141,7 +141,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 		datePanel.setCellHorizontalAlignment(dateForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		AccounterButton getLogByDateBtn = new AccounterButton();
+		Button getLogByDateBtn = new Button();
 		getLogByDateBtn.setText(Accounter.constants().get());
 		getLogByDateBtn.addClickHandler(new ClickHandler() {
 
@@ -156,7 +156,6 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 			}
 		});
 		datePanel.add(getLogByDateBtn);
-		getLogByDateBtn.enabledButton();
 		datePanel.setCellHorizontalAlignment(dateForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 

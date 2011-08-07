@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -73,7 +74,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected int cmd;
 	public DateItem fromItem;
 	public DateItem toItem;
-	public AccounterButton updateButton;
+	public Button updateButton;
 
 	@Override
 	public void init() {
@@ -185,7 +186,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		toItem.setDatethanFireEvent(Accounter.getCompany()
 				.getLastandOpenedFiscalYearEndDate());
 
-		updateButton = new AccounterButton(Accounter.constants().update());
+		updateButton = new Button(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -206,7 +207,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			form.setItems(viewSelect, dateRangeSelector, fromItem, toItem);
 			hlay.add(form);
 			hlay.add(updateButton);
-			updateButton.enabledButton();
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 			hlay.setCellHorizontalAlignment(updateButton,
 					HasHorizontalAlignment.ALIGN_RIGHT);

@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -61,7 +61,7 @@ public class ExpenseClaimList extends BaseView {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		AccounterButton submitApproval = new AccounterButton(Accounter
+		Button submitApproval = new Button(Accounter
 				.constants().submitForApproval());
 		submitApproval.addClickHandler(new ClickHandler() {
 
@@ -84,7 +84,7 @@ public class ExpenseClaimList extends BaseView {
 			}
 		});
 
-		AccounterButton deleteButton = new AccounterButton(Accounter
+		Button deleteButton = new Button(Accounter
 				.constants().delete());
 		deleteButton.addClickHandler(new ClickHandler() {
 
@@ -111,11 +111,7 @@ public class ExpenseClaimList extends BaseView {
 		panel.setWidth("100%");
 		this.add(panel);
 		submitApproval.setWidth("160px");
-		submitApproval.enabledButton(AccounterButton.SUBMIT_BUTTON,
-				"submit-approve-image", "ibutton1");
 		deleteButton.setWidth("90px");
-		deleteButton.enabledButton(AccounterButton.DELETE_BUTTON,
-				"close-image", "ibutton1");
 		this.removeStyleName("main-class-pannel");
 	}
 

@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -30,9 +31,9 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	private VerticalPanel buttonsLayout;
 	private HorizontalPanel bodyLayout;
-	protected AccounterButton button1;
-	private AccounterButton button2;
-	private AccounterButton button3;
+	protected Button button1;
+	private Button button2;
+	private Button button3;
 	protected DialogGrid listGridView;
 	private GroupDialogButtonsHandler dialogButtonsHandler;
 	private InputDialogHandler dialogHandler;
@@ -78,7 +79,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		buttonsLayout.setWidth("100");
 		buttonsLayout.setSpacing(5);
 
-		button1 = new AccounterButton(constants.add());
+		button1 = new Button(constants.add());
 		button1.setWidth("80");
 
 		button1.addClickHandler(new ClickHandler() {
@@ -90,7 +91,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 			}
 		});
 
-		button2 = new AccounterButton(constants.edit());
+		button2 = new Button(constants.edit());
 		button2.setEnabled(false);
 		button2.setWidth("80");
 		button2.addClickHandler(new ClickHandler() {
@@ -101,7 +102,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 			}
 		});
 
-		button3 = new AccounterButton(this.constants.remove());
+		button3 = new Button(this.constants.remove());
 		button3.setEnabled(false);
 		button3.setWidth("80");
 		button3.addClickHandler(new ClickHandler() {
@@ -117,7 +118,6 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		buttonsLayout.add(button1);
 		buttonsLayout.add(button2);
 		buttonsLayout.add(button3);
-		button1.enabledButton();
 		// button2.enabledButton();
 		// button3.enabledButton();
 		button1.setFocus(true);
@@ -247,9 +247,8 @@ public abstract class GroupDialog<T> extends BaseDialog {
 
 	}
 
-	public void addButton(AccounterButton button) {
+	public void addButton(Button button) {
 		buttonsLayout.add(button);
-		button.enabledButton();
 	}
 
 	public DialogGrid getGrid() {

@@ -39,7 +39,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -230,8 +230,8 @@ public class UIUtils {
 		return di;
 	}
 
-	public static AccounterButton AccounterButton(String t, String key) {
-		AccounterButton but = new AccounterButton(t);
+	public static Button Button(String t, String key) {
+		Button but = new Button(t);
 		// but.setAccessKey(key);
 		return but;
 	}

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -141,53 +140,6 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		// initListGrid();
 
-		HorizontalPanel buttonsLayout = new HorizontalPanel();
-		buttonsLayout.setWidth("50%");
-
-		AccounterButton button1 = new AccounterButton();
-		button1.setWidth("80%");
-		button1.setText(Accounter.constants().ok());
-
-		button1.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				// if (validForm()) {
-				// saveAndClose = true;
-				// createOrEditTaxCode();
-				// }
-			}
-		});
-
-		AccounterButton button2 = new AccounterButton();
-		button2.setWidth("80%");
-		button2.setTitle(Accounter.constants().cancel());
-		button2.setText(Accounter.constants().cancel());
-		button2.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-
-				getManager().closeCurrentView();
-			}
-		});
-
-		AccounterButton button3 = new AccounterButton();
-		button3.setWidth("80%");
-		button3.setTitle(Accounter.constants().help());
-		button3.setText(Accounter.constants().help());
-		button3.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				// if (dialogButtonsHandler != null)
-				// thirdButtonClick();
-			}
-		});
-
-		buttonsLayout.add(button1);
-		buttonsLayout.add(button2);
-		buttonsLayout.add(button3);
-		button1.enabledButton();
-		button2.enabledButton();
-		button3.enabledButton();
 		VerticalPanel bodyLayout = new VerticalPanel();
 		bodyLayout.setSize("100%", "100%");
 		bodyLayout.add(infolabel);
@@ -196,7 +148,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		bodyLayout.add(taxCodeForm);
 		// bodyLayout.add(taxRates);
-		AccounterButton addButton = new AccounterButton(Accounter.constants()
+		Button addButton = new Button(Accounter.constants()
 				.addNew());
 		addButton.addClickHandler(new ClickHandler() {
 

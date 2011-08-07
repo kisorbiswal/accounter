@@ -2,12 +2,12 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.banking.BankingSectionHomeView;
-import com.vimukti.accounter.web.client.ui.core.AccounterButton;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.customers.CustomerSectionHomeView;
@@ -747,7 +747,7 @@ public class AddWidgetDialog extends BaseDialog {
 	private class WidgetRow extends HorizontalPanel {
 
 		private Label imageLabel;
-		private AccounterButton addButton;
+		private Button addButton;
 		private Label infoLabel;
 
 		public WidgetRow() {
@@ -768,11 +768,11 @@ public class AddWidgetDialog extends BaseDialog {
 
 			VerticalPanel layout2 = new VerticalPanel();
 			infoLabel = new Label();
-			addButton = new AccounterButton("Add");
+			addButton = new Button("Add");
 
 			layout2.add(infoLabel);
 			layout2.add(addButton);
-			addButton.enabledButton();
+			addButton.setEnabled(true);
 			layout.add(layout2);
 
 			add(layout);
@@ -786,11 +786,11 @@ public class AddWidgetDialog extends BaseDialog {
 			this.imageLabel = imageLabel;
 		}
 
-		public AccounterButton getAddButton() {
+		public Button getAddButton() {
 			return addButton;
 		}
 
-		public void setAddButton(AccounterButton addButton) {
+		public void setAddButton(Button addButton) {
 			this.addButton = addButton;
 		}
 
