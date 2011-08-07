@@ -4912,8 +4912,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByCustomerDetail")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
 		return (l != null && l.size() > 0) ? createSalesByCustomerDetailReport(l)
@@ -5160,8 +5160,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByCustomerSummary")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
 		Object[] object = null;
@@ -5274,8 +5274,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByItemSummary")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5311,27 +5311,29 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 		ClientFinanceDate date[] = this.getMinimumAndMaximumTransactionDate();
 		long start = date[0] != null ? date[0].getDate() : startDate.getDate();
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			cal.setTime(startDate.getAsDateObject());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		cal.add(Calendar.DAY_OF_MONTH, -1);
+		// Calendar cal = Calendar.getInstance();
+		// SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		// try {
+		// cal.setTime(startDate.getAsDateObject());
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// cal.add(Calendar.DAY_OF_MONTH, -1);
+		//
+		// String end = cal.get(Calendar.YEAR) + "-";
+		// end += ((((cal.get(Calendar.MONTH) + 1) + "").length() == 1) ? "0"
+		// + cal.get(Calendar.MONTH) : cal.get(Calendar.MONTH) + 1)
+		// + "-";
+		// end += (((cal.get(Calendar.DAY_OF_MONTH)) + "").length() == 1) ? "0"
+		// + cal.get(Calendar.DAY_OF_MONTH) : cal
+		// .get(Calendar.DAY_OF_MONTH);
 
-		String end = cal.get(Calendar.YEAR) + "-";
-		end += ((((cal.get(Calendar.MONTH) + 1) + "").length() == 1) ? "0"
-				+ cal.get(Calendar.MONTH) : cal.get(Calendar.MONTH) + 1)
-				+ "-";
-		end += (((cal.get(Calendar.DAY_OF_MONTH)) + "").length() == 1) ? "0"
-				+ cal.get(Calendar.DAY_OF_MONTH) : cal
-				.get(Calendar.DAY_OF_MONTH);
+		long end = date[1] != null ? date[1].getDate() : endDate.getDate();
 
 		Query query = session.getNamedQuery("getCustomerTransactionHistory")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate).setParameter("start", start)
-				.setParameter("end", new ClientFinanceDate(end).getDate());
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("start", start).setParameter("end", end);
 
 		List l = query.list();
 
@@ -6129,8 +6131,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Query query = session
 					.getNamedQuery("getTransactionDetailByAccount")
-					.setParameter("startDate", startDate)
-					.setParameter("endDate", endDate);
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate());
 
 			List list = query.list();
 
@@ -10624,8 +10626,9 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getExpenseReportByType")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate).setParameter("type", type);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("type", type);
 		list = query.list();
 
 		Object[] object = null;
