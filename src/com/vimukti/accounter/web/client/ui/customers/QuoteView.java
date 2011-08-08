@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -203,9 +205,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					@Override
 					public void onDateValueChange(ClientFinanceDate date) {
 						setDateValues(date);
+					
 					}
 				});
-
+		
 		transactionNumber = createTransactionNumberItem();
 
 		listforms = new ArrayList<DynamicForm>();
