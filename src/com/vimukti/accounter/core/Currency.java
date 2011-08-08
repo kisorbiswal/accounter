@@ -11,6 +11,30 @@ public class Currency implements IAccounterServerCore {
 
 	int version;
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
+	public void setFormalName(String formalName) {
+		this.formalName = formalName;
+	}
+
 	long id;
 	/**
 	 * Name of the Currency
