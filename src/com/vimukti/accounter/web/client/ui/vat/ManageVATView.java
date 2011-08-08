@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
@@ -9,8 +10,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.google.gwt.user.client.ui.Button;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 
 public class ManageVATView extends AbstractBaseView {
 

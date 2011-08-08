@@ -5,7 +5,6 @@ import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.serverreports.VATItemSummaryServerReport;
 
 public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {

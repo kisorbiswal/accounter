@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.PaySalesTaxView;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 
 public class TransactionPaySalesTaxGrid extends
 		AbstractTransactionGrid<ClientTransactionPaySalesTax> {

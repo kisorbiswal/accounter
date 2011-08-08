@@ -8,8 +8,6 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 	private static final String TRACK_BIllS = "Track bills";
 	private static final String TRACKING_TIME = "Tracling Time";
-	private static final int YES = 1;
-	private static final int NO = 2;
 	private VerticalPanel mainPanel;
 	private HTML billsdescription, billsmanageCashflowHtml1,
 			billsmanageCashflowHtml2, billsmanageCashflowHtml3,

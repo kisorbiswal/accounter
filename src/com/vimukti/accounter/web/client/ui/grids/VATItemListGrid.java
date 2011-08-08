@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.vat.VATGroupView;

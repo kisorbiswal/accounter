@@ -510,8 +510,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public ContactCombo createContactComboItem() {
 
 		ContactCombo contactCombo = new ContactCombo(Accounter.constants()
-				.contact());
-		contactCombo.setDefaultToFirstOption(false);
+				.contact(), true);
 		contactCombo.setHelpInformation(true);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {

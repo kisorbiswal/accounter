@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -13,10 +12,8 @@ public class SetupStartPage extends AbstractSetupPage {
 	private VerticalPanel mainVerticalPanel, question1Panel, question2Panel;
 	private HTML description, clickSkipDesc, clickStartDesc;
 	private HorizontalPanel hpanel;
-	private Label desclable, question1Lable, ClickSkipLabel, question2Lable,
-			ClickSetupLabel;
+	private Label question1Lable;
 	private Button skipButton, StartButton;
-	private Image titleimage;
 	private SetupWizard setupWizard;
 
 	public SetupStartPage() {

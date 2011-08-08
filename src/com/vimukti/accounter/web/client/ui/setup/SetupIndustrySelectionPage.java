@@ -70,6 +70,7 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	}
 
 	private List<String> getIndustryList() {
+
 		List<String> arrayList = new ArrayList<String>();
 		for (int i = 0; i < industries.length; i++) {
 			arrayList.add(industries[i]);

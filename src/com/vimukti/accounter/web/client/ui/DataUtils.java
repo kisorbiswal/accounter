@@ -60,15 +60,15 @@ public class DataUtils {
 	}
 
 	public final static native String removeSpaces(String s)/*-{
-		var tokens = s.split(" ");
-		var resultingString = "";
+															var tokens = s.split(" ");
+															var resultingString = "";
 
-		for (i = 0; i < tokens.length; i++) {
-			if (!tokens[i] == " ")
-				resultingString = resultingString + tokens[i] + " ";
-		}
-		return resultingString;
-	}-*/;
+															for (i = 0; i < tokens.length; i++) {
+															if (!tokens[i] == " ")
+															resultingString = resultingString + tokens[i] + " ";
+															}
+															return resultingString;
+															}-*/;
 
 	/*
 	 * /*-{ var tokens=s.split(" "); var resultingString=""; $wnd.alert(s);
@@ -671,8 +671,8 @@ class NumberFormat {
 	}
 
 	private static native String toFixed(double val, int places) /*-{
-		return val.toFixed(places);
-	}-*/;
+																	return val.toFixed(places);
+																	}-*/;
 
 	private static double asNumber(String val, String inputDecimalValue) {
 		if (val == null)

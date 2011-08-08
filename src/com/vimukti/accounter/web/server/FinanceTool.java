@@ -5207,8 +5207,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesByItemDetail")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
 		return createSalesByItemDetail(new ArrayList<SalesByCustomerDetail>(l));
@@ -5459,7 +5459,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByVendorDetail")
 
-		.setParameter("startDate", startDate).setParameter("endDate", endDate);
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5520,8 +5521,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByVendorSummary")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5608,8 +5609,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByItemSummary")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5660,8 +5661,9 @@ public class FinanceTool implements IFinanceDAOService {
 				.get(Calendar.DAY_OF_MONTH);
 
 		Query query = session.getNamedQuery("getVendorTransactionHistory")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate).setParameter("start", start)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("start", start)
 				.setParameter("end", new ClientFinanceDate(end).getDate());
 
 		List l = query.list();
@@ -5789,8 +5791,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAmountsDueToVendor")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5833,8 +5835,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getMostProfitableCustomers")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5944,8 +5946,8 @@ public class FinanceTool implements IFinanceDAOService {
 		query = session
 				.getNamedQuery("getProfitabilityByCustomerDetail_InvoicedLines")
 				.setParameter("customerId", customer)
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5993,8 +5995,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTransactionDetailByTaxItem")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6016,8 +6018,8 @@ public class FinanceTool implements IFinanceDAOService {
 				.getNamedQuery(
 						"getTransactionDetailByTaxItemForParticularTaxItem")
 				.setParameter("taxItemName", taxItemName)
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6089,8 +6091,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getAccountRegister")
 				.setParameter("accountId", accountId)
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6281,8 +6283,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchaseReportItems")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6309,7 +6311,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesReportItems")
 
-		.setParameter("startDate", startDate).setParameter("endDate", endDate);
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6335,7 +6338,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTransactionHistoryCustomers")
 
-		.setParameter("startDate", startDate).setParameter("endDate", endDate);
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6359,7 +6363,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getTransactionHistoryVendors")
 
-		.setParameter("startDate", startDate).setParameter("endDate", endDate);
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -6408,8 +6413,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Query query = session
 				.getNamedQuery("getPurchasesByItemDetailForParticularItem")
 				.setParameter("itemName", itemName)
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 		return createPurchasesByItemDetail(new ArrayList<SalesByCustomerDetail>(
@@ -6427,8 +6432,8 @@ public class FinanceTool implements IFinanceDAOService {
 		List l = ((Query) session
 				.getNamedQuery("getPurchasesByVendorDetailForParticularVendor")
 				.setParameter("vendorName", vendorName)
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate)).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return createPurchasesByVendorDetail(new ArrayList<SalesByCustomerDetail>(
 				l));
@@ -6447,7 +6452,8 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("customerName", customerName)
 				.setParameter("startDate",
 
-				startDate).setParameter("endDate", endDate)).list();
+				startDate.getDate()).setParameter("endDate", endDate.getDate()))
+				.list();
 
 		return createSalesByCustomerDetailReport(new ArrayList<SalesByCustomerDetail>(
 				l));
@@ -6465,8 +6471,9 @@ public class FinanceTool implements IFinanceDAOService {
 				.getNamedQuery("getSalesByItemDetailForParticularItem")
 				.setParameter(
 
-				"itemName", itemName).setParameter("startDate", startDate)
-				.setParameter("endDate", endDate)).list();
+				"itemName", itemName)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return createSalesByItemDetail(new ArrayList<SalesByCustomerDetail>(l));
 
@@ -6486,7 +6493,8 @@ public class FinanceTool implements IFinanceDAOService {
 							"getTransactionDetailByAccount_ForParticularAccount")
 					.setParameter("accountName", accountName).setParameter(
 
-					"startDate", startDate).setParameter("endDate", endDate);
+					"startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate());
 
 			List<TransactionDetailByAccount> transactionDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
 			List list = query.list();
@@ -8266,8 +8274,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List l = ((Query) session.getNamedQuery("getOpenSalesOrders")
 
-		.setParameter("startDate", startDate).setParameter("endDate", endDate))
-				.list();
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8279,8 +8287,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List l = ((Query) session.getNamedQuery("getClosedSalesOrders")
 
-		.setParameter("startDate", startDate).setParameter("endDate", endDate))
-				.list();
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8292,8 +8300,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getCompletedSalesOrders")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate)).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8305,8 +8313,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getCanceledSalesOrders")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate)).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8318,8 +8326,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List l = ((Query) session.getNamedQuery("getOpenPurchaseOrders")
 
-		.setParameter("startDate", startDate).setParameter("endDate", endDate))
-				.list();
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8331,8 +8339,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List l = ((Query) session.getNamedQuery("getClosedPurchaseOrders")
 
-		.setParameter("startDate", startDate).setParameter("endDate", endDate))
-				.list();
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8343,8 +8351,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getCompletedPurchaseOrders")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate)).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8353,8 +8361,8 @@ public class FinanceTool implements IFinanceDAOService {
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		List l = ((Query) session.getNamedQuery("getPurchaseOrders")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate)).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
@@ -8362,8 +8370,8 @@ public class FinanceTool implements IFinanceDAOService {
 			FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		List l = ((Query) session.getNamedQuery("getSalesOrders")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate)).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
@@ -8374,8 +8382,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List l = ((Query) session.getNamedQuery("getCanceledPurchaseOrders")
 
-		.setParameter("startDate", startDate).setParameter("endDate", endDate))
-				.list();
+		.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -8412,8 +8420,8 @@ public class FinanceTool implements IFinanceDAOService {
 		// Entries from Sales where Vat Codes EGS and RC are used
 
 		Query query = session.getNamedQuery("getEGSandRCentriesFromSales")
-				.setParameter("startDate", fromDate)
-				.setParameter("endDate", toDate);
+				.setParameter("startDate", fromDate.getDate())
+				.setParameter("endDate", toDate.getDate());
 
 		List list2 = query.list();
 		Object[] object = null;
@@ -8962,8 +8970,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Query query = session
 				.getNamedQuery("getReverseChargeListDetailReportEntries")
-				.setParameter("startDate", fromDate)
-				.setParameter("endDate", toDate);
+				.setParameter("startDate", fromDate.getDate())
+				.setParameter("endDate", toDate.getDate());
 
 		Map<String, List<ReverseChargeListDetail>> maps = new LinkedHashMap<String, List<ReverseChargeListDetail>>();
 
@@ -10701,8 +10709,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getCheckDetailReport")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
 				.setParameter("paymentmethod", paymentmethod);
 		List list = query.list();
 		Object[] object = null;
@@ -10737,8 +10745,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		List list = session.getNamedQuery("getDepositDetail")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate()).list();
 		Map<Long, List<DepositDetail>> map = new LinkedHashMap<Long, List<DepositDetail>>();
 		List<DepositDetail> depositDetails = new ArrayList<DepositDetail>();
 		Iterator it = list.iterator();
@@ -10812,8 +10820,8 @@ public class FinanceTool implements IFinanceDAOService {
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session
 					.getNamedQuery("getCreatableStatementForCustomer")
-					.setParameter("startDate", fromDate)
-					.setParameter("endDate", toDate)
+					.setParameter("startDate", fromDate.getDate())
+					.setParameter("endDate", toDate.getDate())
 					.setParameter("customerId", id)
 					.setParameter("dueDays", noOfDays)
 					.setParameter("dontShowZero", isEnabledOfZeroBalBox)

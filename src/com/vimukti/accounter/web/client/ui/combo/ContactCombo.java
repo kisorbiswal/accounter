@@ -5,17 +5,25 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 public class ContactCombo extends CustomCombo<ClientContact> {
 
 	public ContactCombo(String title) {
-		super(title,false,1);
+		super(title, false, 1);
+	}
+
+	public ContactCombo(String contact, boolean b) {
+		super(contact, b, 1);
 	}
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return null;
+		return "-- Add New Contact --";
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onAddNew() {
-
+		// ContactsListDialog contactdialog = new ContactsListDialog("", "");
+		// contactdialog.addCallBack(createAddNewCallBack());
+		// contactdialog.hide();
+		// contactdialog.showAddEditTermDialog(null);
 	}
 
 	public void setDefaultToFirstOption(boolean b) {
@@ -51,5 +59,4 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 		}
 		return null;
 	}
-
 }
