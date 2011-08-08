@@ -1290,5 +1290,9 @@
 	<sql-query name="drop.schema">
 		DROP SCHEMA ?
 	</sql-query>
+	
+	<query name="get.All.Units">
+		from com.vimukti.accounter.core.Unit
+	</query>
 
 </hibernate-mapping>

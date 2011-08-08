@@ -71,8 +71,8 @@
 	</query>
 
 	<sql-query name="delete.Client.Companies">
-		<query-param name="clientID" type="String" />
-		delete from CLIENT_COMPANIES where CLIENT_ID=:clientID
+		<query-param name="serverCompanyID" type="String" />
+		delete from CLIENT_COMPANIES where COMPANY_ID=:serverCompanyID
 	</sql-query>
 
 	<query name="delete.ServerCompany.by.Id">
