@@ -41,8 +41,6 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	private boolean isAdmin;
 
-	private long id;
-
 	private boolean isDeleted;
 
 	/**
