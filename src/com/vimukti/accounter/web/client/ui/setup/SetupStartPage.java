@@ -99,7 +99,7 @@ public class SetupStartPage extends AbstractSetupPage {
 	@Override
 	public boolean doShow() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

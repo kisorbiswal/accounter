@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.setup;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.CustomLabel;
 
 public class SetupCurrencyPage extends AbstractSetupPage {
 	public static final String[] currencyList = new String[] {};
@@ -57,10 +55,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	public boolean doShow() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
-
-	
 
 }

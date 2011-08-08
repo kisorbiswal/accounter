@@ -37,14 +37,14 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	private void creatControls() {
 		mainPanel = new VerticalPanel();
-		selectFirstMonth = new Label(accounterConstants
-				.selectFirstMonthOfFiscalYear());
+		selectFirstMonth = new Label(
+				accounterConstants.selectFirstMonthOfFiscalYear());
 		mainPanel.add(selectFirstMonth);
-		fiscalYearsameLabel = new Label(accounterConstants
-				.fiscalYearsaemasTaxyear());
+		fiscalYearsameLabel = new Label(
+				accounterConstants.fiscalYearsaemasTaxyear());
 		mainPanel.add(fiscalYearsameLabel);
-		monthsCombo = new SelectCombo(accounterConstants
-				.myFiscalYearsStartsIn());
+		monthsCombo = new SelectCombo(
+				accounterConstants.myFiscalYearsStartsIn());
 		monthsCombo.initCombo(getMonthNames());
 		DynamicForm dynmicform = new DynamicForm();
 		dynmicform.setFields(monthsCombo);
@@ -54,20 +54,20 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 		secondHeading = new Label(accounterConstants.selectdateToTrackFinance());
 		mainPanel.add(secondHeading);
-		theDateisStartdateLabel = new Label(accounterConstants
-				.yourSelecteddateisStartdate());
+		theDateisStartdateLabel = new Label(
+				accounterConstants.yourSelecteddateisStartdate());
 		mainPanel.add(theDateisStartdateLabel);
-		beginingYear = new RadioButton("bottomRadioGroup", accounterConstants
-				.beginingOfthefiscalYear());
+		beginingYear = new RadioButton("bottomRadioGroup",
+				accounterConstants.beginingOfthefiscalYear());
 		mainPanel.add(beginingYear);
-		inOrdertoComplete = new Label(accounterConstants
-				.enterTransactionsTocompleteTaxreturns());
+		inOrdertoComplete = new Label(
+				accounterConstants.enterTransactionsTocompleteTaxreturns());
 		mainPanel.add(inOrdertoComplete);
-		todaysDate = new RadioButton("bottomRadioGroup", accounterConstants
-				.useTodaysDateasStartdate());
+		todaysDate = new RadioButton("bottomRadioGroup",
+				accounterConstants.useTodaysDateasStartdate());
 		mainPanel.toString();
-		enterTransaction = new Label(accounterConstants
-				.enterTransactionsTocompleteTaxreturns());
+		enterTransaction = new Label(
+				accounterConstants.enterTransactionsTocompleteTaxreturns());
 		mainPanel.add(enterTransaction);
 		datepicker = new DateField("");
 		DynamicForm dynamicform = new DynamicForm();
@@ -95,8 +95,8 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	@Override
 	public void onLoad() {
-		monthsCombo.setValue(monthNam
-				.get(preferences.getFiscalYearFirstMonth()));
+		monthsCombo
+				.setValue(monthNam.get(preferences.getFiscalYearFirstMonth()));
 		if (preferences.isBeginingorTodaysdate()) {
 			beginingYear.setValue(true);
 			datepicker.setDisabled(true);
@@ -121,7 +121,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	@Override
 	public boolean doShow() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

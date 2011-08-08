@@ -25,18 +25,18 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	@Override
 	public VerticalPanel getPageBody() {
 		VerticalPanel viewContainer = new VerticalPanel();
-		CustomLabel headerDesc = new CustomLabel(accounterConstants
-				.howIsYourCompanyOrganizedDesc());
+		CustomLabel headerDesc = new CustomLabel(
+				accounterConstants.howIsYourCompanyOrganizedDesc());
 
 		viewContainer.add(headerDesc);
-		soleProprietorshipRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.soleProprietorship());
+		soleProprietorshipRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.soleProprietorship());
 		viewContainer.add(soleProprietorshipRadio);
 		viewContainer.add(new CustomLabel(accounterConstants
 				.soleProprietorshipDesc()));
 
-		partnershipRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.partnershipOrLLP());
+		partnershipRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.partnershipOrLLP());
 		viewContainer.add(partnershipRadio);
 		viewContainer.add(new CustomLabel(accounterConstants
 				.partnershipOrLLPDesc()));
@@ -51,25 +51,25 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 
 		viewContainer.add(llcFormList);
 
-		corporationRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.corporation());
+		corporationRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.corporation());
 		viewContainer.add(corporationRadio);
 		viewContainer
 				.add(new CustomLabel(accounterConstants.corporationDesc()));
 
-		sCorporationRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.sCorporation());
+		sCorporationRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.sCorporation());
 		viewContainer.add(sCorporationRadio);
 		viewContainer
 				.add(new CustomLabel(accounterConstants.sCorporationDesc()));
 
-		nonProfitRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.nonProfit());
+		nonProfitRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.nonProfit());
 		viewContainer.add(nonProfitRadio);
 		viewContainer.add(new CustomLabel(accounterConstants.nonProfitDesc()));
 
-		otherNoneRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.otherNone());
+		otherNoneRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.otherNone());
 		viewContainer.add(otherNoneRadio);
 
 		return viewContainer;
@@ -129,7 +129,6 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 
 	@Override
 	public boolean doShow() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

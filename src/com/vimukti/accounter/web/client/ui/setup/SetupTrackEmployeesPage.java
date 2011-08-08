@@ -41,11 +41,11 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		yesRadioButton1 = new RadioButton("topRadioGroup",
 				this.accounterConstants.yes());
 		vPanel.add(yesRadioButton1);
-		employesCheckBox = new CheckBox(this.accounterConstants
-				.wehavW2Employes());
+		employesCheckBox = new CheckBox(
+				this.accounterConstants.wehavW2Employes());
 		vPanel.add(employesCheckBox);
-		contractorscCheckBox = new CheckBox(this.accounterConstants
-				.wehavContractors());
+		contractorscCheckBox = new CheckBox(
+				this.accounterConstants.wehavContractors());
 		vPanel.add(contractorscCheckBox);
 		noRadioButton1 = new RadioButton("topRadioGroup",
 				this.accounterConstants.no());
@@ -61,8 +61,8 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 				this.accounterConstants.no());
 		vPanel.add(noRadioButton2);
 		hpanel = new HorizontalPanel();
-		bottemDescription = new HTML(this.accounterConstants
-				.accounterPayrollDescription());
+		bottemDescription = new HTML(
+				this.accounterConstants.accounterPayrollDescription());
 		hpanel.add(bottemDescription);
 		payrollImage = new Image(Accounter.getFinanceImages().balnkImage());
 		// TODo we have to give the Image
@@ -110,7 +110,7 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	@Override
 	public boolean doShow() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }
