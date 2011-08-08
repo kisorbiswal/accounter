@@ -15,6 +15,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
@@ -25,7 +26,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 
 public class AccounterService extends HibernateDaoSupport implements
 		IAccounterService {
-	private static final String COMPANY_ID = "companyID";
 	TransactionTemplate transactionTemplate;
 	IAccounterDAOService accounterDao;
 	IAccounterGUIDAOService accounterGUIDao;
@@ -180,9 +180,10 @@ public class AccounterService extends HibernateDaoSupport implements
 	 * @return
 	 */
 	public static String getCompanyFromRequest(HttpServletRequest request) {
-		Object companyName = request.getSession().getAttribute(COMPANY_ID);
+		Object companyName = request.getSession().getAttribute(
+				BaseServlet.COMPANY_ID);
 		return (String) companyName;
-	}
+	}	
 
 	// //////////////////////////////////////////////////////////////////////////////////////////////////////
 
