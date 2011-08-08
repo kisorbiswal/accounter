@@ -50,6 +50,7 @@ import com.vimukti.accounter.web.client.ui.vendors.CashExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseView;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -923,4 +924,18 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	}
 
+	protected CurrencyWidget createCurrencyWidget(){
+		//FIXME test only.
+		
+		List<String> currencies = new ArrayList<String>();
+		String baseCurrency = null;
+		for(int i=0;i<10;i++){
+			String currency = "CU"+i;
+			currencies.add(currency);
+			if(i==5){
+				baseCurrency = currency;
+			}
+		}
+		return new CurrencyWidget(currencies, baseCurrency);
+	}
 }
