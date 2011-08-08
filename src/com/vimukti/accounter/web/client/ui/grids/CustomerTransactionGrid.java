@@ -185,8 +185,77 @@ public class CustomerTransactionGrid extends
 
 	@Override
 	protected int getCellWidth(int index) {
-		return -1;
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			return getUKGridCellWidth(index);
+		} else {
+			return getUSGridCellWidth(index);
+		}
 
+	}
+
+	private int getUSGridCellWidth(int index) {
+		if (transactionView instanceof WriteChequeView) {
+			if (index == 7 || index == 0)
+				if (UIUtils.isMSIEBrowser())
+					return 25;
+				else
+					return 15;
+			// else if (index == 2)
+			// return 150;
+			else if (index == 4 || index == 6)
+				return 100;
+			else if (index == 3 || index == 5)
+				return 80;
+		} else {
+			if (index == 8 || index == 0)
+				if (UIUtils.isMSIEBrowser())
+					return 25;
+				else
+					return 15;
+
+			else if (index == 2)
+				return 150;
+			else if (index == 4 || index == 6)
+				return 100;
+			else if (index == 3 || index == 5 || index == 7)
+				return 80;
+		}
+		return -1;
+	}
+
+	private int getUKGridCellWidth(int index) {
+		if (index == 0 || index == 9)
+			if (UIUtils.isMSIEBrowser())
+				return 25;
+			else
+				return 15;
+		else if (index == 3 || index == 4)
+			return 90;
+		// else if (index == 2)
+		// return 120;
+		else if (index == 5)
+			return 80;
+		else if (index == 7)
+			return 70;
+		else if (index == 8)
+			return 60;
+		else if (index == 6)
+			return 100;
+		else if (index == 9)
+			return 15;
+		else if (index == 2) {
+			// if (FinanceApplication.isMacApp()) {
+			// int var = Window.getClientWidth();
+			// return var - 830;
+			// } else {
+			if (UIUtils.isMSIEBrowser()) {
+				return 110;
+			} else {
+				return 130;
+			}
+			// }
+		}
+		return -1;
 	}
 
 	@Override
@@ -1233,10 +1302,6 @@ public class CustomerTransactionGrid extends
 			switch (col) {
 			case 0:
 				return false;
-			case 2:
-				return false;
-			case 3:
-				return false;
 
 			default:
 				return true;
@@ -1269,22 +1334,10 @@ public class CustomerTransactionGrid extends
 		case ClientTransactionItem.TYPE_SERVICE:
 
 			switch (col) {
-			case 1:
-				return true;
-			case 2:
-				return true;
-			case 3:
-				return true;
-			case 4:
-				return true;
-			case 5:
-				return true;
-			case 6:
-				return true;
-			case 7:
-				return true;
-			default:
+			case 0:
 				return false;
+			default:
+				return true;
 			}
 		}
 		return true;

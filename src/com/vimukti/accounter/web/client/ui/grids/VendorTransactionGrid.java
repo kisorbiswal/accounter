@@ -297,13 +297,12 @@ public class VendorTransactionGrid extends
 			}
 		});
 	}
-	
-	private void createVatItemAndTaxCodeCombo(){
-		vatItemCombo = new VATItemCombo(Accounter.constants()
-				.vatItem(), isAddNewRequired);
+
+	private void createVatItemAndTaxCodeCombo() {
+		vatItemCombo = new VATItemCombo(Accounter.constants().vatItem(),
+				isAddNewRequired);
 		List<ClientTAXItem> vendorVATItems = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem vatItem : getCompany()
-				.getActiveTaxItems()) {
+		for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
 			if (!vatItem.isSalesType())
 				vendorVATItems.add(vatItem);
 
@@ -320,15 +319,15 @@ public class VendorTransactionGrid extends
 										.showError("The VATItem selected is already used in VAT column.Please select a different VATItem");
 							}
 							selectedObject.setVatItem(selectItem.getID());
-							setText(currentRow, currentCol, selectItem
-									.getName());
+							setText(currentRow, currentCol,
+									selectItem.getName());
 						}
 					}
 				});
 		// taxCodeCombo.setGrid(this);
 
-		taxCodeCombo = new TAXCodeCombo(Accounter.constants()
-				.vatCode(), isAddNewRequired, false);
+		taxCodeCombo = new TAXCodeCombo(Accounter.constants().vatCode(),
+				isAddNewRequired, false);
 		taxCodeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
 
@@ -338,11 +337,11 @@ public class VendorTransactionGrid extends
 							selectedObject.setTaxCode(selectItem.getID());
 							if (selectedObject.getType() == TYPE_SERVICE
 									|| selectedObject.getType() == TYPE_ACCOUNT)
-								editComplete(selectedObject, selectedObject
-										.getLineTotal(), 6);
+								editComplete(selectedObject,
+										selectedObject.getLineTotal(), 6);
 							else
-								editComplete(selectedObject, selectedObject
-										.getUnitPrice(), 4);
+								editComplete(selectedObject,
+										selectedObject.getUnitPrice(), 4);
 						}
 					}
 				});
@@ -639,6 +638,15 @@ public class VendorTransactionGrid extends
 
 	@Override
 	protected int getCellWidth(int index) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			return getUKGridCellWidth(index);
+		} else {
+			return getUSGridCellWidth(index);
+		}
+
+	}
+
+	private int getUSGridCellWidth(int index) {
 		if (index == 6 || index == 0)
 			if (UIUtils.isMSIEBrowser())
 				return 25;
@@ -650,6 +658,37 @@ public class VendorTransactionGrid extends
 			return 100;
 		else if (index == 3)
 			return 80;
+		return -1;
+	}
+
+	private int getUKGridCellWidth(int index) {
+		if (index == 0 || index == 8)
+			if (UIUtils.isMSIEBrowser())
+				return 25;
+			else
+				return 15;
+		else if (index == 3 || index == 4)
+			return 90;
+		if (index == 1)
+			return 150;
+		if (index == 6)
+			return 70;
+		if (index == 7)
+			return 60;
+		if (index == 2) {
+			// if(FinanceApplication.isMacApp()){
+			// int var = Window.getClientWidth();
+			// return var-830;
+			// }else{
+			if (UIUtils.isMSIEBrowser()) {
+				return 110;
+			} else {
+				return 130;
+			}
+			// }
+		}
+		if (index == 5)
+			return 100;
 		return -1;
 	}
 
@@ -1073,37 +1112,40 @@ public class VendorTransactionGrid extends
 				combo = (CustomCombo<E>) vatItemCombo;
 			}
 
-//			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-//				combo.downarrowpanel.getElement().getStyle()
-//						.setMarginLeft(-10, Unit.PX);
-//			} else {
-//				if (this instanceof PurchaseOrderGrid)
-//					combo.downarrowpanel.getElement().getStyle()
-//							.setMarginLeft(-8, Unit.PX);
-//				else
-//					combo.downarrowpanel.getElement().getStyle()
-//							.setMarginLeft(-15, Unit.PX);
-//			}
+			// if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_UK) {
+			// combo.downarrowpanel.getElement().getStyle()
+			// .setMarginLeft(-10, Unit.PX);
+			// } else {
+			// if (this instanceof PurchaseOrderGrid)
+			// combo.downarrowpanel.getElement().getStyle()
+			// .setMarginLeft(-8, Unit.PX);
+			// else
+			// combo.downarrowpanel.getElement().getStyle()
+			// .setMarginLeft(-15, Unit.PX);
+			// }
 			break;
 		case 6:
 			// for UK
 			combo = (CustomCombo<E>) taxCodeCombo;
-//			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-//				combo.downarrowpanel.getElement().getStyle()
-//						.setMarginLeft(-7, Unit.PX);
-//			} else {
-//
-//			}
+			// if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_UK) {
+			// combo.downarrowpanel.getElement().getStyle()
+			// .setMarginLeft(-7, Unit.PX);
+			// } else {
+			//
+			// }
 			break;
 		case 7:
 			// for purchase Order
 			combo = (CustomCombo<E>) taxCodeCombo;
-//			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-//				combo.downarrowpanel.getElement().getStyle()
-//						.setMarginLeft(-7, Unit.PX);
-//			} else {
-//
-//			}
+			// if (getCompany().getAccountingType() ==
+			// ClientCompany.ACCOUNTING_TYPE_UK) {
+			// combo.downarrowpanel.getElement().getStyle()
+			// .setMarginLeft(-7, Unit.PX);
+			// } else {
+			//
+			// }
 			break;
 		default:
 			break;
