@@ -4629,4 +4629,8 @@ public interface AccounterConstants extends Constants {
 	public String generalProductbasedBusiness();
 
 	public String generalServicebasedBusiness();
+
+	public String primaryCurrency();
+
+	public String supportingCurrencies();
 }
