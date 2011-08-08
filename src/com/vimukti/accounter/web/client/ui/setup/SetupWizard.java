@@ -135,8 +135,10 @@ public class SetupWizard extends VerticalPanel {
 	protected void showView() {
 		currentViewIndex++;
 		previousView = viewToShow;
-		if (previousView != null)
+		if (previousView != null){
+			previousView.onSave();
 			this.viewPanel.remove(previousView);
+		}
 		viewToShow = viewList[currentViewIndex];
 		viewToShow.setPreferences(preferences);
 		while (!viewToShow.doShow()) {
