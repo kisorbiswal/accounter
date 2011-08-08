@@ -101,8 +101,7 @@ public class SetupWizard extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				currentViewIndex = viewList.length;
-				showView();
+				gotoLastPage();
 			}
 		});
 
@@ -125,6 +124,11 @@ public class SetupWizard extends VerticalPanel {
 		});
 		previousView = null;
 		showStartPage();
+	}
+
+	protected void gotoLastPage() {
+		currentViewIndex = viewList.length;
+		showView();
 	}
 
 	private void showStartPage() {
