@@ -91,6 +91,9 @@ public abstract class FormItem {
 
 	public void setTitle(String string) {
 		this.title = string;
+		if(label != null) {
+			label.setText(this.title);
+		}
 	}
 
 	public void setWidth(int width) {
