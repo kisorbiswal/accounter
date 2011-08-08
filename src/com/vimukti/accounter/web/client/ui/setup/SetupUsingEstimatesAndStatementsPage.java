@@ -20,6 +20,8 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	@Override
 	public VerticalPanel getPageBody() {
 
+		mainPanel = new VerticalPanel();
+
 		yesRadioButton = new RadioButton(ESTIMATES, accounterConstants.yes());
 		mainPanel.add(yesRadioButton);
 
