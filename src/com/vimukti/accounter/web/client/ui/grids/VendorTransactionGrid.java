@@ -233,6 +233,7 @@ public class VendorTransactionGrid extends
 		// FinanceApplication.constants().totalcolan(), "" });
 		// }
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			createVatItemAndTaxCodeCombo();
 			if (!isBankingTransaction && !isPurchseOrderTransaction) {
 				// this.addFooterValue("VAT", 6);
 				// this.addFooterValue(DataUtils.getAmountAsString(0.00), 7);
@@ -297,6 +298,57 @@ public class VendorTransactionGrid extends
 				return true;
 			}
 		});
+	}
+	
+	private void createVatItemAndTaxCodeCombo(){
+		vatItemCombo = new VATItemCombo(Accounter.constants()
+				.vatItem(), isAddNewRequired);
+		List<ClientTAXItem> vendorVATItems = new ArrayList<ClientTAXItem>();
+		for (ClientTAXItem vatItem : getCompany()
+				.getActiveTaxItems()) {
+			if (!vatItem.isSalesType())
+				vendorVATItems.add(vatItem);
+
+		}
+		vatItemCombo.initCombo(vendorVATItems);
+		vatItemCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientTAXItem selectItem) {
+						if (selectItem != null) {
+							if (!isPreviuslyUsed(selectItem)) {
+								Accounter
+										.showError("The VATItem selected is already used in VAT column.Please select a different VATItem");
+							}
+							selectedObject.setVatItem(selectItem.getID());
+							setText(currentRow, currentCol, selectItem
+									.getName());
+						}
+					}
+				});
+		// taxCodeCombo.setGrid(this);
+
+		taxCodeCombo = new TAXCodeCombo(Accounter.constants()
+				.vatCode(), isAddNewRequired, false);
+		taxCodeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientTAXCode selectItem) {
+						if (selectItem != null) {
+							selectedObject.setTaxCode(selectItem.getID());
+							if (selectedObject.getType() == TYPE_SERVICE
+									|| selectedObject.getType() == TYPE_ACCOUNT)
+								editComplete(selectedObject, selectedObject
+										.getLineTotal(), 6);
+							else
+								editComplete(selectedObject, selectedObject
+										.getUnitPrice(), 4);
+						}
+					}
+				});
+		taxCodeCombo.setGrid(this);
 	}
 
 	protected void setUnitPriceForSelectedItem(ClientItem selectedItem) {
@@ -1160,4 +1212,16 @@ public class VendorTransactionGrid extends
 
 	}
 
+	public boolean isPreviuslyUsed(ClientTAXItem selectedVATItem) {
+		for (ClientTransactionItem rec : getRecords()) {
+			if (rec.getTaxCode() != 0) {
+				long vatItem = getCompany().getTAXCode(rec.getTaxCode())
+						.getTAXItemGrpForSales();
+				if (selectedVATItem.getID() == vatItem) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 }
