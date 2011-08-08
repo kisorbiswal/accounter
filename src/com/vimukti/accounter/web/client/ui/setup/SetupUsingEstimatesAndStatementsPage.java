@@ -55,7 +55,8 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		mainPanel.add(stateMentYesRadioButton);
 		mainPanel.add(statementNoRadioButton);
 
-		return new VerticalPanel();
+		return mainPanel;
+
 	}
 
 	@Override
