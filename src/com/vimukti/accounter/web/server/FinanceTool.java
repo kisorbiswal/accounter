@@ -392,7 +392,7 @@ public class FinanceTool implements IFinanceDAOService {
 			String query = "unique.id." + serverClass.getSimpleName();
 
 			Query hibernateQuery = session.getNamedQuery(query).setParameter(0,
-					arg1);
+					Long.parseLong(arg1));
 
 			List objects = hibernateQuery.list();
 
@@ -416,6 +416,7 @@ public class FinanceTool implements IFinanceDAOService {
 						// ChangeTracker.put(serverObject);
 					} else {
 						session.delete(serverObject);
+						hibernateTransaction.commit();
 						return true;
 
 					}
