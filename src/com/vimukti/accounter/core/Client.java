@@ -23,6 +23,24 @@ public class Client implements IAccounterServerCore {
 	private String country;
 	private boolean isSubscribedToNewsLetters;
 	private boolean isRequirePasswordReset = false;
+	private int loginCount;
+	private long lastLoginTime;
+
+	public int getLoginCount() {
+		return loginCount;
+	}
+
+	public void setLoginCount(int loginCount) {
+		this.loginCount = loginCount;
+	}
+
+	public long getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(long lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+	}
 
 	public String getFirstName() {
 		return firstName;
