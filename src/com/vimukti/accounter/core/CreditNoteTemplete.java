@@ -138,7 +138,7 @@ public class CreditNoteTemplete extends TemplateBuilder implements ITemplate {
 							true) + tradingAddress.getCountryOrRegion() + ".");
 		}
 
-		regAdd = (company.geFulltName() + regAdd + ((company
+		regAdd = (company.getFullName() + regAdd + ((company
 				.getRegistrationNumber() != null && !company
 				.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
 				+ company.getRegistrationNumber()

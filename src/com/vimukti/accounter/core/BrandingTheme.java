@@ -45,7 +45,6 @@ public class BrandingTheme extends CreatableObject implements
 	// public static final int SHOW_TAXES_AS_EXCLUSIVE = 1;
 	// public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
 
-	long id;
 	String themeName;
 	int pageSizeType;
 	double topMargin, bottomMargin;
@@ -494,8 +493,8 @@ public class BrandingTheme extends CreatableObject implements
 
 			while (iterator.hasNext()) {
 
-				Object object[] = (Object[]) iterator.next();
-				if (this.getThemeName().equals((String) object[0])) {
+				String object = (String) iterator.next();
+				if (this.getThemeName().equals(object)) {
 					throw new AccounterException(
 							AccounterException.ERROR_NAME_CONFLICT);
 					// "Branding Theme already exist with this Name");

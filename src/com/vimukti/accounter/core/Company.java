@@ -3153,7 +3153,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	/**
 	 * @return the name
 	 */
-	public String geFulltName() {
+	public String getFullName() {
 		return fullName;
 	}
 
@@ -4207,7 +4207,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 		cmp.accountingType = this.getAccountingType();
 		cmp.id = this.getID();
-		cmp.fullName = this.geFulltName();
+		cmp.fullName = this.getFullName();
 		cmp.accounts = this.getAccounts();
 
 		cmp.legalName = this.getTradingName();
