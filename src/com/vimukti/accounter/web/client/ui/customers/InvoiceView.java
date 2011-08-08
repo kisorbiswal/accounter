@@ -298,15 +298,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 			@Override
 			public void currencyChanged(String currency, double factor) {
-				//TODO the modify the changing items here upon currency
+				// TODO the modify the changing items here upon currency
 				// 1) update grid fields
-				// 2) update off-grid-fields [total amount, toatl vat, net total].
+				// 2) update off-grid-fields [total amount, toatl vat, net
+				// total].
 				System.out.println("Currency Changed: " + currency + " Factor:"
 						+ factor);
 			}
 		});
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
-				billToTextArea, emptylabel, currencyWidget);
+				billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
 		custForm.getCellFormatter().getElement(0, 0)
@@ -1214,7 +1215,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				}
 
 				@Override
-				public void onSuccess(ArrayList<EstimatesAndSalesOrdersList> result) {
+				public void onSuccess(
+						ArrayList<EstimatesAndSalesOrdersList> result) {
 					if (result == null)
 						onFailure(new Exception());
 
