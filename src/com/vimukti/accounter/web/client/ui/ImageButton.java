@@ -8,6 +8,11 @@ public class ImageButton extends Button {
 
 	private ImageResource res;
 
+	public ImageButton(ImageResource res) {
+		this.res = res;
+		addStyleName("Empty-text");
+	}
+
 	public ImageButton(String title, ImageResource res) {
 		super(title);
 		this.res = res;
