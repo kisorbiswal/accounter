@@ -32,7 +32,8 @@ public class EmailForActivationServlet extends BaseServlet {
 		
 		if(activation == null){
 			//send error message
-			req.setAttribute("errormessage", "Invalid email id, please enter the email id that you used during sign up");
+			req.setAttribute("errormessage", "Invalid email id, please enter the email id that you used during sign up process.");
+			dispatch(req, resp, VIEW);
 		}else{
 			String token = activation.getToken();
 			Client client = getClient(email);
