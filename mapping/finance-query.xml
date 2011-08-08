@@ -3037,9 +3037,9 @@
 		end as
 		ITEM_NAME,
 		case
-		when T.T_TYPE = 4 OR T.T_TYPE = 14 then -1*TI.QUANTITY
+		when T.T_TYPE = 4 OR T.T_TYPE = 14 then -1*TI.QTY_VALUE
 		else
-		TI.QUANTITY
+		TI.QTY_VALUE
 		end as QUANTITY,
 
 		TI.UNIT_PRICE as UNIT_PRICE,
@@ -3500,9 +3500,9 @@
 		end as
 		ITEM_NAME,
 		case
-		when T.T_TYPE = 4 OR T.T_TYPE = 14 then -1*TI.QUANTITY
+		when T.T_TYPE = 4 OR T.T_TYPE = 14 then -1*TI.QTY_VALUE
 		else
-		TI.QUANTITY
+		TI.QTY_VALUE
 		end as QUANTITY,
 
 		TI.UNIT_PRICE as UNIT_PRICE,
