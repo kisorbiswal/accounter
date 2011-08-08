@@ -354,7 +354,6 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(Boolean result) {
-
 				getCompany().processDeleteObject(data);
 				source.deleteSuccess(result);
 			}
