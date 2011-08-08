@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -112,8 +113,14 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	protected void onClick(ClientUserInfo obj, int row, int index) {
 
 		if (index == 4) {
-			if (Accounter.getUser().isCanDoUserManagement()) {
-				showWarnDialog(obj);
+			ClientUser user = Accounter.getUser();
+			if (user.isCanDoUserManagement()) {
+				if (user.getID() == obj.getID()) {
+					Accounter.showInformation(Accounter.constants()
+							.youCantDeleteYourSelf());
+				} else {
+					showWarnDialog(obj);
+				}
 			} else {
 				Accounter.showInformation(Accounter.constants()
 						.youdonthavepermissionstodeleteuser());
