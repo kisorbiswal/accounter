@@ -104,6 +104,14 @@
 		</servlet-class>
 	</servlet>
 
+	<servlet>
+		<servlet-name>EmailForActivation</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.EmailForActivationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	<servlet-name>EmailForActivation</servlet-name>
+	<url-pattern>/emailforactivation</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>signup</servlet-name>
 		<url-pattern>/signup</url-pattern>
