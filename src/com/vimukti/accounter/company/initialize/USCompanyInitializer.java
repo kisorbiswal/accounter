@@ -15,9 +15,7 @@ import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.NominalCodeRange;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
-import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -464,9 +462,9 @@ public class USCompanyInitializer extends CompanyInitializer {
 			defaultTaxItem.setDefault(true);
 			session.save(defaultTaxItem);
 
-			TAXCode defaultTaxCodeforTaxItem = new TAXCode(
-					(TAXItemGroup) defaultTaxItem);
-			session.save(defaultTaxCodeforTaxItem);
+			// TAXCode defaultTaxCodeforTaxItem = new TAXCode(
+			// (TAXItemGroup) defaultTaxItem);
+			// session.save(defaultTaxCodeforTaxItem);
 
 			// TAXGroup defaultTaxGroup = new TAXGroup();
 			// defaultTaxGroup.setName("Tax Group");
