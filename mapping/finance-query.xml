@@ -3041,6 +3041,7 @@
 		else
 		TI.QTY_VALUE
 		end as QUANTITY,
+		TI.QTY_UNIT as UNIT,
 
 		TI.UNIT_PRICE as UNIT_PRICE,
 		TI.DISCOUNT as
@@ -3504,6 +3505,7 @@
 		else
 		TI.QTY_VALUE
 		end as QUANTITY,
+		TI.QTY_UNIT as UNIT,
 
 		TI.UNIT_PRICE as UNIT_PRICE,
 		TI.DISCOUNT as
