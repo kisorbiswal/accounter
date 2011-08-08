@@ -55,6 +55,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
+import com.vimukti.accounter.web.client.ui.widgets.CurrencyWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -64,6 +66,8 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * 
  */
 public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> {
+
+	private CurrencyWidget currencyWidget;
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE, CUSTOMER_TRANSACTION_GRID);
@@ -288,8 +292,20 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		custForm.setNumCols(3);
 		custForm.setWidth("100%");
 		forms.add(custForm);
+		currencyWidget = createCurrencyWidget();
+		currencyWidget.setListener(new CurrencyChangeListener() {
+
+			@Override
+			public void currencyChanged(String currency, double factor) {
+				//TODO the modify the changing items here upon currency
+				// 1) update grid fields
+				// 2) update off-grid-fields [total amount, toatl vat, net total].
+				System.out.println("Currency Changed: " + currency + " Factor:"
+						+ factor);
+			}
+		});
 		custForm.setFields(customerCombo, quoteLabel, contactCombo, emptylabel,
-				billToTextArea, emptylabel);
+				billToTextArea, emptylabel, currencyWidget);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
 		custForm.getCellFormatter().getElement(0, 0)
