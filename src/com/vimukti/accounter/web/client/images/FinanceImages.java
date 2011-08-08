@@ -171,4 +171,7 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("bar-right.png")
 	ImageResource editIcon();
+
+	@Source("Add_item.png")
+	ImageResource addIcon();
 }
