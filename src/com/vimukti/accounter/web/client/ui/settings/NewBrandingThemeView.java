@@ -64,7 +64,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private Label measureLabel;
 	private FlexTable textBoxTable;
 	private List<String> listOfFontNames, listOfFontSizes;
-	private ClientBrandingTheme takenTheme;
 	private AccounterConstants messages = Accounter.constants();
 	private AccounterMessages accounterMessages = Accounter.messages();
 	private Label addLogoLabel;
@@ -93,9 +92,12 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	@Override
 	public void initData() {
-		if (isEdit) {
-			initThemeData(data);
-		} /*
+		if (getData() == null) {
+			setData(new ClientBrandingTheme());
+		} else {
+			initThemeData(getData());
+		}
+		/*
 		 * else { brandingTheme = new ClientBrandingTheme();
 		 * setBrandingTheme(brandingTheme); }
 		 */
@@ -105,7 +107,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	private void initThemeData(ClientBrandingTheme brandingTheme) {
 
-		takenTheme = brandingTheme;
 		nameItem.setValue(brandingTheme.getThemeName());
 		topMarginBox.setValue(String.valueOf(brandingTheme.getTopMargin()));
 		bottomMarginBox
@@ -252,9 +253,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	}
 
 	private ClientBrandingTheme getBrandingThemeObject() {
-
-		ClientBrandingTheme brandingTheme = takenTheme != null ? takenTheme
-				: new ClientBrandingTheme();
+		ClientBrandingTheme brandingTheme = getData();
 		brandingTheme.setThemeName(String.valueOf(nameItem.getValue()));
 		brandingTheme.setPageSizeType(getPageSize());
 		brandingTheme.setTopMargin(Double.parseDouble(String
@@ -518,8 +517,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 					}
 				};
 				FileUploadDilaog dilaog = new FileUploadDilaog("Upload Logo",
-						"parent", callback, fileTypes, takenTheme);
-
+						"parent", callback, fileTypes, getData());
 			}
 		});
 
@@ -565,7 +563,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (takenTheme == null
+		if (getData() == null
 				&& Utility.isObjectExist(Accounter.getCompany()
 						.getBrandingTheme(), data.getThemeName())) {
 			result.addError("TakenTheme", "Theme Name already exists");
