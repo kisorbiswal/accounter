@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -24,11 +25,11 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	private void createControls() {
 		industryVerticalPanel = new VerticalPanel();
-		HTML industryinfoHTML = new HTML(
-				this.accounterMessages.selectIndustryInfoHTML());
+		HTML industryinfoHTML = new HTML(this.accounterMessages
+				.selectIndustryInfoHTML());
 		DynamicForm industryDynamicForm = new DynamicForm();
-		SelectCombo industryCombo = new SelectCombo(
-				this.accounterConstants.industry());
+		SelectCombo industryCombo = new SelectCombo(this.accounterConstants
+				.industry());
 		industryCombo.initCombo(getIndustryList());
 		industryVerticalPanel.add(industryinfoHTML);
 		industryDynamicForm.setFields(industryCombo);
@@ -37,39 +38,40 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	private List<String> getIndustryList() {
 		List<String> arrayList = new ArrayList<String>();
-		arrayList.add("Accounting or bookkeeping");
-		arrayList.add("Advertising or public relations");
-		arrayList.add("Agriculture , Ranching or Farming");
-		arrayList.add("Art, Writing or Photography");
-		arrayList.add("Automotive Sales or Repair");
-		arrayList.add("Church or Religious Organisation");
-		arrayList.add("Construction General Contractor");
-		arrayList.add("Construction Trades (Plumber, Electrician, HVAC , etc)");
-		arrayList.add("Design, Architecture Or Engineering");
+		arrayList.add(Accounter.constants().accountingorBookkeeping());
+		arrayList.add(Accounter.constants().advertisingorPublicRelations());
+		arrayList.add(Accounter.constants().agricultureRanchingFarming());
+		arrayList.add(Accounter.constants().artWritingPhotography());
+		arrayList.add(Accounter.constants().automotiveSalesAndRepair());
+		arrayList.add(Accounter.constants().churhorReligiousOrganisation());
+		arrayList.add(Accounter.constants().constructionGeneralContractor());
+		arrayList.add(Accounter.constants().constructionTrades());
+		arrayList.add(Accounter.constants().designArchitectureEngineering());
+		arrayList.add(Accounter.constants().financialServices());
+		arrayList.add(Accounter.constants().hairSallonBeautysaloon());
+		arrayList.add(Accounter.constants().informationTechnology());
+		arrayList.add(Accounter.constants().insuranceAgencyorBroker());
+		arrayList.add(Accounter.constants().lawncareOrlandscaping());
+		arrayList.add(Accounter.constants().legalServices());
+		arrayList.add(Accounter.constants().lodging());
 		arrayList
-				.add("Financial Services Other than Accounting Or bookkeeping");
-		arrayList.add("Hair saloon, Beauty Saloon or barber shop");
-		arrayList.add("Information Technology (Computers, software)");
-		arrayList.add("Insurance Agency or broker");
-		arrayList.add("Lawn Care or Landscaping");
-		arrayList.add("Legal Services");
-		arrayList.add("Lodging (Hotel, Motel)");
-		arrayList.add("Manufacturer Representative Or Agent");
-		arrayList.add("Manufacturing");
-		arrayList.add("Medical, Dental or health services");
-		arrayList.add("Non-profit");
-		arrayList.add("Professional Consulting");
-		arrayList.add("Property Management or Home Association");
-		arrayList.add("Real Estate Brokerage or Developer");
-		arrayList.add("Rental");
-		arrayList.add("Repair and Maintenance");
-		arrayList.add("Restaurant, Caterer or bar");
-		arrayList.add("Retail Shop or online commerce");
-		arrayList.add("Sales : Independent Agent");
-		arrayList.add("Transportation, Trucking or delivery");
-		arrayList.add("Wholesale distribution and sales");
-		arrayList.add("General Product-based Business");
-		arrayList.add("General Service-based Business");
+				.add(Accounter.constants().manufacturerRepresentativeOrAgent());
+		arrayList.add(Accounter.constants().manufacturing());
+		arrayList.add(Accounter.constants().medicalDentalorhealthservices());
+		arrayList.add(Accounter.constants().nonProfit());
+		arrayList.add(Accounter.constants().professionalConsulting());
+		arrayList.add(Accounter.constants()
+				.propertyManagementorHomeAssociation());
+		arrayList.add(Accounter.constants().realEstateBrokerageorDeveloper());
+		arrayList.add(Accounter.constants().rental());
+		arrayList.add(Accounter.constants().repairandMaintenance());
+		arrayList.add(Accounter.constants().restaurantCatererorbar());
+		arrayList.add(Accounter.constants().retailShoporonlinecommerce());
+		arrayList.add(Accounter.constants().salesIndependentAgent());
+		arrayList.add(Accounter.constants().transportationTruckingordelivery());
+		arrayList.add(Accounter.constants().wholesaledistributionandsales());
+		arrayList.add(Accounter.constants().generalProductbasedBusiness());
+		arrayList.add(Accounter.constants().generalServicebasedBusiness());
 		return arrayList;
 	}
 

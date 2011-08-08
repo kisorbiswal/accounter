@@ -26,7 +26,8 @@ public class SetupReferPage extends AbstractSetupPage {
 
 		VerticalPanel mainPanel = new VerticalPanel();
 
-		referCustomerLabel = new Label("How to you refer your Customers ?");
+		referCustomerLabel = new Label(Accounter.constants()
+				.howDoYouReferYourCustoemrs());
 		customerCombo = new SelectCombo(Accounter.constants().customer());
 		customerForm = UIUtils.form(accounterConstants.customer());
 		customerCombo.addItem("Customers");
@@ -35,7 +36,8 @@ public class SetupReferPage extends AbstractSetupPage {
 		customerForm.setWidth("100%");
 		customerForm.setFields(customerCombo);
 
-		refersuppliersLabel = new Label("How to you refer your Suppliers ?");
+		refersuppliersLabel = new Label(Accounter.constants()
+				.howDoYouReferYourSuppliers());
 		supplierCombo = new SelectCombo(Accounter.constants().supplier());
 		supplierCombo.addItem("Suppliers");
 		supplierCombo.addItem("Vendors");
@@ -44,7 +46,8 @@ public class SetupReferPage extends AbstractSetupPage {
 		supplierForm.setWidth("100%");
 		supplierForm.setFields(supplierCombo);
 
-		referaccountsLabel = new Label("How to you refer your Accounts ?");
+		referaccountsLabel = new Label(Accounter.constants()
+				.howDoYouReferYourAccounts());
 		accountCombo = new SelectCombo(Accounter.constants().account());
 		accountCombo.addItem("Accounts");
 		accountCombo.addItem("Legands");

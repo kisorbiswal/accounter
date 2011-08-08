@@ -47,8 +47,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
-		Label label = new Label(
-				"accounter uses this information on ypur tax forms and froms you use to communicate with your cusomers and vendors");
+		Label label = new Label(Accounter.constants().accounterUseYourForms());
 
 		companynameText = new TextItem(Accounter.constants().companyName());
 		companynameText.setHelpInformation(true);
@@ -127,8 +126,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			this.phonenumberText.setValue(company.getPhone());
 			this.webaddressText.setValue(company.getWebSite());
 			this.emailText.setValue(company.getCompanyEmail());
-			allAddresses.put(ClientAddress.TYPE_COMPANY,
-					company.getTradingAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY, company
+					.getTradingAddress());
 			setAddressToTextItem(streetadressText, company.getTradingAddress());
 		}
 	}
