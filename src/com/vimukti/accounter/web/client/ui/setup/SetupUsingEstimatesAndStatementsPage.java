@@ -30,17 +30,15 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 
 		titleHtml = new HTML("Using Statements in Accounter");
 		titleHtml.setStyleName("BOLD");
-
 		descrptionHtml = new HTML(
 				"Billing statements are send to customers to list charges accumulated over a period of time .Statements may be sent at regular intervals,as in a monthly statement,or when a customer payment is past due.");
-
 		subTitleHtml = new HTML("  Some example:");
-
 		html = new HTML(
 				".An attorney invoices a client for multiple services provided .if the invoice is not paid,the attorney can then send the client a reminder statement");
 		html2 = new HTML(
 				". A gym sned each member a monthly statement that includes fees and any overdue payments or finance charges");
 
+		// statements
 		html3 = new HTML("Do you want to use billing statements in Acconter ? ");
 
 		stateMentYesRadioButton = new RadioButton(STATEMENTS,
