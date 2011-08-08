@@ -30,8 +30,6 @@ public class TAXItemGroup extends CreatableObject implements IAccounterServerCor
 	 */
 	private static final long serialVersionUID = -8121892431883668109L;
 
-	long id;
-
 	/**
 	 * Name of the Tax Group which is unique for every TaxGroup
 	 */
