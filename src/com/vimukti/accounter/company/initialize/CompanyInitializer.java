@@ -1250,7 +1250,7 @@ public abstract class CompanyInitializer {
 		// TODO Remaining 16
 
 		Account creditCards = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
-				"2050", AccounterConstants.CREDIT_CARDS, true, null,
+				"2099", AccounterConstants.CREDIT_CARDS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "110", true,
 				this.preferences.getPreventPostingBeforeDate());

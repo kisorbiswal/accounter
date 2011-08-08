@@ -463,6 +463,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 			defaultTaxItem.setSalesType(Boolean.TRUE);
 			defaultTaxItem.setDefault(true);
 			session.save(defaultTaxItem);
+
 			TAXCode defaultTaxCodeforTaxItem = new TAXCode(
 					(TAXItemGroup) defaultTaxItem);
 			session.save(defaultTaxCodeforTaxItem);
