@@ -1,14 +1,15 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
+
 	private static final String TRACK_BIllS = "Track bills";
 	private static final String TRACKING_TIME = "Tracling Time";
+	private static final int YES = 1;
+	private static final int NO = 2;
 	private VerticalPanel mainPanel;
 	private HTML billsdescription, billsmanageCashflowHtml1,
 			billsmanageCashflowHtml2, billsmanageCashflowHtml3,
@@ -52,22 +53,12 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		mainPanel.add(billssubtitleHtml);
 		billsyesRadioButton = new RadioButton(TRACK_BIllS,
 				accounterConstants.yes());
-		billsyesRadioButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-		});
+
 		mainPanel.add(billsyesRadioButton);
 
 		billsnoRadioButton = new RadioButton(TRACK_BIllS,
 				accounterConstants.no());
-		billsnoRadioButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-		});
+
 		mainPanel.add(billsnoRadioButton);
 
 		timedescription = new HTML(accounterConstants.timetrackingdescription());
@@ -88,36 +79,44 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		mainPanel.add(timesubtitleHtml);
 		timeyesRadioButton = new RadioButton(TRACKING_TIME,
 				accounterConstants.yes());
-		timeyesRadioButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-		});
+
 		mainPanel.add(timeyesRadioButton);
 
 		timenoRadioButton = new RadioButton(TRACKING_TIME,
 				accounterConstants.no());
-		timenoRadioButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-		});
+
 		mainPanel.add(timenoRadioButton);
 
 	}
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
 
+		if (preferences.isDoyouKeepTrackofBills()) {
+			billsyesRadioButton.setValue(true);
+		} else {
+			billsnoRadioButton.setValue(true);
+		}
+		if (preferences.isDoYouKeepTrackOfTime()) {
+			timeyesRadioButton.setValue(true);
+		} else {
+			timenoRadioButton.setValue(true);
+		}
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
+		if (billsyesRadioButton.getValue()) {
+			preferences.setDoyouKeepTrackofBills(true);
+		} else {
+			preferences.setDoyouKeepTrackofBills(false);
+		}
 
+		if (timeyesRadioButton.getValue()) {
+			preferences.setDoYouKeepTrackOfTime(true);
+		} else {
+			preferences.setDoYouKeepTrackOfTime(false);
+		}
 	}
 
 	@Override

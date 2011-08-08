@@ -78,6 +78,11 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		} else {
 			noRadioButton.setValue(true);
 		}
+		if (preferences.isDoYouChargesalesTax()) {
+			yesRadioButton.setValue(true);
+		} else {
+			noRadioButton.setValue(true);
+		}
 
 	}
 
@@ -92,6 +97,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			preferences.setSellServices(true);
 			preferences.setSellProducts(true);
 		}
+
+		if (yesRadioButton.getValue()) {
+			preferences.setDoYouChargesalesTax(true);
+		} else {
+			preferences.setDoYouChargesalesTax(false);
+		}
+
 	}
 
 	@Override
