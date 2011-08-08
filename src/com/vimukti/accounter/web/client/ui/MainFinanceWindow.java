@@ -64,15 +64,11 @@ public class MainFinanceWindow extends VerticalPanel {
 		header = new Header();
 
 		ClientCompany company = Accounter.getCompany();
-		VerticalPanel vpanel = new VerticalPanel();
-		vpanel.addStyleName("header");
-		vpanel.setSize("100%", "100%");
-		vpanel.add(header);
-		add(vpanel);
+		add(header);
 		// If company is configured then show the dashboard
 		// if (company.isConfigured()) {
 		HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
-		vpanel.add(hMenuBar);
+		add(hMenuBar);
 		add(viewManager);
 		Label help = new Label(Accounter.constants().helpLinks());
 		help.addStyleName("down-panel");
@@ -730,6 +726,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	@Override
 	protected void onAttach() {
 		this.getParent().addStyleName("noScroll");
+		this.setStyleName("finance_window");
 		super.onAttach();
 	}
 
