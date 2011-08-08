@@ -41,8 +41,6 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	private boolean isAdmin;
 
-	private int loginCount;
-
 	private long id;
 
 	private boolean isDeleted;
@@ -64,7 +62,7 @@ public class User extends CreatableObject implements IAccounterServerCore,
 	 * to the user at the time of registration.
 	 */
 
-	private long lastLogin;
+	// private long lastLogin;
 	/**
 	 * This User object is referenced to the Administer of this User. If the
 	 * present reference itself is the Admin, then this field will remains as
@@ -151,13 +149,6 @@ public class User extends CreatableObject implements IAccounterServerCore,
 	 */
 	public String getPasswordSha1Hash() {
 		return passwordSha1Hash;
-	}
-
-	/**
-	 * @return the lastLogin
-	 */
-	public long getLastLogin() {
-		return lastLogin;
 	}
 
 	/**
@@ -304,24 +295,12 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		return displayName;
 	}
 
-	public void setLastLogin(long lastLogin) {
-		this.lastLogin = lastLogin;
-	}
-
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 
 	public boolean isAdmin() {
 		return isAdmin;
-	}
-
-	public void setLoginCount(int loginCount) {
-		this.loginCount = loginCount;
-	}
-
-	public int getLoginCount() {
-		return loginCount;
 	}
 
 	@Override
