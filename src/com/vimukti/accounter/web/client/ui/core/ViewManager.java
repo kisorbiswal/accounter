@@ -263,6 +263,7 @@ public class ViewManager extends VerticalPanel {
 
 	void initilizeToolBar() {
 
+		ButtonGroup group1 = new ButtonGroup();
 		ImageButton previousButton = new ImageButton(Accounter.constants()
 				.previous(), Accounter.getFinanceImages().previousIcon());
 		previousButton.addClickHandler(new ClickHandler() {
@@ -296,8 +297,9 @@ public class ViewManager extends VerticalPanel {
 				closeCurrentView();
 			}
 		});
-		toolBar.add(HasHorizontalAlignment.ALIGN_LEFT, previousButton,
-				nextbutton);
+		group1.add(previousButton);
+
+		toolBar.add(HasHorizontalAlignment.ALIGN_LEFT, previousButton, group1);
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, editButton,
 				printButton, closeButton);
 	}
