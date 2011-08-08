@@ -18,6 +18,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -67,8 +68,25 @@ public class BaseServlet extends HttpServlet {
 	public static final int PHONE_NO = 2;
 
 	protected String getCompanyName(HttpServletRequest req) {
+		String companyID = getCookie(req, COMPANY_COOKIE);
+		Session session = HibernateUtil.openSession(Server.COMPANY + companyID);
+		try {
+			Company comapny = (Company) session.get(Company.class, 1l);
+			if (comapny != null) {
+				return comapny.getFullName();
+			}
+		} catch (Exception e) {
+			return null;
+		} finally {
+			session.close();
+		}
+		// Query query = session.getNamedQuery("getServerCompany.by.id")
+		// .setParameter("id", Long.valueOf(companyID));
+		// if (query.list() != null && !query.list().isEmpty()) {
+		// ServerCompany company = (ServerCompany) query.list().get(0);
+		// return company.getCompanyName();
+		// }
 		return null;
-
 	}
 
 	protected boolean isCompanyExits(String companyName) {
