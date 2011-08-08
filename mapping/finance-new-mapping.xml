@@ -17,6 +17,8 @@
 		<property name="country" column="COUNTRY"></property>
 		<property name="isSubscribedToNewsLetters" column="IS_SUBSCRIBED_TO_NEWS_LETTER"></property>
 		<property name="isRequirePasswordReset" column="IS_REQUIRE_PASSWORD_RESET" />
+		<property name="loginCount" column="LOGIN_COUNT"></property>
+		<property name="lastLoginTime" column="LAST_LOGIN_TIME"></property>
 		<set name="companies" table="CLIENT_COMPANIES" lazy="false"
 			cascade="save-update">
 			<key column="CLIENT_ID"></key>
@@ -72,7 +74,6 @@
 		<property name="contact" column="CONTACT"></property>
 		<property name="succeedRequests" column="SUCCEES_REQUESTS"></property>
 		<property name="failureRequests" column="FAILURE_REQUESTS"></property>
-		<property name="loginCount" column="LOGIN_COUNT"></property>
-		<property name="lastLoginTime" column="LAST_LOGIN_TIME"></property>
+
 	</class>
 </hibernate-mapping>
