@@ -3,11 +3,8 @@
  */
 package com.vimukti.accounter.web.client.core;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author Prasanna Kumar G
