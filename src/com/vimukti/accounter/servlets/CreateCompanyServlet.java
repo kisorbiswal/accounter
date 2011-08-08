@@ -61,6 +61,13 @@ public class CreateCompanyServlet extends BaseServlet {
 	private void doCreateCompany(HttpServletRequest request,
 			HttpServletResponse response, String emailID) throws IOException {
 		final ServerCompany serverCompany = getCompany(request);
+		if (!validation(request, serverCompany)) {
+			request.setAttribute("errormessage",
+					"Company creation failed, please try with different company name.");
+			dispatch(request, response, view);
+			return;
+		}
+		
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 		final Client client = getClient(emailID);
 		Transaction transaction = session.beginTransaction();
@@ -74,12 +81,6 @@ public class CreateCompanyServlet extends BaseServlet {
 			transaction.rollback();
 		} finally {
 			session.close();
-		}
-		if (!validation(request, serverCompany)) {
-			request.setAttribute("errormessage",
-					"Company creation failed, please try with different company name.");
-			dispatch(request, response, view);
-			return;
 		}
 
 		final String urlString = getUrlString(serverCompany, emailID, client);
