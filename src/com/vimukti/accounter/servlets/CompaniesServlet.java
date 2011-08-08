@@ -45,9 +45,9 @@ public class CompaniesServlet extends BaseServlet {
 				.getAttribute(COMPANY_CREATION_STATUS);
 		if (status != null) {
 			if (status.equals("Success")) {
-				req.setAttribute("createCompanyStatus", SUCCESS);
+				req.setAttribute("message", SUCCESS);
 			} else {
-				req.setAttribute("createCompanyStatus", FAIL);
+				req.setAttribute("message", FAIL);
 			}
 			httpSession.removeAttribute(COMPANY_CREATION_STATUS);
 		}
