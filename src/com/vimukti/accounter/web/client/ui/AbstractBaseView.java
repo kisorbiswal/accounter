@@ -488,4 +488,24 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 		}
 	}
 
+	public void onAddNew() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean isMenuRequired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void showMenu(Event arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void showMenu(Widget nativeEvent) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

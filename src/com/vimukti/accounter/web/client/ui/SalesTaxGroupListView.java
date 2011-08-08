@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -34,7 +35,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	protected SalesTaxItemsGrid itemsGrid;
 	private VerticalPanel buttonsLayout;
 	private HorizontalPanel bodyLayout;
-	protected Button button1;
+	protected AddButton button1;
 	private Button button2;
 	private Button button3;
 	private GroupDialogButtonsHandler dialogButtonsHandler;
@@ -102,7 +103,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		buttonsLayout.setWidth("100");
 		buttonsLayout.setSpacing(5);
 
-		button1 = new Button(Accounter.constants().add());
+		button1 = new AddButton(this);
 		button1.setWidth("80");
 
 		button1.addClickHandler(new ClickHandler() {
@@ -329,10 +330,10 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		taxGroup.setSalesType(true);
 		taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
 
-		if (Utility.isObjectExist(getCompany().getTaxItems(),
-				taxGroup.getName())
-				|| Utility.isObjectExist(getCompany().getTaxGroups(),
-						taxGroup.getName())) {
+		if (Utility.isObjectExist(getCompany().getTaxItems(), taxGroup
+				.getName())
+				|| Utility.isObjectExist(getCompany().getTaxGroups(), taxGroup
+						.getName())) {
 
 			Accounter.showError(AccounterErrorType.ALREADYEXIST);
 		} else

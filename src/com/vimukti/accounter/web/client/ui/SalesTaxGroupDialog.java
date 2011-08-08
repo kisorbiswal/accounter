@@ -210,8 +210,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		buttonsLayout.setSpacing(3);
 		// buttonsLayout.setMembersMargin(10);
 		// buttonsLayout.setLayoutMargin(10);
-		Button addButton = new Button(Accounter.constants()
-				.add());
+		Button addButton = new Button(Accounter.constants().add());
 		addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -236,8 +235,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 			}
 		});
 
-		Button removeButton = new Button(Accounter
-				.constants().remove());
+		Button removeButton = new Button(Accounter.constants().remove());
 		removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -324,11 +322,11 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	@Override
 	protected ValidationResult validate() {
-		
+
 		ValidationResult result = new ValidationResult();
 		result.add(form1.validate());
 		if (taxGroupText.getValue() != null) {
-			//TODO 
+			// TODO
 		}
 		return result;
 	}

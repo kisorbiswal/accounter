@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -17,6 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -109,7 +109,7 @@ public class MakeDepositView extends
 
 	private ArrayList<DynamicForm> listforms;
 
-	private Button addButton;
+	private AddButton addButton;
 	private TextItem transNumber;
 
 	// private VerticalPanel botRightPanel;
@@ -756,7 +756,7 @@ public class MakeDepositView extends
 		// Label lab1 = new Label(FinanceApplication.constants()
 		// .paymentsReceived());
 
-		addButton = new Button(Accounter.constants().add());
+		addButton = new AddButton(this);
 
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -764,7 +764,8 @@ public class MakeDepositView extends
 			public void onClick(ClickEvent event) {
 				ClientTransactionMakeDeposit deposit = new ClientTransactionMakeDeposit();
 				deposit.setIsNewEntry(true);
-				deposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
+				deposit
+						.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
 				// deposit.set
 				gridView.addData(deposit);
 				gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
@@ -952,7 +953,9 @@ public class MakeDepositView extends
 					AccounterErrorType.InvalidTransactionDate);
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
+			result
+					.addError(transactionDateItem,
+							AccounterErrorType.InvalidDate);
 		}
 		result.add(depoForm.validate());
 		if (!AccounterValidator.validateNagtiveAmount(cashBackAmountText
@@ -960,8 +963,8 @@ public class MakeDepositView extends
 			result.addError(cashBackAmountText,
 					AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
 		} else if (!AccounterValidator.validate_MakeDeposit_CashBackAmount(
-				cashBackAmountText.getAmount().doubleValue(),
-				totText.getAmount())) {
+				cashBackAmountText.getAmount().doubleValue(), totText
+						.getAmount())) {
 			result.addError(cashBackAmountText,
 					AccounterErrorType.makeDeposit_CashBackAmount);
 		}
@@ -1204,7 +1207,8 @@ public class MakeDepositView extends
 		// Setting Cash back account
 		transaction
 				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
-						.getID() : null);
+						.getID()
+						: null);
 		if (cashBackMemoText.getValue() != null)
 			transaction.setCashBackMemo(cashBackMemoText.getValue().toString());
 
