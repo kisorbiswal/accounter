@@ -74,7 +74,7 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	}
 
 	@Override
-	public void onSuccess(List<CustomerRefundsList> result) {
+	public void onSuccess(ArrayList<CustomerRefundsList> result) {
 		super.onSuccess(result);
 		listOfCustomerRefund = result;
 		filterList(viewSelect != null ? viewSelect.getSelectedValue()

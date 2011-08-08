@@ -88,7 +88,7 @@ public class BillListView extends BaseListView<BillsList> {
 	}
 
 	@Override
-	public void onSuccess(List<BillsList> result) {
+	public void onSuccess(ArrayList<BillsList> result) {
 		super.onSuccess(result);
 		allEnterBills = result;
 		filterList(currentView.getValue().toString());
@@ -198,8 +198,6 @@ public class BillListView extends BaseListView<BillsList> {
 
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
@@ -218,4 +216,5 @@ public class BillListView extends BaseListView<BillsList> {
 	protected String getViewTitle() {
 		return Accounter.constants().billsAndItemReceipts();
 	}
+
 }

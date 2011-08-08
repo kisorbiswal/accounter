@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
@@ -11,12 +11,12 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ExpenseClaimPortlet extends DashBoardPortlet {
@@ -65,8 +65,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 		VerticalPanel vPanel = new VerticalPanel();
 		FlexTable fTable = new FlexTable();
 
-		Button addExpenseBtn = new Button(Accounter
-				.constants().addExpenses());
+		Button addExpenseBtn = new Button(Accounter.constants().addExpenses());
 		addExpenseBtn.addStyleName("addAccountPortlet");
 		addExpenseBtn.addClickHandler(new ClickHandler() {
 
@@ -114,7 +113,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	}
 
 	private void updateAmounts() {
-		AccounterAsyncCallback<List<Double>> callBack = new AccounterAsyncCallback<List<Double>>() {
+		AccounterAsyncCallback<ArrayList<Double>> callBack = new AccounterAsyncCallback<ArrayList<Double>>() {
 
 			@Override
 			public void onException(AccounterException caught) {
@@ -123,7 +122,7 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 			}
 
 			@Override
-			public void onResultSuccess(List<Double> result) {
+			public void onResultSuccess(ArrayList<Double> result) {
 				if (result != null && result.size() != 0) {
 					cashExpenseAmount = result.get(0);
 					ccExpenseAmount = result.get(1);

@@ -116,42 +116,45 @@ public class PaySalesTaxView extends
 	private void fillGrid() {
 		grid.removeAllRecords();
 		grid.addLoadingImagePanel();
-		rpcUtilService.getPaySalesTaxEntries(billsDue.getEnteredDate()
-				.getDate(),
-				new AccounterAsyncCallback<List<ClientPaySalesTaxEntries>>() {
+		rpcUtilService
+				.getPaySalesTaxEntries(
+						billsDue.getEnteredDate().getDate(),
+						new AccounterAsyncCallback<ArrayList<ClientPaySalesTaxEntries>>() {
 
-					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
-								.failedtogettheTransactionPaySalesTaxList());
-						grid.addEmptyMessage(Accounter.constants()
-								.noRecordsToShow());
+							public void onException(AccounterException caught) {
+								Accounter
+										.showError(Accounter
+												.constants()
+												.failedtogettheTransactionPaySalesTaxList());
+								grid.addEmptyMessage(Accounter.constants()
+										.noRecordsToShow());
 
-					}
+							}
 
-					public void onResultSuccess(
-							List<ClientPaySalesTaxEntries> result) {
+							public void onResultSuccess(
+									ArrayList<ClientPaySalesTaxEntries> result) {
 
-						if (result == null) {
+								if (result == null) {
 
-							onFailure(null);
-						}
-						entries = result;
-						if (result.size() == 0) {
-							// Accounter
-							// .showInformation("No PaySalesTax list to show");
-							grid.addEmptyMessage(Accounter.constants()
-									.noRecordsToShow());
-						} else {
+									onFailure(null);
+								}
+								entries = result;
+								if (result.size() == 0) {
+									// Accounter
+									// .showInformation("No PaySalesTax list to show");
+									grid.addEmptyMessage(Accounter.constants()
+											.noRecordsToShow());
+								} else {
 
-							// loadData(getfilterRecordsByDate(billsDue
-							// .getEnteredDate(), entries));
-							loadData(entries);
+									// loadData(getfilterRecordsByDate(billsDue
+									// .getEnteredDate(), entries));
+									loadData(entries);
 
-						}
+								}
 
-					}
+							}
 
-				});
+						});
 
 	}
 

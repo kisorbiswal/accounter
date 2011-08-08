@@ -582,34 +582,36 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	}
 
 	private void getTransactionPayBills(ClientVendor vendor) {
-		this.rpcUtilService.getTransactionPayBills(vendor.getID(),
-				new AccounterAsyncCallback<List<PayBillTransactionList>>() {
+		this.rpcUtilService
+				.getTransactionPayBills(
+						vendor.getID(),
+						new AccounterAsyncCallback<ArrayList<PayBillTransactionList>>() {
 
-					public void onException(AccounterException caught) {
-						// SC
-						// .say("Failed to Get List of Transaction Recieve Payments for this Vendor"
-						// + vendor.getName());
-						gridView.addEmptyMessage(Accounter.constants()
-								.noRecordsToShow());
-					}
+							public void onException(AccounterException caught) {
+								// SC
+								// .say("Failed to Get List of Transaction Recieve Payments for this Vendor"
+								// + vendor.getName());
+								gridView.addEmptyMessage(Accounter.constants()
+										.noRecordsToShow());
+							}
 
-					public void onResultSuccess(
-							List<PayBillTransactionList> result) {
+							public void onResultSuccess(
+									ArrayList<PayBillTransactionList> result) {
 
-						paybillTransactionList = result;
-						if (result.size() > 0) {
-							addGridRecords(result);
-							dueDateOnOrBefore = dueDate.getValue();
-							clearGrid();
-							filterGrid();
-						} else {
-							gridView.addEmptyMessage(Accounter.constants()
-									.noRecordsToShow());
-							updateFooterValues();
-						}
-					}
+								paybillTransactionList = result;
+								if (result.size() > 0) {
+									addGridRecords(result);
+									dueDateOnOrBefore = dueDate.getValue();
+									clearGrid();
+									filterGrid();
+								} else {
+									gridView.addEmptyMessage(Accounter
+											.constants().noRecordsToShow());
+									updateFooterValues();
+								}
+							}
 
-				});
+						});
 
 	}
 

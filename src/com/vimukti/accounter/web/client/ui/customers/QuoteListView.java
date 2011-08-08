@@ -27,10 +27,8 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	private List<ClientEstimate> listOfEstimates;
 
 	private static String OPEN = Accounter.constants().open();
-	private static String REJECTED = Accounter.constants()
-			.rejected();
-	private static String ACCEPTED = Accounter.constants()
-			.accepted();
+	private static String REJECTED = Accounter.constants().rejected();
+	private static String ACCEPTED = Accounter.constants().accepted();
 	private static String EXPIRED = Accounter.constants().expired();
 	private static String ALL = Accounter.constants().all();
 	// private static String DELETED = "Deleted";
@@ -74,7 +72,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	}
 
 	@Override
-	public void onSuccess(List<ClientEstimate> result) {
+	public void onSuccess(ArrayList<ClientEstimate> result) {
 		super.onSuccess(result);
 		listOfEstimates = result;
 		filterList(viewSelect.getSelectedValue());
@@ -94,8 +92,7 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	}
 
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.constants()
-				.currentView());
+		viewSelect = new SelectCombo(Accounter.constants().currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(OPEN);
@@ -126,7 +123,6 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 		return viewSelect;
 	}
 
-	
 	private void filterList(String text) {
 
 		grid.removeAllRecords();
@@ -172,8 +168,6 @@ public class QuoteListView extends BaseListView<ClientEstimate> {
 	public void fitToSize(int height, int width) {
 		super.fitToSize(height, width);
 	}
-
-
 
 	@Override
 	public void onEdit() {

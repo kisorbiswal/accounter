@@ -97,7 +97,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	public List<ClientEnterBill> getBillsOwed() {
+	public ArrayList<ClientEnterBill> getBillsOwed() {
 
 		List<ClientEnterBill> clientEnterBills = new ArrayList<ClientEnterBill>();
 
@@ -117,7 +117,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientEnterBills;
+		return new ArrayList<ClientEnterBill>(clientEnterBills);
 
 	}
 
@@ -129,7 +129,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 * (com.vimukti.accounter.web.client.core.Company)
 	 */
 
-	public List<ClientEstimate> getLatestQuotes() {
+	public ArrayList<ClientEstimate> getLatestQuotes() {
 		List<ClientEstimate> clientEstimates = new ArrayList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
 		try {
@@ -145,7 +145,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientEstimates;
+		return new ArrayList<ClientEstimate>(clientEstimates);
 	}
 
 	/*
@@ -156,7 +156,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 * (com.vimukti.accounter.web.client.core.Company)
 	 */
 
-	public List<OverDueInvoicesList> getOverDueInvoices() {
+	public ArrayList<OverDueInvoicesList> getOverDueInvoices() {
 		List<OverDueInvoicesList> invoice = null;
 
 		try {
@@ -169,10 +169,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return invoice;
+		return new ArrayList<OverDueInvoicesList>(invoice);
 	}
 
-	public List<BillsList> getBillsAndItemReceiptList(boolean isExpensesList) {
+	public ArrayList<BillsList> getBillsAndItemReceiptList(
+			boolean isExpensesList) {
 
 		List<BillsList> billList = null;
 
@@ -186,11 +187,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return billList;
+		return new ArrayList<BillsList>(billList);
 
 	}
 
-	public List<PaymentsList> getPaymentsList() {
+	public ArrayList<PaymentsList> getPaymentsList() {
 
 		List<PaymentsList> paymentsList = null;
 
@@ -205,11 +206,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			// return paymentsList;
 		}
 
-		return paymentsList;
+		return new ArrayList<PaymentsList>(paymentsList);
 
 	}
 
-	public List<PayBillTransactionList> getTransactionPayBills() {
+	public ArrayList<PayBillTransactionList> getTransactionPayBills() {
 
 		List<PayBillTransactionList> paybillTrList = null;
 
@@ -224,11 +225,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return paybillTrList;
+		return new ArrayList<PayBillTransactionList>(paybillTrList);
 
 	}
 
-	public List<ClientPaySalesTaxEntries> getPaySalesTaxEntries(
+	public ArrayList<ClientPaySalesTaxEntries> getPaySalesTaxEntries(
 			long transactionDate) {
 		List<ClientPaySalesTaxEntries> clientPaySlesTaxEntries = new ArrayList<ClientPaySalesTaxEntries>();
 		try {
@@ -266,11 +267,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientPaySlesTaxEntries;
+		return new ArrayList<ClientPaySalesTaxEntries>(clientPaySlesTaxEntries);
 
 	}
 
-	public List<PayBillTransactionList> getTransactionPayBills(long vendorId) {
+	public ArrayList<PayBillTransactionList> getTransactionPayBills(
+			long vendorId) {
 
 		List<PayBillTransactionList> paybillTrList = null;
 
@@ -285,10 +287,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return paybillTrList;
+		return new ArrayList<PayBillTransactionList>(paybillTrList);
 	}
 
-	public List<ClientCreditsAndPayments> getVendorCreditsAndPayments(
+	public ArrayList<ClientCreditsAndPayments> getVendorCreditsAndPayments(
 			long vendorId) {
 		List<ClientCreditsAndPayments> clientCreditsAndPaymentsList = new ArrayList<ClientCreditsAndPayments>();
 		List<CreditsAndPayments> serverCreditsAndPayments = null;
@@ -308,11 +310,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientCreditsAndPaymentsList;
+		return new ArrayList<ClientCreditsAndPayments>(
+				clientCreditsAndPaymentsList);
 
 	}
 
-	public List<PaymentsList> getVendorPaymentsList() {
+	public ArrayList<PaymentsList> getVendorPaymentsList() {
 
 		List<PaymentsList> vendorPaymentsList = null;
 
@@ -327,10 +330,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return vendorPaymentsList;
+		return new ArrayList<PaymentsList>(vendorPaymentsList);
 	}
 
-	public List<IssuePaymentTransactionsList> getChecks() {
+	public ArrayList<IssuePaymentTransactionsList> getChecks() {
 
 		List<IssuePaymentTransactionsList> checks = null;
 
@@ -345,11 +348,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return checks;
+		return new ArrayList<IssuePaymentTransactionsList>(checks);
 
 	}
 
-	public List<IssuePaymentTransactionsList> getChecks(long accountId) {
+	public ArrayList<IssuePaymentTransactionsList> getChecks(long accountId) {
 
 		List<IssuePaymentTransactionsList> checks = null;
 
@@ -364,11 +367,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return checks;
+		return new ArrayList<IssuePaymentTransactionsList>(checks);
 
 	}
 
-	public List<ClientCreditCardCharge> getCreditCardChargesThisMonth(long date) {
+	public ArrayList<ClientCreditCardCharge> getCreditCardChargesThisMonth(
+			long date) {
 		List<ClientCreditCardCharge> clientCreditCardCharges = new ArrayList<ClientCreditCardCharge>();
 		List<CreditCardCharge> serverCreditCardCharges = null;
 		try {
@@ -387,10 +391,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientCreditCardCharges;
+		return new ArrayList<ClientCreditCardCharge>(clientCreditCardCharges);
 	}
 
-	public List<BillsList> getLatestBills() {
+	public ArrayList<BillsList> getLatestBills() {
 		List<BillsList> bills = null;
 
 		try {
@@ -403,10 +407,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return bills;
+		return new ArrayList<BillsList>(bills);
 	}
 
-	public List<ClientCashPurchase> getLatestCashPurchases() {
+	public ArrayList<ClientCashPurchase> getLatestCashPurchases() {
 		List<ClientCashPurchase> clientCashPurchase = new ArrayList<ClientCashPurchase>();
 		List<CashPurchase> serverCashPurchases = null;
 		try {
@@ -423,10 +427,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientCashPurchase;
+		return new ArrayList<ClientCashPurchase>(clientCashPurchase);
 	}
 
-	public List<ClientCashSales> getLatestCashSales() {
+	public ArrayList<ClientCashSales> getLatestCashSales() {
 		List<ClientCashSales> clientCashSales = new ArrayList<ClientCashSales>();
 		List<CashSales> serverCashSales = null;
 		try {
@@ -442,10 +446,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientCashSales;
+		return new ArrayList<ClientCashSales>(clientCashSales);
 	}
 
-	public List<ClientWriteCheck> getLatestChecks() {
+	public ArrayList<ClientWriteCheck> getLatestChecks() {
 		List<ClientWriteCheck> clientWriteChecks = new ArrayList<ClientWriteCheck>();
 		List<WriteCheck> serverWriteChecks = null;
 		try {
@@ -461,10 +465,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientWriteChecks;
+		return new ArrayList<ClientWriteCheck>(clientWriteChecks);
 	}
 
-	public List<ClientCustomerRefund> getLatestCustomerRefunds() {
+	public ArrayList<ClientCustomerRefund> getLatestCustomerRefunds() {
 		List<ClientCustomerRefund> clientCustomerRefunds = new ArrayList<ClientCustomerRefund>();
 		List<CustomerRefund> serverCustomerRefunds = null;
 		try {
@@ -482,10 +486,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientCustomerRefunds;
+		return new ArrayList<ClientCustomerRefund>(clientCustomerRefunds);
 	}
 
-	public List<ClientCustomer> getLatestCustomers() {
+	public ArrayList<ClientCustomer> getLatestCustomers() {
 		List<ClientCustomer> clientCustomers = new ArrayList<ClientCustomer>();
 		List<Customer> serverCustomers = null;
 		try {
@@ -501,10 +505,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientCustomers;
+		return new ArrayList<ClientCustomer>(clientCustomers);
 	}
 
-	public List<ClientMakeDeposit> getLatestDeposits() {
+	public ArrayList<ClientMakeDeposit> getLatestDeposits() {
 		List<ClientMakeDeposit> clientMakeDeposits = new ArrayList<ClientMakeDeposit>();
 		List<MakeDeposit> serverMakeDeposits = null;
 		try {
@@ -520,10 +524,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientMakeDeposits;
+		return new ArrayList<ClientMakeDeposit>(clientMakeDeposits);
 	}
 
-	public List<ClientTransferFund> getLatestFundsTransfer() {
+	public ArrayList<ClientTransferFund> getLatestFundsTransfer() {
 		List<ClientTransferFund> clientTransferFunds = new ArrayList<ClientTransferFund>();
 		List<TransferFund> serverTransferFunds = null;
 		try {
@@ -540,10 +544,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientTransferFunds;
+		return new ArrayList<ClientTransferFund>(clientTransferFunds);
 	}
 
-	public List<ClientItem> getLatestItems() {
+	public ArrayList<ClientItem> getLatestItems() {
 		List<ClientItem> clientItems = new ArrayList<ClientItem>();
 		List<Item> serverItems = null;
 		try {
@@ -559,10 +563,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientItems;
+		return new ArrayList<ClientItem>(clientItems);
 	}
 
-	public List<PaymentsList> getLatestPayments() {
+	public ArrayList<PaymentsList> getLatestPayments() {
 		List<PaymentsList> payments = null;
 
 		try {
@@ -575,10 +579,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return payments;
+		return new ArrayList<PaymentsList>(payments);
 	}
 
-	public List<ClientVendor> getLatestVendors() {
+	public ArrayList<ClientVendor> getLatestVendors() {
 		List<ClientVendor> clientVendors = new ArrayList<ClientVendor>();
 		List<Vendor> serverVendors = null;
 		try {
@@ -594,7 +598,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientVendors;
+		return new ArrayList<ClientVendor>(clientVendors);
 	}
 
 	public String getNextTransactionNumber(int transactionType) {
@@ -626,7 +630,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return isCanVoidOrEdit;
 	}
 
-	public List<ClientCreditsAndPayments> getCustomerCreditsAndPayments(
+	public ArrayList<ClientCreditsAndPayments> getCustomerCreditsAndPayments(
 			long customerId) {
 		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
 		List<CreditsAndPayments> serverCreditsAndPayments = null;
@@ -646,10 +650,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientCreditsAndPayments;
+		return new ArrayList<ClientCreditsAndPayments>(clientCreditsAndPayments);
 	}
 
-	public List<CustomerRefundsList> getCustomerRefundsList() {
+	public ArrayList<CustomerRefundsList> getCustomerRefundsList() {
 		List<CustomerRefundsList> customerRefundsList = null;
 		try {
 
@@ -659,10 +663,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return customerRefundsList;
+		return new ArrayList<CustomerRefundsList>(customerRefundsList);
 	}
 
-	public List<ClientEntry> getEntries(long journalEntryId) {
+	public ArrayList<ClientEntry> getEntries(long journalEntryId) {
 		List<ClientEntry> clientEntries = new ArrayList<ClientEntry>();
 		List<Entry> serverEntries = null;
 		try {
@@ -678,10 +682,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientEntries;
+		return new ArrayList<ClientEntry>(clientEntries);
 	}
 
-	public List<ClientEstimate> getEstimates() {
+	public ArrayList<ClientEstimate> getEstimates() {
 		List<ClientEstimate> clientEstimate = new ArrayList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
 
@@ -698,10 +702,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientEstimate;
+		return new ArrayList<ClientEstimate>(clientEstimate);
 	}
 
-	public List<ClientEstimate> getEstimates(long customerId) {
+	public ArrayList<ClientEstimate> getEstimates(long customerId) {
 		List<ClientEstimate> clientEstimate = new ArrayList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
 		try {
@@ -717,10 +721,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientEstimate;
+		return new ArrayList<ClientEstimate>(clientEstimate);
 	}
 
-	public List<InvoicesList> getInvoiceList() {
+	public ArrayList<InvoicesList> getInvoiceList() {
 		List<InvoicesList> invoicesList = null;
 
 		try {
@@ -733,10 +737,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return invoicesList;
+		return new ArrayList<InvoicesList>(invoicesList);
 	}
 
-	public List<InvoicesList> getInvoiceList(long fromDate, long toDate) {
+	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate) {
 		List<InvoicesList> invoicesList = null;
 		List<InvoicesList> filteredList = null;
 		// getMinimumAndMaximumDates(Utility.dateToString(fromDate), Utility
@@ -752,17 +756,17 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					filteredList.add(list);
 
 			}
-			return filteredList;
+			return new ArrayList<InvoicesList>(filteredList);
 			// invoicesList = (List<InvoicesList>) manager.merge(invoicesList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return filteredList;
+		return new ArrayList<InvoicesList>(filteredList);
 	}
 
-	public List<ClientFinanceDate> getMinimumAndMaximumTransactionDate() {
+	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate() {
 		List<ClientFinanceDate> transactionDates = new ArrayList<ClientFinanceDate>();
 		try {
 
@@ -773,10 +777,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return transactionDates;
+		return new ArrayList<ClientFinanceDate>(transactionDates);
 	}
 
-	public List<ClientJournalEntry> getJournalEntries() {
+	public ArrayList<ClientJournalEntry> getJournalEntries() {
 		List<ClientJournalEntry> clientJournalEntries = new ArrayList<ClientJournalEntry>();
 		List<JournalEntry> serverJournalEntries = null;
 		try {
@@ -794,7 +798,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientJournalEntries;
+		return new ArrayList<ClientJournalEntry>(clientJournalEntries);
 	}
 
 	public ClientJournalEntry getJournalEntry(long journalEntryId) {
@@ -855,7 +859,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return nextVoucherNumber;
 	}
 
-	public List<ClientItem> getPurchaseItems() {
+	public ArrayList<ClientItem> getPurchaseItems() {
 		List<ClientItem> clientItems = new ArrayList<ClientItem>();
 		List<Item> serverItems = null;
 		try {
@@ -871,10 +875,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientItems;
+		return new ArrayList<ClientItem>(clientItems);
 	}
 
-	public List<ClientItem> getSalesItems() {
+	public ArrayList<ClientItem> getSalesItems() {
 		List<ClientItem> clientItems = new ArrayList<ClientItem>();
 		List<Item> serverItems = null;
 
@@ -891,10 +895,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientItems;
+		return new ArrayList<ClientItem>(clientItems);
 	}
 
-	public List<ClientAccount> getTaxAgencyAccounts() {
+	public ArrayList<ClientAccount> getTaxAgencyAccounts() {
 		List<ClientAccount> clientAccount = new ArrayList<ClientAccount>();
 		List<Account> serverAccounts = null;
 		try {
@@ -910,10 +914,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientAccount;
+		return new ArrayList<ClientAccount>(clientAccount);
 	}
 
-	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
+	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
 			long customerId, long paymentDate) {
 		List<ReceivePaymentTransactionList> receivePaymentTransactionList = null;
 
@@ -930,7 +934,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return receivePaymentTransactionList;
+		return new ArrayList<ReceivePaymentTransactionList>(
+				receivePaymentTransactionList);
 	}
 
 	public boolean isSalesTaxPayableAccount(long accountId) {
@@ -974,7 +979,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return isTaxAgency;
 	}
 
-	public List<ReceivePaymentsList> getReceivePaymentsList() {
+	public ArrayList<ReceivePaymentsList> getReceivePaymentsList() {
 		List<ReceivePaymentsList> receivePaymentList = null;
 
 		try {
@@ -988,10 +993,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return receivePaymentList;
+		return new ArrayList<ReceivePaymentsList>(receivePaymentList);
 	}
 
-	public List<ClientItem> getLatestPurchaseItems() {
+	public ArrayList<ClientItem> getLatestPurchaseItems() {
 		List<ClientItem> clientItems = new ArrayList<ClientItem>();
 		List<Item> serverItems = null;
 		try {
@@ -1007,11 +1012,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return clientItems;
+		return new ArrayList<ClientItem>(clientItems);
 	}
 
-	public List<PaymentsList> getLatestVendorPayments() {
-		List<PaymentsList> paymentsList = null;
+	public ArrayList<PaymentsList> getLatestVendorPayments() {
+		ArrayList<PaymentsList> paymentsList = null;
 
 		try {
 
@@ -1026,9 +1031,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return paymentsList;
 	}
 
-	public List<ClientReceivePayment> getLatestReceivePayments() {
-		List<ClientReceivePayment> clientReceivePaymentList = new ArrayList<ClientReceivePayment>();
-		List<ReceivePayment> serverReceivePaymentList = null;
+	public ArrayList<ClientReceivePayment> getLatestReceivePayments() {
+		ArrayList<ClientReceivePayment> clientReceivePaymentList = new ArrayList<ClientReceivePayment>();
+		ArrayList<ReceivePayment> serverReceivePaymentList = null;
 		try {
 
 			serverReceivePaymentList = getFinanceTool()
@@ -1070,8 +1075,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return clientTransactionMakeDeposit;
 	}
 
-	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposits() {
-		List<ClientTransactionMakeDeposit> makeDepositTransactionsList = null;
+	public ArrayList<ClientTransactionMakeDeposit> getTransactionMakeDeposits() {
+		ArrayList<ClientTransactionMakeDeposit> makeDepositTransactionsList = null;
 
 		try {
 
@@ -1124,7 +1129,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 */
 
 	@Override
-	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
+	public ArrayList<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
 			long vendorID) throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
@@ -1139,7 +1144,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
+	public ArrayList<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			long vendorId) throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
@@ -1152,7 +1157,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
-	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
+	public ArrayList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
 			long customerId) throws AccounterException {
 
 		try {
@@ -1229,7 +1234,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientFinanceDate> getAllDepreciationFromDates()
+	public ArrayList<ClientFinanceDate> getAllDepreciationFromDates()
 			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
@@ -1253,7 +1258,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientFinanceDate> getFinancialYearStartDates()
+	public ArrayList<ClientFinanceDate> getFinancialYearStartDates()
 			throws AccounterException {
 		try {
 			FinanceTool tool = getFinanceTool();
@@ -1357,10 +1362,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientPayVATEntries> getPayVATEntries()
+	public ArrayList<ClientPayVATEntries> getPayVATEntries()
 			throws AccounterException {
 
-		List<ClientPayVATEntries> clientEntries = new ArrayList<ClientPayVATEntries>();
+		ArrayList<ClientPayVATEntries> clientEntries = new ArrayList<ClientPayVATEntries>();
 
 		FinanceTool tool = getFinanceTool();
 		if (tool == null)
@@ -1384,10 +1389,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientFinanceLogger> getLog(long id, boolean isNext)
+	public ArrayList<ClientFinanceLogger> getLog(long id, boolean isNext)
 			throws AccounterException {
 
-		List<ClientFinanceLogger> clientLogs = new ArrayList<ClientFinanceLogger>();
+		ArrayList<ClientFinanceLogger> clientLogs = new ArrayList<ClientFinanceLogger>();
 
 		FinanceTool tool = (FinanceTool) getFinanceTool();
 		if (tool == null)
@@ -1415,10 +1420,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientFinanceLogger> getLog(String date, long id, boolean isNext)
-			throws AccounterException {
+	public ArrayList<ClientFinanceLogger> getLog(String date, long id,
+			boolean isNext) throws AccounterException {
 
-		List<ClientFinanceLogger> clientLogs = new ArrayList<ClientFinanceLogger>();
+		ArrayList<ClientFinanceLogger> clientLogs = new ArrayList<ClientFinanceLogger>();
 
 		FinanceTool tool = (FinanceTool) getFinanceTool();
 		if (tool == null)
@@ -1442,9 +1447,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<PayeeList> getPayeeList(int transactionCategory) {
+	public ArrayList<PayeeList> getPayeeList(int transactionCategory) {
 
-		List<PayeeList> payeeList = null;
+		ArrayList<PayeeList> payeeList = null;
 
 		try {
 			FinanceTool tool = getFinanceTool();
@@ -1473,10 +1478,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientReceiveVATEntries> getReceiveVATEntries()
+	public ArrayList<ClientReceiveVATEntries> getReceiveVATEntries()
 			throws AccounterException {
 
-		List<ClientReceiveVATEntries> clientEntries = new ArrayList<ClientReceiveVATEntries>();
+		ArrayList<ClientReceiveVATEntries> clientEntries = new ArrayList<ClientReceiveVATEntries>();
 
 		FinanceTool tool = getFinanceTool();
 		if (tool == null)
@@ -1495,12 +1500,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 			clientEntries.add(clientEntry);
 		}
-		return clientEntries;
+		return new ArrayList<ClientReceiveVATEntries>(clientEntries);
 
 	}
 
 	@Override
-	public List<Double> getGraphPointsforAccount(int chartType, long accountNo) {
+	public ArrayList<Double> getGraphPointsforAccount(int chartType,
+			long accountNo) {
 
 		List<Double> resultList = null;
 		try {
@@ -1512,11 +1518,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return resultList;
+		return new ArrayList<Double>(resultList);
 	}
 
 	@Override
-	public List<BillsList> getEmployeeExpensesByStatus(String userName,
+	public ArrayList<BillsList> getEmployeeExpensesByStatus(String userName,
 			int status) {
 		List<BillsList> resultList = null;
 		try {
@@ -1525,7 +1531,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return resultList;
+		return new ArrayList<BillsList>(resultList);
 	}
 
 	@Override
@@ -1541,7 +1547,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return changePassword;
 	}
 
-	public List<ClientUserInfo> getAllUsers() throws AccounterException {
+	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			return tool.getAllUsers();
@@ -1550,7 +1556,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientEmployee> getAllEmployees() throws AccounterException {
+	public ArrayList<ClientEmployee> getAllEmployees()
+			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			return tool.getAllEmployees();

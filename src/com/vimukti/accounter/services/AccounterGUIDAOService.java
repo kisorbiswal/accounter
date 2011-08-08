@@ -1,7 +1,7 @@
 package com.vimukti.accounter.services;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -97,19 +97,19 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<Date> getAllDepreciationFromDates() throws DAOException {
+	public ArrayList<Date> getAllDepreciationFromDates() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<BillsList> getBillsList() throws DAOException {
+	public ArrayList<BillsList> getBillsList() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<EnterBill> getBillsOwed() throws DAOException {
+	public ArrayList<EnterBill> getBillsOwed() throws DAOException {
 
 		return null;
 	}
@@ -130,34 +130,35 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<IssuePaymentTransactionsList> getChecks() throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public List<IssuePaymentTransactionsList> getChecks(String account)
+	public ArrayList<IssuePaymentTransactionsList> getChecks()
 			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<CreditCardCharge> getCreditCardChargesThisMonth(Date date)
+	public ArrayList<IssuePaymentTransactionsList> getChecks(String account)
 			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<CreditsAndPayments> getCustomerCreditsAndPayments(
+	public ArrayList<CreditCardCharge> getCreditCardChargesThisMonth(Date date)
+			throws DAOException {
+
+		return null;
+	}
+
+	@Override
+	public ArrayList<CreditsAndPayments> getCustomerCreditsAndPayments(
 			String customer) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<CustomerRefundsList> getCustomerRefundsList()
+	public ArrayList<CustomerRefundsList> getCustomerRefundsList()
 			throws DAOException {
 
 		return null;
@@ -171,7 +172,7 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<DepreciableFixedAssetsList> getDepreciationFixedAssets(
+	public ArrayList<DepreciableFixedAssetsList> getDepreciationFixedAssets(
 			Date startDate, Date toDate) throws DAOException {
 
 		return null;
@@ -184,50 +185,53 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<Entry> getEntries(String journalEntryId) throws DAOException {
+	public ArrayList<Entry> getEntries(String journalEntryId)
+			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Estimate> getEstimates() throws DAOException {
+	public ArrayList<Estimate> getEstimates() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Estimate> getEstimates(String customer) throws DAOException {
+	public ArrayList<Estimate> getEstimates(String customer)
+			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
+	public ArrayList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
 			String customerId) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Date> getFinancialYearStartDates() throws DAOException {
+	public ArrayList<Date> getFinancialYearStartDates() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<FixedAssetList> getFixedAssets(int status) throws DAOException {
+	public ArrayList<FixedAssetList> getFixedAssets(int status)
+			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<InvoicesList> getInvoiceList() throws DAOException {
+	public ArrayList<InvoicesList> getInvoiceList() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<JournalEntry> getJournalEntries() throws DAOException {
+	public ArrayList<JournalEntry> getJournalEntries() throws DAOException {
 
 		return null;
 	}
@@ -247,103 +251,106 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<BillsList> getLatestBills() throws DAOException {
+	public ArrayList<BillsList> getLatestBills() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<CashPurchase> getLatestCashPurchases() throws DAOException {
+	public ArrayList<CashPurchase> getLatestCashPurchases() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<CashSales> getLatestCashSales() throws DAOException {
+	public ArrayList<CashSales> getLatestCashSales() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<WriteCheck> getLatestChecks() throws DAOException {
+	public ArrayList<WriteCheck> getLatestChecks() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<CustomerRefund> getLatestCustomerRefunds() throws DAOException {
+	public ArrayList<CustomerRefund> getLatestCustomerRefunds()
+			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Customer> getLatestCustomers() throws DAOException {
+	public ArrayList<Customer> getLatestCustomers() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<MakeDeposit> getLatestDeposits() throws DAOException {
+	public ArrayList<MakeDeposit> getLatestDeposits() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<TransferFund> getLatestFundsTransfer() throws DAOException {
+	public ArrayList<TransferFund> getLatestFundsTransfer() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<InvoicesList> getLatestInvoices() throws DAOException {
+	public ArrayList<InvoicesList> getLatestInvoices() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Item> getLatestItems() throws DAOException {
+	public ArrayList<Item> getLatestItems() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<PaymentsList> getLatestPayments() throws DAOException {
+	public ArrayList<PaymentsList> getLatestPayments() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Item> getLatestPurchaseItems() throws DAOException {
+	public ArrayList<Item> getLatestPurchaseItems() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Estimate> getLatestQuotes() throws DAOException {
+	public ArrayList<Estimate> getLatestQuotes() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<ReceivePayment> getLatestReceivePayments() throws DAOException {
+	public ArrayList<ReceivePayment> getLatestReceivePayments()
+			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Item> getLatestSalesItems() throws DAOException {
+	public ArrayList<Item> getLatestSalesItems() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<PaymentsList> getLatestVendorPayments() throws DAOException {
+	public ArrayList<PaymentsList> getLatestVendorPayments()
+			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Vendor> getLatestVendors() throws DAOException {
+	public ArrayList<Vendor> getLatestVendors() throws DAOException {
 
 		return null;
 	}
@@ -374,46 +381,47 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
+	public ArrayList<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
 			String vendorId) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<OverDueInvoicesList> getOverDueInvoices() throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public List<PaymentsList> getPaymentsList() throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public List<Item> getPurchaseItems() throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public List<PurchaseOrdersList> getPurchaseOrdersList(String vendorId)
+	public ArrayList<OverDueInvoicesList> getOverDueInvoices()
 			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
+	public ArrayList<PaymentsList> getPaymentsList() throws DAOException {
+
+		return null;
+	}
+
+	@Override
+	public ArrayList<Item> getPurchaseItems() throws DAOException {
+
+		return null;
+	}
+
+	@Override
+	public ArrayList<PurchaseOrdersList> getPurchaseOrdersList(String vendorId)
+			throws DAOException {
+
+		return null;
+	}
+
+	@Override
+	public ArrayList<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			String vendorId) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<ReceivePaymentsList> getReceivePaymentsList()
+	public ArrayList<ReceivePaymentsList> getReceivePaymentsList()
 			throws DAOException {
 
 		return null;
@@ -427,27 +435,27 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<Item> getSalesItems() throws DAOException {
+	public ArrayList<Item> getSalesItems() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<SalesOrdersList> getSalesOrdersList(String customerId)
+	public ArrayList<SalesOrdersList> getSalesOrdersList(String customerId)
 			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<SellingOrDisposingFixedAssetList> getSellingOrDisposingFixedAssets()
+	public ArrayList<SellingOrDisposingFixedAssetList> getSellingOrDisposingFixedAssets()
 			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Account> getTaxAgencyAccounts() throws DAOException {
+	public ArrayList<Account> getTaxAgencyAccounts() throws DAOException {
 
 		return null;
 	}
@@ -460,35 +468,35 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<MakeDepositTransactionsList> getTransactionMakeDeposits()
+	public ArrayList<MakeDepositTransactionsList> getTransactionMakeDeposits()
 			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<PayBillTransactionList> getTransactionPayBills()
+	public ArrayList<PayBillTransactionList> getTransactionPayBills()
 			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<PayBillTransactionList> getTransactionPayBills(String vendorId)
-			throws DAOException {
+	public ArrayList<PayBillTransactionList> getTransactionPayBills(
+			String vendorId) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
+	public ArrayList<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
 			Date transactionDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
+	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
 			String customerId) throws DAOException {
 
 		return null;
@@ -502,14 +510,14 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<CreditsAndPayments> getVendorCreditsAndPayments(String vendor)
-			throws DAOException {
+	public ArrayList<CreditsAndPayments> getVendorCreditsAndPayments(
+			String vendor) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<PaymentsList> getVendorPaymentsList() throws DAOException {
+	public ArrayList<PaymentsList> getVendorPaymentsList() throws DAOException {
 
 		return null;
 	}

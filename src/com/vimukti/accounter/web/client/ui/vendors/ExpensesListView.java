@@ -69,8 +69,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		currentView = new SelectCombo(Accounter.constants()
-				.currentView());
+		currentView = new SelectCombo(Accounter.constants().currentView());
 		currentView.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		// listOfTypes.add(FinanceApplication.constants().open());
@@ -118,16 +117,14 @@ public class ExpensesListView extends BaseListView<BillsList> {
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter.constants()
-				.creditCard())) {
+		} else if (text.equalsIgnoreCase(Accounter.constants().creditCard())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(Accounter.constants()
-				.employee())) {
+		} else if (text.equalsIgnoreCase(Accounter.constants().employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
@@ -154,7 +151,7 @@ public class ExpensesListView extends BaseListView<BillsList> {
 	}
 
 	@Override
-	public void onSuccess(List<BillsList> result) {
+	public void onSuccess(ArrayList<BillsList> result) {
 		super.onSuccess(result);
 		filterList(currentView.getSelectedValue().toString());
 		grid.setViewType(currentView.getSelectedValue().toString());

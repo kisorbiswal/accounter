@@ -356,33 +356,36 @@ public class TransactionReceivePaymentGrid extends
 
 	public void initCreditsAndPayments(final ClientCustomer customer) {
 
-		Accounter.createHomeService().getCustomerCreditsAndPayments(
-				customer.getID(),
-				new AccounterAsyncCallback<List<ClientCreditsAndPayments>>() {
+		Accounter
+				.createHomeService()
+				.getCustomerCreditsAndPayments(
+						customer.getID(),
+						new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
 
-					public void onException(AccounterException caught) {
-						Accounter.showInformation(Accounter.messages()
-								.failedTogetCreditsListAndPayments(
-										customer.getName()));
+							public void onException(AccounterException caught) {
+								Accounter.showInformation(Accounter.messages()
+										.failedTogetCreditsListAndPayments(
+												customer.getName()));
 
-						gotCreditsAndPayments = false;
-						return;
+								gotCreditsAndPayments = false;
+								return;
 
-					}
+							}
 
-					public void onResultSuccess(List<ClientCreditsAndPayments> result) {
-						if (result == null)
-							onFailure(null);
+							public void onResultSuccess(
+									ArrayList<ClientCreditsAndPayments> result) {
+								if (result == null)
+									onFailure(null);
 
-						updatedCustomerCreditsAndPayments = result;
-						creditsStack = new Stack<Map<Integer, Object>>();
-						paymentView.calculateUnusedCredits();
+								updatedCustomerCreditsAndPayments = result;
+								creditsStack = new Stack<Map<Integer, Object>>();
+								paymentView.calculateUnusedCredits();
 
-						gotCreditsAndPayments = true;
+								gotCreditsAndPayments = true;
 
-					}
+							}
 
-				});
+						});
 
 	}
 

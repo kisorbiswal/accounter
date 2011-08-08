@@ -463,7 +463,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			private boolean isSecondReuqest = false;
 
 			@Override
-			public void onSuccess(List<VATSummary> result) {
+			public void onSuccess(ArrayList<VATSummary> result) {
 
 				super.onSuccess(result);
 				print();

@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -37,206 +37,208 @@ import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 
 public interface IAccounterReportService extends RemoteService {
 
-	public List<SalesByCustomerDetail> getSalesByCustomerSummary(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerSummary(
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
-	// public List<AccountBalance> getAccountBalances();
+	// public ArrayList<AccountBalance> getAccountBalances();
 
-	public List<TrialBalance> getTrialBalance(ClientFinanceDate startDate,
+	public ArrayList<TrialBalance> getTrialBalance(ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
-	public List<AgedDebtors> getAgedDebtors(ClientFinanceDate startDate,
+	public ArrayList<AgedDebtors> getAgedDebtors(ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
-	public List<AgedDebtors> getAgedCreditors(ClientFinanceDate startDate,
+	public ArrayList<AgedDebtors> getAgedCreditors(ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getSalesByItemDetail(
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getSalesByItemSummary(
+	public ArrayList<SalesByCustomerDetail> getSalesByItemSummary(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<TransactionHistory> getCustomerTransactionHistory(
+	public ArrayList<TransactionHistory> getCustomerTransactionHistory(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<DepositDetail> getDepositDetail(
+	public ArrayList<DepositDetail> getDepositDetail(
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getPurchasesByVendorSummary(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorSummary(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getPurchasesByItemSummary(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemSummary(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<TransactionHistory> getVendorTransactionHistory(
+	public ArrayList<TransactionHistory> getVendorTransactionHistory(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<AmountsDueToVendor> getAmountsDueToVendor(
+	public ArrayList<AmountsDueToVendor> getAmountsDueToVendor(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<MostProfitableCustomers> getMostProfitableCustomers(
+	public ArrayList<MostProfitableCustomers> getMostProfitableCustomers(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
+	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	List<ClientTransaction> getRegister(long accountId);
+	ArrayList<ClientTransaction> getRegister(long accountId);
 
-	List<AccountRegister> getAccountRegister(ClientFinanceDate startDate,
+	ArrayList<AccountRegister> getAccountRegister(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long accountId);
 
-	public List<ClientCustomer> getTransactionHistoryCustomers(
+	public ArrayList<ClientCustomer> getTransactionHistoryCustomers(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<ClientVendor> getTransactionHistoryVendors(
+	public ArrayList<ClientVendor> getTransactionHistoryVendors(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<ClientItem> getSalesReportItems(ClientFinanceDate startDate,
-			ClientFinanceDate endDate);
+	public ArrayList<ClientItem> getSalesReportItems(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<ClientItem> getPurchaseReportItems(ClientFinanceDate startDate,
-			ClientFinanceDate endDate);
+	public ArrayList<ClientItem> getPurchaseReportItems(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
-	public List<SalesTaxLiability> getSalesTaxLiabilityReport(
+	public ArrayList<SalesTaxLiability> getSalesTaxLiabilityReport(
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String customerName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
-	public List<SalesByCustomerDetail> getSalesByItemDetail(String itemName,
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			String vendorName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate);
-
-	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
 			String itemName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
-	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
+			String vendorName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
+
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
+			String itemName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
+
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			String accountName, final ClientFinanceDate startDate,
 			final ClientFinanceDate endDate);
 
-	public List<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
+	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
-	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
+	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			String taxItemname, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
-	public List<TrialBalance> getBalanceSheetReport(
+	public ArrayList<TrialBalance> getBalanceSheetReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<TrialBalance> getProfitAndLossReport(
+	public ArrayList<TrialBalance> getProfitAndLossReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<TrialBalance> getCashFlowReport(ClientFinanceDate startDate,
+	public ArrayList<TrialBalance> getCashFlowReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getPurchaseClosedOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getSalesClosedOrderReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<VATDetail> getPriorVATReturnVATDetailReport(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	ArrayList<VATDetail> getPriorVATReturnReport(long vatAgancy,
 			ClientFinanceDate endDate);
 
-	public List<OpenAndClosedOrders> getPurchaseOpenOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public List<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public List<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public List<OpenAndClosedOrders> getPurchaseOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public List<OpenAndClosedOrders> getPurchaseClosedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public List<OpenAndClosedOrders> getSalesOpenOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public List<OpenAndClosedOrders> getSalesCompletedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public List<OpenAndClosedOrders> getSalesOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public List<OpenAndClosedOrders> getSalesCancelledOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public List<OpenAndClosedOrders> getSalesClosedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public List<VATDetail> getPriorVATReturnVATDetailReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	List<VATDetail> getPriorVATReturnReport(long vatAgancy,
+	ArrayList<VATSummary> getPriorReturnVATSummary(long vatAgency,
 			ClientFinanceDate endDate);
 
-	List<VATSummary> getPriorReturnVATSummary(long vatAgency,
-			ClientFinanceDate endDate);
-
-	List<VATSummary> getVAT100Report(long vatAgncy, ClientFinanceDate fromDate,
-			ClientFinanceDate toDate);
-
-	public List<UncategorisedAmountsReport> getUncategorisedAmountsReport(
+	ArrayList<VATSummary> getVAT100Report(long vatAgncy,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
-	public List<ECSalesList> getECSalesListReport(ClientFinanceDate fromDate,
-			ClientFinanceDate toDate);
-
-	public List<ECSalesListDetail> getECSalesListDetailReport(String payeeName,
+	public ArrayList<UncategorisedAmountsReport> getUncategorisedAmountsReport(
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
-	public List<ReverseChargeListDetail> getReverseChargeListDetailReport(
+	public ArrayList<ECSalesList> getECSalesListReport(
+			ClientFinanceDate fromDate, ClientFinanceDate toDate);
+
+	public ArrayList<ECSalesListDetail> getECSalesListDetailReport(
 			String payeeName, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate);
 
-	public List<ReverseChargeList> getReverseChargeListReport(
+	public ArrayList<ReverseChargeListDetail> getReverseChargeListDetailReport(
+			String payeeName, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate);
+
+	public ArrayList<ReverseChargeList> getReverseChargeListReport(
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
-	public List<DummyDebitor> getDebitors(ClientFinanceDate startDate,
+	public ArrayList<DummyDebitor> getDebitors(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) throws AccounterException;
 
-	public List<DummyDebitor> getCreditors(ClientFinanceDate startDate,
+	public ArrayList<DummyDebitor> getCreditors(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) throws AccounterException;
 
-	public List<AgedDebtors> getAgedDebtors(String Name,
+	public ArrayList<AgedDebtors> getAgedDebtors(String Name,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<AgedDebtors> getAgedCreditors(String Name,
+	public ArrayList<AgedDebtors> getAgedCreditors(String Name,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public List<VATItemSummary> getVATItemSummaryReport(
+	public ArrayList<VATItemSummary> getVATItemSummaryReport(
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
-	public List<VATItemDetail> getVATItemDetailReport(String vatItemName,
+	public ArrayList<VATItemDetail> getVATItemDetailReport(String vatItemName,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
-	public List<ExpenseList> getExpenseReportByType(int status,
+	public ArrayList<ExpenseList> getExpenseReportByType(int status,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
+	ArrayList<CheckDetailReport> getCheckDetailReport(long paymentmethod,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	List<PayeeStatementsList> getStatements(long id, long transactionDate,
+	ArrayList<PayeeStatementsList> getStatements(long id, long transactionDate,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate, int noOfDays,
 			boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessThanZeroBalBox,
 			double lessThanZeroBalanceValue,
 			boolean isEnabledOfNoAccountActivity,
 			boolean isEnabledOfInactiveCustomer);
-	
-	List<PayeeStatementsList> getCustomerStatement(long customer, long fromDate,
-			long toDate) throws AccounterException;
+
+	ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
+			long fromDate, long toDate) throws AccounterException;
 }

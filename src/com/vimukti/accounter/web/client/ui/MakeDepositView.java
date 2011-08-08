@@ -245,7 +245,7 @@ public class MakeDepositView extends
 
 		gridView.addLoadingImagePanel();
 
-		AccounterAsyncCallback<List<ClientTransactionMakeDeposit>> callback = new AccounterAsyncCallback<List<ClientTransactionMakeDeposit>>() {
+		AccounterAsyncCallback<ArrayList<ClientTransactionMakeDeposit>> callback = new AccounterAsyncCallback<ArrayList<ClientTransactionMakeDeposit>>() {
 
 			public void onException(AccounterException caught) {
 				Accounter.showError(Accounter.constants()
@@ -254,7 +254,7 @@ public class MakeDepositView extends
 			}
 
 			public void onResultSuccess(
-					List<ClientTransactionMakeDeposit> result) {
+					ArrayList<ClientTransactionMakeDeposit> result) {
 				if (result == null) {
 					onFailure(null);
 					return;

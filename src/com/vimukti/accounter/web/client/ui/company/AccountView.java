@@ -96,13 +96,13 @@
 //
 //	private void getAccounts() {
 //
-//		new AccountDataSource(new AccounterAsyncCallback<List<ClientAccount>>() {
+//		new AccountDataSource(new AccounterAsyncCallback<ArrayList<ClientAccount>>() {
 //
 //			public void onException(AccounterException caught) {
 //				// //UIUtils.log(caught.toString());
 //			}
 //
-//			public void onSuccess(List<ClientAccount> result) {
+//			public void onSuccess(ArrayList<ClientAccount> result) {
 //				// //UIUtils.log(result.toString());
 //				accountsList = result;
 //				subAccSelect.initCombo(result);

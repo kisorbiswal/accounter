@@ -4,7 +4,7 @@
 package com.vimukti.accounter.services;
 
 import java.text.ParseException;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.vimukti.accounter.core.Account;
@@ -108,8 +108,8 @@ public interface IFinanceDAOService {
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
 			String name) throws DAOException;
 
-	public <T extends IAccounterCore> List<T> getObjects(AccounterCoreType type)
-			throws DAOException;
+	public <T extends IAccounterCore> ArrayList<T> getObjects(
+			AccounterCoreType type) throws DAOException;
 
 	// public Boolean updateCompanyPreferences(ClientCompanyPreferences
 	// preferences)
@@ -150,49 +150,53 @@ public interface IFinanceDAOService {
 
 	// public ProfitAndLoss getProfitAndLossReport()
 	// throws DAOException;
-	public List<OverDueInvoicesList> getOverDueInvoices() throws DAOException;
-
-	public List<EnterBill> getBillsOwed() throws DAOException;
-
-	public List<Estimate> getLatestQuotes() throws DAOException;
-
-	// public List<ExpensesThisFiscalYear> getExpensesThisFiscalYear(
-	// Company company) throws DAOException;
-
-	public List<CreditCardCharge> getCreditCardChargesThisMonth(final long date)
+	public ArrayList<OverDueInvoicesList> getOverDueInvoices()
 			throws DAOException;
 
-	public List<Customer> getLatestCustomers() throws DAOException;
+	public ArrayList<EnterBill> getBillsOwed() throws DAOException;
 
-	public List<Vendor> getLatestVendors() throws DAOException;
+	public ArrayList<Estimate> getLatestQuotes() throws DAOException;
 
-	public List<Item> getLatestItems() throws DAOException;
+	// public ArrayList<ExpensesThisFiscalYear> getExpensesThisFiscalYear(
+	// Company company) throws DAOException;
 
-	public List<PaymentsList> getLatestPayments() throws DAOException;
+	public ArrayList<CreditCardCharge> getCreditCardChargesThisMonth(
+			final long date) throws DAOException;
 
-	public List<CashSales> getLatestCashSales() throws DAOException;
+	public ArrayList<Customer> getLatestCustomers() throws DAOException;
 
-	public List<CustomerRefund> getLatestCustomerRefunds() throws DAOException;
+	public ArrayList<Vendor> getLatestVendors() throws DAOException;
 
-	public List<BillsList> getLatestBills() throws DAOException;
+	public ArrayList<Item> getLatestItems() throws DAOException;
 
-	public List<CashPurchase> getLatestCashPurchases() throws DAOException;
+	public ArrayList<PaymentsList> getLatestPayments() throws DAOException;
 
-	public List<WriteCheck> getLatestChecks() throws DAOException;
+	public ArrayList<CashSales> getLatestCashSales() throws DAOException;
 
-	public List<MakeDeposit> getLatestDeposits() throws DAOException;
+	public ArrayList<CustomerRefund> getLatestCustomerRefunds()
+			throws DAOException;
 
-	public List<TransferFund> getLatestFundsTransfer() throws DAOException;
+	public ArrayList<BillsList> getLatestBills() throws DAOException;
 
-	public List<InvoicesList> getLatestInvoices() throws DAOException;
+	public ArrayList<CashPurchase> getLatestCashPurchases() throws DAOException;
 
-	public List<ReceivePayment> getLatestReceivePayments() throws DAOException;
+	public ArrayList<WriteCheck> getLatestChecks() throws DAOException;
 
-	public List<PaymentsList> getLatestVendorPayments() throws DAOException;
+	public ArrayList<MakeDeposit> getLatestDeposits() throws DAOException;
 
-	public List<Item> getLatestSalesItems() throws DAOException;
+	public ArrayList<TransferFund> getLatestFundsTransfer() throws DAOException;
 
-	public List<Item> getLatestPurchaseItems() throws DAOException;
+	public ArrayList<InvoicesList> getLatestInvoices() throws DAOException;
+
+	public ArrayList<ReceivePayment> getLatestReceivePayments()
+			throws DAOException;
+
+	public ArrayList<PaymentsList> getLatestVendorPayments()
+			throws DAOException;
+
+	public ArrayList<Item> getLatestSalesItems() throws DAOException;
+
+	public ArrayList<Item> getLatestPurchaseItems() throws DAOException;
 
 	/**
 	 * Other Dao Methods required for GUI
@@ -229,10 +233,10 @@ public interface IFinanceDAOService {
 			throws DAOException;
 
 	// To get all the Estimates/Quotes in a company
-	public List<Estimate> getEstimates() throws DAOException;
+	public ArrayList<Estimate> getEstimates() throws DAOException;
 
 	// To get the Estimates/Quotes of a particular customer in the company
-	public List<Estimate> getEstimates(long customer) throws DAOException;
+	public ArrayList<Estimate> getEstimates(long customer) throws DAOException;
 
 	// To check whether an Invoice or Vendor Bill can be Voidable and Editable
 	// or not
@@ -241,18 +245,18 @@ public interface IFinanceDAOService {
 
 	// To display the Item combo box of Transaction Item lines in Creating
 	// Creating Invoice,Cash Sale, Customer Credit Memo, Customer Refund
-	public List<Item> getSalesItems() throws DAOException;
+	public ArrayList<Item> getSalesItems() throws DAOException;
 
 	// To display the Item combo box of Transaction Item lines in Creating Enter
 	// Bill,Cash Purchase, Vendor Credit Memo Transactions
-	public List<Item> getPurchaseItems() throws DAOException;
+	public ArrayList<Item> getPurchaseItems() throws DAOException;
 
 	// To get the Credits and Payments of a particular Customer in a company
-	public List<CreditsAndPayments> getCustomerCreditsAndPayments(long customer)
-			throws DAOException;
+	public ArrayList<CreditsAndPayments> getCustomerCreditsAndPayments(
+			long customer) throws DAOException;
 
 	// To get the Credits and Payments of a particular Vendor in a company
-	public List<CreditsAndPayments> getVendorCreditsAndPayments(long vendor)
+	public ArrayList<CreditsAndPayments> getVendorCreditsAndPayments(long vendor)
 			throws DAOException;
 
 	// To get Make Deposit by passing the Transaction Make Deposit
@@ -262,26 +266,27 @@ public interface IFinanceDAOService {
 	// To get all the Invoices and CustomerRefunds of a particular customer
 	// which are not paid and display as the Transaction ReceivePayments in
 	// ReceivePayment
-	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
+	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
 			long customerId, long paymentDate) throws DAOException,
 			ParseException;
 
 	// To get all the Vendor Bills and MakeDeposit(New Vendor Entries) which are
 	// not paid and display as the Transaction PayBills in PayBill
-	public List<PayBillTransactionList> getTransactionPayBills()
+	public ArrayList<PayBillTransactionList> getTransactionPayBills()
 			throws DAOException;
 
 	// To get all the Vendor Bills and MakeDeposit(New Vendor Entries) of a
 	// particular Vendor which are not paid and display as the Transaction
 	// PayBills in PayBill
-	public List<PayBillTransactionList> getTransactionPayBills(long vendorId)
-			throws DAOException;
+	public ArrayList<PayBillTransactionList> getTransactionPayBills(
+			long vendorId) throws DAOException;
 
 	// To get all the Write Checks in a company
-	public List<IssuePaymentTransactionsList> getChecks() throws DAOException;
+	public ArrayList<IssuePaymentTransactionsList> getChecks()
+			throws DAOException;
 
 	// To get the Write Checks related to a particular Account in a company
-	public List<IssuePaymentTransactionsList> getChecks(long account)
+	public ArrayList<IssuePaymentTransactionsList> getChecks(long account)
 			throws DAOException;
 
 	// To get a particular Journal Entry
@@ -289,10 +294,10 @@ public interface IFinanceDAOService {
 			throws DAOException;
 
 	// To get all the Journal Entries in a company
-	public List<JournalEntry> getJournalEntries() throws DAOException;
+	public ArrayList<JournalEntry> getJournalEntries() throws DAOException;
 
 	// To get all the Entries of a particular journal entry
-	public List<Entry> getEntries(long journalEntryId) throws DAOException;
+	public ArrayList<Entry> getEntries(long journalEntryId) throws DAOException;
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)
@@ -300,63 +305,63 @@ public interface IFinanceDAOService {
 
 	// To get all Customer Refunds , Vendor Payments,Cash Purchases, Credit Card
 	// Charge and all Write Checks
-	public List<PaymentsList> getPaymentsList() throws DAOException;
+	public ArrayList<PaymentsList> getPaymentsList() throws DAOException;
 
 	// To get all Invoices, Customer Credit Memo, Cash Sales and Write Checks ->
 	// for Customer
-	public List<InvoicesList> getInvoiceList() throws DAOException;
+	public ArrayList<InvoicesList> getInvoiceList() throws DAOException;
 
 	// To get all Customer Refunds and Write Checks -> for Customer
-	public List<CustomerRefundsList> getCustomerRefundsList()
+	public ArrayList<CustomerRefundsList> getCustomerRefundsList()
 			throws DAOException;
 
 	// To get all Vendor Bills, Vendor Credit Memo, Cash Purchase and Credit
 	// Card Charge and Write Check -> Vendor
-	public List<BillsList> getBillsList(boolean isExpensesList)
+	public ArrayList<BillsList> getBillsList(boolean isExpensesList)
 			throws DAOException;
 
 	// To get all Vendor Payments, PayBills, Write Check -> Vendor and TaxAgency
-	public List<ReceivePaymentsList> getReceivePaymentsList()
+	public ArrayList<ReceivePaymentsList> getReceivePaymentsList()
 			throws DAOException;
 
 	// To get all Vendor Payments, PayBills, Write Check -> Vendor and TaxAgency
-	public List<PaymentsList> getVendorPaymentsList() throws DAOException;
+	public ArrayList<PaymentsList> getVendorPaymentsList() throws DAOException;
 
 	// To display the liabilityAccount combo box of New Tax Agency window
-	public List<Account> getTaxAgencyAccounts() throws DAOException;
+	public ArrayList<Account> getTaxAgencyAccounts() throws DAOException;
 
-	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposits()
+	public ArrayList<ClientTransactionMakeDeposit> getTransactionMakeDeposits()
 			throws DAOException;
 
 	public void test() throws Exception;
 
-	public List<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
+	public ArrayList<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
 			long billsDueOnOrBefore) throws DAOException;
 
-	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
+	public ArrayList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
 			long customerId) throws DAOException;
 
-	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
+	public ArrayList<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			long vendorId) throws DAOException;
 
-	public List<SalesOrdersList> getSalesOrders(boolean orderByDate);
+	public ArrayList<SalesOrdersList> getSalesOrders(boolean orderByDate);
 
-	public List<PurchaseOrdersList> getPurchaseOrders(boolean orderByDate);
+	public ArrayList<PurchaseOrdersList> getPurchaseOrders(boolean orderByDate);
 
-	public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID);
+	public ArrayList<SalesOrdersList> getSalesOrdersForCustomer(long customerID);
 
-	public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID);
+	public ArrayList<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID);
 
-	List<SalesOrdersList> getSalesOrdersList() throws DAOException;
+	ArrayList<SalesOrdersList> getSalesOrdersList() throws DAOException;
 
-	List<PurchaseOrdersList> getPurchaseOrdersList() throws DAOException;
+	ArrayList<PurchaseOrdersList> getPurchaseOrdersList() throws DAOException;
 
-	List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(long vendorId)
+	ArrayList<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(long vendorId)
 			throws DAOException;
 
-	List<FixedAssetList> getFixedAssets(int status) throws DAOException;
+	ArrayList<FixedAssetList> getFixedAssets(int status) throws DAOException;
 
-	List<SellingOrDisposingFixedAssetList> getSellingOrDisposingFixedAssets()
+	ArrayList<SellingOrDisposingFixedAssetList> getSellingOrDisposingFixedAssets()
 			throws DAOException;
 
 	public void runDepreciation(long depreciationFrom, long depreciationTo,
@@ -386,10 +391,10 @@ public interface IFinanceDAOService {
 	// public void changeDepreciationStartDateTo(long newStartDate)
 	// throws DAOException;
 
-	public List<ClientFinanceDate> getFinancialYearStartDates()
+	public ArrayList<ClientFinanceDate> getFinancialYearStartDates()
 			throws DAOException;
 
-	public List<ClientFinanceDate> getAllDepreciationFromDates()
+	public ArrayList<ClientFinanceDate> getAllDepreciationFromDates()
 			throws DAOException;
 
 	// public void changeFiscalYearsStartDateTo(long newStartDate)
@@ -405,154 +410,156 @@ public interface IFinanceDAOService {
 	 * ======================
 	 */
 
-	public List<AccountBalance> getAccountBalances() throws DAOException;
+	public ArrayList<AccountBalance> getAccountBalances() throws DAOException;
 
-	public List<TrialBalance> getTrialBalance(FinanceDate startDate,
+	public ArrayList<TrialBalance> getTrialBalance(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException;
 
-	public List<AgedDebtors> getAgedDebtors(FinanceDate startDate,
+	public ArrayList<AgedDebtors> getAgedDebtors(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException;
 
-	public List<AgedDebtors> getAgedDebtors(FinanceDate startDate,
+	public ArrayList<AgedDebtors> getAgedDebtors(FinanceDate startDate,
 			FinanceDate endDate, int intervalDays, int throughDaysPassOut)
 			throws DAOException;
 
-	public List<AgedDebtors> getAgedCreditors(FinanceDate startDate,
+	public ArrayList<AgedDebtors> getAgedCreditors(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getSalesByCustomerSummary(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerSummary(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getSalesByItemDetail(
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getSalesByItemSummary(
+	public ArrayList<SalesByCustomerDetail> getSalesByItemSummary(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<TransactionHistory> getCustomerTransactionHistory(
+	public ArrayList<TransactionHistory> getCustomerTransactionHistory(
 			FinanceDate startDate, FinanceDate endDate)
 			throws AccounterException;
 
-	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getPurchasesByVendorSummary(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorSummary(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getPurchasesByItemSummary(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemSummary(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<TransactionHistory> getVendorTransactionHistory(
+	public ArrayList<TransactionHistory> getVendorTransactionHistory(
 			FinanceDate startDate, FinanceDate endDate)
 			throws AccounterException;
 
-	public List<AmountsDueToVendor> getAmountsDueToVendor(
+	public ArrayList<AmountsDueToVendor> getAmountsDueToVendor(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<MostProfitableCustomers> getMostProfitableCustomers(
+	public ArrayList<MostProfitableCustomers> getMostProfitableCustomers(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<MostProfitableCustomers> getProfitabilityByCustomerDetail(
+	public ArrayList<MostProfitableCustomers> getProfitabilityByCustomerDetail(
 			long customer, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException;
 
-	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
+	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<Transaction> getRegister(Account account) throws DAOException;
+	public ArrayList<Transaction> getRegister(Account account)
+			throws DAOException;
 
-	public List<AccountRegister> getAccountRegister(FinanceDate startDate,
+	public ArrayList<AccountRegister> getAccountRegister(FinanceDate startDate,
 			FinanceDate endDate, long accountId) throws DAOException;
 
-	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException;
 
-	public List<SalesTaxLiability> getSalesTaxLiabilityReport(
+	public ArrayList<SalesTaxLiability> getSalesTaxLiabilityReport(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws AccounterException;
 
-	public List<Customer> getTransactionHistoryCustomers(FinanceDate startDate,
+	public ArrayList<Customer> getTransactionHistoryCustomers(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
+
+	public ArrayList<Vendor> getTransactionHistoryVendors(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
+
+	public ArrayList<Item> getSalesReportItems(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException;
 
-	public List<Vendor> getTransactionHistoryVendors(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException;
-
-	public List<Item> getSalesReportItems(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException;
-
-	public List<Item> getPurchaseReportItems(FinanceDate startDate,
+	public ArrayList<Item> getPurchaseReportItems(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException;
 
 	public ClientFinanceDate[] getMinimumAndMaximumTransactionDate()
 			throws AccounterException;
 
-	public List<TrialBalance> getBalanceSheetReport(FinanceDate startDate,
+	public ArrayList<TrialBalance> getBalanceSheetReport(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException;
 
-	public List<TrialBalance> getProfitAndLossReport(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException;
+	public ArrayList<TrialBalance> getProfitAndLossReport(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<TrialBalance> getCashFlowReport(FinanceDate startDate,
+	public ArrayList<TrialBalance> getCashFlowReport(FinanceDate startDate,
 			FinanceDate endDate) throws AccounterException;
 
-	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String customerName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException;
 
-	public List<SalesByCustomerDetail> getSalesByItemDetail(String itemName,
-			FinanceDate startDate, FinanceDate endDate) throws DAOException;
-
-	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			String vendorName, FinanceDate startDate, FinanceDate endDate)
-			throws DAOException;
-
-	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
 			String itemName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException;
 
-	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
+			String vendorName, FinanceDate startDate, FinanceDate endDate)
+			throws DAOException;
+
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
+			String itemName, FinanceDate startDate, FinanceDate endDate)
+			throws DAOException;
+
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			String accountName, final FinanceDate startDate,
 			final FinanceDate endDate) throws DAOException;
 
-	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
+	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			final String taxItemName, final FinanceDate startDate,
 			final FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getOpenSalesOrders(FinanceDate startDate,
+	public ArrayList<OpenAndClosedOrders> getOpenSalesOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
+
+	public ArrayList<OpenAndClosedOrders> getClosedSalesOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
+
+	public ArrayList<OpenAndClosedOrders> getCompletedSalesOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
+
+	public ArrayList<OpenAndClosedOrders> getPurchaseOrders(
+			FinanceDate startDate, FinanceDate endDate) throws DAOException;
+
+	public ArrayList<OpenAndClosedOrders> getSalesOrders(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getClosedSalesOrders(
+	public ArrayList<OpenAndClosedOrders> getCanceledSalesOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getCompletedSalesOrders(
+	public ArrayList<OpenAndClosedOrders> getOpenPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getPurchaseOrders(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException;
-
-	public List<OpenAndClosedOrders> getSalesOrders(FinanceDate startDate,
-			FinanceDate endDate) throws DAOException;
-
-	public List<OpenAndClosedOrders> getCanceledSalesOrders(
+	public ArrayList<OpenAndClosedOrders> getClosedPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getOpenPurchaseOrders(
+	public ArrayList<OpenAndClosedOrders> getCompletedPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
-	public List<OpenAndClosedOrders> getClosedPurchaseOrders(
-			FinanceDate startDate, FinanceDate endDate) throws DAOException;
-
-	public List<OpenAndClosedOrders> getCompletedPurchaseOrders(
-			FinanceDate startDate, FinanceDate endDate) throws DAOException;
-
-	public List<OpenAndClosedOrders> getCanceledPurchaseOrders(
+	public ArrayList<OpenAndClosedOrders> getCanceledPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	// For UK
@@ -565,58 +572,60 @@ public interface IFinanceDAOService {
 
 			FinanceDate toDate) throws DAOException, InvalidOperationException;
 
-	public List<VATSummary> getPriorReturnVATSummary(TAXAgency vatAgency,
+	public ArrayList<VATSummary> getPriorReturnVATSummary(TAXAgency vatAgency,
 			FinanceDate endDate) throws DAOException, ParseException;
 
-	public List<VATDetail> getPriorVATReturnVATDetailReport(
+	public ArrayList<VATDetail> getPriorVATReturnVATDetailReport(
 			TAXAgency vatAgency, FinanceDate endDate) throws DAOException,
 			ParseException;
 
-	public List<VATDetail> getVATDetailReport(FinanceDate startDate,
+	public ArrayList<VATDetail> getVATDetailReport(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException, ParseException;
 
-	public List<VATSummary> getVAT100Report(TAXAgency vatAgency,
+	public ArrayList<VATSummary> getVAT100Report(TAXAgency vatAgency,
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException;
 
-	public List<UncategorisedAmountsReport> getUncategorisedAmountsReport(
+	public ArrayList<UncategorisedAmountsReport> getUncategorisedAmountsReport(
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException;
 
-	public List<VATItemDetail> getVATItemDetailReport(FinanceDate fromDate,
-			FinanceDate toDate) throws DAOException, ParseException;
-
-	public List<VATItemSummary> getVATItemSummaryReport(FinanceDate fromDate,
-			FinanceDate toDate) throws DAOException, ParseException;
-
-	public List<PayVATEntries> getPayVATEntries();
-
-	public List<ReceiveVATEntries> getReceiveVATEntries();
-
-	public List<ECSalesListDetail> getECSalesListDetailReport(String payeeName,
+	public ArrayList<VATItemDetail> getVATItemDetailReport(
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException;
+
+	public ArrayList<VATItemSummary> getVATItemSummaryReport(
+			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
+			ParseException;
+
+	public ArrayList<PayVATEntries> getPayVATEntries();
+
+	public ArrayList<ReceiveVATEntries> getReceiveVATEntries();
+
+	public ArrayList<ECSalesListDetail> getECSalesListDetailReport(
+			String payeeName, FinanceDate fromDate, FinanceDate toDate)
+			throws DAOException, ParseException;
 
 	public KeyFinancialIndicators getKeyFinancialIndicators()
 			throws DAOException;
 
-	public List<ECSalesList> getECSalesListReport(FinanceDate fromDate,
+	public ArrayList<ECSalesList> getECSalesListReport(FinanceDate fromDate,
 			FinanceDate toDate) throws DAOException, ParseException;
 
-	public List<ReverseChargeListDetail> getReverseChargeListDetailReport(
+	public ArrayList<ReverseChargeListDetail> getReverseChargeListDetailReport(
 			String payeeName, FinanceDate fromDate, FinanceDate toDate)
 			throws DAOException, ParseException;
 
-	public List<ReverseChargeList> getReverseChargeListReport(
+	public ArrayList<ReverseChargeList> getReverseChargeListReport(
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException;
 
 	public void createTaxes(int[] vatReturnType) throws DAOException;
 
-	public List<PayeeList> getPayeeList(int transactionCategory)
+	public ArrayList<PayeeList> getPayeeList(int transactionCategory)
 			throws DAOException;
 
-	public List<ExpenseList> getExpenseReportByType(int status,
+	public ArrayList<ExpenseList> getExpenseReportByType(int status,
 			FinanceDate startDate, FinanceDate endDate) throws DAOException;
 
 	/*
@@ -629,19 +638,20 @@ public interface IFinanceDAOService {
 	 * ==================
 	 */
 
-	public List<VATItemDetail> getVATItemDetailReport(String vatItemId,
+	public ArrayList<VATItemDetail> getVATItemDetailReport(String vatItemId,
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException;
 
 	public String getNextCustomerNumber() throws DAOException;
 
-	public List<DepositDetail> getDepositDetail(FinanceDate startDate,
+	public ArrayList<DepositDetail> getDepositDetail(FinanceDate startDate,
 			FinanceDate endDate);
 
-	public List<CheckDetailReport> getCheckDetailReport(long paymentmethod,
-			FinanceDate startDate, FinanceDate endDate) throws DAOException;
+	public ArrayList<CheckDetailReport> getCheckDetailReport(
+			long paymentmethod, FinanceDate startDate, FinanceDate endDate)
+			throws DAOException;
 
-	public List<PayeeStatementsList> getPayeeStatementsList(long id,
+	public ArrayList<PayeeStatementsList> getPayeeStatementsList(long id,
 			long transactionDate, FinanceDate fromDate, FinanceDate toDate,
 			int noOfDays, boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessthanZeroBalBox,
@@ -649,16 +659,17 @@ public interface IFinanceDAOService {
 			boolean isEnabledOfNoAccountActivity,
 			boolean isEnabledOfInactiveCustomer) throws DAOException;
 
-	public List<Double> getGraphPointsforAccount(int chartType, long accountNo)
-			throws DAOException;
+	public ArrayList<Double> getGraphPointsforAccount(int chartType,
+			long accountNo) throws DAOException;
 
-	public List<BillsList> getEmployeeExpensesByStatus(String userName,
+	public ArrayList<BillsList> getEmployeeExpensesByStatus(String userName,
 			int status) throws DAOException;
 
 	public boolean changeMyPassword(String emailId, String oldPassword,
 			String newPassword) throws DAOException;
 
-	public List<ClientUserInfo> getAllUsers();
-	
-	public List<PayeeStatementsList> getCustomerStatement(long customer, long fromDate, long toDate);
+	public ArrayList<ClientUserInfo> getAllUsers();
+
+	public ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
+			long fromDate, long toDate);
 }

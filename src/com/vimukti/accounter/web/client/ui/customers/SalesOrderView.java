@@ -867,7 +867,7 @@ public class SalesOrderView extends
 			Accounter.showError(Accounter.constants().pleaseSelectCustomer());
 		} else {
 			this.rpcUtilService.getEstimates(getCustomer().getID(),
-					new AccounterAsyncCallback<List<ClientEstimate>>() {
+					new AccounterAsyncCallback<ArrayList<ClientEstimate>>() {
 
 						public void onException(AccounterException caught) {
 							// Accounter.showError(FinanceApplication
@@ -878,7 +878,7 @@ public class SalesOrderView extends
 
 						}
 
-						public void onResultSuccess(List<ClientEstimate> result) {
+						public void onResultSuccess(ArrayList<ClientEstimate> result) {
 
 							if (result == null)
 								onFailure(new Exception());

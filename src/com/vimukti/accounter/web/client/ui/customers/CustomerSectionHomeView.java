@@ -198,10 +198,10 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_CUSTOMER,
-				new AccounterAsyncCallback<List<PayeeList>>() {
+				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override
-					public void onResultSuccess(List<PayeeList> result) {
+					public void onResultSuccess(ArrayList<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
 					}
@@ -268,10 +268,10 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_CUSTOMER,
-				new AccounterAsyncCallback<List<PayeeList>>() {
+				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override
-					public void onResultSuccess(List<PayeeList> result) {
+					public void onResultSuccess(ArrayList<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
 					}

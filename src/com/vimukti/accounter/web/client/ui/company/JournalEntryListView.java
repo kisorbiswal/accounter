@@ -61,7 +61,7 @@ public class JournalEntryListView extends BaseListView<ClientJournalEntry> {
 	}
 
 	@Override
-	public void onSuccess(List<ClientJournalEntry> result) {
+	public void onSuccess(ArrayList<ClientJournalEntry> result) {
 		super.onSuccess(result);
 		if (grid.getRecords().isEmpty())
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);

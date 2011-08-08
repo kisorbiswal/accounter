@@ -78,7 +78,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 	}
 
 	@Override
-	public void onSuccess(List<PaymentsList> result) {
+	public void onSuccess(ArrayList<PaymentsList> result) {
 		super.onSuccess(result);
 		grid.setViewType(Accounter.constants().all());
 		filterList(Accounter.constants().all());

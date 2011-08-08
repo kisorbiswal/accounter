@@ -1,6 +1,7 @@
 package com.vimukti.accounter.services;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -73,7 +74,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		this.transactionTemplate = template;
 	}
 
-	
 	@Override
 	public Boolean checkLogin(String email, String password)
 			throws DAOException {
@@ -95,7 +95,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public Account getAccount(long companyId, String accountName)
 			throws DAOException {
@@ -120,7 +119,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Deprecated
 	@Override
 	public Account getAccount(long companyId, long accountId)
@@ -144,9 +142,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<Account> getAccounts(long companyId) throws DAOException {
+	public ArrayList<Account> getAccounts(long companyId) throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -155,7 +152,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 							new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<Account> arrayList = new ArrayList<Account>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -164,9 +162,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<Account> getAccounts(long companyId, int type)
+	public ArrayList<Account> getAccounts(long companyId, int type)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -176,7 +173,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 							new Object[] { companyId, type });
 
 			if (list != null) {
-				return list;
+				ArrayList<Account> arrayList = new ArrayList<Account>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -185,7 +183,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public CashPurchase getCashPurchase(long companyId, long cashPurchaseId)
 			throws DAOException {
@@ -212,7 +209,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 	public CashSales getCashSales(final long companyId, final long cashSalesId)
 			throws DAOException {
 		try {
-			
+
 			int a = 0;
 			HibernateTemplate template = getHibernateTemplate();
 			CashSales cashSales = (CashSales) template
@@ -239,7 +236,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public Expense getExpense(long companyId, long expenseId)
 			throws DAOException {
@@ -262,7 +258,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public PayExpense getPayExpense(long companyId, long payExpenseId)
 			throws DAOException {
@@ -285,7 +280,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	public PaySalesTax getPaySalesTax(long companyId, long id)
 			throws DAOException {
 
@@ -305,8 +299,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
-	public List<PaySalesTax> getPaySalesTaxes(long companyId)
+	public ArrayList<PaySalesTax> getPaySalesTaxes(long companyId)
 			throws DAOException {
 
 		HibernateTemplate template = getHibernateTemplate();
@@ -316,16 +309,17 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 				new Object[] { companyId });
 
 		// if (list.size() > 0) {
-		return (List<PaySalesTax>) list;
+		ArrayList<PaySalesTax> arrayList = new ArrayList<PaySalesTax>(list);
+		return arrayList;
 		// } else
 		// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 		// null));
 
 	}
 
-	
 	@Override
-	public List<CashSales> getCashSales(long companyId) throws DAOException {
+	public ArrayList<CashSales> getCashSales(long companyId)
+			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -337,7 +331,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			// if (list.size() > 0) {
 			// CashSales cashSales = new CashSales();
 			// cashSales = (CashSales) list.get(0);
-			return list;
+			ArrayList<CashSales> arrayList = new ArrayList<CashSales>(list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -346,9 +341,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<CustomerRefund> getCustomerRefunds(long companyId)
+	public ArrayList<CustomerRefund> getCustomerRefunds(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -358,7 +352,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			// if (list.size() > 0) {
-			return list;
+			ArrayList<CustomerRefund> arrayList = new ArrayList<CustomerRefund>(
+					list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -367,8 +363,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
-	public List<EnterBill> getEnterBills(long companyId) throws DAOException {
+	public ArrayList<EnterBill> getEnterBills(long companyId)
+			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -380,7 +376,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			// if (list.size() > 0) {
 			// CashSales cashSales = new CashSales();
 			// cashSales = (CashSales) list.get(0);
-			return list;
+			ArrayList<EnterBill> arrayList = new ArrayList<EnterBill>(list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -389,8 +386,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
-	public List<CashPurchase> getCashPurchases(long companyId)
+	public ArrayList<CashPurchase> getCashPurchases(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -403,7 +399,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			// if (list.size() > 0) {
 			// CashSales cashSales = new CashSales();
 			// cashSales = (CashSales) list.get(0);
-			return list;
+			ArrayList<CashPurchase> arrayList = new ArrayList<CashPurchase>(
+					list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -412,8 +410,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
-	public List<PayBill> getPayBills(long companyId) throws DAOException {
+	public ArrayList<PayBill> getPayBills(long companyId) throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -425,7 +422,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			// if (list.size() > 0) {
 			// CashSales cashSales = new CashSales();
 			// cashSales = (CashSales) list.get(0);
-			return list;
+			ArrayList<PayBill> arrayList = new ArrayList<PayBill>(list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -434,8 +432,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
-	public List<MakeDeposit> getMakeDeposits(long companyId)
+	public ArrayList<MakeDeposit> getMakeDeposits(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -448,7 +445,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			// if (list.size() > 0) {
 			// CashSales cashSales = new CashSales();
 			// cashSales = (CashSales) list.get(0);
-			return list;
+			ArrayList<MakeDeposit> arrayList = new ArrayList<MakeDeposit>(list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -457,8 +455,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
-	public List<WriteCheck> getWriteChecks(long companyId) throws DAOException {
+	public ArrayList<WriteCheck> getWriteChecks(long companyId)
+			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -467,7 +465,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			// if (list.size() > 0) {
-			return list;
+			ArrayList<WriteCheck> arrayList = new ArrayList<WriteCheck>(list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -476,9 +475,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<TAXCode> getTaxCodes(long companyId) throws DAOException {
+	public ArrayList<TAXCode> getTaxCodes(long companyId) throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -487,7 +485,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<TAXCode> arrayList = new ArrayList<TAXCode>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -496,9 +495,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<CreditCardCharge> getCreditCardCharges(long companyId)
+	public ArrayList<CreditCardCharge> getCreditCardCharges(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -508,7 +506,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			// if (list != null) {
-			return list;
+			ArrayList<CreditCardCharge> arrayList = new ArrayList<CreditCardCharge>(
+					list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -517,9 +517,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<TransferFund> getTransferFunds(long companyId)
+	public ArrayList<TransferFund> getTransferFunds(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -529,7 +528,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			// if (list != null) {
-			return list;
+			ArrayList<TransferFund> arrayList = new ArrayList<TransferFund>(
+					list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -538,9 +539,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<Company> getCompanies(long user) throws DAOException {
+	public ArrayList<Company> getCompanies(long user) throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -549,7 +549,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 							new Object[] { user });
 
 			if (list != null) {
-				return list;
+				ArrayList<Company> arrayList = new ArrayList<Company>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -558,7 +559,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public User getUserByCompany(long userId, long company) throws DAOException {
 
@@ -582,7 +582,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public Company getCompany(long user) throws DAOException {
 
@@ -609,7 +608,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public Company getCompany(String name) throws DAOException {
 
@@ -635,7 +633,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public CreditRating getCreditRating(long companyId, String creditRatingName)
 			throws DAOException {
@@ -660,7 +657,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public CreditRating getCreditRating(long companyId, long creditRatingId)
 			throws DAOException {
@@ -685,9 +681,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
-	public List<CreditRating> getCreditRatings(long companyId)
+	public ArrayList<CreditRating> getCreditRatings(long companyId)
 			throws DAOException {
 
 		try {
@@ -698,7 +693,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<CreditRating> arrayList = new ArrayList<CreditRating>(
+						list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -708,7 +705,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public CreditCardCharge getCreditCardCharge(long companyId,
 			long creditCardChargeId) throws DAOException {
@@ -733,9 +729,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
-	public List<Currency> getCurrencies(long companyId) throws DAOException {
+	public ArrayList<Currency> getCurrencies(long companyId)
+			throws DAOException {
 
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -745,7 +741,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<Currency> arrayList = new ArrayList<Currency>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -755,7 +752,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public Currency getCurrency(long companyId, String currencyName)
 			throws DAOException {
@@ -780,7 +776,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public Currency getCurrency(long companyId, long currencyId)
 			throws DAOException {
@@ -805,7 +800,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public Customer getCustomer(long companyId, String customerName)
 			throws DAOException {
@@ -829,7 +823,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public Customer getCustomer(long companyId, long customerId)
 			throws DAOException {
@@ -852,7 +845,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public CustomerCreditMemo getCustomerCreditMemo(long companyId,
 			long customerCreditMemoId) throws DAOException {
@@ -875,9 +867,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<VendorCreditMemo> getVendorCreditMemos(long companyId)
+	public ArrayList<VendorCreditMemo> getVendorCreditMemos(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -887,7 +878,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			// if (list.size() > 0) {
-			return list;
+			ArrayList<VendorCreditMemo> arrayList = new ArrayList<VendorCreditMemo>(
+					list);
+			return arrayList;
 
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -897,9 +890,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<CustomerCreditMemo> getCustomerCreditMemos(long companyId)
+	public ArrayList<CustomerCreditMemo> getCustomerCreditMemos(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -909,7 +901,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			// if (list.size() > 0) {
-			return list;
+			ArrayList<CustomerCreditMemo> arrayList = new ArrayList<CustomerCreditMemo>(
+					list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -918,7 +912,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public CustomerGroup getCustomerGroup(long companyId,
 			String customerGroupName) throws DAOException {
@@ -942,7 +935,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public CustomerGroup getCustomerGroup(long companyId, long customerGroupId)
 			throws DAOException {
@@ -964,9 +956,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<CustomerGroup> getCustomerGroups(long companyId)
+	public ArrayList<CustomerGroup> getCustomerGroups(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -976,7 +967,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<CustomerGroup> arrayList = new ArrayList<CustomerGroup>(
+						list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -985,7 +978,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public CustomerRefund getCustomerRefunds(long companyId,
 			long customerRefundsId) throws DAOException {
@@ -1007,9 +999,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<Customer> getCustomers(long companyId) throws DAOException {
+	public ArrayList<Customer> getCustomers(long companyId) throws DAOException {
 
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -1019,7 +1010,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<Customer> arrayList = new ArrayList<Customer>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1029,7 +1021,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public EnterBill getEnterBill(long companyId, long enterBillId)
 			throws DAOException {
@@ -1054,7 +1045,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public Estimate getEstimate(long companyId, long estimateId)
 			throws DAOException {
@@ -1079,9 +1069,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
-	public List<TAXGroup> getTaxGroups(long companyId) throws DAOException {
+	public ArrayList<TAXGroup> getTaxGroups(long companyId) throws DAOException {
 
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -1091,7 +1080,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<TAXGroup> arrayList = new ArrayList<TAXGroup>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1101,7 +1091,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public Invoice getInvoice(long companyId, long invoiceId)
 			throws DAOException {
@@ -1126,9 +1115,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
-	public List<Invoice> getInvoices(long companyId) throws DAOException {
+	public ArrayList<Invoice> getInvoices(long companyId) throws DAOException {
 
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -1138,7 +1126,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			// if (list.size() > 0) {
-			return list;
+			ArrayList<Invoice> arrayList = new ArrayList<Invoice>(list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -1148,7 +1137,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public IssuePayment getIssuePayment(long companyId, long issuePaymentId)
 			throws DAOException {
@@ -1173,7 +1161,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public Item getItem(long companyId, String itemName) throws DAOException {
 		try {
@@ -1195,7 +1182,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public Item getItem(long companyId, long itemId) throws DAOException {
 		try {
@@ -1217,7 +1203,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public ItemGroup getItemGroup(long companyId, String itemGroupName)
 			throws DAOException {
@@ -1240,7 +1225,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public ItemGroup getItemGroup(long companyId, long itemGroupId)
 			throws DAOException {
@@ -1263,9 +1247,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<ItemGroup> getItemGroups(long companyId) throws DAOException {
+	public ArrayList<ItemGroup> getItemGroups(long companyId)
+			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -1274,7 +1258,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<ItemGroup> arrayList = new ArrayList<ItemGroup>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1283,9 +1268,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<Item> getItems(long companyId) throws DAOException {
+	public ArrayList<Item> getItems(long companyId) throws DAOException {
 
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -1295,7 +1279,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<Item> arrayList = new ArrayList<Item>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1304,7 +1289,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public MakeDeposit getMakeDeposit(long companyId, long makeDepositId)
 			throws DAOException {
@@ -1327,7 +1311,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public PayBill getPayBill(long companyId, long payBillId)
 			throws DAOException {
@@ -1352,7 +1335,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public PaymentTerms getPaymentTerms(long companyId, String paymentTermsName)
 			throws DAOException {
@@ -1375,7 +1357,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public PaymentTerms getPaymentTerms(long companyId, long paymentTermsId)
 			throws DAOException {
@@ -1398,9 +1379,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<PaymentTerms> getPaymentTerms(long companyId)
+	public ArrayList<PaymentTerms> getPaymentTerms(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -1410,8 +1390,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-
-				return list;
+				ArrayList<PaymentTerms> arrayList = new ArrayList<PaymentTerms>(
+						list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1420,7 +1401,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public PriceLevel getPriceLevel(long companyId, String priceLevelName)
 			throws DAOException {
@@ -1443,7 +1423,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public PriceLevel getPriceLevel(long companyId, long priceLevelId)
 			throws DAOException {
@@ -1466,9 +1445,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<PriceLevel> getPriceLevels(long companyId) throws DAOException {
+	public ArrayList<PriceLevel> getPriceLevels(long companyId)
+			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -1477,8 +1456,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-
-				return list;
+				ArrayList<PriceLevel> arrayList = new ArrayList<PriceLevel>(
+						list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1487,7 +1467,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public PurchaseOrder getPurchaseOrder(long companyId, long purchaseOrderId)
 			throws DAOException {
@@ -1512,9 +1491,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
-	public List<TaxRates> getRates(long companyId) throws DAOException {
+	public ArrayList<TaxRates> getRates(long companyId) throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -1523,8 +1501,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-
-				return list;
+				ArrayList<TaxRates> arrayList = new ArrayList<TaxRates>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1533,7 +1511,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public ReceivePayment getReceivePayment(long companyId,
 			long receivePaymentId) throws DAOException {
@@ -1558,8 +1535,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
-	public List<ReceivePayment> getReceivePayments(long companyId)
+	public ArrayList<ReceivePayment> getReceivePayments(long companyId)
 			throws DAOException {
 
 		try {
@@ -1572,7 +1548,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			// if (list.size() > 0) {
 			// ReceivePayment receivePayment = new ReceivePayment();
 			// receivePayment = (ReceivePayment) list.get(0);
-			return list;
+			ArrayList<ReceivePayment> arrayList = new ArrayList<ReceivePayment>(
+					list);
+			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 			// null));
@@ -1582,7 +1560,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public SalesOrder getSalesOrder(long companyId, long salesOrderId)
 			throws DAOException {
@@ -1607,7 +1584,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public SalesPerson getSalesPerson(long companyId, String salesPersonName)
 			throws DAOException {
@@ -1630,7 +1606,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public SalesPerson getSalesPerson(long companyId, long salesPersonId)
 			throws DAOException {
@@ -1653,9 +1628,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<SalesPerson> getSalesPersons(long companyId)
+	public ArrayList<SalesPerson> getSalesPersons(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -1665,7 +1639,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<SalesPerson> arrayList = new ArrayList<SalesPerson>(
+						list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1674,7 +1650,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public ShippingMethod getShippingMethod(long companyId,
 			String shippingMethodName) throws DAOException {
@@ -1697,7 +1672,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public ShippingMethod getShippingMethod(long companyId,
 			long shippingMethodId) throws DAOException {
@@ -1720,9 +1694,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<ShippingMethod> getShippingMethods(long companyId)
+	public ArrayList<ShippingMethod> getShippingMethods(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -1732,7 +1705,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<ShippingMethod> arrayList = new ArrayList<ShippingMethod>(
+						list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1741,7 +1716,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public ShippingTerms getShippingTerms(long companyId,
 			String shippingTermsName) throws DAOException {
@@ -1764,7 +1738,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public ShippingTerms getShippingTerms(long companyId, long shippingTermsId)
 			throws DAOException {
@@ -1787,9 +1760,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<ShippingTerms> getShippingTerms(long companyId)
+	public ArrayList<ShippingTerms> getShippingTerms(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -1799,7 +1771,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<ShippingTerms> arrayList = new ArrayList<ShippingTerms>(
+						list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1808,9 +1782,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<TAXAgency> getTaxAgencies(long companyId) throws DAOException {
+	public ArrayList<TAXAgency> getTaxAgencies(long companyId)
+			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -1819,7 +1793,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<TAXAgency> arrayList = new ArrayList<TAXAgency>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1828,7 +1803,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public TAXAgency getTaxAgency(long companyId, String taxAgencyName)
 			throws DAOException {
@@ -1851,7 +1825,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public TAXAgency getTaxAgency(long companyId, long taxAgencyID)
 			throws DAOException {
@@ -1874,7 +1847,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public TAXCode getTaxCode(long companyId, String taxCodeName)
 			throws DAOException {
@@ -1897,7 +1869,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public TAXCode getTaxCode(long companyId, long taxCodeID)
 			throws DAOException {
@@ -1920,7 +1891,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public TAXGroup getTaxGroup(long companyId, String taxGroupName)
 			throws DAOException {
@@ -1943,7 +1913,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public TAXGroup getTaxGroup(long companyId, long taxGroupID)
 			throws DAOException {
@@ -1966,7 +1935,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public TaxRates getTaxRates(long companyId, Double rate)
 			throws DAOException {
@@ -1989,7 +1957,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public TaxRates getTaxRates(long companyId, long taxRateID)
 			throws DAOException {
@@ -2012,7 +1979,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public TransferFund getTransferFund(long companyId, long transferFundId)
 			throws DAOException {
@@ -2035,7 +2001,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public UnitOfMeasure getUnitOfMeasure(long companyId,
 			String unitOfMeasureName) throws DAOException {
@@ -2058,7 +2023,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public UnitOfMeasure getUnitOfMeasure(long companyId, long unitOfMeasureId)
 			throws DAOException {
@@ -2081,9 +2045,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<UnitOfMeasure> getUnitOfMeasures(long companyId)
+	public ArrayList<UnitOfMeasure> getUnitOfMeasures(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -2093,7 +2056,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<UnitOfMeasure> arrayList = new ArrayList<UnitOfMeasure>(
+						list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2102,7 +2067,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public User getUser(long userID) throws DAOException {
 		try {
@@ -2121,7 +2085,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public User getUser(String userName) throws DAOException {
 		try {
@@ -2140,7 +2103,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public User getUserByDomainURL(String domainURL) throws DAOException {
 		try {
@@ -2159,9 +2121,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<User> getUsers(long companyId) throws DAOException {
+	public ArrayList<User> getUsers(long companyId) throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -2170,7 +2131,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<User> arrayList = new ArrayList<User>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2179,7 +2141,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public Vendor getVendor(long companyId, String vendorName)
 			throws DAOException {
@@ -2202,7 +2163,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public Vendor getVendor(long companyId, long vendorId) throws DAOException {
 		try {
@@ -2224,7 +2184,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public VendorCreditMemo getVendorCreditMemo(long companyId,
 			long vendorrCreditMemoId) throws DAOException {
@@ -2247,7 +2206,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public VendorGroup getVendorGroup(long companyId, String vendorGroupName)
 			throws DAOException {
@@ -2270,7 +2228,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public VendorGroup getVendorGroup(long companyId, long vendorGroupId)
 			throws DAOException {
@@ -2293,9 +2250,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<VendorGroup> getVendorGroups(long companyId)
+	public ArrayList<VendorGroup> getVendorGroups(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -2305,7 +2261,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<VendorGroup> arrayList = new ArrayList<VendorGroup>(
+						list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2314,9 +2272,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<Vendor> getVendors(long companyId) throws DAOException {
+	public ArrayList<Vendor> getVendors(long companyId) throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -2325,7 +2282,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<Vendor> arrayList = new ArrayList<Vendor>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2334,7 +2292,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public WriteCheck getwriterCheck(long companyId, long writeCheckId)
 			throws DAOException {
@@ -2361,7 +2318,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 	 * Report Related
 	 */
 
-	
 	@Override
 	public boolean canDeleteAccount(long account) throws DAOException {
 
@@ -2382,7 +2338,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public boolean canDeleteCompany(long companyId) throws DAOException {
 		try {
@@ -2401,7 +2356,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteCreditRating(CreditRating creditRating)
 			throws DAOException {
@@ -2421,7 +2375,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteCustomer(Customer customer) throws DAOException {
 
@@ -2442,7 +2395,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteCustomerGroup(CustomerGroup customerGroup)
 			throws DAOException {
@@ -2462,7 +2414,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteItem(Item item) throws DAOException {
 		try {
@@ -2481,7 +2432,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteItemGroup(ItemGroup itemGroup) throws DAOException {
 		try {
@@ -2500,7 +2450,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeletePaymentTerms(PaymentTerms paymentTerms)
 			throws DAOException {
@@ -2520,7 +2469,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeletePriceLevel(PriceLevel priceLevel)
 			throws DAOException {
@@ -2540,7 +2488,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteSalesPerson(SalesPerson salesPerson)
 			throws DAOException {
@@ -2560,7 +2507,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteShippingMethod(ShippingMethod shippingMethod)
 			throws DAOException {
@@ -2580,7 +2526,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteShippingTerms(ShippingTerms shippingTerms)
 			throws DAOException {
@@ -2600,7 +2545,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteTaxAgency(TAXAgency TAXAgency) throws DAOException {
 		try {
@@ -2619,7 +2563,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteTaxCode(TAXCode taxCode) throws DAOException {
 		try {
@@ -2638,7 +2581,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteTaxGroup(TAXGroup taxGroup) throws DAOException {
 		try {
@@ -2658,7 +2600,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public boolean canDeleteTaxRates(TaxRates taxRates) throws DAOException {
 		try {
@@ -2677,7 +2618,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteUnitOfMeasure(UnitOfMeasure unitOfMeasure)
 			throws DAOException {
@@ -2697,7 +2637,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteUser(long user) throws DAOException {
 		try {
@@ -2716,7 +2655,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
 	public boolean canDeleteVendor(Vendor vendor) throws DAOException {
 
@@ -2737,7 +2675,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public boolean canDeleteVendorGroup(VendorGroup vendorGroup)
 			throws DAOException {
@@ -2757,9 +2694,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<Bank> getBanks(long companyId) throws DAOException {
+	public ArrayList<Bank> getBanks(long companyId) throws DAOException {
 
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -2767,9 +2703,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			List<Bank> list = template.find(
 					" from Bank b where b.company.id = ? ",
 					new Object[] { companyId });
-
 			if (list != null) {
-				return list;
+				ArrayList<Bank> arrayList = new ArrayList<Bank>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2778,9 +2714,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<CreditsAndPayments> getCreditsAndPayments(long companyId)
+	public ArrayList<CreditsAndPayments> getCreditsAndPayments(long companyId)
 			throws DAOException {
 
 		try {
@@ -2791,7 +2726,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 							new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<CreditsAndPayments> arrayList = new ArrayList<CreditsAndPayments>(
+						list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2801,7 +2738,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	// 
+	//
 	// @Override
 	// public CreditsAndPayments getCreditAndPayment(long companyId, String
 	// memo)
@@ -2828,7 +2765,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 	//
 	// }
 
-	
 	@Override
 	public CreditsAndPayments getCreditAndPayment(long companyId, long id)
 			throws DAOException {
@@ -2853,9 +2789,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
-	public List<Payee> getPayee(long companyId) throws DAOException {
+	public ArrayList<Payee> getPayee(long companyId) throws DAOException {
 
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -2865,7 +2800,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<Payee> arrayList = new ArrayList<Payee>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2875,9 +2811,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
-	public List<FiscalYear> getFiscalYears(long companyId) throws DAOException {
+	public ArrayList<FiscalYear> getFiscalYears(long companyId)
+			throws DAOException {
 
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -2887,7 +2823,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { companyId });
 
 			if (list != null) {
-				return list;
+				ArrayList<FiscalYear> arrayList = new ArrayList<FiscalYear>(
+						list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2897,7 +2835,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 	}
 
-	
 	@Override
 	public FiscalYear getFiscalYear(long companyId, long yearId)
 			throws DAOException {
@@ -2920,9 +2857,9 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
 	@Override
-	public List<Expense> getUnPaidExpense(long companyId) throws DAOException {
+	public ArrayList<Expense> getUnPaidExpense(long companyId)
+			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
@@ -2933,7 +2870,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 									Expense.STATUS_APPROVED });
 
 			if (list != null) {
-				return list;
+				ArrayList<Expense> arrayList = new ArrayList<Expense>(list);
+				return arrayList;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2942,8 +2880,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	
-	public List getTestResult() throws Exception {
+	public ArrayList getTestResult() throws Exception {
 
 		HibernateTemplate template = getHibernateTemplate();
 		// List l = (List) template.execute(new HibernateCallback(){
@@ -2975,10 +2912,10 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			}
 		});
 
-		return l;
+		ArrayList arrayList = new ArrayList(l);
+		return arrayList;
 	}
 
-	
 	@Override
 	public FixedAsset getFixedAsset(long companyId, long fixedAssetID)
 			throws DAOException {

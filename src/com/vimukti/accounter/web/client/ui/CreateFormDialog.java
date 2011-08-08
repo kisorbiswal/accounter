@@ -123,12 +123,12 @@
 //		.create(IAccounterHomeViewService.class);
 //		((ServiceDefTarget) getService).setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 //		
-//		getService.getLatestQuotes(new AccounterAsyncCallback<List<ClientEstimate>>() {
+//		getService.getLatestQuotes(new AccounterAsyncCallback<ArrayList<ClientEstimate>>() {
 //			public void onException(AccounterException caught) {
 //				Window.alert("Get Failed:"+caught);
 //			}
 //
-//			public void onSuccess(List<ClientEstimate> result) {
+//			public void onSuccess(ArrayList<ClientEstimate> result) {
 //				fillLatestQuoteGrid(result);
 //				grid.show();
 //			}

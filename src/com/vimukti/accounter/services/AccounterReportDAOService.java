@@ -1,7 +1,7 @@
 package com.vimukti.accounter.services;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -54,7 +54,7 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	// Query query = session.getNamedQuery(
 	// "get.entity.from." + entity.getServerClassSimpleName())
 	// .setString(0, account);
-	// List l = query.list();
+	// ArrayList l = query.ArrayList();
 	// if (l != null && l.get(0) != null) {
 	// return (Long) l.get(0);
 	// } else
@@ -68,55 +68,55 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<AccountBalance> getAccountBalances() throws DAOException {
+	public ArrayList<AccountBalance> getAccountBalances() throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<AccountRegister> getAccountRegister(String startDate,
+	public ArrayList<AccountRegister> getAccountRegister(String startDate,
 			String endDate, String accountId) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<AgedDebtors> getAgedCreditors(String startDate, String endDate)
-			throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public List<AgedDebtors> getAgedDebtors(String startDate, String endDate)
-			throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public List<AmountsDueToVendor> getAmountsDueToVendor(String startDate,
+	public ArrayList<AgedDebtors> getAgedCreditors(String startDate,
 			String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<TrialBalance> getBalanceSheetReport(String startDate,
+	public ArrayList<AgedDebtors> getAgedDebtors(String startDate,
 			String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<TrialBalance> getCashFlowReport(String startDate, String endDate)
-			throws DAOException {
+	public ArrayList<AmountsDueToVendor> getAmountsDueToVendor(
+			String startDate, String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<TransactionHistory> getCustomerTransactionHistory(
+	public ArrayList<TrialBalance> getBalanceSheetReport(String startDate,
+			String endDate) throws DAOException {
+
+		return null;
+	}
+
+	@Override
+	public ArrayList<TrialBalance> getCashFlowReport(String startDate,
+			String endDate) throws DAOException {
+
+		return null;
+	}
+
+	@Override
+	public ArrayList<TransactionHistory> getCustomerTransactionHistory(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
@@ -129,7 +129,7 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<MostProfitableCustomers> getMostProfitableCustomers(
+	public ArrayList<MostProfitableCustomers> getMostProfitableCustomers(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
@@ -156,14 +156,14 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<TrialBalance> getProfitAndLossReport(String startDate,
+	public ArrayList<TrialBalance> getProfitAndLossReport(String startDate,
 			String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<MostProfitableCustomers> getProfitabilityByCustomerDetail(
+	public ArrayList<MostProfitableCustomers> getProfitabilityByCustomerDetail(
 			String customer, String startDate, String endDate)
 			throws DAOException {
 
@@ -171,21 +171,21 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<Item> getPurchaseReportItems(String startDate, String endDate)
-			throws DAOException {
+	public ArrayList<Item> getPurchaseReportItems(String startDate,
+			String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			String itemName, String startDate, String endDate)
 			throws DAOException {
 
@@ -193,21 +193,21 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getPurchasesByItemSummary(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemSummary(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			String vendorName, String startDate, String endDate)
 			throws DAOException {
 
@@ -215,27 +215,28 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getPurchasesByVendorSummary(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorSummary(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Transaction> getRegister(Account account) throws DAOException {
+	public ArrayList<Transaction> getRegister(Account account)
+			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String customerName, String startDate, String endDate)
 			throws DAOException {
 
@@ -243,56 +244,57 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getSalesByCustomerSummary(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerSummary(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getSalesByItemDetail(String startDate,
-			String endDate) throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public List<SalesByCustomerDetail> getSalesByItemDetail(String itemName,
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<SalesByCustomerDetail> getSalesByItemSummary(String startDate,
-			String endDate) throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public List<Item> getSalesReportItems(String startDate, String endDate)
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
+			String itemName, String startDate, String endDate)
 			throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<SalesTaxLiability> getSalesTaxLiabilityReport(String startDate,
-			String endDate) throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
+	public ArrayList<SalesByCustomerDetail> getSalesByItemSummary(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
+	public ArrayList<Item> getSalesReportItems(String startDate, String endDate)
+			throws DAOException {
+
+		return null;
+	}
+
+	@Override
+	public ArrayList<SalesTaxLiability> getSalesTaxLiabilityReport(
+			String startDate, String endDate) throws DAOException {
+
+		return null;
+	}
+
+	@Override
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
+			String startDate, String endDate) throws DAOException {
+
+		return null;
+	}
+
+	@Override
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			String accountName, String startDate, String endDate)
 			throws DAOException {
 
@@ -300,14 +302,14 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
+	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
+	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			String taxItemName, String startDate, String endDate)
 			throws DAOException {
 
@@ -315,28 +317,28 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<Customer> getTransactionHistoryCustomers(String startDate,
+	public ArrayList<Customer> getTransactionHistoryCustomers(String startDate,
 			String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<Vendor> getTransactionHistoryVendors(String startDate,
+	public ArrayList<Vendor> getTransactionHistoryVendors(String startDate,
 			String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<TrialBalance> getTrialBalance(String startDate, String endDate)
-			throws DAOException {
+	public ArrayList<TrialBalance> getTrialBalance(String startDate,
+			String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<VATItemDetail> getVATItemDetailReport(String fromDate,
+	public ArrayList<VATItemDetail> getVATItemDetailReport(String fromDate,
 			String toDate) throws DAOException {
 
 		return null;
@@ -357,15 +359,15 @@ public class AccounterReportDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<TransactionHistory> getVendorTransactionHistory(
+	public ArrayList<TransactionHistory> getVendorTransactionHistory(
 			String startDate, String endDate) throws DAOException {
 
 		return null;
 	}
 
 	@Override
-	public List<DepositDetail> getDepositDetail(String startDate, String endDate)
-			throws DAOException {
+	public ArrayList<DepositDetail> getDepositDetail(String startDate,
+			String endDate) throws DAOException {
 
 		return null;
 	}

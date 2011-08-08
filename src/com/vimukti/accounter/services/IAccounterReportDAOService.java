@@ -1,7 +1,7 @@
 package com.vimukti.accounter.services;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import com.vimukti.accounter.core.Account;
@@ -29,117 +29,119 @@ import com.vimukti.accounter.web.client.core.reports.VATSummary;
 
 public interface IAccounterReportDAOService {
 
-	public List<AccountBalance> getAccountBalances() throws DAOException;
+	public ArrayList<AccountBalance> getAccountBalances() throws DAOException;
 
-	public List<TrialBalance> getTrialBalance(String startDate, String endDate)
-			throws DAOException;
-
-	public List<AgedDebtors> getAgedDebtors(String startDate, String endDate)
-			throws DAOException;
-
-	public List<AgedDebtors> getAgedCreditors(String startDate, String endDate)
-			throws DAOException;
-
-	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			String startDate, String endDate) throws DAOException;
-
-	public List<SalesByCustomerDetail> getSalesByCustomerSummary(
-			String startDate, String endDate) throws DAOException;
-
-	public List<SalesByCustomerDetail> getSalesByItemDetail(String startDate,
+	public ArrayList<TrialBalance> getTrialBalance(String startDate,
 			String endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getSalesByItemSummary(String startDate,
+	public ArrayList<AgedDebtors> getAgedDebtors(String startDate,
 			String endDate) throws DAOException;
 
-	public List<TransactionHistory> getCustomerTransactionHistory(
-			String startDate, String endDate) throws DAOException;
-
-	public List<DepositDetail> getDepositDetail(String startDate, String endDate)
-			throws DAOException;
-
-	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			String startDate, String endDate) throws DAOException;
-
-	public List<SalesByCustomerDetail> getPurchasesByVendorSummary(
-			String startDate, String endDate) throws DAOException;
-
-	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
-			String startDate, String endDate) throws DAOException;
-
-	public List<SalesByCustomerDetail> getPurchasesByItemSummary(
-			String startDate, String endDate) throws DAOException;
-
-	public List<TransactionHistory> getVendorTransactionHistory(
-			String startDate, String endDate) throws DAOException;
-
-	public List<AmountsDueToVendor> getAmountsDueToVendor(String startDate,
+	public ArrayList<AgedDebtors> getAgedCreditors(String startDate,
 			String endDate) throws DAOException;
 
-	public List<MostProfitableCustomers> getMostProfitableCustomers(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String startDate, String endDate) throws DAOException;
 
-	public List<MostProfitableCustomers> getProfitabilityByCustomerDetail(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerSummary(
+			String startDate, String endDate) throws DAOException;
+
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
+			String startDate, String endDate) throws DAOException;
+
+	public ArrayList<SalesByCustomerDetail> getSalesByItemSummary(
+			String startDate, String endDate) throws DAOException;
+
+	public ArrayList<TransactionHistory> getCustomerTransactionHistory(
+			String startDate, String endDate) throws DAOException;
+
+	public ArrayList<DepositDetail> getDepositDetail(String startDate,
+			String endDate) throws DAOException;
+
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
+			String startDate, String endDate) throws DAOException;
+
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorSummary(
+			String startDate, String endDate) throws DAOException;
+
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
+			String startDate, String endDate) throws DAOException;
+
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemSummary(
+			String startDate, String endDate) throws DAOException;
+
+	public ArrayList<TransactionHistory> getVendorTransactionHistory(
+			String startDate, String endDate) throws DAOException;
+
+	public ArrayList<AmountsDueToVendor> getAmountsDueToVendor(
+			String startDate, String endDate) throws DAOException;
+
+	public ArrayList<MostProfitableCustomers> getMostProfitableCustomers(
+			String startDate, String endDate) throws DAOException;
+
+	public ArrayList<MostProfitableCustomers> getProfitabilityByCustomerDetail(
 			String customer, String startDate, String endDate)
 			throws DAOException;
 
-	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
+	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			String startDate, String endDate) throws DAOException;
 
-	public List<Transaction> getRegister(Account account) throws DAOException;
+	public ArrayList<Transaction> getRegister(Account account)
+			throws DAOException;
 
-	public List<AccountRegister> getAccountRegister(String startDate,
+	public ArrayList<AccountRegister> getAccountRegister(String startDate,
 			String endDate, String accountId) throws DAOException;
 
-	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			final String startDate, final String endDate) throws DAOException;
 
-	public List<SalesTaxLiability> getSalesTaxLiabilityReport(
+	public ArrayList<SalesTaxLiability> getSalesTaxLiabilityReport(
 			final String startDate, final String endDate) throws DAOException;
 
-	public List<Customer> getTransactionHistoryCustomers(String startDate,
+	public ArrayList<Customer> getTransactionHistoryCustomers(String startDate,
 			String endDate) throws DAOException;
 
-	public List<Vendor> getTransactionHistoryVendors(String startDate,
+	public ArrayList<Vendor> getTransactionHistoryVendors(String startDate,
 			String endDate) throws DAOException;
 
-	public List<Item> getSalesReportItems(String startDate, String endDate)
+	public ArrayList<Item> getSalesReportItems(String startDate, String endDate)
 			throws DAOException;
 
-	public List<Item> getPurchaseReportItems(String startDate, String endDate)
-			throws DAOException;
+	public ArrayList<Item> getPurchaseReportItems(String startDate,
+			String endDate) throws DAOException;
 
 	public Date[] getMinimumAndMaximumTransactionDate() throws DAOException;
 
-	public List<TrialBalance> getBalanceSheetReport(String startDate,
+	public ArrayList<TrialBalance> getBalanceSheetReport(String startDate,
 			String endDate) throws DAOException;
 
-	public List<TrialBalance> getProfitAndLossReport(String startDate,
+	public ArrayList<TrialBalance> getProfitAndLossReport(String startDate,
 			String endDate) throws DAOException;
 
-	public List<TrialBalance> getCashFlowReport(String startDate, String endDate)
-			throws DAOException;
+	public ArrayList<TrialBalance> getCashFlowReport(String startDate,
+			String endDate) throws DAOException;
 
-	public List<SalesByCustomerDetail> getSalesByCustomerDetailReport(
+	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String customerName, String startDate, String endDate)
 			throws DAOException;
 
-	public List<SalesByCustomerDetail> getSalesByItemDetail(String itemName,
-			String startDate, String endDate) throws DAOException;
-
-	public List<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			String vendorName, String startDate, String endDate)
-			throws DAOException;
-
-	public List<SalesByCustomerDetail> getPurchasesByItemDetail(
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
 			String itemName, String startDate, String endDate)
 			throws DAOException;
 
-	public List<TransactionDetailByAccount> getTransactionDetailByAccount(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
+			String vendorName, String startDate, String endDate)
+			throws DAOException;
+
+	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
+			String itemName, String startDate, String endDate)
+			throws DAOException;
+
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			String accountName, final String startDate, final String endDate)
 			throws DAOException;
 
-	public List<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
+	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			final String taxItemName, final String startDate,
 			final String endDate) throws DAOException;
 
@@ -157,7 +159,7 @@ public interface IAccounterReportDAOService {
 	public VATReturn getVATReturnDetails(TAXAgency vatAgency, Date fromDate,
 			Date toDate) throws DAOException;
 
-	public List<VATItemDetail> getVATItemDetailReport(String fromDate,
+	public ArrayList<VATItemDetail> getVATItemDetailReport(String fromDate,
 			String toDate) throws DAOException;
 
 	public void createTaxes(int... vatReturnType) throws DAOException;

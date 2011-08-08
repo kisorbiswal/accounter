@@ -476,33 +476,35 @@ public class ItemReceiptView extends
 					.pleaseSelectSupplier(), Accounter.constants()
 					.pleaseSelectVendor()));
 		} else {
-			this.rpcUtilService.getNotReceivedPurchaseOrdersList(getVendor()
-					.getID(),
-					new AccounterAsyncCallback<List<PurchaseOrdersList>>() {
+			this.rpcUtilService
+					.getNotReceivedPurchaseOrdersList(
+							getVendor().getID(),
+							new AccounterAsyncCallback<ArrayList<PurchaseOrdersList>>() {
 
-						public void onException(AccounterException caught) {
-							// Accounter.showError(UIUtils.getVendorString(
-							// "No Purchase Orders For Supplier",
-							// "No Purchase Orders For Vendor")
-							// + vendor.getName());
-							return;
+								public void onException(
+										AccounterException caught) {
+									// Accounter.showError(UIUtils.getVendorString(
+									// "No Purchase Orders For Supplier",
+									// "No Purchase Orders For Vendor")
+									// + vendor.getName());
+									return;
 
-						}
+								}
 
-						public void onResultSuccess(
-								List<PurchaseOrdersList> result) {
-							if (result == null)
-								onFailure(new Exception());
+								public void onResultSuccess(
+										ArrayList<PurchaseOrdersList> result) {
+									if (result == null)
+										onFailure(new Exception());
 
-							if (result.size() > 0) {
-								showPurchasesDialog(result);
-							} else {
-								onFailure(new Exception());
-							}
+									if (result.size() > 0) {
+										showPurchasesDialog(result);
+									} else {
+										onFailure(new Exception());
+									}
 
-						}
+								}
 
-					});
+							});
 
 		}
 	}

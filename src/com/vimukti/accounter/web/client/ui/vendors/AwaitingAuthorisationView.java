@@ -43,8 +43,7 @@ public class AwaitingAuthorisationView extends BaseView {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
 
-		Button approve = new Button(Accounter.constants()
-				.approveButton());
+		Button approve = new Button(Accounter.constants().approveButton());
 		approve.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -70,8 +69,7 @@ public class AwaitingAuthorisationView extends BaseView {
 			}
 		});
 
-		Button decline = new Button(Accounter.constants()
-				.declineButton());
+		Button decline = new Button(Accounter.constants().declineButton());
 		decline.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -90,8 +88,7 @@ public class AwaitingAuthorisationView extends BaseView {
 			}
 		});
 
-		Button delete = new Button(Accounter.constants()
-				.delete());
+		Button delete = new Button(Accounter.constants().delete());
 		delete.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -195,10 +192,11 @@ public class AwaitingAuthorisationView extends BaseView {
 				.getEmployeeExpensesByStatus(
 						userName,
 						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL,
-						new AccounterAsyncCallback<List<BillsList>>() {
+						new AccounterAsyncCallback<ArrayList<BillsList>>() {
 
 							@Override
-							public void onResultSuccess(List<BillsList> result) {
+							public void onResultSuccess(
+									ArrayList<BillsList> result) {
 								for (BillsList list : result)
 									grid.addData(list);
 							}
@@ -210,14 +208,11 @@ public class AwaitingAuthorisationView extends BaseView {
 						});
 	}
 
-
-
 	@Override
 	public List<DynamicForm> getForms() {
 
 		return null;
 	}
-
 
 	@Override
 	public void deleteFailed(Throwable caught) {
@@ -228,7 +223,6 @@ public class AwaitingAuthorisationView extends BaseView {
 	public void deleteSuccess(Boolean result) {
 
 	}
-
 
 	@Override
 	protected String getViewTitle() {

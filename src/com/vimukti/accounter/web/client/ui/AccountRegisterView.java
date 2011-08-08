@@ -234,7 +234,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 		this.rpcReportService.getAccountRegister(Accounter.getStartDate(),
 				endDate, takenaccount.getID(),
-				new AccounterAsyncCallback<List<AccountRegister>>() {
+				new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
 
 					public void onException(AccounterException caught) {
 						Accounter.showError(Accounter.constants()
@@ -243,7 +243,8 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 					}
 
-					public void onResultSuccess(List<AccountRegister> result) {
+					public void onResultSuccess(
+							ArrayList<AccountRegister> result) {
 						accountRegister = result;
 
 						getAccountRegisterGrid(result);

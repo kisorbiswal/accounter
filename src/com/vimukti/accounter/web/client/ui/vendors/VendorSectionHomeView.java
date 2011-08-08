@@ -185,10 +185,10 @@ public class VendorSectionHomeView extends BaseHomeView {
 		// listGrid.setHeight("400px");
 		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_VENDOR,
-				new AccounterAsyncCallback<List<PayeeList>>() {
+				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override
-					public void onResultSuccess(List<PayeeList> result) {
+					public void onResultSuccess(ArrayList<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
 					}
@@ -262,10 +262,10 @@ public class VendorSectionHomeView extends BaseHomeView {
 	public void setPrevoiusOutput(Object preObject) {
 		Accounter.createHomeService().getPayeeList(
 				ClientTransaction.CATEGORY_VENDOR,
-				new AccounterAsyncCallback<List<PayeeList>>() {
+				new AccounterAsyncCallback<ArrayList<PayeeList>>() {
 
 					@Override
-					public void onResultSuccess(List<PayeeList> result) {
+					public void onResultSuccess(ArrayList<PayeeList> result) {
 						listGrid.clear();
 						listGrid.addRecords(result);
 					}

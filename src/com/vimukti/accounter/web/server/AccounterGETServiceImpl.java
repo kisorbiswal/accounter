@@ -64,7 +64,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public <T extends IAccounterCore> List<T> getObjects(AccounterCoreType type) {
+	public <T extends IAccounterCore> ArrayList<T> getObjects(
+			AccounterCoreType type) {
 
 		try {
 
@@ -101,12 +102,12 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<HrEmployee> getHREmployees() throws AccounterException {
+	public ArrayList<HrEmployee> getHREmployees() throws AccounterException {
 		FinanceTool tool = (FinanceTool) getFinanceTool();
 		return tool.getHREmployees();
 	}
 
-	public List<HelpLink> getHelpLinks(int type) {
+	public ArrayList<HelpLink> getHelpLinks(int type) {
 
 		HelpLink link = new HelpLink(
 				"How to EnterBill transaction?",
@@ -133,7 +134,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		helpLinks.add(link4);
 		helpLinks.add(link5);
 
-		return helpLinks;
+		return new ArrayList<HelpLink>(helpLinks);
 
 	}
 

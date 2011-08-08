@@ -3,7 +3,7 @@
  */
 package com.vimukti.accounter.web.client;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -34,127 +34,127 @@ public interface IAccounterGETService extends RemoteService {
 	//
 	// public ClientAccount getAccount(Long accountId);
 	//
-	// public List<ClientAccount> getAccounts();
+	// public ArrayList<ClientAccount> getAccounts();
 	//
 	// public ClientCompany getCompany(String companyName);
 	//
 	// public ClientCompany getCompany(Long companyId);
 	//
-	// public List<ClientCompany> getCompanies();
+	// public ArrayList<ClientCompany> getCompanies();
 	//
 	// public ClientCreditRating getCreditRating(String creditRatingName);
 	//
 	// public ClientCreditRating getCreditRating(Long creditRatingId);
 	//
-	// public List<ClientCreditRating> getCreditRatings();
+	// public ArrayList<ClientCreditRating> getCreditRatings();
 	//
 	// public ClientCurrency getCurrency(String currencyName);
 	//
 	// public ClientCurrency getCurrency(Long currencyId);
 	//
-	// public List<ClientCurrency> getCurrencies();
+	// public ArrayList<ClientCurrency> getCurrencies();
 	//
 	// public ClientCustomer getCustomer(String customerName);
 	//
 	// public ClientCustomer getCustomer(Long customerId);
 	//
-	// public List<ClientCustomer> getCustomers();
+	// public ArrayList<ClientCustomer> getCustomers();
 	//
 	// public ClientCustomerGroup getCustomerGroup(String customerGroupName);
 	//
 	// public ClientCustomerGroup getCustomerGroup(Long customerGroupId);
 	//
-	// public List<ClientCustomerGroup> getCustomerGroups();
+	// public ArrayList<ClientCustomerGroup> getCustomerGroups();
 	//
 	// public ClientItem getItem(String itemName);
 	//
 	// public ClientItem getItem(Long itemId);
 	//
-	// public List<ClientItem> getItems();
+	// public ArrayList<ClientItem> getItems();
 	//
 	// public ClientItemGroup getItemGroup(String itemGroupName);
 	//
 	// public ClientItemGroup getItemGroup(Long itemGroupId);
 	//
-	// public List<ClientItemGroup> getItemGroups();
+	// public ArrayList<ClientItemGroup> getItemGroups();
 	//
 	// public ClientPaymentTerms getPaymentTerms(String paymentsTermsName);
 	//
 	// public ClientPaymentTerms getPaymentTerms(Long paymentsTermsId);
 	//
-	// public List<ClientPaymentTerms> getPaymentTerms();
+	// public ArrayList<ClientPaymentTerms> getPaymentTerms();
 	//
 	// public ClientPriceLevel getPriceLevel(String priceLevelName);
 	//
 	// public ClientPriceLevel getPriceLevel(Long priceLevelId);
 	//
-	// public List<ClientPriceLevel> getPriceLevels();
+	// public ArrayList<ClientPriceLevel> getPriceLevels();
 	//
 	// public ClientSalesPerson getSalesPerson(String salesPersonName);
 	//
 	// public ClientSalesPerson getSalesPerson(Long salesPersonId);
 	//
-	// public List<ClientSalesPerson> getSalesPersons();
+	// public ArrayList<ClientSalesPerson> getSalesPersons();
 	//
 	// public ClientShippingMethod getShippingMethod(String shippingMethodName);
 	//
 	// public ClientShippingMethod getShippingMethod(Long shippingMethodId);
 	//
-	// public List<ClientShippingMethod> getShippingMethods();
+	// public ArrayList<ClientShippingMethod> getShippingMethods();
 	//
 	// public ClientShippingTerms getShippingTerms(String shippingTermsName);
 	//
 	// public ClientShippingTerms getShippingTerms(Long shippingTermsId);
 	//
-	// public List<ClientShippingTerms> getShippingTerms();
+	// public ArrayList<ClientShippingTerms> getShippingTerms();
 	//
 	// public ClientTaxAgency getTaxAgency(String taxAgencyName);
 	//
 	// public ClientTaxAgency getTaxAgency(Long taxAgencyID);
 	//
-	// public List<ClientTaxAgency> getTaxAgencies();
+	// public ArrayList<ClientTaxAgency> getTaxAgencies();
 	//
 	// public ClientTaxCode getTaxCode(String taxCodeName);
 	//
 	// public ClientTaxCode getTaxCode(Long taxCodeID);
 	//
-	// public List<ClientTaxCode> getTaxCodes();
+	// public ArrayList<ClientTaxCode> getTaxCodes();
 	//
 	// public ClientTaxGroup getTaxGroup(String taxGroupName);
 	//
 	// public ClientTaxGroup getTaxGroup(Long taxGroupID);
 	//
-	// public List<ClientTaxGroup> getGroups();
+	// public ArrayList<ClientTaxGroup> getGroups();
 	//
 	// public ClientTaxRates getTaxRates(double rate);
 	//
 	// public ClientTaxRates getTaxRates(Long taxRateID);
 	//
-	// public List<ClientTaxRates> getRates();
+	// public ArrayList<ClientTaxRates> getRates();
 	//
 	// public ClientUnitOfMeasure getUnitOfMeasure(String unitOfMeausreName);
 	//
 	// public ClientUnitOfMeasure getUnitOfMeasure(Long unitOfMeausreId);
 	//
-	// public List<ClientUnitOfMeasure> getUnitOfMeasures();
+	// public ArrayList<ClientUnitOfMeasure> getUnitOfMeasures();
 	//
 	// public ClientUser getUser(long userID);
 	//
 	// public ClientUser getUser(String email);
 	//
-	// public List<ClientUser> getUsers();
+	// public ArrayList<ClientUser> getUsers();
 	//
 	// public ClientVendor getVendor(String vendorName);
 	//
 	// public ClientVendor getVendor(Long vendorId);
 	//
-	// public List<ClientVendor> getVendors();
+	// public ArrayList<ClientVendor> getVendors();
 	//
 	// public ClientVendorGroup getVendorGroup(String vendorGroupName);
 	//
 	// public ClientVendorGroup getVendorGroup(Long vendorGroupId);
 	//
-	// public List<ClientVendorGroup> getVendorGroups();
+	// public ArrayList<ClientVendorGroup> getVendorGroups();
 	//
 	// /**
 	// * Transaction Related
@@ -197,17 +197,17 @@ public interface IAccounterGETService extends RemoteService {
 	//
 	// public ClientWriteCheck getwriterCheck(Long writeCheckId);
 	//
-	// public List<ClientTransaction> getRegister(Long accountId);
+	// public ArrayList<ClientTransaction> getRegister(Long accountId);
 	//
-	// public List<ClientBank> getBanks();
+	// public ArrayList<ClientBank> getBanks();
 	//
-	// public List<ClientCreditsAndPayments> getCreditsAndPayments();
+	// public ArrayList<ClientCreditsAndPayments> getCreditsAndPayments();
 	//
 	// public ClientCreditsAndPayments getCreditAndPayment(String memo);
 	//
 	// public ClientCreditsAndPayments getCreditAndPayment(Long id);
 	//
-	// public List<ClientPayee> getPayee();
+	// public ArrayList<ClientPayee> getPayee();
 	//
 	// /**
 	// * Can Delete Objects
@@ -253,11 +253,11 @@ public interface IAccounterGETService extends RemoteService {
 	//
 	// public Boolean canDeleteVendorGroup(Long vendorGroupId);
 	//
-	// public List<ClientFiscalYear> getFiscalYears();
+	// public ArrayList<ClientFiscalYear> getFiscalYears();
 	//
 	// public ClientFiscalYear getFiscalYear(Long yearId);
 	//
-	// public List<ClientPaySalesTaxEntries>
+	// public ArrayList<ClientPaySalesTaxEntries>
 	// getTransactionPaySalesTaxEntriesList(
 	// Date transactionDate);
 	//
@@ -269,15 +269,16 @@ public interface IAccounterGETService extends RemoteService {
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
 			String name) throws AccounterException;
 
-	public <T extends IAccounterCore> List<T> getObjects(AccounterCoreType type);
+	public <T extends IAccounterCore> ArrayList<T> getObjects(
+			AccounterCoreType type);
 
 	public ClientCompany getCompany() throws AccounterException;
 
 	KeyFinancialIndicators getKeyFinancialIndicators();
 
-	List<HrEmployee> getHREmployees() throws AccounterException;
+	ArrayList<HrEmployee> getHREmployees() throws AccounterException;
 
-	public List<HelpLink> getHelpLinks(int type) throws AccounterException;
+	public ArrayList<HelpLink> getHelpLinks(int type) throws AccounterException;
 
 	public ClientUser getUser(String userName, String password,
 			boolean isremeber, int offset);

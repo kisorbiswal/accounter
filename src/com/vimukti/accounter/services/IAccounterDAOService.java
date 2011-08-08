@@ -1,6 +1,6 @@
 package com.vimukti.accounter.services;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Bank;
@@ -64,17 +64,18 @@ public interface IAccounterDAOService {
 	public Account getAccount(long companyId, long accountId)
 			throws DAOException;
 
-	public List<Account> getAccounts(long companyId) throws DAOException;
+	public ArrayList<Account> getAccounts(long companyId) throws DAOException;
 
-	public List<Account> getAccounts(long companyId, int type)
+	public ArrayList<Account> getAccounts(long companyId, int type)
 			throws DAOException;
 
-	public List<Bank> getBanks(long companyId) throws DAOException;
+	public ArrayList<Bank> getBanks(long companyId) throws DAOException;
 
 	public FiscalYear getFiscalYear(long companyId, long yearId)
 			throws DAOException;
 
-	public List<FiscalYear> getFiscalYears(long companyId) throws DAOException;
+	public ArrayList<FiscalYear> getFiscalYears(long companyId)
+			throws DAOException;
 
 	public CreditRating getCreditRating(long companyId, String creditRatingName)
 			throws DAOException;
@@ -82,7 +83,7 @@ public interface IAccounterDAOService {
 	public CreditRating getCreditRating(long companyId, long creditRatingId)
 			throws DAOException;
 
-	public List<CreditRating> getCreditRatings(long companyId)
+	public ArrayList<CreditRating> getCreditRatings(long companyId)
 			throws DAOException;
 
 	public Currency getCurrency(long companyId, String currencyName)
@@ -91,9 +92,10 @@ public interface IAccounterDAOService {
 	public Currency getCurrency(long companyId, long currencyId)
 			throws DAOException;
 
-	public List<Currency> getCurrencies(long companyId) throws DAOException;
+	public ArrayList<Currency> getCurrencies(long companyId)
+			throws DAOException;
 
-	public List<Payee> getPayee(long companyId) throws DAOException;
+	public ArrayList<Payee> getPayee(long companyId) throws DAOException;
 
 	public Customer getCustomer(long companyId, String customerName)
 			throws DAOException;
@@ -101,7 +103,7 @@ public interface IAccounterDAOService {
 	public Customer getCustomer(long companyId, long customerId)
 			throws DAOException;
 
-	public List<Customer> getCustomers(long companyId) throws DAOException;
+	public ArrayList<Customer> getCustomers(long companyId) throws DAOException;
 
 	public CustomerGroup getCustomerGroup(long companyId,
 			String customerGroupName) throws DAOException;
@@ -109,14 +111,14 @@ public interface IAccounterDAOService {
 	public CustomerGroup getCustomerGroup(long companyId, long customerGroupId)
 			throws DAOException;
 
-	public List<CustomerGroup> getCustomerGroups(long companyId)
+	public ArrayList<CustomerGroup> getCustomerGroups(long companyId)
 			throws DAOException;
 
 	public Item getItem(long companyId, String itemName) throws DAOException;
 
 	public Item getItem(long companyId, long itemId) throws DAOException;
 
-	public List<Item> getItems(long companyId) throws DAOException;
+	public ArrayList<Item> getItems(long companyId) throws DAOException;
 
 	public ItemGroup getItemGroup(long companyId, String itemGroupName)
 			throws DAOException;
@@ -124,7 +126,8 @@ public interface IAccounterDAOService {
 	public ItemGroup getItemGroup(long companyId, long itemGroupId)
 			throws DAOException;
 
-	public List<ItemGroup> getItemGroups(long companyId) throws DAOException;
+	public ArrayList<ItemGroup> getItemGroups(long companyId)
+			throws DAOException;
 
 	public PaymentTerms getPaymentTerms(long companyId, String paymentsTermsName)
 			throws DAOException;
@@ -132,7 +135,7 @@ public interface IAccounterDAOService {
 	public PaymentTerms getPaymentTerms(long companyId, long paymentsTermsId)
 			throws DAOException;
 
-	public List<PaymentTerms> getPaymentTerms(long companyId)
+	public ArrayList<PaymentTerms> getPaymentTerms(long companyId)
 			throws DAOException;
 
 	public PriceLevel getPriceLevel(long companyId, String priceLevelName)
@@ -141,7 +144,8 @@ public interface IAccounterDAOService {
 	public PriceLevel getPriceLevel(long companyId, long priceLevelId)
 			throws DAOException;
 
-	public List<PriceLevel> getPriceLevels(long companyId) throws DAOException;
+	public ArrayList<PriceLevel> getPriceLevels(long companyId)
+			throws DAOException;
 
 	public SalesPerson getSalesPerson(long companyId, String salesPersonName)
 			throws DAOException;
@@ -149,7 +153,7 @@ public interface IAccounterDAOService {
 	public SalesPerson getSalesPerson(long companyId, long salesPersonId)
 			throws DAOException;
 
-	public List<SalesPerson> getSalesPersons(long companyId)
+	public ArrayList<SalesPerson> getSalesPersons(long companyId)
 			throws DAOException;
 
 	public ShippingMethod getShippingMethod(long companyId,
@@ -158,7 +162,7 @@ public interface IAccounterDAOService {
 	public ShippingMethod getShippingMethod(long companyId,
 			long shippingMethodId) throws DAOException;
 
-	public List<ShippingMethod> getShippingMethods(long companyId)
+	public ArrayList<ShippingMethod> getShippingMethods(long companyId)
 			throws DAOException;
 
 	public ShippingTerms getShippingTerms(long companyId,
@@ -167,7 +171,7 @@ public interface IAccounterDAOService {
 	public ShippingTerms getShippingTerms(long companyId, long shippingTermsId)
 			throws DAOException;
 
-	public List<ShippingTerms> getShippingTerms(long companyId)
+	public ArrayList<ShippingTerms> getShippingTerms(long companyId)
 			throws DAOException;
 
 	public TAXAgency getTaxAgency(long companyId, String taxAgencyName)
@@ -176,7 +180,8 @@ public interface IAccounterDAOService {
 	public TAXAgency getTaxAgency(long companyId, long taxAgencyID)
 			throws DAOException;
 
-	public List<TAXAgency> getTaxAgencies(long companyId) throws DAOException;
+	public ArrayList<TAXAgency> getTaxAgencies(long companyId)
+			throws DAOException;
 
 	public TAXCode getTaxCode(long companyId, String taxCodeName)
 			throws DAOException;
@@ -184,7 +189,7 @@ public interface IAccounterDAOService {
 	public TAXCode getTaxCode(long companyId, long taxCodeID)
 			throws DAOException;
 
-	public List<TAXCode> getTaxCodes(long companyId) throws DAOException;
+	public ArrayList<TAXCode> getTaxCodes(long companyId) throws DAOException;
 
 	public TAXGroup getTaxGroup(long companyId, String taxGroupName)
 			throws DAOException;
@@ -192,7 +197,7 @@ public interface IAccounterDAOService {
 	public TAXGroup getTaxGroup(long companyId, long taxGroupID)
 			throws DAOException;
 
-	public List<TAXGroup> getTaxGroups(long companyId) throws DAOException;
+	public ArrayList<TAXGroup> getTaxGroups(long companyId) throws DAOException;
 
 	public TaxRates getTaxRates(long companyId, Double rate)
 			throws DAOException;
@@ -200,7 +205,7 @@ public interface IAccounterDAOService {
 	public TaxRates getTaxRates(long companyId, long taxRateID)
 			throws DAOException;
 
-	public List<TaxRates> getRates(long companyId) throws DAOException;
+	public ArrayList<TaxRates> getRates(long companyId) throws DAOException;
 
 	public UnitOfMeasure getUnitOfMeasure(long companyId,
 			String unitOfMeausreName) throws DAOException;
@@ -208,21 +213,21 @@ public interface IAccounterDAOService {
 	public UnitOfMeasure getUnitOfMeasure(long companyId, long unitOfMeausreId)
 			throws DAOException;
 
-	public List<UnitOfMeasure> getUnitOfMeasures(long companyId)
+	public ArrayList<UnitOfMeasure> getUnitOfMeasures(long companyId)
 			throws DAOException;
 
 	public User getUser(long userID) throws DAOException;
 
 	public User getUser(String email) throws DAOException;
 
-	public List<User> getUsers(long companyId) throws DAOException;
+	public ArrayList<User> getUsers(long companyId) throws DAOException;
 
 	public Vendor getVendor(long companyId, String vendorName)
 			throws DAOException;
 
 	public Vendor getVendor(long companyId, long vendorId) throws DAOException;
 
-	public List<Vendor> getVendors(long companyId) throws DAOException;
+	public ArrayList<Vendor> getVendors(long companyId) throws DAOException;
 
 	public VendorGroup getVendorGroup(long companyId, String vendorGroupName)
 			throws DAOException;
@@ -230,7 +235,7 @@ public interface IAccounterDAOService {
 	public VendorGroup getVendorGroup(long companyId, long vendorGroupId)
 			throws DAOException;
 
-	public List<VendorGroup> getVendorGroups(long companyId)
+	public ArrayList<VendorGroup> getVendorGroups(long companyId)
 			throws DAOException;
 
 	public FixedAsset getFixedAsset(long companyId, long fixedAssetID)
@@ -346,55 +351,58 @@ public interface IAccounterDAOService {
 
 	// Credits and Payments Related
 
-	public List<CreditsAndPayments> getCreditsAndPayments(long companyId)
+	public ArrayList<CreditsAndPayments> getCreditsAndPayments(long companyId)
 			throws DAOException;
 
 	public CreditsAndPayments getCreditAndPayment(long companyId, long id)
 			throws DAOException;
 
-	public List<CashSales> getCashSales(long companyId) throws DAOException;
-
-	public List<Invoice> getInvoices(long companyId) throws DAOException;
-
-	public List<CustomerCreditMemo> getCustomerCreditMemos(long companyId)
+	public ArrayList<CashSales> getCashSales(long companyId)
 			throws DAOException;
 
-	public List<CustomerRefund> getCustomerRefunds(long companyId)
+	public ArrayList<Invoice> getInvoices(long companyId) throws DAOException;
+
+	public ArrayList<CustomerCreditMemo> getCustomerCreditMemos(long companyId)
 			throws DAOException;
 
-	public List<EnterBill> getEnterBills(long companyId) throws DAOException;
-
-	public List<CashPurchase> getCashPurchases(long companyId)
+	public ArrayList<CustomerRefund> getCustomerRefunds(long companyId)
 			throws DAOException;
 
-	public List<PayBill> getPayBills(long companyId) throws DAOException;
-
-	public List<MakeDeposit> getMakeDeposits(long companyId)
+	public ArrayList<EnterBill> getEnterBills(long companyId)
 			throws DAOException;
 
-	public List<VendorCreditMemo> getVendorCreditMemos(long companyId)
+	public ArrayList<CashPurchase> getCashPurchases(long companyId)
 			throws DAOException;
 
-	public List<WriteCheck> getWriteChecks(long companyId) throws DAOException;
+	public ArrayList<PayBill> getPayBills(long companyId) throws DAOException;
 
-	public List<CreditCardCharge> getCreditCardCharges(long companyId)
+	public ArrayList<MakeDeposit> getMakeDeposits(long companyId)
 			throws DAOException;
 
-	public List<TransferFund> getTransferFunds(long companyId)
+	public ArrayList<VendorCreditMemo> getVendorCreditMemos(long companyId)
+			throws DAOException;
+
+	public ArrayList<WriteCheck> getWriteChecks(long companyId)
+			throws DAOException;
+
+	public ArrayList<CreditCardCharge> getCreditCardCharges(long companyId)
+			throws DAOException;
+
+	public ArrayList<TransferFund> getTransferFunds(long companyId)
 			throws DAOException;
 
 	public Company getCompany(long userId) throws DAOException;
 
-	public List<ReceivePayment> getReceivePayments(long companyId)
+	public ArrayList<ReceivePayment> getReceivePayments(long companyId)
 			throws DAOException;
 
 	public PaySalesTax getPaySalesTax(long companyId, long id)
 			throws DAOException;
 
-	public List<PaySalesTax> getPaySalesTaxes(long companyId)
+	public ArrayList<PaySalesTax> getPaySalesTaxes(long companyId)
 			throws DAOException;
 
-	public List<Company> getCompanies(long userId) throws DAOException;
+	public ArrayList<Company> getCompanies(long userId) throws DAOException;
 
 	public Expense getExpense(long companyId, long expenseId)
 			throws DAOException;
@@ -402,7 +410,8 @@ public interface IAccounterDAOService {
 	public PayExpense getPayExpense(long companyId, long payExpenseId)
 			throws DAOException;
 
-	public List<Expense> getUnPaidExpense(long companyId) throws DAOException;
+	public ArrayList<Expense> getUnPaidExpense(long companyId)
+			throws DAOException;
 
 	public User getUserByCompany(long userId, long company) throws DAOException;
 
@@ -410,7 +419,6 @@ public interface IAccounterDAOService {
 
 	public User getUserByDomainURL(String domainURL) throws DAOException;
 
-	
-	public List getTestResult() throws Exception;
+	public ArrayList getTestResult() throws Exception;
 
 }

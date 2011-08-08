@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -325,7 +325,7 @@ public class CheckDetailReportView extends
 	}
 
 	@Override
-	public void onSuccess(List<CheckDetailReport> result) {
+	public void onSuccess(ArrayList<CheckDetailReport> result) {
 		// NOTHING TO DO
 	}
 

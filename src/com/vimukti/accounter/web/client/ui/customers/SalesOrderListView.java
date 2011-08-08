@@ -114,7 +114,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	}
 
 	@Override
-	public void onSuccess(List<SalesOrdersList> result) {
+	public void onSuccess(ArrayList<SalesOrdersList> result) {
 		super.onSuccess(result);
 		listOfSalesOrder = result;
 		filterList(viewSelect.getValue().toString());

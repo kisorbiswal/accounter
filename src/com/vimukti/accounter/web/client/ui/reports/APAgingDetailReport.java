@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
@@ -113,6 +115,12 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 					Integer.parseInt(String.valueOf(endDate.getDate())), 128,
 					"", "", byCustomerDetail);
 		}
+	}
+
+	@Override
+	public void onSuccess(ArrayList<AgedDebtors> arg0) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

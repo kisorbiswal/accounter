@@ -3,7 +3,7 @@
  */
 package com.vimukti.accounter.web.client;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -33,7 +33,8 @@ public interface IAccounterGETServiceAsync {
 	// public void getAccount(Long accountId, AsyncCallback<ClientAccount>
 	// callback);
 	//
-	// public void getAccounts(AsyncCallback<List<ClientAccount>> callback);
+	// public void getAccounts(AsyncCallback<ArrayList<ClientAccount>>
+	// callback);
 	//
 	// public void getCompany(String companyName,
 	// AsyncCallback<ClientCompany> callback);
@@ -41,7 +42,8 @@ public interface IAccounterGETServiceAsync {
 	// public void getCompany(Long companyId, AsyncCallback<ClientCompany>
 	// callback);
 	//
-	// public void getCompanies(AsyncCallback<List<ClientCompany>> callback);
+	// public void getCompanies(AsyncCallback<ArrayList<ClientCompany>>
+	// callback);
 	//
 	// public void getCreditRating(String creditRatingName,
 	// AsyncCallback<ClientCreditRating> callback);
@@ -50,7 +52,7 @@ public interface IAccounterGETServiceAsync {
 	// AsyncCallback<ClientCreditRating> callback);
 	//
 	// public void getCreditRatings(
-	// AsyncCallback<List<ClientCreditRating>> callback);
+	// AsyncCallback<ArrayList<ClientCreditRating>> callback);
 	//
 	// public void getCurrency(String currencyName,
 	// AsyncCallback<ClientCurrency> callback);
@@ -58,7 +60,8 @@ public interface IAccounterGETServiceAsync {
 	// public void getCurrency(Long currencyId,
 	// AsyncCallback<ClientCurrency> callback);
 	//
-	// public void getCurrencies(AsyncCallback<List<ClientCurrency>> callback);
+	// public void getCurrencies(AsyncCallback<ArrayList<ClientCurrency>>
+	// callback);
 	//
 	// public void getCustomer(String customerName,
 	// AsyncCallback<ClientCustomer> callback);
@@ -66,7 +69,8 @@ public interface IAccounterGETServiceAsync {
 	// public void getCustomer(Long customerId,
 	// AsyncCallback<ClientCustomer> callback);
 	//
-	// public void getCustomers(AsyncCallback<List<ClientCustomer>> callback);
+	// public void getCustomers(AsyncCallback<ArrayList<ClientCustomer>>
+	// callback);
 	//
 	// public void getCustomerGroup(String customerGroupName,
 	// AsyncCallback<ClientCustomerGroup> callback);
@@ -75,13 +79,13 @@ public interface IAccounterGETServiceAsync {
 	// AsyncCallback<ClientCustomerGroup> callback);
 	//
 	// public void getCustomerGroups(
-	// AsyncCallback<List<ClientCustomerGroup>> callback);
+	// AsyncCallback<ArrayList<ClientCustomerGroup>> callback);
 	//
 	// public void getItem(String itemName, AsyncCallback<ClientItem> callback);
 	//
 	// public void getItem(Long itemId, AsyncCallback<ClientItem> callback);
 	//
-	// public void getItems(AsyncCallback<List<ClientItem>> callback);
+	// public void getItems(AsyncCallback<ArrayList<ClientItem>> callback);
 	//
 	// public void getItemGroup(String itemGroupName,
 	// AsyncCallback<ClientItemGroup> callback);
@@ -89,7 +93,8 @@ public interface IAccounterGETServiceAsync {
 	// public void getItemGroup(Long itemGroupId,
 	// AsyncCallback<ClientItemGroup> callback);
 	//
-	// public void getItemGroups(AsyncCallback<List<ClientItemGroup>> callback);
+	// public void getItemGroups(AsyncCallback<ArrayList<ClientItemGroup>>
+	// callback);
 	//
 	// public void getPaymentTerms(String paymentsTermsName,
 	// AsyncCallback<ClientPaymentTerms> callback);
@@ -97,7 +102,7 @@ public interface IAccounterGETServiceAsync {
 	// public void getPaymentTerms(Long paymentsTermsId,
 	// AsyncCallback<ClientPaymentTerms> callback);
 	//
-	// public void getPaymentTerms(AsyncCallback<List<ClientPaymentTerms>>
+	// public void getPaymentTerms(AsyncCallback<ArrayList<ClientPaymentTerms>>
 	// callback);
 	//
 	// public void getPriceLevel(String priceLevelName,
@@ -106,7 +111,7 @@ public interface IAccounterGETServiceAsync {
 	// public void getPriceLevel(Long priceLevelId,
 	// AsyncCallback<ClientPriceLevel> callback);
 	//
-	// public void getPriceLevels(AsyncCallback<List<ClientPriceLevel>>
+	// public void getPriceLevels(AsyncCallback<ArrayList<ClientPriceLevel>>
 	// callback);
 	//
 	// public void getSalesPerson(String salesPersonName,
@@ -115,7 +120,7 @@ public interface IAccounterGETServiceAsync {
 	// public void getSalesPerson(Long salesPersonId,
 	// AsyncCallback<ClientSalesPerson> callback);
 	//
-	// public void getSalesPersons(AsyncCallback<List<ClientSalesPerson>>
+	// public void getSalesPersons(AsyncCallback<ArrayList<ClientSalesPerson>>
 	// callback);
 	//
 	// public void getShippingMethod(String shippingMethodName,
@@ -125,7 +130,7 @@ public interface IAccounterGETServiceAsync {
 	// AsyncCallback<ClientShippingMethod> callback);
 	//
 	// public void getShippingMethods(
-	// AsyncCallback<List<ClientShippingMethod>> callback);
+	// AsyncCallback<ArrayList<ClientShippingMethod>> callback);
 	//
 	// public void getShippingTerms(String shippingTermsName,
 	// AsyncCallback<ClientShippingTerms> callback);
@@ -134,7 +139,7 @@ public interface IAccounterGETServiceAsync {
 	// AsyncCallback<ClientShippingTerms> callback);
 	//
 	// public void getShippingTerms(
-	// AsyncCallback<List<ClientShippingTerms>> callback);
+	// AsyncCallback<ArrayList<ClientShippingTerms>> callback);
 	//
 	// public void getTaxAgency(String taxAgencyName,
 	// AsyncCallback<ClientTaxAgency> callback);
@@ -142,7 +147,7 @@ public interface IAccounterGETServiceAsync {
 	// public void getTaxAgency(Long taxAgencyID,
 	// AsyncCallback<ClientTaxAgency> callback);
 	//
-	// public void getTaxAgencies(AsyncCallback<List<ClientTaxAgency>>
+	// public void getTaxAgencies(AsyncCallback<ArrayList<ClientTaxAgency>>
 	// callback);
 	//
 	// public void getTaxCode(String taxCodeName,
@@ -151,7 +156,8 @@ public interface IAccounterGETServiceAsync {
 	// public void getTaxCode(Long taxCodeID, AsyncCallback<ClientTaxCode>
 	// callback);
 	//
-	// public void getTaxCodes(AsyncCallback<List<ClientTaxCode>> callback);
+	// public void getTaxCodes(AsyncCallback<ArrayList<ClientTaxCode>>
+	// callback);
 	//
 	// public void getTaxGroup(String taxGroupName,
 	// AsyncCallback<ClientTaxGroup> callback);
@@ -159,7 +165,7 @@ public interface IAccounterGETServiceAsync {
 	// public void getTaxGroup(Long taxGroupID,
 	// AsyncCallback<ClientTaxGroup> callback);
 	//
-	// public void getGroups(AsyncCallback<List<ClientTaxGroup>> callback);
+	// public void getGroups(AsyncCallback<ArrayList<ClientTaxGroup>> callback);
 	//
 	// public void getTaxRates(double rate, AsyncCallback<ClientTaxRates>
 	// callback);
@@ -167,7 +173,7 @@ public interface IAccounterGETServiceAsync {
 	// public void getTaxRates(Long taxRateID,
 	// AsyncCallback<ClientTaxRates> callback);
 	//
-	// public void getRates(AsyncCallback<List<ClientTaxRates>> callback);
+	// public void getRates(AsyncCallback<ArrayList<ClientTaxRates>> callback);
 	//
 	// public void getUnitOfMeasure(String unitOfMeausreName,
 	// AsyncCallback<ClientUnitOfMeasure> callback);
@@ -176,13 +182,13 @@ public interface IAccounterGETServiceAsync {
 	// AsyncCallback<ClientUnitOfMeasure> callback);
 	//
 	// public void getUnitOfMeasures(
-	// AsyncCallback<List<ClientUnitOfMeasure>> callback);
+	// AsyncCallback<ArrayList<ClientUnitOfMeasure>> callback);
 	//
 	// public void getUser(long userID, AsyncCallback<ClientUser> callback);
 	//
 	// public void getUser(String email, AsyncCallback<ClientUser> callback);
 	//
-	// public void getUsers(AsyncCallback<List<ClientUser>> callback);
+	// public void getUsers(AsyncCallback<ArrayList<ClientUser>> callback);
 	//
 	// public void getVendor(String vendorName,
 	// AsyncCallback<ClientVendor> callback);
@@ -190,7 +196,7 @@ public interface IAccounterGETServiceAsync {
 	// public void getVendor(Long vendorId, AsyncCallback<ClientVendor>
 	// callback);
 	//
-	// public void getVendors(AsyncCallback<List<ClientVendor>> callback);
+	// public void getVendors(AsyncCallback<ArrayList<ClientVendor>> callback);
 	//
 	// public void getVendorGroup(String vendorGroupName,
 	// AsyncCallback<ClientVendorGroup> callback);
@@ -198,7 +204,7 @@ public interface IAccounterGETServiceAsync {
 	// public void getVendorGroup(Long vendorGroupId,
 	// AsyncCallback<ClientVendorGroup> callback);
 	//
-	// public void getVendorGroups(AsyncCallback<List<ClientVendorGroup>>
+	// public void getVendorGroups(AsyncCallback<ArrayList<ClientVendorGroup>>
 	// callback);
 	//
 	// /**
@@ -257,12 +263,12 @@ public interface IAccounterGETServiceAsync {
 	// AsyncCallback<ClientWriteCheck> callback);
 	//
 	// public void getRegister(Long accountId,
-	// AsyncCallback<List<ClientTransaction>> callback);
+	// AsyncCallback<ArrayList<ClientTransaction>> callback);
 	//
-	// public void getBanks(AsyncCallback<List<ClientBank>> callback);
+	// public void getBanks(AsyncCallback<ArrayList<ClientBank>> callback);
 	//
 	// public void getCreditsAndPayments(
-	// AsyncCallback<List<ClientCreditsAndPayments>> callback);
+	// AsyncCallback<ArrayList<ClientCreditsAndPayments>> callback);
 	//
 	// public void getCreditAndPayment(String memo,
 	// AsyncCallback<ClientCreditsAndPayments> callback);
@@ -270,7 +276,7 @@ public interface IAccounterGETServiceAsync {
 	// public void getCreditAndPayment(Long id,
 	// AsyncCallback<ClientCreditsAndPayments> callback);
 	//
-	// public void getPayee(AsyncCallback<List<ClientPayee>> callback);
+	// public void getPayee(AsyncCallback<ArrayList<ClientPayee>> callback);
 	//
 	// /**
 	// * Can Delete Objects
@@ -333,14 +339,14 @@ public interface IAccounterGETServiceAsync {
 	// public void canDeleteVendorGroup(Long vendorGroupId,
 	// AsyncCallback<Boolean> result);
 	//
-	// public void getFiscalYears(AsyncCallback<List<ClientFiscalYear>>
+	// public void getFiscalYears(AsyncCallback<ArrayList<ClientFiscalYear>>
 	// callback);
 	//
 	// public void getFiscalYear(Long yearId,
 	// AsyncCallback<ClientFiscalYear> callback);
 	//
 	// public void getTransactionPaySalesTaxEntriesList(Date transactionDate,
-	// AsyncCallback<List<ClientPaySalesTaxEntries>> callback);
+	// AsyncCallback<ArrayList<ClientPaySalesTaxEntries>> callback);
 	//
 	// public void getPaySalesTax(Long id,
 	// AsyncCallback<ClientPaySalesTax> callback);
@@ -352,16 +358,17 @@ public interface IAccounterGETServiceAsync {
 			AccounterCoreType type, String name, AsyncCallback<T> callback);
 
 	public <T extends IAccounterCore> void getObjects(AccounterCoreType type,
-			AsyncCallback<List<T>> callback);
+			AsyncCallback<ArrayList<T>> callback);
 
 	void getCompany(AsyncCallback<ClientCompany> callback);
 
 	void getKeyFinancialIndicators(
 			AsyncCallback<KeyFinancialIndicators> callback);
 
-	void getHREmployees(AsyncCallback<List<HrEmployee>> callback);
+	void getHREmployees(AsyncCallback<ArrayList<HrEmployee>> callback);
 
-	public void getHelpLinks(int type, AsyncCallback<List<HelpLink>> callback);
+	public void getHelpLinks(int type,
+			AsyncCallback<ArrayList<HelpLink>> callback);
 
 	/**
 	 * @param string

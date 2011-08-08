@@ -77,52 +77,52 @@
 //		accountCombo.initCombo(result);
 //		expAccCombo.initCombo(result);
 //
-//		// AccounterAsyncCallback<List<ClientAccount>> accountsCallback = new
-//		// AccounterAsyncCallback<List<ClientAccount>>() {
+//		// AccounterAsyncCallback<ArrayList<ClientAccount>> accountsCallback = new
+//		// AccounterAsyncCallback<ArrayList<ClientAccount>>() {
 //		//
 //		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
-//		// public void onSuccess(List<ClientAccount> result) {
+//		// public void onSuccess(ArrayList<ClientAccount> result) {
 //		// accountCombo.initCombo(result);
 //		// expAccCombo.initCombo(result);
 //		// }
 //		//
 //		// };
 //		//itemTaxCombo.initCombo(FinanceApplication.getCompany().getItemTaxs());
-//		// AccounterAsyncCallback<List<ClientItemTax>> taxsCallback = new
-//		// AccounterAsyncCallback<List<ClientItemTax>>() {
+//		// AccounterAsyncCallback<ArrayList<ClientItemTax>> taxsCallback = new
+//		// AccounterAsyncCallback<ArrayList<ClientItemTax>>() {
 //		//
 //		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
-//		// public void onSuccess(List<ClientItemTax> result) {
+//		// public void onSuccess(ArrayList<ClientItemTax> result) {
 //		// itemTaxCombo.initCombo(result);
 //		// }
 //		//
 //		// };
 //		prefVendorCombo.initCombo(FinanceApplication.getCompany().getVendors());
-//		// AccounterAsyncCallback<List<ClientVendor>> vendorsCallBack = new
-//		// AccounterAsyncCallback<List<ClientVendor>>() {
+//		// AccounterAsyncCallback<ArrayList<ClientVendor>> vendorsCallBack = new
+//		// AccounterAsyncCallback<ArrayList<ClientVendor>>() {
 //		//
 //		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
-//		// public void onSuccess(List<ClientVendor> result) {
+//		// public void onSuccess(ArrayList<ClientVendor> result) {
 //		// prefVendorCombo.initCombo(result);
 //		// }
 //		//
 //		// };
-//		AccounterAsyncCallback<List<ClientItemGroup>> itemGroupsCallBack = new AccounterAsyncCallback<List<ClientItemGroup>>() {
+//		AccounterAsyncCallback<ArrayList<ClientItemGroup>> itemGroupsCallBack = new AccounterAsyncCallback<ArrayList<ClientItemGroup>>() {
 //
 //			public void onException(AccounterException caught) {
 //				Accounter.showError("Result: null");
 //			}
 //
-//			public void onSuccess(List<ClientItemGroup> result) {
+//			public void onSuccess(ArrayList<ClientItemGroup> result) {
 //				itemGroupCombo.initCombo(result);
 //				disablePurchaseFormItems(true);
 //			}

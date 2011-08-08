@@ -40,13 +40,13 @@
 //////			}
 //////			addRecords(records);
 //////		}
-//////		AccounterAsyncCallback<List<ClientItemTax>> callback = new AccounterAsyncCallback<List<ClientItemTax>>() {
+//////		AccounterAsyncCallback<ArrayList<ClientItemTax>> callback = new AccounterAsyncCallback<ArrayList<ClientItemTax>>() {
 //////
 //////			public void onException(AccounterException caught) {
 //////				//UIUtils.log(caught.toString());
 //////			}
 //////
-//////			public void onSuccess(List<ClientItemTax> result) {
+//////			public void onSuccess(ArrayList<ClientItemTax> result) {
 //////				if (result != null) {
 //////					itemTaxes = result;
 //////					ListGridRecord[] records = new ListGridRecord[result.size()];

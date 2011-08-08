@@ -62,8 +62,7 @@ public class BankingPortlet extends DashBoardPortlet {
 			bankAccounts = getCompany().getActiveBankAccounts(
 					ClientAccount.TYPE_BANK);
 		}
-		Button addAccount = new Button(Accounter.constants()
-				.addBankAccount());
+		Button addAccount = new Button(Accounter.constants().addBankAccount());
 		addAccount.addStyleName("addAccountPortlet");
 		if (Accounter.getUser().canDoBanking()) {
 			body.add(addAccount);
@@ -138,7 +137,7 @@ public class BankingPortlet extends DashBoardPortlet {
 						HasHorizontalAlignment.ALIGN_RIGHT);
 				hPanel.setWidth("100%");
 				body.add(hPanel);
-				AccounterAsyncCallback<List<Double>> callBack = new AccounterAsyncCallback<List<Double>>() {
+				AccounterAsyncCallback<ArrayList<Double>> callBack = new AccounterAsyncCallback<ArrayList<Double>>() {
 
 					@Override
 					public void onException(AccounterException caught) {
@@ -147,7 +146,7 @@ public class BankingPortlet extends DashBoardPortlet {
 					}
 
 					@Override
-					public void onResultSuccess(final List<Double> result) {
+					public void onResultSuccess(final ArrayList<Double> result) {
 						Runnable runnable = new Runnable() {
 
 							@Override

@@ -738,7 +738,7 @@ public class VendorBillView extends
 					&& dialog.preVendor == this.getVendor()) {
 				return;
 			}
-			AccounterAsyncCallback<List<PurchaseOrdersAndItemReceiptsList>> callback = new AccounterAsyncCallback<List<PurchaseOrdersAndItemReceiptsList>>() {
+			AccounterAsyncCallback<ArrayList<PurchaseOrdersAndItemReceiptsList>> callback = new AccounterAsyncCallback<ArrayList<PurchaseOrdersAndItemReceiptsList>>() {
 
 				@Override
 				public void onException(AccounterException caught) {
@@ -751,7 +751,7 @@ public class VendorBillView extends
 
 				@Override
 				public void onResultSuccess(
-						List<PurchaseOrdersAndItemReceiptsList> result) {
+						ArrayList<PurchaseOrdersAndItemReceiptsList> result) {
 					if (result == null)
 						onFailure(new Exception());
 

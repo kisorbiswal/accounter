@@ -1,9 +1,11 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -15,11 +17,9 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -133,10 +133,10 @@ public class PreviousClaimsView extends BaseView {
 		}
 		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
 				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED,
-				new AccounterAsyncCallback<List<BillsList>>() {
+				new AccounterAsyncCallback<ArrayList<BillsList>>() {
 
 					@Override
-					public void onResultSuccess(List<BillsList> result) {
+					public void onResultSuccess(ArrayList<BillsList> result) {
 						for (BillsList list : result)
 							grid.addData(list);
 
@@ -150,10 +150,10 @@ public class PreviousClaimsView extends BaseView {
 
 		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
 				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED,
-				new AccounterAsyncCallback<List<BillsList>>() {
+				new AccounterAsyncCallback<ArrayList<BillsList>>() {
 
 					@Override
-					public void onResultSuccess(List<BillsList> result) {
+					public void onResultSuccess(ArrayList<BillsList> result) {
 						for (BillsList list : result)
 							grid.addData(list);
 					}
@@ -169,10 +169,10 @@ public class PreviousClaimsView extends BaseView {
 				.getEmployeeExpensesByStatus(
 						userName,
 						ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL,
-						new AccounterAsyncCallback<List<BillsList>>() {
+						new AccounterAsyncCallback<ArrayList<BillsList>>() {
 
 							@Override
-							public void onResultSuccess(List<BillsList> result) {
+							public void onResultSuccess(ArrayList<BillsList> result) {
 								for (BillsList list : result)
 									grid.addData(list);
 							}

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -153,7 +154,7 @@ public class StartDateDialog extends BaseDialog {
 	}
 
 	private void getStartdates() {
-		AccounterAsyncCallback<List<ClientFinanceDate>> callBack = new AccounterAsyncCallback<List<ClientFinanceDate>>() {
+		AccounterAsyncCallback<ArrayList<ClientFinanceDate>> callBack = new AccounterAsyncCallback<ArrayList<ClientFinanceDate>>() {
 
 			public void onException(AccounterException caught) {
 				saveFailed(caught);
@@ -162,7 +163,7 @@ public class StartDateDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onResultSuccess(List<ClientFinanceDate> result) {
+			public void onResultSuccess(ArrayList<ClientFinanceDate> result) {
 				startDateList = result;
 			}
 

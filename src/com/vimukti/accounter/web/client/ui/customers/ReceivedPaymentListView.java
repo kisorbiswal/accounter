@@ -63,7 +63,7 @@ public class ReceivedPaymentListView extends BaseListView<ReceivePaymentsList> {
 	}
 
 	@Override
-	public void onSuccess(List<ReceivePaymentsList> result) {
+	public void onSuccess(ArrayList<ReceivePaymentsList> result) {
 		super.onSuccess(result);
 		listOfRecievePayments = result;
 		filterList(viewSelect.getSelectedValue());

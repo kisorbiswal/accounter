@@ -1,17 +1,18 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddEditFiscalYearDialog;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 
@@ -31,13 +32,13 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 	private void getListFiscalYear() {
 
-		AccounterAsyncCallback<List<ClientFiscalYear>> callback = new AccounterAsyncCallback<List<ClientFiscalYear>>() {
+		AccounterAsyncCallback<ArrayList<ClientFiscalYear>> callback = new AccounterAsyncCallback<ArrayList<ClientFiscalYear>>() {
 
 			public void onException(AccounterException caught) {
 
 			}
 
-			public void onResultSuccess(List<ClientFiscalYear> result) {
+			public void onResultSuccess(ArrayList<ClientFiscalYear> result) {
 				savedFiscalYear = result;
 				fillFiscalYear(result);
 			}

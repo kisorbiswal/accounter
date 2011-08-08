@@ -101,10 +101,10 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		titlelabel.setText(Accounter.constants().employeeExpense());
 		// Accounter.createGETService().getHREmployees(
-		// new AccounterAsyncCallback<List<HrEmployee>>() {
+		// new AccounterAsyncCallback<ArrayList<HrEmployee>>() {
 		//
 		// @Override
-		// public void onSuccess(List<HrEmployee> result) {
+		// public void onSuccess(ArrayList<HrEmployee> result) {
 		// for (HrEmployee emp : result) {
 		// employe.add(emp.getEmployeeName());
 		// hrEmployees.add(emp.getEmployeeName());

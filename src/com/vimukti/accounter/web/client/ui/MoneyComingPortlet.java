@@ -108,7 +108,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 		body.add(hPanel);
 
-		AccounterAsyncCallback<List<Double>> callBack = new AccounterAsyncCallback<List<Double>>() {
+		AccounterAsyncCallback<ArrayList<Double>> callBack = new AccounterAsyncCallback<ArrayList<Double>>() {
 
 			@Override
 			public void onException(AccounterException caught) {
@@ -117,7 +117,7 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 			}
 
 			@Override
-			public void onResultSuccess(final List<Double> result) {
+			public void onResultSuccess(final ArrayList<Double> result) {
 				if (result != null && result.size() > 0) {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);

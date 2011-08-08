@@ -3,7 +3,7 @@
  */
 package com.vimukti.accounter.web.client;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -58,62 +58,68 @@ import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 public interface IAccounterHomeViewServiceAsync {
 
 	public void getOverDueInvoices(
-			AsyncCallback<List<OverDueInvoicesList>> callBack);
+			AsyncCallback<ArrayList<OverDueInvoicesList>> callBack);
 
-	public void getBillsOwed(AsyncCallback<List<ClientEnterBill>> callBack);
+	public void getBillsOwed(AsyncCallback<ArrayList<ClientEnterBill>> callBack);
 
-	public void getLatestQuotes(AsyncCallback<List<ClientEstimate>> callBack);
+	public void getLatestQuotes(
+			AsyncCallback<ArrayList<ClientEstimate>> callBack);
 
 	public void getBillsAndItemReceiptList(boolean isExpensesList,
-			AsyncCallback<List<BillsList>> callBack);
+			AsyncCallback<ArrayList<BillsList>> callBack);
 
 	public void getTransactionPayBills(
-			AsyncCallback<List<PayBillTransactionList>> callback);
+			AsyncCallback<ArrayList<PayBillTransactionList>> callback);
 
 	public void getTransactionPayBills(long vendorId,
-			AsyncCallback<List<PayBillTransactionList>> callback);
+			AsyncCallback<ArrayList<PayBillTransactionList>> callback);
 
-	public void getVendorPaymentsList(AsyncCallback<List<PaymentsList>> callBack);
+	public void getVendorPaymentsList(
+			AsyncCallback<ArrayList<PaymentsList>> callBack);
 
-	public void getPaymentsList(AsyncCallback<List<PaymentsList>> callBack);
+	public void getPaymentsList(AsyncCallback<ArrayList<PaymentsList>> callBack);
 
 	public void getVendorCreditsAndPayments(long vendorId,
-			AsyncCallback<List<ClientCreditsAndPayments>> callBack);
+			AsyncCallback<ArrayList<ClientCreditsAndPayments>> callBack);
 
 	public void getChecks(
-			AsyncCallback<List<IssuePaymentTransactionsList>> callBack);
+			AsyncCallback<ArrayList<IssuePaymentTransactionsList>> callBack);
 
 	public void getChecks(long accountId,
-			AsyncCallback<List<IssuePaymentTransactionsList>> callback);
+			AsyncCallback<ArrayList<IssuePaymentTransactionsList>> callback);
 
 	public void getCreditCardChargesThisMonth(long date,
-			AsyncCallback<List<ClientCreditCardCharge>> callback);
+			AsyncCallback<ArrayList<ClientCreditCardCharge>> callback);
 
-	public void getLatestCustomers(AsyncCallback<List<ClientCustomer>> callBack);
+	public void getLatestCustomers(
+			AsyncCallback<ArrayList<ClientCustomer>> callBack);
 
-	public void getLatestVendors(AsyncCallback<List<ClientVendor>> callBack);
+	public void getLatestVendors(AsyncCallback<ArrayList<ClientVendor>> callBack);
 
-	public void getLatestItems(AsyncCallback<List<ClientItem>> callBack);
+	public void getLatestItems(AsyncCallback<ArrayList<ClientItem>> callBack);
 
-	public void getLatestPayments(AsyncCallback<List<PaymentsList>> callBack);
+	public void getLatestPayments(
+			AsyncCallback<ArrayList<PaymentsList>> callBack);
 
-	public void getLatestCashSales(AsyncCallback<List<ClientCashSales>> callBack);
+	public void getLatestCashSales(
+			AsyncCallback<ArrayList<ClientCashSales>> callBack);
 
 	public void getLatestCustomerRefunds(
-			AsyncCallback<List<ClientCustomerRefund>> callBack);
+			AsyncCallback<ArrayList<ClientCustomerRefund>> callBack);
 
-	public void getLatestBills(AsyncCallback<List<BillsList>> callBack);
+	public void getLatestBills(AsyncCallback<ArrayList<BillsList>> callBack);
 
 	public void getLatestCashPurchases(
-			AsyncCallback<List<ClientCashPurchase>> callBack);
+			AsyncCallback<ArrayList<ClientCashPurchase>> callBack);
 
-	public void getLatestChecks(AsyncCallback<List<ClientWriteCheck>> callBack);
+	public void getLatestChecks(
+			AsyncCallback<ArrayList<ClientWriteCheck>> callBack);
 
 	public void getLatestDeposits(
-			AsyncCallback<List<ClientMakeDeposit>> callBack);
+			AsyncCallback<ArrayList<ClientMakeDeposit>> callBack);
 
 	public void getLatestFundsTransfer(
-			AsyncCallback<List<ClientTransferFund>> callBack);
+			AsyncCallback<ArrayList<ClientTransferFund>> callBack);
 
 	/**
 	 * Other Utility GET Methods
@@ -143,11 +149,11 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	// To get all the Estimates/Quotes in a company
-	public void getEstimates(AsyncCallback<List<ClientEstimate>> callback);
+	public void getEstimates(AsyncCallback<ArrayList<ClientEstimate>> callback);
 
 	// To get the Estimates/Quotes of a particular customer in the company
 	public void getEstimates(long customerId,
-			AsyncCallback<List<ClientEstimate>> callback);
+			AsyncCallback<ArrayList<ClientEstimate>> callback);
 
 	// To check whether an Invoice or Vendor Bill can be Voidable and Editable
 	// or not
@@ -156,22 +162,22 @@ public interface IAccounterHomeViewServiceAsync {
 
 	// To display the Item combo box of Transaction Item lines in Creating
 	// Creating Invoice,Cash Sale, Customer Credit Memo, Customer Refund
-	public void getSalesItems(AsyncCallback<List<ClientItem>> callback);
+	public void getSalesItems(AsyncCallback<ArrayList<ClientItem>> callback);
 
 	// To display the Item combo box of Transaction Item lines in Creating Enter
 	// Bill,Cash Purchase, Vendor Credit Memo Transactions
-	public void getPurchaseItems(AsyncCallback<List<ClientItem>> callback);
+	public void getPurchaseItems(AsyncCallback<ArrayList<ClientItem>> callback);
 
 	// To get the Credits and Payments of a particular Customer in a company
 	public void getCustomerCreditsAndPayments(long customerId,
-			AsyncCallback<List<ClientCreditsAndPayments>> callback);
+			AsyncCallback<ArrayList<ClientCreditsAndPayments>> callback);
 
 	// To get all the Invoices and CustomerRefunds of a particular customer
 	// which are not paid and display as the Transaction ReceivePayments in
 	// ReceivePayment
 	public void getTransactionReceivePayments(long customerId,
 			long paymentDate,
-			AsyncCallback<List<ReceivePaymentTransactionList>> callback);
+			AsyncCallback<ArrayList<ReceivePaymentTransactionList>> callback);
 
 	// To get a particular Journal Entry
 	public void getJournalEntry(long journalEntryId,
@@ -179,11 +185,11 @@ public interface IAccounterHomeViewServiceAsync {
 
 	// To get all the Journal Entries in a company
 	public void getJournalEntries(
-			AsyncCallback<List<ClientJournalEntry>> callback);
+			AsyncCallback<ArrayList<ClientJournalEntry>> callback);
 
 	// To get all the Entries of a particular journal entry
 	public void getEntries(long journalEntryId,
-			AsyncCallback<List<ClientEntry>> callback);
+			AsyncCallback<ArrayList<ClientEntry>> callback);
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)
@@ -191,54 +197,56 @@ public interface IAccounterHomeViewServiceAsync {
 
 	// To get all Invoices, Customer Credit Memo, Cash Sales and Write Checks ->
 	// for Customer
-	public void getInvoiceList(AsyncCallback<List<InvoicesList>> callback);
+	public void getInvoiceList(AsyncCallback<ArrayList<InvoicesList>> callback);
 
 	// To get all Customer Refunds and Write Checks -> for Customer
 	public void getCustomerRefundsList(
-			AsyncCallback<List<CustomerRefundsList>> callback);
+			AsyncCallback<ArrayList<CustomerRefundsList>> callback);
 
 	// To display the liabilityAccount combo box of New Tax Agency window
-	public void getTaxAgencyAccounts(AsyncCallback<List<ClientAccount>> callback);
+	public void getTaxAgencyAccounts(
+			AsyncCallback<ArrayList<ClientAccount>> callback);
 
 	public void getReceivePaymentsList(
-			AsyncCallback<List<ReceivePaymentsList>> callback);
+			AsyncCallback<ArrayList<ReceivePaymentsList>> callback);
 
-	public void getLatestPurchaseItems(AsyncCallback<List<ClientItem>> callback);
+	public void getLatestPurchaseItems(
+			AsyncCallback<ArrayList<ClientItem>> callback);
 
 	public void getLatestVendorPayments(
-			AsyncCallback<List<PaymentsList>> callback);
+			AsyncCallback<ArrayList<PaymentsList>> callback);
 
 	public void getLatestReceivePayments(
-			AsyncCallback<List<ClientReceivePayment>> callback);
+			AsyncCallback<ArrayList<ClientReceivePayment>> callback);
 
 	public void getTransactionMakeDeposit(long transactionMakeDepositId,
 			AsyncCallback<ClientTransactionMakeDeposit> callback);
 
 	public void getTransactionMakeDeposits(
-			AsyncCallback<List<ClientTransactionMakeDeposit>> callback);
+			AsyncCallback<ArrayList<ClientTransactionMakeDeposit>> callback);
 
 	/*
-	 * public void getSalesOrders(AsyncCallback<List<SalesOrdersList>>
+	 * public void getSalesOrders(AsyncCallback<ArrayList<SalesOrdersList>>
 	 * callback);
 	 */
 
 	/*
-	 * public void getPurchaseOrders( AsyncCallback<List<PurchaseOrdersList>>
-	 * callback);
+	 * public void getPurchaseOrders(
+	 * AsyncCallback<ArrayList<PurchaseOrdersList>> callback);
 	 */
 
 	/*
 	 * public void getSalesOrdersForCustomer(long customerID,
-	 * AsyncCallback<List<SalesOrdersList>> callback);
+	 * AsyncCallback<ArrayList<SalesOrdersList>> callback);
 	 */
 
 	/*
 	 * public void getPurchaseOrdersForVendor(long vendorID,
-	 * AsyncCallback<List<SalesOrdersList>> callback);
+	 * AsyncCallback<ArrayList<SalesOrdersList>> callback);
 	 */
 
 	public void getNotReceivedPurchaseOrdersList(long vendorID,
-			AsyncCallback<List<PurchaseOrdersList>> callback);
+			AsyncCallback<ArrayList<PurchaseOrdersList>> callback);
 
 	/*
 	 * public void getPurchaseOrderById(long transactionId,
@@ -246,10 +254,10 @@ public interface IAccounterHomeViewServiceAsync {
 	 */
 
 	public void getPurchasesAndItemReceiptsList(long vendorID,
-			AsyncCallback<List<PurchaseOrdersAndItemReceiptsList>> callback);
+			AsyncCallback<ArrayList<PurchaseOrdersAndItemReceiptsList>> callback);
 
 	public void getEstimatesAndSalesOrdersList(long customerID,
-			AsyncCallback<List<EstimatesAndSalesOrdersList>> callback);
+			AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback);
 
 	public void getDepreciableFixedAssets(long depreciationFrom,
 			long depreciationTo,
@@ -262,10 +270,10 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback callback);
 
 	public void getFinancialYearStartDates(
-			AsyncCallback<List<ClientFinanceDate>> callback);
+			AsyncCallback<ArrayList<ClientFinanceDate>> callback);
 
 	public void getAllDepreciationFromDates(
-			AsyncCallback<List<ClientFinanceDate>> callback);
+			AsyncCallback<ArrayList<ClientFinanceDate>> callback);
 
 	public void changeDepreciationStartDateTo(long newStartDate,
 			AsyncCallback callback);
@@ -296,46 +304,46 @@ public interface IAccounterHomeViewServiceAsync {
 			FixedAssetLinkedAccountMap linkedAccounts, AsyncCallback callBack);
 
 	public void getPaySalesTaxEntries(long transactionDate,
-			AsyncCallback<List<ClientPaySalesTaxEntries>> callBack);
+			AsyncCallback<ArrayList<ClientPaySalesTaxEntries>> callBack);
 
 	public void getPayVATEntries(
-			AsyncCallback<List<ClientPayVATEntries>> callBack);
+			AsyncCallback<ArrayList<ClientPayVATEntries>> callBack);
 
 	public void getLog(long id, boolean isNext,
-			AsyncCallback<List<ClientFinanceLogger>> callBack);
+			AsyncCallback<ArrayList<ClientFinanceLogger>> callBack);
 
 	public void getLog(String date, long id, boolean isNext,
-			AsyncCallback<List<ClientFinanceLogger>> callBack);
+			AsyncCallback<ArrayList<ClientFinanceLogger>> callBack);
 
 	public void getPayeeList(int transactionCategory,
-			AsyncCallback<List<PayeeList>> callBack);
+			AsyncCallback<ArrayList<PayeeList>> callBack);
 
 	public void getInvoiceList(long fromDate, long toDate,
-			AsyncCallback<List<InvoicesList>> callback);
+			AsyncCallback<ArrayList<InvoicesList>> callback);
 
 	public void getMinimumAndMaximumTransactionDate(
-			AsyncCallback<List<ClientFinanceDate>> callBack);
+			AsyncCallback<ArrayList<ClientFinanceDate>> callBack);
 
 	public void getCustomerNumber(AsyncCallback<String> callback);
 
 	void getReceiveVATEntries(
-			AsyncCallback<List<ClientReceiveVATEntries>> callback);
+			AsyncCallback<ArrayList<ClientReceiveVATEntries>> callback);
 
 	public void getGraphPointsforAccount(int chartType, long accountNo,
-			AsyncCallback<List<Double>> callBack);
+			AsyncCallback<ArrayList<Double>> callBack);
 
 	public void getEmployeeExpensesByStatus(String userName, int status,
-			AsyncCallback<List<BillsList>> callBack);
+			AsyncCallback<ArrayList<BillsList>> callBack);
 
 	public void changePassWord(String emailID, String oldPassword,
 			String newPassword, AsyncCallback<Boolean> callback);
 
-	void getAllUsers(AsyncCallback<List<ClientUserInfo>> callback);
+	void getAllUsers(AsyncCallback<ArrayList<ClientUserInfo>> callback);
 
 	/**
 	 * @param AsyncCallback
 	 */
 	public void getAllEmployees(
-			AsyncCallback<List<ClientEmployee>> AsyncCallback);
+			AsyncCallback<ArrayList<ClientEmployee>> AsyncCallback);
 
 }

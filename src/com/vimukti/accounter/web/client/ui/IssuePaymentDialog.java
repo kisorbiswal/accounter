@@ -104,7 +104,7 @@ public class IssuePaymentDialog extends BaseDialog {
 	//
 	// rpcUtilService
 	// .getChecks(new
-	// AccounterAsyncCallback<List<IssuePaymentTransactionsList>>() {
+	// AccounterAsyncCallback<ArrayList<IssuePaymentTransactionsList>>() {
 	//
 	// public void onException(AccounterException caught) {
 	// // UIUtils
@@ -401,7 +401,7 @@ public class IssuePaymentDialog extends BaseDialog {
 			rpcUtilService
 					.getChecks(
 							selectedPayFromAccount2.getID(),
-							new AccounterAsyncCallback<List<IssuePaymentTransactionsList>>() {
+							new AccounterAsyncCallback<ArrayList<IssuePaymentTransactionsList>>() {
 
 								public void onException(AccounterException t) {
 
@@ -415,7 +415,7 @@ public class IssuePaymentDialog extends BaseDialog {
 								}
 
 								public void onResultSuccess(
-										List<IssuePaymentTransactionsList> result) {
+										ArrayList<IssuePaymentTransactionsList> result) {
 
 									if (result == null) {
 										onFailure(null);

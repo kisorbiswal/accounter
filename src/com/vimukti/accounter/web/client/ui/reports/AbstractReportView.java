@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -30,7 +31,7 @@ import com.vimukti.accounter.web.client.ui.core.ReportUtility;
  */
 
 public abstract class AbstractReportView<R> extends ParentCanvas<List<R>>
-		implements ISorting<R>, IFinanceReport<R>, AsyncCallback<List<R>> {
+		implements ISorting<R>, IFinanceReport<R>, AsyncCallback<ArrayList<R>> {
 
 	public static final int TOOLBAR_TYPE_DATE_RANGE = 1;
 	public static final int TOOLBAR_TYPE_AS_OF = 2;
@@ -105,7 +106,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas<List<R>>
 	 * This method will be called when the RPC method returns. This is a async
 	 * call back.
 	 */
-	public void onSuccess(List<R> result) {
+	public void onSuccess(ArrayList<R> result) {
 		try {
 			if (result != null && result.size() > 1) {
 				grid.removeAllRows();

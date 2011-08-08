@@ -267,13 +267,13 @@
 //		initAllCombos(accounts);
 //
 //		// FinanceApplication.createGETService().getAccounts(
-//		// new AccounterAsyncCallback<List<ClientAccount>>() {
+//		// new AccounterAsyncCallback<ArrayList<ClientAccount>>() {
 //		//
 //		// public void onException(AccounterException caught) {
 //		//
 //		// }
 //		//
-//		// public void onSuccess(List<ClientAccount> result) {
+//		// public void onSuccess(ArrayList<ClientAccount> result) {
 //		// initAllCombos(result);
 //		// }
 //		// });

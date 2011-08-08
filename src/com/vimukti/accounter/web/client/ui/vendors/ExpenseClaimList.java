@@ -1,10 +1,12 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -16,13 +18,10 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 /**
@@ -61,8 +60,8 @@ public class ExpenseClaimList extends BaseView {
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		Button submitApproval = new Button(Accounter
-				.constants().submitForApproval());
+		Button submitApproval = new Button(Accounter.constants()
+				.submitForApproval());
 		submitApproval.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -84,8 +83,7 @@ public class ExpenseClaimList extends BaseView {
 			}
 		});
 
-		Button deleteButton = new Button(Accounter
-				.constants().delete());
+		Button deleteButton = new Button(Accounter.constants().delete());
 		deleteButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -165,10 +163,10 @@ public class ExpenseClaimList extends BaseView {
 		}
 		Accounter.createHomeService().getEmployeeExpensesByStatus(userName,
 				ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE,
-				new AccounterAsyncCallback<List<BillsList>>() {
+				new AccounterAsyncCallback<ArrayList<BillsList>>() {
 
 					@Override
-					public void onResultSuccess(List<BillsList> result) {
+					public void onResultSuccess(ArrayList<BillsList> result) {
 						if (result.size() > 0) {
 							for (BillsList list : result)
 								grid.addData(list);

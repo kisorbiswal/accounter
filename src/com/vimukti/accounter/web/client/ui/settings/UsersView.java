@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -13,6 +14,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -24,7 +26,6 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -60,10 +61,10 @@ public class UsersView extends BaseView<ClientUserInfo> {
 	public void initData() {
 		super.initData();
 		Accounter.createHomeService().getAllUsers(
-				new AccounterAsyncCallback<List<ClientUserInfo>>() {
+				new AccounterAsyncCallback<ArrayList<ClientUserInfo>>() {
 
 					@Override
-					public void onResultSuccess(List<ClientUserInfo> result) {
+					public void onResultSuccess(ArrayList<ClientUserInfo> result) {
 						usersListGrid.removeLoadingImage();
 						usersListGrid.removeAllRecords();
 						usersListGrid.setRecords(result);
@@ -122,8 +123,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 		titleLabel.removeStyleName("gwt-Label");
 		titleLabel.setStyleName(Accounter.constants().labelTitle());
 
-		inviteUserButton = new Button(Accounter.constants()
-				.inviteUser());
+		inviteUserButton = new Button(Accounter.constants().inviteUser());
 		inviteUserButton.addClickHandler(new ClickHandler() {
 
 			@Override

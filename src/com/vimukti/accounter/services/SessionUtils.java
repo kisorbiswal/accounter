@@ -2,7 +2,7 @@ package com.vimukti.accounter.services;
 
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -23,7 +23,6 @@ public class SessionUtils {
 
 	}
 
-	
 	public static <T> void execute(T previousObject, T obj, Session session,
 			Boolean incrementCount) {
 
@@ -69,8 +68,7 @@ public class SessionUtils {
 
 											if (clazz2
 													.getName()
-													.equals(
-															"com.vimukti.accounter.core.Transaction")) {
+													.equals("com.vimukti.accounter.core.Transaction")) {
 												flag = false;
 												break;
 											} else {
@@ -93,39 +91,33 @@ public class SessionUtils {
 													Field prop = prevRefClazz
 															.getDeclaredField("referenceCount");
 													if (!prop.isAccessible()) {
-														prop
-																.setAccessible(true);
+														prop.setAccessible(true);
 													}
-													prop
-															.setLong(
-																	prevRefObject,
-																	((Long) prop
-																			.get(prevRefObject))
-																			.longValue() - 1l);
-													session
-															.saveOrUpdate(prevRefObject);
+													prop.setLong(
+															prevRefObject,
+															((Long) prop
+																	.get(prevRefObject))
+																	.longValue() - 1l);
+													session.saveOrUpdate(prevRefObject);
 
 													Field property = clazz
 															.getDeclaredField("referenceCount");
 													if (!property
 															.isAccessible()) {
-														property
-																.setAccessible(true);
+														property.setAccessible(true);
 													}
 													if (incrementCount == true) {
-														property
-																.setLong(
-																		refObject,
-																		((Long) property
-																				.get(refObject))
-																				.longValue() + 1l);
+														property.setLong(
+																refObject,
+																((Long) property
+																		.get(refObject))
+																		.longValue() + 1l);
 													} else {
-														property
-																.setLong(
-																		refObject,
-																		((Long) property
-																				.get(refObject))
-																				.longValue() - 1l);
+														property.setLong(
+																refObject,
+																((Long) property
+																		.get(refObject))
+																		.longValue() - 1l);
 													}
 												}
 											} else if (fieldValue != null
@@ -136,23 +128,20 @@ public class SessionUtils {
 												Field property = clazz
 														.getDeclaredField("referenceCount");
 												if (!property.isAccessible()) {
-													property
-															.setAccessible(true);
+													property.setAccessible(true);
 												}
 												if (incrementCount == true) {
-													property
-															.setLong(
-																	refObject,
-																	((Long) property
-																			.get(refObject))
-																			.longValue() + 1l);
+													property.setLong(
+															refObject,
+															((Long) property
+																	.get(refObject))
+																	.longValue() + 1l);
 												} else {
-													property
-															.setLong(
-																	refObject,
-																	((Long) property
-																			.get(refObject))
-																			.longValue() - 1l);
+													property.setLong(
+															refObject,
+															((Long) property
+																	.get(refObject))
+																	.longValue() - 1l);
 												}
 											}
 
@@ -212,8 +201,8 @@ public class SessionUtils {
 							try {
 								if (id > 0) {
 									if (!fieldType.equals(DecimalFormat.class)) {
-										field.set(obj, session.get(fieldType,
-												id));
+										field.set(obj,
+												session.get(fieldType, id));
 									}
 								}
 							} catch (HibernateException e) {
@@ -264,7 +253,7 @@ public class SessionUtils {
 
 	private static <T> void iterateList(Field field, T obj, Session session) {
 		try {
-			List<?> list = (List<?>) field.get(obj);
+			ArrayList<?> list = (ArrayList<?>) field.get(obj);
 			if (list == null)
 				return;
 			for (Object o : list) {

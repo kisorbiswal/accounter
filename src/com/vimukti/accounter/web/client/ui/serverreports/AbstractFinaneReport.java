@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
 
 public abstract class AbstractFinaneReport<R> extends
-		AccounterAsyncCallback<List<R>> implements IFinanceReport<R> {
+		AccounterAsyncCallback<ArrayList<R>> implements IFinanceReport<R> {
 
 	protected int sectionDepth = 0;
 	private String[] columns;
@@ -103,7 +103,7 @@ public abstract class AbstractFinaneReport<R> extends
 	 * call back.
 	 */
 	@Override
-	public void onResultSuccess(List<R> result) {
+	public void onResultSuccess(ArrayList<R> result) {
 		try {
 			if (result != null && result.size() > 1) {
 				removeAllRows();

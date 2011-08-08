@@ -361,7 +361,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	private void fillGrid() {
 		grid.addLoadingImagePanel();
 		rpcUtilService
-				.getPayVATEntries(new AccounterAsyncCallback<List<ClientPayVATEntries>>() {
+				.getPayVATEntries(new AccounterAsyncCallback<ArrayList<ClientPayVATEntries>>() {
 
 					@Override
 					public void onException(AccounterException caught) {
@@ -373,7 +373,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 					}
 
 					@Override
-					public void onResultSuccess(List<ClientPayVATEntries> result) {
+					public void onResultSuccess(ArrayList<ClientPayVATEntries> result) {
 						if (result == null) {
 
 							onException(null);

@@ -84,14 +84,14 @@
 //			}
 //		}
 //
-//		// AccounterAsyncCallback<List<ClientAccount>> accountsCallback = new
-//		// AccounterAsyncCallback<List<ClientAccount>>() {
+//		// AccounterAsyncCallback<ArrayList<ClientAccount>> accountsCallback = new
+//		// AccounterAsyncCallback<ArrayList<ClientAccount>>() {
 //		//
 //		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
-//		// public void onSuccess(List<ClientAccount> result) {
+//		// public void onSuccess(ArrayList<ClientAccount> result) {
 //		// allAccounts = result;
 //		// accountsCombo.initCombo(result);
 //		// nameField.setEditorType(accountsCombo);
@@ -112,14 +112,14 @@
 //		itemCombo.initCombo(clientItem);
 //		nameField.setEditorType(itemCombo);
 //
-//		// AccounterAsyncCallback<List<ClientItem>> itemsCallback = new
-//		// AccounterAsyncCallback<List<ClientItem>>() {
+//		// AccounterAsyncCallback<ArrayList<ClientItem>> itemsCallback = new
+//		// AccounterAsyncCallback<ArrayList<ClientItem>>() {
 //		//
 //		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
-//		// public void onSuccess(List<ClientItem> result) {
+//		// public void onSuccess(ArrayList<ClientItem> result) {
 //		// allItems = result;
 //		// itemCombo.initCombo(result);
 //		// nameField.setEditorType(itemCombo);

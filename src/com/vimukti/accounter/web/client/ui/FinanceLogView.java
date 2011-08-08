@@ -5,11 +5,12 @@
  */
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -18,8 +19,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceLogger;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.google.gwt.user.client.ui.Button;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.FinanceLogginGrid;
@@ -178,10 +177,10 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 	protected void getLogsForDate(String dateToString) {
 		long id = isDateChanged ? -1 : (isNext ? lastRecordID : firstRecordID);
 		rpcUtilService.getLog(dateToString, id, isNext,
-				new AccounterAsyncCallback<List<ClientFinanceLogger>>() {
+				new AccounterAsyncCallback<ArrayList<ClientFinanceLogger>>() {
 
 					@Override
-					public void onResultSuccess(List<ClientFinanceLogger> result) {
+					public void onResultSuccess(ArrayList<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							grid.setRecords(result);
 							firstRecordID = result.get(0).getID();
@@ -209,10 +208,10 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 
 	private void fillGrid() {
 		rpcUtilService.getLog(-1, true,
-				new AccounterAsyncCallback<List<ClientFinanceLogger>>() {
+				new AccounterAsyncCallback<ArrayList<ClientFinanceLogger>>() {
 
 					@Override
-					public void onResultSuccess(List<ClientFinanceLogger> result) {
+					public void onResultSuccess(ArrayList<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							if (result.size() < 20) {
 								prvsHyprLink.setEnabled(false);
@@ -245,10 +244,11 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 	public void fillGridWithNextRecords() {
 
 		rpcUtilService.getLog(lastRecordID, true,
-				new AccounterAsyncCallback<List<ClientFinanceLogger>>() {
+				new AccounterAsyncCallback<ArrayList<ClientFinanceLogger>>() {
 
 					@Override
-					public void onResultSuccess(List<ClientFinanceLogger> result) {
+					public void onResultSuccess(
+							ArrayList<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							if (result.size() < 20)
 								nextHyprLnk.setEnabled(false);
@@ -273,10 +273,10 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 
 	public void fillGridWithPreviousRecords() {
 		rpcUtilService.getLog(firstRecordID, false,
-				new AccounterAsyncCallback<List<ClientFinanceLogger>>() {
+				new AccounterAsyncCallback<ArrayList<ClientFinanceLogger>>() {
 
 					@Override
-					public void onResultSuccess(List<ClientFinanceLogger> result) {
+					public void onResultSuccess(ArrayList<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							if (result.size() < 20)
 								prvsHyprLink.setEnabled(false);

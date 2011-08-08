@@ -73,7 +73,7 @@ public class PaymentListView extends BaseListView<PaymentsList> {
 	}
 
 	@Override
-	public void onSuccess(List<PaymentsList> result) {
+	public void onSuccess(ArrayList<PaymentsList> result) {
 		super.onSuccess(result);
 		listOfPayments = result;
 		filterList(viewSelect.getSelectedValue());

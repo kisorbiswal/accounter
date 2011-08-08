@@ -379,7 +379,7 @@ public class RecieveVATView extends
 	private void fillGrid() {
 		grid.addLoadingImagePanel();
 		rpcUtilService
-				.getReceiveVATEntries(new AccounterAsyncCallback<List<ClientReceiveVATEntries>>() {
+				.getReceiveVATEntries(new AccounterAsyncCallback<ArrayList<ClientReceiveVATEntries>>() {
 
 					@Override
 					public void onException(AccounterException caught) {
@@ -392,7 +392,7 @@ public class RecieveVATView extends
 
 					@Override
 					public void onResultSuccess(
-							List<ClientReceiveVATEntries> result) {
+							ArrayList<ClientReceiveVATEntries> result) {
 						if (result == null) {
 
 							onFailure(null);

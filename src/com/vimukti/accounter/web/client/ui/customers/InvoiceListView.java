@@ -90,7 +90,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	}
 
 	@Override
-	public void onSuccess(List<InvoicesList> result) {
+	public void onSuccess(ArrayList<InvoicesList> result) {
 		super.onSuccess(result);
 		listOfInvoices = result;
 		filterList(viewSelect.getValue().toString());
@@ -422,7 +422,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 			return;
 
 		else {
-			AccounterAsyncCallback<List<ClientFinanceDate>> callback = new AccounterAsyncCallback<List<ClientFinanceDate>>() {
+			AccounterAsyncCallback<ArrayList<ClientFinanceDate>> callback = new AccounterAsyncCallback<ArrayList<ClientFinanceDate>>() {
 
 				@Override
 				public void onException(AccounterException caught) {
@@ -430,7 +430,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 				}
 
 				@Override
-				public void onResultSuccess(List<ClientFinanceDate> result) {
+				public void onResultSuccess(ArrayList<ClientFinanceDate> result) {
 
 					if (result == null)
 						onFailure(new Exception());

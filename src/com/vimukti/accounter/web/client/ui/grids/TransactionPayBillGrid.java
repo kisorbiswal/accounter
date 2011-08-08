@@ -302,7 +302,7 @@ public class TransactionPayBillGrid extends
 
 		Accounter.createHomeService().getVendorCreditsAndPayments(
 				vendor.getID(),
-				new AccounterAsyncCallback<List<ClientCreditsAndPayments>>() {
+				new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
 
 					public void onException(AccounterException caught) {
 						Accounter.showInformation(Accounter.messages()
@@ -314,7 +314,7 @@ public class TransactionPayBillGrid extends
 
 					}
 
-					public void onResultSuccess(List<ClientCreditsAndPayments> result) {
+					public void onResultSuccess(ArrayList<ClientCreditsAndPayments> result) {
 						if (result == null)
 							onFailure(null);
 

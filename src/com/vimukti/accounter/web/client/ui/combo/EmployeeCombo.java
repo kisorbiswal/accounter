@@ -16,9 +16,9 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 	public EmployeeCombo(String title) {
 		super(title, false, 1);
 		Accounter.createHomeService().getAllEmployees(
-				new AccounterAsyncCallback<List<ClientEmployee>>() {
+				new AccounterAsyncCallback<ArrayList<ClientEmployee>>() {
 					@Override
-					public void onResultSuccess(List<ClientEmployee> result) {
+					public void onResultSuccess(ArrayList<ClientEmployee> result) {
 						users = result;
 						if (isAdmin) {
 							initCombo(users);
@@ -36,7 +36,8 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants().failedtoloadEmployeeslist());
+						Accounter.showError(Accounter.constants()
+								.failedtoloadEmployeeslist());
 					}
 				});
 	}

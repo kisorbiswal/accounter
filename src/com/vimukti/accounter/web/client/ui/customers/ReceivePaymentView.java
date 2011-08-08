@@ -142,7 +142,7 @@ public class ReceivePaymentView extends
 				.getTransactionReceivePayments(
 						selectedCustomer.getID(),
 						paymentDate,
-						new AccounterAsyncCallback<List<ReceivePaymentTransactionList>>() {
+						new AccounterAsyncCallback<ArrayList<ReceivePaymentTransactionList>>() {
 
 							public void onException(AccounterException caught) {
 								Accounter.showError(Accounter.constants()
@@ -153,7 +153,7 @@ public class ReceivePaymentView extends
 							}
 
 							public void onResultSuccess(
-									List<ReceivePaymentTransactionList> result) {
+									ArrayList<ReceivePaymentTransactionList> result) {
 
 								receivePaymentTransactionList = result;
 
@@ -1294,7 +1294,8 @@ public class ReceivePaymentView extends
 
 		// this.rpcUtilService.getTransactionReceivePayments(customer
 		// .getID(),
-		// new AccounterAsyncCallback<List<ReceivePaymentTransactionList>>() {
+		// new
+		// AccounterAsyncCallback<ArrayList<ReceivePaymentTransactionList>>() {
 		//
 		// public void onException(AccounterException caught) {
 		// Accounter.showError(FinanceApplication

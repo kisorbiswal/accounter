@@ -1185,7 +1185,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			// && dialog.preCustomer == this.customer) {
 			// return;
 			// }
-			AsyncCallback<List<EstimatesAndSalesOrdersList>> callback = new AsyncCallback<List<EstimatesAndSalesOrdersList>>() {
+			AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback = new AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -1197,7 +1197,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				}
 
 				@Override
-				public void onSuccess(List<EstimatesAndSalesOrdersList> result) {
+				public void onSuccess(ArrayList<EstimatesAndSalesOrdersList> result) {
 					if (result == null)
 						onFailure(new Exception());
 

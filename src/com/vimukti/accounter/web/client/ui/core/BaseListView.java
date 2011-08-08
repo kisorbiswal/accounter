@@ -45,7 +45,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
  */
 
 public abstract class BaseListView<T> extends AbstractBaseView<T> implements
-		IAccounterList<T>, AsyncCallback<List<T>> {
+		IAccounterList<T>, AsyncCallback<ArrayList<T>> {
 	protected List<String> listOfTypes;
 
 	protected BaseListGrid grid;
@@ -394,7 +394,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	}
 
 	@Override
-	public void onSuccess(List<T> result) {
+	public void onSuccess(ArrayList<T> result) {
 		grid.removeLoadingImage();
 		if (result != null) {
 			initialRecords = result;

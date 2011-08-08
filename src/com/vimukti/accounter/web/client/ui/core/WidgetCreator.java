@@ -184,11 +184,12 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getBillsOwed(new AccounterAsyncCallback<List<ClientEnterBill>>() {
-	 * public void onException(AccounterException caught) { Window.alert("Get Failed:" +
+	 * getService.getBillsOwed(new
+	 * AccounterAsyncCallback<ArrayList<ClientEnterBill>>() { public void
+	 * onException(AccounterException caught) { Window.alert("Get Failed:" +
 	 * caught); }
 	 * 
-	 * public void onSuccess(List<ClientEnterBill> result) {
+	 * public void onSuccess(ArrayList<ClientEnterBill> result) {
 	 * fillBillOwedGrid(result, creditOverviewGrid); creditOverviewGrid.show();
 	 * }
 	 * 
@@ -227,8 +228,8 @@ public class WidgetCreator {
 				// // .getClientHeight() - 60;
 				// // customerWidgetGrid.setHeight(height + "px");
 				// customerWidgetGrid.setHeight("250px");
-				customerWidgetGrid.getElement().getStyle().setBorderWidth(0,
-						Unit.PX);
+				customerWidgetGrid.getElement().getStyle()
+						.setBorderWidth(0, Unit.PX);
 				super.onAttach();
 			}
 
@@ -255,16 +256,16 @@ public class WidgetCreator {
 		return bankingSummaryPortlet;
 	}
 
-
 	public void reloadDebitors(final CustomerWidgetGrid grid) {
 
 		if (Accounter.getStartDate() != null)
 			Accounter.createReportService().getDebitors(
 					new ClientFinanceDate(), new ClientFinanceDate(),
-					new AccounterAsyncCallback<List<DummyDebitor>>() {
+					new AccounterAsyncCallback<ArrayList<DummyDebitor>>() {
 
 						@Override
-						public void onResultSuccess(List<DummyDebitor> result) {
+						public void onResultSuccess(
+								ArrayList<DummyDebitor> result) {
 							// if (continueRequest) {
 							result.remove(result.size() - 1);
 							Collections.sort(result,
@@ -335,10 +336,10 @@ public class WidgetCreator {
 	 * accounts.add(account); } }
 	 * 
 	 * // FinanceApplication.createGETService().getAccounts( // new
-	 * AccounterAsyncCallback<List<ClientAccount>>() { // // public void
+	 * AccounterAsyncCallback<ArrayList<ClientAccount>>() { // // public void
 	 * onException(AccounterException caught) { // UIUtils //
 	 * .logError("Failed to get the Accounts..", // caught); // // } // //
-	 * public void onSuccess(List<ClientAccount> result) { // if (result ==
+	 * public void onSuccess(ArrayList<ClientAccount> result) { // if (result ==
 	 * null) { // onFailure(null); // return; // } // // for (ClientAccount
 	 * account : result) { // if (account.getType() == ClientAccount.TYPE_BANK
 	 * // && (account.getBankAccountType() ==
@@ -390,11 +391,12 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getBillsOwed(new AccounterAsyncCallback<List<ClientEnterBill>>() {
-	 * public void onException(AccounterException caught) { Window.alert("Get Failed:" +
+	 * getService.getBillsOwed(new
+	 * AccounterAsyncCallback<ArrayList<ClientEnterBill>>() { public void
+	 * onException(AccounterException caught) { Window.alert("Get Failed:" +
 	 * caught); }
 	 * 
-	 * public void onSuccess(List<ClientEnterBill> result) {
+	 * public void onSuccess(ArrayList<ClientEnterBill> result) {
 	 * fillProfitAndLossGrid(result, profitAndLossGrid);
 	 * profitAndLossGrid.show(); }
 	 * 
@@ -445,10 +447,11 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getOverDueInvoices(new
-	 * AccounterAsyncCallback<List<OverDueInvoicesList>>() { public void
-	 * onException(AccounterException caught) { Window.alert("Get Failed:" + caught); }
+	 * AccounterAsyncCallback<ArrayList<OverDueInvoicesList>>() { public void
+	 * onException(AccounterException caught) { Window.alert("Get Failed:" +
+	 * caught); }
 	 * 
-	 * public void onSuccess(List<OverDueInvoicesList> result) {
+	 * public void onSuccess(ArrayList<OverDueInvoicesList> result) {
 	 * fillDebitOverviewGrid(result, debitOverviewGrid);
 	 * debitOverviewGrid.show(); }
 	 * 
@@ -500,11 +503,12 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getLatestQuotes(new AccounterAsyncCallback<List<ClientEstimate>>() {
-	 * public void onException(AccounterException caught) { Window.alert("Get Failed:" +
+	 * getService.getLatestQuotes(new
+	 * AccounterAsyncCallback<ArrayList<ClientEstimate>>() { public void
+	 * onException(AccounterException caught) { Window.alert("Get Failed:" +
 	 * caught); }
 	 * 
-	 * public void onSuccess(List<ClientEstimate> result) {
+	 * public void onSuccess(ArrayList<ClientEstimate> result) {
 	 * fillLatestQuoteGrid(result, latestQuoteGrid); latestQuoteGrid.show(); }
 	 * 
 	 * }); }
@@ -554,10 +558,10 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); // ((ServiceDefTarget) //
 	 * getService).setServiceEntryPoint(FinanceApplication //
 	 * .HOME_SERVICE_ENTRY_POINT); // // getService.get(new //
-	 * AccounterAsyncCallback<List<Invoice>>() { // public void onFailure(Throwable
-	 * caught) { // Window.alert("Get Failed:"+caught); // } // // public void
-	 * onSuccess(List<Invoice> result) { // fillExpensesGrid(result); //
-	 * expensesGrid.show(); // } // // }); }
+	 * AccounterAsyncCallback<ArrayList<Invoice>>() { // public void
+	 * onFailure(Throwable caught) { // Window.alert("Get Failed:"+caught); // }
+	 * // // public void onSuccess(ArrayList<Invoice> result) { //
+	 * fillExpensesGrid(result); // expensesGrid.show(); // } // // }); }
 	 * 
 	 * // protected void fillExpensesGrid(List<Invoice> result) { //
 	 * ListGridRecord[] records = new ListGridRecord[result.size()]; // Estimate
@@ -603,15 +607,15 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService .getLatestCustomers(new AccounterAsyncCallback<List<ClientCustomer>>()
-	 * {
+	 * getService .getLatestCustomers(new
+	 * AccounterAsyncCallback<ArrayList<ClientCustomer>>() {
 	 * 
 	 * public void onException(AccounterException caught) { //
 	 * 
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<ClientCustomer> result) {
+	 * public void onSuccess(ArrayList<ClientCustomer> result) {
 	 * fillNewCustomerGrid(result, grid); grid.show(); } });
 	 * 
 	 * }
@@ -658,14 +662,15 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService .getLatestPurchaseItems(new AccounterAsyncCallback<List<ClientItem>>()
-	 * {
+	 * getService .getLatestPurchaseItems(new
+	 * AccounterAsyncCallback<ArrayList<ClientItem>>() {
 	 * 
-	 * public void onException(AccounterException caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated
+	 * method stub
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<ClientItem> result) {
+	 * public void onSuccess(ArrayList<ClientItem> result) {
 	 * fillPurchaseItemGrid(result, grid); grid.show(); }
 	 * 
 	 * });
@@ -713,13 +718,14 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getSalesItems(new AccounterAsyncCallback<List<ClientItem>>() {
+	 * getService.getSalesItems(new AccounterAsyncCallback<ArrayList<ClientItem>>() {
 	 * 
-	 * public void onException(AccounterException caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated
+	 * method stub
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<ClientItem> result) {
+	 * public void onSuccess(ArrayList<ClientItem> result) {
 	 * fillSalesItemGrid(result, grid); grid.show(); }
 	 * 
 	 * });
@@ -768,13 +774,14 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestReceivePayments(new
-	 * AccounterAsyncCallback<List<ClientReceivePayment>>() {
+	 * AccounterAsyncCallback<ArrayList<ClientReceivePayment>>() {
 	 * 
-	 * public void onException(AccounterException caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated
+	 * method stub
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<ClientReceivePayment> result) {
+	 * public void onSuccess(ArrayList<ClientReceivePayment> result) {
 	 * fillPaymentReceivedGrid(result, grid); grid.show(); }
 	 * 
 	 * });
@@ -823,14 +830,15 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService .getLatestCashSales(new AccounterAsyncCallback<List<ClientCashSales>>()
-	 * {
+	 * getService .getLatestCashSales(new
+	 * AccounterAsyncCallback<ArrayList<ClientCashSales>>() {
 	 * 
-	 * public void onException(AccounterException caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated
+	 * method stub
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<ClientCashSales> result) {
+	 * public void onSuccess(ArrayList<ClientCashSales> result) {
 	 * fillCashSalesGrid(result, grid); grid.show(); }
 	 * 
 	 * });
@@ -880,13 +888,14 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestCustomerRefunds(new
-	 * AccounterAsyncCallback<List<ClientCustomerRefund>>() {
+	 * AccounterAsyncCallback<ArrayList<ClientCustomerRefund>>() {
 	 * 
-	 * public void onException(AccounterException caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated
+	 * method stub
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<ClientCustomerRefund> result) {
+	 * public void onSuccess(ArrayList<ClientCustomerRefund> result) {
 	 * fillCreditAndRefundGrid(result, grid); grid.show(); }
 	 * 
 	 * });
@@ -936,13 +945,15 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getLatestVendors(new AccounterAsyncCallback<List<ClientVendor>>() {
+	 * getService.getLatestVendors(new
+	 * AccounterAsyncCallback<ArrayList<ClientVendor>>() {
 	 * 
-	 * public void onException(AccounterException caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated
+	 * method stub
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<ClientVendor> result) {
+	 * public void onSuccess(ArrayList<ClientVendor> result) {
 	 * fillNewVendorGrid(result, grid); grid.show(); }
 	 * 
 	 * });
@@ -989,13 +1000,14 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestVendorPayments(new
-	 * AccounterAsyncCallback<List<PaymentsList>>() {
+	 * AccounterAsyncCallback<ArrayList<PaymentsList>>() {
 	 * 
-	 * public void onException(AccounterException caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated
+	 * method stub
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<PaymentsList> result) {
+	 * public void onSuccess(ArrayList<PaymentsList> result) {
 	 * fillBillsPaidGrid(result, grid); grid.show(); }
 	 * 
 	 * });
@@ -1047,13 +1059,14 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestCashPurchases(new
-	 * AccounterAsyncCallback<List<ClientCashPurchase>>() {
+	 * AccounterAsyncCallback<ArrayList<ClientCashPurchase>>() {
 	 * 
-	 * public void onException(AccounterException caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated
+	 * method stub
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<ClientCashPurchase> result) {
+	 * public void onSuccess(ArrayList<ClientCashPurchase> result) {
 	 * fillCashPurchaseGrid(result, grid); grid.show(); }
 	 * 
 	 * });
@@ -1102,13 +1115,15 @@ public class WidgetCreator {
 	 * .create(IAccounterHomeViewService.class); ((ServiceDefTarget) getService)
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
-	 * getService.getLatestChecks(new AccounterAsyncCallback<List<ClientWriteCheck>>() {
+	 * getService.getLatestChecks(new
+	 * AccounterAsyncCallback<ArrayList<ClientWriteCheck>>() {
 	 * 
-	 * public void onException(AccounterException caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated
+	 * method stub
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<ClientWriteCheck> result) {
+	 * public void onSuccess(ArrayList<ClientWriteCheck> result) {
 	 * fillCheckIssuedGrid(result, grid); grid.show(); }
 	 * 
 	 * });
@@ -1158,13 +1173,14 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestDeposits(new
-	 * AccounterAsyncCallback<List<ClientMakeDeposit>>() {
+	 * AccounterAsyncCallback<ArrayList<ClientMakeDeposit>>() {
 	 * 
-	 * public void onException(AccounterException caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated
+	 * method stub
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<ClientMakeDeposit> result) {
+	 * public void onSuccess(ArrayList<ClientMakeDeposit> result) {
 	 * fillDepositeGrid(result, grid); grid.show(); }
 	 * 
 	 * });
@@ -1215,13 +1231,14 @@ public class WidgetCreator {
 	 * .setServiceEntryPoint(FinanceApplication.HOME_SERVICE_ENTRY_POINT);
 	 * 
 	 * getService .getLatestFundsTransfer(new
-	 * AccounterAsyncCallback<List<ClientTransferFund>>() {
+	 * AccounterAsyncCallback<ArrayList<ClientTransferFund>>() {
 	 * 
-	 * public void onException(AccounterException caught) { // Auto-generated method stub
+	 * public void onException(AccounterException caught) { // Auto-generated
+	 * method stub
 	 * 
 	 * }
 	 * 
-	 * public void onSuccess(List<ClientTransferFund> result) {
+	 * public void onSuccess(ArrayList<ClientTransferFund> result) {
 	 * fillFundTransferGrid(result, grid); grid.show(); }
 	 * 
 	 * });

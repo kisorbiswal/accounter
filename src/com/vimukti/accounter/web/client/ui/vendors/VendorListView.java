@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -100,7 +101,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 		+ DataUtils.getAmountAsString(total) + "");
 	}
 
-	
 	@Override
 	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
 
@@ -130,7 +130,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 		// getTotalLayout(grid);
 	}
 
-	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();
@@ -153,7 +152,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	}
 
 	@Override
-	public void onSuccess(List<PayeeList> result) {
+	public void onSuccess(ArrayList<PayeeList> result) {
 		this.listOfPayees = result;
 		super.onSuccess(result);
 	}

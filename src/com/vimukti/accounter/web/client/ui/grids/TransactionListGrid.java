@@ -125,14 +125,14 @@
 //		// salesTaxCombo.initCombo(listTaxCodes);
 //		// nameField.setEditorType(salesTaxCombo);
 //		//
-//		// AccounterAsyncCallback<List<ClientTaxCode>> taxcodesCallBack = new
-//		// AccounterAsyncCallback<List<ClientTaxCode>>() {
+//		// AccounterAsyncCallback<ArrayList<ClientTaxCode>> taxcodesCallBack = new
+//		// AccounterAsyncCallback<ArrayList<ClientTaxCode>>() {
 //		//
 //		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Failed to Get TaxCode List...");
 //		// }
 //		//
-//		// public void onSuccess(List<ClientTaxCode> result) {
+//		// public void onSuccess(ArrayList<ClientTaxCode> result) {
 //		// if (FinanceApplication.getCompany().getAccountingType() == 1) {
 //		// vatCodeCombo.initCombo(result);
 //		// vatCodeField.setEditorType(vatCodeCombo);

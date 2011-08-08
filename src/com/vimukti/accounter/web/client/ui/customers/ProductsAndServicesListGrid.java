@@ -114,27 +114,27 @@
 //		itemCombo.initCombo(result);
 //		nameField.setEditorType(itemCombo);
 //
-//		// AccounterAsyncCallback<List<ClientAccount>> accountsCallback = new
-//		// AccounterAsyncCallback<List<ClientAccount>>() {
+//		// AccounterAsyncCallback<ArrayList<ClientAccount>> accountsCallback = new
+//		// AccounterAsyncCallback<ArrayList<ClientAccount>>() {
 //		//
 //		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
-//		// public void onSuccess(List<ClientAccount> result) {
+//		// public void onSuccess(ArrayList<ClientAccount> result) {
 //		// accountsCombo.initCombo(result);
 //		// nameField.setEditorType(accountsCombo);
 //		// }
 //		//
 //		// };
-//		// AccounterAsyncCallback<List<ClientItem>> itemsCallback = new
-//		// AccounterAsyncCallback<List<ClientItem>>() {
+//		// AccounterAsyncCallback<ArrayList<ClientItem>> itemsCallback = new
+//		// AccounterAsyncCallback<ArrayList<ClientItem>>() {
 //		//
 //		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
-//		// public void onSuccess(List<ClientItem> result) {
+//		// public void onSuccess(ArrayList<ClientItem> result) {
 //		// items = result;
 //		// itemCombo.initCombo(result);
 //		// nameField.setEditorType(itemCombo);
@@ -147,14 +147,14 @@
 //		salesTaxCombo.initCombo(listTaxCodes);
 //		nameField.setEditorType(salesTaxCombo);
 //
-//		// AccounterAsyncCallback<List<ClientTaxCode>> taxcodesCallBack = new
-//		// AccounterAsyncCallback<List<ClientTaxCode>>() {
+//		// AccounterAsyncCallback<ArrayList<ClientTaxCode>> taxcodesCallBack = new
+//		// AccounterAsyncCallback<ArrayList<ClientTaxCode>>() {
 //		//
 //		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
-//		// public void onSuccess(List<ClientTaxCode> result) {
+//		// public void onSuccess(ArrayList<ClientTaxCode> result) {
 //		// taxcodes = result;
 //		// salesTaxCombo.initCombo(result);
 //		// nameField.setEditorType(salesTaxCombo);
@@ -166,14 +166,14 @@
 //		// itemtaxList = listItemTax;
 //		taxSelectItem.setValueMap("Taxable", "Non-Taxable");
 //		taxField.setEditorType(taxSelectItem);
-//		// AccounterAsyncCallback<List<ClientItemTax>> taxsCallback = new
-//		// AccounterAsyncCallback<List<ClientItemTax>>() {
+//		// AccounterAsyncCallback<ArrayList<ClientItemTax>> taxsCallback = new
+//		// AccounterAsyncCallback<ArrayList<ClientItemTax>>() {
 //		//
 //		// public void onException(AccounterException caught) {
 //		// Accounter.showError("Result: null");
 //		// }
 //		//
-//		// public void onSuccess(List<ClientItemTax> result) {
+//		// public void onSuccess(ArrayList<ClientItemTax> result) {
 //		// itemtaxList = result;
 //		// taxSelectItem.initCombo(result);
 //		// taxField.setEditorType(taxSelectItem);
@@ -187,52 +187,52 @@
 //		// FinanceApplication.createGETService().getItemTaxes(taxsCallback);
 //	}
 //
-//	// AccounterAsyncCallback<List<ClientAccount>> accountsCallback = new
-//	// AccounterAsyncCallback<List<ClientAccount>>() {
+//	// AccounterAsyncCallback<ArrayList<ClientAccount>> accountsCallback = new
+//	// AccounterAsyncCallback<ArrayList<ClientAccount>>() {
 //	//
 //	// public void onException(AccounterException caught) {
 //	// Accounter.showError("Result: null");
 //	// }
 //	//
-//	// public void onSuccess(List<ClientAccount> result) {
+//	// public void onSuccess(ArrayList<ClientAccount> result) {
 //	//			
 //	// }
 //	//
 //	// };
 //
-//	// AccounterAsyncCallback<List<ClientItem>> itemsCallback = new
-//	// AccounterAsyncCallback<List<ClientItem>>() {
+//	// AccounterAsyncCallback<ArrayList<ClientItem>> itemsCallback = new
+//	// AccounterAsyncCallback<ArrayList<ClientItem>>() {
 //	//
 //	// public void onException(AccounterException caught) {
 //	// Accounter.showError("Result: null");
 //	// }
 //	//
-//	// public void onSuccess(List<ClientItem> result) {
+//	// public void onSuccess(ArrayList<ClientItem> result) {
 //	//				
 //	// }
 //	//
 //	// };
 //
-//	// AccounterAsyncCallback<List<ClientTaxCode>> taxcodesCallBack = new
-//	// AccounterAsyncCallback<List<ClientTaxCode>>() {
+//	// AccounterAsyncCallback<ArrayList<ClientTaxCode>> taxcodesCallBack = new
+//	// AccounterAsyncCallback<ArrayList<ClientTaxCode>>() {
 //	//
 //	// public void onException(AccounterException caught) {
 //	// Accounter.showError("Result: null");
 //	// }
 //	//
-//	// public void onSuccess(List<ClientTaxCode> result) {
+//	// public void onSuccess(ArrayList<ClientTaxCode> result) {
 //	//				
 //	// }
 //	//
 //	// };
-//	// AccounterAsyncCallback<List<ClientItemTax>> taxsCallback = new
-//	// AccounterAsyncCallback<List<ClientItemTax>>() {
+//	// AccounterAsyncCallback<ArrayList<ClientItemTax>> taxsCallback = new
+//	// AccounterAsyncCallback<ArrayList<ClientItemTax>>() {
 //	//
 //	// public void onException(AccounterException caught) {
 //	// Accounter.showError("Result: null");
 //	// }
 //	//
-//	// public void onSuccess(List<ClientItemTax> result) {
+//	// public void onSuccess(ArrayList<ClientItemTax> result) {
 //	//				
 //	// }
 //	//

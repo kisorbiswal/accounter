@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -56,52 +56,55 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 public interface IAccounterHomeViewService extends RemoteService {
 
-	public List<OverDueInvoicesList> getOverDueInvoices();
+	public ArrayList<OverDueInvoicesList> getOverDueInvoices();
 
-	public List<ClientEnterBill> getBillsOwed();
+	public ArrayList<ClientEnterBill> getBillsOwed();
 
-	public List<ClientEstimate> getLatestQuotes();
+	public ArrayList<ClientEstimate> getLatestQuotes();
 
-	public List<BillsList> getBillsAndItemReceiptList(boolean isExpensesList);
+	public ArrayList<BillsList> getBillsAndItemReceiptList(
+			boolean isExpensesList);
 
-	public List<PayBillTransactionList> getTransactionPayBills();
+	public ArrayList<PayBillTransactionList> getTransactionPayBills();
 
-	public List<PayBillTransactionList> getTransactionPayBills(long vendorId);
-
-	public List<PaymentsList> getVendorPaymentsList();
-
-	public List<PaymentsList> getPaymentsList();
-
-	public List<ClientCreditsAndPayments> getVendorCreditsAndPayments(
+	public ArrayList<PayBillTransactionList> getTransactionPayBills(
 			long vendorId);
 
-	public List<IssuePaymentTransactionsList> getChecks();
+	public ArrayList<PaymentsList> getVendorPaymentsList();
 
-	public List<IssuePaymentTransactionsList> getChecks(long accountId);
+	public ArrayList<PaymentsList> getPaymentsList();
 
-	public List<ClientCreditCardCharge> getCreditCardChargesThisMonth(long date);
+	public ArrayList<ClientCreditsAndPayments> getVendorCreditsAndPayments(
+			long vendorId);
 
-	public List<ClientCustomer> getLatestCustomers();
+	public ArrayList<IssuePaymentTransactionsList> getChecks();
 
-	public List<ClientVendor> getLatestVendors();
+	public ArrayList<IssuePaymentTransactionsList> getChecks(long accountId);
 
-	public List<ClientItem> getLatestItems();
+	public ArrayList<ClientCreditCardCharge> getCreditCardChargesThisMonth(
+			long date);
 
-	public List<PaymentsList> getLatestPayments();
+	public ArrayList<ClientCustomer> getLatestCustomers();
 
-	public List<ClientCashSales> getLatestCashSales();
+	public ArrayList<ClientVendor> getLatestVendors();
 
-	public List<ClientCustomerRefund> getLatestCustomerRefunds();
+	public ArrayList<ClientItem> getLatestItems();
 
-	public List<BillsList> getLatestBills();
+	public ArrayList<PaymentsList> getLatestPayments();
 
-	public List<ClientCashPurchase> getLatestCashPurchases();
+	public ArrayList<ClientCashSales> getLatestCashSales();
 
-	public List<ClientWriteCheck> getLatestChecks();
+	public ArrayList<ClientCustomerRefund> getLatestCustomerRefunds();
 
-	public List<ClientMakeDeposit> getLatestDeposits();
+	public ArrayList<BillsList> getLatestBills();
 
-	public List<ClientTransferFund> getLatestFundsTransfer();
+	public ArrayList<ClientCashPurchase> getLatestCashPurchases();
+
+	public ArrayList<ClientWriteCheck> getLatestChecks();
+
+	public ArrayList<ClientMakeDeposit> getLatestDeposits();
+
+	public ArrayList<ClientTransferFund> getLatestFundsTransfer();
 
 	/**
 	 * Other Utility GET Methods
@@ -127,10 +130,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public boolean isSalesTaxPayableAccountByName(String accountName);
 
 	// To get all the Estimates/Quotes in a company
-	public List<ClientEstimate> getEstimates();
+	public ArrayList<ClientEstimate> getEstimates();
 
 	// To get the Estimates/Quotes of a particular customer in the company
-	public List<ClientEstimate> getEstimates(long customerId);
+	public ArrayList<ClientEstimate> getEstimates(long customerId);
 
 	// To check whether an Invoice or Vendor Bill can be Voidable and Editable
 	// or not
@@ -138,30 +141,30 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	// To display the Item combo box of Transaction Item lines in Creating
 	// Creating Invoice,Cash Sale, Customer Credit Memo, Customer Refund
-	public List<ClientItem> getSalesItems();
+	public ArrayList<ClientItem> getSalesItems();
 
 	// To display the Item combo box of Transaction Item lines in Creating Enter
 	// Bill,Cash Purchase, Vendor Credit Memo Transactions
-	public List<ClientItem> getPurchaseItems();
+	public ArrayList<ClientItem> getPurchaseItems();
 
 	// To get the Credits and Payments of a particular Customer in a company
-	public List<ClientCreditsAndPayments> getCustomerCreditsAndPayments(
+	public ArrayList<ClientCreditsAndPayments> getCustomerCreditsAndPayments(
 			long customerId);
 
 	// To get all the Invoices and CustomerRefunds of a particular customer
 	// which are not paid and display as the Transaction ReceivePayments in
 	// ReceivePayment
-	public List<ReceivePaymentTransactionList> getTransactionReceivePayments(
+	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
 			long customerId, long paymentDate);
 
 	// To get a particular Journal Entry
 	public ClientJournalEntry getJournalEntry(long journalEntryId);
 
 	// To get all the Journal Entries in a company
-	public List<ClientJournalEntry> getJournalEntries();
+	public ArrayList<ClientJournalEntry> getJournalEntries();
 
 	// To get all the Entries of a particular journal entry
-	public List<ClientEntry> getEntries(long journalEntryId);
+	public ArrayList<ClientEntry> getEntries(long journalEntryId);
 
 	// to get the Account Register of a particular account
 	// public AccountRegister getAccountRegister(String accountId)
@@ -169,50 +172,51 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	// To get all Invoices, Customer Credit Memo, Cash Sales and Write Checks ->
 	// for Customer
-	public List<InvoicesList> getInvoiceList();
+	public ArrayList<InvoicesList> getInvoiceList();
 
 	// To get all Customer Refunds and Write Checks -> for Customer
-	public List<CustomerRefundsList> getCustomerRefundsList();
+	public ArrayList<CustomerRefundsList> getCustomerRefundsList();
 
 	// To display the liabilityAccount combo box of New Tax Agency window
-	public List<ClientAccount> getTaxAgencyAccounts();
+	public ArrayList<ClientAccount> getTaxAgencyAccounts();
 
 	// To display Received payments in list View.
-	public List<ReceivePaymentsList> getReceivePaymentsList();
+	public ArrayList<ReceivePaymentsList> getReceivePaymentsList();
 
-	public List<ClientItem> getLatestPurchaseItems();
+	public ArrayList<ClientItem> getLatestPurchaseItems();
 
-	public List<PaymentsList> getLatestVendorPayments();
+	public ArrayList<PaymentsList> getLatestVendorPayments();
 
-	public List<ClientReceivePayment> getLatestReceivePayments();
+	public ArrayList<ClientReceivePayment> getLatestReceivePayments();
 
 	public ClientTransactionMakeDeposit getTransactionMakeDeposit(
 			long transactionMakeDepositId);
 
-	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
+	public ArrayList<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
 
 	/*
-	 * public List<SalesOrdersList> getSalesOrders() throws AccounterException;
-	 * 
-	 * public List<PurchaseOrdersList> getPurchaseOrders() throws
+	 * public ArrayList<SalesOrdersList> getSalesOrders() throws
 	 * AccounterException;
 	 * 
-	 * public List<SalesOrdersList> getSalesOrdersForCustomer(long customerID)
-	 * throws AccounterException;
+	 * public ArrayList<PurchaseOrdersList> getPurchaseOrders() throws
+	 * AccounterException;
 	 * 
-	 * public List<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID)
-	 * throws AccounterException;
+	 * public ArrayList<SalesOrdersList> getSalesOrdersForCustomer(long
+	 * customerID) throws AccounterException;
+	 * 
+	 * public ArrayList<SalesOrdersList> getPurchaseOrdersForVendor(long
+	 * vendorID) throws AccounterException;
 	 */
 
-	public List<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
+	public ArrayList<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
 			long vendorID) throws AccounterException;
 
 	/* public ClientPurchaseOrder getPurchaseOrderById(long transactionId); */
 
-	public List<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
+	public ArrayList<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			long vendorId) throws AccounterException;
 
-	public List<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
+	public ArrayList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
 			long customerId) throws AccounterException;
 
 	public DepreciableFixedAssetsList getDepreciableFixedAssets(
@@ -225,10 +229,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public void rollBackDepreciation(long rollBackDepreciationTo)
 			throws AccounterException;
 
-	public List<ClientFinanceDate> getFinancialYearStartDates()
+	public ArrayList<ClientFinanceDate> getFinancialYearStartDates()
 			throws AccounterException;
 
-	public List<ClientFinanceDate> getAllDepreciationFromDates()
+	public ArrayList<ClientFinanceDate> getAllDepreciationFromDates()
 			throws AccounterException;
 
 	public void changeDepreciationStartDateTo(long newStartDate)
@@ -257,39 +261,41 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public void runDepreciation(long depreciationFrom, long depreciationTo,
 			FixedAssetLinkedAccountMap linkedAccounts);
 
-	public List<ClientPaySalesTaxEntries> getPaySalesTaxEntries(
+	public ArrayList<ClientPaySalesTaxEntries> getPaySalesTaxEntries(
 			long transactionDate);
 
-	public List<ClientPayVATEntries> getPayVATEntries()
+	public ArrayList<ClientPayVATEntries> getPayVATEntries()
 			throws AccounterException;
 
-	public List<ClientReceiveVATEntries> getReceiveVATEntries()
+	public ArrayList<ClientReceiveVATEntries> getReceiveVATEntries()
 			throws AccounterException;
 
-	public List<ClientFinanceLogger> getLog(long id, boolean isNext)
+	public ArrayList<ClientFinanceLogger> getLog(long id, boolean isNext)
 			throws AccounterException;
 
-	public List<ClientFinanceLogger> getLog(String date, long id, boolean isNext)
-			throws AccounterException;
+	public ArrayList<ClientFinanceLogger> getLog(String date, long id,
+			boolean isNext) throws AccounterException;
 
-	public List<PayeeList> getPayeeList(int transactionCategory);
+	public ArrayList<PayeeList> getPayeeList(int transactionCategory);
 
-	public List<InvoicesList> getInvoiceList(long fromDate, long toDate);
+	public ArrayList<InvoicesList> getInvoiceList(long fromDate, long toDate);
 
-	public List<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
+	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
 	public String getCustomerNumber();
 
-	public List<Double> getGraphPointsforAccount(int chartType, long accountNo);
+	public ArrayList<Double> getGraphPointsforAccount(int chartType,
+			long accountNo);
 
 	boolean changePassWord(String emailID, String oldPassword,
 			String newPassword);
 
-	public List<BillsList> getEmployeeExpensesByStatus(String userName,
+	public ArrayList<BillsList> getEmployeeExpensesByStatus(String userName,
 			int status);
 
-	public List<ClientUserInfo> getAllUsers() throws AccounterException;
+	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException;
 
-	public List<ClientEmployee> getAllEmployees() throws AccounterException;
+	public ArrayList<ClientEmployee> getAllEmployees()
+			throws AccounterException;
 
 }

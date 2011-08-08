@@ -117,7 +117,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	}
 
 	@Override
-	public void onSuccess(List<PurchaseOrdersList> result) {
+	public void onSuccess(ArrayList<PurchaseOrdersList> result) {
 		super.onSuccess(result);
 		listOfPurchaseOrders = result;
 		filterList(viewSelect.getValue().toString());
