@@ -4,38 +4,87 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class CurrencyWidget extends DynamicForm {
+public class CurrencyWidget extends FormItem {
 
+	private VerticalPanel widgetPanel;
+	
 	private CurrencyChangeListener listener;
 
 	private TextItem factorField;
-	private CurrencyCombo currencyCombo;
+	private SelectCombo currencyCombo;
 	private LabelItem baseCurrencyLbl;
 
-	private ClientCurrency baseCurrency;
-	private List<ClientCurrency> currencies;
+	private String baseCurrency;
+	private List<String> currencies;
 
-	public CurrencyWidget(List<ClientCurrency> currencies,
-			final ClientCurrency baseCurrency) {
+//	public CurrencyWidget(List<ClientCurrency> currencies,
+//			final ClientCurrency baseCurrency) {
+//		this.currencies = currencies;
+//		this.baseCurrency = baseCurrency;
+//		// setNumCols(3);
+//
+//		currencyCombo = new CurrencyCombo("Currency : ");
+//		currencyCombo.initCombo(currencies);
+//
+//		currencyCombo
+//				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
+//
+//					@Override
+//					public void selectedComboBoxItem(ClientCurrency selectItem) {
+//						currencyChanged(selectItem);
+//
+//					}
+//
+//				});
+//
+//		factorField = new TextItem();
+//		factorField.addChangedHandler(new ChangeHandler() {
+//
+//			@Override
+//			public void onChange(ChangeEvent event) {
+//				if (event.getSource() == CurrencyWidget.this.factorField) {
+//					String factorStr = CurrencyWidget.this.factorField
+//							.getValue().toString();
+//					factorFieldChagned(Double.parseDouble(factorStr));
+//				}
+//			}
+//
+//		});
+//		baseCurrencyLbl = new LabelItem();
+//		baseCurrencyLbl.setTitle(baseCurrency.getName());
+//
+//		horizontalPanel = new HorizontalPanel();
+//		horizontalPanel.add(currencyCombo.getMainWidget());
+//		horizontalPanel.add(factorField.getMainWidget());
+//		horizontalPanel.add(baseCurrencyLbl.getMainWidget());
+//
+//		// setFields(currencyCombo, factorField, baseCurrencyLbl);
+//	}
+
+	
+	public CurrencyWidget(List<String> currencies, String baseCurrency) {
 		this.currencies = currencies;
 		this.baseCurrency = baseCurrency;
-		setNumCols(3);
+		// setNumCols(3);
 
-		currencyCombo = new CurrencyCombo("Currency : ");
+		currencyCombo = new SelectCombo("Currency :");
 		currencyCombo.initCombo(currencies);
 
 		currencyCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
-					public void selectedComboBoxItem(ClientCurrency selectItem) {
+					public void selectedComboBoxItem(String selectItem) {
 						currencyChanged(selectItem);
 
 					}
@@ -43,6 +92,7 @@ public class CurrencyWidget extends DynamicForm {
 				});
 
 		factorField = new TextItem();
+		factorField.setTitle("factor");
 		factorField.addChangedHandler(new ChangeHandler() {
 
 			@Override
@@ -56,24 +106,39 @@ public class CurrencyWidget extends DynamicForm {
 
 		});
 		baseCurrencyLbl = new LabelItem();
-		baseCurrencyLbl.setTitle(baseCurrency.getName());
-		setFields(currencyCombo, factorField, baseCurrencyLbl);
+		baseCurrencyLbl.setTitle(baseCurrency);
+
+		
+		widgetPanel = new VerticalPanel();
+		widgetPanel.add(currencyCombo.getMainWidget());
+		widgetPanel.add(factorField.getMainWidget());
+		widgetPanel.add(baseCurrencyLbl.getMainWidget());
+
+		// setFields(currencyCombo, factorField, baseCurrencyLbl);
+	}
+	
+	@Override
+	public Widget getMainWidget() {
+		return widgetPanel;
 	}
 
+	@Override
+	public String getTitle() {
+		return "Currency";
+	}
+	
 	private void factorFieldChagned(double factor) {
 		if (listener != null) {
 			listener.currencyChanged(currencyCombo.getSelectedValue(), factor);
 		}
 	}
 
-	private void currencyChanged(ClientCurrency selectItem) {
+	private void currencyChanged(String selectItem) {
 
-		boolean factorFieldDisableStatus = selectItem.getName().equals(
-				baseCurrency.getName());
+		boolean factorFieldDisableStatus = selectItem.equals(baseCurrency);
 		factorField.setDisabled(factorFieldDisableStatus);
 		updateFactorFieldTitle(); // 1<SELCTED currency>=
-		double factor = getFactorByRPC(selectItem.getName(),
-				baseCurrency.getName());
+		double factor = getFactorByRPC(selectItem, baseCurrency);
 		factorField.setValue(String.valueOf(factor));
 		if (listener != null) {
 			listener.currencyChanged(selectItem, factor);
@@ -90,16 +155,16 @@ public class CurrencyWidget extends DynamicForm {
 		this.listener = listener;
 	}
 
-	public void setCurrencies(List<ClientCurrency> currencies) {
+	public void setCurrencies(List<String> currencies) {
 		this.currencies = currencies;
 		currencyCombo.initCombo(currencies);
 	}
 
 	private void updateFactorFieldTitle() {
-		ClientCurrency currency = currencyCombo.getSelectedValue();
+		String currency = currencyCombo.getSelectedValue();
 
 		StringBuffer sb = new StringBuffer();
-		sb.append(' ').append(1).append(currency.getName()).append('=');
+		sb.append(' ').append(1).append(currency).append('=');
 		factorField.setTitle(sb.toString());
 	}
 
@@ -107,7 +172,7 @@ public class CurrencyWidget extends DynamicForm {
 		currencyCombo.setSelected(clientCurrency.getName());
 	}
 
-	public ClientCurrency getSelectedCurrency() {
+	public String getSelectedCurrency() {
 		return currencyCombo.getSelectedValue();
 	}
 
