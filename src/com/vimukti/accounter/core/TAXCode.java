@@ -56,7 +56,6 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 		this.isActive = taxItemGroup.isActive;
 		this.TAXItemGrpForSales = taxItemGroup;
 		this.isTaxable = true;
-		this.id = taxItemGroup.id;
 		this.isECSalesEntry = false;
 		this.TAXItemGrpForPurchases = null;
 	}
