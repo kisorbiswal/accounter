@@ -117,22 +117,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		//
 		// session.save(fiscalYear);
 
-		Account sspReclaimed = new Account(Account.TYPE_EXPENSE, "7020",
-				AccounterConstants.SSP_RECLAIMED, true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "44", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(sspReclaimed);
-
-		Account smpReclaimed = new Account(Account.TYPE_EXPENSE, "7021",
-				AccounterConstants.SMP_RECLAIMED, true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "45", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(smpReclaimed);
-
 		Account saelsTaxVAT = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
 				"2120", AccounterConstants.SALES_TAX_VAT_UNFILED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
