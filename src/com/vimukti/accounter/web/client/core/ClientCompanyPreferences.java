@@ -130,6 +130,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private String referCustomers;
 	private String referSuplliers;
 	private String referAccounts;
+	private boolean doyouwantEstimates;
+	private boolean doyouwanrstatements;
 
 	public ClientFinanceDate getTrackFinanceDate() {
 		return trackFinanceDate;
@@ -860,5 +862,21 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setReferAccounts(String referAccounts) {
 		this.referAccounts = referAccounts;
+	}
+
+	public boolean isDoyouwantEstimates() {
+		return doyouwantEstimates;
+	}
+
+	public void setDoyouwantEstimates(boolean doyouwantEstimates) {
+		this.doyouwantEstimates = doyouwantEstimates;
+	}
+
+	public boolean isDoyouwanrstatements() {
+		return doyouwanrstatements;
+	}
+
+	public void setDoyouwanrstatements(boolean doyouwanrstatements) {
+		this.doyouwanrstatements = doyouwanrstatements;
 	}
 }
