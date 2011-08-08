@@ -189,9 +189,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			if (user == null) {
 				return null;
 			}
-			user.setLoginCount(user.getLoginCount() + 1);
-			user.setLastLogin(Calendar.getInstance().getTimeInMillis());
-			user.setLoginCount(user.getLoginCount());
+
 			user.setActive(true);
 			session.saveOrUpdate(user);
 			this.getThreadLocalRequest().getSession()
