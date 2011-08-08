@@ -90,8 +90,6 @@ public class InitializeCompanyServlet extends BaseServlet {
 			company.setCreatedDate(new Timestamp(System.currentTimeMillis()));
 			companySession.save(company);
 
-			companySession.save(company);
-
 			// Create Attachment Directory for company
 			File file = new File(ServerConfiguration.getAttachmentsDir(company
 					.geFulltName()));
