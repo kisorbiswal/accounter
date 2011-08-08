@@ -5809,12 +5809,7 @@ important
 	
 }
 
-.cancel-button {
-	background: url("/images/cross.png") no-repeat scroll 63px center #5F5F5F !important;
-    font-size: 13px !important;
-    padding-right: 20px !important;
-    border: 1px solid #2F2F2F !important;
-}
+
 
 .cancel-button {
 	
@@ -6462,26 +6457,7 @@ input[type="text"],textarea {
 .gwt-DialogBox .dialogTopRightInner{
 	width:5px !important;
 }
-.saveAndClose-Btn,.saveAndNew-Btn{
-	border: 1px solid #002E36 !important;
-    padding-right: 35px !important;
-    color:white;
-}
-.saveAndClose-Btn{
-	background: url("../images/Save-&-close.png") no-repeat scroll 116px center #1A5158 !important;
-}
-.saveAndNew-Btn{
-	background: url("../images/Save-&-New.png") no-repeat scroll 107px center #1A5158 !important;
-}
-.savenew-button-hover{
-	background: url("../images/Save-&-New.png") no-repeat scroll 107px center #002E36 !important;
-}
-.saveclose-button-hover{
-    background: url("../images/Save-&-close.png") no-repeat scroll 116px center #002E36 !important;
-}
-.cancel-button-hover,.cancel-button button:hover{
-	background: url("../images/cross.png") no-repeat scroll 63px center #2F2F2F !important
-}
+
 .add-newitem-button button{
 	background: url("../images/Add_item.png") no-repeat scroll 108px center #1A5158 !important;
     border-radius: 4px 4px 4px 4px !important;
@@ -6529,4 +6505,19 @@ a#fdbk_tab{
 }
 a#fdbk_tab:hover{
 	margin:0px -4px 0 0 !important;
+}
+.image-button{
+	background-color: #1A5158;
+    background-position: 5px center;
+    background-repeat: no-repeat;
+    border: 1px solid #002E36 !important;
+    color: white;
+    padding-left: 27px !important;
+    border-radius:5px 5px 5px 5px;
+	-webkit-border-radius:5px 5px 5px 5px;
+	-moz-border-radius:5px 5px 5px 5px;
+}
+.cancle-Btn{
+	background-color:#5F5F5F !important;
+	border:1px solid #2F2F2F !important;
 }
