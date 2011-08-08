@@ -6522,11 +6522,26 @@ a#fdbk_tab:hover{
 	border:1px solid #2F2F2F !important;
 }
 .grouped-buttons{
-	
+	padding:5px;
 }
 .Empty-text{
 	background-position: center center;
     background-repeat: no-repeat;
     border:1px solid #a0a0a0 !important;
-    background-color: #e4e4e4 !important
+    background-color: #e4e4e4 !important;
+    padding:10px !important;
+}
+.grouped-buttons td:FIRST-CHILD .Empty-text,.grouped-buttons td:FIRST-CHILD .image-button {
+	border-radius:5px 0 0 5px;
+}
+.grouped-buttons td:last-child .Empty-text,.grouped-buttons td:last-child .image-button{
+	border-radius:0 5px 5px 0;
+}
+.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button{
+	border:1px solid #a0a0a0 !important;
+    background-color: #e4e4e4 !important;
+    color:black;
+}
+.grouped-buttons td:only-child .image-button{
+	border-radius:5px 5px 5px 5px;
 }
