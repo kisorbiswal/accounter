@@ -412,7 +412,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	protected void updateTransaction() {
-		super.saveAndUpdateView();
+		super.updateTransaction();
 		if (taxCode != null && transactionItems != null) {
 
 			for (ClientTransactionItem item : transactionItems) {
