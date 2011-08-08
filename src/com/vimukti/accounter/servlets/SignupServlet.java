@@ -98,20 +98,15 @@ public class SignupServlet extends BaseServlet {
 				// Email to that user.
 				sendActivationEmail(token, client);
 				// Send to SignUp Success View
-				req.setAttribute(
-						"successmessage",
-						"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and enter your activation code here to activate your Account.");
-				req.getRequestDispatcher(ACTIVATION_URL).include(req, resp);
+				redirectExternal(req, resp, ACTIVATION_URL + "?message=108");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (hibernateSession != null) {
-				if (hibernateSession.isOpen())
-					hibernateSession.close();
-			}
+			if (hibernateSession.isOpen())
+				hibernateSession.close();
 		}
-		redirectExternal(req, resp, ACTIVATION_URL);
+
 		return;
 	}
 
