@@ -40,10 +40,10 @@ public class DownloadFileServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse response)
 			throws ServletException {
 		try {
-			String companyName = getCompanyName(req);
-			if (companyName == null)
+			String companyId = getCookie(req, COMPANY_COOKIE);
+			if (companyId == null) {
 				return;
-
+			}
 			String fileName = req.getParameter("fileName");
 
 			if (fileName == null
@@ -52,7 +52,7 @@ public class DownloadFileServlet extends BaseServlet {
 			}
 
 			File file = new File(ServerConfiguration.getAttachmentsDir()
-					+ File.separator + companyName + File.separator + fileName);
+					+ File.separator + companyId + File.separator + fileName);
 			response.setContentLength((int) file.length());
 
 			// Open the file and output streams
