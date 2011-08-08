@@ -118,7 +118,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	boolean trackVAT = true;
 	String VATtaxAgencyName = AccounterConstants.DEFAULT_VAT_AGENCY_NAME;
 
-	private String dateFormat;
+	private String dateFormat = AccounterConstants.ddMMyyyy;
 	public long id;
 
 	private boolean isSalesPersonEnabled;

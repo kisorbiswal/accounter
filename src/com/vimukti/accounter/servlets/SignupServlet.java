@@ -76,7 +76,7 @@ public class SignupServlet extends BaseServlet {
 				req.setAttribute("errormessage",
 						"User is already signed up with this Email ID, try with another Email ID. ");
 				dispatch(req, resp, view);
-
+				return;
 			} else {
 				// else
 				// Generate Token and create Activation and save. then send
@@ -102,7 +102,6 @@ public class SignupServlet extends BaseServlet {
 						"successmessage",
 						"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and Enter your activation code here to Activate your Account.");
 				req.getRequestDispatcher(ACTIVATION_URL).include(req, resp);
-				redirectExternal(req, resp, ACTIVATION_URL);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -112,6 +111,8 @@ public class SignupServlet extends BaseServlet {
 					hibernateSession.close();
 			}
 		}
+		redirectExternal(req, resp, ACTIVATION_URL);
+		return;
 	}
 
 }
