@@ -1055,7 +1055,8 @@ public class AccounterValidator {
 	public static boolean validateCustomerRefundAmount(Double amount,
 			ClientAccount payFromAccount) {
 
-		if (!payFromAccount.isIncrease()
+		if (payFromAccount != null
+				&& !payFromAccount.isIncrease()
 				&& (DecimalUtil.isLessThan(
 						(payFromAccount.getTotalBalance() - amount), 0.0))) {
 			// Accounter.showWarning(
