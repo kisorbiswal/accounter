@@ -28,6 +28,12 @@ public class ActivationServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		String parameter = req.getParameter("message");
+		if (parameter != null && parameter.equals("108")) {
+			req.setAttribute(
+					"successmessage",
+					"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and enter your activation code here to activate your Account.");
+		}
 		dispatch(req, resp, VIEW);
 	}
 
