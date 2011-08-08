@@ -43,7 +43,7 @@ public abstract class AbstractSetupPage extends VerticalPanel {
 
 	public abstract boolean doShow();
 
-	public void setPreferences(ClientCompanyPreferences preferences2) {
+	public void setPreferences(ClientCompanyPreferences preferences) {
 		this.preferences = preferences;
 	}
 
