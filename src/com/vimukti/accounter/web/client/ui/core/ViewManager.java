@@ -264,8 +264,8 @@ public class ViewManager extends VerticalPanel {
 	void initilizeToolBar() {
 
 		ButtonGroup group1 = new ButtonGroup();
-		ImageButton previousButton = new ImageButton(Accounter.constants()
-				.previous(), Accounter.getFinanceImages().previousIcon());
+		ImageButton previousButton = new ImageButton(Accounter
+				.getFinanceImages().previousIcon());
 		previousButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -273,8 +273,8 @@ public class ViewManager extends VerticalPanel {
 				History.back();
 			}
 		});
-		ImageButton nextbutton = new ImageButton(Accounter.constants().next(),
-				Accounter.getFinanceImages().nextIcon());
+		ImageButton nextbutton = new ImageButton(Accounter.getFinanceImages()
+				.nextIcon());
 		nextbutton.addClickHandler(new ClickHandler() {
 
 			@Override
