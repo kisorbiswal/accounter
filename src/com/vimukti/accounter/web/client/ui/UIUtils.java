@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -39,7 +40,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -1396,8 +1396,8 @@ public class UIUtils {
 		if (incredNumber.length() > 0) {
 			// incredNumber = new
 			// StringBuffer(incredNumber).reverse().toString();
-			prevNumber = prevNumber.replace(incredNumber,
-					"" + (Long.parseLong(incredNumber) + 1));
+			prevNumber = prevNumber.replace(incredNumber, ""
+					+ (Long.parseLong(incredNumber) + 1));
 		}
 		return prevNumber;
 
@@ -1667,8 +1667,8 @@ public class UIUtils {
 
 	public static void downloadAttachment(long objectID, int type,
 			long brandingThemeId) {
-		downloadAttachment(String.valueOf(objectID), type,
-				String.valueOf(brandingThemeId));
+		downloadAttachment(String.valueOf(objectID), type, String
+				.valueOf(brandingThemeId));
 	}
 
 	/**
@@ -1896,8 +1896,8 @@ public class UIUtils {
 
 	public static void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		exportReport(start, end, reportType, name, dateRangeHtml,
-				String.valueOf(status));
+		exportReport(start, end, reportType, name, dateRangeHtml, String
+				.valueOf(status));
 	}
 
 	public static native void exportReport(int start, int end, int reportType,
@@ -1918,8 +1918,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, long dateRangeHtml) {
-		generateReportPDF(start, end, reportType, name,
-				String.valueOf(dateRangeHtml));
+		generateReportPDF(start, end, reportType, name, String
+				.valueOf(dateRangeHtml));
 	}
 
 	public static native void generateReportPDF(int start, int end,
@@ -1940,8 +1940,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		generateReportPDF(start, end, reportType, name, dateRangeHtml,
-				String.valueOf(status));
+		generateReportPDF(start, end, reportType, name, dateRangeHtml, String
+				.valueOf(status));
 	}
 
 	public static native void generateReportPDF(int start, int end,
@@ -1959,5 +1959,13 @@ public class UIUtils {
 			alert(e);
 		}
 	}-*/;
+
+	public static String[] getCurrenciesList() {
+		// FIXME :put default exact currencies and externalize them .
+		String[] currencieListArray = new String[] { "INR", "USD", "SDF",
+				"FYE", "WER", "ASD", "ASE", "WQE", "AWA", "NBM", "WQW", "ZXC" };
+		return currencieListArray;
+
+	}
 
 }
