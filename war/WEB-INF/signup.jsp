@@ -430,7 +430,12 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   </div>
 	</form>
   </c:if>
+  
 </div>
+<div>
+<label>Have Accounter account? <a href="/login" style="color: #CC0000">Login</a></label>
+</div>
+	
 
 		<script  type="text/javascript" >
 			if(${successmessage!=null}) {
