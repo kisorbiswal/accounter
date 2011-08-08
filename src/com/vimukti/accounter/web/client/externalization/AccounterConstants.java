@@ -4354,6 +4354,8 @@ public interface AccounterConstants extends Constants {
 
 	public String youcantDeleteThisUser();
 
+	public String youCantDeleteYourSelf();
+	
 	public String youcanteditreceivePaymentitisvoidedordeleted();
 
 	public String youcantsavepaybillwith0amount();
