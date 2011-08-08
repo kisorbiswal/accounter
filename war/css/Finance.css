@@ -5706,7 +5706,7 @@ important
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 	padding: 15px;
 	width: 100%;
-	/*border:1px solid #DDDDDD;*/
+	border:1px solid #1A5158;
 }
 
 .gridTextBoxCell input[type="text"] {
@@ -6510,7 +6510,7 @@ a#fdbk_tab:hover{
 	background-color: #1A5158;
     background-position: 5px center;
     background-repeat: no-repeat;
-    border: 1px solid #002E36 !important;
+    border: 1px solid #002E36;
     color: white;
     padding-left: 27px !important;
     border-radius:5px 5px 5px 5px;
@@ -6522,26 +6522,30 @@ a#fdbk_tab:hover{
 	border:1px solid #2F2F2F !important;
 }
 .grouped-buttons{
-	padding:5px;
+	padding:5px 0px;
 }
 .Empty-text{
 	background-position: center center;
     background-repeat: no-repeat;
-    border:1px solid #a0a0a0 !important;
+    border:1px solid #a0a0a0;
     background-color: #e4e4e4 !important;
     padding:10px !important;
 }
 .grouped-buttons td:FIRST-CHILD .Empty-text,.grouped-buttons td:FIRST-CHILD .image-button {
-	border-radius:5px 0 0 5px;
+    border-color: #A0A0A0;
+    border-radius: 5px 0 0 5px !important;
+    border-style: solid !important;
+    border-width: 1px 0 1px 1px !important;
 }
 .grouped-buttons td:last-child .Empty-text,.grouped-buttons td:last-child .image-button{
 	border-radius:0 5px 5px 0;
 }
 .grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button{
-	border:1px solid #a0a0a0 !important;
+	border:1px solid #a0a0a0;
     background-color: #e4e4e4 !important;
     color:black;
 }
 .grouped-buttons td:only-child .image-button{
-	border-radius:5px 5px 5px 5px;
+	border-radius:5px 5px 5px 5px !important;
+	border:1px solid #a0a0a0 !important;
 }
