@@ -90,9 +90,7 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
 				null, true, true, null, "4", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(openingBalancesAccount);
-
 		company.setOpeningBalancesAccount(openingBalancesAccount);
 
 		initializeDefaultAssetsAccounts();
@@ -102,6 +100,10 @@ public abstract class CompanyInitializer {
 		initializeDefaultEquityAccounts();
 
 		session.saveOrUpdate(company);
+	}
+
+	public Company getCompany() {
+		return company;
 	}
 
 	private void intializeCompanyValues() {
@@ -193,28 +195,56 @@ public abstract class CompanyInitializer {
 	private void initializeDefaultEquityAccounts() {
 		Session session = HibernateUtil.getCurrentSession();
 
+		Account retainedEarnings = new Account(Account.TYPE_EQUITY, "3051",
+				AccounterConstants.RETAINED_EARNINGS, true, null,
+				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
+				null, true, false, openingBalancesAccount, "151", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(retainedEarnings);
+
+		Account ownerAShareCapital = new Account(Account.TYPE_EQUITY, "3052",
+				AccounterConstants.EQUITY_OWNER_SHARE, true, null,
+				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
+				null, true, false, openingBalancesAccount, "152", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(ownerAShareCapital);
+
+		Account openingBalanceOffset = new Account(Account.TYPE_EQUITY, "3053",
+				AccounterConstants.EQUITY_OPENING_BALANCE_OFFSET, true, null,
+				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
+				null, true, false, openingBalancesAccount, "153", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(openingBalanceOffset);
+
+		Account gainLossOnExchange = new Account(Account.TYPE_EQUITY, "3054",
+				AccounterConstants.EQUITY_GAIN_LOSS_EXCHANGE, true, null,
+				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
+				null, true, false, openingBalancesAccount, "154", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(gainLossOnExchange);
+
 		Account ordinaryShares = new Account(Account.TYPE_EQUITY, "3001",
 				AccounterConstants.ORDINARY_SHARES, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "147", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(ordinaryShares);
+
+		// Opening is done
 
 		Account reservesRetainedEarnings = new Account(Account.TYPE_EQUITY,
 				"3050", AccounterConstants.RESERVES_RETAINED_EARNINGS, true,
 				null, Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "148", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(reservesRetainedEarnings);
+		this.retainedEarningsAccount = reservesRetainedEarnings;
 
 		Account PAndLBoughtForwardOrYTD = new Account(Account.TYPE_EQUITY,
 				"3100", AccounterConstants.P_AND_L_BOUGHT_FORWARD_OR_YTD, true,
 				null, Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "149", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(PAndLBoughtForwardOrYTD);
 
 		Account dividends = new Account(Account.TYPE_EQUITY, "3150",
@@ -222,30 +252,21 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "150", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(dividends);
 
-		this.retainedEarningsAccount = reservesRetainedEarnings;
 	}
-
-	public Company getCompany() {
-		return company;
-	}
-
-	/**
-	 * initialize the default expenses accounts
-	 */
 
 	public void initializeDefaultExpenseAccounts() {
 
 		Session session = HibernateUtil.getCurrentSession();
+
+		// Cost of Goods Sold
 		Account productsOrMaterialsPurchasedTypeA = new Account(
 				Account.TYPE_COST_OF_GOODS_SOLD, "5001",
 				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", 0.0, null, true, false, openingBalancesAccount, "20", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(productsOrMaterialsPurchasedTypeA);
 
 		Account productsOrMaterialsPurchasedTypeB = new Account(
@@ -254,7 +275,6 @@ public abstract class CompanyInitializer {
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", 0.0, null, true, false, openingBalancesAccount, "21", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(productsOrMaterialsPurchasedTypeB);
 
 		Account productsOrMaterialsPurchasedTypeC = new Account(
@@ -263,7 +283,6 @@ public abstract class CompanyInitializer {
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", 0.0, null, true, false, openingBalancesAccount, "3", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(productsOrMaterialsPurchasedTypeC);
 
 		Account productsOrMaterialsPurchasedTypeD = new Account(
@@ -272,7 +291,6 @@ public abstract class CompanyInitializer {
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", 0.0, null, true, false, openingBalancesAccount, "22", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(productsOrMaterialsPurchasedTypeD);
 
 		Account productsOrMaterialsPurchasedTypeE = new Account(
@@ -281,15 +299,21 @@ public abstract class CompanyInitializer {
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", 0.0, null, true, false, openingBalancesAccount, "23", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(productsOrMaterialsPurchasedTypeE);
+
+		Account productsOrMaterialsPurchasedTypeF = new Account(
+				Account.TYPE_COST_OF_GOODS_SOLD, "5006",
+				AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_F,
+				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
+				"", 0.0, null, true, false, openingBalancesAccount, "25", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(productsOrMaterialsPurchasedTypeF);
 
 		Account carriage = new Account(Account.TYPE_COST_OF_GOODS_SOLD, "5200",
 				AccounterConstants.CARRIAGE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "28", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(carriage);
 
 		Account discountsTaken = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
@@ -297,7 +321,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "29", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(discountsTaken);
 
 		Account importDuty = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
@@ -305,7 +328,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "30", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(importDuty);
 
 		Account openingStock = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
@@ -313,17 +335,7 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "24", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(openingStock);
-
-		// Account closingStock = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
-		// "5910", AccounterConstants.CLOSING_STOCK, true, null,
-		// Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
-		// Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-		// openingBalancesAccount, "25", true, this.preferences
-		// .getPreventPostingBeforeDate());
-		//
-		// session.save(closingStock);
 
 		Account openingFinishedGoods = new Account(
 				Account.TYPE_COST_OF_GOODS_SOLD, "5920",
@@ -334,46 +346,21 @@ public abstract class CompanyInitializer {
 
 		session.save(openingFinishedGoods);
 
-		// Account closingFinishedGoods = new Account(
-		// Account.TYPE_COST_OF_GOODS_SOLD, "5925",
-		// AccounterConstants.CLOSE_FINISHED_GOODS, true, null,
-		// Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
-		// Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-		// openingBalancesAccount, "151", true, this.preferences
-		// .getPreventPostingBeforeDate());
-		//
-		// session.save(closingFinishedGoods);
-
 		Account openingWorkInProgress = new Account(
 				Account.TYPE_COST_OF_GOODS_SOLD, "5930",
 				AccounterConstants.OPEN_WORK_IN_PROGRESS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "27", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(openingWorkInProgress);
-		//
-		// Account closingWorkInProgress = new Account(
-		// Account.TYPE_COST_OF_GOODS_SOLD, "5935",
-		// AccounterConstants.CLOSE_WORK_IN_PROGRESS, true, null,
-		// Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", null,
-		// Account.BANK_ACCCOUNT_TYPE_NONE, null, 0.0, null, true, false,
-		// openingBalancesAccount, "152", true, this.preferences
-		// .getPreventPostingBeforeDate());
-		//
-		// session.save(closingWorkInProgress);
+		// ---------------
 
-		/**
-		 * The following are the Default Accounts for the Type of Other Direct
-		 * Costs.
-		 */
-
+		// Other Direct Costs
 		Account directLabour = new Account(Account.TYPE_OTHER_EXPENSE, "6001",
 				AccounterConstants.DIRECT_LABOUR, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "31", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(directLabour);
 
 		Account directEmployersNI = new Account(Account.TYPE_OTHER_EXPENSE,
@@ -381,7 +368,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "32", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(directEmployersNI);
 
 		Account otherDirectEmployeeRelatedCosts = new Account(
@@ -390,7 +376,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "33", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(otherDirectEmployeeRelatedCosts);
 
 		Account directExpenses = new Account(Account.TYPE_OTHER_EXPENSE,
@@ -398,7 +383,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "34", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(directExpenses);
 
 		Account directTravel = new Account(Account.TYPE_OTHER_EXPENSE, "6150",
@@ -406,7 +390,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "35", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(directTravel);
 
 		Account directConsumables = new Account(Account.TYPE_OTHER_EXPENSE,
@@ -414,7 +397,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "36", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(directConsumables);
 
 		Account merchantAccountFees = new Account(Account.TYPE_OTHER_EXPENSE,
@@ -422,7 +404,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "37", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(merchantAccountFees);
 
 		Account commisionsPaid = new Account(Account.TYPE_OTHER_EXPENSE,
@@ -430,15 +411,15 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "38", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(commisionsPaid);
+		// --------------
 
+		// Indirect Costs
 		Account indirectLabour = new Account(Account.TYPE_EXPENSE, "7001",
 				AccounterConstants.INDIRECT_LABOUR, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "39", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(indirectLabour);
 
 		Account indirectEmployersNI = new Account(Account.TYPE_EXPENSE, "7002",
@@ -446,7 +427,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "40", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(indirectEmployersNI);
 
 		Account directorsRemunaration = new Account(Account.TYPE_EXPENSE,
@@ -454,7 +434,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "41", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(directorsRemunaration);
 
 		Account casualLabour = new Account(Account.TYPE_EXPENSE, "7004",
@@ -462,7 +441,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "42", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(casualLabour);
 
 		Account employersPensionContributions = new Account(
@@ -471,15 +449,27 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "43", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(employersPensionContributions);
+
+		Account sspReclaimed = new Account(Account.TYPE_EXPENSE, "7011",
+				AccounterConstants.SSP_RECLAIMED, true, null,
+				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
+				null, true, false, openingBalancesAccount, "44", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(sspReclaimed);
+
+		Account smpReclaimed = new Account(Account.TYPE_EXPENSE, "7012",
+				AccounterConstants.SMP_RECLAIMED, true, null,
+				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
+				null, true, false, openingBalancesAccount, "45", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(smpReclaimed);
 
 		Account employeeBenifits = new Account(Account.TYPE_EXPENSE, "7025",
 				AccounterConstants.EMPLOYEE_BENIFITS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "46", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(employeeBenifits);
 
 		Account medicalInsurance = new Account(Account.TYPE_EXPENSE, "7030",
@@ -487,7 +477,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "47", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(medicalInsurance);
 
 		Account recruitement = new Account(Account.TYPE_EXPENSE, "7040",
@@ -495,7 +484,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "48", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(recruitement);
 
 		Account training = new Account(Account.TYPE_EXPENSE, "7045",
@@ -503,7 +491,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "49", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(training);
 
 		Account rent = new Account(Account.TYPE_EXPENSE, "7100",
@@ -511,7 +498,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "50", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(rent);
 
 		Account generalRates = new Account(Account.TYPE_EXPENSE, "7101",
@@ -519,7 +505,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "51", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(generalRates);
 
 		Account waterRates = new Account(Account.TYPE_EXPENSE, "7102",
@@ -527,7 +512,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "52", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(waterRates);
 
 		Account electricity = new Account(Account.TYPE_EXPENSE, "7110",
@@ -535,7 +519,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "53", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(electricity);
 
 		Account gas = new Account(Account.TYPE_EXPENSE, "7111",
@@ -543,7 +526,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "54", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(gas);
 
 		Account oil = new Account(Account.TYPE_EXPENSE, "7112",
@@ -551,7 +533,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "55", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(oil);
 
 		Account officeCleaning = new Account(Account.TYPE_EXPENSE, "7120",
@@ -559,7 +540,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "56", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(officeCleaning);
 
 		Account officeMachineMaintanance = new Account(Account.TYPE_EXPENSE,
@@ -567,7 +547,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "57", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(officeMachineMaintanance);
 
 		Account repairsAndRenewals = new Account(Account.TYPE_EXPENSE, "7140",
@@ -575,7 +554,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "58", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(repairsAndRenewals);
 
 		Account officeConsumables = new Account(Account.TYPE_EXPENSE, "7150",
@@ -583,7 +561,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "59", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(officeConsumables);
 
 		Account booksEtc = new Account(Account.TYPE_EXPENSE, "7151",
@@ -591,7 +568,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "60", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(booksEtc);
 
 		Account internet = new Account(Account.TYPE_EXPENSE, "7152",
@@ -599,7 +575,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "61", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(internet);
 
 		Account postage = new Account(Account.TYPE_EXPENSE, "7153",
@@ -607,7 +582,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "62", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(postage);
 
 		Account printing = new Account(Account.TYPE_EXPENSE, "7154",
@@ -615,7 +589,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "63", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(printing);
 
 		Account stationary = new Account(Account.TYPE_EXPENSE, "7155",
@@ -623,7 +596,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "64", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(stationary);
 
 		Account subscriptions = new Account(Account.TYPE_EXPENSE, "7156",
@@ -631,7 +603,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "65", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(subscriptions);
 
 		Account telephone = new Account(Account.TYPE_EXPENSE, "7157",
@@ -639,7 +610,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "66", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(telephone);
 
 		Account conferenceAndSeminars = new Account(Account.TYPE_EXPENSE,
@@ -647,7 +617,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "67", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(conferenceAndSeminars);
 
 		Account charityDonations = new Account(Account.TYPE_EXPENSE, "7160",
@@ -655,7 +624,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "68", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(charityDonations);
 
 		Account insurencesBusiness = new Account(Account.TYPE_EXPENSE, "7200",
@@ -663,7 +631,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "69", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(insurencesBusiness);
 
 		Account advertisiningAndMarketing = new Account(Account.TYPE_EXPENSE,
@@ -671,7 +638,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "70", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(advertisiningAndMarketing);
 
 		Account localEntertainment = new Account(Account.TYPE_EXPENSE, "7260",
@@ -679,7 +645,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "71", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(localEntertainment);
 
 		Account overseasEntertainment = new Account(Account.TYPE_EXPENSE,
@@ -687,7 +652,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "72", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(overseasEntertainment);
 
 		Account indirectLocalTravel = new Account(Account.TYPE_EXPENSE, "7270",
@@ -695,7 +659,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "73", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(indirectLocalTravel);
 
 		Account indirectOverseasTravel = new Account(Account.TYPE_EXPENSE,
@@ -703,7 +666,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "74", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(indirectOverseasTravel);
 
 		Account subsitence = new Account(Account.TYPE_EXPENSE, "7280",
@@ -711,7 +673,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "75", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(subsitence);
 
 		Account vechileExpenses = new Account(Account.TYPE_EXPENSE, "7300",
@@ -719,7 +680,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "76", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(vechileExpenses);
 
 		Account vechileInsurance = new Account(Account.TYPE_EXPENSE, "7310",
@@ -727,7 +687,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "77", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(vechileInsurance);
 
 		Account vechileRepairAndServicing = new Account(Account.TYPE_EXPENSE,
@@ -735,7 +694,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "78", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(vechileRepairAndServicing);
 
 		Account professonalFees = new Account(Account.TYPE_EXPENSE, "7350",
@@ -743,7 +701,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "79", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(professonalFees);
 
 		Account accountancyFees = new Account(Account.TYPE_EXPENSE, "7360",
@@ -751,7 +708,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "80", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(accountancyFees);
 
 		Account consultancyFees = new Account(Account.TYPE_EXPENSE, "7370",
@@ -759,7 +715,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "81", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(consultancyFees);
 
 		Account legalFees = new Account(Account.TYPE_EXPENSE, "7380",
@@ -767,7 +722,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "82", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(legalFees);
 
 		Account bankInterestPaid = new Account(Account.TYPE_EXPENSE, "7400",
@@ -775,7 +729,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "83", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(bankInterestPaid);
 
 		Account bankCharges = new Account(Account.TYPE_EXPENSE, "7410",
@@ -783,7 +736,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "84", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(bankCharges);
 
 		Account creditCharges = new Account(Account.TYPE_EXPENSE, "7420",
@@ -791,7 +743,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "85", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(creditCharges);
 
 		Account leasePayments = new Account(Account.TYPE_EXPENSE, "7430",
@@ -799,7 +750,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "86", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(leasePayments);
 
 		Account loanInterestPaid = new Account(Account.TYPE_EXPENSE, "7440",
@@ -807,7 +757,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "87", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(loanInterestPaid);
 
 		Account currencyCharges = new Account(Account.TYPE_EXPENSE, "7450",
@@ -815,7 +764,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "88", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(currencyCharges);
 
 		Account exchangeRateVariance = new Account(Account.TYPE_EXPENSE,
@@ -823,7 +771,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "89", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(exchangeRateVariance);
 
 		Account badDebtProvision = new Account(Account.TYPE_EXPENSE, "7470",
@@ -831,7 +778,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "90", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(badDebtProvision);
 
 		Account badDebtWriteOff = new Account(Account.TYPE_EXPENSE, "7480",
@@ -839,7 +785,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "91", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(badDebtWriteOff);
 
 		Account depreciation = new Account(Account.TYPE_EXPENSE, "7500",
@@ -847,7 +792,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "92", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(depreciation);
 
 		Account officeEquipmentDepreciation = new Account(Account.TYPE_EXPENSE,
@@ -855,7 +799,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "93", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(officeEquipmentDepreciation);
 
 		Account itEquipmentDepreciation = new Account(Account.TYPE_EXPENSE,
@@ -863,7 +806,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "94", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(itEquipmentDepreciation);
 
 		Account furnituresAndFixuresDepreciation = new Account(
@@ -872,7 +814,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "95", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(furnituresAndFixuresDepreciation);
 
 		Account palntOrMachineryDepreciation = new Account(
@@ -881,7 +822,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "96", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(palntOrMachineryDepreciation);
 
 		Account vechileDepreciation = new Account(Account.TYPE_EXPENSE, "7550",
@@ -889,7 +829,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "97", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(vechileDepreciation);
 
 		Account freeHoldBuildingDepreciation = new Account(
@@ -898,7 +837,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "98", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(freeHoldBuildingDepreciation);
 
 		Account leaseHoldPropertyImprvmntsDepreciation = new Account(
@@ -908,13 +846,8 @@ public abstract class CompanyInitializer {
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
 				"", 0.0, null, true, false, openingBalancesAccount, "99", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(leaseHoldPropertyImprvmntsDepreciation);
 	}
-
-	/**
-	 * initialize the default income accounts
-	 */
 
 	public void initializeDefaultIncomeAccounts() {
 
@@ -925,8 +858,9 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "5", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(salesIncomeTypeA);
+
+		// TODO 8 accounts
 
 		Account salesIncomeTypeB = new Account(Account.TYPE_INCOME, "4002",
 				AccounterConstants.SALES_INCOME_TYPE_B, true, null,
@@ -940,7 +874,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "7", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(salesIncomeTypeC);
 
 		Account salesIncomeTypeD = new Account(Account.TYPE_INCOME, "4004",
@@ -948,7 +881,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "8", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(salesIncomeTypeD);
 
 		Account salesIncomeTypeE = new Account(Account.TYPE_INCOME, "4005",
@@ -956,7 +888,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "9", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(salesIncomeTypeE);
 
 		Account miscellaneousIncome = new Account(Account.TYPE_INCOME, "4100",
@@ -964,7 +895,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "10", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(miscellaneousIncome);
 
 		Account distributionAndCarriage = new Account(Account.TYPE_INCOME,
@@ -972,23 +902,13 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "11", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(distributionAndCarriage);
-
-		Account discounts = new Account(Account.TYPE_INCOME, "4120",
-				AccounterConstants.DISCOUNTS, true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "12", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(discounts);
 
 		Account commissionsReceived = new Account(Account.TYPE_INCOME, "4200",
 				AccounterConstants.COMMISSION_RECIEVED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "13", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(commissionsReceived);
 
 		Account creditChargesLatePayment = new Account(Account.TYPE_INCOME,
@@ -996,7 +916,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "14", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(creditChargesLatePayment);
 
 		Account insuranceClaims = new Account(Account.TYPE_INCOME, "4220",
@@ -1004,7 +923,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "15", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(insuranceClaims);
 
 		Account interestIncome = new Account(Account.TYPE_INCOME, "4230",
@@ -1012,7 +930,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "16", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(interestIncome);
 
 		Account rentIncome = new Account(Account.TYPE_INCOME, "4240",
@@ -1020,7 +937,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "17", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(rentIncome);
 
 		Account royltiesReceived = new Account(Account.TYPE_INCOME, "4250",
@@ -1028,34 +944,34 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "18", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(royltiesReceived);
+
+		Account royaltiesRecieved = new Account(Account.TYPE_INCOME, "4251",
+				AccounterConstants.ROYALTIES_RECIEVED, true, null,
+				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
+				null, true, false, openingBalancesAccount, "19", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(royaltiesRecieved);
 
 		Account profitOrLossOnSalesOfAssets = new Account(Account.TYPE_INCOME,
 				"4260", AccounterConstants.PROFIT_OR_LOSS_ON_SALES_ASSETS,
 				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
-				"", 0.0, null, true, false, openingBalancesAccount, "19", true,
+				"", 0.0, null, true, false, openingBalancesAccount, "20", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(profitOrLossOnSalesOfAssets);
 	}
-
-	/**
-	 * initialize the default assets accounts
-	 */
 
 	public void initializeDefaultAssetsAccounts() {
 		Session session = HibernateUtil.getCurrentSession();
 
+		// Current Accounts
 		accountsReceivableAccount = new Account(
 				Account.TYPE_OTHER_CURRENT_ASSET, "1001",
 				AccounterConstants.ACCOUNTS_RECEIVABLE, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, false, false, openingBalancesAccount, "2", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(accountsReceivableAccount);
-
 		company.setAccountsReceivableAccount(accountsReceivableAccount);
 
 		accountsPayableAccount = new Account(
@@ -1064,26 +980,21 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "3", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(accountsPayableAccount);
-
 		company.setAccountsPayableAccount(accountsPayableAccount);
 
-		Account unDepositedFunds = new Account(
-				Account.TYPE_OTHER_CURRENT_ASSET, "1175",
-				AccounterConstants.UN_DEPOSITED_FUNDS, true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, false, true, openingBalancesAccount, "1", true,
+		Account debitors = new Account(Account.TYPE_OTHER_CURRENT_ASSET,
+				"1002", AccounterConstants.DEBTORS_ACCOUNTS_RECEIVABLE, true,
+				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
+				0.0, null, true, false, openingBalancesAccount, "100", true,
 				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(unDepositedFunds);
+		session.save(debitors);
 
 		Account deposits = new Account(Account.TYPE_OTHER_CURRENT_ASSET,
 				"1003", AccounterConstants.DEPOSITS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "100", true,
+				null, true, false, openingBalancesAccount, "101", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(deposits);
 
 		Account bankCurrentAccount = new Account(
@@ -1092,7 +1003,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "103", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(bankCurrentAccount);
 
 		Account bankDepositAccount = new Account(
@@ -1101,15 +1011,21 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "104", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(bankDepositAccount);
+
+		Account unDepositedFunds = new Account(
+				Account.TYPE_OTHER_CURRENT_ASSET, "1175",
+				AccounterConstants.UN_DEPOSITED_FUNDS, true, null,
+				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
+				null, false, true, openingBalancesAccount, "1", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(unDepositedFunds);
 
 		Account pettyCash = new Account(Account.TYPE_OTHER_CURRENT_ASSET,
 				"1180", AccounterConstants.PETTY_CASH, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "105", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(pettyCash);
 
 		Account prepayments = new Account(Account.TYPE_OTHER_CURRENT_ASSET,
@@ -1117,7 +1033,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "106", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(prepayments);
 
 		Account advancesToEmployees = new Account(
@@ -1126,7 +1041,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "107", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(advancesToEmployees);
 
 		Account stock = new Account(Account.TYPE_OTHER_CURRENT_ASSET, "1200",
@@ -1134,15 +1048,37 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "108", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(stock);
+
+		// Fixed Accounts
+		Account officeEquipment = new Account(Account.TYPE_FIXED_ASSET, "0100",
+				AccounterConstants.OFFICE_EQUIPMENT, true, null,
+				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
+				null, true, false, openingBalancesAccount, "126", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(officeEquipment);
+
+		// TODO Less Acumulation Deprication on office Equipment
+		Account computerEquipment = new Account(Account.TYPE_FIXED_ASSET,
+				"0003", AccounterConstants.ASSETS_COMPUTER_EQUIPMENTS, true,
+				null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "",
+				0.0, null, true, false, openingBalancesAccount, "139", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(computerEquipment);
+
+		Account lessAcumulationDepricationOnComputerEquipement = new Account(
+				Account.TYPE_FIXED_ASSET, "0002",
+				AccounterConstants.ASSETS_LAD_COMPUTER_EQUIPMENTS, true, null,
+				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
+				null, true, false, openingBalancesAccount, "109", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(lessAcumulationDepricationOnComputerEquipement);
 
 		Account freeHoldBuildings = new Account(Account.TYPE_FIXED_ASSET,
 				"0001", AccounterConstants.FREEHOLD_BUILDINGS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "122", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(freeHoldBuildings);
 
 		Account acumulatedFreeHoldBuildingDepreciation = new Account(
@@ -1151,7 +1087,6 @@ public abstract class CompanyInitializer {
 				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
 				"", 0.0, null, true, false, openingBalancesAccount, "123",
 				true, this.preferences.getPreventPostingBeforeDate());
-
 		session.save(acumulatedFreeHoldBuildingDepreciation);
 
 		Account leaseHoldPropertyImprovements = new Account(
@@ -1160,7 +1095,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "124", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(leaseHoldPropertyImprovements);
 
 		Account accmltdLeaseHoldPropertyImprvmntsDepreciation = new Account(
@@ -1170,16 +1104,14 @@ public abstract class CompanyInitializer {
 				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
 				"", 0.0, null, true, false, openingBalancesAccount, "125",
 				true, this.preferences.getPreventPostingBeforeDate());
-
 		session.save(accmltdLeaseHoldPropertyImprvmntsDepreciation);
 
-		Account officeEquipment = new Account(Account.TYPE_FIXED_ASSET, "0100",
-				AccounterConstants.OFFICE_EQUIPMENT, true, null,
+		Account itEquipment = new Account(Account.TYPE_FIXED_ASSET, "0120",
+				AccounterConstants.IT_EQUIPMENT, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "126", true,
+				null, true, false, openingBalancesAccount, "128", true,
 				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(officeEquipment);
+		session.save(itEquipment);
 
 		Account acumltdOfcEqupmntDepreciation = new Account(
 				Account.TYPE_FIXED_ASSET, "0115",
@@ -1187,16 +1119,7 @@ public abstract class CompanyInitializer {
 				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
 				"", 0.0, null, true, false, openingBalancesAccount, "127",
 				true, this.preferences.getPreventPostingBeforeDate());
-
 		session.save(acumltdOfcEqupmntDepreciation);
-
-		Account itEquipment = new Account(Account.TYPE_FIXED_ASSET, "0120",
-				AccounterConstants.IT_EQUIPMENT, true, null,
-				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "128", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(itEquipment);
 
 		Account accumltdITEquipmentDepreciation = new Account(
 				Account.TYPE_FIXED_ASSET, "0135",
@@ -1204,7 +1127,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "129", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(accumltdITEquipmentDepreciation);
 
 		Account furnitureAndFixtures = new Account(Account.TYPE_FIXED_ASSET,
@@ -1212,7 +1134,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "130", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(furnitureAndFixtures);
 
 		Account accumltdFurnitureAndFixturesDepreciation = new Account(
@@ -1222,7 +1143,6 @@ public abstract class CompanyInitializer {
 				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
 				"", 0.0, null, true, false, openingBalancesAccount, "131",
 				true, this.preferences.getPreventPostingBeforeDate());
-
 		session.save(accumltdFurnitureAndFixturesDepreciation);
 
 		Account plantAndMachinary = new Account(Account.TYPE_FIXED_ASSET,
@@ -1230,7 +1150,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "132", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(plantAndMachinary);
 
 		Account accumltdPlantAndMachinaryDepreciation = new Account(
@@ -1240,7 +1159,6 @@ public abstract class CompanyInitializer {
 				true, null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false,
 				"", 0.0, null, true, false, openingBalancesAccount, "133",
 				true, this.preferences.getPreventPostingBeforeDate());
-
 		session.save(accumltdPlantAndMachinaryDepreciation);
 
 		Account vechiles = new Account(Account.TYPE_FIXED_ASSET, "0180",
@@ -1248,7 +1166,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "134", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(vechiles);
 
 		Account accumltdVechilesDepreciation = new Account(
@@ -1257,7 +1174,6 @@ public abstract class CompanyInitializer {
 				null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "",
 				0.0, null, true, false, openingBalancesAccount, "135", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(accumltdVechilesDepreciation);
 
 		Account intangibles = new Account(Account.TYPE_FIXED_ASSET, "0200",
@@ -1265,71 +1181,86 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "136", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(intangibles);
 
-		Account bankRevolutions = new Account(Account.TYPE_OTHER_ASSET, "9501",
-				AccounterConstants.BANK_REVALUATIONS, true, null,
-				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "140", true,
-				this.preferences.getPreventPostingBeforeDate());
+		// Other Current Assets
+		// TODO Advance Tax
+		// TODO Inventary Assests
+		// TODO prepaid
+		// TODO Undeposited
+		// TODO saves tax incurred on Expenses
 
-		session.save(bankRevolutions);
+		// Cash
+		// TODO Un deposited funds
+		// TODO Pretty cash
+		// TODO
 
-		Account historicalAdjustment = new Account(Account.TYPE_OTHER_ASSET,
-				"9510", AccounterConstants.HISTORICAL_ADJUSTMENT, true, null,
-				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "141", true,
-				this.preferences.getPreventPostingBeforeDate());
+		// Bank
 
-		session.save(historicalAdjustment);
-
-		Account realisedCurrencyGains = new Account(Account.TYPE_OTHER_ASSET,
-				"9520", AccounterConstants.REALISED_CURRENCY_GAINS, true, null,
-				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "142", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(realisedCurrencyGains);
-
-		Account unrealisedCurrencyGains = new Account(Account.TYPE_OTHER_ASSET,
-				"9530", AccounterConstants.UNREALISED_CURRENCY_GAINS, true,
-				null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "",
-				0.0, null, true, false, openingBalancesAccount, "143", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(unrealisedCurrencyGains);
-
-		Account rounding = new Account(Account.TYPE_OTHER_ASSET, "9540",
-				AccounterConstants.ROUNDING, true, null,
-				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "144", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(rounding);
-
-		Account suspense = new Account(Account.TYPE_OTHER_ASSET, "9600",
-				AccounterConstants.SUSPENSE, true, null,
-				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "146", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(suspense);
+		//
+		// Account bankRevolutions = new Account(Account.TYPE_OTHER_ASSET,
+		// "9501",
+		// AccounterConstants.BANK_REVALUATIONS, true, null,
+		// Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
+		// null, true, false, openingBalancesAccount, "140", true,
+		// this.preferences.getPreventPostingBeforeDate());
+		//
+		// session.save(bankRevolutions);
+		//
+		// Account historicalAdjustment = new Account(Account.TYPE_OTHER_ASSET,
+		// "9510", AccounterConstants.HISTORICAL_ADJUSTMENT, true, null,
+		// Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
+		// null, true, false, openingBalancesAccount, "141", true,
+		// this.preferences.getPreventPostingBeforeDate());
+		//
+		// session.save(historicalAdjustment);
+		//
+		// Account realisedCurrencyGains = new Account(Account.TYPE_OTHER_ASSET,
+		// "9520", AccounterConstants.REALISED_CURRENCY_GAINS, true, null,
+		// Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
+		// null, true, false, openingBalancesAccount, "142", true,
+		// this.preferences.getPreventPostingBeforeDate());
+		//
+		// session.save(realisedCurrencyGains);
+		//
+		// Account unrealisedCurrencyGains = new
+		// Account(Account.TYPE_OTHER_ASSET,
+		// "9530", AccounterConstants.UNREALISED_CURRENCY_GAINS, true,
+		// null, Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "",
+		// 0.0, null, true, false, openingBalancesAccount, "143", true,
+		// this.preferences.getPreventPostingBeforeDate());
+		//
+		// session.save(unrealisedCurrencyGains);
+		//
+		// Account rounding = new Account(Account.TYPE_OTHER_ASSET, "9540",
+		// AccounterConstants.ROUNDING, true, null,
+		// Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
+		// null, true, false, openingBalancesAccount, "144", true,
+		// this.preferences.getPreventPostingBeforeDate());
+		//
+		// session.save(rounding);
+		//
+		// Account suspense = new Account(Account.TYPE_OTHER_ASSET, "9600",
+		// AccounterConstants.SUSPENSE, true, null,
+		// Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
+		// null, true, false, openingBalancesAccount, "146", true,
+		// this.preferences.getPreventPostingBeforeDate());
+		//
+		// session.save(suspense);
 
 	}
 
-	/**
-	 * initialize the default liabilities accounts
-	 */
-
 	public void initializeDefaultlLiabilitiesAccounts() {
 		Session session = HibernateUtil.getCurrentSession();
+
+		// Current Liabilities
+		// TODO Remaining 16
+
 		Account creditCards = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
 				"2050", AccounterConstants.CREDIT_CARDS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "110", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(creditCards);
 
 		Account payeeEmploymentTax = new Account(
@@ -1338,7 +1269,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "111", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(payeeEmploymentTax);
 
 		Account nationalInsuranceTax = new Account(
@@ -1347,8 +1277,10 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "112", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(nationalInsuranceTax);
+
+		// TODO Sales Tax (VAT) Un filed
+		// TODO Sales Tax (VAT) Filed
 
 		Account corporationTax = new Account(
 				Account.TYPE_OTHER_CURRENT_LIABILITY, "2130",
@@ -1356,7 +1288,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "114", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(corporationTax);
 
 		Account loans = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
@@ -1364,7 +1295,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "115", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(loans);
 
 		Account mortagages = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
@@ -1372,7 +1302,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "116", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(mortagages);
 
 		Account accruals = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
@@ -1380,7 +1309,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "117", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(accruals);
 
 		Account directorsCurrentAccount = new Account(
@@ -1389,7 +1317,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "118", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(directorsCurrentAccount);
 
 		Account netSalaries = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
@@ -1397,7 +1324,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "119", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(netSalaries);
 
 		Account pensions = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
@@ -1405,7 +1331,6 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "120", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(pensions);
 
 		Account unpaidExpenseClaims = new Account(
@@ -1414,15 +1339,15 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "121", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(unpaidExpenseClaims);
+		// -----------
 
+		// Long term liabilities
 		Account longTermLoans = new Account(Account.TYPE_LONG_TERM_LIABILITY,
 				"9001", AccounterConstants.LONG_TERM_LOANS, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "137", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(longTermLoans);
 
 		Account hirePurchaseCreditors = new Account(
@@ -1431,17 +1356,9 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "138", true,
 				this.preferences.getPreventPostingBeforeDate());
-
 		session.save(hirePurchaseCreditors);
-
-		Account employeePayrollLiabilities = new Account(
-				Account.TYPE_PAYROLL_LIABILITY, "2121",
-				"Employee Payroll Liabilities", true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, true, openingBalancesAccount, "6", true,
-				this.preferences.getPreventPostingBeforeDate());
-
-		session.save(employeePayrollLiabilities);
+		// TODO defered tax
+		// ----------
 	}
 
 	abstract String getDateFormat();
