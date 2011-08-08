@@ -123,8 +123,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private boolean isSalesPersonEnabled;
 
-	private boolean sellServices;
-	private boolean sellProducts;
+	private boolean sellServices = true;
+	private boolean sellProducts = true;
 
 	// currency related properties
 	private Currency primaryCurrency;
