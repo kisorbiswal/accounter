@@ -166,6 +166,8 @@ public class SetupWizard extends VerticalPanel {
 				nextButton.setVisible(false);
 			}
 			backButton.setVisible(true);
+		}else{
+			buttonPanel.setVisible(false);
 		}
 
 		// setting the progress
