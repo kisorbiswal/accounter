@@ -43,7 +43,7 @@ public class ViewManager extends VerticalPanel {
 
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
-
+		addStyleName("view_manager");
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -205,8 +205,8 @@ public class ViewManager extends VerticalPanel {
 		if (this.existingView == null) {
 			return;
 		}
-		//If this is the last view, then do not close
-		if(this.views.list.size()==1){
+		// If this is the last view, then do not close
+		if (this.views.list.size() == 1) {
 			return;
 		}
 		this.existingView.removeFromParent();
