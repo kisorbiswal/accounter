@@ -54,13 +54,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	}
 
 	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-
-	}
-
-	/**
 	 * @return the name
 	 */
 	public String getName() {
@@ -1091,37 +1084,4 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	String getDateFormat() {
 		return AccounterConstants.ddMMyyyy;
 	}
-
-	/*
-	 * @Override public void office_expense() {
-	 * 
-	 * 
-	 * }
-	 * 
-	 * @Override public void motor_veichel_expense() {
-	 * 
-	 * 
-	 * }
-	 * 
-	 * @Override public void travel_expenses() {
-	 * 
-	 * 
-	 * }
-	 * 
-	 * @Override public void other_expenses() {
-	 * 
-	 * 
-	 * }
-	 * 
-	 * @Override public void Cost_of_good_sold() {
-	 * 
-	 * 
-	 * }
-	 * 
-	 * @Override public void other_direct_cost() {
-	 * 
-	 * 
-	 * }
-	 */
-
 }

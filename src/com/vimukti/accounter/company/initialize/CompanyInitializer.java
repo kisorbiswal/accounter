@@ -228,6 +228,10 @@ public abstract class CompanyInitializer {
 		this.retainedEarningsAccount = reservesRetainedEarnings;
 	}
 
+	public Company getCompany() {
+		return company;
+	}
+
 	/**
 	 * initialize the default expenses accounts
 	 */
