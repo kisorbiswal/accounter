@@ -75,9 +75,11 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private FinanceDate depreciationStartDate = new FinanceDate();
 
 	FinanceDate preventPostingBeforeDate = new FinanceDate();
+	private boolean doyouKeepTrackofBills;
 
+	private boolean doYouKeepTrackOfTime;
 	// Customer Preferrences
-
+	private boolean doYouChargesalesTax;
 	/**
 	 * whether we can use Id's for the Customer while creating them or not.
 	 */
@@ -123,8 +125,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private boolean sellServices;
 	private boolean sellProducts;
-	private int sellType;
-	private int salesTaxs;
+
 	// currency related properties
 	private Currency primaryCurrency;
 	private List<Currency> supportingCurrenciesList;
@@ -137,6 +138,9 @@ public class CompanyPreferences implements IAccounterServerCore {
 	boolean haveW_2Employees;
 	boolean have1099contractors;
 	boolean trackEmployeeExpenses;
+	private String referCustomers;
+	private String referSuplliers;
+	private String referAccounts;
 	// for select fiscal year in setup
 
 	int fiscalYearFirstMonth;
@@ -765,20 +769,52 @@ public class CompanyPreferences implements IAccounterServerCore {
 		this.organizationType = organizationType;
 	}
 
-	public int getSellType() {
-		return sellType;
+	public boolean isDoYouChargesalesTax() {
+		return doYouChargesalesTax;
 	}
 
-	public void setSellType(int sellType) {
-		this.sellType = sellType;
+	public void setDoYouChargesalesTax(boolean doYouChargesalesTax) {
+		this.doYouChargesalesTax = doYouChargesalesTax;
 	}
 
-	public int getSalesTaxs() {
-		return salesTaxs;
+	public boolean isDoyouKeepTrackofBills() {
+		return doyouKeepTrackofBills;
 	}
 
-	public void setSalesTaxs(int salesTaxs) {
-		this.salesTaxs = salesTaxs;
+	public void setDoyouKeepTrackofBills(boolean doyouKeepTrackofBills) {
+		this.doyouKeepTrackofBills = doyouKeepTrackofBills;
+	}
+
+	public boolean isDoYouKeepTrackOfTime() {
+		return doYouKeepTrackOfTime;
+	}
+
+	public void setDoYouKeepTrackOfTime(boolean doYouKeepTrackOfTime) {
+		this.doYouKeepTrackOfTime = doYouKeepTrackOfTime;
+	}
+
+	public String getReferCustomers() {
+		return referCustomers;
+	}
+
+	public void setReferCustomers(String referCustomers) {
+		this.referCustomers = referCustomers;
+	}
+
+	public String getReferSuplliers() {
+		return referSuplliers;
+	}
+
+	public void setReferSuplliers(String referSuplliers) {
+		this.referSuplliers = referSuplliers;
+	}
+
+	public String getReferAccounts() {
+		return referAccounts;
+	}
+
+	public void setReferAccounts(String referAccounts) {
+		this.referAccounts = referAccounts;
 	}
 
 	/*
