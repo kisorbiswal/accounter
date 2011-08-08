@@ -16,6 +16,14 @@
 		activation.token
 		=:token
 	</query>
+	
+	<query name="get.activation.by.emailid">
+		<query-param name="emailId" type="String" />
+		from com.vimukti.accounter.core.Activation activation
+		where
+		activation.emailId
+		=:emailId
+	</query>
 
 	<query name="delete.activation.by.emailId">
 		<query-param name="emailId" type="integer" />
