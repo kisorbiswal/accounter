@@ -12,7 +12,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	@Override
 	public VerticalPanel getPageBody() {
 		// TODO Auto-generated method stub
-		return null;
+		return new VerticalPanel();
 	}
 
 	@Override
