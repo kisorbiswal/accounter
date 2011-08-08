@@ -6478,7 +6478,7 @@ input[type="text"],textarea {
     font-size: 23px;
     padding-bottom: 6px;
 }
-.finance_window{
+.finance_window,.group-toolbar{
 	width:100%;
 }
 .view_manager{
@@ -6525,6 +6525,12 @@ a#fdbk_tab:hover{
 	background-position: 5px center;
     background-repeat: no-repeat;
     color:#000000 !important;
+    border:1px solid #a0a0a0 !important;
+    background-color: #e4e4e4 !important
+}
+.Empty-text{
+	background-position: center center;
+    background-repeat: no-repeat;
     border:1px solid #a0a0a0 !important;
     background-color: #e4e4e4 !important
 }
