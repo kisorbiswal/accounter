@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -14,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -241,10 +243,14 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		String exceptionMessage = exception.getMessage();
-		addError(this, exception.getMessage());
+		// addError(this, exception.getMessage());
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 		updateVATCode();
 		if (exceptionMessage.contains("name")) {
 			data.setName(vatCode);
@@ -267,7 +273,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 			super.saveSuccess(result);
 
 		} else {
-			saveFailed(new Exception());
+			saveFailed(new AccounterException());
 		}
 	}
 
@@ -325,7 +331,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 		// TODO Auto-generated method stub
 
 	}

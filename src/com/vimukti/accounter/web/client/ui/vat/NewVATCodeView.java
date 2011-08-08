@@ -246,7 +246,7 @@
 //	}
 //
 //	@Override
-//	public void saveFailed(Throwable exception) {
+//	public void saveFailed(AccounterException exception) {
 //		super.saveFailed(exception);
 //		Accounter.showError(exception.getMessage());
 //	}
@@ -367,7 +367,7 @@
 //	}
 //
 //	@Override
-//	public void deleteFailed(Throwable caught) {
+//	public void deleteFailed(AccounterException caught) {
 //
 //	}
 //

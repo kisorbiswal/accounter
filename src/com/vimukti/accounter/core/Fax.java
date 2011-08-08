@@ -2,7 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.util.LinkedHashMap;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 @SuppressWarnings("serial")
 public class Fax implements IAccounterServerCore {
@@ -55,7 +55,7 @@ public class Fax implements IAccounterServerCore {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

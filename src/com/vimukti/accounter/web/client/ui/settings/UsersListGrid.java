@@ -4,10 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
@@ -165,12 +166,16 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
-		if (caught instanceof InvalidOperationException)
-			Accounter.showError(((InvalidOperationException) caught)
-					.getMessage());
-		else
-			Accounter.showError(Accounter.constants().youcantDeleteThisUser());
+	public void deleteFailed(AccounterException caught) {
+		// if (caught instanceof InvalidOperationException)
+		// Accounter.showError(((InvalidOperationException) caught)
+		// .getMessage());
+		// else
+		// Accounter.showError(Accounter.constants().youcantDeleteThisUser());
+		AccounterException accounterException = (AccounterException) caught;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 		caught.fillInStackTrace();
 	}
 

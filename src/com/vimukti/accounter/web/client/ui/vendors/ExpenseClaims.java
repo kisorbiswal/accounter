@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -78,7 +79,7 @@ public class ExpenseClaims extends BaseView {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

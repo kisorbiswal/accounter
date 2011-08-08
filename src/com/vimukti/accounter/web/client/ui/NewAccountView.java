@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -26,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.BankNameCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.DropDownCombo;
@@ -825,13 +827,17 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		// BaseView.errordata.setHTML(exception.getMessage());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		String exceptionMessage = exception.getMessage();
-		addError(this, exceptionMessage);
+		// addError(this, exceptionMessage);
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 
 		updateAccountObject();
 		if (exceptionMessage.contains("number"))
@@ -1305,7 +1311,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

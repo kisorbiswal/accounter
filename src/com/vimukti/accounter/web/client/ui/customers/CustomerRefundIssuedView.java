@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -150,7 +151,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

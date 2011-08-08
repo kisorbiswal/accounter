@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.services.SessionUtils;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class Entry implements IAccounterServerCore, Lifecycle {
@@ -976,7 +976,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}
@@ -987,8 +987,7 @@ public class Entry implements IAccounterServerCore, Lifecycle {
 	 */
 	public static void updateEntryMemo(Session session, String oldName,
 			String newName) {
-		session.getNamedQuery(
-				"update.Entry.oldNameTo.newName")
+		session.getNamedQuery("update.Entry.oldNameTo.newName")
 				.setParameter("newName", newName)
 				.setParameter("oldName", oldName).executeUpdate();
 	}

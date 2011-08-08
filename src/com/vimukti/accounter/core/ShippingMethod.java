@@ -10,9 +10,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ShippingMethod extends CreatableObject implements
 		IAccounterServerCore, Lifecycle {
@@ -120,19 +120,18 @@ public class ShippingMethod extends CreatableObject implements
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		ShippingMethod shippingMethod = (ShippingMethod) clientObject;
-		Query query = session
-				.getNamedQuery(
-						"getShippingmethod.by.Name")
+		Query query = session.getNamedQuery("getShippingmethod.by.Name")
 				.setParameter(0, shippingMethod.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			ShippingMethod newShippingMethod = (ShippingMethod) list.get(0);
 			if (shippingMethod.id != newShippingMethod.id) {
-				throw new InvalidOperationException(
-						"A ShippingMethod already exists with this name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "A ShippingMethod already exists with this name");
 			}
 		}
 		return true;

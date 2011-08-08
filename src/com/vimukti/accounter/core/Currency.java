@@ -1,6 +1,6 @@
 package com.vimukti.accounter.core;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -87,7 +87,7 @@ public class Currency implements IAccounterServerCore {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

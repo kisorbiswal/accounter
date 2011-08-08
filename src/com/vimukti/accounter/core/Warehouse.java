@@ -11,9 +11,9 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * Warehouse POJO.
@@ -35,8 +35,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	private String name;
 	private Contact contact;
 	private boolean isDefaultWarehouse;
-
-	
 
 	private transient boolean isOnSaveProccessed;
 
@@ -69,7 +67,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return false;
 	}

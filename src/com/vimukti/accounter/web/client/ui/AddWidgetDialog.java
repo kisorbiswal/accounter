@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.banking.BankingSectionHomeView;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
@@ -53,7 +54,6 @@ public class AddWidgetDialog extends BaseDialog {
 		createControl();
 
 	}
-
 
 	private void createControl() {
 
@@ -809,10 +809,15 @@ public class AddWidgetDialog extends BaseDialog {
 
 	}
 
-
 	@Override
 	protected boolean onOK() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void saveFailed(AccounterException exception) {
+		// TODO Auto-generated method stub
+
 	}
 }

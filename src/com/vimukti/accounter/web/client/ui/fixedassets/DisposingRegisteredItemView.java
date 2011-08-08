@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -89,7 +90,7 @@ public class DisposingRegisteredItemView extends SellingRegisteredItemView {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 		// TODO Auto-generated method stub
 
 	}

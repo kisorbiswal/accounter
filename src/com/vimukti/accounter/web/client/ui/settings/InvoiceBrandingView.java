@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -450,7 +451,6 @@ public class InvoiceBrandingView<T> extends
 		nameAndMenuPanel.add(copyThemeButton);
 		nameAndMenuPanel.add(deleteButton);
 
-
 		if (theme.getName().equalsIgnoreCase(Accounter.constants().standard())) {
 			deleteButton.setVisible(false);
 		} else {
@@ -667,7 +667,7 @@ public class InvoiceBrandingView<T> extends
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 
@@ -687,7 +687,7 @@ public class InvoiceBrandingView<T> extends
 			super.saveSuccess(object);
 			ActionFactory.getInvoiceBrandingAction().run(null, false);
 		} else
-			saveFailed(new Exception(Accounter.constants().failed()));
+			saveFailed(new AccounterException(Accounter.constants().failed()));
 	}
 
 	@Override

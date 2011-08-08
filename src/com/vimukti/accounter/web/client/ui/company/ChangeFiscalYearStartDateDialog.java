@@ -164,7 +164,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 
@@ -188,7 +188,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 
 	}
 

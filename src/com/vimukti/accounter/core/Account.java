@@ -18,10 +18,10 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -1219,7 +1219,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Account account = (Account) clientObject;
@@ -1249,23 +1249,27 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
 					if (this.number.equals((String) object2[1])) {
-						throw new InvalidOperationException(
-								"An Account already exists with this name and number");
+						throw new AccounterException(
+								AccounterException.ERROR_NAME_CONFLICT);
+						// "An Account already exists with this name and number");
 					}
 				}
-				throw new InvalidOperationException(
-						"An Account already exists with this name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "An Account already exists with this name");
 			} else if (this.number.equals((String) object[1])) {
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
 					if (this.name.equals((String) object2[0])) {
-						throw new InvalidOperationException(
-								"An Account already exists with this name and number");
+						throw new AccounterException(
+								AccounterException.ERROR_NUMBER_CONFLICT);
+						// "An Account already exists with this name and number");
 					}
 				}
-				throw new InvalidOperationException(
-						"An Account already exists with this number");
+				throw new AccounterException(
+						AccounterException.ERROR_NUMBER_CONFLICT);
+				// "An Account already exists with this number");
 			}
 		}
 		return true;

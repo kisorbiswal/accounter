@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -132,7 +133,7 @@ public class CreateFiscalYearDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 
@@ -156,7 +157,7 @@ public class CreateFiscalYearDialog extends BaseDialog {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 
 	}
 

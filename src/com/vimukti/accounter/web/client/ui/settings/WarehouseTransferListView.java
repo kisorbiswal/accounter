@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -76,7 +77,7 @@ public class WarehouseTransferListView extends
 			super.saveSuccess(object);
 			ActionFactory.getInvoiceBrandingAction().run(null, false);
 		} else
-			saveFailed(new Exception(Accounter.constants().failed()));
+			saveFailed(new AccounterException(Accounter.constants().failed()));
 	}
 
 }

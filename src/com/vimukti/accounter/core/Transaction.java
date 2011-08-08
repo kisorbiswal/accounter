@@ -11,7 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
 
@@ -101,6 +101,7 @@ public abstract class Transaction extends CreatableObject implements
 	boolean isDefault;
 
 	private String currencyCode;
+
 	public String getCurrencyCode() {
 		return currencyCode;
 	}
@@ -118,7 +119,7 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	private double currencyFactor;
-	
+
 	/**
 	 * Many transaction consists of List of {@link TransactionItem}s
 	 */
@@ -1120,21 +1121,24 @@ public abstract class Transaction extends CreatableObject implements
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		if (((Transaction) clientObject).isVoid
 				|| ((Transaction) clientObject).isDeleted()) {
-			throw new InvalidOperationException(
-					"This Transaction  is already voided or Deleted, can't Modify");
+			throw new AccounterException(
+					AccounterException.ERROR_NO_SUCH_OBJECT);
+			// "This Transaction  is already voided or Deleted, can't Modify");
 		}
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query2 = session.getNamedQuery("getTaxrate.by.TransactioId.and.Vatreturn");
+		Query query2 = session
+				.getNamedQuery("getTaxrate.by.TransactioId.and.Vatreturn");
 		query2.setParameter(0, this.getID());
 		List list = query2.list();
 		if (list != null && list.size() > 0)
-			throw new InvalidOperationException(
-					"File VAT already done in  this transaction date duration, can't Modify");
+			throw new AccounterException(
+					AccounterException.ERROR_NO_SUCH_OBJECT);
+		// "File VAT already done in  this transaction date duration, can't Modify");
 
 		return true;
 	}

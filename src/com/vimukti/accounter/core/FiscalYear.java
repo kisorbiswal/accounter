@@ -14,9 +14,9 @@ import org.hibernate.classic.Lifecycle;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.services.SessionUtils;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class FiscalYear extends CreatableObject implements
 		IAccounterServerCore, Lifecycle {
@@ -52,7 +52,6 @@ public class FiscalYear extends CreatableObject implements
 	int version;
 
 	transient int previousStatus;
-
 
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
@@ -193,7 +192,6 @@ public class FiscalYear extends CreatableObject implements
 		return false;
 	}
 
-	
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
@@ -404,22 +402,19 @@ public class FiscalYear extends CreatableObject implements
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
-	public boolean canDelete(FiscalYear object)
-			throws InvalidOperationException {
+	public boolean canDelete(FiscalYear object) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		List list = session
-				.getNamedQuery(
-						"getTransaction.by.Transactiondates")
+		List list = session.getNamedQuery("getTransaction.by.Transactiondates")
 				.setParameter("startDate", object.getStartDate())
 				.setParameter("endDate", object.getEndDate()).list();
 		if (list != null && list.size() != 0)
-			throw new InvalidOperationException(
-					"You already created some transaction in this period, You can't delete");
+			throw new AccounterException(AccounterException.ERROR_CANT_VOID);
+		// "You already created some transaction in this period, You can't delete");
 		return true;
 	}
 
@@ -427,8 +422,7 @@ public class FiscalYear extends CreatableObject implements
 		modifyFiscalYears(presentFiscalYear);
 		Session session = HibernateUtil.getCurrentSession();
 		List transactionDates = session
-				.getNamedQuery(
-						"get.TransactionDate.from.TransactionbyDate")
+				.getNamedQuery("get.TransactionDate.from.TransactionbyDate")
 				.setParameter("date", this.getStartDate()).list();
 		Iterator it = transactionDates.iterator();
 		while (it.hasNext()) {
@@ -440,8 +434,7 @@ public class FiscalYear extends CreatableObject implements
 	private void modifyFiscalYears(FiscalYear presentFiscalYear) {
 		Session s = HibernateUtil.getCurrentSession();
 		List<FiscalYear> beforeFYs = s
-				.getNamedQuery(
-						"getFiscalyear.byId.andDates")
+				.getNamedQuery("getFiscalyear.byId.andDates")
 				.setParameter("id", this.getID())
 				.setParameter("startDate", this.getStartDate()).list();
 		Calendar tempCal = Calendar.getInstance();
@@ -461,8 +454,7 @@ public class FiscalYear extends CreatableObject implements
 			tempCal.setTime(startDate.getAsDateObject());
 		}
 		List<FiscalYear> afterFYs = s
-				.getNamedQuery(
-						"getFisacalyear.by.id.and.Startdate")
+				.getNamedQuery("getFisacalyear.by.id.and.Startdate")
 				.setParameter("id", this.id)
 				.setParameter("startDate", this.getStartDate()).list();
 		tempCal.setTime(this.getStartDate().getAsDateObject());
@@ -499,8 +491,7 @@ public class FiscalYear extends CreatableObject implements
 			FinanceDate transactionDate) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session
-				.getNamedQuery("getFisacalyear.by.Startdate");
+		Query query = session.getNamedQuery("getFisacalyear.by.Startdate");
 		List list = query.list();
 		// Object[] object = (Object[]) list.get(0);
 

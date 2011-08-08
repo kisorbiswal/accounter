@@ -2,7 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -17,6 +17,6 @@ public interface IAccounterServerCore extends Serializable, Cloneable {
 	long getID();
 
 	boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException;
+			throws AccounterException;
 
 }

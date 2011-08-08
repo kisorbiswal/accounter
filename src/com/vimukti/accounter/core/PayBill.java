@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -636,7 +636,7 @@ public class PayBill extends Transaction {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		PayBill payBill = (PayBill) clientObject;
 		/**
@@ -645,11 +645,13 @@ public class PayBill extends Transaction {
 		if ((this.isVoid && payBill.isVoid)
 				|| (this.isDeleted() && payBill.isDeleted())) {
 			if (this.type == PayBill.TYPE_PAY_BILL)
-				throw new InvalidOperationException(
-						"This Transaction is already voided or Deleted, can't Modify");
+				throw new AccounterException(
+						AccounterException.ERROR_NO_SUCH_OBJECT);
+			// "This Transaction is already voided or Deleted, can't Modify");
 			else
-				throw new InvalidOperationException(
-						"You can't edit SupplierPayment,since it is Voided or Deleted");
+				throw new AccounterException(
+						AccounterException.ERROR_NO_SUCH_OBJECT);
+			// "You can't edit SupplierPayment,since it is Voided or Deleted");
 		}
 
 		// if (this.type == Transaction.TYPE_PAY_BILL) {

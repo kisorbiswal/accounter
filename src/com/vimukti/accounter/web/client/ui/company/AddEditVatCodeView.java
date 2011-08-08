@@ -483,7 +483,7 @@
 //	}
 //
 //	@Override
-//	public void deleteFailed(Throwable caught) {
+//	public void deleteFailed(AccounterException caught) {
 //
 //	}
 //
@@ -500,7 +500,7 @@
 //	}
 //
 //	@Override
-//	public void saveFailed(Throwable exception) {
+//	public void saveFailed(AccounterException exception) {
 //		Accounter.showError(FinanceApplication.constants()
 //				.duplicationVATCodeAreNotAllowed());
 //		super.saveFailed(exception);

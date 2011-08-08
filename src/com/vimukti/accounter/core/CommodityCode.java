@@ -1,6 +1,6 @@
 package com.vimukti.accounter.core;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 @SuppressWarnings("serial")
 public class CommodityCode implements IAccounterServerCore {
@@ -26,7 +26,7 @@ public class CommodityCode implements IAccounterServerCore {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		return true;
 	}
 }

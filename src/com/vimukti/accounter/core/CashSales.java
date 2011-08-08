@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -402,7 +402,7 @@ public class CashSales extends Transaction implements IAccounterServerCore,
 			return true;
 		isOnSaveProccessed = true;
 		super.onSave(session);
-		
+
 		if (!(this.paymentMethod
 				.equals(AccounterConstants.PAYMENT_METHOD_CHECK))
 				&& !(this.paymentMethod
@@ -518,7 +518,6 @@ public class CashSales extends Transaction implements IAccounterServerCore,
 		return Transaction.CATEGORY_CUSTOMER;
 	}
 
-
 	@Override
 	public Payee getInvolvedPayee() {
 		return this.customer;
@@ -532,11 +531,9 @@ public class CashSales extends Transaction implements IAccounterServerCore,
 				// && (this.customer != null && cs.customer != null) ?
 				// (this.customer.equals(cs.customer)): true
 				&& ((this.getDepositIn() != null && cs.getDepositIn() != null) ? (this
-						.getDepositIn().equals(cs.getDepositIn()))
-						: true)
+						.getDepositIn().equals(cs.getDepositIn())) : true)
 				&& ((this.paymentMethod != null && cs.paymentMethod != null) ? (this.paymentMethod
-						.equals(cs.paymentMethod))
-						: true)) {
+						.equals(cs.paymentMethod)) : true)) {
 			for (int i = 0; i < this.transactionItems.size(); i++) {
 				if (!this.transactionItems.get(i).equals(
 						cs.transactionItems.get(i)))
@@ -558,16 +555,16 @@ public class CashSales extends Transaction implements IAccounterServerCore,
 		Session session = HibernateUtil.getCurrentSession();
 		/**
 		 * 
-		 *If present transaction is deleted or voided & the previous
+		 * If present transaction is deleted or voided & the previous
 		 * transaction is not voided then only it will entered into the loop
 		 */
 		if ((this.isVoid && !cashSales.isVoid)
 				|| (this.isDeleted() && !cashSales.isDeleted() && !this.isVoid)) {
 
 		} else if (!cashSales.equals(this)) {
-			
+
 			this.cleanTransactionitems(this);
-			
+
 			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
 			if ((cashSales.paymentMethod
@@ -578,7 +575,6 @@ public class CashSales extends Transaction implements IAccounterServerCore,
 							.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
-
 
 			/**
 			 * if we compare depositIn accounts the condition never satisfies so
@@ -608,8 +604,8 @@ public class CashSales extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
-		
+			throws AccounterException {
+
 		return super.canEdit(clientObject);
 
 	}

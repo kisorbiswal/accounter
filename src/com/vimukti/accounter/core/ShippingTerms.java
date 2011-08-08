@@ -10,9 +10,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ShippingTerms extends CreatableObject implements
 		IAccounterServerCore, Lifecycle {
@@ -109,19 +109,18 @@ public class ShippingTerms extends CreatableObject implements
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		ShippingTerms shippingTerms = (ShippingTerms) clientObject;
-		Query query = session
-				.getNamedQuery(
-						"getShippingTerms.by.Name")
+		Query query = session.getNamedQuery("getShippingTerms.by.Name")
 				.setParameter(0, shippingTerms.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			ShippingTerms newShippingTerms = (ShippingTerms) list.get(0);
 			if (shippingTerms.id != newShippingTerms.id) {
-				throw new InvalidOperationException(
-						"ShippingTerms already exists with this name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "ShippingTerms already exists with this name");
 			}
 		}
 		return true;

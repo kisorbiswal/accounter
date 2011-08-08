@@ -9,9 +9,9 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Company extends CreatableObject implements IAccounterServerCore {
 
@@ -4327,7 +4327,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
@@ -203,7 +204,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	 * Called when any Saving any Transactional / Non-Transactional View has
 	 * Failed to save.
 	 */
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 
 		if (dialog != null) {
 			dialog.removeFromParent();

@@ -7,7 +7,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -262,9 +262,10 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		if (this.isVoid) {
-			throw new InvalidOperationException("Receive VAT can't be voided");
+			throw new AccounterException(
+					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
 		return super.canEdit(clientObject);
 	}

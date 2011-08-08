@@ -4,6 +4,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
@@ -86,7 +87,7 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 
@@ -100,7 +101,7 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 
 	}
 

@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -340,7 +341,7 @@ public class TransferFundsDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 
@@ -355,8 +356,11 @@ public class TransferFundsDialog extends BaseDialog {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
-		Accounter.showError(AccounterErrorType.FAILEDREQUEST);
+	public void saveFailed(AccounterException exception) {
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	public void onEdit() {

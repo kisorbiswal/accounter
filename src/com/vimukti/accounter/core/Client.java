@@ -3,7 +3,7 @@ package com.vimukti.accounter.core;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * This Client Saved in ServerDatabase
@@ -131,7 +131,7 @@ public class Client implements IAccounterServerCore {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

@@ -3,10 +3,10 @@ package com.vimukti.accounter.core;
 import org.apache.log4j.Logger;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 @SuppressWarnings("serial")
 public class FinanceLogger implements IAccounterServerCore {
@@ -21,8 +21,6 @@ public class FinanceLogger implements IAccounterServerCore {
 	private long id;
 	private String description;
 	private String logMessge;
-
-
 
 	public String getDescription() {
 		return description;
@@ -103,7 +101,7 @@ public class FinanceLogger implements IAccounterServerCore {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

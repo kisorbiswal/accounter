@@ -11,11 +11,13 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
@@ -101,8 +103,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		form.setFields(groupName, desc, salesTypeRadio, checkbox);
 
 		HTML label = new HTML(Accounter.constants().enterEachIndividualVAT());
-		Button addButton = new Button(Accounter.constants()
-				.add());
+		Button addButton = new Button(Accounter.constants().add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -176,14 +177,18 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		// BaseView.errordata.setHTML(FinanceApplication.constants()
 		// .duplicationOfVATGroupIsNotAllowed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this, Accounter.constants()
-				.duplicationOfVATGroupIsNotAllowed());
+		// addError(this, Accounter.constants()
+		// .duplicationOfVATGroupIsNotAllowed());
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	@Override
@@ -199,7 +204,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 			super.saveSuccess(result);
 
 		} else {
-			saveFailed(new Exception());
+			saveFailed(new AccounterException());
 		}
 
 	}
@@ -240,7 +245,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

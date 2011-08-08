@@ -8,8 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -87,7 +87,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 
 	FinanceDate discountDate;
 
-	
 	boolean isPaid = false;
 
 	/**
@@ -123,7 +122,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 	@ReffereredObject
 	ItemReceipt itemReceipt;
 
-	// 
+	//
 
 	public EnterBill() {
 		setType(Transaction.TYPE_ENTER_BILL);
@@ -235,7 +234,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 		// if (this.transactionItems != null
 		// && this.transactionItems.size() > 0) {
 		// for (TransactionItem transactionItem : this.transactionItems) {
-		//		
+		//
 		// /**
 		// * This is to know whether this transaction item is of new
 		// * one or it's came from any Purchase Order.
@@ -243,7 +242,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 		// TransactionItem referringTransactionItem =
 		// transactionItem.referringTransactionItem;
 		// double amount = 0d;
-		//		
+		//
 		// if (referringTransactionItem != null) {
 		// referringTransactionItem.usedamt += transactionItem.quantity
 		// * referringTransactionItem.unitPrice;
@@ -253,7 +252,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 		// * referring transaction item to this transaction item.
 		// */
 		// session.update(referringTransactionItem);
-		//		
+		//
 		// if (flag
 		// && ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
 		// || transactionItem.type == TransactionItem.TYPE_SALESTAX ||
@@ -263,7 +262,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 		// flag = false;
 		// }
 		// }
-		//		
+		//
 		// }
 		// }
 		// /**
@@ -276,9 +275,9 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 		// } else {
 		// this.purchaseOrder.status =
 		// Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		//		
+		//
 		// }
-		//		
+		//
 		// }
 		modifyPurchaseOrder(this, true);
 		/*
@@ -528,7 +527,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 		return "Supplier Enter Bill";
 	}
 
-
 	@Override
 	public Payee getInvolvedPayee() {
 
@@ -540,11 +538,9 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 		if (this.vendor.id == obj.vendor.id
 
 				&& ((this.purchaseOrder != null && obj.purchaseOrder != null) ? (this.purchaseOrder
-						.equals(obj.purchaseOrder))
-						: true)
+						.equals(obj.purchaseOrder)) : true)
 				&& ((this.itemReceipt != null && obj.itemReceipt != null) ? (this.itemReceipt
-						.equals(obj.itemReceipt))
-						: true)
+						.equals(obj.itemReceipt)) : true)
 				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
 						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
 						this.total, obj.total) : true)
@@ -828,12 +824,18 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 							if (DecimalUtil
 									.isLessThan(
 											transactionItem.lineTotal,
-											transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice)))
-													
+											transactionItem
+													.getQuantity()
+													.calculatePrice(
+															referringTransactionItem.unitPrice)))
+
 								referringTransactionItem.usedamt -= transactionItem.lineTotal;
 							else
-								referringTransactionItem.usedamt -= transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice);
-										
+								referringTransactionItem.usedamt -= transactionItem
+										.getQuantity()
+										.calculatePrice(
+												referringTransactionItem.unitPrice);
+
 						} else
 							referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
@@ -843,11 +845,17 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 							if (DecimalUtil
 									.isLessThan(
 											transactionItem.lineTotal,
-											transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice)))
-													
+											transactionItem
+													.getQuantity()
+													.calculatePrice(
+															referringTransactionItem.unitPrice)))
+
 								referringTransactionItem.usedamt += transactionItem.lineTotal;
 							else
-								referringTransactionItem.usedamt += transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice);
+								referringTransactionItem.usedamt += transactionItem
+										.getQuantity()
+										.calculatePrice(
+												referringTransactionItem.unitPrice);
 						} else
 							referringTransactionItem.usedamt += transactionItem.lineTotal;
 					}
@@ -860,7 +868,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 
 					if (flag
 							&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-									|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && transactionItem.getQuantity().compareTo(referringTransactionItem.getQuantity()) <0 )))) {
+									|| transactionItem.type == TransactionItem.TYPE_SALESTAX || ((transactionItem.type == TransactionItem.TYPE_ITEM || transactionItem.type == TransactionItem.TYPE_SERVICE) && transactionItem
+									.getQuantity().compareTo(
+											referringTransactionItem
+													.getQuantity()) < 0)))) {
 
 						if (isAddition ? DecimalUtil.isLessThan(amount,
 								referringTransactionItem.lineTotal)
@@ -909,14 +920,20 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 					if (referringTransactionItem != null) {
 						if (!isAddition)
 							if (transactionItem.type == transactionItem.TYPE_ITEM) {
-								referringTransactionItem.usedamt -= transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice);
+								referringTransactionItem.usedamt -= transactionItem
+										.getQuantity()
+										.calculatePrice(
+												referringTransactionItem.unitPrice);
 							} else
 								referringTransactionItem.usedamt -= referringTransactionItem.usedamt
 										- transactionItem.lineTotal;
 
 						else {
 							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
-								referringTransactionItem.usedamt = transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice);
+								referringTransactionItem.usedamt = transactionItem
+										.getQuantity()
+										.calculatePrice(
+												referringTransactionItem.unitPrice);
 							} else
 								referringTransactionItem.usedamt += transactionItem.lineTotal
 										- referringTransactionItem.usedamt;
@@ -932,16 +949,17 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		if (this.transactionPayBills != null) {
 			for (TransactionPayBill transactionPayBill : this.transactionPayBills) {
 				if (DecimalUtil.isGreaterThan(
 						transactionPayBill.appliedCredits, 0d)
 						|| DecimalUtil.isGreaterThan(
 								transactionPayBill.cashDiscount, 0d)) {
-					throw new InvalidOperationException(
-							"EnterBill can't be edited because  cashDiscount hasbeen applied on this payment EnterBill No:"
-									+ this.number);
+					throw new AccounterException(
+							AccounterException.ERROR_CANT_EDIT);
+					// "EnterBill can't be edited because  cashDiscount hasbeen applied on this payment EnterBill No:"
+					// + this.number);
 				}
 			}
 
@@ -949,8 +967,8 @@ public class EnterBill extends Transaction implements IAccounterServerCore,
 
 		if (this.status == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
 				|| this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new InvalidOperationException(
-					"You have already paid some amount for this Bill, You can't Edit and Void it.");
+			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
+			// "You have already paid some amount for this Bill, You can't Edit and Void it.");
 		}
 
 		return super.canEdit(clientObject);

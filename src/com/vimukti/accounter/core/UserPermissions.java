@@ -2,7 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.h2.engine.User;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class UserPermissions implements IAccounterServerCore {
 
@@ -95,7 +95,7 @@ public class UserPermissions implements IAccounterServerCore {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		return false;
 	}

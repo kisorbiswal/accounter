@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -39,7 +40,7 @@ public class AddressDialog extends BaseDialog {
 		this.addressType = addressType;
 		this.allAddresses = allAddresses;
 		createControls(textAreaItem, allAddresses);
-		
+
 	}
 
 	protected void createControls(TextAreaItem textAreaItem,
@@ -126,7 +127,7 @@ public class AddressDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 
@@ -140,7 +141,7 @@ public class AddressDialog extends BaseDialog {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 
 	}
 
@@ -175,7 +176,6 @@ public class AddressDialog extends BaseDialog {
 
 		return list;
 	}
-
 
 	@Override
 	protected ValidationResult validate() {
@@ -238,7 +238,5 @@ public class AddressDialog extends BaseDialog {
 	protected boolean onOK() {
 		return true;
 	}
-
-
 
 }

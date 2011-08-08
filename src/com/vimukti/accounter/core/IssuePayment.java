@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class IssuePayment extends Transaction {
@@ -146,7 +146,7 @@ public class IssuePayment extends Transaction {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

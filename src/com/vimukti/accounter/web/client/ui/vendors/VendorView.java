@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -38,6 +39,7 @@ import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -279,8 +281,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label l1 = new Label(Accounter.constants().contacts());
 
-		Button addButton = new Button(Accounter.constants()
-				.add());
+		Button addButton = new Button(Accounter.constants().add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -316,7 +317,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 		hPanel.getElement().getStyle().setFloat(Float.RIGHT);
 		panel.add(hPanel);
-
 
 		memoArea = new TextAreaItem();
 		memoArea.setHelpInformation(true);
@@ -767,7 +767,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		String msg;
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -778,7 +778,11 @@ public class VendorView extends BaseView<ClientVendor> {
 		// BaseView.errordata.setHTML(msg);
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this, msg);
+		// addError(this, msg);
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	@Override
@@ -796,7 +800,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			super.saveSuccess(result);
 
 		} else {
-			saveFailed(new Exception());
+			saveFailed(new AccounterException());
 		}
 
 	}
@@ -1069,7 +1073,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

@@ -527,7 +527,7 @@ public class CustomerCreditMemoView extends
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 		// TODO Auto-generated method stub
 
 	}

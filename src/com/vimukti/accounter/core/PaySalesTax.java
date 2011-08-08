@@ -6,7 +6,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * It corresponds to paying the tax to TAXAgency. It includes payFrom account,
@@ -44,13 +44,13 @@ public class PaySalesTax extends Transaction implements Lifecycle {
 
 	double endingBalance;
 
-//	boolean isVoid = false;
+	// boolean isVoid = false;
 
 	boolean isEdited = false;
 
 	List<TransactionPaySalesTax> transactionPaySalesTax;
 
-	// 
+	//
 
 	// List<TransactionPaySalesTax> transactionPaySalesTax;
 
@@ -191,7 +191,6 @@ public class PaySalesTax extends Transaction implements Lifecycle {
 		return AccounterConstants.TYPE_PAY_SALES_TAX;
 	}
 
-
 	@Override
 	public Payee getInvolvedPayee() {
 
@@ -205,11 +204,11 @@ public class PaySalesTax extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		if (this.isVoid) {
-			throw new InvalidOperationException("PaySalesTax  can't be voided");
+			throw new AccounterException(
+					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
 		return super.canEdit(clientObject);
 	}
-
 }

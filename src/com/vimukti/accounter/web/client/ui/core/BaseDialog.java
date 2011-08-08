@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
@@ -351,7 +352,7 @@ public abstract class BaseDialog extends CustomDialog implements
 		return company;
 	}
 
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 
@@ -359,7 +360,7 @@ public abstract class BaseDialog extends CustomDialog implements
 
 	}
 
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 
 	}
 

@@ -3,7 +3,7 @@ package com.vimukti.accounter.core;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -101,7 +101,7 @@ public class PurchaseOrder extends Transaction {
 	 */
 	String purchaseOrderNumber;
 
-	// 
+	//
 
 	// List<ItemReceipt> itemReceipts;
 	//
@@ -378,7 +378,6 @@ public class PurchaseOrder extends Transaction {
 		return AccounterConstants.TYPE_PURCHASE_ORDER;
 	}
 
-
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		// super.onUpdate(session);
@@ -451,7 +450,7 @@ public class PurchaseOrder extends Transaction {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// if (this.status == STATUS_CANCELLED || this.status ==
 		// STATUS_COMPLETED || this.status == STATUS_PAID_OR_APPLIED_OR_ISSUED)
 		// {

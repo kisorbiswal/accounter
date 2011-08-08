@@ -301,7 +301,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

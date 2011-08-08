@@ -1,6 +1,6 @@
 package com.vimukti.accounter.core;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * Adjustment reason POJO.
@@ -35,7 +35,7 @@ public class AdjustmentReason extends CreatableObject implements
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		return false;
 	}
 

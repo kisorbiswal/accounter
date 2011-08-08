@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -395,12 +395,13 @@ public class WriteCheck extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		if ((this.bankAccount.equals("Un Deposited Funds"))
 				&& this.transactionMakeDepositEntries != null) {
-			throw new InvalidOperationException(
-					"You can't void or edit because it has been deposited from Undeposited Funds");
+			throw new AccounterException(
+					AccounterException.ERROR_DEPOSITED_FROM_UNDEPOSITED_FUNDS);
+			// "You can't void or edit because it has been deposited from Undeposited Funds");
 		}
 
 		return true;

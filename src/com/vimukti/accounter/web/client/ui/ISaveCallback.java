@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * @author Prasanna Kumar G
@@ -11,7 +12,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
  */
 public interface ISaveCallback {
 
-	public void saveFailed(Throwable exception);
+	public void saveFailed(AccounterException exception);
 
 	public void saveSuccess(IAccounterCore object);
 

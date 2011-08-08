@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -320,8 +321,11 @@ public abstract class GroupDialog<T> extends BaseDialog {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
-		Accounter.showError(Accounter.constants().wecantdothis());
+	public void deleteFailed(AccounterException caught) {
+		AccounterException accounterException = (AccounterException) caught;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	@Override
@@ -339,8 +343,11 @@ public abstract class GroupDialog<T> extends BaseDialog {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
-		addError(this, exception.getMessage());
+	public void saveFailed(AccounterException exception) {
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	@Override

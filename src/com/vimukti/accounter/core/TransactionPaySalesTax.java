@@ -6,7 +6,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * For every PaySalesTax entry there will be one or more TransactionPaySalesTax
@@ -198,7 +198,7 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		return true;
 	}
 

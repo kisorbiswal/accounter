@@ -1396,8 +1396,8 @@ public class UIUtils {
 		if (incredNumber.length() > 0) {
 			// incredNumber = new
 			// StringBuffer(incredNumber).reverse().toString();
-			prevNumber = prevNumber.replace(incredNumber, ""
-					+ (Long.parseLong(incredNumber) + 1));
+			prevNumber = prevNumber.replace(incredNumber,
+					"" + (Long.parseLong(incredNumber) + 1));
 		}
 		return prevNumber;
 
@@ -1667,8 +1667,8 @@ public class UIUtils {
 
 	public static void downloadAttachment(long objectID, int type,
 			long brandingThemeId) {
-		downloadAttachment(String.valueOf(objectID), type, String
-				.valueOf(brandingThemeId));
+		downloadAttachment(String.valueOf(objectID), type,
+				String.valueOf(brandingThemeId));
 	}
 
 	/**
@@ -1896,8 +1896,8 @@ public class UIUtils {
 
 	public static void exportReport(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		exportReport(start, end, reportType, name, dateRangeHtml, String
-				.valueOf(status));
+		exportReport(start, end, reportType, name, dateRangeHtml,
+				String.valueOf(status));
 	}
 
 	public static native void exportReport(int start, int end, int reportType,
@@ -1918,8 +1918,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, long dateRangeHtml) {
-		generateReportPDF(start, end, reportType, name, String
-				.valueOf(dateRangeHtml));
+		generateReportPDF(start, end, reportType, name,
+				String.valueOf(dateRangeHtml));
 	}
 
 	public static native void generateReportPDF(int start, int end,
@@ -1940,8 +1940,8 @@ public class UIUtils {
 
 	public static void generateReportPDF(int start, int end, int reportType,
 			String name, String dateRangeHtml, long status) {
-		generateReportPDF(start, end, reportType, name, dateRangeHtml, String
-				.valueOf(status));
+		generateReportPDF(start, end, reportType, name, dateRangeHtml,
+				String.valueOf(status));
 	}
 
 	public static native void generateReportPDF(int start, int end,

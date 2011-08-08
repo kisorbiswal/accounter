@@ -11,9 +11,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 		Lifecycle {
@@ -27,8 +27,6 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 	 * Object's Version
 	 */
 	int version;
-
-
 
 	/**
 	 * Item Group Name
@@ -130,10 +128,9 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 		return false;
 	}
 
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		ItemGroup itemGroup = (ItemGroup) clientObject;
 		// Query query = session.createQuery("from ItemGroup I where I.name=?")
@@ -143,8 +140,8 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 				.setParameter("id", itemGroup.id);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
-			throw new InvalidOperationException(
-					"An ItemGroup already exsits with this name");
+			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
+			// "An ItemGroup already exsits with this name");
 		}
 
 		return true;

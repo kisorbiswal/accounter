@@ -11,9 +11,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * A VATCode is the entity which actually applies VAT. In a transaction we need
@@ -254,7 +254,7 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		TAXCode taxCode = (TAXCode) clientObject;
 		// Query query = session.createQuery("from VATCode V where V.name=?")
@@ -263,8 +263,8 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 				.setParameter("name", this.name).setParameter("id", this.id);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
-			throw new InvalidOperationException(
-					"A VATCode already exists with this name");
+			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
+			// "A VATCode already exists with this name");
 		}
 		return true;
 	}

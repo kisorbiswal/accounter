@@ -12,9 +12,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -350,7 +350,6 @@ public class Vendor extends Payee implements Lifecycle {
 		return onUpdate(session);
 	}
 
-	
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
@@ -462,18 +461,18 @@ public class Vendor extends Payee implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Vendor vendor = (Vendor) clientObject;
-		Query query = session.getNamedQuery(
-				"getVendor.by.name")
-				.setParameter(0, vendor.name);
+		Query query = session.getNamedQuery("getVendor.by.name").setParameter(
+				0, vendor.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			Vendor newVendor = (Vendor) list.get(0);
 			if (vendor.id != newVendor.id) {
-				throw new InvalidOperationException(
-						"A Supplier already exists with this name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "A Supplier already exists with this name");
 			}
 		}
 		return true;

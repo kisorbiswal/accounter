@@ -11,7 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -147,7 +147,6 @@ public class VATReturn extends Transaction implements Lifecycle {
 
 	}
 
-	
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
@@ -178,9 +177,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 			// session.update(this.taxAgency.purchaseLiabilityAccount);
 			// this.taxAgency.purchaseLiabilityAccount.onUpdate(session);
 
-			Query query = session
-					.getNamedQuery(
-							"getTaxAdjustment.by.dates")
+			Query query = session.getNamedQuery("getTaxAdjustment.by.dates")
 					.setParameter("fromDate", this.VATperiodStartDate)
 					.setParameter("toDate", this.VATperiodEndDate);
 
@@ -193,8 +190,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 			}
 
 			query = session
-					.getNamedQuery(
-							"getTaxrateCalc.by.taxitem.and.details")
+					.getNamedQuery("getTaxrateCalc.by.taxitem.and.details")
 					.setParameter("toDate", this.VATperiodEndDate)
 					.setParameter("vatAgency", taxAgency.getID());
 
@@ -242,8 +238,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 			// .getAmount()));
 			//
 			Query query = session
-					.getNamedQuery(
-							"getTaxrateCalc.by.vatitem.and.details")
+					.getNamedQuery("getTaxrateCalc.by.vatitem.and.details")
 					.setParameter("toDate", this.VATperiodEndDate)
 					.setParameter("vatAgency", taxAgency.getID());
 
@@ -315,7 +310,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		return true;
 	}

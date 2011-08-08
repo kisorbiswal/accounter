@@ -241,7 +241,7 @@
 //	}
 //
 //	@Override
-//	protected void saveFailed(Throwable exception) {
+//	protected void saveFailed(AccounterException exception) {
 //		super.saveFailed(exception);
 //		Accounter.showError("Failed to update!!");
 //	}

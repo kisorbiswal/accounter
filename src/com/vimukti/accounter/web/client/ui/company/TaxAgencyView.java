@@ -131,7 +131,7 @@
 //	}
 //
 //	@Override
-//	public void saveFailed(Throwable exception) {
+//	public void saveFailed(AccounterException exception) {
 //		super.saveFailed(exception);
 //		if (takenTaxAgency == null)
 //			Accounter.showError(FinanceApplication.constants()
@@ -596,7 +596,7 @@
 //	}
 //
 //	@Override
-//	public void deleteFailed(Throwable caught) {
+//	public void deleteFailed(AccounterException caught) {
 //		
 //
 //	}

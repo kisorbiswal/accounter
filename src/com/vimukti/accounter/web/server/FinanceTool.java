@@ -99,7 +99,6 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransactionMakeDepositEntries;
 import com.vimukti.accounter.core.TransferFund;
-import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.core.Utility;
@@ -114,7 +113,6 @@ import com.vimukti.accounter.services.IFinanceDAOService;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -128,7 +126,6 @@ import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
-import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.HrEmployee;
@@ -292,7 +289,6 @@ public class FinanceTool implements IFinanceDAOService {
 	 * This will Get Called when Update Operation is Invoked by the Client
 	 * 
 	 * @param createContext
-	 * @throws InvalidOperationException
 	 * @throws AccounterException
 	 */
 	public long update(OperationContext updateContext)
@@ -363,7 +359,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 * This will Get Called when Delete Operation is Invoked by the Client
 	 * 
 	 * @param createContext
-	 * @throws InvalidOperationException
+	 * @throws AccounterException
 	 * @throws HibernateException
 	 */
 	public boolean delete(OperationContext context) throws AccounterException {
@@ -406,7 +402,7 @@ public class FinanceTool implements IFinanceDAOService {
 						try {
 							((FiscalYear) serverObject)
 									.canDelete((FiscalYear) serverObject);
-						} catch (InvalidOperationException e) {
+						} catch (AccounterException e) {
 							throw new AccounterException(
 									AccounterException.ERROR_PERMISSION_DENIED,
 									e);
@@ -555,7 +551,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		try {
 			serverObject.canEdit(clonedObject);
-		} catch (InvalidOperationException e) {
+		} catch (AccounterException e) {
 			throw new AccounterException(
 					AccounterException.ERROR_PERMISSION_DENIED, e);
 		}
@@ -6899,11 +6895,12 @@ public class FinanceTool implements IFinanceDAOService {
 	@Override
 	public VATReturn getVATReturnDetails(TAXAgency vatAgency,
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
-			InvalidOperationException {
+			AccounterException {
 
 		if (hasFileVAT(vatAgency, fromDate, toDate)) {
-			throw new InvalidOperationException(
-					"FileVAT is already done in this period. Choose another VAT period");
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT);
+			// "FileVAT is already done in this period. Choose another VAT period");
 		}
 		VATReturn vatReturn = new VATReturn();
 

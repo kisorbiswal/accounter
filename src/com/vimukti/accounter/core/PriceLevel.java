@@ -10,9 +10,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PriceLevel extends CreatableObject implements
 		IAccounterServerCore, Lifecycle {
@@ -40,7 +40,6 @@ public class PriceLevel extends CreatableObject implements
 	double percentage;
 
 	boolean isPriceLevelDecreaseByThisPercentage;
-
 
 	boolean isDefault;
 
@@ -125,18 +124,18 @@ public class PriceLevel extends CreatableObject implements
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		PriceLevel priceLevel = (PriceLevel) clientObject;
-		Query query = session.getNamedQuery(
-				"getPriceLevel.by.Name")
+		Query query = session.getNamedQuery("getPriceLevel.by.Name")
 				.setParameter(0, priceLevel.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			PriceLevel newPriceLevel = (PriceLevel) list.get(0);
 			if (priceLevel.id != newPriceLevel.id) {
-				throw new InvalidOperationException(
-						"PriceLevel already exists with this name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "PriceLevel already exists with this name");
 			}
 		}
 

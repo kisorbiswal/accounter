@@ -11,9 +11,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class SalesPerson extends Payee implements Lifecycle {
 
@@ -280,18 +280,18 @@ public class SalesPerson extends Payee implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		SalesPerson salesPerson = (SalesPerson) clientObject;
-		Query query = session.getNamedQuery(
-				"getName.by.SalesPerson")
+		Query query = session.getNamedQuery("getName.by.SalesPerson")
 				.setParameter(0, salesPerson.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			SalesPerson newSalesPerson = (SalesPerson) list.get(0);
 			if (salesPerson.id != newSalesPerson.id) {
-				throw new InvalidOperationException(
-						"A SalesPerson already exists wiht this name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "A SalesPerson already exists wiht this name");
 			}
 		}
 		return true;

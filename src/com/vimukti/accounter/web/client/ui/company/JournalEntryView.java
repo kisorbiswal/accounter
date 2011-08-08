@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -21,6 +20,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -122,14 +122,12 @@ public class JournalEntryView extends
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		// BaseView.errordata.setHTML(FinanceApplication.constants()
-		// .duplicationOfJournalEntriesNotAllowed());
-		// BaseView.commentPanel.setVisible(true);
-		// this.errorOccured = true;
-		addError(this, Accounter.constants()
-				.duplicationOfJournalEntriesNotAllowed());
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	@Override
@@ -150,7 +148,7 @@ public class JournalEntryView extends
 			// callback.onSuccess(result);
 			// }
 		} else {
-			saveFailed(new JavaScriptException(Accounter.constants().imfailed()));
+			saveFailed(new AccounterException(Accounter.constants().imfailed()));
 		}
 
 	}
@@ -580,7 +578,7 @@ public class JournalEntryView extends
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 		// TODO Auto-generated method stub
 
 	}

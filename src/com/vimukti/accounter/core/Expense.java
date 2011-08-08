@@ -5,7 +5,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Expense extends Transaction {
 
@@ -64,7 +64,7 @@ public class Expense extends Transaction {
 
 	List<TransactionExpense> transactionExpenses;
 
-	// 
+	//
 
 	/**
 	 * @return the billFrom
@@ -299,7 +299,6 @@ public class Expense extends Transaction {
 		return null;
 	}
 
-
 	@Override
 	public Payee getInvolvedPayee() {
 
@@ -313,7 +312,7 @@ public class Expense extends Transaction {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

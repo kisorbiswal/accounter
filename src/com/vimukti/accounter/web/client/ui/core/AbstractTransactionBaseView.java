@@ -830,7 +830,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		transactionFailed(exception);
 	}
 

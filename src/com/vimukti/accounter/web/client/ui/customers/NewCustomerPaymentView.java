@@ -740,7 +740,7 @@ public class NewCustomerPaymentView extends
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

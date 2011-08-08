@@ -18,6 +18,7 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -26,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.EmailForm;
@@ -385,19 +387,23 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		if (!isEdit)
-			// BaseView.errordata.setHTML(FinanceApplication.constants()
-			// .DuplicationOfSalesPesonNotAllowed());
-			addError(this, Accounter.constants()
-					.duplicationOfSalesPersonNotAllowed());
-		else
-			// BaseView.errordata.setHTML(FinanceApplication.constants()
-			// .salesPersonUpdationFailed());
-			addError(this, Accounter.constants().salesPersonUpdationFailed());
+		// if (!isEdit)
+		// BaseView.errordata.setHTML(FinanceApplication.constants()
+		// .DuplicationOfSalesPesonNotAllowed());
+		// addError(this, Accounter.constants()
+		// .duplicationOfSalesPersonNotAllowed());
+		// else
+		// BaseView.errordata.setHTML(FinanceApplication.constants()
+		// .salesPersonUpdationFailed());
+		// addError(this, Accounter.constants().salesPersonUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	@Override
@@ -417,7 +423,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			super.saveSuccess(result);
 
 		} else
-			saveFailed(new Exception(Accounter.constants().failed()));
+			saveFailed(new AccounterException(Accounter.constants().failed()));
 
 	}
 
@@ -547,7 +553,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 		// Not required for thos class
 
 	}

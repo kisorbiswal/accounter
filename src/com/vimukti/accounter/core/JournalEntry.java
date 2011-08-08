@@ -12,8 +12,8 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class JournalEntry extends Transaction {
@@ -1171,10 +1171,11 @@ public class JournalEntry extends Transaction {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		if (this.isVoid) {
-			throw new InvalidOperationException(" JournalEntry can't be voided");
+			throw new AccounterException(
+					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
 		return true;
 	}

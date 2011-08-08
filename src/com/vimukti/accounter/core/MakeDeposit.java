@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -48,7 +48,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	 */
 	double cashBackAmount;
 
-	// 
+	//
 
 	List<TransactionMakeDeposit> transactionMakeDeposit;
 
@@ -207,7 +207,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		return AccounterConstants.TYPE_MAKE_DEPOSIT;
 	}
 
-
 	@Override
 	public Payee getInvolvedPayee() {
 		return null;
@@ -215,11 +214,9 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 	public boolean equals(MakeDeposit obj) {
 		if (((this.depositIn != null && obj.depositIn != null) ? (this.depositIn
-				.equals(obj.depositIn))
-				: true)
+				.equals(obj.depositIn)) : true)
 				&& ((this.cashBackAccount != null && obj.cashBackAccount != null) ? (this.cashBackAccount
-						.equals(obj.cashBackAccount))
-						: true)
+						.equals(obj.cashBackAccount)) : true)
 				&& ((!DecimalUtil.isEquals(this.total, 0) && !DecimalUtil
 						.isEquals(obj.total, 0)) ? DecimalUtil.isEquals(
 						this.total, obj.total) : true)
@@ -256,7 +253,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 			depositInAccount.updateCurrentBalance(makeDeposit,
 					makeDeposit.total);
 			depositInAccount.onUpdate(session);
-			
+
 			makeDeposit.doVoidEffect(session);
 			cleanTransactionMakeDeposits(makeDeposit);
 
@@ -265,13 +262,14 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 		super.onEdit(makeDeposit);
 	}
-	
+
 	private void doVoidEffect(Session session) {
 		for (TransactionMakeDeposit transactionMakeDeposit : this.transactionMakeDeposit) {
 			transactionMakeDeposit.setIsVoid(true);
 			transactionMakeDeposit.onUpdate(session);
 		}
 	}
+
 	private void cleanTransactionMakeDeposits(MakeDeposit makeDeposit) {
 		if (makeDeposit.getTransactionMakeDeposit() != null)
 			makeDeposit.transactionMakeDeposit.clear();
@@ -279,7 +277,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		return super.canEdit(clientObject);
 	}

@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -305,12 +306,15 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		// BaseView.errordata.setHTML(exception.getMessage());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this, exception.getMessage());
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	@Override
@@ -326,7 +330,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			super.saveSuccess(result);
 
 		} else {
-			saveFailed(new Exception());
+			saveFailed(new AccounterException());
 		}
 
 	}
@@ -644,8 +648,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				balanceDate);
 
 		Label l1 = new Label(Accounter.constants().contacts());
-		Button addButton = new Button(Accounter.constants()
-				.add());
+		Button addButton = new Button(Accounter.constants().add());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -1176,7 +1179,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 
@@ -1316,4 +1319,5 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	protected String getViewTitle() {
 		return Accounter.constants().customer();
 	}
+
 }

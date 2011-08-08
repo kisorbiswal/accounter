@@ -33,7 +33,6 @@ import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
@@ -570,7 +569,7 @@ public interface IFinanceDAOService {
 	public VATReturn getVATReturnDetails(TAXAgency vatAgency,
 			FinanceDate fromDate,
 
-			FinanceDate toDate) throws DAOException, InvalidOperationException;
+			FinanceDate toDate) throws DAOException, AccounterException;
 
 	public ArrayList<VATSummary> getPriorReturnVATSummary(TAXAgency vatAgency,
 			FinanceDate endDate) throws DAOException, ParseException;

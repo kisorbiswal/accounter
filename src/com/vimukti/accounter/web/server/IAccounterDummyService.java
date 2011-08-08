@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.server;
 
 import com.google.gwt.user.client.rpc.RemoteService;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
@@ -86,5 +85,4 @@ public interface IAccounterDummyService extends RemoteService {
 
 	public ClientDepreciation getClientDepreciation();
 
-	public InvalidOperationException getInvalidOperationException();
 }

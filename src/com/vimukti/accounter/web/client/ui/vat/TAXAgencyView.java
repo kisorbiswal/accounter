@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -28,6 +29,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
@@ -125,19 +127,23 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		if (!isEdit)
-			// BaseView.errordata.setHTML(FinanceApplication.constants()
-			// .duplicationOfTaxAgencyNameAreNotAllowed());
-			addError(this, Accounter.constants()
-					.duplicationOfTaxAgencyNameAreNotAllowed());
-		else
-			// BaseView.errordata.setHTML(FinanceApplication.constants()
-			// .failedToUpdate());
-			addError(this, Accounter.constants().failedToUpdate());
+		// if (!isEdit)
+		// BaseView.errordata.setHTML(FinanceApplication.constants()
+		// .duplicationOfTaxAgencyNameAreNotAllowed());
+		// addError(this, Accounter.constants()
+		// .duplicationOfTaxAgencyNameAreNotAllowed());
+		// else
+		// BaseView.errordata.setHTML(FinanceApplication.constants()
+		// .failedToUpdate());
+		// addError(this, Accounter.constants().failedToUpdate());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	@Override
@@ -548,7 +554,6 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(panel);
 		// mainVlay.add(memoForm);
 
-
 		/* Adding dynamic forms in list */
 		listforms.add(taxAgencyForm);
 		listforms.add(accInfoForm);
@@ -706,7 +711,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	// }
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

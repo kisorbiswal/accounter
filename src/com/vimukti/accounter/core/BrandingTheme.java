@@ -11,9 +11,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -21,7 +21,8 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
  * 
  */
 @SuppressWarnings("serial")
-public class BrandingTheme extends CreatableObject implements IAccounterServerCore, Lifecycle {
+public class BrandingTheme extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	public static final String FONT_ARIAL = "Arial";
 	public static final String FONT_CALIBIRI = "Calibiri";
@@ -481,7 +482,7 @@ public class BrandingTheme extends CreatableObject implements IAccounterServerCo
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getBrandingTheme")
 				.setParameter("themeName", this.themeName)
@@ -495,8 +496,9 @@ public class BrandingTheme extends CreatableObject implements IAccounterServerCo
 
 				Object object[] = (Object[]) iterator.next();
 				if (this.getThemeName().equals((String) object[0])) {
-					throw new InvalidOperationException(
-							"Branding Theme already exist with this Name");
+					throw new AccounterException(
+							AccounterException.ERROR_NAME_CONFLICT);
+					// "Branding Theme already exist with this Name");
 				}
 			}
 		}

@@ -214,7 +214,7 @@ public class ExpenseClaimList extends BaseView {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 		// TODO Auto-generated method stub
 	}
 

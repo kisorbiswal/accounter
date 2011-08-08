@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
-import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.AccountRegisterListGrid;
 
@@ -275,7 +274,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 
@@ -330,5 +329,9 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().accountRegister();
+	}
+
+	@Override
+	public void saveFailed(AccounterException exception) {
 	}
 }

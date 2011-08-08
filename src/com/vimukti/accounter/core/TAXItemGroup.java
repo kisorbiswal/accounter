@@ -13,7 +13,7 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -23,7 +23,8 @@ import com.vimukti.accounter.web.client.InvalidOperationException;
  * @author Chandan
  */
 
-public class TAXItemGroup extends CreatableObject implements IAccounterServerCore, Lifecycle {
+public class TAXItemGroup extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -133,7 +134,7 @@ public class TAXItemGroup extends CreatableObject implements IAccounterServerCor
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		TAXItemGroup taxItemGroup = (TAXItemGroup) clientObject;
 		// Query query =
@@ -143,8 +144,8 @@ public class TAXItemGroup extends CreatableObject implements IAccounterServerCor
 				.setParameter("name", this.name).setParameter("id", this.id);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
-			throw new InvalidOperationException(
-					"A VATItem or VATGroup already exists with this name");
+			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
+			// "A VATItem or VATGroup already exists with this name");
 		}
 		return true;
 	}

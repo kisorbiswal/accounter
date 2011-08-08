@@ -6,7 +6,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * A VATAdjustment is to be done when there are amounts in uncategorised amounts
@@ -132,7 +132,6 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore,
 		return this.adjustmentAccount;
 	}
 
-	
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
@@ -145,7 +144,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore,
 		// Query query = session.getNamedQuery("getNextTransactionNumber");
 		// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
 		// List list = query.list();
-		// // 
+		// //
 		// long nextVoucherNumber = 1;
 		// if (list != null && list.size() > 0) {
 		// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
@@ -203,7 +202,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		return true;
 	}

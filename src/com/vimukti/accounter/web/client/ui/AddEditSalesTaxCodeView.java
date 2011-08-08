@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -148,8 +149,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 
 		bodyLayout.add(taxCodeForm);
 		// bodyLayout.add(taxRates);
-		Button addButton = new Button(Accounter.constants()
-				.addNew());
+		Button addButton = new Button(Accounter.constants().addNew());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -364,17 +364,22 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	public void saveSuccess(IAccounterCore object) {
 		if (object == null)
-			saveFailed(new Exception());
+			saveFailed(new AccounterException());
 		super.saveSuccess(object);
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		// BaseView.errordata.setHTML("Duplication of TaxCode is not allowed");
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this, Accounter.constants().duplicationOfTaxCodeIsNotAllowed());
+		// addError(this,
+		// Accounter.constants().duplicationOfTaxCodeIsNotAllowed());
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 
 	}
 
@@ -416,7 +421,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

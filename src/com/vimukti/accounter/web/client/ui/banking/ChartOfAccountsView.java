@@ -5,10 +5,12 @@ import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -45,13 +47,13 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
-		Accounter.showInformation(Accounter.constants()
-				.youCantDeleteThisAccount());
-
+	public void deleteFailed(AccounterException caught) {
+		AccounterException accounterException = (AccounterException) caught;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
-	
 	@Override
 	public void deleteSuccess(Boolean result) {
 		grid.deleteRecord(toBeDelete);
@@ -110,7 +112,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		filterList(true);
 	}
 
-	
 	@Override
 	protected void filterList(final boolean isActive) {
 		grid.removeAllRecords();
@@ -156,7 +157,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	}
 
-	
 	@Override
 	public void updateGrid(IAccounterCore core) {
 		if (core.getObjectType() == grid.getType()) {
@@ -183,7 +183,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	}
 
-	
 	private void updateAccountsInSortedOrder(List<ClientAccount> accountsList,
 			ClientAccount toBeAddedAccount) {
 		String firstNumber = "";

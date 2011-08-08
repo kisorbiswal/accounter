@@ -10,9 +10,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 @SuppressWarnings("serial")
 public class CustomerGroup extends CreatableObject implements
@@ -97,19 +97,20 @@ public class CustomerGroup extends CreatableObject implements
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		CustomerGroup customerGroup = (CustomerGroup) clientObject;
 		Query query = session
-				.getNamedQuery("getListofNames.from.customerGroup") 
+				.getNamedQuery("getListofNames.from.customerGroup")
 				.setParameter(0, customerGroup.name);
 		List list = query.list();
 		if (list.size() > 0 && list != null) {
 			CustomerGroup newCustomerGroup = (CustomerGroup) list.get(0);
 			if (customerGroup.id != newCustomerGroup.id) {
-				throw new InvalidOperationException(
-						"A CustomerGroup already exists with this name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "A CustomerGroup already exists with this name");
 			}
 		}
 

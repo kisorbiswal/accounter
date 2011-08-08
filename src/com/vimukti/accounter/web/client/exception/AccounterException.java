@@ -41,6 +41,32 @@ public class AccounterException extends Exception {
 	public static final int ERROR_ILLEGAL_ARGUMENT = 6;
 	public static final int ERROR_INVALID_USER_SESSION = 8;
 
+	/**
+	 * Used to tell that the object was deleted already.
+	 */
+	public static final int ERROR_NO_SUCH_OBJECT = 9;
+
+	/**
+	 * You can't void or edit because it has been deposited from Undeposited
+	 * Funds
+	 */
+	public static final int ERROR_DEPOSITED_FROM_UNDEPOSITED_FUNDS = 10;
+
+	/**
+	 * You can't Edit it
+	 */
+	public static final int ERROR_CANT_EDIT = 11;
+
+	/**
+	 * You can't void it
+	 */
+	public static final int ERROR_CANT_VOID = 12;
+
+	/**
+	 * In the ReceivePayment writeoff or discount is used for this Invoice.
+	 */
+	public static final int ERROR_RECEIVE_PAYMENT_DISCOUNT_USED = 13;
+
 	protected int errorCode;
 
 	// private long id;

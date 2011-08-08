@@ -812,7 +812,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 		// Nothing To Do
 
 	}

@@ -6,7 +6,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 @SuppressWarnings("serial")
 public class Contact implements IAccounterServerCore, Lifecycle {
@@ -33,7 +33,6 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 	 */
 	String email = "";
 
-	
 	transient private boolean isOnSaveProccessed;
 
 	public Contact() {
@@ -107,15 +106,14 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 
 		return 0;
 	}
 
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

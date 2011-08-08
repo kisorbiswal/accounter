@@ -261,4 +261,10 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 
 		return UIUtils.getAccounterCoreType(obj.getType());
 	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		// TODO Auto-generated method stub
+
+	}
 }

@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -789,7 +790,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 										}
 
 										@Override
-										public void onResultSuccess(Double result) {
+										public void onResultSuccess(
+												Double result) {
 											depAmount = result;
 											if (accmulatdDepreciationTxt != null) {
 												accmulatdDepreciationTxt
@@ -833,23 +835,27 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			// .IsUpdatedSuccessfully());
 			super.saveSuccess(result);
 		} else
-			saveFailed(new Exception(Accounter.constants().failed()));
+			saveFailed(new AccounterException(Accounter.constants().failed()));
 
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		if (!isEdit)
-			// BaseView.errordata.setHTML(FinanceApplication
-			// .constants().duplicationOfAssets());
-			addError(this, Accounter.constants().duplicationOfAssets());
+		// if (!isEdit)
 		// BaseView.errordata.setHTML(FinanceApplication
-		else
-			// .constants().assetApdationFailed());
-			addError(this, Accounter.constants().accountUpdationFailed());
+		// .constants().duplicationOfAssets());
+		// addError(this, Accounter.constants().duplicationOfAssets());
+		// BaseView.errordata.setHTML(FinanceApplication
+		// else
+		// .constants().assetApdationFailed());
+		// addError(this, Accounter.constants().accountUpdationFailed());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	private void updateAssetObject() {
@@ -1033,7 +1039,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

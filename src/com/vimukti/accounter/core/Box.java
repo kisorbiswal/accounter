@@ -2,7 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * This class an intermediate class which stores all the static values of the
@@ -23,8 +23,6 @@ public class Box implements IAccounterServerCore {
 	double amount;
 
 	List<TAXRateCalculation> taxRateCalculations;
-
-
 
 	/**
 	 * @return the vatRateCalculations
@@ -88,15 +86,13 @@ public class Box implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return id;
 	}
 
-
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

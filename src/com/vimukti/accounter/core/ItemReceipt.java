@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class ItemReceipt extends Transaction implements Lifecycle {
@@ -721,12 +721,12 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new InvalidOperationException(
-					"This ItemRecipt is used in EnterBill, ItemRecipt No:"
-							+ this.number);
+			throw new AccounterException(AccounterException.ERROR_ILLEGAL_ARGUMENT);
+//					"This ItemRecipt is used in EnterBill, ItemRecipt No:"
+//							+ this.number);
 		}
 
 		return super.canEdit(clientObject);

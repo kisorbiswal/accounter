@@ -13,9 +13,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 @SuppressWarnings("serial")
@@ -375,7 +375,6 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 		return onUpdate(session);
 	}
 
-	
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		// if (previousCustomer != null) {
@@ -561,7 +560,7 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Customer customer = (Customer) clientObject;
@@ -608,23 +607,27 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
 					if (this.number.equals((String) object2[1])) {
-						throw new InvalidOperationException(
-								"A Customer already exists with this name and number");
+						throw new AccounterException(
+								AccounterException.ERROR_NAME_CONFLICT);
+						// "A Customer already exists with this name and number");
 					}
 				}
-				throw new InvalidOperationException(
-						"A Customer already exists with this name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "A Customer already exists with this name");
 			} else if (this.number.equals((String) object[1])) {
 				Iterator it2 = list.iterator();
 				while (it2.hasNext()) {
 					Object[] object2 = (Object[]) it2.next();
 					if (this.name.equalsIgnoreCase((String) object2[0])) {
-						throw new InvalidOperationException(
-								"A Customer already exists with this name and number");
+						throw new AccounterException(
+								AccounterException.ERROR_NUMBER_CONFLICT);
+						// "A Customer already exists with this name and number");
 					}
 				}
-				throw new InvalidOperationException(
-						"A Customer already exists with this number");
+				throw new AccounterException(
+						AccounterException.ERROR_NUMBER_CONFLICT);
+				// "A Customer already exists with this number");
 			}
 		}
 

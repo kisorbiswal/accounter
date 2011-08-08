@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -24,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ItemGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.PurchaseItemCombo;
@@ -629,7 +631,7 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 
 		String exceptionMessage = exception.getMessage();
@@ -641,9 +643,13 @@ public class ItemView extends BaseView<ClientItem> {
 		// : "Duplication of Service name are not allowed...");
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this, this.type != TYPE_SERVICE ? Accounter.constants()
-				.duplicationofProductnamearenotallowed3dots() : Accounter
-				.constants().duplicationofServicenamearenotallowed3dots());
+		// addError(this, this.type != TYPE_SERVICE ? Accounter.constants()
+		// .duplicationofProductnamearenotallowed3dots() : Accounter
+		// .constants().duplicationofServicenamearenotallowed3dots());
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 
 		updateItem();
 		if (exceptionMessage.contains(Accounter.constants().failed())) {
@@ -656,7 +662,7 @@ public class ItemView extends BaseView<ClientItem> {
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		if (result == null) {
-			saveFailed(new Exception());
+			saveFailed(new AccounterException());
 			return;
 		} else {
 			// if (takenItem == null)
@@ -900,7 +906,7 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

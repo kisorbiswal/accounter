@@ -6,7 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Bank implements IAccounterServerCore {
 
@@ -70,7 +70,7 @@ public class Bank implements IAccounterServerCore {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Bank bank = (Bank) clientObject;
 		Query query = session.getNamedQuery("getNameofBank.from.Bank")
@@ -79,8 +79,9 @@ public class Bank implements IAccounterServerCore {
 		if (list != null && list.size() > 0) {
 			Bank newBank = (Bank) list.get(0);
 			if (bank.id != newBank.id) {
-				throw new InvalidOperationException(
-						"Bank name is alreay in use Please enter Unique name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "Bank name is alreay in use Please enter Unique name");
 
 			}
 		}

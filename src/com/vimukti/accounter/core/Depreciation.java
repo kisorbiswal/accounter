@@ -13,7 +13,7 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * 
@@ -89,7 +89,6 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	transient int previousStatus;
 	transient FinanceDate rollBackDepreciationDate;
 
-	
 	transient private boolean isOnSaveProccessed;
 
 	// FixedAssetLinkedAccountMap linkedAccounts;
@@ -99,10 +98,9 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return this.id;
 	}
-
 
 	public int getStatus() {
 		return status;
@@ -225,14 +223,12 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 					 * Depreciation.
 					 */
 					if (fixedAsset.getStatus() == FixedAsset.STATUS_REGISTERED) {
-						fromCal
-								.setTime((fixedAsset.getPurchaseDate()
-										.getAsDateObject())
-										.compareTo((this.depreciateFrom
-												.getAsDateObject())) <= 0 ? (this.depreciateFrom
-										.getAsDateObject())
-										: (fixedAsset.getPurchaseDate()
-												.getAsDateObject()));
+						fromCal.setTime((fixedAsset.getPurchaseDate()
+								.getAsDateObject())
+								.compareTo((this.depreciateFrom
+										.getAsDateObject())) <= 0 ? (this.depreciateFrom
+								.getAsDateObject()) : (fixedAsset
+								.getPurchaseDate().getAsDateObject()));
 						toCal.setTime(this.depreciateTo.getAsDateObject());
 						fixedAsset
 								.createJournalEntriesForDepreciationAtTheEndOfEveryMonthFromStartDateToEndDate(
@@ -317,8 +313,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 							// if (depreciationFor !=
 							// DEPRECIATION_FOR_SINGLE_FIXEDASSET) {
 							this.fixedAsset.setBookValue(this.fixedAsset
-									.getBookValue()
-									+ trans.getTotal());
+									.getBookValue() + trans.getTotal());
 							// }
 
 							this.fixedAsset
@@ -396,14 +391,14 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 				// depStartCal.set(Calendar.DAY_OF_MONTH, 1);
 
 				// if (lastDepCal.getTime().after(rollBackDepreciationDate)) {
-				//					
+				//
 				// // if (this.fixedAsset.getDepreciationMethod() ==
 				// Depreciation.METHOD_REDUCING_BALANCE) {
 				// //
 				// //
 				// this.fixedAsset.setOpeningBalanceForFiscalYear(this.fixedAsset.getBookValue());
 				// // }
-				//					
+				//
 				// // if (lastDepCal.get(Calendar.MONTH) ==
 				// depStartCal.get(Calendar.MONTH)) {
 				// //
@@ -411,18 +406,18 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 				// // amount = Utility.roundTo2Digits(amount);
 				// //
 				// // }
-				//					
+				//
 				// while
 				// (!lastDepCal.getTime().before(rollBackDepreciationDate)) {
 				//
 				// if (!rollBackDepreciationDate.after(lastDepCal.getTime())) {
-				//							
+				//
 				// this.fixedAsset.setBookValue(this.fixedAsset.getBookValue()+
 				// amount);
 				// lastDepCal.setTime(lstDepreciationDate);
 				// DecimalFormat decimalFormat = new DecimalFormat("##.##");
 				// }
-				//						
+				//
 				// // if (this.fixedAsset.getDepreciationMethod() ==
 				// Depreciation.METHOD_REDUCING_BALANCE) {
 				// //
@@ -430,45 +425,45 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 				// this.fixedAsset.setOpeningBalanceForFiscalYear(this.fixedAsset.getOpeningBalanceForFiscalYear()+
 				// amount);
 				// // }
-				//						
+				//
 				// Calendar rollBackCal=Calendar.getInstance();
 				// rollBackCal.setTime(rollBackDepreciationDate);
-				//						
-				//						
-				//						
+				//
+				//
+				//
 				// lastDepCal.set(Calendar.MONTH, lastDepCal.get(Calendar.MONTH)
 				// - 1);
 				//
 				// if (rollBackCal.get(Calendar.MONTH) ==
 				// depStartCal.get(Calendar.MONTH)) {
-				//							
+				//
 				// amount = amount / 0.88;
 				// amount = Utility.roundTo2Digits(amount);
-				//							
+				//
 				// }
 				//
 				// if (lastDepCal.getTime().compareTo( rollBackDepreciationDate)
 				// >= 0) {
-				//							
+				//
 				// boolean flag = false;
 				// while (lastDepCal.get(Calendar.MONTH) !=
 				// depStartCal.get(Calendar.MONTH)) {
-				//								
+				//
 				// if (this.fixedAsset.getDepreciationMethod() ==
 				// Depreciation.METHOD_REDUCING_BALANCE) {
-				//									
+				//
 				// this.fixedAsset.setOpeningBalanceForFiscalYear(this.fixedAsset.getOpeningBalanceForFiscalYear()
 				// + amount);
 				//
 				// lastDepCal.set(Calendar.MONTH, lastDepCal.get(Calendar.MONTH)
 				// - 1);
-				//									
+				//
 				// flag = true;
 				// }
 				// }
-				//							
+				//
 				// if (flag) {
-				//								
+				//
 				// if (this.fixedAsset.getDepreciationMethod() ==
 				// Depreciation.METHOD_REDUCING_BALANCE) {
 				// this.fixedAsset.setOpeningBalanceForFiscalYear(this.fixedAsset.getOpeningBalanceForFiscalYear()
@@ -483,7 +478,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 				// .get(Calendar.MONTH))) {
 				// if (this.fixedAsset.getDepreciationMethod() ==
 				// Depreciation.METHOD_REDUCING_BALANCE) {
-				//							
+				//
 				// this.fixedAsset.setOpeningBalanceForFiscalYear(Utility.roundTo2Digits(this.fixedAsset.getOpeningBalanceForFiscalYear()+
 				// amount));
 				//
@@ -491,13 +486,13 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 				// }
 				//
 				// }
-				//				
+				//
 				// this.fixedAsset.setBookValue(Utility.roundTo2Digits(this.fixedAsset.getBookValue()));
 
 				Calendar tempCal = Calendar.getInstance();
 				tempCal.setTime(rollBackDepreciationDate.getAsDateObject());
-				tempCal.set(Calendar.DAY_OF_MONTH, tempCal
-						.get(Calendar.DAY_OF_MONTH) - 1);
+				tempCal.set(Calendar.DAY_OF_MONTH,
+						tempCal.get(Calendar.DAY_OF_MONTH) - 1);
 				Date empCal = tempCal.getTime();
 				this.setDepreciateTo(new FinanceDate((empCal.getTime())));
 			}
@@ -533,7 +528,6 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 		this.previousStatus = status;
 	}
 
-
 	/**
 	 * @param fixedAsset
 	 * 
@@ -550,10 +544,9 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Calendar fromCal = new GregorianCalendar();
-		fromCal
-				.setTime(fixedAsset.getPurchaseDate().after(startDate) ? (fixedAsset
-						.getPurchaseDate().getAsDateObject())
-						: (startDate.getAsDateObject()));
+		fromCal.setTime(fixedAsset.getPurchaseDate().after(startDate) ? (fixedAsset
+				.getPurchaseDate().getAsDateObject()) : (startDate
+				.getAsDateObject()));
 
 		Calendar toCal = new GregorianCalendar();
 		toCal.setTime(Depreciation.getDepreciationLastDate().getAsDateObject());
@@ -580,16 +573,15 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	 *             Depreciations till the given date.
 	 * 
 	 */
-	
+
 	public static void rollBackDepreciation(FinanceDate rollBackDepreciationTo)
 			throws Exception {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
-				.getNamedQuery(
-						"getDepreciation.from.DepreciationFom.andStatus")
-				.setParameter(0, rollBackDepreciationTo).setParameter(1,
-						Depreciation.APPROVE);
+				.getNamedQuery("getDepreciation.from.DepreciationFom.andStatus")
+				.setParameter(0, rollBackDepreciationTo)
+				.setParameter(1, Depreciation.APPROVE);
 		List<Depreciation> list = query.list();
 		for (Depreciation dep : list) {
 			dep.setStatus(Depreciation.ROLLBACK);
@@ -604,7 +596,6 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	
 	public static void rollBackDepreciation(long fixedAssetID,
 			FinanceDate rollBackDepreciationTo) throws Exception {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
@@ -612,8 +603,9 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 		Query query = session
 				.getNamedQuery(
 						"getDepreciation.from.depreciateFrom.byFixedassetId")
-				.setParameter(0, rollBackDepreciationTo).setParameter(1,
-						Depreciation.APPROVE).setParameter(2, fixedAssetID);
+				.setParameter(0, rollBackDepreciationTo)
+				.setParameter(1, Depreciation.APPROVE)
+				.setParameter(2, fixedAssetID);
 		List<Depreciation> list = query.list();
 		for (Depreciation dep : list) {
 			dep.setStatus(Depreciation.ROLLBACK);
@@ -633,13 +625,12 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 	 * This method is to get the last Depreciation Date till which the
 	 * Depreciation run.
 	 */
-	
+
 	public static FinanceDate getDepreciationLastDate() {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
-				.getNamedQuery(
-						"getMaxDepreciation.from.Depreciation.byStatus")
+				.getNamedQuery("getMaxDepreciation.from.Depreciation.byStatus")
 				.setParameter(0, Depreciation.DEPRECIATION_FOR_ALL_FIXEDASSET)
 				.setParameter(1, Depreciation.APPROVE);
 		List<Depreciation> list = query.list();
@@ -652,7 +643,7 @@ public class Depreciation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

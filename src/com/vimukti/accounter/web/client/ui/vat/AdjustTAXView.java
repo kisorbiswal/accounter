@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -333,14 +334,17 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 
 	}
 
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		// BaseView.errordata.setHTML(FinanceApplication.constants()
 		// .failedToApplyChanges());
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
-		addError(this, Accounter.constants().failedToApplyChanges());
-
+		// addError(this, Accounter.constants().failedToApplyChanges());
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	public ValidationResult validate() {
@@ -415,7 +419,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

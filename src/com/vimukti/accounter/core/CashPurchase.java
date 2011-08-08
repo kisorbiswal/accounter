@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -99,7 +99,7 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	 */
 	int expenseStatus;
 
-	// 
+	//
 
 	/**
 	 * @return the cashExpenseAccount
@@ -361,7 +361,6 @@ public class CashPurchase extends Transaction implements Lifecycle {
 
 	}
 
-
 	@Override
 	public Payee getInvolvedPayee() {
 
@@ -375,15 +374,12 @@ public class CashPurchase extends Transaction implements Lifecycle {
 				&& ((this.cashExpenseAccount != null && obj.cashExpenseAccount != null) ? (this.cashExpenseAccount.id == obj.cashExpenseAccount.id)
 						: true)
 				&& ((this.employee != null && obj.employee != null) ? (this.employee
-						.equals(obj.employee))
-						: true)
+						.equals(obj.employee)) : true)
 
 				&& ((this.payFrom != null && obj.payFrom != null) ? (this.payFrom
-						.equals(obj.payFrom))
-						: true)
+						.equals(obj.payFrom)) : true)
 				&& ((this.paymentMethod != null && obj.paymentMethod != null) ? (this.paymentMethod
-						.equals(obj.paymentMethod))
-						: true)
+						.equals(obj.paymentMethod)) : true)
 				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
 						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
 						this.total, obj.total) : true)
@@ -416,7 +412,7 @@ public class CashPurchase extends Transaction implements Lifecycle {
 
 		/**
 		 * 
-		 *if present transaction is deleted or voided & the previous
+		 * if present transaction is deleted or voided & the previous
 		 * transaction is not voided then it will entered into the loop
 		 */
 
@@ -468,7 +464,7 @@ public class CashPurchase extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		return super.canEdit(clientObject);
 	}

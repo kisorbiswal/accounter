@@ -2,7 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.util.LinkedHashMap;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 @SuppressWarnings("serial")
 public class Phone implements IAccounterServerCore {
@@ -16,8 +16,6 @@ public class Phone implements IAccounterServerCore {
 	int type = 0;
 	String number = "";
 	boolean isSelected = false;
-
-	
 
 	public Phone() {
 
@@ -56,14 +54,13 @@ public class Phone implements IAccounterServerCore {
 	}
 
 	@Override
-	public long getID(){
+	public long getID() {
 		return 0;
 	}
 
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

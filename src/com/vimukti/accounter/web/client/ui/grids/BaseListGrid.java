@@ -3,10 +3,11 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -208,9 +209,11 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
-		Accounter.showError(Accounter.constants()
-				.wecantDeleteParticipatinginTransactions());
+	public void deleteFailed(AccounterException caught) {
+		AccounterException accounterException = (AccounterException) caught;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 		caught.fillInStackTrace();
 	}
 
@@ -221,11 +224,15 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
-		if (exception instanceof InvalidOperationException) {
-			Accounter.showError(exception.getMessage());
-		} else
-			Accounter.showError(Accounter.constants().updationFailed());
+	public void saveFailed(AccounterException exception) {
+		// if (exception instanceof InvalidOperationException) {
+		// Accounter.showError(exception.getMessage());
+		// } else
+		// Accounter.showError(Accounter.constants().updationFailed());
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	// public long getID() {

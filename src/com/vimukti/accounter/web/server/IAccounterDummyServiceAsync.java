@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.server;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
@@ -85,9 +84,6 @@ public interface IAccounterDummyServiceAsync {
 	void getClientFixedAsset(AsyncCallback<ClientFixedAsset> callback);
 
 	void getClientDepreciation(AsyncCallback<ClientDepreciation> callback);
-
-	void getInvalidOperationException(
-			AsyncCallback<InvalidOperationException> callback);
 
 	void getAccounterCommand(AsyncCallback<AccounterCommand> callback);
 

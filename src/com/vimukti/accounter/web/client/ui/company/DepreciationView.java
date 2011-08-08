@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientDepreciation;
@@ -94,8 +95,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		Button rollBackDepreciation = new Button(Accounter
-				.constants().rollBackDepreciation());
+		Button rollBackDepreciation = new Button(Accounter.constants()
+				.rollBackDepreciation());
 		rollBackDepreciation.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -126,8 +127,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		Button updateButton = new Button(Accounter
-				.constants().update());
+		Button updateButton = new Button(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -368,17 +368,17 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			super.saveSuccess(result);
 
 		} else {
-			saveFailed(new Exception());
+			saveFailed(new AccounterException());
 		}
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		// BaseView.errordata.setHTML("Can not able to apply Deprecition");
-		// BaseView.commentPanel.setVisible(true);
-		// this.errorOccured = true;
-		addError(this, Accounter.constants().cannotabletoapplyDeprecition());
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	protected void getDepreciableFixedAssets() {
@@ -472,7 +472,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 		// TODO Auto-generated method stub
 
 	}

@@ -199,7 +199,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 	}
 
 	@Override

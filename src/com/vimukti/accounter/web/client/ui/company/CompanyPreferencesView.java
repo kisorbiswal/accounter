@@ -778,13 +778,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			ActionFactory.getCompanyHomeAction().run(null, false);
 
 		} else {
-			saveFailed(new Exception(Accounter.constants().failed()));
+			saveFailed(new AccounterException(Accounter.constants().failed()));
 		}
 
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		// BaseView.errordata.setHTML(FinanceApplication.constants()
 		// .failedToUpdate());
@@ -1365,7 +1365,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	}
 
-
 	/**
 	 * call this method to set focus in View
 	 */
@@ -1381,7 +1380,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 

@@ -10,9 +10,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * Class for any item. Basically we have divided items in two part SERVICE and
@@ -114,7 +114,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	boolean isDefault;
 	transient private boolean isOnSaveProccessed;
-	
+
 	private Measurement measurement;
 	private int maxStockAlertLevel;
 	private int minStockAlertLevel;
@@ -425,18 +425,18 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Item item = (Item) clientObject;
-		Query query = session.getNamedQuery(
-				"getItem.by.Name")
-				.setParameter(0, item.name);
+		Query query = session.getNamedQuery("getItem.by.Name").setParameter(0,
+				item.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			Item newItem = (Item) list.get(0);
 			if (item.id != newItem.id) {
-				throw new InvalidOperationException(
-						"An Item already exists with this Name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "An Item already exists with this Name");
 			}
 		}
 

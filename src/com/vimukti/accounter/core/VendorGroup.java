@@ -10,9 +10,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * VendorGroup refers to the category of the vendors. By this we can know to
@@ -121,18 +121,18 @@ public class VendorGroup extends CreatableObject implements
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		VendorGroup vendorGroup = (VendorGroup) clientObject;
-		Query query = session.getNamedQuery(
-				"getVendorGroup.by.name")
+		Query query = session.getNamedQuery("getVendorGroup.by.name")
 				.setParameter(0, vendorGroup.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			VendorGroup newVendorGroup = (VendorGroup) list.get(0);
 			if (vendorGroup.id != newVendorGroup.id) {
-				throw new InvalidOperationException(
-						"SupplierGroup already exists with this name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "SupplierGroup already exists with this name");
 			}
 		}
 		return true;

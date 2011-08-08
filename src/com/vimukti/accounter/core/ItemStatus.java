@@ -3,7 +3,7 @@
  */
 package com.vimukti.accounter.core;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * It maintains the status of an item.
@@ -27,7 +27,7 @@ public class ItemStatus implements IAccounterServerCore {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return false;
 	}

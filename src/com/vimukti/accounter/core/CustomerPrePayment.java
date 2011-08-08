@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class CustomerPrePayment extends Transaction implements Lifecycle {
@@ -46,7 +46,7 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 	 */
 	List<TransactionCreditsAndPayments> transactionCreditsAndPayments;
 
-	// 
+	//
 
 	public CustomerPrePayment() {
 
@@ -225,11 +225,9 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 		if (((this.depositIn != null && obj.depositIn != null) ? (this.depositIn.id == obj.depositIn.id)
 				: true)
 				&& ((this.customer != null && obj.customer != null) ? (this.customer
-						.equals(obj.customer))
-						: true)
+						.equals(obj.customer)) : true)
 				&& ((this.paymentMethod != null && obj.paymentMethod != null) ? (this.paymentMethod
-						.equals(obj.paymentMethod))
-						: true)
+						.equals(obj.paymentMethod)) : true)
 				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
 						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
 						this.total, obj.total) : true)) {
@@ -313,7 +311,7 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		return super.canEdit(clientObject);
 	}

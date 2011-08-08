@@ -1,6 +1,6 @@
 package com.vimukti.accounter.core;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class UserPreferences implements IAccounterServerCore {
 
@@ -45,7 +45,7 @@ public class UserPreferences implements IAccounterServerCore {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		return true;
 	}

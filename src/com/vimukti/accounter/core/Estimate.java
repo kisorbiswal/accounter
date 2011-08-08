@@ -2,8 +2,8 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 @SuppressWarnings("serial")
@@ -269,10 +269,10 @@ public class Estimate extends Transaction {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new InvalidOperationException(
-					"This Quote is Already used in SalesOrder or Invoice");
+			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
+			// "This Quote is Already used in SalesOrder or Invoice");
 		}
 		// else if (this.status == STATUS_REJECTED) {
 		// throw new InvalidOperationException(
@@ -284,8 +284,8 @@ public class Estimate extends Transaction {
 		 * If Quote is already voided or deleted, we can't edit it
 		 */
 		if (((Estimate) clientObject).status == STATUS_REJECTED) {
-			throw new InvalidOperationException(
-					"This Quote is already  Rejected,can't  Modify");
+			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
+			// "This Quote is already  Rejected,can't  Modify");
 		}
 
 		return true;

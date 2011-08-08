@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.server;
 
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
@@ -158,11 +157,6 @@ public class AccounterDummyServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ClientDepreciation getClientDepreciation() {
-		return null;
-	}
-
-	@Override
-	public InvalidOperationException getInvalidOperationException() {
 		return null;
 	}
 

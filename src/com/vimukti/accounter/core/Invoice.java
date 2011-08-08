@@ -10,8 +10,8 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -991,13 +991,14 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		if (this.transactionReceivePayments != null) {
 			for (TransactionReceivePayment trp : this.transactionReceivePayments) {
 				if (DecimalUtil.isGreaterThan(trp.writeOff, 0D)
 						|| DecimalUtil.isGreaterThan(trp.cashDiscount, 0d)) {
-					throw new InvalidOperationException(
-							"In the ReceivePayment writeoff or discount is used for this Invoice");
+					throw new AccounterException(
+							AccounterException.ERROR_RECEIVE_PAYMENT_DISCOUNT_USED);
+					// "In the ReceivePayment writeoff or discount is used for this Invoice");
 				}
 
 			}
@@ -1005,8 +1006,8 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		if (this.status == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
 				|| this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new InvalidOperationException(
-					"You have already paid some amount for this Invoice, You can't Edit  it and Void it.");
+			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
+			// "You have already paid some amount for this Invoice, You can't Edit  it and Void it.");
 		}
 
 		return super.canEdit(clientObject);

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.AccounterExceptions;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -439,7 +440,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			}
 
 			@Override
-			public void onResultSuccess(FixedAssetSellOrDisposeReviewJournal result) {
+			public void onResultSuccess(
+					FixedAssetSellOrDisposeReviewJournal result) {
 				if (result == null) {
 					onFailure(new Exception());
 				}
@@ -521,13 +523,17 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			// ActionFactory.getSoldDisposedListAction().run(null,
 			// false);
 		} else
-			saveFailed(new Exception(Accounter.constants().failed()));
+			saveFailed(new AccounterException(Accounter.constants().failed()));
 
 	}
 
 	@Override
-	public void saveFailed(Throwable exception) {
+	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
+		AccounterException accounterException = (AccounterException) exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
 	}
 
 	/**
@@ -586,7 +592,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	}
 
 	@Override
-	public void deleteFailed(Throwable caught) {
+	public void deleteFailed(AccounterException caught) {
 
 	}
 
@@ -651,8 +657,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
-		reviewJournal = new Button(Accounter.constants()
-				.reviewJournal());
+		reviewJournal = new Button(Accounter.constants().reviewJournal());
 
 		reviewJournal.addClickHandler(new ClickHandler() {
 

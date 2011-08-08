@@ -19,12 +19,12 @@ import org.hibernate.classic.Lifecycle;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -756,7 +756,6 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 		return false;
 	}
 
-	
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
@@ -1003,7 +1002,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 	 * The purpose of this method is to run the depreciation for every month
 	 * from the given start date till the end date.
 	 */
-	
+
 	public void createJournalEntriesForDepreciationAtTheEndOfEveryMonthFromStartDateToEndDate(
 			Calendar fromCal1, Calendar toCal, Session session) {
 
@@ -1250,14 +1249,13 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 	 * @return
 	 * @throws Exception
 	 */
-	
+
 	public static double getCalculatedRollBackDepreciationAmount(
 			Date rollBackDepreciationTo) throws Exception {
 		Session session = HibernateUtil.getCurrentSession() == null ? Utility
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 		Query query = session
-				.getNamedQuery(
-						"getDepreciation.byDepreciationForm.andStatus")
+				.getNamedQuery("getDepreciation.byDepreciationForm.andStatus")
 				.setParameter(0, rollBackDepreciationTo)
 				.setParameter(1, Depreciation.APPROVE);
 		List<Depreciation> list = query.list();
@@ -1562,8 +1560,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 				.getCurrentSession() : HibernateUtil.getCurrentSession();
 
 		Query query = session
-				.getNamedQuery(
-						"getDepreciation.byFixedAsset.andWithDetails")
+				.getNamedQuery("getDepreciation.byFixedAsset.andWithDetails")
 				.setParameter(0, rollBackDepreciationTo)
 				.setParameter(1, Depreciation.APPROVE)
 				.setParameter(2, fixedAssetID);
@@ -1733,7 +1730,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}

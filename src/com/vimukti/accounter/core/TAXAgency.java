@@ -11,9 +11,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * A type of {@link Payee} which deals with the filing and paying of 'VAT' owed.
@@ -204,18 +204,18 @@ public class TAXAgency extends Payee implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		TAXAgency taxAgency = (TAXAgency) clientObject;
-		Query query = session.getNamedQuery(
-				"getTaxAgency.by.Name")
+		Query query = session.getNamedQuery("getTaxAgency.by.Name")
 				.setParameter(0, taxAgency.name);
 		List list = query.list();
 		if (list != null && list.size() > 0) {
 			TAXAgency newTaxAgency = (TAXAgency) list.get(0);
 			if (taxAgency.id != newTaxAgency.id) {
-				throw new InvalidOperationException(
-						"A TAXAgency already exists with this name");
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "A TAXAgency already exists with this name");
 			}
 		}
 		return true;

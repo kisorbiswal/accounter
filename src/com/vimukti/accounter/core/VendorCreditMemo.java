@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.InvalidOperationException;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -66,7 +66,7 @@ public class VendorCreditMemo extends Transaction implements Lifecycle {
 
 	double balanceDue = 0D;
 
-	// 
+	//
 
 	/**
 	 * @return the version
@@ -308,7 +308,7 @@ public class VendorCreditMemo extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
-			throws InvalidOperationException {
+			throws AccounterException {
 
 		return super.canEdit(clientObject);
 	}
