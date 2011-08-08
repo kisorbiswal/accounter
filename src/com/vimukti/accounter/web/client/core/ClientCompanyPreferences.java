@@ -70,6 +70,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	long lastDepreciationDate;
 
 	boolean isMyAccountantWillrunPayroll;
+	private String industryType;
 
 	// Customer Preferrences
 
@@ -878,5 +879,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setDoyouwanrstatements(boolean doyouwanrstatements) {
 		this.doyouwanrstatements = doyouwanrstatements;
+	}
+
+	public String getIndustryType() {
+		return industryType;
+	}
+
+	public void setIndustryType(String industryType) {
+		this.industryType = industryType;
 	}
 }
