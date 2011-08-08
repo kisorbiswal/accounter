@@ -78,4 +78,12 @@ public class ClientQuantity implements IsSerializable, Serializable, Cloneable,
 		return quantity;
 	}
 
+	@Override
+	public String toString() {
+		if (unit != null) {
+			return value + unit.getType();
+		} else {
+			return String.valueOf(value);
+		}
+	}
 }

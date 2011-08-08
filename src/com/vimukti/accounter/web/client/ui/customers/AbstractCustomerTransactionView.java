@@ -916,8 +916,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
 			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
 		}
-
-		result.add(custForm.validate());
+		if (custForm != null) {
+			result.add(custForm.validate());
+		}
 		if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS)) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 				if (!taxCodeSelect.validate()) {

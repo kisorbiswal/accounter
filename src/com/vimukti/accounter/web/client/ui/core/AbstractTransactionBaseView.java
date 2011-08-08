@@ -912,10 +912,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 * Updates the Transaction Obejct from the GUI Fields before saving.
 	 */
 	protected void updateTransaction() {
-		if (this.transaction.getTotal() <= 0) {
-			addError(this, Accounter.constants()
-					.transactiontotalcannotbe0orlessthan0());
-		}
 		transaction.setType(transactionType);
 		if (transactionDate != null)
 			transaction.setDate(transactionDate.getDate());
