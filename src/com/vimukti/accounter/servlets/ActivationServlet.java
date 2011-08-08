@@ -76,6 +76,9 @@ public class ActivationServlet extends BaseServlet {
 							.uniqueResult();
 					client.setActive(true);
 					saveEntry(client);
+					
+					//delete activation object
+					hbSession.getNamedQuery("delete.activation.by.emailId").setParameter("emailId", activation.getEmailId()).executeUpdate();
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
