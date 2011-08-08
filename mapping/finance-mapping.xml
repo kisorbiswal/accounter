@@ -932,12 +932,10 @@
 		<property name="passwordSha1Hash" column="PASSWORD"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="canDoUserManagement" column="CAN_DO_USER_MANAGEMENT"></property>
-		<property name="lastLogin" column="LAST_LOGIN"></property>
 		<property name="isDeleted" column="IS_DELETED"></property>
 		<property name="phoneNo" column="PHONE_NO"></property>
 		<property name="country" column="COUNTRY_NAME"></property>
 		<!-- type="com.vimukti.accounter.core.LongUseType"></property> -->
-		<property name="loginCount" column="LOGIN_COUNT"></property>
 		<property name="isAdmin" column="IS_ADMIN"></property>
 		<many-to-one name="permissions" class="UserPermissions"
 			lazy="false" cascade="save-update,delete" column="USER_PERMISSIONS_ID"></many-to-one>

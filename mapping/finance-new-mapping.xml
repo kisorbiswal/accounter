@@ -60,7 +60,7 @@
 		</id>
 		<many-to-one name="client" class="com.vimukti.accounter.core.Client"
 			lazy="false" column="CLIENT">
-		</many-to-one>		
+		</many-to-one>
 		<property name="apiKey" column="API_KEY"></property>
 		<property name="secretKey" column="SECRET_KEY"></property>
 		<property name="applicationName" column="APPLICATION_NAME"></property>
@@ -72,7 +72,7 @@
 		<property name="contact" column="CONTACT"></property>
 		<property name="succeedRequests" column="SUCCEES_REQUESTS"></property>
 		<property name="failureRequests" column="FAILURE_REQUESTS"></property>
-		
-
+		<property name="loginCount" column="LOGIN_COUNT"></property>
+		<property name="lastLoginTime" column="LAST_LOGIN_TIME"></property>
 	</class>
 </hibernate-mapping>
