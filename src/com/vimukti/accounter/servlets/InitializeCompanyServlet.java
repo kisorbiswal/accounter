@@ -23,7 +23,6 @@ import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * @author Prasanna Kumar G
@@ -100,9 +99,9 @@ public class InitializeCompanyServlet extends BaseServlet {
 
 			company.initialize();
 
-			FinanceTool.createView();
-
-			FinanceTool.createViewsForclient();
+			// FinanceTool.createView();
+			//
+			// FinanceTool.createViewsForclient();
 
 			transaction.commit();
 			UsersMailSendar.sendMailToDefaultUser(user, company.geFulltName());
