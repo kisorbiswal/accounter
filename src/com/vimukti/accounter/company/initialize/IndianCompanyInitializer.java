@@ -26,12 +26,6 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 	}
 
 	@Override
-	public Company getCompany() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	String getDateFormat() {
 		// TODO Auto-generated method stub
 		return null;

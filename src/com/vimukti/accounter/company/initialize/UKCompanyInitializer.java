@@ -1080,12 +1080,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 	}
 
 	@Override
-	public Company getCompany() {
-
-		return null;
-	}
-
-	@Override
 	public void init() {
 		super.init();
 		initDefaultUKAccounts();

@@ -19,6 +19,7 @@ import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.VendorGroup;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 
 public class USCompanyInitializer extends CompanyInitializer {
@@ -111,9 +112,9 @@ public class USCompanyInitializer extends CompanyInitializer {
 	 * 
 	 * @param session
 	 */
-	public void initDefaultUSAccounts(Session session) {
-
-		setDefaultsUSValues(session);
+	public void initDefaultUSAccounts() {
+		Session session = HibernateUtil.getCurrentSession();
+		setDefaultsUSValues();
 
 		Account pendingItemReceipts = new Account(
 				Account.TYPE_OTHER_CURRENT_LIABILITY, "2010",
@@ -197,14 +198,14 @@ public class USCompanyInitializer extends CompanyInitializer {
 		this.otherCashExpenseAccount = otherCashExpense;
 		// this.pendingItemReceiptsAccount = pendingItemReceipts;
 
-		createUSDefaultTaxGroup(session);
+		createUSDefaultTaxGroup();
 		// createNominalCodesRanges(session);
 		// createDefaultBrandingTheme(session);
 	}
 
-	private void setDefaultsUSValues(Session session) {
+	private void setDefaultsUSValues() {
 
-		// Session session = HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession();
 		// Create Default Payment Terms
 
 		// PaymentTerms onePercentTenNetThirty = new PaymentTerms(
@@ -425,11 +426,11 @@ public class USCompanyInitializer extends CompanyInitializer {
 		session.save(brandingTheme);
 	}
 
-	public void createUSDefaultTaxGroup(Session session) {
+	public void createUSDefaultTaxGroup() {
 
 		try {
 
-			// Session session = HibernateUtil.getCurrentSession();
+			Session session = HibernateUtil.getCurrentSession();
 
 			// Default TaxGroup Creation
 			TAXAgency defaultTaxAgency = new TAXAgency();
@@ -489,14 +490,9 @@ public class USCompanyInitializer extends CompanyInitializer {
 	}
 
 	@Override
-	public Company getCompany() {
-		// its not using any where
-		return null;
-	}
-
-	@Override
 	public void init() {
-
+		super.init();
+		initDefaultUSAccounts();
 	}
 
 	/*
