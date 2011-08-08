@@ -81,6 +81,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			FinanceTool tool = getFinanceTool();
 			OperationContext opContext = new OperationContext(type,
 					String.valueOf(id));
+			opContext.setArg1(String.valueOf(id));
+			opContext.setArg2(type.getClientClassSimpleName());
 			return tool.delete(opContext);
 
 		} catch (Exception e) {
