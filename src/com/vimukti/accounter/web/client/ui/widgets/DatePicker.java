@@ -58,9 +58,11 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		// }else{
 		// dateFormatter=DateTimeFormat.getFormat(DateUtil.getUserPreferredDateFormat());
 		// }
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+		System.out.println("Ok");
+		
+		if (Accounter.getCompany().getPreferences().getDateFormat().equals("dd/MM/yyyy"))
 			dateFormatter = DateTimeFormat.getFormat("dd/MM/yyyy");
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getPreferences().getDateFormat().equals("MM/dd/yyyy"))
 			dateFormatter = DateTimeFormat.getFormat("MM/dd/yyyy");
 		popup = new PopupCalendar(this);
 		changeHandlers = new ArrayList<ChangeHandler>();
