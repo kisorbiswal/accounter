@@ -18,7 +18,11 @@ public abstract class AbstractSetupPage extends VerticalPanel {
 		this.preferences = preferences;
 		accounterConstants = Accounter.constants();
 		accounterMessages = Accounter.messages();
+		Label pageHeader = new Label(getHeader());
+		pageHeader.addStyleName("setup_header_label");
+		this.add(pageHeader);
 		this.add(getPageBody());
+		this.setStyleName("setup_panel");
 	}
 
 	public AbstractSetupPage() {
