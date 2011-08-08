@@ -5,15 +5,15 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ImageButton;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class CancelButton extends Button {
+public class CancelButton extends ImageButton {
 
 	private AbstractBaseView<?> currentView;
 
@@ -21,7 +21,8 @@ public class CancelButton extends Button {
 	 * Creates new Instance
 	 */
 	public CancelButton(AbstractBaseView<?> view) {
-		super(Accounter.constants().cancel());
+		super(Accounter.constants().cancel(), Accounter.getFinanceImages()
+				.rejected());
 		this.currentView = view;
 		this.addStyleName("cancle-Btn");
 		this.addClickHandler(new ClickHandler() {

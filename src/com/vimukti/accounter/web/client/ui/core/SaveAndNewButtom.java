@@ -5,15 +5,15 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ImageButton;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class SaveAndNewButtom extends Button {
+public class SaveAndNewButtom extends ImageButton {
 
 	private AbstractBaseView<?> view;
 
@@ -21,9 +21,10 @@ public class SaveAndNewButtom extends Button {
 	 * Creates new Instance
 	 */
 	public SaveAndNewButtom(AbstractBaseView<?> view) {
-		super(Accounter.constants().saveAndNew());
+		super(Accounter.constants().saveAndNew(), Accounter.getFinanceImages()
+				.saveAndNew());
 		this.view = view;
-		this.addStyleName("saveAndNew-Btn");
+		// this.addStyleName("saveAndNew-Btn");
 		addClichHandler();
 	}
 
