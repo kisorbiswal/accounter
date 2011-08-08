@@ -4,8 +4,7 @@
 package com.vimukti.accounter.web.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
-import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 /**
  * @author Prasanna Kumar G
@@ -13,6 +12,5 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 public interface IAccounterCompanyInitializationService extends RemoteService {
 
-	ClientCompany createCompany(int accountType) throws AccounterException;
-
+	Boolean initalizeCompany(ClientCompanyPreferences preferences);
 }
