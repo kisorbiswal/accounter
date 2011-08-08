@@ -141,19 +141,15 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-
+		String value = inputDlg.getTextItems().get(0).getValue().toString();
 		if (vendorGroup != null) {
-			if (!(vendorGroup.getName().equalsIgnoreCase(
-					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-							.toString())) ? true : (Utility.isObjectExist(
-					company.getVendorGroups(),
-					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-							.toString())) ? false : true))) {
+			if (!(vendorGroup.getName().equalsIgnoreCase(value) ? true
+					: (Utility.isObjectExist(company.getVendorGroups(), value) ? false
+							: true))) {
 				result.addError(this, AccounterErrorType.ALREADYEXIST);
 			}
 		} else {
-			if (Utility.isObjectExist(getCompany().getVendorGroups(),
-					vendorGroup.getName())) {
+			if (Utility.isObjectExist(getCompany().getVendorGroups(), value)) {
 				result.addError(this, UIUtils.getVendorString(Accounter
 						.constants().supplierGroupAlreadyExists(), Accounter
 						.constants().vendorGroupAlreadyExists()));
