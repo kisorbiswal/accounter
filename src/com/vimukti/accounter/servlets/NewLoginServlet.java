@@ -14,7 +14,6 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -29,37 +28,43 @@ public class NewLoginServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Client client = doLogin(request, response);
-		if (client != null) {
-			// if valid credentials are there we redirect to <dest> param or
-			// /companies
+		Session openSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		try {
+			Client client = doLogin(request, response);
+			if (client != null) {
+				// if valid credentials are there we redirect to <dest> param or
+				// /companies
 
-			if (client.isRequirePasswordReset()) {
-				client.setRequirePasswordReset(false);
-				Session session = HibernateUtil
-						.openSession(Server.LOCAL_DATABASE);
-				try {
-					saveEntry(client);
-				} finally {
-					session.close();
+				if (client.isRequirePasswordReset()) {
+					// TODO send the ResetPAssword page
+					// client.setRequirePasswordReset(false);
+					// saveEntry(client);
 				}
-			}
 
-			String destUrl = request.getParameter(PARAM_DESTINATION);
-			HttpSession httpSession = request.getSession();
-			httpSession.setAttribute(EMAIL_ID, client.getEmailId());
-			if (destUrl == null || destUrl.isEmpty()) {
-				redirectExternal(request, response, COMPANIES_URL);
+				String destUrl = request.getParameter(PARAM_DESTINATION);
+				HttpSession httpSession = request.getSession();
+				httpSession.setAttribute(EMAIL_ID, client.getEmailId());
+				if (destUrl == null || destUrl.isEmpty()) {
+					client.setLoginCount(client.getLoginCount() + 1);
+					client.setLastLoginTime(System.currentTimeMillis());
+					openSession.save(client);
+					redirectExternal(request, response, COMPANIES_URL);
+				} else {
+					redirectExternal(request, response, destUrl);
+				}
+
+				return;
 			} else {
-				redirectExternal(request, response, destUrl);
+				request.setAttribute(
+						"message",
+						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
+				dispatch(request, response, LOGIN_VIEW);
 			}
-
-			return;
-		} else {
-			request.setAttribute(
-					"message",
-					"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
-			dispatch(request, response, LOGIN_VIEW);
+		} catch (Exception e) {
+		} finally {
+			if (openSession.isOpen()) {
+				openSession.close();
+			}
 		}
 	}
 
@@ -84,7 +89,7 @@ public class NewLoginServlet extends BaseServlet {
 		password = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ password.trim()));
 
-		Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+		Session session = HibernateUtil.getCurrentSession();
 		try {
 			Client client = null;
 			Query query = session
@@ -95,10 +100,6 @@ public class NewLoginServlet extends BaseServlet {
 			return client;
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 		return null;
 	}
