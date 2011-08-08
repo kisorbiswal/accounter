@@ -15,10 +15,8 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -1468,8 +1466,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		tranendDate = new FinanceDate(endDate);
 
 		try {
-			TAXAgency vatAgncy = (TAXAgency) Util.loadObjectByid(
-					HibernateUtil.getCurrentSession(), "TAXAgency", taxAgency);
+			TAXAgency vatAgncy = (TAXAgency) loadObjectById("TAXAgency",
+					taxAgency);
 			;
 			vatDetailReport = getFinanceTool()
 					.getPriorVATReturnVATDetailReport(vatAgncy, tranendDate);
@@ -1490,8 +1488,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
 
 		try {
-			TAXAgency vatAgency = (TAXAgency) Util.loadObjectByid(
-					HibernateUtil.getCurrentSession(), "TAXAgency", taxAgncy);
+			TAXAgency vatAgency = (TAXAgency) loadObjectById("TAXAgency",
+					taxAgncy);
 			vatSummaryList = getFinanceTool().getPriorReturnVATSummary(
 					vatAgency, new FinanceDate(endDate));
 
@@ -1521,8 +1519,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			TAXAgency vatAgency = (TAXAgency) Util.loadObjectByid(
-					HibernateUtil.getCurrentSession(), "TAXAgency", taxAgency);
+			TAXAgency vatAgency = (TAXAgency) loadObjectById("TAXAgency",
+					taxAgency);
 			vatSummaryList = getFinanceTool().getVAT100Report(vatAgency,
 					financeDates[0], financeDates[1]);
 

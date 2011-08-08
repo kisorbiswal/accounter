@@ -2,14 +2,11 @@ package com.vimukti.accounter.core;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.hibernate.FlushMode;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class ObjectConvertUtil {
@@ -52,7 +49,7 @@ public class ObjectConvertUtil {
 					if (!idField.isAccessible()) {
 						idField.setAccessible(true);
 					}
-					return  (Long) idField.get(obj);
+					return (Long) idField.get(obj);
 				} catch (SecurityException e1) {
 					return null;
 				} catch (IllegalArgumentException e1) {
@@ -99,18 +96,21 @@ public class ObjectConvertUtil {
 		return false;
 	}
 
-	
 	protected boolean isDate(Class class1) {
 		if (class1.getName().equals("java.util.Date"))
 			return true;
 		return false;
 	}
 
-	
 	protected boolean isFinanceDate(Class class1) {
 		if (class1.getName().equals("com.vimukti.accounter.core.FinanceDate"))
 			return true;
 		return false;
+	}
+
+	protected boolean isQuantity(Class<?> className) {
+		return className.getName()
+				.equals("com.vimukti.accounter.core.Quantity");
 	}
 
 	public Class<?> getClientEqualentClass(Class<?> serverClass) {
@@ -199,7 +199,7 @@ public class ObjectConvertUtil {
 	 * @param class1
 	 * @return
 	 */
-	
+
 	public static <D extends IAccounterCore, S extends IAccounterServerCore> Class<S> getServerEqivalentClass(
 			Class<?> class1) {
 
@@ -241,7 +241,6 @@ public class ObjectConvertUtil {
 		}
 	}
 
-	
 	public static Field getFieldByName(Class<?> class1, String name) {
 		for (Class obj = class1; !obj.equals(Object.class); obj = obj
 				.getSuperclass()) {
@@ -383,8 +382,7 @@ public class ObjectConvertUtil {
 
 	}
 
-	
-	public Object loadObjectByid(Session session, String serverClassName,
+	public static Object loadObjectByid(Session session, Class<?> serverClass,
 			long id) {
 
 		FlushMode flushMode = session.getFlushMode();
@@ -395,19 +393,8 @@ public class ObjectConvertUtil {
 			if (id == -1)
 				return null;
 
-			List<Object> list = session.getNamedQuery(
-					"unique.id." + serverClassName).setLong(0, id).list();
+			return session.get(serverClass, id);
 
-			// String hql = "from " + serverClassName + " where id = ?";
-			//
-			// List list = session.createQuery(hql).setString(0,
-			// id).list();
-
-			if (list != null && list.size() > 0) {
-
-				return list.get(0);
-
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -418,32 +405,17 @@ public class ObjectConvertUtil {
 		return null;
 	}
 
-	public long getLongIdForGivenid(Class<?> cls, long account) {
-
-		Session session = HibernateUtil.getCurrentSession();
-		String namedQuery = "unique.id." + cls.getName();
-		// String hqlQuery = "select entity.id from " + cls.getName()
-		// + " entity where entity.id=?";
-		Query query = session.getNamedQuery(namedQuery).setParameter(0, account);
-		IAccounterServerCore core = query.uniqueResult() instanceof IAccounterServerCore ? (IAccounterServerCore) query
-				.uniqueResult()
-				: null;
-		// Query query = session.createQuery(hqlQuery).setString(0, account);
-		// List<?> l = query.list();
-		// if (l != null && !l.isEmpty() && l.get(0) != null) {
-		// return (Long) l.get(0);
-		// } else
-		// return 0;
-		if (core != null) {
-			return core.getID();
-		} else {
-			return 0;
-		}
-
-	}
-
 	public boolean isFieldExist(String fieldName, Class<?> class1) {
 		return getAllFields(class1).containsKey(fieldName);
 	}
 
+	public static Class<?> classforName(String className) {
+		try {
+			return Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

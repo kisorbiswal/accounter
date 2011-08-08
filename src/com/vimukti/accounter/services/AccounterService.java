@@ -69,21 +69,15 @@ public class AccounterService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public <T extends IAccounterServerCore> T getObjectById(Class clazz,
+	public <T extends IAccounterServerCore> T getObjectById(Class<?> clazz,
 			String id) throws DAOException {
 		Session session = Utility.getCurrentSession();
-		Query query = session.getNamedQuery(
-				"unique.id." + clazz.getSimpleName()).setParameter(0, id);
-		List l = query.list();
-		T entity = null;
-		if (l != null && l.size() > 0 && l.get(0) != null) {
-			entity = (T) l.get(0);
-		}
-		return entity;
+
+		return (T) session.load(clazz, id);
 	}
 
 	@Override
-	public <T extends IAccounterServerCore> T getObjectByName(Class clazz,
+	public <T extends IAccounterServerCore> T getObjectByName(Class<?> clazz,
 			String name) throws DAOException {
 		Session session = Utility.getCurrentSession();
 		Query query = session.getNamedQuery(

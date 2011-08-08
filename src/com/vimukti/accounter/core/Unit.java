@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
-public class Unit implements Cloneable {
+
+public class Unit implements IAccounterServerCore, Cloneable {
 	private long id;
 
 	private Measurement measurement;
@@ -46,5 +47,16 @@ public class Unit implements Cloneable {
 	public Unit clone() {
 		Unit unitClone = (Unit) this.clone();
 		return unitClone;
+	}
+
+	@Override
+	public long getID() {
+		return id;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }

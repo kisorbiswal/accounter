@@ -498,8 +498,10 @@ public class CashPurchaseView extends
 		// Setting Type
 		transaction.setType(ClientTransaction.TYPE_CASH_PURCHASE);
 
-		// Setting Vendor
-		transaction.setVendor(this.getVendor().getID());
+		if (this.getVendor() != null) {
+			// Setting Vendor
+			transaction.setVendor(this.getVendor().getID());
+		}
 
 		// Setting Contact
 		if (contact != null)

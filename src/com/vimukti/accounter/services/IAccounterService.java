@@ -18,12 +18,12 @@ public interface IAccounterService {
 
 	// /////
 
-	public <T extends IAccounterServerCore> T getObjectById(Class clazz, // /////
+	public <T extends IAccounterServerCore> T getObjectById(Class<?> clazz, // /////
 			String id) throws DAOException; // /////
 
 	// /////
 
-	public <T extends IAccounterServerCore> T getObjectByName(Class clazz, // /////
+	public <T extends IAccounterServerCore> T getObjectByName(Class<?> clazz, // /////
 			String name) throws DAOException; // /////
 
 	/**

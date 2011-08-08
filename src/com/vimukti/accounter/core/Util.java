@@ -14,7 +14,6 @@ public class Util {
 
 	private static ThreadLocal<Map<Object, Object>> cache = new ThreadLocal<Map<Object, Object>>();
 
-	
 	private static Map<String, Field> getAllFields(Class<?> cls) {
 		Map<String, Field> mapFields = new HashMap<String, Field>();
 
@@ -94,7 +93,6 @@ public class Util {
 		return false;
 	}
 
-	
 	private static boolean isDate(Class class1) {
 		if (class1.getName().equals("java.util.Date"))
 			return true;
@@ -170,32 +168,6 @@ public class Util {
 			return true;
 		}
 		return fieldType.isPrimitive();
-	}
-
-	
-	public static Object loadObjectByid(Session session,
-			String serverClassName, long id) {
-		try {
-
-			List<Object> list = session
-					.getNamedQuery("unique.id." + serverClassName)
-					.setLong(0, id).list();
-
-			// String hql = "from " + serverClassName + " where id = ?";
-			//
-			// List list = session.createQuery(hql).setString(0,
-			// id).list();
-
-			if (list != null && list.size() > 0) {
-
-				return list.get(0);
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
 	}
 
 	public static long getLongIdForGivenid(Class<?> cls, String account) {

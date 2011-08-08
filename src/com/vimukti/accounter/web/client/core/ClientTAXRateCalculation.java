@@ -15,7 +15,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	double lineTotal;
 	String vatItem;
 	long transactionDate;
-	String transactionItem;
+	long transactionItem;
 	boolean isVATGroupEntry;
 
 	ClientTAXAgency taxAgency;
@@ -108,7 +108,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	/**
 	 * @return the transactionItem
 	 */
-	public String getTransactionItem() {
+	public long getTransactionItem() {
 		return transactionItem;
 	}
 
@@ -116,7 +116,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	 * @param transactionItem
 	 *            the transactionItem to set
 	 */
-	public void setTransactionItem(String transactionItem) {
+	public void setTransactionItem(long transactionItem) {
 		this.transactionItem = transactionItem;
 	}
 

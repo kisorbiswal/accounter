@@ -4431,10 +4431,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		}
 		return null;
 
-		// Session session = HibernateUtil.getCurrentSession();
-		// User user = (User) session.getNamedQuery("unique.id.User")
-		// .setParameter(0, userID).uniqueResult();
-		// return user;
 	}
 
 	public String getDisplayName() {

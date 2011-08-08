@@ -216,4 +216,15 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		cookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		this.getThreadLocalResponse().addCookie(cookie);
 	}
+
+	protected Object loadObjectById(String className, long id)
+			throws AccounterException {
+		try {
+			Class.forName(className);
+			return getSession().get(className, id);
+		} catch (Exception e) {
+			throw new AccounterException(AccounterException.ERROR_INTERNAL,
+					e.getMessage());
+		}
+	}
 }

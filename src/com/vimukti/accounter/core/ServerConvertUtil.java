@@ -12,6 +12,7 @@ import java.util.Set;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -33,8 +34,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 			if (isNotMappingEntity(class1)) {
 				result.add(toServerObjectInternal(null, (S) src, session));
 			} else {
-				D obj = (D) loadObjectByid(session, class1.getSimpleName(),
-						((S) src).getID());
+				D obj = (D) loadObjectByid(session, class1, ((S) src).getID());
 				result.add(toServerObjectInternal(obj, (S) src, session));
 			}
 		}
@@ -56,7 +56,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 				if (isNotMappingEntity(class1)) {
 					result.add(toServerObjectInternal(null, (S) src, session));
 				} else {
-					D obj = (D) loadObjectByid(session, class1.getSimpleName(),
+					D obj = (D) loadObjectByid(session, class1,
 							((S) src).getID());
 					result.add(toServerObjectInternal(obj, (S) src, session));
 				}
@@ -200,8 +200,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 			Class<D> serverCoreClass = getServerEqivalentClass(src.getClass());
 			if (!isNotMappingEntity(serverCoreClass)) {
 				// dst = (D) session.get(serverCoreClass, src.getID());
-				dt = (D) loadObjectByid(session,
-						serverCoreClass.getSimpleName(), src.getID());
+				dt = (D) loadObjectByid(session, serverCoreClass, src.getID());
 			}
 			dst = dt == null ? dst == null ? serverCoreClass.newInstance()
 					: dst : dt;
@@ -311,7 +310,7 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 						} else {
 							// load the object by given Id.
 							Object object = loadObjectByid(session,
-									dstfieldType.getSimpleName(), longValue);
+									dstfieldType, longValue);
 							dstField.set(dst, object);
 						}
 					} else {
@@ -335,14 +334,21 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 
 								dstField.set(
 										dst,
-										loadObjectByid(session,
-												dstfieldType.getSimpleName(),
+										loadObjectByid(session, dstfieldType,
 												(Long) srcField.get(src)));
 							}
 
 						} else if (isString(dstField.getType())) {
 
 							dstField.set(dst, srcField.get(src));
+
+						} else if (isQuantity(dstfieldType)) {
+
+							dstField.set(
+									dst,
+									getQuantity(
+											(ClientQuantity) srcField.get(src),
+											session));
 
 						} else {
 							D d = getServerAfterCheckingInCache(
@@ -371,6 +377,18 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 
 		return dst;
 
+	}
+
+	/**
+	 * @param session
+	 * @param object
+	 * @return
+	 */
+	private Quantity getQuantity(ClientQuantity cq, Session session) {
+		Quantity q = new Quantity();
+		q.setValue(cq.getValue());
+		q.setUnit((Unit) session.get(Unit.class, cq.getUnit()));
+		return q;
 	}
 
 	private Map<?, ?> toMap(Map map) {

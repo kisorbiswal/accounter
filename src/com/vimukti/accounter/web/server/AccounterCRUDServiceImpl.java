@@ -115,9 +115,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public Boolean voidTransaction(AccounterCoreType accounterCoreType, long id)
 			throws AccounterException {
-		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByid(getSession(),
-						accounterCoreType.getServerClassSimpleName(), id);
+		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
+				accounterCoreType.getServerClassSimpleName(), id);
 		if (serverCore instanceof Transaction) {
 			Transaction trans = (Transaction) serverCore;
 			trans.setVoid(true);
@@ -133,9 +132,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public boolean deleteTransaction(AccounterCoreType accounterCoreType,
 			long id) throws AccounterException {
-		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByid(getSession(),
-						accounterCoreType.getServerClassSimpleName(), id);
+		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
+				accounterCoreType.getServerClassSimpleName(), id);
 		if (serverCore instanceof Transaction) {
 			Transaction trans = (Transaction) serverCore;
 			trans.setStatus(Transaction.STATUS_DELETED);
@@ -152,9 +150,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public boolean canEdit(AccounterCoreType accounterCoreType, long id)
 			throws AccounterException {
-		IAccounterServerCore serverCore = (IAccounterServerCore) Util
-				.loadObjectByid(getSession(),
-						accounterCoreType.getServerClassSimpleName(), id);
+		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
+				accounterCoreType.getServerClassSimpleName(), id);
 		try {
 			return serverCore.canEdit(serverCore);
 		} catch (AccounterException e) {

@@ -417,6 +417,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private ClientUser loggedInUser;
 
+	private List<ClientUnit> units;
+
 	// private List<ClientTaxItem> taxItems;
 
 	public void clientSideInit() {
@@ -1435,7 +1437,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(taxCode, taxCodes);
 
-
 					break;
 
 				case TAXITEM:
@@ -1450,7 +1451,6 @@ public class ClientCompany implements IAccounterCore {
 						// Utility.updateClientList(code, taxCodes);
 					}
 
-
 					break;
 
 				case CUSTOMER_GROUP:
@@ -1458,7 +1458,6 @@ public class ClientCompany implements IAccounterCore {
 					ClientCustomerGroup customerGroup = (ClientCustomerGroup) accounterCoreObject;
 
 					Utility.updateClientList(customerGroup, customerGroups);
-
 
 					break;
 
@@ -1468,7 +1467,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(vendorGroup, vendorGroups);
 
-
 					break;
 
 				case PAYMENT_TERM:
@@ -1477,7 +1475,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(paymentsTerms, paymentTerms);
 
-
 					break;
 
 				case SHIPPING_METHOD:
@@ -1485,7 +1482,6 @@ public class ClientCompany implements IAccounterCore {
 					ClientShippingMethod shippingMethod = (ClientShippingMethod) accounterCoreObject;
 
 					Utility.updateClientList(shippingMethod, shippingMethods);
-
 
 					break;
 
@@ -1511,7 +1507,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(itemGroup, ItemGroups);
 
-
 					break;
 
 				case SALES_PERSON:
@@ -1520,7 +1515,6 @@ public class ClientCompany implements IAccounterCore {
 
 					Utility.updateClientList(salesPerson, salesPersons);
 
-
 					break;
 
 				case CREDIT_RATING:
@@ -1528,7 +1522,6 @@ public class ClientCompany implements IAccounterCore {
 					ClientCreditRating creditRating = (ClientCreditRating) accounterCoreObject;
 
 					Utility.updateClientList(creditRating, creditRatings);
-
 
 					break;
 
@@ -2354,5 +2347,32 @@ public class ClientCompany implements IAccounterCore {
 
 		return clientCompany;
 
+	}
+
+	/**
+	 * @param unit
+	 * @return
+	 */
+	public ClientUnit getUnitById(long unitID) {
+		for (ClientUnit u : units) {
+			if (u.getId() == unitID) {
+				return u;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param units
+	 */
+	public void setUnits(List<ClientUnit> units) {
+		this.units = units;
+	}
+
+	/**
+	 * @return
+	 */
+	public List<ClientUnit> getUnits() {
+		return units;
 	}
 }

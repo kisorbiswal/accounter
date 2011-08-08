@@ -99,6 +99,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransactionMakeDepositEntries;
 import com.vimukti.accounter.core.TransferFund;
+import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.core.Utility;
@@ -126,6 +127,7 @@ import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
+import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.HrEmployee;
@@ -305,9 +307,12 @@ public class FinanceTool implements IFinanceDAOService {
 						AccounterException.ERROR_ILLEGAL_ARGUMENT,
 						"Operation Data Found Null...." + updateContext);
 			}
-			IAccounterServerCore serverObject = (IAccounterServerCore) Util
-					.loadObjectByid(session, updateContext.getArg2(),
-							Long.parseLong(updateContext.getArg1()));
+
+			Class<?> classforName = ObjectConvertUtil
+					.classforName(updateContext.getArg2());
+
+			IAccounterServerCore serverObject = (IAccounterServerCore) session
+					.load(classforName, Long.parseLong(updateContext.getArg1()));
 			IAccounterServerCore clonedObject = new CloneUtil().clone(null,
 					serverObject);
 
@@ -385,39 +390,28 @@ public class FinanceTool implements IFinanceDAOService {
 			Class<?> serverClass = ObjectConvertUtil
 					.getServerEqivalentClass(clientClass);
 
-			String query = "unique.id." + serverClass.getSimpleName();
+			IAccounterServerCore serverObject = (IAccounterServerCore) session
+					.get(serverClass, Long.parseLong(arg1));
 
-			Query hibernateQuery = session.getNamedQuery(query).setParameter(0,
-					Long.parseLong(arg1));
+			// if (objects != null && objects.size() > 0) {
 
-			List objects = hibernateQuery.list();
+			// IAccounterServerCore serverObject = (IAccounterServerCore)
+			// objects
+			// .get(0);
 
-			if (objects != null && objects.size() > 0) {
+			if (serverObject != null)
+				if (serverObject instanceof FiscalYear) {
+					((FiscalYear) serverObject)
+							.canDelete((FiscalYear) serverObject);
+					session.delete(serverObject);
+					return true;
+					// ChangeTracker.put(serverObject);
+				} else {
+					session.delete(serverObject);
+					return true;
 
-				IAccounterServerCore serverObject = (IAccounterServerCore) objects
-						.get(0);
+				}
 
-				if (serverObject != null)
-					if (serverObject instanceof FiscalYear) {
-						try {
-							((FiscalYear) serverObject)
-									.canDelete((FiscalYear) serverObject);
-						} catch (AccounterException e) {
-							throw new AccounterException(
-									AccounterException.ERROR_PERMISSION_DENIED,
-									e);
-						}
-						session.delete(serverObject);
-						return true;
-						// ChangeTracker.put(serverObject);
-					} else {
-						session.delete(serverObject);
-						hibernateTransaction.commit();
-						return true;
-
-					}
-
-			}
 			return false;
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -644,16 +638,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		if (serverClass != null) {
 
-			Query hibernateQuery = session.getNamedQuery(
-					"unique.id." + t.getServerClassSimpleName()).setLong(0, id);
-
-			List objects = hibernateQuery.list();
-
-			if (objects != null && objects.size() > 0) {
-
-				return objects.get(0);
-
-			}
+			return session.load(serverClass, id);
 
 		}
 
@@ -9940,8 +9925,9 @@ public class FinanceTool implements IFinanceDAOService {
 				.getNamedQuery("list.BrandingTheme").list()));
 
 		company = company.toCompany(company);
-		ClientCompany clientCompany = new ClientConvertUtil().toClientObject(
-				company, ClientCompany.class);
+		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
+		ClientCompany clientCompany = clientConvertUtil.toClientObject(company,
+				ClientCompany.class);
 
 		ClientFinanceDate[] dates = getMinimumAndMaximumTransactionDate();
 
@@ -9953,6 +9939,17 @@ public class FinanceTool implements IFinanceDAOService {
 		// User logInUSer = (User) session.getNamedQuery("getuser.by.email")
 		// .setParameter("email", logInUserEmail).uniqueResult();
 		clientCompany.setLoggedInUser(logInUser.getClientUser());
+
+		List list = session.getNamedQuery("get.All.Units").list();
+
+		List<ClientUnit> units = new ArrayList<ClientUnit>();
+		Iterator iterator = list.iterator();
+		while (iterator.hasNext()) {
+			Unit unit = (Unit) iterator.next();
+			units.add(clientConvertUtil.toClientObject(unit, ClientUnit.class));
+		}
+
+		clientCompany.setUnits(units);
 
 		return clientCompany;
 	}
