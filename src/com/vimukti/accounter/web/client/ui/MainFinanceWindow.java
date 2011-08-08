@@ -26,7 +26,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
-import com.vimukti.accounter.web.client.ui.setup.SetupWizard;
 
 /**
  * 
@@ -41,7 +40,6 @@ public class MainFinanceWindow extends VerticalPanel {
 	private int width;
 	private HelpItem item;
 	public Map<String, Action> actions;
-
 
 	public MainFinanceWindow() {
 		initializeActionsWithTokens();
@@ -72,28 +70,28 @@ public class MainFinanceWindow extends VerticalPanel {
 		vpanel.add(header);
 		add(vpanel);
 		// If company is configured then show the dashboard
-//		if (company.isConfigured()) { 
-			HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
-			vpanel.add(hMenuBar);
-			add(viewManager);
-			Label help = new Label(Accounter.constants().helpLinks());
-			help.addStyleName("down-panel");
-			if (item == null) {
-				item = new HelpItem();
-			}
-			addStyleName(Accounter.constants().financeWindow());
+		// if (company.isConfigured()) {
+		HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
+		vpanel.add(hMenuBar);
+		add(viewManager);
+		Label help = new Label(Accounter.constants().helpLinks());
+		help.addStyleName("down-panel");
+		if (item == null) {
+			item = new HelpItem();
+		}
+		addStyleName(Accounter.constants().financeWindow());
 
-			if (UIUtils.isMSIEBrowser()) {
-				this.getElement().getStyle().setPaddingTop(0, Unit.PX);
-				this.getElement().getStyle().setPaddingBottom(0, Unit.PX);
-			}
+		if (UIUtils.isMSIEBrowser()) {
+			this.getElement().getStyle().setPaddingTop(0, Unit.PX);
+			this.getElement().getStyle().setPaddingBottom(0, Unit.PX);
+		}
 
-			ActionFactory.getCompanyHomeAction().run(null, false);
-//		} else {
-//			// if company is not configured then show the setupwizard
-//			SetupWizard setupWizard = new SetupWizard();
-//			add(setupWizard);
-//		}
+		ActionFactory.getCompanyHomeAction().run(null, false);
+		// } else {
+		// // if company is not configured then show the setupwizard
+		// SetupWizard setupWizard = new SetupWizard();
+		// add(setupWizard);
+		// }
 
 	}
 
@@ -748,10 +746,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		AccounterCometClient.cometStop();
 	}
 
-	
-
-
-
 	public <T extends IAccounterCore> void historyChanged(String value) {
 		if (actions == null || value == null)
 			return;
@@ -882,7 +876,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getNewQuoteAction());
 		actions.put(ActionFactory.getNewInvoiceAction().getHistoryToken(),
 				ActionFactory.getNewInvoiceAction());
-
+		actions.put(ActionFactory.getInvoiceBrandingAction().getHistoryToken(),
+				ActionFactory.getInvoiceBrandingAction());
 		actions.put(ActionFactory.getNewCashSaleAction().getHistoryToken(),
 				ActionFactory.getNewCashSaleAction());
 		actions.put(ActionFactory.getNewCreditsAndRefundsAction()
