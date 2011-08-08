@@ -22,7 +22,6 @@ public abstract class AbstractSetupPage extends VerticalPanel {
 		pageHeader.addStyleName("setup_header_label");
 		this.add(pageHeader);
 		this.add(getPageBody());
-		this.setStyleName("setup_panel");
 	}
 
 	public AbstractSetupPage() {

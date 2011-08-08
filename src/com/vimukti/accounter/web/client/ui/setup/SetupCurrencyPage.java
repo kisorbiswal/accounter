@@ -1,12 +1,26 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.CustomLabel;
+import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.grids.CurrenciesGrid;
 
 public class SetupCurrencyPage extends AbstractSetupPage {
-	public static final String[] currencyList = new String[] {};
-	private ListBox baseCurrencyList;
+	// public static final String[] currencyList = new String[] {};
+	private CurrencyCombo baseCurrencyListCombo;
+	private List<ClientCurrency> clientCurrenciesList;
+	private Set<ClientCurrency> clientCurrenciesSet;
 
 	@Override
 	public String getHeader() {
@@ -16,28 +30,29 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	@Override
 	public VerticalPanel getPageBody() {
 		VerticalPanel container = new VerticalPanel();
-		HorizontalPanel baseCurrencyHorPanel = new HorizontalPanel();
-		container.add(baseCurrencyHorPanel);
+		DynamicForm currencyformDynamicForm = new DynamicForm();
+		// HorizontalPanel baseCurrencyHorPanel = new HorizontalPanel();
 
-		// CustomLabel baseCurrencyLabel = new CustomLabel(
-		// accounterConstants.primaryCurrency());
+		// CustomLabel baseCurrencyLabel = new CustomLabel("Primary Currency");
 		// baseCurrencyHorPanel.add(baseCurrencyLabel);
-		//
-		// baseCurrencyList = new ListBox();
-		// for (int i = 0; i < currencyList.length; i++)
-		// baseCurrencyList.addItem(currencyList[i]);
-		//
-		// baseCurrencyHorPanel.add(baseCurrencyList);
-		//
-		// CustomLabel supportingCurrenciesLabel = new CustomLabel(
-		// accounterConstants.supportingCurrencies());
-		// container.add(supportingCurrenciesLabel);
-		//
-		// // add currencies grid
-		// CurrenciesGrid currenciesGrid = new CurrenciesGrid();
+		clientCurrenciesList = new ArrayList<ClientCurrency>();
+		clientCurrenciesSet = Accounter.getCompany().getCurrencies();
+		clientCurrenciesList.addAll(clientCurrenciesSet);
+		baseCurrencyListCombo = new CurrencyCombo("Primary Currency");
+		baseCurrencyListCombo.initCombo(clientCurrenciesList);
+
+		currencyformDynamicForm.setFields(baseCurrencyListCombo);
+		container.add(currencyformDynamicForm);
+		
+		CustomLabel supportingCurrenciesLabel = new CustomLabel(
+				"Supporting Currencies");
+		container.add(supportingCurrenciesLabel);
+
+		// add currencies grid
+		CurrenciesGrid currenciesGrid = new CurrenciesGrid();
 		// TODO:: create list of currencies and add them to the grid
 
-		// container.add(currenciesGrid);
+		container.add(currenciesGrid);
 
 		return container;
 	}

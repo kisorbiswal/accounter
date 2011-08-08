@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.setup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -13,8 +14,8 @@ import com.vimukti.accounter.web.client.ui.CustomLabel;
 public class SetupWizard extends VerticalPanel {
 	private static final int START_PAGE = 0;
 	private VerticalPanel viewPanel;
-	private HorizontalPanel buttonPanel;
-	private VerticalPanel progressPanel;
+	private HorizontalPanel buttonPanel, backNextButtonPanel;
+	private VerticalPanel progressPanel, viewButtonPanel;
 	private Button skipButton, backButton, nextButton;
 	private Button gotoButton;
 	private ClientCompanyPreferences preferences;
@@ -25,9 +26,10 @@ public class SetupWizard extends VerticalPanel {
 			new SetupStartPage(this), new SetupCompanyInfoPage(),
 			new SetupIndustrySelectionPage(),
 			new SetupOrganisationSelectionPage(), new SetupReferPage(),
-			new SetupTrackEmployeesPage(), new SetupSellTypeAndSalesTaxPage(),
-			new SetupUsingEstimatesAndStatementsPage(),
-			new SetupTrackBillsAndTimePage(),
+			new SetupTrackEmployeesPage(),
+			new SetupSellTypeAndSalesTaxPage(),
+			// new SetupUsingEstimatesAndStatementsPage(),
+			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
 			new SetupSelectFiscalYrDatePage(), new SetupSelectAccountsPage(),
 			new SetupComplitionPage() };
 
@@ -50,12 +52,15 @@ public class SetupWizard extends VerticalPanel {
 	public SetupWizard() {
 		preferences = Accounter.getCompany().getPreferences();
 		creteControls();
+		this.addStyleName("setup_panel");
 	}
 
 	public void creteControls() {
 		HorizontalPanel topPanel = new HorizontalPanel();
 		viewPanel = new VerticalPanel();
 		progressPanel = new VerticalPanel();
+		viewButtonPanel = new VerticalPanel();
+		backNextButtonPanel = new HorizontalPanel();
 
 		// add progress steps
 		// setting images
@@ -72,12 +77,20 @@ public class SetupWizard extends VerticalPanel {
 		}
 		buttonPanel = new HorizontalPanel();
 		buttonPanel.setVisible(false);
+		topPanel.setSize("100%", "100%");
+		viewPanel.setSize("100%", "650px");
+		viewButtonPanel.setSize("100%", "100%");
 
-		topPanel.add(viewPanel);
+		viewButtonPanel.add(viewPanel);
+		viewButtonPanel.add(buttonPanel);
+		topPanel.add(viewButtonPanel);
+
+		topPanel.setCellWidth(viewButtonPanel, "70%");
 		topPanel.add(progressPanel);
+		topPanel.setCellHorizontalAlignment(progressPanel,
+				HasAlignment.ALIGN_RIGHT);
 
 		this.add(topPanel);
-		this.add(buttonPanel);
 
 		// adding buttons to button panel
 		skipButton = new Button(Accounter.constants().skip());
@@ -92,9 +105,13 @@ public class SetupWizard extends VerticalPanel {
 		gotoButton.setVisible(false);
 
 		buttonPanel.add(skipButton);
-		buttonPanel.add(backButton);
-		buttonPanel.add(nextButton);
-		buttonPanel.add(gotoButton);
+		backNextButtonPanel.add(backButton);
+		backNextButtonPanel.add(nextButton);
+		backNextButtonPanel.add(gotoButton);
+		buttonPanel.add(backNextButtonPanel);
+		buttonPanel.setCellHorizontalAlignment(backNextButtonPanel,
+				HasAlignment.ALIGN_RIGHT);
+		buttonPanel.setWidth("100%");
 
 		// adding handlers
 		skipButton.addClickHandler(new ClickHandler() {
@@ -109,7 +126,7 @@ public class SetupWizard extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				if(currentViewIndex != viewList.length -1)
+				if (currentViewIndex != viewList.length - 1)
 					currentViewIndex++;
 				showView();
 			}
@@ -119,7 +136,7 @@ public class SetupWizard extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				if(currentViewIndex != START_PAGE)
+				if (currentViewIndex != START_PAGE)
 					currentViewIndex--;
 				showView();
 			}
@@ -139,9 +156,11 @@ public class SetupWizard extends VerticalPanel {
 	}
 
 	protected void showView() {
-		currentViewIndex++;
+		if (currentViewIndex == 0) {
+			currentViewIndex++;
+		}
 		previousView = viewToShow;
-		if (previousView != null){
+		if (previousView != null) {
 			previousView.onSave();
 			this.viewPanel.remove(previousView);
 		}
@@ -168,7 +187,7 @@ public class SetupWizard extends VerticalPanel {
 				nextButton.setVisible(false);
 			}
 			backButton.setVisible(true);
-		}else{
+		} else {
 			buttonPanel.setVisible(false);
 		}
 
