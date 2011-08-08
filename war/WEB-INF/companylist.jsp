@@ -16,7 +16,7 @@
        
        
         <c:if test="${message != null}">
-       		<div>${message}</div>
+       		<div class="common-box">${message}</div>
         </c:if>
        <div class="form-box">
       	<div> <a href="/createcompany">Create New Company </a></div>
