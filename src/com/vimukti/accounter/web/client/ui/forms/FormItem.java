@@ -152,7 +152,7 @@ public abstract class FormItem {
 		getMainWidget().setVisible(true);
 	}
 
-	private Label getLabelWidget() {
+	public Label getLabelWidget() {
 		return this.label;
 	}
 
