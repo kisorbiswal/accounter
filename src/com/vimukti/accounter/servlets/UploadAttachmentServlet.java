@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.Enumeration;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +18,8 @@ import org.hibernate.Session;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.services.AccounterService;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class UploadAttachmentServlet extends HttpServlet {
@@ -32,10 +33,10 @@ public class UploadAttachmentServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		Session session = null;
 		try {
-			String companyID = AccounterService.getCompanyFromRequest(request);
+			String companyID = getCookie(request, BaseServlet.COMPANY_COOKIE);
 			if (companyID == null)
 				return;
-			session = HibernateUtil.openSession(companyID);
+			session = HibernateUtil.openSession(Server.COMPANY + companyID);
 			StringBuilder builder = new StringBuilder();
 			/*
 			 * Mutipart request which upload file in given temp directory refer
@@ -144,5 +145,15 @@ public class UploadAttachmentServlet extends HttpServlet {
 	// stringBuilder.append(attachmet.getFileSize());
 	// return stringBuilder.toString();
 	// }
-
+	private String getCookie(HttpServletRequest request, String ourCookie) {
+		Cookie[] clientCookies = request.getCookies();
+		if (clientCookies != null) {
+			for (Cookie cookie : clientCookies) {
+				if (cookie.getName().equals(ourCookie)) {
+					return cookie.getValue();
+				}
+			}
+		}
+		return null;
+	}
 }

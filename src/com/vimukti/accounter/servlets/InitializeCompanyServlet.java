@@ -45,15 +45,12 @@ public class InitializeCompanyServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
 		String serverCompanyID = req.getParameter(PARAM_SERVER_COMPANY_ID);
 		String companyType = req.getParameter(PARAM_COMPANY_TYPE);
 		String companName = req.getParameter(PARA_COMPANY_NAME);
 		String emailID = req.getParameter(EMAIL_ID);
-
 		Company company = new Company(Integer.parseInt(companyType));
 		company.setFullName(companName);
-
 		init(req, resp, company, Long.parseLong(serverCompanyID), emailID);
 	}
 
@@ -92,7 +89,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 
 			// Create Attachment Directory for company
 			File file = new File(ServerConfiguration.getAttachmentsDir(company
-					.geFulltName()));
+					.getFullName()));
 
 			if (!file.exists()) {
 				file.mkdir();
@@ -103,7 +100,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 			FinanceTool.createView();
 
 			transaction.commit();
-			UsersMailSendar.sendMailToDefaultUser(user, company.geFulltName());
+			UsersMailSendar.sendMailToDefaultUser(user, company.getFullName());
 
 		} catch (Exception e) {
 			e.printStackTrace();
