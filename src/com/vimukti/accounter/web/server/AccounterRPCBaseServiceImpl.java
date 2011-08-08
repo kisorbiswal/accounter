@@ -137,7 +137,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		try {
 			Company company = (Company) session.load(Company.class, 1);
 			if (company != null) {
-				return company.geFulltName();
+				return company.getFullName();
 			}
 		} finally {
 			session.close();
