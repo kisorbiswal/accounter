@@ -35,12 +35,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				getCompanyMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			if (Accounter.getCompany().getPreferences().getDoYouPaySalesTax()) {
-				menuitem = menuBar.addItem(Accounter.constants().vat(),
-						getVATMenu());
-				ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
-			}
+		if (Accounter.getCompany().getPreferences().getDoYouPaySalesTax()) {
+			menuitem = menuBar.addItem(Accounter.constants().vat(),
+					getVATMenu());
+			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
 		menuitem = menuBar.addItem(Accounter.constants().customer(),
