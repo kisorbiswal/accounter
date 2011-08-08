@@ -37,16 +37,6 @@ public abstract class Action implements Command {
 		setText(text);
 	}
 
-	/**
-	 * Setting Text & Icon for Action
-	 * 
-	 * @param text
-	 * @param iconString
-	 */
-	// public Action(String text, String iconString) {
-	// setText(text);
-	// setIcon(iconString);
-	// }
 
 	/**
 	 * Returns the text for this action.
@@ -67,15 +57,6 @@ public abstract class Action implements Command {
 	}
 
 	/**
-	 * returns Icon path
-	 * 
-	 * @return String
-	 */
-	// public String getIconString() {
-	// return iconString;
-	// }
-
-	/**
 	 * Runs this action. Each action implementation must define the steps needed
 	 * to carry out this action. The default implementation of this method in
 	 * <code>Action</code> does nothing.
@@ -93,6 +74,9 @@ public abstract class Action implements Command {
 		this.data = data;
 	}
 
+	public Object getInput() {
+		return data;
+	}
 	/**
 	 * Setter for the Text for the action
 	 * 

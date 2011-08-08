@@ -1365,9 +1365,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	}
 
-	public void close() {
-		// destroy();
-	}
 
 	/**
 	 * call this method to set focus in View

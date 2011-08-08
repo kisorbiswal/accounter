@@ -20,7 +20,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	protected SaveAndNewButtom saveAndNewButton;
 
-	protected CancelButtom cancelButton;
+	protected CancelButton cancelButton;
 
 	public BaseView() {
 		super();
@@ -100,7 +100,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	protected void createButtons(ButtonBar buttonBar) {
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.saveAndNewButton = new SaveAndNewButtom(this);
-		this.cancelButton = new CancelButtom(this);
+		this.cancelButton = new CancelButton(this);
 		buttonBar.add(saveAndCloseButton);
 		buttonBar.add(saveAndNewButton);
 		buttonBar.add(cancelButton);

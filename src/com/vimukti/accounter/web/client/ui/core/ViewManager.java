@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -8,6 +10,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -21,7 +24,6 @@ import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
 
 /**
  * 
-
  * 
  */
 
@@ -53,6 +55,7 @@ public class ViewManager extends VerticalPanel {
 		// handleBackSpaceEvent();
 		this.toolBar = new ToolBar();
 		this.add(toolBar);
+		initilizeToolBar();
 	}
 
 	private void handleBackSpaceEvent() {
@@ -87,42 +90,42 @@ public class ViewManager extends VerticalPanel {
 			e.printStackTrace();
 		}
 		// Check if it some thing we have kept alive
-		ParentCanvas<?> view = getViewFromHistory(token.getToken());
-		if (view != null) {
-			showView(view, token.getToken(), null);
+		HistoryItem item = getViewFromHistory(token.getToken());
+		if (item != null && item.view != null) {
+			showView(item.view, item.action, true);
 		} else {
 			this.mainWindow.historyChanged(value);
 		}
 	}
 
-	private void showView(final ParentCanvas<?> newview, final String token,
-			Object input) {
+	private void showView(final ParentCanvas<?> newview, final Action action,
+			boolean shouldAskToSave) {
 		if (this.existingView != null) {
 			// We already have some view visible
 			if (this.existingView instanceof IEditableView) {
 				IEditableView editView = (IEditableView) existingView;
-				if (editView.isDirty()) {
+				if (shouldAskToSave && editView.isDirty()) {
 					tryToClose(editView, new Command() {
 
 						@Override
 						public void execute() {
 							// Called if the prev view can be closed
 							existingView.removeFromParent();
-							showNewView(newview, token, null);
+							showNewView(newview, action);
 						}
 					});
 				} else {
 					// We can just remove it and put new one
 					this.existingView.removeFromParent();
-					showNewView(newview, token, null);
+					showNewView(newview, action);
 				}
 			} else {
 				// We can just remove it and put new one
 				this.existingView.removeFromParent();
-				showNewView(newview, token, null);
+				showNewView(newview, action);
 			}
 		} else {
-			showNewView(newview, token, null);
+			showNewView(newview, action);
 		}
 	}
 
@@ -157,7 +160,10 @@ public class ViewManager extends VerticalPanel {
 				});
 	}
 
-	private void showNewView(ParentCanvas newview, String token, Object input) {
+	private void showNewView(ParentCanvas newview, Action action) {
+		Object input = action.getInput();
+		String token = action.getHistoryToken();
+
 		if (newview.getManager() == null) {
 			newview.init();
 			if (input != null) {
@@ -167,7 +173,7 @@ public class ViewManager extends VerticalPanel {
 			newview.setManager(this);
 		}
 
-		this.views.add(new HistoryItem(token, newview));
+		this.views.add(new HistoryItem(newview, action));
 
 		if (input instanceof IAccounterCore) {
 			token = HistoryTokenUtils.getTokenWithID(token,
@@ -188,7 +194,7 @@ public class ViewManager extends VerticalPanel {
 	 * @param token
 	 * @return
 	 */
-	private ParentCanvas<?> getViewFromHistory(String token) {
+	private HistoryItem getViewFromHistory(String token) {
 		return views.getView(token);
 	}
 
@@ -199,11 +205,20 @@ public class ViewManager extends VerticalPanel {
 		if (this.existingView == null) {
 			return;
 		}
+		//If this is the last view, then do not close
+		if(this.views.list.size()==1){
+			return;
+		}
 		this.existingView.removeFromParent();
 		HistoryItem item = this.views.previous();
-		this.existingView=item.view;
-		this.add(item.view);
-		this.views.add(item);
+		if (item.view == null) {
+			item.action.run();
+		} else {
+			this.existingView = item.view;
+			this.add(item.view);
+			this.views.add(item);
+			History.newItem(item.action.getHistoryToken(), false);
+		}
 	}
 
 	/**
@@ -239,16 +254,33 @@ public class ViewManager extends VerticalPanel {
 
 	public void showView(ParentCanvas<?> view, Object data,
 			Boolean isDependent, Action action) {
+		if (!isDependent) {
+			this.views.clear();
+		}
 		view.setAction(action);
-		showView(view, action.getHistoryToken(), data);
+		showView(view, action, !isDependent);
 	}
 
 	void initilizeToolBar() {
 
 		ImageButton previousButton = new ImageButton(Accounter.constants()
 				.previous(), Accounter.getFinanceImages().previousIcon());
+		previousButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				History.back();
+			}
+		});
 		ImageButton nextbutton = new ImageButton(Accounter.constants().next(),
 				Accounter.getFinanceImages().nextIcon());
+		nextbutton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				History.forward();
+			}
+		});
 		ImageButton printButton = new ImageButton(
 				Accounter.constants().print(), Accounter.getFinanceImages()
 						.Print1Icon());
@@ -257,7 +289,16 @@ public class ViewManager extends VerticalPanel {
 		ImageButton closeButton = new ImageButton(
 				Accounter.constants().close(), Accounter.getFinanceImages()
 						.dialougueCloseicon());
-		toolBar.leftAlign(previousButton, nextbutton);
-		toolBar.rightAlign(editButton, printButton, closeButton);
+		closeButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				closeCurrentView();
+			}
+		});
+		toolBar.add(HasHorizontalAlignment.ALIGN_LEFT, previousButton,
+				nextbutton);
+		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, editButton,
+				printButton, closeButton);
 	}
 }

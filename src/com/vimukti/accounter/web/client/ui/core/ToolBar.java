@@ -1,8 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.vimukti.accounter.web.client.ui.ImageButton;
+import com.google.gwt.user.client.ui.Widget;
 
 public class ToolBar extends HorizontalPanel {
 
@@ -15,22 +14,15 @@ public class ToolBar extends HorizontalPanel {
 	 * 
 	 * @param positions
 	 */
-	public void leftAlign(ImageButton... btns) {
-		for (ImageButton imageButton : btns) {
-			this.add(imageButton);
-			this.setHorizontalAlignment(HasAlignment.ALIGN_LEFT);
+	public void add(HorizontalAlignmentConstant alignment,Widget... btns) {
+		for (Widget button : btns) {
+			this.add(button);
+			this.setCellHorizontalAlignment(button,alignment);
 		}
+	}
+	public void add(HorizontalAlignmentConstant alignment,Widget widget) {
+			this.add(widget);
+			this.setCellHorizontalAlignment(widget,alignment);
 	}
 
-	/**
-	 * Aligns the Tools to the Right
-	 * 
-	 * @param positions
-	 */
-	public void rightAlign(ImageButton... btns) {
-		for (ImageButton imageButton : btns) {
-			this.add(imageButton);
-			this.setHorizontalAlignment(HasAlignment.ALIGN_RIGHT);
-		}
-	}
 }
