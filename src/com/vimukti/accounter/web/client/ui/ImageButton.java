@@ -12,7 +12,6 @@ public class ImageButton extends Button {
 		super(title);
 		this.res = res;
 		addStyleName("image-button");
-
 	}
 
 	public ImageButton(String title, ImageResource res, ClickHandler handler) {
@@ -28,8 +27,9 @@ public class ImageButton extends Button {
 	private void setImage(ImageResource res) {
 		// Element closeseparator = DOM.createSpan();
 		// closeseparator.addClassName("button-separator");
+		// closeseparator.setInnerText("|");
 		// DOM.appendChild(this.getElement(), closeseparator);
-		//
+
 		// Element closeimage = DOM.createSpan();
 		// closeimage.addClassName("button-image");
 		// DOM.appendChild(this.getElement(), closeimage);
