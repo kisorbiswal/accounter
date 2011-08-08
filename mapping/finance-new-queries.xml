@@ -26,7 +26,7 @@
 	</query>
 
 	<query name="delete.activation.by.emailId">
-		<query-param name="emailId" type="integer" />
+		<query-param name="emailId" type="String" />
 		delete from com.vimukti.accounter.core.Activation activation
 		where
 		activation.emailId=:emailId
