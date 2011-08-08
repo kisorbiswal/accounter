@@ -99,6 +99,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransactionMakeDepositEntries;
 import com.vimukti.accounter.core.TransferFund;
+import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.core.Utility;
@@ -127,6 +128,7 @@ import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
+import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.HrEmployee;
@@ -5199,6 +5201,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	private List<SalesByCustomerDetail> createSalesByItemDetail(List l) {
+		Session session = HibernateUtil.getCurrentSession();
 		Object[] object = null;
 		Iterator iterator = l.iterator();
 		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
@@ -5221,6 +5224,8 @@ public class FinanceTool implements IFinanceDAOService {
 			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(object[6] == null ? 0 : ((BigInteger) object[6])
 					.intValue());
+			long unitId = (Long) (object[20] != null ? object[20]:0);
+			quantity.setUnit((ClientUnit) session.load(Unit.class, unitId));
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setUnitPrice(object[7] == null ? 0
 					: ((Double) object[7]).doubleValue());
@@ -5541,6 +5546,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	private List<SalesByCustomerDetail> createPurchasesByItemDetail(List l) {
+		Session session = HibernateUtil.getCurrentSession();
 		Object[] object = null;
 		Iterator iterator = l.iterator();
 		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
@@ -5564,6 +5570,8 @@ public class FinanceTool implements IFinanceDAOService {
 			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(object[7] == null ? 0 : ((BigInteger) object[7])
 					.intValue());
+			long unitId = (Long) (object[14] != null ? object[20]:0);
+			quantity.setUnit((ClientUnit) session.load(Unit.class, unitId));
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setUnitPrice(object[8] == null ? 0
 					: ((Double) object[8]).doubleValue());
