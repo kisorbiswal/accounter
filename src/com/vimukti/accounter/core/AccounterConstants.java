@@ -357,6 +357,7 @@ public class AccounterConstants implements IsSerializable, Serializable {
 	public static final String PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_C = "Products/Materials Purchased Type C";
 	public static final String PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_D = "Products/Materials Purchased Type D";
 	public static final String PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_E = "Products/Materials Purchased Type E";
+	public static final String PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_F = "Products/Materials Purchased Type F";
 	public static final String OPENING_STOCK = "Stock Value Change";
 	public static final String CLOSING_STOCK = "Closing Stock";
 	public static final String OPEN_FINISHED_GOODS = "Finished Goods Value Change";
@@ -743,6 +744,5 @@ public class AccounterConstants implements IsSerializable, Serializable {
 	public static final String LIABLITY_PENSIONS = "Pensions";
 	public static final String ddMMyyyy="dd/MM/yyyy";
 	public static final String MMddyyyy="MM/dd/yyyy";
-
 	
 }
