@@ -143,6 +143,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private String referAccounts;
 	private boolean doyouwantEstimates;
 	private boolean doyouwanrstatements;
+	private String industryType;
 	// for select fiscal year in setup
 
 	int fiscalYearFirstMonth;
@@ -833,6 +834,14 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public void setDoyouwanrstatements(boolean doyouwanrstatements) {
 		this.doyouwanrstatements = doyouwanrstatements;
+	}
+
+	public String getIndustryType() {
+		return industryType;
+	}
+
+	public void setIndustryType(String industryType) {
+		this.industryType = industryType;
 	}
 
 	/*
