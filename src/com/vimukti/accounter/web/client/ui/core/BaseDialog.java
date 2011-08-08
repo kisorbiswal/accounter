@@ -239,6 +239,7 @@ public abstract class BaseDialog extends CustomDialog implements
 			for (Error error : validationResult.getErrors()) {
 				HTML err = new HTML("<li>" + error.getMessage() + "</li>");
 				errorPanel.add(err);
+				errorPanel.setVisible(true);
 				errorsMap.put(error.getSource(), err);
 			}
 		} else if (validationResult.haveWarnings()) {
