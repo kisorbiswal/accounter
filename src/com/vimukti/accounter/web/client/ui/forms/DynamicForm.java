@@ -147,7 +147,17 @@ public class DynamicForm extends FlexTable {
 			// Logical detach.
 			formItems.remove(elem);
 		}
+		removeFormItemTitle(formItem);
 		return true;
+	}
+
+	private void removeFormItemTitle(FormItem formItem) {
+		Widget widget = formItem.getLabelWidget();
+		if (widget != null && widget.getParent() == this) {
+			orphan(widget);
+			Element element = widget.getElement();
+			DOM.removeChild(DOM.getParent(element), element);
+		}
 	}
 
 	@Override
