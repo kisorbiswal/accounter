@@ -11,6 +11,40 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	private VerticalPanel industryVerticalPanel;
+	private SelectCombo industryCombo;
+	String[] industries = new String[] {
+			Accounter.constants().accountingorBookkeeping(),
+			Accounter.constants().advertisingorPublicRelations(),
+			Accounter.constants().agricultureRanchingFarming(),
+			Accounter.constants().artWritingPhotography(),
+			Accounter.constants().automotiveSalesAndRepair(),
+			Accounter.constants().churhorReligiousOrganisation(),
+			Accounter.constants().constructionGeneralContractor(),
+			Accounter.constants().constructionTrades(),
+			Accounter.constants().designArchitectureEngineering(),
+			Accounter.constants().financialServices(),
+			Accounter.constants().hairSallonBeautysaloon(),
+			Accounter.constants().informationTechnology(),
+			Accounter.constants().insuranceAgencyorBroker(),
+			Accounter.constants().lawncareOrlandscaping(),
+			Accounter.constants().legalServices(),
+			Accounter.constants().lodging(),
+			Accounter.constants().manufacturerRepresentativeOrAgent(),
+			Accounter.constants().manufacturing(),
+			Accounter.constants().medicalDentalorhealthservices(),
+			Accounter.constants().nonProfit(),
+			Accounter.constants().professionalConsulting(),
+			Accounter.constants().propertyManagementorHomeAssociation(),
+			Accounter.constants().realEstateBrokerageorDeveloper(),
+			Accounter.constants().rental(),
+			Accounter.constants().repairandMaintenance(),
+			Accounter.constants().restaurantCatererorbar(),
+			Accounter.constants().retailShoporonlinecommerce(),
+			Accounter.constants().salesIndependentAgent(),
+			Accounter.constants().transportationTruckingordelivery(),
+			Accounter.constants().wholesaledistributionandsales(),
+			Accounter.constants().generalProductbasedBusiness(),
+			Accounter.constants().generalServicebasedBusiness() };
 
 	@Override
 	public String getHeader() {
@@ -25,11 +59,10 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	private void createControls() {
 		industryVerticalPanel = new VerticalPanel();
-		HTML industryinfoHTML = new HTML(this.accounterMessages
-				.selectIndustryInfoHTML());
+		HTML industryinfoHTML = new HTML(
+				this.accounterMessages.selectIndustryInfoHTML());
 		DynamicForm industryDynamicForm = new DynamicForm();
-		SelectCombo industryCombo = new SelectCombo(this.accounterConstants
-				.industry());
+		industryCombo = new SelectCombo(this.accounterConstants.industry());
 		industryCombo.initCombo(getIndustryList());
 		industryVerticalPanel.add(industryinfoHTML);
 		industryDynamicForm.setFields(industryCombo);
@@ -38,53 +71,26 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	private List<String> getIndustryList() {
 		List<String> arrayList = new ArrayList<String>();
-		arrayList.add(Accounter.constants().accountingorBookkeeping());
-		arrayList.add(Accounter.constants().advertisingorPublicRelations());
-		arrayList.add(Accounter.constants().agricultureRanchingFarming());
-		arrayList.add(Accounter.constants().artWritingPhotography());
-		arrayList.add(Accounter.constants().automotiveSalesAndRepair());
-		arrayList.add(Accounter.constants().churhorReligiousOrganisation());
-		arrayList.add(Accounter.constants().constructionGeneralContractor());
-		arrayList.add(Accounter.constants().constructionTrades());
-		arrayList.add(Accounter.constants().designArchitectureEngineering());
-		arrayList.add(Accounter.constants().financialServices());
-		arrayList.add(Accounter.constants().hairSallonBeautysaloon());
-		arrayList.add(Accounter.constants().informationTechnology());
-		arrayList.add(Accounter.constants().insuranceAgencyorBroker());
-		arrayList.add(Accounter.constants().lawncareOrlandscaping());
-		arrayList.add(Accounter.constants().legalServices());
-		arrayList.add(Accounter.constants().lodging());
-		arrayList
-				.add(Accounter.constants().manufacturerRepresentativeOrAgent());
-		arrayList.add(Accounter.constants().manufacturing());
-		arrayList.add(Accounter.constants().medicalDentalorhealthservices());
-		arrayList.add(Accounter.constants().nonProfit());
-		arrayList.add(Accounter.constants().professionalConsulting());
-		arrayList.add(Accounter.constants()
-				.propertyManagementorHomeAssociation());
-		arrayList.add(Accounter.constants().realEstateBrokerageorDeveloper());
-		arrayList.add(Accounter.constants().rental());
-		arrayList.add(Accounter.constants().repairandMaintenance());
-		arrayList.add(Accounter.constants().restaurantCatererorbar());
-		arrayList.add(Accounter.constants().retailShoporonlinecommerce());
-		arrayList.add(Accounter.constants().salesIndependentAgent());
-		arrayList.add(Accounter.constants().transportationTruckingordelivery());
-		arrayList.add(Accounter.constants().wholesaledistributionandsales());
-		arrayList.add(Accounter.constants().generalProductbasedBusiness());
-		arrayList.add(Accounter.constants().generalServicebasedBusiness());
+		for (int i = 0; i < industries.length; i++) {
+			arrayList.add(industries[i]);
+		}
 		return arrayList;
 	}
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
 
+		String industryType = preferences.getIndustryType();
+		if (industryType != null)
+			industryCombo.setValue(industryType);
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
 
+		String selectedValue = industryCombo.getSelectedValue();
+		if (selectedValue != null)
+			preferences.setIndustryType(selectedValue);
 	}
 
 	@Override
