@@ -141,6 +141,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private String referCustomers;
 	private String referSuplliers;
 	private String referAccounts;
+	private boolean doyouwantEstimates;
+	private boolean doyouwanrstatements;
 	// for select fiscal year in setup
 
 	int fiscalYearFirstMonth;
@@ -815,6 +817,22 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public void setReferAccounts(String referAccounts) {
 		this.referAccounts = referAccounts;
+	}
+
+	public boolean isDoyouwantEstimates() {
+		return doyouwantEstimates;
+	}
+
+	public void setDoyouwantEstimates(boolean doyouwantEstimates) {
+		this.doyouwantEstimates = doyouwantEstimates;
+	}
+
+	public boolean isDoyouwanrstatements() {
+		return doyouwanrstatements;
+	}
+
+	public void setDoyouwanrstatements(boolean doyouwanrstatements) {
+		this.doyouwanrstatements = doyouwanrstatements;
 	}
 
 	/*
