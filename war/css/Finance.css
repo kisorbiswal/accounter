@@ -4467,11 +4467,9 @@ td.imagelink-h-hover .imageLink-div {
 
 body {
 	color: black;
-	margin: 0px auto !important;
 	border: 0px;
 	padding: 0px;
 	direction: ltr;
-	width: 960px;
 	overflow: auto !important;
 	font-size: 12px;
 }
@@ -5244,8 +5242,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 .gwt-MenuBar-horizontal {
 	background: none repeat scroll 0 0 #1A5158 !important;
 	border: 0 !important;
-	/*margin-top: 3px;*/
 	margin-top: 0px\0  !important;
+	padding-left:11px;
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItem { /*praveena*/
@@ -5811,7 +5809,7 @@ important
 	
 }
 
-.cancel-button button {
+.cancel-button {
 	background: url("/images/cross.png") no-repeat scroll 63px center #5F5F5F !important;
     font-size: 13px !important;
     padding-right: 20px !important;
@@ -6464,25 +6462,28 @@ input[type="text"],textarea {
 .gwt-DialogBox .dialogTopRightInner{
 	width:5px !important;
 }
-.save_close_button{
-	background: url("/images/Save-&-close.png") no-repeat scroll 116px center #1A5158 !important;
-	border:1px solid #002E36 !important
+.saveAndClose-Btn,.saveAndNew-Btn{
+	border: 1px solid #002E36 !important;
+    padding-right: 35px !important;
+    color:white;
 }
-.save_new_button{
-	background: url("/images/Save-&-New.png") no-repeat scroll 107px center #1A5158 !important;
-	border:1px solid #002E36 !important
+.saveAndClose-Btn{
+	background: url("../images/Save-&-close.png") no-repeat scroll 116px center #1A5158 !important;
+}
+.saveAndNew-Btn{
+	background: url("../images/Save-&-New.png") no-repeat scroll 107px center #1A5158 !important;
 }
 .savenew-button-hover{
-	background: url("/images/Save-&-New.png") no-repeat scroll 107px center #002E36 !important;
+	background: url("../images/Save-&-New.png") no-repeat scroll 107px center #002E36 !important;
 }
 .saveclose-button-hover{
-    background: url("/images/Save-&-close.png") no-repeat scroll 116px center #002E36 !important;
+    background: url("../images/Save-&-close.png") no-repeat scroll 116px center #002E36 !important;
 }
 .cancel-button-hover,.cancel-button button:hover{
-	background: url("/images/cross.png") no-repeat scroll 63px center #2F2F2F !important
+	background: url("../images/cross.png") no-repeat scroll 63px center #2F2F2F !important
 }
 .add-newitem-button button{
-	background: url("/images/Add_item.png") no-repeat scroll 108px center #1A5158 !important;
+	background: url("../images/Add_item.png") no-repeat scroll 108px center #1A5158 !important;
     border-radius: 4px 4px 4px 4px !important;
     color: white;
     margin: 0 !important;
@@ -6500,4 +6501,32 @@ input[type="text"],textarea {
 	color: #144149;
     font-size: 23px;
     padding-bottom: 6px;
+}
+.finance_window{
+	width:100%;
+}
+.view_manager{
+	width:960px;
+	margin-left:20px;
+}
+.addAccountPortlet,.addButtonPortlet{
+	margin-left:30px !important;
+	background:none repeat scroll 0 0 #29646C !important;
+	border-radius:5px 5px 5px 5px;
+	-webkit-border-radius:5px 5px 5px 5px;
+	-moz-border-radius:5px 5px 5px 5px;
+	color:white !important;
+	border:1px solid #002E36 !important;
+}
+.addAccountPortlet:hover,.addButtonPortlet:hover{
+	background:none repeat scroll 0 0 #002E36 !important;
+}
+a#fdbk_tab{
+	right:0px !important;
+	top:40% !important;
+	left:inherit !important;
+	margin:0 -7px 0 0 !important;
+}
+a#fdbk_tab:hover{
+	margin:0px -4px 0 0 !important;
 }
