@@ -6,9 +6,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	private static final String ESTIMATES = "Estimates";
+	private static final String STATEMENTS = "Statements";
 	private VerticalPanel mainPanel;
 	private HTML titleHtml, descrptionHtml, subTitleHtml, html, html2, html3;
-	private RadioButton yesRadioButton, noRadioButton;
+	private RadioButton yesRadioButton, noRadioButton, stateMentYesRadioButton,
+			statementNoRadioButton;
 
 	@Override
 	public String getHeader() {
@@ -22,14 +24,16 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		mainPanel.add(yesRadioButton);
 
 		noRadioButton = new RadioButton(ESTIMATES, accounterConstants.no());
-		mainPanel.add(yesRadioButton);
+		mainPanel.add(noRadioButton);
 
 		titleHtml = new HTML("Using Statements in Accounter");
 		titleHtml.setStyleName("BOLD");
 
 		descrptionHtml = new HTML(
 				"Billing statements are send to customers to list charges accumulated over a period of time .Statements may be sent at regular intervals,as in a monthly statement,or when a customer payment is past due.");
+
 		subTitleHtml = new HTML("  Some example:");
+
 		html = new HTML(
 				".An attorney invoices a client for multiple services provided .if the invoice is not paid,the attorney can then send the client a reminder statement");
 		html2 = new HTML(
@@ -37,24 +41,62 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 
 		html3 = new HTML("Do you want to use billing statements in Acconter ? ");
 
+		stateMentYesRadioButton = new RadioButton(STATEMENTS,
+				accounterConstants.yes());
+
+		statementNoRadioButton = new RadioButton(STATEMENTS,
+				accounterConstants.no());
+
+		mainPanel.add(descrptionHtml);
+		mainPanel.add(subTitleHtml);
+		mainPanel.add(html);
+		mainPanel.add(html2);
+		mainPanel.add(html3);
+		mainPanel.add(stateMentYesRadioButton);
+		mainPanel.add(statementNoRadioButton);
+
 		return new VerticalPanel();
 	}
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
-
+		boolean doyouwantEstimates = preferences.isDoyouwantEstimates();
+		boolean doyouwanrstatements = preferences.isDoyouwanrstatements();
+		// estimates
+		if (doyouwantEstimates) {
+			yesRadioButton.setValue(true);
+		} else {
+			noRadioButton.setValue(true);
+		}
+		// statements
+		if (doyouwanrstatements) {
+			stateMentYesRadioButton.setValue(true);
+		} else {
+			statementNoRadioButton.setValue(true);
+		}
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
 
+		boolean yesEstmatesvalue = yesRadioButton.getValue();
+		boolean yesStatementvalue = stateMentYesRadioButton.getValue();
+		// Estimates
+		if (yesEstmatesvalue) {
+			preferences.setDoyouwantEstimates(true);
+		} else {
+			preferences.setDoyouwantEstimates(false);
+		}
+		// Statements
+		if (yesStatementvalue) {
+			preferences.setDoyouwantEstimates(true);
+		} else {
+			preferences.setDoyouwantEstimates(false);
+		}
 	}
 
 	@Override
 	public boolean doShow() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
