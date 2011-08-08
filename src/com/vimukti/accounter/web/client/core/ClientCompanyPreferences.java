@@ -39,6 +39,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private boolean purchaseOrderEnabled;
 
+	private boolean doYouChargesalesTax;
+
+	private boolean doyouKeepTrackofBills;
+
+	private boolean doYouKeepTrackOfTime;
+
 	boolean useJobs;
 
 	boolean useChangeLog;
@@ -118,11 +124,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean haveW_2Employees;
 	boolean have1099contractors;
 	boolean trackEmployeeExpenses;
-	private int sellType;
-	private int salesTaxs;
 	int fiscalYearFirstMonth;
 	boolean isBeginingorTodaysdate;
 	ClientFinanceDate trackFinanceDate;
+	private String referCustomers;
+	private String referSuplliers;
+	private String referAccounts;
 
 	public ClientFinanceDate getTrackFinanceDate() {
 		return trackFinanceDate;
@@ -807,19 +814,51 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		this.trackEmployeeExpenses = trackEmployeeExpenses;
 	}
 
-	public int getSellType() {
-		return sellType;
+	public boolean isDoYouChargesalesTax() {
+		return doYouChargesalesTax;
 	}
 
-	public void setSellType(int sellType) {
-		this.sellType = sellType;
+	public void setDoYouChargesalesTax(boolean doYouChargesalesTax) {
+		this.doYouChargesalesTax = doYouChargesalesTax;
 	}
 
-	public int getSalesTaxs() {
-		return salesTaxs;
+	public boolean isDoyouKeepTrackofBills() {
+		return doyouKeepTrackofBills;
 	}
 
-	public void setSalesTaxs(int salesTaxs) {
-		this.salesTaxs = salesTaxs;
+	public void setDoyouKeepTrackofBills(boolean doyouKeepTrackofBills) {
+		this.doyouKeepTrackofBills = doyouKeepTrackofBills;
+	}
+
+	public boolean isDoYouKeepTrackOfTime() {
+		return doYouKeepTrackOfTime;
+	}
+
+	public void setDoYouKeepTrackOfTime(boolean doYouKeepTrackOfTime) {
+		this.doYouKeepTrackOfTime = doYouKeepTrackOfTime;
+	}
+
+	public String getReferCustomers() {
+		return referCustomers;
+	}
+
+	public void setReferCustomers(String referCustomers) {
+		this.referCustomers = referCustomers;
+	}
+
+	public String getReferSuplliers() {
+		return referSuplliers;
+	}
+
+	public void setReferSuplliers(String referSuplliers) {
+		this.referSuplliers = referSuplliers;
+	}
+
+	public String getReferAccounts() {
+		return referAccounts;
+	}
+
+	public void setReferAccounts(String referAccounts) {
+		this.referAccounts = referAccounts;
 	}
 }
