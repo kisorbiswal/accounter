@@ -11,6 +11,7 @@ public class ImageButton extends Button {
 	public ImageButton(String title, ImageResource res) {
 		super(title);
 		this.res = res;
+		addStyleName("image-button");
 
 	}
 
