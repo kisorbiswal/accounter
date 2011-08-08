@@ -13,8 +13,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-
+		super.init();
 	}
 
 	@Override
