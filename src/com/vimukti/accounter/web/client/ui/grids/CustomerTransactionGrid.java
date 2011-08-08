@@ -236,7 +236,14 @@ public class CustomerTransactionGrid extends
 		else if (index == 5)
 			return 80;
 		else if (index == 7)
-			return 70;
+			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+				return 70;
+			} else {
+				if (UIUtils.isMSIEBrowser())
+					return 25;
+				else
+					return 15;
+			}
 		else if (index == 8)
 			return 60;
 		else if (index == 6)

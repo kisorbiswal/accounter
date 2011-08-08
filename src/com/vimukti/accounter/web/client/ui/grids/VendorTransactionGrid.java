@@ -672,7 +672,14 @@ public class VendorTransactionGrid extends
 		if (index == 1)
 			return 150;
 		if (index == 6)
-			return 70;
+			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+				return 70;
+			} else {
+				if (UIUtils.isMSIEBrowser())
+					return 25;
+				else
+					return 15;
+			}
 		if (index == 7)
 			return 60;
 		if (index == 2) {
@@ -708,7 +715,10 @@ public class VendorTransactionGrid extends
 		case 5:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 6:
-			return ListGrid.COLUMN_TYPE_SELECT;
+			if (getCompany().getPreferences().getDoYouPaySalesTax())
+				return ListGrid.COLUMN_TYPE_SELECT;
+			else
+				return ListGrid.COLUMN_TYPE_IMAGE;
 		case 7:
 			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK)
 				return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;

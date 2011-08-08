@@ -360,7 +360,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		data.setNumber(cstNumberText.getTitle());
 		String s = objectExist(data);
-		if (s.isEmpty()) {
+		if (!s.isEmpty()) {
 
 			result.addError(custNameText, s);
 		}
