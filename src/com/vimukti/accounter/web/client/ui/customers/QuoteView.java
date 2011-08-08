@@ -433,14 +433,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 		if (this.transaction != null) {
 
-			ClientEstimate quote = (ClientEstimate) transaction;
-
-			if (quote != null) {
-
-				memoTextAreaItem.setValue(quote.getMemo());
-				// refText.setValue(quote.getReference());
-
+			String memo = ((ClientEstimate) transaction).getMemo();
+			if (memo != null) {
+				memoTextAreaItem.setValue(memo);
 			}
+			// refText.setValue(quote.getReference());
 
 		}
 
@@ -528,6 +525,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.taxCodeSelect
 						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 			}
+
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(estimate.getReference());
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
