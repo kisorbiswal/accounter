@@ -396,7 +396,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	@Override
-	protected void showMenu(Widget button) {
+	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
 					.constants().serviceItem(), Accounter.constants()
@@ -913,7 +913,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					AccounterErrorType.InvalidTransactionDate);
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
+			result
+					.addError(transactionDateItem,
+							AccounterErrorType.InvalidDate);
 		}
 		if (custForm != null) {
 			result.add(custForm.validate());

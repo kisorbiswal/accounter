@@ -7,10 +7,10 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -103,7 +103,8 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		form.setFields(groupName, desc, salesTypeRadio, checkbox);
 
 		HTML label = new HTML(Accounter.constants().enterEachIndividualVAT());
-		Button addButton = new Button(Accounter.constants().add());
+		AddButton addButton = new AddButton(this);
+
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override

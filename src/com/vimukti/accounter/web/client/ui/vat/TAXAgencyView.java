@@ -12,13 +12,13 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -80,7 +80,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private ClientPaymentTerms selectedPaymentTerm;
 	private ClientAccount selectedSalesAccount, selectedPurchaseAccount;
 
-	private Button addButton;
+	private AddButton addButton;
 
 	private List<String> vatReturnList;
 
@@ -302,8 +302,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		statusCheck = new CheckboxItem(companyConstants.active());
 		statusCheck.setValue(true);
 
-		paymentTermsCombo = new PaymentTermsCombo(
-				companyConstants.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(companyConstants
+				.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
@@ -389,7 +389,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoForm.setFields(memoArea);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		addButton = new Button(Accounter.constants().add());
+		addButton = new AddButton(this);
 		// addButton.setStyleName("addButton");
 		addButton.addClickHandler(new ClickHandler() {
 

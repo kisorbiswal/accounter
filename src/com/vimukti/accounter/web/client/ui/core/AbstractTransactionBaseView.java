@@ -7,18 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -80,7 +78,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField transactionDateItem;
 	protected TextAreaItem memoTextAreaItem;
 	// protected TextItem refText;
-	protected Button menuButton;
+	protected AddNewButton menuButton;
 	private PopupPanel popupPanel;
 	private CustomMenuBar popupMenuBar;
 
@@ -501,27 +499,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	}
 
-	public Button createAddNewButton() {
+	public AddNewButton createAddNewButton() {
 		// TODO make this button to Image button
-		menuButton = new Button(Accounter.constants().addNewItem());
-		menuButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (isMenuRequired()) {
-					showMenu(menuButton);
-					showMenu((Event) event.getNativeEvent());
-				} else {
-					onAddNew();
-				}
-			}
-		});
-
+		menuButton = new AddNewButton(this);
 		return menuButton;
 	}
 
-	protected void onAddNew() {
+	@Override
+	public void onAddNew() {
 		// TODO Auto-generated method stub
-
+		super.onAddNew();
 	}
 
 	private void processTransactionItems() {
@@ -563,7 +550,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString() : "";
+				.getValue().toString()
+				: "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -760,6 +748,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	}
 
+	@Override
 	public void showMenu(Event event) {
 		// int x = DOM.eventGetClientX(event);
 		// int y = DOM.eventGetClientY(event);
@@ -794,21 +783,18 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 
 		if (childCount == 1) {
-			popupPanel.setPopupPosition(
-					menuButton.getAbsoluteLeft() - 5,
+			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft() - 5,
 					menuButton.getAbsoluteTop()
 							- (popupMenuBar.getOffsetHeight() + 41));
 		} else if (childCount == 2) {
 			// if (this instanceof CashExpenseView || this instanceof
 			// WriteChequeView)
-			popupPanel.setPopupPosition(
-					menuButton.getAbsoluteLeft() - 5,
+			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft() - 5,
 					menuButton.getAbsoluteTop()
 							- (popupMenuBar.getOffsetHeight() + 85));
 		} else if (childCount == 3) {
 			// if (this instanceof EmployeeExpenseView) {
-			popupPanel.setPopupPosition(
-					menuButton.getAbsoluteLeft() - 5,
+			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft() - 5,
 					menuButton.getAbsoluteTop()
 							- (popupMenuBar.getOffsetHeight() + 127));
 			// }
@@ -859,10 +845,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 	}
 
-	protected void showMenu(Widget button) {
-
-	}
-
 	@Override
 	public ValidationResult validate() {
 
@@ -878,11 +860,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transactionItems != null) {
 			for (ClientTransactionItem transactionItem : transactionItems) {
 				if (transactionItem.getLineTotal() <= 0) {
-					result.addError(
-							"TransactionItem" + transactionItem.getAccount()
-									+ transactionItem.getAccount(), Accounter
-									.constants()
-									.transactionitemtotalcannotbe0orlessthan0());
+					result.addError("TransactionItem"
+							+ transactionItem.getAccount()
+							+ transactionItem.getAccount(), Accounter
+							.constants()
+							.transactionitemtotalcannotbe0orlessthan0());
 				}
 
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -894,11 +876,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 								&& getTransactionDate().before(
 										new ClientFinanceDate(2011 - 1900,
 												01 - 1, 04))) {
-							result.addError(
-									"transactionDate"
-											+ transactionItem.getAccount()
-											+ transactionItem.getAccount(),
-									Accounter.constants().vat4thJanError());
+							result.addError("transactionDate"
+									+ transactionItem.getAccount()
+									+ transactionItem.getAccount(), Accounter
+									.constants().vat4thJanError());
 						}
 					}
 				}
@@ -924,15 +905,15 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	}
 
-	protected CurrencyWidget createCurrencyWidget(){
-		//FIXME test only.
-		
+	protected CurrencyWidget createCurrencyWidget() {
+		// FIXME test only.
+
 		List<String> currencies = new ArrayList<String>();
 		String baseCurrency = null;
-		for(int i=0;i<10;i++){
-			String currency = "CU"+i;
+		for (int i = 0; i < 10; i++) {
+			String currency = "CU" + i;
 			currencies.add(currency);
-			if(i==5){
+			if (i == 5) {
 				baseCurrency = currency;
 			}
 		}

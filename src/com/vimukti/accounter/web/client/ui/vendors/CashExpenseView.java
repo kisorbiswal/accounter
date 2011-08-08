@@ -170,8 +170,8 @@ public class CashExpenseView extends CashPurchaseView {
 			result.addError(payFromCombo, payFromCombo.getTitle());
 		}
 
-		if (!AccounterValidator.validate_dueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.validate_dueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -219,7 +219,7 @@ public class CashExpenseView extends CashPurchaseView {
 	}
 
 	@Override
-	protected void showMenu(Widget button) {
+	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
 					.constants().serviceItem());

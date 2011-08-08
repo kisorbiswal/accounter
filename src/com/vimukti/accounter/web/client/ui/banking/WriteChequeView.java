@@ -207,7 +207,7 @@ public class WriteChequeView extends
 			// mainVLay.add(customerGrid);
 		} else if (gridView instanceof VendorTransactionGrid
 				|| gridView instanceof TaxAgencyTransactionGrid) {
-			@SuppressWarnings({ "unused" })
+			@SuppressWarnings( { "unused" })
 			VendorTransactionGrid vendorGrid = (VendorTransactionGrid) gridView;
 			setMenuRequired(true);
 		}
@@ -509,7 +509,9 @@ public class WriteChequeView extends
 
 			if (transaction == null)
 				if (!validateAmount()) {
-					result.addError(memoTextAreaItem, AccounterErrorType.amount);
+					result
+							.addError(memoTextAreaItem,
+									AccounterErrorType.amount);
 				}
 		}
 		return result;
@@ -1114,7 +1116,8 @@ public class WriteChequeView extends
 					|| payee instanceof ClientTAXAgency) {
 				this.amtText.setAmount(transactionVendorGrid.getTotal());
 				text.setValue(Utility.getNumberInWords(transactionVendorGrid
-						.getTotal() + ""));
+						.getTotal()
+						+ ""));
 				totalTxt.setValue(transactionVendorGrid.getTotal());
 				netAmount.setAmount(transactionVendorGrid.getGrandTotal());
 			}
@@ -1153,7 +1156,7 @@ public class WriteChequeView extends
 	// }
 
 	@Override
-	protected void showMenu(Widget button) {
+	public void showMenu(Widget button) {
 		if (payee != null) {
 			switch (payee.getType()) {
 			case ClientWriteCheck.TYPE_CUSTOMER:
@@ -1254,7 +1257,7 @@ public class WriteChequeView extends
 	}
 
 	@Override
-	protected void onAddNew() {
+	public void onAddNew() {
 		// ClientTransactionItem transactionItem = new ClientTransactionItem();
 		// taxAgencyGrid.addData(transactionItem);
 	}

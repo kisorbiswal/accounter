@@ -15,13 +15,13 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -64,7 +64,7 @@ public class JournalEntryView extends
 	private VerticalPanel gridPanel;
 
 	private ArrayList<DynamicForm> listforms;
-	private Button addButton;
+	private AddButton addButton;
 
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY,
@@ -92,7 +92,9 @@ public class JournalEntryView extends
 					AccounterErrorType.InvalidTransactionDate);
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
+			result
+					.addError(transactionDateItem,
+							AccounterErrorType.InvalidDate);
 		}
 		result.add(dateForm.validate());
 		if (AccounterValidator.isBlankTransaction(grid)) {
@@ -249,8 +251,8 @@ public class JournalEntryView extends
 				.getValue().toString() : "");
 		// initMemo(transaction);
 		transaction.setDate(new ClientFinanceDate().getDate());
-		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
-				grid.getTotalCredittotal())) {
+		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
+				.getTotalCredittotal())) {
 			transaction.setDebitTotal(grid.getTotalDebittotal());
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());
@@ -312,7 +314,7 @@ public class JournalEntryView extends
 		initListGrid();
 		grid.initTransactionData();
 		gridPanel = new VerticalPanel();
-		addButton = new Button(Accounter.constants().add());
+		addButton = new AddButton(this);
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override

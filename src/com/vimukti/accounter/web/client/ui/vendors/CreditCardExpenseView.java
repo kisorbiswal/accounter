@@ -77,15 +77,16 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-			@Override
-			public void selectedComboBoxItem(ClientVendor selectItem) {
-				selectedVendor = selectItem;
-				Ccard.setComboItem(selectItem);
-				addPhonesContactsAndAddress();
-			}
-		});
+					@Override
+					public void selectedComboBoxItem(ClientVendor selectItem) {
+						selectedVendor = selectItem;
+						Ccard.setComboItem(selectItem);
+						addPhonesContactsAndAddress();
+					}
+				});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -109,8 +110,8 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		HorizontalPanel hPanel = (HorizontalPanel) termsForm.getParent();
 		termsForm.removeFromParent();
 		termsForm.setWidth("100%");
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 		hPanel.add(termsForm);
 
 		if (isEdit) {
@@ -254,7 +255,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 	}
 
 	@Override
-	protected void showMenu(Widget button) {
+	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
 					.constants().serviceItem());

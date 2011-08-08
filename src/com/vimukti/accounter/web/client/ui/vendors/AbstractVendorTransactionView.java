@@ -132,7 +132,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected abstract void initMemoAndReference();
 
 	@Override
-	protected void showMenu(Widget button) {
+	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
 					.constants().serviceItem(), Accounter.constants()

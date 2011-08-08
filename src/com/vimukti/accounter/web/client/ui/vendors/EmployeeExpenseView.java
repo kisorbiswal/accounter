@@ -122,13 +122,14 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
-		employee.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientEmployee>() {
+		employee
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientEmployee>() {
 
-			@Override
-			public void selectedComboBoxItem(ClientEmployee selectItem) {
+					@Override
+					public void selectedComboBoxItem(ClientEmployee selectItem) {
 
-			}
-		});
+					}
+				});
 		if (!Accounter.getUser().isAdminUser()) {
 			// employee.setValue(Accounter.getUser().getName());
 			employee.setAdmin(false);
@@ -198,17 +199,17 @@ public class EmployeeExpenseView extends CashPurchaseView {
 					AccounterErrorType.InvalidTransactionDate);
 		}
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
+			result
+					.addError(transactionDateItem,
+							AccounterErrorType.InvalidDate);
 		}
 		if (Accounter.getUser().canApproveExpences())
 			if (!payFromCombo.validate()) {
-				result.addError(
-						payFromCombo,
-						Accounter.messages().pleaseEnter(
-								payFromCombo.getTitle()));
+				result.addError(payFromCombo, Accounter.messages().pleaseEnter(
+						payFromCombo.getTitle()));
 			}
-		if (!AccounterValidator.validate_dueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.validate_dueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
@@ -264,7 +265,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	}
 
 	@Override
-	protected void showMenu(Widget button) {
+	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.constants().serviceItem());
 		else

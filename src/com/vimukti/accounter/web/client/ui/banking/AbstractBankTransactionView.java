@@ -122,7 +122,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	}
 
 	@Override
-	protected void showMenu(Widget button) {
+	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
 			setMenuItems(button, Accounter.constants().accounts(), Accounter
 					.constants().service(), Accounter.constants().productItem());
