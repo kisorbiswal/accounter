@@ -6522,11 +6522,7 @@ a#fdbk_tab:hover{
 	border:1px solid #2F2F2F !important;
 }
 .grouped-buttons{
-	background-position: 5px center;
-    background-repeat: no-repeat;
-    color:#000000 !important;
-    border:1px solid #a0a0a0 !important;
-    background-color: #e4e4e4 !important
+	
 }
 .Empty-text{
 	background-position: center center;
