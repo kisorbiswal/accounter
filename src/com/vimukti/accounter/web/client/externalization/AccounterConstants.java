@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Constants;
 
-
 public interface AccounterConstants extends Constants {
 
 	public String textId();
@@ -4563,4 +4562,71 @@ public interface AccounterConstants extends Constants {
 
 	public String gotoAccounter();
 
+	public String accounterUseYourForms();
+
+	public String howDoYouReferYourCustoemrs();
+
+	public String howDoYouReferYourSuppliers();
+
+	public String howDoYouReferYourAccounts();
+
+	public String accountingorBookkeeping();
+
+	public String advertisingorPublicRelations();
+
+	public String agricultureRanchingFarming();
+
+	public String artWritingPhotography();
+
+	public String automotiveSalesAndRepair();
+
+	public String churhorReligiousOrganisation();
+
+	public String constructionGeneralContractor();
+
+	public String constructionTrades();
+
+	public String designArchitectureEngineering();
+
+	public String financialServices();
+
+	public String hairSallonBeautysaloon();
+
+	public String informationTechnology();
+
+	public String insuranceAgencyorBroker();
+
+	public String lawncareOrlandscaping();
+
+	public String legalServices();
+
+	public String lodging();
+
+	public String manufacturerRepresentativeOrAgent();
+
+	public String medicalDentalorhealthservices();
+
+	public String professionalConsulting();
+
+	public String propertyManagementorHomeAssociation();
+
+	public String realEstateBrokerageorDeveloper();
+
+	public String rental();
+
+	public String repairandMaintenance();
+
+	public String restaurantCatererorbar();
+
+	public String retailShoporonlinecommerce();
+
+	public String salesIndependentAgent();
+
+	public String transportationTruckingordelivery();
+
+	public String wholesaledistributionandsales();
+
+	public String generalProductbasedBusiness();
+
+	public String generalServicebasedBusiness();
 }
