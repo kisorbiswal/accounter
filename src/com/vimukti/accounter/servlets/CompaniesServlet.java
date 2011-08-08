@@ -27,6 +27,8 @@ import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 public class CompaniesServlet extends BaseServlet {
 
 	private static final long serialVersionUID = 1L;
+	private static final String SUCCESS = "Your company is created successfully";
+	private static final String FAIL = "Company creation failed";
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
 
@@ -39,7 +41,16 @@ public class CompaniesServlet extends BaseServlet {
 			redirectExternal(req, resp, LOGIN_URL);
 			return;
 		}
-
+		String status = (String) httpSession
+				.getAttribute(COMPANY_CREATION_STATUS);
+		if (status != null) {
+			if (status.equals("Success")) {
+				req.setAttribute("createCompanyStatus", SUCCESS);
+			} else {
+				req.setAttribute("createCompanyStatus", FAIL);
+			}
+			httpSession.removeAttribute(COMPANY_CREATION_STATUS);
+		}
 		String companyID = req.getParameter(COMPANY_ID);
 
 		if (companyID != null) {
