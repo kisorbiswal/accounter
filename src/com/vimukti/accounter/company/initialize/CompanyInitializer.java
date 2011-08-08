@@ -939,13 +939,6 @@ public abstract class CompanyInitializer {
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(rentIncome);
 
-		Account royltiesReceived = new Account(Account.TYPE_INCOME, "4250",
-				AccounterConstants.ROYALTIES_RECIEVED, true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "18", true,
-				this.preferences.getPreventPostingBeforeDate());
-		session.save(royltiesReceived);
-
 		Account royaltiesRecieved = new Account(Account.TYPE_INCOME, "4251",
 				AccounterConstants.ROYALTIES_RECIEVED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
