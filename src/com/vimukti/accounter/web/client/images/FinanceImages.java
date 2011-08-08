@@ -166,10 +166,10 @@ public interface FinanceImages extends ClientBundle {
 	@Source("bar-right.png")
 	ImageResource previousIcon();
 
-	@Source("bar-right.png")
+	@Source("bar-left.png")
 	ImageResource nextIcon();
 
-	@Source("bar-right.png")
+	@Source("edit1.png")
 	ImageResource editIcon();
 
 	@Source("Add_item.png")
