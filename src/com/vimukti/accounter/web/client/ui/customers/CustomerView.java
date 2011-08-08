@@ -357,9 +357,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			result.addError(balanceDate, AccounterErrorType.prior_asOfDate);
 		}
 		data.setName(custNameText.getTitle());
+
 		data.setNumber(cstNumberText.getTitle());
 		String s = objectExist(data);
-		if (!s.isEmpty()) {
+		if (s.isEmpty()) {
+
 			result.addError(custNameText, s);
 		}
 
