@@ -15,6 +15,7 @@ public class CompanyStatusServlet extends BaseServlet {
 	private static final String SUCCESS = "Your company is created successfully";
 	private static final String CREATING = "Creating the company...";
 	private static final String FAIL = "Company creation failed";
+	private String view = "/WEB-INF/refresh.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -23,7 +24,8 @@ public class CompanyStatusServlet extends BaseServlet {
 		if (session == null) {
 			req.setAttribute("successmessage", FAIL);
 		} else {
-			String status = (String) session.getAttribute("COM_STATUS");
+			String status = (String) session
+					.getAttribute(COMPANY_CREATION_STATUS);
 			if (status == null) {
 				req.setAttribute("successmessage", FAIL);
 			} else {
@@ -36,6 +38,7 @@ public class CompanyStatusServlet extends BaseServlet {
 				}
 			}
 		}
-		req.getRequestDispatcher("/WEB-INF/refresh.jsp").forward(req, resp);
+		session.removeAttribute(COMPANY_CREATION_STATUS);
+		req.getRequestDispatcher(view).forward(req, resp);
 	}
 }

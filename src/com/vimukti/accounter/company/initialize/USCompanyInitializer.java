@@ -114,7 +114,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 	 */
 	public void initDefaultUSAccounts() {
 		Session session = HibernateUtil.getCurrentSession();
-		setDefaultsUSValues();
+		// setDefaultsUSValues();
 
 		Account pendingItemReceipts = new Account(
 				Account.TYPE_OTHER_CURRENT_LIABILITY, "2010",

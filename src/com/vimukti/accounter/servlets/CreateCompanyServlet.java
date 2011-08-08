@@ -44,9 +44,12 @@ public class CreateCompanyServlet extends BaseServlet {
 		HttpSession session = request.getSession();
 		String emailID = (String) session.getAttribute(EMAIL_ID);
 		if (emailID == null) {
+			request.setAttribute("errormessage",
+					"Company creation failed because of Invalid session.");
+			dispatch(request, response, view);
 			return;
 		}
-		String status = (String) session.getAttribute("COM_STATUS");
+		String status = (String) session.getAttribute(COMPANY_CREATION_STATUS);
 		if (status != null) {
 			response.sendRedirect("/companystatus");
 			return;
@@ -76,6 +79,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			request.setAttribute("errormessage",
 					"Company creation failed, please try with different company name.");
 			dispatch(request, response, view);
+			return;
 		}
 
 		final String urlString = getUrlString(serverCompany, emailID, client);
@@ -85,16 +89,19 @@ public class CreateCompanyServlet extends BaseServlet {
 			@Override
 			public void run() {
 				try {
-					httpSession.setAttribute("COM_STATUS", "Creating");
+					httpSession.setAttribute(COMPANY_CREATION_STATUS,
+							"Creating");
 					URL url = new URL(urlString.toString());
 					HttpURLConnection connection = (HttpURLConnection) url
 							.openConnection();
 					int responseCode = connection.getResponseCode();
 					if (responseCode == 200) {
-						httpSession.setAttribute("COM_STATUS", "Success");
+						httpSession.setAttribute(COMPANY_CREATION_STATUS,
+								"Success");
 					} else {
 						rollback(serverCompany, client);
-						httpSession.setAttribute("COM_STATUS", "Fail");
+						httpSession.setAttribute(COMPANY_CREATION_STATUS,
+								"Fail");
 					}
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -114,7 +121,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		Transaction transaction = session.beginTransaction();
 		try {
 			Query query = session.getNamedQuery("delete.Client.Companies")
-					.setParameter("clientID", client.getID());
+					.setParameter("serverCompanyID", serverCompany.getID());
 			query.executeUpdate();
 			query = session.getNamedQuery("delete.ServerCompany.by.Id")
 					.setParameter("id", serverCompany.getID());
@@ -223,7 +230,9 @@ public class CreateCompanyServlet extends BaseServlet {
 
 		}
 
-		request.setAttribute("errormessage", message);
+		if (!flag) {
+			request.setAttribute("errormessage", message);
+		}
 		return flag;
 	}
 
@@ -236,7 +245,8 @@ public class CreateCompanyServlet extends BaseServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (session != null) {
-			String status = (String) session.getAttribute("COM_STATUS");
+			String status = (String) session
+					.getAttribute(COMPANY_CREATION_STATUS);
 			if (status != null) {
 				response.sendRedirect("/companystatus");
 				return;

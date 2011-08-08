@@ -5501,8 +5501,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByVendorSummary")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -8235,9 +8235,8 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session.getNamedQuery("getOpenSalesOrders")
-
-		.setParameter("startDate", startDate).setParameter("endDate", endDate))
-				.list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())).list();
 
 		return prepareQueryResult(l);
 	}

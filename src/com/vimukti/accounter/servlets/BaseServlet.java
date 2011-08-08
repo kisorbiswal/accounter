@@ -35,6 +35,7 @@ public class BaseServlet extends HttpServlet {
 
 	public static final String EMAIL_ID = "emailId";
 	public static final String PASSWORD = "password";
+	protected static final String COMPANY_CREATION_STATUS = "comCreationStatus";
 
 	protected static final String PARAM_DESTINATION = "destination";
 	protected static final String PARAM_SERVER_COMPANY_ID = "serverCompanyId";
