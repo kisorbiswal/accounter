@@ -218,8 +218,8 @@ public class CreditsandPaymentsGrid extends
 					// || balance != 0 ? ((amtTouse
 					// .compareTo(item.getActualAmt()) > 0) ? true : false)
 					// : false) {
-					Accounter
-							.showError(AccounterErrorType.RECEIVEPAYMET_APPLIED_CREDITS_AMOUNT);
+					Accounter.showError(Accounter.constants()
+							.receivedPaymentAppliedCreditsAmount());
 					setText(indexOf(item), 4,
 							DataUtils.getAmountAsString(item.getAmtTouse()));
 				} else {
@@ -228,8 +228,8 @@ public class CreditsandPaymentsGrid extends
 							&& !DecimalUtil.isGreaterThan(amtTouse,
 									item.getActualAmt())
 							&& DecimalUtil.isGreaterThan(amtTouse, balance)) {
-						Accounter
-								.showError(AccounterErrorType.RECEIVEPAYMET_APPLIED_CREDITS_AMOUNT);
+						Accounter.showError(Accounter.constants()
+								.receivedPaymentAppliedCreditsAmount());
 						setText(indexOf(item), 4,
 								DataUtils.getAmountAsString(item.getAmtTouse()));
 					} else {
@@ -355,7 +355,8 @@ public class CreditsandPaymentsGrid extends
 		ValidationResult result = new ValidationResult();
 		if (this.getRecords().size() > 0
 				&& this.getSelectedRecords().size() == 0) {
-			result.addError(this, AccounterErrorType.selectTransaction);
+			result.addError(this, Accounter.constants()
+					.selectTransaction());
 		}
 		return result;
 	}

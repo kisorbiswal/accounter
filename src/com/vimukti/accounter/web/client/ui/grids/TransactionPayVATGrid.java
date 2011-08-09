@@ -2,11 +2,13 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayVAT;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -19,6 +21,8 @@ public class TransactionPayVATGrid extends
 	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXTBOX };
 	private PayVATView payVATView;
+
+	AccounterConstants accounterConstants = Accounter.constants();
 
 	public TransactionPayVATGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
@@ -75,7 +79,7 @@ public class TransactionPayVATGrid extends
 			// 2);
 
 		} catch (Exception e) {
-			Accounter.showError(AccounterErrorType.INVALIDAMOUNT);
+			Accounter.showError(accounterConstants.invalidAmount());
 		}
 		super.editComplete(editingRecord, value, col);
 	}

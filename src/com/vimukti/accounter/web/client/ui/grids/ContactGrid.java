@@ -195,7 +195,7 @@ public class ContactGrid extends ListGrid<ClientContact> {
 
 	private String getValidMail(String email) {
 		if (!UIUtils.isValidEmail(email)) {
-			Accounter.showError(AccounterErrorType.INVALID_EMAIL);
+			Accounter.showError(Accounter.constants().invalidEmail());
 			return "";
 		} else
 			return email;

@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -42,7 +43,7 @@ public class VendorTransactionGrid extends
 	ProductCombo productItemCombo;
 	TAXCodeCombo taxCodeCombo;
 	VATItemCombo vatItemCombo;
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	private Double totallinetotal = 0.0;
 	private Double totalVat = 0.0;
 	private Double grandTotal;
@@ -908,7 +909,7 @@ public class VendorTransactionGrid extends
 						quant.setValue(isItem ? 1 : 0);
 						item.setQuantity(quant);
 						transactionView.addError(this,
-								AccounterErrorType.quantity);
+								Accounter.constants().quantity());
 					}
 				} catch (InvalidTransactionEntryException e) {
 					e.printStackTrace();
@@ -944,7 +945,7 @@ public class VendorTransactionGrid extends
 					d = 0.0D;
 					item.setUnitPrice(d);
 					transactionView
-							.addError(this, AccounterErrorType.unitPrice);
+							.addError(this, accounterConstants.unitPrice());
 				}
 				priceLevelSelected(priceLevel);
 				refreshVatValue();
@@ -1234,7 +1235,7 @@ public class VendorTransactionGrid extends
 			}
 		}
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
-			result.addError(this, AccounterErrorType.InvalidTransactionAmount);
+			result.addError(this, Accounter.constants().invalidTransactionAmount());
 			// Accounter.showError(AccounterErrorType.InvalidTransactionAmount);
 			// return false;
 		}

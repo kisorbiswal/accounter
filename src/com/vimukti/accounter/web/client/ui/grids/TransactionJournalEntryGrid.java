@@ -37,7 +37,7 @@ public class TransactionJournalEntryGrid extends
 	private TAXCodeCombo taxcodeCombo;
 	double debit, credit;
 	boolean isEdit;
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	/*
 	 * holds all records debit n credit totals
 	 */
@@ -114,8 +114,8 @@ public class TransactionJournalEntryGrid extends
 		accountsCombo = new OtherAccountsCombo("");
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
-//		accountsCombo.downarrowpanel.getElement().getStyle()
-//				.setMarginLeft(-13, Unit.PX);
+		// accountsCombo.downarrowpanel.getElement().getStyle()
+		// .setMarginLeft(-13, Unit.PX);
 		// accountsCombo.setWidth("600");
 		accountsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -588,7 +588,8 @@ public class TransactionJournalEntryGrid extends
 			updateData(editingRecord);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Accounter.showError(AccounterErrorType.INVALIDENTRY);
+			Accounter
+					.showError(accounterConstants.invalidateEntry());
 			switch (col) {
 			case 0:
 				editingRecord

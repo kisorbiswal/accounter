@@ -41,7 +41,7 @@ public class TransactionPayBillGrid extends
 	PayBillView paybillView;
 	ClientVendor vendor;
 	List<Integer> selectedValues = new ArrayList<Integer>();
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	protected boolean gotCreditsAndPayments;
 	private CashDiscountDialog cashDiscountDialog;
 	public CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog;
@@ -255,7 +255,7 @@ public class TransactionPayBillGrid extends
 			updateFootervalues(editingRecord);
 
 		} catch (Exception e) {
-			Accounter.showError(AccounterErrorType.INVALIDAMOUNT);
+			Accounter.showError(accounterConstants.invalidateEntry());
 		}
 		super.editComplete(editingRecord, value, col);
 	}
@@ -267,12 +267,12 @@ public class TransactionPayBillGrid extends
 				.getSelectedRecords()) {
 
 			double totalValue = getTotalValue(transactionPayBill);
-			if (!AccounterValidator.validate_Receive_Payment(
-					transactionPayBill.getAmountDue(), totalValue,
-					AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS)) {
+			if (!AccounterValidator.validate_Receive_Payment(transactionPayBill
+					.getAmountDue(), totalValue, Accounter.constants()
+					.receivePaymentExcessDue())) {
 				// FIXME
-				result.addError(transactionPayBill.getBillNumber(),
-						AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS);
+				result.addError(transactionPayBill.getBillNumber(), Accounter
+						.constants().receivePaymentExcessDue());
 			}
 		}
 
@@ -300,35 +300,38 @@ public class TransactionPayBillGrid extends
 
 	public void initCreditsAndPayments(final ClientVendor vendor) {
 
-		Accounter.createHomeService().getVendorCreditsAndPayments(
-				vendor.getID(),
-				new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
+		Accounter
+				.createHomeService()
+				.getVendorCreditsAndPayments(
+						vendor.getID(),
+						new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
 
-					public void onException(AccounterException caught) {
-						Accounter.showInformation(Accounter.messages()
-								.failedTogetCreditsListAndPayments(
-										vendor.getName()));
+							public void onException(AccounterException caught) {
+								Accounter.showInformation(Accounter.messages()
+										.failedTogetCreditsListAndPayments(
+												vendor.getName()));
 
-						gotCreditsAndPayments = false;
-						return;
+								gotCreditsAndPayments = false;
+								return;
 
-					}
+							}
 
-					public void onResultSuccess(ArrayList<ClientCreditsAndPayments> result) {
-						if (result == null)
-							onFailure(null);
+							public void onResultSuccess(
+									ArrayList<ClientCreditsAndPayments> result) {
+								if (result == null)
+									onFailure(null);
 
-						updatedCustomerCreditsAndPayments = result;
-						creditsStack = new Stack<Map<Integer, Object>>();
+								updatedCustomerCreditsAndPayments = result;
+								creditsStack = new Stack<Map<Integer, Object>>();
 
-						paybillView.adjustAmountAndEndingBalance();
-						paybillView.calculateUnusedCredits();
+								paybillView.adjustAmountAndEndingBalance();
+								paybillView.calculateUnusedCredits();
 
-						gotCreditsAndPayments = true;
+								gotCreditsAndPayments = true;
 
-					}
+							}
 
-				});
+						});
 
 	}
 

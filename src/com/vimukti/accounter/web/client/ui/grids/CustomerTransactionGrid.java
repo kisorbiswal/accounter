@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -67,7 +68,7 @@ public class CustomerTransactionGrid extends
 	private long ztaxCodeid;
 	protected int maxDecimalPoint;
 	protected long taxCode;
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	public CustomerTransactionGrid() {
 		super(false, true);
 		this.accountingType = getCompany().getAccountingType();
@@ -1120,7 +1121,7 @@ public class CustomerTransactionGrid extends
 						quant.setValue(isItem ? 1 : 0);
 						item.setQuantity(quant);
 						transactionView.addError(this,
-								AccounterErrorType.quantity);
+								Accounter.constants().quantity());
 					}
 				} catch (InvalidTransactionEntryException e) {
 					e.printStackTrace();
@@ -1158,7 +1159,7 @@ public class CustomerTransactionGrid extends
 					d = 0.0D; // zero. no need conversions.
 					item.setUnitPrice(d);
 					transactionView
-							.addError(this, AccounterErrorType.unitPrice);
+							.addError(this, accounterConstants.unitPrice());
 				}
 
 				break;

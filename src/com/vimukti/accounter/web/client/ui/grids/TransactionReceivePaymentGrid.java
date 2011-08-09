@@ -212,9 +212,9 @@ public class TransactionReceivePaymentGrid extends
 				updateAmountDue(item);
 				double totalValue = item.getCashDiscount() + item.getWriteOff()
 						+ item.getAppliedCredits() + item.getPayment();
-				if (AccounterValidator.validate_Receive_Payment(
-						item.getAmountDue(), totalValue,
-						AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS)) {
+				if (AccounterValidator.validate_Receive_Payment(item
+						.getAmountDue(), totalValue, Accounter.constants()
+						.receivePaymentExcessDue())) {
 					paymentView.recalculateGridAmounts();
 					updateTotalPayment(0.0);
 				} else {
@@ -250,13 +250,12 @@ public class TransactionReceivePaymentGrid extends
 				.getSelectedRecords()) {
 			double totalValue = getTotalValue(transactionReceivePayment);
 			if (DecimalUtil.isLessThan(totalValue, 0.00)) {
-				result.addError(this,
-						AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+				result.addError(this, customerConstants.invalidNegativeAmount());
 			} else if (DecimalUtil.isGreaterThan(totalValue,
 					transactionReceivePayment.getAmountDue())
 					|| DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this,
-						AccounterErrorType.RECEIVEPAYMENT_PAYMENT_EXCESS);
+				result.addError(this, Accounter.constants()
+						.receivePaymentExcessDue());
 			}
 		}
 		return result;
@@ -662,9 +661,9 @@ public class TransactionReceivePaymentGrid extends
 
 	protected boolean validatePaymentValue() {
 		double totalValue = getTotalValue(selectedObject);
-		if (AccounterValidator.validate_Receive_Payment(
-				selectedObject.getAmountDue(), totalValue,
-				AccounterErrorType.RECEIVEPAYMENT_AMOUNT_DUE)) {
+		if (AccounterValidator.validate_Receive_Payment(selectedObject
+				.getAmountDue(), totalValue, Accounter.constants()
+				.receiveAmountPayDue())) {
 			return true;
 		} else
 			return false;

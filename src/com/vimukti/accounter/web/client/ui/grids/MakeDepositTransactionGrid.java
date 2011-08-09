@@ -35,6 +35,7 @@ public class MakeDepositTransactionGrid extends
 	private Double grandTotal = 0.0;
 
 	private SelectItem typeCombo;
+	AccounterConstants accounterConstants = Accounter.constants();
 
 	public MakeDepositTransactionGrid() {
 		super(false, true);
@@ -260,7 +261,7 @@ public class MakeDepositTransactionGrid extends
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
 			// FIXME
 			result.addError("GridTotalLineTotal",
-					AccounterErrorType.InvalidTransactionAmount);
+					Accounter.constants().invalidTransactionAmount());
 		}
 		return result;
 	}
@@ -429,7 +430,8 @@ public class MakeDepositTransactionGrid extends
 				break;
 			}
 		} catch (Exception e) {
-			Accounter.showError(AccounterErrorType.INVALIDENTRY);
+			Accounter
+					.showError(accounterConstants.invalidateEntry());
 		}
 		updateTotals();
 		updateData(item);
@@ -517,8 +519,8 @@ public class MakeDepositTransactionGrid extends
 				combo = (CustomCombo<E>) customersCombo;
 			}
 
-//			combo.downarrowpanel.getElement().getStyle()
-//					.setMarginLeft(-20, Unit.PX);
+			// combo.downarrowpanel.getElement().getStyle()
+			// .setMarginLeft(-20, Unit.PX);
 		default:
 			break;
 		}

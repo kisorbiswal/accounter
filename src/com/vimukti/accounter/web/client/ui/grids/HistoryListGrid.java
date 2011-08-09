@@ -81,7 +81,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 						@Override
 						public void onException(AccounterException caught) {
 							Accounter
-									.showError(AccounterErrorType.FAILED_GET_JOURNALENTRIES);
+									.showError(Accounter.constants().failedGetJournalEntries());
 						}
 
 						@Override
