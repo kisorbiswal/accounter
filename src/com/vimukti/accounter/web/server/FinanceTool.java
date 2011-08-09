@@ -312,7 +312,7 @@ public class FinanceTool implements IFinanceDAOService {
 					.classforName(updateContext.getArg2());
 
 			IAccounterServerCore serverObject = (IAccounterServerCore) session
-					.load(classforName, Long.parseLong(updateContext.getArg1()));
+					.get(classforName, Long.parseLong(updateContext.getArg1()));
 			IAccounterServerCore clonedObject = new CloneUtil().clone(null,
 					serverObject);
 
@@ -348,9 +348,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			session.flush();
 			session.saveOrUpdate(serverObject);
-
 			ChangeTracker.put(serverObject);
-
 			return serverObject.getID();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -638,7 +636,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		if (serverClass != null) {
 
-			return session.load(serverClass, id);
+			return session.get(serverClass, id);
 
 		}
 
