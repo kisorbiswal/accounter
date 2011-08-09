@@ -209,17 +209,18 @@ public class ViewManager extends VerticalPanel {
 		if (this.views.list.size() == 1) {
 			return;
 		}
-		//Take the data and set to new view
-		Object data=this.existingView.getData();
-		
+		// Take the data and set to new view
+		Object data = this.existingView.getData();
+
 		this.existingView.removeFromParent();
+		HistoryItem current = this.views.current();
 		HistoryItem item = this.views.previous();
 		if (item.view == null) {
 			item.action.run();
 		} else {
 			this.existingView = item.view;
-			ActionCallback callback=item.action.getCallback();
-			if(data!=null && callback!=null){
+			ActionCallback callback = current.action.getCallback();
+			if (data != null && callback != null) {
 				callback.actionResult(data);
 			}
 			this.add(item.view);

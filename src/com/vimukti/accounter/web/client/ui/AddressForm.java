@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -141,6 +142,10 @@ public class AddressForm extends DynamicForm {
 
 	
 	public Set<ClientAddress> getAddresss() {
+		String string = businessSelect.getSelectedValue();
+		if(string == null) {
+			return Collections.emptySet();
+		}
 		ClientAddress selectedAddress = allAddresses.get(UIUtils
 				.getAddressType(businessSelect.getSelectedValue()));
 		if (selectedAddress != null) {

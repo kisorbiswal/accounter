@@ -55,7 +55,7 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 	protected String getColumnData(ClientEmployee object, int row, int col) {
 		switch (col) {
 		case 0:
-			return object.getDisplayName();
+			return object.getName();
 		}
 		return null;
 	}

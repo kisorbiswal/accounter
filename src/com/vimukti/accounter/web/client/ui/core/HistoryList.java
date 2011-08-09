@@ -71,4 +71,8 @@ public class HistoryList {
 			item.view=null;
 		}
 	}
+
+	public HistoryItem current() {
+		return list.get(list.size()-1);
+	}
 }
