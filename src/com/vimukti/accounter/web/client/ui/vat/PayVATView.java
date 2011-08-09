@@ -20,15 +20,14 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -67,7 +66,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
 	private AccounterConstants companyConstants = Accounter.constants();
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	public PayVATView() {
 		super(ClientTransaction.TYPE_PAY_SALES_TAX, PAYVAT_TRANSACTION_GRID);
 	}
@@ -457,7 +456,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		}
 		if (!AccounterValidator.validateAmount(totalAmount)) {
 			// FIXME Confirm Object
-			result.addError("TotalAmount", AccounterErrorType.amount);
+			result.addError("TotalAmount", accounterConstants.amount());
 		}
 		return result;
 	}
