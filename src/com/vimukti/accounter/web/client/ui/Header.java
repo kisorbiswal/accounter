@@ -48,7 +48,8 @@ public class Header extends HorizontalPanel {
 		userName = new HTML("<a><font color=\"#3299A4\">"
 				+ Accounter.messages().userName(
 						Accounter.getUser().getFullName()) + "<font></a>");
-		userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
+		userName.addStyleName("userName-style");
+		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
 
 		if (!Accounter.isLoggedInFromDomain()) {
 			userName.getElement().getStyle()
