@@ -1171,19 +1171,12 @@ table tr.parentRow:HOVER {
 .gridHeader {
 	border-collapse: collapse;
 	cursor: pointer;
-	/*background:#A0A0A0 !important;*/
 	height: 21px;
 	width: 100%;
 	border-bottom:1px solid #1a1a1a;
-	/*background: -moz-linear-gradient(top,  #ccc,  #000);
-	background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#000));
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000');*/
-	
-	background: #A0A0A0; /* for non-css3 browsers */
-
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4E4E4', endColorstr='#A0A0A0'); /* for IE */
 	background: -webkit-gradient(linear, left top, left bottom, from(#E4E4E4), to(#A0A0A0)); /* for webkit browsers */
 	background: -moz-linear-gradient(top,  #E4E4E4,  #A0A0A0); /* for firefox 3.6+ */ 
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4E4E4', endColorstr='#A0A0A0') !important; /* for IE */
 }
 
 .gridHeaderLastTd {
@@ -1201,11 +1194,6 @@ table tr.parentRow:HOVER {
 	font-size: 12px;
 }
 
-/* for finance*/
-	/*.gridHeader td.gridHeaderCell,.gridBody tr td,.gridFooterParent,.gridHeaderParent,.menuBarParent,.statusLayoutParent
-	{
-	height: 22px;
-}  praveena */
 .selected {
 	background: #CCCCCC !important;
 }
@@ -1271,11 +1259,6 @@ noindex:-o-prefocus,.gridBody tr td {
 	cursor: pointer;
 }
 
-.gridHeader td.gridHeaderCell:hover {
-	/*background: transparent url('images/bar-mouse-hover.png') repeat-x
-		scroll 0 0;*/
-	
-}
 
 .listgrid {
 	border-style: solid !important;
@@ -5089,7 +5072,6 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 		scroll 0 0 white !important;
 	border-left: 1px solid #CCCCCC;*/
 	height: 22px !important;
-	min-width: 50px !important;
 	width: 100% !important;
 }
 
@@ -5164,9 +5146,8 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 	padding-right: 100pX !important;
 }
 
-.main-w-finance { /*padding-left: 2px !important;*/
-	/*overflow: hidden !important;*/
-	
+.main-w-finance {
+    border:1px solid #7A7A7A;
 }
 
 .finance-portlet .decor00 {
@@ -5380,9 +5361,10 @@ td.td01,.no-title .biz-decor-panel td.td01 {
     height: 25px !important;
     margin: 0 !important;
     padding: 0 5px 5px !important;
+    padding: 0px\0 !important;
     border:1px solid #002E36;
 }
-.gwt-Button:hover{
+.gwt-Button:hover,.image-button-hover{
 	background-color:#002e36 !important;
 	border:1px solid #002E36 !important;
 }
@@ -5866,8 +5848,6 @@ important
 .portlet-body {
 	background-color: white;
 	height: 100%;
-	padding-top: 10px;
-	border: 1px solid #7A7A7A;
 	width: 100%;
 	margin-top: 10px\0  !important;
 	border-radius: 0 0 5px 5px;
@@ -6510,6 +6490,7 @@ input[type="text"],textarea {
 	-moz-border-radius:5px 5px 5px 5px;
 	color:white !important;
 	border:1px solid #002E36 !important;
+	margin-top:10px !important;
 }
 .addAccountPortlet:hover,.addButtonPortlet:hover{
 	background:none repeat scroll 0 0 #002E36 !important;
@@ -6527,9 +6508,17 @@ a#fdbk_tab:hover{
 	background-color: #1A5158;
     background-position: 5px center;
     background-repeat: no-repeat;
+    
+    background-color: #1A5158\0 !important;
+    background-position: 5px center\0 !important;
+    background-repeat: no-repeat\0 !important;
+    border: 1px solid #002E36\0 !important;
+    color: white\0 !important;
+    
     border: 1px solid #002E36;
     color: white;
     padding-left: 27px !important;
+    padding:0 5px 0 27px\0 !important;
     border-radius:5px 5px 5px 5px;
 	-webkit-border-radius:5px 5px 5px 5px;
 	-moz-border-radius:5px 5px 5px 5px;
@@ -6537,21 +6526,28 @@ a#fdbk_tab:hover{
 .cancle-Btn{
 	background-color: #E4E4E4 !important;
     border: 1px solid #A0A0A0 !important;
-    color: black;
+    color: black !important;
     padding-left:22px !important;
+    padding:0 5px 0 22px\0 !important;
 }
 .grouped-buttons{
 	padding:5px 0px;
 }
 .Empty-text{
-	background-position: center center;
+	background-position: center center ;
     background-repeat: no-repeat;
     border:1px solid #a0a0a0;
+    
+    background-position: center center\0 !important ;
+    background-repeat: no-repeat\0 !important;
+    border:1px solid #a0a0a0\0 !important;
+    
     background-color: #e4e4e4 !important;
     padding:10px !important;
 }
 .grouped-buttons td:FIRST-CHILD .Empty-text,.grouped-buttons td:FIRST-CHILD .image-button {
     border-color: #A0A0A0;
+    border-color: #A0A0A0\0 !important;
     border-radius: 5px 0 0 5px !important;
     border-style: solid !important;
     border-width: 1px 0 1px 1px !important;
@@ -6559,22 +6555,25 @@ a#fdbk_tab:hover{
 .grouped-buttons td:last-child .Empty-text,.grouped-buttons td:last-child .image-button{
 	border-radius:0 5px 5px 0;
 	border: 1px solid #A0A0A0 !important;
+	color:black\0 !important;
 }
 .grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button{
 	border-color:#a0a0a0;
     background-color: #e4e4e4;
+    background-color: #e4e4e4\0 !important;
     color:black;
+    color:black\0 !important;
 }
 .grouped-buttons td:only-child .image-button{
 	border-radius:5px 5px 5px 5px !important;
 	border:1px solid #a0a0a0 !important;
 }
-.grouped-buttons .Empty-text:hover,.grouped-buttons .image-button:hover{
+.grouped-buttons .Empty-text:hover,.grouped-buttons .image-button:hover,.grouped-buttons .Empty-text-hover
+,.grouped-buttons .image-button-hover{
 	background-color:#5F5F5F !important;
 	color:white !important;
 }
-.cancle-Btn:hover{
+.cancle-Btn:hover,.cancle-Btn-hover{
 	border:1px solid #A0A0A0 !important;
-	background-color:#A0A0A0 !important
-	
+	background-color:#A0A0A0 !important;
 }
