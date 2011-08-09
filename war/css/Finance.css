@@ -5231,12 +5231,14 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 
 .gwt-Button[disabled] {
 	/*cursor: pointer !important;
-	color: none !important;
-	background: none repeat scroll 0 0 gray !important;;*/
+	color: none !important;*/
+	background: none repeat scroll 0 0 #b7b7b7 !important;
+	border:1px solid #858585;
 }
 
 .gwt-Button[disabled]:hover {
-	/*border: 0 !important;*/
+	background: none repeat scroll 0 0 #b7b7b7 !important;
+	border: 1px solid #858585 !important;
 }
 
 .gwt-MenuBar-horizontal {
@@ -5358,14 +5360,22 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	color: white !important;
 	border: 0px none !important;
 	border-radius: 0 0 0 0 !important;*/
-	cursor: pointer;
-	height: 25px !important;
-	padding: 0 5px 5px !important;
-	font-weight: normal;
-	margin: 0px !important;
-	font-size: 13px !important;
-	float: left !important;
-	display: inline;
+	background: none repeat scroll 0 0 #1A5158;
+    border-radius: 5px 5px 5px 5px;
+    color: white;
+    cursor: pointer;
+    display: inline;
+    float: left !important;
+    font-size: 13px !important;
+    font-weight: normal;
+    height: 25px !important;
+    margin: 0 !important;
+    padding: 0 5px 5px !important;
+    border:1px solid #002E36;
+}
+.gwt-Button:hover{
+	background-color:#002e36 !important;
+	border:1px solid #002E36 !important;
 }
 
 .custom-button {
@@ -5641,7 +5651,7 @@ solid
 
 .gwt-TabPanelBottom {
 	border-color: #1A5158 !important;
-	border-width: 1px 1px 0 !important;
+	border-width: 1px !important;
 }
 
 .gwt-TabPanelBottom {
@@ -6518,8 +6528,9 @@ a#fdbk_tab:hover{
 	-moz-border-radius:5px 5px 5px 5px;
 }
 .cancle-Btn{
-	background-color:#5F5F5F !important;
-	border:1px solid #2F2F2F !important;
+	background-color: #E4E4E4 !important;
+    border: 1px solid #A0A0A0 !important;
+    color: black;
 }
 .grouped-buttons{
 	padding:5px 0px;
@@ -6539,13 +6550,22 @@ a#fdbk_tab:hover{
 }
 .grouped-buttons td:last-child .Empty-text,.grouped-buttons td:last-child .image-button{
 	border-radius:0 5px 5px 0;
+	border: 1px solid #A0A0A0 !important;
 }
 .grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button{
-	border:1px solid #a0a0a0;
+	border-color:#a0a0a0 !important;
     background-color: #e4e4e4 !important;
     color:black;
 }
 .grouped-buttons td:only-child .image-button{
 	border-radius:5px 5px 5px 5px !important;
 	border:1px solid #a0a0a0 !important;
+}
+.grouped-buttons .Empty-text:hover{
+	background-color:#5F5F5F !important
+}
+.cancle-Btn:hover{
+	border:1px solid #A0A0A0 !important;
+	background-color:#A0A0A0 !important
+	
 }
