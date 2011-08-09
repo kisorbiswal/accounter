@@ -88,10 +88,4 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 		}
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
