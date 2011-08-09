@@ -146,7 +146,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 		user.setCanDoUserManagement(true);
 		UserPermissions permissions = new UserPermissions();
 		permissions.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
-		permissions.setTypeOfExpences(RolePermissions.TYPE_YES);
+		permissions.setTypeOfExpences(RolePermissions.TYPE_APPROVE);
 		permissions.setTypeOfInvoices(RolePermissions.TYPE_YES);
 		permissions.setTypeOfLockDates(RolePermissions.TYPE_YES);
 		permissions.setTypeOfPublishReports(RolePermissions.TYPE_YES);
