@@ -75,7 +75,7 @@ public class EmailForm extends DynamicForm {
 						// + AccounterErrorType.INVALID_EMAIL + ".");
 						// BaseView.commentPanel.setVisible(true);
 						errorWidget.addError(this,
-								AccounterErrorType.INVALID_EMAIL);
+								Accounter.constants().invalidEmail());
 						// Accounter.showError(AccounterErrorType.INVALID_EMAIL);
 						businesEmailText.setText("");
 					} else {
