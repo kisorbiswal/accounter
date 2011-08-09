@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPaySalesTax;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -71,7 +72,7 @@ public class PaySalesTaxView extends
 	private List<ClientPaySalesTaxEntries> entries;
 	List<ClientTAXAgency> taxAgencies = new ArrayList<ClientTAXAgency>();
 	private ArrayList<DynamicForm> listforms;
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	private TextItem transNumber;
 
 	public PaySalesTaxView() {
@@ -506,12 +507,12 @@ public class PaySalesTaxView extends
 
 		result.add(filterForm.validate());
 		if (grid == null || grid.getRecords().isEmpty()) {
-			result.addError(grid, AccounterErrorType.blankTransaction);
+			result.addError(grid, accounterConstants.blankTransaction());
 		} else {
 			result.add(grid.validateGrid());
 		}
 		if (!AccounterValidator.validateAmount(totalAmount)) {
-			result.addError(amountText, AccounterErrorType.amount);
+			result.addError(amountText,accounterConstants.amount());
 		}
 		return result;
 	}

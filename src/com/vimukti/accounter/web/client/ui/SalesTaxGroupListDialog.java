@@ -136,7 +136,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 				: (Utility.isObjectExist(company.getTaxGroups(), UIUtils
 						.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? false
 						: true))) {
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
+			Accounter.showError(Accounter.constants().alreadyExist());
 		} else {
 			taxGroup.setName(UIUtils.toStr(salesTaxGroupDialog.taxGroupText
 					.getValue()));
@@ -187,7 +187,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 				|| Utility.isObjectExist(company.getTaxGroups(),
 						taxGroup.getName())) {
 
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
+			Accounter.showError(Accounter.constants().alreadyExist());
 		} else
 			saveOrUpdate(taxGroup);
 

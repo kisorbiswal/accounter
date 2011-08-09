@@ -167,7 +167,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 					: (Utility.isObjectExist(company.getShippingMethods(),
 							UIUtils.toStr(inputDlg.getTextValueByIndex(0)
 									.toString()))) ? false : true)) {
-				result.addError(this, AccounterErrorType.ALREADYEXIST);
+				result.addError(this, Accounter.constants().alreadyExist());
 			}
 		}
 

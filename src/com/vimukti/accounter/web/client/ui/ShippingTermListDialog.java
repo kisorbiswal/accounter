@@ -150,7 +150,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 					: (Utility.isObjectExist(company.getShippingTerms(),
 							UIUtils.toStr(inputDlg.getTextValueByIndex(0)
 									.toString()))) ? false : true)) {
-				result.addError(this, AccounterErrorType.ALREADYEXIST);
+				result.addError(this, Accounter.constants().alreadyExist());
 			}
 		} else {
 			if (Utility.isObjectExist(getCompany().getShippingTerms(),

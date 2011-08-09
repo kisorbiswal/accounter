@@ -208,7 +208,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		if (paymentTerm != null) {
 			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
 					.getValue().toString() : "")) {
-				result.addError(this, AccounterErrorType.ALREADYEXIST);
+				result.addError(this, Accounter.constants().alreadyExist());
 			}
 		} else {
 			if (Utility.isObjectExist(getCompany().getPaymentsTerms(),

@@ -283,7 +283,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				: (Utility.isObjectExist(getCompany().getTaxGroups(), UIUtils
 						.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? false
 						: true))) {
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
+			Accounter.showError(Accounter.constants().alreadyExist());
 		} else {
 			taxGroup.setName(UIUtils.toStr(salesTaxGroupDialog.taxGroupText
 					.getValue()));
@@ -335,7 +335,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				|| Utility.isObjectExist(getCompany().getTaxGroups(), taxGroup
 						.getName())) {
 
-			Accounter.showError(AccounterErrorType.ALREADYEXIST);
+			Accounter.showError(Accounter.constants().alreadyExist());
 		} else
 			saveOrUpdate(taxGroup);
 

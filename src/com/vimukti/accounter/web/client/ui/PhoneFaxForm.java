@@ -76,7 +76,7 @@ public class PhoneFaxForm extends DynamicForm {
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
 							errorWidget.addError(this,
-									AccounterErrorType.INCORRECTINFORMATION);
+									Accounter.constants().incorrectInformation());
 							// Accounter
 							// .showError(AccounterErrorType.INCORRECTINFORMATION);
 							businessPhoneText.setValue("");
@@ -142,7 +142,7 @@ public class PhoneFaxForm extends DynamicForm {
 						// + ".");
 						// BaseView.commentPanel.setVisible(true);
 						errorWidget.addError(this,
-								AccounterErrorType.INCORRECTINFORMATION);
+								Accounter.constants().incorrectInformation());
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);
 						businessFaxText.setValue("");

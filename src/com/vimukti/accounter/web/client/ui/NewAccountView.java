@@ -889,14 +889,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				&& !(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getAccounts(),
 								name) ? false : true)) : true)) {
-			result.addError(accNameText, AccounterErrorType.ALREADYEXIST);
+			result.addError(accNameText, Accounter.constants().alreadyExist());
 		}
 		if (!(isEdit && data.getName().equalsIgnoreCase(
 				Accounter.constants().openingBalances()))) {
 			validateAccountNumber(accNoText.getNumber());
 		}
 		if (AccounterValidator.isPriorAsOfDate(asofDate.getEnteredDate())) {
-			result.addError(asofDate, AccounterErrorType.prior_asOfDate);
+			result.addError(asofDate, Accounter.constants().priorasOfDate());
 		}
 		if (accountType == ClientAccount.TYPE_BANK) {
 			result.add(bankForm.validate());

@@ -178,7 +178,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 					: (Utility.isObjectExist(company.getPriceLevels(), UIUtils
 							.toStr(dialog.levelText.getValue().toString()))) ? false
 							: true)) {
-				result.addError(this, AccounterErrorType.ALREADYEXIST);
+				result.addError(this, Accounter.constants().alreadyExist());
 			}
 		} else {
 			if (Utility.isObjectExist(getCompany().getPriceLevels(),
