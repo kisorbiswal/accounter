@@ -203,7 +203,7 @@ public class CometServerServlet extends HttpServlet {
 
 		catch (IOException e) {
 			log.info("Got IO Exception:::::" + e);
-			e.printStackTrace();
+//			e.printStackTrace();
 			map.remove(sessionKey);
 			// getHttpServletRequest().getSession().invalidate();
 			throw e;
