@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -27,6 +28,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -60,6 +62,8 @@ public class CustomerRefundView extends
 	private String checkNumber;
 	private ArrayList<DynamicForm> listforms;
 	protected DynamicForm payForm;
+	AccounterConstants accounterConstants = GWT
+			.create(AccounterConstants.class);
 
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS,
@@ -574,7 +578,7 @@ public class CustomerRefundView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 		if (!AccounterValidator.validateAmount(this.amtText.getAmount())) {
-			result.addError(amtText, AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+			result.addError(amtText, accounterConstants.invalidNegativeAmount());
 		}
 		if (AccounterValidator.validateCustomerRefundAmount(
 				amtText.getAmount(), payFromSelect.getSelectedValue())) {
