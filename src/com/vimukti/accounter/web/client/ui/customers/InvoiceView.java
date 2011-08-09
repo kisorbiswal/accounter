@@ -946,6 +946,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			memoTextAreaItem.setDisabled(true);
 		}
 		super.initTransactionViewData();
+
 		initPaymentTerms();
 		initShippingTerms();
 		initShippingMethod();
@@ -988,11 +989,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 			ClientInvoice invoice = (ClientInvoice) transaction;
 
-			if (invoice != null) {
-
+			if (invoice.getMemo() != null) {
 				memoTextAreaItem.setValue(invoice.getMemo());
 				// refText.setValue(invoice.getReference());
-
 			}
 
 		}
