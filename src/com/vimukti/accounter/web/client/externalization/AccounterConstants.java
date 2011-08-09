@@ -1351,7 +1351,9 @@ public interface AccounterConstants extends Constants {
 	public String emailAndInternet();
 
 	public String emailFormatExpr();
-
+	
+	public String emailId();
+	
 	public String employee();
 
 	public String employeeBlah();
@@ -2138,8 +2140,6 @@ public interface AccounterConstants extends Constants {
 
 	public String lastFirst();
 
-	public String lastLogin();
-
 	public String lastMonth();
 
 	public String lastName();
@@ -2191,8 +2191,6 @@ public interface AccounterConstants extends Constants {
 	public String logContent();
 
 	public String logIn();
-
-	public String loginCount();
 
 	public String loginDate();
 
@@ -4771,4 +4769,7 @@ public interface AccounterConstants extends Constants {
 	public String primaryCurrency();
 
 	public String supportingCurrencies();
+
+	public String userRole();
+
 }
