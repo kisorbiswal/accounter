@@ -168,8 +168,8 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	protected boolean onOK() {
 		if (inputDlg != null) {
 			if (shippingTerm != null) {
-				inputDlg = null;
 				EditShippingTerms();
+				inputDlg = null;
 			} else {
 				createShippingTerms();
 				inputDlg = null;
