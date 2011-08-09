@@ -10,8 +10,31 @@
 
 <html>
 <head>
+<% String version = application.getInitParameter("version"); %>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-
+<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
+<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#submitButton').click(function() {
+		$("#activationForm").validate({
+			rules: {
+			name:{ 
+			required :true,
+			minlength: 6
+			}},
+			messages: {
+				name :{
+				required: "Please enter your Company name" ,
+				minlength: "Company name must be at least 6 characters long"
+					}
+				
+			}
+		});
+	});
+});
+</script>
 <!--                                           -->
 <!-- Any title is fine                         -->
 <!--                                           -->
@@ -298,7 +321,7 @@ p {
 
 <c:if test="${message==null}">
  <div id="formDiv">
-	<form method="post" action="/createcompany"
+	<form id = "activationForm" method="post" action="/createcompany"
 		onsubmit="return validation(this)">
 		 <h2 class="company-heading"> Create Company</h2>
 	     <div>
@@ -314,7 +337,7 @@ p {
 			</select>
 		 </div>
 		  <div class="createbutton">
-		  <input type="submit" tabindex="6" value="Create" name="create" class="allviews-common-button" style="width:60px" id="submitButton">
+		  <input type="submit" tabindex="6" value="Create" name="create" class="allviews-common-button" style="width:60px" id="submitButton" />
 	     </div>
 	</form>
 	</div>
