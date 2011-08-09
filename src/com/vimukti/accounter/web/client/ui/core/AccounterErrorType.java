@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public interface AccounterErrorType {
 
