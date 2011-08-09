@@ -27,7 +27,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -283,7 +282,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 		if (this.selectedVatAgency == null) {
 			gridView.removeLoadingImage();
-			gridView.addEmptyMessage(AccounterErrorType.SELECT_VATAGENCY);
+			gridView.addEmptyMessage(Accounter.constants()
+					.selectVatAgency());
 			disableprintButton();
 			return;
 		}
@@ -361,7 +361,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		gridView.init();
 		gridView.setHeight("250");
 		gridView.addStyleName("file-vat");
-		gridView.addEmptyMessage(AccounterErrorType.SELECT_VATAGENCY);
+		gridView.addEmptyMessage(Accounter.constants()
+				.selectVatAgency());
 
 	}
 
