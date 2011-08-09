@@ -1258,7 +1258,7 @@
 	-->
 	<sql-query name="getPayBillTransactionsListForVendor">
 		<query-param name="vendorId" type="long" />
-		<return-scalar column="ID" type="string" />
+		<return-scalar column="ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="VENDOR_NAME" type="string" />
