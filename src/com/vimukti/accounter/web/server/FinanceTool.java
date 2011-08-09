@@ -404,10 +404,12 @@ public class FinanceTool implements IFinanceDAOService {
 					((FiscalYear) serverObject)
 							.canDelete((FiscalYear) serverObject);
 					session.delete(serverObject);
+					hibernateTransaction.commit();
 					return true;
 					// ChangeTracker.put(serverObject);
 				} else {
 					session.delete(serverObject);
+					hibernateTransaction.commit();
 					return true;
 
 				}
