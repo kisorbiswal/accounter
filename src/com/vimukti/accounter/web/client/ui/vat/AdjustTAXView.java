@@ -22,12 +22,12 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.VATItemCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -50,7 +50,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	private AmountField amount;
 	private TextAreaItem memo;
 	private DynamicForm vatform;
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	// private ClientTAXItem clientVATItem;
 	private ClientTAXAgency clientTAXAgency;
 
@@ -361,7 +361,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		// return true;
 		// case 3:
 		if (!AccounterValidator.validateAmount(amount.getAmount())) {
-			result.addError(amount, AccounterErrorType.amount);
+			result.addError(amount, accounterConstants.amount());
 		}
 
 		// case 2:
