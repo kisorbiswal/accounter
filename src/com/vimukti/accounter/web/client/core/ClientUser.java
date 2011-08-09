@@ -30,8 +30,6 @@ public class ClientUser implements IAccounterCore {
 
 	private boolean isAdmin;
 
-	private int loginCount;
-
 	int version;
 	long id;
 
@@ -39,7 +37,6 @@ public class ClientUser implements IAccounterCore {
 	String email;
 	String passwordSha1Hash;
 
-	long lastLogin;
 	long createdDate;
 	String admin;
 
@@ -152,16 +149,6 @@ public class ClientUser implements IAccounterCore {
 		this.passwordSha1Hash = passwordSha1Hash;
 	}
 
-	/**
-	 * @return the lastLogin
-	 */
-	public long getLastLogin() {
-		// if (lastLogin != 0)
-		// return new ClientFinanceDate(lastLogin);
-		// else
-		// return null;
-		return this.lastLogin;
-	}
 
 	/**
 	 * @return the createdDate
@@ -269,10 +256,6 @@ public class ClientUser implements IAccounterCore {
 
 	public void setContact(ClientContact contactId) {
 		this.contact = contactId;
-	}
-
-	public void setLastLogin(long lastLogin) {
-		this.lastLogin = lastLogin;
 	}
 
 	public void setCreatedDate(long createdDate) {
@@ -404,14 +387,6 @@ public class ClientUser implements IAccounterCore {
 			return false;
 	}
 
-	public void setLoginCount(int loginCount) {
-		this.loginCount = loginCount;
-	}
-
-	public int getLoginCount() {
-		return loginCount;
-	}
-
 	public boolean canApproveExpences() {
 		if (this.getPermissions().typeOfExpences == RolePermissions.TYPE_APPROVE)
 			return true;
@@ -447,8 +422,6 @@ public class ClientUser implements IAccounterCore {
 		userInfo.setPermissions(permissions);
 		userInfo.setCanDoUserManagement(canDoUserManagement);
 		userInfo.setAdmin(isAdmin);
-		userInfo.setLastLogin(lastLogin);
-		userInfo.setLoginCount(loginCount);
 		return userInfo;
 	}
 
