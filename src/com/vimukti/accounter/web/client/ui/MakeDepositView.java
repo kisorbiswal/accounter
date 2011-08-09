@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.MakeDepositAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -83,7 +82,7 @@ public class MakeDepositView extends
 	private ClientAccount selectedCashBackAccount;
 
 	private String selectedItemId;
-
+	
 	// private ClientAccount selectedAccount;
 
 	protected ClientCustomer customer;
@@ -113,6 +112,9 @@ public class MakeDepositView extends
 	private TextItem transNumber;
 
 	// private VerticalPanel botRightPanel;
+
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
+			.constants();
 
 	public MakeDepositView() {
 		super(ClientTransaction.TYPE_MAKE_DEPOSIT, MAKEDEPOSIT_TRANSACTION_GRID);
@@ -944,34 +946,33 @@ public class MakeDepositView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 		if (gridView != null && gridView.getRecords().isEmpty()) {
-			result.addError(gridView, AccounterErrorType.blankTransaction);
+			result.addError(gridView, accounterConstants.blankTransaction());
 		} else {
 			result.add(gridView.validateGrid());
 		}
 		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
 			result.addError(transactionDateItem,
-					AccounterErrorType.InvalidTransactionDate);
+					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(transactionDate)) {
-			result
-					.addError(transactionDateItem,
-							AccounterErrorType.InvalidDate);
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		result.add(depoForm.validate());
 		if (!AccounterValidator.validateNagtiveAmount(cashBackAmountText
 				.getAmount())) {
 			result.addError(cashBackAmountText,
-					AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+					accounterConstants.invalidNegativeAmount());
 		} else if (!AccounterValidator.validate_MakeDeposit_CashBackAmount(
 				cashBackAmountText.getAmount().doubleValue(), totText
 						.getAmount())) {
 			result.addError(cashBackAmountText,
-					AccounterErrorType.makeDeposit_CashBackAmount);
+					Accounter.constants().makeDepositCashBackAmount());
 		}
 		if (!AccounterValidator.validate_MakeDeposit_accountcombo(
 				selectedDepositInAccount, gridView)) {
 			result.addError(gridView,
-					AccounterErrorType.makedepositAccountValidation);
+					Accounter.constants().makedepositAccountValidation());
 		}
 		return result;
 
