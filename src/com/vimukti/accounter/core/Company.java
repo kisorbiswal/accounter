@@ -75,7 +75,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	int accountingType = 0;
 
-	long id;
 	String companyID;
 
 	/**
