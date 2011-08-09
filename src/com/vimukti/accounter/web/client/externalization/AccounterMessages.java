@@ -99,4 +99,8 @@ public interface AccounterMessages extends Messages {
 	public String noRecordsToShow();
 
 	public SafeHtml selectIndustryInfoHTML();
+	
+	public String journalEntryVendor(String name);
+	
+	public String invalidAccountNumber(String name);
 }
