@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -515,8 +517,9 @@ public abstract class ListGrid<T> extends CustomTable {
 	}
 
 	protected void addOrEditTextBox(final T obj, final Object value) {
+		final TextBox textBox;
 		if (widgetsMap.get(currentCol) == null) {
-			final TextBox textBox = new TextBox();
+			textBox = new TextBox();
 			textBox.removeStyleName("gwt-TextBox");
 			textBox.setWidth("100%");
 			if (getColumnType(currentCol) == COLUMN_TYPE_DECIMAL_TEXTBOX)
@@ -534,11 +537,23 @@ public abstract class ListGrid<T> extends CustomTable {
 			widgetsMap.put(currentCol, textBox);
 			setWidget(currentRow, currentCol, textBox);
 		} else {
-			TextBox box = (TextBox) widgetsMap.get(currentCol);
+			textBox = (TextBox) widgetsMap.get(currentCol);
 			if (value != null)
-				box.setValue(value.toString());
-			setWidget(currentRow, currentCol, box);
+				textBox.setValue(value.toString());
+			setWidget(currentRow, currentCol, textBox);
 		}
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				textBox.setFocus(true);
+				if (getColumnType(currentCol) == COLUMN_TYPE_DECIMAL_TEXTBOX)
+					textBox.setSelectionRange(0, 0);
+				else {
+					textBox.setSelectionRange(textBox.getValue().length(), 0);
+				}
+			}
+		});
 	}
 
 	/**
