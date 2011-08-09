@@ -1,9 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -24,8 +22,8 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	@Override
 	protected int getColumnType(int index) {
 		switch (index) {
-		case 2:
-			return ListGrid.COLUMN_TYPE_DATE;
+		// case 2:
+		// return ListGrid.COLUMN_TYPE_DATE;
 		case 4:
 			return ListGrid.COLUMN_TYPE_IMAGE;
 		default:
@@ -60,11 +58,10 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] { Accounter.constants().name(),
-				Accounter.constants().permissions(),
-				// FinanceApplication.constants().status(),
-				Accounter.constants().lastLogin(),
-				Accounter.constants().loginCount(), "" };
+		return new String[] { Accounter.constants().firstName(),
+				Accounter.constants().lastName(),
+				Accounter.constants().userRole(),
+				Accounter.constants().emailId(), "" };
 	}
 
 	public void setUsersView(UsersView usersView) {
@@ -75,8 +72,10 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	protected Object getColumnValue(ClientUserInfo obj, int index) {
 		switch (index) {
 		case 0:
-			return obj.getFullName();
+			return obj.getFirstName();
 		case 1:
+			return obj.getLastName();
+		case 2:
 			// if (obj.isCanDoUserManagement())
 			// return obj.getUserRole() + " + Manage Users";
 			// else
@@ -87,12 +86,8 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 			// return "Active";
 			// else
 			// return "Pending";
-		case 2:
-			return obj.getLastLogin() != 0 ? DateTimeFormat.getFormat(
-					Accounter.constants().dataTimeFormat()).format(
-					new Date(obj.getLastLogin())) : "";
 		case 3:
-			return String.valueOf(obj.getLoginCount());
+			return obj.getEmail();
 		case 4:
 			return Accounter.getFinanceImages().delete();
 		default:
