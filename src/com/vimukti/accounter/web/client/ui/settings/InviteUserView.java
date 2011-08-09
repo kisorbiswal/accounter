@@ -56,7 +56,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 				if (event != null) {
 					String em = emailField.getValue().toString();
 					if (!UIUtils.isValidEmail(em)) {
-						Accounter.showError(AccounterErrorType.INVALID_EMAIL);
+						Accounter.showError(Accounter.constants().invalidEmail());
 						emailField.setText("");
 					} else {
 						// ClientEmail email = new ClientEmail();
