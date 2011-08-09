@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -45,6 +46,7 @@ import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -93,6 +95,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	TAXCodeCombo vendorTaxCode;
 	VendorGroupCombo vendorGroupSelect;
 	SelectCombo preferredPaymentSelect;
+	CurrencyCombo currencyCombo;
 	CheckboxItem euVATexempVendor;
 	TabPanel tabSet;
 
@@ -530,7 +533,15 @@ public class VendorView extends BaseView<ClientVendor> {
 		bankNameText.setHelpInformation(true);
 		bankBranchText = new TextItem(Accounter.constants().bankBranch());
 		bankBranchText.setHelpInformation(true);
+		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
+		currencyCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
 
+					@Override
+					public void selectedComboBoxItem(ClientCurrency selectItem) {
+
+					}
+				});
 		DynamicForm financeDetailsForm = new DynamicForm();
 		financeDetailsForm.setIsGroup(true);
 		financeDetailsForm.setWidth("100%");
@@ -538,7 +549,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				.financialDetails());
 		financeDetailsForm.setFields(expenseAccountsSelect, creditLimitText,
 				preferredShippingSelect, preferredPaymentSelect,
-				payTermsSelect, accountText, bankNameText, bankBranchText);
+				payTermsSelect, accountText, bankNameText, bankBranchText,
+				currencyCombo);
 
 		vendorGroupSelect = new VendorGroupCombo(UIUtils.getVendorString(
 				Accounter.constants().supplierGroup(), Accounter.constants()
