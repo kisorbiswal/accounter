@@ -125,19 +125,19 @@ public class PriceLevel extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		Session session = HibernateUtil.getCurrentSession();
-		PriceLevel priceLevel = (PriceLevel) clientObject;
-		Query query = session.getNamedQuery("getPriceLevel.by.Name")
-				.setParameter(0, priceLevel.name);
-		List list = query.list();
-		if (list != null && list.size() > 0) {
-			PriceLevel newPriceLevel = (PriceLevel) list.get(0);
-			if (priceLevel.id != newPriceLevel.id) {
-				throw new AccounterException(
-						AccounterException.ERROR_NAME_CONFLICT);
-				// "PriceLevel already exists with this name");
-			}
-		}
+		// Session session = HibernateUtil.getCurrentSession();
+		// PriceLevel priceLevel = (PriceLevel) clientObject;
+		// Query query = session.getNamedQuery("getPriceLevel.by.Name")
+		// .setParameter(0, priceLevel.name);
+		// List list = query.list();
+		// if (list != null && list.size() > 0) {
+		// PriceLevel newPriceLevel = (PriceLevel) list.get(0);
+		// if (priceLevel.id != newPriceLevel.id) {
+		// throw new AccounterException(
+		// AccounterException.ERROR_NAME_CONFLICT);
+		// // "PriceLevel already exists with this name");
+		// }
+		// }
 
 		return true;
 	}
