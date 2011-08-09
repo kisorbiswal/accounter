@@ -4746,9 +4746,7 @@ public interface AccounterConstants extends Constants {
 
 	public String journalEntryCustomer();
 
-	public String journalEntryAccount();
-
-	 public String journalEntryVendor(String name);	 
+	public String journalEntryAccount();	 
 
 	public String priorasOfDate();
 
