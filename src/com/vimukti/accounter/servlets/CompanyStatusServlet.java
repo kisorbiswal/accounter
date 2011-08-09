@@ -25,7 +25,6 @@ public class CompanyStatusServlet extends BaseServlet {
 			if (status != null) {
 				if (status.equals("Creating")) {
 					req.setAttribute("successmessage", CREATING);
-					session.removeAttribute(COMPANY_CREATION_STATUS);
 					req.getRequestDispatcher(REFRESH_VIEW).forward(req, resp);
 					return;
 				}
