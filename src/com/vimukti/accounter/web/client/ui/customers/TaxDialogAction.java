@@ -2,10 +2,11 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
-public class TaxDialogAction extends Action {
+public class TaxDialogAction extends Action<ClientTAXCode> {
 	public TaxDialogAction(String text) {
 		super(text);
 	}
@@ -15,8 +16,8 @@ public class TaxDialogAction extends Action {
 	// return null;
 	// }
 
-	public <T> void run(AccounterAsyncCallback<T> callBack, FormItem actionSource,
-			Object data, Boolean isDependent) {
+	public <T> void run(AccounterAsyncCallback<T> callBack,
+			FormItem actionSource, Object data, Boolean isDependent) {
 		new TaxDialog(callBack, actionSource).show();
 	}
 

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -14,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.vat.TAXAgencyView;
  * @author Raj Vimal
  * 
  */
-public class NewTAXAgencyAction extends Action {
+public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 
 	protected TAXAgencyView view;
 

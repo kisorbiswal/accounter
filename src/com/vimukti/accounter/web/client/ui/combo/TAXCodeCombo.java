@@ -10,9 +10,10 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.TaxDialogAction;
+import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 
 public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	private boolean isSales;
@@ -75,13 +76,27 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	@Override
 	public void onAddNew() {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			Action action = ActionFactory.getNewTAXCodeAction();
-			action.setActionSource(this);
+			NewTAXCodeAction action = ActionFactory.getNewTAXCodeAction();
+			action.setCallback(new ActionCallback<ClientTAXCode>() {
+
+				@Override
+				public void actionResult(ClientTAXCode result) {
+					addItemThenfireEvent(result);
+
+				}
+			});
 
 			action.run(null, true);
 		} else {
 			TaxDialogAction action1 = ActionFactory.getTaxAction();
-			action1.setActionSource(this);
+			action1.setCallback(new ActionCallback<ClientTAXCode>() {
+
+				@Override
+				public void actionResult(ClientTAXCode result) {
+					addItemThenfireEvent(result);
+
+				}
+			});
 			action1.run(createAddNewCallBack(), this, null, true);
 		}
 	}

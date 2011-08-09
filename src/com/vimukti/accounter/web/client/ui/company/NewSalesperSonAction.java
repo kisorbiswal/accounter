@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
  * @modified by Ravi Kiran.G
  * 
  */
-public class NewSalesperSonAction extends Action {
+public class NewSalesperSonAction extends Action<ClientSalesPerson> {
 
 	private ClientSalesPerson salesPerson;
 

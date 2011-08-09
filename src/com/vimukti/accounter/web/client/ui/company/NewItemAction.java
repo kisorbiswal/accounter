@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
  * @author Raj Vimal modified by Rajesh.A
  */
 
-public class NewItemAction extends Action {
+public class NewItemAction extends Action<ClientItem> {
 
 	private boolean isEdit;
 	private ClientItem item;
@@ -39,7 +39,8 @@ public class NewItemAction extends Action {
 	}
 
 	public NewItemAction(String text, ClientItem item,
-			AccounterAsyncCallback<Object> callback, boolean isGeneratedFromCustomer) {
+			AccounterAsyncCallback<Object> callback,
+			boolean isGeneratedFromCustomer) {
 		super(text);
 		this.catagory = Accounter.constants().company();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;

@@ -703,50 +703,31 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		// For Editing customer
 		if (data != null) {
-			// Setting Customer Name
-			custNameText.setValue(data.getName());
-			// Setting customer number
-			custNoText.setValue(data.getNumber());
-			// Setting File as
-			fileAsText.setValue(data.getFileAs());
+
 			// Setting AddressForm
 			addrsForm = new AddressForm(data.getAddress());
 			addrsForm.setWidth("100%");
 			// Setting Phone Fax Form
 			fonFaxForm = new PhoneFaxForm(null, null, this);
-			fonFaxForm.businessPhoneText.setValue(data.getPhoneNo());
-			fonFaxForm.businessFaxText.setValue(data.getFaxNo());
+
 			fonFaxForm.setWidth("100%");
 			// Setting Email Form
 			emailForm = new EmailForm(null, data.getWebPageAddress(), this);
-			emailForm.businesEmailText.setValue(data.getEmail());
-			emailForm.setWidth("100%");
-			// Setting Status Check
-			statusCheck.setValue(data.isActive());
 
-			// Setting Customer Since
-			customerSinceDate.setEnteredDate(new ClientFinanceDate(data
-					.getPayeeSince()));
+			emailForm.setWidth("100%");
 
 			// Setting Balance
 			if (!DecimalUtil.isEquals(data.getBalance(), 0)) {
-				balanceText.setAmount(data.getBalance());
 				balanceText.setDisabled(true);
 			}
 
 			if (!data.isOpeningBalanceEditable())
 				balanceText.setDisabled(true);
 
-			// Setting Balance as of
-			balanceDate.setEnteredDate(new ClientFinanceDate(data
-					.getBalanceAsOf()));
 			balanceDate.setDisabled(true);
 			// Setting Contacts
 			gridView.initContacts(data.getContacts());
 			// gridView.setHeight("88px");
-
-			// Setting Memo
-			memoArea.setValue(data.getMemo().toString());
 
 		} else { // For Creating customer
 			addrsForm = new AddressForm(null);
@@ -1043,15 +1024,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			selectSalesPersonFromDetailsTab = getCompany().getSalesPerson(
 					data.getSalesPerson());
 
-			bankAccountSelect.setValue(data.getBankAccountNo());
-			bankNameSelect.setValue(data.getBankName());
-			bankBranchSelect.setValue(data.getBankBranch());
-			panNumberText.setValue(data.getPanNumber());
-			cstNumberText.setValue(data.getCstNumber());
-			serviceTaxRegistrationNo.setValue(data
-					.getServiceTaxRegistrationNumber());
-			tinNumberText.setValue(data.getTinNumber());
-
 			// Setting Credit Limit Text
 			if (!DecimalUtil.isEquals(data.getCreditLimit(), 0))
 				creditLimitText.setAmount(data.getCreditLimit());
@@ -1084,8 +1056,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				selectVatCodeFromDetailsTab = getCompany().getTAXCode(
 						data.getTAXCode());
-				// setting vatRegistrationNumber
-				vatregno.setValue(data.getVATRegistrationNumber());
 			}
 		}
 
@@ -1120,6 +1090,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			setData(new ClientCustomer());
 		}
 		// initTaxAgenciesList();
+		initMainValues();
 		initSalesPersonList();
 		initCustomerGroupList();
 		initPaymentTermsList();
@@ -1136,6 +1107,49 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			// initTaxItemGroupList();
 			initVatCodeList();
 		super.initData();
+
+	}
+
+	private void initMainValues() {
+		// Setting Customer Name
+		custNameText.setValue(data.getName());
+		// Setting customer number
+		custNoText.setValue(data.getNumber());
+		// Setting File as
+		fileAsText.setValue(data.getFileAs());
+		fonFaxForm.businessPhoneText.setValue(data.getPhoneNo());
+		fonFaxForm.businessFaxText.setValue(data.getFaxNo());
+		emailForm.businesEmailText.setValue(data.getEmail());
+
+		// Setting Status Check
+		statusCheck.setValue(data.isActive());
+
+		// Setting Customer Since
+		customerSinceDate.setEnteredDate(new ClientFinanceDate(data
+				.getPayeeSince()));
+		if (!DecimalUtil.isEquals(data.getBalance(), 0)) {
+			balanceText.setAmount(data.getBalance());
+		}
+
+		// Setting Balance as of
+		balanceDate
+				.setEnteredDate(new ClientFinanceDate(data.getBalanceAsOf()));
+		// Setting Memo
+		memoArea.setValue(data.getMemo());
+
+		bankAccountSelect.setValue(data.getBankAccountNo());
+		bankNameSelect.setValue(data.getBankName());
+		bankBranchSelect.setValue(data.getBankBranch());
+		panNumberText.setValue(data.getPanNumber());
+		cstNumberText.setValue(data.getCstNumber());
+		serviceTaxRegistrationNo.setValue(data
+				.getServiceTaxRegistrationNumber());
+		tinNumberText.setValue(data.getTinNumber());
+
+		if (company.getAccountingType() != 0) {
+			// setting vatRegistrationNumber
+			vatregno.setValue(data.getVATRegistrationNumber());
+		}
 
 	}
 

@@ -1,7 +1,8 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
-import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class SalesPersonCombo extends CustomCombo<ClientSalesPerson> {
@@ -29,9 +30,16 @@ public class SalesPersonCombo extends CustomCombo<ClientSalesPerson> {
 
 	@Override
 	public void onAddNew() {
-		Action action = ActionFactory.getNewSalesperSonAction();
-		action.setActionSource(this);
-		
+		NewSalesperSonAction action = ActionFactory.getNewSalesperSonAction();
+		action.setCallback(new ActionCallback<ClientSalesPerson>() {
+
+			@Override
+			public void actionResult(ClientSalesPerson result) {
+				addItemThenfireEvent(result);
+
+			}
+		});
+
 		action.run(null, true);
 	}
 

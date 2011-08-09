@@ -6,8 +6,9 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
-import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 
 /**
  * @author Murali.A
@@ -137,8 +138,15 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	 */
 	@Override
 	public void onAddNew() {
-		Action action = ActionFactory.getNewVatItemAction();
-		action.setActionSource(this);
+		NewVatItemAction action = ActionFactory.getNewVatItemAction();
+		action.setCallback(new ActionCallback<ClientTAXItem>() {
+
+			@Override
+			public void actionResult(ClientTAXItem result) {
+				addItemThenfireEvent(result);
+
+			}
+		});
 
 		action.run(null, true);
 	}

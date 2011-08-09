@@ -1056,7 +1056,7 @@ public class ActionFactory {
 		return new ManageTAXCodesListAction(actionsConstants.vatCodeList());
 	}
 
-	public static Action getNewTAXCodeAction() {
+	public static NewTAXCodeAction getNewTAXCodeAction() {
 		return new NewTAXCodeAction(actionsConstants.newVATCode());
 	}
 

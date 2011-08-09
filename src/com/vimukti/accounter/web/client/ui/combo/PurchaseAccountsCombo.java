@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class PurchaseAccountsCombo extends GridAccountsCombo {
@@ -23,8 +24,7 @@ public class PurchaseAccountsCombo extends GridAccountsCombo {
 
 	public List<ClientAccount> getAccounts() {
 		gridAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (account.getType() != ClientAccount.TYPE_CASH
 					&& account.getType() != ClientAccount.TYPE_BANK
 					&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
@@ -58,14 +58,21 @@ public class PurchaseAccountsCombo extends GridAccountsCombo {
 	@Override
 	public void onAddNew() {
 		NewAccountAction action = ActionFactory.getNewAccountAction();
-		action.setActionSource(this);
+		action.setCallback(new ActionCallback<ClientAccount>() {
+
+			@Override
+			public void actionResult(ClientAccount result) {
+				addItemThenfireEvent(result);
+
+			}
+		});
 		// action.setAccountTypes(UIUtils
 		// .getOptionsByType(AccountCombo.GRID_ACCOUNTS_COMBO));
 		action.setAccountTypes(Arrays.asList(
 				ClientAccount.TYPE_COST_OF_GOODS_SOLD,
 				ClientAccount.TYPE_OTHER_EXPENSE,
 				ClientAccount.TYPE_FIXED_ASSET, ClientAccount.TYPE_EXPENSE));
-		
+
 		action.run(null, true);
 
 	}
