@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.company.ItemGroupDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
@@ -23,7 +24,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	ClientItemGroup itemGroup;
 
 	private GroupDialogButtonsHandler dialogButtonsHandler;
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	List<ClientItemGroup> ItemGroups;
 	private ItemGroupDialog itemGroupDg;
 
@@ -137,7 +138,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 					itemGroupDg.getItemGroupName()) ? true : (Utility
 					.isObjectExist(company.getItemGroups(),
 							itemGroupDg.getItemGroupName())) ? false : true)) {
-				result.addError(this, AccounterErrorType.ALREADYEXIST);
+				result.addError(this, accounterConstants.alreadyExist());
 			}
 		} else {
 			if (Utility.isObjectExist(getCompany().getItemGroups(),
