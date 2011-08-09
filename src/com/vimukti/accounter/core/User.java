@@ -274,6 +274,7 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		userPermissions.setTypeOfLockDates(this.getPermissions()
 				.getTypeOfLockDates());
 		user.setPermissions(userPermissions);
+		user.setID(getID());
 		return user;
 	}
 
