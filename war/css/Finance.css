@@ -1171,10 +1171,19 @@ table tr.parentRow:HOVER {
 .gridHeader {
 	border-collapse: collapse;
 	cursor: pointer;
-	background:#A0A0A0 !important;
+	/*background:#A0A0A0 !important;*/
 	height: 21px;
 	width: 100%;
 	border-bottom:1px solid #1a1a1a;
+	/*background: -moz-linear-gradient(top,  #ccc,  #000);
+	background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#000));
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000');*/
+	
+	background: #A0A0A0; /* for non-css3 browsers */
+
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4E4E4', endColorstr='#A0A0A0'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#E4E4E4), to(#A0A0A0)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #E4E4E4,  #A0A0A0); /* for firefox 3.6+ */ 
 }
 
 .gridHeaderLastTd {
@@ -6554,16 +6563,17 @@ a#fdbk_tab:hover{
 	border: 1px solid #A0A0A0 !important;
 }
 .grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button{
-	border-color:#a0a0a0 !important;
-    background-color: #e4e4e4 !important;
+	border-color:#a0a0a0;
+    background-color: #e4e4e4;
     color:black;
 }
 .grouped-buttons td:only-child .image-button{
 	border-radius:5px 5px 5px 5px !important;
 	border:1px solid #a0a0a0 !important;
 }
-.grouped-buttons .Empty-text:hover{
-	background-color:#5F5F5F !important
+.grouped-buttons .Empty-text:hover,.grouped-buttons .image-button:hover{
+	background-color:#5F5F5F !important;
+	color:white !important;
 }
 .cancle-Btn:hover{
 	border:1px solid #A0A0A0 !important;
