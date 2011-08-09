@@ -192,7 +192,7 @@ public class AddressForm extends DynamicForm {
 		this.businessSelect.initCombo(linkedHashMap);
 	}
 
-	public void setAddress(List<ClientAddress> addresses) {
+	public void setAddress(Collection<ClientAddress> addresses) {
 		for (ClientAddress address : addresses) {
 			this.allAddresses.put(address.getType(), address);
 			addrArea.setValue(address.getAddress1() + "\n"

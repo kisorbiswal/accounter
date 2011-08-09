@@ -277,34 +277,43 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	public static String objectExist(ClientCustomer customer) {
 
+		String error = null;
+
 		List<ClientCustomer> list = Accounter.getCompany().getCustomers();
 		if (list == null || list.isEmpty())
 			return "";
 		for (ClientCustomer old : list) {
+			if (old.getID() == customer.getID()) {
+				continue;
+			}
 			if (customer.getName().equalsIgnoreCase(old.getName())) {
 				for (ClientCustomer old2 : list) {
 					if (customer.getNumber().equals(old2.getNumber())) {
-						return Accounter.constants()
+						error = Accounter.constants()
 								.customerAlreadyExistsWithNameAndNo();
+						break;
 					}
 				}
 				return Accounter.constants().customerAlreadyExistsWithName();
 			} else if (customer.getNumber().equals(old.getNumber())) {
 				for (ClientCustomer old2 : list) {
 					if (customer.getName().equalsIgnoreCase(old2.getName())) {
-						return Accounter.constants()
+						error = Accounter.constants()
 								.customerAlreadyExistsWithNameAndNo();
+						break;
 					}
 				}
 				return Accounter.constants().customerAlreadyExistsWithNumber();
 			} else if (checkIfNotNumber(customer.getNumber())) {
-				return Accounter.constants().customerNumberShouldBeNumber();
+				error = Accounter.constants().customerNumberShouldBeNumber();
+				break;
 			} else if (Integer.parseInt(customer.getNumber().toString()) < 1) {
-				return Accounter.constants().customerNumberShouldBePos();
+				error = Accounter.constants().customerNumberShouldBePos();
+				break;
 			}
 
 		}
-		return "";
+		return error;
 	}
 
 	@Override
@@ -366,7 +375,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		data.setNumber(custNoText.getValue().toString());
 		String s = objectExist(data);
-		if (!s.isEmpty()) {
+		if (s != null && !s.isEmpty()) {
 
 			result.addError(custNameText, s);
 		}
@@ -570,19 +579,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			}
 
 		});
-		if (data == null)
-			Accounter.createHomeService().getCustomerNumber(
-					new AccounterAsyncCallback<String>() {
-
-						@Override
-						public void onResultSuccess(String result) {
-							custNoText.setValue(result);
-						}
-
-						@Override
-						public void onException(AccounterException caught) {
-						}
-					});
 
 		customerForm = UIUtils.form(customerConstants.customer());
 
@@ -704,41 +700,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		bottomLayout.add(memoForm);
 
 		// For Editing customer
-		if (data != null) {
 
-			// Setting AddressForm
-			addrsForm = new AddressForm(data.getAddress());
-			addrsForm.setWidth("100%");
-			// Setting Phone Fax Form
-			fonFaxForm = new PhoneFaxForm(null, null, this);
-
-			fonFaxForm.setWidth("100%");
-			// Setting Email Form
-			emailForm = new EmailForm(null, data.getWebPageAddress(), this);
-
-			emailForm.setWidth("100%");
-
-			// Setting Balance
-			if (!DecimalUtil.isEquals(data.getBalance(), 0)) {
-				balanceText.setDisabled(true);
-			}
-
-			if (!data.isOpeningBalanceEditable())
-				balanceText.setDisabled(true);
-
-			balanceDate.setDisabled(true);
-			// Setting Contacts
-			gridView.initContacts(data.getContacts());
-			// gridView.setHeight("88px");
-
-		} else { // For Creating customer
-			addrsForm = new AddressForm(null);
-			addrsForm.setWidth("100%");
-			fonFaxForm = new PhoneFaxForm(null, null, this);
-			fonFaxForm.setWidth("100%");
-			emailForm = new EmailForm(null, null, this);
-			emailForm.setWidth("100%");
-		}
+		addrsForm = new AddressForm(null);
+		addrsForm.setWidth("100%");
+		fonFaxForm = new PhoneFaxForm(null, null, this);
+		fonFaxForm.setWidth("100%");
+		emailForm = new EmailForm(null, null, this);
+		emailForm.setWidth("100%");
 
 		/* Adding Dynamic Forms in List */
 		listforms.add(customerForm);
@@ -1030,46 +998,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		topHLay.add(rightVLay);
 		topHLay.setSize("100%", "100%");
 
-		if (data != null) {
-			// Setting salesPerson
-			selectSalesPersonFromDetailsTab = getCompany().getSalesPerson(
-					data.getSalesPerson());
-
-			// Setting Credit Limit Text
-			if (!DecimalUtil.isEquals(data.getCreditLimit(), 0))
-				creditLimitText.setAmount(data.getCreditLimit());
-
-			// Setting price level
-			selectPriceLevelFromDetailsTab = getCompany().getPriceLevel(
-					data.getPriceLevel());
-			// Setting Credit Rating
-			selectCreditRatingFromDetailsTab = getCompany().getCreditRating(
-					data.getCreditRating());
-			// Setting Shipping Method
-			selectShippingMethodFromDetailsTab = Accounter.getCompany()
-					.getShippingMethod(data.getShippingMethod());
-			// Setting Payment Method
-			// selectPaymentMethodFromDetialsTab = takenCustomer
-			// .getPaymentMethod();
-			payMethSelect.setComboItem(data.getPaymentMethod());
-			// Setting payemnt term
-			selectPayTermFromDetailsTab = getCompany().getPaymentTerms(
-					data.getPaymentTerm());
-			// Setting Customer Group
-			selectCustomerGroupFromDetailsTab = getCompany().getCustomerGroup(
-					data.getCustomerGroup());
-			// Setting Tax Group
-			if (company.getAccountingType() == 0)
-				selectTaxGroupFromDetailsTab = getCompany().getTAXItemGroup(
-						data.getTaxItemGroups());
-			else {
-				// settting vatcode
-
-				selectVatCodeFromDetailsTab = getCompany().getTAXCode(
-						data.getTAXCode());
-			}
-		}
-
 		// listforms.add(salesForm);
 		listforms.add(financeDitailsForm);
 		listforms.add(termsForm);
@@ -1125,12 +1053,28 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting Customer Name
 		custNameText.setValue(data.getName());
 		// Setting customer number
-		custNoText.setValue(data.getNumber());
+		if (data.getID() == 0) {
+			Accounter.createHomeService().getCustomerNumber(
+					new AccounterAsyncCallback<String>() {
+
+						@Override
+						public void onResultSuccess(String result) {
+							custNoText.setValue(result);
+						}
+
+						@Override
+						public void onException(AccounterException caught) {
+						}
+					});
+		} else {
+			custNoText.setValue(data.getNumber());
+		}
 		// Setting File as
 		fileAsText.setValue(data.getFileAs());
 		fonFaxForm.businessPhoneText.setValue(data.getPhoneNo());
 		fonFaxForm.businessFaxText.setValue(data.getFaxNo());
 		emailForm.businesEmailText.setValue(data.getEmail());
+		emailForm.webText.setValue(data.getWebPageAddress());
 
 		// Setting Status Check
 		statusCheck.setValue(data.isActive());
@@ -1140,11 +1084,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				.getPayeeSince()));
 		if (!DecimalUtil.isEquals(data.getBalance(), 0)) {
 			balanceText.setAmount(data.getBalance());
+			balanceText.setDisabled(true);
 		}
 
 		// Setting Balance as of
 		balanceDate
 				.setEnteredDate(new ClientFinanceDate(data.getBalanceAsOf()));
+		balanceDate.setDisabled(true);
 		// Setting Memo
 		memoArea.setValue(data.getMemo());
 
@@ -1162,6 +1108,47 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			vatregno.setValue(data.getVATRegistrationNumber());
 		}
 
+		// Setting AddressForm
+		addrsForm.setAddress(data.getAddress());
+		// Setting Contacts
+		gridView.initContacts(data.getContacts());
+
+		// Setting salesPerson
+		selectSalesPersonFromDetailsTab = getCompany().getSalesPerson(
+				data.getSalesPerson());
+
+		// Setting Credit Limit Text
+		if (!DecimalUtil.isEquals(data.getCreditLimit(), 0))
+			creditLimitText.setAmount(data.getCreditLimit());
+
+		// Setting price level
+		selectPriceLevelFromDetailsTab = getCompany().getPriceLevel(
+				data.getPriceLevel());
+		// Setting Credit Rating
+		selectCreditRatingFromDetailsTab = getCompany().getCreditRating(
+				data.getCreditRating());
+		// Setting Shipping Method
+		selectShippingMethodFromDetailsTab = Accounter.getCompany()
+				.getShippingMethod(data.getShippingMethod());
+		// Setting Payment Method
+		// selectPaymentMethodFromDetialsTab = takenCustomer
+		// .getPaymentMethod();
+		payMethSelect.setComboItem(data.getPaymentMethod());
+		// Setting payemnt term
+		selectPayTermFromDetailsTab = getCompany().getPaymentTerms(
+				data.getPaymentTerm());
+		// Setting Customer Group
+		selectCustomerGroupFromDetailsTab = getCompany().getCustomerGroup(
+				data.getCustomerGroup());
+		// Setting Tax Group
+		if (company.getAccountingType() == 0)
+			selectTaxGroupFromDetailsTab = getCompany().getTAXItemGroup(
+					data.getTaxItemGroups());
+		else {
+			// settting vatcode
+			selectVatCodeFromDetailsTab = getCompany().getTAXCode(
+					data.getTAXCode());
+		}
 	}
 
 	@Override
