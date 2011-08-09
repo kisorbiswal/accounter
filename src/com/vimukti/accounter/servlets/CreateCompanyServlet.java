@@ -3,6 +3,9 @@ package com.vimukti.accounter.servlets;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -60,19 +63,49 @@ public class CreateCompanyServlet extends BaseServlet {
 
 	private void doCreateCompany(HttpServletRequest request,
 			HttpServletResponse response, String emailID) throws IOException {
-		final ServerCompany serverCompany = getCompany(request);
-		if (!validation(request, serverCompany)) {
+		String companyName = request.getParameter("name");
+		String companyTypeStr = request.getParameter("companyType");
+		if (!isValidCompanyName(companyName)) {
 			request.setAttribute("errormessage",
-					"Company creation failed, please try with different company name.");
+					"Invalid Company Name. Name Should be grater than 5 characters");
 			dispatch(request, response, view);
 			return;
 		}
-		
+		int companyType = getCompanyType(companyTypeStr);
+		if (companyType < 0) {
+			request.setAttribute("errormessage", "Invalid Company Type.");
+			dispatch(request, response, view);
+			return;
+		}
+		ServerCompany serverCompany = null;
+		Client client = null;
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		final Client client = getClient(emailID);
 		Transaction transaction = session.beginTransaction();
 		try {
-			session.save(serverCompany);
+			serverCompany = getServerCompany(companyName);
+			if (serverCompany != null) {
+				request.setAttribute("errormessage",
+						"Company exist with the same name.");
+				dispatch(request, response, view);
+				return;
+			}
+			client = getClient(emailID);
+			if (client == null) {
+				request.setAttribute("errormessage",
+						"Your session was expired. please login again.");
+				dispatch(request, response, view);
+				return;
+			}
+
+			serverCompany = new ServerCompany();
+			serverCompany.getClients().add(client);
+			serverCompany.setCompanyName(companyName);
+			serverCompany.setCompanyType(companyType);
+			serverCompany.setConfigured(false);
+			serverCompany.setCreatedDate(new Date());
+			serverCompany.setServerAddress("");// TODO
+			session.saveOrUpdate(serverCompany);
+
 			client.getCompanies().add(serverCompany);
 			session.saveOrUpdate(client);
 			transaction.commit();
@@ -80,9 +113,14 @@ public class CreateCompanyServlet extends BaseServlet {
 			e.printStackTrace();
 			transaction.rollback();
 		} finally {
-			session.close();
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 
+		final ServerCompany rollBackServerCompany = serverCompany;
+		// sdfsd
+		final Client rollBackClient = client;
 		final String urlString = getUrlString(serverCompany, emailID, client);
 		final HttpSession httpSession = request.getSession(true);
 		new Thread(new Runnable() {
@@ -100,7 +138,7 @@ public class CreateCompanyServlet extends BaseServlet {
 						httpSession.setAttribute(COMPANY_CREATION_STATUS,
 								"Success");
 					} else {
-						rollback(serverCompany, client);
+						rollback(rollBackServerCompany, rollBackClient);
 						httpSession.setAttribute(COMPANY_CREATION_STATUS,
 								"Fail");
 					}
@@ -113,26 +151,29 @@ public class CreateCompanyServlet extends BaseServlet {
 		return;
 	}
 
+	private ServerCompany getServerCompany(String companyName) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getServerCompany.by.name")
+				.setParameter("name", companyName);
+		return (ServerCompany) query.uniqueResult();
+	}
+
 	/**
 	 * @param serverCompany
 	 * @param client
 	 */
 	private void rollback(ServerCompany serverCompany, Client client) {
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
-		Transaction transaction = session.beginTransaction();
 		try {
-			Query query = session.getNamedQuery("delete.Client.Companies")
-					.setParameter("serverCompanyID", serverCompany.getID());
-			query.executeUpdate();
-			query = session.getNamedQuery("delete.ServerCompany.by.Id")
-					.setParameter("id", serverCompany.getID());
-			query.executeUpdate();
 			client.getCompanies().remove(serverCompany);
-			session.saveOrUpdate(client);
-			transaction.commit();
+			session.save(client);
+			session.delete(serverCompany);
 		} catch (Exception e) {
 			e.printStackTrace();
-			transaction.rollback();
+		} finally {
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 	}
 
@@ -175,66 +216,19 @@ public class CreateCompanyServlet extends BaseServlet {
 		buffer.append('=');
 		buffer.append(new UrlEncoded((client.getLastName())).encode());
 
-		// buffer.append('&');
-		// buffer.append(PARAM_COUNTRY);
-		// buffer.append('=');
-		// buffer.append(client.getCountry());
-		//
-		// buffer.append('&');
-		// buffer.append(PARAM_PH_NO);
-		// buffer.append('=');
-		// buffer.append(client.getPhoneNumber());
-
 		return buffer.toString();
 
 	}
 
-	private ServerCompany getCompany(HttpServletRequest request) {
-
-		String companyId = request.getParameter("name");
-		String companyType = request.getParameter("companyType");
-
-		ServerCompany company = new ServerCompany();
+	private int getCompanyType(String companyType) {
 		if (companyType != null) {
 			int type = Integer.parseInt(companyType);
 			if (type == Company.ACCOUNTING_TYPE_UK
 					|| type == Company.ACCOUNTING_TYPE_US) {
-				company.setCompanyType(type);
-			} else {
-				company.setCompanyType(Company.ACCOUNTING_TYPE_INDIA);
+				return type;
 			}
 		}
-		if (companyId != null) {
-			company.setCompanyName(companyId.toLowerCase());
-		}
-
-		return company;
-	}
-
-	private boolean validation(HttpServletRequest request, ServerCompany company) {
-		Boolean flag = true;
-		String message = "";
-		// if (AccounterService.isCompanyExits(company.getCompanyName())) {
-		// if (!message.isEmpty())
-		// message = message + ", Company with this name is already exist";
-		// else
-		// message = "Company with this name is already exist";
-		// flag = false;
-		// }
-
-		if (!(isValidCompanyName(company.getCompanyName()))) {
-			if (!message.isEmpty())
-				message = message + ", Invalid Company ID";
-			else
-				message = "Invalid Company ID";
-			flag = false;
-
-		}
-
-		if (!flag) {
-			request.setAttribute("errormessage", message);
-		}
-		return flag;
+		return -1;
 	}
 
 	private boolean isValidCompanyName(String companyId) {
