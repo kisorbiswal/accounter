@@ -86,7 +86,6 @@ import com.vimukti.accounter.web.client.ui.customers.InvoicesAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCashSaleAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCreditsAndRefundsAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
-import com.vimukti.accounter.web.client.ui.customers.NewCustomerItemAction;
 import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
 import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.customers.QuotesAction;
@@ -186,7 +185,6 @@ import com.vimukti.accounter.web.client.ui.vendors.NewCheckAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewCreditMemoAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewItemReceiptAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
-import com.vimukti.accounter.web.client.ui.vendors.NewVendorItemAction;
 import com.vimukti.accounter.web.client.ui.vendors.PayBillsAction;
 import com.vimukti.accounter.web.client.ui.vendors.PreviousClaimAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderAction;
@@ -619,9 +617,6 @@ public class ActionFactory {
 				callBackObject);
 	}
 
-	public static NewItemAction getNewCustomerItemAction() {
-		return new NewCustomerItemAction(actionsConstants.newItem());
-	}
 
 	// public static NewItemAction getNewItemAction(ClientItem item,
 	// AccounterAsyncCallback<Object> callBackObject) {
@@ -1140,9 +1135,6 @@ public class ActionFactory {
 				.constants().supplierCredit(), actionsConstants.vendorCredit()));
 	}
 
-	public static NewItemAction getNewVendorItemAction() {
-		return new NewVendorItemAction(actionsConstants.newItem());
-	}
 
 	public static NewCreditMemoAction getNewCreditMemoAction(
 			ClientVendorCreditMemo vendorCreditMemo,
