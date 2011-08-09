@@ -1126,14 +1126,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		if (!orderNumText.getValue().equals("")) {
 			if (isNumberCorrect((String) orderNumText.getValue()) == 1) {
-				result.addError(orderNumText,
-						AccounterErrorType.SALESORDERNUMBER);
+				result.addError(orderNumText, Accounter.constants()
+						.salesOrderNumberGrater0());
 			} else if (isNumberCorrect((String) orderNumText.getValue()) == 2) {
-				result.addError(orderNumText,
-						AccounterErrorType.SALESORDERNUMBERPOSITIVE);
+				result.addError(orderNumText, Accounter.constants()
+						.salesOrderNumberPositive());
 			} else if (isNumberCorrect((String) orderNumText.getValue()) == 3) {
-				result.addError(orderNumText,
-						AccounterErrorType.SALESORDERNUMBERGREATER0);
+				result.addError(orderNumText, Accounter.constants()
+						.salesOrderNumberGrater0());
 			}
 		}
 		return result;
@@ -1142,16 +1142,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	private int isNumberCorrect(String value) {
 		try {
 			if (checkIfNotNumber(value)) {
-				throw new NumberFormatException(
-						AccounterErrorType.SALESORDERNUMBER);
+				throw new NumberFormatException(Accounter.constants()
+						.salesOrderNumber());
 			}
 		} catch (Exception e) {
 			return 1;
 		}
 		try {
 			if (Integer.parseInt(value) < 0) {
-				throw new InvalidEntryException(
-						AccounterErrorType.SALESORDERNUMBERPOSITIVE);
+				throw new InvalidEntryException(Accounter.constants()
+						.salesOrderNumberPositive());
 			}
 		} catch (Exception e) {
 			return 2;
@@ -1159,8 +1159,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		try {
 			if (Integer.parseInt(value) == 0) {
-				throw new InvalidEntryException(
-						AccounterErrorType.SALESORDERNUMBERGREATER0);
+				throw new InvalidEntryException(Accounter.constants()
+						.salesOrderNumberGrater0());
 			}
 		} catch (Exception e) {
 			return 3;
