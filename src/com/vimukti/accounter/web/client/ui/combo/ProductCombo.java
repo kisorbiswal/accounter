@@ -59,11 +59,6 @@ public class ProductCombo extends CustomCombo<ClientItem> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ITEM;
-	}
-
-	@Override
 	protected String getColumnData(ClientItem object, int row, int col) {
 		switch (col) {
 		case 0:

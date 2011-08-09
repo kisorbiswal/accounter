@@ -20,18 +20,12 @@ public class RevenueAndExpenseAccountCombo extends AccountCombo {
 	@Override
 	protected List<ClientAccount> getAccounts() {
 		revenueandExpenseAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts())
+		for (ClientAccount account : getCompany().getActiveAccounts())
 			if (account.getType() == ClientAccount.TYPE_INCOME
 					|| account.getType() == ClientAccount.TYPE_EXPENSE) {
 				revenueandExpenseAccounts.add(account);
 			}
 		return revenueandExpenseAccounts;
-	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
 	}
 
 }

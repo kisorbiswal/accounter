@@ -61,9 +61,4 @@ public class PurchaseItemCombo extends AccountCombo {
 
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
-	}
-
 }

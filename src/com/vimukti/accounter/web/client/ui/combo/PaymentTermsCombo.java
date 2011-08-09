@@ -38,18 +38,12 @@ public class PaymentTermsCombo extends CustomCombo<ClientPaymentTerms> {
 			return "";
 	}
 
-	
 	@Override
 	public void onAddNew() {
 		PaymentTermListDialog paymentTermsDialog = new PaymentTermListDialog();
 		paymentTermsDialog.hide();
 		paymentTermsDialog.addCallBack(createAddNewCallBack());
 		paymentTermsDialog.showAddEditTermDialog(null);
-	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.PAYMENT_TERMS;
 	}
 
 	@Override

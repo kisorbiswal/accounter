@@ -60,10 +60,4 @@ public class SalesItemCombo extends AccountCombo {
 		action.run(null, true);
 
 	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
-	}
-
 }

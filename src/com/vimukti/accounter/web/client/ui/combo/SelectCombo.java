@@ -70,12 +70,6 @@ public class SelectCombo extends CustomCombo<String> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-
-		return null;
-	}
-
-	@Override
 	public void setValue(Object value) {
 
 		super.setValue(value);

@@ -16,8 +16,7 @@ public class TaxAgencyAccountsCombo extends AccountCombo {
 	@Override
 	public List<ClientAccount> getAccounts() {
 		taxAgencyAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts())
+		for (ClientAccount account : getCompany().getActiveAccounts())
 			if (account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
@@ -26,11 +25,6 @@ public class TaxAgencyAccountsCombo extends AccountCombo {
 					&& account.getType() != ClientAccount.TYPE_COST_OF_GOODS_SOLD)
 				taxAgencyAccounts.add(account);
 		return taxAgencyAccounts;
-	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
 	}
 
 }

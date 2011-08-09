@@ -22,18 +22,12 @@ public class PriceLevelCombo extends CustomCombo<ClientPriceLevel> {
 			return "";
 	}
 
-	
 	@Override
 	public void onAddNew() {
 		PriceLevelListDialog priceLevelDialog = new PriceLevelListDialog("", "");
 		priceLevelDialog.hide();
 		priceLevelDialog.addCallBack(createAddNewCallBack());
 		priceLevelDialog.showAddEditPriceLevel(null);
-	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.PRICE_LEVEL;
 	}
 
 	@Override

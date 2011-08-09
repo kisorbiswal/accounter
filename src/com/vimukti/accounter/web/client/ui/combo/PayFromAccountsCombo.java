@@ -104,11 +104,6 @@ public class PayFromAccountsCombo extends AccountCombo {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
-	}
-
-	@Override
 	public void addItemThenfireEvent(ClientAccount obj) {
 		if (Arrays.asList(
 		// ClientAccount.TYPE_BANK, ClientAccount.TYPE_CASH,

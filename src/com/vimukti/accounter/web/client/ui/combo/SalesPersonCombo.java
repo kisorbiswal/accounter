@@ -44,11 +44,6 @@ public class SalesPersonCombo extends CustomCombo<ClientSalesPerson> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.SALES_PERSON;
-	}
-
-	@Override
 	protected String getColumnData(ClientSalesPerson object, int row, int col) {
 		switch (col) {
 		case 0:

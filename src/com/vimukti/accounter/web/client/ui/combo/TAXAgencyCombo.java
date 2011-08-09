@@ -43,11 +43,6 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.TAX_AGENCY;
-	}
-
-	@Override
 	protected String getDisplayName(ClientTAXAgency object) {
 		if (object != null)
 			return object.getName() != null ? object.getName() : "";

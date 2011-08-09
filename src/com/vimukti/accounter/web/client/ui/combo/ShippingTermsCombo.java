@@ -28,7 +28,6 @@ public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 			return "";
 	}
 
-	
 	@Override
 	public void onAddNew() {
 		ShippingTermListDialog shippingTermDialog = new ShippingTermListDialog(
@@ -37,11 +36,6 @@ public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 		shippingTermDialog.addCallBack(createAddNewCallBack());
 		shippingTermDialog.hide();
 		shippingTermDialog.showAddEditTermDialog(null);
-	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.SHIPPING_TERMS;
 	}
 
 	@Override

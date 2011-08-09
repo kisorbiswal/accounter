@@ -28,7 +28,6 @@ public class ShippingMethodsCombo extends CustomCombo<ClientShippingMethod> {
 			return "";
 	}
 
-	
 	@Override
 	public void onAddNew() {
 		ShippingMethodListDialog shippingMethod = new ShippingMethodListDialog(
@@ -36,11 +35,6 @@ public class ShippingMethodsCombo extends CustomCombo<ClientShippingMethod> {
 		shippingMethod.addCallBack(createAddNewCallBack());
 		shippingMethod.hide();
 		shippingMethod.showAddEditTermDialog(null);
-	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.SHIPPING_METHOD;
 	}
 
 	@Override
