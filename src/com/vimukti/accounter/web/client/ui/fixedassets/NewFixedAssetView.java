@@ -942,7 +942,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		ValidationResult result = new ValidationResult();
 		if (Utility.isObjectExist(getCompany().getFixedAssets(), itemTxt
 				.getValue().toString())) {
-			result.addError(itemTxt, AccounterErrorType.ALREADYEXIST);
+			result.addError(itemTxt, Accounter.constants().alreadyExist());
 		}
 
 		if (isRegister) {
@@ -982,7 +982,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			if (!AccounterValidator.validatePurchaseDate(purchaseDateTxt
 					.getEnteredDate())) {
 				result.addError(purchaseDateTxt,
-						AccounterErrorType.invalidPurchaseDate);
+						Accounter.constants().invalidPurchaseDate());
 			}
 
 		} else {
@@ -992,7 +992,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			if (!AccounterValidator.validatePurchaseDate(purchaseDateTxt
 					.getEnteredDate())) {
 				result.addError(purchaseDateTxt,
-						AccounterErrorType.invalidPurchaseDate);
+						Accounter.constants().invalidPurchaseDate());
 			}
 
 			if (accountCombo != null && accumulatedDepreciationAccount != null) {
@@ -1006,7 +1006,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				.isFixedAssetPurchaseDateWithinRange(purchaseDateTxt
 						.getEnteredDate())) {
 			result.addError(purchaseDateTxt,
-					AccounterErrorType.PURHASEDATESUDBEWITHINFISCALYEARRANGE);
+					Accounter.constants().purchaseDatesShoudBewithInFiscalYearRange());
 		}
 		return result;
 	}

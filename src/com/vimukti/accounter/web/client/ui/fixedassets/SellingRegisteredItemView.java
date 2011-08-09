@@ -383,17 +383,17 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		ValidationResult result = new ValidationResult();
 		result.add(detailsForm.validate());
 		if (AccounterValidator.validate_ZeroAmount(salepriceText.getAmount())) {
-			result.addError(salepriceText, AccounterErrorType.ZERO_AMOUNT);
+			result.addError(salepriceText, Accounter.constants().zeroAmount());
 		}
 		if (AccounterValidator.validate_Radiovalue(QuestionItem.getValue())) {
-			result.addError(QuestionItem,
-					AccounterErrorType.SHOULD_SELECT_RADIO);
+			result.addError(QuestionItem, Accounter.constants()
+					.shouldSelectRadio());
 		}
 
 		if (QuestionItem.getValue().equals(allDepOption)) {
 			if (AccounterValidator.isNullValue(dateItemCombo.getValue())) {
-				result.addError(dateItemCombo,
-						AccounterErrorType.REQUIRED_FIELDS);
+				result.addError(dateItemCombo, Accounter.constants()
+						.requiredFields());
 			}
 		}
 		ClientFixedAsset asset = (ClientFixedAsset) data;
