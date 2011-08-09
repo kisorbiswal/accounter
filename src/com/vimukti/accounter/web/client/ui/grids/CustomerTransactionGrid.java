@@ -69,6 +69,7 @@ public class CustomerTransactionGrid extends
 	protected int maxDecimalPoint;
 	protected long taxCode;
 	AccounterConstants accounterConstants = Accounter.constants();
+
 	public CustomerTransactionGrid() {
 		super(false, true);
 		this.accountingType = getCompany().getAccountingType();
@@ -186,12 +187,32 @@ public class CustomerTransactionGrid extends
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			return getUKGridCellWidth(index);
+		if (getCompany().getPreferences().getDoYouPaySalesTax()) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+				return getUKGridCellWidth(index);
+			} else {
+				return getUSGridCellWidth(index);
+			}
 		} else {
-			return getUSGridCellWidth(index);
+			return getDefaultGridCellWidth(index);
 		}
 
+	}
+
+	private int getDefaultGridCellWidth(int index) {
+		if (index == 7 || index == 0)
+			if (UIUtils.isMSIEBrowser())
+				return 25;
+			else
+				return 15;
+
+		else if (index == 2)
+			return 150;
+		else if (index == 4 || index == 6)
+			return 100;
+		else if (index == 3 || index == 5)
+			return 80;
+		return 0;
 	}
 
 	private int getUSGridCellWidth(int index) {
@@ -1120,8 +1141,8 @@ public class CustomerTransactionGrid extends
 					} else {
 						quant.setValue(isItem ? 1 : 0);
 						item.setQuantity(quant);
-						transactionView.addError(this,
-								Accounter.constants().quantity());
+						transactionView.addError(this, Accounter.constants()
+								.quantity());
 					}
 				} catch (InvalidTransactionEntryException e) {
 					e.printStackTrace();
@@ -1158,8 +1179,8 @@ public class CustomerTransactionGrid extends
 				} else {
 					d = 0.0D; // zero. no need conversions.
 					item.setUnitPrice(d);
-					transactionView
-							.addError(this, accounterConstants.unitPrice());
+					transactionView.addError(this,
+							accounterConstants.unitPrice());
 				}
 
 				break;
