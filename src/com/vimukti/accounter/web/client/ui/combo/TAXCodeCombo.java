@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.customers.TaxDialog;
 import com.vimukti.accounter.web.client.ui.customers.TaxDialogAction;
 import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 
@@ -88,8 +89,8 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 			action.run(null, true);
 		} else {
-			TaxDialogAction action1 = ActionFactory.getTaxAction();
-			action1.setCallback(new ActionCallback<ClientTAXCode>() {
+			TaxDialog dialog = new TaxDialog();
+			dialog.setCallback(new ActionCallback<ClientTAXCode>() {
 
 				@Override
 				public void actionResult(ClientTAXCode result) {
@@ -97,7 +98,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 				}
 			});
-			action1.run();
+			dialog.show();
 		}
 	}
 

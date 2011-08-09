@@ -24,7 +24,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 	private Double total = 0.00;
 	private ClientItem toBeDeletedItem;
 	private List<ClientItem> listOfItems;
-	
+
 	private int actionType;
 	private String catageory;
 
@@ -74,23 +74,20 @@ public class ItemListView extends BaseListView<ClientItem> {
 	}
 
 	@Override
-	protected Action getAddNewAction() {
+	protected NewItemAction getAddNewAction() {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return null;
 		else {
-			NewItemAction action;
+			NewItemAction action = ActionFactory.getNewItemAction(true);
 			if (this.catageory.equals(Accounter.constants().customer())) {
-				action = ActionFactory.getNewItemAction();
 				action.setType(3);
 				return action;
 			} else if (this.catageory.equals(Accounter.constants().supplier())
 					|| this.catageory.equals(Accounter.constants().vendor())) {
-				action = ActionFactory.getNewItemAction();
 				action.setType(3);
 				return action;
 			}
 
-			action = ActionFactory.getNewItemAction();
 			action.setType(3);
 			return action;
 		}
@@ -132,7 +129,6 @@ public class ItemListView extends BaseListView<ClientItem> {
 		filterList(true);
 	}
 
-	
 	@Override
 	protected void filterList(boolean isActive) {
 		grid.removeAllRecords();

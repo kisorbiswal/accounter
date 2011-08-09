@@ -497,7 +497,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		CustomMenuBar newVendorMenuBar = getSubMenu();
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			newVendorMenuBar.addItem(ActionFactory.getNewVendorAction());
-			newVendorMenuBar.addItem(ActionFactory.getNewItemAction());
+			newVendorMenuBar.addItem(ActionFactory.getNewItemAction(false));
 		}
 		if (Accounter.getUser().canDoBanking())
 			newVendorMenuBar.addItem(ActionFactory.getNewCashPurchaseAction());
@@ -553,7 +553,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		CustomMenuBar newCustomerMenuBar = getSubMenu();
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			newCustomerMenuBar.addItem(ActionFactory.getNewCustomerAction());
-			newCustomerMenuBar.addItem(ActionFactory.getNewItemAction());
+			newCustomerMenuBar.addItem(ActionFactory.getNewItemAction(true));
 			newCustomerMenuBar.addItem(ActionFactory.getNewQuoteAction());
 			newCustomerMenuBar.addItem(ActionFactory.getNewInvoiceAction());
 		}
@@ -867,8 +867,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getCustomersHomeAction());
 		actions.put(ActionFactory.getNewCustomerAction().getHistoryToken(),
 				ActionFactory.getNewCustomerAction());
-		actions.put(ActionFactory.getNewItemAction().getHistoryToken(),
-				ActionFactory.getNewItemAction());
+		actions.put(ActionFactory.getNewItemAction(true).getHistoryToken(),
+				ActionFactory.getNewItemAction(true));
 		actions.put(ActionFactory.getNewQuoteAction().getHistoryToken(),
 				ActionFactory.getNewQuoteAction());
 		actions.put(ActionFactory.getNewInvoiceAction().getHistoryToken(),
@@ -904,8 +904,6 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getVendorsHomeAction());
 		actions.put(ActionFactory.getNewVendorAction().getHistoryToken(),
 				ActionFactory.getNewVendorAction());
-		actions.put(ActionFactory.getNewItemAction().getHistoryToken(),
-				ActionFactory.getNewItemAction());
 		actions.put(ActionFactory.getNewCashPurchaseAction().getHistoryToken(),
 				ActionFactory.getNewCashPurchaseAction());
 		actions.put(ActionFactory.getNewCreditMemoAction().getHistoryToken(),

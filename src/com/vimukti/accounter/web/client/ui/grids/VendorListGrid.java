@@ -200,12 +200,14 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 			public void onResultSuccess(ClientPayee result) {
 				if (result != null) {
 					if (result instanceof ClientVendor) {
-						ActionFactory.getNewVendorAction().run(result, true);
+						ActionFactory.getNewVendorAction().run(
+								(ClientVendor) result, true);
 						// } else if (result instanceof ClientTaxAgency) {
 						// UIUtils.runAction(result, ActionFactory
 						// .getNewTaxAgencyAction());
 					} else if (result instanceof ClientTAXAgency) {
-						ActionFactory.getNewTAXAgencyAction().run(result, true);
+						ActionFactory.getNewTAXAgencyAction().run(
+								(ClientTAXAgency) result, true);
 					}
 
 				}

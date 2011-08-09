@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.ItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PriceLevelCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
@@ -113,7 +112,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected SalesPersonCombo salesPersonCombo;
 	protected TAXCodeCombo taxCodeSelect;
 	protected PriceLevelCombo priceLevelSelect;
-	protected ItemCombo itemsSelect;
 	protected ContactCombo contactCombo;
 	protected ShippingTermsCombo shippingTermsCombo;
 	protected AddressCombo billToCombo, shipToCombo;

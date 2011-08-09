@@ -41,9 +41,9 @@ public class ServiceCombo extends CustomCombo<ClientItem> {
 	public void onAddNew() {
 		NewItemAction action;
 		if (type == 1) {
-			action = ActionFactory.getNewItemAction();
+			action = ActionFactory.getNewItemAction(true);
 		} else {
-			action = ActionFactory.getNewItemAction();
+			action = ActionFactory.getNewItemAction(false);
 		}
 		action.setCallback(new ActionCallback<ClientItem>() {
 

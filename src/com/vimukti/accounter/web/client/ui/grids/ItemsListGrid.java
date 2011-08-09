@@ -83,7 +83,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	@Override
 	public void onDoubleClick(ClientItem obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			ActionFactory.getNewItemAction().run(obj, true);
+			ActionFactory.getNewItemAction(true).run(obj, true);
 		}
 	}
 

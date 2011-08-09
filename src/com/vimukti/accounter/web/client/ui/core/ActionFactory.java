@@ -26,7 +26,6 @@ import com.vimukti.accounter.web.client.ui.banking.ImportBankFilesAction;
 import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
 import com.vimukti.accounter.web.client.ui.banking.MatchTrasactionsAction;
 import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
-import com.vimukti.accounter.web.client.ui.banking.NewPayeeAction;
 import com.vimukti.accounter.web.client.ui.banking.PaymentsAction;
 import com.vimukti.accounter.web.client.ui.banking.PrintChecksAction;
 import com.vimukti.accounter.web.client.ui.banking.ServicesOverviewAction;
@@ -509,19 +508,14 @@ public class ActionFactory {
 		return new ManageItemTaxAction(actionsConstants.newItemTax());
 	}
 
-	public static NewItemAction getNewItemAction() {
-		return new NewItemAction(actionsConstants.newItem());
+	public static NewItemAction getNewItemAction(boolean forCustomer) {
+		return new NewItemAction(actionsConstants.newItem(),forCustomer);
 	}
 
 	// public static NewItemAction getNewItemAction(ClientItem item,
 	// AccounterAsyncCallback<Object> callback) {
 	// return new NewItemAction(actionsConstants.newItem(),
 	// }
-
-	public static NewPayeeAction getNewPayeeAction() {
-		return new NewPayeeAction("", null);
-
-	}
 
 	public static DepreciationAction getDepriciationAction() {
 		return new DepreciationAction(actionsConstants.depreciation());

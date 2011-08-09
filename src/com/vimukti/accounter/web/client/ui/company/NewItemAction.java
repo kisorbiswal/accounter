@@ -19,10 +19,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewItemAction extends Action<ClientItem> {
 
-	private boolean isEdit;
-	private ClientItem item;
 	int type;
-	private boolean isGeneratedFromCustomer;
+	private boolean forCustomer;
 	public static final int TYPE_SERVICE = 1;
 	public static final int NON_INVENTORY_PART = 3;
 
@@ -31,19 +29,18 @@ public class NewItemAction extends Action<ClientItem> {
 		this.catagory = Accounter.constants().company();
 	}
 
-	public NewItemAction(String text, boolean isGeneratedFromCustomer) {
+	public NewItemAction(String text, boolean forCustomer) {
 		super(text);
 		this.catagory = Accounter.constants().company();
-		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
-		// this.baseView = baseView;
+		this.forCustomer = forCustomer;
 	}
 
 	public NewItemAction(String text, ClientItem item,
 			AccounterAsyncCallback<Object> callback,
-			boolean isGeneratedFromCustomer) {
+			boolean forCustomer) {
 		super(text);
 		this.catagory = Accounter.constants().company();
-		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
+		this.forCustomer = forCustomer;
 		// this.baseView = baseView;
 	}
 
@@ -52,7 +49,7 @@ public class NewItemAction extends Action<ClientItem> {
 		runAsync(data, isDependent);
 	}
 
-	public void runAsync(final Object data, final Boolean isDependent) {
+	public void runAsync(final ClientItem data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreateFailed(Throwable t) {
@@ -66,34 +63,14 @@ public class NewItemAction extends Action<ClientItem> {
 
 					if (!isDependent) {
 
-						new SelectItemTypeDialog(NewItemAction.this,
-								isGeneratedFromCustomer).show();
+						new SelectItemTypeDialog(forCustomer).show();
 
 					} else {
-						if (data == null) {
-							item = null;
-							if (getActionSource() != null) {
-								if (getActionSource() instanceof ServiceCombo)
-									type = TYPE_SERVICE;
-								else
-									type = NON_INVENTORY_PART;
-							}
-							// else
-							// type = TYPE_SERVICE;
-						} else {
-							item = (ClientItem) data;
-							type = item.getType();
-						}
 
-						ItemView view = new ItemView(item, type,
-								isGeneratedFromCustomer);
+						ItemView view = new ItemView(data, type,
+								forCustomer);
 						MainFinanceWindow.getViewManager().showView(view, data,
 								isDependent, NewItemAction.this);
-
-						/*
-						 * UIUtils.setCanvas(new ItemView(item, type),
-						 * getViewConfiguration());
-						 */
 					}
 
 				} catch (Throwable e) {

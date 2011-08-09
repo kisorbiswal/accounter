@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -13,21 +14,18 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
  * 
  */
 
-public class SelectItemTypeDialog extends BaseDialog {
+public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 	RadioGroupItem typeRadio;
 	public static final int TYPE_SERVICE = 1;
 	public static final int TYPE_NON_INVENTORY_PART = 3;
 	// private ViewConfiguration configuration;
-	private NewItemAction action;
-	boolean isGeneratedFromCustomer;
+	boolean forCustomer;
 	private DynamicForm typeForm;
 
-	public SelectItemTypeDialog(NewItemAction action,
-			boolean isGeneratedFromCustomer) {
+	public SelectItemTypeDialog(boolean isGeneratedFromCustomer) {
 		super(Accounter.constants().selectItemType(), Accounter.constants()
 				.selectOneOfItem());
-		this.action = action;
-		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
+		this.forCustomer = isGeneratedFromCustomer;
 		createControls();
 		center();
 	}
@@ -69,26 +67,17 @@ public class SelectItemTypeDialog extends BaseDialog {
 	protected boolean onOK() {
 		if (typeRadio.getValue() != null) {
 			String radio = typeRadio.getValue().toString();
+
 			if (radio.equals(Accounter.constants().service())) {
-				try {
-					ItemView view = new ItemView(null, TYPE_SERVICE,
-							isGeneratedFromCustomer);
-					MainFinanceWindow.getViewManager().showView(view, null,
-							false, action);
-				} catch (Throwable e) {
-					return false;
-				}
+				NewItemAction action = new NewItemAction(Accounter.constants()
+						.newItem(), forCustomer);
+				action.run();
 			} else if (radio.equals(Accounter.constants().product())) {
-				ItemView view = new ItemView(null, TYPE_NON_INVENTORY_PART,
-						isGeneratedFromCustomer);
-				try {
-					MainFinanceWindow.getViewManager().showView(view, null,
-							false, action);
-				} catch (Exception e) {
-					return false;
-				}
-				// UIUtils.setCanvas(itemView, configuration);
+				NewItemAction action = new NewItemAction(Accounter.constants()
+						.newItem(), forCustomer);
+				action.run();
 			}
+			// UIUtils.setCanvas(itemView, configuration);
 		}
 
 		return true;

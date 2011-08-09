@@ -727,7 +727,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar newVendorMenuBar = getSubMenu();
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			newVendorMenuBar.addItem(ActionFactory.getNewVendorAction());
-			newVendorMenuBar.addItem(ActionFactory.getNewItemAction());
+			newVendorMenuBar.addItem(ActionFactory.getNewItemAction(false));
 		}
 		if (Accounter.getUser().canDoBanking())
 			newVendorMenuBar.addItem(ActionFactory.getNewCashPurchaseAction());
@@ -783,7 +783,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar newCustomerMenuBar = getSubMenu();
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			newCustomerMenuBar.addItem(ActionFactory.getNewCustomerAction());
-			newCustomerMenuBar.addItem(ActionFactory.getNewItemAction());
+			newCustomerMenuBar.addItem(ActionFactory.getNewItemAction(true));
 			newCustomerMenuBar.addItem(ActionFactory.getNewQuoteAction());
 			newCustomerMenuBar.addItem(ActionFactory.getNewInvoiceAction());
 		}

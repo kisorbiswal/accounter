@@ -16,9 +16,7 @@ public class TaxDialogAction extends Action<ClientTAXCode> {
 
 	@Override
 	public void run() {
-		TaxDialog dialog = new TaxDialog();
-		dialog.setCallback(getCallback());
-		dialog.show();
+		
 
 	}
 

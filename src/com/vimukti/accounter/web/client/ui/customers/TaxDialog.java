@@ -126,6 +126,7 @@ public class TaxDialog extends BaseDialog<ClientTAXCode> {
 			}
 
 		}
+		hide();
 		return true;
 	}
 
