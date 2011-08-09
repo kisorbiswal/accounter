@@ -312,7 +312,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getTaxCodes(),
 								name) ? false : true)) : true)) {
-			result.addError(vatCodeTxt, AccounterErrorType.ALREADYEXIST);
+			result.addError(vatCodeTxt, Accounter.constants().alreadyExist());
 		}
 		return result;
 	}
