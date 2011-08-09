@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
-import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.PaymentTermListDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -21,7 +20,7 @@ import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class AddPaymentTermDialog extends BaseDialog {
+public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 	public TextItem payTermText;
 	public TextItem descText;
@@ -40,6 +39,7 @@ public class AddPaymentTermDialog extends BaseDialog {
 
 	private IntegerRangeValidator integerRangeValidator;
 	private DynamicForm dueForm;
+
 	private PaymentTermListDialog parent;
 
 	public AddPaymentTermDialog(PaymentTermListDialog parent, String title,
@@ -191,14 +191,6 @@ public class AddPaymentTermDialog extends BaseDialog {
 						.getValue().toString() : "0"));
 
 		return paymentTerm;
-	}
-
-	@Override
-	protected ValidationResult validate() {
-		ValidationResult result = nameDescForm.validate();
-		result.add(parent.validate());
-		return result;
-
 	}
 
 	@Override
