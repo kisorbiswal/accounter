@@ -172,6 +172,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected String[] customerChanges;
 
 	protected ClientCustomer customer;
+	
+	AccounterConstants accounterConstants = Accounter.constants();
 
 	@Override
 	protected void initTransactionViewData() {
@@ -910,12 +912,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
-					AccounterErrorType.InvalidTransactionDate);
+					customerConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result
-					.addError(transactionDateItem,
-							AccounterErrorType.InvalidDate);
+			result.addError(transactionDateItem, accounterConstants.invalidateDate());
 		}
 		if (custForm != null) {
 			result.add(custForm.validate());
@@ -930,7 +930,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 			if (AccounterValidator.isBlankTransaction(customerTransactionGrid)) {
 				result.addError(customerTransactionGrid,
-						AccounterErrorType.blankTransaction);
+						accounterConstants.blankTransaction());
 			}
 			result.add(customerTransactionGrid.validateGrid());
 
