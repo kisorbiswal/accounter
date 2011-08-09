@@ -292,7 +292,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 			preferences.setUseJobs(false);
 			preferences.setUseChangeLog(false);
 			preferences.setAllowDuplicateDocumentNumbers(true);
-			preferences.setDoYouPaySalesTax(false);
+			preferences.setDoYouPaySalesTax(true);
 			preferences.setIsAccuralBasis(true);
 			// preferences.setStartOfFiscalYear(format.parse("2009-01-01"));
 			// preferences.setEndOfFiscalYear(format.parse("2009-12-31"));
