@@ -16,6 +16,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.mail.UsersMailSendar;
@@ -106,11 +107,25 @@ public class InitializeCompanyServlet extends BaseServlet {
 			e.printStackTrace();
 			dropSchema(schemaName);
 			transaction.rollback();
+			companySession.close();
+			Session openSession = HibernateUtil.openSession(LOCAL_DATABASE);
+			try {
+				Object object = openSession.get(ServerCompany.class,
+						serverCompnayId);
+				openSession.delete(object);
+			} catch (Exception e1) {
+			} finally {
+				if (openSession.isOpen()) {
+					openSession.close();
+				}
+			}
 			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Exception while Creating Company");
 			return;
 		} finally {
-			companySession.close();
+			if (companySession.isOpen()) {
+				companySession.close();
+			}
 		}
 		resp.setStatus(HttpServletResponse.SC_OK);
 	}
