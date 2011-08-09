@@ -516,8 +516,10 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 						logoNameBox.setText(value.getFileName());
 					}
 				};
+				String[] filetypes = { "png", "jpg", "gif" };
+
 				FileUploadDilaog dilaog = new FileUploadDilaog("Upload Logo",
-						"parent", callback, fileTypes, getData());
+						"parent", callback, filetypes, getData());
 			}
 		});
 

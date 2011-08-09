@@ -593,8 +593,9 @@ public class InvoiceBrandingView<T> extends
 				saveOrUpdate(value);
 			}
 		};
+		String[] filetypes = { "png", "jpg", "gif" };
 		FileUploadDilaog dilaog = new FileUploadDilaog("Upload file", "parent",
-				callback, null, theme);
+				callback, filetypes, theme);
 		dilaog.center();
 
 	}
