@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.NewAccountView;
@@ -10,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class NewAccountAction extends Action {
+public class NewAccountAction extends Action<ClientAccount> {
 
 	private List<Integer> accountTypes;
 	// private AbstractBaseView<?> baseView;
