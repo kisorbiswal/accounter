@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.VatReturnBoxCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
@@ -302,13 +301,13 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getTaxItems(),
 								name) ? false : true)) : true)) {
-			result.addError(vatItemNameText, AccounterErrorType.ALREADYEXIST);
+			result.addError(vatItemNameText, Accounter.constants().alreadyExist());
 		}
 
 		if (!isEdit) {
 			if (Utility.isObjectExist(getCompany().getTaxItems(),
 					this.vatItemNameText.getValue().toString())) {
-				result.addError(data, AccounterErrorType.ALREADYEXIST);
+				result.addError(data, Accounter.constants().alreadyExist());
 			}
 		}
 		return result;
