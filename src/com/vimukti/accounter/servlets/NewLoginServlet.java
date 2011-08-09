@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
@@ -29,6 +30,7 @@ public class NewLoginServlet extends BaseServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Session openSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		Transaction transaction = openSession.beginTransaction();
 		try {
 			Client client = doLogin(request, response);
 			if (client != null) {
@@ -47,12 +49,11 @@ public class NewLoginServlet extends BaseServlet {
 				if (destUrl == null || destUrl.isEmpty()) {
 					client.setLoginCount(client.getLoginCount() + 1);
 					client.setLastLoginTime(System.currentTimeMillis());
-					openSession.save(client);
+					openSession.saveOrUpdate(client);
 					redirectExternal(request, response, COMPANIES_URL);
 				} else {
 					redirectExternal(request, response, destUrl);
 				}
-
 				return;
 			} else {
 				request.setAttribute(
@@ -63,6 +64,7 @@ public class NewLoginServlet extends BaseServlet {
 		} catch (Exception e) {
 		} finally {
 			if (openSession.isOpen()) {
+				transaction.commit();
 				openSession.close();
 			}
 		}
