@@ -2,17 +2,22 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTAXGroup;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
+import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 
-public class TaxDialog extends BaseDialog {
+public class TaxDialog extends BaseDialog<ClientTAXCode> {
 	RadioGroupItem typeRadio;
 	private final String TAXGROUP = Accounter.constants().taxGroup();
 	private final String TAXITEM = Accounter.constants().taxItem();
@@ -88,34 +93,35 @@ public class TaxDialog extends BaseDialog {
 	protected boolean onOK() {
 		if (typeRadio.getValue() != null) {
 			String radio = typeRadio.getValue().toString();
+
 			if (radio.equals(TAXGROUP)) {
 				// try {
-				Action action = ActionFactory.getManageSalesTaxGroupsAction();
-				action.setActionSource(actionSource);
+				ManageSalesTaxGroupsAction action = ActionFactory
+						.getManageSalesTaxGroupsAction();
+				action.setCallback(new ActionCallback<ClientTAXGroup>() {
+
+					@Override
+					public void actionResult(ClientTAXGroup result) {
+						setResult(getCompany()
+								.getTAXCodeForTAXItemGroup(result));
+					}
+				});
 
 				action.run(null, true);
-				// } catch (Throwable e) {
-				// Accounter.showError(Accounter.constants()
-				// .failedToloadTaxGroup()
-				//
-				// );
-				// e.printStackTrace();
-				// }
 
 			} else if (radio.equals(TAXITEM)) {
 				// try {
-				Action action = ActionFactory.getNewVatItemAction();
-				action.setActionSource(actionSource);
+				NewVatItemAction action = ActionFactory.getNewVatItemAction();
+				action.setCallback(new ActionCallback<ClientTAXItem>() {
+
+					@Override
+					public void actionResult(ClientTAXItem result) {
+						setResult(getCompany()
+								.getTAXCodeForTAXItemGroup(result));
+					}
+				});
 
 				action.run(null, true);
-				// ActionFactory.getNewVatItemAction().run(null,
-				// true);
-				// } catch (Throwable e) {
-				// Accounter.showError(Accounter.constants()
-				// .failedToloadTaxItem());
-				// e.printStackTrace();
-				//
-				// }
 
 			}
 

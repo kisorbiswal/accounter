@@ -41,7 +41,7 @@ import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
  * @author kumar kasimala
  * 
  */
-public abstract class BaseDialog extends CustomDialog implements
+public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog implements
 		IAccounterWidget, WidgetWithErrors, ISaveCallback, IDeleteCallback {
 
 	// private String title;
@@ -61,6 +61,8 @@ public abstract class BaseDialog extends CustomDialog implements
 	protected VerticalPanel mainPanel, mainVLayPanel;
 	public VerticalPanel errorPanel;
 	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
+
+	private ActionCallback<T> callback;
 
 	/**
 	 * Creates new Instance
@@ -379,10 +381,29 @@ public abstract class BaseDialog extends CustomDialog implements
 
 	}
 
-	protected <D extends IAccounterCore> void saveOrUpdate(final D core) {
+	protected void saveOrUpdate(final T core) {
 		Accounter.createOrUpdate(this, core);
 	}
 
 	protected abstract boolean onOK();
+
+	public ActionCallback<T> getCallback() {
+		return callback;
+	}
+
+	public void setCallback(ActionCallback<T> callback) {
+		this.callback = callback;
+	}
+
+	/**
+	 * Used to tell the call backs about the result of showing this dialog
+	 * 
+	 * @param result
+	 */
+	public void setResult(T result) {
+		if (this.callback != null) {
+			this.callback.actionResult(result);
+		}
+	}
 
 }

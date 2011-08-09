@@ -97,7 +97,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 				}
 			});
-			action1.run(createAddNewCallBack(), this, null, true);
+			action1.run();
 		}
 	}
 

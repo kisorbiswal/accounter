@@ -28,7 +28,7 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
  * 
  */
 
-public abstract class GroupDialog<T> extends BaseDialog {
+public abstract class GroupDialog<T extends IAccounterCore> extends BaseDialog<T> {
 
 	private VerticalPanel buttonsLayout;
 	private HorizontalPanel bodyLayout;
@@ -395,7 +395,7 @@ public abstract class GroupDialog<T> extends BaseDialog {
 		this.callBack = callback;
 	}
 
-	protected <P extends IAccounterCore> void saveOrUpdate(final P core) {
+	protected void saveOrUpdate(final T core) {
 
 		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
 
