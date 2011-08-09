@@ -37,7 +37,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private boolean isSalesPersonEnabled;
 
-	private boolean purchaseOrderEnabled;
+	private boolean isPurchaseOrderEnabled;
 
 	private boolean doYouChargesalesTax;
 
@@ -54,6 +54,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean allowDuplicateDocumentNumbers;
 
 	boolean doYouPaySalesTax;
+	
 	public long id;
 
 	boolean isAccuralBasis;// if True then Accural (when customer is Invoiced),
@@ -712,11 +713,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isPurchaseOrderEnabled() {
-		return purchaseOrderEnabled;
+		return isPurchaseOrderEnabled;
 	}
 
 	public void setPurchaseOrderEnabled(boolean purchaseOrderEnabled) {
-		this.purchaseOrderEnabled = purchaseOrderEnabled;
+		this.isPurchaseOrderEnabled = purchaseOrderEnabled;
 	}
 
 	public String getDateFormat() {
