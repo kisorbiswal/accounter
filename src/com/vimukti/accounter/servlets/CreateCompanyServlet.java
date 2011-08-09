@@ -230,7 +230,7 @@ public class CreateCompanyServlet extends BaseServlet {
 	}
 
 	private boolean isValidCompanyName(String companyId) {
-		return companyId.matches("^[a-z][a-z0-9]{5,}$");
+		return companyId.matches("^[A-Za-z0-9]{5,}$");
 	}
 
 	@Override
