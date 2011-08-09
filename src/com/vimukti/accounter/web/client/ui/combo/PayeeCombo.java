@@ -47,10 +47,15 @@ public class PayeeCombo extends CustomCombo<ClientPayee> {
 		// action.run(this, null, true);
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.PAYEE;
-	}
+		// NewPayeeAction action = ActionFactory.getNewPayeeAction();
+		// action.setCallback(new ActionCallback<ClientPayee>() {
+		//
+		// @Override
+		// public void actionResult(ClientPayee result) {
+		// addItemThenfireEvent(result);
+		// }
+		// });
+		// action.run(this, null, true);
 
 	@Override
 	protected String getColumnData(ClientPayee object, int row, int col) {
