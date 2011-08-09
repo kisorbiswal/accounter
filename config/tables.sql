@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.41, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.11
 --
--- Host: localhost    Database: accounter_test
+-- Host: localhost    Database: accounter
 -- ------------------------------------------------------
--- Server version	5.1.41-3ubuntu12.10
+-- Server version	5.0.51b-community-nt
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,486 +16,593 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `ABSTRACTTOOL`
+-- Table structure for table `account`
 --
 
-DROP TABLE IF EXISTS `ABSTRACTTOOL`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ABSTRACTTOOL` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `SPACE_ID` varchar(40) NOT NULL,
-  `TOOLID` varchar(40) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK5D0660BA5709BA1E` (`SPACE_ID`),
-  CONSTRAINT `FK5D0660BA5709BA1E` FOREIGN KEY (`SPACE_ID`) REFERENCES `WORKSPACE` (`SPACE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ACCESS_INFO`
---
-
-DROP TABLE IF EXISTS `ACCESS_INFO`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ACCESS_INFO` (
-  `USER_ID` bigint(20) NOT NULL,
-  `ACESS_VALUE` varchar(255) DEFAULT NULL,
-  `CATEGORY_NAME` varchar(255) NOT NULL,
-  PRIMARY KEY (`USER_ID`,`CATEGORY_NAME`),
-  KEY `FK4488AAA99B46B11F` (`USER_ID`),
-  CONSTRAINT `FK4488AAA99B46B11F` FOREIGN KEY (`USER_ID`) REFERENCES `USER` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ACCOUNT`
---
-
-DROP TABLE IF EXISTS `ACCOUNT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ACCOUNT` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `A_TYPE` int(11) DEFAULT NULL,
-  `BASE_TYPE` int(11) DEFAULT NULL,
-  `SUB_BASE_TYPE` int(11) DEFAULT NULL,
-  `GROUP_TYPE` int(11) DEFAULT NULL,
-  `A_NUMBER` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `IS_ACTIVE` bit(1) DEFAULT NULL,
-  `PARENT_ID` bigint(20) DEFAULT NULL,
-  `CASHFLOW_CATEGORY` int(11) DEFAULT NULL,
-  `OPENING_BALANCE` double DEFAULT NULL,
-  `AS_OF` bigint(20) DEFAULT NULL,
-  `IS_CASH_ACCOUNT` bit(1) DEFAULT NULL,
-  `COMMENT` varchar(255) DEFAULT NULL,
-  `BANK_ID` bigint(20) DEFAULT NULL,
-  `BANK_ACCOUNT_TYPE` int(11) DEFAULT NULL,
-  `BANK_ACCOUNT_NUMBER` varchar(255) DEFAULT NULL,
-  `CREDIT_LIMIT` double DEFAULT NULL,
-  `CARD_NUMBER` varchar(255) DEFAULT NULL,
-  `IS_INCREASE` bit(1) DEFAULT NULL,
-  `CURRENT_BALANCE` double DEFAULT NULL,
-  `TOTAL_BALANCE` double DEFAULT NULL,
-  `IS_OPENING_BALANCE_EDITABLE` bit(1) DEFAULT NULL,
-  `HIERARCHY` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `FLOW` varchar(255) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `LINKED_ID` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `A_NUMBER` (`A_NUMBER`),
+DROP TABLE IF EXISTS `account`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `account` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `A_TYPE` int(11) default NULL,
+  `BASE_TYPE` int(11) default NULL,
+  `SUB_BASE_TYPE` int(11) default NULL,
+  `GROUP_TYPE` int(11) default NULL,
+  `A_NUMBER` varchar(255) default NULL,
+  `NAME` varchar(255) NOT NULL,
+  `IS_ACTIVE` bit(1) default NULL,
+  `PARENT_ID` bigint(20) default NULL,
+  `CASHFLOW_CATEGORY` int(11) default NULL,
+  `OPENING_BALANCE` double default NULL,
+  `AS_OF` bigint(20) default NULL,
+  `IS_CASH_ACCOUNT` bit(1) default NULL,
+  `COMMENT` varchar(255) default NULL,
+  `CREDIT_LIMIT` double default NULL,
+  `CARD_NUMBER` varchar(255) default NULL,
+  `IS_INCREASE` bit(1) default NULL,
+  `CURRENT_BALANCE` double default NULL,
+  `TOTAL_BALANCE` double default NULL,
+  `IS_OPENING_BALANCE_EDITABLE` bit(1) default NULL,
+  `HIERARCHY` varchar(255) default NULL,
+  `VERSION` int(11) default NULL,
+  `FLOW` varchar(255) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `LINKED_ID` bigint(20) default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`),
-  KEY `FKE49F160D8BEAF03F` (`BANK_ID`),
+  UNIQUE KEY `A_NUMBER` (`A_NUMBER`),
+  KEY `FKE49F160DF1AE8CDE` (`CREATED_BY`),
+  KEY `FKE49F160D9E5A0E30` (`LAST_MODIFIER`),
   KEY `FKE49F160D914588D8` (`PARENT_ID`),
   KEY `FKE49F160DB55B4109` (`LINKED_ID`),
-  CONSTRAINT `FKE49F160DB55B4109` FOREIGN KEY (`LINKED_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FKE49F160D8BEAF03F` FOREIGN KEY (`BANK_ID`) REFERENCES `BANK` (`ID`),
-  CONSTRAINT `FKE49F160D914588D8` FOREIGN KEY (`PARENT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FKE49F160D914588D8` FOREIGN KEY (`PARENT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FKE49F160D9E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FKE49F160DB55B4109` FOREIGN KEY (`LINKED_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FKE49F160DF1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `ACCOUNT_AMOUNTS`
+-- Dumping data for table `account`
 --
 
-DROP TABLE IF EXISTS `ACCOUNT_AMOUNTS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ACCOUNT_AMOUNTS` (
+LOCK TABLES `account` WRITE;
+/*!40000 ALTER TABLE `account` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `account_amounts`
+--
+
+DROP TABLE IF EXISTS `account_amounts`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `account_amounts` (
   `ACCOUNT_ID` bigint(20) NOT NULL,
-  `amount` double DEFAULT NULL,
+  `amount` double default NULL,
   `month` int(11) NOT NULL,
-  PRIMARY KEY (`ACCOUNT_ID`,`month`),
+  PRIMARY KEY  (`ACCOUNT_ID`,`month`),
   KEY `FKC18DA6C9E5FCF475` (`ACCOUNT_ID`),
-  CONSTRAINT `FKC18DA6C9E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FKC18DA6C9E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `ACCOUNT_TRANSACTION`
+-- Dumping data for table `account_amounts`
 --
 
-DROP TABLE IF EXISTS `ACCOUNT_TRANSACTION`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ACCOUNT_TRANSACTION` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `IS_CLOSING_FISCALYEAR_ENTRY` bit(1) DEFAULT NULL,
-  `IS_CASH_BASIS_ENTRY` bit(1) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `account_amounts` WRITE;
+/*!40000 ALTER TABLE `account_amounts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account_amounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `account_transaction`
+--
+
+DROP TABLE IF EXISTS `account_transaction`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `account_transaction` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  `AMOUNT` double default NULL,
+  `IS_CLOSING_FISCALYEAR_ENTRY` bit(1) default NULL,
+  `IS_CASH_BASIS_ENTRY` bit(1) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK28362F8CF1AE8CDE` (`CREATED_BY`),
   KEY `FK28362F8CE5FCF475` (`ACCOUNT_ID`),
+  KEY `FK28362F8C9E5A0E30` (`LAST_MODIFIER`),
   KEY `FK28362F8C63880555` (`TRANSACTION_ID`),
-  CONSTRAINT `FK28362F8C63880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK28362F8CE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK28362F8C63880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK28362F8C9E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK28362F8CE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK28362F8CF1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `BANK`
+-- Dumping data for table `account_transaction`
 --
 
-DROP TABLE IF EXISTS `BANK`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `BANK` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `account_transaction` WRITE;
+/*!40000 ALTER TABLE `account_transaction` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account_transaction` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `activation`
+--
+
+DROP TABLE IF EXISTS `activation`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `activation` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `EMAIL_ID` varchar(255) default NULL,
+  `TOKEN` varchar(255) default NULL,
+  `SIGN_UP_DATE` datetime default NULL,
+  PRIMARY KEY  (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `activation`
+--
+
+LOCK TABLES `activation` WRITE;
+/*!40000 ALTER TABLE `activation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `activation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `adjustment_reason`
+--
+
+DROP TABLE IF EXISTS `adjustment_reason`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `adjustment_reason` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `SECTION` varchar(255) default NULL,
+  `NAME` varchar(255) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK4D50A556F1AE8CDE` (`CREATED_BY`),
+  KEY `FK4D50A5569E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK4D50A5569E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK4D50A556F1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `adjustment_reason`
+--
+
+LOCK TABLES `adjustment_reason` WRITE;
+/*!40000 ALTER TABLE `adjustment_reason` DISABLE KEYS */;
+/*!40000 ALTER TABLE `adjustment_reason` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bank`
+--
+
+DROP TABLE IF EXISTS `bank`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `bank` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `VERSION` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `BIZANTRAUSERPREFERENCES`
+-- Dumping data for table `bank`
 --
 
-DROP TABLE IF EXISTS `BIZANTRAUSERPREFERENCES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `BIZANTRAUSERPREFERENCES` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`ID`)
+LOCK TABLES `bank` WRITE;
+/*!40000 ALTER TABLE `bank` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bank` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bank_account`
+--
+
+DROP TABLE IF EXISTS `bank_account`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `bank_account` (
+  `ID` bigint(20) NOT NULL,
+  `BANK_ID` bigint(20) default NULL,
+  `BANK_ACCOUNT_TYPE` int(11) default NULL,
+  `BANK_ACCOUNT_NUMBER` varchar(255) default NULL,
+  `LAST_RECONCILATION_DATE` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK1979BF0A15DEE523` (`ID`),
+  KEY `FK1979BF0A8BEAF03F` (`BANK_ID`),
+  CONSTRAINT `FK1979BF0A15DEE523` FOREIGN KEY (`ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK1979BF0A8BEAF03F` FOREIGN KEY (`BANK_ID`) REFERENCES `bank` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `BIZANTRA_COMPANY`
+-- Dumping data for table `bank_account`
 --
 
-DROP TABLE IF EXISTS `BIZANTRA_COMPANY`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `BIZANTRA_COMPANY` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `NAME` varchar(255) DEFAULT NULL,
-  `DISPLAY_NAME` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` datetime DEFAULT NULL,
-  `EXPIRATION_DATE` datetime DEFAULT NULL,
-  `DELETION_DATE` datetime DEFAULT NULL,
-  `TOTAL_NO_OF_USERS` int(11) DEFAULT NULL,
-  `TOTAL_SIZE` bigint(20) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `HOLIDAY_START_DATE` varchar(255) DEFAULT NULL,
-  `ADDRESS` varchar(255) DEFAULT NULL,
-  `CITY` varchar(255) DEFAULT NULL,
-  `COUNTRY` varchar(255) DEFAULT NULL,
-  `PROVINCE` varchar(255) DEFAULT NULL,
-  `ZIP` varchar(255) DEFAULT NULL,
-  `ONLY_SUNDAYS_WEEKEND` bit(1) DEFAULT NULL,
-  `COUNTRY_DATE_CODE` varchar(255) DEFAULT NULL,
-  `DATE_STYLE` int(11) DEFAULT NULL,
-  `TOTAL_NO_OF_LITE_USERS` int(11) DEFAULT NULL,
-  `USED_SIZE` bigint(20) DEFAULT NULL,
-  `SUBS_TYPE` varchar(255) DEFAULT NULL,
-  `SUBSCRIBER_EMAIL` varchar(255) DEFAULT NULL,
-  `USER_DOMAIN` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `bank_account` WRITE;
+/*!40000 ALTER TABLE `bank_account` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bank_account` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `BOX`
+-- Table structure for table `box`
 --
 
-DROP TABLE IF EXISTS `BOX`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `BOX` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `BOX_NUMBER` int(11) DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `BOX_ID` bigint(20) DEFAULT NULL,
-  `BX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+DROP TABLE IF EXISTS `box`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `box` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `BOX_NUMBER` int(11) default NULL,
+  `AMOUNT` double default NULL,
+  `BOX_ID` bigint(20) default NULL,
+  `BX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK101ABD8F488E3` (`BOX_ID`),
-  CONSTRAINT `FK101ABD8F488E3` FOREIGN KEY (`BOX_ID`) REFERENCES `VAT_RETURN` (`id`)
+  CONSTRAINT `FK101ABD8F488E3` FOREIGN KEY (`BOX_ID`) REFERENCES `vat_return` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `BRANDING_THEME`
+-- Dumping data for table `box`
 --
 
-DROP TABLE IF EXISTS `BRANDING_THEME`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `BRANDING_THEME` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `THEME_NAME` varchar(255) DEFAULT NULL,
-  `PAGE_SIZE_TYPE` int(11) DEFAULT NULL,
-  `TOP_MARGIN` double DEFAULT NULL,
-  `BOTTOM_MARGIN` double DEFAULT NULL,
-  `MARGIN_MEASUREMENT_TYPE` int(11) DEFAULT NULL,
-  `ADDRESS_PADDING` double DEFAULT NULL,
-  `FONT` varchar(255) DEFAULT NULL,
-  `FONT_SIZE` varchar(255) DEFAULT NULL,
-  `OVERDUE_INVOICE_TITLE` varchar(255) DEFAULT NULL,
-  `CREDIT_MEMO_TITLE` varchar(255) DEFAULT NULL,
-  `STATEMENT_TITLE` varchar(255) DEFAULT NULL,
-  `IS_SHOW_TAX_NUMBER` bit(1) DEFAULT NULL,
-  `IS_SHOW_COLUMN_HEADING` bit(1) DEFAULT NULL,
-  `IS_SHOW_PRICE_AND_QUANTITY` bit(1) DEFAULT NULL,
-  `FILE_NAME` varchar(255) DEFAULT NULL,
-  `IS_SHOW_TAX_COLUMN` bit(1) DEFAULT NULL,
-  `IS_SHOW_REGISTERED_ADDRESS` bit(1) DEFAULT NULL,
-  `IS_SHOW_LOGO` bit(1) DEFAULT NULL,
-  `IS_LOGO_ADDED` bit(1) DEFAULT NULL,
-  `PAYPAL_EMAIL_ID` varchar(255) DEFAULT NULL,
-  `LOGO_ALIGNMENT_TYPE` int(11) DEFAULT NULL,
-  `CONTACT_DETAILS` varchar(255) DEFAULT NULL,
-  `TERMS_AND_PAYMENT_ADVICE` varchar(255) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+LOCK TABLES `box` WRITE;
+/*!40000 ALTER TABLE `box` DISABLE KEYS */;
+/*!40000 ALTER TABLE `box` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `branding_theme`
+--
+
+DROP TABLE IF EXISTS `branding_theme`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `branding_theme` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `THEME_NAME` varchar(255) NOT NULL,
+  `PAGE_SIZE_TYPE` int(11) default NULL,
+  `TOP_MARGIN` double default NULL,
+  `BOTTOM_MARGIN` double default NULL,
+  `MARGIN_MEASUREMENT_TYPE` int(11) default NULL,
+  `ADDRESS_PADDING` double default NULL,
+  `FONT` varchar(255) default NULL,
+  `FONT_SIZE` varchar(255) default NULL,
+  `OVERDUE_INVOICE_TITLE` varchar(255) default NULL,
+  `CREDIT_MEMO_TITLE` varchar(255) default NULL,
+  `STATEMENT_TITLE` varchar(255) default NULL,
+  `IS_SHOW_TAX_NUMBER` bit(1) default NULL,
+  `IS_SHOW_COLUMN_HEADING` bit(1) default NULL,
+  `IS_SHOW_PRICE_AND_QUANTITY` bit(1) default NULL,
+  `FILE_NAME` varchar(255) default NULL,
+  `IS_SHOW_TAX_COLUMN` bit(1) default NULL,
+  `IS_SHOW_REGISTERED_ADDRESS` bit(1) default NULL,
+  `IS_SHOW_LOGO` bit(1) default NULL,
+  `IS_LOGO_ADDED` bit(1) default NULL,
+  `PAYPAL_EMAIL_ID` varchar(255) default NULL,
+  `LOGO_ALIGNMENT_TYPE` int(11) default NULL,
+  `CONTACT_DETAILS` varchar(255) default NULL,
+  `TERMS_AND_PAYMENT_ADVICE` varchar(255) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `THEME_NAME` (`THEME_NAME`),
+  KEY `FK17493365F1AE8CDE` (`CREATED_BY`),
+  KEY `FK174933659E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK174933659E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK17493365F1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `BUDGET`
+-- Dumping data for table `branding_theme`
 --
 
-DROP TABLE IF EXISTS `BUDGET`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `BUDGET` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `MONTH` int(11) DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `branding_theme` WRITE;
+/*!40000 ALTER TABLE `branding_theme` DISABLE KEYS */;
+/*!40000 ALTER TABLE `branding_theme` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `budget`
+--
+
+DROP TABLE IF EXISTS `budget`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `budget` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `MONTH` int(11) default NULL,
+  `AMOUNT` double default NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK756DA345E5FCF475` (`ACCOUNT_ID`),
-  CONSTRAINT `FK756DA345E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK756DA345E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `CASH_PURCHASE`
+-- Dumping data for table `budget`
 --
 
-DROP TABLE IF EXISTS `CASH_PURCHASE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CASH_PURCHASE` (
-  `id` bigint(20) NOT NULL,
-  `VENDOR_ID` bigint(20) DEFAULT NULL,
-  `CP_IS_PRIMARY` bit(1) DEFAULT NULL,
-  `CP_NAME` varchar(255) DEFAULT NULL,
-  `CP_TITLE` varchar(255) DEFAULT NULL,
-  `CP_BUSINESS_PHONE` varchar(255) DEFAULT NULL,
-  `CP_EMAIL` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `VENDOR_ADDRESS_ADDRESS1` varchar(100) DEFAULT NULL,
-  `VENDOR_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `PAYFROM_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `CASH_EXPENSE_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `EMPLOYEE` bigint(20) DEFAULT NULL,
-  `CHECK_NUMBER` varchar(255) DEFAULT NULL,
-  `DELIVERY_DATE` bigint(20) DEFAULT NULL,
-  `EXPENSE_STATUS` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+LOCK TABLES `budget` WRITE;
+/*!40000 ALTER TABLE `budget` DISABLE KEYS */;
+/*!40000 ALTER TABLE `budget` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cash_purchase`
+--
+
+DROP TABLE IF EXISTS `cash_purchase`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cash_purchase` (
+  `ID` bigint(20) NOT NULL,
+  `VENDOR_ID` bigint(20) default NULL,
+  `CP_IS_PRIMARY` bit(1) default NULL,
+  `CP_NAME` varchar(255) default NULL,
+  `CP_TITLE` varchar(255) default NULL,
+  `CP_BUSINESS_PHONE` varchar(255) default NULL,
+  `CP_EMAIL` varchar(255) default NULL,
+  `VENDOR_ADDRESS_TYPE` int(11) default NULL,
+  `VENDOR_ADDRESS_ADDRESS1` varchar(100) default NULL,
+  `VENDOR_ADDRESS_STREET` varchar(255) default NULL,
+  `VENDOR_ADDRESS_CITY` varchar(255) default NULL,
+  `VENDOR_ADDRESS_STATE` varchar(255) default NULL,
+  `VENDOR_ADDRESS_ZIP` varchar(255) default NULL,
+  `VENDOR_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `VENDOR_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `PAYFROM_ACCOUNT_ID` bigint(20) default NULL,
+  `CASH_EXPENSE_ACCOUNT_ID` bigint(20) default NULL,
+  `EMPLOYEE` bigint(20) default NULL,
+  `CHECK_NUMBER` varchar(255) default NULL,
+  `DELIVERY_DATE` bigint(20) default NULL,
+  `EXPENSE_STATUS` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FKF7279C8DA133FB48` (`CASH_EXPENSE_ACCOUNT_ID`),
-  KEY `FKF7279C8D274BC854` (`id`),
+  KEY `FKF7279C8D274BC854` (`ID`),
   KEY `FKF7279C8D891A177F` (`VENDOR_ID`),
   KEY `FKF7279C8D68A08E82` (`PAYFROM_ACCOUNT_ID`),
   KEY `FKF7279C8DE72DCA7E` (`EMPLOYEE`),
-  CONSTRAINT `FKF7279C8DE72DCA7E` FOREIGN KEY (`EMPLOYEE`) REFERENCES `USERS` (`ID`),
-  CONSTRAINT `FKF7279C8D68A08E82` FOREIGN KEY (`PAYFROM_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FKF7279C8D274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FKF7279C8D891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `VENDOR` (`id`),
-  CONSTRAINT `FKF7279C8DA133FB48` FOREIGN KEY (`CASH_EXPENSE_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FKF7279C8D274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKF7279C8D68A08E82` FOREIGN KEY (`PAYFROM_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FKF7279C8D891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `vendor` (`ID`),
+  CONSTRAINT `FKF7279C8DA133FB48` FOREIGN KEY (`CASH_EXPENSE_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FKF7279C8DE72DCA7E` FOREIGN KEY (`EMPLOYEE`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `CASH_SALES`
+-- Dumping data for table `cash_purchase`
 --
 
-DROP TABLE IF EXISTS `CASH_SALES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CASH_SALES` (
-  `id` bigint(20) NOT NULL,
-  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
-  `CS_IS_PRIMARY` bit(1) DEFAULT NULL,
-  `CS_NAME` varchar(255) DEFAULT NULL,
-  `CS_TITLE` varchar(255) DEFAULT NULL,
-  `CS_BUSINESS_PHONE` varchar(255) DEFAULT NULL,
-  `CS_EMAIL` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `BILLING_ADDRESS1` varchar(100) DEFAULT NULL,
-  `BILLING_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `SHIPPING_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `SHIPPING_ADDRESS1` varchar(100) DEFAULT NULL,
-  `SHIPPING_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `SALES_PERSON_ID` bigint(20) DEFAULT NULL,
-  `DEPOSIT_IN_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `SHIPPING_TERMS_ID` bigint(20) DEFAULT NULL,
-  `SHIPPING_METHOD_ID` bigint(20) DEFAULT NULL,
-  `DELIVERY_DATE` bigint(20) DEFAULT NULL,
-  `PRICE_LEVEL_ID` bigint(20) DEFAULT NULL,
-  `SALES_TAX` double DEFAULT NULL,
-  `DISCOUNT_TOTAL` double DEFAULT NULL,
-  PRIMARY KEY (`id`),
+LOCK TABLES `cash_purchase` WRITE;
+/*!40000 ALTER TABLE `cash_purchase` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cash_purchase` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cash_sales`
+--
+
+DROP TABLE IF EXISTS `cash_sales`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cash_sales` (
+  `ID` bigint(20) NOT NULL,
+  `CUSTOMER_ID` bigint(20) default NULL,
+  `CS_IS_PRIMARY` bit(1) default NULL,
+  `CS_NAME` varchar(255) default NULL,
+  `CS_TITLE` varchar(255) default NULL,
+  `CS_BUSINESS_PHONE` varchar(255) default NULL,
+  `CS_EMAIL` varchar(255) default NULL,
+  `BILLING_ADDRESS_TYPE` int(11) default NULL,
+  `BILLING_ADDRESS1` varchar(100) default NULL,
+  `BILLING_ADDRESS_STREET` varchar(255) default NULL,
+  `BILLING_ADDRESS_CITY` varchar(255) default NULL,
+  `BILLING_ADDRESS_STATE` varchar(255) default NULL,
+  `BILLING_ADDRESS_ZIP` varchar(255) default NULL,
+  `BILLING_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `BILLING_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `SHIPPING_ADDRESS_TYPE` int(11) default NULL,
+  `SHIPPING_ADDRESS1` varchar(100) default NULL,
+  `SHIPPING_ADDRESS_STREET` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_CITY` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_STATE` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_ZIP` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `SALES_PERSON_ID` bigint(20) default NULL,
+  `DEPOSIT_IN_ACCOUNT_ID` bigint(20) default NULL,
+  `SHIPPING_TERMS_ID` bigint(20) default NULL,
+  `SHIPPING_METHOD_ID` bigint(20) default NULL,
+  `DELIVERY_DATE` bigint(20) default NULL,
+  `PRICE_LEVEL_ID` bigint(20) default NULL,
+  `SALES_TAX` double default NULL,
+  `DISCOUNT_TOTAL` double default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FKCA27B4E0AD0A95DC` (`SHIPPING_METHOD_ID`),
-  KEY `FKCA27B4E0274BC854` (`id`),
+  KEY `FKCA27B4E0274BC854` (`ID`),
   KEY `FKCA27B4E09A3059EC` (`PRICE_LEVEL_ID`),
   KEY `FKCA27B4E097EDD458` (`SHIPPING_TERMS_ID`),
   KEY `FKCA27B4E04C74BEAE` (`SALES_PERSON_ID`),
   KEY `FKCA27B4E0172FFFEE` (`DEPOSIT_IN_ACCOUNT_ID`),
   KEY `FKCA27B4E0DFE06A7F` (`CUSTOMER_ID`),
-  CONSTRAINT `FKCA27B4E0DFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `CUSTOMER` (`id`),
-  CONSTRAINT `FKCA27B4E0172FFFEE` FOREIGN KEY (`DEPOSIT_IN_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FKCA27B4E0274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FKCA27B4E04C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `SALES_PERSON` (`id`),
-  CONSTRAINT `FKCA27B4E097EDD458` FOREIGN KEY (`SHIPPING_TERMS_ID`) REFERENCES `SHIPPINGTERMS` (`ID`),
-  CONSTRAINT `FKCA27B4E09A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `PRICELEVEL` (`ID`),
-  CONSTRAINT `FKCA27B4E0AD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `SHIPPINGMETHOD` (`ID`)
+  CONSTRAINT `FKCA27B4E0172FFFEE` FOREIGN KEY (`DEPOSIT_IN_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FKCA27B4E0274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKCA27B4E04C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `sales_person` (`ID`),
+  CONSTRAINT `FKCA27B4E097EDD458` FOREIGN KEY (`SHIPPING_TERMS_ID`) REFERENCES `shippingterms` (`ID`),
+  CONSTRAINT `FKCA27B4E09A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `pricelevel` (`ID`),
+  CONSTRAINT `FKCA27B4E0AD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `shippingmethod` (`ID`),
+  CONSTRAINT `FKCA27B4E0DFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `COLLABERIDENTITY`
+-- Dumping data for table `cash_sales`
 --
 
-DROP TABLE IF EXISTS `COLLABERIDENTITY`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `COLLABERIDENTITY` (
-  `ID` varchar(40) NOT NULL,
-  `TOTALDEVICECOUNT` int(11) DEFAULT NULL,
-  `IDENTITYVERSION` bigint(20) DEFAULT NULL,
-  `DEVICEID` int(11) DEFAULT NULL,
-  `COMPANY_NAME` varchar(255) DEFAULT NULL,
-  `ENCRYPTED_ID` tinyblob,
-  `SIGN_PUBLIC_KEY` blob,
-  `SIGN_PRIVATE_KEY` blob,
-  `IS_CONNECTED` bit(1) DEFAULT NULL,
-  `LOGINCOUNT` int(11) DEFAULT NULL,
-  `PASSWORDCHANGED` bit(1) DEFAULT NULL,
-  `LASTCONNECTED` datetime DEFAULT NULL,
-  `EMAILID` varchar(255) DEFAULT NULL,
-  `SYSTEMROLE` varchar(255) DEFAULT NULL,
-  `PASSWORD` varchar(255) DEFAULT NULL,
-  `PREFERENCES_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `PREFERENCES_ID` (`PREFERENCES_ID`),
-  KEY `FK73F72438C1018E41` (`PREFERENCES_ID`),
-  CONSTRAINT `FK73F72438C1018E41` FOREIGN KEY (`PREFERENCES_ID`) REFERENCES `BIZANTRAUSERPREFERENCES` (`ID`)
+LOCK TABLES `cash_sales` WRITE;
+/*!40000 ALTER TABLE `cash_sales` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cash_sales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `client`
+--
+
+DROP TABLE IF EXISTS `client`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `client` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `FIRST_NAME` varchar(255) default NULL,
+  `LAST_NAME` varchar(255) default NULL,
+  `EMAIL_ID` varchar(255) default NULL,
+  `PASSWORD` varchar(255) default NULL,
+  `IS_ACTIVE` bit(1) default NULL,
+  `PHONE_NUMBER` varchar(255) default NULL,
+  `COUNTRY` varchar(255) default NULL,
+  `IS_SUBSCRIBED_TO_NEWS_LETTER` bit(1) default NULL,
+  `IS_REQUIRE_PASSWORD_RESET` bit(1) default NULL,
+  `LOGIN_COUNT` int(11) default NULL,
+  `LAST_LOGIN_TIME` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `EMAIL_ID` (`EMAIL_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `client`
+--
+
+LOCK TABLES `client` WRITE;
+/*!40000 ALTER TABLE `client` DISABLE KEYS */;
+INSERT INTO `client` VALUES (1,'Nagaraju','Palla','***REMOVED***','ea553d04203cd9a261effda37c7da7526c756731','','9701169376','India','','\0',0,0);
+/*!40000 ALTER TABLE `client` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `client_companies`
+--
+
+DROP TABLE IF EXISTS `client_companies`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `client_companies` (
+  `CLIENT_ID` bigint(20) NOT NULL,
+  `COMPANY_ID` bigint(20) NOT NULL,
+  PRIMARY KEY  (`CLIENT_ID`,`COMPANY_ID`),
+  KEY `FK942DD247A8D54972` (`COMPANY_ID`),
+  KEY `FK942DD247384AE49F` (`CLIENT_ID`),
+  CONSTRAINT `FK942DD247384AE49F` FOREIGN KEY (`CLIENT_ID`) REFERENCES `client` (`ID`),
+  CONSTRAINT `FK942DD247A8D54972` FOREIGN KEY (`COMPANY_ID`) REFERENCES `server_company` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `COMMAND`
+-- Dumping data for table `client_companies`
 --
 
-DROP TABLE IF EXISTS `COMMAND`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `COMMAND` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `COMMAND` int(11) DEFAULT NULL,
-  `ARG1` varchar(255) DEFAULT NULL,
-  `ARG2` varchar(255) DEFAULT NULL,
-  `DATE` datetime DEFAULT NULL,
-  `NEXTCOMMAND` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK63716B2B269D7EE9` (`NEXTCOMMAND`),
-  CONSTRAINT `FK63716B2B269D7EE9` FOREIGN KEY (`NEXTCOMMAND`) REFERENCES `COMMAND` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `client_companies` WRITE;
+/*!40000 ALTER TABLE `client_companies` DISABLE KEYS */;
+INSERT INTO `client_companies` VALUES (1,1),(1,2);
+/*!40000 ALTER TABLE `client_companies` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `COMMODITY_CODE`
+-- Table structure for table `commodity_code`
 --
 
-DROP TABLE IF EXISTS `COMMODITY_CODE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `COMMODITY_CODE` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+DROP TABLE IF EXISTS `commodity_code`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `commodity_code` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `COMPANY`
+-- Dumping data for table `commodity_code`
 --
 
-DROP TABLE IF EXISTS `COMPANY`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `COMPANY` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `ACCOUNTING_TYPE` int(11) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `COMPANY_EMAIL` varchar(255) DEFAULT NULL,
-  `COMPANY_EMAIL_FOR_CUSTOMERS` varchar(255) DEFAULT NULL,
+LOCK TABLES `commodity_code` WRITE;
+/*!40000 ALTER TABLE `commodity_code` DISABLE KEYS */;
+/*!40000 ALTER TABLE `commodity_code` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `company`
+--
+
+DROP TABLE IF EXISTS `company`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `company` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `ACCOUNTING_TYPE` int(11) default NULL,
+  `FULL_NAME` varchar(255) NOT NULL,
+  `COMPANY_ID` varchar(255) default NULL,
+  `COMPANY_EMAIL` varchar(255) default NULL,
+  `COMPANY_EMAIL_FOR_CUSTOMERS` varchar(255) default NULL,
   `COMPANY_CONTACT__IS_PRIMARY` bit(1) NOT NULL,
   `COMPANY_CONTACT__NAME` varchar(255) NOT NULL,
   `COMPANY_CONTACT__TITLE` varchar(255) NOT NULL,
   `COMPANY_CONTACT__BUSINESS_PHONE` varchar(255) NOT NULL,
   `COMPANY_CONTACT_EMAIL` varchar(255) NOT NULL,
-  `EIN` varchar(255) DEFAULT NULL,
-  `FIRSTMONTH_OF_FISCALYEAR` int(11) DEFAULT NULL,
-  `FIRSTMONTH_OF_INCOMETAXYEAR` int(11) DEFAULT NULL,
-  `TAX_FORM` int(11) DEFAULT NULL,
-  `BOOKS_COLSING_DATE` bigint(20) DEFAULT NULL,
-  `CLOSING_DATE_WARNINGTYPE` int(11) DEFAULT NULL,
-  `ENABLE_ACCOUNT_NUMBERS` bit(1) DEFAULT NULL,
-  `CUSTOMER_TYPE` int(11) DEFAULT NULL,
-  `ENABLE_AUTORECALL` bit(1) DEFAULT NULL,
-  `RESTART_SETUP_INTERVIEWS` bit(1) DEFAULT NULL,
-  `FISCAL_YEAR_STARTING` int(11) DEFAULT NULL,
-  `INDUSTRY` int(11) DEFAULT NULL,
-  `TAX_ID` varchar(255) DEFAULT NULL,
-  `LEGALNAME` varchar(255) DEFAULT NULL,
+  `EIN` varchar(255) default NULL,
+  `FIRSTMONTH_OF_FISCALYEAR` int(11) default NULL,
+  `FIRSTMONTH_OF_INCOMETAXYEAR` int(11) default NULL,
+  `TAX_FORM` int(11) default NULL,
+  `BOOKS_COLSING_DATE` bigint(20) default NULL,
+  `CLOSING_DATE_WARNINGTYPE` int(11) default NULL,
+  `ENABLE_ACCOUNT_NUMBERS` bit(1) default NULL,
+  `CUSTOMER_TYPE` int(11) default NULL,
+  `ENABLE_AUTORECALL` bit(1) default NULL,
+  `RESTART_SETUP_INTERVIEWS` bit(1) default NULL,
+  `FISCAL_YEAR_STARTING` int(11) default NULL,
+  `INDUSTRY` int(11) default NULL,
+  `TAX_ID` varchar(255) default NULL,
+  `LEGALNAME` varchar(255) default NULL,
   `CP_USE_ACCOUNT_NUMBERS` bit(1) NOT NULL,
   `CP_USE_CLASSES` bit(1) NOT NULL,
   `CP_USE_JOBS` bit(1) NOT NULL,
@@ -511,13 +618,15 @@ CREATE TABLE `COMPANY` (
   `CP_FISCAL_YEAR_START_DATE` bigint(20) NOT NULL,
   `CP_DEPRECIATION_START_DATE` bigint(20) NOT NULL,
   `CP_PREVENT_POSTING_DATE` bigint(20) NOT NULL,
+  `DATE_FORMAT` varchar(255) NOT NULL,
   `CP_USE_CUSTOMER_ID` bit(1) NOT NULL,
-  `CP_DEFAULT_SHIPPING_TERM` bigint(20) DEFAULT NULL,
+  `CP_DEFAULT_SHIPPING_TERM` bigint(20) default NULL,
   `CP_DEFAULT_ANNUAL_INTEREST_RATE` int(11) NOT NULL,
   `CP_DEFAULT_MINIMUM_FINANCE_CHARGE` double NOT NULL,
   `CP_GRACE_DAYS` int(11) NOT NULL,
   `CP_CALCULATE_FINANCE_CHARGE_FROM_INVOICE_DATE` bit(1) NOT NULL,
   `CP_USE_VENDOR_ID` bit(1) NOT NULL,
+  `SALES_ORDER_ENABLED` bit(1) NOT NULL,
   `CP_USE_ITEM_NUMBERS` bit(1) NOT NULL,
   `CP_CHECK_FOR_ITEM_QUANTITY_ON_HAND` bit(1) NOT NULL,
   `CP_UPDATE_COST_AUTOMATICALLY` bit(1) NOT NULL,
@@ -528,36 +637,56 @@ CREATE TABLE `COMPANY` (
   `REPORT_VAT_ON_ACCURAL_BASIS` bit(1) NOT NULL,
   `TRACK_VAT` bit(1) NOT NULL,
   `VAT_TAX_AGENCY_NAME` varchar(255) NOT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `FAX` varchar(255) DEFAULT NULL,
-  `WEBSITE` varchar(255) DEFAULT NULL,
-  `BANK_ACCOUNT_NO` varchar(255) DEFAULT NULL,
-  `SORT_CODE` varchar(255) DEFAULT NULL,
-  `ACCOUNTS_RECEIVABLE_ID` bigint(20) DEFAULT NULL,
-  `ACCOUNTS_PAYABLE_ID` bigint(20) DEFAULT NULL,
-  `OPENING_BALANCES_ID` bigint(20) DEFAULT NULL,
-  `RETAINED_EARNINGS_ID` bigint(20) DEFAULT NULL,
-  `OTHER_CASH_INCOME_ID` bigint(20) DEFAULT NULL,
-  `OTHER_CASH_EXPENSE_ID` bigint(20) DEFAULT NULL,
-  `VAT_LIABILITY_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `VAT_FILED_LIABILITY_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `PENDING_ITEM_RECEIPTS_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `SERVICE_ITEM_DEFAULT_INCOME_ACCOUNT` varchar(255) DEFAULT NULL,
-  `SERVICE_ITEM_DEFAULT_EXPENSE_ACCOUNT` varchar(255) DEFAULT NULL,
-  `NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT` varchar(255) DEFAULT NULL,
-  `NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT` varchar(255) DEFAULT NULL,
-  `UK_SERVICE_ITEM_DEFAULT_INCOME_ACCOUNT` varchar(255) DEFAULT NULL,
-  `UK_SERVICE_ITEM_DEFAULT_EXPENSE_ACCOUNT` varchar(255) DEFAULT NULL,
-  `UK_NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT` varchar(255) DEFAULT NULL,
-  `UK_NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT` varchar(255) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `REGISTRATION_NUMBER` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`),
+  `IS_SALES_PERSON_ENABLED` bit(1) default NULL,
+  `SELL_SERVICES` bit(1) default NULL,
+  `SELL_PRODUCTS` bit(1) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `FAX` varchar(255) default NULL,
+  `WEBSITE` varchar(255) default NULL,
+  `BANK_ACCOUNT_NO` varchar(255) default NULL,
+  `SORT_CODE` varchar(255) default NULL,
+  `ACCOUNTS_RECEIVABLE_ID` bigint(20) default NULL,
+  `ACCOUNTS_PAYABLE_ID` bigint(20) default NULL,
+  `OPENING_BALANCES_ID` bigint(20) default NULL,
+  `RETAINED_EARNINGS_ID` bigint(20) default NULL,
+  `OTHER_CASH_INCOME_ID` bigint(20) default NULL,
+  `OTHER_CASH_EXPENSE_ID` bigint(20) default NULL,
+  `VAT_LIABILITY_ACCOUNT_ID` bigint(20) default NULL,
+  `VAT_FILED_LIABILITY_ACCOUNT_ID` bigint(20) default NULL,
+  `PENDING_ITEM_RECEIPTS_ACCOUNT_ID` bigint(20) default NULL,
+  `VERSION` int(11) default NULL,
+  `SERVICE_ITEM_DEFAULT_INCOME_ACCOUNT` varchar(255) default NULL,
+  `SERVICE_ITEM_DEFAULT_EXPENSE_ACCOUNT` varchar(255) default NULL,
+  `NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT` varchar(255) default NULL,
+  `NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT` varchar(255) default NULL,
+  `UK_SERVICE_ITEM_DEFAULT_INCOME_ACCOUNT` varchar(255) default NULL,
+  `UK_SERVICE_ITEM_DEFAULT_EXPENSE_ACCOUNT` varchar(255) default NULL,
+  `UK_NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT` varchar(255) default NULL,
+  `UK_NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT` varchar(255) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `REGISTRATION_NUMBER` varchar(255) default NULL,
+  `TRADING_ADDRESS_TYPE` int(11) default NULL,
+  `TRADING_ADDRESS1` varchar(100) NOT NULL,
+  `TRADING_STREET` varchar(100) NOT NULL,
+  `TRADING_CITY` varchar(100) NOT NULL,
+  `TRADING_STATE` varchar(100) NOT NULL,
+  `TRADING_ZIP` varchar(100) NOT NULL,
+  `TRADING_COUNTRY` varchar(100) NOT NULL,
+  `TRADING_IS_SELECTED` bit(1) NOT NULL,
+  `REGISTRED_ADDRESS_TYPE` int(11) default NULL,
+  `REGISTRED_ADDRESS1` varchar(100) NOT NULL,
+  `REGISTRED_STREET` varchar(100) NOT NULL,
+  `REGISTRED_CITY` varchar(100) NOT NULL,
+  `REGISTRED_STATE` varchar(100) NOT NULL,
+  `REGISTRED_ZIP` varchar(100) NOT NULL,
+  `REGISTRED_COUNTRY` varchar(100) NOT NULL,
+  `REGISTRED_IS_SELECTED` bit(1) NOT NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `FULL_NAME` (`FULL_NAME`),
+  KEY `FK6372C85DF1AE8CDE` (`CREATED_BY`),
   KEY `FK6372C85D84106475` (`PENDING_ITEM_RECEIPTS_ACCOUNT_ID`),
   KEY `FK6372C85DCF7D8E79` (`ACCOUNTS_PAYABLE_ID`),
   KEY `FK6372C85D7C4DCF34` (`VAT_FILED_LIABILITY_ACCOUNT_ID`),
@@ -565,827 +694,940 @@ CREATE TABLE `COMPANY` (
   KEY `FK6372C85D9E66A0E4` (`OPENING_BALANCES_ID`),
   KEY `FK6372C85D2CBF1A7C` (`OTHER_CASH_INCOME_ID`),
   KEY `FK6372C85DB1A5391E` (`RETAINED_EARNINGS_ID`),
+  KEY `FK6372C85D9E5A0E30` (`LAST_MODIFIER`),
   KEY `FK6372C85DC7B23C7` (`OTHER_CASH_EXPENSE_ID`),
   KEY `FK6372C85D32175D8D` (`ACCOUNTS_RECEIVABLE_ID`),
   KEY `FK6372C85DCA4E42A1` (`CP_DEFAULT_SHIPPING_TERM`),
-  CONSTRAINT `FK6372C85DCA4E42A1` FOREIGN KEY (`CP_DEFAULT_SHIPPING_TERM`) REFERENCES `SHIPPINGTERMS` (`ID`),
-  CONSTRAINT `FK6372C85D2CBF1A7C` FOREIGN KEY (`OTHER_CASH_INCOME_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK6372C85D32175D8D` FOREIGN KEY (`ACCOUNTS_RECEIVABLE_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK6372C85D44E2B63D` FOREIGN KEY (`VAT_LIABILITY_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK6372C85D7C4DCF34` FOREIGN KEY (`VAT_FILED_LIABILITY_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK6372C85D84106475` FOREIGN KEY (`PENDING_ITEM_RECEIPTS_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK6372C85D9E66A0E4` FOREIGN KEY (`OPENING_BALANCES_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK6372C85DB1A5391E` FOREIGN KEY (`RETAINED_EARNINGS_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK6372C85DC7B23C7` FOREIGN KEY (`OTHER_CASH_EXPENSE_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK6372C85DCF7D8E79` FOREIGN KEY (`ACCOUNTS_PAYABLE_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK6372C85D2CBF1A7C` FOREIGN KEY (`OTHER_CASH_INCOME_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK6372C85D32175D8D` FOREIGN KEY (`ACCOUNTS_RECEIVABLE_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK6372C85D44E2B63D` FOREIGN KEY (`VAT_LIABILITY_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK6372C85D7C4DCF34` FOREIGN KEY (`VAT_FILED_LIABILITY_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK6372C85D84106475` FOREIGN KEY (`PENDING_ITEM_RECEIPTS_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK6372C85D9E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK6372C85D9E66A0E4` FOREIGN KEY (`OPENING_BALANCES_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK6372C85DB1A5391E` FOREIGN KEY (`RETAINED_EARNINGS_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK6372C85DC7B23C7` FOREIGN KEY (`OTHER_CASH_EXPENSE_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK6372C85DCA4E42A1` FOREIGN KEY (`CP_DEFAULT_SHIPPING_TERM`) REFERENCES `shippingterms` (`ID`),
+  CONSTRAINT `FK6372C85DCF7D8E79` FOREIGN KEY (`ACCOUNTS_PAYABLE_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK6372C85DF1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `COMPANY_ADDRESS`
+-- Dumping data for table `company`
 --
 
-DROP TABLE IF EXISTS `COMPANY_ADDRESS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `COMPANY_ADDRESS` (
+LOCK TABLES `company` WRITE;
+/*!40000 ALTER TABLE `company` DISABLE KEYS */;
+/*!40000 ALTER TABLE `company` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `company_nominal_code_range`
+--
+
+DROP TABLE IF EXISTS `company_nominal_code_range`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `company_nominal_code_range` (
   `COMPANY_ID` bigint(20) NOT NULL,
-  `TYPE` int(11) NOT NULL,
-  `ADDRESS1` varchar(100) NOT NULL,
-  `STREET` varchar(100) NOT NULL,
-  `CITY` varchar(100) NOT NULL,
-  `STATE` varchar(100) NOT NULL,
-  `ZIP` varchar(100) NOT NULL,
-  `COUNTRY` varchar(100) NOT NULL,
-  `IS_SELECTED` bit(1) NOT NULL,
-  PRIMARY KEY (`COMPANY_ID`,`TYPE`,`ADDRESS1`,`STREET`,`CITY`,`STATE`,`ZIP`,`COUNTRY`,`IS_SELECTED`),
-  KEY `FK97F9E9F2622C1275` (`COMPANY_ID`),
-  CONSTRAINT `FK97F9E9F2622C1275` FOREIGN KEY (`COMPANY_ID`) REFERENCES `COMPANY` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `COMPANY_NOMINAL_CODE_RANGE`
---
-
-DROP TABLE IF EXISTS `COMPANY_NOMINAL_CODE_RANGE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `COMPANY_NOMINAL_CODE_RANGE` (
-  `COMPANY_ID` bigint(20) NOT NULL,
-  `STRING_ID` varchar(255) NOT NULL,
   `ACCOUNT_SUB_BASE_TYPE` int(11) NOT NULL,
   `MINIMUM` int(11) NOT NULL,
   `MAXIMUM` int(11) NOT NULL,
-  PRIMARY KEY (`COMPANY_ID`,`STRING_ID`,`ACCOUNT_SUB_BASE_TYPE`,`MINIMUM`,`MAXIMUM`),
+  PRIMARY KEY  (`COMPANY_ID`,`ACCOUNT_SUB_BASE_TYPE`,`MINIMUM`,`MAXIMUM`),
   KEY `FK7783B6D0622C1275` (`COMPANY_ID`),
-  CONSTRAINT `FK7783B6D0622C1275` FOREIGN KEY (`COMPANY_ID`) REFERENCES `COMPANY` (`ID`)
+  CONSTRAINT `FK7783B6D0622C1275` FOREIGN KEY (`COMPANY_ID`) REFERENCES `company` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `CREDITRATING`
+-- Dumping data for table `company_nominal_code_range`
 --
 
-DROP TABLE IF EXISTS `CREDITRATING`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CREDITRATING` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `company_nominal_code_range` WRITE;
+/*!40000 ALTER TABLE `company_nominal_code_range` DISABLE KEYS */;
+/*!40000 ALTER TABLE `company_nominal_code_range` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `CREDITS_AND_PAYMENTS`
+-- Table structure for table `credit_card_charges`
 --
 
-DROP TABLE IF EXISTS `CREDITS_AND_PAYMENTS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CREDITS_AND_PAYMENTS` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `MEMO` varchar(255) DEFAULT NULL,
-  `CREDIT_AMOUNT` double DEFAULT NULL,
-  `BALANCE` double DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `PAYEE_ID` bigint(20) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT '0',
-  PRIMARY KEY (`ID`),
-  KEY `FK303EF05AB2FC5555` (`PAYEE_ID`),
-  KEY `FK303EF05A63880555` (`TRANSACTION_ID`),
-  CONSTRAINT `FK303EF05A63880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK303EF05AB2FC5555` FOREIGN KEY (`PAYEE_ID`) REFERENCES `PAYEE` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `CREDIT_CARD_CHARGES`
---
-
-DROP TABLE IF EXISTS `CREDIT_CARD_CHARGES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CREDIT_CARD_CHARGES` (
-  `id` bigint(20) NOT NULL,
-  `VENDOR_ID` bigint(20) DEFAULT NULL,
-  `CCC_IS_PRIMARY` bit(1) DEFAULT NULL,
-  `CCC_NAME` varchar(255) DEFAULT NULL,
-  `CCC_TITLE` varchar(255) DEFAULT NULL,
-  `CCC_BUSINESS_PHONE` varchar(255) DEFAULT NULL,
-  `CCC_EMAIL` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `VENDOR_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `PAYFROM_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `CHECK_NUMBER` varchar(255) DEFAULT NULL,
-  `DELIVERY_DATE` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK87C7176274BC854` (`id`),
+DROP TABLE IF EXISTS `credit_card_charges`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `credit_card_charges` (
+  `ID` bigint(20) NOT NULL,
+  `VENDOR_ID` bigint(20) default NULL,
+  `CCC_IS_PRIMARY` bit(1) default NULL,
+  `CCC_NAME` varchar(255) default NULL,
+  `CCC_TITLE` varchar(255) default NULL,
+  `CCC_BUSINESS_PHONE` varchar(255) default NULL,
+  `CCC_EMAIL` varchar(255) default NULL,
+  `VENDOR_ADDRESS_TYPE` int(11) default NULL,
+  `VENDOR_ADDRESS_STREET` varchar(255) default NULL,
+  `VENDOR_ADDRESS_CITY` varchar(255) default NULL,
+  `VENDOR_ADDRESS_STATE` varchar(255) default NULL,
+  `VENDOR_ADDRESS_ZIP` varchar(255) default NULL,
+  `VENDOR_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `VENDOR_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `PAYFROM_ACCOUNT_ID` bigint(20) default NULL,
+  `CHECK_NUMBER` varchar(255) default NULL,
+  `DELIVERY_DATE` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK87C7176274BC854` (`ID`),
   KEY `FK87C7176891A177F` (`VENDOR_ID`),
   KEY `FK87C717668A08E82` (`PAYFROM_ACCOUNT_ID`),
-  CONSTRAINT `FK87C717668A08E82` FOREIGN KEY (`PAYFROM_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK87C7176274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK87C7176891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `VENDOR` (`id`)
+  CONSTRAINT `FK87C7176274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK87C717668A08E82` FOREIGN KEY (`PAYFROM_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK87C7176891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `vendor` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `CURRENCY`
+-- Dumping data for table `credit_card_charges`
 --
 
-DROP TABLE IF EXISTS `CURRENCY`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CURRENCY` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `SYMBOL` varchar(255) DEFAULT NULL,
-  `FORMAL_NAME` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `credit_card_charges` WRITE;
+/*!40000 ALTER TABLE `credit_card_charges` DISABLE KEYS */;
+/*!40000 ALTER TABLE `credit_card_charges` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `creditrating`
+--
+
+DROP TABLE IF EXISTS `creditrating`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `creditrating` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `VERSION` int(11) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `FK792265D6F1AE8CDE` (`CREATED_BY`),
+  KEY `FK792265D69E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK792265D69E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK792265D6F1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `creditrating`
+--
+
+LOCK TABLES `creditrating` WRITE;
+/*!40000 ALTER TABLE `creditrating` DISABLE KEYS */;
+/*!40000 ALTER TABLE `creditrating` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `credits_and_payments`
+--
+
+DROP TABLE IF EXISTS `credits_and_payments`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `credits_and_payments` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `MEMO` varchar(255) default NULL,
+  `CREDIT_AMOUNT` double default NULL,
+  `BALANCE` double default NULL,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `PAYEE_ID` bigint(20) default NULL,
+  `VERSION` int(11) default '0',
+  PRIMARY KEY  (`ID`),
+  KEY `FK303EF05AB2FC5555` (`PAYEE_ID`),
+  KEY `FK303EF05A63880555` (`TRANSACTION_ID`),
+  CONSTRAINT `FK303EF05A63880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK303EF05AB2FC5555` FOREIGN KEY (`PAYEE_ID`) REFERENCES `payee` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `credits_and_payments`
+--
+
+LOCK TABLES `credits_and_payments` WRITE;
+/*!40000 ALTER TABLE `credits_and_payments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `credits_and_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `currency`
+--
+
+DROP TABLE IF EXISTS `currency`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `currency` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `SYMBOL` varchar(255) default NULL,
+  `FORMAL_NAME` varchar(255) default NULL,
+  `VERSION` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `CUSTOMER`
+-- Dumping data for table `currency`
 --
 
-DROP TABLE IF EXISTS `CUSTOMER`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CUSTOMER` (
-  `id` bigint(20) NOT NULL,
-  `BALANCE_AS_OF` bigint(20) DEFAULT NULL,
-  `NUMBER` varchar(255) DEFAULT NULL,
-  `SALES_PERSON_ID` bigint(20) DEFAULT NULL,
-  `CREDIT_LIMIT` double DEFAULT NULL,
-  `PRICE_LEVEL_ID` bigint(20) DEFAULT NULL,
-  `CREDIT_RATING_ID` bigint(20) DEFAULT NULL,
-  `SHIPPING_METHOD_ID` bigint(20) DEFAULT NULL,
-  `PAYMENT_TERM_ID` bigint(20) DEFAULT NULL,
-  `CUSTOMER_GROUP_ID` bigint(20) DEFAULT NULL,
-  `TAX_GROUP_ID` bigint(20) DEFAULT NULL,
-  `CURRET_DUE` double DEFAULT NULL,
-  `OVER_DUE_ONE_TO_THIRY_DAYS` double DEFAULT NULL,
-  `OVER_DUE_THIRTY_ONE_TO_SIXTY_DAYS` double DEFAULT NULL,
-  `OVER_DUE_SIXTY_ONE_TO_NINTY_DAYS` double DEFAULT NULL,
-  `OVER_DUE_OVER_NINTY_DAYS` double DEFAULT NULL,
-  `OVER_DUE_TOTAL_BALANCE` double DEFAULT NULL,
-  `AVERAGE_DAYS_TO_PAY` int(11) DEFAULT NULL,
-  `AVERAGE_DAYS_TO_PAY_YTD` int(11) DEFAULT NULL,
-  `MONTH_TO_DATE` double DEFAULT NULL,
-  `YEAR_TO_DATE` double DEFAULT NULL,
-  `LAST_YEAR` double DEFAULT NULL,
-  `LIFE_TIME_SALES` double DEFAULT NULL,
-  PRIMARY KEY (`id`),
+LOCK TABLES `currency` WRITE;
+/*!40000 ALTER TABLE `currency` DISABLE KEYS */;
+/*!40000 ALTER TABLE `currency` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customer`
+--
+
+DROP TABLE IF EXISTS `customer`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `customer` (
+  `ID` bigint(20) NOT NULL,
+  `BALANCE_AS_OF` bigint(20) default NULL,
+  `NUMBER` varchar(255) default NULL,
+  `SALES_PERSON_ID` bigint(20) default NULL,
+  `CREDIT_LIMIT` double default NULL,
+  `PRICE_LEVEL_ID` bigint(20) default NULL,
+  `CREDIT_RATING_ID` bigint(20) default NULL,
+  `SHIPPING_METHOD_ID` bigint(20) default NULL,
+  `PAYMENT_TERM_ID` bigint(20) default NULL,
+  `CUSTOMER_GROUP_ID` bigint(20) default NULL,
+  `TAX_GROUP_ID` bigint(20) default NULL,
+  `CURRET_DUE` double default NULL,
+  `OVER_DUE_ONE_TO_THIRY_DAYS` double default NULL,
+  `OVER_DUE_THIRTY_ONE_TO_SIXTY_DAYS` double default NULL,
+  `OVER_DUE_SIXTY_ONE_TO_NINTY_DAYS` double default NULL,
+  `OVER_DUE_OVER_NINTY_DAYS` double default NULL,
+  `OVER_DUE_TOTAL_BALANCE` double default NULL,
+  `AVERAGE_DAYS_TO_PAY` int(11) default NULL,
+  `AVERAGE_DAYS_TO_PAY_YTD` int(11) default NULL,
+  `MONTH_TO_DATE` double default NULL,
+  `YEAR_TO_DATE` double default NULL,
+  `LAST_YEAR` double default NULL,
+  `LIFE_TIME_SALES` double default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NUMBER` (`NUMBER`),
   KEY `FK52C76FDE338BD6BB` (`PAYMENT_TERM_ID`),
   KEY `FK52C76FDEAD0A95DC` (`SHIPPING_METHOD_ID`),
   KEY `FK52C76FDEE8300E32` (`CREDIT_RATING_ID`),
   KEY `FK52C76FDE42DB20F8` (`CUSTOMER_GROUP_ID`),
-  KEY `FK52C76FDE610348FE` (`id`),
+  KEY `FK52C76FDE610348FE` (`ID`),
   KEY `FK52C76FDECD4BA408` (`TAX_GROUP_ID`),
   KEY `FK52C76FDE9A3059EC` (`PRICE_LEVEL_ID`),
   KEY `FK52C76FDE4C74BEAE` (`SALES_PERSON_ID`),
-  CONSTRAINT `FK52C76FDE4C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `SALES_PERSON` (`id`),
-  CONSTRAINT `FK52C76FDE338BD6BB` FOREIGN KEY (`PAYMENT_TERM_ID`) REFERENCES `PAYMENTTERMS` (`ID`),
-  CONSTRAINT `FK52C76FDE42DB20F8` FOREIGN KEY (`CUSTOMER_GROUP_ID`) REFERENCES `CUSTOMER_GROUP` (`ID`),
-  CONSTRAINT `FK52C76FDE610348FE` FOREIGN KEY (`id`) REFERENCES `PAYEE` (`ID`),
-  CONSTRAINT `FK52C76FDE9A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `PRICELEVEL` (`ID`),
-  CONSTRAINT `FK52C76FDEAD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `SHIPPINGMETHOD` (`ID`),
-  CONSTRAINT `FK52C76FDECD4BA408` FOREIGN KEY (`TAX_GROUP_ID`) REFERENCES `TAX_GROUP` (`id`),
-  CONSTRAINT `FK52C76FDEE8300E32` FOREIGN KEY (`CREDIT_RATING_ID`) REFERENCES `CREDITRATING` (`ID`)
+  CONSTRAINT `FK52C76FDE338BD6BB` FOREIGN KEY (`PAYMENT_TERM_ID`) REFERENCES `paymentterms` (`ID`),
+  CONSTRAINT `FK52C76FDE42DB20F8` FOREIGN KEY (`CUSTOMER_GROUP_ID`) REFERENCES `customer_group` (`ID`),
+  CONSTRAINT `FK52C76FDE4C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `sales_person` (`ID`),
+  CONSTRAINT `FK52C76FDE610348FE` FOREIGN KEY (`ID`) REFERENCES `payee` (`ID`),
+  CONSTRAINT `FK52C76FDE9A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `pricelevel` (`ID`),
+  CONSTRAINT `FK52C76FDEAD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `shippingmethod` (`ID`),
+  CONSTRAINT `FK52C76FDECD4BA408` FOREIGN KEY (`TAX_GROUP_ID`) REFERENCES `tax_group` (`ID`),
+  CONSTRAINT `FK52C76FDEE8300E32` FOREIGN KEY (`CREDIT_RATING_ID`) REFERENCES `creditrating` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `CUSTOMER_CREDIT_MEMO`
+-- Dumping data for table `customer`
 --
 
-DROP TABLE IF EXISTS `CUSTOMER_CREDIT_MEMO`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CUSTOMER_CREDIT_MEMO` (
-  `id` bigint(20) NOT NULL,
-  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
-  `CCM_IS_PRIMARY` bit(1) DEFAULT NULL,
-  `CCM_NAME` varchar(255) DEFAULT NULL,
-  `CCM_TITLE` varchar(255) DEFAULT NULL,
-  `CCM_BUSINESS_PHONE` varchar(255) DEFAULT NULL,
-  `CCM_EMAIL` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `BILLING_ADDRESS1` varchar(100) DEFAULT NULL,
-  `BILLING_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `SALES_PERSON_ID` bigint(20) DEFAULT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `PRICE_LEVEL_ID` bigint(20) DEFAULT NULL,
-  `SALES_TAX` double DEFAULT NULL,
-  `DISCOUNT_TOTAL` double DEFAULT NULL,
-  `BALANCE_DUE` double DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK50A48BDF274BC854` (`id`),
+LOCK TABLES `customer` WRITE;
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customer_credit_memo`
+--
+
+DROP TABLE IF EXISTS `customer_credit_memo`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `customer_credit_memo` (
+  `ID` bigint(20) NOT NULL,
+  `CUSTOMER_ID` bigint(20) default NULL,
+  `CCM_IS_PRIMARY` bit(1) default NULL,
+  `CCM_NAME` varchar(255) default NULL,
+  `CCM_TITLE` varchar(255) default NULL,
+  `CCM_BUSINESS_PHONE` varchar(255) default NULL,
+  `CCM_EMAIL` varchar(255) default NULL,
+  `BILLING_ADDRESS_TYPE` int(11) default NULL,
+  `BILLING_ADDRESS1` varchar(100) default NULL,
+  `BILLING_ADDRESS_STREET` varchar(255) default NULL,
+  `BILLING_ADDRESS_CITY` varchar(255) default NULL,
+  `BILLING_ADDRESS_STATE` varchar(255) default NULL,
+  `BILLING_ADDRESS_ZIP` varchar(255) default NULL,
+  `BILLING_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `BILLING_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `SALES_PERSON_ID` bigint(20) default NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  `PRICE_LEVEL_ID` bigint(20) default NULL,
+  `SALES_TAX` double default NULL,
+  `DISCOUNT_TOTAL` double default NULL,
+  `BALANCE_DUE` double default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK50A48BDF274BC854` (`ID`),
   KEY `FK50A48BDF9A3059EC` (`PRICE_LEVEL_ID`),
   KEY `FK50A48BDF4C74BEAE` (`SALES_PERSON_ID`),
   KEY `FK50A48BDFE5FCF475` (`ACCOUNT_ID`),
   KEY `FK50A48BDFDFE06A7F` (`CUSTOMER_ID`),
-  CONSTRAINT `FK50A48BDFDFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `CUSTOMER` (`id`),
-  CONSTRAINT `FK50A48BDF274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK50A48BDF4C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `SALES_PERSON` (`id`),
-  CONSTRAINT `FK50A48BDF9A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `PRICELEVEL` (`ID`),
-  CONSTRAINT `FK50A48BDFE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK50A48BDF274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK50A48BDF4C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `sales_person` (`ID`),
+  CONSTRAINT `FK50A48BDF9A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `pricelevel` (`ID`),
+  CONSTRAINT `FK50A48BDFDFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`),
+  CONSTRAINT `FK50A48BDFE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `CUSTOMER_GROUP`
+-- Dumping data for table `customer_credit_memo`
 --
 
-DROP TABLE IF EXISTS `CUSTOMER_GROUP`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CUSTOMER_GROUP` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`)
+LOCK TABLES `customer_credit_memo` WRITE;
+/*!40000 ALTER TABLE `customer_credit_memo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer_credit_memo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customer_group`
+--
+
+DROP TABLE IF EXISTS `customer_group`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `customer_group` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `VERSION` int(11) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `FK3B0AF2BEF1AE8CDE` (`CREATED_BY`),
+  KEY `FK3B0AF2BE9E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK3B0AF2BE9E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK3B0AF2BEF1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `CUSTOMER_PREPAYMENT`
+-- Dumping data for table `customer_group`
 --
 
-DROP TABLE IF EXISTS `CUSTOMER_PREPAYMENT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CUSTOMER_PREPAYMENT` (
-  `id` bigint(20) NOT NULL,
-  `DEPOSITIN_ID` bigint(20) DEFAULT NULL,
-  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
-  `ENDING_BALANCE` double DEFAULT NULL,
-  `BALANCE_DUE` double DEFAULT NULL,
-  `CHECK_NUMBER` varchar(255) DEFAULT NULL,
-  `CPP_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `CPP_ADDRESS_ADDRESS1` varchar(100) DEFAULT NULL,
-  `CPP_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `CPP_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `CPP_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `CPP_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `CPP_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `CPP_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+LOCK TABLES `customer_group` WRITE;
+/*!40000 ALTER TABLE `customer_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customer_prepayment`
+--
+
+DROP TABLE IF EXISTS `customer_prepayment`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `customer_prepayment` (
+  `ID` bigint(20) NOT NULL,
+  `DEPOSITIN_ID` bigint(20) default NULL,
+  `CUSTOMER_ID` bigint(20) default NULL,
+  `ENDING_BALANCE` double default NULL,
+  `BALANCE_DUE` double default NULL,
+  `CHECK_NUMBER` varchar(255) default NULL,
+  `CPP_ADDRESS_TYPE` int(11) default NULL,
+  `CPP_ADDRESS_ADDRESS1` varchar(100) default NULL,
+  `CPP_ADDRESS_STREET` varchar(255) default NULL,
+  `CPP_ADDRESS_CITY` varchar(255) default NULL,
+  `CPP_ADDRESS_STATE` varchar(255) default NULL,
+  `CPP_ADDRESS_ZIP` varchar(255) default NULL,
+  `CPP_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `CPP_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FKBEF0AD0427CE4A9F` (`DEPOSITIN_ID`),
-  KEY `FKBEF0AD04274BC854` (`id`),
+  KEY `FKBEF0AD04274BC854` (`ID`),
   KEY `FKBEF0AD04DFE06A7F` (`CUSTOMER_ID`),
-  CONSTRAINT `FKBEF0AD04DFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `CUSTOMER` (`id`),
-  CONSTRAINT `FKBEF0AD04274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FKBEF0AD0427CE4A9F` FOREIGN KEY (`DEPOSITIN_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FKBEF0AD04274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKBEF0AD0427CE4A9F` FOREIGN KEY (`DEPOSITIN_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FKBEF0AD04DFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `CUSTOMER_REFUND`
+-- Dumping data for table `customer_prepayment`
 --
 
-DROP TABLE IF EXISTS `CUSTOMER_REFUND`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CUSTOMER_REFUND` (
-  `id` bigint(20) NOT NULL,
-  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
-  `CR__ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `CR_ADDRESS_ADDRESS1` varchar(100) DEFAULT NULL,
-  `CR__ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `CR__ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `CR__ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `CR__ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `CR__ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `CR__ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `PAYFROM_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `IS_TO_BE_PRINTED` bit(1) DEFAULT NULL,
-  `ENDING_BALANCE` double DEFAULT NULL,
-  `CUSTOMER_BALANCE` double DEFAULT NULL,
-  `IS_PAID` bit(1) DEFAULT NULL,
-  `PAYMENTS` double DEFAULT NULL,
-  `BALANCE_DUE` double DEFAULT NULL,
-  `CHECK_NUMBER` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK385D6AF9274BC854` (`id`),
+LOCK TABLES `customer_prepayment` WRITE;
+/*!40000 ALTER TABLE `customer_prepayment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer_prepayment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customer_refund`
+--
+
+DROP TABLE IF EXISTS `customer_refund`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `customer_refund` (
+  `ID` bigint(20) NOT NULL,
+  `CUSTOMER_ID` bigint(20) default NULL,
+  `CR__ADDRESS_TYPE` int(11) default NULL,
+  `CR_ADDRESS_ADDRESS1` varchar(100) default NULL,
+  `CR__ADDRESS_STREET` varchar(255) default NULL,
+  `CR__ADDRESS_CITY` varchar(255) default NULL,
+  `CR__ADDRESS_STATE` varchar(255) default NULL,
+  `CR__ADDRESS_ZIP` varchar(255) default NULL,
+  `CR__ADDRESS_COUNTRY` varchar(255) default NULL,
+  `CR__ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `PAYFROM_ACCOUNT_ID` bigint(20) default NULL,
+  `IS_TO_BE_PRINTED` bit(1) default NULL,
+  `ENDING_BALANCE` double default NULL,
+  `CUSTOMER_BALANCE` double default NULL,
+  `IS_PAID` bit(1) default NULL,
+  `PAYMENTS` double default NULL,
+  `BALANCE_DUE` double default NULL,
+  `CHECK_NUMBER` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK385D6AF9274BC854` (`ID`),
   KEY `FK385D6AF968A08E82` (`PAYFROM_ACCOUNT_ID`),
   KEY `FK385D6AF9DFE06A7F` (`CUSTOMER_ID`),
-  CONSTRAINT `FK385D6AF9DFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `CUSTOMER` (`id`),
-  CONSTRAINT `FK385D6AF9274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK385D6AF968A08E82` FOREIGN KEY (`PAYFROM_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK385D6AF9274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK385D6AF968A08E82` FOREIGN KEY (`PAYFROM_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK385D6AF9DFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `DELETED_USER`
+-- Dumping data for table `customer_refund`
 --
 
-DROP TABLE IF EXISTS `DELETED_USER`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `DELETED_USER` (
-  `USER_ID` varchar(255) NOT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `EMAIL_ID` varchar(255) DEFAULT NULL,
-  `COMPANY_NAME` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `customer_refund` WRITE;
+/*!40000 ALTER TABLE `customer_refund` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer_refund` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `DEPRECIATION`
+-- Table structure for table `depreciation`
 --
 
-DROP TABLE IF EXISTS `DEPRECIATION`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `DEPRECIATION` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `STATUS` int(11) DEFAULT NULL,
-  `DEPRECIATE_FROM` bigint(20) DEFAULT NULL,
-  `DEPRECIATE_TO` bigint(20) DEFAULT NULL,
-  `FIXED_ASSET_ID` bigint(20) DEFAULT NULL,
-  `DEPRECIATION_FOR` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+DROP TABLE IF EXISTS `depreciation`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `depreciation` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `STATUS` int(11) default NULL,
+  `DEPRECIATE_FROM` bigint(20) default NULL,
+  `DEPRECIATE_TO` bigint(20) default NULL,
+  `FIXED_ASSET_ID` bigint(20) default NULL,
+  `DEPRECIATION_FOR` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK59F2A58D33118956` (`FIXED_ASSET_ID`),
-  CONSTRAINT `FK59F2A58D33118956` FOREIGN KEY (`FIXED_ASSET_ID`) REFERENCES `FIXED_ASSET` (`ID`)
+  CONSTRAINT `FK59F2A58D33118956` FOREIGN KEY (`FIXED_ASSET_ID`) REFERENCES `fixed_asset` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `ENTER_BILL`
+-- Dumping data for table `depreciation`
 --
 
-DROP TABLE IF EXISTS `ENTER_BILL`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ENTER_BILL` (
-  `id` bigint(20) NOT NULL,
-  `VENDOR_ID` bigint(20) DEFAULT NULL,
-  `EB_IS_PRIMARY` bit(1) DEFAULT NULL,
-  `EB_NAME` varchar(255) DEFAULT NULL,
-  `EB_TITLE` varchar(255) DEFAULT NULL,
-  `EB_BUSINESS_PHONE` varchar(255) DEFAULT NULL,
-  `EB_EMAIL` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `VENDOR_ADDRESS_ADDRESS1` varchar(100) DEFAULT NULL,
-  `VENDOR_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `PAYMENT_TERM_ID` bigint(20) DEFAULT NULL,
-  `DUE_DATE` bigint(20) DEFAULT NULL,
-  `DELIVERY_DATE` bigint(20) DEFAULT NULL,
-  `IS_PAID` bit(1) DEFAULT NULL,
-  `PAYMENTS` double DEFAULT NULL,
-  `BALANCE_DUE` double DEFAULT NULL,
-  `DISCOUNT_DATE` bigint(20) DEFAULT NULL,
-  `PURCHASE_ORDER_ID` bigint(20) DEFAULT NULL,
-  `ITEM_RECEIPT_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+LOCK TABLES `depreciation` WRITE;
+/*!40000 ALTER TABLE `depreciation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `depreciation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `developer`
+--
+
+DROP TABLE IF EXISTS `developer`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `developer` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `CLIENT` bigint(20) default NULL,
+  `API_KEY` varchar(255) default NULL,
+  `SECRET_KEY` varchar(255) default NULL,
+  `APPLICATION_NAME` varchar(255) default NULL,
+  `DESCRIPTION` varchar(255) default NULL,
+  `INTEGRATIONURL` varchar(255) default NULL,
+  `APPLICATIONTYPE` varchar(255) default NULL,
+  `APPLICATIONUSE` varchar(255) default NULL,
+  `DEVELOPER_EMAIL_ID` varchar(255) default NULL,
+  `CONTACT` varchar(255) default NULL,
+  `SUCCEES_REQUESTS` bigint(20) default NULL,
+  `FAILURE_REQUESTS` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKA148F7AA58DBF25B` (`CLIENT`),
+  CONSTRAINT `FKA148F7AA58DBF25B` FOREIGN KEY (`CLIENT`) REFERENCES `client` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `developer`
+--
+
+LOCK TABLES `developer` WRITE;
+/*!40000 ALTER TABLE `developer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `developer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enter_bill`
+--
+
+DROP TABLE IF EXISTS `enter_bill`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `enter_bill` (
+  `ID` bigint(20) NOT NULL,
+  `VENDOR_ID` bigint(20) default NULL,
+  `EB_IS_PRIMARY` bit(1) default NULL,
+  `EB_NAME` varchar(255) default NULL,
+  `EB_TITLE` varchar(255) default NULL,
+  `EB_BUSINESS_PHONE` varchar(255) default NULL,
+  `EB_EMAIL` varchar(255) default NULL,
+  `VENDOR_ADDRESS_TYPE` int(11) default NULL,
+  `VENDOR_ADDRESS_ADDRESS1` varchar(100) default NULL,
+  `VENDOR_ADDRESS_STREET` varchar(255) default NULL,
+  `VENDOR_ADDRESS_CITY` varchar(255) default NULL,
+  `VENDOR_ADDRESS_STATE` varchar(255) default NULL,
+  `VENDOR_ADDRESS_ZIP` varchar(255) default NULL,
+  `VENDOR_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `VENDOR_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `PAYMENT_TERM_ID` bigint(20) default NULL,
+  `DUE_DATE` bigint(20) default NULL,
+  `DELIVERY_DATE` bigint(20) default NULL,
+  `IS_PAID` bit(1) default NULL,
+  `PAYMENTS` double default NULL,
+  `BALANCE_DUE` double default NULL,
+  `DISCOUNT_DATE` bigint(20) default NULL,
+  `PURCHASE_ORDER_ID` bigint(20) default NULL,
+  `ITEM_RECEIPT_ID` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FKEDDD392E338BD6BB` (`PAYMENT_TERM_ID`),
   KEY `FKEDDD392EA936E12E` (`ITEM_RECEIPT_ID`),
   KEY `FKEDDD392E39750592` (`PURCHASE_ORDER_ID`),
-  KEY `FKEDDD392E274BC854` (`id`),
+  KEY `FKEDDD392E274BC854` (`ID`),
   KEY `FKEDDD392E891A177F` (`VENDOR_ID`),
-  CONSTRAINT `FKEDDD392E891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `VENDOR` (`id`),
-  CONSTRAINT `FKEDDD392E274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FKEDDD392E338BD6BB` FOREIGN KEY (`PAYMENT_TERM_ID`) REFERENCES `PAYMENTTERMS` (`ID`),
-  CONSTRAINT `FKEDDD392E39750592` FOREIGN KEY (`PURCHASE_ORDER_ID`) REFERENCES `PURCHASE_ORDER` (`id`),
-  CONSTRAINT `FKEDDD392EA936E12E` FOREIGN KEY (`ITEM_RECEIPT_ID`) REFERENCES `ITEM_RECEIPT` (`id`)
+  CONSTRAINT `FKEDDD392E274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKEDDD392E338BD6BB` FOREIGN KEY (`PAYMENT_TERM_ID`) REFERENCES `paymentterms` (`ID`),
+  CONSTRAINT `FKEDDD392E39750592` FOREIGN KEY (`PURCHASE_ORDER_ID`) REFERENCES `purchase_order` (`ID`),
+  CONSTRAINT `FKEDDD392E891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `vendor` (`ID`),
+  CONSTRAINT `FKEDDD392EA936E12E` FOREIGN KEY (`ITEM_RECEIPT_ID`) REFERENCES `item_receipt` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `ENTRY`
+-- Dumping data for table `enter_bill`
 --
 
-DROP TABLE IF EXISTS `ENTRY`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ENTRY` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `TYPE` int(11) DEFAULT NULL,
-  `JOURNAL_ENTRY_TYPE` int(11) DEFAULT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `VENDOR_ID` bigint(20) DEFAULT NULL,
-  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
-  `TAXITEM_ID` bigint(20) DEFAULT NULL,
-  `TAXCODE_ID` bigint(20) DEFAULT NULL,
-  `MEMO` varchar(255) DEFAULT NULL,
-  `DEBIT` double DEFAULT NULL,
-  `CREDIT` double DEFAULT NULL,
-  `TOTAL` double DEFAULT NULL,
-  `VOUCHER_NUMBER` varchar(255) DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `ENTRY_DATE` bigint(20) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `enter_bill` WRITE;
+/*!40000 ALTER TABLE `enter_bill` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enter_bill` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `entry`
+--
+
+DROP TABLE IF EXISTS `entry`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `entry` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `VERSION` int(11) default NULL,
+  `TYPE` int(11) default NULL,
+  `JOURNAL_ENTRY_TYPE` int(11) default NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  `VENDOR_ID` bigint(20) default NULL,
+  `CUSTOMER_ID` bigint(20) default NULL,
+  `TAXITEM_ID` bigint(20) default NULL,
+  `TAXCODE_ID` bigint(20) default NULL,
+  `MEMO` varchar(255) default NULL,
+  `DEBIT` double default NULL,
+  `CREDIT` double default NULL,
+  `TOTAL` double default NULL,
+  `VOUCHER_NUMBER` varchar(255) default NULL,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `ENTRY_DATE` bigint(20) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK3F11052891A177F` (`VENDOR_ID`),
   KEY `FK3F11052912718B5` (`TAXCODE_ID`),
   KEY `FK3F11052E5FCF475` (`ACCOUNT_ID`),
   KEY `FK3F110525EF9C09C` (`TRANSACTION_ID`),
   KEY `FK3F11052DFE06A7F` (`CUSTOMER_ID`),
   KEY `FK3F11052D7293EF5` (`TAXITEM_ID`),
-  CONSTRAINT `FK3F11052D7293EF5` FOREIGN KEY (`TAXITEM_ID`) REFERENCES `TAX_ITEM` (`id`),
-  CONSTRAINT `FK3F110525EF9C09C` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `JOURNAL_ENTRY` (`id`),
-  CONSTRAINT `FK3F11052891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `VENDOR` (`id`),
-  CONSTRAINT `FK3F11052912718B5` FOREIGN KEY (`TAXCODE_ID`) REFERENCES `TAX_CODE` (`ID`),
-  CONSTRAINT `FK3F11052DFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `CUSTOMER` (`id`),
-  CONSTRAINT `FK3F11052E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK3F110525EF9C09C` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `journal_entry` (`ID`),
+  CONSTRAINT `FK3F11052891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `vendor` (`ID`),
+  CONSTRAINT `FK3F11052912718B5` FOREIGN KEY (`TAXCODE_ID`) REFERENCES `tax_code` (`ID`),
+  CONSTRAINT `FK3F11052D7293EF5` FOREIGN KEY (`TAXITEM_ID`) REFERENCES `tax_item` (`ID`),
+  CONSTRAINT `FK3F11052DFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`),
+  CONSTRAINT `FK3F11052E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `ESTIMATE`
+-- Dumping data for table `entry`
 --
 
-DROP TABLE IF EXISTS `ESTIMATE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ESTIMATE` (
-  `id` bigint(20) NOT NULL,
-  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
-  `EST_IS_PRIMARY` bit(1) DEFAULT NULL,
-  `EST_NAME` varchar(255) DEFAULT NULL,
-  `EST_TITLE` varchar(255) DEFAULT NULL,
-  `EST_BUSINESS_PHONE` varchar(255) DEFAULT NULL,
-  `EST_EMAIL` varchar(255) DEFAULT NULL,
-  `ESTIMATE_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `ESTIMATE_ADDRESS_ADDRESS1` varchar(100) DEFAULT NULL,
-  `ESTIMATE_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `ESTIMATE_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `ESTIMATE_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `ESTIMATE_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `ESTIMATE_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `ESTIMATE_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `SALES_PERSON_ID` bigint(20) DEFAULT NULL,
-  `PAYMENT_TERMS_ID` bigint(20) DEFAULT NULL,
-  `EXPIRATION_DATE` bigint(20) DEFAULT NULL,
-  `DELIVERY_DATE` bigint(20) DEFAULT NULL,
-  `PRICE_LEVEL_ID` bigint(20) DEFAULT NULL,
-  `SALES_TAX` double DEFAULT NULL,
-  `IS_TURNED_TO_INVOICE` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKB9D61528274BC854` (`id`),
+LOCK TABLES `entry` WRITE;
+/*!40000 ALTER TABLE `entry` DISABLE KEYS */;
+/*!40000 ALTER TABLE `entry` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `estimate`
+--
+
+DROP TABLE IF EXISTS `estimate`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `estimate` (
+  `ID` bigint(20) NOT NULL,
+  `CUSTOMER_ID` bigint(20) default NULL,
+  `EST_IS_PRIMARY` bit(1) default NULL,
+  `EST_NAME` varchar(255) default NULL,
+  `EST_TITLE` varchar(255) default NULL,
+  `EST_BUSINESS_PHONE` varchar(255) default NULL,
+  `EST_EMAIL` varchar(255) default NULL,
+  `ESTIMATE_ADDRESS_TYPE` int(11) default NULL,
+  `ESTIMATE_ADDRESS_ADDRESS1` varchar(100) default NULL,
+  `ESTIMATE_ADDRESS_STREET` varchar(255) default NULL,
+  `ESTIMATE_ADDRESS_CITY` varchar(255) default NULL,
+  `ESTIMATE_ADDRESS_STATE` varchar(255) default NULL,
+  `ESTIMATE_ADDRESS_ZIP` varchar(255) default NULL,
+  `ESTIMATE_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `ESTIMATE_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `SALES_PERSON_ID` bigint(20) default NULL,
+  `PAYMENT_TERMS_ID` bigint(20) default NULL,
+  `EXPIRATION_DATE` bigint(20) default NULL,
+  `DELIVERY_DATE` bigint(20) default NULL,
+  `PRICE_LEVEL_ID` bigint(20) default NULL,
+  `SALES_TAX` double default NULL,
+  `IS_TURNED_TO_INVOICE` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKB9D61528274BC854` (`ID`),
   KEY `FKB9D615289A3059EC` (`PRICE_LEVEL_ID`),
   KEY `FKB9D615284C74BEAE` (`SALES_PERSON_ID`),
   KEY `FKB9D61528AEA76B12` (`PAYMENT_TERMS_ID`),
   KEY `FKB9D61528DFE06A7F` (`CUSTOMER_ID`),
-  CONSTRAINT `FKB9D61528DFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `CUSTOMER` (`id`),
-  CONSTRAINT `FKB9D61528274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FKB9D615284C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `SALES_PERSON` (`id`),
-  CONSTRAINT `FKB9D615289A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `PRICELEVEL` (`ID`),
-  CONSTRAINT `FKB9D61528AEA76B12` FOREIGN KEY (`PAYMENT_TERMS_ID`) REFERENCES `PAYMENTTERMS` (`ID`)
+  CONSTRAINT `FKB9D61528274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKB9D615284C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `sales_person` (`ID`),
+  CONSTRAINT `FKB9D615289A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `pricelevel` (`ID`),
+  CONSTRAINT `FKB9D61528AEA76B12` FOREIGN KEY (`PAYMENT_TERMS_ID`) REFERENCES `paymentterms` (`ID`),
+  CONSTRAINT `FKB9D61528DFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `EXPENSE`
+-- Dumping data for table `estimate`
 --
 
-DROP TABLE IF EXISTS `EXPENSE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `EXPENSE` (
-  `id` bigint(20) NOT NULL,
-  `BILL_FROM` varchar(255) DEFAULT NULL,
-  `BILL_DATE` bigint(20) DEFAULT NULL,
-  `STATUS` int(11) DEFAULT NULL,
-  `SUBMITTED_DATE` bigint(20) DEFAULT NULL,
-  `PAYMENT_DUE_DATE` bigint(20) DEFAULT NULL,
-  `REPORTING_DATE` bigint(20) DEFAULT NULL,
-  `AMOUNT_DUE` double DEFAULT NULL,
-  `PAID_AMOUNT` double DEFAULT NULL,
-  `CATEGORY` int(11) DEFAULT NULL,
-  `IS_AUTHORISED` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKDCC05438274BC854` (`id`),
-  CONSTRAINT `FKDCC05438274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `estimate` WRITE;
+/*!40000 ALTER TABLE `estimate` DISABLE KEYS */;
+/*!40000 ALTER TABLE `estimate` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `FINANCETOOL`
+-- Table structure for table `expense`
 --
 
-DROP TABLE IF EXISTS `FINANCETOOL`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `FINANCETOOL` (
+DROP TABLE IF EXISTS `expense`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `expense` (
   `ID` bigint(20) NOT NULL,
-  `COMPANY_ID` bigint(20) DEFAULT NULL,
-  `BIZANTRA_COMPANY_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK80EED05230151708` (`ID`),
-  KEY `FK80EED052622C1275` (`COMPANY_ID`),
-  KEY `FK80EED052ED414788` (`BIZANTRA_COMPANY_ID`),
-  CONSTRAINT `FK80EED052ED414788` FOREIGN KEY (`BIZANTRA_COMPANY_ID`) REFERENCES `BIZANTRA_COMPANY` (`ID`),
-  CONSTRAINT `FK80EED05230151708` FOREIGN KEY (`ID`) REFERENCES `ABSTRACTTOOL` (`ID`),
-  CONSTRAINT `FK80EED052622C1275` FOREIGN KEY (`COMPANY_ID`) REFERENCES `COMPANY` (`ID`)
+  `BILL_FROM` varchar(255) default NULL,
+  `BILL_DATE` bigint(20) default NULL,
+  `STATUS` int(11) default NULL,
+  `SUBMITTED_DATE` bigint(20) default NULL,
+  `PAYMENT_DUE_DATE` bigint(20) default NULL,
+  `REPORTING_DATE` bigint(20) default NULL,
+  `AMOUNT_DUE` double default NULL,
+  `PAID_AMOUNT` double default NULL,
+  `CATEGORY` int(11) default NULL,
+  `IS_AUTHORISED` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKDCC05438274BC854` (`ID`),
+  CONSTRAINT `FKDCC05438274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `FINANCE_LOG`
+-- Dumping data for table `expense`
 --
 
-DROP TABLE IF EXISTS `FINANCE_LOG`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `FINANCE_LOG` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+LOCK TABLES `expense` WRITE;
+/*!40000 ALTER TABLE `expense` DISABLE KEYS */;
+/*!40000 ALTER TABLE `expense` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `finance_log`
+--
+
+DROP TABLE IF EXISTS `finance_log`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `finance_log` (
+  `ID` bigint(20) NOT NULL auto_increment,
   `LOG_MESSAGE` text,
-  `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  `DESCRIPTION` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `FISCAL_YEAR`
+-- Dumping data for table `finance_log`
 --
 
-DROP TABLE IF EXISTS `FISCAL_YEAR`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `FISCAL_YEAR` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `START_DATE` bigint(20) DEFAULT NULL,
-  `END_DATE` bigint(20) DEFAULT NULL,
-  `STATUS` int(11) DEFAULT NULL,
-  `IS_CURRENT_FISCAL_YEAR` bit(1) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `finance_log` WRITE;
+/*!40000 ALTER TABLE `finance_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `finance_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fiscal_year`
+--
+
+DROP TABLE IF EXISTS `fiscal_year`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `fiscal_year` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `START_DATE` bigint(20) default NULL,
+  `END_DATE` bigint(20) default NULL,
+  `STATUS` int(11) default NULL,
+  `IS_CURRENT_FISCAL_YEAR` bit(1) default NULL,
+  `VERSION` int(11) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `START_DATE` (`START_DATE`),
-  UNIQUE KEY `END_DATE` (`END_DATE`)
+  UNIQUE KEY `END_DATE` (`END_DATE`),
+  KEY `FK9722721EF1AE8CDE` (`CREATED_BY`),
+  KEY `FK9722721E9E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK9722721E9E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK9722721EF1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `FIXED_ASSET`
+-- Dumping data for table `fiscal_year`
 --
 
-DROP TABLE IF EXISTS `FIXED_ASSET`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `FIXED_ASSET` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `ASSET_NUMBER` varchar(255) DEFAULT NULL,
-  `ASSET_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `PURCHASE_DATE` bigint(20) DEFAULT NULL,
-  `PURCHASE_PRICE` double DEFAULT NULL,
-  `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `ASSET_TYPE` varchar(255) DEFAULT NULL,
-  `DEPRECIATION_RATE` double DEFAULT NULL,
-  `DEPRECIATION_METHOD` int(11) DEFAULT NULL,
-  `DEPRECIATION_EXPENSE_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `ACCUMULATED_DEPRECIATION_AMOUNT` double DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
-  `BOOK_VALUE` double DEFAULT NULL,
-  `OPENING_BALANCE_FOR_FISCALYEAR` double DEFAULT NULL,
-  `IS_SOLD_OR_DISPOSED` bit(1) DEFAULT NULL,
-  `SOLD_OR_DISPOSED_DATE` bigint(20) DEFAULT NULL,
-  `SALE_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `SALE_PRICE` double DEFAULT NULL,
-  `NO_DEPRECIATION` bit(1) DEFAULT NULL,
-  `DEPRECIATION_TILL_DATE` bigint(20) DEFAULT NULL,
-  `NOTES` varchar(255) DEFAULT NULL,
-  `LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `TOTAL_CAPITAL_GAIN_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `LOSS_OR_GAIN` double DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `TOTAL_CAPITAL_GAIN_AMOUNT` double DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `fiscal_year` WRITE;
+/*!40000 ALTER TABLE `fiscal_year` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fiscal_year` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fixed_asset`
+--
+
+DROP TABLE IF EXISTS `fixed_asset`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `fixed_asset` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `ASSET_NUMBER` varchar(255) default NULL,
+  `ASSET_ACCOUNT_ID` bigint(20) default NULL,
+  `PURCHASE_DATE` bigint(20) default NULL,
+  `PURCHASE_PRICE` double default NULL,
+  `DESCRIPTION` varchar(255) default NULL,
+  `ASSET_TYPE` varchar(255) default NULL,
+  `DEPRECIATION_RATE` double default NULL,
+  `DEPRECIATION_METHOD` int(11) default NULL,
+  `DEPRECIATION_EXPENSE_ACCOUNT_ID` bigint(20) default NULL,
+  `ACCUMULATED_DEPRECIATION_AMOUNT` double default NULL,
+  `status` int(11) default NULL,
+  `BOOK_VALUE` double default NULL,
+  `OPENING_BALANCE_FOR_FISCALYEAR` double default NULL,
+  `IS_SOLD_OR_DISPOSED` bit(1) default NULL,
+  `SOLD_OR_DISPOSED_DATE` bigint(20) default NULL,
+  `SALE_ACCOUNT_ID` bigint(20) default NULL,
+  `SALE_PRICE` double default NULL,
+  `NO_DEPRECIATION` bit(1) default NULL,
+  `DEPRECIATION_TILL_DATE` bigint(20) default NULL,
+  `NOTES` varchar(255) default NULL,
+  `LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID` bigint(20) default NULL,
+  `TOTAL_CAPITAL_GAIN_ACCOUNT_ID` bigint(20) default NULL,
+  `LOSS_OR_GAIN` double default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `TOTAL_CAPITAL_GAIN_AMOUNT` double default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`),
   KEY `FK9B076259BF222C3` (`LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID`),
+  KEY `FK9B07625F1AE8CDE` (`CREATED_BY`),
   KEY `FK9B07625B489C463` (`TOTAL_CAPITAL_GAIN_ACCOUNT_ID`),
   KEY `FK9B07625C1D2676D` (`SALE_ACCOUNT_ID`),
   KEY `FK9B07625C598D6AE` (`DEPRECIATION_EXPENSE_ACCOUNT_ID`),
+  KEY `FK9B076259E5A0E30` (`LAST_MODIFIER`),
   KEY `FK9B076259832924` (`ASSET_ACCOUNT_ID`),
-  CONSTRAINT `FK9B076259832924` FOREIGN KEY (`ASSET_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK9B076259BF222C3` FOREIGN KEY (`LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK9B07625B489C463` FOREIGN KEY (`TOTAL_CAPITAL_GAIN_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK9B07625C1D2676D` FOREIGN KEY (`SALE_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK9B07625C598D6AE` FOREIGN KEY (`DEPRECIATION_EXPENSE_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK9B076259832924` FOREIGN KEY (`ASSET_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK9B076259BF222C3` FOREIGN KEY (`LOSS_OR_GAIN_DISPOSAL_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK9B076259E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK9B07625B489C463` FOREIGN KEY (`TOTAL_CAPITAL_GAIN_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK9B07625C1D2676D` FOREIGN KEY (`SALE_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK9B07625C598D6AE` FOREIGN KEY (`DEPRECIATION_EXPENSE_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK9B07625F1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `FIXED_ASSET_HISTORY`
+-- Dumping data for table `fixed_asset`
 --
 
-DROP TABLE IF EXISTS `FIXED_ASSET_HISTORY`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `FIXED_ASSET_HISTORY` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `ACTION_DATE` bigint(20) DEFAULT NULL,
-  `ACTION_TYPE` varchar(255) DEFAULT NULL,
-  `USER` varchar(255) DEFAULT NULL,
-  `DETAILS` varchar(255) DEFAULT NULL,
-  `JOURNAL_ENTRY_ID` bigint(20) DEFAULT NULL,
-  `FIXED_ASSET_HISTORY_ID` bigint(20) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `fixed_asset` WRITE;
+/*!40000 ALTER TABLE `fixed_asset` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fixed_asset` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fixed_asset_history`
+--
+
+DROP TABLE IF EXISTS `fixed_asset_history`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `fixed_asset_history` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `ACTION_DATE` bigint(20) default NULL,
+  `ACTION_TYPE` varchar(255) default NULL,
+  `USER` varchar(255) default NULL,
+  `DETAILS` varchar(255) default NULL,
+  `JOURNAL_ENTRY_ID` bigint(20) default NULL,
+  `FIXED_ASSET_HISTORY_ID` bigint(20) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK4159985A778F16E1` (`FIXED_ASSET_HISTORY_ID`),
   KEY `FK4159985A408F6290` (`JOURNAL_ENTRY_ID`),
-  CONSTRAINT `FK4159985A408F6290` FOREIGN KEY (`JOURNAL_ENTRY_ID`) REFERENCES `JOURNAL_ENTRY` (`id`),
-  CONSTRAINT `FK4159985A778F16E1` FOREIGN KEY (`FIXED_ASSET_HISTORY_ID`) REFERENCES `FIXED_ASSET` (`ID`)
+  CONSTRAINT `FK4159985A408F6290` FOREIGN KEY (`JOURNAL_ENTRY_ID`) REFERENCES `journal_entry` (`ID`),
+  CONSTRAINT `FK4159985A778F16E1` FOREIGN KEY (`FIXED_ASSET_HISTORY_ID`) REFERENCES `fixed_asset` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `FIXED_ASSET_NOTE`
+-- Dumping data for table `fixed_asset_history`
 --
 
-DROP TABLE IF EXISTS `FIXED_ASSET_NOTE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `FIXED_ASSET_NOTE` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NOTE` varchar(255) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `FIXED_ASSET_NOTE_ID` bigint(20) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `fixed_asset_history` WRITE;
+/*!40000 ALTER TABLE `fixed_asset_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fixed_asset_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fixed_asset_note`
+--
+
+DROP TABLE IF EXISTS `fixed_asset_note`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `fixed_asset_note` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NOTE` varchar(255) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `FIXED_ASSET_NOTE_ID` bigint(20) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK24ABF9CCF1AE8CDE` (`CREATED_BY`),
   KEY `FK24ABF9CC492B60CF` (`FIXED_ASSET_NOTE_ID`),
-  CONSTRAINT `FK24ABF9CC492B60CF` FOREIGN KEY (`FIXED_ASSET_NOTE_ID`) REFERENCES `FIXED_ASSET` (`ID`)
+  KEY `FK24ABF9CC9E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK24ABF9CC492B60CF` FOREIGN KEY (`FIXED_ASSET_NOTE_ID`) REFERENCES `fixed_asset` (`ID`),
+  CONSTRAINT `FK24ABF9CC9E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK24ABF9CCF1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `IDENTITYCOMMAND`
+-- Dumping data for table `fixed_asset_note`
 --
 
-DROP TABLE IF EXISTS `IDENTITYCOMMAND`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `IDENTITYCOMMAND` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `DEVICEID` int(11) NOT NULL,
-  `VERSION` bigint(20) NOT NULL,
-  `TYPE` smallint(6) NOT NULL,
-  `IDENTITY_ID` varchar(40) NOT NULL,
-  `ARG1` varchar(255) DEFAULT NULL,
-  `ARG2` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `DEVICEID` (`DEVICEID`,`VERSION`,`IDENTITY_ID`),
-  KEY `FKEB1658AD5F6CE3F` (`IDENTITY_ID`),
-  CONSTRAINT `FKEB1658AD5F6CE3F` FOREIGN KEY (`IDENTITY_ID`) REFERENCES `COLLABERIDENTITY` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `fixed_asset_note` WRITE;
+/*!40000 ALTER TABLE `fixed_asset_note` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fixed_asset_note` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `IDENTITY_DEVICES`
+-- Table structure for table `invoice`
 --
 
-DROP TABLE IF EXISTS `IDENTITY_DEVICES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `IDENTITY_DEVICES` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `IDENTITY_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  `LAST_CONNECTED_DATE` datetime DEFAULT NULL,
-  `LOGINDATE` datetime DEFAULT NULL,
-  `deviceID` int(11) DEFAULT NULL,
-  `LAST_SYNACHIVED_DATE` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK814CA23C5F6CE3F` (`IDENTITY_ID`),
-  CONSTRAINT `FK814CA23C5F6CE3F` FOREIGN KEY (`IDENTITY_ID`) REFERENCES `COLLABERIDENTITY` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `IDENTITY_SPACES`
---
-
-DROP TABLE IF EXISTS `IDENTITY_SPACES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `IDENTITY_SPACES` (
-  `IDENTITY_ID` varchar(40) NOT NULL,
-  `SPACE_ID` varchar(40) NOT NULL,
-  PRIMARY KEY (`IDENTITY_ID`,`SPACE_ID`),
-  KEY `FKBB3D0ECE5F6CE3F` (`IDENTITY_ID`),
-  KEY `FKBB3D0ECE5709BA1E` (`SPACE_ID`),
-  CONSTRAINT `FKBB3D0ECE5709BA1E` FOREIGN KEY (`SPACE_ID`) REFERENCES `WORKSPACE` (`SPACE_ID`),
-  CONSTRAINT `FKBB3D0ECE5F6CE3F` FOREIGN KEY (`IDENTITY_ID`) REFERENCES `COLLABERIDENTITY` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `INVOICE`
---
-
-DROP TABLE IF EXISTS `INVOICE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `INVOICE` (
-  `id` bigint(20) NOT NULL,
-  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
-  `INVOICE_IS_PRIMARY` bit(1) DEFAULT NULL,
-  `INVOICE_NAME` varchar(255) DEFAULT NULL,
-  `INVOICE_TITLE` varchar(255) DEFAULT NULL,
-  `INVOICE_BUSINESS_PHONE` varchar(255) DEFAULT NULL,
-  `INVOICE_EMAIL` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `BILLING_ADDRESS1` varchar(100) DEFAULT NULL,
-  `BILLING_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `SHIPPING_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `SHIPPING_ADDRESS1` varchar(100) DEFAULT NULL,
-  `SHIPPING_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `SALES_PERSON_ID` bigint(20) DEFAULT NULL,
-  `PAYMENT_TERMS_ID` bigint(20) DEFAULT NULL,
-  `SHIPPING_TERMS_ID` bigint(20) DEFAULT NULL,
-  `SHIPPING_METHOD_ID` bigint(20) DEFAULT NULL,
-  `DUE_DATE` bigint(20) DEFAULT NULL,
-  `DELIVERY_DATE` bigint(20) DEFAULT NULL,
-  `SALES_ORDER_NO` varchar(255) DEFAULT NULL,
-  `DISCOUNT_TOTAL` double DEFAULT NULL,
-  `PRICE_LEVEL_ID` bigint(20) DEFAULT NULL,
-  `SALES_TAX_AMOUNT` double DEFAULT NULL,
-  `PAYMENTS` double DEFAULT NULL,
-  `BALANCE_DUE` double DEFAULT NULL,
-  `IS_PAID` bit(1) DEFAULT NULL,
-  `IS_EDITED` bit(1) DEFAULT NULL,
-  `ESTIMATE_ID` bigint(20) DEFAULT NULL,
-  `SALES_ORDER_ID` bigint(20) DEFAULT NULL,
-  `DISCOUNT_DATE` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+DROP TABLE IF EXISTS `invoice`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `invoice` (
+  `ID` bigint(20) NOT NULL,
+  `CUSTOMER_ID` bigint(20) default NULL,
+  `INVOICE_IS_PRIMARY` bit(1) default NULL,
+  `INVOICE_NAME` varchar(255) default NULL,
+  `INVOICE_TITLE` varchar(255) default NULL,
+  `INVOICE_BUSINESS_PHONE` varchar(255) default NULL,
+  `INVOICE_EMAIL` varchar(255) default NULL,
+  `BILLING_ADDRESS_TYPE` int(11) default NULL,
+  `BILLING_ADDRESS1` varchar(100) default NULL,
+  `BILLING_ADDRESS_STREET` varchar(255) default NULL,
+  `BILLING_ADDRESS_CITY` varchar(255) default NULL,
+  `BILLING_ADDRESS_STATE` varchar(255) default NULL,
+  `BILLING_ADDRESS_ZIP` varchar(255) default NULL,
+  `BILLING_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `BILLING_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `SHIPPING_ADDRESS_TYPE` int(11) default NULL,
+  `SHIPPING_ADDRESS1` varchar(100) default NULL,
+  `SHIPPING_ADDRESS_STREET` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_CITY` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_STATE` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_ZIP` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `SALES_PERSON_ID` bigint(20) default NULL,
+  `PAYMENT_TERMS_ID` bigint(20) default NULL,
+  `SHIPPING_TERMS_ID` bigint(20) default NULL,
+  `SHIPPING_METHOD_ID` bigint(20) default NULL,
+  `DUE_DATE` bigint(20) default NULL,
+  `DELIVERY_DATE` bigint(20) default NULL,
+  `SALES_ORDER_NO` varchar(255) default NULL,
+  `DISCOUNT_TOTAL` double default NULL,
+  `PRICE_LEVEL_ID` bigint(20) default NULL,
+  `SALES_TAX_AMOUNT` double default NULL,
+  `PAYMENTS` double default NULL,
+  `BALANCE_DUE` double default NULL,
+  `IS_PAID` bit(1) default NULL,
+  `IS_EDITED` bit(1) default NULL,
+  `ESTIMATE_ID` bigint(20) default NULL,
+  `SALES_ORDER_ID` bigint(20) default NULL,
+  `DISCOUNT_DATE` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK9FA1CF0DAD0A95DC` (`SHIPPING_METHOD_ID`),
-  KEY `FK9FA1CF0D274BC854` (`id`),
+  KEY `FK9FA1CF0D274BC854` (`ID`),
   KEY `FK9FA1CF0D9A3059EC` (`PRICE_LEVEL_ID`),
   KEY `FK9FA1CF0D97EDD458` (`SHIPPING_TERMS_ID`),
   KEY `FK9FA1CF0D4C74BEAE` (`SALES_PERSON_ID`),
@@ -1393,314 +1635,654 @@ CREATE TABLE `INVOICE` (
   KEY `FK9FA1CF0DAEA76B12` (`PAYMENT_TERMS_ID`),
   KEY `FK9FA1CF0DDFE06A7F` (`CUSTOMER_ID`),
   KEY `FK9FA1CF0D8C6D8B66` (`SALES_ORDER_ID`),
-  CONSTRAINT `FK9FA1CF0D8C6D8B66` FOREIGN KEY (`SALES_ORDER_ID`) REFERENCES `SALES_ORDER` (`id`),
-  CONSTRAINT `FK9FA1CF0D274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK9FA1CF0D2843EE3F` FOREIGN KEY (`ESTIMATE_ID`) REFERENCES `ESTIMATE` (`id`),
-  CONSTRAINT `FK9FA1CF0D4C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `SALES_PERSON` (`id`),
-  CONSTRAINT `FK9FA1CF0D97EDD458` FOREIGN KEY (`SHIPPING_TERMS_ID`) REFERENCES `SHIPPINGTERMS` (`ID`),
-  CONSTRAINT `FK9FA1CF0D9A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `PRICELEVEL` (`ID`),
-  CONSTRAINT `FK9FA1CF0DAD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `SHIPPINGMETHOD` (`ID`),
-  CONSTRAINT `FK9FA1CF0DAEA76B12` FOREIGN KEY (`PAYMENT_TERMS_ID`) REFERENCES `PAYMENTTERMS` (`ID`),
-  CONSTRAINT `FK9FA1CF0DDFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `CUSTOMER` (`id`)
+  CONSTRAINT `FK9FA1CF0D274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK9FA1CF0D2843EE3F` FOREIGN KEY (`ESTIMATE_ID`) REFERENCES `estimate` (`ID`),
+  CONSTRAINT `FK9FA1CF0D4C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `sales_person` (`ID`),
+  CONSTRAINT `FK9FA1CF0D8C6D8B66` FOREIGN KEY (`SALES_ORDER_ID`) REFERENCES `sales_order` (`ID`),
+  CONSTRAINT `FK9FA1CF0D97EDD458` FOREIGN KEY (`SHIPPING_TERMS_ID`) REFERENCES `shippingterms` (`ID`),
+  CONSTRAINT `FK9FA1CF0D9A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `pricelevel` (`ID`),
+  CONSTRAINT `FK9FA1CF0DAD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `shippingmethod` (`ID`),
+  CONSTRAINT `FK9FA1CF0DAEA76B12` FOREIGN KEY (`PAYMENT_TERMS_ID`) REFERENCES `paymentterms` (`ID`),
+  CONSTRAINT `FK9FA1CF0DDFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `ISSUEPAYMENT`
+-- Dumping data for table `invoice`
 --
 
-DROP TABLE IF EXISTS `ISSUEPAYMENT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ISSUEPAYMENT` (
-  `id` bigint(20) NOT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `CHECK_NUMBER` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKE1EF7B0D274BC854` (`id`),
+LOCK TABLES `invoice` WRITE;
+/*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `issuepayment`
+--
+
+DROP TABLE IF EXISTS `issuepayment`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `issuepayment` (
+  `ID` bigint(20) NOT NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  `CHECK_NUMBER` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKE1EF7B0D274BC854` (`ID`),
   KEY `FKE1EF7B0DE5FCF475` (`ACCOUNT_ID`),
-  CONSTRAINT `FKE1EF7B0DE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FKE1EF7B0D274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`)
+  CONSTRAINT `FKE1EF7B0D274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKE1EF7B0DE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `ITEM`
+-- Dumping data for table `issuepayment`
 --
 
-DROP TABLE IF EXISTS `ITEM`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ITEM` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `TYPE` int(11) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `UPC_OR_SKU` varchar(255) DEFAULT NULL,
-  `WEIGHT` int(11) DEFAULT NULL,
-  `ITEMGROUP_ID` bigint(20) DEFAULT NULL,
-  `IS_ACTIVE` bit(1) DEFAULT NULL,
-  `IS_SELL_ITEM` bit(1) DEFAULT NULL,
-  `SALES_DESCRIPTION` varchar(255) DEFAULT NULL,
-  `SALES_PRICE` double DEFAULT NULL,
-  `INCOME_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `IS_TAXABLE` bit(1) DEFAULT NULL,
-  `IS_COMMISSION_ITME` bit(1) DEFAULT NULL,
-  `IS_BUY_ITEM` bit(1) DEFAULT NULL,
-  `PURCHASE_DESCRIPTION` varchar(255) DEFAULT NULL,
-  `PURCHASE_PRISE` double DEFAULT NULL,
-  `EXPENSE_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `PREFFERED_VENDOR` bigint(20) DEFAULT NULL,
-  `TAX_CODE` bigint(20) DEFAULT NULL,
-  `VENDOR_ITEM_NUMBER` varchar(255) DEFAULT NULL,
-  `SATNDARD_COST` double DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `issuepayment` WRITE;
+/*!40000 ALTER TABLE `issuepayment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `issuepayment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `item`
+--
+
+DROP TABLE IF EXISTS `item`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `item` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TYPE` int(11) default NULL,
+  `NAME` varchar(255) NOT NULL,
+  `UPC_OR_SKU` varchar(255) default NULL,
+  `WEIGHT` int(11) default NULL,
+  `ITEMGROUP_ID` bigint(20) default NULL,
+  `IS_ACTIVE` bit(1) default NULL,
+  `IS_SELL_ITEM` bit(1) default NULL,
+  `SALES_DESCRIPTION` varchar(255) default NULL,
+  `SALES_PRICE` double default NULL,
+  `INCOME_ACCOUNT_ID` bigint(20) default NULL,
+  `MIN_STOCK_ALERT_LEVEL` int(11) default NULL,
+  `MAX_STOCK_ALERT_LEVEL` int(11) default NULL,
+  `MEASUREMENT` bigint(20) default NULL,
+  `IS_TAXABLE` bit(1) default NULL,
+  `IS_COMMISSION_ITME` bit(1) default NULL,
+  `IS_BUY_ITEM` bit(1) default NULL,
+  `PURCHASE_DESCRIPTION` varchar(255) default NULL,
+  `PURCHASE_PRISE` double default NULL,
+  `EXPENSE_ACCOUNT_ID` bigint(20) default NULL,
+  `PREFFERED_VENDOR` bigint(20) default NULL,
+  `TAX_CODE` bigint(20) default NULL,
+  `VENDOR_ITEM_NUMBER` varchar(255) default NULL,
+  `SATNDARD_COST` double default NULL,
+  `VERSION` int(11) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`),
   KEY `FK227313BD4AF465` (`PREFFERED_VENDOR`),
+  KEY `FK227313F1AE8CDE` (`CREATED_BY`),
   KEY `FK227313B7B51814` (`TAX_CODE`),
   KEY `FK2273134545F135` (`ITEMGROUP_ID`),
+  KEY `FK227313CF909FD3` (`MEASUREMENT`),
+  KEY `FK2273139E5A0E30` (`LAST_MODIFIER`),
   KEY `FK2273136F1934CB` (`INCOME_ACCOUNT_ID`),
   KEY `FK227313E2AA5ABC` (`EXPENSE_ACCOUNT_ID`),
-  CONSTRAINT `FK227313E2AA5ABC` FOREIGN KEY (`EXPENSE_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK2273134545F135` FOREIGN KEY (`ITEMGROUP_ID`) REFERENCES `ITEMGROUP` (`ID`),
-  CONSTRAINT `FK2273136F1934CB` FOREIGN KEY (`INCOME_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK227313B7B51814` FOREIGN KEY (`TAX_CODE`) REFERENCES `TAX_CODE` (`ID`),
-  CONSTRAINT `FK227313BD4AF465` FOREIGN KEY (`PREFFERED_VENDOR`) REFERENCES `VENDOR` (`id`)
+  CONSTRAINT `FK2273134545F135` FOREIGN KEY (`ITEMGROUP_ID`) REFERENCES `itemgroup` (`ID`),
+  CONSTRAINT `FK2273136F1934CB` FOREIGN KEY (`INCOME_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK2273139E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK227313B7B51814` FOREIGN KEY (`TAX_CODE`) REFERENCES `tax_code` (`ID`),
+  CONSTRAINT `FK227313BD4AF465` FOREIGN KEY (`PREFFERED_VENDOR`) REFERENCES `vendor` (`ID`),
+  CONSTRAINT `FK227313CF909FD3` FOREIGN KEY (`MEASUREMENT`) REFERENCES `measurement` (`ID`),
+  CONSTRAINT `FK227313E2AA5ABC` FOREIGN KEY (`EXPENSE_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK227313F1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `ITEMGROUP`
+-- Dumping data for table `item`
 --
 
-DROP TABLE IF EXISTS `ITEMGROUP`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ITEMGROUP` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `item` WRITE;
+/*!40000 ALTER TABLE `item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `item` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `ITEM_BACK_UP`
+-- Table structure for table `item_back_up`
 --
 
-DROP TABLE IF EXISTS `ITEM_BACK_UP`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ITEM_BACK_UP` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `TRANSACTION_ITEM_ID` bigint(20) DEFAULT NULL,
-  `ITEM_ID` bigint(20) DEFAULT NULL,
-  `INCOME_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `EXPENSE_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+DROP TABLE IF EXISTS `item_back_up`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `item_back_up` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TRANSACTION_ITEM_ID` bigint(20) default NULL,
+  `ITEM_ID` bigint(20) default NULL,
+  `INCOME_ACCOUNT_ID` bigint(20) default NULL,
+  `EXPENSE_ACCOUNT_ID` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK1FBD4BC778F5DB52` (`TRANSACTION_ITEM_ID`),
   KEY `FK1FBD4BC71E282CDF` (`ITEM_ID`),
   KEY `FK1FBD4BC76F1934CB` (`INCOME_ACCOUNT_ID`),
   KEY `FK1FBD4BC7E2AA5ABC` (`EXPENSE_ACCOUNT_ID`),
-  CONSTRAINT `FK1FBD4BC7E2AA5ABC` FOREIGN KEY (`EXPENSE_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK1FBD4BC71E282CDF` FOREIGN KEY (`ITEM_ID`) REFERENCES `ITEM` (`ID`),
-  CONSTRAINT `FK1FBD4BC76F1934CB` FOREIGN KEY (`INCOME_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK1FBD4BC778F5DB52` FOREIGN KEY (`TRANSACTION_ITEM_ID`) REFERENCES `TRANSACTION_ITEM` (`ID`)
+  CONSTRAINT `FK1FBD4BC71E282CDF` FOREIGN KEY (`ITEM_ID`) REFERENCES `item` (`ID`),
+  CONSTRAINT `FK1FBD4BC76F1934CB` FOREIGN KEY (`INCOME_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK1FBD4BC778F5DB52` FOREIGN KEY (`TRANSACTION_ITEM_ID`) REFERENCES `transaction_item` (`ID`),
+  CONSTRAINT `FK1FBD4BC7E2AA5ABC` FOREIGN KEY (`EXPENSE_ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `ITEM_RECEIPT`
+-- Dumping data for table `item_back_up`
 --
 
-DROP TABLE IF EXISTS `ITEM_RECEIPT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ITEM_RECEIPT` (
-  `id` bigint(20) NOT NULL,
-  `VENDOR_ID` bigint(20) DEFAULT NULL,
-  `SHIP_TO_ID` bigint(20) DEFAULT NULL,
-  `PURCHASE_ORDER_DATE` bigint(20) DEFAULT NULL,
-  `TO_BE_PRINTED` bit(1) DEFAULT NULL,
-  `TO_BE_EMAILED` bit(1) DEFAULT NULL,
-  `EB_IS_PRIMARY` bit(1) DEFAULT NULL,
-  `EB_NAME` varchar(255) DEFAULT NULL,
-  `EB_TITLE` varchar(255) DEFAULT NULL,
-  `EB_BUSINESS_PHONE` varchar(255) DEFAULT NULL,
-  `EB_EMAIL` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `VENDOR_ADDRESS_ADDRESS1` varchar(100) DEFAULT NULL,
-  `VENDOR_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `PAYMENT_TERM_ID` bigint(20) DEFAULT NULL,
-  `DUE_DATE` bigint(20) DEFAULT NULL,
-  `DELIVERY_DATE` bigint(20) DEFAULT NULL,
-  `SHIPPING_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `SHIPPING_ADDRESS_ADDRESS1` varchar(100) DEFAULT NULL,
-  `SHIPPING_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `SHIPPING_TERMS_ID` bigint(20) DEFAULT NULL,
-  `SHIPPING_METHOD_ID` bigint(20) DEFAULT NULL,
-  `PURCHASE_ORDER_ID` bigint(20) DEFAULT NULL,
-  `IS_BILLED` bit(1) DEFAULT NULL,
-  `BALANCE_DUE` double DEFAULT NULL,
-  PRIMARY KEY (`id`),
+LOCK TABLES `item_back_up` WRITE;
+/*!40000 ALTER TABLE `item_back_up` DISABLE KEYS */;
+/*!40000 ALTER TABLE `item_back_up` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `item_receipt`
+--
+
+DROP TABLE IF EXISTS `item_receipt`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `item_receipt` (
+  `ID` bigint(20) NOT NULL,
+  `VENDOR_ID` bigint(20) default NULL,
+  `SHIP_TO_ID` bigint(20) default NULL,
+  `PURCHASE_ORDER_DATE` bigint(20) default NULL,
+  `TO_BE_PRINTED` bit(1) default NULL,
+  `TO_BE_EMAILED` bit(1) default NULL,
+  `EB_IS_PRIMARY` bit(1) default NULL,
+  `EB_NAME` varchar(255) default NULL,
+  `EB_TITLE` varchar(255) default NULL,
+  `EB_BUSINESS_PHONE` varchar(255) default NULL,
+  `EB_EMAIL` varchar(255) default NULL,
+  `VENDOR_ADDRESS_TYPE` int(11) default NULL,
+  `VENDOR_ADDRESS_ADDRESS1` varchar(100) default NULL,
+  `VENDOR_ADDRESS_STREET` varchar(255) default NULL,
+  `VENDOR_ADDRESS_CITY` varchar(255) default NULL,
+  `VENDOR_ADDRESS_STATE` varchar(255) default NULL,
+  `VENDOR_ADDRESS_ZIP` varchar(255) default NULL,
+  `VENDOR_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `VENDOR_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `PAYMENT_TERM_ID` bigint(20) default NULL,
+  `DUE_DATE` bigint(20) default NULL,
+  `DELIVERY_DATE` bigint(20) default NULL,
+  `SHIPPING_ADDRESS_TYPE` int(11) default NULL,
+  `SHIPPING_ADDRESS_ADDRESS1` varchar(100) default NULL,
+  `SHIPPING_ADDRESS_STREET` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_CITY` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_STATE` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_ZIP` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `SHIPPING_TERMS_ID` bigint(20) default NULL,
+  `SHIPPING_METHOD_ID` bigint(20) default NULL,
+  `PURCHASE_ORDER_ID` bigint(20) default NULL,
+  `IS_BILLED` bit(1) default NULL,
+  `BALANCE_DUE` double default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK74F154ECAD0A95DC` (`SHIPPING_METHOD_ID`),
   KEY `FK74F154EC338BD6BB` (`PAYMENT_TERM_ID`),
   KEY `FK74F154EC39750592` (`PURCHASE_ORDER_ID`),
-  KEY `FK74F154EC274BC854` (`id`),
+  KEY `FK74F154EC274BC854` (`ID`),
   KEY `FK74F154EC891A177F` (`VENDOR_ID`),
   KEY `FK74F154EC97EDD458` (`SHIPPING_TERMS_ID`),
   KEY `FK74F154EC777205A4` (`SHIP_TO_ID`),
-  CONSTRAINT `FK74F154EC777205A4` FOREIGN KEY (`SHIP_TO_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK74F154EC274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK74F154EC338BD6BB` FOREIGN KEY (`PAYMENT_TERM_ID`) REFERENCES `PAYMENTTERMS` (`ID`),
-  CONSTRAINT `FK74F154EC39750592` FOREIGN KEY (`PURCHASE_ORDER_ID`) REFERENCES `PURCHASE_ORDER` (`id`),
-  CONSTRAINT `FK74F154EC891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `VENDOR` (`id`),
-  CONSTRAINT `FK74F154EC97EDD458` FOREIGN KEY (`SHIPPING_TERMS_ID`) REFERENCES `SHIPPINGTERMS` (`ID`),
-  CONSTRAINT `FK74F154ECAD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `SHIPPINGMETHOD` (`ID`)
+  CONSTRAINT `FK74F154EC274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK74F154EC338BD6BB` FOREIGN KEY (`PAYMENT_TERM_ID`) REFERENCES `paymentterms` (`ID`),
+  CONSTRAINT `FK74F154EC39750592` FOREIGN KEY (`PURCHASE_ORDER_ID`) REFERENCES `purchase_order` (`ID`),
+  CONSTRAINT `FK74F154EC777205A4` FOREIGN KEY (`SHIP_TO_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK74F154EC891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `vendor` (`ID`),
+  CONSTRAINT `FK74F154EC97EDD458` FOREIGN KEY (`SHIPPING_TERMS_ID`) REFERENCES `shippingterms` (`ID`),
+  CONSTRAINT `FK74F154ECAD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `shippingmethod` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `JOURNAL_ENTRY`
+-- Dumping data for table `item_receipt`
 --
 
-DROP TABLE IF EXISTS `JOURNAL_ENTRY`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `JOURNAL_ENTRY` (
-  `id` bigint(20) NOT NULL,
-  `DEBIT_TOTAL` double DEFAULT NULL,
-  `CREDIT_TOTAL` double DEFAULT NULL,
-  `JOURNAL_ENTRY_TYPE` int(11) DEFAULT NULL,
-  `BALANCE_DUE` double DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKE894C12A274BC854` (`id`),
-  KEY `FKE894C12A63880555` (`TRANSACTION_ID`),
-  CONSTRAINT `FKE894C12A63880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FKE894C12A274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`)
+LOCK TABLES `item_receipt` WRITE;
+/*!40000 ALTER TABLE `item_receipt` DISABLE KEYS */;
+/*!40000 ALTER TABLE `item_receipt` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `item_status`
+--
+
+DROP TABLE IF EXISTS `item_status`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `item_status` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `ITEM_ID` bigint(20) default NULL,
+  `QTY_VALUE` double default NULL,
+  `UNIT` bigint(20) default NULL,
+  `WAREHOUSE` bigint(20) NOT NULL,
+  `VALUE` double default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK64D429EA041AB0D` (`UNIT`),
+  KEY `FK64D429E1E282CDF` (`ITEM_ID`),
+  KEY `FK64D429E984DB8A1` (`WAREHOUSE`),
+  CONSTRAINT `FK64D429E1E282CDF` FOREIGN KEY (`ITEM_ID`) REFERENCES `item` (`ID`),
+  CONSTRAINT `FK64D429E984DB8A1` FOREIGN KEY (`WAREHOUSE`) REFERENCES `warehouse` (`ID`),
+  CONSTRAINT `FK64D429EA041AB0D` FOREIGN KEY (`UNIT`) REFERENCES `unit` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `MAKE_DEPOSIT`
+-- Dumping data for table `item_status`
 --
 
-DROP TABLE IF EXISTS `MAKE_DEPOSIT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `MAKE_DEPOSIT` (
-  `id` bigint(20) NOT NULL,
-  `DEPOSIT_IN_ID` bigint(20) DEFAULT NULL,
-  `CASH_BACK_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `CASH_BACK_MEMO` varchar(255) DEFAULT NULL,
-  `CASH_BACK_AMOUNT` double DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKBA78792DDEA009C1` (`CASH_BACK_ACCOUNT_ID`),
-  KEY `FKBA78792D274BC854` (`id`),
-  KEY `FKBA78792D308D799C` (`DEPOSIT_IN_ID`),
-  CONSTRAINT `FKBA78792D308D799C` FOREIGN KEY (`DEPOSIT_IN_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FKBA78792D274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FKBA78792DDEA009C1` FOREIGN KEY (`CASH_BACK_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `item_status` WRITE;
+/*!40000 ALTER TABLE `item_status` DISABLE KEYS */;
+/*!40000 ALTER TABLE `item_status` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `MEMBER`
+-- Table structure for table `itemgroup`
 --
 
-DROP TABLE IF EXISTS `MEMBER`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `MEMBER` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `USER_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `COMPANYNAME` varchar(255) DEFAULT NULL,
-  `COMPANYDISPLAYNAME` varchar(255) DEFAULT NULL,
-  `EMAILID` varchar(255) DEFAULT NULL,
-  `IS_DELETED` bit(1) DEFAULT NULL,
-  `SPACE_ID` varchar(40) DEFAULT NULL,
-  `role` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK87557E9A5709BA1E` (`SPACE_ID`),
-  CONSTRAINT `FK87557E9A5709BA1E` FOREIGN KEY (`SPACE_ID`) REFERENCES `WORKSPACE` (`SPACE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `PAYEE`
---
-
-DROP TABLE IF EXISTS `PAYEE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PAYEE` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `PAYEE_SINCE` bigint(20) DEFAULT NULL,
-  `FILE_AS` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `TYPE` int(11) DEFAULT NULL,
-  `P_DATE` bigint(20) DEFAULT NULL,
-  `BALANCE` double DEFAULT NULL,
-  `OPENING_BALANCE` double DEFAULT NULL,
-  `PAYMENT_METHOD` varchar(255) DEFAULT NULL,
-  `PHONE_NUMBER` varchar(255) DEFAULT NULL,
-  `FAX_NUMBER` varchar(255) DEFAULT NULL,
-  `EMAIL_ID` varchar(255) DEFAULT NULL,
-  `WEB_PAGE_ADDRESS` varchar(255) DEFAULT NULL,
-  `IS_ACTIVE` bit(1) DEFAULT NULL,
-  `MEMO` varchar(255) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `VAT_REGISTRATION_NUMBER` varchar(255) DEFAULT NULL,
-  `TAX_CODE_ID` bigint(20) DEFAULT NULL,
-  `IS_OPENING_BALANCE_EDITABLE` bit(1) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+DROP TABLE IF EXISTS `itemgroup`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `itemgroup` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `VERSION` int(11) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`),
-  KEY `FK4863B28147D4A2C` (`TAX_CODE_ID`),
-  CONSTRAINT `FK4863B28147D4A2C` FOREIGN KEY (`TAX_CODE_ID`) REFERENCES `TAX_CODE` (`ID`)
+  KEY `FK26E87F2CF1AE8CDE` (`CREATED_BY`),
+  KEY `FK26E87F2C9E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK26E87F2C9E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK26E87F2CF1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `PAYEE_ADDRESS`
+-- Dumping data for table `itemgroup`
 --
 
-DROP TABLE IF EXISTS `PAYEE_ADDRESS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PAYEE_ADDRESS` (
+LOCK TABLES `itemgroup` WRITE;
+/*!40000 ALTER TABLE `itemgroup` DISABLE KEYS */;
+/*!40000 ALTER TABLE `itemgroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `journal_entry`
+--
+
+DROP TABLE IF EXISTS `journal_entry`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `journal_entry` (
+  `ID` bigint(20) NOT NULL,
+  `DEBIT_TOTAL` double default NULL,
+  `CREDIT_TOTAL` double default NULL,
+  `JOURNAL_ENTRY_TYPE` int(11) default NULL,
+  `BALANCE_DUE` double default NULL,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKE894C12A274BC854` (`ID`),
+  KEY `FKE894C12A63880555` (`TRANSACTION_ID`),
+  CONSTRAINT `FKE894C12A274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKE894C12A63880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `transaction` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `journal_entry`
+--
+
+LOCK TABLES `journal_entry` WRITE;
+/*!40000 ALTER TABLE `journal_entry` DISABLE KEYS */;
+/*!40000 ALTER TABLE `journal_entry` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `make_deposit`
+--
+
+DROP TABLE IF EXISTS `make_deposit`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `make_deposit` (
+  `ID` bigint(20) NOT NULL,
+  `DEPOSIT_IN_ID` bigint(20) default NULL,
+  `CASH_BACK_ACCOUNT_ID` bigint(20) default NULL,
+  `CASH_BACK_MEMO` varchar(255) default NULL,
+  `CASH_BACK_AMOUNT` double default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKBA78792DDEA009C1` (`CASH_BACK_ACCOUNT_ID`),
+  KEY `FKBA78792D274BC854` (`ID`),
+  KEY `FKBA78792D308D799C` (`DEPOSIT_IN_ID`),
+  CONSTRAINT `FKBA78792D274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKBA78792D308D799C` FOREIGN KEY (`DEPOSIT_IN_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FKBA78792DDEA009C1` FOREIGN KEY (`CASH_BACK_ACCOUNT_ID`) REFERENCES `account` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `make_deposit`
+--
+
+LOCK TABLES `make_deposit` WRITE;
+/*!40000 ALTER TABLE `make_deposit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `make_deposit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `measurement`
+--
+
+DROP TABLE IF EXISTS `measurement`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `measurement` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) default NULL,
+  `DESCRIPTION` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `measurement`
+--
+
+LOCK TABLES `measurement` WRITE;
+/*!40000 ALTER TABLE `measurement` DISABLE KEYS */;
+/*!40000 ALTER TABLE `measurement` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pay_bill`
+--
+
+DROP TABLE IF EXISTS `pay_bill`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `pay_bill` (
+  `ID` bigint(20) NOT NULL,
+  `PAYFROM_ID` bigint(20) default NULL,
+  `BILL_DUE_ONORBEFORE` bigint(20) default NULL,
+  `VENDOR_ID` bigint(20) default NULL,
+  `IS_TO_BE_PRINTED` bit(1) default NULL,
+  `ENDING_BALANCE` double default NULL,
+  `UNUSED_AMOUNT` double default NULL,
+  `VENDOR_BALANCE` double default NULL,
+  `PAYBILL_TYPE` int(11) default NULL,
+  `PAYBILL_ADDRESS_TYPE` int(11) default NULL,
+  `PAYBILL_ADDRESS_ADDRESS1` varchar(100) default NULL,
+  `PAYBILL_ADDRESS_STREET` varchar(255) default NULL,
+  `PAYBILL_ADDRESS_CITY` varchar(255) default NULL,
+  `PAYBILL_ADDRESS_STATE` varchar(255) default NULL,
+  `PAYBILL_ADDRESS_ZIP` varchar(255) default NULL,
+  `PAYBILL_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `PAYBILL_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `CHECK_NUMBER` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK820C355E19EFDC30` (`PAYFROM_ID`),
+  KEY `FK820C355E274BC854` (`ID`),
+  KEY `FK820C355E891A177F` (`VENDOR_ID`),
+  CONSTRAINT `FK820C355E19EFDC30` FOREIGN KEY (`PAYFROM_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK820C355E274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK820C355E891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `vendor` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `pay_bill`
+--
+
+LOCK TABLES `pay_bill` WRITE;
+/*!40000 ALTER TABLE `pay_bill` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pay_bill` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pay_expense`
+--
+
+DROP TABLE IF EXISTS `pay_expense`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `pay_expense` (
+  `ID` bigint(20) NOT NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  `REFERENCE_OR_CHEQUE_NUMBER` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK83382781274BC854` (`ID`),
+  KEY `FK83382781E5FCF475` (`ACCOUNT_ID`),
+  CONSTRAINT `FK83382781274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK83382781E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `pay_expense`
+--
+
+LOCK TABLES `pay_expense` WRITE;
+/*!40000 ALTER TABLE `pay_expense` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pay_expense` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pay_sales_tax`
+--
+
+DROP TABLE IF EXISTS `pay_sales_tax`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `pay_sales_tax` (
+  `ID` bigint(20) NOT NULL,
+  `BILLS_DUE_ON_OR_BEFORE` bigint(20) default NULL,
+  `PAYFROM_ACCOUNT_ID` bigint(20) default NULL,
+  `TAX_AGENCY_ID` bigint(20) default NULL,
+  `ENDING_BALANCE` double default NULL,
+  `IS_EDITED` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK890292C1274BC854` (`ID`),
+  KEY `FK890292C1C368D6AC` (`TAX_AGENCY_ID`),
+  KEY `FK890292C168A08E82` (`PAYFROM_ACCOUNT_ID`),
+  CONSTRAINT `FK890292C1274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK890292C168A08E82` FOREIGN KEY (`PAYFROM_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK890292C1C368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `taxagency` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `pay_sales_tax`
+--
+
+LOCK TABLES `pay_sales_tax` WRITE;
+/*!40000 ALTER TABLE `pay_sales_tax` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pay_sales_tax` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pay_sales_tax_entries`
+--
+
+DROP TABLE IF EXISTS `pay_sales_tax_entries`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `pay_sales_tax_entries` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `TAXITEM_ID` bigint(20) default NULL,
+  `TAXAGENCY_ID` bigint(20) default NULL,
+  `AMOUNT` double default NULL,
+  `BALANCE` double default NULL,
+  `VERSION` int(11) default NULL,
+  `TRANSACTION_DATE` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK8E65F8F2BCD926F5` (`TAXAGENCY_ID`),
+  KEY `FK8E65F8F263880555` (`TRANSACTION_ID`),
+  KEY `FK8E65F8F2D7293EF5` (`TAXITEM_ID`),
+  CONSTRAINT `FK8E65F8F263880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK8E65F8F2BCD926F5` FOREIGN KEY (`TAXAGENCY_ID`) REFERENCES `taxagency` (`ID`),
+  CONSTRAINT `FK8E65F8F2D7293EF5` FOREIGN KEY (`TAXITEM_ID`) REFERENCES `tax_item` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `pay_sales_tax_entries`
+--
+
+LOCK TABLES `pay_sales_tax_entries` WRITE;
+/*!40000 ALTER TABLE `pay_sales_tax_entries` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pay_sales_tax_entries` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pay_vat`
+--
+
+DROP TABLE IF EXISTS `pay_vat`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `pay_vat` (
+  `ID` bigint(20) NOT NULL,
+  `RETURNS_DUE_ON_OR_BEFORE` bigint(20) default NULL,
+  `PAYFROM_ACCOUNT_ID` bigint(20) default NULL,
+  `TAX_AGENCY_ID` bigint(20) default NULL,
+  `ENDING_BALANCE` double default NULL,
+  `IS_EDITED` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKFBF02AD2274BC854` (`ID`),
+  KEY `FKFBF02AD2C368D6AC` (`TAX_AGENCY_ID`),
+  KEY `FKFBF02AD268A08E82` (`PAYFROM_ACCOUNT_ID`),
+  CONSTRAINT `FKFBF02AD2274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKFBF02AD268A08E82` FOREIGN KEY (`PAYFROM_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FKFBF02AD2C368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `taxagency` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `pay_vat`
+--
+
+LOCK TABLES `pay_vat` WRITE;
+/*!40000 ALTER TABLE `pay_vat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pay_vat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pay_vat_entries`
+--
+
+DROP TABLE IF EXISTS `pay_vat_entries`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `pay_vat_entries` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `TAXCODE_ID` bigint(20) default NULL,
+  `TAXAGENCY_ID` bigint(20) default NULL,
+  `AMOUNT` double default NULL,
+  `BALANCE` double default NULL,
+  `VERSION` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK3EC6F003BCD926F5` (`TAXAGENCY_ID`),
+  KEY `FK3EC6F003912718B5` (`TAXCODE_ID`),
+  KEY `FK3EC6F00363880555` (`TRANSACTION_ID`),
+  CONSTRAINT `FK3EC6F00363880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK3EC6F003912718B5` FOREIGN KEY (`TAXCODE_ID`) REFERENCES `tax_code` (`ID`),
+  CONSTRAINT `FK3EC6F003BCD926F5` FOREIGN KEY (`TAXAGENCY_ID`) REFERENCES `taxagency` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `pay_vat_entries`
+--
+
+LOCK TABLES `pay_vat_entries` WRITE;
+/*!40000 ALTER TABLE `pay_vat_entries` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pay_vat_entries` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payee`
+--
+
+DROP TABLE IF EXISTS `payee`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `payee` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `PAYEE_SINCE` bigint(20) default NULL,
+  `FILE_AS` varchar(255) default NULL,
+  `VERSION` int(11) default NULL,
+  `TYPE` int(11) default NULL,
+  `P_DATE` bigint(20) default NULL,
+  `BALANCE` double default NULL,
+  `OPENING_BALANCE` double default NULL,
+  `PAYMENT_METHOD` varchar(255) default NULL,
+  `PHONE_NUMBER` varchar(255) default NULL,
+  `FAX_NUMBER` varchar(255) default NULL,
+  `EMAIL_ID` varchar(255) default NULL,
+  `WEB_PAGE_ADDRESS` varchar(255) default NULL,
+  `IS_ACTIVE` bit(1) default NULL,
+  `MEMO` varchar(255) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `VAT_REGISTRATION_NUMBER` varchar(255) default NULL,
+  `TAX_CODE_ID` bigint(20) default NULL,
+  `IS_OPENING_BALANCE_EDITABLE` bit(1) default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  `PAN_NUMBER` varchar(255) default NULL,
+  `CST_NUMBER` varchar(255) default NULL,
+  `SERVICE_TAX_REGISTRATION_NUMBER` varchar(255) default NULL,
+  `TIN_NUMBER` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `FK4863B28F1AE8CDE` (`CREATED_BY`),
+  KEY `FK4863B28147D4A2C` (`TAX_CODE_ID`),
+  KEY `FK4863B289E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK4863B28147D4A2C` FOREIGN KEY (`TAX_CODE_ID`) REFERENCES `tax_code` (`ID`),
+  CONSTRAINT `FK4863B289E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK4863B28F1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `payee`
+--
+
+LOCK TABLES `payee` WRITE;
+/*!40000 ALTER TABLE `payee` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payee` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payee_address`
+--
+
+DROP TABLE IF EXISTS `payee_address`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `payee_address` (
   `PAYEE_ID` bigint(20) NOT NULL,
   `TYPE` int(11) NOT NULL,
   `ADDRESS1` varchar(100) NOT NULL,
@@ -1710,431 +2292,336 @@ CREATE TABLE `PAYEE_ADDRESS` (
   `ZIP` varchar(100) NOT NULL,
   `COUNTRY` varchar(100) NOT NULL,
   `IS_SELECTED` bit(1) NOT NULL,
-  PRIMARY KEY (`PAYEE_ID`,`TYPE`,`ADDRESS1`,`STREET`,`CITY`,`STATE`,`ZIP`,`COUNTRY`,`IS_SELECTED`),
+  PRIMARY KEY  (`PAYEE_ID`,`TYPE`,`ADDRESS1`,`STREET`,`CITY`,`STATE`,`ZIP`,`COUNTRY`,`IS_SELECTED`),
   KEY `FK81BF61BDB2FC5555` (`PAYEE_ID`),
-  CONSTRAINT `FK81BF61BDB2FC5555` FOREIGN KEY (`PAYEE_ID`) REFERENCES `PAYEE` (`ID`)
+  CONSTRAINT `FK81BF61BDB2FC5555` FOREIGN KEY (`PAYEE_ID`) REFERENCES `payee` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `PAYEE_CONTACT`
+-- Dumping data for table `payee_address`
 --
 
-DROP TABLE IF EXISTS `PAYEE_CONTACT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PAYEE_CONTACT` (
+LOCK TABLES `payee_address` WRITE;
+/*!40000 ALTER TABLE `payee_address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payee_address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payee_contact`
+--
+
+DROP TABLE IF EXISTS `payee_contact`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `payee_contact` (
   `PAYEE_ID` bigint(20) NOT NULL,
   `IS_PRIMARY` bit(1) NOT NULL,
   `NAME` varchar(100) NOT NULL,
   `TITLE` varchar(100) NOT NULL,
   `BUSINESS_PHONE` varchar(100) NOT NULL,
   `EMAIL` varchar(255) NOT NULL,
-  PRIMARY KEY (`PAYEE_ID`,`IS_PRIMARY`,`NAME`,`TITLE`,`BUSINESS_PHONE`,`EMAIL`),
+  PRIMARY KEY  (`PAYEE_ID`,`IS_PRIMARY`,`NAME`,`TITLE`,`BUSINESS_PHONE`,`EMAIL`),
   KEY `FKFEDEE9E9B2FC5555` (`PAYEE_ID`),
-  CONSTRAINT `FKFEDEE9E9B2FC5555` FOREIGN KEY (`PAYEE_ID`) REFERENCES `PAYEE` (`ID`)
+  CONSTRAINT `FKFEDEE9E9B2FC5555` FOREIGN KEY (`PAYEE_ID`) REFERENCES `payee` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `PAYMENTTERMS`
+-- Dumping data for table `payee_contact`
 --
 
-DROP TABLE IF EXISTS `PAYMENTTERMS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PAYMENTTERMS` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `DUE` int(11) DEFAULT NULL,
-  `DUE_DAYS` int(11) DEFAULT NULL,
-  `DISCOUNT_PERCENT` double DEFAULT NULL,
-  `IF_PAID_WITHIN` int(11) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`)
+LOCK TABLES `payee_contact` WRITE;
+/*!40000 ALTER TABLE `payee_contact` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payee_contact` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `paymentterms`
+--
+
+DROP TABLE IF EXISTS `paymentterms`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `paymentterms` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(255) default NULL,
+  `DUE` int(11) default NULL,
+  `DUE_DAYS` int(11) default NULL,
+  `DISCOUNT_PERCENT` double default NULL,
+  `IF_PAID_WITHIN` int(11) default NULL,
+  `VERSION` int(11) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `FK6DA15341F1AE8CDE` (`CREATED_BY`),
+  KEY `FK6DA153419E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK6DA153419E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK6DA15341F1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `PAY_BILL`
+-- Dumping data for table `paymentterms`
 --
 
-DROP TABLE IF EXISTS `PAY_BILL`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PAY_BILL` (
-  `id` bigint(20) NOT NULL,
-  `PAYFROM_ID` bigint(20) DEFAULT NULL,
-  `BILL_DUE_ONORBEFORE` bigint(20) DEFAULT NULL,
-  `VENDOR_ID` bigint(20) DEFAULT NULL,
-  `IS_TO_BE_PRINTED` bit(1) DEFAULT NULL,
-  `ENDING_BALANCE` double DEFAULT NULL,
-  `UNUSED_AMOUNT` double DEFAULT NULL,
-  `VENDOR_BALANCE` double DEFAULT NULL,
-  `PAYBILL_TYPE` int(11) DEFAULT NULL,
-  `PAYBILL_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `PAYBILL_ADDRESS_ADDRESS1` varchar(100) DEFAULT NULL,
-  `PAYBILL_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `PAYBILL_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `PAYBILL_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `PAYBILL_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `PAYBILL_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `PAYBILL_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `CHECK_NUMBER` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK820C355E19EFDC30` (`PAYFROM_ID`),
-  KEY `FK820C355E274BC854` (`id`),
-  KEY `FK820C355E891A177F` (`VENDOR_ID`),
-  CONSTRAINT `FK820C355E891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `VENDOR` (`id`),
-  CONSTRAINT `FK820C355E19EFDC30` FOREIGN KEY (`PAYFROM_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK820C355E274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`)
+LOCK TABLES `paymentterms` WRITE;
+/*!40000 ALTER TABLE `paymentterms` DISABLE KEYS */;
+/*!40000 ALTER TABLE `paymentterms` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pricelevel`
+--
+
+DROP TABLE IF EXISTS `pricelevel`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `pricelevel` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `PERCENTAGE` double default NULL,
+  `IS_P_DECREASE_BY_THIS_PERCENT` bit(1) default NULL,
+  `VERSION` int(11) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `FKC6643BDBF1AE8CDE` (`CREATED_BY`),
+  KEY `FKC6643BDB9E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FKC6643BDB9E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FKC6643BDBF1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `PAY_EXPENSE`
+-- Dumping data for table `pricelevel`
 --
 
-DROP TABLE IF EXISTS `PAY_EXPENSE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PAY_EXPENSE` (
-  `id` bigint(20) NOT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `REFERENCE_OR_CHEQUE_NUMBER` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK83382781274BC854` (`id`),
-  KEY `FK83382781E5FCF475` (`ACCOUNT_ID`),
-  CONSTRAINT `FK83382781E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK83382781274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `pricelevel` WRITE;
+/*!40000 ALTER TABLE `pricelevel` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pricelevel` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `PAY_SALES_TAX`
+-- Table structure for table `purchase_order`
 --
 
-DROP TABLE IF EXISTS `PAY_SALES_TAX`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PAY_SALES_TAX` (
-  `id` bigint(20) NOT NULL,
-  `BILLS_DUE_ON_OR_BEFORE` bigint(20) DEFAULT NULL,
-  `PAYFROM_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `TAX_AGENCY_ID` bigint(20) DEFAULT NULL,
-  `ENDING_BALANCE` double DEFAULT NULL,
-  `IS_EDITED` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK890292C1274BC854` (`id`),
-  KEY `FK890292C1C368D6AC` (`TAX_AGENCY_ID`),
-  KEY `FK890292C168A08E82` (`PAYFROM_ACCOUNT_ID`),
-  CONSTRAINT `FK890292C168A08E82` FOREIGN KEY (`PAYFROM_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK890292C1274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK890292C1C368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `TAXAGENCY` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `PAY_SALES_TAX_ENTRIES`
---
-
-DROP TABLE IF EXISTS `PAY_SALES_TAX_ENTRIES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PAY_SALES_TAX_ENTRIES` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `TAXITEM_ID` bigint(20) DEFAULT NULL,
-  `TAXAGENCY_ID` bigint(20) DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `BALANCE` double DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `TRANSACTION_DATE` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK8E65F8F2BCD926F5` (`TAXAGENCY_ID`),
-  KEY `FK8E65F8F263880555` (`TRANSACTION_ID`),
-  KEY `FK8E65F8F2D7293EF5` (`TAXITEM_ID`),
-  CONSTRAINT `FK8E65F8F2D7293EF5` FOREIGN KEY (`TAXITEM_ID`) REFERENCES `TAX_ITEM` (`id`),
-  CONSTRAINT `FK8E65F8F263880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK8E65F8F2BCD926F5` FOREIGN KEY (`TAXAGENCY_ID`) REFERENCES `TAXAGENCY` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `PAY_VAT`
---
-
-DROP TABLE IF EXISTS `PAY_VAT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PAY_VAT` (
-  `id` bigint(20) NOT NULL,
-  `RETURNS_DUE_ON_OR_BEFORE` bigint(20) DEFAULT NULL,
-  `PAYFROM_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `TAX_AGENCY_ID` bigint(20) DEFAULT NULL,
-  `ENDING_BALANCE` double DEFAULT NULL,
-  `IS_EDITED` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKFBF02AD2274BC854` (`id`),
-  KEY `FKFBF02AD2C368D6AC` (`TAX_AGENCY_ID`),
-  KEY `FKFBF02AD268A08E82` (`PAYFROM_ACCOUNT_ID`),
-  CONSTRAINT `FKFBF02AD268A08E82` FOREIGN KEY (`PAYFROM_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FKFBF02AD2274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FKFBF02AD2C368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `TAXAGENCY` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `PAY_VAT_ENTRIES`
---
-
-DROP TABLE IF EXISTS `PAY_VAT_ENTRIES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PAY_VAT_ENTRIES` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `TAXCODE_ID` bigint(20) DEFAULT NULL,
-  `TAXAGENCY_ID` bigint(20) DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `BALANCE` double DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK3EC6F003BCD926F5` (`TAXAGENCY_ID`),
-  KEY `FK3EC6F003912718B5` (`TAXCODE_ID`),
-  KEY `FK3EC6F00363880555` (`TRANSACTION_ID`),
-  CONSTRAINT `FK3EC6F00363880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK3EC6F003912718B5` FOREIGN KEY (`TAXCODE_ID`) REFERENCES `TAX_CODE` (`ID`),
-  CONSTRAINT `FK3EC6F003BCD926F5` FOREIGN KEY (`TAXAGENCY_ID`) REFERENCES `TAXAGENCY` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `PORTLET_STATUS`
---
-
-DROP TABLE IF EXISTS `PORTLET_STATUS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PORTLET_STATUS` (
-  `PREFERECE_ID` bigint(20) NOT NULL,
-  `VALUE` int(11) DEFAULT NULL,
-  `PORLET_NAME` varchar(255) NOT NULL,
-  PRIMARY KEY (`PREFERECE_ID`,`PORLET_NAME`),
-  KEY `FK47A29DF7ECA5CD62` (`PREFERECE_ID`),
-  CONSTRAINT `FK47A29DF7ECA5CD62` FOREIGN KEY (`PREFERECE_ID`) REFERENCES `BIZANTRAUSERPREFERENCES` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `PRICELEVEL`
---
-
-DROP TABLE IF EXISTS `PRICELEVEL`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PRICELEVEL` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `PERCENTAGE` double DEFAULT NULL,
-  `IS_P_DECREASE_BY_THIS_PERCENT` bit(1) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `PURCHASE_ORDER`
---
-
-DROP TABLE IF EXISTS `PURCHASE_ORDER`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PURCHASE_ORDER` (
-  `id` bigint(20) NOT NULL,
-  `VENDOR_ID` bigint(20) DEFAULT NULL,
-  `SHIP_TO_ID` bigint(20) DEFAULT NULL,
-  `PURCHASE_ORDER_DATE` bigint(20) DEFAULT NULL,
-  `TO_BE_PRINTED` bit(1) DEFAULT NULL,
-  `TO_BE_EMAILED` bit(1) DEFAULT NULL,
-  `EB_IS_PRIMARY` bit(1) DEFAULT NULL,
-  `EB_NAME` varchar(255) DEFAULT NULL,
-  `EB_TITLE` varchar(255) DEFAULT NULL,
-  `EB_BUSINESS_PHONE` varchar(255) DEFAULT NULL,
-  `EB_EMAIL` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `VENDOR_ADDRESS_ADDRESS1` varchar(100) DEFAULT NULL,
-  `VENDOR_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `VENDOR_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `PAYMENT_TERM_ID` bigint(20) DEFAULT NULL,
-  `DUE_DATE` bigint(20) DEFAULT NULL,
-  `DELIVERY_DATE` bigint(20) DEFAULT NULL,
-  `DISPATCH_DATE` bigint(20) DEFAULT NULL,
-  `SHIPPING_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `SHIPPING_ADDRESS_ADDRESS1` varchar(100) DEFAULT NULL,
-  `SHIPPING_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `SHIPPING_TERMS_ID` bigint(20) DEFAULT NULL,
-  `SHIPPING_METHOD_ID` bigint(20) DEFAULT NULL,
-  `PURCHASE_ORDER_NUMBER` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+DROP TABLE IF EXISTS `purchase_order`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `purchase_order` (
+  `ID` bigint(20) NOT NULL,
+  `VENDOR_ID` bigint(20) default NULL,
+  `SHIP_TO_ID` bigint(20) default NULL,
+  `PURCHASE_ORDER_DATE` bigint(20) default NULL,
+  `TO_BE_PRINTED` bit(1) default NULL,
+  `TO_BE_EMAILED` bit(1) default NULL,
+  `EB_IS_PRIMARY` bit(1) default NULL,
+  `EB_NAME` varchar(255) default NULL,
+  `EB_TITLE` varchar(255) default NULL,
+  `EB_BUSINESS_PHONE` varchar(255) default NULL,
+  `EB_EMAIL` varchar(255) default NULL,
+  `VENDOR_ADDRESS_TYPE` int(11) default NULL,
+  `VENDOR_ADDRESS_ADDRESS1` varchar(100) default NULL,
+  `VENDOR_ADDRESS_STREET` varchar(255) default NULL,
+  `VENDOR_ADDRESS_CITY` varchar(255) default NULL,
+  `VENDOR_ADDRESS_STATE` varchar(255) default NULL,
+  `VENDOR_ADDRESS_ZIP` varchar(255) default NULL,
+  `VENDOR_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `VENDOR_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `PAYMENT_TERM_ID` bigint(20) default NULL,
+  `DUE_DATE` bigint(20) default NULL,
+  `DELIVERY_DATE` bigint(20) default NULL,
+  `DISPATCH_DATE` bigint(20) default NULL,
+  `SHIPPING_ADDRESS_TYPE` int(11) default NULL,
+  `SHIPPING_ADDRESS_ADDRESS1` varchar(100) default NULL,
+  `SHIPPING_ADDRESS_STREET` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_CITY` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_STATE` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_ZIP` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `SHIPPING_TERMS_ID` bigint(20) default NULL,
+  `SHIPPING_METHOD_ID` bigint(20) default NULL,
+  `PURCHASE_ORDER_NUMBER` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK26456270AD0A95DC` (`SHIPPING_METHOD_ID`),
   KEY `FK26456270338BD6BB` (`PAYMENT_TERM_ID`),
-  KEY `FK26456270274BC854` (`id`),
+  KEY `FK26456270274BC854` (`ID`),
   KEY `FK26456270891A177F` (`VENDOR_ID`),
   KEY `FK2645627097EDD458` (`SHIPPING_TERMS_ID`),
   KEY `FK26456270777205A4` (`SHIP_TO_ID`),
-  CONSTRAINT `FK26456270777205A4` FOREIGN KEY (`SHIP_TO_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK26456270274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK26456270338BD6BB` FOREIGN KEY (`PAYMENT_TERM_ID`) REFERENCES `PAYMENTTERMS` (`ID`),
-  CONSTRAINT `FK26456270891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `VENDOR` (`id`),
-  CONSTRAINT `FK2645627097EDD458` FOREIGN KEY (`SHIPPING_TERMS_ID`) REFERENCES `SHIPPINGTERMS` (`ID`),
-  CONSTRAINT `FK26456270AD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `SHIPPINGMETHOD` (`ID`)
+  CONSTRAINT `FK26456270274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK26456270338BD6BB` FOREIGN KEY (`PAYMENT_TERM_ID`) REFERENCES `paymentterms` (`ID`),
+  CONSTRAINT `FK26456270777205A4` FOREIGN KEY (`SHIP_TO_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK26456270891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `vendor` (`ID`),
+  CONSTRAINT `FK2645627097EDD458` FOREIGN KEY (`SHIPPING_TERMS_ID`) REFERENCES `shippingterms` (`ID`),
+  CONSTRAINT `FK26456270AD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `shippingmethod` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `RECEIVE_PAYMENT`
+-- Dumping data for table `purchase_order`
 --
 
-DROP TABLE IF EXISTS `RECEIVE_PAYMENT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `RECEIVE_PAYMENT` (
-  `id` bigint(20) NOT NULL,
-  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `CUSTOMER_BALANCE` double DEFAULT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `UNUSED_CREDITS` double DEFAULT NULL,
-  `UNUSED_PAYMENTS` double DEFAULT NULL,
-  `TOTAL_CASH_DISCOUNT` double DEFAULT NULL,
-  `TOTAL_WRITE_OFF` double DEFAULT NULL,
-  `TOTAL_APPLIED_CREDITS` double DEFAULT NULL,
-  `CREDITS_AND_PAYMENTS_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+LOCK TABLES `purchase_order` WRITE;
+/*!40000 ALTER TABLE `purchase_order` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase_order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `receive_payment`
+--
+
+DROP TABLE IF EXISTS `receive_payment`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `receive_payment` (
+  `ID` bigint(20) NOT NULL,
+  `CUSTOMER_ID` bigint(20) default NULL,
+  `AMOUNT` double default NULL,
+  `CUSTOMER_BALANCE` double default NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  `UNUSED_CREDITS` double default NULL,
+  `UNUSED_PAYMENTS` double default NULL,
+  `TOTAL_CASH_DISCOUNT` double default NULL,
+  `TOTAL_WRITE_OFF` double default NULL,
+  `TOTAL_APPLIED_CREDITS` double default NULL,
+  `CREDITS_AND_PAYMENTS_ID` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK2D07F06AAC60FBCF` (`CREDITS_AND_PAYMENTS_ID`),
-  KEY `FK2D07F06A274BC854` (`id`),
+  KEY `FK2D07F06A274BC854` (`ID`),
   KEY `FK2D07F06AE5FCF475` (`ACCOUNT_ID`),
   KEY `FK2D07F06ADFE06A7F` (`CUSTOMER_ID`),
-  CONSTRAINT `FK2D07F06ADFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `CUSTOMER` (`id`),
-  CONSTRAINT `FK2D07F06A274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK2D07F06AAC60FBCF` FOREIGN KEY (`CREDITS_AND_PAYMENTS_ID`) REFERENCES `CREDITS_AND_PAYMENTS` (`ID`),
-  CONSTRAINT `FK2D07F06AE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK2D07F06A274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK2D07F06AAC60FBCF` FOREIGN KEY (`CREDITS_AND_PAYMENTS_ID`) REFERENCES `credits_and_payments` (`ID`),
+  CONSTRAINT `FK2D07F06ADFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`),
+  CONSTRAINT `FK2D07F06AE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `RECEIVE_VAT`
+-- Dumping data for table `receive_payment`
 --
 
-DROP TABLE IF EXISTS `RECEIVE_VAT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `RECEIVE_VAT` (
-  `id` bigint(20) NOT NULL,
-  `RETURNS_DUE_ON_OR_BEFORE` bigint(20) DEFAULT NULL,
-  `DEPOSIT_IN_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `TAX_AGENCY_ID` bigint(20) DEFAULT NULL,
-  `ENDING_BALANCE` double DEFAULT NULL,
-  `IS_EDITED` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK3075F8D274BC854` (`id`),
+LOCK TABLES `receive_payment` WRITE;
+/*!40000 ALTER TABLE `receive_payment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `receive_payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `receive_vat`
+--
+
+DROP TABLE IF EXISTS `receive_vat`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `receive_vat` (
+  `ID` bigint(20) NOT NULL,
+  `RETURNS_DUE_ON_OR_BEFORE` bigint(20) default NULL,
+  `DEPOSIT_IN_ACCOUNT_ID` bigint(20) default NULL,
+  `TAX_AGENCY_ID` bigint(20) default NULL,
+  `ENDING_BALANCE` double default NULL,
+  `IS_EDITED` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK3075F8D274BC854` (`ID`),
   KEY `FK3075F8DC368D6AC` (`TAX_AGENCY_ID`),
   KEY `FK3075F8D172FFFEE` (`DEPOSIT_IN_ACCOUNT_ID`),
-  CONSTRAINT `FK3075F8D172FFFEE` FOREIGN KEY (`DEPOSIT_IN_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK3075F8D274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK3075F8DC368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `TAXAGENCY` (`id`)
+  CONSTRAINT `FK3075F8D172FFFEE` FOREIGN KEY (`DEPOSIT_IN_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK3075F8D274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK3075F8DC368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `taxagency` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `RESET_PASSWORD_TOKEN`
+-- Dumping data for table `receive_vat`
 --
 
-DROP TABLE IF EXISTS `RESET_PASSWORD_TOKEN`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `RESET_PASSWORD_TOKEN` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `TOKEN` varchar(255) DEFAULT NULL,
-  `USER_ID` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+LOCK TABLES `receive_vat` WRITE;
+/*!40000 ALTER TABLE `receive_vat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `receive_vat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reset_password_token`
+--
+
+DROP TABLE IF EXISTS `reset_password_token`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `reset_password_token` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TOKEN` varchar(255) default NULL,
+  `USER_ID` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `SALES_ORDER`
+-- Dumping data for table `reset_password_token`
 --
 
-DROP TABLE IF EXISTS `SALES_ORDER`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SALES_ORDER` (
-  `id` bigint(20) NOT NULL,
-  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
-  `INVOICE_IS_PRIMARY` bit(1) DEFAULT NULL,
-  `INVOICE_NAME` varchar(255) DEFAULT NULL,
-  `INVOICE_TITLE` varchar(255) DEFAULT NULL,
-  `INVOICE_BUSINESS_PHONE` varchar(255) DEFAULT NULL,
-  `INVOICE_EMAIL` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `BILLING_ADDRESS1` varchar(100) DEFAULT NULL,
-  `BILLING_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `BILLING_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `SHIPPING_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `SHIPPING_ADDRESS1` varchar(100) DEFAULT NULL,
-  `SHIPPING_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `SHIPPING_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `SALES_PERSON_ID` bigint(20) DEFAULT NULL,
-  `PAYMENT_TERMS_ID` bigint(20) DEFAULT NULL,
-  `SHIPPING_TERMS_ID` bigint(20) DEFAULT NULL,
-  `SHIPPING_METHOD_ID` bigint(20) DEFAULT NULL,
-  `DUE_DATE` bigint(20) DEFAULT NULL,
-  `DISCOUNT_TOTAL` double DEFAULT NULL,
-  `PRICE_LEVEL_ID` bigint(20) DEFAULT NULL,
-  `SALES_TAX_AMOUNT` double DEFAULT NULL,
-  `ITEM_ID` bigint(20) DEFAULT NULL,
-  `ESTIMATE_ID` bigint(20) DEFAULT NULL,
-  `CUSTOMER_ORDER_NUMBER` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+LOCK TABLES `reset_password_token` WRITE;
+/*!40000 ALTER TABLE `reset_password_token` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reset_password_token` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sales_order`
+--
+
+DROP TABLE IF EXISTS `sales_order`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `sales_order` (
+  `ID` bigint(20) NOT NULL,
+  `CUSTOMER_ID` bigint(20) default NULL,
+  `INVOICE_IS_PRIMARY` bit(1) default NULL,
+  `INVOICE_NAME` varchar(255) default NULL,
+  `INVOICE_TITLE` varchar(255) default NULL,
+  `INVOICE_BUSINESS_PHONE` varchar(255) default NULL,
+  `INVOICE_EMAIL` varchar(255) default NULL,
+  `BILLING_ADDRESS_TYPE` int(11) default NULL,
+  `BILLING_ADDRESS1` varchar(100) default NULL,
+  `BILLING_ADDRESS_STREET` varchar(255) default NULL,
+  `BILLING_ADDRESS_CITY` varchar(255) default NULL,
+  `BILLING_ADDRESS_STATE` varchar(255) default NULL,
+  `BILLING_ADDRESS_ZIP` varchar(255) default NULL,
+  `BILLING_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `BILLING_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `SHIPPING_ADDRESS_TYPE` int(11) default NULL,
+  `SHIPPING_ADDRESS1` varchar(100) default NULL,
+  `SHIPPING_ADDRESS_STREET` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_CITY` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_STATE` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_ZIP` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `SHIPPING_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `SALES_PERSON_ID` bigint(20) default NULL,
+  `PAYMENT_TERMS_ID` bigint(20) default NULL,
+  `SHIPPING_TERMS_ID` bigint(20) default NULL,
+  `SHIPPING_METHOD_ID` bigint(20) default NULL,
+  `DUE_DATE` bigint(20) default NULL,
+  `DISCOUNT_TOTAL` double default NULL,
+  `PRICE_LEVEL_ID` bigint(20) default NULL,
+  `SALES_TAX_AMOUNT` double default NULL,
+  `ITEM_ID` bigint(20) default NULL,
+  `ESTIMATE_ID` bigint(20) default NULL,
+  `CUSTOMER_ORDER_NUMBER` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK1E0EE21BAD0A95DC` (`SHIPPING_METHOD_ID`),
-  KEY `FK1E0EE21B274BC854` (`id`),
+  KEY `FK1E0EE21B274BC854` (`ID`),
   KEY `FK1E0EE21B1E282CDF` (`ITEM_ID`),
   KEY `FK1E0EE21B9A3059EC` (`PRICE_LEVEL_ID`),
   KEY `FK1E0EE21B97EDD458` (`SHIPPING_TERMS_ID`),
@@ -2142,422 +2629,483 @@ CREATE TABLE `SALES_ORDER` (
   KEY `FK1E0EE21B2843EE3F` (`ESTIMATE_ID`),
   KEY `FK1E0EE21BAEA76B12` (`PAYMENT_TERMS_ID`),
   KEY `FK1E0EE21BDFE06A7F` (`CUSTOMER_ID`),
-  CONSTRAINT `FK1E0EE21BDFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `CUSTOMER` (`id`),
-  CONSTRAINT `FK1E0EE21B1E282CDF` FOREIGN KEY (`ITEM_ID`) REFERENCES `ITEM` (`ID`),
-  CONSTRAINT `FK1E0EE21B274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK1E0EE21B2843EE3F` FOREIGN KEY (`ESTIMATE_ID`) REFERENCES `ESTIMATE` (`id`),
-  CONSTRAINT `FK1E0EE21B4C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `SALES_PERSON` (`id`),
-  CONSTRAINT `FK1E0EE21B97EDD458` FOREIGN KEY (`SHIPPING_TERMS_ID`) REFERENCES `SHIPPINGTERMS` (`ID`),
-  CONSTRAINT `FK1E0EE21B9A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `PRICELEVEL` (`ID`),
-  CONSTRAINT `FK1E0EE21BAD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `SHIPPINGMETHOD` (`ID`),
-  CONSTRAINT `FK1E0EE21BAEA76B12` FOREIGN KEY (`PAYMENT_TERMS_ID`) REFERENCES `PAYMENTTERMS` (`ID`)
+  CONSTRAINT `FK1E0EE21B1E282CDF` FOREIGN KEY (`ITEM_ID`) REFERENCES `item` (`ID`),
+  CONSTRAINT `FK1E0EE21B274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK1E0EE21B2843EE3F` FOREIGN KEY (`ESTIMATE_ID`) REFERENCES `estimate` (`ID`),
+  CONSTRAINT `FK1E0EE21B4C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `sales_person` (`ID`),
+  CONSTRAINT `FK1E0EE21B97EDD458` FOREIGN KEY (`SHIPPING_TERMS_ID`) REFERENCES `shippingterms` (`ID`),
+  CONSTRAINT `FK1E0EE21B9A3059EC` FOREIGN KEY (`PRICE_LEVEL_ID`) REFERENCES `pricelevel` (`ID`),
+  CONSTRAINT `FK1E0EE21BAD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `shippingmethod` (`ID`),
+  CONSTRAINT `FK1E0EE21BAEA76B12` FOREIGN KEY (`PAYMENT_TERMS_ID`) REFERENCES `paymentterms` (`ID`),
+  CONSTRAINT `FK1E0EE21BDFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `SALES_PERSON`
---
-
-DROP TABLE IF EXISTS `SALES_PERSON`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SALES_PERSON` (
-  `id` bigint(20) NOT NULL,
-  `TITLE` varchar(255) DEFAULT NULL,
-  `FIRST_NAME` varchar(255) DEFAULT NULL,
-  `MIDDLE_NAME1` varchar(255) DEFAULT NULL,
-  `MIDDLE_NAME2` varchar(255) DEFAULT NULL,
-  `MIDDLE_NAME3` varchar(255) DEFAULT NULL,
-  `LAST_NAME` varchar(255) DEFAULT NULL,
-  `SUFFIX` varchar(255) DEFAULT NULL,
-  `JOB_TITLE` varchar(255) DEFAULT NULL,
-  `EXPENSE_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `GENDER` varchar(255) DEFAULT NULL,
-  `DATE_OF_BIRTH` bigint(20) DEFAULT NULL,
-  `DATE_OF_HIRE` bigint(20) DEFAULT NULL,
-  `DATE_OF_LASTREVIEW` bigint(20) DEFAULT NULL,
-  `DATE_OF_RELEASE` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKA4D19A08610348FE` (`id`),
-  KEY `FKA4D19A08E2AA5ABC` (`EXPENSE_ACCOUNT_ID`),
-  CONSTRAINT `FKA4D19A08E2AA5ABC` FOREIGN KEY (`EXPENSE_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FKA4D19A08610348FE` FOREIGN KEY (`id`) REFERENCES `PAYEE` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Temporary table structure for view `SALES_PURCHASES_VIEW`
---
-
-DROP TABLE IF EXISTS `SALES_PURCHASES_VIEW`;
-/*!50001 DROP VIEW IF EXISTS `SALES_PURCHASES_VIEW`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `SALES_PURCHASES_VIEW` (
-  `TRANSACTION_ID` varchar(255),
-  `CUSTOMER_ID` bigint(20),
-  `VENDOR_ID` bigint(20),
-  `NAME` varchar(255),
-  `GROUP_NAME` varchar(255),
-  `ITEM_TYPE` int(11),
-  `ITEM_GROUP` varchar(255),
-  `Type` int(11),
-  `DATE` bigint(20),
-  `NUMBER` varchar(255),
-  `MEMO` varchar(255),
-  `DUE_DATE` bigint(20),
-  `PAYMENT_TERMS` varchar(255),
-  `ITEM_NAME` varchar(255),
-  `QUANTITY` bigint(12),
-  `UNIT_PRICE` double,
-  `DISCOUNT` double,
-  `AMOUNT` double,
-  `SO_OR_QUOTE_NO` varchar(255),
-  `SHIPMENT_OR_DELIVERY_DATE` bigint(20),
-  `SALES_DESCRIPTION` varchar(255),
-  `PURCHASE_DESCRIPTION` varchar(255),
-  `VOID` bit(1),
-  `REFERENCE` varchar(255)
-) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `SERVERS`
+-- Dumping data for table `sales_order`
 --
 
-DROP TABLE IF EXISTS `SERVERS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SERVERS` (
-  `SERVERID` varchar(40) NOT NULL,
-  PRIMARY KEY (`SERVERID`)
+LOCK TABLES `sales_order` WRITE;
+/*!40000 ALTER TABLE `sales_order` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sales_order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sales_person`
+--
+
+DROP TABLE IF EXISTS `sales_person`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `sales_person` (
+  `ID` bigint(20) NOT NULL,
+  `TITLE` varchar(255) default NULL,
+  `FIRST_NAME` varchar(255) default NULL,
+  `MIDDLE_NAME1` varchar(255) default NULL,
+  `MIDDLE_NAME2` varchar(255) default NULL,
+  `MIDDLE_NAME3` varchar(255) default NULL,
+  `LAST_NAME` varchar(255) default NULL,
+  `SUFFIX` varchar(255) default NULL,
+  `JOB_TITLE` varchar(255) default NULL,
+  `EXPENSE_ACCOUNT_ID` bigint(20) default NULL,
+  `GENDER` varchar(255) default NULL,
+  `DATE_OF_BIRTH` bigint(20) default NULL,
+  `DATE_OF_HIRE` bigint(20) default NULL,
+  `DATE_OF_LASTREVIEW` bigint(20) default NULL,
+  `DATE_OF_RELEASE` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKA4D19A08610348FE` (`ID`),
+  KEY `FKA4D19A08E2AA5ABC` (`EXPENSE_ACCOUNT_ID`),
+  CONSTRAINT `FKA4D19A08610348FE` FOREIGN KEY (`ID`) REFERENCES `payee` (`ID`),
+  CONSTRAINT `FKA4D19A08E2AA5ABC` FOREIGN KEY (`EXPENSE_ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `SHIPPINGMETHOD`
+-- Dumping data for table `sales_person`
 --
 
-DROP TABLE IF EXISTS `SHIPPINGMETHOD`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SHIPPINGMETHOD` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`)
+LOCK TABLES `sales_person` WRITE;
+/*!40000 ALTER TABLE `sales_person` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sales_person` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `server_company`
+--
+
+DROP TABLE IF EXISTS `server_company`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `server_company` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `COMPANY_NAME` varchar(255) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `COMPANY_TYPE` int(11) default NULL,
+  `SERVER_ADDRESS` varchar(255) default NULL,
+  `IS_CONFIGURED` bit(1) default NULL,
+  PRIMARY KEY  (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `server_company`
+--
+
+LOCK TABLES `server_company` WRITE;
+/*!40000 ALTER TABLE `server_company` DISABLE KEYS */;
+INSERT INTO `server_company` VALUES (1,'vimukti',NULL,1,NULL,'\0'),(2,'accounter234',NULL,1,NULL,'\0');
+/*!40000 ALTER TABLE `server_company` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `shippingmethod`
+--
+
+DROP TABLE IF EXISTS `shippingmethod`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `shippingmethod` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(255) default NULL,
+  `VERSION` int(11) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `FK8128180FF1AE8CDE` (`CREATED_BY`),
+  KEY `FK8128180F9E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK8128180F9E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK8128180FF1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `SHIPPINGTERMS`
+-- Dumping data for table `shippingmethod`
 --
 
-DROP TABLE IF EXISTS `SHIPPINGTERMS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SHIPPINGTERMS` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`)
+LOCK TABLES `shippingmethod` WRITE;
+/*!40000 ALTER TABLE `shippingmethod` DISABLE KEYS */;
+/*!40000 ALTER TABLE `shippingmethod` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `shippingterms`
+--
+
+DROP TABLE IF EXISTS `shippingterms`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `shippingterms` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(255) default NULL,
+  `VERSION` int(11) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `FKDB42E079F1AE8CDE` (`CREATED_BY`),
+  KEY `FKDB42E0799E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FKDB42E0799E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FKDB42E079F1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `SPACETODOWNLOAD`
+-- Dumping data for table `shippingterms`
 --
 
-DROP TABLE IF EXISTS `SPACETODOWNLOAD`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SPACETODOWNLOAD` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `SPACE_ID` varchar(255) DEFAULT NULL,
-  `INVITED_BY` varchar(255) DEFAULT NULL,
-  `SERVER_ID` varchar(255) DEFAULT NULL,
-  `IDENTITYID` varchar(40) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FKD8D1A969532CB45C` (`IDENTITYID`),
-  CONSTRAINT `FKD8D1A969532CB45C` FOREIGN KEY (`IDENTITYID`) REFERENCES `COLLABERIDENTITY` (`ID`)
+LOCK TABLES `shippingterms` WRITE;
+/*!40000 ALTER TABLE `shippingterms` DISABLE KEYS */;
+/*!40000 ALTER TABLE `shippingterms` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stock_adjustment`
+--
+
+DROP TABLE IF EXISTS `stock_adjustment`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `stock_adjustment` (
+  `ID` bigint(20) NOT NULL,
+  `COMPLETED` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKD2B15A56274BC854` (`ID`),
+  CONSTRAINT `FKD2B15A56274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `SPACEVERSION`
+-- Dumping data for table `stock_adjustment`
 --
 
-DROP TABLE IF EXISTS `SPACEVERSION`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SPACEVERSION` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `MEMBER` varchar(255) DEFAULT NULL,
-  `VERSION` bigint(20) DEFAULT NULL,
-  `SPACEVERSION` bigint(20) DEFAULT NULL,
-  `SPACEID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+LOCK TABLES `stock_adjustment` WRITE;
+/*!40000 ALTER TABLE `stock_adjustment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `stock_adjustment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stock_adjustment_item`
+--
+
+DROP TABLE IF EXISTS `stock_adjustment_item`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `stock_adjustment_item` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `ADJUSTMENT_PRICE_VALUE` double default NULL,
+  `ADJUSTMENT_QTY` double default NULL,
+  `COMMENT` varchar(255) default NULL,
+  `ITEM` bigint(20) default NULL,
+  `QTY_BEFORE_TRANSACTION` double default NULL,
+  `REASON` bigint(20) default NULL,
+  `WAREHOUSE` bigint(20) default NULL,
+  `STOCK_ADJUSTMENT` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK6034D75CA036EE2B` (`ITEM`),
+  KEY `FK6034D75CF58BC234` (`STOCK_ADJUSTMENT`),
+  KEY `FK6034D75C8F9890DA` (`REASON`),
+  KEY `FK6034D75C984DB8A1` (`WAREHOUSE`),
+  CONSTRAINT `FK6034D75C8F9890DA` FOREIGN KEY (`REASON`) REFERENCES `adjustment_reason` (`ID`),
+  CONSTRAINT `FK6034D75C984DB8A1` FOREIGN KEY (`WAREHOUSE`) REFERENCES `warehouse` (`ID`),
+  CONSTRAINT `FK6034D75CA036EE2B` FOREIGN KEY (`ITEM`) REFERENCES `item` (`ID`),
+  CONSTRAINT `FK6034D75CF58BC234` FOREIGN KEY (`STOCK_ADJUSTMENT`) REFERENCES `stock_adjustment` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `SPACE_MEMBERS`
+-- Dumping data for table `stock_adjustment_item`
 --
 
-DROP TABLE IF EXISTS `SPACE_MEMBERS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SPACE_MEMBERS` (
-  `SPACE_ID` varchar(40) NOT NULL,
-  `MEMBER_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`SPACE_ID`,`MEMBER_ID`),
-  KEY `FK5FA4AEA0BE7114E5` (`MEMBER_ID`),
-  KEY `FK5FA4AEA05709BA1E` (`SPACE_ID`),
-  CONSTRAINT `FK5FA4AEA05709BA1E` FOREIGN KEY (`SPACE_ID`) REFERENCES `WORKSPACE` (`SPACE_ID`),
-  CONSTRAINT `FK5FA4AEA0BE7114E5` FOREIGN KEY (`MEMBER_ID`) REFERENCES `MEMBER` (`ID`)
+LOCK TABLES `stock_adjustment_item` WRITE;
+/*!40000 ALTER TABLE `stock_adjustment_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `stock_adjustment_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stock_transfer`
+--
+
+DROP TABLE IF EXISTS `stock_transfer`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `stock_transfer` (
+  `ID` bigint(20) NOT NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_ON` datetime default NULL,
+  `LAST_MODIFIED_ON` datetime default NULL,
+  `FROM_WAREHOUSE` bigint(20) default NULL,
+  `TO_WAREHOUSE` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKE77B4F14F1AE8CDE` (`CREATED_BY`),
+  KEY `FKE77B4F142FACBE4C` (`FROM_WAREHOUSE`),
+  KEY `FKE77B4F144B3723DD` (`TO_WAREHOUSE`),
+  KEY `FKE77B4F149E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FKE77B4F142FACBE4C` FOREIGN KEY (`FROM_WAREHOUSE`) REFERENCES `warehouse` (`ID`),
+  CONSTRAINT `FKE77B4F144B3723DD` FOREIGN KEY (`TO_WAREHOUSE`) REFERENCES `warehouse` (`ID`),
+  CONSTRAINT `FKE77B4F149E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FKE77B4F14F1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `SPACE_SUSPENDED_MEMBERS`
+-- Dumping data for table `stock_transfer`
 --
 
-DROP TABLE IF EXISTS `SPACE_SUSPENDED_MEMBERS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SPACE_SUSPENDED_MEMBERS` (
-  `SPACE_ID` varchar(40) NOT NULL,
-  `MEMBER_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`SPACE_ID`,`MEMBER_ID`),
-  KEY `FK6727635CBE7114E5` (`MEMBER_ID`),
-  KEY `FK6727635C5709BA1E` (`SPACE_ID`),
-  CONSTRAINT `FK6727635C5709BA1E` FOREIGN KEY (`SPACE_ID`) REFERENCES `WORKSPACE` (`SPACE_ID`),
-  CONSTRAINT `FK6727635CBE7114E5` FOREIGN KEY (`MEMBER_ID`) REFERENCES `MEMBER` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `stock_transfer` WRITE;
+/*!40000 ALTER TABLE `stock_transfer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `stock_transfer` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `TAXAGENCY`
+-- Table structure for table `tax_adjustment`
 --
 
-DROP TABLE IF EXISTS `TAXAGENCY`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TAXAGENCY` (
-  `id` bigint(20) NOT NULL,
-  `PAYMENT_TERM` bigint(20) DEFAULT NULL,
-  `SALES_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `PURCHASE_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `VAT_RETURN` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKA8B93F50610348FE` (`id`),
-  KEY `FKA8B93F505F952188` (`SALES_ACCOUNT_ID`),
-  KEY `FKA8B93F50633ECA73` (`PURCHASE_ACCOUNT_ID`),
-  KEY `FKA8B93F5011D2BD2B` (`PAYMENT_TERM`),
-  CONSTRAINT `FKA8B93F5011D2BD2B` FOREIGN KEY (`PAYMENT_TERM`) REFERENCES `PAYMENTTERMS` (`ID`),
-  CONSTRAINT `FKA8B93F505F952188` FOREIGN KEY (`SALES_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FKA8B93F50610348FE` FOREIGN KEY (`id`) REFERENCES `PAYEE` (`ID`),
-  CONSTRAINT `FKA8B93F50633ECA73` FOREIGN KEY (`PURCHASE_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `TAXRATES`
---
-
-DROP TABLE IF EXISTS `TAXRATES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TAXRATES` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `RATE` double DEFAULT NULL,
-  `AS_OF` bigint(20) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `TAX_ADJUSTMENT`
---
-
-DROP TABLE IF EXISTS `TAX_ADJUSTMENT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TAX_ADJUSTMENT` (
-  `id` bigint(20) NOT NULL,
-  `INCREASE_VAT_LINE` bit(1) DEFAULT NULL,
-  `IS_FILED` bit(1) DEFAULT NULL,
-  `ADJUSTMENT_ACCOUNT` bigint(20) DEFAULT NULL,
-  `TAX_ITEM` bigint(20) DEFAULT NULL,
-  `TAX_AGENCY_ID` bigint(20) DEFAULT NULL,
-  `JOURNAL_ENTRY` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+DROP TABLE IF EXISTS `tax_adjustment`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tax_adjustment` (
+  `ID` bigint(20) NOT NULL,
+  `INCREASE_VAT_LINE` bit(1) default NULL,
+  `IS_FILED` bit(1) default NULL,
+  `ADJUSTMENT_ACCOUNT` bigint(20) default NULL,
+  `TAX_ITEM` bigint(20) default NULL,
+  `TAX_AGENCY_ID` bigint(20) default NULL,
+  `JOURNAL_ENTRY` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK24BBD6A187003963` (`ADJUSTMENT_ACCOUNT`),
-  KEY `FK24BBD6A1274BC854` (`id`),
+  KEY `FK24BBD6A1274BC854` (`ID`),
   KEY `FK24BBD6A1C368D6AC` (`TAX_AGENCY_ID`),
   KEY `FK24BBD6A11AF90BEA` (`JOURNAL_ENTRY`),
   KEY `FK24BBD6A1B7BAB260` (`TAX_ITEM`),
-  CONSTRAINT `FK24BBD6A1B7BAB260` FOREIGN KEY (`TAX_ITEM`) REFERENCES `TAX_ITEM` (`id`),
-  CONSTRAINT `FK24BBD6A11AF90BEA` FOREIGN KEY (`JOURNAL_ENTRY`) REFERENCES `JOURNAL_ENTRY` (`id`),
-  CONSTRAINT `FK24BBD6A1274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK24BBD6A187003963` FOREIGN KEY (`ADJUSTMENT_ACCOUNT`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK24BBD6A1C368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `TAXAGENCY` (`id`)
+  CONSTRAINT `FK24BBD6A11AF90BEA` FOREIGN KEY (`JOURNAL_ENTRY`) REFERENCES `journal_entry` (`ID`),
+  CONSTRAINT `FK24BBD6A1274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK24BBD6A187003963` FOREIGN KEY (`ADJUSTMENT_ACCOUNT`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK24BBD6A1B7BAB260` FOREIGN KEY (`TAX_ITEM`) REFERENCES `tax_item` (`ID`),
+  CONSTRAINT `FK24BBD6A1C368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `taxagency` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TAX_CODE`
+-- Dumping data for table `tax_adjustment`
 --
 
-DROP TABLE IF EXISTS `TAX_CODE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TAX_CODE` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `ISTAXABLE` bit(1) DEFAULT NULL,
-  `ISACTIVE` bit(1) DEFAULT NULL,
-  `IS_EC_SALES_ENTRY` bit(1) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  `TAXITEMGROUP_PURCHASES` bigint(20) DEFAULT NULL,
-  `TAXITEMGROUP_SALES` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `tax_adjustment` WRITE;
+/*!40000 ALTER TABLE `tax_adjustment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tax_adjustment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tax_code`
+--
+
+DROP TABLE IF EXISTS `tax_code`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tax_code` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(255) default NULL,
+  `ISTAXABLE` bit(1) default NULL,
+  `ISACTIVE` bit(1) default NULL,
+  `IS_EC_SALES_ENTRY` bit(1) default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  `TAXITEMGROUP_PURCHASES` bigint(20) default NULL,
+  `TAXITEMGROUP_SALES` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`),
   KEY `FK1FDC9A212D1A5F9A` (`TAXITEMGROUP_PURCHASES`),
   KEY `FK1FDC9A21BC51FE14` (`TAXITEMGROUP_SALES`),
-  CONSTRAINT `FK1FDC9A21BC51FE14` FOREIGN KEY (`TAXITEMGROUP_SALES`) REFERENCES `TAX_ITEM_GROUPS` (`ID`),
-  CONSTRAINT `FK1FDC9A212D1A5F9A` FOREIGN KEY (`TAXITEMGROUP_PURCHASES`) REFERENCES `TAX_ITEM_GROUPS` (`ID`)
+  CONSTRAINT `FK1FDC9A212D1A5F9A` FOREIGN KEY (`TAXITEMGROUP_PURCHASES`) REFERENCES `tax_item_groups` (`ID`),
+  CONSTRAINT `FK1FDC9A21BC51FE14` FOREIGN KEY (`TAXITEMGROUP_SALES`) REFERENCES `tax_item_groups` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TAX_GROUP`
+-- Dumping data for table `tax_code`
 --
 
-DROP TABLE IF EXISTS `TAX_GROUP`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TAX_GROUP` (
-  `id` bigint(20) NOT NULL,
-  `GROUP_RATE` double DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKDBF090AB880103E1` (`id`),
-  CONSTRAINT `FKDBF090AB880103E1` FOREIGN KEY (`id`) REFERENCES `TAX_ITEM_GROUPS` (`ID`)
+LOCK TABLES `tax_code` WRITE;
+/*!40000 ALTER TABLE `tax_code` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tax_code` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tax_group`
+--
+
+DROP TABLE IF EXISTS `tax_group`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tax_group` (
+  `ID` bigint(20) NOT NULL,
+  `GROUP_RATE` double default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKDBF090AB880103E1` (`ID`),
+  CONSTRAINT `FKDBF090AB880103E1` FOREIGN KEY (`ID`) REFERENCES `tax_item_groups` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TAX_GROUP_TAX_ITEM`
+-- Dumping data for table `tax_group`
 --
 
-DROP TABLE IF EXISTS `TAX_GROUP_TAX_ITEM`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TAX_GROUP_TAX_ITEM` (
+LOCK TABLES `tax_group` WRITE;
+/*!40000 ALTER TABLE `tax_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tax_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tax_group_tax_item`
+--
+
+DROP TABLE IF EXISTS `tax_group_tax_item`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tax_group_tax_item` (
   `TAX_GROUP_ID` bigint(20) NOT NULL,
   `TAX_ITEM_ID` bigint(20) NOT NULL,
   `VTX` int(11) NOT NULL,
-  PRIMARY KEY (`TAX_GROUP_ID`,`VTX`),
+  PRIMARY KEY  (`TAX_GROUP_ID`,`VTX`),
   KEY `FK3404985BCD4BA408` (`TAX_GROUP_ID`),
   KEY `FK3404985B5A7F706C` (`TAX_ITEM_ID`),
-  CONSTRAINT `FK3404985B5A7F706C` FOREIGN KEY (`TAX_ITEM_ID`) REFERENCES `TAX_ITEM` (`id`),
-  CONSTRAINT `FK3404985BCD4BA408` FOREIGN KEY (`TAX_GROUP_ID`) REFERENCES `TAX_GROUP` (`id`)
+  CONSTRAINT `FK3404985B5A7F706C` FOREIGN KEY (`TAX_ITEM_ID`) REFERENCES `tax_item` (`ID`),
+  CONSTRAINT `FK3404985BCD4BA408` FOREIGN KEY (`TAX_GROUP_ID`) REFERENCES `tax_group` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TAX_ITEM`
+-- Dumping data for table `tax_group_tax_item`
 --
 
-DROP TABLE IF EXISTS `TAX_ITEM`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TAX_ITEM` (
-  `id` bigint(20) NOT NULL,
-  `TAX_AGENCY` bigint(20) DEFAULT NULL,
-  `TAX_RATE` double DEFAULT NULL,
-  `VAT_RETURN_BOX` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+LOCK TABLES `tax_group_tax_item` WRITE;
+/*!40000 ALTER TABLE `tax_group_tax_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tax_group_tax_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tax_item`
+--
+
+DROP TABLE IF EXISTS `tax_item`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tax_item` (
+  `ID` bigint(20) NOT NULL,
+  `TAX_AGENCY` bigint(20) default NULL,
+  `TAX_RATE` double default NULL,
+  `VAT_RETURN_BOX` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK1FDF674798EAF569` (`VAT_RETURN_BOX`),
-  KEY `FK1FDF6747880103E1` (`id`),
+  KEY `FK1FDF6747880103E1` (`ID`),
   KEY `FK1FDF6747971BCDC4` (`TAX_AGENCY`),
-  CONSTRAINT `FK1FDF6747971BCDC4` FOREIGN KEY (`TAX_AGENCY`) REFERENCES `TAXAGENCY` (`id`),
-  CONSTRAINT `FK1FDF6747880103E1` FOREIGN KEY (`id`) REFERENCES `TAX_ITEM_GROUPS` (`ID`),
-  CONSTRAINT `FK1FDF674798EAF569` FOREIGN KEY (`VAT_RETURN_BOX`) REFERENCES `VATRETURNBOX` (`ID`)
+  CONSTRAINT `FK1FDF6747880103E1` FOREIGN KEY (`ID`) REFERENCES `tax_item_groups` (`ID`),
+  CONSTRAINT `FK1FDF6747971BCDC4` FOREIGN KEY (`TAX_AGENCY`) REFERENCES `taxagency` (`ID`),
+  CONSTRAINT `FK1FDF674798EAF569` FOREIGN KEY (`VAT_RETURN_BOX`) REFERENCES `vatreturnbox` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TAX_ITEM_GROUPS`
+-- Dumping data for table `tax_item`
 --
 
-DROP TABLE IF EXISTS `TAX_ITEM_GROUPS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TAX_ITEM_GROUPS` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `IS_ACTIVE` bit(1) DEFAULT NULL,
-  `IS_SALES_TYPE` bit(1) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_PERCENTAGE` bit(1) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`)
+LOCK TABLES `tax_item` WRITE;
+/*!40000 ALTER TABLE `tax_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tax_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tax_item_groups`
+--
+
+DROP TABLE IF EXISTS `tax_item_groups`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tax_item_groups` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(255) default NULL,
+  `IS_ACTIVE` bit(1) default NULL,
+  `IS_SALES_TYPE` bit(1) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_PERCENTAGE` bit(1) default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `FK9F02F5CCF1AE8CDE` (`CREATED_BY`),
+  KEY `FK9F02F5CC9E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK9F02F5CC9E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK9F02F5CCF1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TAX_RATE_CALCULATION`
+-- Dumping data for table `tax_item_groups`
 --
 
-DROP TABLE IF EXISTS `TAX_RATE_CALCULATION`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TAX_RATE_CALCULATION` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `VAT_GROUP_ENTRY` bit(1) DEFAULT NULL,
-  `VAT_AMOUNT` double DEFAULT NULL,
-  `LINE_TOTAL` double DEFAULT NULL,
-  `TAX_DUE` double DEFAULT NULL,
-  `TRANSACTION_ITEM_ID` bigint(20) DEFAULT NULL,
-  `TAX_ITEM_ID` bigint(20) DEFAULT NULL,
-  `TRANSACTION_DATE` bigint(20) DEFAULT NULL,
-  `TAX_AGENCY_ID` bigint(20) DEFAULT NULL,
-  `RATE` double DEFAULT NULL,
-  `VAT_RETURN_BOX_ID` bigint(20) DEFAULT NULL,
-  `PURCHASE_LIABILITY_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `SALES_LIABILITY_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `VAT_RETURN` bigint(20) DEFAULT NULL,
-  `TAX_RATE_CALCULATION_ID` bigint(20) DEFAULT NULL,
-  `VRC` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `tax_item_groups` WRITE;
+/*!40000 ALTER TABLE `tax_item_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tax_item_groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tax_rate_calculation`
+--
+
+DROP TABLE IF EXISTS `tax_rate_calculation`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tax_rate_calculation` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `VAT_GROUP_ENTRY` bit(1) default NULL,
+  `VAT_AMOUNT` double default NULL,
+  `LINE_TOTAL` double default NULL,
+  `TAX_DUE` double default NULL,
+  `TRANSACTION_ITEM_ID` bigint(20) default NULL,
+  `TAX_ITEM_ID` bigint(20) default NULL,
+  `TRANSACTION_DATE` bigint(20) default NULL,
+  `TAX_AGENCY_ID` bigint(20) default NULL,
+  `RATE` double default NULL,
+  `VAT_RETURN_BOX_ID` bigint(20) default NULL,
+  `PURCHASE_LIABILITY_ACCOUNT_ID` bigint(20) default NULL,
+  `SALES_LIABILITY_ACCOUNT_ID` bigint(20) default NULL,
+  `VAT_RETURN` bigint(20) default NULL,
+  `TAX_RATE_CALCULATION_ID` bigint(20) default NULL,
+  `VRC` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK559C0BFE84D8B222` (`TAX_RATE_CALCULATION_ID`),
   KEY `FK559C0BFE6EF42FDA` (`VAT_RETURN`),
   KEY `FK559C0BFE941A7BBF` (`VAT_RETURN_BOX_ID`),
@@ -2566,177 +3114,243 @@ CREATE TABLE `TAX_RATE_CALCULATION` (
   KEY `FK559C0BFE5A7F706C` (`TAX_ITEM_ID`),
   KEY `FK559C0BFEFA01503A` (`SALES_LIABILITY_ACCOUNT_ID`),
   KEY `FK559C0BFE1A90F65` (`PURCHASE_LIABILITY_ACCOUNT_ID`),
-  CONSTRAINT `FK559C0BFE1A90F65` FOREIGN KEY (`PURCHASE_LIABILITY_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK559C0BFE5A7F706C` FOREIGN KEY (`TAX_ITEM_ID`) REFERENCES `TAX_ITEM` (`id`),
-  CONSTRAINT `FK559C0BFE6EF42FDA` FOREIGN KEY (`VAT_RETURN`) REFERENCES `VAT_RETURN` (`id`),
-  CONSTRAINT `FK559C0BFE78F5DB52` FOREIGN KEY (`TRANSACTION_ITEM_ID`) REFERENCES `TRANSACTION_ITEM` (`ID`),
-  CONSTRAINT `FK559C0BFE84D8B222` FOREIGN KEY (`TAX_RATE_CALCULATION_ID`) REFERENCES `BOX` (`ID`),
-  CONSTRAINT `FK559C0BFE941A7BBF` FOREIGN KEY (`VAT_RETURN_BOX_ID`) REFERENCES `VATRETURNBOX` (`ID`),
-  CONSTRAINT `FK559C0BFEC368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `TAXAGENCY` (`id`),
-  CONSTRAINT `FK559C0BFEFA01503A` FOREIGN KEY (`SALES_LIABILITY_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK559C0BFE1A90F65` FOREIGN KEY (`PURCHASE_LIABILITY_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK559C0BFE5A7F706C` FOREIGN KEY (`TAX_ITEM_ID`) REFERENCES `tax_item` (`ID`),
+  CONSTRAINT `FK559C0BFE6EF42FDA` FOREIGN KEY (`VAT_RETURN`) REFERENCES `vat_return` (`ID`),
+  CONSTRAINT `FK559C0BFE78F5DB52` FOREIGN KEY (`TRANSACTION_ITEM_ID`) REFERENCES `transaction_item` (`ID`),
+  CONSTRAINT `FK559C0BFE84D8B222` FOREIGN KEY (`TAX_RATE_CALCULATION_ID`) REFERENCES `box` (`ID`),
+  CONSTRAINT `FK559C0BFE941A7BBF` FOREIGN KEY (`VAT_RETURN_BOX_ID`) REFERENCES `vatreturnbox` (`ID`),
+  CONSTRAINT `FK559C0BFEC368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `taxagency` (`ID`),
+  CONSTRAINT `FK559C0BFEFA01503A` FOREIGN KEY (`SALES_LIABILITY_ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `TRANSACTION`
---
-
-DROP TABLE IF EXISTS `TRANSACTION`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `T_DATE` bigint(20) DEFAULT NULL,
-  `T_TYPE` int(11) DEFAULT NULL,
-  `NUMBER` varchar(255) DEFAULT NULL,
-  `IS_VOID` bit(1) DEFAULT NULL,
-  `PAYMENT_METHOD` varchar(255) DEFAULT NULL,
-  `MEMO` varchar(255) DEFAULT NULL,
-  `REFERENCE` varchar(255) DEFAULT NULL,
-  `SUB_TOTAL` double DEFAULT NULL,
-  `TOTAL_TAXABLE_AMOUNT` double DEFAULT NULL,
-  `TOTAL_NON_TAXABLE_AMOUNT` double DEFAULT NULL,
-  `AMOUNTS_INCLUDE_VAT` bit(1) DEFAULT NULL,
-  `STATUS` int(11) DEFAULT NULL,
-  `CAN_VOID_OR_EDIT` bit(1) DEFAULT NULL,
-  `IS_DEPOSITED` bit(1) DEFAULT NULL,
-  `TOTAL` double DEFAULT NULL,
-  `NET_AMOUNT` double DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `CREDITS_AND_PAYMENTS_ID` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  `TRANSACTION_MAKE_DEPOSIT_ENTRY_ID` bigint(20) DEFAULT NULL,
-  `FIXED_ASSET_ID` bigint(20) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FKFFF466BEAC60FBCF` (`CREDITS_AND_PAYMENTS_ID`),
-  KEY `FKFFF466BE7AB4E4D2` (`TRANSACTION_MAKE_DEPOSIT_ENTRY_ID`),
-  KEY `FKFFF466BE33118956` (`FIXED_ASSET_ID`),
-  CONSTRAINT `FKFFF466BE33118956` FOREIGN KEY (`FIXED_ASSET_ID`) REFERENCES `FIXED_ASSET` (`ID`),
-  CONSTRAINT `FKFFF466BE7AB4E4D2` FOREIGN KEY (`TRANSACTION_MAKE_DEPOSIT_ENTRY_ID`) REFERENCES `TRANSACTION_MAKE_DEPOSIT_ENTRIES` (`ID`),
-  CONSTRAINT `FKFFF466BEAC60FBCF` FOREIGN KEY (`CREDITS_AND_PAYMENTS_ID`) REFERENCES `CREDITS_AND_PAYMENTS` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `TRANSACTION_CREDITS_AND_PAYMENTS`
---
-
-DROP TABLE IF EXISTS `TRANSACTION_CREDITS_AND_PAYMENTS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_CREDITS_AND_PAYMENTS` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `DATE` bigint(20) DEFAULT NULL,
-  `MEMO` varchar(255) DEFAULT NULL,
-  `AMOUNT_TO_USE` double DEFAULT NULL,
-  `TRANSACTION_RECEIVE_PAYMENT_ID` bigint(20) DEFAULT NULL,
-  `TRANSACTION_PAYBILL_ID` bigint(20) DEFAULT NULL,
-  `CREDITS_AND_PAYMENTS_ID` bigint(20) DEFAULT NULL,
-  `IS_VOID` bit(1) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT '0',
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK3D29E73BAC60FBCF` (`CREDITS_AND_PAYMENTS_ID`),
-  KEY `FK3D29E73B8D37ED0D` (`TRANSACTION_RECEIVE_PAYMENT_ID`),
-  KEY `FK3D29E73B33659A02` (`TRANSACTION_PAYBILL_ID`),
-  CONSTRAINT `FK3D29E73B33659A02` FOREIGN KEY (`TRANSACTION_PAYBILL_ID`) REFERENCES `TRANSACTION_PAYBILL` (`ID`),
-  CONSTRAINT `FK3D29E73B8D37ED0D` FOREIGN KEY (`TRANSACTION_RECEIVE_PAYMENT_ID`) REFERENCES `TRANSACTION_RECEIVE_PAYMENT` (`ID`),
-  CONSTRAINT `FK3D29E73BAC60FBCF` FOREIGN KEY (`CREDITS_AND_PAYMENTS_ID`) REFERENCES `CREDITS_AND_PAYMENTS` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `TRANSACTION_EXPENSE`
---
-
-DROP TABLE IF EXISTS `TRANSACTION_EXPENSE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_EXPENSE` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `TYPE` int(11) DEFAULT NULL,
-  `ITEM_ID` bigint(20) DEFAULT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `QUANTITY` double DEFAULT NULL,
-  `UNIT_PRICE` double DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `EXPENSE_ID` bigint(20) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK8448C3B71E282CDF` (`ITEM_ID`),
-  KEY `FK8448C3B729FC095` (`EXPENSE_ID`),
-  KEY `FK8448C3B7E5FCF475` (`ACCOUNT_ID`),
-  CONSTRAINT `FK8448C3B7E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK8448C3B71E282CDF` FOREIGN KEY (`ITEM_ID`) REFERENCES `ITEM` (`ID`),
-  CONSTRAINT `FK8448C3B729FC095` FOREIGN KEY (`EXPENSE_ID`) REFERENCES `EXPENSE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Temporary table structure for view `TRANSACTION_HISTORY_VIEW`
---
-
-DROP TABLE IF EXISTS `TRANSACTION_HISTORY_VIEW`;
-/*!50001 DROP VIEW IF EXISTS `TRANSACTION_HISTORY_VIEW`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `TRANSACTION_HISTORY_VIEW` (
-  `TRANSACTION_ID` varchar(255),
-  `CUSTOMER_ID` bigint(20),
-  `VENDOR_ID` bigint(20),
-  `NAME` varchar(255),
-  `Type` int(11),
-  `DATE` bigint(20),
-  `NUMBER` varchar(255),
-  `INVOICED_OR_TRANSASCTION_AMOUNT` double,
-  `PAID_AMOUNT` double,
-  `DEBIT` double,
-  `CREDIT` double,
-  `DISCOUNT` double,
-  `DUE_DATE` bigint(20),
-  `PAYMENT_TERMS` varchar(255),
-  `VOID` bit(1),
-  `REFERENCE` varchar(255),
-  `MEMO` varchar(255),
-  `WRITE_OFF` double,
-  `PAYMENT_STATUS` int(11)
-) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TRANSACTION_ISSUE_PAYMENT`
+-- Dumping data for table `tax_rate_calculation`
 --
 
-DROP TABLE IF EXISTS `TRANSACTION_ISSUE_PAYMENT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_ISSUE_PAYMENT` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `DATE` bigint(20) DEFAULT NULL,
-  `WRITE_CHECK_ID` bigint(20) DEFAULT NULL,
-  `CUSTOMER_REFUND_ID` bigint(20) DEFAULT NULL,
-  `PAYBILL_ID` bigint(20) DEFAULT NULL,
-  `CREDIT_CARD_CHARGE_ID` bigint(20) DEFAULT NULL,
-  `CASH_PURCHASE_ID` bigint(20) DEFAULT NULL,
-  `PAY_SALES_TAX_ID` bigint(20) DEFAULT NULL,
-  `NUMBER` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `MEMO` varchar(255) DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `tax_rate_calculation` WRITE;
+/*!40000 ALTER TABLE `tax_rate_calculation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tax_rate_calculation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `taxagency`
+--
+
+DROP TABLE IF EXISTS `taxagency`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `taxagency` (
+  `ID` bigint(20) NOT NULL,
+  `PAYMENT_TERM` bigint(20) default NULL,
+  `SALES_ACCOUNT_ID` bigint(20) default NULL,
+  `PURCHASE_ACCOUNT_ID` bigint(20) default NULL,
+  `VAT_RETURN` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKA8B93F50610348FE` (`ID`),
+  KEY `FKA8B93F505F952188` (`SALES_ACCOUNT_ID`),
+  KEY `FKA8B93F50633ECA73` (`PURCHASE_ACCOUNT_ID`),
+  KEY `FKA8B93F5011D2BD2B` (`PAYMENT_TERM`),
+  CONSTRAINT `FKA8B93F5011D2BD2B` FOREIGN KEY (`PAYMENT_TERM`) REFERENCES `paymentterms` (`ID`),
+  CONSTRAINT `FKA8B93F505F952188` FOREIGN KEY (`SALES_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FKA8B93F50610348FE` FOREIGN KEY (`ID`) REFERENCES `payee` (`ID`),
+  CONSTRAINT `FKA8B93F50633ECA73` FOREIGN KEY (`PURCHASE_ACCOUNT_ID`) REFERENCES `account` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `taxagency`
+--
+
+LOCK TABLES `taxagency` WRITE;
+/*!40000 ALTER TABLE `taxagency` DISABLE KEYS */;
+/*!40000 ALTER TABLE `taxagency` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `taxrates`
+--
+
+DROP TABLE IF EXISTS `taxrates`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `taxrates` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `RATE` double default NULL,
+  `AS_OF` bigint(20) default NULL,
+  `VERSION` int(11) default NULL,
+  PRIMARY KEY  (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `taxrates`
+--
+
+LOCK TABLES `taxrates` WRITE;
+/*!40000 ALTER TABLE `taxrates` DISABLE KEYS */;
+/*!40000 ALTER TABLE `taxrates` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction`
+--
+
+DROP TABLE IF EXISTS `transaction`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `VERSION` int(11) default NULL,
+  `T_DATE` bigint(20) default NULL,
+  `T_TYPE` int(11) default NULL,
+  `NUMBER` varchar(255) default NULL,
+  `IS_VOID` bit(1) default NULL,
+  `PAYMENT_METHOD` varchar(255) default NULL,
+  `MEMO` varchar(255) default NULL,
+  `REFERENCE` varchar(255) default NULL,
+  `SUB_TOTAL` double default NULL,
+  `TOTAL_TAXABLE_AMOUNT` double default NULL,
+  `TOTAL_NON_TAXABLE_AMOUNT` double default NULL,
+  `AMOUNTS_INCLUDE_VAT` bit(1) default NULL,
+  `STATUS` int(11) default NULL,
+  `CAN_VOID_OR_EDIT` bit(1) default NULL,
+  `IS_DEPOSITED` bit(1) default NULL,
+  `TOTAL` double default NULL,
+  `NET_AMOUNT` double default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` bigint(20) default NULL,
+  `LAST_MODIFIED_DATE` bigint(20) default NULL,
+  `CURRENCY_CODE` varchar(255) default NULL,
+  `CURRENCY_FACTOR` double default NULL,
+  `CREDITS_AND_PAYMENTS_ID` bigint(20) default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  `TRANSACTION_MAKE_DEPOSIT_ENTRY_ID` bigint(20) default NULL,
+  `FIXED_ASSET_ID` bigint(20) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKFFF466BEAC60FBCF` (`CREDITS_AND_PAYMENTS_ID`),
+  KEY `FKFFF466BE7AB4E4D2` (`TRANSACTION_MAKE_DEPOSIT_ENTRY_ID`),
+  KEY `FKFFF466BEF1AE8CDE` (`CREATED_BY`),
+  KEY `FKFFF466BE33118956` (`FIXED_ASSET_ID`),
+  KEY `FKFFF466BE9E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FKFFF466BE33118956` FOREIGN KEY (`FIXED_ASSET_ID`) REFERENCES `fixed_asset` (`ID`),
+  CONSTRAINT `FKFFF466BE7AB4E4D2` FOREIGN KEY (`TRANSACTION_MAKE_DEPOSIT_ENTRY_ID`) REFERENCES `transaction_make_deposit_entries` (`ID`),
+  CONSTRAINT `FKFFF466BE9E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FKFFF466BEAC60FBCF` FOREIGN KEY (`CREDITS_AND_PAYMENTS_ID`) REFERENCES `credits_and_payments` (`ID`),
+  CONSTRAINT `FKFFF466BEF1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `transaction`
+--
+
+LOCK TABLES `transaction` WRITE;
+/*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_credits_and_payments`
+--
+
+DROP TABLE IF EXISTS `transaction_credits_and_payments`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_credits_and_payments` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `DATE` bigint(20) default NULL,
+  `MEMO` varchar(255) default NULL,
+  `AMOUNT_TO_USE` double default NULL,
+  `TRANSACTION_RECEIVE_PAYMENT_ID` bigint(20) default NULL,
+  `TRANSACTION_PAYBILL_ID` bigint(20) default NULL,
+  `CREDITS_AND_PAYMENTS_ID` bigint(20) default NULL,
+  `IS_VOID` bit(1) default NULL,
+  `VERSION` int(11) default '0',
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK3D29E73BAC60FBCF` (`CREDITS_AND_PAYMENTS_ID`),
+  KEY `FK3D29E73B8D37ED0D` (`TRANSACTION_RECEIVE_PAYMENT_ID`),
+  KEY `FK3D29E73B33659A02` (`TRANSACTION_PAYBILL_ID`),
+  CONSTRAINT `FK3D29E73B33659A02` FOREIGN KEY (`TRANSACTION_PAYBILL_ID`) REFERENCES `transaction_paybill` (`ID`),
+  CONSTRAINT `FK3D29E73B8D37ED0D` FOREIGN KEY (`TRANSACTION_RECEIVE_PAYMENT_ID`) REFERENCES `transaction_receive_payment` (`ID`),
+  CONSTRAINT `FK3D29E73BAC60FBCF` FOREIGN KEY (`CREDITS_AND_PAYMENTS_ID`) REFERENCES `credits_and_payments` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `transaction_credits_and_payments`
+--
+
+LOCK TABLES `transaction_credits_and_payments` WRITE;
+/*!40000 ALTER TABLE `transaction_credits_and_payments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_credits_and_payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_expense`
+--
+
+DROP TABLE IF EXISTS `transaction_expense`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_expense` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TYPE` int(11) default NULL,
+  `ITEM_ID` bigint(20) default NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  `DESCRIPTION` varchar(255) default NULL,
+  `QUANTITY` double default NULL,
+  `UNIT_PRICE` double default NULL,
+  `AMOUNT` double default NULL,
+  `EXPENSE_ID` bigint(20) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK8448C3B71E282CDF` (`ITEM_ID`),
+  KEY `FK8448C3B729FC095` (`EXPENSE_ID`),
+  KEY `FK8448C3B7E5FCF475` (`ACCOUNT_ID`),
+  CONSTRAINT `FK8448C3B71E282CDF` FOREIGN KEY (`ITEM_ID`) REFERENCES `item` (`ID`),
+  CONSTRAINT `FK8448C3B729FC095` FOREIGN KEY (`EXPENSE_ID`) REFERENCES `expense` (`ID`),
+  CONSTRAINT `FK8448C3B7E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `transaction_expense`
+--
+
+LOCK TABLES `transaction_expense` WRITE;
+/*!40000 ALTER TABLE `transaction_expense` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_expense` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_issue_payment`
+--
+
+DROP TABLE IF EXISTS `transaction_issue_payment`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_issue_payment` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `DATE` bigint(20) default NULL,
+  `WRITE_CHECK_ID` bigint(20) default NULL,
+  `CUSTOMER_REFUND_ID` bigint(20) default NULL,
+  `PAYBILL_ID` bigint(20) default NULL,
+  `CREDIT_CARD_CHARGE_ID` bigint(20) default NULL,
+  `CASH_PURCHASE_ID` bigint(20) default NULL,
+  `PAY_SALES_TAX_ID` bigint(20) default NULL,
+  `NUMBER` varchar(255) default NULL,
+  `NAME` varchar(255) default NULL,
+  `MEMO` varchar(255) default NULL,
+  `AMOUNT` double default NULL,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `VERSION` int(11) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK56D7E09FB5E824C0` (`WRITE_CHECK_ID`),
   KEY `FK56D7E09FBAAE8A66` (`CASH_PURCHASE_ID`),
   KEY `FK56D7E09FA45E105F` (`CREDIT_CARD_CHARGE_ID`),
@@ -2745,99 +3359,114 @@ CREATE TABLE `TRANSACTION_ISSUE_PAYMENT` (
   KEY `FK56D7E09F63880555` (`TRANSACTION_ID`),
   KEY `FK56D7E09F6C246F1B` (`PAY_SALES_TAX_ID`),
   KEY `FK56D7E09F66E25EDC` (`CUSTOMER_REFUND_ID`),
-  CONSTRAINT `FK56D7E09F66E25EDC` FOREIGN KEY (`CUSTOMER_REFUND_ID`) REFERENCES `CUSTOMER_REFUND` (`id`),
-  CONSTRAINT `FK56D7E09F44F7980E` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `ISSUEPAYMENT` (`id`),
-  CONSTRAINT `FK56D7E09F4E05C155` FOREIGN KEY (`PAYBILL_ID`) REFERENCES `PAY_BILL` (`id`),
-  CONSTRAINT `FK56D7E09F63880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK56D7E09F6C246F1B` FOREIGN KEY (`PAY_SALES_TAX_ID`) REFERENCES `PAY_SALES_TAX` (`id`),
-  CONSTRAINT `FK56D7E09FA45E105F` FOREIGN KEY (`CREDIT_CARD_CHARGE_ID`) REFERENCES `CREDIT_CARD_CHARGES` (`id`),
-  CONSTRAINT `FK56D7E09FB5E824C0` FOREIGN KEY (`WRITE_CHECK_ID`) REFERENCES `WRITE_CHECKS` (`id`),
-  CONSTRAINT `FK56D7E09FBAAE8A66` FOREIGN KEY (`CASH_PURCHASE_ID`) REFERENCES `CASH_PURCHASE` (`id`)
+  CONSTRAINT `FK56D7E09F44F7980E` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `issuepayment` (`ID`),
+  CONSTRAINT `FK56D7E09F4E05C155` FOREIGN KEY (`PAYBILL_ID`) REFERENCES `pay_bill` (`ID`),
+  CONSTRAINT `FK56D7E09F63880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK56D7E09F66E25EDC` FOREIGN KEY (`CUSTOMER_REFUND_ID`) REFERENCES `customer_refund` (`ID`),
+  CONSTRAINT `FK56D7E09F6C246F1B` FOREIGN KEY (`PAY_SALES_TAX_ID`) REFERENCES `pay_sales_tax` (`ID`),
+  CONSTRAINT `FK56D7E09FA45E105F` FOREIGN KEY (`CREDIT_CARD_CHARGE_ID`) REFERENCES `credit_card_charges` (`ID`),
+  CONSTRAINT `FK56D7E09FB5E824C0` FOREIGN KEY (`WRITE_CHECK_ID`) REFERENCES `write_checks` (`ID`),
+  CONSTRAINT `FK56D7E09FBAAE8A66` FOREIGN KEY (`CASH_PURCHASE_ID`) REFERENCES `cash_purchase` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TRANSACTION_ITEM`
+-- Dumping data for table `transaction_issue_payment`
 --
 
-DROP TABLE IF EXISTS `TRANSACTION_ITEM`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_ITEM` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `TYPE` int(11) DEFAULT NULL,
-  `ITEM_ID` bigint(20) DEFAULT NULL,
-  `TAXITEM_ID` bigint(20) DEFAULT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `TAX_CODE` bigint(20) DEFAULT NULL,
-  `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `QUANTITY` int(11) DEFAULT NULL,
-  `UNIT_PRICE` double DEFAULT NULL,
-  `DISCOUNT` double DEFAULT NULL,
-  `LINE_TOTAL` double DEFAULT NULL,
-  `IS_TAXABLE` bit(1) DEFAULT NULL,
-  `TAXGROUP_ID` bigint(20) DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `VAT_FRACTION` double DEFAULT NULL,
-  `INVOICED` double DEFAULT NULL,
-  `BACK_ORDER` double DEFAULT NULL,
-  `REFERRING_TRANSACTION_ITEM_ID` bigint(20) DEFAULT NULL,
-  `IS_VOID` bit(1) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `transaction_issue_payment` WRITE;
+/*!40000 ALTER TABLE `transaction_issue_payment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_issue_payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_item`
+--
+
+DROP TABLE IF EXISTS `transaction_item`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_item` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `VERSION` int(11) default NULL,
+  `TYPE` int(11) default NULL,
+  `ITEM_ID` bigint(20) default NULL,
+  `TAXITEM_ID` bigint(20) default NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  `TAX_CODE` bigint(20) default NULL,
+  `DESCRIPTION` varchar(255) default NULL,
+  `QTY_VALUE` double default NULL,
+  `QTY_UNIT` bigint(20) default NULL,
+  `UNIT_PRICE` double default NULL,
+  `DISCOUNT` double default NULL,
+  `LINE_TOTAL` double default NULL,
+  `IS_TAXABLE` bit(1) default NULL,
+  `TAXGROUP_ID` bigint(20) default NULL,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `VAT_FRACTION` double default NULL,
+  `INVOICED` double default NULL,
+  `BACK_ORDER` double default NULL,
+  `REFERRING_TRANSACTION_ITEM_ID` bigint(20) default NULL,
+  `IS_VOID` bit(1) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK30714BF4CAA74743` (`REFERRING_TRANSACTION_ITEM_ID`),
   KEY `FK30714BF4B7B51814` (`TAX_CODE`),
   KEY `FK30714BF41E282CDF` (`ITEM_ID`),
   KEY `FK30714BF4E5DBA69F` (`TAXGROUP_ID`),
+  KEY `FK30714BF446AE6EF6` (`QTY_UNIT`),
   KEY `FK30714BF4E5FCF475` (`ACCOUNT_ID`),
   KEY `FK30714BF463880555` (`TRANSACTION_ID`),
   KEY `FK30714BF4D7293EF5` (`TAXITEM_ID`),
-  CONSTRAINT `FK30714BF4D7293EF5` FOREIGN KEY (`TAXITEM_ID`) REFERENCES `TAX_ITEM` (`id`),
-  CONSTRAINT `FK30714BF41E282CDF` FOREIGN KEY (`ITEM_ID`) REFERENCES `ITEM` (`ID`),
-  CONSTRAINT `FK30714BF463880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK30714BF4B7B51814` FOREIGN KEY (`TAX_CODE`) REFERENCES `TAX_CODE` (`ID`),
-  CONSTRAINT `FK30714BF4CAA74743` FOREIGN KEY (`REFERRING_TRANSACTION_ITEM_ID`) REFERENCES `TRANSACTION_ITEM` (`ID`),
-  CONSTRAINT `FK30714BF4E5DBA69F` FOREIGN KEY (`TAXGROUP_ID`) REFERENCES `TAX_GROUP` (`id`),
-  CONSTRAINT `FK30714BF4E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK30714BF41E282CDF` FOREIGN KEY (`ITEM_ID`) REFERENCES `item` (`ID`),
+  CONSTRAINT `FK30714BF446AE6EF6` FOREIGN KEY (`QTY_UNIT`) REFERENCES `unit` (`ID`),
+  CONSTRAINT `FK30714BF463880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK30714BF4B7B51814` FOREIGN KEY (`TAX_CODE`) REFERENCES `tax_code` (`ID`),
+  CONSTRAINT `FK30714BF4CAA74743` FOREIGN KEY (`REFERRING_TRANSACTION_ITEM_ID`) REFERENCES `transaction_item` (`ID`),
+  CONSTRAINT `FK30714BF4D7293EF5` FOREIGN KEY (`TAXITEM_ID`) REFERENCES `tax_item` (`ID`),
+  CONSTRAINT `FK30714BF4E5DBA69F` FOREIGN KEY (`TAXGROUP_ID`) REFERENCES `tax_group` (`ID`),
+  CONSTRAINT `FK30714BF4E5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TRANSACTION_MAKE_DEPOSIT`
+-- Dumping data for table `transaction_item`
 --
 
-DROP TABLE IF EXISTS `TRANSACTION_MAKE_DEPOSIT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_MAKE_DEPOSIT` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `DATE` bigint(20) DEFAULT NULL,
-  `TYPE` int(11) DEFAULT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `VENDOR_ID` bigint(20) DEFAULT NULL,
-  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
-  `REFERENCE` varchar(255) DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `IS_NEW_ENTRY` bit(1) DEFAULT NULL,
-  `CASH_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `MAKE_DEPOSIT_ID` bigint(20) DEFAULT NULL,
-  `PAYMENTS` double DEFAULT NULL,
-  `BALANCE_DUE` double DEFAULT NULL,
-  `DEPOSITED_TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `NUMBER` varchar(255) DEFAULT NULL,
-  `IS_VOID` bit(1) DEFAULT NULL,
-  `CREDITS_AND_PAYMENTS_ID` bigint(20) DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `transaction_item` WRITE;
+/*!40000 ALTER TABLE `transaction_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_make_deposit`
+--
+
+DROP TABLE IF EXISTS `transaction_make_deposit`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_make_deposit` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `VERSION` int(11) default NULL,
+  `DATE` bigint(20) default NULL,
+  `TYPE` int(11) default NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  `VENDOR_ID` bigint(20) default NULL,
+  `CUSTOMER_ID` bigint(20) default NULL,
+  `REFERENCE` varchar(255) default NULL,
+  `AMOUNT` double default NULL,
+  `IS_NEW_ENTRY` bit(1) default NULL,
+  `CASH_ACCOUNT_ID` bigint(20) default NULL,
+  `MAKE_DEPOSIT_ID` bigint(20) default NULL,
+  `PAYMENTS` double default NULL,
+  `BALANCE_DUE` double default NULL,
+  `DEPOSITED_TRANSACTION_ID` bigint(20) default NULL,
+  `NUMBER` varchar(255) default NULL,
+  `IS_VOID` bit(1) default NULL,
+  `CREDITS_AND_PAYMENTS_ID` bigint(20) default NULL,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FKCA94E10EC0C5E101` (`CASH_ACCOUNT_ID`),
   KEY `FKCA94E10EAC60FBCF` (`CREDITS_AND_PAYMENTS_ID`),
   KEY `FKCA94E10E891A177F` (`VENDOR_ID`),
@@ -2846,658 +3475,765 @@ CREATE TABLE `TRANSACTION_MAKE_DEPOSIT` (
   KEY `FKCA94E10EE5FCF475` (`ACCOUNT_ID`),
   KEY `FKCA94E10E8D6BF347` (`TRANSACTION_ID`),
   KEY `FKCA94E10EDFE06A7F` (`CUSTOMER_ID`),
-  CONSTRAINT `FKCA94E10EDFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `CUSTOMER` (`id`),
-  CONSTRAINT `FKCA94E10E2DA4EE17` FOREIGN KEY (`DEPOSITED_TRANSACTION_ID`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FKCA94E10E3BA00678` FOREIGN KEY (`MAKE_DEPOSIT_ID`) REFERENCES `MAKE_DEPOSIT` (`id`),
-  CONSTRAINT `FKCA94E10E891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `VENDOR` (`id`),
-  CONSTRAINT `FKCA94E10E8D6BF347` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `MAKE_DEPOSIT` (`id`),
-  CONSTRAINT `FKCA94E10EAC60FBCF` FOREIGN KEY (`CREDITS_AND_PAYMENTS_ID`) REFERENCES `CREDITS_AND_PAYMENTS` (`ID`),
-  CONSTRAINT `FKCA94E10EC0C5E101` FOREIGN KEY (`CASH_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FKCA94E10EE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FKCA94E10E2DA4EE17` FOREIGN KEY (`DEPOSITED_TRANSACTION_ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKCA94E10E3BA00678` FOREIGN KEY (`MAKE_DEPOSIT_ID`) REFERENCES `make_deposit` (`ID`),
+  CONSTRAINT `FKCA94E10E891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `vendor` (`ID`),
+  CONSTRAINT `FKCA94E10E8D6BF347` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `make_deposit` (`ID`),
+  CONSTRAINT `FKCA94E10EAC60FBCF` FOREIGN KEY (`CREDITS_AND_PAYMENTS_ID`) REFERENCES `credits_and_payments` (`ID`),
+  CONSTRAINT `FKCA94E10EC0C5E101` FOREIGN KEY (`CASH_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FKCA94E10EDFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`),
+  CONSTRAINT `FKCA94E10EE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TRANSACTION_MAKE_DEPOSIT_ENTRIES`
+-- Dumping data for table `transaction_make_deposit`
 --
 
-DROP TABLE IF EXISTS `TRANSACTION_MAKE_DEPOSIT_ENTRIES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_MAKE_DEPOSIT_ENTRIES` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `TYPE` int(11) DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `BALANCE` double DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `transaction_make_deposit` WRITE;
+/*!40000 ALTER TABLE `transaction_make_deposit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_make_deposit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_make_deposit_entries`
+--
+
+DROP TABLE IF EXISTS `transaction_make_deposit_entries`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_make_deposit_entries` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TYPE` int(11) default NULL,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  `AMOUNT` double default NULL,
+  `BALANCE` double default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK905FAA3FE5FCF475` (`ACCOUNT_ID`),
   KEY `FK905FAA3F63880555` (`TRANSACTION_ID`),
-  CONSTRAINT `FK905FAA3F63880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK905FAA3FE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK905FAA3F63880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK905FAA3FE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TRANSACTION_PAYBILL`
+-- Dumping data for table `transaction_make_deposit_entries`
 --
 
-DROP TABLE IF EXISTS `TRANSACTION_PAYBILL`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_PAYBILL` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `DUE_DATE` bigint(20) DEFAULT NULL,
-  `ENTER_BILL_ID` bigint(20) DEFAULT NULL,
-  `ORIGINAL_AMOUNT` double DEFAULT NULL,
-  `AMOUNT_DUE` double DEFAULT NULL,
-  `DISCOUNT_DATE` bigint(20) DEFAULT NULL,
-  `DISCOUNT_ID` bigint(20) DEFAULT NULL,
-  `CASH_DISCOUNT` double DEFAULT NULL,
-  `APPLIED_CREDITS` double DEFAULT NULL,
-  `PAYMENT` double DEFAULT NULL,
-  `PAYBILL_ID` bigint(20) DEFAULT NULL,
-  `IS_VOID` bit(1) DEFAULT NULL,
-  `TRANSACTION_MAKE_DEPOSIT_ID` bigint(20) DEFAULT NULL,
-  `BILL_NUMBER` varchar(255) DEFAULT NULL,
-  `JOURNAL_ENTRY_ID` bigint(20) DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FKA36B3C0E9DBAA9C3` (`TRANSACTION_MAKE_DEPOSIT_ID`),
-  KEY `FKA36B3C0E4E05C155` (`PAYBILL_ID`),
-  KEY `FKA36B3C0E20610806` (`ENTER_BILL_ID`),
-  KEY `FKA36B3C0EF5E540E1` (`DISCOUNT_ID`),
-  KEY `FKA36B3C0E69504CC6` (`TRANSACTION_ID`),
-  KEY `FKA36B3C0E408F6290` (`JOURNAL_ENTRY_ID`),
-  CONSTRAINT `FKA36B3C0E408F6290` FOREIGN KEY (`JOURNAL_ENTRY_ID`) REFERENCES `JOURNAL_ENTRY` (`id`),
-  CONSTRAINT `FKA36B3C0E20610806` FOREIGN KEY (`ENTER_BILL_ID`) REFERENCES `ENTER_BILL` (`id`),
-  CONSTRAINT `FKA36B3C0E4E05C155` FOREIGN KEY (`PAYBILL_ID`) REFERENCES `PAY_BILL` (`id`),
-  CONSTRAINT `FKA36B3C0E69504CC6` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `PAY_BILL` (`id`),
-  CONSTRAINT `FKA36B3C0E9DBAA9C3` FOREIGN KEY (`TRANSACTION_MAKE_DEPOSIT_ID`) REFERENCES `TRANSACTION_MAKE_DEPOSIT` (`ID`),
-  CONSTRAINT `FKA36B3C0EF5E540E1` FOREIGN KEY (`DISCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `transaction_make_deposit_entries` WRITE;
+/*!40000 ALTER TABLE `transaction_make_deposit_entries` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_make_deposit_entries` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `TRANSACTION_PAY_EXPENSE`
+-- Table structure for table `transaction_pay_expense`
 --
 
-DROP TABLE IF EXISTS `TRANSACTION_PAY_EXPENSE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_PAY_EXPENSE` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `EXPENSE_ID` bigint(20) DEFAULT NULL,
-  `PAYMENT` double DEFAULT NULL,
-  `PAY_EXPENSE_ID` bigint(20) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+DROP TABLE IF EXISTS `transaction_pay_expense`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_pay_expense` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `EXPENSE_ID` bigint(20) default NULL,
+  `PAYMENT` double default NULL,
+  `PAY_EXPENSE_ID` bigint(20) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK49EEBF808D47192E` (`PAY_EXPENSE_ID`),
   KEY `FK49EEBF8029FC095` (`EXPENSE_ID`),
-  CONSTRAINT `FK49EEBF8029FC095` FOREIGN KEY (`EXPENSE_ID`) REFERENCES `EXPENSE` (`id`),
-  CONSTRAINT `FK49EEBF808D47192E` FOREIGN KEY (`PAY_EXPENSE_ID`) REFERENCES `PAY_EXPENSE` (`id`)
+  CONSTRAINT `FK49EEBF8029FC095` FOREIGN KEY (`EXPENSE_ID`) REFERENCES `expense` (`ID`),
+  CONSTRAINT `FK49EEBF808D47192E` FOREIGN KEY (`PAY_EXPENSE_ID`) REFERENCES `pay_expense` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TRANSACTION_PAY_SALES_TAX`
+-- Dumping data for table `transaction_pay_expense`
 --
 
-DROP TABLE IF EXISTS `TRANSACTION_PAY_SALES_TAX`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_PAY_SALES_TAX` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `TAX_AGENCY_ID` bigint(20) DEFAULT NULL,
-  `TAX_ITEM_ID` bigint(20) DEFAULT NULL,
-  `AMOUNT_TO_PAY` double DEFAULT NULL,
-  `TAX_DUE` double DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `TRANSACTION_PAYSALES_TAX_ID` bigint(20) DEFAULT NULL,
-  `LIABILITY_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `transaction_pay_expense` WRITE;
+/*!40000 ALTER TABLE `transaction_pay_expense` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_pay_expense` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_pay_sales_tax`
+--
+
+DROP TABLE IF EXISTS `transaction_pay_sales_tax`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_pay_sales_tax` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TAX_AGENCY_ID` bigint(20) default NULL,
+  `TAX_ITEM_ID` bigint(20) default NULL,
+  `AMOUNT_TO_PAY` double default NULL,
+  `TAX_DUE` double default NULL,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `VERSION` int(11) default NULL,
+  `TRANSACTION_PAYSALES_TAX_ID` bigint(20) default NULL,
+  `LIABILITY_ACCOUNT_ID` bigint(20) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK7C732700C368D6AC` (`TAX_AGENCY_ID`),
   KEY `FK7C7327005A7F706C` (`TAX_ITEM_ID`),
   KEY `FK7C7327005E041EE7` (`LIABILITY_ACCOUNT_ID`),
   KEY `FK7C732700236FF23E` (`TRANSACTION_ID`),
   KEY `FK7C73270063880555` (`TRANSACTION_ID`),
   KEY `FK7C73270024CDC817` (`TRANSACTION_PAYSALES_TAX_ID`),
-  CONSTRAINT `FK7C73270024CDC817` FOREIGN KEY (`TRANSACTION_PAYSALES_TAX_ID`) REFERENCES `PAY_SALES_TAX_ENTRIES` (`ID`),
-  CONSTRAINT `FK7C732700236FF23E` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `PAY_SALES_TAX` (`id`),
-  CONSTRAINT `FK7C7327005A7F706C` FOREIGN KEY (`TAX_ITEM_ID`) REFERENCES `TAX_ITEM` (`id`),
-  CONSTRAINT `FK7C7327005E041EE7` FOREIGN KEY (`LIABILITY_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK7C73270063880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK7C732700C368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `TAXAGENCY` (`id`)
+  CONSTRAINT `FK7C732700236FF23E` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `pay_sales_tax` (`ID`),
+  CONSTRAINT `FK7C73270024CDC817` FOREIGN KEY (`TRANSACTION_PAYSALES_TAX_ID`) REFERENCES `pay_sales_tax_entries` (`ID`),
+  CONSTRAINT `FK7C7327005A7F706C` FOREIGN KEY (`TAX_ITEM_ID`) REFERENCES `tax_item` (`ID`),
+  CONSTRAINT `FK7C7327005E041EE7` FOREIGN KEY (`LIABILITY_ACCOUNT_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK7C73270063880555` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK7C732700C368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `taxagency` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TRANSACTION_PAY_VAT`
+-- Dumping data for table `transaction_pay_sales_tax`
 --
 
-DROP TABLE IF EXISTS `TRANSACTION_PAY_VAT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_PAY_VAT` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `TAX_AGENCY_ID` bigint(20) DEFAULT NULL,
-  `AMOUNT_TO_PAY` double DEFAULT NULL,
-  `TAX_DUE` double DEFAULT NULL,
-  `VAT_RETURN_ID` bigint(20) DEFAULT NULL,
-  `PAY_VAT_ID` bigint(20) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `transaction_pay_sales_tax` WRITE;
+/*!40000 ALTER TABLE `transaction_pay_sales_tax` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_pay_sales_tax` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_pay_vat`
+--
+
+DROP TABLE IF EXISTS `transaction_pay_vat`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_pay_vat` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TAX_AGENCY_ID` bigint(20) default NULL,
+  `AMOUNT_TO_PAY` double default NULL,
+  `TAX_DUE` double default NULL,
+  `VAT_RETURN_ID` bigint(20) default NULL,
+  `PAY_VAT_ID` bigint(20) default NULL,
+  `VERSION` int(11) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FKA3789A51EDBFF5C8` (`VAT_RETURN_ID`),
   KEY `FKA3789A51573AB18E` (`PAY_VAT_ID`),
   KEY `FKA3789A51C368D6AC` (`TAX_AGENCY_ID`),
-  CONSTRAINT `FKA3789A51C368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `TAXAGENCY` (`id`),
-  CONSTRAINT `FKA3789A51573AB18E` FOREIGN KEY (`PAY_VAT_ID`) REFERENCES `PAY_VAT` (`id`),
-  CONSTRAINT `FKA3789A51EDBFF5C8` FOREIGN KEY (`VAT_RETURN_ID`) REFERENCES `VAT_RETURN` (`id`)
+  CONSTRAINT `FKA3789A51573AB18E` FOREIGN KEY (`PAY_VAT_ID`) REFERENCES `pay_vat` (`ID`),
+  CONSTRAINT `FKA3789A51C368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `taxagency` (`ID`),
+  CONSTRAINT `FKA3789A51EDBFF5C8` FOREIGN KEY (`VAT_RETURN_ID`) REFERENCES `vat_return` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TRANSACTION_RECEIVE_PAYMENT`
+-- Dumping data for table `transaction_pay_vat`
 --
 
-DROP TABLE IF EXISTS `TRANSACTION_RECEIVE_PAYMENT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_RECEIVE_PAYMENT` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `DUE_DATE` bigint(20) DEFAULT NULL,
-  `INVOICE_ID` bigint(20) DEFAULT NULL,
-  `INVOICE_AMOUNT` double DEFAULT NULL,
-  `DISCOUNT_DATE` bigint(20) DEFAULT NULL,
-  `DISCOUNT_ID` bigint(20) DEFAULT NULL,
-  `CASH_DISCOUNT` double DEFAULT NULL,
-  `WRITE_OFF_ID` bigint(20) DEFAULT NULL,
-  `WRITE_OFF` double DEFAULT NULL,
-  `APPLIED_CREDITS` double DEFAULT NULL,
-  `PAYMENT` double DEFAULT NULL,
-  `TRANSACTION_ID` bigint(20) DEFAULT NULL,
-  `IS_VOID` bit(1) DEFAULT NULL,
-  `CUSTOMER_REFUND_ID` bigint(20) DEFAULT NULL,
-  `JOURNAL_ENTRY_ID` bigint(20) DEFAULT NULL,
-  `NUMBER` varchar(255) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `transaction_pay_vat` WRITE;
+/*!40000 ALTER TABLE `transaction_pay_vat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_pay_vat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_paybill`
+--
+
+DROP TABLE IF EXISTS `transaction_paybill`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_paybill` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `VERSION` int(11) default NULL,
+  `DUE_DATE` bigint(20) default NULL,
+  `ENTER_BILL_ID` bigint(20) default NULL,
+  `ORIGINAL_AMOUNT` double default NULL,
+  `AMOUNT_DUE` double default NULL,
+  `DISCOUNT_DATE` bigint(20) default NULL,
+  `DISCOUNT_ID` bigint(20) default NULL,
+  `CASH_DISCOUNT` double default NULL,
+  `APPLIED_CREDITS` double default NULL,
+  `PAYMENT` double default NULL,
+  `PAYBILL_ID` bigint(20) default NULL,
+  `IS_VOID` bit(1) default NULL,
+  `TRANSACTION_MAKE_DEPOSIT_ID` bigint(20) default NULL,
+  `BILL_NUMBER` varchar(255) default NULL,
+  `JOURNAL_ENTRY_ID` bigint(20) default NULL,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKA36B3C0E9DBAA9C3` (`TRANSACTION_MAKE_DEPOSIT_ID`),
+  KEY `FKA36B3C0E4E05C155` (`PAYBILL_ID`),
+  KEY `FKA36B3C0E20610806` (`ENTER_BILL_ID`),
+  KEY `FKA36B3C0EF5E540E1` (`DISCOUNT_ID`),
+  KEY `FKA36B3C0E69504CC6` (`TRANSACTION_ID`),
+  KEY `FKA36B3C0E408F6290` (`JOURNAL_ENTRY_ID`),
+  CONSTRAINT `FKA36B3C0E20610806` FOREIGN KEY (`ENTER_BILL_ID`) REFERENCES `enter_bill` (`ID`),
+  CONSTRAINT `FKA36B3C0E408F6290` FOREIGN KEY (`JOURNAL_ENTRY_ID`) REFERENCES `journal_entry` (`ID`),
+  CONSTRAINT `FKA36B3C0E4E05C155` FOREIGN KEY (`PAYBILL_ID`) REFERENCES `pay_bill` (`ID`),
+  CONSTRAINT `FKA36B3C0E69504CC6` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `pay_bill` (`ID`),
+  CONSTRAINT `FKA36B3C0E9DBAA9C3` FOREIGN KEY (`TRANSACTION_MAKE_DEPOSIT_ID`) REFERENCES `transaction_make_deposit` (`ID`),
+  CONSTRAINT `FKA36B3C0EF5E540E1` FOREIGN KEY (`DISCOUNT_ID`) REFERENCES `account` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `transaction_paybill`
+--
+
+LOCK TABLES `transaction_paybill` WRITE;
+/*!40000 ALTER TABLE `transaction_paybill` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_paybill` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_receive_payment`
+--
+
+DROP TABLE IF EXISTS `transaction_receive_payment`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_receive_payment` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `VERSION` int(11) default NULL,
+  `DUE_DATE` bigint(20) default NULL,
+  `INVOICE_ID` bigint(20) default NULL,
+  `INVOICE_AMOUNT` double default NULL,
+  `DISCOUNT_DATE` bigint(20) default NULL,
+  `DISCOUNT_ID` bigint(20) default NULL,
+  `CASH_DISCOUNT` double default NULL,
+  `WRITE_OFF_ID` bigint(20) default NULL,
+  `WRITE_OFF` double default NULL,
+  `APPLIED_CREDITS` double default NULL,
+  `PAYMENT` double default NULL,
+  `TRANSACTION_ID` bigint(20) default NULL,
+  `IS_VOID` bit(1) default NULL,
+  `CUSTOMER_REFUND_ID` bigint(20) default NULL,
+  `JOURNAL_ENTRY_ID` bigint(20) default NULL,
+  `NUMBER` varchar(255) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK6A470E9B8E9CE53` (`WRITE_OFF_ID`),
   KEY `FK6A470E942D65475` (`INVOICE_ID`),
   KEY `FK6A470E9F5E540E1` (`DISCOUNT_ID`),
   KEY `FK6A470E962AA184` (`TRANSACTION_ID`),
   KEY `FK6A470E9408F6290` (`JOURNAL_ENTRY_ID`),
   KEY `FK6A470E966E25EDC` (`CUSTOMER_REFUND_ID`),
-  CONSTRAINT `FK6A470E966E25EDC` FOREIGN KEY (`CUSTOMER_REFUND_ID`) REFERENCES `CUSTOMER_REFUND` (`id`),
-  CONSTRAINT `FK6A470E9408F6290` FOREIGN KEY (`JOURNAL_ENTRY_ID`) REFERENCES `JOURNAL_ENTRY` (`id`),
-  CONSTRAINT `FK6A470E942D65475` FOREIGN KEY (`INVOICE_ID`) REFERENCES `INVOICE` (`id`),
-  CONSTRAINT `FK6A470E962AA184` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `RECEIVE_PAYMENT` (`id`),
-  CONSTRAINT `FK6A470E9B8E9CE53` FOREIGN KEY (`WRITE_OFF_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK6A470E9F5E540E1` FOREIGN KEY (`DISCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK6A470E9408F6290` FOREIGN KEY (`JOURNAL_ENTRY_ID`) REFERENCES `journal_entry` (`ID`),
+  CONSTRAINT `FK6A470E942D65475` FOREIGN KEY (`INVOICE_ID`) REFERENCES `invoice` (`ID`),
+  CONSTRAINT `FK6A470E962AA184` FOREIGN KEY (`TRANSACTION_ID`) REFERENCES `receive_payment` (`ID`),
+  CONSTRAINT `FK6A470E966E25EDC` FOREIGN KEY (`CUSTOMER_REFUND_ID`) REFERENCES `customer_refund` (`ID`),
+  CONSTRAINT `FK6A470E9B8E9CE53` FOREIGN KEY (`WRITE_OFF_ID`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK6A470E9F5E540E1` FOREIGN KEY (`DISCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TRANSACTION_RECEIVE_VAT`
+-- Dumping data for table `transaction_receive_payment`
 --
 
-DROP TABLE IF EXISTS `TRANSACTION_RECEIVE_VAT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSACTION_RECEIVE_VAT` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `TAX_AGENCY_ID` bigint(20) DEFAULT NULL,
-  `AMOUNT_TO_RECEIVE` double DEFAULT NULL,
-  `TAX_DUE` double DEFAULT NULL,
-  `VAT_RETURN_ID` bigint(20) DEFAULT NULL,
-  `RECEIVE_VAT_ID` bigint(20) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `IDX` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `transaction_receive_payment` WRITE;
+/*!40000 ALTER TABLE `transaction_receive_payment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_receive_payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transaction_receive_vat`
+--
+
+DROP TABLE IF EXISTS `transaction_receive_vat`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transaction_receive_vat` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TAX_AGENCY_ID` bigint(20) default NULL,
+  `AMOUNT_TO_RECEIVE` double default NULL,
+  `TAX_DUE` double default NULL,
+  `VAT_RETURN_ID` bigint(20) default NULL,
+  `RECEIVE_VAT_ID` bigint(20) default NULL,
+  `VERSION` int(11) default NULL,
+  `IDX` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FKC9BDF78CEDBFF5C8` (`VAT_RETURN_ID`),
   KEY `FKC9BDF78CC368D6AC` (`TAX_AGENCY_ID`),
   KEY `FKC9BDF78CB02EEC58` (`RECEIVE_VAT_ID`),
-  CONSTRAINT `FKC9BDF78CB02EEC58` FOREIGN KEY (`RECEIVE_VAT_ID`) REFERENCES `RECEIVE_VAT` (`id`),
-  CONSTRAINT `FKC9BDF78CC368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `TAXAGENCY` (`id`),
-  CONSTRAINT `FKC9BDF78CEDBFF5C8` FOREIGN KEY (`VAT_RETURN_ID`) REFERENCES `VAT_RETURN` (`id`)
+  CONSTRAINT `FKC9BDF78CB02EEC58` FOREIGN KEY (`RECEIVE_VAT_ID`) REFERENCES `receive_vat` (`ID`),
+  CONSTRAINT `FKC9BDF78CC368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `taxagency` (`ID`),
+  CONSTRAINT `FKC9BDF78CEDBFF5C8` FOREIGN KEY (`VAT_RETURN_ID`) REFERENCES `vat_return` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `TRANSFER_FUND`
+-- Dumping data for table `transaction_receive_vat`
 --
 
-DROP TABLE IF EXISTS `TRANSFER_FUND`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TRANSFER_FUND` (
-  `id` bigint(20) NOT NULL,
-  `TRANSFER_FROM` bigint(20) DEFAULT NULL,
-  `TRANSFER_TO` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK43706699274BC854` (`id`),
+LOCK TABLES `transaction_receive_vat` WRITE;
+/*!40000 ALTER TABLE `transaction_receive_vat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaction_receive_vat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transfer_fund`
+--
+
+DROP TABLE IF EXISTS `transfer_fund`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transfer_fund` (
+  `ID` bigint(20) NOT NULL,
+  `TRANSFER_FROM` bigint(20) default NULL,
+  `TRANSFER_TO` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK43706699274BC854` (`ID`),
   KEY `FK437066999E230757` (`TRANSFER_TO`),
   KEY `FK437066999DCE2B86` (`TRANSFER_FROM`),
-  CONSTRAINT `FK437066999DCE2B86` FOREIGN KEY (`TRANSFER_FROM`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK43706699274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FK437066999E230757` FOREIGN KEY (`TRANSFER_TO`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FK43706699274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FK437066999DCE2B86` FOREIGN KEY (`TRANSFER_FROM`) REFERENCES `account` (`ID`),
+  CONSTRAINT `FK437066999E230757` FOREIGN KEY (`TRANSFER_TO`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `UNIT_OF_MEASURE`
+-- Dumping data for table `transfer_fund`
 --
 
-DROP TABLE IF EXISTS `UNIT_OF_MEASURE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `UNIT_OF_MEASURE` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `TYPE` int(11) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `ABBREVIATION` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+LOCK TABLES `transfer_fund` WRITE;
+/*!40000 ALTER TABLE `transfer_fund` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transfer_fund` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `transfer_item`
+--
+
+DROP TABLE IF EXISTS `transfer_item`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `transfer_item` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `ITEM` bigint(20) default NULL,
+  `QTY_VALUE` double default NULL,
+  `QTY_UNIT` bigint(20) default NULL,
+  `MEMO` varchar(255) default NULL,
+  `STOCK_TRANSFER` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK4371BEE7A036EE2B` (`ITEM`),
+  KEY `FK4371BEE746AE6EF6` (`QTY_UNIT`),
+  KEY `FK4371BEE73B3365B0` (`STOCK_TRANSFER`),
+  CONSTRAINT `FK4371BEE73B3365B0` FOREIGN KEY (`STOCK_TRANSFER`) REFERENCES `stock_transfer` (`ID`),
+  CONSTRAINT `FK4371BEE746AE6EF6` FOREIGN KEY (`QTY_UNIT`) REFERENCES `unit` (`ID`),
+  CONSTRAINT `FK4371BEE7A036EE2B` FOREIGN KEY (`ITEM`) REFERENCES `item` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `transfer_item`
+--
+
+LOCK TABLES `transfer_item` WRITE;
+/*!40000 ALTER TABLE `transfer_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transfer_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `unit`
+--
+
+DROP TABLE IF EXISTS `unit`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `unit` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TYPE` varchar(255) default NULL,
+  `FACTOR` double default NULL,
+  `MEASUREMENT` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FK27D1843B9DD132` (`ID`),
+  KEY `FK27D184CF909FD3` (`MEASUREMENT`),
+  CONSTRAINT `FK27D1843B9DD132` FOREIGN KEY (`ID`) REFERENCES `measurement` (`ID`),
+  CONSTRAINT `FK27D184CF909FD3` FOREIGN KEY (`MEASUREMENT`) REFERENCES `measurement` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `unit`
+--
+
+LOCK TABLES `unit` WRITE;
+/*!40000 ALTER TABLE `unit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `unit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `unit_of_measure`
+--
+
+DROP TABLE IF EXISTS `unit_of_measure`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `unit_of_measure` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TYPE` int(11) default NULL,
+  `NAME` varchar(255) NOT NULL,
+  `ABBREVIATION` varchar(255) default NULL,
+  `VERSION` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `USER`
+-- Dumping data for table `unit_of_measure`
 --
 
-DROP TABLE IF EXISTS `USER`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `USER` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `USER_ID` varchar(255) DEFAULT NULL,
-  `FULLNAME` varchar(255) DEFAULT NULL,
-  `DISPALYNAME` varchar(255) DEFAULT NULL,
-  `EMAIL_ID` varchar(255) DEFAULT NULL,
-  `ROLE` varchar(255) DEFAULT NULL,
-  `COMPANY` varchar(255) DEFAULT NULL,
-  `ADDRESS1` varchar(255) DEFAULT NULL,
-  `ADDRESS2` varchar(255) DEFAULT NULL,
-  `CITY` varchar(255) DEFAULT NULL,
-  `PROVINCE` varchar(255) DEFAULT NULL,
-  `COUNTRY` varchar(255) DEFAULT NULL,
-  `ZIPCODE` varchar(255) DEFAULT NULL,
-  `WORKPHONE` varchar(255) DEFAULT NULL,
-  `MOBILE` varchar(255) DEFAULT NULL,
-  `ISLOCKED` bit(1) DEFAULT NULL,
-  `ISEXTERNAL` bit(1) DEFAULT NULL,
-  `DESIGNATION` varchar(255) DEFAULT NULL,
-  `TITLE` varchar(255) DEFAULT NULL,
-  `TOOL_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FK27E3CBC9AB94BD` (`TOOL_ID`),
-  CONSTRAINT `FK27E3CBC9AB94BD` FOREIGN KEY (`TOOL_ID`) REFERENCES `USERSTOOL` (`ID`)
+LOCK TABLES `unit_of_measure` WRITE;
+/*!40000 ALTER TABLE `unit_of_measure` DISABLE KEYS */;
+/*!40000 ALTER TABLE `unit_of_measure` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_permissions`
+--
+
+DROP TABLE IF EXISTS `user_permissions`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `user_permissions` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `TYPE_OF_BANK_RECONCILATION` int(11) default NULL,
+  `TYPE_OF_INVOICES` int(11) default NULL,
+  `TYPE_OF_EXPENCES` int(11) default NULL,
+  `TYPE_OF_SYSTEM_SETTINGS` int(11) default NULL,
+  `TYPE_OF_VIEW_REPORTS` int(11) default NULL,
+  `TYPE_OF_PUBLISH_REPORTS` int(11) default NULL,
+  `TYPE_OF_LOCK_DATES` int(11) default NULL,
+  PRIMARY KEY  (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `USERS`
+-- Dumping data for table `user_permissions`
 --
 
-DROP TABLE IF EXISTS `USERS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `USERS` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `FIRST_NAME` varchar(255) DEFAULT NULL,
-  `LAST_NAME` varchar(255) DEFAULT NULL,
-  `FULL_NAME` varchar(255) DEFAULT NULL,
-  `EMAIL_ID` varchar(255) DEFAULT NULL,
-  `USER_ROLE` varchar(255) DEFAULT NULL,
-  `IS_ACTIVE` bit(1) DEFAULT NULL,
-  `CAN_DO_USER_MANAGEMENT` bit(1) DEFAULT NULL,
-  `LAST_LOGIN` bigint(20) DEFAULT NULL,
+LOCK TABLES `user_permissions` WRITE;
+/*!40000 ALTER TABLE `user_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `users` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `FIRST_NAME` varchar(255) default NULL,
+  `LAST_NAME` varchar(255) default NULL,
+  `FULL_NAME` varchar(255) default NULL,
+  `EMAIL_ID` varchar(255) default NULL,
+  `USER_ROLE` varchar(255) default NULL,
+  `PASSWORD` varchar(255) default NULL,
+  `IS_ACTIVE` bit(1) default NULL,
+  `CAN_DO_USER_MANAGEMENT` bit(1) default NULL,
   `IS_DELETED` bit(1) default NULL,
-  `LOGIN_COUNT` int(11) DEFAULT NULL,
-  `IS_ADMIN` bit(1) DEFAULT NULL,
-  `USER_PERMISSIONS_ID` bigint(20) DEFAULT NULL,
-  `COMPANY_ID` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+  `PHONE_NO` varchar(255) default NULL,
+  `COUNTRY_NAME` varchar(255) default NULL,
+  `IS_ADMIN` bit(1) default NULL,
+  `USER_PERMISSIONS_ID` bigint(20) default NULL,
+  `COMPANY_ID` bigint(20) default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK4D495E8622C1275` (`COMPANY_ID`),
   KEY `FK4D495E8D7CF483E` (`USER_PERMISSIONS_ID`),
-  CONSTRAINT `FK4D495E8D7CF483E` FOREIGN KEY (`USER_PERMISSIONS_ID`) REFERENCES `USER_PERMISSIONS` (`ID`),
-  CONSTRAINT `FK4D495E8622C1275` FOREIGN KEY (`COMPANY_ID`) REFERENCES `COMPANY` (`ID`)
+  CONSTRAINT `FK4D495E8622C1275` FOREIGN KEY (`COMPANY_ID`) REFERENCES `company` (`ID`),
+  CONSTRAINT `FK4D495E8D7CF483E` FOREIGN KEY (`USER_PERMISSIONS_ID`) REFERENCES `user_permissions` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `USERSTOOL`
+-- Dumping data for table `users`
 --
 
-DROP TABLE IF EXISTS `USERSTOOL`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `USERSTOOL` (
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vat_return`
+--
+
+DROP TABLE IF EXISTS `vat_return`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `vat_return` (
   `ID` bigint(20) NOT NULL,
-  `COMPANY` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `FKBB6EC38030151708` (`ID`),
-  KEY `FKBB6EC380BDD90B4C` (`COMPANY`),
-  CONSTRAINT `FKBB6EC380BDD90B4C` FOREIGN KEY (`COMPANY`) REFERENCES `BIZANTRA_COMPANY` (`ID`),
-  CONSTRAINT `FKBB6EC38030151708` FOREIGN KEY (`ID`) REFERENCES `ABSTRACTTOOL` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `USER_PERMISSIONS`
---
-
-DROP TABLE IF EXISTS `USER_PERMISSIONS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `USER_PERMISSIONS` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `TYPE_OF_BANK_RECONCILATION` int(11) DEFAULT NULL,
-  `TYPE_OF_INVOICES` int(11) DEFAULT NULL,
-  `TYPE_OF_EXPENCES` int(11) DEFAULT NULL,
-  `TYPE_OF_SYSTEM_SETTINGS` int(11) DEFAULT NULL,
-  `TYPE_OF_VIEW_REPORTS` int(11) DEFAULT NULL,
-  `TYPE_OF_PUBLISH_REPORTS` int(11) DEFAULT NULL,
-  `TYPE_OF_LOCK_DATES` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `VATRETURNBOX`
---
-
-DROP TABLE IF EXISTS `VATRETURNBOX`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `VATRETURNBOX` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `VAT_BOX` varchar(255) DEFAULT NULL,
-  `TOTAL_BOX` varchar(255) DEFAULT NULL,
-  `VAT_RETURN_TYPE` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `VAT_RETURN`
---
-
-DROP TABLE IF EXISTS `VAT_RETURN`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `VAT_RETURN` (
-  `id` bigint(20) NOT NULL,
-  `VAT_PERIOD_START_DATE` bigint(20) DEFAULT NULL,
-  `VAT_PERIOD_END_DATE` bigint(20) DEFAULT NULL,
-  `TAX_AGENCY` bigint(20) DEFAULT NULL,
-  `JOURNAL_ENTRY` bigint(20) DEFAULT NULL,
-  `BALANCE` double DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKFD401726274BC854` (`id`),
+  `VAT_PERIOD_START_DATE` bigint(20) default NULL,
+  `VAT_PERIOD_END_DATE` bigint(20) default NULL,
+  `TAX_AGENCY` bigint(20) default NULL,
+  `JOURNAL_ENTRY` bigint(20) default NULL,
+  `BALANCE` double default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKFD401726274BC854` (`ID`),
   KEY `FKFD401726971BCDC4` (`TAX_AGENCY`),
   KEY `FKFD4017261AF90BEA` (`JOURNAL_ENTRY`),
-  CONSTRAINT `FKFD4017261AF90BEA` FOREIGN KEY (`JOURNAL_ENTRY`) REFERENCES `JOURNAL_ENTRY` (`id`),
-  CONSTRAINT `FKFD401726274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FKFD401726971BCDC4` FOREIGN KEY (`TAX_AGENCY`) REFERENCES `TAXAGENCY` (`id`)
+  CONSTRAINT `FKFD4017261AF90BEA` FOREIGN KEY (`JOURNAL_ENTRY`) REFERENCES `journal_entry` (`ID`),
+  CONSTRAINT `FKFD401726274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKFD401726971BCDC4` FOREIGN KEY (`TAX_AGENCY`) REFERENCES `taxagency` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `VENDOR`
+-- Dumping data for table `vat_return`
 --
 
-DROP TABLE IF EXISTS `VENDOR`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `VENDOR` (
-  `id` bigint(20) NOT NULL,
-  `ACCOUNT_NUMBER` varchar(255) DEFAULT NULL,
-  `BALANCE_AS_OF` bigint(20) DEFAULT NULL,
-  `EXPENSE_ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `CREDIT_LIMIT` double DEFAULT NULL,
-  `SHIPPING_METHOD_ID` bigint(20) DEFAULT NULL,
-  `PAYMENT_TERMS_ID` bigint(20) DEFAULT NULL,
-  `VENDOR_GROUP_ID` bigint(20) DEFAULT NULL,
-  `FEDERAL_TAXID` varchar(255) DEFAULT NULL,
-  `CURRET_DUE` double DEFAULT NULL,
-  `OVER_DUE_ONE_TO_THIRY_DAYS` double DEFAULT NULL,
-  `OVER_DUE_THIRTY_ONE_TO_SIXTY_DAYS` double DEFAULT NULL,
-  `OVER_DUE_SIXTY_ONE_TO_NINTY_DAYS` double DEFAULT NULL,
-  `OVER_DUE_OVER_NINTY_DAYS` double DEFAULT NULL,
-  `OVER_DUE_TOTAL_BALANCE` double DEFAULT NULL,
-  `MONTH_TO_DATE` double DEFAULT NULL,
-  `YEAR_TO_DATE` double DEFAULT NULL,
-  `LAST_YEAR` double DEFAULT NULL,
-  `LIFE_TIME_PURCHASES` double DEFAULT NULL,
-  PRIMARY KEY (`id`),
+LOCK TABLES `vat_return` WRITE;
+/*!40000 ALTER TABLE `vat_return` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vat_return` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vatreturnbox`
+--
+
+DROP TABLE IF EXISTS `vatreturnbox`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `vatreturnbox` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `VAT_BOX` varchar(255) default NULL,
+  `TOTAL_BOX` varchar(255) default NULL,
+  `VAT_RETURN_TYPE` int(11) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `vatreturnbox`
+--
+
+LOCK TABLES `vatreturnbox` WRITE;
+/*!40000 ALTER TABLE `vatreturnbox` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vatreturnbox` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vendor`
+--
+
+DROP TABLE IF EXISTS `vendor`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `vendor` (
+  `ID` bigint(20) NOT NULL,
+  `ACCOUNT_NUMBER` varchar(255) default NULL,
+  `BALANCE_AS_OF` bigint(20) default NULL,
+  `EXPENSE_ACCOUNT_ID` bigint(20) default NULL,
+  `CREDIT_LIMIT` double default NULL,
+  `SHIPPING_METHOD_ID` bigint(20) default NULL,
+  `PAYMENT_TERMS_ID` bigint(20) default NULL,
+  `VENDOR_GROUP_ID` bigint(20) default NULL,
+  `FEDERAL_TAXID` varchar(255) default NULL,
+  `CURRET_DUE` double default NULL,
+  `OVER_DUE_ONE_TO_THIRY_DAYS` double default NULL,
+  `OVER_DUE_THIRTY_ONE_TO_SIXTY_DAYS` double default NULL,
+  `OVER_DUE_SIXTY_ONE_TO_NINTY_DAYS` double default NULL,
+  `OVER_DUE_OVER_NINTY_DAYS` double default NULL,
+  `OVER_DUE_TOTAL_BALANCE` double default NULL,
+  `MONTH_TO_DATE` double default NULL,
+  `YEAR_TO_DATE` double default NULL,
+  `LAST_YEAR` double default NULL,
+  `LIFE_TIME_PURCHASES` double default NULL,
+  PRIMARY KEY  (`ID`),
   KEY `FK96B19948AD0A95DC` (`SHIPPING_METHOD_ID`),
-  KEY `FK96B19948610348FE` (`id`),
+  KEY `FK96B19948610348FE` (`ID`),
   KEY `FK96B19948AEA76B12` (`PAYMENT_TERMS_ID`),
   KEY `FK96B199482AACCA64` (`VENDOR_GROUP_ID`),
   KEY `FK96B19948E2AA5ABC` (`EXPENSE_ACCOUNT_ID`),
-  CONSTRAINT `FK96B19948E2AA5ABC` FOREIGN KEY (`EXPENSE_ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`),
-  CONSTRAINT `FK96B199482AACCA64` FOREIGN KEY (`VENDOR_GROUP_ID`) REFERENCES `VENDOR_GROUP` (`ID`),
-  CONSTRAINT `FK96B19948610348FE` FOREIGN KEY (`id`) REFERENCES `PAYEE` (`ID`),
-  CONSTRAINT `FK96B19948AD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `SHIPPINGMETHOD` (`ID`),
-  CONSTRAINT `FK96B19948AEA76B12` FOREIGN KEY (`PAYMENT_TERMS_ID`) REFERENCES `PAYMENTTERMS` (`ID`)
+  CONSTRAINT `FK96B199482AACCA64` FOREIGN KEY (`VENDOR_GROUP_ID`) REFERENCES `vendor_group` (`ID`),
+  CONSTRAINT `FK96B19948610348FE` FOREIGN KEY (`ID`) REFERENCES `payee` (`ID`),
+  CONSTRAINT `FK96B19948AD0A95DC` FOREIGN KEY (`SHIPPING_METHOD_ID`) REFERENCES `shippingmethod` (`ID`),
+  CONSTRAINT `FK96B19948AEA76B12` FOREIGN KEY (`PAYMENT_TERMS_ID`) REFERENCES `paymentterms` (`ID`),
+  CONSTRAINT `FK96B19948E2AA5ABC` FOREIGN KEY (`EXPENSE_ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `VENDOR_CREDIT_MEMO`
+-- Dumping data for table `vendor`
 --
 
-DROP TABLE IF EXISTS `VENDOR_CREDIT_MEMO`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `VENDOR_CREDIT_MEMO` (
-  `id` bigint(20) NOT NULL,
-  `VENDOR_ID` bigint(20) DEFAULT NULL,
-  `VCM_IS_PRIMARY` bit(1) DEFAULT NULL,
-  `VCM_NAME` varchar(255) DEFAULT NULL,
-  `VCM_TITLE` varchar(255) DEFAULT NULL,
-  `VCM_BUSINESS_PHONE` varchar(255) DEFAULT NULL,
-  `VCM_EMAIL` varchar(255) DEFAULT NULL,
-  `PHONE` varchar(255) DEFAULT NULL,
-  `BALANCE_DUE` double DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKC3D9E649274BC854` (`id`),
+LOCK TABLES `vendor` WRITE;
+/*!40000 ALTER TABLE `vendor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vendor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vendor_credit_memo`
+--
+
+DROP TABLE IF EXISTS `vendor_credit_memo`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `vendor_credit_memo` (
+  `ID` bigint(20) NOT NULL,
+  `VENDOR_ID` bigint(20) default NULL,
+  `VCM_IS_PRIMARY` bit(1) default NULL,
+  `VCM_NAME` varchar(255) default NULL,
+  `VCM_TITLE` varchar(255) default NULL,
+  `VCM_BUSINESS_PHONE` varchar(255) default NULL,
+  `VCM_EMAIL` varchar(255) default NULL,
+  `PHONE` varchar(255) default NULL,
+  `BALANCE_DUE` double default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKC3D9E649274BC854` (`ID`),
   KEY `FKC3D9E649891A177F` (`VENDOR_ID`),
-  CONSTRAINT `FKC3D9E649891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `VENDOR` (`id`),
-  CONSTRAINT `FKC3D9E649274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`)
+  CONSTRAINT `FKC3D9E649274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKC3D9E649891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `vendor` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `VENDOR_GROUP`
+-- Dumping data for table `vendor_credit_memo`
 --
 
-DROP TABLE IF EXISTS `VENDOR_GROUP`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `VENDOR_GROUP` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `STRING_ID` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `VERSION` int(11) DEFAULT NULL,
-  `CREATED_BY` varchar(255) DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `CREATED_DATE` bigint(20) DEFAULT NULL,
-  `LAST_MODIFIED_DATE` bigint(20) DEFAULT NULL,
-  `IS_DEFAULT` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`)
+LOCK TABLES `vendor_credit_memo` WRITE;
+/*!40000 ALTER TABLE `vendor_credit_memo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vendor_credit_memo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vendor_group`
+--
+
+DROP TABLE IF EXISTS `vendor_group`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `vendor_group` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `VERSION` int(11) default NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `IS_DEFAULT` bit(1) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `FK2E46E4A8F1AE8CDE` (`CREATED_BY`),
+  KEY `FK2E46E4A89E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK2E46E4A89E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK2E46E4A8F1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `VERSION_TABLE`
+-- Dumping data for table `vendor_group`
 --
 
-DROP TABLE IF EXISTS `VERSION_TABLE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `VERSION_TABLE` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `INSTALLED_VERSION` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`)
+LOCK TABLES `vendor_group` WRITE;
+/*!40000 ALTER TABLE `vendor_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vendor_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `warehouse`
+--
+
+DROP TABLE IF EXISTS `warehouse`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `warehouse` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(255) NOT NULL,
+  `CREATED_BY` bigint(20) default NULL,
+  `LAST_MODIFIER` bigint(20) default NULL,
+  `CREATED_DATE` datetime default NULL,
+  `LAST_MODIFIED_DATE` datetime default NULL,
+  `TYPE` int(11) NOT NULL,
+  `ADDRESS1` varchar(100) NOT NULL,
+  `STREET` varchar(100) NOT NULL,
+  `CITY` varchar(100) NOT NULL,
+  `STATE` varchar(100) NOT NULL,
+  `ZIP` varchar(100) NOT NULL,
+  `COUNTRY` varchar(100) NOT NULL,
+  `IS_SELECTED` bit(1) NOT NULL,
+  `COMPANY_CONTACT__IS_PRIMARY` bit(1) NOT NULL,
+  `COMPANY_CONTACT__NAME` varchar(255) NOT NULL,
+  `COMPANY_CONTACT__TITLE` varchar(255) NOT NULL,
+  `COMPANY_CONTACT__BUSINESS_PHONE` varchar(255) NOT NULL,
+  `COMPANY_CONTACT_EMAIL` varchar(255) NOT NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `FK2F074AA3F1AE8CDE` (`CREATED_BY`),
+  KEY `FK2F074AA39E5A0E30` (`LAST_MODIFIER`),
+  CONSTRAINT `FK2F074AA39E5A0E30` FOREIGN KEY (`LAST_MODIFIER`) REFERENCES `users` (`ID`),
+  CONSTRAINT `FK2F074AA3F1AE8CDE` FOREIGN KEY (`CREATED_BY`) REFERENCES `users` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `WORKSPACE`
+-- Dumping data for table `warehouse`
 --
 
-DROP TABLE IF EXISTS `WORKSPACE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `WORKSPACE` (
-  `SPACE_ID` varchar(40) NOT NULL,
-  `CREATE_DATE` datetime DEFAULT NULL,
-  `CREATOR` varchar(255) DEFAULT NULL,
-  `NAME` varchar(255) DEFAULT NULL,
-  `DESCRIPTION` text,
-  `LAST_MODIFIED_DATE` datetime DEFAULT NULL,
-  `LAST_MODIFIER` varchar(255) DEFAULT NULL,
-  `SPACESTATEHASH` tinyblob,
-  `IS_SYSTEM_SPACE` bit(1) DEFAULT NULL,
-  `IS_PERSONAL_SPACE` bit(1) DEFAULT NULL,
-  `ISDETELETE` bit(1) DEFAULT NULL,
-  `ISSTOPPED` bit(1) DEFAULT NULL,
-  `ISDOWNLOADED` bit(1) DEFAULT NULL,
-  `HIDDEN_COUNT_LOCAL` int(11) DEFAULT NULL,
-  `ISREAD` bit(1) DEFAULT NULL,
-  `ISEXTERNALWORKSPACE` bit(1) DEFAULT NULL,
-  `ENCRYPTED_ID` tinyblob,
-  PRIMARY KEY (`SPACE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `warehouse` WRITE;
+/*!40000 ALTER TABLE `warehouse` DISABLE KEYS */;
+/*!40000 ALTER TABLE `warehouse` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `WORKSPACECOMMAND`
+-- Table structure for table `write_checks`
 --
 
-DROP TABLE IF EXISTS `WORKSPACECOMMAND`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `WORKSPACECOMMAND` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `MEMBER` varchar(255) NOT NULL,
-  `DEVICE` int(11) NOT NULL,
-  `SPACE_ID` varchar(40) NOT NULL,
-  `VERSION` bigint(20) NOT NULL,
-  `COMMAND` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `MEMBER` (`MEMBER`,`DEVICE`,`SPACE_ID`,`VERSION`),
-  KEY `FKDA7771165709BA1E` (`SPACE_ID`),
-  KEY `FKDA7771163942B13C` (`COMMAND`),
-  CONSTRAINT `FKDA7771163942B13C` FOREIGN KEY (`COMMAND`) REFERENCES `COMMAND` (`ID`),
-  CONSTRAINT `FKDA7771165709BA1E` FOREIGN KEY (`SPACE_ID`) REFERENCES `WORKSPACE` (`SPACE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `WRITE_CHECKS`
---
-
-DROP TABLE IF EXISTS `WRITE_CHECKS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `WRITE_CHECKS` (
-  `id` bigint(20) NOT NULL,
-  `PAY_TO_TYPE` int(11) DEFAULT NULL,
-  `ACCOUNT_ID` bigint(20) DEFAULT NULL,
-  `BALANCE` double DEFAULT NULL,
-  `CUSTOMER_ID` bigint(20) DEFAULT NULL,
-  `VENDOR_ID` bigint(20) DEFAULT NULL,
-  `TAX_AGENCY_ID` bigint(20) DEFAULT NULL,
-  `WRITECHECK_ADDRESS_TYPE` int(11) DEFAULT NULL,
-  `WRITECHECK_ADDRESS_ADDRESS1` varchar(100) DEFAULT NULL,
-  `WRITECHECK_ADDRESS_STREET` varchar(255) DEFAULT NULL,
-  `WCHECK_ADDRESS_CITY` varchar(255) DEFAULT NULL,
-  `WCHECK_ADDRESS_STATE` varchar(255) DEFAULT NULL,
-  `WCHECK_ADDRESS_ZIP` varchar(255) DEFAULT NULL,
-  `WCHECK_ADDRESS_COUNTRY` varchar(255) DEFAULT NULL,
-  `WCHECK_ADDRESS_IS_SELECTED` bit(1) DEFAULT NULL,
-  `AMOUNT` double DEFAULT NULL,
-  `TO_BE_PRINTED` bit(1) DEFAULT NULL,
-  `SALES_PERSON_ID` bigint(20) DEFAULT NULL,
-  `IN_WORDS` varchar(255) DEFAULT NULL,
-  `CHECK_NUMBER` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKB592E8EB274BC854` (`id`),
+DROP TABLE IF EXISTS `write_checks`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `write_checks` (
+  `ID` bigint(20) NOT NULL,
+  `PAY_TO_TYPE` int(11) default NULL,
+  `ACCOUNT_ID` bigint(20) default NULL,
+  `BALANCE` double default NULL,
+  `CUSTOMER_ID` bigint(20) default NULL,
+  `VENDOR_ID` bigint(20) default NULL,
+  `TAX_AGENCY_ID` bigint(20) default NULL,
+  `WRITECHECK_ADDRESS_TYPE` int(11) default NULL,
+  `WRITECHECK_ADDRESS_ADDRESS1` varchar(100) default NULL,
+  `WRITECHECK_ADDRESS_STREET` varchar(255) default NULL,
+  `WCHECK_ADDRESS_CITY` varchar(255) default NULL,
+  `WCHECK_ADDRESS_STATE` varchar(255) default NULL,
+  `WCHECK_ADDRESS_ZIP` varchar(255) default NULL,
+  `WCHECK_ADDRESS_COUNTRY` varchar(255) default NULL,
+  `WCHECK_ADDRESS_IS_SELECTED` bit(1) default NULL,
+  `AMOUNT` double default NULL,
+  `TO_BE_PRINTED` bit(1) default NULL,
+  `SALES_PERSON_ID` bigint(20) default NULL,
+  `IN_WORDS` varchar(255) default NULL,
+  `CHECK_NUMBER` varchar(255) default NULL,
+  PRIMARY KEY  (`ID`),
+  KEY `FKB592E8EB274BC854` (`ID`),
   KEY `FKB592E8EB891A177F` (`VENDOR_ID`),
   KEY `FKB592E8EBC368D6AC` (`TAX_AGENCY_ID`),
   KEY `FKB592E8EB4C74BEAE` (`SALES_PERSON_ID`),
   KEY `FKB592E8EBE5FCF475` (`ACCOUNT_ID`),
   KEY `FKB592E8EBDFE06A7F` (`CUSTOMER_ID`),
-  CONSTRAINT `FKB592E8EBDFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `CUSTOMER` (`id`),
-  CONSTRAINT `FKB592E8EB274BC854` FOREIGN KEY (`id`) REFERENCES `TRANSACTION` (`ID`),
-  CONSTRAINT `FKB592E8EB4C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `SALES_PERSON` (`id`),
-  CONSTRAINT `FKB592E8EB891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `VENDOR` (`id`),
-  CONSTRAINT `FKB592E8EBC368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `TAXAGENCY` (`id`),
-  CONSTRAINT `FKB592E8EBE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `ACCOUNT` (`ID`)
+  CONSTRAINT `FKB592E8EB274BC854` FOREIGN KEY (`ID`) REFERENCES `transaction` (`ID`),
+  CONSTRAINT `FKB592E8EB4C74BEAE` FOREIGN KEY (`SALES_PERSON_ID`) REFERENCES `sales_person` (`ID`),
+  CONSTRAINT `FKB592E8EB891A177F` FOREIGN KEY (`VENDOR_ID`) REFERENCES `vendor` (`ID`),
+  CONSTRAINT `FKB592E8EBC368D6AC` FOREIGN KEY (`TAX_AGENCY_ID`) REFERENCES `taxagency` (`ID`),
+  CONSTRAINT `FKB592E8EBDFE06A7F` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`),
+  CONSTRAINT `FKB592E8EBE5FCF475` FOREIGN KEY (`ACCOUNT_ID`) REFERENCES `account` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+SET character_set_client = @saved_cs_client;
 
 --
--- Final view structure for view `SALES_PURCHASES_VIEW`
+-- Dumping data for table `write_checks`
 --
 
-/*!50001 DROP TABLE IF EXISTS `SALES_PURCHASES_VIEW`*/;
-/*!50001 DROP VIEW IF EXISTS `SALES_PURCHASES_VIEW`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `SALES_PURCHASES_VIEW` AS select `T`.`STRING_ID` AS `TRANSACTION_ID`,`C`.`id` AS `CUSTOMER_ID`,`V`.`id` AS `VENDOR_ID`,`P`.`NAME` AS `NAME`,(case when ((`T`.`T_TYPE` = 1) or (`T`.`T_TYPE` = 4) or (`T`.`T_TYPE` = 8)) then `CG`.`NAME` when ((`T`.`T_TYPE` = 2) or (`T`.`T_TYPE` = 6) or (`T`.`T_TYPE` = 14)) then `VG`.`NAME` end) AS `GROUP_NAME`,`IT`.`TYPE` AS `ITEM_TYPE`,`IG`.`NAME` AS `ITEM_GROUP`,`T`.`T_TYPE` AS `Type`,`T`.`T_DATE` AS `DATE`,`T`.`NUMBER` AS `NUMBER`,`T`.`MEMO` AS `MEMO`,(case when (`T`.`T_TYPE` = 8) then `I`.`DUE_DATE` when (`T`.`T_TYPE` = 6) then `EB`.`DUE_DATE` else NULL end) AS `DUE_DATE`,`PT`.`NAME` AS `PAYMENT_TERMS`,(case when (`TI`.`ITEM_ID` is not null) then `IT`.`NAME` when (`TI`.`ACCOUNT_ID` is not null) then `A`.`NAME` end) AS `ITEM_NAME`,(case when ((`T`.`T_TYPE` = 4) or (`T`.`T_TYPE` = 14)) then (-(1) * `TI`.`QUANTITY`) else `TI`.`QUANTITY` end) AS `QUANTITY`,`TI`.`UNIT_PRICE` AS `UNIT_PRICE`,`TI`.`DISCOUNT` AS `DISCOUNT`,(case when ((`T`.`T_TYPE` = 4) or (`T`.`T_TYPE` = 14)) then (-(1) * `TI`.`LINE_TOTAL`) else `TI`.`LINE_TOTAL` end) AS `AMOUNT`,(case when (`T`.`T_TYPE` = 8) then (select `T`.`NUMBER` AS `NUMBER` from `TRANSACTION` `T` where (`T`.`ID` = `I`.`ESTIMATE_ID`)) end) AS `SO_OR_QUOTE_NO`,(case when (`T`.`T_TYPE` = 1) then `CS`.`DELIVERY_DATE` when (`T`.`T_TYPE` = 8) then `I`.`DELIVERY_DATE` when (`T`.`T_TYPE` = 2) then `CP`.`DELIVERY_DATE` when (`T`.`T_TYPE` = 6) then `EB`.`DELIVERY_DATE` else NULL end) AS `SHIPMENT_OR_DELIVERY_DATE`,`IT`.`SALES_DESCRIPTION` AS `SALES_DESCRIPTION`,`IT`.`PURCHASE_DESCRIPTION` AS `PURCHASE_DESCRIPTION`,`T`.`IS_VOID` AS `VOID`,`T`.`REFERENCE` AS `REFERENCE` from ((((((((((((((((`TRANSACTION` `T` left join `CASH_SALES` `CS` on((`T`.`ID` = `CS`.`id`))) left join `CUSTOMER_CREDIT_MEMO` `CCM` on((`T`.`ID` = `CCM`.`id`))) left join `INVOICE` `I` on((`T`.`ID` = `I`.`id`))) left join `CASH_PURCHASE` `CP` on((`T`.`ID` = `CP`.`id`))) left join `VENDOR_CREDIT_MEMO` `VCM` on((`T`.`ID` = `VCM`.`id`))) left join `ENTER_BILL` `EB` on((`T`.`ID` = `EB`.`id`))) left join `TRANSACTION_ITEM` `TI` on((`T`.`ID` = `TI`.`TRANSACTION_ID`))) left join `CUSTOMER` `C` on(((`C`.`id` = `CS`.`CUSTOMER_ID`) or (`C`.`id` = `CCM`.`CUSTOMER_ID`) or (`C`.`id` = `I`.`CUSTOMER_ID`)))) left join `VENDOR` `V` on(((`V`.`id` = `CP`.`VENDOR_ID`) or (`V`.`id` = `VCM`.`VENDOR_ID`) or (`V`.`id` = `EB`.`VENDOR_ID`)))) left join `PAYEE` `P` on(((`P`.`ID` = `C`.`id`) or (`P`.`ID` = `V`.`id`)))) left join `PAYMENTTERMS` `PT` on(((`PT`.`ID` = `EB`.`PAYMENT_TERM_ID`) or (`PT`.`ID` = `I`.`PAYMENT_TERMS_ID`)))) left join `CUSTOMER_GROUP` `CG` on((`CG`.`ID` = `C`.`CUSTOMER_GROUP_ID`))) left join `VENDOR_GROUP` `VG` on((`VG`.`ID` = `V`.`VENDOR_GROUP_ID`))) left join `ITEM` `IT` on((`IT`.`ID` = `TI`.`ITEM_ID`))) left join `ITEMGROUP` `IG` on((`IG`.`ID` = `IT`.`ITEMGROUP_ID`))) left join `ACCOUNT` `A` on((`A`.`ID` = `TI`.`ACCOUNT_ID`))) where ((`TI`.`ITEM_ID` is not null) or (`TI`.`ACCOUNT_ID` is not null)) order by `T`.`ID` */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `TRANSACTION_HISTORY_VIEW`
---
-
-/*!50001 DROP TABLE IF EXISTS `TRANSACTION_HISTORY_VIEW`*/;
-/*!50001 DROP VIEW IF EXISTS `TRANSACTION_HISTORY_VIEW`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `TRANSACTION_HISTORY_VIEW` AS select `T`.`STRING_ID` AS `TRANSACTION_ID`,`C`.`id` AS `CUSTOMER_ID`,`V`.`id` AS `VENDOR_ID`,(case when ((`T`.`T_TYPE` = 1) or (`T`.`T_TYPE` = 4) or (`T`.`T_TYPE` = 5) or (`T`.`T_TYPE` = 8) or (`T`.`T_TYPE` = 12) or ((`T`.`T_TYPE` = 10) and (`TMD`.`CUSTOMER_ID` is not null)) or ((`T`.`T_TYPE` = 15) and (`WC`.`CUSTOMER_ID` is not null)) or ((`T`.`T_TYPE` = 16) and (`E`.`TYPE` = 3)) or (`T`.`T_TYPE` = 29)) then `P`.`NAME` when ((`T`.`T_TYPE` = 2) or (`T`.`T_TYPE` = 6) or (`T`.`T_TYPE` = 11) or (`T`.`T_TYPE` = 14) or (`T`.`T_TYPE` = 3) or ((`T`.`T_TYPE` = 10) and (`TMD`.`VENDOR_ID` is not null)) or ((`T`.`T_TYPE` = 15) and (`WC`.`VENDOR_ID` is not null)) or ((`T`.`T_TYPE` = 16) and (`E`.`TYPE` = 2)) or (`T`.`T_TYPE` = 27)) then `P`.`NAME` end) AS `NAME`,`T`.`T_TYPE` AS `Type`,`T`.`T_DATE` AS `DATE`,`T`.`NUMBER` AS `NUMBER`,(case when ((`T`.`T_TYPE` = 1) or (`T`.`T_TYPE` = 3) or (`T`.`T_TYPE` = 8) or (`T`.`T_TYPE` = 2) or (`T`.`T_TYPE` = 6) or (`T`.`T_TYPE` = 27)) then `T`.`TOTAL` when ((`T`.`T_TYPE` = 4) or (`T`.`T_TYPE` = 14) or (`T`.`T_TYPE` = 29)) then (-(1) * `T`.`TOTAL`) when (`T`.`T_TYPE` = 10) then (case when (`TMD`.`TYPE` = 3) then (-(1) * `TMD`.`AMOUNT`) when (`TMD`.`TYPE` = 2) then `TMD`.`AMOUNT` else 0.0 end) when (`T`.`T_TYPE` = 15) then (case when (`WC`.`PAY_TO_TYPE` = 1) then (-(1) * `T`.`TOTAL`) when (`WC`.`PAY_TO_TYPE` = 2) then `T`.`TOTAL` else 0.0 end) when (`T`.`T_TYPE` = 16) then (case when (`E`.`TYPE` = 2) then `E`.`CREDIT` else `E`.`DEBIT` end) else 0.0 end) AS `INVOICED_OR_TRANSASCTION_AMOUNT`,(case when ((`T`.`T_TYPE` = 1) or (`T`.`T_TYPE` = 3) or (`T`.`T_TYPE` = 2) or (`T`.`T_TYPE` = 27)) then `T`.`TOTAL` when ((`T`.`T_TYPE` = 5) or (`T`.`T_TYPE` = 15) or (`T`.`T_TYPE` = 11) or (`T`.`T_TYPE` = 12)) then (-(1) * `T`.`TOTAL`) else 0.0 end) AS `PAID_AMOUNT`,(case when ((`T`.`T_TYPE` = 1) or (`T`.`T_TYPE` = 3) or (`T`.`T_TYPE` = 5) or (`T`.`T_TYPE` = 8) or (`T`.`T_TYPE` = 2) or (`T`.`T_TYPE` = 14) or (`T`.`T_TYPE` = 15) or (`T`.`T_TYPE` = 27)) then `T`.`TOTAL` when (`T`.`T_TYPE` = 11) then (case when (`PB`.`PAYBILL_TYPE` = 1) then (case when isnull((select sum(`TPB`.`CASH_DISCOUNT`) AS `sum(TPB.CASH_DISCOUNT)` from `TRANSACTION_PAYBILL` `TPB` where ((`TPB`.`TRANSACTION_ID` = `T`.`ID`) and (`TPB`.`DISCOUNT_ID` is not null) and (`TPB`.`CASH_DISCOUNT` > 0.0)))) then `T`.`TOTAL` else (`T`.`TOTAL` + (select sum(`TPB`.`CASH_DISCOUNT`) AS `sum(TPB.CASH_DISCOUNT)` from `TRANSACTION_PAYBILL` `TPB` where ((`TPB`.`TRANSACTION_ID` = `T`.`ID`) and (`TPB`.`DISCOUNT_ID` is not null) and (`TPB`.`CASH_DISCOUNT` > 0.0)))) end) when (`PB`.`PAYBILL_TYPE` = 2) then `T`.`TOTAL` end) when (`T`.`T_TYPE` = 16) then (case when (`E`.`TYPE` = 3) then `E`.`DEBIT` else 0.0 end) else 0.0 end) AS `DEBIT`,(case when ((`T`.`T_TYPE` = 1) or (`T`.`T_TYPE` = 3) or (`T`.`T_TYPE` = 4) or (`T`.`T_TYPE` = 2) or (`T`.`T_TYPE` = 10) or (`T`.`T_TYPE` = 6) or (`T`.`T_TYPE` = 15) or (`T`.`T_TYPE` = 27) or (`T`.`T_TYPE` = 29)) then `T`.`TOTAL` when (`T`.`T_TYPE` = 12) then ((`RP`.`AMOUNT` + `RP`.`TOTAL_CASH_DISCOUNT`) + `RP`.`TOTAL_WRITE_OFF`) when (`T`.`T_TYPE` = 16) then (case when (`E`.`TYPE` = 2) then `E`.`CREDIT` else 0.0 end) else 0.0 end) AS `CREDIT`,(case when (`T`.`T_TYPE` = 12) then `RP`.`TOTAL_CASH_DISCOUNT` when (`T`.`T_TYPE` = 11) then (select sum(`TPB`.`CASH_DISCOUNT`) AS `sum(TPB.CASH_DISCOUNT)` from `TRANSACTION_PAYBILL` `TPB` where (`TPB`.`TRANSACTION_ID` = `T`.`ID`)) else 0.0 end) AS `DISCOUNT`,(case when (`T`.`T_TYPE` = 8) then `I`.`DUE_DATE` when (`T`.`T_TYPE` = 6) then `EB`.`DUE_DATE` else NULL end) AS `DUE_DATE`,`PT`.`NAME` AS `PAYMENT_TERMS`,`T`.`IS_VOID` AS `VOID`,`T`.`REFERENCE` AS `REFERENCE`,(case when ((`T`.`T_TYPE` = 11) and (`PB`.`PAYBILL_TYPE` = 2)) then 'Supplier PrePayment' else `T`.`MEMO` end) AS `MEMO`,(case when (`T`.`T_TYPE` = 12) then `RP`.`TOTAL_WRITE_OFF` else 0.0 end) AS `WRITE_OFF`,`T`.`STATUS` AS `PAYMENT_STATUS` from ((((((((((((((((((((`TRANSACTION` `T` left join `CASH_SALES` `CS` on((`T`.`ID` = `CS`.`id`))) left join `CREDIT_CARD_CHARGES` `CCC` on((`T`.`ID` = `CCC`.`id`))) left join `CUSTOMER_CREDIT_MEMO` `CCM` on((`T`.`ID` = `CCM`.`id`))) left join `INVOICE` `I` on((`T`.`ID` = `I`.`id`))) left join `CUSTOMER_REFUND` `CR` on((`T`.`ID` = `CR`.`id`))) left join `RECEIVE_PAYMENT` `RP` on((`T`.`ID` = `RP`.`id`))) left join `CASH_PURCHASE` `CP` on((`T`.`ID` = `CP`.`id`))) left join `VENDOR_CREDIT_MEMO` `VCM` on((`T`.`ID` = `VCM`.`id`))) left join `ENTER_BILL` `EB` on((`T`.`ID` = `EB`.`id`))) left join `PAY_BILL` `PB` on((`T`.`ID` = `PB`.`id`))) left join `TRANSACTION_PAYBILL` `TPB` on((`TPB`.`TRANSACTION_ID` = `PB`.`id`))) left join `MAKE_DEPOSIT` `MD` on((`T`.`ID` = `MD`.`id`))) left join `TRANSACTION_MAKE_DEPOSIT` `TMD` on(((`TMD`.`TRANSACTION_ID` = `MD`.`id`) and (`TMD`.`IS_NEW_ENTRY` = 'TRUE')))) left join `WRITE_CHECKS` `WC` on((`T`.`ID` = `WC`.`id`))) left join `ENTRY` `E` on(((`E`.`TRANSACTION_ID` = `T`.`ID`) and (((`E`.`TYPE` = 2) and (`E`.`VENDOR_ID` is not null)) or ((`E`.`TYPE` = 3) and (`E`.`CUSTOMER_ID` is not null)))))) left join `CUSTOMER_PREPAYMENT` `CPP` on((`CPP`.`id` = `T`.`ID`))) left join `CUSTOMER` `C` on(((`C`.`id` = `CS`.`CUSTOMER_ID`) or (`C`.`id` = `CCM`.`CUSTOMER_ID`) or (`C`.`id` = `I`.`CUSTOMER_ID`) or (`C`.`id` = `CR`.`CUSTOMER_ID`) or (`C`.`id` = `RP`.`CUSTOMER_ID`) or (`C`.`id` = `TMD`.`CUSTOMER_ID`) or (`C`.`id` = `WC`.`CUSTOMER_ID`) or (`C`.`id` = `E`.`CUSTOMER_ID`) or (`C`.`id` = `CPP`.`CUSTOMER_ID`)))) left join `PAYMENTTERMS` `PT` on(((`PT`.`ID` = `EB`.`PAYMENT_TERM_ID`) or (`PT`.`ID` = `I`.`PAYMENT_TERMS_ID`)))) left join `VENDOR` `V` on(((`V`.`id` = `CP`.`VENDOR_ID`) or (`V`.`id` = `VCM`.`VENDOR_ID`) or (`V`.`id` = `EB`.`VENDOR_ID`) or (`V`.`id` = `PB`.`VENDOR_ID`) or (`V`.`id` = `TMD`.`VENDOR_ID`) or (`V`.`id` = `CCC`.`VENDOR_ID`) or (`V`.`id` = `WC`.`VENDOR_ID`) or (`V`.`id` = `E`.`VENDOR_ID`)))) left join `PAYEE` `P` on(((`P`.`ID` = `C`.`id`) or (`P`.`ID` = `V`.`id`)))) order by `T`.`ID` */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
+LOCK TABLES `write_checks` WRITE;
+/*!40000 ALTER TABLE `write_checks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `write_checks` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -3508,4 +4244,4 @@ CREATE TABLE `WRITE_CHECKS` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-07-11 14:59:21
+-- Dump completed on 2011-08-09  4:27:15
