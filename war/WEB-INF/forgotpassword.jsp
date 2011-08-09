@@ -59,7 +59,7 @@ $(document).ready(function() {
 		<div id="commanContainer">
 		   <img src="../images/Accounter_logo_title.png" class="accounterLogo" />
 		   <div id="forgot-password_error" class="common-box">
-		      <p>Please enter your username or email address. You will receive a link to create a new password via email.</p>	
+		      <p>Please enter your email address. You will receive a link to create a new password via email.</p>	
 		   </div>
 		   <form id="accounterForm" method="post" action="/forgotpassword">
 		      <div>
