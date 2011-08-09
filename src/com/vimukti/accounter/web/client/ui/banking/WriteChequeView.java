@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -90,7 +91,7 @@ public class WriteChequeView extends
 
 	private CheckboxItem vatInclusiveCheck;
 	private DateField date;
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	// private boolean isVendor;
 	// private String transactionNumber = "";
 
@@ -490,7 +491,7 @@ public class WriteChequeView extends
 					if (AccounterValidator
 							.isBlankTransaction(transactionCustomerGrid)) {
 						result.addError(transactionCustomerGrid,
-								AccounterErrorType.blankTransaction);
+								accounterConstants.blankTransaction());
 					}
 					result.add(transactionCustomerGrid.validateGrid());
 				case ClientPayee.TYPE_VENDOR:
@@ -498,7 +499,7 @@ public class WriteChequeView extends
 					if (AccounterValidator
 							.isBlankTransaction(transactionVendorGrid)) {
 						result.addError(transactionVendorGrid,
-								AccounterErrorType.blankTransaction);
+								accounterConstants.blankTransaction());
 					}
 					result.add(transactionVendorGrid.validateGrid());
 					// case ClientPayee.TYPE_TAX_AGENCY:
@@ -509,9 +510,7 @@ public class WriteChequeView extends
 
 			if (transaction == null)
 				if (!validateAmount()) {
-					result
-							.addError(memoTextAreaItem,
-									AccounterErrorType.amount);
+					result.addError(memoTextAreaItem, accounterConstants.amount());
 				}
 		}
 		return result;
