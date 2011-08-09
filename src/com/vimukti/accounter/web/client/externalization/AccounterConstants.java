@@ -4632,6 +4632,144 @@ public interface AccounterConstants extends Constants {
 
 	public String generalServicebasedBusiness();
 
+	// ---------
+
+	public String amountExceeds();
+
+	public String invalidatedAmount();
+
+	public String invalidateEntry();
+
+	public String invalidNegativeAmount();
+
+	// error messages for Transactions
+
+	public String invalidateTransactionDate();
+
+	public String invalidateDate();
+
+	public String blankTransaction();
+
+	public String customerPaymentOrBillPaymentBlankTransaction();
+
+	public String fiscalYearClosed();
+
+	public String duplicateItemName();
+
+	public String itemBuyOrSell();
+
+	public String isItemSoldTrue();
+
+	public String isItemPurchaseTrue();
+
+	public String taxAgencyDiscountPaymentTerm();
+
+	public String transactionDateWithinFiscalYear();
+
+	public String taxAgencyFinanceAcount();
+
+	public String canVoidOrEdit();
+
+	public String cannotUsePurchaseItem();
+
+	public String cannotUseSalesItem();
+
+	public String unitPriceRate();
+
+	public String discountAmountRate();
+
+	public String amountRate();
+
+	public String lineTotalAmount();
+
+	public String quantityTotal();
+
+	public String lineTotalAmountPositive();
+
+	public String invoiceDueDate();
+
+	public String recievePaymentTotalAmount();
+
+	public String makeDepositCashBackAccount();
+
+	public String makeDepositCashBackAmount();
+
+	public String transferedFunds();
+
+	public String distributePayments();
+
+	public String alreadyExist();
+
+	public String gnalreadyExist();
+
+	public String vcAlreadyExist();
+
+	public String vaAlreadyExist();
+
+	public String makedepositAccountValidation();
+
+	public String receiveAmountPayDue();
+
+	public String receivePaymentExcessDue();
+
+	public String requiredFields();
+
+	public String receivePaymentInvalidDue();
+
+	public String receivedPaymentAppliedCreditsAmount();
+
+	public String failedRequest();
+
+	public String incorrectInformation();
+
+	public String shouldNotEmpty();
+
+	public String shouldEqual();
+
+	public String shouldSelectRadio();
+
+	public String checkAnyone();
+
+	public String totalMustBeSame();
+
+	public String failedGetJournalEntries();
+
+	public String zeroAmount();
+
+	public String invalidEmail();
+
+	public String purchaseDatesShoudBewithInFiscalYearRange();
+
+	public String invalidPurchaseDate();
+
+	public String writeCheckTotalAmount();
+
+	public String journalEntryCustomer();
+
+	public String journalEntryAccount();
+
+	 public String journalEntryVendor(String name);	 
+
+	public String priorasOfDate();
+
+	public String selectVatAgency();
+
+	public String selectTransaction();
+
+	public String invalidNumber();
+
+	public String invalidSalesOredrNumber();
+
+	 public String invalidAccountNumber();
+
+	public String salesOrderNumberPositive();
+
+	public String salesOrderNumber();
+
+	public String salesOrderNumberGrater0();
+	
+	public String invalidTransactionAmount();
+
 	public String primaryCurrency();
 
 	public String supportingCurrencies();
