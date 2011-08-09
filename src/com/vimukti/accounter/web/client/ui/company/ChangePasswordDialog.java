@@ -52,7 +52,7 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	}
 
-	protected void savePassword() {
+	protected boolean savePassword() {
 
 		oldPassword = oldPasswordTextItem.getValue().toString();
 		newPassword = newPasswordTextItem.getValue().toString();
@@ -86,11 +86,14 @@ public class ChangePasswordDialog extends BaseDialog {
 						});
 			} else {
 				addError(this, Accounter.constants().passwordsnotmatched());
+				return false;
 			}
 		} else {
 			addError(this, Accounter.constants()
 					.passwordshouldcontainminimum6characters());
+			return false;
 		}
+		return true;
 
 	}
 
@@ -116,8 +119,7 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-		savePassword();
-		return true;
+		return savePassword();		
 	}
 
 }

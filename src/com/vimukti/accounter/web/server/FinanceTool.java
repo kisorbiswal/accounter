@@ -111,6 +111,7 @@ import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.services.IFinanceDAOService;
+import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -11432,7 +11433,7 @@ public class FinanceTool implements IFinanceDAOService {
 	public boolean changeMyPassword(String emailId, String oldPassword,
 			String newPassword) throws DAOException {
 
-		Session session = HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.openSession(BaseServlet.LOCAL_DATABASE);
 		org.hibernate.Transaction tx = session.beginTransaction();
 
 		try {
@@ -11443,7 +11444,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Query query = session
 					.createSQLQuery(
-							"SELECT EMAILID  FROM COLLABERIDENTITY C WHERE C.EMAILID=:emailId AND C.PASSWORD=:password")
+							"SELECT EMAIL_ID  FROM CLIENT C WHERE C.EMAIL_ID=:emailId AND C.PASSWORD=:password")
 					.setParameter("emailId", emailId)
 					.setParameter("password", oldPassword);
 			String emailID = (String) query.uniqueResult();
@@ -11452,8 +11453,8 @@ public class FinanceTool implements IFinanceDAOService {
 				return false;
 
 			query = session
-					.createSQLQuery("UPDATE COLLABERIDENTITY SET PASSWORD='"
-							+ newPassword + "' WHERE EMAILID='" + emailId + "'");
+					.createSQLQuery("UPDATE CLIENT SET PASSWORD='"
+							+ newPassword + "' WHERE EMAIL_ID='" + emailId + "'");
 			query.executeUpdate();
 			tx.commit();
 

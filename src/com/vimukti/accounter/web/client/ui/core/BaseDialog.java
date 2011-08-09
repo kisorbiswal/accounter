@@ -266,11 +266,12 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog 
 						}
 					});
 		} else {
-			onOK();
+			boolean ok =onOK();
 			if (dialogHandler != null) {
-				dialogHandler.onOK();
+				ok |= dialogHandler.onOK();
 			}
-			this.removeFromParent();
+			if(ok)
+				this.removeFromParent();
 		}
 
 	}
