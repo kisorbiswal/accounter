@@ -121,7 +121,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private String dateFormat = AccounterConstants.ddMMyyyy;
 	public long id;
 
-	private boolean isSalesPersonEnabled;
+	private boolean isSalesPersonEnabled = true;
 
 	private boolean sellServices = true;
 	private boolean sellProducts = true;
@@ -129,6 +129,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	// currency related properties
 	private Currency primaryCurrency;
 	private List<Currency> supportingCurrenciesList;
+	private boolean isPurchaseOrderEnabled=true;
 
 	// Organization type
 	private int organizationType;
@@ -149,6 +150,14 @@ public class CompanyPreferences implements IAccounterServerCore {
 	int fiscalYearFirstMonth;
 	boolean isBeginingorTodaysdate;
 	ClientFinanceDate trackFinanceDate;
+
+	public boolean isPurchaseOrderEnabled() {
+		return isPurchaseOrderEnabled;
+	}
+
+	public void setPurchaseOrderEnabled(boolean isPurchaseOrderEnabled) {
+		this.isPurchaseOrderEnabled = isPurchaseOrderEnabled;
+	}
 
 	public ClientFinanceDate getTrackFinanceDate() {
 		return trackFinanceDate;
