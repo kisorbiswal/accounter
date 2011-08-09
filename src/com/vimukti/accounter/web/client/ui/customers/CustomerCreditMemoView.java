@@ -198,7 +198,6 @@ public class CustomerCreditMemoView extends
 		vpanel.setWidth("100%");
 		vpanel.add(panel);
 
-
 		vpanel.add(prodAndServiceForm2);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
@@ -378,7 +377,7 @@ public class CustomerCreditMemoView extends
 
 			ClientCustomerCreditMemo creditMemo = (ClientCustomerCreditMemo) transaction;
 
-			if (creditMemo != null) {
+			if (creditMemo.getMemo() != null) {
 
 				memoTextAreaItem.setValue(creditMemo.getMemo());
 				// if (creditMemo.getReference() != null)
