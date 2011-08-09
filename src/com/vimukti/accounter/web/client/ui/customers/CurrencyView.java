@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -21,7 +22,7 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	private DynamicForm currencyForm;
 	private boolean wait;
 	private ClientCompany company = getCompany();
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	public CurrencyView() {
 		super();
 
@@ -94,7 +95,7 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 				.getValue().toString());
 		ValidationResult result = new ValidationResult();
 		if (currency != null) {
-			result.addError(currencyNameText, AccounterErrorType.ALREADYEXIST);
+			result.addError(currencyNameText, accounterConstants.alreadyExist());
 		}
 		return result;
 	}
