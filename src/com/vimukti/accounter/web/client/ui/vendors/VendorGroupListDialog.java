@@ -166,12 +166,13 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 		if (inputDlg != null) {
 			if (vendorGroup != null) {
 				editVendorGroups();
+				inputDlg = null;
 			} else {
 				createVendorGroups();
+				inputDlg = null;
 			}
 		}
 
 		return true;
 	}
-
 }

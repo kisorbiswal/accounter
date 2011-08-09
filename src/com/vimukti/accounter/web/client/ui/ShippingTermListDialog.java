@@ -142,20 +142,22 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-
-		if (shippingTerm != null) {
-			if (!(shippingTerm.getName().equalsIgnoreCase(
-					UIUtils.toStr(inputDlg.getTextValueByIndex(0).toString())) ? true
-					: (Utility.isObjectExist(company.getShippingTerms(),
-							UIUtils.toStr(inputDlg.getTextValueByIndex(0)
-									.toString()))) ? false : true)) {
-				result.addError(this, Accounter.constants().alreadyExist());
-			}
-		} else {
-			if (Utility.isObjectExist(getCompany().getShippingTerms(),
-					inputDlg.getTextValueByIndex(0))) {
-				result.addError(this, Accounter.constants()
-						.shippingTermAlreadyExists());
+		if (inputDlg != null) {
+			if (shippingTerm != null) {
+				if (!(shippingTerm.getName().equalsIgnoreCase(
+						UIUtils.toStr(inputDlg.getTextValueByIndex(0)
+								.toString())) ? true : (Utility.isObjectExist(
+						company.getShippingTerms(), UIUtils.toStr(inputDlg
+								.getTextValueByIndex(0).toString()))) ? false
+						: true)) {
+					result.addError(this, Accounter.constants().alreadyExist());
+				}
+			} else {
+				if (Utility.isObjectExist(getCompany().getShippingTerms(),
+						inputDlg.getTextValueByIndex(0))) {
+					result.addError(this, Accounter.constants()
+							.shippingTermAlreadyExists());
+				}
 			}
 		}
 
@@ -164,10 +166,16 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	@Override
 	protected boolean onOK() {
-		if (shippingTerm != null)
-			EditShippingTerms();
-		else
-			createShippingTerms();
+		if (inputDlg != null) {
+			if (shippingTerm != null) {
+				inputDlg = null;
+				EditShippingTerms();
+			} else {
+				createShippingTerms();
+				inputDlg = null;
+			}
+
+		}
 		return true;
 	}
 

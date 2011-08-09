@@ -204,16 +204,20 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (paymentTerm != null) {
-			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
-					.getValue().toString() : "")) {
-				result.addError(this, Accounter.constants().alreadyExist());
-			}
-		} else {
-			if (Utility.isObjectExist(getCompany().getPaymentsTerms(),
-					dialog.payTermText.getValue().toString())) {
-				result.addError(this, Accounter.constants()
-						.paytermsAlreadyExists());
+
+		if (dialog != null) {
+
+			if (paymentTerm != null) {
+				if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
+						.getValue().toString() : "")) {
+					result.addError(this, Accounter.constants().alreadyExist());
+				}
+			} else {
+				if (Utility.isObjectExist(getCompany().getPaymentsTerms(),
+						dialog.payTermText.getValue().toString())) {
+					result.addError(this, Accounter.constants()
+							.paytermsAlreadyExists());
+				}
 			}
 		}
 		return result;
@@ -221,10 +225,14 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	@Override
 	public boolean onOK() {
-		if (paymentTerm != null) {
-			editPaymentTerms();
-		} else {
-			createPaymentTerms();
+		if (dialog != null) {
+			if (paymentTerm != null) {
+				editPaymentTerms();
+				paymentTerm = null;
+			} else {
+				createPaymentTerms();
+				paymentTerm = null;
+			}
 		}
 		return true;
 	}

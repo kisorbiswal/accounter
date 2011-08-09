@@ -25,6 +25,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	List<ClientCreditRating> creditRatings;
 	private InputDialog inputDlg;
 	AccounterConstants accounterConstants = Accounter.constants();
+
 	public CreditRatingListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("400", "330");
@@ -136,33 +137,41 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	@Override
 	protected ValidationResult validate() {
-
 		ValidationResult result = new ValidationResult();
 		if (creditRating != null) {
-			if (!(creditRating.getName().equalsIgnoreCase(
-					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-							.toString())) ? true : (Utility.isObjectExist(
-					company.getItemGroups(),
-					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-							.toString()))) ? false : true)) {
-				result.addError(this, accounterConstants.alreadyExist());
-			}
-		} else {
-			if (Utility.isObjectExist(getCompany().getCreditRatings(), inputDlg
-					.getTextItems().get(0).getValue().toString())) {
-				result.addError(this, Accounter.constants()
-						.creditRatingAlreadyExists());
+
+			if (creditRating != null) {
+				if (!(creditRating.getName().equalsIgnoreCase(
+						UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
+								.toString())) ? true : (Utility.isObjectExist(
+						company.getItemGroups(),
+						UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
+								.toString()))) ? false : true)) {
+					result.addError(this, accounterConstants.alreadyExist());
+				}
+			} else {
+				if (Utility.isObjectExist(getCompany().getCreditRatings(),
+						inputDlg.getTextItems().get(0).getValue().toString())) {
+					result.addError(this, Accounter.constants()
+							.creditRatingAlreadyExists());
+				}
 			}
 		}
+
 		return result;
 	}
 
 	@Override
 	protected boolean onOK() {
 		if (creditRating != null) {
-			EditCreditRatings();
-		} else
-			createCreditRatings();
+			if (creditRating != null) {
+				EditCreditRatings();
+				creditRating = null;
+			} else {
+				createCreditRatings();
+				creditRating = null;
+			}
+		}
 		return true;
 	}
 

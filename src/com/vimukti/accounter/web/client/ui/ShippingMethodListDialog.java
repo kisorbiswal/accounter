@@ -153,35 +153,39 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		if (inputDlg != null)
 
-		if (shippingMethod == null) {
-			if (Utility.isObjectExist(getCompany().getShippingMethods(),
-					inputDlg.getTextValueByIndex(0))) {
-				result.addError(this, Accounter.constants()
-						.shippingMethodAlreadyExists());
+			if (shippingMethod == null) {
+				if (Utility.isObjectExist(getCompany().getShippingMethods(),
+						inputDlg.getTextValueByIndex(0))) {
+					result.addError(this, Accounter.constants()
+							.shippingMethodAlreadyExists());
+				}
+			} else {
+				if (!(shippingMethod.getName().equalsIgnoreCase(
+						UIUtils.toStr(inputDlg.getTextValueByIndex(0)
+								.toString())) ? true : (Utility.isObjectExist(
+						company.getShippingMethods(), UIUtils.toStr(inputDlg
+								.getTextValueByIndex(0).toString()))) ? false
+						: true)) {
+					result.addError(this, Accounter.constants().alreadyExist());
+				}
 			}
-		} else {
-			if (!(shippingMethod.getName().equalsIgnoreCase(
-					UIUtils.toStr(inputDlg.getTextValueByIndex(0).toString())) ? true
-					: (Utility.isObjectExist(company.getShippingMethods(),
-							UIUtils.toStr(inputDlg.getTextValueByIndex(0)
-									.toString()))) ? false : true)) {
-				result.addError(this, Accounter.constants().alreadyExist());
-			}
-		}
 
 		return result;
 	}
 
 	@Override
 	protected boolean onOK() {
-		if (shippingMethod == null)
-			createShippingMethod();
-		else {
-			editShippingMethod();
+		if (inputDlg != null) {
+			if (shippingMethod == null) {
+				createShippingMethod();
+				inputDlg = null;
+			} else {
+				editShippingMethod();
+				inputDlg = null;
+			}
 		}
-
 		return true;
 	}
-
 }

@@ -171,19 +171,23 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (priceLevel != null) {
-			if (!(priceLevel.getName().equalsIgnoreCase(
-					UIUtils.toStr(dialog.levelText.getValue().toString())) ? true
-					: (Utility.isObjectExist(company.getPriceLevels(), UIUtils
-							.toStr(dialog.levelText.getValue().toString()))) ? false
-							: true)) {
-				result.addError(this, Accounter.constants().alreadyExist());
-			}
-		} else {
-			if (Utility.isObjectExist(getCompany().getPriceLevels(),
-					dialog.levelText.getValue().toString())) {
-				result.addError(this, Accounter.constants()
-						.priceLevelAlreadyExists());
+
+		if (dialog != null) {
+
+			if (priceLevel != null) {
+				if (!(priceLevel.getName().equalsIgnoreCase(
+						UIUtils.toStr(dialog.levelText.getValue().toString())) ? true
+						: (Utility.isObjectExist(company.getPriceLevels(),
+								UIUtils.toStr(dialog.levelText.getValue()
+										.toString()))) ? false : true)) {
+					result.addError(this, Accounter.constants().alreadyExist());
+				}
+			} else {
+				if (Utility.isObjectExist(getCompany().getPriceLevels(),
+						dialog.levelText.getValue().toString())) {
+					result.addError(this, Accounter.constants()
+							.priceLevelAlreadyExists());
+				}
 			}
 		}
 		return result;
@@ -191,11 +195,16 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 	@Override
 	public boolean onOK() {
-		if (priceLevel != null) {
-			editPriceLevels();
-		} else {
-			createPriceLevels();
+		if (dialog != null) {
+			if (priceLevel != null) {
+				editPriceLevels();
+				dialog = null;
+			} else {
+				createPriceLevels();
+				dialog = null;
+			}
 		}
+
 		return true;
 	}
 

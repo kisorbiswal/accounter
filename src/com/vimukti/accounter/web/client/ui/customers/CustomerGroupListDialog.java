@@ -146,21 +146,22 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (customerGroup != null) {
-			if (!(customerGroup.getName().equalsIgnoreCase(
-					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-							.toString())) ? true : (Utility.isObjectExist(
-					company.getCustomerGroups(),
-					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-							.toString())) ? false : true))) {
-				result.addError(this, Accounter.constants()
-						.customerGroupAlreadyExists());
-			}
-		} else {
-			if (Utility.isObjectExist(getCompany().getCustomerGroups(),
-					inputDlg.getTextItems().get(0).getValue().toString())) {
-				result.addError(this, Accounter.constants()
-						.customerGroupAlreadyExists());
+		if (inputDlg != null) {
+			String value = inputDlg.getTextItems().get(0).getValue().toString();
+			if (customerGroup != null) {
+				if (!(customerGroup.getName().equalsIgnoreCase(
+						UIUtils.toStr(value)) ? true
+						: (Utility.isObjectExist(company.getCustomerGroups(),
+								UIUtils.toStr(value)) ? false : true))) {
+					result.addError(this, Accounter.constants()
+							.customerGroupAlreadyExists());
+				}
+			} else {
+				if (Utility.isObjectExist(getCompany().getCustomerGroups(),
+						inputDlg.getTextItems().get(0).getValue().toString())) {
+					result.addError(this, Accounter.constants()
+							.customerGroupAlreadyExists());
+				}
 			}
 		}
 		return result;
@@ -168,10 +169,14 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	@Override
 	protected boolean onOK() {
-		if (customerGroup != null) {
-			editCustomerGroups();
-		} else {
-			createCustomerGroups();
+		if (inputDlg != null) {
+			if (customerGroup != null) {
+				editCustomerGroups();
+				inputDlg = null;
+			} else {
+				createCustomerGroups();
+				inputDlg = null;
+			}
 		}
 		return true;
 	}

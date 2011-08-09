@@ -131,19 +131,20 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-
-		if (itemGroup != null) {
-			if (!(itemGroup.getName().equalsIgnoreCase(
-					itemGroupDg.getItemGroupName()) ? true : (Utility
-					.isObjectExist(company.getItemGroups(),
-							itemGroupDg.getItemGroupName())) ? false : true)) {
-				result.addError(this, accounterConstants.alreadyExist());
-			}
-		} else {
-			if (Utility.isObjectExist(getCompany().getItemGroups(),
-					itemGroupDg.getItemGroupName())) {
-				result.addError(this, Accounter.constants()
-						.aItemGroupAlreadyExistswiththisname());
+		if (itemGroupDg != null) {
+			if (itemGroup != null) {
+				if (!(itemGroup.getName().equalsIgnoreCase(
+						itemGroupDg.getItemGroupName()) ? true : (Utility
+						.isObjectExist(company.getItemGroups(),
+								itemGroupDg.getItemGroupName())) ? false : true)) {
+					result.addError(this, accounterConstants.alreadyExist());
+				}
+			} else {
+				if (Utility.isObjectExist(getCompany().getItemGroups(),
+						itemGroupDg.getItemGroupName())) {
+					result.addError(this, Accounter.constants()
+							.aItemGroupAlreadyExistswiththisname());
+				}
 			}
 		}
 
@@ -152,10 +153,15 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	@Override
 	public boolean onOK() {
-		if (itemGroup != null) {
-			editItemGroups();
-		} else {
-			createItemSGroups();
+		if (itemGroupDg != null) {
+			if (itemGroup != null) {
+				editItemGroups();
+				itemGroupDg = null;
+			} else {
+				createItemSGroups();
+				itemGroupDg = null;
+			}
+
 		}
 		return true;
 	}
