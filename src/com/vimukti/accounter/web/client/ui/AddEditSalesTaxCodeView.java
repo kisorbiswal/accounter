@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -38,7 +39,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	CheckboxItem statusCheck;
 	DynamicForm taxCodeForm;
 	SaleTaxCodeGrid gridView;
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	// private ClientTAXCode selectedTaxCode;
 	protected ClientCompany company;
 	// private ClientTAXCode takenTaxCode;
@@ -335,7 +336,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 						: (Utility.isObjectExist(company.getTaxCodes(),
 								UIUtils.toStr(taxCodeText.getValue())) ? false
 								: true)))) {
-			result.addError(taxCodeText, AccounterErrorType.ALREADYEXIST);
+			result.addError(taxCodeText, accounterConstants.alreadyExist());
 		}
 		return result;
 
