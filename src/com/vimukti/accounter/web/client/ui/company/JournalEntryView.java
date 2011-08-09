@@ -64,7 +64,9 @@ public class JournalEntryView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private AddButton addButton;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter.constants();
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
+			.constants();
+
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY,
 				JOURNALENTRY_TRANSACTION_GRID);
@@ -86,19 +88,20 @@ public class JournalEntryView extends
 					.memoCannotExceedsmorethan255Characters());
 
 		}
-		if (!AccounterValidator.validateTransactionDate(getTransactionDate())) {
+		if (!AccounterValidator.isValidTransactionDate(getTransactionDate())) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result.addError(transactionDateItem, accounterConstants.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		if (AccounterValidator.isBlankTransaction(grid)) {
 			result.addError(grid, accounterConstants.blankTransaction());
 		}
 		result.add(grid.validateGrid());
-		if (grid.validateTotal()) {
+		if (!grid.isValidTotal()) {
 			result.addError(grid, Accounter.constants().totalMustBeSame());
 		}
 		return result;
@@ -248,8 +251,8 @@ public class JournalEntryView extends
 				.getValue().toString() : "");
 		// initMemo(transaction);
 		transaction.setDate(new ClientFinanceDate().getDate());
-		if (DecimalUtil.isEquals(grid.getTotalDebittotal(), grid
-				.getTotalCredittotal())) {
+		if (DecimalUtil.isEquals(grid.getTotalDebittotal(),
+				grid.getTotalCredittotal())) {
 			transaction.setDebitTotal(grid.getTotalDebittotal());
 			transaction.setCreditTotal(grid.getTotalCredittotal());
 			transaction.setTotal(grid.getTotalDebittotal());

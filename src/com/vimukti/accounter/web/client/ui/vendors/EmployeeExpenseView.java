@@ -193,7 +193,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 		result.add(vendorForm.validate());
-		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
+		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateTransactionDate());
 		}
@@ -205,7 +205,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 				result.addError(payFromCombo, Accounter.messages().pleaseEnter(
 						payFromCombo.getTitle()));
 			}
-		if (!AccounterValidator.validate_dueOrDelivaryDates(deliveryDateItem
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
 				.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "

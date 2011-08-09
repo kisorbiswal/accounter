@@ -1110,7 +1110,7 @@ public class ReceivePaymentView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
+		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
@@ -1126,7 +1126,7 @@ public class ReceivePaymentView extends
 		result.add(gridView.validateGrid());
 		if (!isEdit) {
 			try {
-				if (AccounterValidator.validateRecievePaymentAmount(
+				if (AccounterValidator.isValidRecievePaymentAmount(
 						DataUtils.getAmountStringAsDouble(amtText.getValue()
 								.toString()), this.transactionTotal)) {
 					result.addError(amtText,

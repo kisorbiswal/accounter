@@ -221,7 +221,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 				Double lineTotal = Double.parseDouble(DataUtils
 						.getReformatedAmount(lineTotalAmtString) + "");
 				try {
-					if (!AccounterValidator.validateGridLineTotal(lineTotal)
+					if (!AccounterValidator.isValidGridLineTotal(lineTotal)
 							&& !AccounterValidator.isAmountTooLarge(lineTotal)) {
 						double newValue = getAmountInBaseCurrency((Double) lineTotal);
 						item.setLineTotal(newValue);

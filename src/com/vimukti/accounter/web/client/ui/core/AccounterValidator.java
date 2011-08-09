@@ -36,7 +36,7 @@ public class AccounterValidator {
 	private static ClientCompany company;
 	static AccounterConstants accounterConstants = Accounter.constants();
 
-	public static boolean validateAmount(Double amt) {
+	public static boolean isPositiveAmount(Double amt) {
 		if (DecimalUtil.isLessThan(amt, 0.00)
 				|| DecimalUtil.isEquals(amt, 0.00)) {
 			// throw new InvalidEntryException(AccounterErrorType.amount);
@@ -45,11 +45,11 @@ public class AccounterValidator {
 		return true;
 	}
 
-	public static boolean validateNagtiveAmount(Double amt) {
+	public static boolean isNegativeAmount(Double amt) {
 		if (DecimalUtil.isLessThan(amt, 0.00)) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 
 	}
 
@@ -192,7 +192,7 @@ public class AccounterValidator {
 	 * @return true
 	 * @throws InvalidTransactionEntryException
 	 */
-	public static boolean validateTransactionDate(
+	public static boolean isValidTransactionDate(
 			ClientFinanceDate transactionDate) {
 		boolean validDate = false;
 		List<ClientFiscalYear> openFiscalYears = getOpenFiscalYears();
@@ -449,7 +449,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validate_IncomeAccount(final AbstractBaseView view,
+	public static boolean isValidIncomeAccount(final AbstractBaseView view,
 			ClientAccount income_account) {
 		if (income_account.getType() != ClientAccount.TYPE_INCOME) {
 			return false;
@@ -663,7 +663,7 @@ public class AccounterValidator {
 	 * 
 	 * @return
 	 */
-	public static boolean validate_dueOrDelivaryDates(
+	public static boolean isValidDueOrDelivaryDates(
 			ClientFinanceDate dueorDelivaryDate,
 			ClientFinanceDate transactionDate) {
 
@@ -752,7 +752,7 @@ public class AccounterValidator {
 	 * @param paymentsTotal
 	 * @return
 	 */
-	public static boolean validateRecievePaymentAmount(Double amount,
+	public static boolean isValidRecievePaymentAmount(Double amount,
 			Double paymentsTotal) {
 		if (DecimalUtil.isGreaterThan(paymentsTotal, amount)) {
 			// Accounter.showError(AccounterErrorType.recievePayment_TotalAmount);
@@ -764,7 +764,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validate_Receive_Payment(double amountDue,
+	public static boolean isValidReceive_Payment(double amountDue,
 			double totalValue, String errormessg) {
 		if (DecimalUtil.isLessThan(totalValue, 0.00)) {
 			Accounter.showError(accounterConstants.invalidNegativeAmount());
@@ -790,7 +790,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validate_MakeDeposit_CashBackAmount(double amount,
+	public static boolean isValidMakeDeposit_CashBackAmount(double amount,
 			double totalDepositAmount) {
 
 		if (!DecimalUtil.isEquals(amount, 0.0)
@@ -1006,7 +1006,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validateGridLineTotal(Double lineTotal)
+	public static boolean isValidGridLineTotal(Double lineTotal)
 			throws InvalidEntryException {
 		if (DecimalUtil.isLessThan(lineTotal, 0.00)) {
 			throw new InvalidEntryException(Accounter.constants()
@@ -1016,7 +1016,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validateGridUnitPrice(Double unitPrice)
+	public static boolean isValidGridUnitPrice(Double unitPrice)
 			throws InvalidTransactionEntryException {
 		if (DecimalUtil.isLessThan(unitPrice, 0.00)) {
 			// BaseView.errordata.setHTML("<li> " + AccounterErrorType.unitPrice
@@ -1036,7 +1036,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validateGridQuantity(int quantity)
+	public static boolean isValidGridQuantity(int quantity)
 			throws InvalidTransactionEntryException {
 		if (DecimalUtil.isLessThan(quantity, 0.00)) {
 			// BaseView.errordata.setHTML("<li> " + AccounterErrorType.quantity
@@ -1056,7 +1056,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validateCustomerRefundAmount(Double amount,
+	public static boolean isValidCustomerRefundAmount(Double amount,
 			ClientAccount payFromAccount) {
 
 		if (payFromAccount != null
@@ -1142,7 +1142,7 @@ public class AccounterValidator {
 	 * @throws InvalidTransactionEntryException
 	 */
 
-	public static boolean validateSellorDisposeDate(
+	public static boolean isValidSellorDisposeDate(
 			ClientFinanceDate purchaseDate, ClientFinanceDate sellingDate) {
 		if (sellingDate.before(purchaseDate)) {
 			if (!UIUtils.isdateEqual(sellingDate, purchaseDate))
@@ -1170,13 +1170,13 @@ public class AccounterValidator {
 	 * @throws InvalidTransactionEntryException
 	 */
 
-	public static boolean validateGridItem(Object value) {
+	public static boolean isEmpty(Object value) {
 		if (value == null || value == "") {
 			// throw new InvalidTransactionEntryException(Accounter.messages()
 			// .pleaseEnter(itemName));
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public static boolean validate_ZeroAmount(Double amount) {
@@ -1186,7 +1186,7 @@ public class AccounterValidator {
 		return true;
 	}
 
-	public static boolean validatePurchaseDate(ClientFinanceDate transactionDate) {
+	public static boolean isValidPurchaseDate(ClientFinanceDate transactionDate) {
 		boolean validDate = true;
 		List<ClientFiscalYear> openFiscalYears = getOpenFiscalYears();
 		for (ClientFiscalYear openFiscalYear : openFiscalYears) {

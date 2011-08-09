@@ -1132,7 +1132,7 @@ public class CustomerTransactionGrid extends
 				}
 				try {
 					ClientQuantity quant = new ClientQuantity();
-					if (AccounterValidator.validateGridQuantity(quantity)) {
+					if (AccounterValidator.isValidGridQuantity(quantity)) {
 						quant.setValue(Integer.parseInt(qty));
 						item.setQuantity(quant);
 						update_quantity_inAllRecords(item.getQuantity()
@@ -1171,7 +1171,7 @@ public class CustomerTransactionGrid extends
 				// convert this value to base currency, if the selected currency
 				// is not in baseCurreny.
 
-				if (AccounterValidator.validateGridUnitPrice(d)) {
+				if (AccounterValidator.isValidGridUnitPrice(d)) {
 					d = getAmountInBaseCurrency(d);
 					// the value is in BaseCurrency now.
 					item.setUnitPrice(d);
@@ -1192,7 +1192,7 @@ public class CustomerTransactionGrid extends
 				// discount = discount.replaceAll(",", "");
 				Double discountRate = Double.parseDouble(DataUtils
 						.getReformatedAmount(discount) + "");
-				if (!AccounterValidator.validateNagtiveAmount(discountRate)) {
+				if (AccounterValidator.isNegativeAmount(discountRate)) {
 					item.setUnitPrice(0.0D);
 					discountRate = 0.0D;
 				}
@@ -1216,7 +1216,7 @@ public class CustomerTransactionGrid extends
 							.getReformatedAmount(lineTotalAmtString) + "");
 					try {
 						if ((!AccounterValidator
-								.validateGridLineTotal(lineTotal))
+								.isValidGridLineTotal(lineTotal))
 								&& (!AccounterValidator
 										.isAmountTooLarge(lineTotal))) {
 							item.setLineTotal(lineTotal);
@@ -1437,8 +1437,7 @@ public class CustomerTransactionGrid extends
 			if (item.getType() == ClientTransactionItem.TYPE_COMMENT) {
 				continue;
 			}
-			if (!AccounterValidator.validateGridItem(this.getColumnValue(item,
-					1))) {
+			if (AccounterValidator.isEmpty(this.getColumnValue(item, 1))) {
 				result.addError(
 						"GridItem-" + item.getAccount(),
 						Accounter.messages().pleaseEnter(
@@ -1446,8 +1445,7 @@ public class CustomerTransactionGrid extends
 			}
 			if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
 					&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
-				if (!AccounterValidator.validateGridItem(this.getColumnValue(
-						item, 7))) {
+				if (AccounterValidator.isEmpty(this.getColumnValue(item, 7))) {
 					result.addError(
 							"GridItemUK-" + item.getAccount(),
 							Accounter.messages().pleaseEnter(

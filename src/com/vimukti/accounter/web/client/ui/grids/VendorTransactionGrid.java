@@ -899,7 +899,7 @@ public class VendorTransactionGrid extends
 				}
 				try {
 					ClientQuantity quant = new ClientQuantity();
-					if (AccounterValidator.validateGridQuantity(quantity)) {
+					if (AccounterValidator.isValidGridQuantity(quantity)) {
 						quant.setValue(Integer.parseInt(qty));
 						item.setQuantity(quant);
 						update_quantity_inAllRecords(item.getQuantity()
@@ -907,8 +907,8 @@ public class VendorTransactionGrid extends
 					} else {
 						quant.setValue(isItem ? 1 : 0);
 						item.setQuantity(quant);
-						transactionView.addError(this,
-								Accounter.constants().quantity());
+						transactionView.addError(this, Accounter.constants()
+								.quantity());
 					}
 				} catch (InvalidTransactionEntryException e) {
 					e.printStackTrace();
@@ -938,13 +938,13 @@ public class VendorTransactionGrid extends
 				Double d = Double.parseDouble(DataUtils
 						.getReformatedAmount(unitPriceString) + "");
 
-				if (AccounterValidator.validateGridUnitPrice(d)) {
+				if (AccounterValidator.isValidGridUnitPrice(d)) {
 					item.setUnitPrice(getAmountInBaseCurrency(d.doubleValue()));
 				} else {
 					d = 0.0D;
 					item.setUnitPrice(d);
-					transactionView
-							.addError(this, accounterConstants.unitPrice());
+					transactionView.addError(this,
+							accounterConstants.unitPrice());
 				}
 				priceLevelSelected(priceLevel);
 				refreshVatValue();
@@ -970,7 +970,7 @@ public class VendorTransactionGrid extends
 							.getReformatedAmount(lineTotalAmtString) + "");
 					try {
 						if ((!AccounterValidator
-								.validateGridLineTotal(lineTotal))
+								.isValidGridLineTotal(lineTotal))
 								&& (!AccounterValidator
 										.isAmountTooLarge(lineTotal))) {
 
@@ -1200,8 +1200,8 @@ public class VendorTransactionGrid extends
 			if (item.getType() != ClientTransactionItem.TYPE_COMMENT) {
 				switch (validationcount++) {
 				case 1:
-					if (!AccounterValidator.validateGridItem(this
-							.getColumnValue(item, 1))) {
+					if (AccounterValidator
+							.isEmpty(this.getColumnValue(item, 1))) {
 						result.addError(
 								row + "," + 1,
 								Accounter.messages().pleaseEnter(
@@ -1213,7 +1213,7 @@ public class VendorTransactionGrid extends
 				case 2:
 					if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
 							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
-						if (!AccounterValidator.validateGridItem(this
+						if (!AccounterValidator.isEmpty(this
 								.getColumnValue(item,
 										this instanceof PurchaseOrderGrid ? 7
 												: 6))) {
@@ -1234,7 +1234,8 @@ public class VendorTransactionGrid extends
 			}
 		}
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
-			result.addError(this, Accounter.constants().invalidTransactionAmount());
+			result.addError(this, Accounter.constants()
+					.invalidTransactionAmount());
 			// Accounter.showError(AccounterErrorType.InvalidTransactionAmount);
 			// return false;
 		}

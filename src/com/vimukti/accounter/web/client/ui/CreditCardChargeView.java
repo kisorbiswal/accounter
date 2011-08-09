@@ -699,7 +699,7 @@ public class CreditCardChargeView extends
 
 		ValidationResult result = super.validate();
 
-		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
+		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(
 					transactionDate,
 					accounterConstants.invalidateTransactionDate());

@@ -515,7 +515,7 @@ public class NewVendorPaymentView extends
 
 		ValidationResult result = super.validate();
 
-		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
+		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
 		}

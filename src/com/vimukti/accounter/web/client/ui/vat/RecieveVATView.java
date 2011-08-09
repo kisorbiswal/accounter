@@ -481,7 +481,7 @@ public class RecieveVATView extends
 			result.add(grid.validateGrid());
 		}
 		if (isEdit) {
-			if (!AccounterValidator.validateAmount(totalAmount)) {
+			if (!AccounterValidator.isPositiveAmount(totalAmount)) {
 				// FIXME Need to Configm Object
 				result.addError("TotalAmount",accounterConstants.amount());
 			}

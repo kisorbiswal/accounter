@@ -568,7 +568,7 @@ public class ItemReceiptView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
+		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
@@ -576,7 +576,7 @@ public class ItemReceiptView extends
 			result.addError(transactionDate, accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
-		if (!AccounterValidator.validate_dueOrDelivaryDates(
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 
 			result.addError(deliveryDateItem, Accounter.constants().the()

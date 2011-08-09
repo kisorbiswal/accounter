@@ -397,7 +397,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		}
 		ClientFixedAsset asset = (ClientFixedAsset) data;
 		if (asset != null)
-			if (AccounterValidator.validateSellorDisposeDate(
+			if (AccounterValidator.isValidSellorDisposeDate(
 					new ClientFinanceDate(asset.getPurchaseDate()),
 					getSoldorDisposedDateField().getEnteredDate())) {
 				result.addError(

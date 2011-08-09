@@ -1041,7 +1041,7 @@ public class PurchaseOrderView extends
 			result.addError(statusSelect, statusSelect.getTitle());
 		}
 
-		if (!AccounterValidator.validate_dueOrDelivaryDates(
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				dueDateItem.getDate(), transactionDateItem.getDate())) {
 			result.addError(dueDateItem, Accounter.constants().the()
 					+ " "

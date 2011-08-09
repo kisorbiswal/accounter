@@ -454,7 +454,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		} else {
 			result.add(grid.validateGrid());
 		}
-		if (!AccounterValidator.validateAmount(totalAmount)) {
+		if (!AccounterValidator.isPositiveAmount(totalAmount)) {
 			// FIXME Confirm Object
 			result.addError("TotalAmount", accounterConstants.amount());
 		}

@@ -510,7 +510,7 @@ public class PaySalesTaxView extends
 		} else {
 			result.add(grid.validateGrid());
 		}
-		if (!AccounterValidator.validateAmount(totalAmount)) {
+		if (!AccounterValidator.isPositiveAmount(totalAmount)) {
 			result.addError(amountText,accounterConstants.amount());
 		}
 		return result;

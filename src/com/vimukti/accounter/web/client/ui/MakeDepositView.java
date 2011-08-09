@@ -950,7 +950,7 @@ public class MakeDepositView extends
 		} else {
 			result.add(gridView.validateGrid());
 		}
-		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
+		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
@@ -959,11 +959,11 @@ public class MakeDepositView extends
 					accounterConstants.invalidateDate());
 		}
 		result.add(depoForm.validate());
-		if (!AccounterValidator.validateNagtiveAmount(cashBackAmountText
+		if (AccounterValidator.isNegativeAmount(cashBackAmountText
 				.getAmount())) {
 			result.addError(cashBackAmountText,
 					accounterConstants.invalidNegativeAmount());
-		} else if (!AccounterValidator.validate_MakeDeposit_CashBackAmount(
+		} else if (!AccounterValidator.isValidMakeDeposit_CashBackAmount(
 				cashBackAmountText.getAmount().doubleValue(), totText
 						.getAmount())) {
 			result.addError(cashBackAmountText,

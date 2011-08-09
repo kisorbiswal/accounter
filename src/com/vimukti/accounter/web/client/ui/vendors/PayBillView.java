@@ -691,7 +691,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
+		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
 		}

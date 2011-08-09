@@ -675,7 +675,7 @@ public class VendorBillView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 
-		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
+		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
 		}
@@ -685,7 +685,7 @@ public class VendorBillView extends
 		}
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.validate_dueOrDelivaryDates(
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				dueDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(dueDateItem, Accounter.constants().the()
 					+ " "

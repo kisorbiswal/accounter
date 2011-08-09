@@ -266,7 +266,7 @@ public class TransactionPayBillGrid extends
 				.getSelectedRecords()) {
 
 			double totalValue = getTotalValue(transactionPayBill);
-			if (!AccounterValidator.validate_Receive_Payment(transactionPayBill
+			if (!AccounterValidator.isValidReceive_Payment(transactionPayBill
 					.getAmountDue(), totalValue, Accounter.constants()
 					.receivePaymentExcessDue())) {
 				// FIXME

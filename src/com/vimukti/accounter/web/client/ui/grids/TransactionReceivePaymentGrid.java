@@ -211,7 +211,7 @@ public class TransactionReceivePaymentGrid extends
 				updateAmountDue(item);
 				double totalValue = item.getCashDiscount() + item.getWriteOff()
 						+ item.getAppliedCredits() + item.getPayment();
-				if (AccounterValidator.validate_Receive_Payment(item
+				if (AccounterValidator.isValidReceive_Payment(item
 						.getAmountDue(), totalValue, Accounter.constants()
 						.receivePaymentExcessDue())) {
 					paymentView.recalculateGridAmounts();
@@ -660,7 +660,7 @@ public class TransactionReceivePaymentGrid extends
 
 	protected boolean validatePaymentValue() {
 		double totalValue = getTotalValue(selectedObject);
-		if (AccounterValidator.validate_Receive_Payment(selectedObject
+		if (AccounterValidator.isValidReceive_Payment(selectedObject
 				.getAmountDue(), totalValue, Accounter.constants()
 				.receiveAmountPayDue())) {
 			return true;

@@ -360,7 +360,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		}
 		// return true;
 		// case 3:
-		if (!AccounterValidator.validateAmount(amount.getAmount())) {
+		if (!AccounterValidator.isPositiveAmount(amount.getAmount())) {
 			result.addError(amount, accounterConstants.amount());
 		}
 

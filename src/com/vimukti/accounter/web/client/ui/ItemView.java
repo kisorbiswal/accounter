@@ -859,21 +859,21 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 
 		if (isellCheck.isChecked()) {
-			if (!AccounterValidator.validateAmount(salesPriceText.getAmount())) {
+			if (!AccounterValidator.isPositiveAmount(salesPriceText.getAmount())) {
 				result.addError(salesPriceText, accounterConstants.amount());
 			}
 		}
 
 		if (ibuyCheck.isChecked()) {
 			if (!AccounterValidator
-					.validateAmount(purchasePriceTxt.getAmount())) {
+					.isPositiveAmount(purchasePriceTxt.getAmount())) {
 				result.addError(purchasePriceTxt, accounterConstants.amount());
 			}
 		}
 
 		if (selectAccount != null) {
 			if (isellCheck.isChecked()) {
-				if (!AccounterValidator.validate_IncomeAccount(this,
+				if (!AccounterValidator.isValidIncomeAccount(this,
 						selectAccount)) {
 					result.addWarning(accountCombo,
 							AccounterWarningType.different_IncomeAccountType);

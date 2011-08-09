@@ -292,7 +292,7 @@ public class TransactionJournalEntryGrid extends
 		List<ClientEntry> entrylist = this.getRecords();
 		for (ClientEntry entry : entrylist) {
 			int row = this.objects.indexOf(entry);
-			if (AccounterValidator.validateGridItem(getColumnValue(entry, 2))) {
+			if (AccounterValidator.isEmpty(getColumnValue(entry, 2))) {
 				result.addError(row + "," + 2, Accounter.messages()
 						.pleaseEnter(getTypeAsString(entry, entry.getType())));
 			}
@@ -302,7 +302,7 @@ public class TransactionJournalEntryGrid extends
 
 	}
 
-	public boolean validateTotal() {
+	public boolean isValidTotal() {
 		if (getTotalCredittotal() == getTotalDebittotal())
 			return true;
 		else {

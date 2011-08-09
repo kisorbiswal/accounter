@@ -375,7 +375,7 @@ public class VendorCreditMemoView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		if (AccounterValidator.validateTransactionDate(transactionDate)) {
+		if (AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
 		}

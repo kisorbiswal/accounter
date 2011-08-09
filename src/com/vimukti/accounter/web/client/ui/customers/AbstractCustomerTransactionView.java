@@ -907,7 +907,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		ValidationResult result = super.validate();
 
-		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
+		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
 					customerConstants.invalidateTransactionDate());
 		} else if (AccounterValidator

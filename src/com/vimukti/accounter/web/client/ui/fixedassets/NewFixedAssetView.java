@@ -978,7 +978,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 			}
 
-			if (!AccounterValidator.validatePurchaseDate(purchaseDateTxt
+			if (!AccounterValidator.isValidPurchaseDate(purchaseDateTxt
 					.getEnteredDate())) {
 				result.addError(purchaseDateTxt,
 						Accounter.constants().invalidPurchaseDate());
@@ -988,7 +988,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			result.add(itmNameForm.validate());
 			result.add(itemInfoForm.validate());
 
-			if (!AccounterValidator.validatePurchaseDate(purchaseDateTxt
+			if (!AccounterValidator.isValidPurchaseDate(purchaseDateTxt
 					.getEnteredDate())) {
 				result.addError(purchaseDateTxt,
 						Accounter.constants().invalidPurchaseDate());

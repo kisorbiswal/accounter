@@ -1110,7 +1110,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			getEstimatesAndSalesOrder();
 		}
 		result.add(super.validate());
-		if (!AccounterValidator.validate_dueOrDelivaryDates(
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				((InvoiceView) this).dueDateItem.getDate(),
 				getTransactionDate())) {
 			result.addError(((InvoiceView) this).dueDateItem, Accounter

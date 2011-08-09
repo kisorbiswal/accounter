@@ -89,7 +89,7 @@ public class NewCustomerPaymentView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
+		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(
 					transactionDateItem,
 					accounterConstants.invalidateTransactionDate());

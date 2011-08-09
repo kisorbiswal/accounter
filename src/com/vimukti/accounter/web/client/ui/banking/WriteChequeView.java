@@ -531,7 +531,7 @@ public class WriteChequeView extends
 				// total = transactionVendorGrid.getTotal();
 
 			}
-			return AccounterValidator.validateAmount(total);
+			return AccounterValidator.isPositiveAmount(total);
 		}
 		return false;
 	}
