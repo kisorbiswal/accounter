@@ -36,7 +36,7 @@ $.validator.setDefaults({
 });
 $.validator.addMethod("no_special_characters", function(value, element) {
     return this.optional(element) ||
-        value.match(/^[a-zA-Z0-9@_]*$/);
+        value.match(/^[a-zA-Z0-9@_]*$/ );
 }, "shouldn't contain any special characters");
 
 	$(document).ready(function() {
