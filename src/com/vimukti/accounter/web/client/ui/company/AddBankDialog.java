@@ -7,10 +7,10 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -19,7 +19,7 @@ public class AddBankDialog extends BaseDialog {
 
 	private TextItem bankNameText;
 	private AccounterAsyncCallback<ClientBank> callBack;
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	public AddBankDialog(AbstractBaseView<ClientBank> parent) {
 		super(Accounter.constants().addBank(), null);
 		createControls();
@@ -53,7 +53,7 @@ public class AddBankDialog extends BaseDialog {
 		}
 		if (Utility.isObjectExist(company.getTaxItems(), bankNameText
 				.getValue().toString())) {
-			result.addError(this, AccounterErrorType.ALREADYEXIST);
+			result.addError(this, accounterConstants.alreadyExist());
 		}
 		return result;
 	}
