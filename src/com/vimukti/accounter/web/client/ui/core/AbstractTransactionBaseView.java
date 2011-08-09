@@ -852,7 +852,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		ValidationResult result = new ValidationResult();
 
-		if (this.transaction.getTotal() <= 0) {
+		if (this.transaction.getTotal() < 0) {
 			result.addError(this, Accounter.constants()
 					.transactiontotalcannotbe0orlessthan0());
 		}
