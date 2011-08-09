@@ -373,10 +373,10 @@ public class Vendor extends Payee implements Lifecycle {
 			session.save(journalEntry);
 		}
 
-		/*
-		 * Is to update Memo in Entry if and only if vendor Name was altered
-		 */
-		this.updateEntryMemo(session);
+		// /*
+		// * Is to update Memo in Entry if and only if vendor Name was altered
+		// */
+		// this.updateEntryMemo(session);
 
 		ChangeTracker.put(this);
 		return false;

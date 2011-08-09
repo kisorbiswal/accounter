@@ -403,10 +403,10 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 			session.save(journalEntry);
 		}
 
-		/*
-		 * Is to update Memo in Entry if and only if customer Name was altered
-		 */
-		this.updateEntryMemo(session);
+		// /*
+		// * Is to update Memo in Entry if and only if customer Name was altered
+		// */
+		// this.updateEntryMemo(session);
 
 		ChangeTracker.put(this);
 		return false;
