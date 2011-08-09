@@ -5,13 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
-import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -23,11 +23,11 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -46,6 +46,7 @@ public class CreditCardChargeView extends
 	protected TextItem cheqNoText;
 	// protected TextItem refText;
 	AmountField totText;
+	AccounterConstants accounterConstants = GWT.create(AccounterConstants.class);
 
 	protected DynamicForm vendorForm, addrForm, phoneForm, termsForm, memoForm;
 	protected SelectCombo contactNameSelect, payMethSelect;
@@ -215,8 +216,8 @@ public class CreditCardChargeView extends
 		super.paymentMethodSelected(paymentMethod2);
 		if (paymentMethod != null
 				&& (paymentMethod
-						.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || paymentMethod
-						.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+						.equals(com.vimukti.accounter.web.client.core.AccounterConstants.PAYMENT_METHOD_CHECK) || paymentMethod
+						.equals(com.vimukti.accounter.web.client.core.AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 			if (isEdit) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
@@ -699,20 +700,23 @@ public class CreditCardChargeView extends
 		ValidationResult result = super.validate();
 
 		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					AccounterErrorType.InvalidTransactionDate);
+			result.addError(
+					transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					AccounterErrorType.InvalidTransactionDate);
+			result.addError(
+					transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
-					AccounterErrorType.blankTransaction);
+			result.addError(
+					vendorTransactionGrid,
+					accounterConstants.blankTransaction());
 		}
 		result.add(vendorTransactionGrid.validateGrid());
 		return result;
