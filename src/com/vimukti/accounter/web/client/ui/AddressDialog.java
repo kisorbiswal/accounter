@@ -229,7 +229,7 @@ public class AddressDialog extends BaseDialog {
 			textAreaItem.setValue(toBeSet);
 			allAddresses.put(UIUtils.getAddressType(addressType), value);
 		} else {
-			result.addError(this, AccounterErrorType.SHOULD_NOT_EMPTY);
+			result.addError(this, Accounter.constants().shouldNotEmpty());
 		}
 		return result;
 	}
