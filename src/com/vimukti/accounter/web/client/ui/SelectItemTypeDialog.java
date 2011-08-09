@@ -71,10 +71,14 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 			if (radio.equals(Accounter.constants().service())) {
 				NewItemAction action = new NewItemAction(Accounter.constants()
 						.newItem(), forCustomer);
+				action.setDependent(true);
+				action.setType(ClientItem.TYPE_SERVICE);
 				action.run();
 			} else if (radio.equals(Accounter.constants().product())) {
 				NewItemAction action = new NewItemAction(Accounter.constants()
 						.newItem(), forCustomer);
+				action.setDependent(true);
+				action.setType(ClientItem.TYPE_NON_INVENTORY_PART);
 				action.run();
 			}
 			// UIUtils.setCanvas(itemView, configuration);
