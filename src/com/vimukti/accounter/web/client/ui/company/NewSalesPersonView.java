@@ -36,7 +36,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.GridAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -367,7 +366,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		if (!(isEdit ? (data.getName().equalsIgnoreCase(name) ? true : (Utility
 				.isObjectExist(getCompany().getSalesPersons(), name) ? false
 				: true)) : true)) {
-			result.addError(employeeNameText, AccounterErrorType.ALREADYEXIST);
+			result.addError(employeeNameText, Accounter.constants().alreadyExist());
 		}
 
 		long mustdate = new ClientFinanceDate().getDate() - 180000;

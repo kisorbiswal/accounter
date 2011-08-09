@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -65,7 +66,7 @@ public class JournalEntryView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private AddButton addButton;
-
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter.constants();
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY,
 				JOURNALENTRY_TRANSACTION_GRID);
@@ -89,20 +90,18 @@ public class JournalEntryView extends
 		}
 		if (!AccounterValidator.validateTransactionDate(getTransactionDate())) {
 			result.addError(transactionDateItem,
-					AccounterErrorType.InvalidTransactionDate);
+					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(getTransactionDate())) {
-			result
-					.addError(transactionDateItem,
-							AccounterErrorType.InvalidDate);
+			result.addError(transactionDateItem, accounterConstants.invalidateDate());
 		}
 		result.add(dateForm.validate());
 		if (AccounterValidator.isBlankTransaction(grid)) {
-			result.addError(grid, AccounterErrorType.blankTransaction);
+			result.addError(grid, accounterConstants.blankTransaction());
 		}
 		result.add(grid.validateGrid());
 		if (grid.validateTotal()) {
-			result.addError(grid, AccounterErrorType.TOTAL_MUSTBE_SAME);
+			result.addError(grid, Accounter.constants().totalMustBeSame());
 		}
 		return result;
 
