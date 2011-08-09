@@ -128,10 +128,6 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 	 * @see
 	 * com.vimukti.accounter.web.client.ui.combo.CustomCombo#getSelectItemType()
 	 */
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.VAT_ITEM;
-	}
 
 	/*
 	 * @see com.vimukti.accounter.web.client.ui.combo.CustomCombo#onAddNew()

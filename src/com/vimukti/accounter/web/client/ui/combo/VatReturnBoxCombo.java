@@ -20,11 +20,6 @@ public class VatReturnBoxCombo extends CustomCombo<ClientVATReturnBox> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return null;
-	}
-
-	@Override
 	public void onAddNew() {
 		// do nothing
 	}

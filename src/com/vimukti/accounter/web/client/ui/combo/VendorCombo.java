@@ -21,9 +21,8 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return UIUtils.getVendorString(Accounter
-				.constants().newSupplier(), Accounter
-				.constants().newVendor());
+		return UIUtils.getVendorString(Accounter.constants().newSupplier(),
+				Accounter.constants().newVendor());
 
 	}
 
@@ -43,16 +42,11 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 			@Override
 			public void actionResult(ClientVendor result) {
 				addItemThenfireEvent(result);
-				
+
 			}
 		});
-		
-		action.run(null, true);
-	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.VENDOR;
+		action.run(null, true);
 	}
 
 	@Override

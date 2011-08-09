@@ -62,9 +62,4 @@ public class VATAgencyAccountCombo extends AccountCombo {
 		return accounts;
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
-	}
-
 }

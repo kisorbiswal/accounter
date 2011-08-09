@@ -38,16 +38,11 @@ public class WarehouseCombo extends CustomCombo<ClientWarehouse> {
 			@Override
 			public void actionResult(ClientWarehouse result) {
 				addItemThenfireEvent(result);
-				
+
 			}
 		});
 		action.run(null, true);
 
-	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.WAREHOUSE;
 	}
 
 	@Override

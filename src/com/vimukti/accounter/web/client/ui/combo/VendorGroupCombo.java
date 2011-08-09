@@ -31,11 +31,6 @@ public class VendorGroupCombo extends CustomCombo<ClientVendorGroup> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.VENDOR_GROUP;
-	}
-
-	@Override
 	protected String getColumnData(ClientVendorGroup object, int row, int col) {
 		switch (col) {
 		case 0:
