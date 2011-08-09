@@ -5,6 +5,23 @@
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		<% String version = application.getInitParameter("version"); %>
 		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
+		<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
+		<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+		<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+		<script  type="text/javascript" >
+			$(document).ready(function() {
+				$('#submitButton').click(function() {
+					$("#activationForm").validate({
+						rules: {
+						code: "required",
+						},
+						messages: {
+						code: "Please enter the activation code you got in the mail" 
+						}
+					});
+				});
+			});
+		</script>
   </head>
     <body>
 	    <div id="commanContainer">
@@ -15,13 +32,13 @@
 			</div>
   		  </c:if>
   		  
-		 <form action="/activation" method="post">
+		 <form id = "activationForm" action="/activation" method="post">
 		    <div class="reset-header">
 			   <h2>Activation Code</h2>
 			</div>
 			<div>
 			  <label>Enter valid activation code</label>
-			  <input type="text" name="code">
+			  <input id ="actiovationTextbox" type="text" name="code">
 			</div>
 			<div class="reset-button">
 			   <input type="submit" tabindex="3" value="Activate" name="activate" class="allviews-common-button" id="submitButton">
