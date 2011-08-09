@@ -626,8 +626,7 @@ public class ItemView extends BaseView<ClientItem> {
 		else
 			data.setTaxable(true);
 		if (type == NON_INVENTORY_PART || type == TYPE_SERVICE)
-			data.setTaxCode(selectTaxCode != null ? selectTaxCode.getID()
-					: null);
+			data.setTaxCode(selectTaxCode != null ? selectTaxCode.getID() : 0);
 	}
 
 	@Override
@@ -859,15 +858,18 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 
 		if (isellCheck.isChecked()) {
-			if (!AccounterValidator.isPositiveAmount(salesPriceText.getAmount())) {
-				result.addError(salesPriceText, accounterConstants.amount());
+			if (!AccounterValidator
+					.isPositiveAmount(salesPriceText.getAmount())) {
+				result.addError(salesPriceText,
+						accounterConstants.enterValidAmount());
 			}
 		}
 
 		if (ibuyCheck.isChecked()) {
-			if (!AccounterValidator
-					.isPositiveAmount(purchasePriceTxt.getAmount())) {
-				result.addError(purchasePriceTxt, accounterConstants.amount());
+			if (!AccounterValidator.isPositiveAmount(purchasePriceTxt
+					.getAmount())) {
+				result.addError(purchasePriceTxt,
+						accounterConstants.enterValidAmount());
 			}
 		}
 
