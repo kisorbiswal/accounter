@@ -230,4 +230,7 @@ public class ExpenseClaimList extends BaseView {
 		return Accounter.constants().expenseClaims();
 	}
 
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+	}
 }
