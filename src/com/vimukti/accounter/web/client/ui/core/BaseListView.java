@@ -341,7 +341,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			public void onClick(ClickEvent event) {
 				Action action = getAddNewAction();
 				if (action != null) {
-					action.run(null, true);
+					action.run(null, false);
 				}
 			}
 
