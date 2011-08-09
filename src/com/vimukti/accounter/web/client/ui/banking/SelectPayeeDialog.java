@@ -3,19 +3,21 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.LinkedHashMap;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
-import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
+import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
-public class SelectPayeeDialog extends BaseDialog {
+public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 
 	RadioGroupItem typeRadio;
 	// private ClientCompany company;
@@ -27,7 +29,7 @@ public class SelectPayeeDialog extends BaseDialog {
 
 	private final String EMP_REIMB = Accounter.constants().empreimb();
 
-	public SelectPayeeDialog(AbstractBaseView parent) {
+	public SelectPayeeDialog() {
 		super(Accounter.constants().selectPayeeType(), Accounter.constants()
 				.selectOneOfFollowingPayee());
 
@@ -36,7 +38,6 @@ public class SelectPayeeDialog extends BaseDialog {
 		center();
 
 	}
-
 
 	private void createControls() {
 
@@ -83,20 +84,31 @@ public class SelectPayeeDialog extends BaseDialog {
 		// okClick();
 		if (radio.equals(Accounter.constants().supplier())) {
 			// new VendorPaymentsAction("Not Issued").run();
-			Action action = ActionFactory.getNewVendorAction();
-			action.setActionSource(actionSource);
+			NewVendorAction action = ActionFactory.getNewVendorAction();
+			action.setCallback(new ActionCallback<ClientVendor>() {
+
+				@Override
+				public void actionResult(ClientVendor result) {
+					setResult(result);
+				}
+			});
 
 			action.run(null, true);
 
 		} else if (radio.equals(Accounter.constants().customer())) {
-			Action action = ActionFactory.getNewCustomerAction();
-			action.setActionSource(actionSource);
+			NewCustomerAction action = ActionFactory.getNewCustomerAction();
+			action.setCallback(new ActionCallback<ClientCustomer>() {
+
+				@Override
+				public void actionResult(ClientCustomer result) {
+					setResult(result);
+				}
+			});
 
 			action.run(null, true);
 
-			hide();
-
 		}
+		hide();
 		return true;
 	}
 
