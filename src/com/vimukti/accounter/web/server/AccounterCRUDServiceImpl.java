@@ -61,12 +61,12 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	public long update(IAccounterCore coreObject) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 
-		String clientClassSimpleName = coreObject.getObjectType()
-				.getClientClassSimpleName();
+		String serverClassFullyQualifiedName = coreObject.getObjectType()
+				.getServerClassFullyQualifiedName();
 
 		OperationContext context = new OperationContext(coreObject,
 				getUserEmail(), String.valueOf(coreObject.getID()),
-				clientClassSimpleName);
+				serverClassFullyQualifiedName);
 
 		return tool.update(context);
 	}
