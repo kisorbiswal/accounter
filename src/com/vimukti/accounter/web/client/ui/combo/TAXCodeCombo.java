@@ -102,11 +102,6 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.TAX_CODE;
-	}
-
-	@Override
 	protected String getColumnData(ClientTAXCode object, int row, int col) {
 		switch (col) {
 		case 0:
