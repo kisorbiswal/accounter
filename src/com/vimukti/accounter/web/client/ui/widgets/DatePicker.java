@@ -8,6 +8,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
@@ -37,7 +39,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
-		KeyPressHandler {
+		KeyPressHandler ,FocusHandler{
 
 	private PopupCalendar popup;
 	private Date selectedDate;
@@ -78,6 +80,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		// addClickHandler(this);
 		addChangeHandler(this);
 		addKeyPressHandler(this);
+		addFocusHandler(this);
 	}
 
 	/**
@@ -355,6 +358,13 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 
 	public void addDateValueChangeHandler(DateValueChangeHandler changeHandler) {
 		this.handler = changeHandler;
+	}
+
+	@Override
+	public void onFocus(FocusEvent arg0) {
+		showPopup();
+		
+		
 	}
 
 }
