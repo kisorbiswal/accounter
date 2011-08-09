@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialog;
@@ -24,7 +24,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	ClientCreditRating creditRating;
 	List<ClientCreditRating> creditRatings;
 	private InputDialog inputDlg;
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	public CreditRatingListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("400", "330");
@@ -145,7 +145,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 					company.getItemGroups(),
 					UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
 							.toString()))) ? false : true)) {
-				result.addError(this, AccounterErrorType.ALREADYEXIST);
+				result.addError(this, accounterConstants.alreadyExist());
 			}
 		} else {
 			if (Utility.isObjectExist(getCompany().getCreditRatings(), inputDlg
