@@ -35,6 +35,7 @@ public class ExpenseClaimList extends BaseView {
 	public boolean isProcessingAdded;
 
 	public ExpenseClaimList() {
+		init();
 	}
 
 	@Override
