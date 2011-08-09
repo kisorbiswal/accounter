@@ -19,8 +19,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
-import com.vimukti.accounter.web.client.ui.combo.SelectItemType;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 
 public class CashExpenseView extends CashPurchaseView {
@@ -28,7 +26,9 @@ public class CashExpenseView extends CashPurchaseView {
 	private ClientAccount pettycash;
 	protected List<String> selectedComboList;
 	AccountCombo petycash;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter.constants();
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
+			.constants();
+
 	public CashExpenseView() {
 		super(ClientTransaction.TYPE_CASH_EXPENSE);
 	}
@@ -40,11 +40,6 @@ public class CashExpenseView extends CashPurchaseView {
 		vendorForm.removeFromParent();
 		termsForm.clear();
 		petycash = new AccountCombo(Accounter.constants().cashExpense()) {
-
-			@Override
-			public SelectItemType getSelectItemType() {
-				return SelectItemType.ACCOUNT;
-			}
 
 			@Override
 			protected List<ClientAccount> getAccounts() {
@@ -170,8 +165,8 @@ public class CashExpenseView extends CashPurchaseView {
 			result.addError(payFromCombo, payFromCombo.getTitle());
 		}
 
-		if (!AccounterValidator.validate_dueOrDelivaryDates(deliveryDateItem
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.validate_dueOrDelivaryDates(
+				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().deliveryDate()
