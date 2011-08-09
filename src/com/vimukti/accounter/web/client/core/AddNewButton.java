@@ -25,7 +25,6 @@ public class AddNewButton extends ImageButton {
 				} else {
 					view.onAddNew();
 				}
-				view.onSave(false);
 			}
 		});
 	}
