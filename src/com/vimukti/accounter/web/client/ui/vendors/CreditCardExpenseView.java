@@ -22,15 +22,17 @@ import com.vimukti.accounter.web.client.ui.CreditCardChargeView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class CreditCardExpenseView extends CreditCardChargeView {
 
 	VendorCombo Ccard;
 	private int viewFrom = 119;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter.constants();
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
+			.constants();
+
 	public CreditCardExpenseView() {
 
 		super(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
@@ -69,7 +71,14 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 			public void onAddNew() {
 				NewVendorAction action = ActionFactory.getNewVendorAction();
 
-				action.setActionSource(this);
+				action.setCallback(new ActionCallback<ClientVendor>() {
+
+					@Override
+					public void actionResult(ClientVendor result) {
+						addItemThenfireEvent(result);
+
+					}
+				});
 				action.setOpenedFrom(viewFrom);
 
 				action.run(null, true);
@@ -77,16 +86,15 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-					@Override
-					public void selectedComboBoxItem(ClientVendor selectItem) {
-						selectedVendor = selectItem;
-						Ccard.setComboItem(selectItem);
-						addPhonesContactsAndAddress();
-					}
-				});
+			@Override
+			public void selectedComboBoxItem(ClientVendor selectItem) {
+				selectedVendor = selectItem;
+				Ccard.setComboItem(selectItem);
+				addPhonesContactsAndAddress();
+			}
+		});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -110,8 +118,8 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		HorizontalPanel hPanel = (HorizontalPanel) termsForm.getParent();
 		termsForm.removeFromParent();
 		termsForm.setWidth("100%");
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 		hPanel.add(termsForm);
 
 		if (isEdit) {

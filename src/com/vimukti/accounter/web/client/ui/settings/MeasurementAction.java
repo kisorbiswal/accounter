@@ -49,11 +49,11 @@ public class MeasurementAction extends Action<ClientMeasurement> {
 		return null;
 	}
 
-//	@Override
-//	public ParentCanvas getView() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// // TODO Auto-generated method stub
+	// return null;
+	// }
 
 	@Override
 	public String getHistoryToken() {
