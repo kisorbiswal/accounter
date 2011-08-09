@@ -320,8 +320,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 			isTransactionNumberExist((IAccounterCore) data);
 
-			IAccounterServerCore serverObject2 = new ServerConvertUtil().toServerObject(serverObject,
-					(IAccounterCore) data, session);
+			new ServerConvertUtil()
+					.toServerObject(serverObject, (IAccounterCore) data,
+							session);
 
 			if (serverObject instanceof Transaction) {
 				Transaction transaction = (Transaction) serverObject;
@@ -649,7 +650,7 @@ public class FinanceTool implements IFinanceDAOService {
 			long id) throws DAOException {
 
 		Object serverObject = getServerObjectForid(type, id);
-		
+
 		Class<?> serverClass = getClientEquivalentServerClass(type);
 
 		if (serverObject != null) {
@@ -10228,7 +10229,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 	private boolean isTransactionNumberExist(IAccounterCore object)
 			throws AccounterException {
-
 		FlushMode flushMode = HibernateUtil.getCurrentSession().getFlushMode();
 		HibernateUtil.getCurrentSession().setFlushMode(FlushMode.COMMIT);
 
