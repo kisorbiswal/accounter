@@ -33,6 +33,7 @@ public class PreviousClaimsView extends BaseView {
 	public boolean isProcessingAdded;
 
 	public PreviousClaimsView() {
+		init();
 	}
 
 	@Override
