@@ -178,7 +178,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				|| (!isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getTaxAgencies(),
 								name) ? false : true)) : true)) {
-			result.addError(taxAgencyText, AccounterErrorType.ALREADYEXIST);
+			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
 		}
 		return result;
 	}

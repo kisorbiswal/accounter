@@ -219,7 +219,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getVatGroups(),
 								name) ? false : true)) : true)) {
-			result.addError(groupName, AccounterErrorType.ALREADYEXIST);
+			result.addError(groupName, Accounter.constants().alreadyExist());
 			result.add(form.validate());
 		}
 
