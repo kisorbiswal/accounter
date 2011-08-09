@@ -26,6 +26,7 @@ public class AwaitingAuthorisationView extends BaseView {
 	public boolean isProcessingAdded;
 
 	public AwaitingAuthorisationView() {
+		init();
 	}
 
 	@Override
