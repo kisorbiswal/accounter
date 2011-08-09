@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -71,6 +72,8 @@ public class ReceivePaymentView extends
 	private HorizontalPanel topHLay;
 
 	public TransactionReceivePaymentGrid gridView;
+
+	AccounterConstants accounterConstants = Accounter.constants();
 
 	protected List<ReceivePaymentTransactionList> receivePaymentTransactionList;
 
@@ -1110,16 +1113,16 @@ public class ReceivePaymentView extends
 		ValidationResult result = super.validate();
 		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
-					AccounterErrorType.InvalidTransactionDate);
+					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
+			result.addError(transactionDateItem, accounterConstants.invalidateDate());
 		}
 		result.add(FormItem.validate(customerCombo, paymentMethodCombo,
 				depositInCombo));
 
 		if (AccounterValidator.isBlankTransaction(gridView)) {
-			result.addError(gridView, AccounterErrorType.selectTransaction);
+			result.addError(gridView, Accounter.constants().selectTransaction());
 		}
 		result.add(gridView.validateGrid());
 		if (!isEdit) {
@@ -1128,10 +1131,11 @@ public class ReceivePaymentView extends
 						DataUtils.getAmountStringAsDouble(amtText.getValue()
 								.toString()), this.transactionTotal)) {
 					result.addError(amtText,
-							AccounterErrorType.recievePayment_TotalAmount);
+							Accounter.constants().recievePaymentTotalAmount());
 				}
 			} catch (Exception e) {
-				result.addError(amtText, AccounterErrorType.INVALIDAMOUNT);
+				result.addError(amtText,
+						accounterConstants.invalidateTransactionDate());
 			}
 		}
 		if (!isEdit

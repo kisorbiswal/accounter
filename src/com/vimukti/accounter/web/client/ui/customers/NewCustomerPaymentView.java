@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -30,6 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -46,7 +48,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class NewCustomerPaymentView extends
 		AbstractCustomerTransactionView<ClientCustomerPrePayment> {
-
+	AccounterConstants accounterConstants = GWT.create(AccounterConstants.class);
 	private CheckboxItem printCheck;
 	private AmountField amountText, endBalText, customerBalText;
 	protected double enteredBalance;
@@ -89,17 +91,19 @@ public class NewCustomerPaymentView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					AccounterErrorType.InvalidTransactionDate);
+			result.addError(
+					transactionDateItem,
+					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, AccounterErrorType.InvalidDate);
+			result.addError(transactionDateItem, accounterConstants.invalidateDate());
 		}
 
 		result.add(payForm.validate());
 		if (DecimalUtil.isEquals(amountText.getAmount(), 0))
-			result.addError(amountText,
-					AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+			result.addError(
+					amountText,
+					accounterConstants.invalidNegativeAmount());
 		return result;
 	}
 
