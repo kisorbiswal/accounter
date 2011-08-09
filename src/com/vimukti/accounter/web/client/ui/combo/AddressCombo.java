@@ -38,11 +38,6 @@ public class AddressCombo extends CustomCombo<ClientAddress> {
 		}
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-
-		return SelectItemType.ADDRESS;
-	}
 
 	@Override
 	protected String getColumnData(ClientAddress object, int row, int col) {
