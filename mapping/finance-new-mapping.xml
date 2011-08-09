@@ -17,10 +17,10 @@
 		<property name="country" column="COUNTRY"></property>
 		<property name="isSubscribedToNewsLetters" column="IS_SUBSCRIBED_TO_NEWS_LETTER"></property>
 		<property name="isRequirePasswordReset" column="IS_REQUIRE_PASSWORD_RESET" />
-		<property name="loginCount" column="LOGIN_COUNT"></property>
-		<property name="lastLoginTime" column="LAST_LOGIN_TIME"></property>
-		<set name="companies" table="CLIENT_COMPANIES" lazy="false"
-			cascade="save-update">
+		<property name="loginCount" column="LOGIN_COUNT" update="true"></property>
+		<property name="lastLoginTime" column="LAST_LOGIN_TIME"
+			update="true"></property>
+		<set name="companies" table="CLIENT_COMPANIES" lazy="false" cascade="save-update">
 			<key column="CLIENT_ID"></key>
 			<many-to-many column="COMPANY_ID" class="ServerCompany" />
 		</set>
