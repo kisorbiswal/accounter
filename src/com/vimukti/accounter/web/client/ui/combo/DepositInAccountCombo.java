@@ -117,11 +117,6 @@ public class DepositInAccountCombo extends AccountCombo {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
-	}
-
-	@Override
 	public void init() {
 		super.init();
 		setDefaultDepositInAccount();

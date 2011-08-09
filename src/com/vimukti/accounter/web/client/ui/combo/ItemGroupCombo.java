@@ -20,7 +20,6 @@ public class ItemGroupCombo extends CustomCombo<ClientItemGroup> {
 				: "" : "";
 	}
 
-	
 	@Override
 	public void onAddNew() {
 		ItemGroupListDialog itemGroupDialog = new ItemGroupListDialog("", "");
@@ -28,11 +27,6 @@ public class ItemGroupCombo extends CustomCombo<ClientItemGroup> {
 		itemGroupDialog.showAddEditGroupDialog(null);
 		itemGroupDialog.addCallBack(createAddNewCallBack());
 
-	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ITEM_GROUP;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class OtherAccountsCombo extends AccountCombo {
 	public OtherAccountsCombo(String title) {
 		super(title);
 	}
-	
+
 	public OtherAccountsCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired);
 	}
@@ -24,8 +24,7 @@ public class OtherAccountsCombo extends AccountCombo {
 
 	public List<ClientAccount> getFilterdAccounts() {
 		filtrdAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
 					&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET) {
@@ -34,11 +33,6 @@ public class OtherAccountsCombo extends AccountCombo {
 		}
 
 		return filtrdAccounts;
-	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
 	}
 
 }

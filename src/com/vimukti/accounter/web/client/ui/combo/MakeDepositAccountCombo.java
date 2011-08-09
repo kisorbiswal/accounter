@@ -87,11 +87,6 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
-	}
-
-	@Override
 	public void onAddNew() {
 		NewAccountAction action = ActionFactory.getNewAccountAction();
 		action.setCallback(new ActionCallback<ClientAccount>() {

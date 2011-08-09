@@ -43,11 +43,6 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return null;
-	}
-
-	@Override
 	protected String getDisplayName(ClientEmployee object) {
 		if (object != null)
 			return object.getDisplayName() != null ? object.getDisplayName()

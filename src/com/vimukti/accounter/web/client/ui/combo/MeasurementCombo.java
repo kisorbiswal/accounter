@@ -22,11 +22,6 @@ public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.MEASUREMENT;
-	}
-
-	@Override
 	protected String getColumnData(ClientMeasurement object, int row, int col) {
 		return null;
 	}

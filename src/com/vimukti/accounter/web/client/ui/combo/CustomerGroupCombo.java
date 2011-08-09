@@ -22,7 +22,6 @@ public class CustomerGroupCombo extends CustomCombo<ClientCustomerGroup> {
 			return "";
 	}
 
-	
 	@Override
 	public void onAddNew() {
 		CustomerGroupListDialog customerGroupDialog = new CustomerGroupListDialog(
@@ -30,11 +29,6 @@ public class CustomerGroupCombo extends CustomCombo<ClientCustomerGroup> {
 		customerGroupDialog.hide();
 		customerGroupDialog.addCallBack(createAddNewCallBack());
 		customerGroupDialog.showAddEditGroupDialog(null);
-	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.CUSTOMER_GROUP;
 	}
 
 	@Override

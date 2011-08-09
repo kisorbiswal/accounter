@@ -52,9 +52,4 @@ public class DepreciationAccountCombo extends AccountCombo {
 
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
-	}
-
 }

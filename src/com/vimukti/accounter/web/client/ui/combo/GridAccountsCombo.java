@@ -66,9 +66,4 @@ public class GridAccountsCombo extends AccountCombo {
 
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
-	}
-
 }

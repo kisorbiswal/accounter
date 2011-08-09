@@ -346,7 +346,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	}
 
-	public abstract SelectItemType getSelectItemType();
 
 	/**
 	 * Override this method to do anything before the other overridden methods

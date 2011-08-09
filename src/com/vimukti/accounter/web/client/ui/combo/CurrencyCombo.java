@@ -13,12 +13,6 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-
-		return SelectItemType.CURRENCY;
-	}
-
-	@Override
 	protected String getDisplayName(ClientCurrency object) {
 
 		if (object != null)

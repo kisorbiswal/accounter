@@ -53,9 +53,4 @@ public class IncomeAndExpensesAccountCombo extends AccountCombo {
 
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
-	}
-
 }

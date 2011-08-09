@@ -34,7 +34,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 		super.init();
 	}
 
-	public abstract SelectItemType getSelectItemType();
+
 
 	public List<T> getComboItems() {
 		return comboItems;
