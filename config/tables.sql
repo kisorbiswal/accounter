@@ -153,7 +153,7 @@ CREATE TABLE `activation` (
   `TOKEN` varchar(255) default NULL,
   `SIGN_UP_DATE` datetime default NULL,
   PRIMARY KEY  (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -505,7 +505,7 @@ CREATE TABLE `client` (
   `LAST_LOGIN_TIME` bigint(20) default NULL,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `EMAIL_ID` (`EMAIL_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -514,7 +514,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (1,'Nagaraju','Palla','***REMOVED***','ea553d04203cd9a261effda37c7da7526c756731','','9701169376','India','','\0',0,0);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2705,7 +2704,7 @@ CREATE TABLE `server_company` (
   `SERVER_ADDRESS` varchar(255) default NULL,
   `IS_CONFIGURED` bit(1) default NULL,
   PRIMARY KEY  (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -4243,4 +4242,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-08-09 13:38:25
+-- Dump completed on 2011-08-09 13:56:52
