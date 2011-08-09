@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -12,7 +13,7 @@ public class ServerCompany implements IAccounterServerCore {
 	private int companyType;
 	private String serverAddress;
 	private boolean isConfigured;
-	private Set<Client> clients;
+	private Set<Client> clients = new HashSet<Client>();
 
 	public String getCompanyName() {
 		return companyName;
