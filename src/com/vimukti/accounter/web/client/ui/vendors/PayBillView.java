@@ -630,7 +630,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	@Override
 	protected void initTransactionViewData() {
 		if (transaction == null) {
-			setData(new ClientPayBill());
+			return;
+			//setData(new ClientPayBill());
 		} else {
 
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
