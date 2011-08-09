@@ -5,6 +5,25 @@
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		<% String version = application.getInitParameter("version"); %>
 		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet">
+		<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
+		<script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
+		<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+		<script  type="text/javascript" >
+			$(document).ready(function() {
+				$('#submitButton').click(function() {
+					$("#emailActivationForm").validate({
+						rules: {
+						emailid:{ 
+						required :true,
+						email: true
+						}},
+						messages: {
+						emailid: "Please enter an valid email address" 
+						}
+					});
+				});
+			});
+		</script>
   </head>
     <body>
 	    <div id="commanContainer">
@@ -15,7 +34,7 @@
 			</div>
   		  </c:if>
   		  
-		 <form action="/emailforactivation" method="post">
+		 <form id = "emailActivationForm" action="/emailforactivation" method="post">
 		    <div class="reset-header">
 			   <h2>Resend activation code</h2>
 			</div>
