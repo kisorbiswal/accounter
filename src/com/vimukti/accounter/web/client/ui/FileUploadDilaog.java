@@ -117,13 +117,11 @@ public class FileUploadDilaog extends CustomDialog {
 		vpaPanel.add(panel);
 
 		// Add a 'submit' button.
-		Button uploadSubmitButton = new Button(Accounter
-				.messages().upload());
+		Button uploadSubmitButton = new Button(Accounter.messages().upload());
 		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
-		Button closeButton = new Button(Accounter.constants()
-				.close());
+		Button closeButton = new Button(Accounter.constants().close());
 		closeButton.setWidth("80px");
 		buttonHlay = new HorizontalPanel();
 		buttonHlay.add(uploadSubmitButton);
@@ -240,13 +238,17 @@ public class FileUploadDilaog extends CustomDialog {
 	}
 
 	private boolean checkFileType(String name, String[] types) {
+
 		String type = name.substring(name.lastIndexOf('.') + 1);
 		for (String fileType : types) {
 			if (type.equalsIgnoreCase(fileType))
+
 				return true;
 
 		}
+		Accounter.showInformation("Please select image file.");
 		return false;
+
 	}
 
 	private void processUploadAttachments(ClientBrandingTheme result,
