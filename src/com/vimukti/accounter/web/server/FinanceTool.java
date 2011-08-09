@@ -320,7 +320,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			isTransactionNumberExist((IAccounterCore) data);
 
-			new ServerConvertUtil().toServerObject(serverObject,
+			IAccounterServerCore serverObject2 = new ServerConvertUtil().toServerObject(serverObject,
 					(IAccounterCore) data, session);
 
 			if (serverObject instanceof Transaction) {
@@ -349,6 +349,7 @@ public class FinanceTool implements IFinanceDAOService {
 			session.flush();
 			session.saveOrUpdate(serverObject);
 			ChangeTracker.put(serverObject);
+			hibernateTransaction.commit();
 			return serverObject.getID();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
