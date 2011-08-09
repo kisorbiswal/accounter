@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.core.AccounterErrorType;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 
@@ -32,7 +31,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	public int status;
 	private ImageButton approveButton;
 	private ImageButton submitForApprove;
-
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter.constants();
 	public EmployeeExpenseView() {
 		super(ClientTransaction.TYPE_EMPLOYEE_EXPENSE);
 	}
@@ -196,12 +195,10 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		result.add(vendorForm.validate());
 		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
 			result.addError(transactionDateItem,
-					AccounterErrorType.InvalidTransactionDate);
+					accounterConstants.invalidateTransactionDate());
 		}
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result
-					.addError(transactionDateItem,
-							AccounterErrorType.InvalidDate);
+			result.addError(transactionDateItem, accounterConstants.invalidateDate());
 		}
 		if (Accounter.getUser().canApproveExpences())
 			if (!payFromCombo.validate()) {
@@ -221,7 +218,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		}
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 			result.addError(vendorTransactionGrid,
-					AccounterErrorType.blankTransaction);
+					accounterConstants.blankTransaction());
 		}
 		result.add(vendorTransactionGrid.validateGrid());
 		return result;
