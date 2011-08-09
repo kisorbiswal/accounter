@@ -13,28 +13,24 @@ public class CompanyStatusServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String CREATING = "Creating the company...";
-	private String view = "/WEB-INF/refresh.jsp";
+	private String REFRESH_VIEW = "/WEB-INF/refresh.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
-
-		String status = (String) session.getAttribute(COMPANY_CREATION_STATUS);
-		if (status != null) {
-			if (status.equals("Creating")) {
-				req.setAttribute("successmessage", CREATING);
-			} else if (status.equals("Success")) {
-				redirectExternal(req, resp, COMPANIES_URL);
-				return;
-			} else if (status.equals("Fail")) {
-				dispatch(req, resp, "/WEB-INF/CreateCompany.jsp");
-				return;
+		if (session != null) {
+			String status = (String) session
+					.getAttribute(COMPANY_CREATION_STATUS);
+			if (status != null) {
+				if (status.equals("Creating")) {
+					req.setAttribute("successmessage", CREATING);
+					session.removeAttribute(COMPANY_CREATION_STATUS);
+					req.getRequestDispatcher(REFRESH_VIEW).forward(req, resp);
+					return;
+				}
 			}
-
-		}else{
-			req.setAttribute("successmessage", "Initializing company creation process....");
 		}
-		req.getRequestDispatcher(view).forward(req, resp);
+		redirectExternal(req, resp, COMPANIES_URL);
 	}
 }
