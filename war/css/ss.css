@@ -1939,8 +1939,8 @@ form{
 }
 .allviews-common-button{
     background: none repeat scroll 0 0 #28757D;
-    border: 1px solid #28757D;
-    border-radius: 11px 11px 11px 11px;
+    border: 1px solid #002e36;
+    border-radius: 5px 5px 5px 5px;
     color: white;
     cursor: pointer;
     font-family: sans-serif;
