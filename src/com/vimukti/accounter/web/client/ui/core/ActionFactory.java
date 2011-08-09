@@ -1258,7 +1258,7 @@ public class ActionFactory {
 		return new AddMeasurementAction(messages.getAddMeasurementName());
 	}
 
-	public static Action getNewCurrencyAction() {
+	public static NewCurrencyAction getNewCurrencyAction() {
 		return new NewCurrencyAction(actionsConstants.newCurrency());
 	}
 

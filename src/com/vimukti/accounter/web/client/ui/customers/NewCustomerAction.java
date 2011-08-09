@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class NewCustomerAction extends Action {
+public class NewCustomerAction extends Action<ClientCustomer> {
 
 	private CustomerView view;
 

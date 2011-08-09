@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class DebitAccountCombo extends AccountCombo {
@@ -43,7 +44,13 @@ public class DebitAccountCombo extends AccountCombo {
 		NewAccountAction action = ActionFactory.getNewAccountAction();
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEBIT_COMBO));
-		action.setActionSource(this);
+		action.setCallback(new ActionCallback<ClientAccount>() {
+
+			@Override
+			public void actionResult(ClientAccount result) {
+				addItemThenfireEvent(result);
+			}
+		});
 
 		action.run(null, true);
 

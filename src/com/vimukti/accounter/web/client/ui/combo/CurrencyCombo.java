@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class CurrencyCombo extends CustomCombo<ClientCurrency> {
@@ -44,8 +45,14 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
 	@Override
 	public void onAddNew() {
-		Action action = ActionFactory.getNewCurrencyAction();
-		action.setActionSource(this);
+		NewCurrencyAction action = ActionFactory.getNewCurrencyAction();
+		action.setCallback(new ActionCallback<ClientCurrency>() {
+
+			@Override
+			public void actionResult(ClientCurrency result) {
+				addItemThenfireEvent(result);
+			}
+		});
 
 		action.run(null, true);
 

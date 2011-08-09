@@ -6,7 +6,8 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.company.NewItemAction;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ItemCombo extends CustomCombo<ClientItem> {
@@ -67,13 +68,14 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 
 	@Override
 	public void onAddNew() {
-		Action action;
-		if (type == 1) {
-			action = ActionFactory.getNewItemAction();
-		} else {
-			action = ActionFactory.getNewItemAction();
-		}
-		action.setActionSource(this);
+		NewItemAction action = ActionFactory.getNewItemAction();
+		action.setCallback(new ActionCallback<ClientItem>() {
+
+			@Override
+			public void actionResult(ClientItem result) {
+				addItemThenfireEvent(result);
+			}
+		});
 
 		action.run(null, true);
 	}

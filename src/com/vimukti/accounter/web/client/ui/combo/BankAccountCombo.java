@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class BankAccountCombo extends AccountCombo {
@@ -34,7 +36,13 @@ public class BankAccountCombo extends AccountCombo {
 	public void onAddNew() {
 		NewBankAccountAction action = ActionFactory
 				.getNewBankAccountAction();
-		action.setActionSource(this);
+		action.setCallback(new ActionCallback<ClientBankAccount>() {
+			
+			@Override
+			public void actionResult(ClientBankAccount result) {
+				addItemThenfireEvent(result);
+			}
+		});
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.BANK_ACCOUNTS_COMBO));
 

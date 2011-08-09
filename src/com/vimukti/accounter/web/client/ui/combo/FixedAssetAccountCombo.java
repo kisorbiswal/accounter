@@ -9,6 +9,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 /**
@@ -30,8 +31,7 @@ public class FixedAssetAccountCombo extends AccountCombo {
 	public List<ClientAccount> getAccounts() {
 		assetAccounts = new ArrayList<ClientAccount>();
 
-		for (ClientAccount account : getCompany()
-				.getActiveAccounts()) {
+		for (ClientAccount account : getCompany().getActiveAccounts()) {
 			if (account.getType() == ClientAccount.TYPE_FIXED_ASSET)
 				assetAccounts.add(account);
 		}
@@ -48,8 +48,14 @@ public class FixedAssetAccountCombo extends AccountCombo {
 		NewAccountAction action = ActionFactory.getNewAccountAction();
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.FIXEDASSET_COMBO));
-		action.setActionSource(this);
-		
+		action.setCallback(new ActionCallback<ClientAccount>() {
+
+			@Override
+			public void actionResult(ClientAccount result) {
+				addItemThenfireEvent(result);
+			}
+		});
+
 		action.run(null, true);
 
 	}

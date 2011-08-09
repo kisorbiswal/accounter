@@ -1,13 +1,14 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
-public class NewPayeeAction extends Action {
+public class NewPayeeAction extends Action<ClientPayee> {
 
 	private boolean isEdit;
 

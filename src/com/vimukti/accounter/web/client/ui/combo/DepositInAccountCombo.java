@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class DepositInAccountCombo extends AccountCombo {
@@ -101,7 +102,13 @@ public class DepositInAccountCombo extends AccountCombo {
 	@Override
 	public void onAddNew() {
 		NewAccountAction action = ActionFactory.getNewAccountAction();
-		action.setActionSource(this);
+		action.setCallback(new ActionCallback<ClientAccount>() {
+
+			@Override
+			public void actionResult(ClientAccount result) {
+				addItemThenfireEvent(result);
+			}
+		});
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEPOSIT_IN_ACCOUNT));
 

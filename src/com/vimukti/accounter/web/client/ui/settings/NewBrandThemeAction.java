@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
  * @author Uday Kumar
  * 
  */
-public class NewBrandThemeAction extends Action {
+public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
 
 	private NewBrandingThemeView view;
 

@@ -7,6 +7,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class MakeDepositAccountCombo extends AccountCombo {
@@ -93,7 +94,13 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	@Override
 	public void onAddNew() {
 		NewAccountAction action = ActionFactory.getNewAccountAction();
-		action.setActionSource(this);
+		action.setCallback(new ActionCallback<ClientAccount>() {
+
+			@Override
+			public void actionResult(ClientAccount result) {
+				addItemThenfireEvent(result);
+			}
+		});
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			action.setAccountTypes(Arrays.asList(ClientAccount.TYPE_BANK,
 					ClientAccount.TYPE_OTHER_CURRENT_ASSET,

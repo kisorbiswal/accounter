@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.NewAccountView;
@@ -10,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class NewBankAccountAction extends Action {
+public class NewBankAccountAction extends Action<ClientBankAccount> {
 	private List<Integer> accountTypes;
 
 	public NewBankAccountAction(String text) {
