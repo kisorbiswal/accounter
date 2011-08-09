@@ -650,10 +650,12 @@ public class FinanceTool implements IFinanceDAOService {
 			long id) throws DAOException {
 
 		Object serverObject = getServerObjectForid(type, id);
+		
+		Class<?> serverClass = getClientEquivalentServerClass(type);
 
 		if (serverObject != null) {
 			T t = (T) new ClientConvertUtil().toClientObject(serverObject,
-					Util.getClientEqualentClass(serverObject.getClass()));
+					Util.getClientEqualentClass(serverClass));
 			if (t instanceof ClientTransaction
 					&& getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_UK) {
 				Session session = HibernateUtil.getCurrentSession();
@@ -10612,6 +10614,7 @@ public class FinanceTool implements IFinanceDAOService {
 						payeeName = (String) object[1];
 						payeeList.setPayeeName(payeeName);
 						payeeList.setType((Integer) object[2]);
+						payeeList.setID((Long) object[3]);
 						payeeList.setCurrentMonth((Double) object[4]);
 						payeeList.setPreviousMonth((Double) object[5]);
 						payeeList.setPreviousSecondMonth((Double) object[6]);

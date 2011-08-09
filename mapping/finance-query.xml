@@ -3919,7 +3919,7 @@
   		<return-scalar column="IS_ACTIVE" type="boolean" />
   		<return-scalar column="CUSTOMER_NAME" type="string" />
   		<return-scalar column="ACCOUNTER_TYPE" type="int" />
- 		<return-scalar column="ID" type="string" />
+ 		<return-scalar column="ID" type="long" />
  		<return-scalar column="CURRENT_MONTH_TOTAL" type="double" />
  		<return-scalar column="PREVIOUS_FIRST_MONTH_TOTAL" type="double" />
  		<return-scalar column="PREVIOUS_SECOND_MONTH_TOTAL" type="double" />
@@ -4113,7 +4113,7 @@
 		<return-scalar column="IS_ACTIVE" type="boolean" />
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="ACCOUNTER_TYPE" type="int" />
-		<return-scalar column="ID" type="string" />
+		<return-scalar column="ID" type="long" />
 		<return-scalar column="CURRENT_MONTH_TOTAL" type="double" />
 		<return-scalar column="PREVIOUS_FIRST_MONTH_TOTAL" type="double" />
 		<return-scalar column="PREVIOUS_SECOND_MONTH_TOTAL"
