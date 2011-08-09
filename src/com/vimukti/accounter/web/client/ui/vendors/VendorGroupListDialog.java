@@ -140,31 +140,37 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		String value = inputDlg.getTextItems().get(0).getValue().toString();
-		if (vendorGroup != null) {
-			if (!(vendorGroup.getName().equalsIgnoreCase(value) ? true
-					: (Utility.isObjectExist(company.getVendorGroups(), value) ? false
-							: true))) {
-				result.addError(this, Accounter.constants().alreadyExist());
-			}
-		} else {
-			if (Utility.isObjectExist(getCompany().getVendorGroups(), value)) {
-				result.addError(this, UIUtils.getVendorString(Accounter
-						.constants().supplierGroupAlreadyExists(), Accounter
-						.constants().vendorGroupAlreadyExists()));
+		if (inputDlg != null) {
+			String value = inputDlg.getTextItems().get(0).getValue().toString();
+			if (vendorGroup != null) {
+				if (!(vendorGroup.getName().equalsIgnoreCase(value) ? true
+						: (Utility.isObjectExist(company.getVendorGroups(),
+								value) ? false : true))) {
+					result.addError(this, Accounter.constants().alreadyExist());
+				}
+			} else {
+				if (Utility
+						.isObjectExist(getCompany().getVendorGroups(), value)) {
+					result.addError(this, UIUtils.getVendorString(Accounter
+							.constants().supplierGroupAlreadyExists(),
+							Accounter.constants().vendorGroupAlreadyExists()));
+				}
 			}
 		}
-
 		return result;
 	}
 
 	@Override
 	protected boolean onOK() {
-		if (vendorGroup != null) {
-			editVendorGroups();
-		} else {
-			createVendorGroups();
+
+		if (inputDlg != null) {
+			if (vendorGroup != null) {
+				editVendorGroups();
+			} else {
+				createVendorGroups();
+			}
 		}
+
 		return true;
 	}
 
