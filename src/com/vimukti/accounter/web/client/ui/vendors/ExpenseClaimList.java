@@ -224,18 +224,10 @@ public class ExpenseClaimList extends BaseView {
 
 	}
 
-	@Override
-	public void processupdateView(IAccounterCore core, int command) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().expenseClaims();
 	}
 
-	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-	}
 }
