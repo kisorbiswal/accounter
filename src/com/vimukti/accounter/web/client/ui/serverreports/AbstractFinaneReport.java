@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
@@ -58,7 +59,7 @@ public abstract class AbstractFinaneReport<R> extends
 
 	public IFinanceReport<R> reportView;
 	protected String navigateObjectName;
-	private int companyType;
+	private int companyType = Accounter.getCompany().getAccountingType();
 
 	public AbstractFinaneReport() {
 		this.columns = this.getColunms();
@@ -71,7 +72,7 @@ public abstract class AbstractFinaneReport<R> extends
 		this.grid.setReportView(this);
 	}
 
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings( { "unchecked" })
 	public AbstractFinaneReport(long startDate, long endDate, int generationType) {
 		this.startDate = new ClientFinanceDate(startDate);
 		this.endDate = new ClientFinanceDate(endDate);
