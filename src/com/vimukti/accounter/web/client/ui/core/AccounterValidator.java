@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 public class AccounterValidator {
 
 	private static ClientCompany company;
+	static AccounterConstants accounterConstants = Accounter.constants();
 
 	public static boolean validateAmount(Double amt) {
 		if (DecimalUtil.isLessThan(amt, 0.00)
@@ -521,12 +523,12 @@ public class AccounterValidator {
 	}
 
 	public static boolean duplicate_itemName() throws InvalidEntryException {
-		Accounter.showError(AccounterErrorType.duplicate_ItemName);
+		Accounter.showError(accounterConstants.duplicateItemName());
 		return false;
 	}
 
 	public static boolean item_Must_Sell_Or_Buy() throws InvalidEntryException {
-		Accounter.showError(AccounterErrorType.Item_BuyOrSell);
+		Accounter.showError(accounterConstants.itemBuyOrSell());
 		return false;
 	}
 
@@ -534,7 +536,7 @@ public class AccounterValidator {
 			boolean isISellThisItemCurrent) throws InvalidEntryException {
 
 		if (item.isISellThisItem() != isISellThisItemCurrent) {
-			Accounter.showError(AccounterErrorType.isItemSoldTrue);
+			Accounter.showError(accounterConstants.isItemSoldTrue());
 			return false;
 		}
 		return true;
@@ -544,7 +546,7 @@ public class AccounterValidator {
 	public static boolean item_Edit_IPurchaseThisItem(ClientItem item,
 			boolean isIBuyThisItemCurrnent) throws InvalidEntryException {
 		if (item.isIBuyThisItem() != isIBuyThisItemCurrnent) {
-			Accounter.showError(AccounterErrorType.isItemPurchaseTrue);
+			Accounter.showError(accounterConstants.isItemPurchaseTrue());
 			return false;
 		}
 		return true;
@@ -553,8 +555,8 @@ public class AccounterValidator {
 	public static boolean validate_TaxAgency_PaymentTerm(
 			ClientPaymentTerms paymentTerm) throws InvalidEntryException {
 		if (paymentTerm.getDiscountPercent() > 0) {
-			Accounter
-					.showError(AccounterErrorType.taxAgency_Discount_PaymentTerm);
+			Accounter.showError(accounterConstants
+					.taxAgencyDiscountPaymentTerm());
 			return false;
 		}
 		return true;
@@ -587,13 +589,13 @@ public class AccounterValidator {
 	}
 
 	public static void void_Transaction() {
-		Accounter.showError(AccounterErrorType.taxAgency_FinanceAcount);
+		Accounter.showError(accounterConstants.taxAgencyFinanceAcount());
 		// Accounter.stopExecution();
 
 	}
 
 	public static void canVoidOrEdit(ClientTransaction transaction) {
-		Accounter.showError(AccounterErrorType.canVoidOrEdit);
+		Accounter.showError(accounterConstants.canVoidOrEdit());
 		// Accounter.stopExecution();
 
 	}
@@ -602,7 +604,7 @@ public class AccounterValidator {
 			throws InvalidTransactionEntryException {
 
 		if (!item.isIBuyThisItem()) {
-			Accounter.showError(AccounterErrorType.cannotUsePurchaseItem);
+			Accounter.showError(accounterConstants.cannotUsePurchaseItem());
 			return false;
 			// throw new InvalidTransactionEntryException(
 			// AccounterErrorType.cannotUsePurchaseItem);
@@ -615,7 +617,7 @@ public class AccounterValidator {
 			throws InvalidTransactionEntryException {
 
 		if (!item.isISellThisItem()) {
-			Accounter.showError(AccounterErrorType.cannotUseSalesItem);
+			Accounter.showError(accounterConstants.cannotUseSalesItem());
 			return false;
 			// throw new InvalidTransactionEntryException(
 			// AccounterErrorType.cannotUseSalesItem);
@@ -628,7 +630,7 @@ public class AccounterValidator {
 	public static void validate_UnitPrice(Double price) {
 
 		if (DecimalUtil.isLessThan(price, 0.00)) {
-			Accounter.showError(AccounterErrorType.unitPrice);
+			Accounter.showError(accounterConstants.unitPrice());
 			// Accounter.stopExecution();
 		}
 
@@ -637,7 +639,7 @@ public class AccounterValidator {
 	public static void validate_DiscountAmount(Double discountAmount) {
 
 		if (DecimalUtil.isLessThan(discountAmount, 0.00)) {
-			Accounter.showError(AccounterErrorType.discountAmount);
+			Accounter.showError(accounterConstants.discountAmount());
 			// Accounter.stopExecution();
 		}
 
@@ -647,7 +649,7 @@ public class AccounterValidator {
 			boolean ifAmountIsNegative) {
 
 		if (DecimalUtil.isLessThan(total, 0.00)) {
-			Accounter.showError(AccounterErrorType.lineTotalAmount);
+			Accounter.showError(Accounter.constants().lineTotalAmount());
 			// Accounter.stopExecution();
 			return false;
 		}
@@ -684,7 +686,7 @@ public class AccounterValidator {
 	public static <T> void distributePaymentToOutstandingInvoices(
 			final ReceivePaymentView view, final Double amountToDistribute) {
 
-		Accounter.showWarning(AccounterErrorType.distributePayments,
+		Accounter.showWarning(Accounter.constants().distributePayments(),
 
 		AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
@@ -765,7 +767,7 @@ public class AccounterValidator {
 	public static boolean validate_Receive_Payment(double amountDue,
 			double totalValue, String errormessg) {
 		if (DecimalUtil.isLessThan(totalValue, 0.00)) {
-			Accounter.showError(AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+			Accounter.showError(accounterConstants.invalidNegativeAmount());
 			// Accounter.stopExecution();
 			return false;
 		} else if (DecimalUtil.isGreaterThan(totalValue, amountDue)
@@ -780,7 +782,8 @@ public class AccounterValidator {
 	public static boolean validate_MakeDeposit_CashBackAccount(
 			ClientAccount cashbackAccount) throws InvalidEntryException {
 		if (cashbackAccount == null) {
-			Accounter.showError(AccounterErrorType.makeDeposit_CashBackAccount);
+			Accounter.showError(Accounter.constants()
+					.makeDepositCashBackAccount());
 			return false;
 		}
 		return true;
@@ -989,8 +992,8 @@ public class AccounterValidator {
 			throws InvalidTransactionEntryException {
 		for (Object object : objects)
 			if (object == null)
-				throw new InvalidTransactionEntryException(
-						AccounterErrorType.REQUIRED_FIELDS);
+				throw new InvalidTransactionEntryException(Accounter
+						.constants().requiredFields());
 		return true;
 
 	}
@@ -1006,7 +1009,8 @@ public class AccounterValidator {
 	public static boolean validateGridLineTotal(Double lineTotal)
 			throws InvalidEntryException {
 		if (DecimalUtil.isLessThan(lineTotal, 0.00)) {
-			throw new InvalidEntryException(AccounterErrorType.lineTotal);
+			throw new InvalidEntryException(Accounter.constants()
+					.lineTotalAmount());
 		}
 		return false;
 
@@ -1211,11 +1215,10 @@ public class AccounterValidator {
 	 */
 	public static boolean validateWriteCheckAmount(double amount, double total) {
 		if (!DecimalUtil.isEquals(total, amount)) {
-			Accounter.showError(AccounterErrorType.writeCheck_TotalAmount);
+			Accounter.showError(Accounter.constants().writeCheckTotalAmount());
 			// Accounter.stopExecution();
 			return false;
 		}
-
 		return true;
 
 	}
@@ -1273,7 +1276,7 @@ public class AccounterValidator {
 	public static boolean isAmountTooLarge(Double amount)
 			throws InvalidEntryException {
 		if (DecimalUtil.isGreaterThan(amount, 1000000000000.00)) {
-			throw new InvalidEntryException(AccounterErrorType.AMOUNTEXCEEDS);
+			throw new InvalidEntryException();
 		}
 		return false;
 
@@ -1283,7 +1286,7 @@ public class AccounterValidator {
 			throws InvalidEntryException {
 		if (DecimalUtil.isLessThan(amount, 0.00)) {
 			throw new InvalidEntryException(
-					AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+					accounterConstants.invalidNegativeAmount());
 		}
 		return false;
 

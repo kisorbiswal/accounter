@@ -59,7 +59,7 @@ public class IntegerField extends TextItem {
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
 							errorsWidget.addError(this,
-									AccounterErrorType.INCORRECTINFORMATION);
+									Accounter.constants().incorrectInformation());
 						}
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);

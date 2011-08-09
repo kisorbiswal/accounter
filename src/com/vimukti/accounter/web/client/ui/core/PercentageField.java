@@ -1,11 +1,13 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -13,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class PercentageField extends TextItem {
 	private Double percentage;
 	private WidgetWithErrors errorsWidget;
-
+	AccounterConstants accounterConstants = GWT.create(AccounterConstants.class);
 	public PercentageField(WidgetWithErrors errorsWidget, final String name) {
 		this.errorsWidget = errorsWidget;
 		setName(name);
@@ -41,14 +43,14 @@ public class PercentageField extends TextItem {
 								|| DecimalUtil.isLessThan(
 										enteredPercentageValue, 100)) {
 							Accounter
-									.showError(AccounterErrorType.INVALIDENTRY);
+									.showError(accounterConstants.invalidateEntry());
 						}
 						if (enteredPercentageValue != null) {
 							setPercentage(enteredPercentageValue);
 						}
 					}
 				} catch (Exception e) {
-					Accounter.showError(AccounterErrorType.INVALIDENTRY);
+					Accounter.showError(accounterConstants.invalidEntry());
 					setPercentage(0.0);
 				}
 

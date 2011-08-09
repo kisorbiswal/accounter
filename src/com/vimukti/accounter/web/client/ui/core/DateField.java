@@ -55,7 +55,7 @@ public class DateField extends DateItem {
 				} catch (Exception e) {
 					// if (enteredDate == null)
 					Accounter
-							.showError(AccounterErrorType.INCORRECTINFORMATION);
+							.showError(Accounter.constants().incorrectInformation());
 
 				}
 			}

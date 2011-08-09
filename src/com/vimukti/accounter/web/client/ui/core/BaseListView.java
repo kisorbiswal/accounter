@@ -387,7 +387,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	@Override
 	public void onFailure(Throwable exception) {
 		if (exception instanceof AccounterException) {
-			Accounter.showError(AccounterErrorType.FAILEDREQUEST);
+			Accounter.showError(Accounter.constants().failedRequest());
 			return;
 		}
 		Accounter.showMessage(Accounter.constants().sessionExpired());
