@@ -115,10 +115,8 @@ public class CreateCompanyServlet extends BaseServlet {
 				session.close();
 			}
 		}
-
-		final ServerCompany rollBackServerCompany = serverCompany;
-		// sdfsd
-		final Client rollBackClient = client;
+		final long serverId = serverCompany.getId();
+		final long clientId = client.getID();
 		final String urlString = getUrlString(serverCompany, emailID, client);
 		final HttpSession httpSession = request.getSession(true);
 		new Thread(new Runnable() {
@@ -136,7 +134,7 @@ public class CreateCompanyServlet extends BaseServlet {
 						httpSession.setAttribute(COMPANY_CREATION_STATUS,
 								"Success");
 					} else {
-						rollback(rollBackServerCompany, rollBackClient);
+						rollback(serverId, clientId);
 						httpSession.setAttribute(COMPANY_CREATION_STATUS,
 								"Fail");
 					}
@@ -157,15 +155,19 @@ public class CreateCompanyServlet extends BaseServlet {
 	}
 
 	/**
-	 * @param serverCompany
-	 * @param client
+	 * @param serverId
+	 * @param clientId
 	 */
-	private void rollback(ServerCompany serverCompany, Client client) {
+	private void rollback(long serverId, long clientId) {
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction transaction = session.beginTransaction();
 		try {
-			client.getCompanies().remove(serverCompany);
-			session.save(client);
-			session.delete(serverCompany);
+			Object object = session.get(ServerCompany.class, serverId);
+			Client client = (Client) session.get(Client.class, clientId);
+			client.getCompanies().remove((ServerCompany) object);
+			session.saveOrUpdate(client);
+			session.delete(object);
+			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
