@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -66,7 +67,7 @@ public class ItemView extends BaseView<ClientItem> {
 	private VendorCombo prefVendorCombo;
 	private SalesItemCombo accountCombo;
 	private PurchaseItemCombo expAccCombo;
-
+	AccounterConstants accounterConstants = Accounter.constants();
 	private TAXCodeCombo taxCode;
 	List<ClientAccount> incomeAccounts;
 	HashMap<String, ClientVendor> allvendors;
@@ -846,7 +847,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		result.add(itemForm.validate());
 		if (!AccounterValidator.isSellorBuyCheck(isellCheck, ibuyCheck)) {
-			result.addError(isellCheck, AccounterErrorType.CHECK_ANYONE);
+			result.addError(isellCheck, accounterConstants.checkAnyone());
 		}
 		if (isellCheck.isChecked()) {
 			result.add(salesInfoForm.validate());
@@ -860,14 +861,14 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (isellCheck.isChecked()) {
 			if (!AccounterValidator.validateAmount(salesPriceText.getAmount())) {
-				result.addError(salesPriceText, AccounterErrorType.amount);
+				result.addError(salesPriceText, accounterConstants.amount());
 			}
 		}
 
 		if (ibuyCheck.isChecked()) {
 			if (!AccounterValidator
 					.validateAmount(purchasePriceTxt.getAmount())) {
-				result.addError(purchasePriceTxt, AccounterErrorType.amount);
+				result.addError(purchasePriceTxt, accounterConstants.amount());
 			}
 		}
 
