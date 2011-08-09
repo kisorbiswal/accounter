@@ -43,11 +43,6 @@ public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.TAX_GROUP;
-	}
-
-	@Override
 	protected String getColumnData(ClientTAXItemGroup object, int row, int col) {
 		switch (col) {
 		case 0:
