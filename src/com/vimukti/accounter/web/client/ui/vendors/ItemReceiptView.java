@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 
 public class ItemReceiptView extends
 		AbstractVendorTransactionView<ClientItemReceipt> {
@@ -53,6 +54,8 @@ public class ItemReceiptView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientPurchaseOrder> selectedPurchaseOrders;
+	AccounterConstants accounterConstants = Accounter
+			.constants();
 
 	public ItemReceiptView() {
 		super(ClientTransaction.TYPE_ITEM_RECEIPT, VENDOR_TRANSACTION_GRID);
@@ -568,10 +571,10 @@ public class ItemReceiptView extends
 		ValidationResult result = super.validate();
 		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
 			result.addError(transactionDate,
-					AccounterErrorType.InvalidTransactionDate);
+					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, AccounterErrorType.InvalidDate);
+			result.addError(transactionDate, accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (!AccounterValidator.validate_dueOrDelivaryDates(
@@ -588,7 +591,7 @@ public class ItemReceiptView extends
 		}
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 			result.addError(vendorTransactionGrid,
-					AccounterErrorType.blankTransaction);
+					accounterConstants.blankTransaction());
 		}
 		result.add(vendorTransactionGrid.validateGrid());
 		return result;

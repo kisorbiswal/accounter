@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
@@ -50,7 +51,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	AmountField endBalText;
 	DateField date;
 	DateField dueDate;
-
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter.constants();
 	protected String vendorPaymentMethod;
 	private TransactionPayBillGrid gridView;
 	protected AmountField cashDiscountTextItem;
@@ -694,11 +695,11 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		ValidationResult result = super.validate();
 		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
 			result.addError(transactionDate,
-					AccounterErrorType.InvalidTransactionDate);
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, AccounterErrorType.InvalidDate);
+			result.addError(transactionDate, accounterConstants.invalidateDate());
 		}
 		result.add(payForm.validate());
 		if (filterForm != null) {
@@ -707,7 +708,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		if (!isEdit) {
 			if (gridView == null || gridView.getRecords().isEmpty()
 					|| gridView.getSelectedRecords().size() == 0) {
-				result.addError(gridView, AccounterErrorType.selectTransaction);
+				result.addError(gridView, Accounter.constants().selectTransaction());
 			} else {
 				result.add(gridView.validateGrid());
 			}

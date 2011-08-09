@@ -28,7 +28,7 @@ public class CashExpenseView extends CashPurchaseView {
 	private ClientAccount pettycash;
 	protected List<String> selectedComboList;
 	AccountCombo petycash;
-
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter.constants();
 	public CashExpenseView() {
 		super(ClientTransaction.TYPE_CASH_EXPENSE);
 	}
@@ -158,12 +158,12 @@ public class CashExpenseView extends CashPurchaseView {
 
 		if (!AccounterValidator.validateTransactionDate(transactionDate)) {
 			result.addError(transactionDate,
-					AccounterErrorType.InvalidTransactionDate);
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
-					AccounterErrorType.InvalidTransactionDate);
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (!payFromCombo.validate()) {
@@ -183,7 +183,7 @@ public class CashExpenseView extends CashPurchaseView {
 
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 			result.addError(vendorTransactionGrid,
-					AccounterErrorType.blankTransaction);
+					accounterConstants.blankTransaction());
 		}
 		result.add(vendorTransactionGrid.validateGrid());
 

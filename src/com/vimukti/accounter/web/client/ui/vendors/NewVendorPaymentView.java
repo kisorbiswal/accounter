@@ -55,7 +55,8 @@ public class NewVendorPaymentView extends
 	boolean isChecked = false;
 
 	private ArrayList<DynamicForm> listforms;
-
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
+			.constants();
 	private NewVendorPaymentView() {
 		super(ClientTransaction.TYPE_PAY_BILL, 0);
 
@@ -517,15 +518,15 @@ public class NewVendorPaymentView extends
 
 		if (!AccounterValidator.validateTransactionDate(this.transactionDate)) {
 			result.addError(transactionDate,
-					AccounterErrorType.InvalidTransactionDate);
+					accounterConstants.invalidateTransactionDate());
 		}
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, AccounterErrorType.InvalidDate);
+			result.addError(transactionDate, accounterConstants.invalidateDate());
 		}
 		result.add(payForm.validate());
 		if (DecimalUtil.isEquals(amountText.getAmount(), 0)) {
 			result.addError(amountText,
-					AccounterErrorType.INVALID_NEGATIVE_AMOUNT);
+					accounterConstants.invalidateTransactionDate());
 		}
 		return result;
 	}

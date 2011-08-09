@@ -197,13 +197,13 @@ public class VendorView extends BaseView<ClientVendor> {
 		ValidationResult result = new ValidationResult();
 		String name = vendorNameText.getValue().toString();
 		if (!isEdit && Utility.isObjectExist(company.getVendors(), name)) {
-			result.addError(vendorNameText, AccounterErrorType.ALREADYEXIST);
+			result.addError(vendorNameText, Accounter.constants().alreadyExist());
 		}
 		result.add(vendorForm.validate());
 
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
 		if (!AccounterValidator.isPriorAsOfDate(asOfDate)) {
-			result.addError(balanceDate, AccounterErrorType.prior_asOfDate);
+			result.addError(balanceDate,Accounter.constants().priorasOfDate());
 		}
 
 		return result;

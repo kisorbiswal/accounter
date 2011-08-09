@@ -146,7 +146,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 			if (!(vendorGroup.getName().equalsIgnoreCase(value) ? true
 					: (Utility.isObjectExist(company.getVendorGroups(), value) ? false
 							: true))) {
-				result.addError(this, AccounterErrorType.ALREADYEXIST);
+				result.addError(this, Accounter.constants().alreadyExist());
 			}
 		} else {
 			if (Utility.isObjectExist(getCompany().getVendorGroups(), value)) {
