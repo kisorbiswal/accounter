@@ -50,9 +50,4 @@ public class CashBackAccountsCombo extends AccountCombo {
 
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.ACCOUNT;
-	}
-
 }

@@ -33,11 +33,6 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 	}
 
 	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.CONTACTS;
-	}
-
-	@Override
 	public void setValue(Object value) {
 		super.setValue(value);
 	}

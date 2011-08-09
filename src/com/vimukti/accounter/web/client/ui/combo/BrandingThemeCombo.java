@@ -27,10 +27,6 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 			return "";
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.BRANDING_THEME;
-	}
 
 	@Override
 	protected String getColumnData(ClientBrandingTheme object, int row, int col) {

@@ -28,10 +28,6 @@ public class BankNameCombo extends CustomCombo<ClientBank> {
 		bankNameDialog.addCallBack(createAddNewCallBack());
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.BANK_NAME;
-	}
 
 	@Override
 	protected String getColumnData(ClientBank object, int row, int col) {

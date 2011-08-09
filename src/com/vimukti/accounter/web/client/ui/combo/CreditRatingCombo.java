@@ -22,7 +22,6 @@ public class CreditRatingCombo extends CustomCombo<ClientCreditRating> {
 			return "";
 	}
 
-	
 	@Override
 	public void onAddNew() {
 		CreditRatingListDialog creditRatingDialog = new CreditRatingListDialog(
@@ -30,11 +29,6 @@ public class CreditRatingCombo extends CustomCombo<ClientCreditRating> {
 		creditRatingDialog.hide();
 		creditRatingDialog.addCallBack(createAddNewCallBack());
 		creditRatingDialog.showAddEditGroupDialog(null);
-	}
-
-	@Override
-	public SelectItemType getSelectItemType() {
-		return SelectItemType.CREDIT_RATING;
 	}
 
 	@Override
