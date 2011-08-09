@@ -482,7 +482,7 @@ public class AccounterValidator {
 		} else
 			// view.validationCount--;
 
-			return false;
+			return true;
 	}
 
 	public static boolean validate_ExpenseAccount(ClientAccount expense_account) {
