@@ -136,6 +136,7 @@ public class NewLoginServlet extends BaseServlet {
 							// url
 							redirectExternal(request, response,
 									RESET_PASSWORD_URL);
+							return;
 						} else {
 							// if session is there and no need to reset password
 							// then do external redirect to <dest> param or
