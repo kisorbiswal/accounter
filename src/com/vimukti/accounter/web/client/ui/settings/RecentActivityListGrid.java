@@ -48,7 +48,7 @@ public class RecentActivityListGrid extends ListGrid<ClientUser> {
 		case 0:
 			return obj.getFullName();
 		case 1:
-			return obj.getLastLogin();
+			return 0;// TODO Nagaraju.
 		default:
 			return "";
 		}
