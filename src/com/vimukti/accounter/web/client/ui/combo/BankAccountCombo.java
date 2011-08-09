@@ -61,10 +61,4 @@ public class BankAccountCombo extends AccountCombo {
 		return bankAccounts;
 	}
 
-	@Override
-	public SelectItemType getSelectItemType() {
-
-		return SelectItemType.BANK_ACCOUNT;
-	}
-
 }
