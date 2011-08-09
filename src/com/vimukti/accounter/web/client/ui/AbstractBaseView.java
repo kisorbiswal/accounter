@@ -124,20 +124,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 		super.add(errorPanel);
 	}
 
-	public void setPrevoiusOutput(Object preObject) {
-
-		Action action = getAction();
-
-		if (action != null && action.getActionSource() != null) {
-			FormItem formItm = action.getActionSource();
-			if (formItm instanceof CustomCombo) {
-				CustomCombo combo = (CustomCombo) action.getActionSource();
-				combo.addItemThenfireEvent(preObject);
-			}
-
-		}
-
-	}
 
 	/**
 	 * Base reference for all RPC DO Services

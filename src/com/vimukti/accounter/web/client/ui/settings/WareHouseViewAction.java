@@ -1,10 +1,11 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class WareHouseViewAction extends Action {
+public class WareHouseViewAction extends Action<ClientWarehouse> {
 
 	private WareHouseView view;
 

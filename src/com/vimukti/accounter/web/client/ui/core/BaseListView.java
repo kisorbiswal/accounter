@@ -505,12 +505,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	}
 
-	@Override
-	public void setPrevoiusOutput(Object preObject) {
-		cmd = AccounterCommand.UPDATION_SUCCESS;
-		updateGrid((IAccounterCore) preObject);
-		super.setPrevoiusOutput(preObject);
-	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {

@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -16,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class SelectPayeeDialog extends BaseDialog {
 
-	FormItem actionSource;
 	RadioGroupItem typeRadio;
 	// private ClientCompany company;
 
@@ -37,15 +37,6 @@ public class SelectPayeeDialog extends BaseDialog {
 
 	}
 
-	public SelectPayeeDialog(AbstractBaseView parent, FormItem actionSource) {
-		super(Accounter.constants().selectPayeeType(), Accounter.constants()
-				.selectOneOfFollowingPayee());
-		this.actionSource = actionSource;
-		// company = FinanceApplication.getCompany();
-		createControls();
-		center();
-
-	}
 
 	private void createControls() {
 

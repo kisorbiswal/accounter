@@ -408,10 +408,6 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		super.fitToSize(height, width);
 	}
 
-	@Override
-	public void setPrevoiusOutput(Object preObject) {
-		super.setPrevoiusOutput(preObject);
-	}
 
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {

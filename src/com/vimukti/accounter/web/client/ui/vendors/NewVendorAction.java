@@ -15,11 +15,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
  * @author kumar kasimala
  */
 
-public class NewVendorAction extends Action {
+public class NewVendorAction extends Action<ClientVendor> {
 
-	private boolean isEdit;
-
-	private ClientVendor vendor;
 	protected VendorView view;
 	public final static int FROM_CREDIT_CARD_EXPENSE = 119;
 
