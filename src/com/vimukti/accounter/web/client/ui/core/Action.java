@@ -2,11 +2,10 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
-import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 /**
  */
-public abstract class Action implements Command {
+public abstract class Action<T> implements Command {
 
 	/**
 	 * This action's text, or <code>null</code> if none.
@@ -22,13 +21,13 @@ public abstract class Action implements Command {
 
 	public String catagory = "";
 
-	private FormItem formItemResponsibleForAction;
-
 	private boolean allowMultiple;
 
-	protected Object data;
+	protected T data;
 
 	protected boolean isDependent;
+
+	private ActionCallback<T> callback;
 
 	/**
 	 * setting Text for Action
@@ -36,7 +35,6 @@ public abstract class Action implements Command {
 	public Action(String text) {
 		setText(text);
 	}
-
 
 	/**
 	 * Returns the text for this action.
@@ -60,23 +58,25 @@ public abstract class Action implements Command {
 	 * Runs this action. Each action implementation must define the steps needed
 	 * to carry out this action. The default implementation of this method in
 	 * <code>Action</code> does nothing.
-	 * @return 
+	 * 
+	 * @return
 	 * 
 	 * @throws Throwable
 	 */
 	public abstract void run();
-	
-	public void execute(){
+
+	public void execute() {
 		run();
 	}
 
-	public void setInput(Object data) {
+	public void setInput(T data) {
 		this.data = data;
 	}
 
 	public Object getInput() {
 		return data;
 	}
+
 	/**
 	 * Setter for the Text for the action
 	 * 
@@ -112,15 +112,6 @@ public abstract class Action implements Command {
 		this.catagory = catagory;
 	}
 
-	public FormItem getActionSource() {
-
-		return this.formItemResponsibleForAction;
-	}
-
-	public void setActionSource(FormItem comboItem) {
-		this.formItemResponsibleForAction = comboItem;
-	}
-
 	public boolean allowMultiple() {
 
 		return this.allowMultiple;
@@ -128,23 +119,14 @@ public abstract class Action implements Command {
 
 	@Override
 	public boolean equals(Object object) {
-
-		Action action = (Action) object;
-
-		if (action == null)
-
+		if (object == null || !(object instanceof Action<?>)) {
 			return false;
-
-		else {
-
-			boolean isSameClass = object.getClass().getName()
-					.equals(this.getClass().getName());
-
-			// boolean hasSameHashCode = object.hashCode() == this.hashCode();
-
-			return isSameClass;
-
 		}
+
+		boolean isSameClass = object.getClass().getName()
+				.equals(this.getClass().getName());
+
+		return isSameClass;
 
 	}
 
@@ -161,9 +143,18 @@ public abstract class Action implements Command {
 	public void setDependent(boolean isDependent) {
 		this.isDependent = isDependent;
 	}
-	public void run(Object object, boolean isDependent) {
+
+	public void run(T object, boolean isDependent) {
 		setInput(object);
 		setDependent(isDependent);
 		run();
+	}
+
+	public ActionCallback<T> getCallback() {
+		return callback;
+	}
+
+	public void setCallback(ActionCallback<T> callback) {
+		this.callback = callback;
 	}
 }
