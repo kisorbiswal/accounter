@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.company.AddPaymentTermDialog;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandler;
@@ -23,7 +24,9 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	private GroupDialogButtonsHandler dialogButtonsHandler;
 
 	List<ClientPaymentTerms> paymentTerms;
+
 	ClientPaymentTerms paymentTerm;
+
 	private AddPaymentTermDialog dialog;
 
 	public PaymentTermListDialog() {
@@ -81,30 +84,29 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		return (ClientPaymentTerms) listGridView.getSelection();
 	}
 
-	public void createPaymentTerms() {
-		ClientPaymentTerms clientPaymentTerms = getPaymentTerms();
-		saveOrUpdate(clientPaymentTerms);
-	}
-
 	public void showAddEditTermDialog(ClientPaymentTerms rec) {
 		dialog = new AddPaymentTermDialog(this, Accounter.constants()
 				.addPaymentTermTitle(), Accounter.constants()
 				.addPaymentTermTitleDesc());
-
-		paymentTerm = rec;
-		if (paymentTerm != null) {
-
-			dialog.payTermText.setValue(paymentTerm.getName());
-			dialog.descText.setValue(paymentTerm.getDescription());
-			if (paymentTerm.getDue() != 0) {
-				dialog.dueSelect
-						.setValue(dialog.dueValues[paymentTerm.getDue() - 1]);
+		this.paymentTerm = rec;
+		if (rec != null) {
+			dialog.payTermText.setValue(rec.getName());
+			dialog.descText.setValue(rec.getDescription());
+			if (rec.getDue() != 0) {
+				dialog.dueSelect.setValue(dialog.dueValues[rec.getDue() - 1]);
 			}
-			dialog.dayText.setValue(paymentTerm.getDueDays());
-			dialog.discText.setValue(paymentTerm.getDiscountPercent());
-			dialog.discDayText.setValue(paymentTerm.getIfPaidWithIn());
-
+			dialog.dayText.setValue(rec.getDueDays());
+			dialog.discText.setValue(rec.getDiscountPercent());
+			dialog.discDayText.setValue(rec.getIfPaidWithIn());
 		}
+
+		dialog.setCallback(new ActionCallback<ClientPaymentTerms>() {
+			@Override
+			public void actionResult(ClientPaymentTerms result) {
+				setResult(result);
+			}
+		});
+
 		dialog.show();
 	}
 
@@ -133,14 +135,12 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 						.equals(dialog.dueValues[i]))
 					clientPaymentTerms.setDue(i + 1);
 			}
-
 		}
 		clientPaymentTerms
 				.setDueDays(UIUtils.toInt(dialog.dayText.getNumber() != null ? dialog.dayText
 						.getNumber() : "0"));
 
 		return clientPaymentTerms;
-
 	}
 
 	/*
@@ -159,12 +159,6 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 						.equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(company.getPaymentsTerms(),
 								name) ? false : true)));
-	}
-
-	protected void editPaymentTerms() {
-
-		ClientPaymentTerms clientPaymentTerms = getPaymentTerms();
-		saveOrUpdate(clientPaymentTerms);
 	}
 
 	@Override
@@ -203,21 +197,19 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	@Override
 	public ValidationResult validate() {
+
 		ValidationResult result = new ValidationResult();
-
-		if (dialog != null) {
-
-			if (paymentTerm != null) {
-				if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
-						.getValue().toString() : "")) {
-					result.addError(this, Accounter.constants().alreadyExist());
-				}
-			} else {
-				if (Utility.isObjectExist(getCompany().getPaymentsTerms(),
-						dialog.payTermText.getValue().toString())) {
-					result.addError(this, Accounter.constants()
-							.paytermsAlreadyExists());
-				}
+		if (paymentTerm != null) {
+			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
+					.getValue().toString() : "")) {
+				result.addError(this, Accounter.constants().alreadyExist());
+			}
+		} else {
+			Object value = dialog.payTermText.getValue();
+			if (Utility.isObjectExist(getCompany().getPaymentsTerms(),
+					value.toString())) {
+				result.addError(this, Accounter.constants()
+						.paytermsAlreadyExists());
 			}
 		}
 		return result;
@@ -225,16 +217,12 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	@Override
 	public boolean onOK() {
-		if (dialog != null) {
-			if (paymentTerm != null) {
-				editPaymentTerms();
-				paymentTerm = null;
-			} else {
-				createPaymentTerms();
-				paymentTerm = null;
-			}
+		ClientPaymentTerms paymentTerms = getPaymentTerms();
+		if (paymentTerms != null) {
+			saveOrUpdate(paymentTerms);
+		} else {
+			saveOrUpdate(paymentTerms);
 		}
 		return true;
 	}
-
 }
