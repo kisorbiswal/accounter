@@ -573,7 +573,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		gridView.initCreditsAndPayments(vendor);
 		gridView.removeAllRecords();
 
-		if (transaction == null) {
+		if (transaction.id == 0) {
 			gridView.addLoadingImagePanel();
 			getTransactionPayBills(vendor);
 
