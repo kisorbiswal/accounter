@@ -160,7 +160,7 @@ public class NewLoginServlet extends BaseServlet {
 						// get activation object by email id
 
 						query = session
-								.getNamedQuery("get.activation.by.mailId");
+								.getNamedQuery("get.activation.by.emailid");
 						query.setParameter(EMAIL_ID, emailID);
 						Activation activation = (Activation) query
 								.uniqueResult();
