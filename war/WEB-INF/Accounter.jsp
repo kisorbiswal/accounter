@@ -1,4 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- The HTML 4.01 Transitional DOCTYPE declaration-->
 <!-- above set at the top of the file will set     -->
 <!-- the browser's rendering engine into           -->
@@ -10,6 +11,7 @@
 
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta content="IE=100" http-equiv="X-UA-Compatible">
     <script type="text/javascript" charset="utf-8">
   		var is_ssl = ("https:" == document.location.protocol);
   		var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
@@ -20,7 +22,7 @@
 
   		feedback_widget_options.display = "overlay";  
   		feedback_widget_options.company = "vimukti";
-  		feedback_widget_options.placement = "left";
+  		feedback_widget_options.placement = "right";
   		feedback_widget_options.color = "#222";
   		feedback_widget_options.style = "idea";
   		
