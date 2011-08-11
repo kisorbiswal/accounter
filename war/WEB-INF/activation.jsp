@@ -44,7 +44,7 @@
 			   <input type="submit" tabindex="3" value="Activate" name="activate" class="allviews-common-button" id="submitButton">
 			</div>
 		 </form>
-		 <div>
+		 <div class="resend-code">
 		 	<a href="/emailforactivation">Resend activation code</a>
 		 </div>
      </div>
