@@ -456,8 +456,8 @@ public class CustomerCreditMemoView extends
 			// .setAmount(customerTransactionGrid.getTotal()
 			// + this.salesTax);
 		} else {
-			if (customerTransactionGrid.getGrandTotal() != null
-					&& customerTransactionGrid.getTotalValue() != null) {
+			if (customerTransactionGrid.getGrandTotal() != 0
+					&& customerTransactionGrid.getTotalValue() != 0) {
 				netAmountLabel.setAmount(customerTransactionGrid
 						.getGrandTotal());
 				vatTotalNonEditableText.setAmount(customerTransactionGrid
