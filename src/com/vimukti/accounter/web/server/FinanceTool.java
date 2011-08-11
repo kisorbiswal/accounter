@@ -5415,7 +5415,8 @@ public class FinanceTool implements IFinanceDAOService {
 					: ((Double) object[10]).doubleValue());
 			transactionHistory.setWriteOff(object[11] == null ? 0
 					: ((Double) object[11]).doubleValue());
-			transactionHistory.setTransactionId((Long) object[12]);
+			transactionHistory.setTransactionId(((BigInteger) object[12]).longValue());
+			
 			transactionHistory
 					.setBeginningBalance((object[13] != null ? ((Double) object[13])
 							.doubleValue() : 0.0));
