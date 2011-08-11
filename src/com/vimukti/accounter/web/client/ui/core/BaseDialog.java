@@ -41,8 +41,9 @@ import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
  * @author kumar kasimala
  * 
  */
-public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog implements
-		IAccounterWidget, WidgetWithErrors, ISaveCallback, IDeleteCallback {
+public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
+		implements IAccounterWidget, WidgetWithErrors, ISaveCallback,
+		IDeleteCallback {
 
 	// private String title;
 	protected HorizontalPanel headerLayout;
