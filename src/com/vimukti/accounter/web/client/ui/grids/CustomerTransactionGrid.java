@@ -59,7 +59,7 @@ public class CustomerTransactionGrid extends
 	protected boolean isSalesOrderTransaction;
 	private Double totallinetotal = 0.0D;
 	private Double totalVat;
-	private Double grandTotal;
+	private double grandTotal;
 
 	private ClientPriceLevel priceLevel;
 	private ClientTransactionItem selectedRecord;
@@ -71,7 +71,7 @@ public class CustomerTransactionGrid extends
 	boolean isBankingTransaction = false;
 
 	protected int accountingType;
-	private Double totalValue;
+	private double totalValue;
 
 	private boolean isAddNewRequired = true;
 	private long ztaxCodeid;
@@ -295,6 +295,7 @@ public class CustomerTransactionGrid extends
 		}
 		return -1;
 	}
+
 	protected void initColumns() {
 		CellTable<ClientTransactionItem> table = new CellTable<ClientTransactionItem>();
 
@@ -1066,7 +1067,7 @@ public class CustomerTransactionGrid extends
 
 	}
 
-	public Double getGrandTotal() {
+	public double getGrandTotal() {
 		return grandTotal;
 	}
 
@@ -1467,7 +1468,7 @@ public class CustomerTransactionGrid extends
 		this.totalValue = totalValue;
 	}
 
-	public Double getTotalValue() {
+	public double getTotalValue() {
 		return totalValue;
 	}
 

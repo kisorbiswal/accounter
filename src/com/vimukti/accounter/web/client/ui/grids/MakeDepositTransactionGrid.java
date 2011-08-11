@@ -259,8 +259,8 @@ public class MakeDepositTransactionGrid extends
 		}
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
 			// FIXME
-			result.addError("GridTotalLineTotal",
-					Accounter.constants().invalidTransactionAmount());
+			result.addError("GridTotalLineTotal", Accounter.constants()
+					.invalidTransactionAmount());
 		}
 		return result;
 	}
@@ -381,7 +381,7 @@ public class MakeDepositTransactionGrid extends
 		updateTotals();
 	}
 
-	public Double getGrandTotal() {
+	public double getGrandTotal() {
 		return grandTotal;
 	}
 
@@ -429,8 +429,7 @@ public class MakeDepositTransactionGrid extends
 				break;
 			}
 		} catch (Exception e) {
-			Accounter
-					.showError(accounterConstants.invalidateEntry());
+			Accounter.showError(accounterConstants.invalidateEntry());
 		}
 		updateTotals();
 		updateData(item);

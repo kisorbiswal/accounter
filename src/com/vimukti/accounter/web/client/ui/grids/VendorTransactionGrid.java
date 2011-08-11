@@ -562,7 +562,7 @@ public class VendorTransactionGrid extends
 	}
 
 	@Override
-	public Double getGrandTotal() {
+	public double getGrandTotal() {
 		return grandTotal;
 	}
 

@@ -259,16 +259,16 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 
 	public Double getTaxableLineTotal() {
 
-		return null;
+		return 0.0;
 	}
 
-	public Double getGrandTotal() {
+	public double getGrandTotal() {
 
-		return null;
+		return 0.0;
 	}
 
-	public Double getTotalValue() {
-		return null;
+	public double getTotalValue() {
+		return 0.0;
 	}
 
 	public abstract void setTaxCode(long taxCode);
@@ -299,9 +299,9 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	 * @return
 	 */
 
-//	protected boolean isMultiCurrencyEnabled() {
-//		return transactionView.getCurrencyWidget() != null;
-//	}
+	// protected boolean isMultiCurrencyEnabled() {
+	// return transactionView.getCurrencyWidget() != null;
+	// }
 
 	/**
 	 * This method will check for multiple currency enable criteria internally.
@@ -310,10 +310,10 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	 * @return amount/factor if multiCurrency enabled.
 	 */
 	protected double getAmountInBaseCurrency(double amount) {
-//		if (isMultiCurrencyEnabled()) {
-//			return amount
-//					/ transactionView.getCurrencyWidget().getCurrencyFactor();
-//		}
+		// if (isMultiCurrencyEnabled()) {
+		// return amount
+		// / transactionView.getCurrencyWidget().getCurrencyFactor();
+		// }
 		return amount;
 	}
 
@@ -325,10 +325,10 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 	 * @return amount*factor if multiCurrency enabled.
 	 */
 	protected double getAmountInForeignCurrency(double amount) {
-//		if (isMultiCurrencyEnabled()) {
-//			return amount
-//					* transactionView.getCurrencyWidget().getCurrencyFactor();
-//		}
+		// if (isMultiCurrencyEnabled()) {
+		// return amount
+		// * transactionView.getCurrencyWidget().getCurrencyFactor();
+		// }
 		return amount;
 	}
 }
