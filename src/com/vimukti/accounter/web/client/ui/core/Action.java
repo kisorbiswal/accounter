@@ -170,6 +170,7 @@ public abstract class Action<T> implements Command {
 
 	public void run(T object, boolean isDependent) {
 		
+		
 		setInput(object);
 		
 		setDependent(isDependent);
