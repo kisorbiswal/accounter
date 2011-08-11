@@ -30,6 +30,7 @@ public class SaveAndCloseButton extends ImageButton {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
+			
 				view.onSave(false);
 			}
 		});
