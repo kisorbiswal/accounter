@@ -283,7 +283,7 @@ public class CreditCardChargeView extends
 
 	private void resetElements() {
 		selectedVendor = null;
-		transaction = null;
+		//transaction = null;
 		billingAddress = null;
 		addressList = null;
 		// billToCombo.setDisabled(isEdit);
@@ -600,7 +600,7 @@ public class CreditCardChargeView extends
 	}
 
 	protected void updateTransaction() {
-		super.saveAndUpdateView();
+		super.updateTransaction();
 		// Setting Type
 		transaction.setType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
 
