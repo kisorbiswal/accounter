@@ -74,6 +74,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 		};
 		addGroupButtonsHandler(dialogButtonsHandler);
+		this.okbtn.setVisible(false);
 	}
 
 	public void createShippingTerms() {
