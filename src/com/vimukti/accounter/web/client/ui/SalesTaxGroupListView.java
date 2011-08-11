@@ -93,7 +93,8 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		grid = new TaxGroupGrid(false);
 		grid.init();
-		grid.setSize("100%", "250px");
+		grid.setWidth("100%");
+		// grid.setSize("100%", "250px");
 		grid.addRecords(getRecords());
 		/**
 		 * buttons Layout
@@ -145,7 +146,8 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		itemsGrid = new SalesTaxItemsGrid(false);
 		itemsGrid.addStyleName("itemGrid");
 		itemsGrid.init();
-		itemsGrid.setSize("100%", "250px");
+		itemsGrid.setWidth("100%");
+		// itemsGrid.setSize("100%", "250px");
 
 		button1.setFocus(true);
 		bodyLayout.add(grid);
@@ -329,10 +331,10 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		taxGroup.setSalesType(true);
 		taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
 
-		if (Utility.isObjectExist(getCompany().getTaxItems(), taxGroup
-				.getName())
-				|| Utility.isObjectExist(getCompany().getTaxGroups(), taxGroup
-						.getName())) {
+		if (Utility.isObjectExist(getCompany().getTaxItems(),
+				taxGroup.getName())
+				|| Utility.isObjectExist(getCompany().getTaxGroups(),
+						taxGroup.getName())) {
 
 			Accounter.showError(Accounter.constants().alreadyExist());
 		} else
