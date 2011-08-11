@@ -41,7 +41,7 @@ public class ClientEntry implements IAccounterCore {
 
 	String voucherNumber = "1";
 
-	String journalEntry;
+	ClientJournalEntry journalEntry;
 
 	String vatItem;
 
@@ -183,11 +183,11 @@ public class ClientEntry implements IAccounterCore {
 		this.voucherNumber = voucherNumber;
 	}
 
-	public String getJournalEntry() {
+	public ClientJournalEntry getJournalEntry() {
 		return journalEntry;
 	}
 
-	public void setJournalEntry(String journalEntry) {
+	public void setJournalEntry(ClientJournalEntry journalEntry) {
 		this.journalEntry = journalEntry;
 	}
 
