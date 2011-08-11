@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -137,9 +136,7 @@ public class VendorBillView extends
 							transaction.getDueDate()) : getTransactionDate());
 			initMemoAndReference();
 			vendorTransactionGrid.setCanEdit(false);
-			vendorTransactionGrid.removeAllRecords();
-			vendorTransactionGrid.setAllTransactions(transaction
-					.getTransactionItems());
+
 		}
 		super.initTransactionViewData();
 		initPaymentTerms();
