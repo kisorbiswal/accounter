@@ -2998,8 +2998,6 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 				vendors.add((Vendor) payee);
 			} else if (payee instanceof TAXAgency) {
 				taxAgencies.add((TAXAgency) payee);
-			} else if (payee instanceof SalesPerson) {
-				salesPersons.add((SalesPerson) payee);
 			} else {
 				taxAgencies.add((TAXAgency) payee);
 			}
