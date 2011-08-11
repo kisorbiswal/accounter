@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ValidationResult.Warning;
@@ -33,7 +34,7 @@ public class WarningsDialog extends AccounterDialog implements
 
 	private boolean showNext() {
 		int size = warnings.size();
-		int index = warnings.indexOf(message);
+		int index = getIndexByMessage(message) + 1;
 
 		if (index == size) {
 			warningHandler.onYesClick();
@@ -45,6 +46,17 @@ public class WarningsDialog extends AccounterDialog implements
 
 		return false;
 
+	}
+
+	private int getIndexByMessage(String message) {
+		Iterator<Warning> iterator = warnings.iterator();
+		while (iterator.hasNext()) {
+			Warning next = iterator.next();
+			if (next.getMessage().equals(message)) {
+				return warnings.indexOf(next);
+			}
+		}
+		return -1;
 	}
 
 	@Override
