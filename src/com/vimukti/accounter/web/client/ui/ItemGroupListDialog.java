@@ -75,6 +75,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 			}
 		};
 		addGroupButtonsHandler(dialogButtonsHandler);
+		this.okbtn.setVisible(false);
 
 	}
 
