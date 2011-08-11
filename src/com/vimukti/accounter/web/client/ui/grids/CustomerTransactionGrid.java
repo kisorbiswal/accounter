@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -300,11 +301,14 @@ public class CustomerTransactionGrid extends
 
 		IndicatorColumn indicatorColumn = new IndicatorColumn();
 		table.addColumn(indicatorColumn);
+		
+		ListDataProvider<ClientTransactionItem> list=new ListDataProvider<ClientTransactionItem>();
+		list.addDataDisplay(table);
 
-		TransactionItemNameColumn transactionItemNameColumn = new TransactionItemNameColumn();
+		TransactionItemNameColumn transactionItemNameColumn = new TransactionItemNameColumn(list);
 		table.addColumn(transactionItemNameColumn, Accounter.constants().name());
 
-		TransactionDescriptionColumn descriptionColumn = new TransactionDescriptionColumn();
+		TransactionDescriptionColumn descriptionColumn = new TransactionDescriptionColumn(list);
 		table.addColumn(descriptionColumn, Accounter.constants().description());
 
 		TransactionQuantityColumn quantityColumn = new TransactionQuantityColumn();
