@@ -126,7 +126,7 @@ CREATE TABLE `activation` (
   `TOKEN` varchar(255) default NULL,
   `SIGN_UP_DATE` datetime default NULL,
   PRIMARY KEY  (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -397,7 +397,7 @@ CREATE TABLE `client` (
   `LAST_LOGIN_TIME` bigint(20) default NULL,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `EMAIL_ID` (`EMAIL_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -1759,6 +1759,9 @@ CREATE TABLE `payee` (
   `BALANCE` double default NULL,
   `OPENING_BALANCE` double default NULL,
   `PAYMENT_METHOD` varchar(255) default NULL,
+  `BANK_ACCOUNT_NO` varchar(255) default NULL,
+  `BANK_NAME` varchar(255) default NULL,
+  `BANK_BRANCH` varchar(255) default NULL,
   `PHONE_NUMBER` varchar(255) default NULL,
   `FAX_NUMBER` varchar(255) default NULL,
   `EMAIL_ID` varchar(255) default NULL,
@@ -3297,4 +3300,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-08-11  9:46:27
+-- Dump completed on 2011-08-11 11:32:59

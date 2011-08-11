@@ -28,14 +28,14 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 
 	long taxItem;
 
-	String journalEntry;
+	long journalEntry;
 
 	long taxAgency;
 
 	/**
 	 * @return the journalEntry
 	 */
-	public String getJournalEntry() {
+	public long getJournalEntry() {
 		return journalEntry;
 	}
 
@@ -43,7 +43,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 * @param journalEntry
 	 *            the journalEntry to set
 	 */
-	public void setJournalEntry(String journalEntry) {
+	public void setJournalEntry(long journalEntry) {
 		this.journalEntry = journalEntry;
 	}
 

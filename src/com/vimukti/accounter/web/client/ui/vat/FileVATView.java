@@ -122,8 +122,10 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (selectedVatAgency != null) {
-					ActionFactory.getVatAdjustmentAction().run(
-							selectedVatAgency, true);
+					AdjustTAXAction vatAdjustmentAction = ActionFactory
+							.getVatAdjustmentAction();
+					vatAdjustmentAction.setVatAgency(selectedVatAgency);
+					vatAdjustmentAction.run(null, true);
 				}
 
 			}

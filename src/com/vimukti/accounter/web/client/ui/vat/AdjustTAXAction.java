@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class AdjustTAXAction extends Action {
 	protected AdjustTAXView view;
+	private ClientTAXAgency vatAgency;
 
 	public AdjustTAXAction(String text) {
 		super(text);
@@ -30,11 +31,10 @@ public class AdjustTAXAction extends Action {
 		return Accounter.getFinanceMenuImages().vatAdjustment();
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run() {
@@ -51,8 +51,7 @@ public class AdjustTAXAction extends Action {
 			public void onCreated() {
 				try {
 					if (isDependent) {
-						ClientTAXAgency taxAgency = (ClientTAXAgency) data;
-						view = new AdjustTAXView(taxAgency);
+						view = new AdjustTAXView(vatAgency);
 						MainFinanceWindow.getViewManager().showView(view, null,
 								isDependent, AdjustTAXAction.this);
 					} else {
@@ -70,10 +69,9 @@ public class AdjustTAXAction extends Action {
 
 	}
 
-//	@Override
-//	public String getImageUrl() {
-//		return "/images/Vat_adjustment.png";
-//	}
+	public void setVatAgency(ClientTAXAgency selectedVatAgency) {
+		this.vatAgency = selectedVatAgency;
+	}
 
 	@Override
 	public String getHistoryToken() {
