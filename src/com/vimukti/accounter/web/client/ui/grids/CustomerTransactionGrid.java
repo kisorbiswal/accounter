@@ -1170,15 +1170,15 @@ public class CustomerTransactionGrid extends
 				// Accounter.showError(AccounterErrorType.INVALIDENTRY);
 				// }
 				double total = DataUtils.getReformatedAmount(qty);
-				Integer quantity = (int) total;
+				Double quantity =  total;
 				if (quantity == 0) {
-					quantity = 1;
+					quantity = 1.0D;
 					qty = "1";
 				}
 				try {
 					ClientQuantity quant = new ClientQuantity();
 					if (AccounterValidator.isValidGridQuantity(quantity)) {
-						quant.setValue(Integer.parseInt(qty));
+						quant.setValue(Double.parseDouble(qty));
 						item.setQuantity(quant);
 						update_quantity_inAllRecords(item.getQuantity()
 								.getValue());
