@@ -20,11 +20,12 @@ public class ChangePasswordAction extends Action {
 	public ImageResource getSmallImage() {
 		return null;
 	}
-//
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+
+	//
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run() {
@@ -34,11 +35,8 @@ public class ChangePasswordAction extends Action {
 	private void runAsync(Object data, Boolean isDependent) {
 		view = new ChangePasswordDialog(Accounter.constants().changePassword(),
 				null);
-		try {
-			view.show();
-			view.center();
-		} catch (Exception e) {
-		}
+		view.show();
+		view.center();
 	}
 
 	@Override

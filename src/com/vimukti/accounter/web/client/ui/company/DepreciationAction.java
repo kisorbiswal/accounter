@@ -36,13 +36,7 @@ public class DepreciationAction extends Action {
 	public void run() {
 		view = new DepreciationView();
 
-		try {
-			MainFinanceWindow.getViewManager()
-					.showView(view, null, false, this);
-		} catch (Exception e) {
-			Accounter
-					.showError(Accounter.constants().failedToLoadCompanyHome());
-		}
+		MainFinanceWindow.getViewManager().showView(view, null, false, this);
 	}
 
 	@Override

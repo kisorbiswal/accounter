@@ -7,6 +7,30 @@ import com.google.gwt.user.client.Command;
  */
 public abstract class Action<T> implements Command {
 
+//	@Override
+//	public String mayStop() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public void onCancel() {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void onStop() {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void start(AcceptsOneWidget panel, EventBus eventBus) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
 	/**
 	 * This action's text, or <code>null</code> if none.
 	 */

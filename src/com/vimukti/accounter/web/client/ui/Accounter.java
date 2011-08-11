@@ -6,6 +6,8 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
@@ -47,6 +49,7 @@ public class Accounter implements EntryPoint {
 	private MainFinanceWindow mainWindow;
 	protected ValueCallBack<Accounter> callback;
 	private ClientFinanceDate endDate;
+	private static PlaceController placeController;
 
 	private static ClientUser user = null;
 	private static ClientCompany company = null;
@@ -231,6 +234,8 @@ public class Accounter implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+		eventBus=new SimpleEventBus();
+		placeController=new PlaceController(eventBus);
 		getCompany("");
 	}
 
@@ -423,5 +428,9 @@ public class Accounter implements EntryPoint {
 		Accounter.createCRUDService().updateCompany(clientCompany,
 				transactionCallBack);
 
+	}
+	
+	public static PlaceController placeController(){
+		return placeController;
 	}
 }

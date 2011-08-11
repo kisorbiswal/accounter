@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.cellview.client.CellTable;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -37,6 +38,15 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.customers.AbstractCustomerTransactionView;
+import com.vimukti.accounter.web.client.ui.grids.columns.IndicatorColumn;
+import com.vimukti.accounter.web.client.ui.grids.columns.TransactionDescriptionColumn;
+import com.vimukti.accounter.web.client.ui.grids.columns.TransactionDiscountColumn;
+import com.vimukti.accounter.web.client.ui.grids.columns.TransactionItemNameColumn;
+import com.vimukti.accounter.web.client.ui.grids.columns.TransactionQuantityColumn;
+import com.vimukti.accounter.web.client.ui.grids.columns.TransactionTotalColumn;
+import com.vimukti.accounter.web.client.ui.grids.columns.TransactionUnitPriceColumn;
+import com.vimukti.accounter.web.client.ui.grids.columns.TransactionVatCodeColumn;
+import com.vimukti.accounter.web.client.ui.grids.columns.TransactionVatColumn;
 
 public class CustomerTransactionGrid extends
 		AbstractTransactionGrid<ClientTransactionItem> {
@@ -284,6 +294,37 @@ public class CustomerTransactionGrid extends
 			// }
 		}
 		return -1;
+	}
+	protected void initColumns() {
+		CellTable<ClientTransactionItem> table = new CellTable<ClientTransactionItem>();
+
+		IndicatorColumn indicatorColumn = new IndicatorColumn();
+		table.addColumn(indicatorColumn);
+
+		TransactionItemNameColumn transactionItemNameColumn = new TransactionItemNameColumn();
+		table.addColumn(transactionItemNameColumn, Accounter.constants().name());
+
+		TransactionDescriptionColumn descriptionColumn = new TransactionDescriptionColumn();
+		table.addColumn(descriptionColumn, Accounter.constants().description());
+
+		TransactionQuantityColumn quantityColumn = new TransactionQuantityColumn();
+		table.addColumn(quantityColumn, Accounter.constants().quantity());
+
+		TransactionUnitPriceColumn unitPriceColumn = new TransactionUnitPriceColumn();
+		table.addColumn(unitPriceColumn, Accounter.constants().unitPrice());
+
+		TransactionDiscountColumn discountColumn = new TransactionDiscountColumn();
+		table.addColumn(discountColumn, Accounter.constants().discountPerc());
+
+		TransactionTotalColumn totalColumn = new TransactionTotalColumn();
+		table.addColumn(totalColumn, Accounter.constants().total());
+
+		TransactionVatCodeColumn vatCodeColumn = new TransactionVatCodeColumn();
+		table.addColumn(vatCodeColumn, Accounter.constants().vatCode());
+
+		TransactionVatColumn vatColumn = new TransactionVatColumn();
+		table.addColumn(vatColumn, Accounter.constants().vat());
+
 	}
 
 	@Override

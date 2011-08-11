@@ -5,7 +5,7 @@ package com.vimukti.accounter.web.client.core;
  * 
  */
 @SuppressWarnings("serial")
-public class ClientAccount implements IAccounterCore {
+public class ClientAccount implements IAccounterCore, IAccountable {
 
 	// public static final int BASETYPE_INCOME = 1;
 	// public static final int BASETYPE_EXPENSE = 2;

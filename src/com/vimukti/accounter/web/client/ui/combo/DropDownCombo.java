@@ -17,12 +17,13 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.PopupListener;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -65,7 +66,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		init();
 	}
 
-	
 	private void createControls(String title, boolean isAddNewRequire,
 			int noOfcols) {
 		this.isAddNewRequire = isAddNewRequire;
@@ -75,7 +75,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		this.addStyleName("custom-combo");
 		this.addStyleName("dropdown-button");
 
-		dropDown = new DropDownTable(this) {
+		dropDown = new DropDownTable<T>(this) {
 			@Override
 			public void cellClicked(int row, int col) {
 				if (DropDownCombo.this.comboItems.size() >= row)
@@ -116,13 +116,13 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				return column;
 			}
 
-			private void setColumnActions(Column[] columns) {
+			private void setColumnActions(Column<T,String>[] columns) {
 				for (int i = 0; i < cols; i++) {
-					columns[i].setFieldUpdater(new FieldUpdater() {
+					columns[i].setFieldUpdater(new FieldUpdater<T,String>() {
 
 						@Override
-						public void update(int index, Object object,
-								Object value) {
+						public void update(int index, T object,
+								String value) {
 							selectedIndex = index;
 							eventFired(index);
 						}
@@ -155,7 +155,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				super.onLoad();
 			}
 
-			
 			@Override
 			public void onBrowserEvent(Event event) {
 				switch (DOM.eventGetType(event)) {
@@ -195,7 +194,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		this.removeStyleName("gwt-TextBox");
 	}
 
-	
 	protected void showPopup() {
 		if (DropDownCombo.this.getDisabled())
 			return;
@@ -208,10 +206,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		popup.setPopupPosition(x + 1, y);
 
 		popup.show();
-		popup.addPopupListener(new PopupListener() {
-
+		popup.addCloseHandler(new CloseHandler<PopupPanel>() {
+			
 			@Override
-			public void onPopupClosed(PopupPanel sender, boolean autoClosed) {
+			public void onClose(CloseEvent<PopupPanel> event) {
 				if ((selectedName == null || !selectedName.equals(getValue()
 						.toString())) && selectedIndex == -1)
 					setRelatedComboItem(getValue().toString());
@@ -299,12 +297,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 						&& popup.isShowing()) {
 					dropDown.setKeyboardSelected(dropDown.getDisplayedItems()
 							.size() - 1, true, true);
+				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE
+						&& popup.isShowing()) {
+					popup.hide();
 				}
-				 else if (event.getNativeEvent().getKeyCode() ==
-				 KeyCodes.KEY_ESCAPE
-				 && popup.isShowing()) {
-				 popup.hide();
-				 }
 			}
 
 		});
@@ -345,7 +341,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		// }
 
 	}
-
 
 	/**
 	 * Override this method to do anything before the other overridden methods
@@ -416,7 +411,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 * 
 	 * @param obj
 	 */
-	
+
 	public void addItemThenfireEvent(T obj) {
 		boolean usTaxCode = Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
 				&& obj instanceof ClientTAXItemGroup;
@@ -476,7 +471,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	}
 
-	
 	private void setSelectedIndex(int i) {
 
 	}
@@ -519,7 +513,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	public abstract String getDefaultAddNewCaption();
 
 	public abstract void onAddNew();
-
 
 	public void changeValue(int rowIndex) {
 		// int index = listbox.getSelectedIndex();
@@ -566,17 +559,13 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		default:
 
 			if (handler != null) {
-				try {
-					selectedObject = comboItems.get(rowIndex
-							- (isAddNewRequire ? 2 : 1));
-					handler.selectedComboBoxItem(selectedObject);
-					setSelectedItem(selectedObject, rowIndex);
-					if (popup.isShowing())
-						popup.hide();
+				selectedObject = comboItems.get(rowIndex
+						- (isAddNewRequire ? 2 : 1));
+				handler.selectedComboBoxItem(selectedObject);
+				setSelectedItem(selectedObject, rowIndex);
+				if (popup.isShowing())
+					popup.hide();
 
-				} catch (Exception e) {
-
-				}
 			}
 
 			break;
@@ -636,12 +625,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		return "";
 	}
 
-	
 	public void setGrid(ListGrid grid) {
 		this.grid = grid;
 	}
 
-	
 	public void removeComboItem(T coreObject) {
 
 		int index = comboItems.indexOf(Utility.getObject(

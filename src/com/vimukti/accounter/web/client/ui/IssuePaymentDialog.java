@@ -357,7 +357,6 @@ public class IssuePaymentDialog extends BaseDialog {
 		ActionFactory.getExpensesAction(null).run(null, true);
 	}
 
-	
 	public void saveFailed(AccounterException exception) {
 		// Accounter.showError(AccounterErrorType.FAILEDREQUEST);
 		super.saveFailed(exception);
@@ -514,11 +513,7 @@ public class IssuePaymentDialog extends BaseDialog {
 			if (record.getName() != null)
 				entry.setName(record.getName());
 
-			try {
-				entry.setAmount(record.getAmount());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			entry.setAmount(record.getAmount());
 			entry.setMemo(record.getMemo());
 
 			if (record.getPaymentMethod() != null) {

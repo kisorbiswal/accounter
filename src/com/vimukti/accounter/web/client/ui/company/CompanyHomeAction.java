@@ -27,14 +27,7 @@ public class CompanyHomeAction extends Action {
 	public void run() {
 		view = new DashBoardView();
 
-		try {
-			MainFinanceWindow.getViewManager()
-					.showView(view, null, false, this);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Accounter
-					.showError(Accounter.constants().failedToLoadCompanyHome());
-		}
+		MainFinanceWindow.getViewManager().showView(view, null, false, this);
 	}
 
 	public ImageResource getBigImage() {

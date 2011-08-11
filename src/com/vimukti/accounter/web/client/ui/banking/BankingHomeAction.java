@@ -31,13 +31,7 @@ public class BankingHomeAction extends Action {
 	public void run() {
 		view = new BankingSectionHomeView();
 
-		try {
-			MainFinanceWindow.getViewManager()
-					.showView(view, null, false, this);
-		} catch (Exception e) {
-			Accounter
-					.showError(Accounter.constants().failedToLoadBankingHome());
-		}
+		MainFinanceWindow.getViewManager().showView(view, null, false, this);
 	}
 
 	public ImageResource getBigImage() {

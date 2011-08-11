@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -11,6 +12,7 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -41,6 +43,8 @@ public class ViewManager extends VerticalPanel {
 
 	private ToolBar toolBar;
 
+	private ActivityManager manager;
+
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
 		addStyleName("view_manager");
@@ -56,6 +60,14 @@ public class ViewManager extends VerticalPanel {
 		this.toolBar = new ToolBar();
 		this.add(toolBar);
 		initilizeToolBar();
+		initializeActivityManager();
+	}
+
+	private void initializeActivityManager() {
+		this.manager=new ActivityManager(new AccounterActivityMapper(), Accounter.getEventBus());
+		SimplePanel panel=new SimplePanel();
+		manager.setDisplay(panel);
+		this.add(panel);
 	}
 
 	private void handleBackSpaceEvent() {

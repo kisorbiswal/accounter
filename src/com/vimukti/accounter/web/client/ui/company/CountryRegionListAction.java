@@ -28,12 +28,8 @@ public class CountryRegionListAction extends Action {
 			@Override
 			public void onCreated() {
 
-				try {
-					CountryRegionDialog dialog = new CountryRegionDialog("", "");
-					dialog.show();
-				} catch (Exception e) {
-					onCreateFailed(e);
-				}
+				CountryRegionDialog dialog = new CountryRegionDialog("", "");
+				dialog.show();
 
 			}
 

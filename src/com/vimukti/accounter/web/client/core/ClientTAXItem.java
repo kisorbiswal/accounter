@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
 @SuppressWarnings("serial")
-public class ClientTAXItem extends ClientTAXItemGroup {
+public class ClientTAXItem extends ClientTAXItemGroup implements IAccountable {
 
 	long taxAgency;
 
@@ -124,6 +124,11 @@ public class ClientTAXItem extends ClientTAXItemGroup {
 	public ClientTAXItem clone() {
 		ClientTAXItem taxItem = (ClientTAXItem) this.clone();
 		return taxItem;
+	}
+
+	@Override
+	public int getType() {
+		return ClientTransactionItem.TYPE_SALESTAX;
 	}
 
 }

@@ -94,8 +94,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected SelectCombo paymentMethodCombo;
 
 	/**
-	 * The Transaction Grid meant to Serve in all Transactions
-	 */
+//	 * The Transaction Grid meant to Serve in all Transactions
+//	 */
 	protected AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid,
 			customerTransactionGrid;
 

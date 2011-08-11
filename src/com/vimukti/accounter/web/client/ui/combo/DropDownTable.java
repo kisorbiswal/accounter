@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -28,7 +27,6 @@ public class DropDownTable<T> extends CellTable<T> {
 	private int nofCols;
 	private RowFormatter rowFormatter;
 	private CellFormatter cellFormatter;
-	public ScrollPanel panel;
 	private int cols = 1;
 	private String addNewText;
 	private DropDownCombo<T> combo;
@@ -59,30 +57,6 @@ public class DropDownTable<T> extends CellTable<T> {
 			this.addColumn(columns[i]);
 		selectionModel = new SingleSelectionModel<T>();
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-		// rowFormatter = this.body.getRowFormatter();
-		// cellFormatter = this.body.getCellFormatter();
-
-		// adding handler for Table
-		// this.body.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// Cell cell = body.getCellForEvent(event);
-		// if (cell == null) {
-		// return;
-		// } else {
-		// eventFired(cell.getRowIndex());
-		// }
-		// }
-		// });
-
-		panel = new ScrollPanel();
-		// // panel.setWidth("100px");
-		// panel.getElement().removeAttribute("style");
-		// panel.addStyleName("dropdownTable");
-		// panel.add(this);
-
-		// this.add(panel);
 		this.setSize("100%", "");
 
 	}

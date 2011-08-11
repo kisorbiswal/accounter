@@ -28,6 +28,8 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	long item;
 
+	String name;
+
 	ClientTAXItem taxItem;
 
 	private String taxitem;
@@ -38,6 +40,10 @@ public class ClientTransactionItem implements IAccounterCore {
 	long vatItem;
 
 	long account;
+
+	transient ClientAccount tAccount;
+
+	transient ClientItem tItem;
 
 	ClientTAXGroup taxGroup;
 
@@ -205,8 +211,8 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * @return the quantity
 	 */
 	public ClientQuantity getQuantity() {
-		if(quantity==null){
-			quantity=new ClientQuantity();
+		if (quantity == null) {
+			quantity = new ClientQuantity();
 			quantity.setValue(1);
 		}
 		return quantity;
@@ -419,7 +425,7 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return Utility.getTransactionName(getType());
+		return name;
 	}
 
 	@Override
@@ -461,5 +467,34 @@ public class ClientTransactionItem implements IAccounterCore {
 		clientTransactionItemClone.transaction = this.transaction.clone();
 
 		return clientTransactionItemClone;
+	}
+
+	public IAccountable getAccountable() {
+		switch (type) {
+		case TYPE_ACCOUNT:
+			return tAccount;
+		case TYPE_ITEM:
+		case TYPE_SERVICE:
+			return tItem;
+		case TYPE_SALESTAX:
+			return taxItem;
+		}
+		return null;
+	}
+
+	public void setAccountable(IAccountable value) {
+		type=value.getType();
+		switch (type) {
+		case TYPE_ACCOUNT:
+			tAccount = (ClientAccount) value;
+			account=tAccount.id;
+		case TYPE_ITEM:
+		case TYPE_SERVICE:
+			tItem = (ClientItem) value;
+			item=tItem.id;
+		case TYPE_SALESTAX:
+			taxItem = (ClientTAXItem) value;
+		}
+		name=value.getName();
 	}
 }
