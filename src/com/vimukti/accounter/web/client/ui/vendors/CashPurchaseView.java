@@ -371,9 +371,11 @@ public class CashPurchaseView extends
 
 	@Override
 	protected void initTransactionViewData() {
+
 		if (transaction == null) {
 			setData(new ClientCashPurchase());
 		} else {
+
 			contactSelected(transaction.getContact());
 			vendorSelected(getCompany().getVendor(transaction.getVendor()));
 			phoneSelect.setValue(transaction.getPhone());

@@ -122,10 +122,6 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	}
 
-	public static void a() {
-
-	}
-
 	@Override
 	protected abstract void createControls();
 
