@@ -200,7 +200,8 @@ public abstract class CustomTable extends VerticalPanel {
 		if (isShowFooter) {
 			initFooter();
 		}
-		this.setSize("100%", "120px");
+		this.setWidth("100%");
+		// this.setSize("100%", "120px");
 	}
 
 	private void initFooter() {
@@ -636,7 +637,7 @@ public abstract class CustomTable extends VerticalPanel {
 			break;
 		case Event.ONCLICK:
 			break;
-			
+
 		default:
 			break;
 		}
@@ -717,7 +718,5 @@ public abstract class CustomTable extends VerticalPanel {
 	public boolean isShowFooter() {
 		return isShowFooter;
 	}
-	
-	
 
 }

@@ -46,7 +46,8 @@ public class DialogGrid extends ListGrid<IsSerializable> {
 	@Override
 	public void init() {
 		super.init();
-		super.setSize("100%", "170px");
+		super.setWidth("100%");
+		// super.setSize("100%", "170px");
 	}
 
 	protected void menuItemClicked(String item) {

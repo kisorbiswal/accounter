@@ -66,8 +66,8 @@ public class TransactionJournalEntryGrid extends
 	}
 
 	private void createControls() {
-
-		setSize("100%", "200px");
+		setWidth("100%");
+		// setSize("100%", "200px");
 		addRecordClickHandler(new RecordClickHandler<ClientEntry>() {
 
 			@Override
@@ -587,8 +587,7 @@ public class TransactionJournalEntryGrid extends
 			updateData(editingRecord);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Accounter
-					.showError(accounterConstants.invalidateEntry());
+			Accounter.showError(accounterConstants.invalidateEntry());
 			switch (col) {
 			case 0:
 				editingRecord
