@@ -50,7 +50,7 @@ public class AccounterDebugFilter implements Filter {
 
 			@Override
 			public void sendRedirect(String location) throws IOException {
-				if(!location.endsWith(DEBUG_URL)) {
+				if(!location.contains(DEBUG_URL)) {
 					location += location.contains("?")?'&':'?';					
 					location += DEBUG_URL;
 				}
