@@ -73,7 +73,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		// Accounter.createHomeService().getSalesOrders(this);
+		Accounter.createHomeService().getSalesOrders(this);
 	}
 
 	@Override
@@ -149,7 +149,6 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 		return viewSelect;
 	}
 
-	
 	private void filterList(String text) {
 		grid.removeAllRecords();
 		if (listOfSalesOrder != null) {

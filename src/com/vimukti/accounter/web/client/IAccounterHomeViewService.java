@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
+import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -194,10 +195,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public ArrayList<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
 
+	public ArrayList<SalesOrdersList> getSalesOrders()
+			throws AccounterException;
+
 	/*
-	 * public ArrayList<SalesOrdersList> getSalesOrders() throws
-	 * AccounterException;
-	 * 
 	 * public ArrayList<PurchaseOrdersList> getPurchaseOrders() throws
 	 * AccounterException;
 	 * 

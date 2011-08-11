@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
+import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 
 /**
@@ -225,10 +226,8 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getTransactionMakeDeposits(
 			AsyncCallback<ArrayList<ClientTransactionMakeDeposit>> callback);
 
-	/*
-	 * public void getSalesOrders(AsyncCallback<ArrayList<SalesOrdersList>>
-	 * callback);
-	 */
+	public void getSalesOrders(
+			AsyncCallback<ArrayList<SalesOrdersList>> callback);
 
 	/*
 	 * public void getPurchaseOrders(

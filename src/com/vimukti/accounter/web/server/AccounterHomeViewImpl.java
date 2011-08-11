@@ -77,6 +77,7 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
+import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -317,7 +318,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	public ArrayList<PaymentsList> getVendorPaymentsList() {
 
-		
 		ArrayList<PaymentsList> vendorPaymentsList = new ArrayList<PaymentsList>();
 		try {
 
@@ -331,7 +331,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 		return vendorPaymentsList;
 
-		
 	}
 
 	public ArrayList<IssuePaymentTransactionsList> getChecks() {
@@ -1109,15 +1108,22 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 * FinanceTool tool = getFinanceTool();
 	 * 
 	 * return tool != null ? tool.getPurchaseOrdersForVendor(vendorID) : null; }
-	 * 
-	 * @Override public List<SalesOrdersList> getSalesOrders() throws
-	 * AccounterException {
-	 * 
-	 * FinanceTool tool = getFinanceTool();
-	 * 
-	 * try { return tool != null ? tool.getSalesOrdersList() : null; } catch
-	 * (DAOException e) { e.printStackTrace(); } return null; }
-	 * 
+	 */
+	@Override
+	public ArrayList<SalesOrdersList> getSalesOrders()
+			throws AccounterException {
+
+		FinanceTool tool = getFinanceTool();
+
+		try {
+			return tool != null ? tool.getSalesOrdersList() : null;
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/*
 	 * @Override public List<SalesOrdersList> getSalesOrdersForCustomer(long
 	 * customerID) throws AccounterException {
 	 * 

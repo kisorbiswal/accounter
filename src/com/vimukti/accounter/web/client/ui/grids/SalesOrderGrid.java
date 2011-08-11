@@ -54,6 +54,14 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 
 	@Override
 	protected int getCellWidth(int index) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			return getUKGridCellWidth(index);
+		} else {
+			return getUSGridCellWidth(index);
+		}
+	}
+
+	private int getUSGridCellWidth(int index) {
 		if (index == 0 || index == 9)
 			if (UIUtils.isMSIEBrowser())
 				return 25;
@@ -63,7 +71,48 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 			return 200;
 		if (index == 5)
 			return 80;
+		if (index == 8) {
+			if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
+				if (UIUtils.isMSIEBrowser())
+					return 25;
+				else
+					return 15;
+			}
+		}
 		return -1;
+	}
+
+	private int getUKGridCellWidth(int index) {
+		if (index == 0 || index == 10)
+			if (UIUtils.isMSIEBrowser())
+				return 25;
+			else
+				return 15;
+		else if (index == 7 || index == 2)
+			return 70;
+		else if (index == 3 || index == 4 || index == 9)
+			return 90;
+		else if (index == 5)
+			return 80;
+		else if (index == 6)
+			return 100;
+		else if (index == 1) {
+			if (UIUtils.isMSIEBrowser()) {
+				return 90;
+			} else {
+				return 100;
+			}
+		} else if (index == 8) {
+			if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
+				if (UIUtils.isMSIEBrowser())
+					return 25;
+				else
+					return 15;
+			}
+			return 70;
+		}
+		return -1;
+
 	}
 
 	@Override
