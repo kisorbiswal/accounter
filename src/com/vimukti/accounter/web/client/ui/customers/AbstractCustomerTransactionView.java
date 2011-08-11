@@ -196,8 +196,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	}
 
 	private void initTransactionsItems() {
-		customerTransactionGrid.setAllTransactions(transaction
-				.getTransactionItems());
+		if (transaction.getTransactionItems() != null)
+			customerTransactionGrid.setAllTransactions(transaction
+					.getTransactionItems());
 		if (transaction.getID() != 0) {
 			customerTransactionGrid.canDeleteRecord(false);
 		}
