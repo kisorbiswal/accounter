@@ -900,7 +900,7 @@ public class VendorTransactionGrid extends
 				try {
 					ClientQuantity quant = new ClientQuantity();
 					if (AccounterValidator.isValidGridQuantity(quantity)) {
-						quant.setValue(Integer.parseInt(qty));
+						quant.setValue(Double.parseDouble(qty));
 						item.setQuantity(quant);
 						update_quantity_inAllRecords(item.getQuantity()
 								.getValue());
