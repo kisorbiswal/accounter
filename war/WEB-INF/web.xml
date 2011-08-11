@@ -106,11 +106,12 @@
 
 	<servlet>
 		<servlet-name>EmailForActivation</servlet-name>
-		<servlet-class>com.vimukti.accounter.servlets.EmailForActivationServlet</servlet-class>
+		<servlet-class>com.vimukti.accounter.servlets.EmailForActivationServlet
+		</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	<servlet-name>EmailForActivation</servlet-name>
-	<url-pattern>/emailforactivation</url-pattern>
+		<servlet-name>EmailForActivation</servlet-name>
+		<url-pattern>/emailforactivation</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>signup</servlet-name>
@@ -124,7 +125,7 @@
 
 	<servlet-mapping>
 		<servlet-name>support</servlet-name>
-		<url-pattern>/support</url-pattern>
+		<url-pattern>/site/support</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>support</servlet-name>
@@ -294,22 +295,24 @@
 
 	<servlet>
 		<servlet-name>createcompany</servlet-name>
-		<servlet-class>com.vimukti.accounter.servlets.CreateCompanyServlet </servlet-class>
+		<servlet-class>com.vimukti.accounter.servlets.CreateCompanyServlet
+		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>createcompany</servlet-name>
 		<url-pattern>/createcompany</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>Company Status</servlet-name>
-		<servlet-class>com.vimukti.accounter.servlets.CompanyStatusServlet </servlet-class>
+		<servlet-class>com.vimukti.accounter.servlets.CompanyStatusServlet
+		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Company Status</servlet-name>
 		<url-pattern>/companystatus</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>companyAuthentication</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.AuthenticationServlet
