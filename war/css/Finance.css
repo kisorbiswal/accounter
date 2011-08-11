@@ -631,6 +631,7 @@ h1 {
 
 .highlightedFormItem {
 	border: 1px solid #FF0000 !important;
+	border-radius:3px 3px 3px 3px;
 }
 
 .gwt-MenuBarPopup {
@@ -5030,8 +5031,8 @@ td.gridDecimalCell {
 }
 
 .dropdownTable {
-	/*overflow-x: hidden;*/
-	  overflow:auto;
+	  overflow-x: hidden;
+	  overflow-y:auto;
 }
 
 .dropdownFlex td {
@@ -5586,12 +5587,12 @@ solid
 }
 
 .gwt-TextArea {
-	background: url("/images/Text Feild_big_enabled_180x64.png") no-repeat
-		scroll 0 0 #fff !important;
-	border: 0 none !important;
-	height: 65px;
-	width: 180px !important;
-	resize: none
+	 border: 1px solid #B1B1B1;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 1px 2px 2px #CCCCCC inset;
+    height: 65px;
+    resize: none;
+    width: 180px !important;
 }
 
 .memoTextArea {
@@ -6327,7 +6328,7 @@ noindex:-o-prefocus,.ibutton {
 }
 
 .new_service_table td:FIRST-CHILD,.purchase_info_form td:FIRST-CHILD {
-	width: 30% !important;
+	/*width: 30% !important;*/
 }
 
 .new_service_table td input[type="checkbox"],.new_service_table td .gwt-TextArea,.new_service_table td .gwt-TextBox,.new_service_table td .custom-combo,.new_service_table td label,.purchase_info_form td input[type="checkbox"],.purchase_info_form td .gwt-TextArea,.purchase_info_form td .gwt-TextBox,.purchase_info_form td .custom-combo,.purchase_info_form td label,.service-item-group td input[type="checkbox"],.service-item-group td .gwt-TextBox,.service-item-group td .custom-combo,.service-item-group td label
@@ -6564,7 +6565,7 @@ a#fdbk_tab:hover{
     color:black;
     color:black\0 !important;
 }
-.grouped-buttons td:only-child .image-button{
+.grouped-buttons td:only-child .Empty-text,.grouped-buttons td:only-child .image-button{
 	border-radius:5px 5px 5px 5px !important;
 	border:1px solid #a0a0a0 !important;
 }
@@ -6576,82 +6577,4 @@ a#fdbk_tab:hover{
 .cancle-Btn:hover,.cancle-Btn-hover{
 	border:1px solid #A0A0A0 !important;
 	background-color:#A0A0A0 !important;
-}
-.setup_panel{
- 	border: 1px solid gray;
-    height: 100%;
-    margin :24px;
-    width: 960px !important;
-    height: 575px;
-}
-.setup_header_label{
-	color: #144149;
-    font-size: 23px;
-    padding-bottom: 6px;
-}
-.progress_header{
-	font-size: 19px;
-	margin: 10px;
-}
-.progress_panel{
-	border-right: 1px solid gray;
-	padding-left: 20px;
-}
-.view_panel{
-	height: 500px;
-    padding: 15px;
-    width: 100%;
-}
-.back_NextPanel{
- 	margin: 15px;
-    width: 150px;
-}
-.back_GoToPanel{
- 	margin: 15px;
-    width: 200px;
-}
-.progress_panel TABLE TR td TABLE {
-	margin-bottom: 8px;
-}
-.start_button{
-   float: right;
-   margin: 15px;
-}
-.setuppage_body{
-  padding: 15px 0 0 9px;
-}
-.organisation_comment{
-	color: #969696;
-    font-size: 11px;
-    font-weight: bold;
-    margin-left: 25px;
-    padding-bottom: 10px;
-}
-.organisation_combo{
-    margin-bottom: 16px;
-}
-.customerReferCombo{
- 	padding-left: 3px;
-}
-.supplierReferCombo{
-	padding-left: 12px;
-}
-.accountReferCombo{
-	padding-left: 15px;
-}
-.referComment{
-    color: #969696;
-    font-size: 11px;
-    font-weight: bold;
-    margin-left: 70px;
-    padding-bottom: 35px;
-}
-.org-header{
-	padding-bottom: 15px;
-}
-.employee_checkPanel{
-	margin-left: 20px;
-}
-.setuppage_employe_body{
-  padding: 15px 0 25px 9px;
 }
