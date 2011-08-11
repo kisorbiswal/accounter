@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -75,7 +74,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	private List<ClientAccount> listOfAccounts;
 
 	private ArrayList<DynamicForm> listforms;
-	private String salesPersonName;
+	// private String salesPersonName;
 
 	TextAreaItem addrArea;
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
@@ -221,12 +220,13 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		if (getData() != null) {
 
 			employeeNameText.setValue(data.getFirstName());
-			salesPersonName = data.getFirstName();
+			// salesPersonName = data.getFirstName();
 			jobTitleText.setValue(data.getJobTitle() != null ? data
 					.getJobTitle() : "");
 			fileAsText.setValue(data.getFileAs());
-
-			setAddresses(data.getAddress());
+			Set<ClientAddress> addresses = new HashSet<ClientAddress>();
+			addresses.add(data.getAddress());
+			setAddresses(addresses);
 
 			ClientAddress toBeShown = allAddresses
 					.get(ClientAddress.TYPE_BILL_TO);
@@ -366,7 +366,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		if (!(isEdit ? (data.getName().equalsIgnoreCase(name) ? true : (Utility
 				.isObjectExist(getCompany().getSalesPersons(), name) ? false
 				: true)) : true)) {
-			result.addError(employeeNameText, Accounter.constants().alreadyExist());
+			result.addError(employeeNameText, Accounter.constants()
+					.alreadyExist());
 		}
 
 		long mustdate = new ClientFinanceDate().getDate() - 180000;
@@ -458,7 +459,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		data.setEmail(emailForm.businesEmailText.getValue().toString());
 		data.setWebPageAddress(emailForm.getWebTextValue());
-		data.setType(ClientPayee.TYPE_EMPLOYEE);
 
 	}
 
@@ -612,7 +612,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		}
 	}
 
-	public Set<ClientAddress> getAddresss() {
+	public ClientAddress getAddresss() {
 		ClientAddress selectedAddress = allAddresses.get(UIUtils
 				.getAddressType("company"));
 		if (selectedAddress != null) {
@@ -621,15 +621,15 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 					.put(UIUtils.getAddressType("company"), selectedAddress);
 		}
 		Collection add = allAddresses.values();
-		Set<ClientAddress> toBeSet = new HashSet<ClientAddress>();
 		Iterator it = add.iterator();
 		while (it.hasNext()) {
 			ClientAddress a = (ClientAddress) it.next();
-			toBeSet.add(a);
+			return a;
+			// toBeSet.add(a);
 			// System.out.println("Sending Address  Type " + a.getType()
 			// + " Street is " + a.getStreet() + " Is Selected"
 			// + a.getIsSelected());
 		}
-		return toBeSet;
+		return null;
 	}
 }

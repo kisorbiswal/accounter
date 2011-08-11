@@ -102,14 +102,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 	}
 
 	private ClientAddress getBillToAddress(ClientSalesPerson salesPerson) {
-		Set<ClientAddress> address = salesPerson.getAddress();
-		for (ClientAddress a : address) {
-			if (a.getType() == ClientAddress.TYPE_BILL_TO) {
-				return a;
-			}
-
-		}
-		return null;
+		return salesPerson.getAddress();
 	}
 
 	@Override
@@ -218,32 +211,22 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 		return 0;
 	}
 
-	private String getPhoneNumber(ClientSalesPerson SalesPerson) {
-		String phoneNo = null;
-		if (SalesPerson != null) {
-			Set<ClientPhone> phones = SalesPerson.getPhoneNumbers();
-			for (ClientPhone p : phones) {
-				if (p.getType() == ClientPhone.BUSINESS_PHONE_NUMBER) {
-					phoneNo = String.valueOf(p.getNumber());
-				}
-			}
+	private String getPhoneNumber(ClientSalesPerson salesPerson) {
+		String phoneNo = "";
+		if (salesPerson != null) {
+			phoneNo = salesPerson.getPhoneNo();
 
 		}
 		return phoneNo != null ? phoneNo : "";
 	}
 
-	private String getFaxNumber(ClientSalesPerson SalesPerson) {
-		String faxNo = null;
-		if (SalesPerson != null) {
-			Set<ClientFax> faxes = SalesPerson.getFaxNumbers();
-			for (ClientFax f : faxes) {
-				if (f.getType() == ClientFax.TYPE_BUSINESS) {
-					faxNo = String.valueOf(f.getNumber());
-				}
-			}
+	private String getFaxNumber(ClientSalesPerson salesPerson) {
+		String faxNo = "";
+		if (salesPerson != null) {
+			faxNo = salesPerson.getFaxNo();
 
 		}
-		return faxNo != null ? faxNo : "";
+		return faxNo;
 	}
 
 	@Override
