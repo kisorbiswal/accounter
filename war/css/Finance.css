@@ -1266,6 +1266,7 @@ noindex:-o-prefocus,.gridBody tr td {
 	border-width: 1px 1px 1px !important;
 	border-color: #1A1A1A !important;
 	overflow-y: visible !important;
+	height:150px !important;
 }
 
 .gridBodyContainer {
@@ -6048,10 +6049,16 @@ iframe { /*display:none;*/
 	width: 100%;
 }
 
-.error-data {
+.error-data,.error-panel {
 	padding: 10px;
 	font-weight: bold;
-	color: red;
+	/*color: red;*/
+}
+.error-panel{
+	background: none repeat scroll 0 0 #FFEBE8;
+    border: 1px solid red;
+    margin-bottom: 10px;
+    width: 100%;
 }
 
 .general-standard {
@@ -6578,3 +6585,4 @@ a#fdbk_tab:hover{
 	border:1px solid #A0A0A0 !important;
 	background-color:#A0A0A0 !important;
 }
+
