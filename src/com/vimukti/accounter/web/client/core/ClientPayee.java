@@ -206,10 +206,6 @@ public abstract class ClientPayee implements IAccounterCore {
 	// return this != null && this instanceof ClientTaxAgency;
 	// }
 
-	public boolean isEmployee() {
-		return this != null && this instanceof ClientSalesPerson;
-	}
-
 	@Override
 	public String getDisplayName() {
 		// its not using any where

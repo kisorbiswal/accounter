@@ -461,13 +461,6 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public List<ClientPayee> getPayees() {
-		List<ClientPayee> temp = new ArrayList<ClientPayee>();
-		for (ClientPayee payee : payees) {
-			if (payee instanceof ClientSalesPerson) {
-				temp.add(payee);
-			}
-		}
-		payees.removeAll(temp);
 		return Utility.getArrayList(payees);
 	}
 

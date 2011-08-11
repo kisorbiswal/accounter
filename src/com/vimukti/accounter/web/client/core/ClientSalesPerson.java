@@ -1,12 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 @SuppressWarnings("serial")
-public class ClientSalesPerson extends ClientPayee {
+public class ClientSalesPerson implements IAccounterCore {
 
 	public static final int TITLE_DR = 1;
 	public static final int TITLE_MISS = 2;
@@ -23,6 +18,7 @@ public class ClientSalesPerson extends ClientPayee {
 	public static final int GENDER_MALE = 2;
 	public static final int GENDER_FEMALE = 3;
 
+	long id;
 	String title;
 	String firstName;
 	String middleName1;
@@ -40,6 +36,14 @@ public class ClientSalesPerson extends ClientPayee {
 	long dateOfHire;
 	long dateOfLastReview;
 	long dateOfRelease;
+	private boolean isActive;
+	private String memo;
+	private String fileAs;
+	private ClientAddress address;
+	private String phoneNo;
+	private String faxNo;
+	private String email;
+	private String webPageAddress;
 
 	public ClientSalesPerson() {
 	}
@@ -179,36 +183,6 @@ public class ClientSalesPerson extends ClientPayee {
 	/**
 	 * @return the memo
 	 */
-	@Override
-	public String getMemo() {
-		return memo;
-	}
-
-	/**
-	 * @param memo
-	 *            the memo to set
-	 */
-	@Override
-	public void setMemo(String memo) {
-		this.memo = memo;
-	}
-
-	/**
-	 * @return the isActive
-	 */
-	@Override
-	public boolean isActive() {
-		return isActive;
-	}
-
-	/**
-	 * @param isActive
-	 *            the isActive to set
-	 */
-	@Override
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 
 	/**
 	 * @return the gender
@@ -287,7 +261,6 @@ public class ClientSalesPerson extends ClientPayee {
 
 	@Override
 	public String getName() {
-
 		return firstName;
 	}
 
@@ -335,39 +308,94 @@ public class ClientSalesPerson extends ClientPayee {
 		return "ClientSalesPerson";
 	}
 
+	@Override
+	public void setID(long id) {
+		this.id = id;
+	}
+
+	@Override
+	public long getID() {
+		return id;
+	}
+
 	public ClientSalesPerson clone() {
 		ClientSalesPerson salesPerson = (ClientSalesPerson) this.clone();
-		List<ClientAddress> addresses = new ArrayList<ClientAddress>();
-		for (ClientAddress clientAddress : this.address) {
-			addresses.add(clientAddress.clone());
-		}
-		salesPerson.address = address;
+		salesPerson.setAddress(address);
 
-		Set<ClientContact> contacts = new HashSet<ClientContact>();
-		for (ClientContact clientContact : this.contacts) {
-			contacts.add(clientContact.clone());
-		}
-		salesPerson.contacts = contacts;
+		salesPerson.memo = memo;
 
-		Set<ClientEmail> emails = new HashSet<ClientEmail>();
-		for (ClientEmail clientEmail : this.emails) {
-			emails.add(clientEmail.clone());
-		}
-		salesPerson.emails = emails;
+		salesPerson.email = email;
 
-		Set<ClientFax> faxes = new HashSet<ClientFax>();
-		for (ClientFax clientFax : this.faxNumbers) {
-			faxes.add(clientFax.clone());
-		}
-		salesPerson.faxNumbers = faxes;
+		salesPerson.faxNo = faxNo;
 
-		Set<ClientPhone> phones = new HashSet<ClientPhone>();
-		for (ClientPhone clientPhone : this.phoneNumbers) {
-			phones.add(clientPhone.clone());
-		}
-		salesPerson.phoneNumbers = phones;
-
+		salesPerson.setPhoneNo(getPhoneNo());
 		return salesPerson;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+	public void setFileAs(String fileAs) {
+		this.fileAs = fileAs;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public void setAddress(ClientAddress address) {
+		this.address = address;
+
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+
+	}
+
+	public void setFaxNo(String faxNo) {
+		this.faxNo = faxNo;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setWebPageAddress(String webPageAddress) {
+		this.webPageAddress = webPageAddress;
+	}
+
+	public ClientAddress getAddress() {
+		return address;
+	}
+
+	public String getFileAs() {
+		return fileAs;
+	}
+
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public String getFaxNo() {
+		return faxNo;
+	}
+
+	public String getWebPageAddress() {
+		return webPageAddress;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public String getMemo() {
+		return memo;
 	}
 
 }
