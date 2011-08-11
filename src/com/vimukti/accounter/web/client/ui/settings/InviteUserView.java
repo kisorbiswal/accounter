@@ -55,7 +55,8 @@ public class InviteUserView extends BaseView<ClientUser> {
 				if (event != null) {
 					String em = emailField.getValue().toString();
 					if (!UIUtils.isValidEmail(em)) {
-						Accounter.showError(Accounter.constants().invalidEmail());
+						Accounter.showError(Accounter.constants()
+								.invalidEmail());
 						emailField.setText("");
 					} else {
 						// ClientEmail email = new ClientEmail();
@@ -348,22 +349,28 @@ public class InviteUserView extends BaseView<ClientUser> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (isExist(getData())) {
-			// FIXME
-			result.addError("TakenUser", Accounter.constants()
+
+		result.add(FormItem.validate(firstNametext, lastNametext, emailField));
+		if (isEmailIDExist(getData())) {
+			result.addError(emailField, Accounter.constants()
 					.userExistsWithThisMailId());
 		}
-		result.add(FormItem.validate(firstNametext, lastNametext, emailField));
 		return result;
 	}
 
-	private boolean isExist(ClientUser object) {
+	private boolean isEmailIDExist(ClientUser object) {
 		List<ClientEmployee> list = getCompany().getUsersList();
 		if (list == null || list.isEmpty())
 			return false;
 		for (ClientEmployee user : list) {
-			if (user.getID() != object.getID()) {
-				return true;
+			if (user.getID() == object.getID()) {
+				continue;
+			} else {
+				if (user.getEmail() != null && object.getEmail() != null
+						&& user.getEmail().equals(object.getEmail())) {
+					return true;
+				}
+
 			}
 		}
 		return false;

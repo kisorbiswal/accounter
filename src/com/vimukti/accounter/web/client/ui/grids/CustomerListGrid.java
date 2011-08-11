@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -368,4 +369,14 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 		}
 	}
 
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		int errorCode = caught.getErrorCode();
+		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
+			Accounter.showError(AccounterExceptions.accounterErrors
+					.customerInUse());
+			return;
+		}
+		super.deleteFailed(caught);
+	}
 }

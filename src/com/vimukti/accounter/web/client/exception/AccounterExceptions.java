@@ -42,6 +42,9 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_RECEIVE_PAYMENT_DISCOUNT_USED:
 			return accounterErrors.receivePaymentDiscountUsed();
+			
+		case AccounterException.ERROR_OBJECT_IN_USE:
+			return accounterErrors.objectInUse();
 
 		default:
 			return null;
