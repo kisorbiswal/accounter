@@ -476,36 +476,12 @@ public class ItemView extends BaseView<ClientItem> {
 		// topHLay.setCellWidth(topPanel1, "50%");
 		// topHLay.setCellWidth(topPanel2, "50%");
 
-		VerticalPanel stockPanel = new VerticalPanel();
-		DynamicForm stockForm = new DynamicForm();
-		measurement = new SelectCombo(Accounter.constants().measurement());
-		wareHouse = new SelectCombo(Accounter.constants().wareHouse());
-		minStock = new IntegerField(this, Accounter.constants()
-				.minStockAlertLevel());
-		maxStock = new IntegerField(this, Accounter.constants()
-				.maxStockAlertLevel());
-		defaultSellPrice = new IntegerField(this, Accounter.constants()
-				.defaultSellPrice());
-		defaultPurchasePrice = new IntegerField(this, Accounter.constants()
-				.defaultPurchasePrice());
-		salesTaxRate = new IntegerField(this, Accounter.constants()
-				.salesTaxRate());
-		purcahseTaxRate = new IntegerField(this, Accounter.constants()
-				.purchaseTaxRate());
-		stockForm.setFields(measurement, wareHouse, minStock, maxStock,
-				defaultSellPrice, defaultPurchasePrice, salesTaxRate,
-				purcahseTaxRate);
-
-		stockPanel.add(stockForm);
-		stockPanel.setWidth("100%");
-
 		VerticalPanel mainVLay = new VerticalPanel();
 
 		mainVLay.setSize("100%", "100%");
 		mainVLay.getElement().getStyle().setMarginBottom(15, Unit.PX);
 		mainVLay.add(hPanel);
 		mainVLay.add(topHLay);
-		mainVLay.add(stockPanel);
 
 		this.add(mainVLay);
 
@@ -557,6 +533,33 @@ public class ItemView extends BaseView<ClientItem> {
 		listforms.add(itemInfoForm);
 		listforms.add(purchaseInfoForm);
 
+	}
+
+	private VerticalPanel getStockPanel() {
+		VerticalPanel stockPanel = new VerticalPanel();
+		DynamicForm stockForm = new DynamicForm();
+		measurement = new SelectCombo(Accounter.constants().measurement());
+		wareHouse = new SelectCombo(Accounter.constants().wareHouse());
+		minStock = new IntegerField(this, Accounter.constants()
+				.minStockAlertLevel());
+		maxStock = new IntegerField(this, Accounter.constants()
+				.maxStockAlertLevel());
+		defaultSellPrice = new IntegerField(this, Accounter.constants()
+				.defaultSellPrice());
+		defaultPurchasePrice = new IntegerField(this, Accounter.constants()
+				.defaultPurchasePrice());
+		salesTaxRate = new IntegerField(this, Accounter.constants()
+				.salesTaxRate());
+		purcahseTaxRate = new IntegerField(this, Accounter.constants()
+				.purchaseTaxRate());
+		stockForm.setFields(measurement, wareHouse, minStock, maxStock,
+				defaultSellPrice, defaultPurchasePrice, salesTaxRate,
+				purcahseTaxRate);
+
+		stockPanel.add(stockForm);
+		stockPanel.setWidth("100%");
+
+		return stockPanel;
 	}
 
 	@Override
