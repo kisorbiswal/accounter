@@ -9,7 +9,7 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 
 /**
  * Payee is the object which represents a real-time entity of either
- * {@link Customer}, {@link Vendor}, {@link SalesPerson}, {@link TaxAgency} or
+ * {@link Customer}, {@link Vendor}, {@link SalesPerson} or
  * {@link TAXAgency}
  * 
  * @author Chandan
@@ -291,10 +291,6 @@ public abstract class Payee extends CreatableObject implements
 
 	public boolean isTaxAgency() {
 		return this != null && this instanceof TAXAgency;
-	}
-
-	public boolean isEmployee() {
-		return this != null && this instanceof SalesPerson;
 	}
 
 	public FinanceDate getPayeeSince() {
