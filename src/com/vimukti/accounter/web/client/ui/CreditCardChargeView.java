@@ -46,7 +46,8 @@ public class CreditCardChargeView extends
 	protected TextItem cheqNoText;
 	// protected TextItem refText;
 	AmountField totText;
-	AccounterConstants accounterConstants = GWT.create(AccounterConstants.class);
+	AccounterConstants accounterConstants = GWT
+			.create(AccounterConstants.class);
 
 	protected DynamicForm vendorForm, addrForm, phoneForm, termsForm, memoForm;
 	protected SelectCombo contactNameSelect, payMethSelect;
@@ -221,8 +222,7 @@ public class CreditCardChargeView extends
 			if (isEdit) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
-								.getCheckNumber()
-								: "");
+								.getCheckNumber() : "");
 
 			}
 			cheqNoText.setDisabled(false);
@@ -283,7 +283,7 @@ public class CreditCardChargeView extends
 
 	private void resetElements() {
 		selectedVendor = null;
-		//transaction = null;
+		// transaction = null;
 		billingAddress = null;
 		addressList = null;
 		// billToCombo.setDisabled(isEdit);
@@ -326,8 +326,8 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
-		vendorNameSelect = new VendorCombo(UIUtils
-				.getVendorString(Accounter.constants().supplierName(),
+		vendorNameSelect = new VendorCombo(
+				UIUtils.getVendorString(Accounter.constants().supplierName(),
 						Accounter.constants().vendorName()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
@@ -392,8 +392,8 @@ public class CreditCardChargeView extends
 
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo()
-						: Accounter.constants().checkNo());
+						.constants().chequeNo() : Accounter.constants()
+						.checkNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isEdit);
 		cheqNoText.setWidth(100);
@@ -408,8 +408,8 @@ public class CreditCardChargeView extends
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, cheqNoText, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 		forms.add(termsForm);
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
@@ -700,22 +700,19 @@ public class CreditCardChargeView extends
 		ValidationResult result = super.validate();
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(
-					transactionDate,
+			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(
-					transactionDate,
+			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(
-					vendorTransactionGrid,
+			result.addError(vendorTransactionGrid,
 					accounterConstants.blankTransaction());
 		}
 		result.add(vendorTransactionGrid.validateGrid());
@@ -851,4 +848,7 @@ public class CreditCardChargeView extends
 		return Accounter.constants().creditCardCharge();
 	}
 
+	public ClientVendor getSelectedVendor() {
+		return selectedVendor;
+	}
 }
