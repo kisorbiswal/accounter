@@ -7,9 +7,10 @@ import com.google.gwt.visualization.client.AbstractDataTable;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.LegendPosition;
-import com.google.gwt.visualization.client.visualizations.ColumnChart;
-import com.google.gwt.visualization.client.visualizations.LineChart;
-import com.google.gwt.visualization.client.visualizations.LineChart.Options;
+import com.google.gwt.visualization.client.visualizations.corechart.AxisOptions;
+import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
+import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
+import com.google.gwt.visualization.client.visualizations.corechart.Options;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 
@@ -106,16 +107,20 @@ public class GraphChart {
 		return chart;
 	}
 
-	private com.google.gwt.visualization.client.visualizations.ColumnChart.Options createOptionsToAccountReceivableChart() {
+	private Options createOptionsToAccountReceivableChart() {
 
-		com.google.gwt.visualization.client.visualizations.ColumnChart.Options options = com.google.gwt.visualization.client.visualizations.ColumnChart.Options
-				.create();
+		Options options = Options.create();
 		options.setWidth(444);
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
-		options.setMin(100);
+		// options.setMin(100);
 		options.setColors("#6CA92F");
 		// options.set3D(true);
+
+		AxisOptions axisOptions = AxisOptions.create();
+		// axisOptions.setBaseline(0);
+		axisOptions.setMinValue(100);
+		options.setVAxisOptions(axisOptions);
 
 		return options;
 	}
@@ -125,17 +130,19 @@ public class GraphChart {
 		options.setWidth(430);
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
-		options.setMin(100);
+		// options.setMin(100);
 		options.setColors("#6CA92F");
 		// options.setSmoothLine(true);
-
+		AxisOptions axisOptions = AxisOptions.create();
+		// axisOptions.setBaseline(0);
+		axisOptions.setMinValue(100);
+		options.setVAxisOptions(axisOptions);
 		return options;
 	}
 
-	private com.google.gwt.visualization.client.visualizations.LineChart.Options createOptionsToAccountPayableChart() {
+	private Options createOptionsToAccountPayableChart() {
 
-		com.google.gwt.visualization.client.visualizations.LineChart.Options options = com.google.gwt.visualization.client.visualizations.LineChart.Options
-				.create();
+		Options options = Options.create();
 
 		// options.setDisplayAnnotations(true);
 		// options.setDisplayLegendValues(false);
@@ -146,8 +153,13 @@ public class GraphChart {
 		options.setWidth(425);
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
-		options.setMin(100);
+		// options.setMin(100);
 		options.setColors("#6CA92F");
+
+		AxisOptions axisOptions = AxisOptions.create();
+		// axisOptions.setBaseline(0);
+		axisOptions.setMinValue(100);
+		options.setVAxisOptions(axisOptions);
 
 		return options;
 	}

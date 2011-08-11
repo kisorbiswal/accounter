@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
-import com.google.gwt.visualization.client.visualizations.ColumnChart;
+import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -72,8 +72,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 		FlexTable fTable = new FlexTable();
 		hPanel.setWidth("100%");
 
-		Button addReceivableInvoiceBtn = new Button(Accounter
-				.constants().addReceivableInvoice());
+		Button addReceivableInvoiceBtn = new Button(Accounter.constants()
+				.addReceivableInvoice());
 		addReceivableInvoiceBtn.addStyleName("addButtonPortlet");
 		addReceivableInvoiceBtn.addClickHandler(new ClickHandler() {
 
@@ -112,8 +112,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter
-						.showError(Accounter.constants().failedtogetAccountReceivablechartvalues());
+				Accounter.showError(Accounter.constants()
+						.failedtogetAccountReceivablechartvalues());
 			}
 
 			@Override
