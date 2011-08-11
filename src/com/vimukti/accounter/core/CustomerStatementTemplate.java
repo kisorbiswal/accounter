@@ -88,7 +88,7 @@ public class CustomerStatementTemplate extends TemplateBuilder implements
 				+ billAdrs + "</td></tr></table></td></tr></table>";
 
 		String salesPerson = (customerStatement.getSalesPerson() != null ? customerStatement
-				.getSalesPerson().getName() : "");
+				.getSalesPerson().getFirstName() : "");
 		String shipMtd = customerStatement.getShippingMethod() != null ? customerStatement
 				.getShippingMethod().getName() : "";
 		String paymentTerm = customerStatement.getPaymentTerm() != null ? customerStatement
