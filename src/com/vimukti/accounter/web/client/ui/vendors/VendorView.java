@@ -197,11 +197,11 @@ public class VendorView extends BaseView<ClientVendor> {
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
-		// String name = vendorNameText.getValue().toString();
-		// if (isObjectExist(data.getID(), name)) {
-		// result.addError(vendorNameText, Accounter.constants()
-		// .alreadyExist());
-		// }
+		String name = vendorNameText.getValue().toString();
+		if (isObjectExist(data.getID(), name)) {
+			result.addError(vendorNameText, Accounter.constants()
+					.alreadyExist());
+		}
 		result.add(vendorForm.validate());
 
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
