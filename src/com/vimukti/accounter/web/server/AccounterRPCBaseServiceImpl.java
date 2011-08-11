@@ -223,6 +223,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			Class.forName(className);
 			return getSession().get(className, id);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new AccounterException(AccounterException.ERROR_INTERNAL,
 					e.getMessage());
 		}
