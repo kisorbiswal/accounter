@@ -93,7 +93,6 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_ADJUST_SALES_TAX = 32;
 
 	int version;
-	public long id;
 	int type;
 	FinanceDate transactionDate;
 	FinanceDate clonedTransactionDate;
@@ -1105,11 +1104,6 @@ public abstract class Transaction extends CreatableObject implements
 		}
 	}
 
-	@Override
-	public long getID() {
-
-		return this.id;
-	}
 
 	public int compareTo(Object o) {
 		return 0;
