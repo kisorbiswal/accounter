@@ -321,9 +321,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			isTransactionNumberExist((IAccounterCore) data);
 
-			new ServerConvertUtil()
-					.toServerObject(serverObject, (IAccounterCore) data,
-							session);
+			new ServerConvertUtil().toServerObject(serverObject,
+					(IAccounterCore) data, session);
 
 			if (serverObject instanceof Transaction) {
 				Transaction transaction = (Transaction) serverObject;
@@ -472,7 +471,6 @@ public class FinanceTool implements IFinanceDAOService {
 				throw new AccounterException(
 						AccounterException.ERROR_PERMISSION_DENIED,
 						"Update Company , as the Source Object could not be Found....");
-
 			}
 
 			Company cmp = Company.getCompany();
@@ -11452,9 +11450,8 @@ public class FinanceTool implements IFinanceDAOService {
 			if (emailID == null)
 				return false;
 
-			query = session
-					.createSQLQuery("UPDATE CLIENT SET PASSWORD='"
-							+ newPassword + "' WHERE EMAIL_ID='" + emailId + "'");
+			query = session.createSQLQuery("UPDATE CLIENT SET PASSWORD='"
+					+ newPassword + "' WHERE EMAIL_ID='" + emailId + "'");
 			query.executeUpdate();
 			tx.commit();
 
