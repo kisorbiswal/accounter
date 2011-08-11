@@ -49,7 +49,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	AmountField endBalText;
 	DateField date;
 	DateField dueDate;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter.constants();
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
+			.constants();
 	protected String vendorPaymentMethod;
 	private TransactionPayBillGrid gridView;
 	protected AmountField cashDiscountTextItem;
@@ -630,8 +631,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	@Override
 	protected void initTransactionViewData() {
 		if (transaction == null) {
-			return;
-			//setData(new ClientPayBill());
+			setData(new ClientPayBill());
 		} else {
 
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
@@ -698,7 +698,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(payForm.validate());
 		if (filterForm != null) {
@@ -707,7 +708,8 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		if (!isEdit) {
 			if (gridView == null || gridView.getRecords().isEmpty()
 					|| gridView.getSelectedRecords().size() == 0) {
-				result.addError(gridView, Accounter.constants().selectTransaction());
+				result.addError(gridView, Accounter.constants()
+						.selectTransaction());
 			} else {
 				result.add(gridView.validateGrid());
 			}
