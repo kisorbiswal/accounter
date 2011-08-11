@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
+import com.vimukti.accounter.web.client.ui.company.ItemsAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
@@ -714,7 +715,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar vendorListMenuBar = getSubMenu();
 		vendorListMenuBar.addItem(ActionFactory.getVendorsAction());
 		if (Accounter.getUser().canSeeInvoiceTransactions()) {
-			vendorListMenuBar.addItem(ActionFactory.getItemsAction());
+			ItemsAction itemsAction= ActionFactory.getItemsAction();
+			itemsAction.setCatagory(ActionFactory.actionsConstants.vendor());
+			vendorListMenuBar.addItem(itemsAction);
 			vendorListMenuBar.addItem(ActionFactory.getBillsAction());
 		}
 		if (Accounter.getUser().canSeeBanking())
@@ -765,7 +768,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar customerListMenuBar = getSubMenu();
 		customerListMenuBar.addItem(ActionFactory.getCustomersAction());
 		if (Accounter.getUser().canSeeInvoiceTransactions()) {
-			customerListMenuBar.addItem(ActionFactory.getItemsAction());
+			ItemsAction itemsAction= ActionFactory.getItemsAction();
+			itemsAction.setCatagory(ActionFactory.actionsConstants.customer());
+			customerListMenuBar.addItem(itemsAction);
 			customerListMenuBar.addItem(ActionFactory.getQuotesAction());
 			customerListMenuBar.addItem(ActionFactory.getInvoicesAction(null));
 		}
@@ -898,8 +903,11 @@ public class HorizontalMenuBar extends HorizontalPanel {
 					.addItem(ActionFactory.getChartOfAccountsAction());
 		if (Accounter.getUser().canSeeBanking())
 			companyListMenuBar.addItem(ActionFactory.getJournalEntriesAction());
-		if (Accounter.getUser().canSeeInvoiceTransactions())
-			companyListMenuBar.addItem(ActionFactory.getItemsAction());
+		if (Accounter.getUser().canSeeInvoiceTransactions()){
+			ItemsAction itemsAction= ActionFactory.getItemsAction();
+			itemsAction.setCatagory(ActionFactory.actionsConstants.bothCustomerAndVendor());
+			companyListMenuBar.addItem(itemsAction);
+		}
 		companyListMenuBar.addItem(ActionFactory.getCustomersAction());
 		companyListMenuBar.addItem(ActionFactory.getVendorsAction());
 		if (Accounter.getUser().canSeeBanking())

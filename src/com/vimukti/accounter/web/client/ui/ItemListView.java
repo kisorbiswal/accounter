@@ -119,10 +119,12 @@ public class ItemListView extends BaseListView<ClientItem> {
 		grid = new ItemsListGrid(false);
 		grid.init();
 
-		isPurchaseType = !isSalesType;
-		if (!isSalesType)
+		// isPurchaseType = !isSalesType;
+		if (isSalesType && isPurchaseType) {
+			listOfItems = getCompany().getAllItems();
+		} else if (isPurchaseType)
 			listOfItems = getCompany().getPurchaseItems();
-		else
+		else if (isSalesType)
 			listOfItems = getCompany().getSalesItems();
 
 		filterList(true);
@@ -146,6 +148,17 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	public void setCatageoryType(String catagory) {
 		this.catageory = catagory;
+		if (this.catageory.equals(Accounter.constants().customer())) {
+			isSalesType = true;
+			isPurchaseType = false;
+		} else if (this.catageory.equals(Accounter.constants().vendor())
+				|| this.catageory.equals(Accounter.constants().supplier())) {
+			isPurchaseType = true;
+			isSalesType = false;
+		} else if (this.catageory.equals(Accounter.constants()
+				.bothCustomerAndVendor())) {
+			isSalesType = isPurchaseType = true;
+		}
 	}
 
 	@Override
