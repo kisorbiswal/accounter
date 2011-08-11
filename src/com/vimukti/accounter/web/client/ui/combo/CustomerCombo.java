@@ -39,7 +39,8 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 			@Override
 			public void actionResult(ClientCustomer result) {
-				addItemThenfireEvent(result);
+				if (result.getDisplayName()!=null)
+					addItemThenfireEvent(result);
 			}
 		});
 
