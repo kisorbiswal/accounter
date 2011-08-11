@@ -14,7 +14,6 @@ import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterReportService;
@@ -79,7 +78,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerSummary(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomerDetailList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -98,7 +97,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomerDetailList);
+		return salesByCustomerDetailList;
 	}
 
 	// @Override
@@ -127,7 +126,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<AccountRegister> getAccountRegister(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long accountId) {
-		List<AccountRegister> accountRegisterList = null;
+		ArrayList<AccountRegister> accountRegisterList = new ArrayList<AccountRegister>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -146,13 +145,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<AccountRegister>(accountRegisterList);
+		return accountRegisterList;
 	}
 
 	@Override
 	public ArrayList<AgedDebtors> getAgedCreditors(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		List<AgedDebtors> agedDebtorsList = null;
+		ArrayList<AgedDebtors> agedDebtorsList = new ArrayList<AgedDebtors>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -187,13 +186,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<AgedDebtors>(agedDebtorsList);
+		return agedDebtorsList;
 	}
 
 	@Override
 	public ArrayList<AgedDebtors> getAgedDebtors(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		List<AgedDebtors> agedDebtorsList = null;
+		ArrayList<AgedDebtors> agedDebtorsList = new ArrayList<AgedDebtors>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -228,7 +227,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<AgedDebtors>(agedDebtorsList);
+		return agedDebtorsList;
 	}
 
 	private AgedDebtors createdAgedDebitor(AgedDebtors debtor) {
@@ -277,7 +276,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<AmountsDueToVendor> getAmountsDueToVendor(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<AmountsDueToVendor> amountsDueToVendorList = null;
+		ArrayList<AmountsDueToVendor> amountsDueToVendorList = new ArrayList<AmountsDueToVendor>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -300,13 +299,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<AmountsDueToVendor>(amountsDueToVendorList);
+		return amountsDueToVendorList;
 	}
 
 	@Override
 	public ArrayList<TransactionHistory> getCustomerTransactionHistory(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<TransactionHistory> transactionHistoryList = null;
+		ArrayList<TransactionHistory> transactionHistoryList = new ArrayList<TransactionHistory>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -330,13 +329,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<TransactionHistory>(transactionHistoryList);
+		return transactionHistoryList;
 	}
 
 	@Override
 	public ArrayList<MostProfitableCustomers> getMostProfitableCustomers(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<MostProfitableCustomers> mostProfitableCustomersList = null;
+		ArrayList<MostProfitableCustomers> mostProfitableCustomersList = new ArrayList<MostProfitableCustomers>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -361,14 +360,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<MostProfitableCustomers>(
-				mostProfitableCustomersList);
+		return mostProfitableCustomersList;
 	}
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomerDetailList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -391,13 +389,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomerDetailList);
+		return salesByCustomerDetailList;
 	}
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemSummary(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomerDetailList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -420,13 +418,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomerDetailList);
+		return salesByCustomerDetailList;
 	}
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomerDetailList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -450,13 +448,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomerDetailList);
+		return salesByCustomerDetailList;
 	}
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorSummary(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomerDetailList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -479,14 +477,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomerDetailList);
+		return salesByCustomerDetailList;
 	}
 
 	@Override
 	public ArrayList<ClientTransaction> getRegister(long accountId) {
-		List<ClientTransaction> clientTransactionList = new ArrayList<ClientTransaction>();
-
-		List<Transaction> serverTransactionList = null;
+		ArrayList<ClientTransaction> clientTransactionList = new ArrayList<ClientTransaction>();
 
 		try {
 
@@ -503,13 +499,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ClientTransaction>(clientTransactionList);
+		return clientTransactionList;
 	}
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomerDetailList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -533,13 +529,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomerDetailList);
+		return salesByCustomerDetailList;
 	}
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomerDetailList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -562,13 +558,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomerDetailList);
+		return salesByCustomerDetailList;
 	}
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getSalesByItemSummary(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomerDetailList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomerDetailList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -591,13 +587,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomerDetailList);
+		return salesByCustomerDetailList;
 	}
 
 	@Override
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<TransactionDetailByTaxItem> transactionDetailByTaxItemList = null;
+		ArrayList<TransactionDetailByTaxItem> transactionDetailByTaxItemList = new ArrayList<TransactionDetailByTaxItem>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -622,14 +618,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<TransactionDetailByTaxItem>(
-				transactionDetailByTaxItemList);
+		return transactionDetailByTaxItemList;
 	}
 
 	@Override
 	public ArrayList<TrialBalance> getTrialBalance(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		List<TrialBalance> trialBalanceList = null;
+		ArrayList<TrialBalance> trialBalanceList = new ArrayList<TrialBalance>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -651,13 +646,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<TrialBalance>(trialBalanceList);
+		return trialBalanceList;
 	}
 
 	@Override
 	public ArrayList<TransactionHistory> getVendorTransactionHistory(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<TransactionHistory> transactionHistoryList = null;
+		ArrayList<TransactionHistory> transactionHistoryList = new ArrayList<TransactionHistory>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -681,14 +676,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<TransactionHistory>(transactionHistoryList);
+		return transactionHistoryList;
 	}
 
 	@Override
 	public ArrayList<ClientItem> getPurchaseReportItems(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<ClientItem> clientItemList = new ArrayList<ClientItem>();
-		List<Item> serverItemsList = null;
+		ArrayList<ClientItem> clientItemList = new ArrayList<ClientItem>();
+		List<Item> serverItemsList = new ArrayList<Item>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -712,14 +707,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ClientItem>(clientItemList);
+		return clientItemList;
 	}
 
 	@Override
 	public ArrayList<ClientItem> getSalesReportItems(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<ClientItem> clientItemList = new ArrayList<ClientItem>();
-		List<Item> serverItemsList = null;
+		ArrayList<ClientItem> clientItemList = new ArrayList<ClientItem>();
+		List<Item> serverItemsList = new ArrayList<Item>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -743,14 +738,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ClientItem>(clientItemList);
+		return clientItemList;
 	}
 
 	@Override
 	public ArrayList<ClientCustomer> getTransactionHistoryCustomers(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<ClientCustomer> clientCustomerList = new ArrayList<ClientCustomer>();
-		List<Customer> serverCustomerList = null;
+		ArrayList<ClientCustomer> clientCustomerList = new ArrayList<ClientCustomer>();
+		List<Customer> serverCustomerList = new ArrayList<Customer>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -771,14 +766,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ClientCustomer>(clientCustomerList);
+		return clientCustomerList;
 	}
 
 	@Override
 	public ArrayList<ClientVendor> getTransactionHistoryVendors(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<ClientVendor> clientVendorList = new ArrayList<ClientVendor>();
-		List<Vendor> serverVendorList = null;
+		ArrayList<ClientVendor> clientVendorList = new ArrayList<ClientVendor>();
+		List<Vendor> serverVendorList = new ArrayList<Vendor>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -796,14 +791,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ClientVendor>(clientVendorList);
+		return clientVendorList;
 	}
 
 	@Override
 	public ArrayList<SalesTaxLiability> getSalesTaxLiabilityReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 
-		List<SalesTaxLiability> salesTaxLiabilityList = null;
+		ArrayList<SalesTaxLiability> salesTaxLiabilityList = new ArrayList<SalesTaxLiability>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -825,13 +820,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesTaxLiability>(salesTaxLiabilityList);
+		return salesTaxLiabilityList;
 	}
 
 	@Override
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<TransactionDetailByAccount> transDetailByAccountList = null;
+		ArrayList<TransactionDetailByAccount> transDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -856,8 +851,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<TransactionDetailByAccount>(
-				transDetailByAccountList);
+		return transDetailByAccountList;
 
 	}
 
@@ -865,7 +859,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			String itemName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomertList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -888,14 +882,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomertList);
+		return salesByCustomertList;
 	}
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			String vendorName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomertList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -918,14 +912,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomertList);
+		return salesByCustomertList;
 	}
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String customerName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomertList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -949,14 +943,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomertList);
+		return salesByCustomertList;
 	}
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
 			String itemName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		List<SalesByCustomerDetail> salesByCustomertList = null;
+		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -979,14 +973,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(salesByCustomertList);
+		return salesByCustomertList;
 	}
 
 	@Override
 	public ArrayList<AgedDebtors> getAgedDebtors(String Name,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<AgedDebtors> agedDebtorsList = null;
-		List<AgedDebtors> agedDebtorsListForCustomer = new ArrayList<AgedDebtors>();
+		ArrayList<AgedDebtors> agedDebtorsList = new ArrayList<AgedDebtors>();
+		ArrayList<AgedDebtors> agedDebtorsListForCustomer = new ArrayList<AgedDebtors>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1011,14 +1005,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<AgedDebtors>(agedDebtorsListForCustomer);
+		return agedDebtorsListForCustomer;
 	}
 
 	@Override
 	public ArrayList<AgedDebtors> getAgedCreditors(String Name,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<AgedDebtors> agedDebtorsList = null;
-		List<AgedDebtors> agedCreditorsListForCustomer = new ArrayList<AgedDebtors>();
+		ArrayList<AgedDebtors> agedDebtorsList = new ArrayList<AgedDebtors>();
+		ArrayList<AgedDebtors> agedCreditorsListForCustomer = new ArrayList<AgedDebtors>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1043,14 +1037,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<AgedDebtors>(agedCreditorsListForCustomer);
+		return agedCreditorsListForCustomer;
 	}
 
 	@Override
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			String accountName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		List<TransactionDetailByAccount> transDetailByAccountList = null;
+		ArrayList<TransactionDetailByAccount> transDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1075,13 +1069,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<TransactionDetailByAccount>(
-				transDetailByAccountList);
+		return transDetailByAccountList;
 	}
 
 	@Override
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate() {
-		List<ClientFinanceDate> transactionDates = new ArrayList<ClientFinanceDate>();
+		ArrayList<ClientFinanceDate> transactionDates = new ArrayList<ClientFinanceDate>();
 		try {
 
 			ClientFinanceDate[] dates = getFinanceTool()
@@ -1091,14 +1084,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<ClientFinanceDate>(transactionDates);
+		return transactionDates;
 	}
 
 	@Override
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			final String taxItemName, final ClientFinanceDate startDate,
 			final ClientFinanceDate endDate) {
-		List<TransactionDetailByTaxItem> transactionDetailByTaxItemList = null;
+		ArrayList<TransactionDetailByTaxItem> transactionDetailByTaxItemList = new ArrayList<TransactionDetailByTaxItem>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1123,14 +1116,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<TransactionDetailByTaxItem>(
-				transactionDetailByTaxItemList);
+		return transactionDetailByTaxItemList;
 	}
 
 	@Override
 	public ArrayList<TrialBalance> getBalanceSheetReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<TrialBalance> trialbalanceList = null;
+		ArrayList<TrialBalance> trialbalanceList = new ArrayList<TrialBalance>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1157,13 +1149,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<TrialBalance>(trialbalanceList);
+		return trialbalanceList;
 	}
 
 	@Override
 	public ArrayList<TrialBalance> getCashFlowReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<TrialBalance> trialbalanceList = null;
+		ArrayList<TrialBalance> trialbalanceList = new ArrayList<TrialBalance>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1182,13 +1174,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<TrialBalance>(trialbalanceList);
+		return trialbalanceList;
 	}
 
 	@Override
 	public ArrayList<TrialBalance> getProfitAndLossReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<TrialBalance> trialbalanceList = null;
+		ArrayList<TrialBalance> trialbalanceList = new ArrayList<TrialBalance>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1207,13 +1199,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<TrialBalance>(trialbalanceList);
+		return trialbalanceList;
 	}
 
 	@Override
 	public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<OpenAndClosedOrders> purchaseOrders = null;
+		ArrayList<OpenAndClosedOrders> purchaseOrders = new ArrayList<OpenAndClosedOrders>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1230,13 +1222,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<OpenAndClosedOrders>(purchaseOrders);
+		return purchaseOrders;
 	}
 
 	@Override
 	public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<OpenAndClosedOrders> purchaseOrders = null;
+		ArrayList<OpenAndClosedOrders> purchaseOrders = new ArrayList<OpenAndClosedOrders>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
@@ -1249,13 +1241,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<OpenAndClosedOrders>(purchaseOrders);
+		return purchaseOrders;
 	}
 
 	@Override
 	public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<OpenAndClosedOrders> purchaseOrders = null;
+		ArrayList<OpenAndClosedOrders> purchaseOrders = new ArrayList<OpenAndClosedOrders>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
@@ -1268,13 +1260,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<OpenAndClosedOrders>(purchaseOrders);
+		return purchaseOrders;
 	}
 
 	@Override
 	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<OpenAndClosedOrders> purchaseOrders = null;
+		ArrayList<OpenAndClosedOrders> purchaseOrders = new ArrayList<OpenAndClosedOrders>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
@@ -1287,13 +1279,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<OpenAndClosedOrders>(purchaseOrders);
+		return purchaseOrders;
 	}
 
 	@Override
 	public ArrayList<OpenAndClosedOrders> getPurchaseClosedOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<OpenAndClosedOrders> purchaseOrders = null;
+		ArrayList<OpenAndClosedOrders> purchaseOrders = new ArrayList<OpenAndClosedOrders>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1310,13 +1302,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<OpenAndClosedOrders>(purchaseOrders);
+		return purchaseOrders;
 	}
 
 	@Override
 	public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<OpenAndClosedOrders> salesOrders = null;
+		ArrayList<OpenAndClosedOrders> salesOrders = new ArrayList<OpenAndClosedOrders>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1333,13 +1325,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<OpenAndClosedOrders>(salesOrders);
+		return salesOrders;
 	}
 
 	@Override
 	public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<OpenAndClosedOrders> salesOrders = null;
+		ArrayList<OpenAndClosedOrders> salesOrders = new ArrayList<OpenAndClosedOrders>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
@@ -1352,13 +1344,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<OpenAndClosedOrders>(salesOrders);
+		return salesOrders;
 	}
 
 	@Override
 	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<OpenAndClosedOrders> salesOrders = null;
+		ArrayList<OpenAndClosedOrders> salesOrders = new ArrayList<OpenAndClosedOrders>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
@@ -1371,13 +1363,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<OpenAndClosedOrders>(salesOrders);
+		return salesOrders;
 	}
 
 	@Override
 	public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<OpenAndClosedOrders> salesOrders = null;
+		ArrayList<OpenAndClosedOrders> salesOrders = new ArrayList<OpenAndClosedOrders>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
 		try {
@@ -1391,13 +1383,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<OpenAndClosedOrders>(salesOrders);
+		return salesOrders;
 	}
 
 	@Override
 	public ArrayList<OpenAndClosedOrders> getSalesClosedOrderReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<OpenAndClosedOrders> salesOrders = null;
+		ArrayList<OpenAndClosedOrders> salesOrders = new ArrayList<OpenAndClosedOrders>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1414,7 +1406,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<OpenAndClosedOrders>(salesOrders);
+		return salesOrders;
 	}
 
 	//
@@ -1432,7 +1424,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<VATDetail> getPriorVATReturnVATDetailReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<VATDetail> vatDetailReport = null;
+		ArrayList<VATDetail> vatDetailReport = new ArrayList<VATDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1451,13 +1443,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<VATDetail>(vatDetailReport);
+		return vatDetailReport;
 	}
 
 	@Override
 	public ArrayList<VATDetail> getPriorVATReturnReport(long taxAgency,
 			ClientFinanceDate endDate) {
-		List<VATDetail> vatDetailReport = null;
+		ArrayList<VATDetail> vatDetailReport = new ArrayList<VATDetail>();
 
 		// FinanceDate[] financeDates = getMinimumAndMaximumDates("", endDate);
 		FinanceDate transtartDate = new FinanceDate();
@@ -1480,12 +1472,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<VATDetail>(vatDetailReport);
+		return vatDetailReport;
 	}
 
 	public ArrayList<VATSummary> getPriorReturnVATSummary(long taxAgncy,
 			ClientFinanceDate endDate) {
-		List<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
+		ArrayList<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
 
 		try {
 			TAXAgency vatAgency = (TAXAgency) loadObjectById("TAXAgency",
@@ -1509,12 +1501,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<VATSummary>(vatSummaryList);
+		return vatSummaryList;
 	}
 
 	public ArrayList<VATSummary> getVAT100Report(long taxAgency,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
-		List<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
+		ArrayList<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
@@ -1539,13 +1531,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<VATSummary>(vatSummaryList);
+		return vatSummaryList;
 	}
 
 	@Override
 	public ArrayList<UncategorisedAmountsReport> getUncategorisedAmountsReport(
 			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
-		List<UncategorisedAmountsReport> uncategories = new ArrayList<UncategorisedAmountsReport>();
+		ArrayList<UncategorisedAmountsReport> uncategories = new ArrayList<UncategorisedAmountsReport>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
@@ -1561,13 +1553,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<UncategorisedAmountsReport>(uncategories);
+		return uncategories;
 	}
 
 	@Override
 	public ArrayList<VATItemSummary> getVATItemSummaryReport(
 			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
-		List<VATItemSummary> vatItems = new ArrayList<VATItemSummary>();
+		ArrayList<VATItemSummary> vatItems = new ArrayList<VATItemSummary>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
@@ -1583,14 +1575,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<VATItemSummary>(vatItems);
+		return vatItems;
 	}
 
 	@Override
 	public ArrayList<VATItemDetail> getVATItemDetailReport(String vatItemName,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 
-		List<VATItemDetail> itemsList = new ArrayList<VATItemDetail>();
+		ArrayList<VATItemDetail> itemsList = new ArrayList<VATItemDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
@@ -1607,7 +1599,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<VATItemDetail>(itemsList);
+		return itemsList;
 
 	}
 
@@ -1615,7 +1607,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<ECSalesList> getECSalesListReport(
 			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 
-		List<ECSalesList> salesList = new ArrayList<ECSalesList>();
+		ArrayList<ECSalesList> salesList = new ArrayList<ECSalesList>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
@@ -1632,7 +1624,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ECSalesList>(salesList);
+		return salesList;
 
 	}
 
@@ -1641,7 +1633,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			String payeeName, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate) {
 
-		List<ECSalesListDetail> salesList = new ArrayList<ECSalesListDetail>();
+		ArrayList<ECSalesListDetail> salesList = new ArrayList<ECSalesListDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
@@ -1658,7 +1650,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ECSalesListDetail>(salesList);
+		return salesList;
 
 	}
 
@@ -1667,7 +1659,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			String payeeName, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate) {
 
-		List<ReverseChargeListDetail> salesList = new ArrayList<ReverseChargeListDetail>();
+		ArrayList<ReverseChargeListDetail> salesList = new ArrayList<ReverseChargeListDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
@@ -1684,7 +1676,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ReverseChargeListDetail>(salesList);
+		return salesList;
 
 	}
 
@@ -1692,7 +1684,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<ReverseChargeList> getReverseChargeListReport(
 			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
 
-		List<ReverseChargeList> salesList = new ArrayList<ReverseChargeList>();
+		ArrayList<ReverseChargeList> salesList = new ArrayList<ReverseChargeList>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
@@ -1709,7 +1701,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ReverseChargeList>(salesList);
+		return salesList;
 
 	}
 
@@ -1755,7 +1747,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-		List<DummyDebitor> debitors = new ArrayList<DummyDebitor>();
+		ArrayList<DummyDebitor> debitors = new ArrayList<DummyDebitor>();
 		Calendar calender = Calendar.getInstance();
 		// calender.add(Calendar.MONTH, 1);
 		// Date oneMonthPreviousDate = calender.getTime();
@@ -1779,17 +1771,17 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<DummyDebitor>(debitors);
+		return debitors;
 	}
 
 	/*
 	 * This method calculates the totals for individual debtors and prepares
 	 * single obj for those debtors who has same name
 	 */
-	private List<DummyDebitor> getDebtorsWidSameName(
+	private ArrayList<DummyDebitor> getDebtorsWidSameName(
 			List<AgedDebtors> agedDebtors, FinanceDate startdate,
 			FinanceDate enddate) {
-		List<DummyDebitor> listDebtors = new ArrayList<DummyDebitor>();
+		ArrayList<DummyDebitor> listDebtors = new ArrayList<DummyDebitor>();
 		Map<Integer, List<AgedDebtors>> sameDebtorsMap = new HashMap<Integer, List<AgedDebtors>>();
 		List<AgedDebtors> sameDebtors;
 		List<AgedDebtors> tempDtrs = new ArrayList<AgedDebtors>();
@@ -1894,7 +1886,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-		List<DummyDebitor> Creditors = new ArrayList<DummyDebitor>();
+		ArrayList<DummyDebitor> Creditors = new ArrayList<DummyDebitor>();
 		// Calendar calender = Calendar.getInstance();
 		// calender.add(Calendar.MONTH, 1);
 		// Date oneMonthPreviousDate = calender.getTime();
@@ -1919,14 +1911,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<DummyDebitor>(Creditors);
+		return Creditors;
 	}
 
 	@Override
 	public ArrayList<ExpenseList> getExpenseReportByType(int status,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 
-		List<ExpenseList> expenseList = new ArrayList<ExpenseList>();
+		ArrayList<ExpenseList> expenseList = new ArrayList<ExpenseList>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1945,13 +1937,13 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ExpenseList>(expenseList);
+		return expenseList;
 	}
 
 	@Override
 	public ArrayList<DepositDetail> getDepositDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		List<DepositDetail> transDetailByAccountList = null;
+		ArrayList<DepositDetail> transDetailByAccountList = new ArrayList<DepositDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -1974,7 +1966,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<DepositDetail>(transDetailByAccountList);
+		return transDetailByAccountList;
 	}
 
 	@Override
@@ -1982,7 +1974,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			long paymentmethod, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 
-		List<CheckDetailReport> checkDetailReports = null;
+		ArrayList<CheckDetailReport> checkDetailReports = new ArrayList<CheckDetailReport>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate);
@@ -2005,7 +1997,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<CheckDetailReport>(checkDetailReports);
+		return checkDetailReports;
 	}
 
 	@Override
@@ -2018,7 +2010,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			boolean isEnabledOfNoAccountActivity,
 			boolean isEnabledOfInactiveCustomer) {
 
-		List<PayeeStatementsList> resultList = null;
+		ArrayList<PayeeStatementsList> resultList = new ArrayList<PayeeStatementsList>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 		try {
 
@@ -2042,7 +2034,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<PayeeStatementsList>(resultList);
+		return resultList;
 	}
 
 	@Override
