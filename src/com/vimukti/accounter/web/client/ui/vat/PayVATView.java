@@ -67,6 +67,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	private TextItem transNumber;
 	private AccounterConstants companyConstants = Accounter.constants();
 	AccounterConstants accounterConstants = Accounter.constants();
+
 	public PayVATView() {
 		super(ClientTransaction.TYPE_PAY_SALES_TAX, PAYVAT_TRANSACTION_GRID);
 	}
@@ -292,7 +293,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		grid.init();
 		grid.setPayVATView(this);
 		grid.setDisabled(isEdit);
-		grid.setHeight("200px");
+		// grid.setHeight("200px");
 		if (!isEdit) {
 			// grid.addFooterValue("Total", 1);
 			// grid
@@ -372,7 +373,8 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 					}
 
 					@Override
-					public void onResultSuccess(ArrayList<ClientPayVATEntries> result) {
+					public void onResultSuccess(
+							ArrayList<ClientPayVATEntries> result) {
 						if (result == null) {
 
 							onException(null);
