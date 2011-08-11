@@ -75,6 +75,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 		};
 		addGroupButtonsHandler(dialogButtonsHandler);
+		this.okbtn.setVisible(false);
 	}
 
 	protected void createVendorGroups() {
