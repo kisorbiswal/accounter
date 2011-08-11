@@ -583,7 +583,7 @@ public class CustomerRefundView extends
 		if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
 			result.addError(amtText, accounterConstants.invalidNegativeAmount());
 		}
-		if (AccounterValidator.isValidCustomerRefundAmount(amtText.getAmount(),
+		if (!AccounterValidator.isValidCustomerRefundAmount(amtText.getAmount(),
 				payFromSelect.getSelectedValue())) {
 			result.addWarning(amtText,
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
