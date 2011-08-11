@@ -80,6 +80,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 		};
 		addGroupButtonsHandler(dialogButtonsHandler);
+		this.okbtn.setVisible(false);
 	}
 
 	public void createCustomerGroups() {
