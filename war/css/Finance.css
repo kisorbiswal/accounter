@@ -5502,6 +5502,7 @@ solid
 
 .menu_arrow {
 	margin: 0 0 0 7px;
+	padding-left: 5px;
 }
 
 .gridBody input[type="text"] { /*width: 100% !important;*/
@@ -6326,9 +6327,6 @@ noindex:-o-prefocus,.ibutton {
 	margin: 0px !important;
 }
 
-.menu_arrow {
-	padding-left: 5px;
-}
 
 .standard-options .ibutton {
 	float: right !important;

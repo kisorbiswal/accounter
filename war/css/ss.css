@@ -1983,7 +1983,7 @@ form{
 	background-color: #FFEBE8;
     border-color: #99C68E;
 }
-#forgot-password_error{
+#forgot-password_error,.create-company-message{
     background-color: #FFFFE0;
     border-color: #E6DB55;
 }
@@ -2029,5 +2029,8 @@ a#fdbk_tab:hover{
 }
 textarea{
 	resize:none;
+}
+.resend-code{
+	padding:10px 0 0 35px;
 }
 /* End of the new Login and forgot password page*/
