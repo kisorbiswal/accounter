@@ -51,11 +51,11 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	}
 
 	public int getYear() {
-		return this.year - 1900;
+		return this.year;
 	}
 
 	public int getMonth() {
-		return this.month - 1;
+		return this.month;
 	}
 
 	public long getDate() {
@@ -138,7 +138,7 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	 */
 	public ClientFinanceDate(int year, int month, int date, int hrs, int min,
 			int sec) {
-		this(new Date(year, month, date, hrs, min, sec));
+		this(new Date(year-1900, month-1, date, hrs, min, sec));
 	}
 
 	public ClientFinanceDate(String text) {
@@ -232,19 +232,10 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 
 	public void setMonth(int month) {
 		this.month = month;
-		Date dt = new Date(this.year - 1900, 0, this.day);
-		dt.setMonth(this.month);
-
-		synchornizeDate(dt);
 	}
 
 	public void setDay(int date) {
 		this.day = date;
-
-		Date dt = new Date(this.year - 1900, this.month, 0);
-		dt.setDate(this.day);
-
-		synchornizeDate(dt);
 	}
 
 	private void synchornizeDate(Date dt) {
@@ -258,7 +249,7 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	}
 
 	public void setYear(int year) {
-		this.year = year + 1900;
+		this.year = year;
 	}
 
 	/**
