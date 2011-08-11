@@ -74,6 +74,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 		};
 		addGroupButtonsHandler(dialogButtonsHandler);
+		this.okbtn.setVisible(false);
 	}
 
 	public void createCreditRatings() {
