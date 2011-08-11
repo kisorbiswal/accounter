@@ -169,7 +169,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected String[] customerChanges;
 
 	protected ClientCustomer customer;
-	
+
 	AccounterConstants accounterConstants = Accounter.constants();
 
 	@Override
@@ -912,24 +912,27 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					customerConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		if (custForm != null) {
 			result.add(custForm.validate());
 		}
 		if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS)) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-				if (!taxCodeSelect.validate()) {
-					result.addError(taxCodeSelect, Accounter.messages()
-							.pleaseEnter(taxCodeSelect.getTitle()));
-				}
+				if (taxCodeSelect != null)
+					if (!taxCodeSelect.validate()) {
+						result.addError(taxCodeSelect, Accounter.messages()
+								.pleaseEnter(taxCodeSelect.getTitle()));
+					}
 			}
 
 			if (AccounterValidator.isBlankTransaction(customerTransactionGrid)) {
 				result.addError(customerTransactionGrid,
 						accounterConstants.blankTransaction());
 			}
-			result.add(customerTransactionGrid.validateGrid());
+			if (customerTransactionGrid != null)
+				result.add(customerTransactionGrid.validateGrid());
 
 		}
 		return result;
