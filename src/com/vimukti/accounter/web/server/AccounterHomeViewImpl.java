@@ -317,8 +317,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	public ArrayList<PaymentsList> getVendorPaymentsList() {
 
-		List<PaymentsList> vendorPaymentsList = null;
-
+		
+		ArrayList<PaymentsList> vendorPaymentsList = new ArrayList<PaymentsList>();
 		try {
 
 			vendorPaymentsList = getFinanceTool().getVendorPaymentsList();
@@ -329,8 +329,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return vendorPaymentsList;
 
-		return new ArrayList<PaymentsList>(vendorPaymentsList);
+		
 	}
 
 	public ArrayList<IssuePaymentTransactionsList> getChecks() {
