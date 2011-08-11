@@ -103,7 +103,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 					}
 				} else {
 					if (dstFieldName.equals(srcField.getName())
-							&& isString(dstField.getType())) {
+							|| isString(dstField.getType())) {
 						dstField.set(dst, getFieldInstanceID(dstFieldName
 								.equals("id") ? src : srcField.get(src)));
 
