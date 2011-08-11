@@ -136,7 +136,6 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			accountRegisterList = getFinanceTool().getAccountRegister(
 					financeDates[0], financeDates[1], accountId);
 
-			AccountRegister obj = new AccountRegister();
 			// if (accountRegisterList != null)
 			// accountRegisterList.add((AccountRegister) setStartEndDates(obj,
 			// financeDates));
@@ -1728,12 +1727,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		if (startDate == null || startDate.isEmpty())
 			transtartDate = new FinanceDate(startDate1);
 		else
-			transtartDate = new FinanceDate(startDate);
+			transtartDate = new FinanceDate(startDate.getDate());
 		FinanceDate tranendDate;
 		if (endDate == null || endDate.isEmpty())
 			tranendDate = new FinanceDate(endDate2);
 		else
-			tranendDate = new FinanceDate(endDate);
+			tranendDate = new FinanceDate(endDate.getDate());
 
 		return new FinanceDate[] { transtartDate, tranendDate };
 	}

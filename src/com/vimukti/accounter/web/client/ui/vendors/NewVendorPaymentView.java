@@ -100,6 +100,7 @@ public class NewVendorPaymentView extends
 				ClientPayBill clientPayBill = (ClientPayBill) transaction;
 				paymentMethodCombo.setComboItem(clientPayBill
 						.getPaymentMethod());
+				paymentMethodCombo.setDisabled(true);
 			}
 
 			endBalText.setAmount(transaction.getEndingBalance());

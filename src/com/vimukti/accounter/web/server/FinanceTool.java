@@ -2467,7 +2467,7 @@ public class FinanceTool implements IFinanceDAOService {
 						queryResult.add(vendorPaymentsList);
 					}
 				}
-				return queryResult;
+				return new ArrayList<PaymentsList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
