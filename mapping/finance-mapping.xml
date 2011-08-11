@@ -553,6 +553,40 @@
 		<!-- <many-to-many column="ITEM_ID" class="Item" /> -->
 		<!-- </list> -->
 	</class>
+	<class name="SalesPerson" table="SALES_PERSON">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="title" column="TITLE"></property>
+		<property name="firstName" column="FIRST_NAME"></property>
+		<property name="middleName1" column="MIDDLE_NAME1"></property>
+		<property name="middleName2" column="MIDDLE_NAME2"></property>
+		<property name="middleName3" column="MIDDLE_NAME3"></property>
+		<property name="lastName" column="LAST_NAME"></property>
+		<property name="suffix" column="SUFFIX"></property>
+		<property name="jobTitle" column="JOB_TITLE"></property>
+		<many-to-one name="expenseAccount" class="Account"
+			column="EXPENSE_ACCOUNT_ID" lazy="false">
+		</many-to-one>
+		<property name="gender" column="GENDER"></property>
+		<property name="dateOfBirth" column="DATE_OF_BIRTH"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="dateOfHire" column="DATE_OF_HIRE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="dateOfLastReview" column="DATE_OF_LASTREVIEW"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="dateOfRelease" column="DATE_OF_RELEASE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="isActive" column="IS_ACTIVE"></property>
+		<property name="memo" column="MEMO"></property>
+		<property name="fileAs" column="FILE_AS"></property>
+		<property name="phoneNo" column="PHONE_NO"></property>
+		<property name="faxNo" column="FAX_NO"></property>
+		<property name="email" column="EMAIL"></property>
+		<property name="webPageAddress" column="WEB_PAGE_ADDRESS"></property>
+		<property name="address" column="ADDRESS"
+			type="com.vimukti.accounter.core.Address"></property>
+	</class>
 	<class name="Payee" table="PAYEE">
 		<id name="id" column="ID">
 			<generator class="native" />
@@ -709,29 +743,6 @@
 			<property name="yearToDate" column="YEAR_TO_DATE"></property>
 			<property name="lastYear" column="LAST_YEAR"></property>
 			<property name="lifeTimePurchases" column="LIFE_TIME_PURCHASES"></property>
-		</joined-subclass>
-		<joined-subclass name="SalesPerson" table="SALES_PERSON">
-			<key column="ID" />
-			<property name="title" column="TITLE"></property>
-			<property name="firstName" column="FIRST_NAME"></property>
-			<property name="middleName1" column="MIDDLE_NAME1"></property>
-			<property name="middleName2" column="MIDDLE_NAME2"></property>
-			<property name="middleName3" column="MIDDLE_NAME3"></property>
-			<property name="lastName" column="LAST_NAME"></property>
-			<property name="suffix" column="SUFFIX"></property>
-			<property name="jobTitle" column="JOB_TITLE"></property>
-			<many-to-one name="expenseAccount" class="Account"
-				column="EXPENSE_ACCOUNT_ID" lazy="false">
-			</many-to-one>
-			<property name="gender" column="GENDER"></property>
-			<property name="dateOfBirth" column="DATE_OF_BIRTH"
-				type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="dateOfHire" column="DATE_OF_HIRE"
-				type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="dateOfLastReview" column="DATE_OF_LASTREVIEW"
-				type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="dateOfRelease" column="DATE_OF_RELEASE"
-				type="com.vimukti.accounter.core.LongUseType"></property>
 		</joined-subclass>
 		<!-- <joined-subclass name="TaxAgency" table="TAXAGENCY"> <key column="id" 
 			/> <many-to-one name="paymentTerm" class="PaymentTerms" column="PAYMENT_TERM" 
