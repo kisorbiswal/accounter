@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 public class CreditCardExpenseView extends CreditCardChargeView {
 
 	VendorCombo Ccard;
-	private int viewFrom = 119;
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
 
@@ -79,8 +78,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 					}
 				});
-				action.setOpenedFrom(viewFrom);
-
+				action.setOpenedFrom(NewVendorAction.FROM_CREDIT_CARD_EXPENSE);
 				action.run(null, true);
 
 			}
