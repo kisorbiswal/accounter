@@ -386,6 +386,9 @@ public class Accounter implements EntryPoint {
 					cmd.setID(transactionsID);
 					cmd.setObjectType(coreType);
 					getCompany().processUpdateOrCreateObject(cmd);
+					// FIXME We may need to pass the actual object or we need
+					// the interface to know that we will not give any object
+					source.saveSuccess(cmd);
 				}
 
 			}
