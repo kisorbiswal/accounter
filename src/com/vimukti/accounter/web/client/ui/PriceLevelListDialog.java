@@ -78,6 +78,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 			}
 		};
 		addGroupButtonsHandler(groupDialogButtonHandler);
+		this.okbtn.setVisible(false);
 	}
 
 	public ClientPriceLevel getSelectedPriceLevelMethod() {
