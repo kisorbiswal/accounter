@@ -19,13 +19,13 @@ public class ClientItemBackUp implements IAccounterCore {
 
 	public long id;
 
-	String transactionItem;
+	long transactionItem;
 
-	String item;
+	long item;
 
-	String incomeAccount;
+	long incomeAccount;
 
-	String expenseAccount;
+	long expenseAccount;
 
 	public ClientItemBackUp() {
 	}
@@ -40,19 +40,19 @@ public class ClientItemBackUp implements IAccounterCore {
 		this.id = id;
 	}
 
-	public String getTransactionItem() {
+	public long getTransactionItem() {
 		return transactionItem;
 	}
 
-	public void setTransactionItem(String transactionItem) {
+	public void setTransactionItem(long transactionItem) {
 		this.transactionItem = transactionItem;
 	}
 
-	public String getItem() {
+	public long getItem() {
 		return item;
 	}
 
-	public void setItem(String item) {
+	public void setItem(long item) {
 		this.item = item;
 	}
 
