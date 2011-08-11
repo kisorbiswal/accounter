@@ -77,6 +77,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 		};
 		addGroupButtonsHandler(dialogButtonsHandler);
+		this.okbtn.setVisible(false);
 	}
 
 	public void createShippingMethod() {
