@@ -11,12 +11,12 @@ import java.util.Map;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
 
 public class ClientConvertUtil extends ObjectConvertUtil {
 
-	
-	private <T, R> R getClientAfterCheckingInCache(T obj, Class<R> destType) {
+	private <T, R> R getClientAfterCheckingInCache(T obj, Class<R> destType) throws IllegalArgumentException, InstantiationException, IllegalAccessException, AccounterException {
 		Map<Object, Object> localCache = getCache();
 
 		if (obj == null) {
@@ -30,7 +30,6 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		return ret;
 	}
 
-	
 	private <T, R> R getClientwithidAfterCheckingInCache(T obj, R destType) {
 		Map<Object, Object> localCache = getCache();
 
@@ -58,118 +57,115 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 	 * @param dstType
 	 *            Client Object
 	 * @return
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws AccounterException 
+	 * @throws IllegalArgumentException 
 	 */
-	
-	private <S, D> D toClientObjectInternal(S src, Class<D> dstType) {
-		try {
-			if (src == null)
-				return null;
 
-			Class<? extends Object> srcType = src.getClass();
+	private <S, D> D toClientObjectInternal(S src, Class<D> dstType) throws InstantiationException, IllegalAccessException, IllegalArgumentException, AccounterException {
+		if (src == null)
+			return null;
 
-			if (dstType == null)
-				dstType = (Class<D>) getClientEqualentClass(srcType);
+		Class<? extends Object> srcType = src.getClass();
 
-			D dst = dstType.newInstance();
-			getCache().put(src, dst);
+		if (dstType == null)
+			dstType = (Class<D>) getClientEqualentClass(srcType);
 
-			Map<String, Field> srcMap = getAllFields(srcType);
-			Map<String, Field> dstMap = getAllFields(dstType);
-			for (String dstFieldName : dstMap.keySet()) {
-				Field dstField = dstMap.get(dstFieldName);
-				Field srcField = srcMap.get(dstFieldName);
+		D dst = dstType.newInstance();
+		getCache().put(src, dst);
 
-				if (srcField == null)
-					continue;
-				if ((srcField.getModifiers() & Modifier.STATIC) > 0)
-					continue;
-				if (srcField.get(src) == null)
-					continue;
+		Map<String, Field> srcMap = getAllFields(srcType);
+		Map<String, Field> dstMap = getAllFields(dstType);
+		for (String dstFieldName : dstMap.keySet()) {
+			Field dstField = dstMap.get(dstFieldName);
+			Field srcField = srcMap.get(dstFieldName);
 
-				srcField.setAccessible(true);
-				dstField.setAccessible(true);
+			if (srcField == null)
+				continue;
+			if ((srcField.getModifiers() & Modifier.STATIC) > 0)
+				continue;
+			if (srcField.get(src) == null)
+				continue;
 
-				Class<?> dstFieldType = dstField.getType();
-				if (isPrimitive(dstFieldType)) {
-					if (isPrimitive(srcField.getType())) {
-						if (isFinanceDate(srcField.getType())) {
-							FinanceDate date = (FinanceDate) srcField.get(src);
-							dstField.setLong(dst, date != null ? date.getDate()
-									: 0);
-						} else {
-							// Both are primitive, so assign directly
-							dstField.set(dst, srcField.get(src));
-						}
+			srcField.setAccessible(true);
+			dstField.setAccessible(true);
+
+			Class<?> dstFieldType = dstField.getType();
+			if (isPrimitive(dstFieldType)) {
+				if (isPrimitive(srcField.getType())) {
+					if (isFinanceDate(srcField.getType())) {
+						FinanceDate date = (FinanceDate) srcField.get(src);
+						dstField.setLong(dst, date != null ? date.getDate() : 0);
 					} else {
-						if (dstFieldName.equals(srcField.getName())
-								&& isString(dstField.getType())) {
-							dstField.set(dst, getFieldInstanceID(dstFieldName
-									.equals("id") ? src : srcField.get(src)));
-
-						}
+						// Both are primitive, so assign directly
+						dstField.set(dst, srcField.get(src));
 					}
-				} else if (isNotMappingEntity(srcType)) {
-					dstField.set(dst,
-							toClientObjectInternal(srcField.get(src), dstType));
 				} else {
-					if (isSet(dstFieldType)) {
-						if (isList(srcField.getType())) {
-							HashSet set = new HashSet();
-							List list = (List) toClientList((List<?>) srcField
-									.get(src));
-							if (list != null)
-								set.addAll(list);
-							dstField.set(dst, set);
-						} else {
-							dstField.set(dst,
-									toClientSet((Set<?>) srcField.get(src)));
-						}
-					} else if (isList(dstFieldType)) {
-						if (isSet(srcField.getType())) {
-							List list = new ArrayList();
-							Set set = toClientSet((Set<?>) srcField.get(src));
-							if (set != null)
-								list.addAll(set);
+					if (dstFieldName.equals(srcField.getName())
+							&& isString(dstField.getType())) {
+						dstField.set(dst, getFieldInstanceID(dstFieldName
+								.equals("id") ? src : srcField.get(src)));
 
-							dstField.set(dst, list);
-						} else {
-							dstField.set(dst,
-									toClientList((List<?>) srcField.get(src)));
-						}
-					} else if (isMap(dstFieldType)
-							|| srcField.get(src) instanceof Map) {
-						Map<?, ?> map = toClientMap((Map) srcField.get(src));
-						dstField.set(dst, map);
-					} else {
-						// Both are not primitive, So we have to call toClient
-						// on
-						// that src value and assign it to the destination
-
-						if ((dstField.getType().getModifiers() & Modifier.ABSTRACT) > 0) {
-							dstField.set(
-									dst,
-									getClientAfterCheckingInCache(srcField
-											.get(src),
-											getClientEqualentClass(srcField
-													.get(src).getClass())));
-
-						} else
-							dstField.set(
-									dst,
-									getClientAfterCheckingInCache(
-											srcField.get(src),
-											dstField.getType()));
 					}
 				}
+			} else if (isNotMappingEntity(srcType)) {
+				dstField.set(dst,
+						toClientObjectInternal(srcField.get(src), dstType));
+			} else {
+				if (isSet(dstFieldType)) {
+					if (isList(srcField.getType())) {
+						HashSet set = new HashSet();
+						List list = (List) toClientList((List<?>) srcField
+								.get(src));
+						if (list != null)
+							set.addAll(list);
+						dstField.set(dst, set);
+					} else {
+						dstField.set(dst,
+								toClientSet((Set<?>) srcField.get(src)));
+					}
+				} else if (isList(dstFieldType)) {
+					if (isSet(srcField.getType())) {
+						List list = new ArrayList();
+						Set set = toClientSet((Set<?>) srcField.get(src));
+						if (set != null)
+							list.addAll(set);
+
+						dstField.set(dst, list);
+					} else {
+						dstField.set(dst,
+								toClientList((List<?>) srcField.get(src)));
+					}
+				} else if (isMap(dstFieldType)
+						|| srcField.get(src) instanceof Map) {
+					Map<?, ?> map = toClientMap((Map) srcField.get(src));
+					dstField.set(dst, map);
+				} else {
+					// Both are not primitive, So we have to call toClient
+					// on
+					// that src value and assign it to the destination
+
+					if ((dstField.getType().getModifiers() & Modifier.ABSTRACT) > 0) {
+						dstField.set(
+								dst,
+								getClientAfterCheckingInCache(
+										srcField.get(src),
+										getClientEqualentClass(srcField
+												.get(src).getClass())));
+
+					} else
+						dstField.set(
+								dst,
+								getClientAfterCheckingInCache(
+										srcField.get(src), dstField.getType()));
+				}
 			}
-			return dst;
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return null;
+		return dst;
 	}
 
-	private Map<Object, Object> toClientMap(Map<?, ?> map) {
+	private Map<Object, Object> toClientMap(Map<?, ?> map) throws AccounterException {
 
 		Map<Object, Object> clientMap = new HashMap<Object, Object>();
 		for (Object key : map.keySet()) {
@@ -207,9 +203,20 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 	 * @param dstType
 	 *            Client Object
 	 * @return
+	 * @throws AccounterException 
 	 */
-	public <S, D> D toClientObject(S src, Class<D> dstType) {
-		D ret = toClientObjectInternal(src, dstType);
+	public <S, D> D toClientObject(S src, Class<D> dstType) throws AccounterException {
+		D ret;
+		try {
+			ret = toClientObjectInternal(src, dstType);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
+		}
 		cache.set(null);
 		return ret;
 	}
@@ -290,7 +297,6 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		return null;
 	}
 
-	
 	public <S extends IAccounterServerCore, D extends IAccounterCore> Collection<D> toCollection(
 			Collection<S> collection, Collection dstCollection) {
 		Collection collection2 = null;
@@ -323,8 +329,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		return null;
 	}
 
-	
-	public Set<?> toClientSet(Set<?> set) {
+	private Set<?> toClientSet(Set<?> set) throws IllegalArgumentException, InstantiationException, IllegalAccessException, AccounterException {
 		if (set == null)
 			return null;
 		HashSet result = new HashSet();
@@ -349,8 +354,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 
 	}
 
-	
-	private Object toClientList(List<?> list) {
+	private Object toClientList(List<?> list) throws IllegalArgumentException, InstantiationException, IllegalAccessException, AccounterException {
 		if (list == null)
 			return null;
 		ArrayList result = new ArrayList();

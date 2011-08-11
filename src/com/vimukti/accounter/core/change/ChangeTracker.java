@@ -12,6 +12,7 @@ import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ChangeTracker {
 	static Logger log = Logger.getLogger(Account.class);
@@ -21,9 +22,15 @@ public class ChangeTracker {
 	public static void put(IAccounterServerCore obj) {
 		if (obj == null)
 			return;
-		IAccounterCore core = (IAccounterCore) new ClientConvertUtil()
-				.toClientObject(obj, Util
-						.getClientEqualentClass(obj.getClass()));
+		IAccounterCore core;
+		try {
+			core = (IAccounterCore) new ClientConvertUtil()
+					.toClientObject(obj, Util
+							.getClientEqualentClass(obj.getClass()));
+		} catch (AccounterException e) {
+			e.printStackTrace();
+			return;
+		}
 		put(core, false);
 	}
 
@@ -58,8 +65,14 @@ public class ChangeTracker {
 		Class<?> d = Util.getClientEqualentClass(serverObject.getClass());
 		if (d == null)
 			return;
-		IAccounterCore core = (IAccounterCore) new ClientConvertUtil()
-				.toClientObject(serverObject, d);
+		IAccounterCore core;
+		try {
+			core = (IAccounterCore) new ClientConvertUtil()
+					.toClientObject(serverObject, d);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+			return;
+		}
 		
 		put(core, isTransaction);
 

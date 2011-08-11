@@ -102,13 +102,13 @@ public interface IFinanceDAOService {
 	// throws DAOException;
 
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			long id) throws DAOException;
+			long id) throws DAOException, AccounterException;
 
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
-			String name) throws DAOException;
+			String name) throws DAOException, AccounterException;
 
 	public <T extends IAccounterCore> ArrayList<T> getObjects(
-			AccounterCoreType type) throws DAOException;
+			AccounterCoreType type) throws DAOException, AccounterException;
 
 	// public Boolean updateCompanyPreferences(ClientCompanyPreferences
 	// preferences)
@@ -667,7 +667,7 @@ public interface IFinanceDAOService {
 	public boolean changeMyPassword(String emailId, String oldPassword,
 			String newPassword) throws DAOException;
 
-	public ArrayList<ClientUserInfo> getAllUsers();
+	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException;
 
 	public ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate);

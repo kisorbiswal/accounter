@@ -648,7 +648,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public <T extends IAccounterCore> T getObjectById(AccounterCoreType type,
-			long id) throws DAOException {
+			long id) throws DAOException, AccounterException {
 
 		Object serverObject = getServerObjectForid(type, id);
 
@@ -698,7 +698,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public <T extends IAccounterCore> T getObjectByName(AccounterCoreType type,
-			String name) throws DAOException {
+			String name) throws DAOException, AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -755,7 +755,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public <T extends IAccounterCore> ArrayList<T> getObjects(
-			AccounterCoreType type) throws DAOException {
+			AccounterCoreType type) throws DAOException, AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -11462,7 +11462,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return true;
 	}
 
-	public ArrayList<ClientUserInfo> getAllUsers() {
+	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<User> financeUsers = session.getNamedQuery("list.User").list();
 		List<ClientUserInfo> clientUsers = new ArrayList<ClientUserInfo>();
@@ -11530,8 +11530,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 	/**
 	 * @return
+	 * @throws AccounterException 
 	 */
-	public ArrayList<ClientEmployee> getAllEmployees() {
+	public ArrayList<ClientEmployee> getAllEmployees() throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<User> financeUsers = session.getNamedQuery("list.User").list();
 		List<ClientEmployee> employees = new ArrayList<ClientEmployee>();

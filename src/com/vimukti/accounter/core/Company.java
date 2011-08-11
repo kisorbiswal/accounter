@@ -4370,7 +4370,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 				HibernateUtil.getCurrentSession());
 	}
 
-	public ClientCompany toClientCompany() {
+	public ClientCompany toClientCompany() throws AccounterException {
 		ClientCompany clientCompany = new ClientCompany();
 		clientCompany.setName(this.fullName);
 		clientCompany.setID(this.id);
