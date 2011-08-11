@@ -397,8 +397,8 @@ public class CustomerTransactionGrid extends
 	}
 
 	protected void createControls() {
-
-		setSize("100%", "250px");
+		setWidth("100%");
+		// setSize("100%", "250px");
 
 		// Passing 1 for Customer, 2 For Vendor For Item View- Raj Vimal
 		serviceItemCombo = new ServiceCombo(Accounter.constants().item(), 1,
