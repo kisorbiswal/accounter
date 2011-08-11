@@ -40,8 +40,7 @@ public class PostLoginServlet extends BaseServlet {
 					"/WEB-INF/Accounter.jsp");
 			dispatcher.forward(request, response);
 		} else {
-			response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-			response.setHeader("Location", "/site/login");
+			response.sendRedirect("/login");
 			// Session is there, so show the main page
 
 		}
