@@ -1117,8 +1117,7 @@ public abstract class Transaction extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
-		if (((Transaction) clientObject).isVoid
-				|| ((Transaction) clientObject).isDeleted()) {
+		if (isVoid() || isDeleted()) {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 			// "This Transaction  is already voided or Deleted, can't Modify");
