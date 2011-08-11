@@ -45,6 +45,16 @@ public class ViewManager extends VerticalPanel {
 
 	private ActivityManager manager;
 
+	private ImageButton previousButton;
+
+	private ImageButton nextButton;
+
+	private ImageButton printButton;
+
+	private ImageButton editButton;
+
+	private ImageButton closeButton;
+
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
 		addStyleName("view_manager");
@@ -198,6 +208,21 @@ public class ViewManager extends VerticalPanel {
 		}
 		existingView = newview;
 		add(newview);
+		updateButtons();
+	}
+
+	private void updateButtons() {
+		if(existingView instanceof IEditableView){
+			editButton.setVisible(true);
+		}else{
+			editButton.setVisible(false);
+		}
+		
+		if(existingView instanceof IPrintableView){
+			printButton.setVisible(true);
+		}else{
+			printButton.setVisible(false);
+		}
 	}
 
 	/**
@@ -287,7 +312,7 @@ public class ViewManager extends VerticalPanel {
 		ButtonGroup group2 = new ButtonGroup();
 		ButtonGroup group3 = new ButtonGroup();
 
-		ImageButton previousButton = new ImageButton(Accounter
+		previousButton = new ImageButton(Accounter
 				.getFinanceImages().previousIcon());
 		previousButton.addClickHandler(new ClickHandler() {
 
@@ -296,21 +321,21 @@ public class ViewManager extends VerticalPanel {
 				History.back();
 			}
 		});
-		ImageButton nextbutton = new ImageButton(Accounter.getFinanceImages()
+		nextButton = new ImageButton(Accounter.getFinanceImages()
 				.nextIcon());
-		nextbutton.addClickHandler(new ClickHandler() {
+		nextButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
 				History.forward();
 			}
 		});
-		ImageButton printButton = new ImageButton(
+		printButton = new ImageButton(
 				Accounter.constants().print(), Accounter.getFinanceImages()
 						.Print1Icon());
-		ImageButton editButton = new ImageButton(Accounter.constants().edit(),
+		editButton = new ImageButton(Accounter.constants().edit(),
 				Accounter.getFinanceImages().editIcon());
-		ImageButton closeButton = new ImageButton(
+		closeButton = new ImageButton(
 				Accounter.constants().close(), Accounter.getFinanceImages()
 						.dialougueCloseicon());
 		closeButton.addClickHandler(new ClickHandler() {
@@ -320,7 +345,7 @@ public class ViewManager extends VerticalPanel {
 				closeCurrentView();
 			}
 		});
-		group1.add(nextbutton);
+		group1.add(nextButton);
 		group1.add(previousButton);
 
 		group2.add(editButton);
