@@ -232,13 +232,18 @@ public class CreateCompanyServlet extends BaseServlet {
 	}
 
 	private boolean isValidCompanyName(String companyId) {
-		return companyId.matches("^[A-Za-z0-9]{5,}$");
+		return companyId.trim().length() > 5;
+		// return companyId.matches("^[A-Za-z0-9]{5,}$");
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		String emailID = (String) session.getAttribute(EMAIL_ID);
+		if (emailID == null) {
+			redirectExternal(request, response, LOGIN_URL);
+		}
 		if (session != null) {
 			String status = (String) session
 					.getAttribute(COMPANY_CREATION_STATUS);

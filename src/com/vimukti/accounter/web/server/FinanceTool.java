@@ -6,6 +6,7 @@ package com.vimukti.accounter.web.server;
 import java.io.NotSerializableException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -238,53 +239,63 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
-
-		IAccounterCore data = createContext.getData();
-		String userID = createContext.getUserEmail();
-
-		if (data == null) {
-			throw new AccounterException(
-					AccounterException.ERROR_ILLEGAL_ARGUMENT,
-					"Operation Data Found Null...." + createContext);
-		}
-
-		Class<IAccounterServerCore> serverClass = ObjectConvertUtil
-				.getServerEqivalentClass(data.getClass());
-		IAccounterServerCore serverObject;
 		try {
-			serverObject = serverClass.newInstance();
-		} catch (Exception e1) {
-			throw new AccounterException(AccounterException.ERROR_INTERNAL);
-		}
+			IAccounterCore data = createContext.getData();
+			String userID = createContext.getUserEmail();
 
-		serverObject = new ServerConvertUtil().toServerObject(serverObject,
-				(IAccounterCore) data, session);
+			if (data == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT,
+						"Operation Data Found Null...." + createContext);
+			}
 
-		ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
-				getCompany());
+			Class<IAccounterServerCore> serverClass = ObjectConvertUtil
+					.getServerEqivalentClass(data.getClass());
+			IAccounterServerCore serverObject;
+			try {
+				serverObject = serverClass.newInstance();
+			} catch (Exception e1) {
+				throw new AccounterException(AccounterException.ERROR_INTERNAL);
+			}
 
-		if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
-			// get the user from user id
-			((CreatableObject) serverObject).setCreatedBy(getCompany()
-					.getUserByUserEmail(userID));
-			((CreatableObject) serverObject).setCreatedDate(createContext
-					.getDate());
-		}
-		canEdit(serverObject, data);
+			serverObject = new ServerConvertUtil().toServerObject(serverObject,
+					(IAccounterCore) data, session);
 
-		isTransactionNumberExist((IAccounterCore) data);
-		try {
+			ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
+					getCompany());
+
+			if (serverObject instanceof CreatableObject) {
+				// get the user from user id
+				User user = getCompany().getUserByUserEmail(userID);
+				Timestamp currentTime = new Timestamp(
+						System.currentTimeMillis());
+				((CreatableObject) serverObject).setCreatedBy(user);
+
+				((CreatableObject) serverObject).setCreatedDate(currentTime);
+				((CreatableObject) serverObject).setLastModifier(user);
+
+				((CreatableObject) serverObject)
+						.setLastModifiedDate(currentTime);
+			}
+			canEdit(serverObject, data);
+
+			isTransactionNumberExist((IAccounterCore) data);
+
 			session.save(serverObject);
+			transaction.commit();
+			ChangeTracker.put(serverObject);
+
+			return serverObject.getID();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			transaction.rollback();
-			throw new AccounterException(AccounterException.ERROR_INTERNAL,
-					e.getMessage());
+			if (e instanceof AccounterException) {
+				throw (AccounterException) e;
+			} else {
+				throw new AccounterException(AccounterException.ERROR_INTERNAL,
+						e.getMessage());
+			}
 		}
-		transaction.commit();
-		ChangeTracker.put(serverObject);
-
-		return serverObject.getID();
 
 	}
 
@@ -347,6 +358,16 @@ public class FinanceTool implements IFinanceDAOService {
 			// Util.loadObjectByStringID(session, command.arg2,
 			// command.arg1);
 
+			if ((IAccounterServerCore) serverObject instanceof CreatableObject) {
+				// get the user from user id
+				((CreatableObject) serverObject).setLastModifier(getCompany()
+						.getUserByUserEmail(updateContext.getUserEmail()));
+
+				((CreatableObject) serverObject)
+						.setLastModifiedDate(new Timestamp(System
+								.currentTimeMillis()));
+			}
+
 			session.flush();
 			session.saveOrUpdate(serverObject);
 			ChangeTracker.put(serverObject);
@@ -355,7 +376,11 @@ public class FinanceTool implements IFinanceDAOService {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			hibernateTransaction.rollback();
-			throw new AccounterException(AccounterException.ERROR_INTERNAL);
+			if (e instanceof AccounterException) {
+				throw (AccounterException) e;
+			} else {
+				throw new AccounterException(AccounterException.ERROR_INTERNAL);
+			}
 		}
 
 	}
@@ -11428,7 +11453,7 @@ public class FinanceTool implements IFinanceDAOService {
 			bills.setExpenseStatus(status);
 			bills.setType(Transaction.TYPE_EMPLOYEE_EXPENSE);
 			bills.setPayFrom(cp.getPayFrom() != null ? cp.getPayFrom().getID()
-					: null);
+					: 0);
 
 			/*
 			 * Here, to set transaction created date temporarly using setDueDate
@@ -11544,9 +11569,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 	/**
 	 * @return
-	 * @throws AccounterException 
+	 * @throws AccounterException
 	 */
-	public ArrayList<ClientEmployee> getAllEmployees() throws AccounterException {
+	public ArrayList<ClientEmployee> getAllEmployees()
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<User> financeUsers = session.getNamedQuery("list.User").list();
 		List<ClientEmployee> employees = new ArrayList<ClientEmployee>();

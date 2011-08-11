@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.server;
 
-import java.sql.Timestamp;
-
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
@@ -21,8 +19,6 @@ public class OperationContext {
 
 	private String arg2;
 	private String arg1;
-
-	private Timestamp date;
 
 	private long newStartDate;
 
@@ -73,13 +69,6 @@ public class OperationContext {
 	 */
 	public void setData(IAccounterCore data) {
 		this.data = data;
-	}
-
-	/**
-	 * @return
-	 */
-	public Timestamp getDate() {
-		return this.date;
 	}
 
 	/**
