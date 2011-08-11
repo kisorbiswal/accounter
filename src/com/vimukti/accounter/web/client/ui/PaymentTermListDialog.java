@@ -76,6 +76,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			}
 		};
 		addGroupButtonsHandler(dialogButtonsHandler);
+		this.okbtn.setVisible(false);
 
 	}
 
