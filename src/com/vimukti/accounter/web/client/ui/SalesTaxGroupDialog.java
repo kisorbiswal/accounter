@@ -163,7 +163,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 	private void createControls(final ClientTAXGroup taxGroup) {
 
-		setWidth("570");
+		setWidth("570px");
 		// setPageTop(10);
 		VerticalPanel bodyLayout = new VerticalPanel();
 

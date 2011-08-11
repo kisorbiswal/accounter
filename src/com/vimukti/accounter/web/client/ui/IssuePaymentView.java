@@ -158,7 +158,7 @@ public class IssuePaymentView extends BaseDialog {
 	}
 
 	private void createControls() {
-		setWidth("80");
+		setWidth("80px");
 		mainPanel.setSpacing(10);
 
 		payMethodSelect = new SelectItem(Accounter.constants().paymentMethod());
@@ -196,14 +196,14 @@ public class IssuePaymentView extends BaseDialog {
 		initListGrid();
 
 		mainVLay = new VerticalPanel();
-		mainVLay.setWidth("800");
+		mainVLay.setWidth("800px");
 
 		mainVLay.add(payForm);
 		mainVLay.add(label);
 		mainVLay.add(gridLayout);
 
 		setBodyLayout(mainVLay);
-		headerLayout.setWidth("800");
+		headerLayout.setWidth("800px");
 		headerLayout.setHeight("15%");
 		// footerLayout.setCellWidth(okbtn, "74%");
 
@@ -334,7 +334,7 @@ public class IssuePaymentView extends BaseDialog {
 	private void initListGrid() {
 		gridLayout = new VerticalPanel();
 		gridLayout.setWidth("100%");
-		gridLayout.setHeight("100");
+		gridLayout.setHeight("100px");
 		grid = new TransactionIssuePaymentGrid();
 		grid.isEnable = false;
 		grid.init();
@@ -366,8 +366,8 @@ public class IssuePaymentView extends BaseDialog {
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(
 					getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-							.constants().startingCheckNo() : Accounter
-							.constants().startingChequeNo());
+							.constants().startingCheckNo()
+							: Accounter.constants().startingChequeNo());
 			checkNoText.setWidth(100);
 			checkNoText.setRequired(true);
 			if (selectedPayFromAccount != null)

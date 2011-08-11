@@ -30,7 +30,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	public ItemGroupListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("400", "330");
-		setWidth("400");
+		setWidth("400px");
 		initialise();
 		center();
 	}
@@ -135,8 +135,8 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 			if (itemGroup != null) {
 				if (!(itemGroup.getName().equalsIgnoreCase(
 						itemGroupDg.getItemGroupName()) ? true : (Utility
-						.isObjectExist(company.getItemGroups(),
-								itemGroupDg.getItemGroupName())) ? false : true)) {
+						.isObjectExist(company.getItemGroups(), itemGroupDg
+								.getItemGroupName())) ? false : true)) {
 					result.addError(this, accounterConstants.alreadyExist());
 				}
 			} else {

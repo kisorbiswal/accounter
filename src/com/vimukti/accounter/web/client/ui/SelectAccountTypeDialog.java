@@ -40,7 +40,7 @@ public class SelectAccountTypeDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		setWidth("420");
+		setWidth("420px");
 		// setAutoSize(Boolean.TRUE);
 
 		incomeAndExpenseForm = new DynamicForm();
@@ -61,20 +61,18 @@ public class SelectAccountTypeDialog extends BaseDialog {
 		accountTypes = new LinkedHashMap<String, String>();
 		if (options != null && options.size() != 0) {
 			for (int type : options) {
-				accountTypes.put(String.valueOf(type),
-						" " + UIUtils.nbsp(Utility.getAccountTypeString(type))
-								+ " ");
+				accountTypes.put(String.valueOf(type), " "
+						+ UIUtils.nbsp(Utility.getAccountTypeString(type))
+						+ " ");
 			}
 			defaultId = String.valueOf(options.get(0));
 
 		} else {
 			for (int i = 0; i < UIUtils.accountTypes.length - 2; i++) {
-				accountTypes
-						.put(String.valueOf(UIUtils.accountTypes[i]),
-								" "
-										+ UIUtils.nbsp(Utility
-												.getAccountTypeString(UIUtils.accountTypes[i]))
-										+ " ");
+				accountTypes.put(String.valueOf(UIUtils.accountTypes[i]), " "
+						+ UIUtils.nbsp(Utility
+								.getAccountTypeString(UIUtils.accountTypes[i]))
+						+ " ");
 
 			}
 			defaultId = String.valueOf(UIUtils.accountTypes[0]);
@@ -85,14 +83,14 @@ public class SelectAccountTypeDialog extends BaseDialog {
 		incomeAndExpenseForm.setFields(incomeAndExpenseRadioGroup);
 
 		VerticalPanel MVLay = new VerticalPanel();
-		MVLay.setWidth("420");
+		MVLay.setWidth("420px");
 		MVLay.add(incomeAndExpenseForm);
 
 		setBodyLayout(MVLay);
 
-		headerLayout.setWidth("420");
+		headerLayout.setWidth("420px");
 		headerLayout.setHeight("100px");
-		footerLayout.setWidth("420");
+		footerLayout.setWidth("420px");
 		// setAutoHeight();
 		show();
 	}

@@ -54,7 +54,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		mainVLay.add(typeForm);
 
 		setBodyLayout(mainVLay);
-		setWidth("320");
+		setWidth("320px");
 		show();
 	}
 

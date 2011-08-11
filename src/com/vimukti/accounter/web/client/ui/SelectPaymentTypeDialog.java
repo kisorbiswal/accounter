@@ -56,7 +56,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		cancelBtn.setWidth("60px");
 
 		setBodyLayout(mainVLay);
-		setWidth("300");
+		setWidth("300px");
 		show();
 	}
 

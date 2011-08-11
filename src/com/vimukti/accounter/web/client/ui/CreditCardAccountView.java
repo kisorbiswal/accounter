@@ -91,13 +91,11 @@ public class CreditCardAccountView extends AbstractBaseView {
 		topHLay.add(leftVLay);
 		topHLay.add(creditForm);
 
-		Button saveCloseButt = new Button(Accounter
-				.constants().saveAndClose());
+		Button saveCloseButt = new Button(Accounter.constants().saveAndClose());
 		// saveCloseButt.setAutoFit(true);
 		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 
-		Button saveNewButt = new Button(Accounter.constants()
-				.saveAndNew());
+		Button saveNewButt = new Button(Accounter.constants().saveAndNew());
 		// saveNewButt.setAutoFit(true);
 		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
 
@@ -116,7 +114,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 		mainVLay.add(buttHLay);
 		// setAutoSize(true);
 		add(mainVLay);
-		setSize("750", "500");
+		setSize("750px", "500px");
 
 		// show();
 	}

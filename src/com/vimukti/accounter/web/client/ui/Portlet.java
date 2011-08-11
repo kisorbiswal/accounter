@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.widgets.WorkbenchPanel;
 /**
  * 
  * @author Gajendra Choudhary
-
+ * 
  * 
  */
 
@@ -31,7 +31,7 @@ public abstract class Portlet extends WorkbenchPanel {
 		vPanel = new VerticalPanel();
 		vPanel.setSize("100%", "100%");
 		this.setWidth("100%");
-		this.setHeight("124");
+		this.setHeight("124px");
 
 		addStyleName("portlet");
 
@@ -50,7 +50,7 @@ public abstract class Portlet extends WorkbenchPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				refresh.setStyleName("loading");
 				refreshClicked();
 			}

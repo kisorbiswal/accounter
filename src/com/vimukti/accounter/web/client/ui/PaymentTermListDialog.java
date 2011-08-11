@@ -38,9 +38,9 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	private void createControls() {
 		listGridView.setType(AccounterCoreType.PAYMENT_TERM);
-		setSize("400", "250");
+		setSize("400px", "250px");
 
-		listGridView.setSize("400", "300");
+		listGridView.setSize("400px", "300px");
 		listGridView.addRecordClickHandler(new GridRecordClickHandler() {
 
 			@Override
@@ -119,10 +119,12 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 		clientPaymentTerms
 				.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
-						.getValue().toString() : "");
+						.getValue().toString()
+						: "");
 		clientPaymentTerms
 				.setDescription(dialog.descText.getValue() != null ? dialog.descText
-						.getValue().toString() : "");
+						.getValue().toString()
+						: "");
 		clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
 				.getNumber() != null ? dialog.discDayText.getNumber() : "0"));
 		clientPaymentTerms.setDiscountPercent(UIUtils.toDbl(dialog.discText
@@ -131,13 +133,13 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 		for (int i = 0; i < dialog.dueValues.length; i++) {
 			if (dialog.dueSelect.getValue() != null) {
-				if (dialog.dueSelect.getValue().toString()
-						.equals(dialog.dueValues[i]))
+				if (dialog.dueSelect.getValue().toString().equals(
+						dialog.dueValues[i]))
 					clientPaymentTerms.setDue(i + 1);
 			}
 		}
-		clientPaymentTerms
-				.setDueDays(UIUtils.toInt(dialog.dayText.getNumber() != null ? dialog.dayText
+		clientPaymentTerms.setDueDays(UIUtils
+				.toInt(dialog.dayText.getNumber() != null ? dialog.dayText
 						.getNumber() : "0"));
 
 		return clientPaymentTerms;
@@ -176,7 +178,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 			case 3:
 				return DataUtils.getNumberAsPercentString(paymentTerms
-						.getDiscountPercent() + "");
+						.getDiscountPercent()
+						+ "");
 			}
 		}
 		return null;
@@ -201,13 +204,14 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		ValidationResult result = new ValidationResult();
 		if (paymentTerm != null) {
 			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
-					.getValue().toString() : "")) {
+					.getValue().toString()
+					: "")) {
 				result.addError(this, Accounter.constants().alreadyExist());
 			}
 		} else {
 			Object value = dialog.payTermText.getValue();
-			if (Utility.isObjectExist(getCompany().getPaymentsTerms(),
-					value.toString())) {
+			if (Utility.isObjectExist(getCompany().getPaymentsTerms(), value
+					.toString())) {
 				result.addError(this, Accounter.constants()
 						.paytermsAlreadyExists());
 			}

@@ -32,7 +32,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	public ShippingMethodListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("400", "330");
-		setWidth("400");
+		setWidth("400px");
 		initialise();
 		center();
 	}
@@ -104,7 +104,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 				Accounter.constants().shippingMethod(), "", arr) {
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
-		inputDlg.setWidth("320");
+		inputDlg.setWidth("320px");
 		shippingMethod = rec;
 
 		if (shippingMethod != null) {

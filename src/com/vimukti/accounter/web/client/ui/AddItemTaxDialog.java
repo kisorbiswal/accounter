@@ -42,7 +42,7 @@ public class AddItemTaxDialog extends BaseDialog {
 		mainVLay.setSize("100%", "50%");
 		// mainVLay.setTop(10);
 		mainVLay.add(form);
-		setSize("350", "200");
+		setSize("350px", "200px");
 		setBodyLayout(mainVLay);
 
 	}

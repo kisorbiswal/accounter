@@ -111,7 +111,8 @@ public class ApplyCreditDialog extends BaseDialog {
 		adjPayText.setColSpan(1);
 		adjPayText.setDisabled(true);
 		adjPayText.setValue(DataUtils.getAmountAsString(DataUtils
-				.getBalance(amountDue) - DataUtils.getBalance(cashDiscount)));
+				.getBalance(amountDue)
+				- DataUtils.getBalance(cashDiscount)));
 
 		totAmtUseText = new AmountField(Accounter.constants()
 				.totalAmountToUse(), this);
@@ -309,7 +310,7 @@ public class ApplyCreditDialog extends BaseDialog {
 
 		setBodyLayout(mainVLay);
 
-		setSize("600", "500");
+		setSize("600px", "500px");
 		show();
 	}
 

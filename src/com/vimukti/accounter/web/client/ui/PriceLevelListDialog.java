@@ -31,8 +31,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	public PriceLevelListDialog(String title, String descript) {
 
 		super(title, descript);
-		// setSize("400", "370");
-		setWidth("400");
+		// setSize("400px", "");
+		setWidth("400px");
 		initialise();
 		center();
 
@@ -115,7 +115,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 						.getValue().toString() : "");
 		priceLevel
 				.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-						.getPercentage() : 0.0);
+						.getPercentage()
+						: 0.0);
 		String val = dialog.getIncrOrDecrPercentValue();
 		if (val != null) {
 			priceLevel.setPriceLevelDecreaseByThisPercentage(val
@@ -133,7 +134,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 						.getValue().toString() : "");
 		priceLevel
 				.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-						.getPercentage() : 0.0);
+						.getPercentage()
+						: 0.0);
 		String val = dialog.getIncrOrDecrPercentValue();
 		if (val != null) {
 			priceLevel.setPriceLevelDecreaseByThisPercentage(val

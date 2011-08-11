@@ -119,7 +119,7 @@ public class CashDiscountDialog extends BaseDialog {
 		mainVLay.add(form);
 
 		setBodyLayout(mainVLay);
-		setWidth("350");
+		setWidth("350px");
 	}
 
 	@Override

@@ -32,7 +32,7 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
-@SuppressWarnings({ "deprecation" })
+@SuppressWarnings( { "deprecation" })
 public class FileUploadDilaog extends CustomDialog {
 
 	private String parentID;
@@ -91,16 +91,16 @@ public class FileUploadDilaog extends CustomDialog {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				helpHtml.getElement().getStyle().setCursor(Cursor.POINTER);
-				helpHtml.getElement().getStyle()
-						.setTextDecoration(TextDecoration.UNDERLINE);
+				helpHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.UNDERLINE);
 			}
 		});
 		helpHtml.addMouseOutHandler(new MouseOutHandler() {
 
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				helpHtml.getElement().getStyle()
-						.setTextDecoration(TextDecoration.NONE);
+				helpHtml.getElement().getStyle().setTextDecoration(
+						TextDecoration.NONE);
 			}
 		});
 		helpHtml.setVisible(false);
@@ -216,8 +216,8 @@ public class FileUploadDilaog extends CustomDialog {
 		upload.getElement().setAttribute("size", "50");
 
 		HTML label = new HTML(Accounter.messages().removeHTML());
-		label.setWidth("60");
-		label.setHeight("25");
+		label.setWidth("60px");
+		label.setHeight("25px");
 		label.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {

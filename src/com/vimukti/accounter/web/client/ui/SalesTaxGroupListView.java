@@ -99,11 +99,11 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		 * buttons Layout
 		 */
 		buttonsLayout = new VerticalPanel();
-		buttonsLayout.setWidth("100");
+		buttonsLayout.setWidth("100px");
 		buttonsLayout.setSpacing(5);
 
 		button1 = new AddButton(this);
-		button1.setWidth("80");
+		button1.setWidth("80px");
 
 		button1.addClickHandler(new ClickHandler() {
 
@@ -116,7 +116,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		button2 = new Button(Accounter.constants().edit());
 		button2.setEnabled(false);
-		button2.setWidth("80");
+		button2.setWidth("80px");
 		button2.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -127,7 +127,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		button3 = new Button(Accounter.constants().remove());
 		button3.setEnabled(false);
-		button3.setWidth("80");
+		button3.setWidth("80px");
 		button3.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {

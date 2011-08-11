@@ -34,7 +34,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 	public SalesTaxGroupListDialog(String title, String desc) {
 		super(title, desc);
-		setWidth("400");
+		setWidth("400px");
 		initialise();
 		mainPanel.setSpacing(3);
 		center();
@@ -183,8 +183,8 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 		taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
 
 		if (Utility.isObjectExist(company.getTaxItems(), taxGroup.getName())
-				|| Utility.isObjectExist(company.getTaxGroups(),
-						taxGroup.getName())) {
+				|| Utility.isObjectExist(company.getTaxGroups(), taxGroup
+						.getName())) {
 
 			Accounter.showError(Accounter.constants().alreadyExist());
 		} else

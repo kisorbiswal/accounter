@@ -57,7 +57,7 @@ public class AddWidgetDialog extends BaseDialog {
 
 	private void createControl() {
 
-		setSize("650", "380");
+		setSize("650px", "380px");
 		// setIsModal(true);
 		// setShowModalMask(true);
 		// setModalMaskOpacity(10);
@@ -758,7 +758,7 @@ public class AddWidgetDialog extends BaseDialog {
 			HorizontalPanel layout = new HorizontalPanel();
 			// layout.setWidth100();
 			// layout.setBorder("1px solid silver");
-			layout.setHeight("75");
+			layout.setHeight("75px");
 			// layout.setMembersMargin(10);
 			imageLabel = new Label();
 			// imageLabel.setIconWidth(170);

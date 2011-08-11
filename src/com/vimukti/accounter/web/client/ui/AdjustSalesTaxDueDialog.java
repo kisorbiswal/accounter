@@ -33,7 +33,7 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 		// lab1.setAutoFit(true);
 
 		Label lab2 = new Label(Accounter.constants().selectDate());
-		lab2.setHeight("1");
+		lab2.setHeight("1px");
 		// lab2.setOverflow(Overflow.VISIBLE);
 		// lab2.setWrap(false);
 		lab2.setWidth("100%");
@@ -76,7 +76,7 @@ public class AdjustSalesTaxDueDialog extends BaseDialog {
 		// setOverflow(Overflow.VISIBLE);
 		setBodyLayout(mainVLay);
 
-		setSize("450", "321");
+		setSize("450px", "321px");
 		// show();
 	}
 

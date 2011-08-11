@@ -29,7 +29,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	public CreditRatingListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("400", "330");
-		setWidth("400");
+		setWidth("400px");
 		initialise();
 		center();
 	}
@@ -143,10 +143,11 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 			if (creditRating != null) {
 				if (!(creditRating.getName().equalsIgnoreCase(
 						UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-								.toString())) ? true : (Utility.isObjectExist(
-						company.getItemGroups(),
-						UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-								.toString()))) ? false : true)) {
+								.toString())) ? true
+						: (Utility.isObjectExist(company.getItemGroups(),
+								UIUtils.toStr(inputDlg.getTextItems().get(0)
+										.getValue().toString()))) ? false
+								: true)) {
 					result.addError(this, accounterConstants.alreadyExist());
 				}
 			} else {

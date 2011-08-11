@@ -44,7 +44,7 @@ public class CountryRegionListDialog extends DialogBox {
 
 		Label lab2 = new Label(Accounter.constants().addCountryLabel());
 		// lab2.setAutoFit(true);lab2.setBackgroundColor("green");
-		lab2.setHeight("1");
+		lab2.setHeight("1px");
 		// lab2.setOverflow(Overflow.VISIBLE);
 		// lab2.setWrap(false);
 		lab2.setWidth("100%");
@@ -110,7 +110,7 @@ public class CountryRegionListDialog extends DialogBox {
 		MVLay.add(buttHLay);
 
 		add(MVLay);
-		setSize("450", "300");
+		setSize("450px", "300px");
 		show();
 	}
 
@@ -146,16 +146,14 @@ public class CountryRegionListDialog extends DialogBox {
 		codeForm.setNumCols(4);
 		codeForm.setFields(a3Text, a2Text, isoText);
 
-		Button helpButt = new Button(Accounter.constants()
-				.help());
+		Button helpButt = new Button(Accounter.constants().help());
 		// helpButt.setAutoFit(true);
 		HorizontalPanel helpHLay = new HorizontalPanel();
 		helpHLay.add(helpButt);
 		helpHLay.setWidth("50%");
 		Button okButt = new Button(Accounter.constants().ok());
 		// okButt.setAutoFit(true);
-		Button canButt = new Button(Accounter.constants()
-				.cancel());
+		Button canButt = new Button(Accounter.constants().cancel());
 		// canButt.setAutoFit(true);
 
 		HorizontalPanel buttHLay = new HorizontalPanel();
@@ -179,7 +177,7 @@ public class CountryRegionListDialog extends DialogBox {
 		mainVLay.setSize("100%", "100%");
 		// mainVLay.setMembers(form, codeForm, buttHLay);
 		dlg.add(mainVLay);
-		dlg.setSize("450", "300");
+		dlg.setSize("450px", "300px");
 		dlg.show();
 	}
 	// FinanceApplication.constants()

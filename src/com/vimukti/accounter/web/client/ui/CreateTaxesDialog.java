@@ -48,7 +48,7 @@ public class CreateTaxesDialog extends BaseDialog {
 		mainVLay.add(listGridView);
 
 		setBodyLayout(mainVLay);
-		setSize("300", "170");
+		setSize("300px", "170px");
 	}
 
 	public Integer[] getColunmTypes() {
