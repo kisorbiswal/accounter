@@ -303,12 +303,14 @@ public class CustomerTransactionGrid extends
 		IndicatorColumn indicatorColumn = new IndicatorColumn();
 		table.addColumn(indicatorColumn);
 
-		ListDataProvider<ClientTransactionItem> list=new ListDataProvider<ClientTransactionItem>();
-		
-		TransactionItemNameColumn transactionItemNameColumn = new TransactionItemNameColumn(list);
+		ListDataProvider<ClientTransactionItem> list = new ListDataProvider<ClientTransactionItem>();
+
+		TransactionItemNameColumn transactionItemNameColumn = new TransactionItemNameColumn(
+				list);
 		table.addColumn(transactionItemNameColumn, Accounter.constants().name());
 
-		TransactionDescriptionColumn descriptionColumn = new TransactionDescriptionColumn(list);
+		TransactionDescriptionColumn descriptionColumn = new TransactionDescriptionColumn(
+				list);
 		table.addColumn(descriptionColumn, Accounter.constants().description());
 
 		TransactionQuantityColumn quantityColumn = new TransactionQuantityColumn();
@@ -1170,14 +1172,14 @@ public class CustomerTransactionGrid extends
 				// Accounter.showError(AccounterErrorType.INVALIDENTRY);
 				// }
 				double total = DataUtils.getReformatedAmount(qty);
-				Double quantity =  total;
+				Double quantity = total;
 				if (quantity == 0) {
 					quantity = 1.0D;
 					qty = "1";
 				}
 				try {
 					ClientQuantity quant = new ClientQuantity();
-					if (AccounterValidator.isValidGridQuantity(quantity)) {
+					if (AccounterValidator.isValidGridQuantity(0)) {
 						quant.setValue(Double.parseDouble(qty));
 						item.setQuantity(quant);
 						update_quantity_inAllRecords(item.getQuantity()
