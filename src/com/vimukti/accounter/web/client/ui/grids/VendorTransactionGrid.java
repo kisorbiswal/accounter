@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
@@ -31,7 +32,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
-import com.vimukti.accounter.web.client.ui.vendors.AbstractVendorTransactionView;
+import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseView;
 
 public class VendorTransactionGrid extends
 		AbstractTransactionGrid<ClientTransactionItem> {
@@ -404,14 +405,15 @@ public class VendorTransactionGrid extends
 				ztaxCodeid = taxCode.getID();
 			}
 		}
-		AbstractVendorTransactionView<?> view = (AbstractVendorTransactionView<?>) transactionView;
+		CreditCardExpenseView cardExpenseView = (CreditCardExpenseView) transactionView;
+		ClientVendor selectedVendor = cardExpenseView.getSelectedVendor();
 		if (transactionView.getTransactionObject() == null
-				&& view.getVendor() != null)
+				&& selectedVendor != null)
 			selectedObject
 					.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
 							.getTaxCode()
-							: view.getVendor().getTAXCode() != 0 ? view
-									.getVendor().getTAXCode() : ztaxCodeid);
+							: selectedVendor.getTAXCode() != 0 ? selectedVendor
+									.getTAXCode() : ztaxCodeid);
 
 		updateTotals();
 		updateData(selectedObject);
