@@ -1,21 +1,19 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 
 import org.hibernate.CallbackException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class SalesPerson extends Payee implements Lifecycle {
+public class SalesPerson extends CreatableObject implements
+		IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -104,19 +102,80 @@ public class SalesPerson extends Payee implements Lifecycle {
 	String createdBy;
 	String lastModifier;
 
-	// String createdDate;
-	// String lastModifiedDate;
+	private boolean isActive;
+	private String memo;
+	private String fileAs;
+	private Address address;
+	private String phoneNo;
+	private String faxNo;
+	private String email;
+	private String webPageAddress;
 
-	public SalesPerson() {
-		setType(Payee.TYPE_EMPLOYEE);
+	public boolean isActive() {
+		return isActive;
 	}
 
-	/**
-	 * @return the version
-	 */
-	@Override
-	public int getVersion() {
-		return version;
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+	public String getFileAs() {
+		return fileAs;
+	}
+
+	public void setFileAs(String fileAs) {
+		this.fileAs = fileAs;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddresss(Address address) {
+		this.address = address;
+	}
+
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+
+	public String getFaxNo() {
+		return faxNo;
+	}
+
+	public void setFaxNo(String faxNo) {
+		this.faxNo = faxNo;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getWebPageAddress() {
+		return webPageAddress;
+	}
+
+	public void setWebPageAddress(String webPageAddress) {
+		this.webPageAddress = webPageAddress;
+	}
+
+	public SalesPerson() {
 	}
 
 	/**
@@ -176,26 +235,10 @@ public class SalesPerson extends Payee implements Lifecycle {
 	}
 
 	/**
-	 * @return the address
-	 */
-	@Override
-	public Set<Address> getAddress() {
-		return address;
-	}
-
-	/**
 	 * @return the expenseAccount
 	 */
 	public Account getExpenseAccount() {
 		return expenseAccount;
-	}
-
-	/**
-	 * @return the memo
-	 */
-	@Override
-	public String getMemo() {
-		return memo;
 	}
 
 	/**
@@ -233,12 +276,6 @@ public class SalesPerson extends Payee implements Lifecycle {
 		return dateOfRelease;
 	}
 
-	@Override
-	public Account getAccount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -260,9 +297,6 @@ public class SalesPerson extends Payee implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (this.isOnSaveProccessed)
-			return true;
-		this.isOnSaveProccessed = true;
 		ChangeTracker.put(this);
 		return false;
 	}
@@ -281,19 +315,7 @@ public class SalesPerson extends Payee implements Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		Session session = HibernateUtil.getCurrentSession();
-		SalesPerson salesPerson = (SalesPerson) clientObject;
-		Query query = session.getNamedQuery("getName.by.SalesPerson")
-				.setParameter(0, salesPerson.name);
-		List list = query.list();
-		if (list != null && list.size() > 0) {
-			SalesPerson newSalesPerson = (SalesPerson) list.get(0);
-			if (salesPerson.id != newSalesPerson.id) {
-				throw new AccounterException(
-						AccounterException.ERROR_NAME_CONFLICT);
-				// "A SalesPerson already exists wiht this name");
-			}
-		}
+		// FIXME have to check
 		return true;
 	}
 
