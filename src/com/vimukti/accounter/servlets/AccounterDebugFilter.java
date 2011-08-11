@@ -22,7 +22,7 @@ import com.vimukti.accounter.main.ServerConfiguration;
  */
 public class AccounterDebugFilter implements Filter {
 
-	private static final String DEBUG_URL = "?gwt.codesvr=127.0.0.1:9997";
+	private static final String DEBUG_URL = "gwt.codesvr=127.0.0.1:9997";
 
 	@Override
 	public void destroy() {
@@ -51,7 +51,8 @@ public class AccounterDebugFilter implements Filter {
 			@Override
 			public void sendRedirect(String location) throws IOException {
 				if(!location.endsWith(DEBUG_URL)) {
-					location = location + DEBUG_URL;
+					location += location.contains("?")?'&':'?';					
+					location += DEBUG_URL;
 				}
 				super.sendRedirect(location);
 			}
