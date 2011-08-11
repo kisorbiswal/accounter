@@ -980,11 +980,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<ReceivePaymentsList> getReceivePaymentsList() {
-		List<ReceivePaymentsList> receivePaymentList = null;
 
 		try {
 
-			receivePaymentList = getFinanceTool().getReceivePaymentsList();
+			return getFinanceTool().getReceivePaymentsList();
 
 			// receivePaymentList = (List<ReceivePaymentsList>) manager
 			// .merge(receivePaymentList);
@@ -993,11 +992,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ReceivePaymentsList>(receivePaymentList);
+		return new ArrayList<ReceivePaymentsList>();
 	}
 
 	public ArrayList<ClientItem> getLatestPurchaseItems() {
-		List<ClientItem> clientItems = new ArrayList<ClientItem>();
+		ArrayList<ClientItem> clientItems = new ArrayList<ClientItem>();
 		List<Item> serverItems = null;
 		try {
 
@@ -1012,7 +1011,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ClientItem>(clientItems);
+		return clientItems;
 	}
 
 	public ArrayList<PaymentsList> getLatestVendorPayments() {
