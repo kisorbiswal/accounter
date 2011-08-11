@@ -19,6 +19,7 @@ public class SetupComplitionPage extends AbstractSetupPage {
 	@Override
 	public VerticalPanel getPageBody() {
 		creatControls();
+		vpanel.addStyleName("setuppage_body");
 		return vpanel;
 	}
 
@@ -45,6 +46,11 @@ public class SetupComplitionPage extends AbstractSetupPage {
 	@Override
 	public boolean doShow() {
 		return true;
+	}
+
+	@Override
+	public boolean validate() {
+		return false;
 	}
 
 }

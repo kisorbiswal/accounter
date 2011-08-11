@@ -100,6 +100,13 @@ public interface AccounterMessages extends Messages {
 
 	public SafeHtml selectIndustryInfoHTML();
 	
+	public String userGuidelinesMessage();
+
+	public String accounterUseYourForms();
+	
+	public String industrySelectNote();
+
+	
 	public String journalEntryVendor(String name);
 	
 	public String invalidAccountNumber(String name);

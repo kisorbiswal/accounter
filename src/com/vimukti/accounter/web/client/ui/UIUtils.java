@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -1960,11 +1961,18 @@ public class UIUtils {
 		}
 	}-*/;
 
-	public static String[] getCurrenciesList() {
+	public static List<ClientCurrency> getCurrenciesList() {
 		// FIXME :put default exact currencies and externalize them .
+		List<ClientCurrency> clientCurrencies = new ArrayList<ClientCurrency>();
+
 		String[] currencieListArray = new String[] { "INR", "USD", "SDF",
 				"FYE", "WER", "ASD", "ASE", "WQE", "AWA", "NBM", "WQW", "ZXC" };
-		return currencieListArray;
+		for (int i = 0; i < currencieListArray.length; i++) {
+			ClientCurrency clientCurrency = new ClientCurrency();
+			clientCurrency.setName(currencieListArray[i]);
+			clientCurrencies.add(clientCurrency);
+		}
+		return clientCurrencies;
 
 	}
 

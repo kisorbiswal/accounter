@@ -28,6 +28,7 @@ public class SetupReferPage extends AbstractSetupPage {
 
 		referCustomerLabel = new Label(Accounter.constants()
 				.howDoYouReferYourCustoemrs());
+		referCustomerLabel.addStyleName("referComment");
 		customerCombo = new SelectCombo(Accounter.constants().customer());
 		customerForm = UIUtils.form(accounterConstants.customer());
 		customerCombo.addItem("Customers");
@@ -38,6 +39,7 @@ public class SetupReferPage extends AbstractSetupPage {
 
 		refersuppliersLabel = new Label(Accounter.constants()
 				.howDoYouReferYourSuppliers());
+		refersuppliersLabel.addStyleName("referComment");
 		supplierCombo = new SelectCombo(Accounter.constants().supplier());
 		supplierCombo.addItem("Suppliers");
 		supplierCombo.addItem("Vendors");
@@ -48,6 +50,7 @@ public class SetupReferPage extends AbstractSetupPage {
 
 		referaccountsLabel = new Label(Accounter.constants()
 				.howDoYouReferYourAccounts());
+		referaccountsLabel.addStyleName("referComment");
 		accountCombo = new SelectCombo(Accounter.constants().account());
 		accountCombo.addItem("Accounts");
 		accountCombo.addItem("Legands");
@@ -55,13 +58,25 @@ public class SetupReferPage extends AbstractSetupPage {
 		accountForm.setWidth("100%");
 		accountForm.setFields(accountCombo);
 
-		mainPanel.add(referCustomerLabel);
+		customerCombo.textBox.getElement().getParentElement()
+				.getParentElement().getParentElement().getParentElement()
+				.addClassName("customerReferCombo");
 		mainPanel.add(customerForm);
-		mainPanel.add(refersuppliersLabel);
-		mainPanel.add(supplierForm);
-		mainPanel.add(referaccountsLabel);
-		mainPanel.add(accountForm);
+		mainPanel.add(referCustomerLabel);
 
+		supplierCombo.textBox.getElement().getParentElement()
+				.getParentElement().getParentElement().getParentElement()
+				.addClassName("supplierReferCombo");
+		mainPanel.add(supplierForm);
+		mainPanel.add(refersuppliersLabel);
+
+		accountCombo.textBox.getElement().getParentElement().getParentElement()
+				.getParentElement().getParentElement().addClassName(
+						"accountReferCombo");
+		mainPanel.add(accountForm);
+		mainPanel.add(referaccountsLabel);
+
+		mainPanel.addStyleName("setuppage_body");
 		return mainPanel;
 
 	}
@@ -97,6 +112,12 @@ public class SetupReferPage extends AbstractSetupPage {
 	@Override
 	public boolean doShow() {
 		return true;
+	}
+
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

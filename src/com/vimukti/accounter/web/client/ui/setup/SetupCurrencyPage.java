@@ -8,7 +8,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.CurrenciesGrid;
 
@@ -17,6 +19,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	private CurrencyCombo baseCurrencyListCombo;
 	private List<ClientCurrency> clientCurrenciesList;
 	private Set<ClientCurrency> clientCurrenciesSet;
+	private CurrenciesGrid currenciesGrid;
 
 	@Override
 	public String getHeader() {
@@ -35,21 +38,35 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 		clientCurrenciesSet = Accounter.getCompany().getCurrencies();
 		clientCurrenciesList.addAll(clientCurrenciesSet);
 		baseCurrencyListCombo = new CurrencyCombo("Primary Currency");
-		baseCurrencyListCombo.initCombo(clientCurrenciesList);
+		baseCurrencyListCombo.initCombo(UIUtils.getCurrenciesList());
 
+		currenciesGrid = new CurrenciesGrid();
+		currenciesGrid.init();
+		currenciesGrid.setRecords(UIUtils.getCurrenciesList());
+
+		baseCurrencyListCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientCurrency selectItem) {
+						// currenciesGrid.setPrimaryCurrency(
+						// baseCurrencyListCombo
+						// .getSelectedValue());
+					}
+				});
 		currencyformDynamicForm.setFields(baseCurrencyListCombo);
 		container.add(currencyformDynamicForm);
-		
+
 		CustomLabel supportingCurrenciesLabel = new CustomLabel(
 				"Supporting Currencies");
 		container.add(supportingCurrenciesLabel);
 
 		// add currencies grid
-		CurrenciesGrid currenciesGrid = new CurrenciesGrid();
+
 		// TODO:: create list of currencies and add them to the grid
 
 		container.add(currenciesGrid);
-
+		container.addStyleName("setuppage_body");
 		return container;
 	}
 
@@ -67,6 +84,12 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	@Override
 	public boolean doShow() {
 		return true;
+	}
+
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -126,7 +126,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean haveW_2Employees;
 	boolean have1099contractors;
 	boolean trackEmployeeExpenses;
-	int fiscalYearFirstMonth;
+	int fiscalYearFirstMonth=1;
 	boolean isBeginingorTodaysdate;
 	ClientFinanceDate trackFinanceDate;
 	private String referCustomers;

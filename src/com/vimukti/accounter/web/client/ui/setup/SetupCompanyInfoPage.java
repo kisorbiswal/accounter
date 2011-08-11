@@ -6,7 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * 
  */
 public class SetupCompanyInfoPage extends AbstractSetupPage {
-	private TextItem companynameText, legalnameText, textId, phonenumberText,
+	private TextItem companynameText, legalnameText, taxId, phonenumberText,
 			faxNumberText, webaddressText;
 	private EmailField emailText;
 	private TextAreaItem streetadressText;
@@ -47,7 +47,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
-		Label label = new Label(Accounter.constants().accounterUseYourForms());
+		HTML label = new HTML(Accounter.messages().accounterUseYourForms());
 
 		companynameText = new TextItem(Accounter.constants().companyName());
 		companynameText.setHelpInformation(true);
@@ -58,10 +58,9 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		legalnameText.setHelpInformation(true);
 		legalnameText.setWidth(100);
 
-		textId = new TextItem(Accounter.constants().textId());
-		textId.setHelpInformation(true);
-		textId.setRequired(true);
-		textId.setWidth(100);
+		taxId = new TextItem(Accounter.constants().taxId());
+		taxId.setHelpInformation(true);
+		taxId.setWidth(100);
 
 		streetadressText = new TextAreaItem(Accounter.constants().address());
 		streetadressText.setHelpInformation(true);
@@ -99,11 +98,12 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 		dynamicForm = UIUtils.form(Accounter.constants().customer());
 
-		dynamicForm.setFields(companynameText, legalnameText, textId,
+		dynamicForm.setFields(companynameText, legalnameText, taxId,
 				streetadressText, phonenumberText, faxNumberText, emailText,
 				webaddressText);
 		mainpanel.add(label);
 		mainpanel.add(dynamicForm);
+		mainpanel.addStyleName("setuppage_body");
 		return mainpanel;
 	}
 
@@ -121,7 +121,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		if (this.company != null) {
 			companynameText.setValue(company.getName());
 			legalnameText.setValue(company.getTradingName());
-			this.textId.setValue(company.getTaxId());
+			this.taxId.setValue(company.getTaxId());
 			this.faxNumberText.setValue(company.getFax());
 			this.phonenumberText.setValue(company.getPhone());
 			this.webaddressText.setValue(company.getWebSite());
@@ -177,7 +177,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		clientCompany.setTradingName(streetadressText.getValue().toString());
 		clientCompany.setPhone(phonenumberText.getValue().toString());
 		clientCompany.setCompanyEmail(emailText.getValue().toString());
-		clientCompany.setTaxId(textId.getValue().toString());
+		clientCompany.setTaxId(taxId.getValue().toString());
 		clientCompany.setFax(faxNumberText.getValue().toString());
 		clientCompany.setWebSite(webaddressText.getValue().toString());
 		if (!allAddresses.isEmpty()) {
@@ -195,6 +195,11 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	@Override
 	public boolean doShow() {
 		return true;
+	}
+
+	@Override
+	public boolean validate() {
+		return false;
 	}
 
 }

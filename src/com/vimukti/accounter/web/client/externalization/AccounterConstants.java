@@ -4472,18 +4472,6 @@ public interface AccounterConstants extends Constants {
 
 	public String doyouchargesalestax();
 
-	public String userGuidelinesMessage();
-
-	public String expertInAccounter();
-
-	public String clickSkipButtonMsg();
-
-	public String clickStartButtonMsg();
-
-	public String areYouaNewAccounter();
-
-	public String skipSetup();
-
 	public String startSetup();
 
 	public String doYouhavEmployes();
@@ -4629,6 +4617,12 @@ public interface AccounterConstants extends Constants {
 	public String generalProductbasedBusiness();
 
 	public String generalServicebasedBusiness();
+
+	public String setCurrency();
+
+	public String setupProgress();
+
+	public String taxId();
 
 	// ---------
 

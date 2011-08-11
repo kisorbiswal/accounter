@@ -20,6 +20,7 @@ public abstract class AbstractSetupPage extends VerticalPanel {
 		accounterMessages = Accounter.messages();
 		Label pageHeader = new Label(getHeader());
 		pageHeader.addStyleName("setup_header_label");
+		this.getPageBody().addStyleName("setuppage_body");
 		this.add(pageHeader);
 		this.add(getPageBody());
 	}
@@ -49,5 +50,6 @@ public abstract class AbstractSetupPage extends VerticalPanel {
 	public void setPreferences(ClientCompanyPreferences preferences) {
 		this.preferences = preferences;
 	}
+	public abstract boolean validate();
 
 }

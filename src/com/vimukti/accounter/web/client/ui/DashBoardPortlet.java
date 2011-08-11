@@ -1,11 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.dom.client.Style.Cursor;
-import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -24,7 +20,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	private int previousIndex;
 	// public HTML gotoText;
 	public HTML help;
-	Label gotoText;
+	// Label gotoText;
 	private int row;
 	private int column;
 	public String titleName;
@@ -43,7 +39,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		addStyleName("portlet");
 
 		createHeaderControls();
-//		createBody();
+		// createBody();
 
 		// panel.add(body);
 		// panel.setHeight("100%");
@@ -78,25 +74,25 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		// HorizontalPanel hPanel = new HorizontalPanel();
 		windowControlLayout.setStyleName("tool-box");
 
-		gotoText = new Label(getGoToText());
-		gotoText.setStyleName("portletLabel");
-		gotoText.getElement().getStyle().setTextDecoration(
-				TextDecoration.UNDERLINE);
-		gotoText.addMouseOverHandler(new MouseOverHandler() {
-
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				gotoText.getElement().getStyle().setCursor(Cursor.POINTER);
-
-			}
-		});
-		gotoText.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				goToClicked();
-			}
-		});
+		// gotoText = new Label(getGoToText());
+		// gotoText.setStyleName("portletLabel");
+		// gotoText.getElement().getStyle().setTextDecoration(
+		// TextDecoration.UNDERLINE);
+		// gotoText.addMouseOverHandler(new MouseOverHandler() {
+		//
+		// @Override
+		// public void onMouseOver(MouseOverEvent event) {
+		// gotoText.getElement().getStyle().setCursor(Cursor.POINTER);
+		//
+		// }
+		// });
+		// gotoText.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// goToClicked();
+		// }
+		// });
 		help = new HTML();
 		help.setStyleName("link");
 		help.addClickHandler(new ClickHandler() {
@@ -107,7 +103,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 			}
 		});
 		// windowControlLayout.add(help);
-		windowControlLayout.add(gotoText);
+		// windowControlLayout.add(gotoText);
 		// hPanel.add(help);
 		// hPanel.add(windowControlLayout);
 
@@ -180,8 +176,8 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		return this.previousIndex;
 	}
 
-	public ClientCompany getCompany(){
+	public ClientCompany getCompany() {
 		return Accounter.getCompany();
-		
+
 	}
 }

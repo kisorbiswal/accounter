@@ -44,8 +44,8 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		stateMentYesRadioButton = new RadioButton(STATEMENTS,
 				accounterConstants.yes());
 
-		statementNoRadioButton = new RadioButton(STATEMENTS,
-				accounterConstants.no());
+		statementNoRadioButton = new RadioButton(STATEMENTS, accounterConstants
+				.no());
 
 		mainPanel.add(descrptionHtml);
 		mainPanel.add(subTitleHtml);
@@ -55,6 +55,7 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		mainPanel.add(stateMentYesRadioButton);
 		mainPanel.add(statementNoRadioButton);
 
+		mainPanel.addStyleName("setuppage_body");
 		return mainPanel;
 
 	}
@@ -99,6 +100,12 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	@Override
 	public boolean doShow() {
 		return true;
+	}
+
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

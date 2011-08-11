@@ -24,7 +24,7 @@ public class CustomComboItem extends FormItem {
 		textBox.setFocus(true);
 	}
 
-	private TextBoxItem textBox;
+	public TextBoxItem textBox;
 	private SimplePanel downarrowpanel;
 	private CustomFocusWidget customFocusWidget;
 	private ClickHandler clickHandler;

@@ -12,6 +12,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	@Override
 	public VerticalPanel getPageBody() {
 		// TODO Auto-generated method stub
+		// .addStyleName("setuppage_body");
 		return new VerticalPanel();
 	}
 
@@ -31,6 +32,12 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	public boolean doShow() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

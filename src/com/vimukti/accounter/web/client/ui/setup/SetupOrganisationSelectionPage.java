@@ -1,21 +1,23 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
-import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 
 	private static final String ORG_TYPE = "OrganizationType";
-	private RadioButton soleProprietorshipRadio;
-	private RadioButton partnershipRadio;
-	private RadioButton llcRadio;
-	private RadioButton corporationRadio;
-	private RadioButton sCorporationRadio;
-	private RadioButton nonProfitRadio;
-	private RadioButton otherNoneRadio;
-	private ListBox llcFormList;
+	private RadioButton soleProprietorshipRadio, partnershipRadio, llcRadio,
+			corporationRadio, sCorporationRadio, nonProfitRadio,
+			otherNoneRadio;
+	private CustomLabel soleProprietorshipLabel, partnershipLabel, llcLabel,
+			corporationLabel, sCorporationLabel, nonProfitLabel;
+	private SelectCombo llcFormCombo;
+	private DynamicForm comboForm;
 
 	@Override
 	public String getHeader() {
@@ -25,53 +27,118 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	@Override
 	public VerticalPanel getPageBody() {
 		VerticalPanel viewContainer = new VerticalPanel();
-		CustomLabel headerDesc = new CustomLabel(
-				accounterConstants.howIsYourCompanyOrganizedDesc());
+
+		soleProprietorshipRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.soleProprietorship());
+		partnershipRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.partnershipOrLLP());
+		llcRadio = new RadioButton(ORG_TYPE, accounterConstants.LLC());
+		corporationRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.corporation());
+		sCorporationRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.sCorporation());
+		nonProfitRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.nonProfit());
+		otherNoneRadio = new RadioButton(ORG_TYPE, accounterConstants
+				.otherNone());
+
+		CustomLabel headerDesc = new CustomLabel(accounterConstants
+				.howIsYourCompanyOrganizedDesc());
+		soleProprietorshipLabel = new CustomLabel(accounterConstants
+				.soleProprietorshipDesc());
+		partnershipLabel = new CustomLabel(accounterConstants
+				.partnershipOrLLPDesc());
+		llcLabel = new CustomLabel(accounterConstants.LLCDesc());
+		sCorporationLabel = new CustomLabel(accounterConstants
+				.sCorporationDesc());
+		corporationLabel = new CustomLabel(accounterConstants.corporationDesc());
+		nonProfitLabel = new CustomLabel(accounterConstants.nonProfitDesc());
+
+		soleProprietorshipLabel.addStyleName("organisation_comment");
+		partnershipLabel.addStyleName("organisation_comment");
+		llcLabel.addStyleName("organisation_comment");
+		sCorporationLabel.addStyleName("organisation_comment");
+		corporationLabel.addStyleName("organisation_comment");
+		nonProfitLabel.addStyleName("organisation_comment");
+
+		comboForm = new DynamicForm();
 
 		viewContainer.add(headerDesc);
-		soleProprietorshipRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.soleProprietorship());
+		headerDesc.addStyleName("org-header");
+
 		viewContainer.add(soleProprietorshipRadio);
-		viewContainer.add(new CustomLabel(accounterConstants
-				.soleProprietorshipDesc()));
+		viewContainer.add(soleProprietorshipLabel);
+		soleProprietorshipRadio.addClickHandler(new ClickHandler() {
 
-		partnershipRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.partnershipOrLLP());
+			@Override
+			public void onClick(ClickEvent arg0) {
+				llcFormCombo.setDisabled(true);
+			}
+		});
 		viewContainer.add(partnershipRadio);
-		viewContainer.add(new CustomLabel(accounterConstants
-				.partnershipOrLLPDesc()));
+		viewContainer.add(partnershipLabel);
+		partnershipRadio.addClickHandler(new ClickHandler() {
 
-		llcRadio = new RadioButton(ORG_TYPE, accounterConstants.LLC());
+			@Override
+			public void onClick(ClickEvent arg0) {
+				llcFormCombo.setDisabled(true);
+			}
+		});
 		viewContainer.add(llcRadio);
-		viewContainer.add(new CustomLabel(accounterConstants.LLCDesc()));
+		viewContainer.add(llcLabel);
 
-		llcFormList = new ListBox();
-		llcFormList.addItem(accounterConstants.llcSingleMemberForm());
-		llcFormList.addItem(accounterConstants.llcMultiMemberForm());
+		llcFormCombo = new SelectCombo("");
+		llcFormCombo.addStyleName("organisation_combo");
 
-		viewContainer.add(llcFormList);
+		llcFormCombo.addItem(accounterConstants.llcSingleMemberForm());
+		llcFormCombo.addItem(accounterConstants.llcMultiMemberForm());
+		llcFormCombo.setDisabled(true);
+		llcRadio.addClickHandler(new ClickHandler() {
 
-		corporationRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.corporation());
+			@Override
+			public void onClick(ClickEvent arg0) {
+				llcFormCombo.setDisabled(false);
+			}
+		});
+		comboForm.setFields(llcFormCombo);
+		viewContainer.add(comboForm);
+
 		viewContainer.add(corporationRadio);
-		viewContainer
-				.add(new CustomLabel(accounterConstants.corporationDesc()));
+		viewContainer.add(corporationLabel);
+		corporationRadio.addClickHandler(new ClickHandler() {
 
-		sCorporationRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.sCorporation());
+			@Override
+			public void onClick(ClickEvent arg0) {
+				llcFormCombo.setDisabled(true);
+			}
+		});
 		viewContainer.add(sCorporationRadio);
-		viewContainer
-				.add(new CustomLabel(accounterConstants.sCorporationDesc()));
+		viewContainer.add(sCorporationLabel);
+		sCorporationRadio.addClickHandler(new ClickHandler() {
 
-		nonProfitRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.nonProfit());
+			@Override
+			public void onClick(ClickEvent arg0) {
+				llcFormCombo.setDisabled(true);
+			}
+		});
 		viewContainer.add(nonProfitRadio);
-		viewContainer.add(new CustomLabel(accounterConstants.nonProfitDesc()));
+		viewContainer.add(nonProfitLabel);
+		nonProfitRadio.addClickHandler(new ClickHandler() {
 
-		otherNoneRadio = new RadioButton(ORG_TYPE,
-				accounterConstants.otherNone());
+			@Override
+			public void onClick(ClickEvent arg0) {
+				llcFormCombo.setDisabled(true);
+			}
+		});
 		viewContainer.add(otherNoneRadio);
+		otherNoneRadio.addClickHandler(new ClickHandler() {
 
+			@Override
+			public void onClick(ClickEvent arg0) {
+				llcFormCombo.setDisabled(true);
+			}
+		});
+		viewContainer.addStyleName("setuppage_body");
 		return viewContainer;
 	}
 
@@ -130,6 +197,12 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	@Override
 	public boolean doShow() {
 		return true;
+	}
+
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

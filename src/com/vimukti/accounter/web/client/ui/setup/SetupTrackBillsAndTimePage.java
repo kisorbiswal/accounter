@@ -8,6 +8,8 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 	private static final String TRACK_BIllS = "Track bills";
 	private static final String TRACKING_TIME = "Tracling Time";
+	private static final int YES = 1;
+	private static final int NO = 2;
 	private VerticalPanel mainPanel;
 	private HTML billsdescription, billsmanageCashflowHtml1,
 			billsmanageCashflowHtml2, billsmanageCashflowHtml3,
@@ -24,6 +26,7 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	@Override
 	public VerticalPanel getPageBody() {
 		createControls();
+		mainPanel.addStyleName("setuppage_body");
 		return mainPanel;
 	}
 
@@ -33,14 +36,14 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	public void createControls() {
 		mainPanel = new VerticalPanel();
 
-		billsdescription = new HTML(
-				accounterConstants.billstrackingdescription());
-		billsmanageCashflowHtml1 = new HTML(
-				accounterConstants.billstrackingmanageCashflowStep1());
-		billsmanageCashflowHtml2 = new HTML(
-				accounterConstants.billstrackingmanageCashflowStep2());
-		billsmanageCashflowHtml3 = new HTML(
-				accounterConstants.billstrackingmanageCashflowStep3());
+		billsdescription = new HTML(accounterConstants
+				.billstrackingdescription());
+		billsmanageCashflowHtml1 = new HTML(accounterConstants
+				.billstrackingmanageCashflowStep1());
+		billsmanageCashflowHtml2 = new HTML(accounterConstants
+				.billstrackingmanageCashflowStep2());
+		billsmanageCashflowHtml3 = new HTML(accounterConstants
+				.billstrackingmanageCashflowStep3());
 		mainPanel.add(billsdescription);
 		mainPanel.add(billsmanageCashflowHtml1);
 		mainPanel.add(billsmanageCashflowHtml2);
@@ -49,24 +52,24 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		billssubtitleHtml = new HTML(accounterConstants.doyouwantTrackBills());
 		billssubtitleHtml.setStyleName("BOLD");
 		mainPanel.add(billssubtitleHtml);
-		billsyesRadioButton = new RadioButton(TRACK_BIllS,
-				accounterConstants.yes());
+		billsyesRadioButton = new RadioButton(TRACK_BIllS, accounterConstants
+				.yes());
 
 		mainPanel.add(billsyesRadioButton);
 
-		billsnoRadioButton = new RadioButton(TRACK_BIllS,
-				accounterConstants.no());
+		billsnoRadioButton = new RadioButton(TRACK_BIllS, accounterConstants
+				.no());
 
 		mainPanel.add(billsnoRadioButton);
 
 		timedescription = new HTML(accounterConstants.timetrackingdescription());
 		timedescription.setStyleName("BOLD");
-		timemanageCashflowHtml1 = new HTML(
-				accounterConstants.timetrackingflowStep1());
-		timemanageCashflowHtml2 = new HTML(
-				accounterConstants.timetrackingflowStep2());
-		timemanageCashflowHtml3 = new HTML(
-				accounterConstants.timetrackingflowStep3());
+		timemanageCashflowHtml1 = new HTML(accounterConstants
+				.timetrackingflowStep1());
+		timemanageCashflowHtml2 = new HTML(accounterConstants
+				.timetrackingflowStep2());
+		timemanageCashflowHtml3 = new HTML(accounterConstants
+				.timetrackingflowStep3());
 		mainPanel.add(timedescription);
 		mainPanel.add(timemanageCashflowHtml1);
 		mainPanel.add(timemanageCashflowHtml2);
@@ -75,13 +78,13 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		timesubtitleHtml = new HTML(accounterConstants.doyouwantTrackTime());
 		billssubtitleHtml.setStyleName("BOLD");
 		mainPanel.add(timesubtitleHtml);
-		timeyesRadioButton = new RadioButton(TRACKING_TIME,
-				accounterConstants.yes());
+		timeyesRadioButton = new RadioButton(TRACKING_TIME, accounterConstants
+				.yes());
 
 		mainPanel.add(timeyesRadioButton);
 
-		timenoRadioButton = new RadioButton(TRACKING_TIME,
-				accounterConstants.no());
+		timenoRadioButton = new RadioButton(TRACKING_TIME, accounterConstants
+				.no());
 
 		mainPanel.add(timenoRadioButton);
 
@@ -121,6 +124,12 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	public boolean doShow() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -379,5 +380,11 @@ public interface IAccounterGETServiceAsync {
 	 */
 	public void getUser(String string, String string2, boolean b, int i,
 			AsyncCallback<ClientUser> checkLoginCallback);
+	
+	public void getCountries( AsyncCallback<List<String>> callback);
+
+
+	public void getStates(String country, AsyncCallback<List<String>> callback);
+
 
 }

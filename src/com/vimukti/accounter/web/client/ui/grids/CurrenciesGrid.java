@@ -1,6 +1,10 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class CurrenciesGrid extends BaseListGrid<ClientCurrency> {
@@ -14,8 +18,20 @@ public class CurrenciesGrid extends BaseListGrid<ClientCurrency> {
 	}
 
 	@Override
+	public void init() {
+		super.init();
+	}
+
+	@Override
+	public void addRecords(List<ClientCurrency> list) {
+		super.addRecords(list);
+	}
+
+	@Override
 	protected Object getColumnValue(ClientCurrency obj, int index) {
 		switch (index) {
+		case 0:
+			return obj.getName();
 		case 1:
 			return obj.getFormalName();
 		case 2:
@@ -94,12 +110,23 @@ public class CurrenciesGrid extends BaseListGrid<ClientCurrency> {
 
 	@Override
 	protected int[] setColTypes() {
-		return new int[] { COLUMN_TYPE_CHECK, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_TEXT };
+		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT };
 	}
 
 	@Override
 	protected void executeDelete(ClientCurrency object) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ValidationResult validateGrid() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void processupdateView(IAccounterCore core, int command) {
 		// TODO Auto-generated method stub
 
 	}

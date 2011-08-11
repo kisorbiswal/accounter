@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -16,19 +17,19 @@ public class SetupWizard extends VerticalPanel {
 	private VerticalPanel viewPanel;
 	private HorizontalPanel buttonPanel, backNextButtonPanel;
 	private VerticalPanel progressPanel, viewButtonPanel;
-	private Button skipButton, backButton, nextButton;
+	private Button backButton, nextButton;
 	private Button gotoButton;
 	private ClientCompanyPreferences preferences;
+	private Label progressHeader;
 
-	private int currentViewIndex = START_PAGE;
+	public int currentViewIndex = START_PAGE;
 
 	private AbstractSetupPage viewList[] = new AbstractSetupPage[] {
 			new SetupStartPage(this), new SetupCompanyInfoPage(),
 			new SetupIndustrySelectionPage(),
 			new SetupOrganisationSelectionPage(), new SetupReferPage(),
-			new SetupTrackEmployeesPage(),
-			new SetupSellTypeAndSalesTaxPage(),
-			// new SetupUsingEstimatesAndStatementsPage(),
+			new SetupTrackEmployeesPage(), new SetupSellTypeAndSalesTaxPage(),
+			new SetupUsingEstimatesAndStatementsPage(),
 			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
 			new SetupSelectFiscalYrDatePage(), new SetupSelectAccountsPage(),
 			new SetupComplitionPage() };
@@ -42,6 +43,7 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().trackEmployeeExpenses(),
 			Accounter.constants().whatDoYouSell(),
 			Accounter.constants().setEstimatesAndStatements(),
+			Accounter.constants().setCurrency(),
 			Accounter.constants().setBillTracking(),
 			Accounter.constants().setFiscalYear(),
 			Accounter.constants().selectRequiredAccounts() };
@@ -61,6 +63,10 @@ public class SetupWizard extends VerticalPanel {
 		progressPanel = new VerticalPanel();
 		viewButtonPanel = new VerticalPanel();
 		backNextButtonPanel = new HorizontalPanel();
+		progressHeader = new Label(Accounter.constants().setupProgress());
+
+		progressPanel.add(progressHeader);
+		progressHeader.addStyleName("progress_header");
 
 		// add progress steps
 		// setting images
@@ -77,34 +83,38 @@ public class SetupWizard extends VerticalPanel {
 		}
 		buttonPanel = new HorizontalPanel();
 		buttonPanel.setVisible(false);
-		topPanel.setSize("100%", "100%");
-		viewPanel.setSize("100%", "650px");
-		viewButtonPanel.setSize("100%", "100%");
 
 		viewButtonPanel.add(viewPanel);
 		viewButtonPanel.add(buttonPanel);
+
+		topPanel.add(progressPanel);
 		topPanel.add(viewButtonPanel);
 
-		topPanel.setCellWidth(viewButtonPanel, "70%");
-		topPanel.add(progressPanel);
+		topPanel.setCellWidth(progressPanel, "25%");
+		topPanel.setCellWidth(viewButtonPanel, "75%");
+		viewPanel.addStyleName("view_panel");
+		viewButtonPanel.setSize("100%", "100%");
+		topPanel.setSize("100%", "100%");
+		progressPanel.getElement().getParentElement().addClassName(
+				"progress_panel");
 		topPanel.setCellHorizontalAlignment(progressPanel,
 				HasAlignment.ALIGN_RIGHT);
 
 		this.add(topPanel);
 
 		// adding buttons to button panel
-		skipButton = new Button(Accounter.constants().skip());
+		// skipButton = new Button(Accounter.constants().skip());
 		backButton = new Button(Accounter.constants().back());
 		nextButton = new Button(Accounter.constants().next());
 		gotoButton = new Button(Accounter.constants().gotoAccounter());
 
 		// making them invisible at the beginning
-		skipButton.setVisible(false);
+		// skipButton.setVisible(false);
 		backButton.setVisible(false);
 		nextButton.setVisible(false);
 		gotoButton.setVisible(false);
 
-		buttonPanel.add(skipButton);
+		// buttonPanel.add(skipButton);
 		backNextButtonPanel.add(backButton);
 		backNextButtonPanel.add(nextButton);
 		backNextButtonPanel.add(gotoButton);
@@ -114,20 +124,22 @@ public class SetupWizard extends VerticalPanel {
 		buttonPanel.setWidth("100%");
 
 		// adding handlers
-		skipButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent arg0) {
-				gotoLastPage();
-			}
-		});
+		// skipButton.addClickHandler(new ClickHandler() {
+		// @Override
+		// public void onClick(ClickEvent arg0) {
+		// gotoLastPage();
+		// }
+		// });
 
 		nextButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				if (currentViewIndex != viewList.length - 1)
+				if (currentViewIndex != viewList.length - 1) {
+					// if (viewList[currentViewIndex].validate()) {
 					currentViewIndex++;
+					// }
+				}
 				showView();
 			}
 		});
@@ -136,9 +148,14 @@ public class SetupWizard extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				if (currentViewIndex != START_PAGE)
+				if (currentViewIndex != START_PAGE) {
 					currentViewIndex--;
-				showView();
+					showView();
+				} else {
+					viewPanel.remove(viewToShow);
+					showStartPage();
+				}
+
 			}
 		});
 		previousView = null;
@@ -156,9 +173,7 @@ public class SetupWizard extends VerticalPanel {
 	}
 
 	protected void showView() {
-		if (currentViewIndex == 0) {
-			currentViewIndex++;
-		}
+
 		previousView = viewToShow;
 		if (previousView != null) {
 			previousView.onSave();
@@ -171,19 +186,24 @@ public class SetupWizard extends VerticalPanel {
 			viewToShow = viewList[currentViewIndex];
 			viewToShow.setPreferences(preferences);
 		}
+		if (currentViewIndex == viewList.length - 1) {
+			backNextButtonPanel.addStyleName("back_GoToPanel");
+		} else {
+			backNextButtonPanel.addStyleName("back_NextPanel");
+		}
 		this.viewPanel.add(viewToShow);
 
 		// checking button display related conditions
 		if (currentViewIndex != START_PAGE) {
 			buttonPanel.setVisible(true);
 			if (currentViewIndex != viewList.length - 1) {
-				skipButton.setVisible(true);
+				// skipButton.setVisible(true);
 				nextButton.setVisible(true);
 
 				gotoButton.setVisible(false);
 			} else {
 				gotoButton.setVisible(true);
-				skipButton.setVisible(false);
+				// skipButton.setVisible(false);
 				nextButton.setVisible(false);
 			}
 			backButton.setVisible(true);
