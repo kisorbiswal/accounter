@@ -51,7 +51,7 @@ public class PaymentDialog extends BaseDialog {
 		mainVLay.add(typeForm);
 
 		setBodyLayout(mainVLay);
-		setWidth("300");
+		setWidth("300px");
 
 	}
 

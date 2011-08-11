@@ -80,8 +80,8 @@ public class WriteOffDialog extends BaseDialog {
 
 	private void createControls() {
 
-		discAccSelect = new OtherAccountsCombo(
-				customerConstants.writeOffAccount(), false);
+		discAccSelect = new OtherAccountsCombo(customerConstants
+				.writeOffAccount(), false);
 		discAccSelect.initCombo(allAccounts);
 		discAccSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -149,7 +149,7 @@ public class WriteOffDialog extends BaseDialog {
 		mainVLay.add(form);
 
 		setBodyLayout(mainVLay);
-		setWidth("350");
+		setWidth("350px");
 		show();
 	}
 

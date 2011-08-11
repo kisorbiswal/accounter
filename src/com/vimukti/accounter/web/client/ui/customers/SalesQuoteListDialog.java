@@ -38,7 +38,7 @@ public class SalesQuoteListDialog extends BaseDialog {
 		salesView = parentView;
 		this.estimates = estimates;
 		createControl();
-		setWidth("600");
+		setWidth("600px");
 		setQuoteList(estimates);
 		show();
 		center();
@@ -62,28 +62,30 @@ public class SalesQuoteListDialog extends BaseDialog {
 		grid.setView(this);
 		grid.init();
 
-		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientEstimate>() {
+		grid
+				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<ClientEstimate>() {
 
-			@Override
-			public void OnCellDoubleClick(ClientEstimate core, int column) {
-				try {
-					ClientEstimate record = (ClientEstimate) core;
+					@Override
+					public void OnCellDoubleClick(ClientEstimate core,
+							int column) {
+						try {
+							ClientEstimate record = (ClientEstimate) core;
 
-					long estimateId = record.getID();
-					selectedEstimate = getEstimate(estimateId);
+							long estimateId = record.getID();
+							selectedEstimate = getEstimate(estimateId);
 
-					if (salesView != null && selectedEstimate != null)
-						salesView.selectedQuote(selectedEstimate);
+							if (salesView != null && selectedEstimate != null)
+								salesView.selectedQuote(selectedEstimate);
 
-					removeFromParent();
+							removeFromParent();
 
-				} catch (Exception e) {
-					Accounter.showError(Accounter.constants()
-							.errorLoadingQuote());
-				}
+						} catch (Exception e) {
+							Accounter.showError(Accounter.constants()
+									.errorLoadingQuote());
+						}
 
-			}
-		});
+					}
+				});
 
 		// getGridData();
 		setQuoteList(estimates);
@@ -92,8 +94,7 @@ public class SalesQuoteListDialog extends BaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		Button helpButton = new Button(
-				financeConstants.help());
+		Button helpButton = new Button(financeConstants.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -103,7 +104,6 @@ public class SalesQuoteListDialog extends BaseDialog {
 
 		});
 		helpButtonLayout.add(helpButton);
-
 
 		HorizontalPanel okButtonLayout = new HorizontalPanel();
 		okButtonLayout.setSpacing(3);
@@ -130,8 +130,7 @@ public class SalesQuoteListDialog extends BaseDialog {
 		});
 		okButtonLayout.add(okButton);
 
-		Button cancelButton = new Button(
-				financeConstants.cancel());
+		Button cancelButton = new Button(financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -204,6 +203,7 @@ public class SalesQuoteListDialog extends BaseDialog {
 		// its not using any where return null;
 
 	}
+
 	// setTitle(customerConstants.createForm());
 
 	@Override

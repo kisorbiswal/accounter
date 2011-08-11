@@ -32,7 +32,7 @@ public class NoteDialog extends BaseDialog {
 		notePanel.add(noteForm);
 		setBodyLayout(notePanel);
 		okbtn.setText(Accounter.constants().save());
-		setWidth("350");
+		setWidth("350px");
 	}
 
 	@Override

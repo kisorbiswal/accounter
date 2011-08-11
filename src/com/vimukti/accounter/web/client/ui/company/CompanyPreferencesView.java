@@ -161,12 +161,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			this.emailText.setValue(company.getCompanyEmail());
 			this.bankAccountText.setValue(company.getBankAccountNo());
 			this.sortCodeText.setValue(company.getSortCode());
-			allAddresses.put(ClientAddress.TYPE_COMPANY,
-					company.getTradingAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY, company
+					.getTradingAddress());
 			setAddressToTextItem(textareaItem, company.getTradingAddress());
 
-			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION,
-					company.getRegisteredAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION, company
+					.getRegisteredAddress());
 			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
@@ -242,7 +242,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		hlLayout = new HorizontalPanel();
 		hlLayout.setWidth("47%");
-		hlLayout.setHeight("30");
+		hlLayout.setHeight("30px");
 		hlLayout.setSpacing(5);
 		// hlLayout.setAlign(Alignment.RIGHT);
 		// hlLayout.setMembersMargin(20);
@@ -549,7 +549,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// okbtn.setText(FinanceApplication.constants().update());
 
 		mainHLay.setWidth("100%");
-		mainHLay.setHeight("250");
+		mainHLay.setHeight("250px");
 
 		return mainHLay;
 
@@ -569,8 +569,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// switch (this.validationCount) {
 		// case 2:
 		if (!emailText.validate()) {
-			result.addError(emailText,
-					Accounter.messages().pleaseEnter(emailText.getTitle()));
+			result.addError(emailText, Accounter.messages().pleaseEnter(
+					emailText.getTitle()));
 		}
 		// return AccounterValidator.validateFormItem(false, emailText);
 		// case 1:
@@ -619,9 +619,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences.setUseVendorId(getBooleanValue(useVendorId));
 		companyPreferences
 				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
-						.getValue()
-						.toString()
-						.equalsIgnoreCase(
+						.getValue().toString().equalsIgnoreCase(
 								Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
@@ -689,9 +687,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences.setUseVendorId(getBooleanValue(useVendorId));
 		companyPreferences
 				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
-						.getValue()
-						.toString()
-						.equalsIgnoreCase(
+						.getValue().toString().equalsIgnoreCase(
 								Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
@@ -1181,7 +1177,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// --Previusly 'mangeServiceMappingsBtn' is ButtonItem
 		mangeServiceMappingsBtn = new Button(Accounter.constants()
 				.manageServiceMappings());
-		mangeServiceMappingsBtn.setHeight("30");
+		mangeServiceMappingsBtn.setHeight("30px");
 
 		/**
 		 * supporting Logging

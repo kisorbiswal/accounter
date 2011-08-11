@@ -112,7 +112,7 @@ public class JournalViewDialog extends BaseDialog {
 		mainLayout.add(disposalSummaryForm);
 		mainLayout.add(disposalJOurnallabel);
 		mainLayout.add(disposalJournalForm);
-		setSize("550", "350");
+		setSize("550px", "350px");
 		setBodyLayout(mainLayout);
 		center();
 		show();
@@ -133,8 +133,8 @@ public class JournalViewDialog extends BaseDialog {
 			value = journalSummary.get(StringValue);
 			if (!DecimalUtil.isEquals(value, 0.0)) {
 				disposalSummaryForm.setText(row, 0, StringValue);
-				disposalSummaryForm.setText(row, 1,
-						DataUtils.getAmountAsString(value));
+				disposalSummaryForm.setText(row, 1, DataUtils
+						.getAmountAsString(value));
 			}
 			disposalSummaryForm.getCellFormatter().setWidth(0, 0, "100%");
 			row++;
@@ -172,8 +172,8 @@ public class JournalViewDialog extends BaseDialog {
 				value = disposalJOurnal.get(keyValue);
 				if (DecimalUtil.isLessThan(value, 0)) {
 					debitvalue = value * (-1);
-					disposalJournalForm.setText(row, col++,
-							DataUtils.getAmountAsString(debitvalue));
+					disposalJournalForm.setText(row, col++, DataUtils
+							.getAmountAsString(debitvalue));
 					disposalJournalForm.setText(row, col++, "" + " ");
 					disposalJournalForm.getCellFormatter().setStyleName(row,
 							col - 1, "column-seperater");
@@ -185,8 +185,8 @@ public class JournalViewDialog extends BaseDialog {
 					disposalJournalForm.setText(row, col++, "" + " ");
 					disposalJournalForm.getCellFormatter().setStyleName(row,
 							col - 1, "column-seperater");
-					disposalJournalForm.setText(row, col++,
-							DataUtils.getAmountAsString(value));
+					disposalJournalForm.setText(row, col++, DataUtils
+							.getAmountAsString(value));
 
 					setCreditTotal(value);
 				}

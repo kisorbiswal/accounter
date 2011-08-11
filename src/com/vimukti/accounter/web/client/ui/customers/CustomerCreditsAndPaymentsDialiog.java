@@ -324,7 +324,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 		mainVLay.add(grid);
 
 		setBodyLayout(mainVLay);
-		setWidth("600");
+		setWidth("600px");
 		center();
 	}
 

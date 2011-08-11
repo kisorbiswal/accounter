@@ -71,7 +71,7 @@ public class AddOrEditPayTypeDialog extends BaseDialog {
 		bodyLayout.add(form2);
 
 		setBodyLayout(bodyLayout);
-		setSize("350", "300");
+		setSize("350px", "300px");
 		account.initCombo(getCompany().getActiveAccounts());
 	}
 

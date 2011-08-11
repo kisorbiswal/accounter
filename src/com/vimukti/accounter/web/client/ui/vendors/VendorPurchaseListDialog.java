@@ -22,8 +22,8 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
-import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 
 public class VendorPurchaseListDialog extends BaseDialog {
 
@@ -41,7 +41,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		setText(Accounter.constants().purchaseOrderList());
 		createControls();
 		setPurchaseOrderList(purchaseOrderList);
-		setWidth("600");
+		setWidth("600px");
 		show();
 		center();
 	}
@@ -66,17 +66,19 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		grid.setColumnTypes(ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
+		grid
+				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
 
-			@Override
-			public void OnCellDoubleClick(PurchaseOrdersList record, int column) {
+					@Override
+					public void OnCellDoubleClick(PurchaseOrdersList record,
+							int column) {
 
-				if (record != null)
-					getPurchaseOrder(record);
+						if (record != null)
+							getPurchaseOrder(record);
 
-			}
+					}
 
-		});
+				});
 
 		// getGridData();
 		setPurchaseOrderList(purchaseOrderList);
@@ -85,8 +87,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		Button helpButton = new Button(
-				financeConstants.help());
+		Button helpButton = new Button(financeConstants.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -114,8 +115,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 		});
 		okButtonLayout.add(okButton);
-		Button cancelButton = new Button(
-				financeConstants.cancel());
+		Button cancelButton = new Button(financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -125,7 +125,6 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 		});
 		okButtonLayout.add(cancelButton);
-
 
 		HorizontalPanel buttonLayout = new HorizontalPanel();
 		buttonLayout.setWidth("100%");
@@ -175,8 +174,8 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
-				record.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, record
+				.getTransactionId(), callback);
 
 	}
 

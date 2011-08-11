@@ -86,7 +86,7 @@ public class StartDateDialog extends BaseDialog {
 		contentPanel.add(prefixText);
 		contentPanel.add(dateBox);
 		bodyLayout.add(contentPanel);
-		setWidth("350");
+		setWidth("350px");
 		// mainPanel.setSpacing(20);
 	}
 
@@ -124,8 +124,8 @@ public class StartDateDialog extends BaseDialog {
 
 	private void changeStartDate() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
-		ClientFinanceDate date = UIUtils.stringToDate(dateString,
-				(Accounter.constants().ddMMyyyy()));
+		ClientFinanceDate date = UIUtils.stringToDate(dateString, (Accounter
+				.constants().ddMMyyyy()));
 
 		AccounterAsyncCallback callBack = new AccounterAsyncCallback() {
 

@@ -47,7 +47,7 @@ public class VendorBillListDialog extends BaseDialog {
 		// setTitle("");
 		setText(Accounter.constants().purchaseOrderList());
 		createControls();
-		setWidth("600");
+		setWidth("600px");
 		setQuoteList(list);
 		show();
 		center();
@@ -72,30 +72,31 @@ public class VendorBillListDialog extends BaseDialog {
 		grid.setView(this);
 		grid.init();
 
-		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersAndItemReceiptsList>() {
+		grid
+				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersAndItemReceiptsList>() {
 
-			@Override
-			public void OnCellDoubleClick(
-					PurchaseOrdersAndItemReceiptsList core, int column) {
+					@Override
+					public void OnCellDoubleClick(
+							PurchaseOrdersAndItemReceiptsList core, int column) {
 
-				setRecord(core);
-				// try {
-				// ClientEstimate record = (ClientEstimate) core;
-				//
-				// String estimateId = record.getID();
-				// selectedEstimate = getEstimate(estimateId);
-				//
-				// if (invoiceView != null && selectedEstimate != null)
-				// invoiceView.selectedQuote(selectedEstimate);
-				//
-				// removeFromParent();
-				//
-				// } catch (Exception e) {
-				// Accounter.showError("Error Loading Quote...");
-				// }
+						setRecord(core);
+						// try {
+						// ClientEstimate record = (ClientEstimate) core;
+						//
+						// String estimateId = record.getID();
+						// selectedEstimate = getEstimate(estimateId);
+						//
+						// if (invoiceView != null && selectedEstimate != null)
+						// invoiceView.selectedQuote(selectedEstimate);
+						//
+						// removeFromParent();
+						//
+						// } catch (Exception e) {
+						// Accounter.showError("Error Loading Quote...");
+						// }
 
-			}
-		});
+					}
+				});
 
 		// getGridData();
 		// setQuoteList(estimates);
@@ -104,8 +105,7 @@ public class VendorBillListDialog extends BaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		Button helpButton = new Button(
-				financeConstants.help());
+		Button helpButton = new Button(financeConstants.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -115,7 +115,6 @@ public class VendorBillListDialog extends BaseDialog {
 
 		});
 		helpButtonLayout.add(helpButton);
-
 
 		HorizontalPanel okButtonLayout = new HorizontalPanel();
 		okButtonLayout.setSpacing(3);
@@ -146,9 +145,7 @@ public class VendorBillListDialog extends BaseDialog {
 		});
 		okButtonLayout.add(okButton);
 
-
-		Button cancelButton = new Button(
-				financeConstants.cancel());
+		Button cancelButton = new Button(financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -203,8 +200,8 @@ public class VendorBillListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ITEMRECEIPT,
-				record.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ITEMRECEIPT, record
+				.getTransactionId(), callback);
 
 	}
 
@@ -225,8 +222,8 @@ public class VendorBillListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
-				record.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, record
+				.getTransactionId(), callback);
 
 	}
 

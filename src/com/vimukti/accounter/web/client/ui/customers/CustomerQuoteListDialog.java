@@ -27,8 +27,8 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
-import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 
 public class CustomerQuoteListDialog extends BaseDialog {
 	public DialogGrid grid;
@@ -52,7 +52,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		}
 		createControl();
-		setWidth("600");
+		setWidth("600px");
 		show();
 		center();
 
@@ -83,15 +83,16 @@ public class CustomerQuoteListDialog extends BaseDialog {
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
+		grid
+				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
 
-			@Override
-			public void OnCellDoubleClick(EstimatesAndSalesOrdersList core,
-					int column) {
-				setRecord(core);
+					@Override
+					public void OnCellDoubleClick(
+							EstimatesAndSalesOrdersList core, int column) {
+						setRecord(core);
 
-			}
-		});
+					}
+				});
 
 		// getGridData();
 		setQuoteList(estimatesAndSalesOrder);
@@ -100,8 +101,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		HorizontalPanel helpButtonLayout = new HorizontalPanel();
 
-		Button helpButton = new Button(
-				financeConstants.help());
+		Button helpButton = new Button(financeConstants.help());
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -128,8 +128,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		});
 		okButtonLayout.add(okButton);
-		Button cancelButton = new Button(
-				financeConstants.cancel());
+		Button cancelButton = new Button(financeConstants.cancel());
 		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -186,8 +185,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
-				record.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.SALESORDER, record
+				.getTransactionId(), callback);
 	}
 
 	private void getEstimate(EstimatesAndSalesOrdersList record) {
@@ -209,8 +208,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE,
-				record.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE, record
+				.getTransactionId(), callback);
 
 	}
 

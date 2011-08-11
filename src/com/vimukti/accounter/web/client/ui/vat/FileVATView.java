@@ -116,8 +116,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				+ Accounter.constants().doYouNeedToMakeAnAdjustment()
 				+ " </strong><br>" + Accounter.constants().useAdjustButton());
 
-		adjustButton = new Button(Accounter.constants()
-				.adjustVATReturn());
+		adjustButton = new Button(Accounter.constants().adjustVATReturn());
 		adjustButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -146,8 +145,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 				+ "</strong><br>"
 				+ Accounter.constants().youCanPrintVATReturn());
 
-		printButton = new Button(Accounter.constants()
-				.printVATReturn());
+		printButton = new Button(Accounter.constants().printVATReturn());
 		printButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -233,8 +231,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		}
 		if (lastVATReturn != null) {
 			if (lastVATReturn.getVATperiodEndDate() != 0) {
-				ClientFinanceDate date = new ClientFinanceDate(
-						lastVATReturn.getVATperiodEndDate());
+				ClientFinanceDate date = new ClientFinanceDate(lastVATReturn
+						.getVATperiodEndDate());
 				int day = date.getDay();
 				date.setDay(day + 1);
 				fromDate.setDatethanFireEvent(date);
@@ -282,15 +280,14 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 
 		if (this.selectedVatAgency == null) {
 			gridView.removeLoadingImage();
-			gridView.addEmptyMessage(Accounter.constants()
-					.selectVatAgency());
+			gridView.addEmptyMessage(Accounter.constants().selectVatAgency());
 			disableprintButton();
 			return;
 		}
 		gridView.addLoadingImagePanel();
 
-		this.rpcUtilService.getTAXReturn(this.selectedVatAgency,
-				fromDate.getDate(), toDate.getDate(),
+		this.rpcUtilService.getTAXReturn(this.selectedVatAgency, fromDate
+				.getDate(), toDate.getDate(),
 				new AccounterAsyncCallback<ClientVATReturn>() {
 
 					@Override
@@ -359,10 +356,9 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		// gridView.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
 		gridView.isEnable = false;
 		gridView.init();
-		gridView.setHeight("250");
+		gridView.setHeight("250px");
 		gridView.addStyleName("file-vat");
-		gridView.addEmptyMessage(Accounter.constants()
-				.selectVatAgency());
+		gridView.addEmptyMessage(Accounter.constants().selectVatAgency());
 
 	}
 
@@ -484,8 +480,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		report.setAction(ActionFactory.getVAT100ReportAction());
 		report.init();
 		report.initData();
-		report.makeReportRequest(selectedVatAgency.getID(),
-				fromDate.getEnteredDate(), toDate.getEnteredDate());
+		report.makeReportRequest(selectedVatAgency.getID(), fromDate
+				.getEnteredDate(), toDate.getEnteredDate());
 
 	}
 

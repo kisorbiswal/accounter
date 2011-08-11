@@ -27,7 +27,7 @@ public class ItemGroupDialog extends BaseDialog {
 	public ItemGroupDialog(ItemGroupListDialog parent, String title,
 			String desc, ClientItemGroup itemGroup) {
 		super(title, desc);
-		setWidth("300");
+		setWidth("300px");
 		// setHeight("300");
 		this.itemgroup = itemGroup;
 

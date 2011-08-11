@@ -71,7 +71,7 @@ public class TaxDialog extends BaseDialog<ClientTAXCode> {
 		// cancelBtn.setWidth("60px");
 
 		setBodyLayout(mainVLay);
-		setWidth("300");
+		setWidth("300px");
 
 	}
 

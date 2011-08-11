@@ -64,7 +64,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		mainVLay.add(typeForm);
 
 		setBodyLayout(mainVLay);
-		setSize("350", "220");
+		setSize("350px", "220px");
 	}
 
 	@Override

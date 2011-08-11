@@ -20,6 +20,7 @@ public class AddBankDialog extends BaseDialog {
 	private TextItem bankNameText;
 	private AccounterAsyncCallback<ClientBank> callBack;
 	AccounterConstants accounterConstants = Accounter.constants();
+
 	public AddBankDialog(AbstractBaseView<ClientBank> parent) {
 		super(Accounter.constants().addBank(), null);
 		createControls();
@@ -36,7 +37,7 @@ public class AddBankDialog extends BaseDialog {
 		bankForm.setFields(bankNameText);
 
 		setBodyLayout(bankForm);
-		setWidth("275");
+		setWidth("275px");
 	}
 
 	protected void createBank() {

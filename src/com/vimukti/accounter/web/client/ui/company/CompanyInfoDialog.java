@@ -92,11 +92,11 @@ public class CompanyInfoDialog extends BaseDialog {
 			this.emailText.setValue(company.getCompanyEmail());
 			this.bankAccountText.setValue(company.getBankAccountNo());
 			this.sortCodeText.setValue(company.getSortCode());
-			allAddresses.put(ClientAddress.TYPE_COMPANY,
-					company.getTradingAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY, company
+					.getTradingAddress());
 			setAddressToTextItem(textareaItem, company.getTradingAddress());
-			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION,
-					company.getRegisteredAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION, company
+					.getRegisteredAddress());
 			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
@@ -337,8 +337,8 @@ public class CompanyInfoDialog extends BaseDialog {
 
 		okbtn.setText(Accounter.constants().update());
 
-		mainHLay.setWidth("600");
-		mainHLay.setHeight("250");
+		mainHLay.setWidth("600px");
+		mainHLay.setHeight("250px");
 
 		setBodyLayout(mainHLay);
 

@@ -28,7 +28,8 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
  * 
  */
 
-public abstract class GroupDialog<T extends IAccounterCore> extends BaseDialog<T> {
+public abstract class GroupDialog<T extends IAccounterCore> extends
+		BaseDialog<T> {
 
 	private VerticalPanel buttonsLayout;
 	private HorizontalPanel bodyLayout;
@@ -77,11 +78,11 @@ public abstract class GroupDialog<T extends IAccounterCore> extends BaseDialog<T
 		 * buttons Layout
 		 */
 		buttonsLayout = new VerticalPanel();
-		buttonsLayout.setWidth("100");
+		buttonsLayout.setWidth("100px");
 		buttonsLayout.setSpacing(5);
 
 		button1 = new Button(constants.add());
-		button1.setWidth("80");
+		button1.setWidth("80px");
 
 		button1.addClickHandler(new ClickHandler() {
 
@@ -94,7 +95,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends BaseDialog<T
 
 		button2 = new Button(constants.edit());
 		button2.setEnabled(false);
-		button2.setWidth("80");
+		button2.setWidth("80px");
 		button2.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -105,7 +106,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends BaseDialog<T
 
 		button3 = new Button(this.constants.remove());
 		button3.setEnabled(false);
-		button3.setWidth("80");
+		button3.setWidth("80px");
 		button3.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -125,8 +126,8 @@ public abstract class GroupDialog<T extends IAccounterCore> extends BaseDialog<T
 		bodyLayout.add(listGridView);
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
-		buttonsLayout.getElement().getParentElement()
-				.setAttribute("width", "25%");
+		buttonsLayout.getElement().getParentElement().setAttribute("width",
+				"25%");
 		setBodyLayout(bodyLayout);
 		cancelBtn.setTitle(this.constants.close());
 		dialogHandler = new InputDialogHandler() {
@@ -289,9 +290,8 @@ public abstract class GroupDialog<T extends IAccounterCore> extends BaseDialog<T
 
 	private void updateOrAddRecord(T obj) {
 		IAccounterCore core = (IAccounterCore) obj;
-		if (Utility.getObject(
-				(List<IAccounterCore>) (ArrayList) listGridView.getRecords(),
-				core.getID()) != null)
+		if (Utility.getObject((List<IAccounterCore>) (ArrayList) listGridView
+				.getRecords(), core.getID()) != null)
 			deleteRecord();
 
 		listGridView.addData((IsSerializable) obj);

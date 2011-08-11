@@ -121,8 +121,8 @@ public class TransferFundsDialog extends BaseDialog {
 
 		// Transfer From
 
-		accountComboFrom = new IncomeAndExpensesAccountCombo(
-				bankingConstants.fromAccount());
+		accountComboFrom = new IncomeAndExpensesAccountCombo(bankingConstants
+				.fromAccount());
 
 		accountComboFrom.setRequired(true);
 		// accountComboFrom.setWidth("*");
@@ -160,8 +160,8 @@ public class TransferFundsDialog extends BaseDialog {
 
 		// Transfer To
 
-		accountComboTo = new IncomeAndExpensesAccountCombo(
-				bankingConstants.toAccount());
+		accountComboTo = new IncomeAndExpensesAccountCombo(bankingConstants
+				.toAccount());
 		// accountComboTo.setAddNewCaptionTitle(CustomCombo.addNewBankAccount);
 
 		accountComboTo.setRequired(true);
@@ -255,7 +255,7 @@ public class TransferFundsDialog extends BaseDialog {
 		mainVLay.add(footerLayout);
 		// mainVLay.add(editButton);
 		setBodyLayout(mainVLay);
-		setWidth("600");
+		setWidth("600px");
 		show();
 	}
 

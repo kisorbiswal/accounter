@@ -19,7 +19,7 @@ public class AddNewContactDialog extends GroupDialog<ClientContact> {
 
 	public AddNewContactDialog(String title, String descript) {
 		super(title, descript);
-		setWidth("400");
+		setWidth("400px");
 		initialise();
 		center();
 	}
@@ -44,7 +44,7 @@ public class AddNewContactDialog extends GroupDialog<ClientContact> {
 			}
 
 			public void onFirstButtonClick() {
-			
+
 				showAddEditTermDialog(null);
 			}
 
@@ -73,7 +73,7 @@ public class AddNewContactDialog extends GroupDialog<ClientContact> {
 				arr);
 
 		inputDlg.getTextItems().get(1).setRequired(false);
-		inputDlg.setWidth("320");
+		inputDlg.setWidth("320px");
 		contacts = contact;
 
 		if (contacts != null) {
