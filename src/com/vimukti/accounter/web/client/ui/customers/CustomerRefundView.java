@@ -75,8 +75,12 @@ public class CustomerRefundView extends
 		payFromSelect.setAccounts();
 
 		if (transaction != null) {
-			payFromSelect.setComboItem(getCompany().getAccount(
-					((ClientCustomerRefund) transaction).getPayFrom()));
+			ClientAccount account = getCompany().getAccount(
+					((ClientCustomerRefund) transaction).getPayFrom());
+			if (account != null) {
+				payFromSelect.setComboItem(getCompany().getAccount(
+						((ClientCustomerRefund) transaction).getPayFrom()));
+			}
 		}
 
 		selectedAccount = payFromSelect.getSelectedValue();
@@ -579,8 +583,8 @@ public class CustomerRefundView extends
 		if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
 			result.addError(amtText, accounterConstants.invalidNegativeAmount());
 		}
-		if (AccounterValidator.isValidCustomerRefundAmount(
-				amtText.getAmount(), payFromSelect.getSelectedValue())) {
+		if (AccounterValidator.isValidCustomerRefundAmount(amtText.getAmount(),
+				payFromSelect.getSelectedValue())) {
 			result.addWarning(amtText,
 					AccounterWarningType.INVALID_CUSTOMERREFUND_AMOUNT);
 		}
