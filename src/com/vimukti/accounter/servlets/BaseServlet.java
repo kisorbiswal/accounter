@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public class BaseServlet extends HttpServlet {
 	public static final String USER_ID = "userID";
 	public static final String ACTIVATION_TOKEN = "activationToken";
+	public static final String ACTIVATION_TYPE = "resetpassword";
 	public static final String OUR_COOKIE = "_accounter_01_infinity_2711";
 
 	public static final String COMPANY_COOKIE = "cid";

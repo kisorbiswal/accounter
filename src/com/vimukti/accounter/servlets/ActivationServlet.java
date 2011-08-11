@@ -28,11 +28,20 @@ public class ActivationServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+
+		HttpSession session = req.getSession(true);
 		String parameter = req.getParameter("message");
 		if (parameter != null && parameter.equals("108")) {
 			req.setAttribute(
 					"successmessage",
 					"Thanks for registering with Accounter!<br>To complete the sign up process, please check your email and enter your activation code here to activate your Account.");
+			session.setAttribute(ACTIVATION_TYPE, "signup");
+		}
+		if (parameter != null && parameter.equals("109")) {
+			req.setAttribute(
+					"successmessage",
+					"Reset Password link has been sent to the given emailId, Kindly check your Mail box.");
+			session.setAttribute(ACTIVATION_TYPE, "resetpassword");
 		}
 		dispatch(req, resp, VIEW);
 	}
@@ -66,8 +75,14 @@ public class ActivationServlet extends BaseServlet {
 				HttpSession session = req.getSession(true);
 				session.setAttribute(ACTIVATION_TOKEN, token);
 				session.setAttribute(EMAIL_ID, activation.getEmailId());
+				String activationType = (String) session
+						.getAttribute(ACTIVATION_TYPE);
+				if (activationType.equals("resetpassword")) {
+					session.removeAttribute(ACTIVATION_TYPE);
+					redirectExternal(req, resp, RESET_PASSWORD_URL);
+					return;
+				}
 
-				// Make the user as active user
 				Session hbSession = HibernateUtil.openSession(LOCAL_DATABASE);
 				try {
 					Client client = (Client) hbSession
@@ -76,9 +91,11 @@ public class ActivationServlet extends BaseServlet {
 							.uniqueResult();
 					client.setActive(true);
 					saveEntry(client);
-					
-					//delete activation object
-					hbSession.getNamedQuery("delete.activation.by.emailId").setParameter("emailId", activation.getEmailId()).executeUpdate();
+
+					// delete activation object
+					hbSession.getNamedQuery("delete.activation.by.emailId")
+							.setParameter("emailId", activation.getEmailId())
+							.executeUpdate();
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -91,8 +108,10 @@ public class ActivationServlet extends BaseServlet {
 				String destUrl = req.getParameter(PARAM_DESTINATION);
 				if (destUrl == null || destUrl.isEmpty()) {
 					redirectExternal(req, resp, LOGIN_URL);
+					return;
 				} else {
 					redirectExternal(req, resp, destUrl);
+					return;
 				}
 
 			}
