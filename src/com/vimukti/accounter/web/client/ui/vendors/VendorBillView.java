@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -48,7 +49,8 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  */
 public class VendorBillView extends
 		AbstractVendorTransactionView<ClientEnterBill> {
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter.constants();
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
+			.constants();
 	private PaymentTermsCombo paymentTermsCombo;
 	private ClientPaymentTerms selectedPaymentTerm;
 	private DateField dueDateItem;
@@ -104,8 +106,16 @@ public class VendorBillView extends
 			setData(new ClientEnterBill());
 		} else {
 
+			paymentTermsCombo.setValue(transaction.getPaymentTerm());
+			dueDateItem
+					.setValue(new ClientFinanceDate(transaction.getDueDate()));
+			deliveryDateItem.setValue(new ClientFinanceDate(transaction
+					.getDeliveryDate()));
+
 			ClientVendor vendor = getCompany().getVendor(
 					transaction.getVendor());
+			vendorCombo.setValue(vendor);
+			phoneSelect.setValue(vendor.getPhoneNo());
 			contactSelected(transaction.getContact());
 			billToaddressSelected(transaction.getVendorAddress());
 			selectedVendor(vendor);
@@ -127,6 +137,9 @@ public class VendorBillView extends
 							transaction.getDueDate()) : getTransactionDate());
 			initMemoAndReference();
 			vendorTransactionGrid.setCanEdit(false);
+			vendorTransactionGrid.removeAllRecords();
+			vendorTransactionGrid.setAllTransactions(transaction
+					.getTransactionItems());
 		}
 		super.initTransactionViewData();
 		initPaymentTerms();
@@ -681,7 +694,8 @@ public class VendorBillView extends
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 

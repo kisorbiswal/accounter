@@ -647,7 +647,7 @@ public class VendorTransactionGrid extends
 	}
 
 	private int getUSGridCellWidth(int index) {
-		if (index == 6 || index == 0)
+		if (index == 7 || index == 0)
 			if (UIUtils.isMSIEBrowser())
 				return 25;
 			else
