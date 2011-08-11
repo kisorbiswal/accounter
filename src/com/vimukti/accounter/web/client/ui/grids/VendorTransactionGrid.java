@@ -1213,7 +1213,7 @@ public class VendorTransactionGrid extends
 				case 2:
 					if (accountingType == ClientCompany.ACCOUNTING_TYPE_UK
 							&& item.getType() != ClientTransactionItem.TYPE_SALESTAX) {
-						if (!AccounterValidator.isEmpty(this
+						if (AccounterValidator.isEmpty(this
 								.getColumnValue(item,
 										this instanceof PurchaseOrderGrid ? 7
 												: 6))) {
