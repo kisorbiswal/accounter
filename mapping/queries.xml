@@ -337,7 +337,7 @@
 
 	<query name="getName.by.SalesPerson">
 		from com.vimukti.accounter.core.SalesPerson S where
-		S.name=?
+		S.firstName=?
 	</query>
 
 	<query name="getShippingmethod.by.Name">
