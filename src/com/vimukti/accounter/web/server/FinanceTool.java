@@ -2431,7 +2431,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<PaymentsList> queryResult = new ArrayList<PaymentsList>();
+				ArrayList<PaymentsList> queryResult = new ArrayList<PaymentsList>();
 				while ((iterator).hasNext()) {
 
 					PaymentsList vendorPaymentsList = new PaymentsList();
@@ -2467,7 +2467,7 @@ public class FinanceTool implements IFinanceDAOService {
 						queryResult.add(vendorPaymentsList);
 					}
 				}
-				return new ArrayList<PaymentsList>(list);
+				return queryResult;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -3098,7 +3098,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<ReceivePaymentsList> queryResult = new ArrayList<ReceivePaymentsList>();
+				ArrayList<ReceivePaymentsList> queryResult = new ArrayList<ReceivePaymentsList>();
 				while ((iterator).hasNext()) {
 
 					ReceivePaymentsList receivePaymentsList = new ReceivePaymentsList();
@@ -3121,7 +3121,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					queryResult.add(receivePaymentsList);
 				}
-				return new ArrayList<ReceivePaymentsList>(list);
+				return queryResult;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
