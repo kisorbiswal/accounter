@@ -146,6 +146,10 @@ public abstract class ClientTransaction implements IAccounterCore {
 	// this.totalVAT = totalVAT;
 	// }
 
+	public ClientTransaction() {
+		transactionItems = new ArrayList<ClientTransactionItem>();
+	}
+	
 	public ClientCreditsAndPayments getCreditsAndPayments() {
 		return creditsAndPayments;
 	}
