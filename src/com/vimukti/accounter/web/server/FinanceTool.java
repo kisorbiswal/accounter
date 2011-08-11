@@ -373,54 +373,68 @@ public class FinanceTool implements IFinanceDAOService {
 
 		org.hibernate.Transaction hibernateTransaction = session
 				.beginTransaction();
-		try {
-			String arg1 = (context).getArg1();
-			String arg2 = (context).getArg2();
 
-			if (arg1 == null || arg2 == null) {
+		String arg1 = (context).getArg1();
+		String arg2 = (context).getArg2();
+
+		if (arg1 == null || arg2 == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
+					"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
+							+ context);
+		}
+
+		Class<?> clientClass = ObjectConvertUtil.getEqivalentClientClass(arg2);
+
+		Class<?> serverClass = ObjectConvertUtil
+				.getServerEqivalentClass(clientClass);
+
+		IAccounterServerCore serverObject = (IAccounterServerCore) session.get(
+				serverClass, Long.parseLong(arg1));
+
+		// if (objects != null && objects.size() > 0) {
+
+		// IAccounterServerCore serverObject = (IAccounterServerCore)
+		// objects
+		// .get(0);
+
+		if (serverObject == null) {
+
+		}
+		if (serverObject instanceof FiscalYear) {
+			((FiscalYear) serverObject).canDelete((FiscalYear) serverObject);
+			session.delete(serverObject);
+			// ChangeTracker.put(serverObject);
+		} else {
+
+			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1))) {
+				session.delete(serverObject);
+			} else {
 				throw new AccounterException(
-						AccounterException.ERROR_ILLEGAL_ARGUMENT,
-						"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
-								+ context);
+						AccounterException.ERROR_OBJECT_IN_USE);
 			}
+		}
+		try {
+			hibernateTransaction.commit();
 
-			Class<?> clientClass = ObjectConvertUtil
-					.getEqivalentClientClass(arg2);
-
-			Class<?> serverClass = ObjectConvertUtil
-					.getServerEqivalentClass(clientClass);
-
-			IAccounterServerCore serverObject = (IAccounterServerCore) session
-					.get(serverClass, Long.parseLong(arg1));
-
-			// if (objects != null && objects.size() > 0) {
-
-			// IAccounterServerCore serverObject = (IAccounterServerCore)
-			// objects
-			// .get(0);
-
-			if (serverObject != null)
-				if (serverObject instanceof FiscalYear) {
-					((FiscalYear) serverObject)
-							.canDelete((FiscalYear) serverObject);
-					session.delete(serverObject);
-					hibernateTransaction.commit();
-					return true;
-					// ChangeTracker.put(serverObject);
-				} else {
-					session.delete(serverObject);
-					hibernateTransaction.commit();
-					return true;
-
-				}
-
-			return false;
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			hibernateTransaction.rollback();
-			throw new AccounterException(AccounterException.ERROR_INTERNAL);
+			if (e instanceof AccounterException) {
+				throw (AccounterException) e;
+			} else {
+				throw new AccounterException(AccounterException.ERROR_INTERNAL);
+			}
 		}
+		return true;
 
+	}
+
+	private boolean canDelete(String serverClass, long id) {
+		Query query = HibernateUtil.getCurrentSession()
+				.getNamedQuery("canDelete" + serverClass)
+				.setParameter("inputId", id);
+		return executeQuery(query);
 	}
 
 	public void updateCompanyPreferences(OperationContext context)

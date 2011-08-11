@@ -234,8 +234,8 @@ public class Accounter implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		eventBus=new SimpleEventBus();
-		placeController=new PlaceController(eventBus);
+		eventBus = new SimpleEventBus();
+		placeController = new PlaceController(eventBus);
 		getCompany("");
 	}
 
@@ -351,10 +351,7 @@ public class Accounter implements EntryPoint {
 			final IDeleteCallback source, final D data) {
 		AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
 
-			public void onException(AccounterException caught) {
-				AccounterException exception = (AccounterException) caught;
-				// exception.setID(currentrequestedWidget.getID());
-				// getCompany().processCommand(exception);
+			public void onException(AccounterException exception) {
 				source.deleteFailed(exception);
 			}
 
@@ -375,9 +372,7 @@ public class Accounter implements EntryPoint {
 		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onException(AccounterException caught) {
-				AccounterException exception = (AccounterException) caught;
-				// exception.setID(currentrequestedWidget.getID());
+			public void onException(AccounterException exception) {
 				getCompany().processCommand(exception);
 			}
 
@@ -414,12 +409,7 @@ public class Accounter implements EntryPoint {
 			public void onResultSuccess(Long result) {
 
 				if (result != null) {
-					AccounterCommand cmd = new AccounterCommand();
-					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
-					cmd.setData(clientCompany);
-					cmd.setID(result);
-					cmd.setObjectType(clientCompany.getObjectType());
-					getCompany().processCommand(cmd);
+					getCompany().processUpdateOrCreateObject(clientCompany);
 				}
 				callback.saveSuccess(clientCompany);
 			}
@@ -429,8 +419,8 @@ public class Accounter implements EntryPoint {
 				transactionCallBack);
 
 	}
-	
-	public static PlaceController placeController(){
+
+	public static PlaceController placeController() {
 		return placeController;
 	}
 }

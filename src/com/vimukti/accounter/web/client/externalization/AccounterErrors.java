@@ -26,4 +26,6 @@ public interface AccounterErrors extends Constants {
 
 	String receivePaymentDiscountUsed();
 
+	String vendorInUse();
+
 }

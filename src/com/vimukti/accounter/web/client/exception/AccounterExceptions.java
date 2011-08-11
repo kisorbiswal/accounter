@@ -1,13 +1,12 @@
 package com.vimukti.accounter.web.client.exception;
 
 import com.google.gwt.core.client.GWT;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.externalization.AccounterErrors;
 
 public class AccounterExceptions {
 
-	static AccounterErrors accounterErrors = (AccounterErrors) GWT
-			.create(AccounterConstants.class);
+	public static AccounterErrors accounterErrors = (AccounterErrors) GWT
+			.create(AccounterErrors.class);
 
 	public static String getErrorString(int errorCode) {
 		switch (errorCode) {

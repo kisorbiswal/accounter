@@ -205,7 +205,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		result.add(vendorForm.validate());
 
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
-		if (!AccounterValidator.isPriorAsOfDate(asOfDate)) {
+		if (AccounterValidator.isPriorToCompanyPostingDate(asOfDate)) {
 			result.addError(balanceDate, Accounter.constants().priorasOfDate());
 		}
 

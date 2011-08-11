@@ -210,8 +210,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-		AccounterException accounterException = (AccounterException) caught;
-		int errorCode = accounterException.getErrorCode();
+		int errorCode = caught.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
 		caught.fillInStackTrace();

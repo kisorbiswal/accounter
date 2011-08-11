@@ -368,7 +368,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		}
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
 
-		if (!AccounterValidator.isPriorAsOfDate(asOfDate)) {
+		if (AccounterValidator.isPriorToCompanyPostingDate(asOfDate)) {
 			result.addError(balanceDate, Accounter.constants().priorasOfDate());
 		}
 		data.setName(custNameText.getValue().toString());

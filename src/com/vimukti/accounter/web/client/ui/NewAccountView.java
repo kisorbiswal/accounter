@@ -894,7 +894,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				Accounter.constants().openingBalances()))) {
 			validateAccountNumber(accNoText.getNumber());
 		}
-		if (AccounterValidator.isPriorAsOfDate(asofDate.getEnteredDate())) {
+		if (AccounterValidator.isPriorToCompanyPostingDate(asofDate.getEnteredDate())) {
 			result.addError(asofDate, Accounter.constants().priorasOfDate());
 		}
 		if (accountType == ClientAccount.TYPE_BANK) {
@@ -1260,6 +1260,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 								.constants()
 								.theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179());
 				return false;
+			} else {
+				clearError(accNoText);
 			}
 		} else {
 			accountSubBaseType = UIUtils.getAccountSubBaseType(accountType);

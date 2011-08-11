@@ -1223,17 +1223,14 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean isPriorAsOfDate(ClientFinanceDate asOfDate) {
+	public static boolean isPriorToCompanyPostingDate(ClientFinanceDate asOfDate) {
 
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(getCompany()
 				.getPreferences().getPreventPostingBeforeDate());
 		if (asOfDate.before(companyStartDate)) {
-			// throw new
-			// InvalidEntryException(AccounterErrorType.prior_asOfDate);
-			return false;
-			// return false;
+			return true;
 		}
-		return true;
+		return false;
 
 	}
 

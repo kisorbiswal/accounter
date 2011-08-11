@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.server;
 import java.sql.Timestamp;
 
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 /**
@@ -25,10 +23,6 @@ public class OperationContext {
 	private String arg1;
 
 	private Timestamp date;
-
-	private ClientCompanyPreferences companyPreferences;
-
-	private ClientCompany company;
 
 	private long newStartDate;
 
@@ -53,14 +47,6 @@ public class OperationContext {
 	public OperationContext(AccounterCoreType type, String id) {
 		this.coreType = type;
 		this.userID = id;
-	}
-
-	public OperationContext(ClientCompanyPreferences preferences) {
-		this.companyPreferences = preferences;
-	}
-
-	public OperationContext(ClientCompany clientCompany) {
-		this.company = clientCompany;
 	}
 
 	public OperationContext(long newStartDate) {

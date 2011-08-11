@@ -642,36 +642,22 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	public void update(final ClientCompanyPreferences preferences) {
-		// currentrequestedWidget = widget;
 
 		AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
 
 			public void onException(AccounterException caught) {
-
-				if (caught instanceof AccounterException) {
-					AccounterException exception = (AccounterException) caught;
-					// exception.setID(currentrequestedWidget.getID());
-					// getCompany().processCommand(exception);
-					saveFailed(exception);
-				}
+				saveFailed(caught);
 			}
 
 			public void onResultSuccess(Boolean result) {
-
 				if (result != null) {
-					AccounterCommand cmd = new AccounterCommand();
-					cmd.setCommand(AccounterCommand.UPDATION_SUCCESS);
-					cmd.setData(preferences);
-					cmd.setID(getCompany().getID());
-					cmd.setObjectType(preferences.getObjectType());
-					getCompany().processCommand(cmd);
+					getCompany().processUpdateOrCreateObject(preferences);
 				} else {
 					onFailure(null);
 				}
 			}
 
 		};
-		// widget.setID(getCompany().getID());
 		Accounter.createCRUDService().updateCompanyPreferences(preferences,
 				transactionCallBack);
 

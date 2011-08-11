@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -412,6 +413,17 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		super.headerCellClicked(colIndex);
 		for (int i = 0; i < this.getRowCount(); i++) {
 			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
+		}
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		int errorCode = caught.getErrorCode();
+		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
+			Accounter.showError(AccounterExceptions.accounterErrors
+					.vendorInUse());
+		} else {
+			super.deleteFailed(caught);
 		}
 	}
 }

@@ -75,19 +75,13 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	public boolean delete(AccounterCoreType type, long id)
 			throws AccounterException {
 
-		try {
+		FinanceTool tool = getFinanceTool();
+		OperationContext opContext = new OperationContext(type,
+				String.valueOf(id));
+		opContext.setArg1(String.valueOf(id));
+		opContext.setArg2(type.getClientClassSimpleName());
+		return tool.delete(opContext);
 
-			FinanceTool tool = getFinanceTool();
-			OperationContext opContext = new OperationContext(type,
-					String.valueOf(id));
-			opContext.setArg1(String.valueOf(id));
-			opContext.setArg2(type.getClientClassSimpleName());
-			return tool.delete(opContext);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 
 	@Override
@@ -95,7 +89,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
-		OperationContext updateComPref = new OperationContext(preferences);
+		OperationContext updateComPref = new OperationContext(preferences,
+				getUserEmail());
 
 		tool.updateCompanyPreferences(updateComPref);
 		return true;
@@ -106,7 +101,8 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 
 		FinanceTool tool = getFinanceTool();
-		OperationContext opContext = new OperationContext(clientCompany);
+		OperationContext opContext = new OperationContext(clientCompany,
+				getUserEmail());
 
 		return tool.updateCompany(opContext);
 

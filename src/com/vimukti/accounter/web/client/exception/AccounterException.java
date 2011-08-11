@@ -67,6 +67,8 @@ public class AccounterException extends Exception {
 	 */
 	public static final int ERROR_RECEIVE_PAYMENT_DISCOUNT_USED = 13;
 
+	public static final int ERROR_OBJECT_IN_USE = 14;
+
 	protected int errorCode;
 
 	// private long id;
