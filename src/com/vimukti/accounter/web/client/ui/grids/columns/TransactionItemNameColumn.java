@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.grids.columns;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccountable;
 
@@ -9,10 +10,13 @@ public class TransactionItemNameColumn extends
 		Column<ClientTransactionItem, IAccountable> implements
 		FieldUpdater<ClientTransactionItem, IAccountable> {
 
-	public TransactionItemNameColumn() {
+	private ListDataProvider<ClientTransactionItem> dataProvider;
+
+	public TransactionItemNameColumn(ListDataProvider<ClientTransactionItem> dataProvider) {
 		super(new ComboCell());
 		this.setSortable(true);
 		this.setFieldUpdater(this);
+		this.dataProvider=dataProvider;
 	}
 
 	@Override
@@ -24,6 +28,7 @@ public class TransactionItemNameColumn extends
 	public void update(int index, ClientTransactionItem object,
 			IAccountable value) {
 		object.setAccountable(value);
+		dataProvider.refresh();
 	}
 
 }
