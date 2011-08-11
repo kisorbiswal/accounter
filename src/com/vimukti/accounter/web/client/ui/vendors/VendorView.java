@@ -531,10 +531,11 @@ public class VendorView extends BaseView<ClientVendor> {
 			vendorGroupList = getCompany().getVendorGroups();
 
 			for (ClientVendorGroup vendorGroup : vendorGroupList) {
-				if (vendorGroup.getName().equals(
-						Accounter.constants().creditCardCompanies())) {
+				// id 1 for creditCardCompanies
+				if (vendorGroup.getID() == 1) {
 					// vendorGroupSelect.setComboItem(vendorGroup);
 					vendorGroupSelect.addItemThenfireEvent(vendorGroup);
+					selectVendorGroupFromDetailsTab = vendorGroup;
 					break;
 				}
 			}
@@ -1042,8 +1043,11 @@ public class VendorView extends BaseView<ClientVendor> {
 				(data.getPaymentTermsId()));
 
 		// Setting Vendor Group
-		selectVendorGroupFromDetailsTab = getCompany().getVendorGroup(
+		ClientVendorGroup vendorGroup = getCompany().getVendorGroup(
 				data.getVendorGroup());
+		if (vendorGroup != null) {
+			selectVendorGroupFromDetailsTab = vendorGroup;
+		}
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 			// if (vatRegistrationNumber.getValue() != null)
