@@ -27,6 +27,7 @@ public class DateItem extends FormItem {
 	private DateValueChangeHandler handler;
 	private PopupPanel panel;
 	private DatePicker datePicker = new DatePicker();
+	
 
 	// FinanceImages images = GWT.create(FinanceImages.class);
 
@@ -50,6 +51,7 @@ public class DateItem extends FormItem {
 			}
 		});
 
+	
 		datePicker.setWidth("160px");
 		// datePanel.setSpacing(3);
 		datePanel.add(datePicker);
