@@ -174,4 +174,7 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("Add_item.png")
 	ImageResource addIcon();
+
+	@Source("close-button.png")
+	ImageResource closeButton();
 }
