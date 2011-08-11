@@ -926,14 +926,17 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 								.pleaseEnter(taxCodeSelect.getTitle()));
 					}
 			}
+			if (!(customerTransactionGrid == null)) {
 
-			if (AccounterValidator.isBlankTransaction(customerTransactionGrid)) {
-				result.addError(customerTransactionGrid,
-						accounterConstants.blankTransaction());
+				if (AccounterValidator
+						.isBlankTransaction(customerTransactionGrid)) {
+					result.addError(customerTransactionGrid,
+							accounterConstants.blankTransaction());
+				}
+				if (customerTransactionGrid != null)
+					result.add(customerTransactionGrid.validateGrid());
+
 			}
-			if (customerTransactionGrid != null)
-				result.add(customerTransactionGrid.validateGrid());
-
 		}
 		return result;
 
