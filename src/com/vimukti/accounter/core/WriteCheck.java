@@ -297,8 +297,6 @@ public class WriteCheck extends Transaction implements Lifecycle {
 			return this.customer;
 		else if (this.getPayee() instanceof Vendor)
 			return this.vendor;
-		else if (this.getPayee() instanceof SalesPerson)
-			return this.salesPerson;
 		else
 			return this.taxAgency;
 
