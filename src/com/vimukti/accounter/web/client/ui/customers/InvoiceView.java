@@ -1490,7 +1490,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		if (taxCode != null) {
 
 			taxCodeSelect
-					.setComboItem(getCompany().getTAXCode(taxCode.getID()));
+					.setComboItem(taxCode);
 			customerTransactionGrid.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
