@@ -728,7 +728,7 @@ public class CreditCardChargeView extends
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
@@ -736,8 +736,8 @@ public class CreditCardChargeView extends
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 			result.addError(vendorTransactionGrid,
 					accounterConstants.blankTransaction());
-		}
-		result.add(vendorTransactionGrid.validateGrid());
+		}else
+			result.add(vendorTransactionGrid.validateGrid());
 		return result;
 	}
 
