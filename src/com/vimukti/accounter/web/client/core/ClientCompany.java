@@ -2368,4 +2368,44 @@ public class ClientCompany implements IAccounterCore {
 	public List<ClientUnit> getUnits() {
 		return units;
 	}
+
+	public ClientTAXCode getTaxCodeByName(String taxCodeName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ClientItemGroup getItemGroupByName(String itemGroupName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ClientCreditRating getCreditRatingByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ClientItem getItemByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ClientPaymentTerms getPaymentTermsByName(String value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ClientPriceLevel getPriceLevelByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ClientTAXGroup getTaxGroupByName(String groupName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ClientShippingMethod getShippingMethodByName(String methodName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
