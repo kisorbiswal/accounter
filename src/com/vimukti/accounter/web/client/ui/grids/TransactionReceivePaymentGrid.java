@@ -8,7 +8,7 @@ import java.util.Stack;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterConstants;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
@@ -752,18 +752,18 @@ public class TransactionReceivePaymentGrid extends
 		switch (accountType) {
 		case ClientCompany.ACCOUNTING_TYPE_UK:
 			cashDiscountAccount = getCompany().getAccountByName(
-					AccounterConstants.DISCOUNTS);
+					AccounterClientConstants.DISCOUNTS);
 
 			writeOffAccount = getCompany().getAccountByName(
-					AccounterConstants.DISCOUNTS_TAKEN);
+					AccounterClientConstants.DISCOUNTS_TAKEN);
 			obj.setDiscountAccount(cashDiscountAccount.getID());
 			obj.setWriteOffAccount(writeOffAccount.getID());
 			break;
 		case ClientCompany.ACCOUNTING_TYPE_US:
 			cashDiscountAccount = getCompany().getAccountByName(
-					AccounterConstants.CASH_DISCOUNT_TAKEN);
+					AccounterClientConstants.CASH_DISCOUNT_TAKEN);
 			writeOffAccount = getCompany().getAccountByName(
-					AccounterConstants.WRITE_OFF);
+					AccounterClientConstants.WRITE_OFF);
 			obj.setDiscountAccount(cashDiscountAccount.getID());
 			obj.setWriteOffAccount(writeOffAccount.getID());
 			break;

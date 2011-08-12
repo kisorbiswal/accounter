@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
-import com.vimukti.accounter.web.client.core.AccounterConstants;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -216,7 +216,7 @@ public class IssuePaymentDialog extends BaseDialog {
 		payMethodItemList = new ArrayList<String>();
 		payMethodItemList
 				.add(UIUtils
-						.getpaymentMethodCheckBy_CompanyType(AccounterConstants.PAYMENT_METHOD_CHECK));
+						.getpaymentMethodCheckBy_CompanyType(AccounterClientConstants.PAYMENT_METHOD_CHECK));
 		payMethodSelect.initCombo(payMethodItemList);
 
 		payMethodSelect

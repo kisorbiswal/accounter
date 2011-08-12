@@ -217,8 +217,8 @@ public class CreditCardChargeView extends
 		super.paymentMethodSelected(paymentMethod2);
 		if (paymentMethod != null
 				&& (paymentMethod
-						.equals(com.vimukti.accounter.web.client.core.AccounterConstants.PAYMENT_METHOD_CHECK) || paymentMethod
-						.equals(com.vimukti.accounter.web.client.core.AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+						.equals(com.vimukti.accounter.web.client.core.AccounterClientConstants.PAYMENT_METHOD_CHECK) || paymentMethod
+						.equals(com.vimukti.accounter.web.client.core.AccounterClientConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 			if (isEdit) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction

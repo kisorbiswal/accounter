@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterConstants;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
@@ -116,7 +116,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 			if (obj.getReference() == null) {
 				showWarningDialog(obj, col);
 			} else if (obj.getReference().equals(
-					AccounterConstants.JOURNAL_ENTRY_FOR_DEPRECIATION)) {
+					AccounterClientConstants.JOURNAL_ENTRY_FOR_DEPRECIATION)) {
 				Accounter.showWarning(Accounter.constants()
 						.youcantvoidJournalEntrycreatedbyrunningDeprecation(),
 						AccounterType.ERROR);

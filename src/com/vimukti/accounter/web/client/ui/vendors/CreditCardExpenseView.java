@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterConstants;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -55,7 +55,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 						ClientVendorGroup vendorGrougp = Accounter.getCompany()
 								.getVendorGroup(vdr.getVendorGroup());
 						if (!vendorGrougp.getName().equals(
-								AccounterConstants.CREDIT_CARD_COMPANIES)) {
+								AccounterClientConstants.CREDIT_CARD_COMPANIES)) {
 							iterator.remove();
 						}
 					} else {

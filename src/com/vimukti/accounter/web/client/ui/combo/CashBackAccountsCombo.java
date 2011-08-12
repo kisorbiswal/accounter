@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.AccounterConstants;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -26,7 +26,7 @@ public class CashBackAccountsCombo extends AccountCombo {
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
 					&& !account.getName().equals(
-							AccounterConstants.UN_DEPOSITED_FUNDS)) {
+							AccounterClientConstants.UN_DEPOSITED_FUNDS)) {
 				cashBackAccounts.add(account);
 			}
 		}

@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
-import com.vimukti.accounter.web.client.core.AccounterConstants;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -1262,39 +1262,39 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		for (ClientAccount account : accountlist) {
 			// System.out.println("Account Name " + account.getName());
-			if (account.getName().equals(AccounterConstants.OPENING_BALANCE))
+			if (account.getName().equals(AccounterClientConstants.OPENING_BALANCE))
 				openingBalaccount = account;
 			else if (account.getName().equals(
-					AccounterConstants.ACCOUNTS_RECEIVABLE))
+					AccounterClientConstants.ACCOUNTS_RECEIVABLE))
 				accountsReceivable = account;
 			else if (account.getName().equals(
-					AccounterConstants.ACCOUNTS_PAYABLE))
+					AccounterClientConstants.ACCOUNTS_PAYABLE))
 				accountsPayable = account;
 			else if (account.getName().equals(
-					AccounterConstants.SALES_TAX_PAYABLE))
+					AccounterClientConstants.SALES_TAX_PAYABLE))
 				salesTaxpayable = account;
 			else if (account.getName().equals(
-					AccounterConstants.CASH_DISCOUNT_GIVEN))
+					AccounterClientConstants.CASH_DISCOUNT_GIVEN))
 				cashDiscountGiven = account;
 			else if (account.getName().equals(
-					AccounterConstants.CASH_DISCOUNT_TAKEN))
+					AccounterClientConstants.CASH_DISCOUNT_TAKEN))
 				cashDiscountTaken = account;
 			else if (account.getName().equals(
-					AccounterConstants.EMPLOYEE_PAYROLL_LIABILITIES))
+					AccounterClientConstants.EMPLOYEE_PAYROLL_LIABILITIES))
 				payRollLiability = account;
 			else if (account.getName().equals(
-					AccounterConstants.UN_DEPOSITED_FUNDS))
+					AccounterClientConstants.UN_DEPOSITED_FUNDS))
 				undepositedFunds = account;
-			else if (account.getName().equals(AccounterConstants.BANK_CHARGE))
+			else if (account.getName().equals(AccounterClientConstants.BANK_CHARGE))
 				bankCharge = account;
 			else if (account.getName().equals(
-					AccounterConstants.RETAINED_EARNINGS))
+					AccounterClientConstants.RETAINED_EARNINGS))
 				retainedEarnings = account;
 			else if (account.getName().equals(
-					AccounterConstants.PENDING_ITEM_RECEIPTS))
+					AccounterClientConstants.PENDING_ITEM_RECEIPTS))
 				pendingItemrecicpts = account;
 
-			else if (account.getName().equals(AccounterConstants.WRITE_OFF))
+			else if (account.getName().equals(AccounterClientConstants.WRITE_OFF))
 				writeOffAccount = account;
 
 		}

@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterConstants;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -164,7 +164,7 @@ public class IssuePaymentView extends BaseDialog {
 		payMethodSelect = new SelectItem(Accounter.constants().paymentMethod());
 		payMethodSelect.setRequired(true);
 		payMethodSelect.setValueMap(new String[] { "",
-				AccounterConstants.PAYMENT_METHOD_CHECK });
+				AccounterClientConstants.PAYMENT_METHOD_CHECK });
 		payMethodSelect.addChangeHandler(new ChangeHandler() {
 
 			@Override

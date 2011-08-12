@@ -6,7 +6,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.AccounterConstants;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -145,7 +145,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 		List<ClientTAXAgency> vatAgencies = getCompany().getActiveTAXAgencies();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
 			if (vatAgency.getName().equals(
-					AccounterConstants.DEFAULT_VAT_AGENCY_NAME))
+					AccounterClientConstants.DEFAULT_VAT_AGENCY_NAME))
 				vatAgencyCombo.addItemThenfireEvent(vatAgency);
 		}
 

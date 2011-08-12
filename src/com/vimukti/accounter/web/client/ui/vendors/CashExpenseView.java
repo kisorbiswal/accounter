@@ -7,7 +7,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterConstants;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -45,7 +45,7 @@ public class CashExpenseView extends CashPurchaseView {
 			protected List<ClientAccount> getAccounts() {
 				List<ClientAccount> accounts = getCompany().getAccounts();
 				for (ClientAccount acct : accounts) {
-					if (acct.getName().equals(AccounterConstants.PETTY_CASH)) {
+					if (acct.getName().equals(AccounterClientConstants.PETTY_CASH)) {
 						pettycash = acct;
 						return Arrays.asList(acct);
 					}

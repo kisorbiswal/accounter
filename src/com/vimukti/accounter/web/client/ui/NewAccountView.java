@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
-import com.vimukti.accounter.web.client.core.AccounterConstants;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
@@ -252,11 +252,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashFlowof = new LinkedHashMap<String, String>();
 
 		cashFlowof.put(ClientAccount.CASH_FLOW_CATEGORY_FINANCING + "",
-				AccounterConstants.CASH_FLOW_CATEGORY_FINANCING);
+				AccounterClientConstants.CASH_FLOW_CATEGORY_FINANCING);
 		cashFlowof.put(ClientAccount.CASH_FLOW_CATEGORY_INVESTING + "",
-				AccounterConstants.CASH_FLOW_CATEGORY_INVESTING);
+				AccounterClientConstants.CASH_FLOW_CATEGORY_INVESTING);
 		cashFlowof.put(ClientAccount.CASH_FLOW_CATEGORY_OPERATING + "",
-				AccounterConstants.CASH_FLOW_CATEGORY_OPERATING);
+				AccounterClientConstants.CASH_FLOW_CATEGORY_OPERATING);
 
 		cashFlowCatSelect.setValueMap(cashFlowof);
 
@@ -655,9 +655,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// typeSelect.setWidth("*");
 			typeMap = new ArrayList<String>();
 
-			typeMap.add(AccounterConstants.BANK_ACCCOUNT_TYPE_CHECKING);
-			typeMap.add(AccounterConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
-			typeMap.add(AccounterConstants.BANK_ACCCOUNT_TYPE_SAVING);
+			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING);
+			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET);
+			typeMap.add(AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING);
 			typeSelect.initCombo(typeMap);
 			typeSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -950,13 +950,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			if (typeSelect.getSelectedValue() != null) {
 				int type = 0;
 				if (typeSelect.getSelectedValue().equals(
-						AccounterConstants.BANK_ACCCOUNT_TYPE_CHECKING))
+						AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING;
 				else if (typeSelect.getSelectedValue().equals(
-						AccounterConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
+						AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
 				else if (typeSelect.getSelectedValue().equals(
-						AccounterConstants.BANK_ACCCOUNT_TYPE_SAVING))
+						AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_SAVING;
 				((ClientBankAccount) data).setBankAccountType(type);
 			}
@@ -1111,13 +1111,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private String getCashFlowCategory(int i) {
 		switch (i) {
 		case ClientAccount.CASH_FLOW_CATEGORY_FINANCING:
-			return AccounterConstants.CASH_FLOW_CATEGORY_FINANCING;
+			return AccounterClientConstants.CASH_FLOW_CATEGORY_FINANCING;
 
 		case ClientAccount.CASH_FLOW_CATEGORY_INVESTING:
-			return AccounterConstants.CASH_FLOW_CATEGORY_INVESTING;
+			return AccounterClientConstants.CASH_FLOW_CATEGORY_INVESTING;
 
 		case ClientAccount.CASH_FLOW_CATEGORY_OPERATING:
-			return AccounterConstants.CASH_FLOW_CATEGORY_OPERATING;
+			return AccounterClientConstants.CASH_FLOW_CATEGORY_OPERATING;
 		default:
 			break;
 		}
@@ -1299,12 +1299,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private String getBankAccountType(int type) {
 		switch (type) {
 		case ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING:
-			return AccounterConstants.BANK_ACCCOUNT_TYPE_CHECKING;
+			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING;
 
 		case ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET:
-			return AccounterConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
+			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
 		case ClientAccount.BANK_ACCCOUNT_TYPE_SAVING:
-			return AccounterConstants.BANK_ACCCOUNT_TYPE_SAVING;
+			return AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING;
 
 		default:
 			break;
