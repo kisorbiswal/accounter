@@ -38,12 +38,12 @@
 		</set>
 		<property name="flow" column="FLOW"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<many-to-one name="linkedAccumulatedDepreciationAccount"
 			column="LINKED_ID" class="Account" lazy="false" cascade="save-update,delete">
 		</many-to-one>
@@ -88,11 +88,11 @@
 		<property name="closingFYEntry" column="IS_CLOSING_FISCALYEAR_ENTRY"></property>
 		<property name="cashBasisEntry" column="IS_CASH_BASIS_ENTRY"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 	</class>
 
 	<class name="FiscalYear" table="FISCAL_YEAR">
@@ -107,11 +107,11 @@
 		<property name="isCurrentFiscalYear" column="IS_CURRENT_FISCAL_YEAR"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true" ></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
 	<class name="Bank" table="BANK">
@@ -323,11 +323,11 @@
 		<property name="ukNonInventoryItemDefaultExpenseAccount"
 			column="UK_NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 
 		<property name="registrationNumber" column="REGISTRATION_NUMBER"></property>
 
@@ -407,11 +407,11 @@
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
 	<class name="Currency" table="CURRENCY">
@@ -430,11 +430,11 @@
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
 	<!-- <class name="Email" table="EMAIL"> <id name="id" column="ID"> <generator 
@@ -490,11 +490,11 @@
 		<property name="standardCost" column="SATNDARD_COST"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
 	<class name="TAXItemGroup" table="TAX_ITEM_GROUPS">
@@ -506,11 +506,11 @@
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="isSalesType" column="IS_SALES_TYPE"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isPercentage" column="IS_PERCENTAGE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<joined-subclass name="TAXItem" table="TAX_ITEM">
@@ -541,11 +541,11 @@
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<!-- <list name="items" table="ITEM_ITEM_GROUP" lazy="false" cascade="save-update"> -->
 		<!-- <key column="ITEM_GROUP_ID"></key> -->
@@ -586,6 +586,12 @@
 		<property name="webPageAddress" column="WEB_PAGE_ADDRESS"></property>
 		<property name="address" column="ADDRESS"
 			type="com.vimukti.accounter.core.Address"></property>
+			<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIED_BY"
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_ON" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_ON" not-null="true"/>
 	</class>
 	<class name="Payee" table="PAYEE">
 		<id name="id" column="ID">
@@ -657,11 +663,11 @@
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="memo" column="MEMO"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<!-- <property name="isEUVATExemptPayee" column="IS_EU_VAT_EXEMPT_PAYEE"></property> -->
 		<property name="VATRegistrationNumber" column="VAT_REGISTRATION_NUMBER"
 			type="string"></property>
@@ -779,11 +785,11 @@
 		<property name="ifPaidWithIn" column="IF_PAID_WITHIN"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
 	<!-- <class name="Phone" table="PHONE"> <id name="id" column="ID"> <generator 
@@ -799,11 +805,11 @@
 		<property name="isPriceLevelDecreaseByThisPercentage" column="IS_P_DECREASE_BY_THIS_PERCENT"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
 	<class name="ShippingMethod" table="SHIPPINGMETHOD">
@@ -814,11 +820,11 @@
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
 	<class name="ShippingTerms" table="SHIPPINGTERMS">
@@ -829,11 +835,11 @@
 		<property name="description" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
 	<!-- <class name="TaxCode" table="TAXCODE"> <id name="id" column="ID"> <generator 
@@ -995,11 +1001,11 @@
 		<property name="name" unique="true" not-null="true" column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 	</class>
 	<class name="FixedAsset" table="FIXED_ASSET">
@@ -1064,11 +1070,11 @@
 			<one-to-many class="FixedAssetHistory" />
 		</list>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="totalCapitalGainAmount" column="TOTAL_CAPITAL_GAIN_AMOUNT"></property>
 	</class>
 	<!-- <class name="SellingOrDisposingFixedAsset" table="SELLING_OR_DISPOSING_FIXED_ASSET"> 
@@ -1120,11 +1126,11 @@
 		</id>
 		<property name="note" column="NOTE"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 	</class>
 	<class name="VATReturnBox" table="VATRETURNBOX">
 		<id name="id" column="ID">
@@ -1229,11 +1235,11 @@
 		</property>
 
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="isDefault" column="IS_DEFAULT" />
 	</class>
 
@@ -1253,11 +1259,11 @@
 		<property name="name" column="NAME" unique="true" not-null="true" />
 
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 
 		<!-- <many-to-one name="contact" column="CONTACT_ID" class="Contact" lazy="false" 
 			/> -->
@@ -1345,11 +1351,11 @@
 		<property name="section" column="SECTION" />
 		<property name="name" column="NAME" />
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" />
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 	</class>
 
 
@@ -1435,10 +1441,10 @@
 	<class name="StockTransfer" table="STOCK_TRANSFER">
 		<id name="id" column="ID" />
 
-		<many-to-one name="createdBy" class="User" column="CREATED_BY" />
-		<many-to-one name="lastModifier" class="User" column="LAST_MODIFIER" />
-		<property name="createdDate" column="CREATED_ON" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_ON" />
+		<many-to-one name="createdBy" class="User" column="CREATED_BY" not-null="true"/>
+		<many-to-one name="lastModifier" class="User" column="LAST_MODIFIER" not-null="true"/>
+		<property name="createdDate" column="CREATED_ON" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_ON" not-null="true"/>
 
 
 		<many-to-one name="fromWarehouse" column="FROM_WAREHOUSE"

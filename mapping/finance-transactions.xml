@@ -37,11 +37,11 @@
 		<property name="total" column="TOTAL"></property>
 		<property name="netAmount" column="NET_AMOUNT"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			lazy="false"></many-to-one>
+			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" lazy="false"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"/>
+			class="User" lazy="false" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true"/>
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true"/>
 		<property name="currencyCode" column="CURRENCY_CODE"></property>
 		<property name="currencyFactor" column="CURRENCY_FACTOR"></property>
 		<set name="accountTransactionEntriesList" inverse="true" cascade="save-update"
