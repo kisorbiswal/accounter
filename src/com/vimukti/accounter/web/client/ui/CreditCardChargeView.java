@@ -698,7 +698,20 @@ public class CreditCardChargeView extends
 	public ValidationResult validate() {
 
 		ValidationResult result = super.validate();
-
+		// Validations
+		// 1. if(! validTransactionDate(transactionDate)) ERROR
+		// if transaction date is with in the open fiscal year range, then it is
+		// valid transaction date
+		
+		
+		// 2. if( isInPreventPostingBeforeDate(transactionDate)) ERROR
+		// 		i.e the transaction date should not be before the company's preferred preventPostingBeforeDate
+		
+		// 3. vendorForm validation
+		// 4. termsForm validation
+		// 5. if(isBlankTransation) ERROR
+		// 6. vendorTransactionGrid validation
+		
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
