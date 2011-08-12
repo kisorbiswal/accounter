@@ -28,8 +28,10 @@ public class LogoutServlet extends BaseServlet {
 			}
 			req.getSession().invalidate();
 
-			resp.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-			resp.setHeader("Location", "/site/login");
+			redirectExternal(req, resp, LOGIN_URL);
+
+			// resp.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+			// resp.setHeader("Location", "/login");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
