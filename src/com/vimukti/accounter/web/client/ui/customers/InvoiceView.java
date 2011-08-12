@@ -1104,11 +1104,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
+		
 		ClientCustomer previousCustomer = getCustomer();
+		
 		if (getCustomer() != null && getCustomer() != previousCustomer) {
 			getEstimatesAndSalesOrder();
 		}
 		result.add(super.validate());
+		
+		//Validations
+		// 1. IF(!isValidDueOrDeliveryDates(dueDate, transactionDate)) ERROR
+		
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				((InvoiceView) this).dueDateItem.getDate(),
 				getTransactionDate())) {
@@ -1122,6 +1128,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 							.cannotbeearlierthantransactiondate());
 		}
 
+		//FIXME :: do we require orderNumText? if not remove the related code.
 		if (!orderNumText.getValue().equals("")) {
 			if (isNumberCorrect((String) orderNumText.getValue()) == 1) {
 				result.addError(orderNumText, Accounter.constants()
