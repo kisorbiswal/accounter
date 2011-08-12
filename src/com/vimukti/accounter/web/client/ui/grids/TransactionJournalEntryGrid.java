@@ -692,20 +692,20 @@ public class TransactionJournalEntryGrid extends
 	protected void onRecordAdd(ClientEntry record) {
 
 		double dueAmt = getGroupRecordsDueTotal();
-
-		if (DecimalUtil.isEquals(dueAmt, 0.0)) {
-			record.setDebit(0.0);
-			record.setCredit(0.0);
-			record.setVoucherNumber(tempVoucherNumber);
-		} else if (DecimalUtil.isGreaterThan(dueAmt, 0)) {
-			record.setCredit(dueAmt);
-			record.setDebit(0.0);
-			record.setVoucherNumber(tempVoucherNumber);
-		} else if (DecimalUtil.isLessThan(dueAmt, 0.0)) {
-			record.setCredit(0.0);
-			record.setDebit(-1 * dueAmt);
-			record.setVoucherNumber(tempVoucherNumber);
-		}
+//
+//		if (DecimalUtil.isEquals(dueAmt, 0.0)) {
+//			record.setDebit(0.0);
+//			record.setCredit(0.0);
+//			record.setVoucherNumber(tempVoucherNumber);
+//		} else if (DecimalUtil.isGreaterThan(dueAmt, 0)) {
+//			record.setCredit(dueAmt);
+//			record.setDebit(0.0);
+//			record.setVoucherNumber(tempVoucherNumber);
+//		} else if (DecimalUtil.isLessThan(dueAmt, 0.0)) {
+//			record.setCredit(0.0);
+//			record.setDebit(-1 * dueAmt);
+//			record.setVoucherNumber(tempVoucherNumber);
+//		}
 	}
 
 	/**

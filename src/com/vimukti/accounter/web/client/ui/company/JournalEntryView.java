@@ -427,7 +427,7 @@ public class JournalEntryView extends
 			ClientEntry rec[] = new ClientEntry[entries.size()];
 			int i = 0;
 			ClientEntry temp = null;
-			for (ClientEntry entry : transaction.getEntry()) {
+			for (ClientEntry entry : entries) {
 
 				rec[i] = transaction.getEntry().get(i);
 				ClientCompany company = getCompany();
