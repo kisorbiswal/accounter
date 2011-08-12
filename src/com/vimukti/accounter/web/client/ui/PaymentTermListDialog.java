@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.company.AddPaymentTermDialog;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -159,13 +158,12 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	 * @return true -if the payment term is already exists
 	 */
 	private boolean validateName(String name) {
-		return (paymentTerm == null
-				&& Utility.isObjectExist(company.getPaymentsTerms(), name) ? true
-				: false)
+		ClientPaymentTerms paymentTermsByName = company
+				.getPaymentTermsByName(name);
+		return (paymentTerm == null && paymentTermsByName == null)
 				|| (paymentTerm != null && !(paymentTerm.getName()
 						.equalsIgnoreCase(name) ? true
-						: (Utility.isObjectExist(company.getPaymentsTerms(),
-								name) ? false : true)));
+						: paymentTermsByName == null));
 	}
 
 	@Override
@@ -210,9 +208,10 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 				result.addError(this, Accounter.constants().alreadyExist());
 			}
 		} else {
-			Object value = dialog.payTermText.getValue();
-			if (Utility.isObjectExist(getCompany().getPaymentsTerms(),
-					value.toString())) {
+			String value = dialog.payTermText.getValue();
+			ClientPaymentTerms clientPaymentTerms = company
+					.getPaymentTermsByName(value);
+			if (clientPaymentTerms != null) {
 				result.addError(this, Accounter.constants()
 						.paytermsAlreadyExists());
 			}

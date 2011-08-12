@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.company.AddPriceLevelDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
@@ -116,8 +115,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 						.getValue().toString() : "");
 		priceLevel
 				.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-						.getPercentage()
-						: 0.0);
+						.getPercentage() : 0.0);
 		String val = dialog.getIncrOrDecrPercentValue();
 		if (val != null) {
 			priceLevel.setPriceLevelDecreaseByThisPercentage(val
@@ -135,8 +133,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 						.getValue().toString() : "");
 		priceLevel
 				.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-						.getPercentage()
-						: 0.0);
+						.getPercentage() : 0.0);
 		String val = dialog.getIncrOrDecrPercentValue();
 		if (val != null) {
 			priceLevel.setPriceLevelDecreaseByThisPercentage(val
@@ -176,18 +173,16 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 		ValidationResult result = new ValidationResult();
 
 		if (dialog != null) {
-
+			String name = dialog.levelText.getValue();
+			ClientPriceLevel priceLevelByName = company
+					.getPriceLevelByName(name);
 			if (priceLevel != null) {
-				if (!(priceLevel.getName().equalsIgnoreCase(
-						UIUtils.toStr(dialog.levelText.getValue().toString())) ? true
-						: (Utility.isObjectExist(company.getPriceLevels(),
-								UIUtils.toStr(dialog.levelText.getValue()
-										.toString()))) ? false : true)) {
+				if (!(priceLevel.getName().equalsIgnoreCase(name) ? true
+						: priceLevelByName == null)) {
 					result.addError(this, Accounter.constants().alreadyExist());
 				}
 			} else {
-				if (Utility.isObjectExist(getCompany().getPriceLevels(),
-						dialog.levelText.getValue().toString())) {
+				if (priceLevelByName != null) {
 					result.addError(this, Accounter.constants()
 							.priceLevelAlreadyExists());
 				}

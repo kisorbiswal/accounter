@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
+import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
@@ -139,27 +140,22 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (creditRating != null) {
+		String name = inputDlg.getTextItems().get(0).getValue().toString();
 
+		if (creditRating != null) {
+			ClientItemGroup clientItemGroup = company.getItemGroupByName(name);
+			if (clientItemGroup != null
+					&& clientItemGroup.getID() != creditRating.getID()) {
+				result.addError(this, accounterConstants.alreadyExist());
+			}
+		} else {
+			ClientCreditRating creditRating = company
+					.getCreditRatingByName(name);
 			if (creditRating != null) {
-				if (!(creditRating.getName().equalsIgnoreCase(
-						UIUtils.toStr(inputDlg.getTextItems().get(0).getValue()
-								.toString())) ? true
-						: (Utility.isObjectExist(company.getItemGroups(),
-								UIUtils.toStr(inputDlg.getTextItems().get(0)
-										.getValue().toString()))) ? false
-								: true)) {
-					result.addError(this, accounterConstants.alreadyExist());
-				}
-			} else {
-				if (Utility.isObjectExist(getCompany().getCreditRatings(),
-						inputDlg.getTextItems().get(0).getValue().toString())) {
-					result.addError(this, Accounter.constants()
-							.creditRatingAlreadyExists());
-				}
+				result.addError(this, Accounter.constants()
+						.creditRatingAlreadyExists());
 			}
 		}
-
 		return result;
 	}
 

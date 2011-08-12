@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
@@ -144,18 +144,16 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (inputDlg != null) {
+			String methodName = inputDlg.getTextValueByIndex(0).toString();
+			ClientShippingMethod shippingMethodByName = getCompany()
+					.getShippingMethodByName(methodName);
 			if (shippingTerm != null) {
-				if (!(shippingTerm.getName().equalsIgnoreCase(
-						UIUtils.toStr(inputDlg.getTextValueByIndex(0)
-								.toString())) ? true : (Utility.isObjectExist(
-						company.getShippingTerms(), UIUtils.toStr(inputDlg
-								.getTextValueByIndex(0).toString()))) ? false
-						: true)) {
+				if (!(shippingTerm.getName().equalsIgnoreCase(methodName) ? true
+						: shippingMethodByName == null)) {
 					result.addError(this, Accounter.constants().alreadyExist());
 				}
 			} else {
-				if (Utility.isObjectExist(getCompany().getShippingTerms(),
-						inputDlg.getTextValueByIndex(0))) {
+				if (shippingMethodByName != null) {
 					result.addError(this, Accounter.constants()
 							.shippingTermAlreadyExists());
 				}

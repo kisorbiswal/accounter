@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTaxRates;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -324,21 +323,13 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
-
 		result.add(taxCodeForm.validate());
-
-		if ((!isEdit
-				&& Utility.isObjectExist(company.getTaxCodes(),
-						UIUtils.toStr(taxCodeText.getValue())) ? true : false)
-				|| (isEdit && !(data.getName().equalsIgnoreCase(
-						UIUtils.toStr(taxCodeText.getValue())) ? true
-						: (Utility.isObjectExist(company.getTaxCodes(),
-								UIUtils.toStr(taxCodeText.getValue())) ? false
-								: true)))) {
+		String taxCodeName = taxCodeText.getValue();
+		ClientTAXCode taxCode = company.getTaxCodeByName(taxCodeName);
+		if (taxCode != null && taxCode.getID() != this.getData().getID()) {
 			result.addError(taxCodeText, accounterConstants.alreadyExist());
 		}
 		return result;
-
 	}
 
 	private boolean validDate() {

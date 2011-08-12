@@ -883,11 +883,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		result.add(accInfoForm.validate());
 		String name = accNameText.getValue().toString() != null ? accNameText
 				.getValue().toString() : "";
+		ClientCompany company = getCompany();
+		ClientAccount account = company.getAccountByName(name);
 		if (name != null
 				&& !name.isEmpty()
 				&& !(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
-						: (Utility.isObjectExist(getCompany().getAccounts(),
-								name) ? false : true)) : true)) {
+						: account == null) : true)) {
 			result.addError(accNameText, Accounter.constants().alreadyExist());
 		}
 		if (!(isEdit && data.getName().equalsIgnoreCase(

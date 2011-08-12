@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.company.ItemGroupDialog;
@@ -132,20 +131,19 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (itemGroupDg != null) {
-			if (itemGroup != null) {
-				if (!(itemGroup.getName().equalsIgnoreCase(
-						itemGroupDg.getItemGroupName()) ? true : (Utility
-						.isObjectExist(company.getItemGroups(), itemGroupDg
-								.getItemGroupName())) ? false : true)) {
-					result.addError(this, accounterConstants.alreadyExist());
-				}
-			} else {
-				if (Utility.isObjectExist(getCompany().getItemGroups(),
-						itemGroupDg.getItemGroupName())) {
-					result.addError(this, Accounter.constants()
-							.aItemGroupAlreadyExistswiththisname());
-				}
+		String name = itemGroupDg.getItemGroupName();
+		if (itemGroup != null) {
+			String itemGroupName = itemGroup.getName();
+			ClientItemGroup groupByName = company.getItemGroupByName(name);
+			if (!(itemGroupName.equalsIgnoreCase(name) ? true
+					: groupByName == null)) {
+				result.addError(this, accounterConstants.alreadyExist());
+			}
+		} else {
+			ClientItemGroup itemGroupByName = company.getItemGroupByName(name);
+			if (itemGroupByName != null) {
+				result.addError(this, Accounter.constants()
+						.aItemGroupAlreadyExistswiththisname());
 			}
 		}
 

@@ -154,25 +154,23 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (inputDlg != null)
+		if (inputDlg != null) {
+			String methodName = inputDlg.getTextValueByIndex(0).toString();
+			ClientShippingMethod shippingMethodByName = company
+					.getShippingMethodByName(methodName);
 
 			if (shippingMethod == null) {
-				if (Utility.isObjectExist(getCompany().getShippingMethods(),
-						inputDlg.getTextValueByIndex(0))) {
+				if (shippingMethodByName != null) {
 					result.addError(this, Accounter.constants()
 							.shippingMethodAlreadyExists());
 				}
 			} else {
-				if (!(shippingMethod.getName().equalsIgnoreCase(
-						UIUtils.toStr(inputDlg.getTextValueByIndex(0)
-								.toString())) ? true : (Utility.isObjectExist(
-						company.getShippingMethods(), UIUtils.toStr(inputDlg
-								.getTextValueByIndex(0).toString()))) ? false
-						: true)) {
+				if (!(shippingMethod.getName().equalsIgnoreCase(methodName) ? true
+						: shippingMethodByName != null ? false : true)) {
 					result.addError(this, Accounter.constants().alreadyExist());
 				}
 			}
-
+		}
 		return result;
 	}
 

@@ -840,7 +840,8 @@ public class ItemView extends BaseView<ClientItem> {
 		ValidationResult result = new ValidationResult();
 		String name = nameText.getValue().toString();
 		if (!isEdit) {
-			if (Utility.isObjectExist(company.getItems(), name)) {
+			ClientItem clientItem = company.getItemByName(name);
+			if (clientItem != null) {
 				result.addError(nameText, Accounter.constants()
 						.aItemGroupAlreadyExistswiththisname());
 			}

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AddButton;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -279,15 +280,14 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	}
 
 	protected void editTaxGroup(ClientTAXGroup taxGroup) {
-		if (!(taxGroup.getName().equalsIgnoreCase(
-				UIUtils.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? true
-				: (Utility.isObjectExist(getCompany().getTaxGroups(), UIUtils
-						.toStr(salesTaxGroupDialog.taxGroupText.getValue())) ? false
-						: true))) {
+		String groupName = salesTaxGroupDialog.taxGroupText.getValue();
+		ClientTAXGroup taxGroupByName = getCompany().getTaxGroupByName(
+				groupName);
+		if (!(taxGroup.getName().equalsIgnoreCase(groupName) ? true
+				: taxGroupByName == null)) {
 			Accounter.showError(Accounter.constants().alreadyExist());
 		} else {
-			taxGroup.setName(UIUtils.toStr(salesTaxGroupDialog.taxGroupText
-					.getValue()));
+			taxGroup.setName(groupName);
 			taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
 			saveOrUpdate(taxGroup);
 		}
@@ -330,12 +330,11 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		taxGroup.setPercentage(true);
 		taxGroup.setSalesType(true);
 		taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
-
-		if (Utility.isObjectExist(getCompany().getTaxItems(),
-				taxGroup.getName())
-				|| Utility.isObjectExist(getCompany().getTaxGroups(),
-						taxGroup.getName())) {
-
+		ClientCompany company = getCompany();
+		ClientTAXItem itemByName = company.getTaxItemByName(taxGroup.getName());
+		ClientTAXGroup taxGroupByName = company.getTaxGroupByName(taxGroup
+				.getName());
+		if (itemByName != null || taxGroupByName != null) {
 			Accounter.showError(Accounter.constants().alreadyExist());
 		} else
 			saveOrUpdate(taxGroup);
