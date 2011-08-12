@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 
 public class EmployeeExpenseView extends CashPurchaseView {
@@ -31,7 +30,9 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	public int status;
 	private ImageButton approveButton;
 	private ImageButton submitForApprove;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter.constants();
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
+			.constants();
+
 	public EmployeeExpenseView() {
 		super(ClientTransaction.TYPE_EMPLOYEE_EXPENSE);
 	}
@@ -121,14 +122,13 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
-		employee
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientEmployee>() {
+		employee.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientEmployee>() {
 
-					@Override
-					public void selectedComboBoxItem(ClientEmployee selectItem) {
+			@Override
+			public void selectedComboBoxItem(ClientEmployee selectItem) {
 
-					}
-				});
+			}
+		});
 		if (!Accounter.getUser().isAdminUser()) {
 			// employee.setValue(Accounter.getUser().getName());
 			employee.setAdmin(false);
@@ -192,35 +192,40 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		result.add(vendorForm.validate());
-		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateTransactionDate());
-		}
-		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants.invalidateDate());
-		}
+
+		// result.add(vendorForm.validate());
+		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+		// result.addError(transactionDateItem,
+		// accounterConstants.invalidateTransactionDate());
+		// }
+		// if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate))
+		// {
+		// result.addError(transactionDateItem,
+		// accounterConstants.invalidateDate());
+		// }
 		if (Accounter.getUser().canApproveExpences())
 			if (!payFromCombo.validate()) {
-				result.addError(payFromCombo, Accounter.messages().pleaseEnter(
-						payFromCombo.getTitle()));
+				result.addError(
+						payFromCombo,
+						Accounter.messages().pleaseEnter(
+								payFromCombo.getTitle()));
 			}
-		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
-				.getEnteredDate(), this.transactionDate)) {
-			result.addError(deliveryDateItem, Accounter.constants().the()
-					+ " "
-					+ Accounter.constants().deliveryDate()
-					+ " "
-					+ " "
-					+ Accounter.constants()
-							.cannotbeearlierthantransactiondate());
-
-		}
-		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
-					accounterConstants.blankTransaction());
-		}
-		result.add(vendorTransactionGrid.validateGrid());
+		// if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+		// .getEnteredDate(), this.transactionDate)) {
+		// result.addError(deliveryDateItem, Accounter.constants().the()
+		// + " "
+		// + Accounter.constants().deliveryDate()
+		// + " "
+		// + " "
+		// + Accounter.constants()
+		// .cannotbeearlierthantransactiondate());
+		//
+		// }
+		// if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
+		// result.addError(vendorTransactionGrid,
+		// accounterConstants.blankTransaction());
+		// }
+		// result.add(vendorTransactionGrid.validateGrid());
 		return result;
 	}
 
