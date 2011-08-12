@@ -204,13 +204,12 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		ClientCustomer customerByName = company.getCustomerByName(name);
 
-		if (vendorByName != null || customerByName != null
-				|| vendorByName.getID() == this.getData().getID()
-				|| customerByName.getDate() == this.getData().getID())
-
-		{
-			result.addError(vendorNameText, Accounter.constants()
-					.alreadyExist());
+		if (vendorByName != null || customerByName != null) {
+			if (vendorByName.getID() == this.getData().getID()
+					|| customerByName.getDate() == this.getData().getID()) {
+				result.addError(vendorNameText, Accounter.constants()
+						.alreadyExist());
+			}
 		}
 
 		result.add(vendorForm.validate());
