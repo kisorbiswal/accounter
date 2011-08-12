@@ -2410,6 +2410,19 @@ public class ClientCompany implements IAccounterCore {
 	}
 	
 	public ClientVendorGroup getVendorGroupByName(String vendorGroupName){
+		//TODO
+		return null;
+	}
+	public ClientCustomerGroup getClientCustomerGroupByName(String name){
+		//TODO
+		return null;
+	}
+	public ClientFixedAsset getClientFixedAssetByName(String name){
+		//TODO
+		return null;
+	}
+	public ClientBrandingTheme getClientBrandingThemeByName(String name){
+		//TODO
 		return null;
 	}
 }
