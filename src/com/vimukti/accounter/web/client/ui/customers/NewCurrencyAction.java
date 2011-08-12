@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -20,28 +23,23 @@ public class NewCurrencyAction extends Action {
 	}
 
 	private void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
 			@Override
-			public void onCreated() {
-				// TODO Auto-generated method stub
+			public void onSuccess() {
 				view = new CurrencyView();
-				try {
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, NewCurrencyAction.this);
-				} catch (Throwable t) {
-					onCreateFailed(t);
-				}
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewCurrencyAction.this);
 
 			}
 
 			@Override
-			public void onCreateFailed(Throwable t) {
-				// TODO Auto-generated method stub
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});
-
 	}
 
 	@Override

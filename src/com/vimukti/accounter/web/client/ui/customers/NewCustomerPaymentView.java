@@ -47,7 +47,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class NewCustomerPaymentView extends
 		AbstractCustomerTransactionView<ClientCustomerPrePayment> {
-	AccounterConstants accounterConstants = GWT.create(AccounterConstants.class);
+	AccounterConstants accounterConstants = GWT
+			.create(AccounterConstants.class);
 	private CheckboxItem printCheck;
 	private AmountField amountText, endBalText, customerBalText;
 	protected double enteredBalance;
@@ -90,18 +91,17 @@ public class NewCustomerPaymentView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(
-					transactionDateItem,
+			result.addError(transactionDateItem,
 					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(payForm.validate());
 		if (DecimalUtil.isEquals(amountText.getAmount(), 0))
-			result.addError(
-					amountText,
+			result.addError(amountText,
 					accounterConstants.invalidNegativeAmount());
 		return result;
 	}

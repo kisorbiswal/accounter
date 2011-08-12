@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
@@ -24,7 +26,8 @@ public class ReceivePaymentAction extends Action {
 	}
 
 	public ReceivePaymentAction(String text,
-			ClientReceivePayment receivePayment, AccounterAsyncCallback<Object> callback) {
+			ClientReceivePayment receivePayment,
+			AccounterAsyncCallback<Object> callback) {
 		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
@@ -37,24 +40,20 @@ public class ReceivePaymentAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-				try {
-
-					view = new ReceivePaymentView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, ReceivePaymentAction.this);
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+			@Override
+			public void onSuccess() {
+				view = new ReceivePaymentView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, ReceivePaymentAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Recieve Payment View...",
-				// t);
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});

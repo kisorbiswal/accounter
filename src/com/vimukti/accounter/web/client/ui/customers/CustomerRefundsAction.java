@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -29,33 +31,26 @@ public class CustomerRefundsAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				try {
-
-					view = new CustomerRefundListView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, CustomerRefundsAction.this);
-					// UIUtils.setCanvas(view, getViewConfiguration());
-
-				} catch (Throwable t) {
-					onCreateFailed(t);
-				}
+			@Override
+			public void onSuccess() {
+				view = new CustomerRefundListView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, CustomerRefundsAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to load Customer Refund ListView",
-				// t);
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});
-
 	}
 
-	//	
+	//
 	// @Override
 	// public ParentCanvas getView() {
 	// return this.view;
@@ -71,7 +66,7 @@ public class CustomerRefundsAction extends Action {
 
 	// @Override
 	// public String getImageUrl() {
-	//		
+	//
 	// return "/images/customer_refunds_list.png";
 	// }
 

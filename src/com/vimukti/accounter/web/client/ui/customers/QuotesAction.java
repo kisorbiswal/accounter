@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -29,27 +31,23 @@ public class QuotesAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				try {
-					view = new QuoteListView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, QuotesAction.this);
-					// UIUtils.setCanvas(view, getViewConfiguration());
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+			@Override
+			public void onSuccess() {
+				view = new QuoteListView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, QuotesAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Quote list..", t);
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});
-
 	}
 
 	//

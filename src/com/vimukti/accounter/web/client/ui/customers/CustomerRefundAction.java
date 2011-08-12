@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
@@ -24,7 +26,8 @@ public class CustomerRefundAction extends Action {
 	}
 
 	public CustomerRefundAction(String text,
-			ClientCustomerRefund customerRefund, AccounterAsyncCallback<Object> callBack) {
+			ClientCustomerRefund customerRefund,
+			AccounterAsyncCallback<Object> callBack) {
 		super(text);
 		this.catagory = Accounter.constants().customer();
 	}
@@ -37,23 +40,21 @@ public class CustomerRefundAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isEditable) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-				try {
-
-					view = new CustomerRefundView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isEditable, CustomerRefundAction.this);
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+			@Override
+			public void onSuccess() {
+				view = new CustomerRefundView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isEditable, CustomerRefundAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Customer Refund View", t);
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
 			}
 		});
 	}
