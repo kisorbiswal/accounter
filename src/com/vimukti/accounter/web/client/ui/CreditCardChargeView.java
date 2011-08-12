@@ -274,10 +274,10 @@ public class CreditCardChargeView extends
 				payFromAccountSelected(transaction.getPayFrom());
 			payFrmSelect.setComboItem(getCompany().getAccount(payFromAccount));
 			payFrmSelect.setDisabled(isEdit);
+			cheqNoText.setValue(transaction.getCheckNumber());
 			cheqNoText.setDisabled(true);
 			paymentMethodSelected(transaction.getPaymentMethod());
 			payMethSelect.setComboItem(transaction.getPaymentMethod());
-			cheqNoText.setDisabled(true);
 			vendorTransactionGrid.setCanEdit(false);
 			vendorTransactionGrid.removeAllRecords();
 			vendorTransactionGrid.setAllTransactionItems(transaction
@@ -752,7 +752,7 @@ public class CreditCardChargeView extends
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 			result.addError(vendorTransactionGrid,
 					accounterConstants.blankTransaction());
-		}else
+		} else
 			result.add(vendorTransactionGrid.validateGrid());
 		return result;
 
