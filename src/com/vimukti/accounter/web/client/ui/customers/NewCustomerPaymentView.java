@@ -90,17 +90,26 @@ public class NewCustomerPaymentView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
+		
+		//Validations
+		// 1. isValidTransactionDate?
+		// 2. isInPreventPostingBeforeDate?
+		// 3. payForm.validate?
+		// 4. isNegativeAmount?
+		
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateTransactionDate());
-		} else if (AccounterValidator
+		}
+		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateDate());
 		}
 
 		result.add(payForm.validate());
-		if (DecimalUtil.isEquals(amountText.getAmount(), 0))
+		
+		if (AccounterValidator.isPositiveAmount(amountText.getAmount()))
 			result.addError(amountText,
 					accounterConstants.invalidNegativeAmount());
 		return result;
