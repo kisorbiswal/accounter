@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -1325,8 +1324,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 					Accounter.showMessage(Accounter.constants()
 							.sessionExpired());
 				} else {
-					Accounter.showError(((InvalidOperationException) (caught))
-							.getDetailedMessage());
+					Accounter.showError(((AccounterException) (caught))
+							.getMessage());
+
 				}
 			}
 
@@ -1489,8 +1489,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		this.taxCode = taxCode;
 		if (taxCode != null) {
 
-			taxCodeSelect
-					.setComboItem(taxCode);
+			taxCodeSelect.setComboItem(taxCode);
 			customerTransactionGrid.setTaxCode(taxCode.getID());
 		} else
 			taxCodeSelect.setValue("");
