@@ -646,14 +646,15 @@ public class FinanceTool implements IFinanceDAOService {
 
 				for (User user : users) {
 					try {
-
 						CometStream stream = CometManager.getStream(
-								user.getID(), "accounter");
+								user.getEmail(), "accounter");
 						if (stream == null) {
 							continue;
 						}
 						for (IAccounterCore obj : changes) {
-							stream.put(obj);
+							if (obj != null) {
+								stream.put(obj);
+							}
 						}
 						log.info("Sent " + changes.length + " change to "
 								+ user.getEmail());
