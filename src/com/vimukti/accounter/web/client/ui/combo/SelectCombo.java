@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import java.util.Arrays;
+
 public class SelectCombo extends CustomCombo<String> {
 
 	// public static final int ACCOUNT_TYPES = 6;
@@ -79,8 +81,7 @@ public class SelectCombo extends CustomCombo<String> {
 	 * 
 	 */
 	public void setValueMap(String... strings) {
-		// TODO Auto-generated method stub
-
+		comboItems.addAll(Arrays.asList(strings));
 	}
 
 }

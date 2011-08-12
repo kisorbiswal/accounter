@@ -152,7 +152,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		if (isEdit) {
 			groupName.setValue(data.getName());
 			desc.setValue(data.getDescription());
-			salesTypeRadio.setValue(data.isSalesType());
+			// salesTypeRadio.setValue(data.isSalesType());
 			checkbox.setValue(data.isActive());
 			gridView.addRecords(data.getTaxItems());
 			gridView.updateGroupRate();

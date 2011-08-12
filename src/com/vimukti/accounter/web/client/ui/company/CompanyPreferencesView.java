@@ -122,11 +122,11 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			dateItem.setValue(new ClientFinanceDate(companyPreferences
 					.getPreventPostingBeforeDate()));
 			if (companyPreferences.getIsMyAccountantWillrunPayroll() != false)
-				whowillrunAccTransfer.setValue(companyPreferences
-						.getIsMyAccountantWillrunPayroll());
+				// whowillrunAccTransfer.setValue(companyPreferences
+				// .getIsMyAccountantWillrunPayroll());
 
-			useAccountscheckbox.setValue(companyPreferences
-					.getUseAccountNumbers());
+				useAccountscheckbox.setValue(companyPreferences
+						.getUseAccountNumbers());
 			useCustomertID.setValue(companyPreferences.getUseCustomerId());
 			useVendorId.setValue(companyPreferences.getUseVendorId());
 			if (companyPreferences.getAgeingFromTransactionDateORDueDate() == CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE)
@@ -145,9 +145,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			// if ((Double) companyPreferences.getLogSpaceUsed() != null)
 			// logspaceTxt.setValue(companyPreferences.getLogSpaceUsed());
 
-			if (companyPreferences.getIsAccuralBasis())
-				paysalesTaxgroupItem.setValue(companyPreferences
-						.getIsAccuralBasis());
+			// if (companyPreferences.getIsAccuralBasis())
+			// paysalesTaxgroupItem.setValue(companyPreferences
+			// .getIsAccuralBasis());
 
 		}
 		this.company = getCompany();
@@ -161,12 +161,12 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			this.emailText.setValue(company.getCompanyEmail());
 			this.bankAccountText.setValue(company.getBankAccountNo());
 			this.sortCodeText.setValue(company.getSortCode());
-			allAddresses.put(ClientAddress.TYPE_COMPANY, company
-					.getTradingAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY,
+					company.getTradingAddress());
 			setAddressToTextItem(textareaItem, company.getTradingAddress());
 
-			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION, company
-					.getRegisteredAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION,
+					company.getRegisteredAddress());
 			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
@@ -569,8 +569,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// switch (this.validationCount) {
 		// case 2:
 		if (!emailText.validate()) {
-			result.addError(emailText, Accounter.messages().pleaseEnter(
-					emailText.getTitle()));
+			result.addError(emailText,
+					Accounter.messages().pleaseEnter(emailText.getTitle()));
 		}
 		// return AccounterValidator.validateFormItem(false, emailText);
 		// case 1:
@@ -619,7 +619,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences.setUseVendorId(getBooleanValue(useVendorId));
 		companyPreferences
 				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
-						.getValue().toString().equalsIgnoreCase(
+						.getValue()
+						.toString()
+						.equalsIgnoreCase(
 								Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
@@ -687,7 +689,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		companyPreferences.setUseVendorId(getBooleanValue(useVendorId));
 		companyPreferences
 				.setAgeingFromTransactionDateORDueDate(ageingFromTransactionDateORDueDate
-						.getValue().toString().equalsIgnoreCase(
+						.getValue()
+						.toString()
+						.equalsIgnoreCase(
 								Accounter.constants().ageingforduedate()) ? CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE
 						: CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
 		if (dateItem.getValue() != null) {
@@ -985,11 +989,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 				if (ageing.equalsIgnoreCase(Accounter.constants()
 						.ageingforduedate())) {
 					ageingFromTransactionDateORDueDate
-							.setValue(CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE);
+							.setValue(String
+									.valueOf(CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE));
 				} else
 
 					ageingFromTransactionDateORDueDate
-							.setValue(CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE);
+							.setValue(String
+									.valueOf(CompanyPreferencesView.TYPE_AGEING_FROM_TRANSACTIONDATE));
 
 			}
 		};
