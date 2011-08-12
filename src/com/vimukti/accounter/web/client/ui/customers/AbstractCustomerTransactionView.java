@@ -918,6 +918,18 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		ValidationResult result = super.validate();
 
+		// Validations
+		// 1. if(!isValidTransactionDate(transactionDate)) ERROR
+		// 2. if( isInPreventPostingBeforeDate(transactionDate)) ERROR
+		// i.e the transaction date should not be before the company's preferred
+		// preventPostingBeforeDate
+		// 3. custForm validation
+		// 4. if(! transactionType == CUSTOMER_REFUNDS){
+		// if(accountingType == US) if(!taxCodeSelect.validate()) ERROR
+		// if(isBlankTransaction(customerTransactionGrid)) ERROR
+		// else customerTransactionGrid.validateGrid()
+		// }
+
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
 					customerConstants.invalidateTransactionDate());
@@ -944,8 +956,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 						.isBlankTransaction(customerTransactionGrid)) {
 					result.addError(customerTransactionGrid,
 							accounterConstants.blankTransaction());
-				}
-				if (customerTransactionGrid != null)
+				} else
 					result.add(customerTransactionGrid.validateGrid());
 
 			}
@@ -1027,9 +1038,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					}
 				}
 			}
-			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
-					.getTAXCode() > 0 ? getCustomer().getTAXCode()
-					: ztaxCodeid) : ztaxCodeid);
+			transactionItem
+					.setTaxCode(getCustomer() != null ? (getCustomer()
+							.getTAXCode() > 0 ? getCustomer().getTAXCode()
+							: ztaxCodeid) : ztaxCodeid);
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
 		} else if (item.equals(Accounter.constants().productItem())) {
