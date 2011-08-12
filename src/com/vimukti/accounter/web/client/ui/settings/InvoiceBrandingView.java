@@ -43,7 +43,8 @@ public class InvoiceBrandingView<T> extends
 	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
 			contactDetailsPanel, vPanel;
 	private Button newBrandButton, automaticButton;
-	private HorizontalPanel buttonPanel, showPanel, allPanel, nameAndMenuPanel;
+	private HorizontalPanel buttonPanel, showPanel, allPanel, nameAndMenuPanel,
+			buttonPanel2;
 	private AccounterConstants messages = Accounter.constants();
 
 	@Override
@@ -443,16 +444,30 @@ public class InvoiceBrandingView<T> extends
 		allPanel.setWidth("100%");
 
 		nameAndMenuPanel = new HorizontalPanel();
+		buttonPanel2 = new HorizontalPanel();
+
 		nameAndMenuPanel.add(titleHtml);
 		nameAndMenuPanel.setStyleName("standard-options");
 		titleHtml.getElement().getAbsoluteLeft();
-		// optionsButton.setStyleName("ibutton-right-align") ;
-		nameAndMenuPanel.add(editButton);
-		nameAndMenuPanel.add(copyThemeButton);
-		nameAndMenuPanel.add(deleteButton);
 
+		buttonPanel2.add(editButton);
+		buttonPanel2.add(copyThemeButton);
+		buttonPanel2.add(deleteButton);
+
+		titleHtml.getElement().getParentElement()
+				.addClassName("standard_label");
+
+		nameAndMenuPanel.add(buttonPanel2);
+
+		buttonPanel2.getElement().getParentElement()
+				.setAttribute("width", "18%");
+		buttonPanel2.setWidth("100%");
+
+		// optionsButton.setStyleName("ibutton-right-align") ;
 		if (theme.getName().equalsIgnoreCase(Accounter.constants().standard())) {
 			deleteButton.setVisible(false);
+			buttonPanel2.getElement().getParentElement()
+					.setAttribute("width", "12%");
 		} else {
 			deleteButton.setVisible(true);
 		}
