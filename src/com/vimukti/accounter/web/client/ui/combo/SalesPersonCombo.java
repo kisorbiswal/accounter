@@ -13,6 +13,8 @@ public class SalesPersonCombo extends CustomCombo<ClientSalesPerson> {
 
 	public SalesPersonCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
+
+	//	initCombo(getCompany().getActiveSalesPersons());
 	}
 
 	@Override
@@ -35,7 +37,8 @@ public class SalesPersonCombo extends CustomCombo<ClientSalesPerson> {
 
 			@Override
 			public void actionResult(ClientSalesPerson result) {
-				addItemThenfireEvent(result);
+				if (result.getFirstName() != null || result.getLastName()!=null)
+					addItemThenfireEvent(result);
 
 			}
 		});
