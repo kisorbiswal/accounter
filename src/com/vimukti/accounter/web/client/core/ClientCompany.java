@@ -1254,10 +1254,10 @@ public class ClientCompany implements IAccounterCore {
 			switch (command.command) {
 			case AccounterCommand.CREATION_SUCCESS:
 			case AccounterCommand.UPDATION_SUCCESS:
-				processUpdateOrCreateObject(command);
+				processUpdateOrCreateObject(command.data);
 				break;
 			case AccounterCommand.DELETION_SUCCESS:
-				processDeleteObject(command);
+				processDeleteObject(command.data);
 				return;
 			default:
 				break;
