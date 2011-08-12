@@ -851,8 +851,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		updateTransaction();
 
 		ValidationResult result = new ValidationResult();
-
-		if (this.transaction.getTotal() < 0) {
+		//Validations
+		//1. Transaction total <= 0 ERROR
+		//2. TransactionItem line total <= 0 ERROR
+		//3. If(accountingType == UK) 
+		//		if(taxCodeName == "New S" && transactionDate is before 4 Jan 2011)
+		//				ERROR			
+		if (this.transaction.getTotal() <= 0) {
 			result.addError(this, Accounter.constants()
 					.transactiontotalcannotbe0orlessthan0());
 		}
