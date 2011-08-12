@@ -1118,6 +1118,8 @@ public class AccounterValidator {
 
 	public static boolean isBlankTransaction(
 			AbstractTransactionGrid<?> transactionGrid) {
+		if(transactionGrid == null)
+			return true;
 		if (transactionGrid != null && transactionGrid.getRecords().isEmpty()) {
 			return true;
 		}
