@@ -1322,7 +1322,19 @@ public class Utility implements IsSerializable, Serializable {
 		}
 		return false;
 	}
+	public static <S extends IAccounterCore> boolean isObjectExist(
+			List<S> list, String name) {
+		if (list == null || list.isEmpty())
+			return false;
+		for (S s : list) {
+			if (s.getName() != null
+					&& s.getName().toLowerCase().equals(name.toLowerCase())) {
+				return true;
+			}
 
+		}
+		return false;
+	}
 	public static boolean checkIfNotNumber(String in) {
 		try {
 			Integer.parseInt(in);
