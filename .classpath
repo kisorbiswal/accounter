@@ -18,11 +18,8 @@
 	<classpathentry kind="lib" path="libs/commons-httpclient.jar"/>
 	<classpathentry kind="lib" path="libs/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="libs/h2-1.1.115.jar"/>
-	<classpathentry kind="lib" path="libs/hibernate3.jar"/>
-	<classpathentry kind="lib" path="libs/jta.jar"/>
 	<classpathentry kind="lib" path="libs/junit-4.4.jar"/>
 	<classpathentry kind="lib" path="libs/junit.jar"/>
-	<classpathentry kind="lib" path="libs/log4j-1.2.11.jar"/>
 	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.5-bin.jar"/>
 	<classpathentry kind="lib" path="libs/spring-test.jar"/>
 	<classpathentry kind="lib" path="libs/spring.jar"/>
@@ -46,6 +43,14 @@
 	<classpathentry kind="lib" path="libs/aopalliance.jar"/>
 	<classpathentry kind="lib" path="libs/hermes-1.2.0-sources.jar"/>
 	<classpathentry kind="lib" path="libs/hermes-1.2.0.jar"/>
+	<classpathentry kind="lib" path="libs/hibernate-commons-annotations-3.2.0.Final.jar"/>
+	<classpathentry kind="lib" path="libs/hibernate-core-3.6.6.Final.jar" sourcepath="libs/hibernate-core-3.6.6.Final-sources.jar"/>
+	<classpathentry kind="lib" path="libs/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+	<classpathentry kind="lib" path="libs/javassist-3.3.ga.jar"/>
+	<classpathentry kind="lib" path="libs/jta-1.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="libs/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="libs/slf4j-jcl-1.6.1.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
