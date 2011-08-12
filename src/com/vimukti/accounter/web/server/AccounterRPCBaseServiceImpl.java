@@ -72,7 +72,11 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				Session session = HibernateUtil.openSession(companyDB);
 				try {
 					super.service(request, response);
-
+					try {
+						getFinanceTool().putChangesInCometStream();
+					} catch (AccounterException e) {
+						log.error("Failed to get FinanceTool", e);
+					}
 					// TODO
 					// if (ChangeTracker.getChanges().length > 1) {
 					// FinanceTool financeTool = (FinanceTool) session.load(
@@ -92,8 +96,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Could Not Complete the Request!");
 
-		}
-
+		} 
 	}
 
 	/**
