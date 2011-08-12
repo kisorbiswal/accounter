@@ -432,6 +432,9 @@ public class CustomerRefundView extends
 		} else {
 			String checknumber;
 			checknumber = this.checkNumber;
+			if (checknumber == null) {
+				checknumber = Accounter.constants().toBePrinted();
+			}
 			if (checknumber.equals(Accounter.constants().toBePrinted()))
 				value = Accounter.constants().toBePrinted();
 			else
