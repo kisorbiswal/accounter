@@ -59,9 +59,10 @@ public abstract class AbstractFinaneReport<R> extends
 
 	public IFinanceReport<R> reportView;
 	protected String navigateObjectName;
-	private int companyType = Accounter.getCompany().getAccountingType();
+	private int companyType;
 
 	public AbstractFinaneReport() {
+		this.companyType=Accounter.getCompany().getAccountingType();
 		this.columns = this.getColunms();
 		if (generationType == 1001) {
 			this.grid = new PDFReportGridTemplate<R>(columns, ishowGridFooter);
