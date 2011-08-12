@@ -2425,4 +2425,14 @@ public class ClientCompany implements IAccounterCore {
 		//TODO
 		return null;
 	}
+
+	public ClientTAXItem getTaxItemByName(String itemName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ClientSalesPerson getSalesPersonByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
