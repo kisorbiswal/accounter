@@ -58,7 +58,7 @@ public class ClientTransferFund extends ClientTransaction {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_TRANSFER_FUND;
+		return AccounterClientConstants.TYPE_TRANSFER_FUND;
 	}
 
 	@Override

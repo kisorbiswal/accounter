@@ -218,7 +218,7 @@ public class ClientWriteCheck extends ClientTransaction {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_WRITE_CHECK;
+		return AccounterClientConstants.TYPE_WRITE_CHECK;
 	}
 
 	@Override

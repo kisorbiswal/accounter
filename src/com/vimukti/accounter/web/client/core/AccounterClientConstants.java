@@ -6,7 +6,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 @SuppressWarnings("serial")
-public class AccounterConstants implements IsSerializable, Serializable {
+public class AccounterClientConstants implements IsSerializable, Serializable {
 
 	public static final String SYMBOL_PLUS = "+";
 	public static final String SYMBOL_MINUS = "-";
