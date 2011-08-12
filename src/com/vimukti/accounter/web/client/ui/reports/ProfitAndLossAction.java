@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -24,29 +26,26 @@ public class ProfitAndLossAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				try {
-					if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-						report = new ProfitAndLossUKReport();
-					else
-						report = new ProfitAndLossReport();
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent, ProfitAndLossAction.this);
-				} catch (Throwable t) {
-					onCreateFailed(t);
-				}
+			@Override
+			public void onSuccess() {
+				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
+					report = new ProfitAndLossUKReport();
+				else
+					report = new ProfitAndLossReport();
+				MainFinanceWindow.getViewManager().showView(report, data,
+						isDependent, ProfitAndLossAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				/* UIUtils.logError */System.err
-						.println("Failed to Load Report.." + t);
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
 			}
 		});
-
 	}
 
 	// @Override

@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -19,25 +21,23 @@ public class PurchaseByVendorSummaryAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				try {
-					report = new PurchaseByVendorSummaryReport();
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent, PurchaseByVendorSummaryAction.this);
-				} catch (Throwable t) {
-					onCreateFailed(t);
-				}
+			@Override
+			public void onSuccess() {
+				report = new PurchaseByVendorSummaryReport();
+				MainFinanceWindow.getViewManager().showView(report, data,
+						isDependent, PurchaseByVendorSummaryAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Report..", t);
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
 			}
 		});
-
 	}
 
 	// @Override
