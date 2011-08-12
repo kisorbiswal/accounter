@@ -572,6 +572,13 @@ public class CashPurchaseView extends
 	public ValidationResult validate() {
 
 		ValidationResult result = super.validate();
+		// Validations
+		// 1. isValidTransactionDate?
+		// 2. isInPreventPostingBeforeDate?
+		// 3. form validations
+		// 4. isValidDueOrDeliveryDate?
+		// 5. isBlankTransaction?
+		// 6. validateGrid?
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(transactionDate,
@@ -600,8 +607,8 @@ public class CashPurchaseView extends
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 			result.addError(vendorTransactionGrid,
 					accounterConstants.blankTransaction());
-		}
-		result.add(vendorTransactionGrid.validateGrid());
+		} else
+			result.add(vendorTransactionGrid.validateGrid());
 		return result;
 
 	}
