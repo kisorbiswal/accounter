@@ -855,8 +855,11 @@ public class SalesOrderView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
+		//Validations
+		//1. formItem validation
 		result.add(FormItem.validate(statusSelect));
 		result.add(super.validate());
+		
 		return result;
 	}
 
