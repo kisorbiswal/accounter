@@ -2,6 +2,10 @@ package com.vimukti.comet.server;
 
 public class ObjectPayload implements Message {
 
+	private long sequence;
+	private String stream;
+	private String data;
+	
 	public ObjectPayload(final String data, String stream) {
 		this.data = data;
 		this.stream = stream;
@@ -11,14 +15,12 @@ public class ObjectPayload implements Message {
 		return Constants.OBJECT_PAYLOAD;
 	}
 
-	private String data;
+	
 
 	public String getData() {
 		return data;
 	}
 
-	private long sequence;
-	private String stream;
 
 	public long getSequence() {
 		return this.sequence;

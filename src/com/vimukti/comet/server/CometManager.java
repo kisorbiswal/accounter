@@ -48,8 +48,8 @@ public class CometManager {
 	 *            Name of the stream
 	 * @return
 	 */
-	public static CometStream getStream(long userID, String stream) {
-		Map<String, CommandQueue<ObjectPayload>> queues = map.get(userID);
+	public static CometStream getStream(String emailId, String stream) {
+		Map<String, CommandQueue<ObjectPayload>> queues = map.get(emailId);
 		if (queues == null) {
 			return null;
 		}
