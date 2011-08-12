@@ -514,10 +514,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	private void processTransactionItems() {
 		if (customerTransactionGrid != null)
 			this.transactionItems = customerTransactionGrid
-					.getallTransactions(transaction);
+					.getallTransactionItems(transaction);
 		if (vendorTransactionGrid != null)
 			this.transactionItems = vendorTransactionGrid
-					.getallTransactions(transaction);
+					.getallTransactionItems(transaction);
 
 	}
 

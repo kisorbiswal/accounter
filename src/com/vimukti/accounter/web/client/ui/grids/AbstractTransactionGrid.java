@@ -89,7 +89,7 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 
 	}
 
-	public abstract List<ClientTransactionItem> getallTransactions(
+	public abstract List<ClientTransactionItem> getallTransactionItems(
 			ClientTransaction object);
 
 	@Override

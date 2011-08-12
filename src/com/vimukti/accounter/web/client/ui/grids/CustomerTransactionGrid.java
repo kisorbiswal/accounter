@@ -978,7 +978,7 @@ public class CustomerTransactionGrid extends
 		return vatRate;
 	}
 
-	public List<ClientTransactionItem> getallTransactions(
+	public List<ClientTransactionItem> getallTransactionItems(
 			ClientTransaction object) {
 
 		return getRecords();

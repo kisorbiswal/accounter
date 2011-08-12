@@ -150,7 +150,7 @@ public class TransactionIssuePaymentGrid extends
 	}
 
 	@Override
-	public List<ClientTransactionItem> getallTransactions(
+	public List<ClientTransactionItem> getallTransactionItems(
 			ClientTransaction object) {
 		// not required
 		return null;

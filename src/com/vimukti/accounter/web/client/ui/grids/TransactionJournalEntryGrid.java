@@ -727,7 +727,7 @@ public class TransactionJournalEntryGrid extends
 	}
 
 	@Override
-	public List<ClientTransactionItem> getallTransactions(
+	public List<ClientTransactionItem> getallTransactionItems(
 			ClientTransaction object) {
 
 		return null;

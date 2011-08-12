@@ -663,7 +663,7 @@ public class CreditCardChargeView extends
 
 		// Setting transactions
 		transaction.setTransactionItems(vendorTransactionGrid
-				.getallTransactions(transaction));
+				.getallTransactionItems(transaction));
 
 		// setting total
 		transaction.setTotal(vendorTransactionGrid.getTotal());

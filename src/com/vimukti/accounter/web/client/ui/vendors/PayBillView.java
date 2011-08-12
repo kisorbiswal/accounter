@@ -672,7 +672,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		initVendors();
 		initTransactionTotalNonEditableItem();
 		gridView.removeAllRecords();
-		gridView.setAllTransactions(transaction
+		gridView.setAllTransactionItems(transaction
 				.getTransactionItems());
 		
 		initPayFromAccounts();

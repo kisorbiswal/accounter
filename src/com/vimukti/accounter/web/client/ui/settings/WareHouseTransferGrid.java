@@ -35,7 +35,7 @@ public class WareHouseTransferGrid extends
 	}
 
 	@Override
-	public List<ClientTransactionItem> getallTransactions(
+	public List<ClientTransactionItem> getallTransactionItems(
 			ClientTransaction object) {
 		// TODO Auto-generated method stub
 		return null;

@@ -579,7 +579,7 @@ public class WriteChequeView extends
 			transaction.setPayToType(ClientWriteCheck.TYPE_CUSTOMER);
 			transaction.setCustomer(selectedCustomer.getID());
 			transaction.setTransactionItems(transactionCustomerGrid
-					.getallTransactions(transaction));
+					.getallTransactionItems(transaction));
 			transaction.setTotal(transactionCustomerGrid.getTotal());
 
 			transaction.setPayToType(ClientWriteCheck.TYPE_CUSTOMER);
@@ -588,7 +588,7 @@ public class WriteChequeView extends
 			transaction.setPayToType(ClientWriteCheck.TYPE_VENDOR);
 			transaction.setVendor(selectedVendor.getID());
 			transaction.setTransactionItems(transactionVendorGrid
-					.getallTransactions(transaction));
+					.getallTransactionItems(transaction));
 			transaction.setTotal(transactionVendorGrid.getTotal());
 			transaction.setPayToType(ClientWriteCheck.TYPE_VENDOR);
 			break;
@@ -597,7 +597,7 @@ public class WriteChequeView extends
 			transaction.setPayToType(ClientWriteCheck.TYPE_TAX_AGENCY);
 			transaction.setTaxAgency(selectedTaxAgency.getID());
 			transaction.setTransactionItems(transactionVendorGrid
-					.getallTransactions(transaction));
+					.getallTransactionItems(transaction));
 			transaction.setTotal(transactionVendorGrid.getTotal());
 			// for (ClientTransactionItem rec : transactionVendorGrid
 			// .getallTransactions(transaction)) {
