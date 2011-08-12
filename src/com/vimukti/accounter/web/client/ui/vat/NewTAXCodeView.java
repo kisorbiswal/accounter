@@ -312,8 +312,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		if (!((!isEdit && taxCodeByName != null || taxCodeByName.getID() == this
 				.getData().getID()) ? false : true)
 				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
-						: (Utility.isObjectExist(getCompany().getTaxCodes(),
-								name) ? false : true)) : true)) {
+						: (taxCodeByName != null || taxCodeByName.getID() == this
+								.getData().getID() ? false : true)) : true)) {
 			result.addError(vatCodeTxt, Accounter.constants().alreadyExist());
 		}
 		return result;
