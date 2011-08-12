@@ -615,6 +615,9 @@ public class CashSalesView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
+		//Validations
+		// 1. paymentMethodCombo validation
+		// 2. depositInCombo validation i.e form items
 		result.add(FormItem.validate(this.paymentMethodCombo,
 				this.depositInCombo));
 		return result;
