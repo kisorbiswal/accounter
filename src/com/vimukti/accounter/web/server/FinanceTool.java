@@ -38,7 +38,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.AccounterConstants;
+import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Bank;
 import com.vimukti.accounter.core.Box;
 import com.vimukti.accounter.core.BrandingTheme;
@@ -5392,7 +5392,7 @@ public class FinanceTool implements IFinanceDAOService {
 			transactionHistory
 					.setType((object[1] == null || ((String) object[16] != null ? (String) object[16]
 							: "")
-							.equals(AccounterConstants.MEMO_OPENING_BALANCE)) ? 0
+							.equals(AccounterServerConstants.MEMO_OPENING_BALANCE)) ? 0
 							: ((Integer) object[1]).intValue());
 			transactionHistory.setNumber((String) object[2]);
 
@@ -5708,7 +5708,7 @@ public class FinanceTool implements IFinanceDAOService {
 			transactionHistory
 					.setType((object[1] == null || ((String) object[7] != null ? (String) object[7]
 							: "")
-							.equals(AccounterConstants.MEMO_OPENING_BALANCE)) ? 0
+							.equals(AccounterServerConstants.MEMO_OPENING_BALANCE)) ? 0
 							: ((Integer) object[1]).intValue());
 			transactionHistory.setDate(new ClientFinanceDate(
 					((BigInteger) object[2]).longValue()));
@@ -6223,7 +6223,7 @@ public class FinanceTool implements IFinanceDAOService {
 					.setTotal(object[6] != null ? (Double) object[6] : 0.0);
 
 			if (transactionDetailByAccount.getAccountName().equals(
-					AccounterConstants.SALES_TAX_VAT_UNFILED)
+					AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					&& transactionDetailByAccount.getTransactionType() == Transaction.TYPE_VAT_RETURN) {
 				if (transactionDetailByAccount.getTotal() < 0)
 					transactionDetailByAccount.setName("Box3");
@@ -6913,7 +6913,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Map<String, Double> vatReturnBoxes = new HashMap<String, Double>();
 			if (l.size() > 0) {
-				vatReturnBoxes.put(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES,
+				vatReturnBoxes.put(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES,
 						(Double) l.get(0));
 			}
 		}
@@ -6973,7 +6973,7 @@ public class FinanceTool implements IFinanceDAOService {
 				for (Box b : boxes) {
 					if (vb.getVatBox().equals(b.getName())
 							|| (b.getName().equals(
-									AccounterConstants.UK_BOX10_UNCATEGORISED) && vb
+									AccounterServerConstants.UK_BOX10_UNCATEGORISED) && vb
 									.getVatBox().equals("NONE"))) {
 						// if (v.getIncreaseVATLine())
 						// b.setAmount(b.getAmount() + v.getTotal());
@@ -6988,10 +6988,10 @@ public class FinanceTool implements IFinanceDAOService {
 						if (v.getTaxItem().isSalesType()) {
 							if ((!v.getTaxItem()
 									.getName()
-									.equals(AccounterConstants.VAT_ITEM_EC_SALES_GOODS_STANDARD))
+									.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_GOODS_STANDARD))
 									&& (!v.getTaxItem()
 											.getName()
-											.equals(AccounterConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD))) {
+											.equals(AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD))) {
 								if (v.getIncreaseVATLine())
 									b.setAmount(b.getAmount() + v.getTotal());
 								else
@@ -7014,9 +7014,9 @@ public class FinanceTool implements IFinanceDAOService {
 								amount = -1 * v.getTotal();
 
 							if (vb.getVatBox()
-									.equals(AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
+									.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
 									|| vb.getVatBox()
-											.equals(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES))
+											.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES))
 								amount = -1 * amount;
 
 							b.setAmount(b.getAmount() + amount);
@@ -7077,14 +7077,14 @@ public class FinanceTool implements IFinanceDAOService {
 
 					} else if ((box).getName().equals(vb.getVatBox())) {
 						if (vb.getVatBox()
-								.equals(AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
+								.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
 								|| (vb.getVatBox()
-										.equals(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !taxRateCalculation
+										.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !taxRateCalculation
 										.isVATGroupEntry())
 								|| (vb.getVatBox()
-										.equals(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES) && vb
+										.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES) && vb
 										.getTotalBox().equals(
-												AccounterConstants.BOX_NONE)))
+												AccounterServerConstants.BOX_NONE)))
 							box.setAmount(box.getAmount()
 									+ (-1 * (taxRateCalculation.getVatAmount())));
 
@@ -7109,34 +7109,34 @@ public class FinanceTool implements IFinanceDAOService {
 
 		if (vatAgency.getVATReturn() == VATReturn.VAT_RETURN_UK_VAT) {
 			Box b1 = new Box();
-			b1.setName(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES);
+			b1.setName(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES);
 
 			Box b2 = new Box();
-			b2.setName(AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
+			b2.setName(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
 
 			Box b3 = new Box();
-			b3.setName(AccounterConstants.UK_BOX3_TOTAL_OUTPUT);
+			b3.setName(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT);
 
 			Box b4 = new Box();
-			b4.setName(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
+			b4.setName(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
 
 			Box b5 = new Box();
-			b5.setName(AccounterConstants.UK_BOX5_NET_VAT);
+			b5.setName(AccounterServerConstants.UK_BOX5_NET_VAT);
 
 			Box b6 = new Box();
-			b6.setName(AccounterConstants.UK_BOX6_TOTAL_NET_SALES);
+			b6.setName(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES);
 
 			Box b7 = new Box();
-			b7.setName(AccounterConstants.UK_BOX7_TOTAL_NET_PURCHASES);
+			b7.setName(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES);
 
 			Box b8 = new Box();
-			b8.setName(AccounterConstants.UK_BOX8_TOTAL_NET_SUPPLIES);
+			b8.setName(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES);
 
 			Box b9 = new Box();
-			b9.setName(AccounterConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS);
+			b9.setName(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS);
 
 			Box b10 = new Box();
-			b10.setName(AccounterConstants.UK_BOX10_UNCATEGORISED);
+			b10.setName(AccounterServerConstants.UK_BOX10_UNCATEGORISED);
 
 			b1.setBoxNumber(1);
 			b2.setBoxNumber(2);
@@ -7173,34 +7173,34 @@ public class FinanceTool implements IFinanceDAOService {
 		} else if (vatAgency.getVATReturn() == VATReturn.VAT_RETURN_IRELAND) {
 
 			Box b1 = new Box();
-			b1.setName(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			b1.setName(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
 
 			Box b2 = new Box();
-			b2.setName(AccounterConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
+			b2.setName(AccounterServerConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
 
 			Box b3 = new Box();
-			b3.setName(AccounterConstants.IRELAND_BOX3_VAT_ON_SALES);
+			b3.setName(AccounterServerConstants.IRELAND_BOX3_VAT_ON_SALES);
 
 			Box b4 = new Box();
-			b4.setName(AccounterConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
+			b4.setName(AccounterServerConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
 
 			Box b5 = new Box();
-			b5.setName(AccounterConstants.IRELAND_BOX5_T3_T4_PAYMENT_DUE);
+			b5.setName(AccounterServerConstants.IRELAND_BOX5_T3_T4_PAYMENT_DUE);
 
 			Box b6 = new Box();
-			b6.setName(AccounterConstants.IRELAND_BOX6_E1_GOODS_TO_EU);
+			b6.setName(AccounterServerConstants.IRELAND_BOX6_E1_GOODS_TO_EU);
 
 			Box b7 = new Box();
-			b7.setName(AccounterConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
+			b7.setName(AccounterServerConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
 
 			Box b8 = new Box();
-			b8.setName(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
+			b8.setName(AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 
 			Box b9 = new Box();
-			b9.setName(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			b9.setName(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 
 			Box b10 = new Box();
-			b10.setName(AccounterConstants.IRELAND_BOX10_UNCATEGORISED);
+			b10.setName(AccounterServerConstants.IRELAND_BOX10_UNCATEGORISED);
 
 			b1.setBoxNumber(1);
 			b2.setBoxNumber(2);
@@ -7327,7 +7327,7 @@ public class FinanceTool implements IFinanceDAOService {
 					|| (vd.getBoxName().equals(
 							VATSummary.UK_BOX1_VAT_DUE_ON_SALES) && v
 							.getTaxItem().getVatReturnBox().getTotalBox()
-							.equals(AccounterConstants.BOX_NONE))) {
+							.equals(AccounterServerConstants.BOX_NONE))) {
 				double amount = -1 * (v.getVatAmount());
 				// double amount = (!v.getTransactionItem().isVoid()) ? (-1 * (v
 				// .getVatAmount())) : 0;
@@ -7405,11 +7405,11 @@ public class FinanceTool implements IFinanceDAOService {
 			vd1.setBoxName(setTotalBoxName(v));
 
 			if ((vd1.getBoxName().equals(
-					AccounterConstants.UK_BOX10_UNCATEGORISED) && v
+					AccounterServerConstants.UK_BOX10_UNCATEGORISED) && v
 					.getTransactionItem().getTransaction()
 					.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER)
 					|| !vd1.getBoxName().equals(
-							AccounterConstants.UK_BOX10_UNCATEGORISED)) {
+							AccounterServerConstants.UK_BOX10_UNCATEGORISED)) {
 
 				if (v.getTransactionItem().getTransaction()
 						.isAmountsIncludeVAT()) {
@@ -7486,7 +7486,7 @@ public class FinanceTool implements IFinanceDAOService {
 						.getVatBox()));
 
 				if (!vd.getBoxName().equals(
-						AccounterConstants.UK_BOX10_UNCATEGORISED)) {
+						AccounterServerConstants.UK_BOX10_UNCATEGORISED)) {
 
 					Entry e = v.getJournalEntry().getEntry().get(0);
 					if (!DecimalUtil.isEquals(e.getDebit(), 0)) {
@@ -7532,7 +7532,7 @@ public class FinanceTool implements IFinanceDAOService {
 				// Box
 				VATDetail vd1 = new VATDetail();
 
-				vd1.setBoxName(AccounterConstants.UK_BOX10_UNCATEGORISED);
+				vd1.setBoxName(AccounterServerConstants.UK_BOX10_UNCATEGORISED);
 
 				Entry e = v.getJournalEntry().getEntry().get(0);
 				if (!DecimalUtil.isEquals(e.getDebit(), 0)) {
@@ -7693,31 +7693,31 @@ public class FinanceTool implements IFinanceDAOService {
 	private String setVATBoxName(TAXRateCalculation v) {
 		String boxName = null;
 		if (v.getTaxItem().getVatReturnBox().getVatBox()
-				.equals(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
+				.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
 			boxName = VATSummary.UK_BOX1_VAT_DUE_ON_SALES;
 		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
-				.equals(AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
+				.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS;
 		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
-				.equals(AccounterConstants.UK_BOX3_TOTAL_OUTPUT)) {
+				.equals(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
 			boxName = VATSummary.UK_BOX3_TOTAL_OUTPUT;
 		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
-				.equals(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
+				.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 			boxName = VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES;
 		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
-				.equals(AccounterConstants.UK_BOX5_NET_VAT)) {
+				.equals(AccounterServerConstants.UK_BOX5_NET_VAT)) {
 			boxName = VATSummary.UK_BOX5_NET_VAT;
 		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
-				.equals(AccounterConstants.UK_BOX6_TOTAL_NET_SALES)) {
+				.equals(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES)) {
 			boxName = VATSummary.UK_BOX6_TOTAL_NET_SALES;
 		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
-				.equals(AccounterConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
+				.equals(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
 			boxName = VATSummary.UK_BOX7_TOTAL_NET_PURCHASES;
 		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
-				.equals(AccounterConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
+				.equals(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
 			boxName = VATSummary.UK_BOX8_TOTAL_NET_SUPPLIES;
 		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
-				.equals(AccounterConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
+				.equals(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS;
 		} else {
 			boxName = VATSummary.UK_BOX10_UNCATEGORISED;
@@ -7729,31 +7729,31 @@ public class FinanceTool implements IFinanceDAOService {
 	private String setTotalBoxName(TAXRateCalculation v) {
 		String boxName = null;
 		if (v.getTaxItem().getVatReturnBox().getTotalBox()
-				.equals(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
+				.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
 			boxName = VATSummary.UK_BOX1_VAT_DUE_ON_SALES;
 		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
-				.equals(AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
+				.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS;
 		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
-				.equals(AccounterConstants.UK_BOX3_TOTAL_OUTPUT)) {
+				.equals(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
 			boxName = VATSummary.UK_BOX3_TOTAL_OUTPUT;
 		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
-				.equals(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
+				.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 			boxName = VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES;
 		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
-				.equals(AccounterConstants.UK_BOX5_NET_VAT)) {
+				.equals(AccounterServerConstants.UK_BOX5_NET_VAT)) {
 			boxName = VATSummary.UK_BOX5_NET_VAT;
 		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
-				.equals(AccounterConstants.UK_BOX6_TOTAL_NET_SALES)) {
+				.equals(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES)) {
 			boxName = VATSummary.UK_BOX6_TOTAL_NET_SALES;
 		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
-				.equals(AccounterConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
+				.equals(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
 			boxName = VATSummary.UK_BOX7_TOTAL_NET_PURCHASES;
 		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
-				.equals(AccounterConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
+				.equals(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
 			boxName = VATSummary.UK_BOX8_TOTAL_NET_SUPPLIES;
 		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
-				.equals(AccounterConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
+				.equals(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS;
 		} else {
 			boxName = VATSummary.UK_BOX10_UNCATEGORISED;
@@ -7764,29 +7764,29 @@ public class FinanceTool implements IFinanceDAOService {
 
 	private String setVATBoxName(String getBoxName) {
 		String boxName = null;
-		if (getBoxName.equals(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
+		if (getBoxName.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
 			boxName = VATSummary.UK_BOX1_VAT_DUE_ON_SALES;
 		} else if (getBoxName
-				.equals(AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
+				.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS;
-		} else if (getBoxName.equals(AccounterConstants.UK_BOX3_TOTAL_OUTPUT)) {
+		} else if (getBoxName.equals(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
 			boxName = VATSummary.UK_BOX3_TOTAL_OUTPUT;
 		} else if (getBoxName
-				.equals(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
+				.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 			boxName = VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES;
-		} else if (getBoxName.equals(AccounterConstants.UK_BOX5_NET_VAT)) {
+		} else if (getBoxName.equals(AccounterServerConstants.UK_BOX5_NET_VAT)) {
 			boxName = VATSummary.UK_BOX5_NET_VAT;
 		} else if (getBoxName
-				.equals(AccounterConstants.UK_BOX6_TOTAL_NET_SALES)) {
+				.equals(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES)) {
 			boxName = VATSummary.UK_BOX6_TOTAL_NET_SALES;
 		} else if (getBoxName
-				.equals(AccounterConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
+				.equals(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES)) {
 			boxName = VATSummary.UK_BOX7_TOTAL_NET_PURCHASES;
 		} else if (getBoxName
-				.equals(AccounterConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
+				.equals(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
 			boxName = VATSummary.UK_BOX8_TOTAL_NET_SUPPLIES;
 		} else if (getBoxName
-				.equals(AccounterConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
+				.equals(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS;
 		} else {
 			boxName = VATSummary.UK_BOX10_UNCATEGORISED;
@@ -8064,19 +8064,19 @@ public class FinanceTool implements IFinanceDAOService {
 					if (v.getTaxItem()
 							.getVatReturnBox()
 							.getVatBox()
-							.equals(AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
+							.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)
 							|| (v.getTaxItem()
 									.getVatReturnBox()
 									.getVatBox()
-									.equals(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !v
+									.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES) && !v
 									.isVATGroupEntry())
 							|| (v.getTaxItem()
 									.getVatReturnBox()
 									.getVatBox()
-									.equals(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES) && v
+									.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES) && v
 									.getTaxItem().getVatReturnBox()
 									.getTotalBox()
-									.equals(AccounterConstants.BOX_NONE)))
+									.equals(AccounterServerConstants.BOX_NONE)))
 						vs.setValue(vs.getValue() + (-1 * (v.getVatAmount())));
 					else
 						vs.setValue(vs.getValue() + v.getVatAmount());
@@ -8184,66 +8184,66 @@ public class FinanceTool implements IFinanceDAOService {
 
 		if (taxAgency.getVATReturn() == TAXAgency.RETURN_TYPE_UK_VAT) {
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES,
+					AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES,
 					VATSummary.UK_BOX1_VAT_DUE_ON_SALES, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS,
+					AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS,
 					VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.UK_BOX3_TOTAL_OUTPUT,
+					AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT,
 					VATSummary.UK_BOX3_TOTAL_OUTPUT, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES,
+					AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES,
 					VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES, 0d));
-			vatSummaries.add(new VATSummary(AccounterConstants.UK_BOX5_NET_VAT,
+			vatSummaries.add(new VATSummary(AccounterServerConstants.UK_BOX5_NET_VAT,
 					VATSummary.UK_BOX5_NET_VAT, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.UK_BOX6_TOTAL_NET_SALES,
+					AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES,
 					VATSummary.UK_BOX6_TOTAL_NET_SALES, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.UK_BOX7_TOTAL_NET_PURCHASES,
+					AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES,
 					VATSummary.UK_BOX7_TOTAL_NET_PURCHASES, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.UK_BOX8_TOTAL_NET_SUPPLIES,
+					AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES,
 					VATSummary.UK_BOX8_TOTAL_NET_SUPPLIES, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS,
+					AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS,
 					VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.UK_BOX10_UNCATEGORISED,
+					AccounterServerConstants.UK_BOX10_UNCATEGORISED,
 					VATSummary.UK_BOX10_UNCATEGORISED, 0d));
 		} else if (taxAgency.getVATReturn() == TAXAgency.RETURN_TYPE_IRELAND_VAT) {
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES,
+					AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES,
 					VATSummary.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES, 0d));
 			vatSummaries
 					.add(new VATSummary(
-							AccounterConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS,
+							AccounterServerConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS,
 							VATSummary.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS,
 							0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.IRELAND_BOX3_VAT_ON_SALES,
+					AccounterServerConstants.IRELAND_BOX3_VAT_ON_SALES,
 					VATSummary.IRELAND_BOX3_VAT_ON_SALES, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.IRELAND_BOX4_VAT_ON_PURCHASES,
+					AccounterServerConstants.IRELAND_BOX4_VAT_ON_PURCHASES,
 					VATSummary.IRELAND_BOX4_VAT_ON_PURCHASES, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.IRELAND_BOX5_T3_T4_PAYMENT_DUE,
+					AccounterServerConstants.IRELAND_BOX5_T3_T4_PAYMENT_DUE,
 					VATSummary.IRELAND_BOX5_T3_T4_PAYMENT_DUE, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.IRELAND_BOX6_E1_GOODS_TO_EU,
+					AccounterServerConstants.IRELAND_BOX6_E1_GOODS_TO_EU,
 					VATSummary.IRELAND_BOX6_E1_GOODS_TO_EU, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.IRELAND_BOX7_E2_GOODS_FROM_EU,
+					AccounterServerConstants.IRELAND_BOX7_E2_GOODS_FROM_EU,
 					VATSummary.IRELAND_BOX7_E2_GOODS_FROM_EU, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES,
+					AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES,
 					VATSummary.IRELAND_BOX8_TOTAL_NET_SALES, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES,
+					AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES,
 					VATSummary.IRELAND_BOX9_TOTAL_NET_PURCHASES, 0d));
 			vatSummaries.add(new VATSummary(
-					AccounterConstants.IRELAND_BOX10_UNCATEGORISED,
+					AccounterServerConstants.IRELAND_BOX10_UNCATEGORISED,
 					VATSummary.IRELAND_BOX10_UNCATEGORISED, 0d));
 		}
 		return vatSummaries;
@@ -9174,7 +9174,7 @@ public class FinanceTool implements IFinanceDAOService {
 					Account vatLiabilityAccount = new Account(
 							Account.TYPE_OTHER_CURRENT_LIABILITY,
 							String.valueOf(getNextNominalCode(Account.TYPE_OTHER_CURRENT_LIABILITY)),
-							AccounterConstants.VAT_LIABILITY_ACCOUNT_IR, true,
+							AccounterServerConstants.VAT_LIABILITY_ACCOUNT_IR, true,
 							null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0,
 							false, "VAT Liability Account (IR)", 0.0, null,
 							true, true, Company.getCompany()
@@ -9195,11 +9195,11 @@ public class FinanceTool implements IFinanceDAOService {
 
 					Account openingBalenceAcount = (Account) session
 							.getNamedQuery("unique.name.Account")
-							.setString(0, AccounterConstants.OPENING_BALANCE)
+							.setString(0, AccounterServerConstants.OPENING_BALANCE)
 							.list().get(0);
 					Account salesTaxVAT = new Account(
 							Account.TYPE_OTHER_CURRENT_LIABILITY, "2120",
-							AccounterConstants.SALES_TAX_VAT_UNFILED, true,
+							AccounterServerConstants.SALES_TAX_VAT_UNFILED, true,
 							null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0,
 							false, "", 0.0, null, true, false,
 							openingBalenceAcount, "113", true, Company
@@ -9302,7 +9302,7 @@ public class FinanceTool implements IFinanceDAOService {
 				-21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_EC_PURCHASES_GOODS));
+						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
 		createVATItem(
 				session,
@@ -9315,7 +9315,7 @@ public class FinanceTool implements IFinanceDAOService {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_EC_PURCHASES_GOODS));
+						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
 		createVATItem(
 				session,
@@ -9328,7 +9328,7 @@ public class FinanceTool implements IFinanceDAOService {
 				-21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_EC_PURCHASES_GOODS));
+						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
 		createVATItem(
 				session,
@@ -9341,7 +9341,7 @@ public class FinanceTool implements IFinanceDAOService {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_EC_PURCHASES_GOODS));
+						AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS));
 
 		createVATItem(
 				session,
@@ -9354,7 +9354,7 @@ public class FinanceTool implements IFinanceDAOService {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_EC_SALES_GOODS));
+						AccounterServerConstants.IRELAND_EC_SALES_GOODS));
 
 		createVATItem(
 				session,
@@ -9367,7 +9367,7 @@ public class FinanceTool implements IFinanceDAOService {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_EXEMPT_PURCHASES));
+						AccounterServerConstants.IRELAND_EXEMPT_PURCHASES));
 
 		createVATItem(
 				session,
@@ -9380,7 +9380,7 @@ public class FinanceTool implements IFinanceDAOService {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_EXEMPT_SALES));
+						AccounterServerConstants.IRELAND_EXEMPT_SALES));
 
 		createVATItem(
 				session,
@@ -9393,7 +9393,7 @@ public class FinanceTool implements IFinanceDAOService {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_EXEMPT_PURCHASES));
+						AccounterServerConstants.IRELAND_EXEMPT_PURCHASES));
 
 		createVATItem(
 				session,
@@ -9406,7 +9406,7 @@ public class FinanceTool implements IFinanceDAOService {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_NOT_REGISTERED_SALES));
+						AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES));
 
 		createVATItem(
 				session,
@@ -9419,7 +9419,7 @@ public class FinanceTool implements IFinanceDAOService {
 				13.5,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_DOMESTIC_PURCHASES));
+						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
 		createVATItem(
 				session,
@@ -9432,7 +9432,7 @@ public class FinanceTool implements IFinanceDAOService {
 				13.5,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_DOMESTIC_SALES));
+						AccounterServerConstants.IRELAND_DOMESTIC_SALES));
 
 		createVATItem(
 				session,
@@ -9445,7 +9445,7 @@ public class FinanceTool implements IFinanceDAOService {
 				21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_DOMESTIC_PURCHASES));
+						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
 		createVATItem(
 				session,
@@ -9458,7 +9458,7 @@ public class FinanceTool implements IFinanceDAOService {
 				21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_DOMESTIC_PURCHASES));
+						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
 		createVATItem(
 				session,
@@ -9471,7 +9471,7 @@ public class FinanceTool implements IFinanceDAOService {
 				21,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_DOMESTIC_SALES));
+						AccounterServerConstants.IRELAND_DOMESTIC_SALES));
 
 		createVATItem(
 				session,
@@ -9484,7 +9484,7 @@ public class FinanceTool implements IFinanceDAOService {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_DOMESTIC_PURCHASES));
+						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
 		createVATItem(
 				session,
@@ -9497,7 +9497,7 @@ public class FinanceTool implements IFinanceDAOService {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_DOMESTIC_PURCHASES));
+						AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES));
 
 		createVATItem(
 				session,
@@ -9510,7 +9510,7 @@ public class FinanceTool implements IFinanceDAOService {
 				0,
 				(VATReturnBox) getServerObjectByName(
 						AccounterCoreType.VATRETURNBOX,
-						AccounterConstants.IRELAND_DOMESTIC_SALES));
+						AccounterServerConstants.IRELAND_DOMESTIC_SALES));
 
 	}
 
@@ -9628,7 +9628,7 @@ public class FinanceTool implements IFinanceDAOService {
 				}
 			}
 		}
-		rows.put(AccounterConstants.FINANCIAL_INDICATOR_SALES, salesEntries);
+		rows.put(AccounterServerConstants.FINANCIAL_INDICATOR_SALES, salesEntries);
 
 		Map<Integer, Double> grossProfitEntries = new LinkedHashMap<Integer, Double>();
 
@@ -9665,7 +9665,7 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		rows.put(AccounterConstants.FINANCIAL_INDICATOR_DIRECT_COSTS,
+		rows.put(AccounterServerConstants.FINANCIAL_INDICATOR_DIRECT_COSTS,
 				directCostsEntries);
 
 		// for (Integer key : salesEntries.keySet()) {
@@ -9712,7 +9712,7 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		rows.put(AccounterConstants.FINANCIAL_INDICATOR_GROSS_PROFIT,
+		rows.put(AccounterServerConstants.FINANCIAL_INDICATOR_GROSS_PROFIT,
 				grossProfitEntries);
 
 		Map<Integer, Double> netProfitEntries = new LinkedHashMap<Integer, Double>();
@@ -9750,7 +9750,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			}
 		}
-		rows.put(AccounterConstants.FINANCIAL_INDICATOR_INDIRECT_COSTS,
+		rows.put(AccounterServerConstants.FINANCIAL_INDICATOR_INDIRECT_COSTS,
 				indirectCostsEntries);
 
 		// for (Integer key : grossProfitEntries.keySet()) {
@@ -9793,7 +9793,7 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		rows.put(AccounterConstants.FINANCIAL_INDICATOR_NET_PROFIT,
+		rows.put(AccounterServerConstants.FINANCIAL_INDICATOR_NET_PROFIT,
 				netProfitEntries);
 
 		Map<Integer, Double> bankEntries = new LinkedHashMap<Integer, Double>();
@@ -9812,7 +9812,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Map<Integer, Double> empty = new LinkedHashMap<Integer, Double>();
 		rows.put("empty", empty);
 
-		rows.put(AccounterConstants.FINANCIAL_INDICATOR_BANK_ACCOUNTS,
+		rows.put(AccounterServerConstants.FINANCIAL_INDICATOR_BANK_ACCOUNTS,
 				bankEntries);
 		keyFinancialIndicators.setIndicators(rows);
 		return keyFinancialIndicators;
