@@ -406,7 +406,7 @@ public class UsersMailSendar {
 
 	}
 
-	public static void sendMailToInvitedUser(User user, String password,
+	public static void sendMailToInvitedUser(Client user, String password,
 			String companyName) {
 		try {
 			initPropertyParserToInviteUser();
@@ -423,7 +423,7 @@ public class UsersMailSendar {
 		content = content.replaceAll("%USER%", user.getFirstName());
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = content.replaceAll("%PASSWORD%", password);
-		content = content.replaceAll("%EMAILID%", user.getEmail());
+		content = content.replaceAll("%EMAILID%", user.getEmailId());
 		// content = content.replaceAll("%LOGINURL%", loginURL);
 
 		String subject = propertyParser.getProperty("subjectForInviteUser", "");
@@ -432,7 +432,7 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setRecepeant(user.getEmail());
+		emailMsg.setRecepeant(user.getEmailId());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
 
 		EmailManager.getInstance().addJob(job);
@@ -567,5 +567,85 @@ public class UsersMailSendar {
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
 
 		EmailManager.getInstance().addJob(job);
+	}
+
+	public static void sendMailToOtherCompanyUser(Client invitedClient,
+			String companyName, Client inviter) {
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Invitation Email is being sent to user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		String content = getContentForExternalUser();
+		content = content.replaceAll("%USER%", invitedClient.getFirstName());
+		content = content.replaceAll("%USERID%", invitedClient.getEmailId());
+		content = content.replaceAll("%SENDERNAME%", inviter.getEmailId());
+		content = content.replaceAll("%COMPANY%", companyName);
+		content = content.replaceAll("%URL%", "http://accounterlive.com");
+		content = content.replaceAll("%PASSWORD%", invitedClient.getPassword());
+		// content = content.replaceAll("%LOGINURL%", loginURL);
+
+		String subject = propertyParser.getProperty("subjectForInviteUser", "");
+		subject = subject.replaceAll("%COMPANY%", companyName);
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(invitedClient.getEmailId());
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
+		EmailManager.getInstance().addJob(job);
+	}
+
+	public static void sendDeletedInviteUserMail(String sendermail,
+			Client deletedUserMail, String companyName) {
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Invitation Email is being sent to user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		String content = getContentForDeleteInvitedUser();
+		content = content.replaceAll("%USER%", deletedUserMail.getFirstName());
+		content = content.replaceAll("%USERID%", deletedUserMail.getEmailId());
+		content = content.replaceAll("%SENDERNAME%", sendermail);
+		content = content.replaceAll("%COMPANY%", companyName);
+		content = content.replaceAll("%URL%", "http://accounterlive.com");
+
+		String subject = propertyParser.getProperty("subjectForDeletedInviteUser", "");
+		subject = subject.replaceAll("%COMPANY%", companyName);
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(deletedUserMail.getEmailId());
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
+		EmailManager.getInstance().addJob(job);
+	}
+
+	private static String getContentForDeleteInvitedUser() {
+		try {
+			File fr = new File("config/contentForDeleteInvitedUser.ini");
+			byte[] data = new byte[(int) fr.length()];
+			FileInputStream inStream = new FileInputStream(fr);
+			inStream.read(data);
+			inStream.close();
+			return new String(data);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
