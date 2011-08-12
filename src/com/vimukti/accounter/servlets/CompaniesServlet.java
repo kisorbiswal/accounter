@@ -9,20 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ServerCompany;
-import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.core.UserPermissions;
-import com.vimukti.accounter.core.UserPreferences;
-import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class CompaniesServlet extends BaseServlet {
 
@@ -82,90 +73,9 @@ public class CompaniesServlet extends BaseServlet {
 		dispatch(req, resp, companiedListView);
 	}
 
-	/**
-	 * @param req
-	 * @param resp
-	 * @throws IOException
-	 */
-	private void redirectToAccounter(HttpServletRequest req,
-			HttpServletResponse resp, Set<ServerCompany> companies,
-			Client client) throws IOException {
-		long companyID = 0;
-		if (companies.isEmpty()) {
-			redirectExternal(req, resp, CREATE_COMPANY_URL);
-			return;
-			// companyID = createNewCompany(client);
-		} else {
-			companyID = companies.iterator().next().getID();
-		}
-		setCookies(resp, client, companyID);
-		redirectExternal(req, resp, ACCOUNTER_URL);
-	}
-
-	private long createNewCompany(Client client) {
-		ServerCompany serverCompany = new ServerCompany();
-		serverCompany.setConfigured(true);
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction transaction = session.beginTransaction();
-		try {
-			session.save(serverCompany);
-			client.getCompanies().add(serverCompany);
-			session.save(serverCompany);
-			session.saveOrUpdate(client);
-			Query query = session.createSQLQuery("CREATE SCHEMA company"
-					+ serverCompany.getID());
-			query.executeUpdate();
-			transaction.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
-		} finally {
-		}
-
-		Session companySession = HibernateUtil.openSession(Server.COMPANY
-				+ serverCompany.getID(), true);
-		Transaction companyTrans = companySession.beginTransaction();
-		try {
-			Company company = new Company();
-			company.setCompanyID("vimukti");
-			company.setCompanyEmail(client.getEmailId());
-			company.setFullName("vimukti");
-			company.setTradingAddress(new Address());
-			company.setRegisteredAddress(new Address());
-			company.setAccountingType(Company.ACCOUNTING_TYPE_UK);
-			companySession.save(company);
-
-			// company.initialize();
-
-			User user = new User();
-			user.setEmail(client.getEmailId());
-			user.setFirstName(client.getFirstName());
-			user.setLastName(client.getLastName());
-			user.setUserRole(RolePermissions.ADMIN);
-			user.setAdmin(true);
-			user.setPermissions(new UserPermissions());
-			user.setUserPreferences(new UserPreferences());
-			companySession.save(user);
-
-			companyTrans.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			companyTrans.rollback();
-		} finally {
-			companySession.close();
-		}
-		return serverCompany.getID();
-	}
-
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		doGet(req, resp);
-	}
-
-	private void setCookies(HttpServletResponse response, Client client,
-			long companyID) {
-		addCompanyCookies(response, companyID);
-		addUserCookies(response, client);
 	}
 
 	private void addCompanyCookies(HttpServletResponse resp, long companyID) {

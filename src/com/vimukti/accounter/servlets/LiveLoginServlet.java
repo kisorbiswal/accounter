@@ -120,7 +120,7 @@ public class LiveLoginServlet extends BaseServlet {
 					String.valueOf(user.getID()));
 			request.getSession().setAttribute("userName",
 					String.valueOf(user.getName()));
-			request.getSession().setAttribute(COMPANY_ID, user.getCompany());
+			// request.getSession().setAttribute(COMPANY_ID, user.getCompany());
 			Server.addSeesionIdOfIdentity(String.valueOf(user.getID()), request
 					.getSession().getId());
 
@@ -173,7 +173,7 @@ public class LiveLoginServlet extends BaseServlet {
 		Cookie cookie = new Cookie(OUR_COOKIE,
 				new StringBuffer(user.getEmail()).append(",")
 						.append(user.getPasswordSha1Hash()).append(",")
-						.append(user.getCompany()).toString());
+						.toString());//user.getCompany()
 		cookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		cookie.setPath("/");
 		// this.getThreadLocalResponse().addCookie(cookie);

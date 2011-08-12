@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -68,18 +69,43 @@ public class BaseServlet extends HttpServlet {
 	public static final int NAME = 1;
 	public static final int PHONE_NO = 2;
 
-	protected String getCompanyName(HttpServletRequest req) {
-		String companyID = getCookie(req, COMPANY_COOKIE);
-		Session session = HibernateUtil.openSession(Server.COMPANY + companyID);
+	protected Company getCompanyById(String companyId) {
+		Session session = HibernateUtil.openSession(Server.COMPANY+companyId);
 		try {
-			Company comapny = (Company) session.get(Company.class, 1l);
+			Company comapny = (Company) session.get(Company.class,
+					Long.valueOf(companyId));
 			if (comapny != null) {
-				return comapny.getFullName();
+				return comapny;
 			}
 		} catch (Exception e) {
 			return null;
 		} finally {
 			session.close();
+		}
+		return null;
+	}
+
+	protected Company getCompany(HttpServletRequest req) {
+		String companyID = getCookie(req, COMPANY_COOKIE);
+		Session session = HibernateUtil.openSession(Server.COMPANY + companyID);
+		try {
+			Company comapny = (Company) session.get(Company.class,
+					Long.valueOf(companyID));
+			if (comapny != null) {
+				return comapny;
+			}
+		} catch (Exception e) {
+			return null;
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+
+	protected String getCompanyName(HttpServletRequest req) {
+		Company company = getCompany(req);
+		if (company != null) {
+			return company.getFullName();
 		}
 		// Query query = session.getNamedQuery("getServerCompany.by.id")
 		// .setParameter("id", Long.valueOf(companyID));
@@ -199,8 +225,9 @@ public class BaseServlet extends HttpServlet {
 
 	protected Client getClient(String emailId) {
 		Session session = HibernateUtil.getCurrentSession();
-		Client client = (Client) session.getNamedQuery("getClient.by.mailId")
-				.setString(EMAIL_ID, emailId).uniqueResult();
+		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+		namedQuery.setParameter(EMAIL_ID, emailId);
+		Client client = (Client) namedQuery.uniqueResult();
 		// session.close();
 		return client;
 	}
@@ -228,6 +255,11 @@ public class BaseServlet extends HttpServlet {
 
 	protected void sendActivationEmail(String token, Client client) {
 		UsersMailSendar.sendActivationMail(token, client);
+	}
+
+	protected void sendMailToInvitedUser(Client user, String password,
+			String companyName) {
+		UsersMailSendar.sendMailToInvitedUser(user, password, companyName);
 	}
 
 	/**
