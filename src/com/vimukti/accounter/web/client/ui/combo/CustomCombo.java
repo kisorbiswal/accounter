@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -33,8 +34,6 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 	protected void init() {
 		super.init();
 	}
-
-
 
 	public List<T> getComboItems() {
 		return comboItems;
@@ -201,5 +200,37 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 
 	protected ClientCompany getCompany() {
 		return Accounter.getCompany();
+	}
+
+	@Override
+	protected int getObjectIndex(T coreObject) {
+		return comboItems.indexOf(Utility.getObject(
+				(List<IAccounterCore>) comboItems,
+				((IAccounterCore) coreObject).getID()));
+	}
+
+	@Override
+	public void updateComboItem(T coreObject) {
+		for (T item : comboItems) {
+			if (((IAccounterCore) item).getID() == ((IAccounterCore) coreObject)
+					.getID()) {
+
+				if (this.getSelectedValue() != null ? this.getSelectedValue()
+						.equals(item) : true) {
+					removeComboItem(item);
+					addItemThenfireEvent(coreObject);
+				} else {
+					removeComboItem(item);
+					addComboItem(coreObject);
+				}
+				break;
+			} else if (((IAccounterCore) coreObject).getID() != 0) {
+				addComboItem(coreObject);
+				break;
+			}
+
+			// if((IAccounterCore) item.getSt)
+		}
+
 	}
 }

@@ -27,13 +27,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
-import com.vimukti.accounter.web.client.core.ClientVATCode;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -567,43 +560,23 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	}
 
 	protected void setSelectedItem(T obj, int row) {
-		String displayName = "";
+
 		if (obj == null) {
 			setValue("");
-
-		} else {
-			// <<<<<<< .working
-			if (obj instanceof ClientAccount || obj instanceof ClientVATCode)
-				displayName = getOnlyName(obj);
-			else {
-				for (int i = 0; i < cols; i++) {
-					displayName += getColumnData(obj, row, i);
-					if (i < cols - 1)
-						displayName += " - ";
-					// =======
-					// if (obj instanceof ClientVATCode)
-					// displayName = getOnlyName(obj);
-					// else {
-					// for (int i = 0; i < cols; i++) {
-					// displayName += getColumnData(obj, row, i);
-					// if (i < cols - 1)
-					// displayName += " - ";
-					// >>>>>>> .merge-right.r20318
-
-				}
-			}
-			// }
-			setValue(displayName);
+			return;
 		}
 
-	}
-
-	private String getOnlyName(T obj) {
-		if (obj instanceof ClientAccount)
-			return ((ClientAccount) obj).getName();
-		else if (obj instanceof ClientVATCode)
-			return ((ClientVATCode) obj).getName();
-		return "";
+		String displayName = "";
+		if (cols == 0) {
+			displayName = getDisplayName(obj);
+		} else {
+			for (int i = 0; i < cols; i++) {
+				displayName += getColumnData(obj, row, i);
+				if (i < cols - 1)
+					displayName += " - ";
+			}
+		}
+		setValue(displayName);
 	}
 
 	public void setGrid(ListGrid grid) {
@@ -612,9 +585,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	public void removeComboItem(T coreObject) {
 
-		int index = comboItems.indexOf(Utility.getObject(
-				(List<IAccounterCore>) comboItems,
-				((IAccounterCore) coreObject).getID()));
+		int index = getObjectIndex(coreObject);
 		if (index > 0) {
 			comboItems.remove(index);
 			dropDown.removeRow(isAddNewRequire ? index + 2 : index + 1);
@@ -622,28 +593,15 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	}
 
+	protected int getObjectIndex(T coreObject) {
+		return comboItems.indexOf(coreObject);
+	}
+
 	public void updateComboItem(T coreObject) {
-		for (T item : comboItems) {
-			if (((IAccounterCore) item).getID() == ((IAccounterCore) coreObject)
-					.getID()) {
-
-				if (this.getSelectedValue() != null ? this.getSelectedValue()
-						.equals(item) : true) {
-					removeComboItem(item);
-					addItemThenfireEvent(coreObject);
-				} else {
-					removeComboItem(item);
-					addComboItem(coreObject);
-				}
-				break;
-			} else if (((IAccounterCore) coreObject).getID() != 0) {
-				addComboItem(coreObject);
-				break;
-			}
-
-			// if((IAccounterCore) item.getSt)
+		if (getObjectIndex(coreObject) != -1) {
+			removeComboItem(coreObject);
+			addComboItem(coreObject);
 		}
-
 	}
 
 	public T getSelectedValue() {
@@ -723,11 +681,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		if (!getValue().toString().isEmpty()) {
 			List<T> combos = getComboitemsByName(value);
 			for (T t : combos) {
-				String name;
-				if (t instanceof ClientVATCode)
-					name = getOnlyName(t);
-				else
-					name = getDisplayName(t);
+				String name = getDisplayName(t);
 				if (name.toLowerCase().equals(value.toLowerCase())) {
 					combos.clear();
 					combos.add(t);
@@ -798,15 +752,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	protected List<T> getComboitemsByName(String value) {
 		List<T> autocompleteItems = new ArrayList<T>();
 		for (T t : comboItems) {
-			if (t instanceof ClientAccount || t instanceof ClientVATCode) {
-				if (getDisplayNameForAccountVatCode(t).toLowerCase().contains(
-						value.toLowerCase()))
-					autocompleteItems.add(t);
-			} else {
-				if (getDisplayName(t).toLowerCase().contains(
-						value.toLowerCase())) {
-					autocompleteItems.add(t);
-				}
+			String displayName = getDisplayName(t);
+			if (displayName.toLowerCase().contains(value)) {
+				autocompleteItems.add(t);
 			}
 		}
 		return autocompleteItems;
