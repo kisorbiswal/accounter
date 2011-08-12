@@ -412,7 +412,24 @@
 		<servlet-name>initialzeCompany</servlet-name>
 		<url-pattern>/initialzeCompany</url-pattern>
 	</servlet-mapping>
-
+	<servlet>
+		<servlet-name>inviteUser</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.InviteUserServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>inviteUser</servlet-name>
+		<url-pattern>/inviteUser</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>deleteUser</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.DeleteUserServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>deleteUser</servlet-name>
+		<url-pattern>/deleteUser</url-pattern>
+	</servlet-mapping>
 
 
 	<filter>
