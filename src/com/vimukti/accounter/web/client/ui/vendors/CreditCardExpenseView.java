@@ -210,7 +210,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 	}
 
-	@Override
+	/*@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 
@@ -232,7 +232,7 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		}
 		result.add(vendorTransactionGrid.validateGrid());
 		return result;
-	}
+	}*/
 
 	@Override
 	public void onEdit() {
