@@ -250,18 +250,22 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 		String name = vatItemNameText.getValue().toString() != null ? vatItemNameText
 				.getValue().toString() : "";
-		if (!((!isEdit && Utility.isObjectExist(getCompany().getTaxItems(),
-				name)) ? false : true)
+
+		ClientTAXItem taxItemByName = getCompany().getTaxItemByName(name);
+
+		if (!((!isEdit && taxItemByName != null || taxItemByName.getID() == this
+				.getData().getID()) ? false : true)
 				|| !(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
-						: (Utility.isObjectExist(getCompany().getTaxItems(),
-								name) ? false : true)) : true)) {
+						: (taxItemByName != null
+								|| taxItemByName.getID() == this.getData()
+										.getID() ? false : true)) : true)) {
 			result.addError(vatItemNameText, Accounter.constants()
 					.alreadyExist());
 		}
 
 		if (!isEdit) {
-			if (Utility.isObjectExist(getCompany().getTaxItems(),
-					this.vatItemNameText.getValue().toString())) {
+			if (taxItemByName != null
+					|| taxItemByName.getID() == this.getData().getID()) {
 				result.addError(vatItemNameText, Accounter.constants()
 						.alreadyExist());
 			}

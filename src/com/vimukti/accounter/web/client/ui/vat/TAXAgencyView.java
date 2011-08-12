@@ -172,11 +172,14 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		}
 
 		String name = taxAgencyText.getValue().toString();
-		if (!((!isEdit && Utility.isObjectExist(getCompany().getTaxAgencies(),
-				name)) ? false : true)
+
+		ClientTAXAgency taxAgenciesByName = getCompany().getTaxAgenciesByName(
+				name);
+
+		if (!((!isEdit && taxAgenciesByName != null || taxAgenciesByName
+				.getID() == this.getData().getID()) ? false : true)
 				|| (!isEdit ? (data.getName().equalsIgnoreCase(name) ? true
-						: (Utility.isObjectExist(getCompany().getTaxAgencies(),
-								name) ? false : true)) : true)) {
+						: (taxAgenciesByName != null ? false : true)) : true)) {
 			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
 		}
 		return result;
@@ -301,8 +304,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		statusCheck = new CheckboxItem(companyConstants.active());
 		statusCheck.setValue(true);
 
-		paymentTermsCombo = new PaymentTermsCombo(companyConstants
-				.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(
+				companyConstants.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {

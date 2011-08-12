@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -213,11 +212,13 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		String name = groupName.getValue().toString();
-		if (!((isEdit && Utility.isObjectExist(getCompany().getVatGroups(),
-				name)) ? false : true)
+
+		ClientTAXGroup vatGroupsbyname = getCompany().getVatGroupsbyname(name);
+
+		if (!((isEdit && vatGroupsbyname != null || vatGroupsbyname.getID() == this
+				.getData().getID()) ? false : true)
 				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
-						: (Utility.isObjectExist(getCompany().getVatGroups(),
-								name) ? false : true)) : true)) {
+						: (vatGroupsbyname != null) ? false : true) : true)) {
 			result.addError(groupName, Accounter.constants().alreadyExist());
 			result.add(form.validate());
 		}

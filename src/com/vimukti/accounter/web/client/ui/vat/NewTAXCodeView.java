@@ -306,8 +306,11 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 				new DynamicForm[getForms().size()])));
 		String name = vatCodeTxt.getValue() != null ? vatCodeTxt.getValue()
 				.toString() : "";
-		if (!((!isEdit && Utility.isObjectExist(getCompany().getTaxCodes(),
-				name)) ? false : true)
+
+		ClientTAXCode taxCodeByName = getCompany().getTAXCodeByName(name);
+
+		if (!((!isEdit && taxCodeByName != null || taxCodeByName.getID() == this
+				.getData().getID()) ? false : true)
 				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (Utility.isObjectExist(getCompany().getTaxCodes(),
 								name) ? false : true)) : true)) {
