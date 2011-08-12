@@ -484,14 +484,12 @@ public class CashPurchaseView extends
 	@Override
 	public void saveAndUpdateView() {
 		updateTransaction();
-
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			transaction.setNetAmount(netAmount.getAmount());
 			// if (vatinclusiveCheck != null)
 			// cashPurchase.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 			// .getValue());
 		}
-
 		super.saveAndUpdateView();
 
 		createAlterObject();
