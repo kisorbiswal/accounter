@@ -60,7 +60,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected AmountField creditTextItem;
 	public AmountLabel unUsedCreditsText;
 	protected SelectCombo vendorPaymentMethodCombo;
-	protected TextAreaItem memoTextAreaItem;
 	protected List<PayBillTransactionList> paybillTransactionList;
 	protected List<PayBillTransactionList> filterList;
 	protected List<PayBillTransactionList> tempList;
@@ -163,6 +162,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		// Setting ending Balance
 		transaction.setEndingBalance(endBalText.getAmount());
+
+		transaction.setMemo(memoTextAreaItem.getValue().toString());
 
 		// Setting Transactions
 		List<ClientTransactionPayBill> selectedRecords = gridView
@@ -669,6 +670,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// super.initTransactionViewData();
 		initVendors();
 		initTransactionTotalNonEditableItem();
+		try {
+			this.initMemoAndReference();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
 		gridView.removeAllRecords();
 		gridView.setAllTransactionItems(transaction.getTransactionItems());
 
