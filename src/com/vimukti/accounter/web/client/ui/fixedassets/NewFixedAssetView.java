@@ -940,15 +940,15 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		ClientFixedAsset fixedAssetByName = getCompany().getFixedAssetByName(itemTxt
-				.getValue().toString());
-		if (fixedAssetByName != null){
+		ClientFixedAsset fixedAssetByName = getCompany().getFixedAssetByName(
+				itemTxt.getValue().toString());
+		if (fixedAssetByName != null) {
 			result.addError(itemTxt, Accounter.constants().alreadyExist());
 		}
-//		if (Utility.isObjectExist(getCompany().getFixedAssets(), itemTxt
-//				.getValue().toString())) {
-//			result.addError(itemTxt, Accounter.constants().alreadyExist());
-//		}
+		// if (Utility.isObjectExist(getCompany().getFixedAssets(), itemTxt
+		// .getValue().toString())) {
+		// result.addError(itemTxt, Accounter.constants().alreadyExist());
+		// }
 
 		if (isRegister) {
 			assetNumberTxt.setRequired(true);
@@ -1017,12 +1017,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	private boolean validateName(String name) {
-		if (!(!isEdit
-				&& getCompany().getFixedAssetByName(name)!=null ? true
+		if (!(!isEdit && getCompany().getFixedAssetByName(name) != null ? true
 				: false)
 				|| !(isEdit && !(data.getName().equalsIgnoreCase(name) ? true
-						: (Utility.isObjectExist(getCompany().getFixedAssets(),
-								name) ? false : true)))) {
+						: getCompany().getFixedAssetByName(name) != null ? false
+								: true))) {
 			isVerified = true;
 			return false;
 		}
