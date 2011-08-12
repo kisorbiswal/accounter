@@ -147,7 +147,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 
 	@Override
 	protected void executeDelete(ClientUserInfo object) {
-		deleteObject(object);
+		deleteUserObject(object);
 	}
 
 	@Override

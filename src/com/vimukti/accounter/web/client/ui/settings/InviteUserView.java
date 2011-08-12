@@ -5,11 +5,12 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
-import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -22,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class InviteUserView extends BaseView<ClientUser> {
+public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	TextItem firstNametext;
 	TextItem lastNametext;
@@ -38,9 +39,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 	}
 
 	private void createControls() {
-
 		custForm = new DynamicForm();
-
 		VerticalPanel vPanel = new VerticalPanel();
 		firstNametext = new TextItem(Accounter.constants().firstName());
 		firstNametext.setRequired(true);
@@ -85,8 +84,8 @@ public class InviteUserView extends BaseView<ClientUser> {
 		manageLabel.addStyleName("inviteUserLabel");
 
 		custForm.setFields(firstNametext, lastNametext, emailField);
-		custForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "150px");
+		Element element2 = custForm.getCellFormatter().getElement(0, 0);
+		element2.setAttribute("width", "150px");
 
 		vPanel.add(custForm);
 		vPanel.add(setPerLabel);
@@ -106,19 +105,19 @@ public class InviteUserView extends BaseView<ClientUser> {
 			emailField.setValue(data.getEmail());
 			// userManagementBox.setValue(takenUser.isCanDoUserManagement());
 			grid.setRecords(getRolePermissionsForUser(data));
-			if (data.isActive()) {
-				firstNametext.setDisabled(true);
-				lastNametext.setDisabled(true);
-				emailField.setDisabled(true);
-				// if (takenUser.isAdmin()) {
-				// userManagementBox.setEnabled(false);
-				// }
-			}
+			// if (data.isActive()) {
+			// firstNametext.setDisabled(true);
+			// lastNametext.setDisabled(true);
+			// emailField.setDisabled(true);
+			// // if (takenUser.isAdmin()) {
+			// // userManagementBox.setEnabled(false);
+			// // }
+			// }
 			// if(takenUser.isAdmin()) {
 			// grid.setDisabled(true);
 			// }
 		} else {
-			setData(new ClientUser());
+			setData(new ClientUserInfo());
 		}
 	}
 
@@ -218,7 +217,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 			data.setCanDoUserManagement(selectedRole.isCanDoUserManagement());
 		}
 
-		saveOrUpdate(data);
+		saveOrUpdateUser(data);
 	}
 
 	private RolePermissions getSelectedRolePermission() {
@@ -307,7 +306,7 @@ public class InviteUserView extends BaseView<ClientUser> {
 		return list;
 	}
 
-	public List<RolePermissions> getRolePermissionsForUser(ClientUser user) {
+	public List<RolePermissions> getRolePermissionsForUser(ClientUserInfo user) {
 		List<RolePermissions> defaultRoles = getDefaultRolesAndPermissions();
 		List<RolePermissions> roles = new ArrayList<RolePermissions>();
 		// for (RolePermissions role : defaultRoles) {
@@ -358,19 +357,23 @@ public class InviteUserView extends BaseView<ClientUser> {
 		return result;
 	}
 
-	private boolean isEmailIDExist(ClientUser object) {
+	private boolean isEmailIDExist(ClientUserInfo object) {
 		List<ClientEmployee> list = getCompany().getUsersList();
 		if (list == null || list.isEmpty())
 			return false;
 		for (ClientEmployee user : list) {
-			if (user.getID() == object.getID()) {
-				continue;
-			} else {
-				if (user.getEmail() != null && object.getEmail() != null
-						&& user.getEmail().equals(object.getEmail())) {
+			if (user.getEmail().equals(object.getEmail())) {
+				if (user.getID() != object.getID()) {
 					return true;
 				}
-
+				if (user.getID() == object.getID()) {
+					continue;
+				} else {
+					if (user.getEmail() != null && object.getEmail() != null
+							&& user.getEmail().equals(object.getEmail())) {
+						return true;
+					}
+				}
 			}
 		}
 		return false;
