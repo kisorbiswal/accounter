@@ -221,7 +221,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			throws AccounterException {
 		try {
 			Class.forName(className);
-			return getSession().get(className, id);
+			Object object = getSession().get(className, id);
+			return object;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AccounterException(AccounterException.ERROR_INTERNAL,

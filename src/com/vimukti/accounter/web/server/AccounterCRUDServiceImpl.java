@@ -147,7 +147,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	public boolean canEdit(AccounterCoreType accounterCoreType, long id)
 			throws AccounterException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
-				accounterCoreType.getServerClassSimpleName(), id);
+				accounterCoreType.getServerClassFullyQualifiedName(), id);
 		try {
 			return serverCore.canEdit(serverCore);
 		} catch (AccounterException e) {
