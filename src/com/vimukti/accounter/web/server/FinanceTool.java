@@ -236,7 +236,6 @@ public class FinanceTool implements IFinanceDAOService {
 	 */
 	public long create(OperationContext createContext)
 			throws AccounterException {
-
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
 		try {
@@ -257,7 +256,6 @@ public class FinanceTool implements IFinanceDAOService {
 			} catch (Exception e1) {
 				throw new AccounterException(AccounterException.ERROR_INTERNAL);
 			}
-
 			serverObject = new ServerConvertUtil().toServerObject(serverObject,
 					(IAccounterCore) data, session);
 
@@ -281,7 +279,26 @@ public class FinanceTool implements IFinanceDAOService {
 
 			isTransactionNumberExist((IAccounterCore) data);
 
-			session.save(serverObject);
+			if (serverObject instanceof User) {
+				User user = (User) serverObject;
+				String email = user.getEmail();
+				User userByUserEmail = getUserByUserEmail(email);
+				if (userByUserEmail != null) {
+					if (userByUserEmail.isDeleted()) {
+						userByUserEmail.setDeleted(false);
+						userByUserEmail.setUserRole(user.getUserRole());
+						userByUserEmail.setPermissions(user.getPermissions());
+						userByUserEmail.setCanDoUserManagement(user
+								.isCanDoUserManagement());
+						serverObject = userByUserEmail;
+						session.saveOrUpdate(serverObject);
+					}
+				} else {
+					session.save(serverObject);
+				}
+			} else {
+				session.save(serverObject);
+			}
 			transaction.commit();
 			ChangeTracker.put(serverObject);
 
@@ -296,7 +313,18 @@ public class FinanceTool implements IFinanceDAOService {
 						e.getMessage());
 			}
 		}
+	}
 
+	private User getUserByUserEmail(String email) {
+		try {
+			Session session = HibernateUtil.getCurrentSession();
+			Query namedQuery = session.getNamedQuery("user.by.emailid");
+			namedQuery.setParameter("emailID", email);
+			User user = (User) namedQuery.list().get(0);
+			return user;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -430,8 +458,11 @@ public class FinanceTool implements IFinanceDAOService {
 			((FiscalYear) serverObject).canDelete((FiscalYear) serverObject);
 			session.delete(serverObject);
 			// ChangeTracker.put(serverObject);
+		} else if (serverObject instanceof User) {
+			User user = (User) serverObject;
+			user.setDeleted(true);
+			session.saveOrUpdate(user);
 		} else {
-
 			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1))) {
 				session.delete(serverObject);
 			} else {
@@ -902,9 +933,8 @@ public class FinanceTool implements IFinanceDAOService {
 	 * "You can't delete Administrator of this organization")); return false; }
 	 * } return true; }
 	 */
-	private Boolean executeQuery(Query query) {
-
-		List queryResult = query.list();
+	private boolean executeQuery(Query query) {
+		List<?> queryResult = query.list();
 		Boolean flag = true;
 		if (queryResult != null && queryResult.size() > 0
 				&& queryResult.get(0) != null) {
@@ -10329,14 +10359,13 @@ public class FinanceTool implements IFinanceDAOService {
 	 */
 	private Company getCompany() {
 		Session session = HibernateUtil.getCurrentSession();
-		return (Company) session.load(Company.class, 1l);
+		return (Company) session.get(Company.class, 1l);
 	}
 
 	private List<Account> getAccountsListBySorted() {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<Account> list1 = new ArrayList<Account>();
 		List<Account> list2 = new ArrayList<Account>();
-
 		ArrayList<Account> list = new ArrayList<Account>(session.getNamedQuery(
 				"list.Account").list());
 		int sort[] = { 14, 15, 18, 16, 3, 4, 8, 9, 6, 12, 7, 13 };
