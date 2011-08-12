@@ -12,17 +12,16 @@ import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
-import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CreditCardChargeView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
@@ -74,8 +73,8 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 					@Override
 					public void actionResult(ClientVendor result) {
-						if(result.getDisplayName()!=null)
-						addItemThenfireEvent(result);
+						if (result.getDisplayName() != null)
+							addItemThenfireEvent(result);
 
 					}
 				});
@@ -135,6 +134,103 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 		vendorForm.removeFromParent();
 		verticalPanel.add(vendorForm);
 		// verticalPanel.setSpacing(10);
+
+	}
+
+	@Override
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientCreditCardCharge());
+			resetElements();
+			initpayFromAccountCombo();
+		} else {
+			ClientVendor vendor = getCompany().getVendor(
+					transaction.getVendor());
+			// if (vendor != null) {
+			// vendorNameSelect.setComboItem(vendor);
+			// phoneSelect.setValue(vendor.getPhoneNo());
+			// }
+			transactionDateItem.setValue(transaction.getDate());
+			contact = transaction.getContact();
+			if (contact != null) {
+				contactNameSelect.setValue(contact.getName());
+			}
+			transactionDateItem.setValue(transaction.getDate());
+			transactionDateItem.setDisabled(isEdit);
+			transactionNumber.setValue(transaction.getNumber());
+			transactionNumber.setDisabled(isEdit);
+			delivDate.setValue(new ClientFinanceDate(transaction
+					.getDeliveryDate()));
+			delivDate.setDisabled(isEdit);
+			phoneSelect.setValue(transaction.getPhone());
+			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
+				netAmount.setAmount(transaction.getNetAmount());
+				vatTotalNonEditableText.setAmount(transaction.getTotal()
+						- transaction.getNetAmount());
+			}
+			transactionTotalNonEditableText.setAmount(transaction.getTotal());
+
+			if (vatinclusiveCheck != null) {
+				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+			}
+			if (transaction.getPayFrom() != 0)
+				payFromAccountSelected(transaction.getPayFrom());
+			payFrmSelect.setComboItem(getCompany().getAccount(payFromAccount));
+			payFrmSelect.setDisabled(isEdit);
+			cheqNoText.setDisabled(isEdit);
+			paymentMethodSelected(transaction.getPaymentMethod());
+			payMethSelect.setComboItem(transaction.getPaymentMethod());
+			payMethSelect.setDisabled(isEdit);
+			cheqNoText.setDisabled(isEdit);
+			vendorTransactionGrid.setCanEdit(false);
+			vendorTransactionGrid.removeAllRecords();
+			vendorTransactionGrid.setAllTransactionItems(transaction
+					.getTransactionItems());
+		}
+		initMemoAndReference();
+		initTransactionNumber();
+		addVendorsList();
+	}
+
+	private void addVendorsList() {
+		List<ClientVendor> result = getCompany().getActiveVendors();
+		if (result != null) {
+			initVendorsList(result);
+
+		}
+	}
+
+	protected void initVendorsList(List<ClientVendor> result) {
+		// First identify existing selected vendor
+		for (ClientVendor vendor : result) {
+			if (isEdit)
+				if (vendor.getID() == transaction.getVendor()) {
+					selectedVendor = vendor;
+				}
+		}
+		Ccard.initCombo(result);
+
+		if (isEdit) {
+			Ccard.setComboItem(selectedVendor);
+			billToaddressSelected(selectedVendor.getSelectedAddress());
+			addPhonesContactsAndAddress();
+		}
+		Ccard.setDisabled(isEdit);
+	}
+
+	private void resetElements() {
+		selectedVendor = null;
+		// transaction = null;
+		billingAddress = null;
+		addressList = null;
+		// billToCombo.setDisabled(isEdit);
+		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
+				.constants().check());
+		payFromAccount = 0;
+		// phoneSelect.setValueMap("");
+		setMemoTextAreaItem("");
+		// refText.setValue("");
+		cheqNoText.setValue("");
 
 	}
 
@@ -210,29 +306,24 @@ public class CreditCardExpenseView extends CreditCardChargeView {
 
 	}
 
-	/*@Override
-	public ValidationResult validate() {
-		ValidationResult result = super.validate();
-
-		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
-		}
-
-		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
-		}
-
-		result.add(vendorForm.validate());
-		result.add(termsForm.validate());
-		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
-					accounterConstants.blankTransaction());
-		}
-		result.add(vendorTransactionGrid.validateGrid());
-		return result;
-	}*/
+	/*
+	 * @Override public ValidationResult validate() { ValidationResult result =
+	 * super.validate();
+	 * 
+	 * if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+	 * result.addError(transactionDate,
+	 * accounterConstants.invalidateTransactionDate()); }
+	 * 
+	 * if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+	 * result.addError(transactionDate,
+	 * accounterConstants.invalidateTransactionDate()); }
+	 * 
+	 * result.add(vendorForm.validate()); result.add(termsForm.validate()); if
+	 * (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
+	 * result.addError(vendorTransactionGrid,
+	 * accounterConstants.blankTransaction()); }
+	 * result.add(vendorTransactionGrid.validateGrid()); return result; }
+	 */
 
 	@Override
 	public void onEdit() {
