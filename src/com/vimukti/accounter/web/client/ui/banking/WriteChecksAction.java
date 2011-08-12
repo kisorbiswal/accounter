@@ -60,5 +60,5 @@ public class WriteChecksAction extends Action {
 	public String getHistoryToken() {
 
 		return "writeCheck";
-	}s
+	}
 }
