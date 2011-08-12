@@ -158,7 +158,7 @@ public class CashExpenseView extends CashPurchaseView {
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+					accounterConstants.invalidateDate());
 		}
 
 		if (!payFromCombo.validate()) {
