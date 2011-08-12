@@ -14,13 +14,9 @@ public class ClientUser implements IAccounterCore {
 
 	String userRole;
 
-	private boolean isActive;
-
 	private ClientUserPermissions permissions;
 
 	private boolean canDoUserManagement;
-
-	private String company;
 
 	private String displayName;
 
@@ -37,7 +33,6 @@ public class ClientUser implements IAccounterCore {
 	String email;
 	String passwordSha1Hash;
 
-	long createdDate;
 	String admin;
 
 	int maxUserCount;
@@ -149,14 +144,6 @@ public class ClientUser implements IAccounterCore {
 		this.passwordSha1Hash = passwordSha1Hash;
 	}
 
-
-	/**
-	 * @return the createdDate
-	 */
-	public ClientFinanceDate getCreatedDate() {
-		return new ClientFinanceDate(createdDate);
-	}
-
 	/**
 	 * @return the admin
 	 */
@@ -258,10 +245,6 @@ public class ClientUser implements IAccounterCore {
 		this.contact = contactId;
 	}
 
-	public void setCreatedDate(long createdDate) {
-		this.createdDate = createdDate;
-	}
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		// TODO Auto-generated method stub
@@ -301,21 +284,13 @@ public class ClientUser implements IAccounterCore {
 		return permissions;
 	}
 
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
-	public String getCompany() {
-		return company;
-	}
+	// public void setActive(boolean isActive) {
+	// this.isActive = isActive;
+	// }
+	//
+	// public boolean isActive() {
+	// return isActive;
+	// }
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
@@ -437,7 +412,7 @@ public class ClientUser implements IAccounterCore {
 		employee.setFirstName(fullName);
 		employee.setLastName(lastName);
 		employee.setFullName(fullName);
-		employee.setActive(isActive);
+		// employee.setActive(isActive);
 		employee.setUserRole(userRole);
 		employee.setPermissions(permissions);
 		return employee;
