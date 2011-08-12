@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -40,26 +42,23 @@ public class VatGroupAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// UIUtils.logError("Failed To Load Account", t);
+			@Override
+			public void onSuccess() {
+				view = new VATGroupView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, VatGroupAction.this);
+
 			}
 
-			public void onCreated() {
-				try {
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
-					view = new VATGroupView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, VatGroupAction.this);
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
 			}
 		});
-
 	}
 
 	/**

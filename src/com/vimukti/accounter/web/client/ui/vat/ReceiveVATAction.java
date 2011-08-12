@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -45,25 +47,22 @@ public class ReceiveVATAction extends Action {
 	}
 
 	private void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to load PaySalesTax..", t);
-				return;
-			}
-
-			public void onCreated() {
-
-				try {
-					MainFinanceWindow.getViewManager().showView(
-							new RecieveVATView(), data, isDependent,
-							ReceiveVATAction.this);
-				} catch (Throwable t) {
-					onCreateFailed(t);
-				}
+			@Override
+			public void onSuccess() {
+				MainFinanceWindow.getViewManager().showView(
+						new RecieveVATView(), data, isDependent,
+						ReceiveVATAction.this);
 
 			}
 
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
+			}
 		});
 	}
 

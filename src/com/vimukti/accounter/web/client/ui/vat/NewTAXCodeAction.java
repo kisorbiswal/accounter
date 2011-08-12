@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -39,23 +41,20 @@ public class NewTAXCodeAction extends Action<ClientTAXCode> {
 
 	@Override
 	public void run() {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed To Load Manage Sales Tax Codes View",
-				// t);
+			@Override
+			public void onSuccess() {
+				view = new NewTAXCodeView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewTAXCodeAction.this);
 
 			}
 
-			public void onCreated() {
-				try {
-					view = new NewTAXCodeView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, NewTAXCodeAction.this);
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});
