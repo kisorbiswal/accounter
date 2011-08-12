@@ -334,6 +334,14 @@ public class ViewManager extends VerticalPanel {
 				.getFinanceImages().Print1Icon());
 		editButton = new ImageButton(Accounter.constants().edit(), Accounter
 				.getFinanceImages().editIcon());
+		editButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				existingView.onEdit();
+			}
+		});
+
 		closeButton = new ImageButton(Accounter.getFinanceImages()
 				.closeButton());
 		closeButton.addClickHandler(new ClickHandler() {
