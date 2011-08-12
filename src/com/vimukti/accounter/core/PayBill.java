@@ -304,8 +304,8 @@ public class PayBill extends Transaction {
 		this.isOnSaveProccessed = true;
 		if (this.id == 0l) {
 			if ((!this.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 				// || ((this.payBillType == TYPE_VENDOR_PAYMENT &&
 				// !this.isToBePrinted))) {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
@@ -436,7 +436,7 @@ public class PayBill extends Transaction {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_PAY_BILL;
+		return AccounterServerConstants.TYPE_PAY_BILL;
 	}
 
 	public void setNumber(String number) {
@@ -584,11 +584,11 @@ public class PayBill extends Transaction {
 				this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
 				if ((payBill.paymentMethod
-						.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || payBill.paymentMethod
-						.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))
+						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || payBill.paymentMethod
+						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))
 						&& (!this.paymentMethod
-								.equals(AccounterConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
-								.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+								.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
+								.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 					this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 				}
 

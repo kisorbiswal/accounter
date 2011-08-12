@@ -866,7 +866,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_INVOICE;
+		return AccounterServerConstants.TYPE_INVOICE;
 	}
 
 	@Override

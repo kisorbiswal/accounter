@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class AccounterConstants implements IsSerializable, Serializable {
+public class AccounterServerConstants implements IsSerializable, Serializable {
 
 	/**
 	 * 

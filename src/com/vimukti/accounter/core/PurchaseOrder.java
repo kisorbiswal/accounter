@@ -375,7 +375,7 @@ public class PurchaseOrder extends Transaction {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_PURCHASE_ORDER;
+		return AccounterServerConstants.TYPE_PURCHASE_ORDER;
 	}
 
 	@Override

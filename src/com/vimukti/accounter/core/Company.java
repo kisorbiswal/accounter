@@ -540,21 +540,21 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	String vatRegNumber;
 
-	String serviceItemDefaultIncomeAccount = AccounterConstants.CASH_DISCOUNT_GIVEN;
+	String serviceItemDefaultIncomeAccount = AccounterServerConstants.CASH_DISCOUNT_GIVEN;
 
-	String serviceItemDefaultExpenseAccount = AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A;
+	String serviceItemDefaultExpenseAccount = AccounterServerConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A;
 
-	String nonInventoryItemDefaultIncomeAccount = AccounterConstants.CASH_DISCOUNT_GIVEN;
+	String nonInventoryItemDefaultIncomeAccount = AccounterServerConstants.CASH_DISCOUNT_GIVEN;
 
-	String nonInventoryItemDefaultExpenseAccount = AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A;
+	String nonInventoryItemDefaultExpenseAccount = AccounterServerConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A;
 
-	private String ukServiceItemDefaultIncomeAccount = AccounterConstants.SALES_INCOME_TYPE_A;
+	private String ukServiceItemDefaultIncomeAccount = AccounterServerConstants.SALES_INCOME_TYPE_A;
 
-	private String ukServiceItemDefaultExpenseAccount = AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A;
+	private String ukServiceItemDefaultExpenseAccount = AccounterServerConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A;
 
-	private String ukNonInventoryItemDefaultIncomeAccount = AccounterConstants.SALES_INCOME_TYPE_A;
+	private String ukNonInventoryItemDefaultIncomeAccount = AccounterServerConstants.SALES_INCOME_TYPE_A;
 
-	private String ukNonInventoryItemDefaultExpenseAccount = AccounterConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A;
+	private String ukNonInventoryItemDefaultExpenseAccount = AccounterServerConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A;
 
 	private Set<Box> vatBoxes;
 
@@ -4021,11 +4021,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		 * Here updating vatAmount value for vat group entries
 		 */
 		if (vatItem.getName().equals(
-				AccounterConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD)
+				AccounterServerConstants.VAT_ITEM_EC_SALES_SERVICES_STANDARD)
 				|| vatItem.getName().equals(
-						AccounterConstants.VAT_ITEM_STANDARD_PURCHASES)
+						AccounterServerConstants.VAT_ITEM_STANDARD_PURCHASES)
 				|| vatItem.getName().equals(
-						AccounterConstants.VAT_ITEM_ZERO_RATED_PURCHASES)) {
+						AccounterServerConstants.VAT_ITEM_ZERO_RATED_PURCHASES)) {
 
 			vc.vatAmount = -1 * vc.vatAmount;
 		}

@@ -116,9 +116,9 @@ public class CompanyPreferences implements IAccounterServerCore {
 	int endingPeriodForVATreporting = VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC;
 	boolean reportVATonAccuralBasis = true;
 	boolean trackVAT = true;
-	String VATtaxAgencyName = AccounterConstants.DEFAULT_VAT_AGENCY_NAME;
+	String VATtaxAgencyName = AccounterServerConstants.DEFAULT_VAT_AGENCY_NAME;
 
-	private String dateFormat = AccounterConstants.ddMMyyyy;
+	private String dateFormat = AccounterServerConstants.ddMMyyyy;
 	public long id;
 
 	private boolean isSalesPersonEnabled = true;

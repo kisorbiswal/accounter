@@ -245,8 +245,8 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 					.getTAXItems().get(1).getVatReturnBox().getName();
 
 			this.isECSalesEntry = Arrays.asList(
-					AccounterConstants.UK_EC_SALES_GOODS,
-					AccounterConstants.UK_EC_SALES_SERVICES).containsAll(
+					AccounterServerConstants.UK_EC_SALES_GOODS,
+					AccounterServerConstants.UK_EC_SALES_SERVICES).containsAll(
 					Arrays.asList(vatRetunrnName, vatRetunrnName1));
 
 		}

@@ -202,8 +202,8 @@ public class CustomerRefund extends Transaction implements
 			// payment method
 
 			if ((this.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))
 					|| this.isToBePrinted) {
 				this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 			} else {
@@ -306,7 +306,7 @@ public class CustomerRefund extends Transaction implements
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_CUSTOMER_REFUNDS;
+		return AccounterServerConstants.TYPE_CUSTOMER_REFUNDS;
 	}
 
 	@Override
@@ -391,11 +391,11 @@ public class CustomerRefund extends Transaction implements
 			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
 			if ((customerRefund.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || customerRefund.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || customerRefund.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))
 					&& (!this.paymentMethod
-							.equals(AccounterConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
-							.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 

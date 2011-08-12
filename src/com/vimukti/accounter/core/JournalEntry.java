@@ -108,7 +108,7 @@ public class JournalEntry extends Transaction {
 		entry2.setType(Entry.TYPE_CUSTOMER);
 		entry2.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_CUSTOMER);
 		entry2.setCustomer(customer);
-		entry2.setMemo(AccounterConstants.MEMO_OPENING_BALANCE);
+		entry2.setMemo(AccounterServerConstants.MEMO_OPENING_BALANCE);
 		entry2.setDebit(customer.getOpeningBalance());
 		entry2.setCredit(0D);
 		entry2.setJournalEntry(this);
@@ -126,7 +126,7 @@ public class JournalEntry extends Transaction {
 		this.journalEntryType = journalEntryType;
 		this.number = number;
 		this.transactionDate = vendor.balanceAsOf;
-		this.memo = AccounterConstants.MEMO_OPENING_BALANCE;
+		this.memo = AccounterServerConstants.MEMO_OPENING_BALANCE;
 		this.balanceDue = vendor.getOpeningBalance();
 
 		List<Entry> entries = new ArrayList<Entry>();
@@ -165,7 +165,7 @@ public class JournalEntry extends Transaction {
 		this.number = number;
 		this.transactionDate = account.asOf;
 
-		this.memo = AccounterConstants.MEMO_OPENING_BALANCE;
+		this.memo = AccounterServerConstants.MEMO_OPENING_BALANCE;
 
 		List<Entry> entries = new ArrayList<Entry>();
 		String voucherNumber = NumberUtils.getNextVoucherNumber();
@@ -310,7 +310,7 @@ public class JournalEntry extends Transaction {
 			entry.setType(Entry.TYPE_FINANCIAL_ACCOUNT);
 			entry.setJournalEntryType(Entry.JOURNAL_ENTRY_TYPE_FINANCIAL_ACCOUNT);
 			entry.setAccount(account);
-			if (account.getName().equals(AccounterConstants.RETAINED_EARNINGS)) {
+			if (account.getName().equals(AccounterServerConstants.RETAINED_EARNINGS)) {
 				entry.setMemo("Net income");
 			} else {
 				entry.setMemo("Balance moved to Retained Earnings");
@@ -370,7 +370,7 @@ public class JournalEntry extends Transaction {
 
 		// To avoid the Voiding of this Journal Entry, because it is for
 		// Depreciation.
-		this.reference = AccounterConstants.JOURNAL_ENTRY_FOR_DEPRECIATION;
+		this.reference = AccounterServerConstants.JOURNAL_ENTRY_FOR_DEPRECIATION;
 
 		List<Entry> entries = new ArrayList<Entry>();
 		Entry entry1 = new Entry();
@@ -409,7 +409,7 @@ public class JournalEntry extends Transaction {
 		this.memo = "Fixed Asset Depreciation";
 		// To avoid the Voiding of this Journal Entry, because it is for
 		// Depreciation.
-		this.reference = AccounterConstants.JOURNAL_ENTRY_FOR_DEPRECIATION;
+		this.reference = AccounterServerConstants.JOURNAL_ENTRY_FOR_DEPRECIATION;
 
 		DecimalFormat decimalFormat = new DecimalFormat("##.##");
 		double salesPrice = fixedAsset.getSalePrice();
@@ -917,7 +917,7 @@ public class JournalEntry extends Transaction {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_JOURNAL_ENTRY;
+		return AccounterServerConstants.TYPE_JOURNAL_ENTRY;
 	}
 
 	/**

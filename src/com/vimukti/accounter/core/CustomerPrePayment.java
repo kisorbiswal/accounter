@@ -146,9 +146,9 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 			session.save(creditsAndPayments);
 		}
 		if (!(this.paymentMethod
-				.equals(AccounterConstants.PAYMENT_METHOD_CHECK))
+				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
 				&& !(this.paymentMethod
-						.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 
@@ -182,7 +182,7 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_CUSTOMER_PRE_PAYMENT;
+		return AccounterServerConstants.TYPE_CUSTOMER_PRE_PAYMENT;
 	}
 
 	public void setNumber(String number) {
@@ -298,11 +298,11 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 		this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
 		if ((customerPrePayment.paymentMethod
-				.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || customerPrePayment.paymentMethod
-				.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))
+				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || customerPrePayment.paymentMethod
+				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))
 				&& (!this.paymentMethod
-						.equals(AccounterConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
-						.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
+						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 

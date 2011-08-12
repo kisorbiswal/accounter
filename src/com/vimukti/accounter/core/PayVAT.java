@@ -180,9 +180,9 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 			super.onSave(session);
 
 			if (!(this.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK))
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
 					&& !(this.paymentMethod
-							.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 
@@ -252,7 +252,7 @@ public class PayVAT extends Transaction implements IAccounterServerCore,
 	@Override
 	public String toString() {
 
-		return AccounterConstants.TYPE_PAY_VAT;
+		return AccounterServerConstants.TYPE_PAY_VAT;
 	}
 
 	@Override

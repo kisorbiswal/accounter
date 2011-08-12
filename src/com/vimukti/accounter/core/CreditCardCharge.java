@@ -198,7 +198,7 @@ public class CreditCardCharge extends Transaction implements Lifecycle {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_CREDIT_CARD_CHARGE;
+		return AccounterServerConstants.TYPE_CREDIT_CARD_CHARGE;
 	}
 
 	@Override
@@ -209,9 +209,9 @@ public class CreditCardCharge extends Transaction implements Lifecycle {
 		super.onSave(session);
 
 		if (!(this.paymentMethod
-				.equals(AccounterConstants.PAYMENT_METHOD_CHECK))
+				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
 				&& !(this.paymentMethod
-						.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 		return false;
@@ -294,11 +294,11 @@ public class CreditCardCharge extends Transaction implements Lifecycle {
 			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
 			if ((creditCardCharge.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || creditCardCharge.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || creditCardCharge.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))
 					&& (!this.paymentMethod
-							.equals(AccounterConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
-							.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 		}

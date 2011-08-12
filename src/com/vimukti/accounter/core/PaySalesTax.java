@@ -109,9 +109,9 @@ public class PaySalesTax extends Transaction implements Lifecycle {
 			// }
 
 			if (!(this.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK))
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
 					&& !(this.paymentMethod
-							.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 
@@ -188,7 +188,7 @@ public class PaySalesTax extends Transaction implements Lifecycle {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_PAY_SALES_TAX;
+		return AccounterServerConstants.TYPE_PAY_SALES_TAX;
 	}
 
 	@Override

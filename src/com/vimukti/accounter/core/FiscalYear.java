@@ -259,10 +259,10 @@ public class FiscalYear extends CreatableObject implements
 							&& !(accountTransactionByAccount
 									.getAccount()
 									.getName()
-									.equals(AccounterConstants.OTHER_CASH_INCOME) || accountTransactionByAccount
+									.equals(AccounterServerConstants.OTHER_CASH_INCOME) || accountTransactionByAccount
 									.getAccount()
 									.getName()
-									.equals(AccounterConstants.OTHER_CASH_EXPENSE))) {
+									.equals(AccounterServerConstants.OTHER_CASH_EXPENSE))) {
 						cashBasisAccountEntries
 								.add(accountTransactionByAccount);
 					}

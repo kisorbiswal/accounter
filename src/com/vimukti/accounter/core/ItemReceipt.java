@@ -329,7 +329,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 		Account pendingItemReceipt = (Account) session.getNamedQuery(
 				"getNameofAccount.by.Name")
-				.setParameter(0, AccounterConstants.PENDING_ITEM_RECEIPTS)
+				.setParameter(0, AccounterServerConstants.PENDING_ITEM_RECEIPTS)
 				.uniqueResult();
 		if (pendingItemReceipt != null) {
 			pendingItemReceipt.updateCurrentBalance(this, this.total);
@@ -531,7 +531,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_ITEM_RECEIPT;
+		return AccounterServerConstants.TYPE_ITEM_RECEIPT;
 	}
 
 

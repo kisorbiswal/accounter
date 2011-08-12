@@ -204,7 +204,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_MAKE_DEPOSIT;
+		return AccounterServerConstants.TYPE_MAKE_DEPOSIT;
 	}
 
 	@Override

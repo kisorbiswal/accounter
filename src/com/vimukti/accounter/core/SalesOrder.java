@@ -567,7 +567,7 @@ public class SalesOrder extends Transaction implements Lifecycle {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_SALES_ORDER;
+		return AccounterServerConstants.TYPE_SALES_ORDER;
 	}
 
 	@Override

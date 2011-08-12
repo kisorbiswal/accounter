@@ -270,7 +270,7 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	@Override
 	public String toString() {
 
-		return AccounterConstants.TYPE_CASH_PURCHASE;
+		return AccounterServerConstants.TYPE_CASH_PURCHASE;
 
 	}
 
@@ -328,9 +328,9 @@ public class CashPurchase extends Transaction implements Lifecycle {
 		 */
 
 		if (!(this.paymentMethod
-				.equals(AccounterConstants.PAYMENT_METHOD_CHECK))
+				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
 				&& !(this.paymentMethod
-						.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 
@@ -426,11 +426,11 @@ public class CashPurchase extends Transaction implements Lifecycle {
 			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
 			if ((cashPurchase.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || cashPurchase.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || cashPurchase.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))
 					&& (!this.paymentMethod
-							.equals(AccounterConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
-							.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 

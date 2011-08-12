@@ -205,7 +205,7 @@ public class VendorCreditMemo extends Transaction implements Lifecycle {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_VENDOR_CREDIT_MEMO;
+		return AccounterServerConstants.TYPE_VENDOR_CREDIT_MEMO;
 	}
 
 	@Override

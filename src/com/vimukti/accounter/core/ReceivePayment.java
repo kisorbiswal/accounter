@@ -454,7 +454,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_RECEIVE_PAYMENT;
+		return AccounterServerConstants.TYPE_RECEIVE_PAYMENT;
 	}
 
 	@Override

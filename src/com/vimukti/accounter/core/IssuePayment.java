@@ -108,7 +108,7 @@ public class IssuePayment extends Transaction {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_ISSUE_PAYMENT;
+		return AccounterServerConstants.TYPE_ISSUE_PAYMENT;
 	}
 
 	@Override

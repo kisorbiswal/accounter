@@ -235,7 +235,7 @@ public class Estimate extends Transaction {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_ESTIMATE;
+		return AccounterServerConstants.TYPE_ESTIMATE;
 	}
 
 	@Override

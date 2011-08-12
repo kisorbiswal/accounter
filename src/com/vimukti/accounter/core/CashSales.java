@@ -404,9 +404,9 @@ public class CashSales extends Transaction implements IAccounterServerCore,
 		super.onSave(session);
 
 		if (!(this.paymentMethod
-				.equals(AccounterConstants.PAYMENT_METHOD_CHECK))
+				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
 				&& !(this.paymentMethod
-						.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 
@@ -454,7 +454,7 @@ public class CashSales extends Transaction implements IAccounterServerCore,
 	@Override
 	public String toString() {
 
-		return AccounterConstants.TYPE_CASH_SALES;
+		return AccounterServerConstants.TYPE_CASH_SALES;
 	}
 
 	/**
@@ -568,11 +568,11 @@ public class CashSales extends Transaction implements IAccounterServerCore,
 			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
 			if ((cashSales.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK) || cashSales.paymentMethod
-					.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || cashSales.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))
 					&& (!this.paymentMethod
-							.equals(AccounterConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
-							.equals(AccounterConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
+							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 

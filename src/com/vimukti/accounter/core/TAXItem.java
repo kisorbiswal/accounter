@@ -175,20 +175,20 @@ public class TAXItem extends TAXItemGroup {
 
 		if (this.vatReturnBox != null
 				&& (this.vatReturnBox.name
-						.equals(AccounterConstants.UK_DOMESTIC_SALES)
+						.equals(AccounterServerConstants.UK_DOMESTIC_SALES)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.UK_EC_SALES_GOODS)
+								.equals(AccounterServerConstants.UK_EC_SALES_GOODS)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.UK_EC_SALES_SERVICES)
+								.equals(AccounterServerConstants.UK_EC_SALES_SERVICES)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.UK_NOT_REGISTERED_SALES)
+								.equals(AccounterServerConstants.UK_NOT_REGISTERED_SALES)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.IRELAND_DOMESTIC_SALES)
+								.equals(AccounterServerConstants.IRELAND_DOMESTIC_SALES)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.IRELAND_EXEMPT_SALES)
+								.equals(AccounterServerConstants.IRELAND_EXEMPT_SALES)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.IRELAND_NOT_REGISTERED_SALES) || this.vatReturnBox.name
-							.equals(AccounterConstants.IRELAND_EC_SALES_GOODS))) {
+								.equals(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES) || this.vatReturnBox.name
+							.equals(AccounterServerConstants.IRELAND_EC_SALES_GOODS))) {
 			this.isSalesType = true;
 
 		} else {
@@ -211,20 +211,20 @@ public class TAXItem extends TAXItemGroup {
 
 		if (this.vatReturnBox != null
 				&& (this.vatReturnBox.name
-						.equals(AccounterConstants.UK_DOMESTIC_SALES)
+						.equals(AccounterServerConstants.UK_DOMESTIC_SALES)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.UK_EC_SALES_GOODS)
+								.equals(AccounterServerConstants.UK_EC_SALES_GOODS)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.UK_EC_SALES_SERVICES)
+								.equals(AccounterServerConstants.UK_EC_SALES_SERVICES)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.UK_NOT_REGISTERED_SALES)
+								.equals(AccounterServerConstants.UK_NOT_REGISTERED_SALES)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.IRELAND_DOMESTIC_SALES)
+								.equals(AccounterServerConstants.IRELAND_DOMESTIC_SALES)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.IRELAND_EXEMPT_SALES)
+								.equals(AccounterServerConstants.IRELAND_EXEMPT_SALES)
 						|| this.vatReturnBox.name
-								.equals(AccounterConstants.IRELAND_NOT_REGISTERED_SALES) || this.vatReturnBox.name
-							.equals(AccounterConstants.IRELAND_EC_SALES_GOODS))) {
+								.equals(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES) || this.vatReturnBox.name
+							.equals(AccounterServerConstants.IRELAND_EC_SALES_GOODS))) {
 			this.isSalesType = true;
 
 		} else {

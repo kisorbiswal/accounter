@@ -261,7 +261,7 @@ public class WriteCheck extends Transaction implements Lifecycle {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_WRITE_CHECK;
+		return AccounterServerConstants.TYPE_WRITE_CHECK;
 	}
 
 	public void setBankAccount(Account bankAccount) {
@@ -330,7 +330,7 @@ public class WriteCheck extends Transaction implements Lifecycle {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		this.paymentMethod = AccounterConstants.PAYMENT_METHOD_CHECK;
+		this.paymentMethod = AccounterServerConstants.PAYMENT_METHOD_CHECK;
 		if (!isToBePrinted()) {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
@@ -381,9 +381,9 @@ public class WriteCheck extends Transaction implements Lifecycle {
 		this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
 		if ((writeCheck.paymentMethod
-				.equals(AccounterConstants.PAYMENT_METHOD_CHECK))
+				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
 				&& (!this.paymentMethod
-						.equals(AccounterConstants.PAYMENT_METHOD_CHECK))) {
+						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))) {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 

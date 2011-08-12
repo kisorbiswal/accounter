@@ -152,7 +152,7 @@ public class TransferFund extends Transaction implements Lifecycle {
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_TRANSFER_FUND;
+		return AccounterServerConstants.TYPE_TRANSFER_FUND;
 	}
 
 	public void setVoid(boolean isVoid) {

@@ -368,7 +368,7 @@ public class CustomerCreditMemo extends Transaction implements
 
 	@Override
 	public String toString() {
-		return AccounterConstants.TYPE_CUSTOMER_CREDIT_MEMO;
+		return AccounterServerConstants.TYPE_CUSTOMER_CREDIT_MEMO;
 	}
 
 	@Override
