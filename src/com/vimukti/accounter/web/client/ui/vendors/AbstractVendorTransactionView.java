@@ -211,10 +211,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		this.phoneList = contactsPhoneList.toArray(new String[contactsPhoneList
 				.size()]);
 
-		// phoneSelect.setValueMap(phoneList);
 		phoneSelect.setDisabled(isEdit);
-		// phoneSelect.setShowDisabled(false);
-
 		ClientContact primaryContact = vendor.getPrimaryContact();
 
 		if (primaryContact != null) {
@@ -243,7 +240,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				contactSelected(contact);
 
 			} else {
-				contactCombo.setValue("");
+				// contactCombo.setValue("");
 			}
 
 		} else {
@@ -271,8 +268,9 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		this.phoneNo = contact.getBusinessPhone();
 		if (this.phoneNo != null) {
 			phoneSelect.setValue(this.phoneNo);
+			contactCombo.setValue(contact.getName());
 		}
-		contactCombo.setDisabled(isEdit);
+		// contactCombo.setDisabled(isEdit);
 
 	}
 

@@ -115,6 +115,7 @@ public class VendorBillView extends
 					transaction.getVendor());
 			vendorCombo.setValue(vendor);
 			phoneSelect.setValue(vendor.getPhoneNo());
+			phoneSelect.setDisabled(true);
 			contactSelected(transaction.getContact());
 			billToaddressSelected(transaction.getVendorAddress());
 			selectedVendor(vendor);
@@ -973,6 +974,7 @@ public class VendorBillView extends
 	protected void enableFormItems() {
 		isEdit = false;
 		vendorCombo.setDisabled(isEdit);
+		phoneSelect.setDisabled(isEdit);
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
 		// purchaseLabel.setDisabled(isEdit);
