@@ -580,7 +580,7 @@ public class CashPurchaseView extends
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
