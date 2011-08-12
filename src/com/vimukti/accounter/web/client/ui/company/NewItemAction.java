@@ -35,8 +35,7 @@ public class NewItemAction extends Action<ClientItem> {
 	}
 
 	public NewItemAction(String text, ClientItem item,
-			AccounterAsyncCallback<Object> callback,
-			boolean forCustomer) {
+			AccounterAsyncCallback<Object> callback, boolean forCustomer) {
 		super(text);
 		this.catagory = Accounter.constants().company();
 		this.forCustomer = forCustomer;
@@ -60,14 +59,15 @@ public class NewItemAction extends Action<ClientItem> {
 
 				try {
 
-					if (!isDependent) {
-
-						new SelectItemTypeDialog(forCustomer).show();
+					if (type == 0) {
+						SelectItemTypeDialog dialog = new SelectItemTypeDialog(
+								forCustomer);
+						dialog.setDependent(isDependent);
+						dialog.show();
 
 					} else {
 
-						ItemView view = new ItemView(data, type,
-								forCustomer);
+						ItemView view = new ItemView(data, type, forCustomer);
 						MainFinanceWindow.getViewManager().showView(view, data,
 								isDependent, NewItemAction.this);
 					}
