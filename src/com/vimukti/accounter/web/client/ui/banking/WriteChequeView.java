@@ -480,6 +480,13 @@ public class WriteChequeView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
+		
+		//Validations
+		// 1. payForm validation
+		// 2. bankAccForm validation
+		// 3. if(isBlankTransaction(transactionVendorGrid or transactionCustomerGrid)) ERROR
+		// 	  else transactionVendorGrid or transactionCustomerGrid validation
+		// 4. if(!validPositiveAmount(gridTotalAmount)) ERROR
 		if (transaction == null) {
 
 			result.add(DynamicForm.validate(payForm, bankAccForm));
@@ -491,16 +498,16 @@ public class WriteChequeView extends
 							.isBlankTransaction(transactionCustomerGrid)) {
 						result.addError(transactionCustomerGrid,
 								accounterConstants.blankTransaction());
-					}
-					result.add(transactionCustomerGrid.validateGrid());
+					}else
+						result.add(transactionCustomerGrid.validateGrid());
 				case ClientPayee.TYPE_VENDOR:
 				case ClientPayee.TYPE_TAX_AGENCY:
 					if (AccounterValidator
 							.isBlankTransaction(transactionVendorGrid)) {
 						result.addError(transactionVendorGrid,
 								accounterConstants.blankTransaction());
-					}
-					result.add(transactionVendorGrid.validateGrid());
+					}else
+						result.add(transactionVendorGrid.validateGrid());
 					// case ClientPayee.TYPE_TAX_AGENCY:
 					// return AccounterValidator
 					// .isBlankTransaction(taxAgencyGrid);
