@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -33,24 +31,18 @@ public class ChartOfAccountsAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			@Override
-			public void onSuccess() {
-				if (accountType == 0)
-					view = ChartOfAccountsView.getInstance();
-				else
-					view = new ChartOfAccountsView(accountType);
+			public void onCreated() {
 
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, ChartOfAccountsAction.this);
+					if (accountType == 0)
+						view = ChartOfAccountsView.getInstance();
+					else
+						view = new ChartOfAccountsView(accountType);
 
-			}
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, ChartOfAccountsAction.this);
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});
