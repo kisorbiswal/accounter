@@ -35,8 +35,6 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	private boolean canDoUserManagement;
 
-	private String company;
-
 	private String displayName;
 
 	private boolean isAdmin;
@@ -113,7 +111,7 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		this.setLastName(clientUser.getLastName());
 		this.setFullName(clientUser.getFullName());
 		this.setEmail(clientUser.getEmail());
-		this.setActive(clientUser.isActive());
+//		this.setActive(clientUser.isActive());
 		this.setCanDoUserManagement(clientUser.isCanDoUserManagement());
 		this.setUserRole(clientUser.getUserRole());
 		this.setAdmin(clientUser.isAdmin());
@@ -277,15 +275,7 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		user.setID(getID());
 		return user;
 	}
-
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
-	public String getCompany() {
-		return company;
-	}
-
+	
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}

@@ -12,6 +12,10 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class Client implements IAccounterServerCore {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String firstName;
 	private String lastName;
