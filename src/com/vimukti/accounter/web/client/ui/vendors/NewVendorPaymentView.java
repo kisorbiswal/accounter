@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -56,6 +57,7 @@ public class NewVendorPaymentView extends
 	private ArrayList<DynamicForm> listforms;
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
+
 	private NewVendorPaymentView() {
 		super(ClientTransaction.TYPE_PAY_BILL, 0);
 
@@ -521,7 +523,8 @@ public class NewVendorPaymentView extends
 					accounterConstants.invalidateTransactionDate());
 		}
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(payForm.validate());
 		if (DecimalUtil.isEquals(amountText.getAmount(), 0)) {
@@ -706,5 +709,11 @@ public class NewVendorPaymentView extends
 		return UIUtils.getVendorString(
 				Accounter.constants().supplierPayments(), Accounter.constants()
 						.vendorPayments());
+	}
+
+	@Override
+	protected void taxCodeSelected(ClientTAXCode taxCode) {
+		// TODO Auto-generated method stub
+
 	}
 }

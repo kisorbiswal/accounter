@@ -132,7 +132,6 @@ public class TextItem extends FormItem<String> {
 
 	}
 
-
 	@Override
 	public Widget getMainWidget() {
 		return textBox;

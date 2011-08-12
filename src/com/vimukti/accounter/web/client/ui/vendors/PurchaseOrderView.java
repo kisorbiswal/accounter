@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -44,8 +45,10 @@ import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -88,6 +91,8 @@ public class PurchaseOrderView extends
 	private String CANCELLED = Accounter.constants().cancelled();
 	private DateField despatchDateItem;
 	AccounterConstants accounterConstants = Accounter.constants();
+	private ClientTAXCode taxCode;
+
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER, VENDOR_TRANSACTION_GRID);
 	}
@@ -179,12 +184,25 @@ public class PurchaseOrderView extends
 			// prodAndServiceHLay.add(amountsForm);
 			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 			// ALIGN_RIGHT);
-			// listforms.add(priceLevelForm);
+			// listforms.add(priceLevelForm);abstracttrans
 
 		} else {
+			taxCodeSelect = createTaxCodeSelectItem();
+			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
+			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
+			paymentsNonEditableText = new AmountLabel(
+					accounterConstants.payments());
+			paymentsNonEditableText.setDisabled(true);
+			paymentsNonEditableText.setDefaultValue(""
+					+ UIUtils.getCurrencySymbol() + " 0.00");
 
+			balanceDueNonEditableText = new AmountField(
+					accounterConstants.balanceDue(), this);
+			balanceDueNonEditableText.setDisabled(true);
+			balanceDueNonEditableText.setDefaultValue(""
+					+ UIUtils.getCurrencySymbol() + " 0.00");
 			// prodAndServiceForm2.setFields(salesTaxTextNonEditable,
-			// transactionTotalNonEditableText, paymentsNonEditableText,
+			// transactionTotalNonEditableText, ,
 			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
 			amountsForm.setNumCols(4);
 			amountsForm.addStyleName("tax-form");
@@ -1136,4 +1154,16 @@ public class PurchaseOrderView extends
 	protected String getViewTitle() {
 		return Accounter.constants().purchaseOrder();
 	}
+
+	@Override
+	protected void taxCodeSelected(ClientTAXCode taxCode) {
+		this.taxCode = taxCode;
+		if (taxCode != null) {
+			taxCodeSelect.setComboItem(taxCode);
+			customerTransactionGrid.setTaxCode(taxCode.getID());
+		} else
+			taxCodeSelect.setValue("");
+		// updateNonEditableItems();
+	}
+
 }

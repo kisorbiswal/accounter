@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemReceipt;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -1015,5 +1016,11 @@ public class VendorBillView extends
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().enterBills();
+	}
+
+	@Override
+	protected void taxCodeSelected(ClientTAXCode taxCode) {
+		// TODO Auto-generated method stub
+
 	}
 }

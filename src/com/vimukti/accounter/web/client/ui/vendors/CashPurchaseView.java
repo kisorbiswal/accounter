@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -743,5 +744,11 @@ public class CashPurchaseView extends
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().cashPurchases();
+	}
+
+	@Override
+	protected void taxCodeSelected(ClientTAXCode taxCode) {
+		// TODO Auto-generated method stub
+
 	}
 }

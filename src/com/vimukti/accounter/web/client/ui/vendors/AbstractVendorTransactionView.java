@@ -75,11 +75,13 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			salesTaxTextNonEditable;
 
 	protected AmountField balanceDueNonEditableText;// protected
+
 	// AbstractAccounterCombo
 	// contactCombo,
 	// billToCombo,
 
 	// payFromCombo;
+	protected abstract void taxCodeSelected(ClientTAXCode taxCode);
 
 	protected TextItem phoneSelect;
 	protected String[] phoneList;
@@ -190,6 +192,16 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	}
 
+	protected AmountField createSalesTaxNonEditableItem() {
+
+		AmountField amountItem = new AmountField(Accounter.constants()
+				.salesTax(), this);
+		amountItem.setDisabled(true);
+
+		return amountItem;
+
+	}
+
 	protected AmountLabel createVATTotalNonEditableItem() {
 
 		AmountLabel amountItem = new AmountLabel(Accounter.constants().vat());
@@ -197,6 +209,14 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 		return amountItem;
 
+	}
+
+	protected AmountLabel createSalesTaxNonEditableLabel() {
+
+		AmountLabel amountLabel = new AmountLabel(Accounter.constants()
+				.salesTax());
+
+		return amountLabel;
 	}
 
 	public void initPhones(ClientVendor vendor) {
@@ -245,6 +265,37 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			contactCombo.setDisabled(true);
 		}
 	}
+
+	protected TAXCodeCombo createTaxCodeSelectItem() {
+
+		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(Accounter.constants()
+				.tax(), true);
+		taxCodeCombo.setHelpInformation(true);
+		taxCodeCombo.setRequired(true);
+
+		taxCodeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
+
+					public void selectedComboBoxItem(ClientTAXCode selectItem) {
+
+						taxCodeSelected(selectItem);
+
+					}
+
+				});
+
+		taxCodeCombo.setDisabled(isEdit);
+
+		formItems.add(taxCodeCombo);
+
+		return taxCodeCombo;
+
+	}
+
+	// private void taxCodeSelected(ClientTAXCode selectItem) {
+	// // TODO Auto-generated method stub
+	//
+	// }
 
 	protected void initPayFromAccounts() {
 		// getPayFromAccounts();
@@ -682,5 +733,4 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	public void setVendor(ClientVendor vendor) {
 		this.vendor = vendor;
 	}
-
 }

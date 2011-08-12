@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemReceipt;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -53,8 +54,7 @@ public class ItemReceiptView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientPurchaseOrder> selectedPurchaseOrders;
-	AccounterConstants accounterConstants = Accounter
-			.constants();
+	AccounterConstants accounterConstants = Accounter.constants();
 
 	public ItemReceiptView() {
 		super(ClientTransaction.TYPE_ITEM_RECEIPT, VENDOR_TRANSACTION_GRID);
@@ -573,7 +573,8 @@ public class ItemReceiptView extends
 					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
@@ -673,6 +674,12 @@ public class ItemReceiptView extends
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().itemReciepts();
+	}
+
+	@Override
+	protected void taxCodeSelected(ClientTAXCode taxCode) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

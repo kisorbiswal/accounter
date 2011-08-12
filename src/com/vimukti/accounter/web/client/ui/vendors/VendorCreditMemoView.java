@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
@@ -30,7 +31,9 @@ public class VendorCreditMemoView extends
 		AbstractVendorTransactionView<ClientVendorCreditMemo> {
 	private DynamicForm vendorForm;
 	private ArrayList<DynamicForm> listforms;
-	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter.constants();
+	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
+			.constants();
+
 	private VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO,
 				VENDOR_TRANSACTION_GRID);
@@ -381,7 +384,8 @@ public class VendorCreditMemoView extends
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
@@ -531,5 +535,11 @@ public class VendorCreditMemoView extends
 	protected String getViewTitle() {
 		return UIUtils.getVendorString(Accounter.constants().supplierCredit(),
 				Accounter.constants().vendorCredit());
+	}
+
+	@Override
+	protected void taxCodeSelected(ClientTAXCode taxCode) {
+		// TODO Auto-generated method stub
+
 	}
 }
