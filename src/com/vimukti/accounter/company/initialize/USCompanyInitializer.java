@@ -6,7 +6,7 @@ import java.util.Set;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.AccounterConstants;
+import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
@@ -116,7 +116,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 		Account pendingItemReceipts = new Account(
 				Account.TYPE_OTHER_CURRENT_LIABILITY, "2010",
-				AccounterConstants.PENDING_ITEM_RECEIPTS, true, null,
+				AccounterServerConstants.PENDING_ITEM_RECEIPTS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, true, openingBalancesAccount, "4", true,
 				this.preferences.getPreventPostingBeforeDate());
@@ -173,7 +173,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 		// The following two accounts for Cash Basis Journal Entries purpose.
 		Account otherCashIncome = new Account(Account.TYPE_INCOME, "4030",
-				AccounterConstants.OTHER_CASH_INCOME, false, null,
+				AccounterServerConstants.OTHER_CASH_INCOME, false, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, true, "", 0.0, null,
 				true, true, openingBalancesAccount, "13", true,
 				this.preferences.getPreventPostingBeforeDate());
@@ -181,7 +181,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 		session.save(otherCashIncome);
 
 		Account otherCashExpense = new Account(Account.TYPE_EXPENSE, "7900",
-				AccounterConstants.OTHER_CASH_EXPENSE, false, null,
+				AccounterServerConstants.OTHER_CASH_EXPENSE, false, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, true, "", 0.0, null,
 				false, true, openingBalancesAccount, "14", true,
 				this.preferences.getPreventPostingBeforeDate());
@@ -228,28 +228,28 @@ public class USCompanyInitializer extends CompanyInitializer {
 		// session.save(netFifteen);
 
 		PaymentTerms dueOnReceipt = new PaymentTerms(
-				AccounterConstants.PM_DUE_ON_RECEIPT,
-				AccounterConstants.DUE_ON_RECEIPT, 0, 0, PaymentTerms.DUE_NONE,
+				AccounterServerConstants.PM_DUE_ON_RECEIPT,
+				AccounterServerConstants.DUE_ON_RECEIPT, 0, 0, PaymentTerms.DUE_NONE,
 				0, true);
 
 		session.save(dueOnReceipt);
 
 		PaymentTerms netThirty = new PaymentTerms(
-				AccounterConstants.PM_NET_THIRTY,
-				AccounterConstants.PAY_WITH_IN_THIRTY_DAYS, 0, 0,
+				AccounterServerConstants.PM_NET_THIRTY,
+				AccounterServerConstants.PAY_WITH_IN_THIRTY_DAYS, 0, 0,
 				PaymentTerms.DUE_NONE, 30, true);
 
 		session.save(netThirty);
 
 		PaymentTerms netSixty = new PaymentTerms(
-				AccounterConstants.PM_NET_SIXTY,
-				AccounterConstants.PAY_WITH_IN_SIXTY_DAYS, 0, 0,
+				AccounterServerConstants.PM_NET_SIXTY,
+				AccounterServerConstants.PAY_WITH_IN_SIXTY_DAYS, 0, 0,
 				PaymentTerms.DUE_NONE, 60, true);
 
 		session.save(netSixty);
 
-		PaymentTerms monthly = new PaymentTerms(AccounterConstants.PM_MONTHLY,
-				AccounterConstants.SALES_TAX_PAID_MONTHLY, 0, 0,
+		PaymentTerms monthly = new PaymentTerms(AccounterServerConstants.PM_MONTHLY,
+				AccounterServerConstants.SALES_TAX_PAID_MONTHLY, 0, 0,
 				PaymentTerms.DUE_CURRENT_MONTH, 30, true);
 
 		session.save(monthly);
@@ -275,7 +275,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 		FinanceDate fiscalYearEndDate = new FinanceDate(
 				(int) currentDate.getYear(), 11, 31);
 
-		String dateFormat = AccounterConstants.MMddyyyy;
+		String dateFormat = AccounterServerConstants.MMddyyyy;
 		FiscalYear fiscalYear = new FiscalYear(fiscalYearStartDate,
 				fiscalYearEndDate, FiscalYear.STATUS_OPEN, Boolean.TRUE);
 
@@ -327,7 +327,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 		}
 
 		VendorGroup creditCardCompanies = new VendorGroup();
-		creditCardCompanies.setName(AccounterConstants.CREDIT_CARD_COMPANIES);
+		creditCardCompanies.setName(AccounterServerConstants.CREDIT_CARD_COMPANIES);
 		creditCardCompanies.setDefault(true);
 		session.save(creditCardCompanies);
 
@@ -523,7 +523,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	String getDateFormat() {
-		return AccounterConstants.MMddyyyy;
+		return AccounterServerConstants.MMddyyyy;
 	}
 
 }

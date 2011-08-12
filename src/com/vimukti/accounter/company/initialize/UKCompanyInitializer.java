@@ -8,7 +8,7 @@ import java.util.Set;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.AccounterConstants;
+import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
@@ -118,7 +118,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		// session.save(fiscalYear);
 
 		Account saelsTaxVAT = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
-				"2120", AccounterConstants.SALES_TAX_VAT_UNFILED, true, null,
+				"2120", AccounterServerConstants.SALES_TAX_VAT_UNFILED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "113", true,
 				this.preferences.getPreventPostingBeforeDate());
@@ -126,7 +126,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		session.save(saelsTaxVAT);
 
 		Account deferredTax = new Account(Account.TYPE_LONG_TERM_LIABILITY,
-				"9200", AccounterConstants.DEFERRED_TAX, true, null,
+				"9200", AccounterServerConstants.DEFERRED_TAX, true, null,
 				Account.CASH_FLOW_CATEGORY_FINANCING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "139", true,
 				this.preferences.getPreventPostingBeforeDate());
@@ -134,7 +134,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		session.save(deferredTax);
 
 		Account vatOnImports = new Account(Account.TYPE_OTHER_ASSET, "9550",
-				AccounterConstants.VAT_ON_IMPORTS, true, null,
+				AccounterServerConstants.VAT_ON_IMPORTS, true, null,
 				Account.CASH_FLOW_CATEGORY_INVESTING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "145", true,
 				this.preferences.getPreventPostingBeforeDate());
@@ -143,7 +143,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 		Account salesTaxVATFiled = new Account(
 				Account.TYPE_OTHER_CURRENT_LIABILITY, "2122",
-				AccounterConstants.SALES_TAX_VAT_FILED, true, null,
+				AccounterServerConstants.SALES_TAX_VAT_FILED, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "151", true,
 				this.preferences.getPreventPostingBeforeDate());
@@ -493,29 +493,29 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		// session.save(netFifteen);
 
 		PaymentTerms dueOnReceipt = new PaymentTerms(
-				AccounterConstants.PM_DUE_ON_RECEIPT,
-				AccounterConstants.DUE_ON_RECEIPT, 0, 0, PaymentTerms.DUE_NONE,
+				AccounterServerConstants.PM_DUE_ON_RECEIPT,
+				AccounterServerConstants.DUE_ON_RECEIPT, 0, 0, PaymentTerms.DUE_NONE,
 				0, true);
 
 		session.save(dueOnReceipt);
 
 		PaymentTerms netThirty = new PaymentTerms(
-				AccounterConstants.PM_NET_THIRTY,
-				AccounterConstants.PAY_WITH_IN_THIRTY_DAYS, 0, 0,
+				AccounterServerConstants.PM_NET_THIRTY,
+				AccounterServerConstants.PAY_WITH_IN_THIRTY_DAYS, 0, 0,
 				PaymentTerms.DUE_NONE, 30, true);
 
 		session.save(netThirty);
 
 		PaymentTerms netSixty = new PaymentTerms(
-				AccounterConstants.PM_NET_SIXTY,
-				AccounterConstants.PAY_WITH_IN_SIXTY_DAYS, 0, 0,
+				AccounterServerConstants.PM_NET_SIXTY,
+				AccounterServerConstants.PAY_WITH_IN_SIXTY_DAYS, 0, 0,
 				PaymentTerms.DUE_NONE, 60, true);
 
 		session.save(netSixty);
 
 		PaymentTerms monthlyPayrollLiability = new PaymentTerms(
-				AccounterConstants.PM_MONTHLY,
-				AccounterConstants.PM_MONTHLY_PAYROLL_LIABILITY, 0, 0,
+				AccounterServerConstants.PM_MONTHLY,
+				AccounterServerConstants.PM_MONTHLY_PAYROLL_LIABILITY, 0, 0,
 				PaymentTerms.DUE_PAYROLL_TAX_MONTH, 13, true);
 
 		session.save(monthlyPayrollLiability);
@@ -530,7 +530,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		// Current Fiscal Year creation
 
 		VendorGroup creditCardCompanies = new VendorGroup();
-		creditCardCompanies.setName(AccounterConstants.CREDIT_CARD_COMPANIES);
+		creditCardCompanies.setName(AccounterServerConstants.CREDIT_CARD_COMPANIES);
 		creditCardCompanies.setDefault(true);
 		session.save(creditCardCompanies);
 
@@ -540,116 +540,116 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 		try {
 			VATReturnBox vt1 = new VATReturnBox();
-			vt1.setName(AccounterConstants.UK_EC_PURCHASES_GOODS);
-			vt1.setVatBox(AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
-			vt1.setTotalBox(AccounterConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS);
+			vt1.setName(AccounterServerConstants.UK_EC_PURCHASES_GOODS);
+			vt1.setVatBox(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
+			vt1.setTotalBox(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS);
 			vt1.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt1);
 
 			VATReturnBox vt3 = new VATReturnBox();
-			vt3.setName(AccounterConstants.UK_EC_SALES_GOODS);
-			vt3.setVatBox(AccounterConstants.BOX_NONE);
-			vt3.setTotalBox(AccounterConstants.UK_BOX8_TOTAL_NET_SUPPLIES);
+			vt3.setName(AccounterServerConstants.UK_EC_SALES_GOODS);
+			vt3.setVatBox(AccounterServerConstants.BOX_NONE);
+			vt3.setTotalBox(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES);
 			vt3.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt3);
 
 			VATReturnBox vt4 = new VATReturnBox();
-			vt4.setName(AccounterConstants.UK_EC_SALES_SERVICES);
-			vt4.setVatBox(AccounterConstants.BOX_NONE);
-			vt4.setTotalBox(AccounterConstants.UK_BOX6_TOTAL_NET_SALES);
+			vt4.setName(AccounterServerConstants.UK_EC_SALES_SERVICES);
+			vt4.setVatBox(AccounterServerConstants.BOX_NONE);
+			vt4.setTotalBox(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES);
 			vt4.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt4);
 
 			VATReturnBox vt5 = new VATReturnBox();
-			vt5.setName(AccounterConstants.UK_DOMESTIC_PURCHASES);
-			vt5.setVatBox(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
-			vt5.setTotalBox(AccounterConstants.UK_BOX7_TOTAL_NET_PURCHASES);
+			vt5.setName(AccounterServerConstants.UK_DOMESTIC_PURCHASES);
+			vt5.setVatBox(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
+			vt5.setTotalBox(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES);
 			vt5.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt5);
 
 			VATReturnBox vt6 = new VATReturnBox();
-			vt6.setName(AccounterConstants.UK_DOMESTIC_SALES);
-			vt6.setVatBox(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES);
-			vt6.setTotalBox(AccounterConstants.UK_BOX6_TOTAL_NET_SALES);
+			vt6.setName(AccounterServerConstants.UK_DOMESTIC_SALES);
+			vt6.setVatBox(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES);
+			vt6.setTotalBox(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES);
 			vt6.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt6);
 
 			VATReturnBox vt7 = new VATReturnBox();
-			vt7.setName(AccounterConstants.UK_NOT_REGISTERED_PURCHASES);
-			vt7.setVatBox(AccounterConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
-			vt7.setTotalBox(AccounterConstants.UK_BOX7_TOTAL_NET_PURCHASES);
+			vt7.setName(AccounterServerConstants.UK_NOT_REGISTERED_PURCHASES);
+			vt7.setVatBox(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES);
+			vt7.setTotalBox(AccounterServerConstants.UK_BOX7_TOTAL_NET_PURCHASES);
 			vt7.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt7);
 
 			VATReturnBox vt8 = new VATReturnBox();
-			vt8.setName(AccounterConstants.UK_NOT_REGISTERED_SALES);
-			vt8.setVatBox(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES);
-			vt8.setTotalBox(AccounterConstants.UK_BOX6_TOTAL_NET_SALES);
+			vt8.setName(AccounterServerConstants.UK_NOT_REGISTERED_SALES);
+			vt8.setVatBox(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES);
+			vt8.setTotalBox(AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES);
 			vt8.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt8);
 
 			VATReturnBox vt11 = new VATReturnBox();
-			vt11.setName(AccounterConstants.UK_REVERSE_CHARGE);
-			vt11.setVatBox(AccounterConstants.UK_BOX1_VAT_DUE_ON_SALES);
-			vt11.setTotalBox(AccounterConstants.BOX_NONE);
+			vt11.setName(AccounterServerConstants.UK_REVERSE_CHARGE);
+			vt11.setVatBox(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES);
+			vt11.setTotalBox(AccounterServerConstants.BOX_NONE);
 			vt11.setVatReturnType(TAXAgency.RETURN_TYPE_UK_VAT);
 			session.save(vt11);
 
 			// /// For Ireland VAT Return type boxes
 
 			VATReturnBox vt20 = new VATReturnBox();
-			vt20.setName(AccounterConstants.IRELAND_DOMESTIC_SALES);
-			vt20.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
-			vt20.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
+			vt20.setName(AccounterServerConstants.IRELAND_DOMESTIC_SALES);
+			vt20.setVatBox(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			vt20.setTotalBox(AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt20.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt20);
 
 			VATReturnBox vt21 = new VATReturnBox();
-			vt21.setName(AccounterConstants.IRELAND_DOMESTIC_PURCHASES);
-			vt21.setVatBox(AccounterConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
-			vt21.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			vt21.setName(AccounterServerConstants.IRELAND_DOMESTIC_PURCHASES);
+			vt21.setVatBox(AccounterServerConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
+			vt21.setTotalBox(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 			vt21.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt21);
 
 			VATReturnBox vt22 = new VATReturnBox();
-			vt22.setName(AccounterConstants.IRELAND_EC_SALES_GOODS);
-			vt22.setVatBox(AccounterConstants.BOX_NONE);
-			vt22.setTotalBox(AccounterConstants.IRELAND_BOX6_E1_GOODS_TO_EU);
+			vt22.setName(AccounterServerConstants.IRELAND_EC_SALES_GOODS);
+			vt22.setVatBox(AccounterServerConstants.BOX_NONE);
+			vt22.setTotalBox(AccounterServerConstants.IRELAND_BOX6_E1_GOODS_TO_EU);
 			vt22.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt22);
 
 			VATReturnBox vt23 = new VATReturnBox();
-			vt23.setName(AccounterConstants.IRELAND_EC_PURCHASES_GOODS);
-			vt23.setVatBox(AccounterConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
-			vt23.setTotalBox(AccounterConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
+			vt23.setName(AccounterServerConstants.IRELAND_EC_PURCHASES_GOODS);
+			vt23.setVatBox(AccounterServerConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS);
+			vt23.setTotalBox(AccounterServerConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
 			vt23.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt23);
 
 			VATReturnBox vt24 = new VATReturnBox();
-			vt24.setName(AccounterConstants.IRELAND_EXEMPT_SALES);
-			vt24.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
-			vt24.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
+			vt24.setName(AccounterServerConstants.IRELAND_EXEMPT_SALES);
+			vt24.setVatBox(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			vt24.setTotalBox(AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt24.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt24);
 
 			VATReturnBox vt25 = new VATReturnBox();
-			vt25.setName(AccounterConstants.IRELAND_EXEMPT_PURCHASES);
-			vt25.setVatBox(AccounterConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
-			vt25.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			vt25.setName(AccounterServerConstants.IRELAND_EXEMPT_PURCHASES);
+			vt25.setVatBox(AccounterServerConstants.IRELAND_BOX7_E2_GOODS_FROM_EU);
+			vt25.setTotalBox(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 			vt25.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt25);
 
 			VATReturnBox vt26 = new VATReturnBox();
-			vt26.setName(AccounterConstants.IRELAND_NOT_REGISTERED_SALES);
-			vt26.setVatBox(AccounterConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
-			vt26.setTotalBox(AccounterConstants.IRELAND_BOX8_TOTAL_NET_SALES);
+			vt26.setName(AccounterServerConstants.IRELAND_NOT_REGISTERED_SALES);
+			vt26.setVatBox(AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES);
+			vt26.setTotalBox(AccounterServerConstants.IRELAND_BOX8_TOTAL_NET_SALES);
 			vt26.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt26);
 
 			VATReturnBox vt27 = new VATReturnBox();
-			vt27.setName(AccounterConstants.IRELAND_NOT_REGISTERED_PURCHASES);
-			vt27.setVatBox(AccounterConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
-			vt27.setTotalBox(AccounterConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
+			vt27.setName(AccounterServerConstants.IRELAND_NOT_REGISTERED_PURCHASES);
+			vt27.setVatBox(AccounterServerConstants.IRELAND_BOX4_VAT_ON_PURCHASES);
+			vt27.setTotalBox(AccounterServerConstants.IRELAND_BOX9_TOTAL_NET_PURCHASES);
 			vt27.setVatReturnType(TAXAgency.RETURN_TYPE_IRELAND_VAT);
 			session.save(vt27);
 
@@ -662,12 +662,12 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 			defaultVATAgency.setSalesLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
-					.setString(0, AccounterConstants.SALES_TAX_VAT_UNFILED)
+					.setString(0, AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					.list().get(0));
 
 			defaultVATAgency.setPurchaseLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
-					.setString(0, AccounterConstants.SALES_TAX_VAT_UNFILED)
+					.setString(0, AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					.list().get(0));
 
 			defaultVATAgency.setDefault(true);
@@ -1066,6 +1066,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	String getDateFormat() {
-		return AccounterConstants.ddMMyyyy;
+		return AccounterServerConstants.ddMMyyyy;
 	}
 }
