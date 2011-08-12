@@ -122,7 +122,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 		super.add(errorPanel);
 	}
 
-
+	
 	/**
 	 * Base reference for all RPC DO Services
 	 */
@@ -276,6 +276,10 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 		// this.saveAndNewButton.setDisabled(false);
 		// }
 
+	}
+
+	protected <P extends IAccounterCore> void saveOrUpdateUser(final P core) {
+		Accounter.inviteUser(this, core);
 	}
 
 	protected <P extends IAccounterCore> void saveOrUpdate(final P core) {

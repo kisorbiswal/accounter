@@ -320,6 +320,35 @@ public class Accounter implements EntryPoint {
 		return eventBus;
 	}
 
+	public static <D extends IAccounterCore> void inviteUser(
+			final ISaveCallback source, final D coreObj) {
+		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+				source.saveFailed(caught);
+				caught.printStackTrace();
+				// TODO handle other kind of errors
+			}
+
+			public void onResultSuccess(Long result) {
+				coreObj.setID(result);
+				company.processUpdateOrCreateObject(coreObj);
+				source.saveSuccess(coreObj);
+			}
+		};
+		if (coreObj.getID() == 0) {
+			Accounter.createCRUDService().inviteUser((IAccounterCore) coreObj,
+					Accounter.getUser(), transactionCallBack);
+		} else {
+			Accounter.createCRUDService().updateUser((IAccounterCore) coreObj,
+					transactionCallBack);
+		}
+		// } else {
+		// Accounter.createCRUDService().updateUser((IAccounterCore) coreObj,
+		// transactionCallBack);
+		// }
+	}
+
 	public static <D extends IAccounterCore> void createOrUpdate(
 			final ISaveCallback source, final D coreObj) {
 		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
@@ -345,6 +374,24 @@ public class Accounter implements EntryPoint {
 			Accounter.createCRUDService().update((IAccounterCore) coreObj,
 					transactionCallBack);
 		}
+	}
+
+	public static <D extends IAccounterCore> void deleteUser(
+			final IDeleteCallback source, final D data) {
+		AccounterAsyncCallback<Boolean> transactionCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			public void onException(AccounterException exception) {
+				source.deleteFailed(exception);
+			}
+
+			public void onResultSuccess(Boolean result) {
+				getCompany().processDeleteObject(data);
+				source.deleteSuccess(result);
+			}
+
+		};
+		Accounter.createCRUDService().deleteUser(data,
+				Accounter.getUser().getEmail(), transactionCallBack);
 	}
 
 	public static <D extends IAccounterCore> void deleteObject(
