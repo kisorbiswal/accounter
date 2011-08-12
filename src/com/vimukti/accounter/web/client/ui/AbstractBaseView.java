@@ -227,8 +227,8 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 
 			}
 		} catch (Exception e) {
-			Accounter.showInformation(((JavaScriptException) e)
-					.getDescription());
+			e.printStackTrace();
+			Accounter.showInformation(e.getMessage());
 		}
 
 	}
