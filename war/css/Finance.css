@@ -1864,7 +1864,10 @@ input[disabled],input[disabled='disabled'] {
     border: 1px solid #B1B1B1;
 	color: #b1a7ad;
 }
-
+.gwt-CheckBox-disabled input[disabled='disabled'],.gwt-CheckBox-disabled input[disabled]{
+	background:none\0 !important;
+	border:none\0 !important;
+}
 textarea[disabled] {
 	background: none repeat scroll 0 0 #E6E0DA !important;
     border: 1px solid #B1B1B1 !important;
@@ -5065,7 +5068,7 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }*/
 .dropdown-button {
 	/*background: url("/images/drop.png") no-repeat scroll 100% 0 #FFFFFF;*/
-	padding-right: 22px;
+	padding-right: 22px !important;
 	padding-left: 3px;
 }
 
@@ -5353,6 +5356,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	border: 0px none !important;
 	border-radius: 0 0 0 0 !important;*/
 	background: none repeat scroll 0 0 #1A5158;
+	background: none repeat scroll 0 0 #1A5158\0 !important;
     border-radius: 5px 5px 5px 5px;
     color: white;
     cursor: pointer;
@@ -5363,7 +5367,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
     height: 25px !important;
     margin: 0 !important;
     padding: 0 5px 5px !important;
-    padding: 0px\0 !important;
+     padding: 4px 5px 5px\0 !important;
     border:1px solid #002E36;
 }
 .gwt-Button:hover,.image-button-hover{
@@ -6056,6 +6060,9 @@ iframe { /*display:none;*/
 	font-weight: bold;
 	/*color: red;*/
 }
+.error-panel li{
+	list-style-type:none;
+}
 .error-panel{
 	background: none repeat scroll 0 0 #FFEBE8;
     border: 1px solid red;
@@ -6209,13 +6216,17 @@ normal
 
 .upload-logo {
 	border: 1px solid #DDDDDD;
-	height: 150px;
+	height: 150px !important;
 	margin: 2px;
-	width: 164px;
+	width: 164px !important;
+}
+.upload-logo img{
+	height: 150px !important;
+	width: 160px !important;
 }
 
 .picture-link {
-	padding: 56px;
+	/*padding: 56px;*/
 }
 
 .name-item {
@@ -6236,6 +6247,12 @@ normal
 	.gwt-Button { /*padding: 0 5px 1px !important;*/
 		float: inherit !important;
 		/*line-height:2;*/
+	}
+	.gwt-MenuBar-horizontal .gwt-MenuItem{
+	   height:18px !important;
+	}
+	input[disabled], input[disabled="disabled"]{
+	   color:black !important;
 	}
 	.add-button button {
 		line-height: inherit;
@@ -6584,4 +6601,19 @@ a#fdbk_tab:hover{
 	border:1px solid #A0A0A0 !important;
 	background-color:#A0A0A0 !important;
 }
-
+.report-toolbar .downarrow-button{
+	width:47px\0 !important;
+}
+.gridHeaderRow td:FIRST-CHILD,.gridEvenRow td:FIRST-CHILD{
+	width:25px !important;
+}
+.ReportGrid .gridHeaderRow td:FIRST-CHILD,.ReportGrid .gridEvenRow td:FIRST-CHILD{
+	width:inherit !important;
+}
+.panel-right-align .gwt-Button button{
+	background: none repeat scroll 0 0 #1A5158;
+    border: medium none;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
