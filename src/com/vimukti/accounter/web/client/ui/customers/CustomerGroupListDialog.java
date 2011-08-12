@@ -149,22 +149,26 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 		ValidationResult result = new ValidationResult();
 		if (inputDlg != null) {
 			String value = inputDlg.getTextItems().get(0).getValue().toString();
-			if (customerGroup != null) {
-				if (!(customerGroup.getName().equalsIgnoreCase(
-						UIUtils.toStr(value)) ? true
-						: (Utility.isObjectExist(company.getCustomerGroups(),
-								UIUtils.toStr(value)) ? false : true))) {
-					result.addError(this, Accounter.constants()
-							.customerGroupAlreadyExists());
-				}
+			ClientCustomerGroup customerGroupByName = company.getCustomerGroupByName(UIUtils.toStr(value));
+			if (customerGroupByName != null){
+				result.addError(this, Accounter.constants()
+						.customerGroupAlreadyExists());
+			}
+//			if (customerGroup != null) {
+//				if (!(customerGroup.getName().equalsIgnoreCase(
+//						UIUtils.toStr(value)) ? true
+//						: (Utility.isObjectExist(company.getCustomerGroups()
+//								) ? false : true))) {
+//					result.addError(this, Accounter.constants()
+//							.customerGroupAlreadyExists());
+//				}
 			} else {
-				if (Utility.isObjectExist(getCompany().getCustomerGroups(),
-						inputDlg.getTextItems().get(0).getValue().toString())) {
+				ClientCustomerGroup customerGroupByName2 = getCompany().getCustomerGroupByName(inputDlg.getTextItems().get(0).getValue().toString());
+				if (customerGroupByName2 != null) {
 					result.addError(this, Accounter.constants()
 							.customerGroupAlreadyExists());
 				}
 			}
-		}
 		return result;
 	}
 
