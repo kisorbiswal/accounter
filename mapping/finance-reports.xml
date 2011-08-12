@@ -549,7 +549,7 @@
 		 
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<return-scalar column="ID" type="string" />
+		<return-scalar column="ID" type="long" />
 		<return-scalar column="NAME" type="string" />
 		<return-scalar column="NUMBER" type="string" />
 		<return-scalar column="TYPE" type="int" />
@@ -2011,7 +2011,7 @@ order by P.NAME
 		
 		<return-scalar column="account_name" type="string"/>
 	    <return-scalar column="payee_name" type="string"/>
-	    <return-scalar column="transaction_id" type="string"/>
+	    <return-scalar column="transaction_id" type="long"/>
 	    <return-scalar column="transaction_type" type="int"/>
 	    <return-scalar column="transaction_date" type="long"/>
 		<return-scalar column="transaction_number" type="string"/>
@@ -2108,7 +2108,7 @@ order by P.NAME
 		
 		<return-scalar column="account_name" type="string"/>
 	    <return-scalar column="payee_name" type="string"/>
-	    <return-scalar column="transaction_id" type="string"/>
+	    <return-scalar column="transaction_id" type="long"/>
 	    <return-scalar column="transaction_type" type="int"/>
 	    <return-scalar column="transaction_date" type="long"/>
 		<return-scalar column="transaction_number" type="string"/>

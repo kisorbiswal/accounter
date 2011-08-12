@@ -783,7 +783,7 @@ public class UIUtils {
 		try {
 
 			// if (action.catagory.equals("Report"))
-			action.run(object, true);
+			action.run(object, false);
 			// else
 			// action.run(object, object == null );
 		} catch (Throwable e) {
