@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -32,11 +30,11 @@ public class FileVatAction extends Action {
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */
-
-	// @Override
-	// public ParentCanvas getView() {
-	// return null;
-	// }
+	
+//	@Override
+//	public ParentCanvas getView() {
+//		return null;
+//	}
 
 	@Override
 	public void run() {
@@ -45,33 +43,29 @@ public class FileVatAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			@Override
-			public void onSuccess() {
-				FileVATView view;
-				view = new FileVATView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, FileVatAction.this);
+			private FileVATView view;
 
-			}
+			 
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
+			public void onCreated() {
+					view = new FileVATView();
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, FileVatAction.this);
 
 			}
 		});
+
 	}
 
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */
-	// @Override
-	// public String getImageUrl() {
-	// return "/images/File_vat.png";
-	// }
+//	@Override
+//	public String getImageUrl() {
+//		return "/images/File_vat.png";
+//	}
 
 	@Override
 	public String getHistoryToken() {

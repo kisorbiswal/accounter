@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -28,38 +26,32 @@ public class ManageVATCodeAction extends Action {
 		return null;
 	}
 
-	//
-	// @Override
-	// public ParentCanvas getView() {
-	// return this.view;
-	// }
+//	
+//	@Override
+//	public ParentCanvas getView() {
+//		return this.view;
+//	}
 
 	@Override
 	public void run() {
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			@Override
-			public void onSuccess() {
-				view = new ManageVATView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, ManageVATCodeAction.this);
+			 
 
-			}
-
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
+			public void onCreated() {
+					view = new ManageVATView();
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, ManageVATCodeAction.this);
 
 			}
 		});
 	}
 
-	// @Override
-	// public String getImageUrl() {
-	// // NOTHING TO DO.
-	// return "";
-	// }
+//	@Override
+//	public String getImageUrl() {
+//		// NOTHING TO DO.
+//		return "";
+//	}
 
 	@Override
 	public String getHistoryToken() {
