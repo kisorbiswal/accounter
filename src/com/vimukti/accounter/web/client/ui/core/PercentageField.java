@@ -15,7 +15,9 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class PercentageField extends TextItem {
 	private Double percentage;
 	private WidgetWithErrors errorsWidget;
-	AccounterConstants accounterConstants = GWT.create(AccounterConstants.class);
+	AccounterConstants accounterConstants = GWT
+			.create(AccounterConstants.class);
+
 	public PercentageField(WidgetWithErrors errorsWidget, final String name) {
 		this.errorsWidget = errorsWidget;
 		setName(name);
@@ -42,8 +44,8 @@ public class PercentageField extends TextItem {
 						if (DecimalUtil.isLessThan(enteredPercentageValue, 0)
 								|| DecimalUtil.isLessThan(
 										enteredPercentageValue, 100)) {
-							Accounter
-									.showError(accounterConstants.invalidateEntry());
+							Accounter.showError(accounterConstants
+									.invalidateEntry());
 						}
 						if (enteredPercentageValue != null) {
 							setPercentage(enteredPercentageValue);
@@ -131,4 +133,5 @@ public class PercentageField extends TextItem {
 	public Double getPercentage() {
 		return percentage;
 	}
+
 }

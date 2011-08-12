@@ -96,9 +96,9 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			if (rec.getDue() != 0) {
 				dialog.dueSelect.setValue(dialog.dueValues[rec.getDue() - 1]);
 			}
-			dialog.dayText.setValue(String.valueOf(rec.getDueDays()));
-			dialog.discText.setValue(String.valueOf(rec.getDiscountPercent()));
-			dialog.discDayText.setValue(String.valueOf(rec.getIfPaidWithIn()));
+			dialog.dayText.setValue(rec.getDueDays());
+			dialog.discText.setValue(rec.getDiscountPercent());
+			dialog.discDayText.setValue(rec.getIfPaidWithIn());
 		}
 
 		dialog.setCallback(new ActionCallback<ClientPaymentTerms>() {
@@ -118,6 +118,11 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		else
 			clientPaymentTerms = new ClientPaymentTerms();
 
+		/*
+		 * all these are modified cause after editing clientPaymentTerms was not
+		 * getting the values from text field. Now its working
+		 */
+
 		clientPaymentTerms
 				.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
 						.getValue().toString() : "");
@@ -125,10 +130,11 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 				.setDescription(dialog.descText.getValue() != null ? dialog.descText
 						.getValue().toString() : "");
 		clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
-				.getNumber() != null ? dialog.discDayText.getNumber() : "0"));
-		clientPaymentTerms.setDiscountPercent(UIUtils.toDbl(dialog.discText
-				.getPercentage() != null ? dialog.discText.getPercentage()
-				: "0"));
+				.getValue() != null ? dialog.discDayText.getValue() : "0"));
+		clientPaymentTerms.setDiscountPercent(UIUtils
+				.toDbl(dialog.discText.getValue().toString()
+						.replaceAll("%", "") != null ? dialog.discText
+						.getValue().toString().replaceAll("%", "") : "0"));
 
 		for (int i = 0; i < dialog.dueValues.length; i++) {
 			if (dialog.dueSelect.getValue() != null) {
@@ -138,8 +144,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			}
 		}
 		clientPaymentTerms
-				.setDueDays(UIUtils.toInt(dialog.dayText.getNumber() != null ? dialog.dayText
-						.getNumber() : "0"));
+				.setDueDays(UIUtils.toInt(dialog.dayText.getValue() != null ? dialog.dayText
+						.getValue() : "0"));
 
 		return clientPaymentTerms;
 	}
@@ -168,13 +174,11 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		if (paymentTerms != null) {
 			switch (index) {
 			case 0:
-
 				return paymentTerms.getName();
 			case 1:
 				return paymentTerms.getDescription();
 			case 2:
 				return paymentTerms.getIfPaidWithIn();
-
 			case 3:
 				return DataUtils.getNumberAsPercentString(paymentTerms
 						.getDiscountPercent() + "");
