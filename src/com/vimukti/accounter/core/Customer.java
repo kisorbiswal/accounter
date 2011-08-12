@@ -9,7 +9,6 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -19,7 +18,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 @SuppressWarnings("serial")
-public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
+public class Customer extends Payee implements IAccounterServerCore {
 
 	/**
 	 * The till date up to which the Specified Opening balance of the Customer
@@ -361,6 +360,7 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 	public boolean onSave(Session session) throws CallbackException {
 		if (isOnSaveProccessed)
 			return true;
+		super.onSave(session);
 		isOnSaveProccessed = true;
 		setType(TYPE_CUSTOMER);
 		// SessionUtils.updateReferenceCount(null, this, session, true);
@@ -381,7 +381,7 @@ public class Customer extends Payee implements IAccounterServerCore, Lifecycle {
 		// SessionUtils.updateReferenceCount(previousCustomer, this, session,
 		// true);
 		// }
-
+		super.onUpdate(session);
 		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
 				&& isOpeningBalanceEditable) {
 

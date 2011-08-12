@@ -8,7 +8,6 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -34,7 +33,7 @@ import com.vimukti.accounter.web.client.ui.core.SpecialReference;
  */
 
 public abstract class Transaction extends CreatableObject implements
-		IAccounterServerCore, Lifecycle, Cloneable {
+		IAccounterServerCore, Cloneable {
 
 	/**
 	 * 
@@ -692,7 +691,7 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-
+		super.onSave(session);
 		doCreateEffect(session);
 
 		return false;
@@ -832,6 +831,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		super.onUpdate(session);
 		// // this.accountTransactionEntriesList.clear();
 		//
 		// /**
@@ -1103,7 +1103,6 @@ public abstract class Transaction extends CreatableObject implements
 			effectingAccount.onUpdate(HibernateUtil.getCurrentSession());
 		}
 	}
-
 
 	public int compareTo(Object o) {
 		return 0;

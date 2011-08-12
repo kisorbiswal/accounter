@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * documents.
  */
 
-public class SalesOrder extends Transaction implements Lifecycle {
+public class SalesOrder extends Transaction {
 
 	/**
 	 * 
@@ -371,6 +371,7 @@ public class SalesOrder extends Transaction implements Lifecycle {
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
+		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		/**
 		 * 

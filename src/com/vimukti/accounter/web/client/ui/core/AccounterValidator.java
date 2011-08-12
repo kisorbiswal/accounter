@@ -1225,7 +1225,7 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean isPriorToCompanyPostingDate(ClientFinanceDate asOfDate) {
+	public static boolean isPriorToCompanyPreventPostingDate(ClientFinanceDate asOfDate) {
 
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(getCompany()
 				.getPreferences().getPreventPostingBeforeDate());

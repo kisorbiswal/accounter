@@ -945,6 +945,7 @@ public class JournalEntry extends Transaction {
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
+		super.onSave(session);
 		this.isOnSaveProccessed = true;
 
 		this.total = this.debitTotal;
@@ -990,7 +991,7 @@ public class JournalEntry extends Transaction {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
-		// super.onUpdate(session);
+		super.onUpdate(session);
 		// if (isBecameVoid()) {
 		//
 		// // If this Journal Entry has any Credits then make them as null.

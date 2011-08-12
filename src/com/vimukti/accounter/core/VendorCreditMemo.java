@@ -2,7 +2,6 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -41,7 +40,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * @author Suresh Garikapati
  */
 
-public class VendorCreditMemo extends Transaction implements Lifecycle {
+public class VendorCreditMemo extends Transaction {
 
 	/**
 	 * 
@@ -131,7 +130,7 @@ public class VendorCreditMemo extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		// super.onUpdate(session);
+		super.onUpdate(session);
 		// if (isBecameVoid()) {
 		// // this.creditsAndPayments.setTransaction(null);
 		// // session.delete(this.creditsAndPayments);

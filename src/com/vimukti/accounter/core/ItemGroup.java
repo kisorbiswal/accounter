@@ -7,7 +7,6 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -15,8 +14,7 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class ItemGroup extends CreatableObject implements IAccounterServerCore,
-		Lifecycle {
+public class ItemGroup extends CreatableObject implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -100,6 +98,7 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 	public boolean onSave(Session arg0) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
+		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
 
 		if (this.items != null) {
@@ -114,6 +113,7 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		super.onUpdate(arg0);
 		if (this.items != null) {
 			for (Item item : this.items) {
 				tempitems.remove(item);

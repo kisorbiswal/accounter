@@ -88,7 +88,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 	boolean isBilled;
 
-	// 
+	//
 
 	public boolean isToBePrinted() {
 		return toBePrinted;
@@ -319,7 +319,6 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		 * account with the Item Receipt total.
 		 */
 
-
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -327,8 +326,8 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		super.onSave(session);
 		this.balanceDue = this.total;
 
-		Account pendingItemReceipt = (Account) session.getNamedQuery(
-				"getNameofAccount.by.Name")
+		Account pendingItemReceipt = (Account) session
+				.getNamedQuery("getNameofAccount.by.Name")
 				.setParameter(0, AccounterServerConstants.PENDING_ITEM_RECEIPTS)
 				.uniqueResult();
 		if (pendingItemReceipt != null) {
@@ -337,7 +336,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 			pendingItemReceipt.onUpdate(session);
 		}
 		/**
-		 *To Update the Status of the purchase order involved in this Item
+		 * To Update the Status of the purchase order involved in this Item
 		 * Receipt. The Status of the Purchase Order may be Not Receive or
 		 * Partially Received or Received. If any Purchase Order is involved in
 		 * this ItemReceipt and if is completely used then we should mark it as
@@ -402,7 +401,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		 * Reverse Back the effect if this updation call is for Void of Item
 		 * Receipt
 		 */
-		// super.onUpdate(session);
+		super.onUpdate(session);
 		// if (this.isBecameVoid()) {
 		//
 		// Account pendingItemReceipt = Company.getCompany()
@@ -534,7 +533,6 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		return AccounterServerConstants.TYPE_ITEM_RECEIPT;
 	}
 
-
 	@Override
 	public Payee getInvolvedPayee() {
 
@@ -544,8 +542,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 	public boolean equals(ItemReceipt obj) {
 		if (this.vendor.id == obj.vendor.id
 				&& ((this.purchaseOrder != null && obj.purchaseOrder != null) ? (this.purchaseOrder
-						.equals(obj.purchaseOrder))
-						: true)
+						.equals(obj.purchaseOrder)) : true)
 				&& ((!DecimalUtil.isEquals(this.total, 0.0) && !DecimalUtil
 						.isEquals(obj.total, 0.0)) ? DecimalUtil.isEquals(
 						this.total, obj.total) : true)
@@ -570,12 +567,12 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 		this.balanceDue = this.total;
 
-//		Account pendingItemReceipt = Company.getCompany()
-//				.getPendingItemReceiptsAccount();
+		// Account pendingItemReceipt = Company.getCompany()
+		// .getPendingItemReceiptsAccount();
 
 		/**
 		 * 
-		 *if present transaction is deleted, without voided & delete the
+		 * if present transaction is deleted, without voided & delete the
 		 * previous transaction then it is entered into the loop
 		 */
 
@@ -602,17 +599,17 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 			else if (itemReceipt.vendor.id != this.vendor.id) {
 
-//				pendingItemReceipt
-//						.updateCurrentBalance(itemReceipt, this.total);
+				// pendingItemReceipt
+				// .updateCurrentBalance(itemReceipt, this.total);
 
 				modifyPurchaseOrder(itemReceipt, false);
 				modifyPurchaseOrder(this, true);
 			}
 
-//			pendingItemReceipt.updateCurrentBalance(itemReceipt,
-//					-itemReceipt.total);
-//			session.update(pendingItemReceipt);
-//			pendingItemReceipt.onUpdate(session);
+			// pendingItemReceipt.updateCurrentBalance(itemReceipt,
+			// -itemReceipt.total);
+			// session.update(pendingItemReceipt);
+			// pendingItemReceipt.onUpdate(session);
 		}
 
 		super.onEdit(itemReceipt);
@@ -620,14 +617,14 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 	public void doVoidEffect(Session session, ItemReceipt itemReceipt) {
 
-//		Account pendingItemReceipt = Company.getCompany()
-//				.getPendingItemReceiptsAccount();
-//		pendingItemReceipt
-//				.updateCurrentBalance(itemReceipt, -itemReceipt.total);
-//		session.update(pendingItemReceipt);
-//		pendingItemReceipt.onUpdate(session);
-//
-//		session.saveOrUpdate(pendingItemReceipt);
+		// Account pendingItemReceipt = Company.getCompany()
+		// .getPendingItemReceiptsAccount();
+		// pendingItemReceipt
+		// .updateCurrentBalance(itemReceipt, -itemReceipt.total);
+		// session.update(pendingItemReceipt);
+		// pendingItemReceipt.onUpdate(session);
+		//
+		// session.saveOrUpdate(pendingItemReceipt);
 
 		itemReceipt.balanceDue = 0.0;
 
@@ -659,16 +656,16 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 					if (transactionItem.referringTransactionItem != null) {
 
 						TransactionItem referringTransactionItem = (TransactionItem) session
-								.get(
-										TransactionItem.class,
+								.get(TransactionItem.class,
 										transactionItem.referringTransactionItem
 												.getID());
 
 						double amount = referringTransactionItem.usedamt;
 
 						if (transactionItem.type == TransactionItem.TYPE_ITEM)
-							transactionItem.lineTotal = transactionItem.getQuantity().calculatePrice(referringTransactionItem.unitPrice);
-									
+							transactionItem.lineTotal = transactionItem
+									.getQuantity().calculatePrice(
+											referringTransactionItem.unitPrice);
 
 						else
 							transactionItem.lineTotal = transactionItem.lineTotal;
@@ -685,7 +682,10 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 						if (flag
 								&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || (transactionItem.type == TransactionItem.TYPE_ITEM && transactionItem.getQuantity().compareTo(referringTransactionItem.getQuantity()) <0 )))) {
+										|| transactionItem.type == TransactionItem.TYPE_SALESTAX || (transactionItem.type == TransactionItem.TYPE_ITEM && transactionItem
+										.getQuantity().compareTo(
+												referringTransactionItem
+														.getQuantity()) < 0)))) {
 							if (isAddition ? DecimalUtil.isLessThan(
 									referringTransactionItem.usedamt,
 									referringTransactionItem.lineTotal)
@@ -724,9 +724,10 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 			throws AccounterException {
 
 		if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new AccounterException(AccounterException.ERROR_ILLEGAL_ARGUMENT);
-//					"This ItemRecipt is used in EnterBill, ItemRecipt No:"
-//							+ this.number);
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT);
+			// "This ItemRecipt is used in EnterBill, ItemRecipt No:"
+			// + this.number);
 		}
 
 		return super.canEdit(clientObject);

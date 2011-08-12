@@ -8,7 +8,6 @@ import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -21,7 +20,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Ravi Chandan
  * 
  */
-public class VATReturn extends Transaction implements Lifecycle {
+public class VATReturn extends Transaction {
 
 	/**
 	 * 
@@ -149,6 +148,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
+		super.onSave(session);
 
 		FlushMode flushMode = session.getFlushMode();
 		session.setFlushMode(FlushMode.COMMIT);
@@ -218,7 +218,7 @@ public class VATReturn extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-
+		super.onUpdate(session);
 		if (isBecameVoid()) {
 
 			FinanceLogger

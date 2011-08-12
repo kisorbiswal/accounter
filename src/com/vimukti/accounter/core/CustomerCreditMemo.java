@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
@@ -66,7 +65,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  */
 public class CustomerCreditMemo extends Transaction implements
-		IAccounterServerCore, Lifecycle {
+		IAccounterServerCore {
 
 	/**
 	 * 
@@ -277,7 +276,7 @@ public class CustomerCreditMemo extends Transaction implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		// super.onUpdate(session);
+		super.onUpdate(session);
 		//
 		// if (isBecameVoid()) {
 		// // this.creditsAndPayments.setTransaction(null);

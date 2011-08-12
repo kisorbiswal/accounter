@@ -16,6 +16,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -70,6 +71,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			if (isValidSession(request)) {
 				String companyDB = getCompanyDBName(request);
 				Session session = HibernateUtil.openSession(companyDB);
+				setAccounterThreadLocal(request);
 				try {
 					super.service(request, response);
 					try {
@@ -96,7 +98,18 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Could Not Complete the Request!");
 
-		} 
+		}
+	}
+
+	/**
+	 * @param request
+	 */
+	private void setAccounterThreadLocal(HttpServletRequest request) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = (Company) session.load(Company.class, 1l);
+		String userEmail = (String) request.getSession().getAttribute(EMAIL_ID);
+		User user = company.getUserByUserEmail(userEmail);
+		AccounterThreadLocal.set(user);
 	}
 
 	/**

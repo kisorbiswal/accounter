@@ -20,8 +20,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 
-public class ReceiveVAT extends Transaction implements IAccounterServerCore,
-		Lifecycle {
+public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -214,6 +213,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore,
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
+		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		for (TransactionReceiveVAT t : transactionReceiveVAT) {
 			t.setReceiveVAT(this);

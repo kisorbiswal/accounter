@@ -9,7 +9,6 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.services.SessionUtils;
@@ -18,8 +17,7 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class FiscalYear extends CreatableObject implements
-		IAccounterServerCore, Lifecycle {
+public class FiscalYear extends CreatableObject implements IAccounterServerCore {
 	/**
 	 * 
 	 */
@@ -180,9 +178,10 @@ public class FiscalYear extends CreatableObject implements
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-
-		if (this.isOnSaveProccessed)
+		if (this.isOnSaveProccessed) {
 			return true;
+		}
+		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		// this.setPreviousStartDate(this.getStartDate());
 		this.setStatus(FiscalYear.STATUS_OPEN);
@@ -194,7 +193,7 @@ public class FiscalYear extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-
+		super.onUpdate(session);
 		if (this.previousStatus == STATUS_OPEN && this.status == STATUS_CLOSE) {
 
 			SessionUtils.update(this, session);

@@ -5,13 +5,12 @@ import java.util.List;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-public class CustomerPrePayment extends Transaction implements Lifecycle {
+public class CustomerPrePayment extends Transaction {
 
 	private static final long serialVersionUID = -4118462182877133386L;
 
@@ -157,6 +156,7 @@ public class CustomerPrePayment extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		super.onUpdate(session);
 		return false;
 	}
 

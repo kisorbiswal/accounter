@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -18,8 +17,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Chandan
  * 
  */
-public class TAXAdjustment extends Transaction implements IAccounterServerCore,
-		Lifecycle {
+public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -137,6 +135,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore,
 
 		if (this.isOnSaveProccessed)
 			return true;
+		super.onSave(session);
 		this.isOnSaveProccessed = true;
 
 		this.setType(Transaction.TYPE_ADJUST_VAT_RETURN);
@@ -161,6 +160,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session s) throws CallbackException {
+		super.onSave(s);
 		return false;
 	}
 

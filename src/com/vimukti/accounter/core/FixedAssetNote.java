@@ -3,12 +3,6 @@
  */
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
-
-import org.hibernate.CallbackException;
-import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
-
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -17,7 +11,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 @SuppressWarnings("serial")
 public class FixedAssetNote extends CreatableObject implements
-		IAccounterServerCore, Lifecycle {
+		IAccounterServerCore {
 
 	private String note;
 
@@ -46,26 +40,4 @@ public class FixedAssetNote extends CreatableObject implements
 		return true;
 	}
 
-	@Override
-	public boolean onDelete(Session arg0) throws CallbackException {
-		// NOTHING TO DO
-		return false;
-	}
-
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-		// NOTHING TO DO
-	}
-
-	@Override
-	public boolean onSave(Session arg0) throws CallbackException {
-		// NOTHING TO DO
-		return false;
-	}
-
-	@Override
-	public boolean onUpdate(Session arg0) throws CallbackException {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

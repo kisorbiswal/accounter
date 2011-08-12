@@ -4,16 +4,14 @@ import java.io.Serializable;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class SalesPerson extends CreatableObject implements
-		IAccounterServerCore, Lifecycle {
+		IAccounterServerCore {
 
 	/**
 	 * 
@@ -297,12 +295,14 @@ public class SalesPerson extends CreatableObject implements
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
+		super.onSave(arg0);
 		ChangeTracker.put(this);
 		return false;
 	}
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		super.onUpdate(arg0);
 		ChangeTracker.put(this);
 		return false;
 	}

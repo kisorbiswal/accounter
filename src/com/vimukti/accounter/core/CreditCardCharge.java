@@ -2,7 +2,6 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -34,7 +33,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  *         current and total balance by Cash Purchase total otherwise Decrease
  */
 @SuppressWarnings("serial")
-public class CreditCardCharge extends Transaction implements Lifecycle {
+public class CreditCardCharge extends Transaction {
 
 	/**
 	 * This is the {@link Vendor} to whom we are creating This CreditCardCharge
@@ -219,7 +218,7 @@ public class CreditCardCharge extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		// super.onUpdate(session);
+		super.onUpdate(session);
 		// this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		// if (this.transactionItems != null) {
 		// for (TransactionItem ti : this.transactionItems) {

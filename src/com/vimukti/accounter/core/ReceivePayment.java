@@ -263,7 +263,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		// super.onUpdate(session);
+		super.onUpdate(session);
 		// if (isBecameVoid()) {
 		// this.depositIn.updateCurrentBalance(this, this.total);
 		// this.depositIn.onUpdate(session);

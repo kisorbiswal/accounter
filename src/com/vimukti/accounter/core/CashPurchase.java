@@ -2,7 +2,6 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -33,7 +32,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  *         Liability|LongTermLiability) isIncrease true then Increase the
  *         current and total balance by Cash Purchase total otherwise Decrease
  */
-public class CashPurchase extends Transaction implements Lifecycle {
+public class CashPurchase extends Transaction {
 
 	/**
 	 * 
@@ -315,6 +314,7 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	public boolean onSave(Session session) throws CallbackException {
 		if (isOnSaveProccessed)
 			return true;
+		super.onSave(session);
 		isOnSaveProccessed = true;
 
 		if (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE
@@ -340,7 +340,7 @@ public class CashPurchase extends Transaction implements Lifecycle {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
-		// super.onUpdate(session);
+		super.onUpdate(session);
 		//
 		// this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		//

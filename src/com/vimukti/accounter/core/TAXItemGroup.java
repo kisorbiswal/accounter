@@ -9,7 +9,6 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -24,7 +23,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 
 public class TAXItemGroup extends CreatableObject implements
-		IAccounterServerCore, Lifecycle {
+		IAccounterServerCore {
 
 	/**
 	 * 
@@ -121,6 +120,7 @@ public class TAXItemGroup extends CreatableObject implements
 	public boolean onSave(Session arg0) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
+		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
 		ChangeTracker.put(this);
 		return false;
@@ -128,6 +128,7 @@ public class TAXItemGroup extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		super.onUpdate(arg0);
 		ChangeTracker.put(this);
 		return false;
 	}

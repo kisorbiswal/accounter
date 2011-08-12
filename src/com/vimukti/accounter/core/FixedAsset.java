@@ -14,7 +14,6 @@ import java.util.Map;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.services.DAOException;
@@ -39,7 +38,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  *         can Sell or Dispose any Fixed Asset.
  */
 @SuppressWarnings("serial")
-public class FixedAsset extends CreatableObject implements Lifecycle,
+public class FixedAsset extends CreatableObject implements
 		IAccounterServerCore, Cloneable {
 
 	public static final int STATUS_PENDING = 1;
@@ -675,6 +674,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
+		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		/**
 		 * Adjusting the book value with the result amount of deducting
@@ -758,7 +758,7 @@ public class FixedAsset extends CreatableObject implements Lifecycle,
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-
+		super.onUpdate(session);
 		/**
 		 * Check whether any note is added, and Save the Action into History.
 		 */

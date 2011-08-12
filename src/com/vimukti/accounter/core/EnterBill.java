@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
@@ -37,8 +36,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  *         the EnterBill total. Vendor balance should Increase by the EnterBill
  *         total.
  */
-public class EnterBill extends Transaction implements IAccounterServerCore,
-		Lifecycle {
+public class EnterBill extends Transaction implements IAccounterServerCore {
 
 	/**
 	 * 

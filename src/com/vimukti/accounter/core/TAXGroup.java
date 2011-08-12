@@ -123,14 +123,13 @@ public class TAXGroup extends TAXItemGroup {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-
 		if (Company.getCompany() != null
 				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 			TAXCode taxCode = new TAXCode((TAXItemGroup) this);
 			session.saveOrUpdate(taxCode);
 		}
-
-		ChangeTracker.put(this);
+		super.onSave(session);
+		// ChangeTracker.put(this);
 		return false;
 	}
 
@@ -140,9 +139,7 @@ public class TAXGroup extends TAXItemGroup {
 		if (Company.getCompany() != null
 				&& Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 
-			Query query = session
-					.getNamedQuery(
-							"getTaxCode.by.id")
+			Query query = session.getNamedQuery("getTaxCode.by.id")
 					.setParameter("id", this.id);
 			TAXCode taxCode = (TAXCode) query.uniqueResult();
 			if (taxCode != null) {
@@ -154,8 +151,8 @@ public class TAXGroup extends TAXItemGroup {
 			}
 			this.isSalesType = true;
 		}
-
-		ChangeTracker.put(this);
+		super.onSave(session);
+		// ChangeTracker.put(this);
 		return false;
 	}
 

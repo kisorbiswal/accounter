@@ -5,7 +5,6 @@ package com.vimukti.accounter.servlets;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +14,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
@@ -77,14 +77,14 @@ public class InitializeCompanyServlet extends BaseServlet {
 		Transaction transaction = companySession.beginTransaction();
 		try {
 
-			// Creating User
 			User user = getAdminUserFromHttpSession(request);
+			// Creating User
 			companySession.save(user);
+
+			AccounterThreadLocal.set(user);
 
 			company.getUsers().add(user);
 			company.setCompanyEmail(user.getEmail());
-			company.setCreatedBy(user);
-			company.setCreatedDate(new Timestamp(System.currentTimeMillis()));
 			companySession.save(company);
 
 			// Create Attachment Directory for company

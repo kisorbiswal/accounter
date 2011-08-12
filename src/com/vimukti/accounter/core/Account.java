@@ -14,7 +14,6 @@ import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -44,8 +43,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  */
 @SuppressWarnings({ "serial", "unchecked" })
-public class Account extends CreatableObject implements IAccounterServerCore,
-		Lifecycle {
+public class Account extends CreatableObject implements IAccounterServerCore {
 
 	Logger log = Logger.getLogger(Account.class);
 
@@ -781,6 +779,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
+		super.onSave(session);
 		this.isOnSaveProccessed = true;
 
 		FinanceLogger.log("{0} OnSave method execution...........",
@@ -1013,6 +1012,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		super.onUpdate(session);
 		FlushMode flushMode = session.getFlushMode();
 		session.setFlushMode(FlushMode.COMMIT);
 

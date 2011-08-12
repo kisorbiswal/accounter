@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Chandan
  * 
  */
-public class PaySalesTax extends Transaction implements Lifecycle {
+public class PaySalesTax extends Transaction {
 
 	/**
 	 * 

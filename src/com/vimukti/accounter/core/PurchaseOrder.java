@@ -380,7 +380,7 @@ public class PurchaseOrder extends Transaction {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		// super.onUpdate(session);
+		super.onUpdate(session);
 		// if (this.transactionItems != null) {
 		// for (TransactionItem ti : this.transactionItems) {
 		// if (ti instanceof Lifecycle) {

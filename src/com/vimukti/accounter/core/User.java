@@ -1,10 +1,7 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
-
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
@@ -13,8 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class User extends CreatableObject implements IAccounterServerCore,
-		Lifecycle {
+public class User extends CreatableObject implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -302,24 +298,6 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		accounterCore.setID(this.id);
 		accounterCore.setObjectType(AccounterCoreType.USER);
 		ChangeTracker.put(accounterCore);
-		return false;
-	}
-
-	@Override
-	public void onLoad(Session arg0, Serializable arg1) {
-		// its not using any where
-
-	}
-
-	@Override
-	public boolean onSave(Session arg0) throws CallbackException {
-		// its not using any where
-		return false;
-	}
-
-	@Override
-	public boolean onUpdate(Session arg0) throws CallbackException {
-
 		return false;
 	}
 

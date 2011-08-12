@@ -2,7 +2,6 @@ package com.vimukti.accounter.core;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -49,8 +48,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  */
 @SuppressWarnings("serial")
-public class CashSales extends Transaction implements IAccounterServerCore,
-		Lifecycle {
+public class CashSales extends Transaction implements IAccounterServerCore {
 
 	/**
 	 * The payee to whom the sales is being done.
@@ -420,7 +418,7 @@ public class CashSales extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		// super.onUpdate(session);
+		super.onUpdate(session);
 		//
 		// if (isBecameVoid()) {
 		//

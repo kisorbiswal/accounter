@@ -4,15 +4,13 @@ import java.io.Serializable;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class PriceLevel extends CreatableObject implements
-		IAccounterServerCore, Lifecycle {
+public class PriceLevel extends CreatableObject implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -108,6 +106,7 @@ public class PriceLevel extends CreatableObject implements
 	public boolean onSave(Session arg0) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
+		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
 		ChangeTracker.put(this);
 		return false;
@@ -115,6 +114,7 @@ public class PriceLevel extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		super.onUpdate(arg0);
 		ChangeTracker.put(this);
 		return false;
 	}

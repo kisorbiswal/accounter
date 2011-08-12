@@ -198,7 +198,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
-		String name = vendorNameText.getValue().toString();
+		String name = vendorNameText.getValue();
 
 		ClientVendor vendorByName = company.getVendorByName(name);
 
@@ -212,7 +212,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		result.add(vendorForm.validate());
 
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
-		if (AccounterValidator.isPriorToCompanyPostingDate(asOfDate)) {
+		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asOfDate)) {
 			result.addError(balanceDate, Accounter.constants().priorasOfDate());
 		}
 

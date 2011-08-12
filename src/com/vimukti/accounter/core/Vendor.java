@@ -8,7 +8,6 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -24,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  *
  */
 
-public class Vendor extends Payee implements Lifecycle {
+public class Vendor extends Payee {
 
 	/**
 	 * 
@@ -345,6 +344,7 @@ public class Vendor extends Payee implements Lifecycle {
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
+		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		setType(Payee.TYPE_VENDOR);
 		return onUpdate(session);
@@ -352,7 +352,7 @@ public class Vendor extends Payee implements Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-
+		super.onUpdate(session);
 		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
 				&& isOpeningBalanceEditable) {
 			FinanceLogger

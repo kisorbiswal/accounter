@@ -365,7 +365,7 @@ public class PayBill extends Transaction {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		// super.onUpdate(session);
+		super.onUpdate(session);
 		// if (isBecameVoid()) {
 		// this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		// if (this.getPayBillType() == PayBill.TYPE_VENDOR_PAYMENT

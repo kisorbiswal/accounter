@@ -3,22 +3,20 @@ package com.vimukti.accounter.core;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.hibernate.classic.Lifecycle;
-
 /**
  * Stock adjustment POJO.
  * 
  * @author Srikanth.J
  * 
  */
-public class StockAdjustment extends Transaction implements Lifecycle {
+public class StockAdjustment extends Transaction {
 
 	private static final long serialVersionUID = -2706077052390641514L;
-		
+
 	private Set<StockAdjustmentItem> adjustmentItems;
 
 	private boolean completed;
-	
+
 	public StockAdjustment() {
 		adjustmentItems = new HashSet<StockAdjustmentItem>();
 	}

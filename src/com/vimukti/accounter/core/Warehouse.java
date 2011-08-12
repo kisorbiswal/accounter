@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
@@ -21,8 +20,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Srikanth.J
  * 
  */
-public class Warehouse extends CreatableObject implements IAccounterServerCore,
-		Lifecycle {
+public class Warehouse extends CreatableObject implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -84,7 +82,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	public boolean onSave(Session s) throws CallbackException {
 		if (isOnSaveProccessed)
 			return true;
-
+		super.onSave(s);
 		isOnSaveProccessed = true;
 
 		FinanceLogger.log("warehouse has been created: {0}", name);
@@ -94,7 +92,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session s) throws CallbackException {
-		// TODO Auto-generated method stub
+		super.onSave(s);
 		return false;
 	}
 

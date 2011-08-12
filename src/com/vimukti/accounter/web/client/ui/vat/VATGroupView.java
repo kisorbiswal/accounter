@@ -211,7 +211,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		String name = groupName.getValue().toString();
+		String name = groupName.getValue();
 
 		ClientTAXGroup vatGroupsbyname = getCompany().getVatGroupsbyname(name);
 

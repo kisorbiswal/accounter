@@ -895,7 +895,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				Accounter.constants().openingBalances()))) {
 			validateAccountNumber(accNoText.getNumber());
 		}
-		if (AccounterValidator.isPriorToCompanyPostingDate(asofDate
+		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asofDate
 				.getEnteredDate())) {
 			result.addError(asofDate, Accounter.constants().priorasOfDate());
 		}

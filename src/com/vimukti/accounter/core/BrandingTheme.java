@@ -7,7 +7,6 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -22,7 +21,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 @SuppressWarnings("serial")
 public class BrandingTheme extends CreatableObject implements
-		IAccounterServerCore, Lifecycle {
+		IAccounterServerCore {
 
 	public static final String FONT_ARIAL = "Arial";
 	public static final String FONT_CALIBIRI = "Calibiri";
@@ -524,6 +523,7 @@ public class BrandingTheme extends CreatableObject implements
 
 		if (isOnSaveProccessed)
 			return true;
+		super.onSave(arg0);
 		isOnSaveProccessed = true;
 
 		return false;
@@ -531,6 +531,7 @@ public class BrandingTheme extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		super.onUpdate(arg0);
 		if (isLogoAdded() == false)
 			this.setFileName(null);
 		return false;
