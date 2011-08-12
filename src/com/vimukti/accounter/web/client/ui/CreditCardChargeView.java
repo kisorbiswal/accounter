@@ -48,6 +48,8 @@ public class CreditCardChargeView extends
 	AmountField totText;
 	AccounterConstants accounterConstants = GWT
 			.create(AccounterConstants.class);
+	List<String> idPhoneNumberForContacts = new ArrayList<String>();
+	List<String> idNamesForContacts = new ArrayList<String>();
 
 	protected DynamicForm vendorForm, addrForm, phoneForm, termsForm, memoForm;
 	protected SelectCombo contactNameSelect, payMethSelect;
@@ -105,13 +107,14 @@ public class CreditCardChargeView extends
 		Iterator<ClientContact> it = allContacts.iterator();
 		// List<String> phones = new ArrayList<String>();
 		ClientContact primaryContact = null;
-		List<String> idNamesForContacts = new ArrayList<String>();
+
 		int i = 0;
 		while (it.hasNext()) {
 			ClientContact contact = it.next();
 			if (contact.isPrimary())
 				primaryContact = contact;
 			idNamesForContacts.add(contact.getName());
+			idPhoneNumberForContacts.add(contact.getBusinessPhone());
 			// phones.add(contact.getBusinessPhone());
 			i++;
 		}
@@ -359,6 +362,16 @@ public class CreditCardChargeView extends
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						contactNameSelect.setSelected(selectItem);
+
+						int i = 0;
+						while (i < idNamesForContacts.size()) {
+							String s = idNamesForContacts.get(i);
+							if (s.equals(selectItem))
+								phoneSelect.setValue(idPhoneNumberForContacts
+										.get(i));
+
+							i++;
+						}
 
 					}
 				});
@@ -739,6 +752,7 @@ public class CreditCardChargeView extends
 		}else
 			result.add(vendorTransactionGrid.validateGrid());
 		return result;
+
 	}
 
 	public List<DynamicForm> getForms() {
