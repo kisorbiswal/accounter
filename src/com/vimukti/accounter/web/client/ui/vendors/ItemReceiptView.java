@@ -568,15 +568,26 @@ public class ItemReceiptView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
+		// Validations
+		// 1. isValidTransactionDate?
+		// 2. isInPreventPostingBeforeDate?
+		// 3. vendorForm validation?
+		// 4. isValidDueOrDeliveryDate?
+		// 5. isBlankTransaction?
+		// 6. validateGrid?
+
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
-		} else if (AccounterValidator
-				.isInPreventPostingBeforeDate(transactionDate)) {
+		}
+
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateDate());
 		}
+
 		result.add(vendorForm.validate());
+
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 
@@ -592,8 +603,8 @@ public class ItemReceiptView extends
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 			result.addError(vendorTransactionGrid,
 					accounterConstants.blankTransaction());
-		}
-		result.add(vendorTransactionGrid.validateGrid());
+		} else
+			result.add(vendorTransactionGrid.validateGrid());
 		return result;
 	}
 
