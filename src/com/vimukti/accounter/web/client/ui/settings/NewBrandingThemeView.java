@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
@@ -40,12 +39,10 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Uday Kumar
  * 
  */
-@SuppressWarnings({ "deprecation" })
+@SuppressWarnings( { "deprecation" })
 public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
-	private Label pageSizeLabel, topMarginLabel, bottomMarginLabel,
-			addressPadLabel, fontLabel, fontSizeLabel, overdueLabel,
-			creditNoteLabel, statementLabel, logoLabel, termsLabel;
+	private Label pageSizeLabel, logoLabel, termsLabel;
 
 	private RadioButton a4Button, usLetterButton, leftRadioButton,
 			rightRadioButton, cmButton, inchButton;
@@ -54,7 +51,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private HorizontalPanel mainLayoutPanel, check_radioPanel;
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
-	private TextBox topMarginBox, bottomMarginBox, addressPadBox, overdueBox,
+	private TextItem topMarginBox, bottomMarginBox, addressPadBox, overdueBox,
 			creditNoteBox, statementBox, paypalTextBox, logoNameBox;
 	private TextItem nameItem;
 	private String[] fontNameArray, fontSizeArray;
@@ -66,9 +63,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private List<String> listOfFontNames, listOfFontSizes;
 	private AccounterConstants messages = Accounter.constants();
 	private AccounterMessages accounterMessages = Accounter.messages();
-	private Label addLogoLabel;
-	private String[] fileTypes;
-
 	private DynamicForm nameForm;
 
 	public NewBrandingThemeView(String title, String desc) {
@@ -109,10 +103,10 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 		nameItem.setValue(brandingTheme.getThemeName());
 		topMarginBox.setValue(String.valueOf(brandingTheme.getTopMargin()));
-		bottomMarginBox
-				.setValue(String.valueOf(brandingTheme.getBottomMargin()));
-		addressPadBox
-				.setValue(String.valueOf(brandingTheme.getAddressPadding()));
+		bottomMarginBox.setValue(String
+				.valueOf(brandingTheme.getBottomMargin()));
+		addressPadBox.setValue(String
+				.valueOf(brandingTheme.getAddressPadding()));
 		setPazeSize(brandingTheme.getPageSizeType());
 		fontNameBox.setComboItem(brandingTheme.getFont());
 		fontSizeBox.setComboItem(brandingTheme.getFontSize());
@@ -197,7 +191,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		topMarginBox.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent event) {
-				if (!UIUtils.isDouble(topMarginBox.getValue())) {
+				if (!UIUtils.isDouble(topMarginBox.getValue().toString())) {
 					Accounter.showError(messages.numberForTopMarginField());
 					addError(topMarginBox, messages.errorForTopMarginField());
 					topMarginBox.setValue("");
@@ -207,10 +201,10 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		bottomMarginBox.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent event) {
-				if (!UIUtils.isDouble(bottomMarginBox.getValue())) {
+				if (!UIUtils.isDouble(bottomMarginBox.getValue().toString())) {
 					Accounter.showError(messages.numberForbottomMarginField());
-					addError(bottomMarginBox,
-							messages.errorForbottomMarginField());
+					addError(bottomMarginBox, messages
+							.errorForbottomMarginField());
 					bottomMarginBox.setValue("");
 				}
 			}
@@ -218,7 +212,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		addressPadBox.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent event) {
-				if (!UIUtils.isDouble(addressPadBox.getValue())) {
+				if (!UIUtils.isDouble(addressPadBox.getValue().toString())) {
 					Accounter.showError(messages.numberForAddresspadField());
 					addError(addressPadBox, messages.errorForaddresspadField());
 					addressPadBox.setValue("");
@@ -289,7 +283,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			brandingTheme.setFileName(null);
 			brandingTheme.setLogoAdded(false);
 		} else {
-			brandingTheme.setFileName(String.valueOf(logoNameBox.getText()
+			brandingTheme.setFileName(String.valueOf(logoNameBox.getValue()
 					.toString()));
 			brandingTheme.setLogoAdded(true);
 		}
@@ -319,8 +313,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		measureLabel = new Label(messages.measure());
 		logoLabel = new Label(messages.logoAlignment());
 		leftRadioButton = new RadioButton(messages.logoType(), messages.left());
-		rightRadioButton = new RadioButton(messages.logoType(),
-				messages.right());
+		rightRadioButton = new RadioButton(messages.logoType(), messages
+				.right());
 		leftRadioButton.setChecked(true);
 		// taxesLabel = new Label(messages.showTaxesAs());
 		// exclusiveButton = new RadioButton(messages.taxType(), messages
@@ -364,7 +358,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		logoItem = new CheckBox(messages.showLogo());
 		logoItem.setChecked(true);
 		paypalEmailHtml = new HTML(accounterMessages.paypalEmailHtml());
-		paypalTextBox = new TextBox();
+		paypalTextBox = new TextItem();
+		paypalTextBox.textBox.setTitle(messages.paypalEmail());
 
 		checkBoxPanel = new VerticalPanel();
 		checkBoxPanel.add(taxNumItem);
@@ -375,7 +370,10 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		checkBoxPanel.add(addressItem);
 		checkBoxPanel.add(logoItem);
 		checkBoxPanel.add(paypalEmailHtml);
-		checkBoxPanel.add(paypalTextBox);
+
+		DynamicForm paypalForm = new DynamicForm();
+		paypalForm.setFields(paypalTextBox);
+		checkBoxPanel.add(paypalForm);
 
 		checkBoxPanel.setStyleName("rightBorder");
 		checkBoxPanel.setSpacing(5);
@@ -385,44 +383,31 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	private HorizontalPanel addTextBoxTableControl() {
 
-		pageSizeLabel = new Label(messages.pageSize());
-		topMarginLabel = new Label(messages.topMargin());
-		bottomMarginLabel = new Label(messages.bottomMargin());
-		addressPadLabel = new Label(messages.addressPadding());
-		fontLabel = new Label(messages.font());
-		fontSizeLabel = new Label(messages.fontSize());
-		// draftLabel = new Label(messages
-		// .draftInvoiceTitle());
-		// approvedLabel = new Label(messages
-		// .approvedInvoiceTitle());
-		overdueLabel = new Label(messages.overdueInvoiceTitle());
-		creditNoteLabel = new Label(messages.creditNoteTitle());
-		statementLabel = new Label(messages.statementTitle());
-
 		nameItem = new TextItem("Name");
 		nameItem.addStyleName("name-item");
-		topMarginBox = new TextBox();
-		topMarginBox.setText(messages.topMarginValue());
-		bottomMarginBox = new TextBox();
-		bottomMarginBox.setText(messages.bottomMarginValue());
-		addressPadBox = new TextBox();
-		addressPadBox.setText(messages.addressPaddingValue());
+		pageSizeLabel = new Label(messages.pageSize());
+		topMarginBox = new TextItem(messages.topMargin());
+		topMarginBox.setValue(messages.topMarginValue());
+		bottomMarginBox = new TextItem(messages.bottomMargin());
+		bottomMarginBox.setValue(messages.bottomMarginValue());
+		addressPadBox = new TextItem(messages.addressPadding());
+		addressPadBox.setValue(messages.addressPaddingValue());
 		// draftBox = new TextBox();
 		// draftBox.setText(messages
 		// .draftBoxValue());
 		// approvedBox = new TextBox();
 		// approvedBox.setText(messages
 		// .approvedValue());
-		overdueBox = new TextBox();
-		overdueBox.setText(messages.overdueValue());
-		creditNoteBox = new TextBox();
-		creditNoteBox.setText(messages.creditNoteValue());
-		statementBox = new TextBox();
-		statementBox.setText(messages.statement());
+		overdueBox = new TextItem(messages.overdueInvoiceTitle());
+		overdueBox.setValue(messages.overdueValue());
+		creditNoteBox = new TextItem(messages.creditNoteTitle());
+		creditNoteBox.setValue(messages.creditNoteValue());
+		statementBox = new TextItem(messages.statementTitle());
+		statementBox.setValue(messages.statement());
 
 		a4Button = new RadioButton(messages.pageType(), messages.a4());
-		usLetterButton = new RadioButton(messages.pageType(),
-				messages.usLetter());
+		usLetterButton = new RadioButton(messages.pageType(), messages
+				.usLetter());
 		a4Button.setChecked(true);
 
 		cmButton = new RadioButton(messages.measureType(), messages.cm());
@@ -440,7 +425,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// messages.point15()
 		};
 
-		fontNameBox = new SelectCombo(null);
+		fontNameBox = new SelectCombo(messages.font());
 		// fontNameBox.setWidth(100);
 		listOfFontNames = new ArrayList<String>();
 		for (int i = 0; i < fontNameArray.length; i++) {
@@ -459,7 +444,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 					}
 				});
 
-		fontSizeBox = new SelectCombo(null);
+		fontSizeBox = new SelectCombo(messages.fontSize());
 		fontSizeBox.setWidth(100);
 		listOfFontSizes = new ArrayList<String>();
 		for (int i = 0; i < fontSizeArray.length; i++) {
@@ -477,14 +462,14 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 					}
 				});
 
-		DynamicForm fontNameForm = new DynamicForm();
-		fontNameForm.setCellSpacing(0);
-		fontNameForm.setNumCols(1);
-		fontNameForm.setFields(fontNameBox);
-		DynamicForm fontSizeForm = new DynamicForm();
-		fontSizeForm.setCellSpacing(0);
-		fontSizeForm.setNumCols(1);
-		fontSizeForm.setFields(fontSizeBox);
+		// DynamicForm fontNameForm = new DynamicForm();
+		// fontNameForm.setCellSpacing(0);
+		// fontNameForm.setNumCols(1);
+		// fontNameForm.setFields(fontNameBox);
+		// DynamicForm fontSizeForm = new DynamicForm();
+		// fontSizeForm.setCellSpacing(0);
+		// fontSizeForm.setNumCols(1);
+		// fontSizeForm.setFields(fontSizeBox);
 
 		HorizontalPanel unitsPanel = new HorizontalPanel();
 		unitsPanel.add(cmButton);
@@ -504,8 +489,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		nameForm.setFields(nameItem);
 		nameForm.setWidth("110px");
 
-		addLogoLabel = new Label(messages.addLogo());
-		logoNameBox = new TextBox();
+		logoNameBox = new TextItem(messages.addLogo());
 		logoNameBox.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -513,7 +497,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 				ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
 					@Override
 					public void execute(ClientBrandingTheme value) {
-						logoNameBox.setText(value.getFileName());
+						logoNameBox.setValue(value.getFileName());
 					}
 				};
 				String[] filetypes = { "png", "jpg", "gif" };
@@ -524,37 +508,45 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		});
 
 		textBoxTable = new FlexTable();
+		DynamicForm dynamicForm = new DynamicForm();
+
 		textBoxTable.setWidget(0, 0, pageSizeLabel);
 		textBoxTable.setWidget(0, 1, a4Button);
 		textBoxTable.setWidget(1, 1, usLetterButton);
-		textBoxTable.setWidget(2, 0, topMarginLabel);
-		textBoxTable.setWidget(2, 1, topMarginBox);
-		textBoxTable.setWidget(3, 0, bottomMarginLabel);
-		textBoxTable.setWidget(3, 1, bottomMarginBox);
-		textBoxTable.setWidget(4, 0, addressPadLabel);
-		textBoxTable.setWidget(4, 1, addressPadBox);
-		textBoxTable.setWidget(5, 0, fontLabel);
-		textBoxTable.setWidget(5, 1, fontNameForm);
-		textBoxTable.setWidget(6, 0, fontSizeLabel);
-		textBoxTable.setWidget(6, 1, fontSizeForm);
-		// textBoxTable.setWidget(8, 0, draftLabel);
-		// textBoxTable.setWidget(8, 1, draftBox);
-		// textBoxTable.setWidget(9, 0, approvedLabel);
-		// textBoxTable.setWidget(9, 1, approvedBox);
-		textBoxTable.setWidget(7, 0, overdueLabel);
-		textBoxTable.setWidget(7, 1, overdueBox);
-		textBoxTable.setWidget(8, 0, creditNoteLabel);
-		textBoxTable.setWidget(8, 1, creditNoteBox);
-		textBoxTable.setWidget(9, 0, statementLabel);
-		textBoxTable.setWidget(9, 1, statementBox);
-		textBoxTable.setWidget(10, 0, addLogoLabel);
-		textBoxTable.setWidget(10, 1, logoNameBox);
+		dynamicForm.setNumCols(2);
+		dynamicForm.setFields(topMarginBox, bottomMarginBox, addressPadBox,
+				fontNameBox, fontSizeBox, overdueBox, creditNoteBox,
+				statementBox, logoNameBox);
+
+		// textBoxTable.setWidget(2, 1, );
+		// textBoxTable.setWidget(3, 0, bottomMarginLabel);
+		// textBoxTable.setWidget(3, 1, );
+		// textBoxTable.setWidget(4, 0, addressPadLabel);
+		// textBoxTable.setWidget(4, 1, );
+		// textBoxTable.setWidget(5, 0, fontLabel);
+		// textBoxTable.setWidget(5, 1, fontNameForm);
+		// textBoxTable.setWidget(6, 0, fontSizeLabel);
+		// textBoxTable.setWidget(6, 1, fontSizeForm);
+		// // textBoxTable.setWidget(8, 0, draftLabel);
+		// // textBoxTable.setWidget(8, 1, draftBox);
+		// // textBoxTable.setWidget(9, 0, approvedLabel);
+		// // textBoxTable.setWidget(9, 1, approvedBox);
+		// textBoxTable.setWidget(7, 0, overdueLabel);
+		// textBoxTable.setWidget(7, 1, );
+		// textBoxTable.setWidget(8, 0, creditNoteLabel);
+		// textBoxTable.setWidget(8, 1, );
+		// textBoxTable.setWidget(9, 0, statementLabel);
+		// textBoxTable.setWidget(9, 1, );
+		// textBoxTable.setWidget(10, 0, addLogoLabel);
+		// textBoxTable.setWidget(10, 1, );
 
 		HorizontalPanel textBoxHorizontalPanel = new HorizontalPanel();
 
 		VerticalPanel textBoxPanel = new VerticalPanel();
 		textBoxPanel.add(nameForm);
 		textBoxPanel.add(textBoxTable);
+		textBoxTable.setWidth("86%");
+		textBoxPanel.add(dynamicForm);
 		textBoxHorizontalPanel.add(textBoxPanel);
 		textBoxHorizontalPanel.add(measurePanel);
 		textBoxHorizontalPanel.setSpacing(10);
@@ -565,9 +557,9 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		ClientBrandingTheme brandingThemeByName = Accounter.getCompany().getBrandingThemeByName(data.getThemeName());
-		if (getData() == null
-				&& brandingThemeByName != null) {
+		ClientBrandingTheme brandingThemeByName = Accounter.getCompany()
+				.getBrandingThemeByName(data.getThemeName());
+		if (getData() == null && brandingThemeByName != null) {
 			result.addError("TakenTheme", "Theme Name already exists");
 		}
 		result.add(nameForm.validate());
@@ -595,14 +587,15 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	@Override
 	public void saveAndUpdateView() {
 		ClientBrandingTheme brandingTheme = getBrandingThemeObject();
-		ClientBrandingTheme brandingThemeByName = Accounter.getCompany().getBrandingThemeByName(brandingTheme.getThemeName());
-		if (brandingTheme == null){
+		ClientBrandingTheme brandingThemeByName = Accounter.getCompany()
+				.getBrandingThemeByName(brandingTheme.getThemeName());
+		if (brandingTheme == null) {
 			// TODO Do this checking in validation method
 		}
-//		if (!Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
-//				brandingTheme.getThemeName())) {
-//			// TODO Do this checking in validation method
-//		}
+		// if (!Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
+		// brandingTheme.getThemeName())) {
+		// // TODO Do this checking in validation method
+		// }
 		saveOrUpdate(brandingTheme);
 	}
 
