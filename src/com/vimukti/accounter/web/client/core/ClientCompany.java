@@ -2410,22 +2410,43 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public ClientVendorGroup getVendorGroupByName(String vendorGroupName) {
-		// TODO
+
+		for (ClientVendorGroup vendorGroup : vendorGroups) {
+			if (vendorGroup.getName().equalsIgnoreCase(vendorGroupName)) {
+				return vendorGroup;
+			}
+		}
 		return null;
 	}
 
-	public ClientCustomerGroup getClientCustomerGroupByName(String name) {
-		// TODO
+	public ClientCustomerGroup getClientCustomerGroupByName(
+			String custmerGroupname) {
+		for (ClientCustomerGroup customerGroup : customerGroups) {
+			if (customerGroup.getName().equalsIgnoreCase(custmerGroupname)) {
+				return customerGroup;
+			}
+		}
+		return null;
+
+	}
+
+	public ClientFixedAsset getClientFixedAssetByName(String fixedAssetName) {
+		for (ClientFixedAsset fixedAsset : fixedAssets) {
+			if (fixedAsset.getName().equalsIgnoreCase(fixedAssetName)) {
+				return fixedAsset;
+			}
+		}
 		return null;
 	}
 
-	public ClientFixedAsset getClientFixedAssetByName(String name) {
-		// TODO
-		return null;
-	}
-
-	public ClientBrandingTheme getClientBrandingThemeByName(String name) {
-		// TODO
+	public ClientBrandingTheme getClientBrandingThemeByName(
+			String brandingThemeName) {
+		for (ClientBrandingTheme clientBrandingTheme : brandingTheme) {
+			if (clientBrandingTheme.getName().equalsIgnoreCase(
+					brandingThemeName)) {
+				return clientBrandingTheme;
+			}
+		}
 		return null;
 	}
 
