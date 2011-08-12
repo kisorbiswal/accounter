@@ -197,7 +197,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	private void initTransactionsItems() {
 		if (transaction.getTransactionItems() != null)
-			customerTransactionGrid.setAllTransactions(transaction
+			customerTransactionGrid.setAllTransactionItems(transaction
 					.getTransactionItems());
 		if (transaction.getID() != 0) {
 			customerTransactionGrid.canDeleteRecord(false);
@@ -1028,7 +1028,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			}
 			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
 					.getTAXCode() > 0 ? getCustomer().getTAXCode()
-					: ztaxCodeid) : 0);
+					: ztaxCodeid) : ztaxCodeid);
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
 		} else if (item.equals(Accounter.constants().productItem())) {
@@ -1044,7 +1044,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				transactionItem
 						.setTaxCode(getCustomer() != null ? (getCustomer()
 								.getTAXCode() != 0 ? getCustomer().getTAXCode()
-								: staxCodeid) : 0);
+								: staxCodeid) : staxCodeid);
 			}
 		} else if (item.equals(Accounter.constants().serviceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
@@ -1066,7 +1066,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			transactionItem
 					.setTaxCode(getCustomer() != null ? (getCustomer()
 							.getTAXCode() > 0 ? getCustomer().getTAXCode()
-							: ztaxCodeid) : 0);
+							: ztaxCodeid) : ztaxCodeid);
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
 		}

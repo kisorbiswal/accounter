@@ -859,7 +859,7 @@ public class VendorBillView extends
 
 		selectedPurchaseOrder = purchaseOrder.getID();
 		vendorTransactionGrid.isItemRecieptView = true;
-		vendorTransactionGrid.setAllTransactions(itemsList);
+		vendorTransactionGrid.setAllTransactionItems(itemsList);
 	}
 
 	public void selectedItemReceipt(ClientItemReceipt itemReceipt) {
@@ -891,7 +891,7 @@ public class VendorBillView extends
 
 		selectedItemReceipt = itemReceipt.getID();
 
-		vendorTransactionGrid.setAllTransactions(itemsList);
+		vendorTransactionGrid.setAllTransactionItems(itemsList);
 	}
 
 	public List<DynamicForm> getForms() {

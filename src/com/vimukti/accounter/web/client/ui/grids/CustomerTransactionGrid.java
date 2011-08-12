@@ -347,7 +347,7 @@ public class CustomerTransactionGrid extends
 				.getTransactionObject();
 
 		if (transactionObject != null) {
-			setAllTransactions(transactionObject.getTransactionItems());
+			setAllTransactionItems(transactionObject.getTransactionItems());
 			if (transactionObject.getID() != 0) {
 				// ITS Edit Mode
 				// setShowMenu(false);
@@ -675,6 +675,8 @@ public class CustomerTransactionGrid extends
 								: view.getCustomer().getTAXCode() > 0 ? view
 										.getCustomer().getTAXCode()
 										: ztaxCodeid);
+			else
+				selectedObject.setTaxCode(ztaxCodeid);
 		}
 		updateTotals();
 		updateData(selectedObject);
@@ -982,7 +984,8 @@ public class CustomerTransactionGrid extends
 		return getRecords();
 	}
 
-	public void setAllTransactions(List<ClientTransactionItem> transactionItems) {
+	public void setAllTransactionItems(
+			List<ClientTransactionItem> transactionItems) {
 
 		// removeAllRecords();
 		for (int i = 0; i < transactionItems.size(); i++) {

@@ -800,7 +800,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
 		orderNumText.setValue(orderNum);
-		customerTransactionGrid.setAllTransactions(itemsList);
+		customerTransactionGrid.setAllTransactionItems(itemsList);
 
 		// if (selectedEstimate == null)
 		// return;
@@ -1286,7 +1286,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		selectedSalesOrder = salesOrder.getID();
 		orderNum = salesOrder.getNumber();
 		orderNumText.setValue(orderNum);
-		customerTransactionGrid.setAllTransactions(itemsList);
+		customerTransactionGrid.setAllTransactionItems(itemsList);
 		customerTransactionGrid.refreshVatValue();
 	}
 

@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
+import com.vimukti.accounter.web.client.ui.vendors.AbstractVendorTransactionView;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseView;
 
 public class VendorTransactionGrid extends
@@ -78,7 +79,7 @@ public class VendorTransactionGrid extends
 				.getTransactionObject();
 
 		if (transactionObject != null) {
-			setAllTransactions(transactionObject.getTransactionItems());
+			setAllTransactionItems(transactionObject.getTransactionItems());
 			if (transactionObject.getID() != 0) {
 				// ITS Edit Mode
 				// setShowMenu(false);
@@ -404,17 +405,32 @@ public class VendorTransactionGrid extends
 		for (ClientTAXCode taxCode : taxCodes) {
 			if (taxCode.getName().equals("S")) {
 				ztaxCodeid = taxCode.getID();
+				break;
 			}
 		}
-		CreditCardExpenseView cardExpenseView = (CreditCardExpenseView) transactionView;
-		ClientVendor selectedVendor = cardExpenseView.getSelectedVendor();
-		if (transactionView.getTransactionObject() == null
-				&& selectedVendor != null)
-			selectedObject
-					.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
-							.getTaxCode()
-							: selectedVendor.getTAXCode() > 0 ? selectedVendor
-									.getTAXCode() : ztaxCodeid);
+		if (transactionView instanceof CreditCardExpenseView) {
+			CreditCardExpenseView cardExpenseView = (CreditCardExpenseView) transactionView;
+			ClientVendor selectedVendor = cardExpenseView.getSelectedVendor();
+			if (transactionView.getTransactionObject() == null
+					&& selectedVendor != null)
+				selectedObject
+						.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
+								.getTaxCode()
+								: selectedVendor.getTAXCode() > 0 ? selectedVendor
+										.getTAXCode() : ztaxCodeid);
+		} else {
+			AbstractVendorTransactionView<?> view = (AbstractVendorTransactionView<?>) transactionView;
+			ClientVendor selectedVendor = view.getVendor();
+			if (transactionView.getTransactionObject() == null
+					&& selectedVendor != null)
+				selectedObject
+						.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
+								.getTaxCode()
+								: selectedVendor.getTAXCode() > 0 ? selectedVendor
+										.getTAXCode() : ztaxCodeid);
+			else
+				selectedObject.setTaxCode(ztaxCodeid);
+		}
 
 		updateTotals();
 		updateData(selectedObject);
@@ -486,7 +502,8 @@ public class VendorTransactionGrid extends
 	// }
 
 	@Override
-	public void setAllTransactions(List<ClientTransactionItem> transactionItems) {
+	public void setAllTransactionItems(
+			List<ClientTransactionItem> transactionItems) {
 		// removeAllRecords();
 		for (int i = 0; i < transactionItems.size(); i++) {
 			CustomCombo<?> combo = null;

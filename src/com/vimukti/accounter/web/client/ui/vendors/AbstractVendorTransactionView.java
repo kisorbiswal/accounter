@@ -120,7 +120,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		initVendors();
 		initTransactionTotalNonEditableItem();
 		vendorTransactionGrid.removeAllRecords();
-		vendorTransactionGrid.setAllTransactions(transaction
+		vendorTransactionGrid.setAllTransactionItems(transaction
 				.getTransactionItems());
 
 	}
@@ -226,7 +226,6 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			return;
 		this.contacts = vendor.getContacts();
 
-		// if (transactionObject == null)
 		this.contact = vendor.getPrimaryContact();
 
 		if (contacts != null) {
@@ -239,8 +238,6 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				contactCombo.setComboItem(contact);
 				contactSelected(contact);
 
-			} else {
-				// contactCombo.setValue("");
 			}
 
 		} else {
@@ -604,7 +601,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				// transactionItem.setVatCode(zvatCodeid);
 				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
 						.getTAXCode() > 0 ? getVendor().getTAXCode()
-						: staxCodeid) : 0);
+						: staxCodeid) : staxCodeid);
 			}
 		} else if (menuItem.equals(Accounter.constants().productItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
@@ -618,7 +615,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				}
 				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
 						.getTAXCode() > 0 ? getVendor().getTAXCode()
-						: staxCodeid) : 0);
+						: staxCodeid) : staxCodeid);
 			}
 		} else if (menuItem.equals(Accounter.constants().serviceItem())) {
 			transactionItem.setType(ClientTransactionItem.TYPE_SERVICE);
@@ -632,7 +629,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				}
 				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
 						.getTAXCode() != 0 ? getVendor().getTAXCode()
-						: ztaxCodeid) : 0);
+						: ztaxCodeid) : ztaxCodeid);
 			} else {
 				for (ClientTAXCode taxCode : taxCodes) {
 					if (taxCode.getName().equals("Z")) {

@@ -61,7 +61,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 		case 4:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 5:
-			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
+			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 6:
 			return ListGrid.COLUMN_TYPE_DECIMAL_TEXTBOX;
 		case 7:
@@ -84,6 +84,48 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 
 	@Override
 	protected int getCellWidth(int index) {
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			return getUKGridCellWidth(index);
+		} else {
+			return getUSGridCellWidth(index);
+		}
+	}
+
+	private int getUKGridCellWidth(int index) {
+
+		if (index == 0 || index == 9)
+			if (UIUtils.isMSIEBrowser())
+				return 25;
+			else
+				return 15;
+		else if (index == 2 || index == 6)
+			return 90;
+		else if (index == 4 || index == 5)
+			return 100;
+		else if (index == 3)
+			return 80;
+		else if (index == 1) {
+			if (UIUtils.isMSIEBrowser()) {
+				return 90;
+			} else {
+				return 100;
+			}
+		} else if (index == 8)
+			return 80;
+		else if (index == 7) {
+			if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
+				if (UIUtils.isMSIEBrowser())
+					return 25;
+				else
+					return 15;
+			}
+			return 80;
+		}
+		return -1;
+
+	}
+
+	private int getUSGridCellWidth(int index) {
 		if (index == 0 || index == 8)
 			if (UIUtils.isMSIEBrowser())
 				return 25;
@@ -91,6 +133,13 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 				return 15;
 		if (index == 1) {
 			return 200;
+		} else if (index == 7) {
+			if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
+				if (UIUtils.isMSIEBrowser())
+					return 25;
+				else
+					return 15;
+			}
 		}
 		return -1;
 	}
@@ -133,7 +182,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 		case 6:
 			return item.getInvoiced() + "";
 		case 7:
-			if (disable) {
+			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 					return getTAXCodeName(item.getTaxCode());
 				else
@@ -160,31 +209,27 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 		switch (obj.getType()) {
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			switch (col) {
-			case 5:
-				return false;
 			case 6:
-				return true;
-			case 7:
+				return false;
+			case 8:
 				return false;
 			default:
 				return true;
 			}
 		case ClientTransactionItem.TYPE_ITEM:
 			switch (col) {
-			case 5:
-				return false;
 			case 6:
 				return false;
-			case 7:
+			case 8:
 				return false;
 			default:
 				return true;
 			}
 		case ClientTransactionItem.TYPE_SERVICE:
 			switch (col) {
-			case 5:
+			case 6:
 				return false;
-			case 7:
+			case 8:
 				return false;
 
 			default:

@@ -211,7 +211,7 @@ public class TaxAgencyTransactionGrid extends
 		return totallinetotal != null ? totallinetotal.doubleValue() : 0.0d;
 	}
 
-	public void setAllTransactions(List<ClientTransactionItem> items) {
+	public void setAllTransactionItems(List<ClientTransactionItem> items) {
 		addRecords(items);
 		updateTotals();
 	}

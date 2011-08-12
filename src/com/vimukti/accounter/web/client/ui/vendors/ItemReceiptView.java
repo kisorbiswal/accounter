@@ -465,7 +465,7 @@ public class ItemReceiptView extends
 
 			selectedPurchaseOrder = purchaseOrder.getID();
 			vendorTransactionGrid.isItemRecieptView = true;
-			vendorTransactionGrid.setAllTransactions(itemsList);
+			vendorTransactionGrid.setAllTransactionItems(itemsList);
 		}
 
 	}

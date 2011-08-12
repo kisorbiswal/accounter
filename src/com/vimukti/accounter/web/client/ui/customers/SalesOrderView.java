@@ -976,7 +976,7 @@ public class SalesOrderView extends
 		}
 		selectedEstimateId = selectedEstimate.getID();
 		orderNum = selectedEstimate.getNumber();
-		customerTransactionGrid.setAllTransactions(itemsList);
+		customerTransactionGrid.setAllTransactionItems(itemsList);
 		// if (selectedEstimate == null)
 		// return;
 		//

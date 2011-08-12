@@ -85,7 +85,7 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 		return 0.0;
 	}
 
-	public void setAllTransactions(List<ClientTransactionItem> transactionItems) {
+	public void setAllTransactionItems(List<ClientTransactionItem> transactionItems) {
 
 	}
 

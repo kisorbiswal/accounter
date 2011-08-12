@@ -5415,8 +5415,9 @@ public class FinanceTool implements IFinanceDAOService {
 					: ((Double) object[10]).doubleValue());
 			transactionHistory.setWriteOff(object[11] == null ? 0
 					: ((Double) object[11]).doubleValue());
-			transactionHistory.setTransactionId(((BigInteger) object[12]).longValue());
-			
+			transactionHistory.setTransactionId(((BigInteger) object[12])
+					.longValue());
+
 			transactionHistory
 					.setBeginningBalance((object[13] != null ? ((Double) object[13])
 							.doubleValue() : 0.0));
@@ -8421,15 +8422,15 @@ public class FinanceTool implements IFinanceDAOService {
 		while ((iterator).hasNext()) {
 			OpenAndClosedOrders openAndClosedOrder = new OpenAndClosedOrders();
 			object = (Object[]) iterator.next();
-			openAndClosedOrder.setTransactionID((Long) object[0]);
+			openAndClosedOrder.setTransactionID(((BigInteger) object[0]).longValue());
 			openAndClosedOrder.setTransactionType((Integer) object[1]);
 			openAndClosedOrder.setTransactionDate(new ClientFinanceDate(
 					((BigInteger) object[2]).longValue()));
 			openAndClosedOrder.setVendorOrCustomerName((String) object[3]);
-			openAndClosedOrder
-					.setQuantity(object[4] != null ? ((BigDecimal) object[4])
-							.intValue() : 0);
-			openAndClosedOrder.setAmount(object[5] != null ? (Double) object[5]
+			// openAndClosedOrder
+			// .setQuantity(object[4] != null ? ((BigDecimal) object[4])
+			// .intValue() : 0);
+			openAndClosedOrder.setAmount(object[4] != null ? (Double) object[4]
 					: 0.0);
 			queryResult.add(openAndClosedOrder);
 		}
