@@ -30,7 +30,10 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
+import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -44,7 +47,7 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.TransactionPayBillGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
-public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
+public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	AmountField amtText;
 	AmountField endBalText;
@@ -65,7 +68,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	private ClientFinanceDate dueDateOnOrBefore;
 	private DynamicForm payForm, filterForm;
 	private int size;
-	public double transactionTotal = 0.0d;
+//	public double transactionTotal = 0.0d;
 	public double totalAmountDue = 0.0d;
 	public double totalCashDiscount = 0.0d;
 	public double totalOriginalAmount = 0.0d;
@@ -74,6 +77,13 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 	private ArrayList<DynamicForm> listforms;
 	private VerticalPanel gridLayout;
 
+	//Upate
+	protected PayFromAccountsCombo payFromCombo;
+	protected ClientAccount payFromAccount;
+	protected ClientVendor vendor;
+	protected List<ClientVendor> vendors;
+	protected VendorCombo vendorCombo;
+	
 	public PayBillView() {
 		super(ClientTransaction.TYPE_PAY_BILL, VENDOR_TRANSACTION_GRID);
 	}
@@ -100,7 +110,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		for (ClientTransactionPayBill rec : selectedRecords) {
 			toBeSetAmount += rec.getPayment();
 		}
-		if (this.transaction == null) {
+		if (this.transaction != null) {
 			amtText.setAmount(toBeSetAmount);
 
 			if (payFromAccount != null) {
@@ -208,7 +218,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		gridView.setPaymentView(this);
 		gridView.init();
 		gridView.setHeight("200px");
-		gridView.setDisabled(isEdit);
+		gridView.setDisabled(isEdit);		
 	}
 
 	/*
@@ -555,8 +565,7 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		this.unUsedCreditsText.setAmount(totalCredits);
 
 	}
-
-	@Override
+	
 	protected void vendorSelected(final ClientVendor vendor) {
 
 		if (vendor == null) {
@@ -616,18 +625,19 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 
 	}
 
-	@Override
 	protected void accountSelected(ClientAccount account) {
 
-		super.accountSelected(account);
+		if (account == null)
+			return;
+		this.payFromAccount = account;
 
 		adjustAmountAndEndingBalance();
 	}
 
-	@Override
-	protected void initMemoAndReference() {
-		// NOTHING TO DO.
-	}
+//	@Override
+//	protected void initMemoAndReference() {
+//		// NOTHING TO DO.
+//	}
 
 	@Override
 	protected void initTransactionViewData() {
@@ -658,7 +668,13 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 			initTransactionTotalNonEditableItem();
 			memoTextAreaItem.setDisabled(true);
 		}
-		super.initTransactionViewData();
+//		super.initTransactionViewData();
+		initVendors();
+		initTransactionTotalNonEditableItem();
+		gridView.removeAllRecords();
+		gridView.setAllTransactions(transaction
+				.getTransactionItems());
+		
 		initPayFromAccounts();
 	}
 
@@ -676,7 +692,6 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		}
 	}
 
-	@Override
 	protected void initTransactionTotalNonEditableItem() {
 		if (transaction == null)
 			return;
@@ -942,7 +957,6 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		// NOTHING TO DO.
 	}
 
-	@Override
 	protected Double getTransactionTotal() {
 		return this.amtText.getAmount();
 	}
@@ -952,9 +966,85 @@ public class PayBillView extends AbstractVendorTransactionView<ClientPayBill> {
 		return Accounter.constants().payBills();
 	}
 
-	@Override
-	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
+	//Update methods
+	
+	public ClientVendor getVendor() {
+		return vendor;
+	}
+	public void setVendor(ClientVendor vendor) {
+		this.vendor = vendor;
+	}
 
+	public VendorCombo createVendorComboItem(String title) {
+
+		VendorCombo vendorCombo = new VendorCombo(title != null ? title
+				: UIUtils.getVendorString(Accounter.constants().supplier(),
+						Accounter.constants().vendor()));
+		vendorCombo.setHelpInformation(true);
+		vendorCombo.setRequired(true);
+		vendorCombo.setDisabled(isEdit);
+		// vendorCombo.setShowDisabled(false);
+		vendorCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientVendor selectItem) {
+						vendorSelected(selectItem);
+
+					}
+
+				});
+
+		// vendorCombo.setShowDisabled(false);
+		return vendorCombo;
+
+	}
+	
+	public PayFromAccountsCombo createPayFromCombo(String title) {
+
+		PayFromAccountsCombo payFromCombo = new PayFromAccountsCombo(title);
+		payFromCombo.setHelpInformation(true);
+		payFromCombo.setRequired(true);
+		payFromCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+
+					public void selectedComboBoxItem(ClientAccount selectItem) {
+						accountSelected(selectItem);
+						// selectedAccount = (Account) selectItem;
+						// adjustBalance();
+
+					}
+
+				});
+		payFromCombo.setDisabled(isEdit);
+		// payFromCombo.setShowDisabled(false);
+		formItems.add(payFromCombo);
+		return payFromCombo;
+	}	
+
+
+	protected void initVendors() {
+
+		if (vendorCombo == null)
+			return;
+		List<ClientVendor> result = getCompany().getActiveVendors();
+		vendors = result;
+
+		vendorCombo.initCombo(result);
+		vendorCombo.setDisabled(isEdit);
+
+		if (getVendor() != null)
+			vendorCombo.setComboItem(getVendor());
+	}
+	protected void initPayFromAccounts() {
+		// getPayFromAccounts();
+		// payFromCombo.initCombo(payFromAccounts);
+		// payFromCombo.setAccountTypes(UIUtils
+		// .getOptionsByType(AccountCombo.payFromCombo));
+		payFromCombo.setAccounts();
+		payFromCombo.setDisabled(isEdit);
+		payFromAccount = payFromCombo.getSelectedValue();
+		if (payFromAccount != null)
+			payFromCombo.setComboItem(payFromAccount);
 	}
 }
