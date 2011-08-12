@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -198,10 +199,20 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		ValidationResult result = new ValidationResult();
 		String name = vendorNameText.getValue().toString();
-		if (isObjectExist(data.getID(), name)) {
+
+		ClientVendor vendorByName = company.getVendorByName(name);
+
+		ClientCustomer customerByName = company.getCustomerByName(name);
+
+		if (vendorByName != null || customerByName != null
+				|| vendorByName.getID() == this.getData().getID()
+				|| customerByName.getDate() == this.getData().getID())
+
+		{
 			result.addError(vendorNameText, Accounter.constants()
 					.alreadyExist());
 		}
+
 		result.add(vendorForm.validate());
 
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
