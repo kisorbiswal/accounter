@@ -262,7 +262,10 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		// TODO Auto-generated method stub
 
 	}
-
+	protected <D extends IAccounterCore> void deleteUserObject(D data) {
+		Accounter.deleteUser(this, data);
+	}
+	
 	protected <D extends IAccounterCore> void deleteObject(D data) {
 		Accounter.deleteObject(this, data);
 	}
