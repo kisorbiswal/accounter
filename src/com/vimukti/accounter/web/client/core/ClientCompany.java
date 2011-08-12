@@ -2408,21 +2408,24 @@ public class ClientCompany implements IAccounterCore {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	public ClientVendorGroup getVendorGroupByName(String vendorGroupName){
-		//TODO
+
+	public ClientVendorGroup getVendorGroupByName(String vendorGroupName) {
+		// TODO
 		return null;
 	}
-	public ClientCustomerGroup getClientCustomerGroupByName(String name){
-		//TODO
+
+	public ClientCustomerGroup getClientCustomerGroupByName(String name) {
+		// TODO
 		return null;
 	}
-	public ClientFixedAsset getClientFixedAssetByName(String name){
-		//TODO
+
+	public ClientFixedAsset getClientFixedAssetByName(String name) {
+		// TODO
 		return null;
 	}
-	public ClientBrandingTheme getClientBrandingThemeByName(String name){
-		//TODO
+
+	public ClientBrandingTheme getClientBrandingThemeByName(String name) {
+		// TODO
 		return null;
 	}
 
@@ -2434,5 +2437,24 @@ public class ClientCompany implements IAccounterCore {
 	public ClientSalesPerson getSalesPersonByName(String name) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public ClientVendorGroup getVendorGroupsByName(String value) {
+		return null;
+
+	}
+
+	public ClientTAXGroup getVatGroupsbyname(String name) {
+		return null;
+
+	}
+
+	public ClientTAXAgency getTaxAgenciesByName(String name) {
+		return null;
+	}
+
+	public ClientTAXCode getTAXCodeByName(String name) {
+		return null;
+
 	}
 }
