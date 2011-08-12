@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -37,28 +39,24 @@ public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 
 	private void runAsync(final Object data, final boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
+			@Override
+			public void onSuccess() {
+				view = TAXAgencyView.getInstance();
 
-				try {
-
-					view = TAXAgencyView.getInstance();
-
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, NewTAXAgencyAction.this);
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewTAXAgencyAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Tax Agencies..", t);
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
 			}
 		});
-
 	}
 
 	public ImageResource getBigImage() {

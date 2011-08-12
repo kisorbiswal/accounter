@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -48,37 +50,32 @@ public class NewItemAction extends Action<ClientItem> {
 	}
 
 	public void runAsync(final ClientItem data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed To Load Item", t);
+			@Override
+			public void onSuccess() {
+				if (type == 0) {
+					SelectItemTypeDialog dialog = new SelectItemTypeDialog(
+							forCustomer);
+					dialog.setDependent(isDependent);
+					dialog.show();
+
+				} else {
+
+					ItemView view = new ItemView(data, type, forCustomer);
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, NewItemAction.this);
+				}
 
 			}
 
-			public void onCreated() {
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
-				try {
-
-					if (type == 0) {
-						SelectItemTypeDialog dialog = new SelectItemTypeDialog(
-								forCustomer);
-						dialog.setDependent(isDependent);
-						dialog.show();
-
-					} else {
-
-						ItemView view = new ItemView(data, type, forCustomer);
-						MainFinanceWindow.getViewManager().showView(view, data,
-								isDependent, NewItemAction.this);
-					}
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
 			}
 		});
-
 	}
 
 	public ImageResource getBigImage() {

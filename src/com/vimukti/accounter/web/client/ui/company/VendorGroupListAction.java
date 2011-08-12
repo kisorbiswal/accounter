@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -20,25 +22,21 @@ public class VendorGroupListAction extends Action {
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed To Load Vendor Group List", t);
-			}
-
-			public void onCreated() {
-				try {
-
-					VendorGroupListDialog dialog = new VendorGroupListDialog();
-					dialog.show();
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
+			@Override
+			public void onSuccess() {
+				VendorGroupListDialog dialog = new VendorGroupListDialog();
+				dialog.show();
 
 			}
 
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
+			}
 		});
 	}
 

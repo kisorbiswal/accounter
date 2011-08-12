@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShippingMethodListDialog;
@@ -24,25 +26,21 @@ public class ShippingMethodListAction extends Action {
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed To Load Shipping Methods", t);
+			@Override
+			public void onSuccess() {
+				ShippingMethodListDialog dialog = new ShippingMethodListDialog(
+						Accounter.constants().manageShippingMethodList(),
+						Accounter.constants().toAddShippingMethod());
+				dialog.show();
 
 			}
 
-			public void onCreated() {
-				try {
-
-					ShippingMethodListDialog dialog = new ShippingMethodListDialog(
-							Accounter.constants().manageShippingMethodList(),
-							Accounter.constants().toAddShippingMethod());
-					dialog.show();
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});

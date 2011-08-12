@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -31,27 +33,25 @@ public class ChartOfAccountsAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
+			@Override
+			public void onSuccess() {
+				if (accountType == 0)
+					view = ChartOfAccountsView.getInstance();
+				else
+					view = new ChartOfAccountsView(accountType);
 
-				try {
-					if (accountType == 0)
-						view = ChartOfAccountsView.getInstance();
-					else
-						view = new ChartOfAccountsView(accountType);
-
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, ChartOfAccountsAction.this);
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, ChartOfAccountsAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Chart of Accounts ", t);
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
 			}
 		});
 	}

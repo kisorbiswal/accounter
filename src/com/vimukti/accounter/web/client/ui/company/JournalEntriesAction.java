@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -27,21 +29,21 @@ public class JournalEntriesAction extends Action {
 	}
 
 	private void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-				try {
-					JournalEntryListView view = new JournalEntryListView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, JournalEntriesAction.this);
+			@Override
+			public void onSuccess() {
+				JournalEntryListView view = new JournalEntryListView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, JournalEntriesAction.this);
 
-				} catch (Throwable t) {
-					onCreateFailed(t);
-				}
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load the Journal Entries", t);
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
 			}
 		});
 	}

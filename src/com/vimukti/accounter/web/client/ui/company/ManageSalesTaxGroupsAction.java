@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -26,38 +28,23 @@ public class ManageSalesTaxGroupsAction extends Action<ClientTAXGroup> {
 	}
 
 	private void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed To Load Sales Tax Code Dialog",
-				// t);
+			@Override
+			public void onSuccess() {
+				view = new SalesTaxGroupListView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, ManageSalesTaxGroupsAction.this);
 
 			}
 
-			public void onCreated() {
-				try {
-
-					// SalesTaxGroupListDialog dialog = new
-					// SalesTaxGroupListDialog(
-					// FinanceApplication.constants()
-					// .manageSalesTaxGroup(), FinanceApplication
-					// .constants().toAddTaxGroup());
-					// ViewManager viewManager = ViewManager.getInstance();
-					// viewManager.setCurrentDialog(dialog);
-					view = new SalesTaxGroupListView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, ManageSalesTaxGroupsAction.this);
-					// dialog.addCallBack(getViewConfiguration().getCallback());
-					// dialog.show();
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});
-
 	}
 
 	public ImageResource getBigImage() {

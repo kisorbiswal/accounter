@@ -3,6 +3,8 @@
  */
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FinanceLogView;
@@ -34,10 +36,10 @@ public class FinanceLogAction extends Action {
 		return null;
 	}
 
-//	@Override
-//	public ParentCanvas getView() {
-//		return view;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return view;
+	// }
 
 	@Override
 	public void run() {
@@ -45,27 +47,23 @@ public class FinanceLogAction extends Action {
 	}
 
 	private void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed To Load Manage Sales Tax Codes View",
-				// t);
+			@Override
+			public void onSuccess() {
+				view = new FinanceLogView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, FinanceLogAction.this);
 
 			}
 
-			public void onCreated() {
-				try {
-					view = new FinanceLogView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, FinanceLogAction.this);
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});
-
 	}
 
 	@Override

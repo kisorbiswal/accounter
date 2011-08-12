@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CreditRatingListDialog;
@@ -20,29 +22,24 @@ public class CreditRatingListAction extends Action {
 
 	@Override
 	public void run() {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed To Load Credit rating", t);
+			@Override
+			public void onSuccess() {
+				CreditRatingListDialog dialog = new CreditRatingListDialog(
+						Accounter.constants().creditRatingList(), Accounter
+								.constants().toAddCreditRating());
+				dialog.show();
 
 			}
 
-			public void onCreated() {
-				try {
-
-					CreditRatingListDialog dialog = new CreditRatingListDialog(
-							Accounter.constants().creditRatingList(), Accounter
-									.constants().toAddCreditRating());
-					dialog.show();
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});
-
 	}
 
 	public ImageResource getBigImage() {

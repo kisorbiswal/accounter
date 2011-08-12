@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -28,32 +30,20 @@ public class ManageItemTaxAction extends Action {
 
 	private void runAsync(Object data, Boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed To Load Item Tax", t);
-
-			}
-
-			public void onCreated() {
-				try {
-					//
-					// ManageItemTaxDialog dialog = new ManageItemTaxDialog(
-					// "Item Tax Code",
-					// "To add an item tax, click Add. To change an Item Tax, select the Item Tax, and click Edit or Remove."
-					// );
-					// dialog.addCallBack(getViewConfiguration().getCallback());
-					// dialog.show();
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
+			@Override
+			public void onSuccess() {
+				// TODO Auto-generated method stub
 
 			}
 
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
+
+			}
 		});
-
 	}
 
 	public ImageResource getBigImage() {

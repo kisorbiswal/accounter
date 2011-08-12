@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -22,33 +24,30 @@ public class PaySalesTaxAction extends Action {
 	}
 
 	private void runAsync(final Object data, Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to load PaySalesTax..", t);
-				return;
-			}
-
-			public void onCreated() {
-
-				try {
-					if (Accounter.getCompany().getAccountingType() == 1) {
-						MainFinanceWindow.getViewManager().showView(
-								new VATPaymentView(), data, false,
-								PaySalesTaxAction.this);
-					} else {
-						// UIUtils.setCanvas(new PaySalesTaxView(),
-						// getViewConfiguration());
-						MainFinanceWindow.getViewManager().showView(
-								new PaySalesTaxView(), data, false,
-								PaySalesTaxAction.this);
-					}
-				} catch (Throwable t) {
-					onCreateFailed(t);
+			@Override
+			public void onSuccess() {
+				if (Accounter.getCompany().getAccountingType() == 1) {
+					MainFinanceWindow.getViewManager().showView(
+							new VATPaymentView(), data, false,
+							PaySalesTaxAction.this);
+				} else {
+					// UIUtils.setCanvas(new PaySalesTaxView(),
+					// getViewConfiguration());
+					MainFinanceWindow.getViewManager().showView(
+							new PaySalesTaxView(), data, false,
+							PaySalesTaxAction.this);
 				}
 
 			}
 
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
+			}
 		});
 	}
 

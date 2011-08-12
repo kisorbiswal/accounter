@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ItemListView;
@@ -26,30 +28,23 @@ public class ItemsAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-
-				// //UIUtils.logError("Failed to load Items List", t);
-			}
-
-			public void onCreated() {
-
-				try {
-
-					ItemListView view = new ItemListView();
-					view.setCatageoryType(getCatagory());
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, ItemsAction.this);
-					// UIUtils.setCanvas(view, getViewConfiguration());
-
-				} catch (Throwable t) {
-
-					onCreateFailed(t);
-				}
+			@Override
+			public void onSuccess() {
+				ItemListView view = new ItemListView();
+				view.setCatageoryType(getCatagory());
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, ItemsAction.this);
 
 			}
 
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
+			}
 		});
 	}
 
