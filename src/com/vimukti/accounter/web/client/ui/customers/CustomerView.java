@@ -236,7 +236,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		List<ClientTAXCode> taxcodes = company.getActiveTaxCodes();
 		if (taxcodes != null)
 			custTaxCode.initCombo(taxcodes);
-		if (data != null && data.getTAXCode() != 0)
+		if (data != null && data.getTAXCode() > 0)
 			custTaxCode.setComboItem(company.getTAXCode(data.getTAXCode()));
 	}
 

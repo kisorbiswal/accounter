@@ -672,7 +672,7 @@ public class CustomerTransactionGrid extends
 				selectedObject
 						.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
 								.getTaxCode()
-								: view.getCustomer().getTAXCode() != 0 ? view
+								: view.getCustomer().getTAXCode() > 0 ? view
 										.getCustomer().getTAXCode()
 										: ztaxCodeid);
 		}

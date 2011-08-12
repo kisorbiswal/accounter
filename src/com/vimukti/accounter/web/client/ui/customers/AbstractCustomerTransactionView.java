@@ -1027,7 +1027,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				}
 			}
 			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
-					.getTAXCode() != 0 ? getCustomer().getTAXCode()
+					.getTAXCode() > 0 ? getCustomer().getTAXCode()
 					: ztaxCodeid) : 0);
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
@@ -1063,9 +1063,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					}
 				}
 			}
-			transactionItem.setTaxCode(getCustomer() != null ? (getCustomer()
-					.getTAXCode() != 0 ? getCustomer().getTAXCode()
-					: ztaxCodeid) : 0);
+			transactionItem
+					.setTaxCode(getCustomer() != null ? (getCustomer()
+							.getTAXCode() > 0 ? getCustomer().getTAXCode()
+							: ztaxCodeid) : 0);
 			// if (zvatCodeid != null)
 			// transactionItem.setVatCode(zvatCodeid);
 		}

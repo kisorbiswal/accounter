@@ -603,7 +603,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				// if (zvatCodeid != null)
 				// transactionItem.setVatCode(zvatCodeid);
 				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-						.getTAXCode() != 0 ? getVendor().getTAXCode()
+						.getTAXCode() > 0 ? getVendor().getTAXCode()
 						: staxCodeid) : 0);
 			}
 		} else if (menuItem.equals(Accounter.constants().productItem())) {
@@ -617,7 +617,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 					}
 				}
 				transactionItem.setTaxCode(getVendor() != null ? (getVendor()
-						.getTAXCode() != 0 ? getVendor().getTAXCode()
+						.getTAXCode() > 0 ? getVendor().getTAXCode()
 						: staxCodeid) : 0);
 			}
 		} else if (menuItem.equals(Accounter.constants().serviceItem())) {

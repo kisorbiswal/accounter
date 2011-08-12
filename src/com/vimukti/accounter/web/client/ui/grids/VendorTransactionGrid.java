@@ -413,7 +413,7 @@ public class VendorTransactionGrid extends
 			selectedObject
 					.setTaxCode(selectedObject.getTaxCode() != 0 ? selectedObject
 							.getTaxCode()
-							: selectedVendor.getTAXCode() != 0 ? selectedVendor
+							: selectedVendor.getTAXCode() > 0 ? selectedVendor
 									.getTAXCode() : ztaxCodeid);
 
 		updateTotals();

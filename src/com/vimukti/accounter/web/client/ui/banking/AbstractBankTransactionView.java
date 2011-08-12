@@ -369,8 +369,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 				// transactionItem.setVatCode(zvatCodeid);
 				transactionItem
 						.setTaxCode(selectedVendor != null ? (selectedVendor
-								.getTAXCode() != 0 ? selectedVendor
-								.getTAXCode() : svatCodeid) : 0);
+								.getTAXCode() > 0 ? selectedVendor.getTAXCode()
+								: svatCodeid) : 0);
 			}
 
 		} else if (menuItem.equals(Accounter.constants().productItem())) {
