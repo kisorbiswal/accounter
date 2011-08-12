@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -18,23 +16,18 @@ public class SalesClosedOrderAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			@Override
-			public void onSuccess() {
-				AbstractReportView<OpenAndClosedOrders> report = new SalesClosedOrderReport();
-				MainFinanceWindow.getViewManager().showView(report, data,
-						isDependent, SalesClosedOrderAction.this);
+			public void onCreated() {
 
-			}
-
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
+					AbstractReportView<OpenAndClosedOrders> report = new SalesClosedOrderReport();
+					MainFinanceWindow.getViewManager().showView(report, data,
+							isDependent, SalesClosedOrderAction.this);
 
 			}
+
 		});
+
 	}
 
 	// @Override
