@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -363,9 +362,10 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		}
 		result.add(salesPersonForm.validate());
 		String name = employeeNameText.getValue().toString();
-		if (!(isEdit ? (data.getName().equalsIgnoreCase(name) ? true : (Utility
-				.isObjectExist(getCompany().getSalesPersons(), name) ? false
-				: true)) : true)) {
+		ClientSalesPerson clientSalesPerson = getCompany()
+				.getSalesPersonByName(name);
+		if (!(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
+				: clientSalesPerson == null) : true)) {
 			result.addError(employeeNameText, Accounter.constants()
 					.alreadyExist());
 		}
