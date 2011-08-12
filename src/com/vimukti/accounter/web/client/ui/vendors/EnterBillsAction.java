@@ -1,12 +1,12 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * 
@@ -33,24 +33,23 @@ public class EnterBillsAction extends Action {
 
 	private void runAsync(final Object data, final boolean isEditable) {
 
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			@Override
-			public void onSuccess() {
-				
+			 
+			public void onCreated() {
+
 				view = VendorBillView.getInstance();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isEditable, EnterBillsAction.this);
+
+
+					// UIUtils.setCanvas(view, getViewConfiguration());
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isEditable, EnterBillsAction.this);
+
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
+
 	}
 
 	// @Override

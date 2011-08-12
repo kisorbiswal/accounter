@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -34,25 +32,26 @@ public class BillsAction extends Action {
 
 	@Override
 	public void run() {
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			@Override
-			public void onSuccess() {
+		 
+
+			public void onCreated() {
 				if (viewType == null)
 					view = BillListView.getInstance();
 				else
 					view = new BillListView(viewType);
-				MainFinanceWindow.getViewManager().showView(view, null, false,
-						BillsAction.this);
+
+				 
+
+					// UIUtils.setCanvas(view, getViewConfiguration());
+					MainFinanceWindow.getViewManager().showView(view, null,
+							false, BillsAction.this);
+
+				 
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 	}
 

@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -33,23 +31,22 @@ public class PurchaseOrderAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			@Override
-			public void onSuccess() {
+			public void onCreated() {
+
 				view = new PurchaseOrderView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, PurchaseOrderAction.this);
+				// / UIUtils.setCanvas(view, getViewConfiguration());
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
+			public void onCreateFailed(Throwable t) {
+				// //UIUtils.logError("Failed to Load Customer list...", t);
 			}
 		});
+
 	}
 
 	public ImageResource getBigImage() {
