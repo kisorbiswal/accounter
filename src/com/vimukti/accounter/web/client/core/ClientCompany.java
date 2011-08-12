@@ -2408,4 +2408,8 @@ public class ClientCompany implements IAccounterCore {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public ClientVendorGroup getVendorGroupByName(String vendorGroupName){
+		return null;
+	}
 }
