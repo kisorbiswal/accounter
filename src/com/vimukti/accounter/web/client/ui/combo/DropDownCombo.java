@@ -116,13 +116,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				return column;
 			}
 
-			private void setColumnActions(Column<T,String>[] columns) {
+			private void setColumnActions(Column<T, String>[] columns) {
 				for (int i = 0; i < cols; i++) {
-					columns[i].setFieldUpdater(new FieldUpdater<T,String>() {
+					columns[i].setFieldUpdater(new FieldUpdater<T, String>() {
 
 						@Override
-						public void update(int index, T object,
-								String value) {
+						public void update(int index, T object, String value) {
 							selectedIndex = index;
 							eventFired(index);
 						}
@@ -207,7 +206,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 		popup.show();
 		popup.addCloseHandler(new CloseHandler<PopupPanel>() {
-			
+
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
 				if ((selectedName == null || !selectedName.equals(getValue()
@@ -413,26 +412,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	 */
 
 	public void addItemThenfireEvent(T obj) {
-		boolean usTaxCode = Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
-				&& obj instanceof ClientTAXItemGroup;
-		if (obj instanceof IAccounterCore) {
-			IAccounterCore core = (IAccounterCore) obj;
-			if (usTaxCode)
-				obj = (T) Accounter.getCompany().getTAXCodeForTAXItemGroup(
-						(ClientTAXItemGroup) obj);
-			if (core.getObjectType() == AccounterCoreType.ACCOUNT) {
-				UIUtils.updateAccountsInSortedOrder(
-						(List<ClientAccount>) this.comboItems,
-						(ClientAccount) core);
-			} else {
-				if (!usTaxCode)
-					Utility.updateClientList((IAccounterCore) obj,
-							(List<IAccounterCore>) this.comboItems);
-			}
-		}
 		this.initCombo(new ArrayList<T>(this.comboItems));
-		if (!usTaxCode)
-			setComboItem(obj);
+		setComboItem(obj);
 		if (handler != null) {
 			handler.selectedComboBoxItem(obj);
 		}
