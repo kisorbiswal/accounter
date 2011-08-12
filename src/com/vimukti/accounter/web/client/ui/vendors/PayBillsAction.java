@@ -34,6 +34,8 @@ public class PayBillsAction extends Action {
 			@Override
 			public void onSuccess() {
 				view = PayBillView.getInstance();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, PayBillsAction.this);
 
 			}
 

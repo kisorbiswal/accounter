@@ -34,8 +34,13 @@ public class ManageItemTaxAction extends Action {
 
 			@Override
 			public void onSuccess() {
-				// TODO Auto-generated method stub
-
+				//
+				// ManageItemTaxDialog dialog = new ManageItemTaxDialog(
+				// "Item Tax Code",
+				// "To add an item tax, click Add. To change an Item Tax, select the Item Tax, and click Edit or Remove."
+				// );
+				// dialog.addCallBack(getViewConfiguration().getCallback());
+				// dialog.show();
 			}
 
 			@Override

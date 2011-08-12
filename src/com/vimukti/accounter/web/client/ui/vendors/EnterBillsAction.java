@@ -39,6 +39,8 @@ public class EnterBillsAction extends Action {
 
 			@Override
 			public void onSuccess() {
+				
+				view = VendorBillView.getInstance();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isEditable, EnterBillsAction.this);
 

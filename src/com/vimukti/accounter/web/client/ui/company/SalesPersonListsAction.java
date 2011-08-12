@@ -31,8 +31,11 @@ public class SalesPersonListsAction extends Action {
 
 			@Override
 			public void onSuccess() {
-				// TODO Auto-generated method stub
-
+				// UIUtils.setCanvas(new SalesPersonListView(),
+				// getViewConfiguration());
+				// MainFinanceWindow.getViewManager().showView(new
+				// SalesPersonListView(), null,
+				// false, SalesPersonListsAction.this);
 			}
 
 			@Override

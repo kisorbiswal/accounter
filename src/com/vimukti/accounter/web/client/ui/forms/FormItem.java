@@ -356,9 +356,9 @@ public abstract class FormItem<T> {
 		return content;
 	}
 
-	public static ValidationResult validate(FormItem... items) {
+	public static ValidationResult validate(FormItem<?>... items) {
 		ValidationResult result = new ValidationResult();
-		for (FormItem item : items) {
+		for (FormItem<?> item : items) {
 			if (!item.validate()) {
 				result.addError(item,
 						Accounter.messages().pleaseEnter(item.getTitle()));

@@ -48,6 +48,7 @@ public class NewItemReceiptAction extends Action {
 
 			@Override
 			public void onSuccess() {
+				view = new ItemReceiptView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewItemReceiptAction.this);
 
