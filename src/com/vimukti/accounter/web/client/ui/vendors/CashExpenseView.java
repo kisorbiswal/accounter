@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
-import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 
 public class CashExpenseView extends CashPurchaseView {
 
@@ -151,36 +150,36 @@ public class CashExpenseView extends CashPurchaseView {
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 
-		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
-		}
-
-		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
-		}
+//		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+//			result.addError(transactionDate,
+//					accounterConstants.invalidateTransactionDate());
+//		}
+//
+//		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+//			result.addError(transactionDate,
+//					accounterConstants.invalidateDate());
+//		}
 
 		if (!payFromCombo.validate()) {
 			result.addError(payFromCombo, payFromCombo.getTitle());
 		}
-
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
-			result.addError(deliveryDateItem, Accounter.constants().the()
-					+ " "
-					+ Accounter.constants().deliveryDate()
-					+ " "
-					+ " "
-					+ Accounter.constants()
-							.cannotbeearlierthantransactiondate());
-		}
-
-		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
-					accounterConstants.blankTransaction());
-		}
-		result.add(vendorTransactionGrid.validateGrid());
+		//
+		// if (!AccounterValidator.isValidDueOrDelivaryDates(
+		// deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		// result.addError(deliveryDateItem, Accounter.constants().the()
+		// + " "
+		// + Accounter.constants().deliveryDate()
+		// + " "
+		// + " "
+		// + Accounter.constants()
+		// .cannotbeearlierthantransactiondate());
+		// }
+		//
+		// if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
+		// result.addError(vendorTransactionGrid,
+		// accounterConstants.blankTransaction());
+		// }
+		// result.add(vendorTransactionGrid.validateGrid());
 
 		return result;
 	}
