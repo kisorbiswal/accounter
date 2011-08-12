@@ -20,21 +20,15 @@ public class NewCurrencyAction extends Action<ClientCurrency> {
 
 	private void runAsync(Object data, Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-			
+
 			@Override
 			public void onCreated() {
 				// TODO Auto-generated method stub
-				
-				
+
 			}
-			
-			@Override
-			public void onCreateFailed(Throwable t) {
-				// TODO Auto-generated method stub
-				
-			}
+
 		});
-		
+
 	}
 
 	@Override
