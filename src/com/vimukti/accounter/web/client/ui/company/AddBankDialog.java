@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBank;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -52,8 +53,9 @@ public class AddBankDialog extends BaseDialog {
 		if (!bankNameText.validate()) {
 			result.addError(bankNameText, bankNameText.getTitle());
 		}
-		if (Utility.isObjectExist(company.getTaxItems(), bankNameText
-				.getValue().toString())) {
+		String itemName = bankNameText.getValue();
+		ClientTAXItem clientTAXItem = company.getTaxItemByName(itemName);
+		if (clientTAXItem != null) {
 			result.addError(this, accounterConstants.alreadyExist());
 		}
 		return result;
