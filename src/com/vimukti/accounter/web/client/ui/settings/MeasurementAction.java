@@ -1,10 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -24,22 +21,13 @@ public class MeasurementAction extends Action<ClientMeasurement> {
 	}
 
 	public void preAddedListView(final Object data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			@Override
-			public void onSuccess() {
-				view = new MesurementListView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, MeasurementAction.this);
-
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+			public void onCreated() {
+					view = new MesurementListView();
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, MeasurementAction.this);
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
-			}
 		});
 	}
 
