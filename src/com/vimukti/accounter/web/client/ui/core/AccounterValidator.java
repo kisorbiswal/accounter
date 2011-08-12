@@ -1060,7 +1060,7 @@ public class AccounterValidator {
 			ClientAccount payFromAccount) {
 
 		if (payFromAccount != null
-				&& !payFromAccount.isIncrease()
+				/* && !payFromAccount.isIncrease() */
 				&& (DecimalUtil.isLessThan(
 						(payFromAccount.getTotalBalance() - amount), 0.0))) {
 			// Accounter.showWarning(
