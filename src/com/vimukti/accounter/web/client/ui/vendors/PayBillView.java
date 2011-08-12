@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
@@ -68,7 +67,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	private ClientFinanceDate dueDateOnOrBefore;
 	private DynamicForm payForm, filterForm;
 	private int size;
-//	public double transactionTotal = 0.0d;
+	// public double transactionTotal = 0.0d;
 	public double totalAmountDue = 0.0d;
 	public double totalCashDiscount = 0.0d;
 	public double totalOriginalAmount = 0.0d;
@@ -77,13 +76,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	private ArrayList<DynamicForm> listforms;
 	private VerticalPanel gridLayout;
 
-	//Upate
+	// Upate
 	protected PayFromAccountsCombo payFromCombo;
 	protected ClientAccount payFromAccount;
 	protected ClientVendor vendor;
 	protected List<ClientVendor> vendors;
 	protected VendorCombo vendorCombo;
-	
+
 	public PayBillView() {
 		super(ClientTransaction.TYPE_PAY_BILL, VENDOR_TRANSACTION_GRID);
 	}
@@ -204,8 +203,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				tpbRecord.getTempCredits().clear();
 			transactionPayBill.add(tpbRecord);
 		}
-		if (transaction == null)
-			transaction.setTransactionPayBill(transactionPayBill);
+		transaction.setTransactionPayBill(transactionPayBill);
 
 		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
 
@@ -218,7 +216,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		gridView.setPaymentView(this);
 		gridView.init();
 		gridView.setHeight("200px");
-		gridView.setDisabled(isEdit);		
+		gridView.setDisabled(isEdit);
 	}
 
 	/*
@@ -565,7 +563,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		this.unUsedCreditsText.setAmount(totalCredits);
 
 	}
-	
+
 	protected void vendorSelected(final ClientVendor vendor) {
 
 		if (vendor == null) {
@@ -634,10 +632,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		adjustAmountAndEndingBalance();
 	}
 
-//	@Override
-//	protected void initMemoAndReference() {
-//		// NOTHING TO DO.
-//	}
+	// @Override
+	// protected void initMemoAndReference() {
+	// // NOTHING TO DO.
+	// }
 
 	@Override
 	protected void initTransactionViewData() {
@@ -668,13 +666,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			initTransactionTotalNonEditableItem();
 			memoTextAreaItem.setDisabled(true);
 		}
-//		super.initTransactionViewData();
+		// super.initTransactionViewData();
 		initVendors();
 		initTransactionTotalNonEditableItem();
 		gridView.removeAllRecords();
-		gridView.setAllTransactionItems(transaction
-				.getTransactionItems());
-		
+		gridView.setAllTransactionItems(transaction.getTransactionItems());
+
 		initPayFromAccounts();
 	}
 
@@ -966,11 +963,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		return Accounter.constants().payBills();
 	}
 
-	//Update methods
-	
+	// Update methods
+
 	public ClientVendor getVendor() {
 		return vendor;
 	}
+
 	public void setVendor(ClientVendor vendor) {
 		this.vendor = vendor;
 	}
@@ -999,7 +997,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		return vendorCombo;
 
 	}
-	
+
 	public PayFromAccountsCombo createPayFromCombo(String title) {
 
 		PayFromAccountsCombo payFromCombo = new PayFromAccountsCombo(title);
@@ -1020,8 +1018,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// payFromCombo.setShowDisabled(false);
 		formItems.add(payFromCombo);
 		return payFromCombo;
-	}	
-
+	}
 
 	protected void initVendors() {
 
@@ -1036,6 +1033,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (getVendor() != null)
 			vendorCombo.setComboItem(getVendor());
 	}
+
 	protected void initPayFromAccounts() {
 		// getPayFromAccounts();
 		// payFromCombo.initCombo(payFromAccounts);
