@@ -4,8 +4,10 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -17,12 +19,19 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -32,8 +41,12 @@ import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.WriteChequeView;
+import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
+import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerPaymentView;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -73,14 +86,29 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public static final int JOURNALENTRY_TRANSACTION_GRID = 9;
 	public static final int PAYVAT_TRANSACTION_GRID = 10;
 
+	protected String checkNumber = ClientWriteCheck.IS_TO_BE_PRINTED;
+
 	protected ClientFinanceDate transactionDate;
 	protected TextItem transactionNumber;
+	protected TextItem checkNo;
+	protected TextItem phoneSelect;
 	protected DateField transactionDateItem;
 	protected TextAreaItem memoTextAreaItem;
 	// protected TextItem refText;
 	protected AddNewButton menuButton;
 	private PopupPanel popupPanel;
 	private CustomMenuBar popupMenuBar;
+
+	protected Set<ClientAddress> addressListOfVendor;
+	protected Set<ClientContact> contacts;
+	protected ClientContact contact;
+
+	protected ClientAccount payFromAccount;
+	protected ClientAddress billingAddress;
+	protected AddressCombo billToCombo;
+	protected ContactCombo contactCombo;
+	protected VendorCombo vendorCombo;
+	protected PayFromAccountsCombo payFromCombo;
 
 	private Event event;
 	private boolean isMenuRequired = true;
@@ -90,12 +118,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	private List<String> payVatMethodList;
 
 	protected String paymentMethod;
+	protected String phoneNo;
 
 	protected SelectCombo paymentMethodCombo;
 
 	/**
-//	 * The Transaction Grid meant to Serve in all Transactions
-//	 */
+	 * // * The Transaction Grid meant to Serve in all Transactions //
+	 */
 	protected AbstractTransactionGrid<ClientTransactionItem> vendorTransactionGrid,
 			customerTransactionGrid;
 
@@ -106,6 +135,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected boolean isVATInclusive;
 
 	public CheckboxItem vatinclusiveCheck;
+
+	protected ClientVendor vendor;
 
 	// protected CurrencyWidget currencyWidget;
 
@@ -550,8 +581,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public String getMemoTextAreaItem() {
 		return memoTextAreaItem != null
 				&& memoTextAreaItem.getValue().toString() != null ? memoTextAreaItem
-				.getValue().toString()
-				: "";
+				.getValue().toString() : "";
 	}
 
 	public void setMemoTextAreaItem(String memo) {
@@ -783,18 +813,21 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 
 		if (childCount == 1) {
-			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft() - 5,
+			popupPanel.setPopupPosition(
+					menuButton.getAbsoluteLeft() - 5,
 					menuButton.getAbsoluteTop()
 							- (popupMenuBar.getOffsetHeight() + 41));
 		} else if (childCount == 2) {
 			// if (this instanceof CashExpenseView || this instanceof
 			// WriteChequeView)
-			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft() - 5,
+			popupPanel.setPopupPosition(
+					menuButton.getAbsoluteLeft() - 5,
 					menuButton.getAbsoluteTop()
 							- (popupMenuBar.getOffsetHeight() + 85));
 		} else if (childCount == 3) {
 			// if (this instanceof EmployeeExpenseView) {
-			popupPanel.setPopupPosition(menuButton.getAbsoluteLeft() - 5,
+			popupPanel.setPopupPosition(
+					menuButton.getAbsoluteLeft() - 5,
 					menuButton.getAbsoluteTop()
 							- (popupMenuBar.getOffsetHeight() + 127));
 			// }
@@ -865,11 +898,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transactionItems != null) {
 			for (ClientTransactionItem transactionItem : transactionItems) {
 				if (transactionItem.getLineTotal() <= 0) {
-					result.addError("TransactionItem"
-							+ transactionItem.getAccount()
-							+ transactionItem.getAccount(), Accounter
-							.constants()
-							.transactionitemtotalcannotbe0orlessthan0());
+					result.addError(
+							"TransactionItem" + transactionItem.getAccount()
+									+ transactionItem.getAccount(), Accounter
+									.constants()
+									.transactionitemtotalcannotbe0orlessthan0());
 				}
 
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -881,10 +914,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 								&& getTransactionDate().before(
 										new ClientFinanceDate(2011 - 1900,
 												01 - 1, 04))) {
-							result.addError("transactionDate"
-									+ transactionItem.getAccount()
-									+ transactionItem.getAccount(), Accounter
-									.constants().vat4thJanError());
+							result.addError(
+									"transactionDate"
+											+ transactionItem.getAccount()
+											+ transactionItem.getAccount(),
+									Accounter.constants().vat4thJanError());
 						}
 					}
 				}
@@ -924,4 +958,232 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return new CurrencyWidget(currencies, baseCurrency);
 	}
+
+	public void setVendor(ClientVendor vendor) {
+		this.vendor = vendor;
+	}
+
+	public ClientVendor getVendor() {
+		return vendor;
+	}
+
+	protected void billToaddressSelected(ClientAddress selectItem) {
+
+		this.billingAddress = selectItem;
+		if (this.billingAddress != null && billToCombo != null)
+			billToCombo.setComboItem(this.billingAddress);
+		else
+			billToCombo.setValue("");
+
+	}
+
+	protected void initPayFromAccounts() {
+		// getPayFromAccounts();
+		// payFromCombo.initCombo(payFromAccounts);
+		// payFromCombo.setAccountTypes(UIUtils
+		// .getOptionsByType(AccountCombo.payFromCombo));
+		payFromCombo.setAccounts();
+		payFromCombo.setDisabled(isEdit);
+		payFromAccount = payFromCombo.getSelectedValue();
+		if (payFromAccount != null)
+			payFromCombo.setComboItem(payFromAccount);
+	}
+
+	public VendorCombo createVendorComboItem(String title) {
+
+		VendorCombo vendorCombo = new VendorCombo(title != null ? title
+				: UIUtils.getVendorString(Accounter.constants().supplier(),
+						Accounter.constants().vendor()));
+		vendorCombo.setHelpInformation(true);
+		vendorCombo.setRequired(true);
+		vendorCombo.setDisabled(isEdit);
+		// vendorCombo.setShowDisabled(false);
+		vendorCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientVendor selectItem) {
+						vendorSelected(selectItem);
+
+					}
+
+				});
+
+		// vendorCombo.setShowDisabled(false);
+		return vendorCombo;
+
+	}
+
+	protected void vendorSelected(ClientVendor vendor) {
+
+		if (vendor == null)
+			return;
+		this.setVendor(vendor);
+		initContacts(vendor);
+		// initPhones(vendor);
+		paymentMethodSelected(vendor.getPaymentMethod());
+		addressListOfVendor = vendor.getAddress();
+		initBillToCombo();
+
+	}
+
+	protected void initBillToCombo() {
+
+		if (billToCombo == null || addressListOfVendor == null)
+			return;
+
+		Set<ClientAddress> tempSet = new HashSet<ClientAddress>();
+		ClientAddress clientAddress = null;
+		for (ClientAddress address : addressListOfVendor) {
+
+			if (address.getType() == ClientAddress.TYPE_BILL_TO) {
+				if (address != null) {
+					tempSet.add(address);
+					clientAddress = address;
+					break;
+				}
+			}
+
+		}
+		List<ClientAddress> adressList = new ArrayList<ClientAddress>();
+		adressList.addAll(tempSet);
+		billToCombo.initCombo(adressList);
+		billToCombo.setDisabled(isEdit);
+		billToCombo.setDefaultToFirstOption(false);
+
+		if (isEdit && billingAddress != null) {
+			billToCombo.setComboItem(billingAddress);
+			return;
+		}
+		if (clientAddress != null) {
+			billToCombo.setComboItem(clientAddress);
+			billToaddressSelected(clientAddress);
+
+		} else {
+			billToCombo.setValue(null);
+			// billToaddressSelected(clientAddress);
+		}
+	}
+
+	public void initContacts(ClientVendor vendor) {
+		if (contactCombo == null)
+			return;
+		this.contacts = vendor.getContacts();
+
+		this.contact = vendor.getPrimaryContact();
+
+		if (contacts != null) {
+			List<ClientContact> contactList = new ArrayList<ClientContact>();
+			contactList.addAll(contacts);
+			contactCombo.initCombo(contactList);
+			contactCombo.setDisabled(isEdit);
+
+			if (contact != null && contacts.contains(contact)) {
+				contactCombo.setComboItem(contact);
+				contactSelected(contact);
+
+			}
+
+		} else {
+			contactCombo.setValue("");
+			contactCombo.setDisabled(true);
+		}
+	}
+
+	protected void contactSelected(ClientContact contact) {
+		if (contact == null)
+			return;
+		this.contact = contact;
+		this.phoneNo = contact.getBusinessPhone();
+		if (this.phoneNo != null) {
+			phoneSelect.setValue(this.phoneNo);
+			contactCombo.setValue(contact.getName());
+		}
+		// contactCombo.setDisabled(isEdit);
+
+	}
+
+	public AddressCombo createBillToComboItem() {
+
+		AddressCombo addressCombo = new AddressCombo(Accounter.constants()
+				.billTo(), false);
+		addressCombo.setDefaultToFirstOption(false);
+		addressCombo.setHelpInformation(true);
+		addressCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
+
+					public void selectedComboBoxItem(ClientAddress selectItem) {
+
+						billToaddressSelected(selectItem);
+
+					}
+
+				});
+
+		addressCombo.setDisabled(isEdit);
+		// addressCombo.setShowDisabled(false);
+
+		return addressCombo;
+
+	}
+
+	public PayFromAccountsCombo createPayFromCombo(String title) {
+
+		PayFromAccountsCombo payFromCombo = new PayFromAccountsCombo(title);
+		payFromCombo.setHelpInformation(true);
+		payFromCombo.setRequired(true);
+		payFromCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+
+					public void selectedComboBoxItem(ClientAccount selectItem) {
+						accountSelected(selectItem);
+						// selectedAccount = (Account) selectItem;
+						// adjustBalance();
+
+					}
+
+				});
+		payFromCombo.setDisabled(isEdit);
+		// payFromCombo.setShowDisabled(false);
+		formItems.add(payFromCombo);
+		return payFromCombo;
+	}
+
+	private void accountSelected(ClientAccount account) {
+		if (account == null)
+			return;
+		this.payFromAccount = account;
+	}
+
+	protected TextItem createCheckNumberItem(String title) {
+
+		final TextItem checkNo = new TextItem(title);
+		checkNo.setHelpInformation(true);
+		checkNo.setDisabled(isEdit);
+		// checkNo.setShowDisabled(false);
+		if (transaction != null) {
+			if (transactionType == ClientTransaction.TYPE_CASH_PURCHASE) {
+				ClientCashPurchase clientCashPurchase = (ClientCashPurchase) transaction;
+				checkNo.setValue(clientCashPurchase.getCheckNumber());
+			}
+		}
+		return checkNo;
+
+	}
+
+	protected void initMemoAndReference() {
+
+		if (this.isEdit) {
+
+			ClientPayBill payBill = (ClientPayBill) transaction;
+
+			if (payBill != null) {
+				memoTextAreaItem.setDisabled(true);
+				setMemoTextAreaItem(payBill.getMemo());
+				// setRefText(payBill.getReference());
+
+			}
+		}
+	}
+
 }

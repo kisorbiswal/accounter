@@ -69,7 +69,7 @@ public class CustomerRefundView extends
 				CUSTOMER_TRANSACTION_GRID);
 	}
 
-	private void initPayFromAccounts() {
+	public void initPayFromAccounts() {
 		// payFromSelect.initCombo(payFromAccounts);
 		// getPayFromAccounts();
 		payFromSelect.setAccounts();
