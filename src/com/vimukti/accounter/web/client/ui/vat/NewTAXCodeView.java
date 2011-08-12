@@ -309,13 +309,16 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 		ClientTAXCode taxCodeByName = getCompany().getTAXCodeByName(name);
 
-		if (!((!isEdit && taxCodeByName != null || taxCodeByName.getID() == this
-				.getData().getID()) ? false : true)
-				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
-						: (taxCodeByName != null || taxCodeByName.getID() == this
-								.getData().getID() ? false : true)) : true)) {
+		if ((!isEdit && taxCodeByName != null)) {
 			result.addError(vatCodeTxt, Accounter.constants().alreadyExist());
 		}
+		// if (!((!isEdit && taxCodeByName != null))
+		// || (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
+		// : (taxCodeByName != null
+		// || taxCodeByName.getID() == this.getData()
+		// .getID() ? false : true)) : true)) {
+		// result.addError(vatCodeTxt, Accounter.constants().alreadyExist());
+		// }
 		return result;
 	}
 
