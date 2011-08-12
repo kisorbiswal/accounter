@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -27,11 +29,10 @@ public class DisposingRegisteredItemAction extends Action {
 		return null;
 	}
 
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return view;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return view;
+	// }
 
 	@Override
 	public void run() {
@@ -40,28 +41,23 @@ public class DisposingRegisteredItemAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				try {
-
-					view = new DisposingRegisteredItemView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, DisposingRegisteredItemAction.this);
-
-				} catch (Throwable t) {
-					onCreateFailed(t);
-				}
+			@Override
+			public void onSuccess() {
+				view = new DisposingRegisteredItemView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, DisposingRegisteredItemAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
+			@Override
+			public void onFailure(Throwable arg0) {
 				Accounter.showError(Accounter.constants()
 						.failedToLoadDisposedFixedAssetView());
+
 			}
 		});
-
 	}
 
 	@Override
