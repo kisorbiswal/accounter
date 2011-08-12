@@ -45,14 +45,18 @@ public class CopyThemeDialog extends BaseDialog {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		String name = nameBox.getValue();
+		ClientBrandingTheme brandingThemeByName = company.getBrandingThemeByName(nameBox.getText());
 		if (name == null || name.isEmpty()) {
 			result.addError(this, Accounter.constants().pleaseenterThemename());
 		}
 
-		if (Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
-				nameBox.getText())) {
+		if (brandingThemeByName!=null){
 			result.addError(this, Accounter.constants().themenamealreadyexist());
 		}
+//		if (Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
+//				nameBox.getText())) {
+//			
+//		}
 
 		return result;
 	}
