@@ -945,29 +945,48 @@ public class MakeDepositView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		if (gridView != null && gridView.getRecords().isEmpty()) {
+
+		// Validations
+		// 1. if(isBlackTransaction(gridView))
+		//      ERROR
+		//    else
+		//		gridView validation
+		// 2. if(!isValidTransactionDate(transactionDate)) ERROR
+		// 3. if(isInPreventPostingBeforeDate(transactionDate)) ERROR
+		// 4. depoForm validation
+		// 5. if(!validMakeDepositCombo(selectedDepositInAccount, gridAcconts)) ERROR
+		
+		
+		if ((gridView == null)
+				|| (gridView != null && gridView.getRecords().isEmpty())) {
 			result.addError(gridView, accounterConstants.blankTransaction());
 		} else {
 			result.add(gridView.validateGrid());
 		}
+		
+		
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateTransactionDate());
-		} else if (AccounterValidator
+		} 
+		if (AccounterValidator
 				.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateDate());
 		}
+		
 		result.add(depoForm.validate());
-		if (AccounterValidator.isNegativeAmount(cashBackAmountText.getAmount())) {
-			result.addError(cashBackAmountText,
-					accounterConstants.invalidNegativeAmount());
-		} else if (!AccounterValidator.isValidMakeDeposit_CashBackAmount(
-				cashBackAmountText.getAmount().doubleValue(),
-				totText.getAmount())) {
-			result.addError(cashBackAmountText, Accounter.constants()
-					.makeDepositCashBackAmount());
-		}
+		
+//		if (AccounterValidator.isNegativeAmount(cashBackAmountText.getAmount())) {
+//			result.addError(cashBackAmountText,
+//					accounterConstants.invalidNegativeAmount());
+//		} else if (!AccounterValidator.isValidMakeDeposit_CashBackAmount(
+//				cashBackAmountText.getAmount().doubleValue(),
+//				totText.getAmount())) {
+//			result.addError(cashBackAmountText, Accounter.constants()
+//					.makeDepositCashBackAmount());
+//		}
+		
 		if (!AccounterValidator.validate_MakeDeposit_accountcombo(
 				selectedDepositInAccount, gridView)) {
 			result.addError(gridView, Accounter.constants()
