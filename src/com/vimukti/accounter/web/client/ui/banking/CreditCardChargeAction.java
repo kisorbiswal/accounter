@@ -40,15 +40,10 @@ public class CreditCardChargeAction extends Action {
 
 			public void onCreated() {
 
-				try {
-					view =new CreditCardChargeView();
+				view = new CreditCardChargeView();
 
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isEditable, CreditCardChargeAction.this);
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isEditable, CreditCardChargeAction.this);
 
 			}
 

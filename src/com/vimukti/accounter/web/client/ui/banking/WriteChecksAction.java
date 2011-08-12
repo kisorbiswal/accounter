@@ -33,21 +33,13 @@ public class WriteChecksAction extends Action {
 
 			public void onCreated() {
 
-				try {
-					WriteChequeView view = WriteChequeView.getInstance();
+				WriteChequeView view = WriteChequeView.getInstance();
 
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isEditable, WriteChecksAction.this);
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isEditable, WriteChecksAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load WriteChecks..", t);
-			}
 		});
 	}
 
@@ -68,5 +60,5 @@ public class WriteChecksAction extends Action {
 	public String getHistoryToken() {
 
 		return "writeCheck";
-	}
+	}s
 }

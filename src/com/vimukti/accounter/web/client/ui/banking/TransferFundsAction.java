@@ -31,18 +31,10 @@ public class TransferFundsAction extends Action {
 
 			public void onCreated() {
 
-				try {
-					new TransferFundsDialog(data).show();
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+				new TransferFundsDialog(data).show();
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Transfer Fund", t);
-			}
 		});
 	}
 

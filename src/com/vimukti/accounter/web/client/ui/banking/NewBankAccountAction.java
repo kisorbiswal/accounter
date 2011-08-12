@@ -29,23 +29,13 @@ public class NewBankAccountAction extends Action<ClientBankAccount> {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed To Load Bank Account", t);
-
-			}
-
 			public void onCreated() {
-				try {
-					NewAccountView view = new NewAccountView();
-					// view.setNewBankAccountAction(NewBankAccountAction.this);
-					view.setNewBankAccount(true);
-					// UIUtils.setCanvas(view, getViewConfiguration());
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, NewBankAccountAction.this);
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
+				NewAccountView view = new NewAccountView();
+				// view.setNewBankAccountAction(NewBankAccountAction.this);
+				view.setNewBankAccount(true);
+				// UIUtils.setCanvas(view, getViewConfiguration());
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewBankAccountAction.this);
 
 			}
 		});

@@ -39,21 +39,13 @@ public class MakeDepositAction extends Action {
 
 			public void onCreated() {
 
-				try {
-					view = MakeDepositView.getInstance();
+				view = MakeDepositView.getInstance();
 
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, MakeDepositAction.this);
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, MakeDepositAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load MakeDeposit", t);
-			}
 		});
 	}
 

@@ -27,21 +27,13 @@ public class PaymentsAction extends Action {
 
 			public void onCreated() {
 
-				try {
-					PaymentListView view = PaymentListView.getInstance();
+				PaymentListView view = PaymentListView.getInstance();
 
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, PaymentsAction.this);
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, PaymentsAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Payment List ", t);
-			}
 		});
 	}
 
