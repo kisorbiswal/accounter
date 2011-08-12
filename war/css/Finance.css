@@ -5536,7 +5536,7 @@ solid
     padding: 5px;*/
 }
 
-.standard-options td:FIRST-CHILD {
+.standard_label {
 	float: left;
 	margin: 5px 0 0 15px;
 }
