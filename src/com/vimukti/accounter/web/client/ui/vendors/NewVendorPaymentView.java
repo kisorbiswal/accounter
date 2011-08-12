@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
-import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -29,6 +28,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -37,7 +37,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class NewVendorPaymentView extends
-		AbstractVendorTransactionView<ClientPayBill> {
+		AbstractTransactionBaseView<ClientPayBill> {
 
 	private CheckboxItem printCheck;
 	private AmountField amountText, endBalText, vendorBalText;
@@ -120,7 +120,6 @@ public class NewVendorPaymentView extends
 			}
 		}
 		initMemoAndReference();
-		super.initTransactionViewData();
 		initTransactionNumber();
 		initPayFromAccounts();
 	}
@@ -426,20 +425,6 @@ public class NewVendorPaymentView extends
 		adjustBalance();
 	}
 
-	@Override
-	protected void accountSelected(ClientAccount account) {
-
-		if (account == null)
-			return;
-		this.payFromAccount = account;
-		payFromCombo.setValue(payFromAccount);
-		if (account != null && !(Boolean) printCheck.getValue()) {
-			setCheckNumber();
-		} else if (account == null)
-			checkNo.setValue("");
-		adjustBalance();
-	}
-
 	protected void setCheckNumber() {
 
 		rpcUtilService.getNextCheckNumber(payFromAccount.getID(),
@@ -492,22 +477,6 @@ public class NewVendorPaymentView extends
 	}
 
 	@Override
-	protected void initMemoAndReference() {
-
-		if (this.isEdit) {
-
-			ClientPayBill payBill = (ClientPayBill) transaction;
-
-			if (payBill != null) {
-				memoTextAreaItem.setDisabled(true);
-				setMemoTextAreaItem(payBill.getMemo());
-				// setRefText(payBill.getReference());
-
-			}
-		}
-	}
-
-	@Override
 	public void updateNonEditableItems() {
 		// TODO Auto-generated method stub
 
@@ -527,10 +496,7 @@ public class NewVendorPaymentView extends
 					accounterConstants.invalidateDate());
 		}
 		result.add(payForm.validate());
-		if (DecimalUtil.isEquals(amountText.getAmount(), 0)) {
-			result.addError(amountText,
-					accounterConstants.invalidateTransactionDate());
-		}
+		
 		return result;
 	}
 
@@ -699,7 +665,6 @@ public class NewVendorPaymentView extends
 		// NOTHING TO DO.
 	}
 
-	@Override
 	protected Double getTransactionTotal() {
 		return this.amountText.getAmount();
 	}
@@ -711,9 +676,4 @@ public class NewVendorPaymentView extends
 						.vendorPayments());
 	}
 
-	@Override
-	protected void taxCodeSelected(ClientTAXCode taxCode) {
-		// TODO Auto-generated method stub
-
-	}
 }
