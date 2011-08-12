@@ -402,7 +402,7 @@ public class NewCustomerPaymentView extends
 						checkNo.setDisabled(true);
 					} else {
 						if (depositInAccount == null)
-							checkNo.setValueField(Accounter.constants()
+							checkNo.setValue(Accounter.constants()
 									.toBePrinted());
 						else if (isEdit) {
 							checkNo.setValue(((ClientCustomerPrePayment) transaction)

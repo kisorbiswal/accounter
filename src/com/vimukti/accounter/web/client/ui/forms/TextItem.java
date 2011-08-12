@@ -9,7 +9,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
 
-public class TextItem extends FormItem {
+public class TextItem extends FormItem<String> {
 
 	public TextBoxItem textBox;
 
@@ -63,22 +63,11 @@ public class TextItem extends FormItem {
 
 	public TextItem(String title) {
 		textBox = new TextBoxItem();
-		// @Override
-		// public void sinkEvents(int eventBitsToAdd) {
-		// super.sinkEvents(Event.ONFOCUS);
-		// }
-		//
-		// @Override
-		// public void onBrowserEvent(Event event) {
-		// TextItem.this.showValidated();
-		// super.onBrowserEvent(event);
-		// }
-		// };
 		setTitle(title);
 	}
 
 	@Override
-	public Object getValue() {
+	public String getValue() {
 		if (textBox.getText() == null)
 			return "";
 		return textBox.getText();
@@ -93,10 +82,9 @@ public class TextItem extends FormItem {
 	}
 
 	@Override
-	public void setValue(Object value) {
+	public void setValue(String value) {
 		if (value != null)
-			this.textBox.setValue(value.toString());
-
+			this.textBox.setText(value);
 	}
 
 	public void setKeyPressHandler(KeyPressListener keyPressListener) {
@@ -144,10 +132,6 @@ public class TextItem extends FormItem {
 
 	}
 
-	
-	private void setBorder() {
-
-	}
 
 	@Override
 	public Widget getMainWidget() {

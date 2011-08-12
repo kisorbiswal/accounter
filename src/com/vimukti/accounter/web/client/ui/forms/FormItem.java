@@ -26,25 +26,24 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
-public abstract class FormItem {
+public abstract class FormItem<T> {
 
 	private String title;
 	private String name;
-	private Object value;
+	private T value;
 	private List<Validator> validator = new ArrayList<Validator>();
 	private boolean required;
 	private Label label;
 
-	private int width;
 	protected boolean isDisabled = false;
 	private boolean showTitle = true;
-	private String defaultValue;
+	private T defaultValue;
 	private int columnSpan = 1;
 	private boolean isHighlighted = false;
 	private String titleStyleName;
 	private boolean ishelp = false;
 
-	public Object getValue() {
+	public T getValue() {
 		return this.value;
 	}
 
@@ -69,10 +68,6 @@ public abstract class FormItem {
 		this.showTitle = showTitle;
 	}
 
-	public void setValueField(String user) {
-		this.value = user;
-
-	}
 
 	public void highlight() {
 		getMainWidget().addStyleName("highlightedFormItem");
@@ -97,13 +92,11 @@ public abstract class FormItem {
 	}
 
 	public void setWidth(int width) {
-		this.width = width;
 		getMainWidget().setWidth(new Integer(width).toString() + "%");
 
 	}
 
 	public void setWidth(String width) {
-		this.width = Integer.parseInt(width.replace("%", "").replace("px", ""));
 		getMainWidget().setWidth(width);
 	}
 
@@ -111,7 +104,7 @@ public abstract class FormItem {
 		this.name = name;
 	}
 
-	public void setValue(Object value) {
+	public void setValue(T value) {
 		this.value = value;
 	}
 
@@ -166,19 +159,11 @@ public abstract class FormItem {
 
 	}// TODO Auto-generated method stub
 
-	public void setValueMap(String value) {
-		// TODO Auto-generated method stub
 
-	}
-
-	public void setDefaultValue(String value) {
+	public void setDefaultValue(T value) {
 		defaultValue = value;
 	}
 
-	public void setValueMap(String[] options) {
-		// TODO Auto-generated method stub
-
-	}
 
 	public boolean getDisabled() {
 		return isDisabled;
@@ -283,7 +268,7 @@ public abstract class FormItem {
 		this.validator = validator;
 	}
 
-	public String getDefaultValue() {
+	public T getDefaultValue() {
 		return defaultValue;
 	}
 

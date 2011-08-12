@@ -7,7 +7,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ComboBoxItem extends FormItem {
+public class ComboBoxItem extends FormItem<String> {
 
 	ListBox listBox;
 	LinkedHashMap<String, String> propertyValueHashMap;
@@ -38,7 +38,7 @@ public class ComboBoxItem extends FormItem {
 	}
 
 	@Override
-	public Object getValue() {
+	public String getValue() {
 		return listBox.getValue(listBox.getSelectedIndex());
 	}
 

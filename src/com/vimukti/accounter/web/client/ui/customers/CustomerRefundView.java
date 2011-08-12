@@ -263,7 +263,7 @@ public class CustomerRefundView extends
 						checkNoText.setDisabled(true);
 					} else {
 						if (payFromSelect.getValue() == null)
-							checkNoText.setValueField(Accounter.constants()
+							checkNoText.setValue(Accounter.constants()
 									.toBePrinted());
 						else if (transaction != null) {
 							checkNoText.setValue(transaction.getCheckNumber());

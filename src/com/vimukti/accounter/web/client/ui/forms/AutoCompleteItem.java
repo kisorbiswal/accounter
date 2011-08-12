@@ -10,11 +10,11 @@ import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AutoCompleteItem extends FormItem {
+public class AutoCompleteItem extends FormItem<String> {
 
 	private SuggestBox suggestBox = new SuggestBox();
 	private String title;
-	private HashMap<String, Object> valueMap = new HashMap<String, Object>();
+	private HashMap<String, String> valueMap = new HashMap<String, String>();
 
 	public AutoCompleteItem(String title, String emptyMessage) {
 
@@ -30,13 +30,13 @@ public class AutoCompleteItem extends FormItem {
 		 */
 	}
 
-	public void setValueMap(HashMap<String, Object> map) {
+	public void setValueMap(HashMap<String, String> map) {
 		this.valueMap = map;
 
 	}
 
 	@Override
-	public Object getValue() {
+	public String getValue() {
 		return this.valueMap.get(suggestBox.getValue());
 	}
 

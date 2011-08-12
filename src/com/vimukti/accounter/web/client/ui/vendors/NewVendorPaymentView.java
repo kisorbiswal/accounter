@@ -232,7 +232,7 @@ public class NewVendorPaymentView extends
 						checkNo.setDisabled(true);
 					} else {
 						if (payFromAccount == null)
-							checkNo.setValueField(Accounter.constants()
+							checkNo.setValue(Accounter.constants()
 									.toBePrinted());
 						else if (isEdit) {
 							checkNo.setValue(((ClientPayBill) transaction)

@@ -4,12 +4,12 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CheckboxItem extends FormItem {
+public class CheckboxItem extends FormItem<Boolean> {
 
 	private CheckBox checkBox = new CheckBox();
 
 	@Override
-	public Object getValue() {
+	public Boolean getValue() {
 		if (checkBox.getValue() == null)
 			return false;
 		return checkBox.getValue();
@@ -24,8 +24,8 @@ public class CheckboxItem extends FormItem {
 	}
 
 	@Override
-	public void setValue(Object value) {
-		checkBox.setValue((Boolean) value);
+	public void setValue(Boolean value) {
+		checkBox.setValue(value);
 
 	}
 
