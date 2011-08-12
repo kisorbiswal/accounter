@@ -121,9 +121,11 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 		initVendors();
 		initTransactionTotalNonEditableItem();
+		if(vendorTransactionGrid!=null){
 		vendorTransactionGrid.removeAllRecords();
 		vendorTransactionGrid.setAllTransactionItems(transaction
 				.getTransactionItems());
+		}
 
 	}
 
