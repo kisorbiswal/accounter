@@ -2975,7 +2975,7 @@
 		
 		SELECT U.ID AS ID
 		
-		FROM USER U
+		FROM USERS U
 		
 		WHERE U.ID IS NULL AND U.ID =:inputId LIMIT 1
 	
