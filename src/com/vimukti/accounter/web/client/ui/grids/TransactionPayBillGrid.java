@@ -705,9 +705,12 @@ public class TransactionPayBillGrid extends
 	}
 
 	public void updateTotalPayment(ClientTransactionPayBill obj) {
-		paybillView.transactionTotal = 0.0;
+		ClientTransaction transactionObject = paybillView.getTransactionObject();
+//		paybillView.gettrantransactionTotal = 0.0;
+		transactionObject.setTotal(0.0);
 		for (ClientTransactionPayBill rec : getSelectedRecords()) {
-			paybillView.transactionTotal += rec.getPayment();
+//			paybillView.transactionTotal += rec.getPayment();
+			transactionObject.setTotal(transactionObject.getTotal()+rec.getPayment());			
 			paybillView.totalCashDiscount += rec.getCashDiscount();
 		}
 		/* updating payment(or PaidAmount) */
@@ -723,11 +726,14 @@ public class TransactionPayBillGrid extends
 	 * changed.It updates the footervalues in editmode & in creationmodeF
 	 */
 	public void updateFootervalues(ClientTransactionPayBill obj) {
+		ClientTransaction transactionObject = paybillView.getTransactionObject();
 		if (canEdit) {
-			paybillView.transactionTotal = 0.0;
+//			paybillView.transactionTotal = 0.0;
+			transactionObject.setTotal(0.0);
 			paybillView.totalCashDiscount = 0.0;
 			for (ClientTransactionPayBill rec : getSelectedRecords()) {
-				paybillView.transactionTotal += rec.getPayment();
+//				paybillView.transactionTotal += rec.getPayment();
+				transactionObject.setTotal(transactionObject.getTotal()+rec.getPayment());
 				paybillView.totalCashDiscount += rec.getCashDiscount();
 			}
 			// this.updateFooterValues(DataUtils
@@ -735,12 +741,14 @@ public class TransactionPayBillGrid extends
 			// this.updateFooterValues(DataUtils
 			// .getAmountAsString(paybillView.totalCashDiscount), 5);
 		} else {
-			paybillView.transactionTotal = 0.0;
+//			paybillView.transactionTotal = 0.0;
+			transactionObject.setTotal(0.0);
 			paybillView.totalCashDiscount = 0.0;
 			paybillView.totalOriginalAmount = 0.0;
 			for (ClientTransactionPayBill rec : getRecords()) {
 				paybillView.totalOriginalAmount += rec.getOriginalAmount();
-				paybillView.transactionTotal += rec.getPayment();
+//				paybillView.transactionTotal += rec.getPayment();
+				transactionObject.setTotal(transactionObject.getTotal()+rec.getPayment());
 				paybillView.totalCashDiscount += rec.getCashDiscount();
 			}
 			/* */
@@ -757,8 +765,11 @@ public class TransactionPayBillGrid extends
 	}
 
 	public void deleteTotalPayment(ClientTransactionPayBill rec) {
-		paybillView.transactionTotal -= rec.getPayment();
+		ClientTransaction transactionObject = paybillView.getTransactionObject();
+		//		paybillView.transactionTotal -= rec.getPayment();
+		transactionObject.setTotal(transactionObject.getTotal() - rec.getPayment());
 		paybillView.totalCashDiscount -= rec.getCashDiscount();
+		
 		/* updating payment column's footer */
 		// this.updateFooterValues(DataUtils
 		// .getAmountAsString(paybillView.transactionTotal), canEdit ? 7
