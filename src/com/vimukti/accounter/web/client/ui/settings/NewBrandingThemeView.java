@@ -565,9 +565,9 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		ClientBrandingTheme brandingThemeByName = Accounter.getCompany().getBrandingThemeByName(data.getThemeName());
 		if (getData() == null
-				&& Utility.isObjectExist(Accounter.getCompany()
-						.getBrandingTheme(), data.getThemeName())) {
+				&& brandingThemeByName != null) {
 			result.addError("TakenTheme", "Theme Name already exists");
 		}
 		result.add(nameForm.validate());
@@ -595,10 +595,14 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	@Override
 	public void saveAndUpdateView() {
 		ClientBrandingTheme brandingTheme = getBrandingThemeObject();
-		if (!Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
-				brandingTheme.getThemeName())) {
+		ClientBrandingTheme brandingThemeByName = Accounter.getCompany().getBrandingThemeByName(brandingTheme.getThemeName());
+		if (brandingTheme == null){
 			// TODO Do this checking in validation method
 		}
+//		if (!Utility.isObjectExist(Accounter.getCompany().getBrandingTheme(),
+//				brandingTheme.getThemeName())) {
+//			// TODO Do this checking in validation method
+//		}
 		saveOrUpdate(brandingTheme);
 	}
 
