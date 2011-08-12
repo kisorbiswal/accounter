@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -34,11 +36,11 @@ public class GeneralSettingsAction extends Action {
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
 	 */
-	
-//	@Override
-//	public ParentCanvas getView() {
-//		return null;
-//	}
+
+	// @Override
+	// public ParentCanvas getView() {
+	// return null;
+	// }
 
 	@Override
 	public void run() {
@@ -46,22 +48,21 @@ public class GeneralSettingsAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				try {
-					view = new GeneralSettingsView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, GeneralSettingsAction.this);
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
+			@Override
+			public void onSuccess() {
+				view = new GeneralSettingsView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, GeneralSettingsAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
 			}
 		});
 	}
