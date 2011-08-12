@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -32,27 +34,23 @@ public class AddEditSalesTaxCodeAction extends Action {
 	}
 
 	private void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed To Load "+title+" Code Dialog",
-				// t);
+			@Override
+			public void onSuccess() {
+				view = new AddEditSalesTaxCodeView(title);
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, AddEditSalesTaxCodeAction.this);
 
 			}
 
-			public void onCreated() {
-				try {
-					view = new AddEditSalesTaxCodeView(title);
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, AddEditSalesTaxCodeAction.this);
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
 			}
 		});
-
 	}
 
 	public ImageResource getBigImage() {
