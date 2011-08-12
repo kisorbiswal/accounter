@@ -23,6 +23,14 @@ public interface IAccounterCRUDService extends RemoteService {
 	boolean delete(AccounterCoreType type, long stringID)
 			throws AccounterException;
 
+	long inviteUser(IAccounterCore coreObject, IAccounterCore clientUser)
+			throws AccounterException;
+
+	long updateUser(IAccounterCore coreObject) throws AccounterException;
+
+	boolean deleteUser(IAccounterCore deletableUser, String senderEmail)
+			throws AccounterException;
+
 	boolean updateCompanyPreferences(ClientCompanyPreferences preferences)
 			throws AccounterException;
 
