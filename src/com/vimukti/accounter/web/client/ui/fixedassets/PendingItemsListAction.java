@@ -3,8 +3,6 @@
  */
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -43,21 +41,18 @@ public class PendingItemsListAction extends Action {
 
 	@Override
 	public void run() {
-		GWT.runAsync(new RunAsyncCallback() {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			@Override
-			public void onSuccess() {
+			public void onCreated() {
+
 				view = new PendingItemsListView();
 				MainFinanceWindow.getViewManager().showView(view, null, false,
 						PendingItemsListAction.this);
 
 			}
 
-			@Override
-			public void onFailure(Throwable arg0) {
-				Accounter
-						.showError(Accounter.constants().unableToshowtheview());
-
+			public void onCreateFailed(Throwable t) {
+				// //UIUtils.logError("Failed to Load Vendor View..", t);
 			}
 		});
 	}
