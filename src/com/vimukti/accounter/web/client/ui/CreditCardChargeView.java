@@ -709,7 +709,7 @@ public class CreditCardChargeView extends
 		
 		// 3. vendorForm validation
 		// 4. termsForm validation
-		// 5. if(isBlankTransation) ERROR
+		// 5. if(isBlankTransation(vendorTransactionGrid)) ERROR
 		// 6. vendorTransactionGrid validation
 		
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
