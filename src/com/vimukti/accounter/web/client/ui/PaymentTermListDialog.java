@@ -96,9 +96,9 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			if (rec.getDue() != 0) {
 				dialog.dueSelect.setValue(dialog.dueValues[rec.getDue() - 1]);
 			}
-			dialog.dayText.setValue(rec.getDueDays());
-			dialog.discText.setValue(rec.getDiscountPercent());
-			dialog.discDayText.setValue(rec.getIfPaidWithIn());
+			dialog.dayText.setValue(String.valueOf(rec.getDueDays()));
+			dialog.discText.setValue(String.valueOf(rec.getDiscountPercent()));
+			dialog.discDayText.setValue(String.valueOf(rec.getIfPaidWithIn()));
 		}
 
 		dialog.setCallback(new ActionCallback<ClientPaymentTerms>() {
