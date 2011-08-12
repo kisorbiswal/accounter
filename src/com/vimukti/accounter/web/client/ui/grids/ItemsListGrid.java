@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
@@ -83,7 +84,9 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	@Override
 	public void onDoubleClick(ClientItem obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			ActionFactory.getNewItemAction(true).run(obj, true);
+			NewItemAction itemAction = ActionFactory.getNewItemAction(true);
+			itemAction.setType(obj.getType());
+			itemAction.run(obj, false);
 		}
 	}
 
