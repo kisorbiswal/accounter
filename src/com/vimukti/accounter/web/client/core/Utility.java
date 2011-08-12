@@ -1221,7 +1221,7 @@ public class Utility implements IsSerializable, Serializable {
 
 	public static <T extends IAccounterCore> long getID(T source) {
 
-		return source != null ? source.getID() : -1;
+		return source != null ? source.getID() : 0;
 
 	}
 
