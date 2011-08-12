@@ -203,7 +203,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		if (phoneSelect == null)
 			return;
 
-		phoneSelect.setValueMap("");
+		phoneSelect.setValue("");
 		phoneSelect.setValue("");
 
 		Set<String> contactsPhoneList = vendor.getContactsPhoneList();
@@ -211,7 +211,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		this.phoneList = contactsPhoneList.toArray(new String[contactsPhoneList
 				.size()]);
 
-		phoneSelect.setValueMap(phoneList);
+		// phoneSelect.setValueMap(phoneList);
 		phoneSelect.setDisabled(isEdit);
 		// phoneSelect.setShowDisabled(false);
 

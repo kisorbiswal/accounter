@@ -932,8 +932,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 					this.taxCodeSelect
 							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 				}
-				this.salesTaxTextNonEditable.setValue(transaction
-						.getSalesTaxAmount());
+				this.salesTaxTextNonEditable.setValue(String
+						.valueOf(transaction.getSalesTaxAmount()));
 			}
 
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());

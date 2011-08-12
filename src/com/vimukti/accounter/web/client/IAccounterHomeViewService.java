@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -193,7 +194,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ClientTransactionMakeDeposit getTransactionMakeDeposit(
 			long transactionMakeDepositId);
 
-	public ArrayList<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
+	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
 
 	public ArrayList<SalesOrdersList> getSalesOrders()
 			throws AccounterException;

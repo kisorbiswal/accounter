@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * @author Gajendra Choudhary
  * 
  */
-public class RadioGroupItem extends FormItem {
+public class RadioGroupItem extends FormItem<String> {
 
 	RadioButton radioButton;
 	VerticalPanel vPanel;
@@ -56,8 +56,7 @@ public class RadioGroupItem extends FormItem {
 
 		for (String string : buttonTitles) {
 			if (this.grouoName == null) {
-				this.grouoName = Accounter.constants()
-						.radioButtonGroup();
+				this.grouoName = Accounter.constants().radioButtonGroup();
 			}
 			radioButton = new RadioButton(this.grouoName, string);
 			this.radioButtonList.add(radioButton);
@@ -71,14 +70,14 @@ public class RadioGroupItem extends FormItem {
 
 	public void setValueMap(String title1, String title2) {
 
-		radioButton = new RadioButton(Accounter.constants()
-				.radioButtonGroup(), title1);
+		radioButton = new RadioButton(Accounter.constants().radioButtonGroup(),
+				title1);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
-		radioButton = new RadioButton(Accounter.constants()
-				.radioButtonGroup(), title2);
+		radioButton = new RadioButton(Accounter.constants().radioButtonGroup(),
+				title2);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
@@ -118,8 +117,8 @@ public class RadioGroupItem extends FormItem {
 	}
 
 	@Override
-	public void setValue(Object value) {
-		this.highLightedRadioButton = value.toString();
+	public void setValue(String value) {
+		this.highLightedRadioButton = value;
 		for (RadioButton radioButton : this.radioButtonList) {
 			if (radioButton.getText().equals(this.highLightedRadioButton)) {
 				radioButton.setValue(true);
@@ -137,7 +136,7 @@ public class RadioGroupItem extends FormItem {
 	@Override
 	public Widget getMainWidget() {
 		if (this.isShowTitle()) {
-			
+
 			String title = this.getTitle();
 			// radioGroupTitle.setText(title);
 			this.vPanel.add(radioGroupTitle);

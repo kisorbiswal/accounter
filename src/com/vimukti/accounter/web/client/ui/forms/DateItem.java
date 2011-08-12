@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.widgets.DatePicker;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
-public class DateItem extends FormItem {
+public class DateItem extends FormItem<ClientFinanceDate> {
 
 	HorizontalPanel datePanel = new HorizontalPanel();
 
@@ -27,7 +27,6 @@ public class DateItem extends FormItem {
 	private DateValueChangeHandler handler;
 	private PopupPanel panel;
 	private DatePicker datePicker = new DatePicker();
-	
 
 	// FinanceImages images = GWT.create(FinanceImages.class);
 
@@ -51,7 +50,6 @@ public class DateItem extends FormItem {
 			}
 		});
 
-	
 		datePicker.setWidth("160px");
 		// datePanel.setSpacing(3);
 		datePanel.add(datePicker);
@@ -88,21 +86,24 @@ public class DateItem extends FormItem {
 	}
 
 	@Override
-	public void setValue(Object value) {
+	public void setValue(ClientFinanceDate value) {
 		if (value != null && !value.equals("")) {
 			super.setValue(value);
-			if (value instanceof Date)
-				this.datePicker.setSelectedDate((Date) value);
-			if (value instanceof ClientFinanceDate)
-				this.datePicker.setSelectedDate(((ClientFinanceDate) value)
-						.getDateAsObject());
+			setValue(value.getDateAsObject());
+		}
+
+	}
+
+	public void setValue(Date date) {
+		if (date != null && !date.equals("")) {
+			this.datePicker.setSelectedDate(date);
 		}
 
 	}
 
 	public void setEnteredDate(Date value) {
 		if (value != null && !value.equals("")) {
-			super.setValue(value);
+			setValue(value);
 			this.datePicker.setSelectedDate(value);
 		}
 
@@ -110,7 +111,7 @@ public class DateItem extends FormItem {
 
 	public void setEnteredDate(ClientFinanceDate value) {
 		if (value != null && !value.equals("")) {
-			super.setValue(value.getDateAsObject());
+			setValue(value.getDateAsObject());
 			this.datePicker.setSelectedDate(value.getDateAsObject());
 		}
 

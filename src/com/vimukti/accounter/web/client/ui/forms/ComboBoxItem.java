@@ -48,7 +48,6 @@ public class ComboBoxItem extends FormItem<String> {
 
 	}
 
-	@Override
 	public void setValueMap(String... values) {
 		this.listBox.clear();
 		for (String valueString : values) {

@@ -204,10 +204,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					@Override
 					public void onDateValueChange(ClientFinanceDate date) {
 						setDateValues(date);
-					
+
 					}
 				});
-		
+
 		transactionNumber = createTransactionNumberItem();
 
 		listforms = new ArrayList<DynamicForm>();
@@ -532,8 +532,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			// refText.setValue(estimate.getReference());
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
-				vatTotalNonEditableText.setValue(transaction.getTotal()
-						- transaction.getNetAmount());
+				vatTotalNonEditableText.setValue(String.valueOf(transaction
+						.getTotal() - transaction.getNetAmount()));
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());

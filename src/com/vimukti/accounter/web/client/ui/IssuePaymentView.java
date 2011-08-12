@@ -227,7 +227,7 @@ public class IssuePaymentView extends BaseDialog {
 							}
 							// setCheckNo(result);
 							// CheckNoText.setValue(getCheckNo());
-							checkNoText.setValue(result);
+							checkNoText.setValue(String.valueOf(result));
 						}
 
 					});
@@ -366,8 +366,8 @@ public class IssuePaymentView extends BaseDialog {
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(
 					getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-							.constants().startingCheckNo()
-							: Accounter.constants().startingChequeNo());
+							.constants().startingCheckNo() : Accounter
+							.constants().startingChequeNo());
 			checkNoText.setWidth(100);
 			checkNoText.setRequired(true);
 			if (selectedPayFromAccount != null)

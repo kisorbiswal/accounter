@@ -549,8 +549,8 @@ public class CashSalesView extends
 					this.taxCodeSelect
 							.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
 				}
-				this.salesTaxTextNonEditable
-						.setValue(transaction.getSalesTax());
+				this.salesTaxTextNonEditable.setValue(String
+						.valueOf(transaction.getSalesTax()));
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());

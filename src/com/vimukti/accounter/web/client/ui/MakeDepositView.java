@@ -247,7 +247,7 @@ public class MakeDepositView extends
 
 		gridView.addLoadingImagePanel();
 
-		AccounterAsyncCallback<ArrayList<ClientTransactionMakeDeposit>> callback = new AccounterAsyncCallback<ArrayList<ClientTransactionMakeDeposit>>() {
+		AccounterAsyncCallback<List<ClientTransactionMakeDeposit>> callback = new AccounterAsyncCallback<List<ClientTransactionMakeDeposit>>() {
 
 			public void onException(AccounterException caught) {
 				Accounter.showError(Accounter.constants()
@@ -256,7 +256,7 @@ public class MakeDepositView extends
 			}
 
 			public void onResultSuccess(
-					ArrayList<ClientTransactionMakeDeposit> result) {
+					List<ClientTransactionMakeDeposit> result) {
 				if (result == null) {
 					onFailure(null);
 					return;
@@ -639,10 +639,11 @@ public class MakeDepositView extends
 			date.setValue(transaction.getDate());
 			memoText.setValue(transaction.getMemo());
 			this.transactionItems = transaction.getTransactionItems();
-			cashBackAmountText.setValue(transaction.getCashBackAmount());
+			cashBackAmountText.setValue(String.valueOf(transaction
+					.getCashBackAmount()));
 			cashBackMemoText.setValue(transaction.getCashBackMemo());
 			cashBackAccountSelect.setValue(transaction.getCashBackAccount());
-			totText.setValue(transaction.getTotal());
+			totText.setValue(String.valueOf(transaction.getTotal()));
 			gridView.setCanEdit(false);
 		}
 		// FIXME--need to implement this feature
@@ -766,8 +767,7 @@ public class MakeDepositView extends
 			public void onClick(ClickEvent event) {
 				ClientTransactionMakeDeposit deposit = new ClientTransactionMakeDeposit();
 				deposit.setIsNewEntry(true);
-				deposit
-						.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
+				deposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
 				// deposit.set
 				gridView.addData(deposit);
 				gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
@@ -951,20 +951,20 @@ public class MakeDepositView extends
 			result.add(gridView.validateGrid());
 		}
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateTransactionDate());
 		} else if (AccounterValidator
 				.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
 		}
 		result.add(depoForm.validate());
 		if (AccounterValidator.isNegativeAmount(cashBackAmountText.getAmount())) {
-			result.addError(cashBackAmountText, accounterConstants
-					.invalidNegativeAmount());
+			result.addError(cashBackAmountText,
+					accounterConstants.invalidNegativeAmount());
 		} else if (!AccounterValidator.isValidMakeDeposit_CashBackAmount(
-				cashBackAmountText.getAmount().doubleValue(), totText
-						.getAmount())) {
+				cashBackAmountText.getAmount().doubleValue(),
+				totText.getAmount())) {
 			result.addError(cashBackAmountText, Accounter.constants()
 					.makeDepositCashBackAmount());
 		}
@@ -1207,8 +1207,7 @@ public class MakeDepositView extends
 		// Setting Cash back account
 		transaction
 				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
-						.getID()
-						: null);
+						.getID() : null);
 		if (cashBackMemoText.getValue() != null)
 			transaction.setCashBackMemo(cashBackMemoText.getValue().toString());
 

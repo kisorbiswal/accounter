@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -224,7 +225,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ClientTransactionMakeDeposit> callback);
 
 	public void getTransactionMakeDeposits(
-			AsyncCallback<ArrayList<ClientTransactionMakeDeposit>> callback);
+			AsyncCallback<List<ClientTransactionMakeDeposit>> callback);
 
 	public void getSalesOrders(
 			AsyncCallback<ArrayList<SalesOrdersList>> callback);

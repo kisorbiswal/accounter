@@ -4,7 +4,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class LabelItem extends FormItem {
+public class LabelItem extends FormItem<String> {
 
 	private Label label;
 
@@ -18,8 +18,8 @@ public class LabelItem extends FormItem {
 	}
 
 	@Override
-	public void setValue(Object value) {
-		this.label.setText(value.toString());
+	public void setValue(String value) {
+		this.label.setText(value);
 		super.setValue(value);
 	}
 
@@ -31,8 +31,8 @@ public class LabelItem extends FormItem {
 	public void setWidth(String width) {
 		label.setWidth(width);
 	}
-	
-	public void addClickHandler(ClickHandler handler){
+
+	public void addClickHandler(ClickHandler handler) {
 		label.addClickHandler(handler);
 	}
 

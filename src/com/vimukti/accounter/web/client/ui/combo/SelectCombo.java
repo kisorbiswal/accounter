@@ -75,4 +75,12 @@ public class SelectCombo extends CustomCombo<String> {
 		super.setValue(value);
 	}
 
+	/**
+	 * 
+	 */
+	public void setValueMap(String... strings) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

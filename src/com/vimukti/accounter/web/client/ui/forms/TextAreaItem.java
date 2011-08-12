@@ -4,7 +4,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
-public class TextAreaItem extends FormItem {
+public class TextAreaItem extends FormItem<String> {
 
 	TextArea textArea;
 
@@ -29,12 +29,12 @@ public class TextAreaItem extends FormItem {
 		}
 	}
 
-	public Object getValue() {
+	public String getValue() {
 		return textArea.getText();
 	}
 
-	public void setValue(Object value) {
-		this.textArea.setValue(String.valueOf(value));
+	public void setValue(String value) {
+		this.textArea.setValue(value);
 	}
 
 	public String getDisplayValue() {

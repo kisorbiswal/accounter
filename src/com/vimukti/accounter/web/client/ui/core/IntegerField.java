@@ -58,8 +58,8 @@ public class IntegerField extends TextItem {
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							errorsWidget.addError(this,
-									Accounter.constants().incorrectInformation());
+							errorsWidget.addError(this, Accounter.constants()
+									.incorrectInformation());
 						}
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);
@@ -77,7 +77,7 @@ public class IntegerField extends TextItem {
 	public void setNumber(Long enteredNumber) {
 		this.number = enteredNumber;
 		if (enteredNumber != null)
-			setValue(enteredNumber);
+			setValue(String.valueOf(enteredNumber));
 		else
 			setValue("");
 

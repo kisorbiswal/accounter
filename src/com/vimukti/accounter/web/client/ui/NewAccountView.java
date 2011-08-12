@@ -894,7 +894,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				Accounter.constants().openingBalances()))) {
 			validateAccountNumber(accNoText.getNumber());
 		}
-		if (AccounterValidator.isPriorToCompanyPostingDate(asofDate.getEnteredDate())) {
+		if (AccounterValidator.isPriorToCompanyPostingDate(asofDate
+				.getEnteredDate())) {
 			result.addError(asofDate, Accounter.constants().priorasOfDate());
 		}
 		if (accountType == ClientAccount.TYPE_BANK) {
@@ -1020,7 +1021,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		accTypeSelect
 				.setComboItem(Utility.getAccountTypeString(data.getType()));
-		accNoText.setValue(data.getNumber() != null ? data.getNumber() : 0);
+		accNoText.setValue(data.getNumber() != null ? String.valueOf(data
+				.getNumber()) : "");
 		accountNo = data.getNumber() != null ? data.getNumber() : "0";
 
 		if (data.getName().equalsIgnoreCase("Opening Balances"))
@@ -1287,7 +1289,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				return false;
 			}
 		}
-		accNoText.setValue(number);
+		accNoText.setValue(String.valueOf(number));
 
 		return true;
 

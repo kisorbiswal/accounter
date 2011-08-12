@@ -49,8 +49,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				Accounter.constants().custom() };
 
 		checkDetailCombo = new ComboBoxItem();
-		checkDetailCombo.setTitle(Accounter.constants()
-				.paymentMethod());
+		checkDetailCombo.setTitle(Accounter.constants().paymentMethod());
 		checkDetailCombo.setValueMap(statusArray);
 		checkDetailCombo.setDefaultValue(statusArray[0]);
 		checkDetailCombo.addChangeHandler(new ChangeHandler() {
@@ -60,7 +59,8 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				ClientFinanceDate startDate = fromItem.getDate();
 				ClientFinanceDate endDate = toItem.getDate();
 				reportview.makeReportRequest(
-						(Long) checkDetailCombo.getValue(), startDate, endDate);
+						Long.parseLong(checkDetailCombo.getValue()), startDate,
+						endDate);
 
 			}
 		});
@@ -102,8 +102,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				endDate = (ClientFinanceDate) toItem.getValue();
 			}
 		});
-		updateButton = new Button(Accounter.constants()
-				.update());
+		updateButton = new Button(Accounter.constants().update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -113,8 +112,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeItem.setDefaultValue(Accounter.constants()
-						.custom());
+				dateRangeItem.setDefaultValue(Accounter.constants().custom());
 				setSelectedDateRange(Accounter.constants().custom());
 
 			}
@@ -124,8 +122,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		// toItem.setDisabled(true);
 		// updateButton.setEnabled(false);
 
-		Button printButton = new Button(Accounter
-				.constants().print());
+		Button printButton = new Button(Accounter.constants().print());
 		// printButton.setTop(2);
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {
@@ -151,8 +148,9 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
-		reportview.makeReportRequest((Long) checkDetailCombo.getValue(),
-				startDate, endDate);
+		reportview
+				.makeReportRequest(Long.parseLong(checkDetailCombo.getValue()),
+						startDate, endDate);
 
 		// itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
 		// endDate);

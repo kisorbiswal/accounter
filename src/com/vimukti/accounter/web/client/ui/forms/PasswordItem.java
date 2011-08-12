@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
 
-public class PasswordItem extends FormItem {
+public class PasswordItem extends FormItem<String> {
 
 	public PasswordTextBox passwordBox;
 
@@ -79,7 +79,7 @@ public class PasswordItem extends FormItem {
 	}
 
 	@Override
-	public Object getValue() {
+	public String getValue() {
 		if (passwordBox.getText() == null)
 			return "";
 		return passwordBox.getText();
@@ -94,9 +94,9 @@ public class PasswordItem extends FormItem {
 	}
 
 	@Override
-	public void setValue(Object value) {
+	public void setValue(String value) {
 		if (value != null)
-			this.passwordBox.setValue(value.toString());
+			this.passwordBox.setValue(value);
 
 	}
 
@@ -145,7 +145,6 @@ public class PasswordItem extends FormItem {
 
 	}
 
-	
 	private void setBorder() {
 
 	}

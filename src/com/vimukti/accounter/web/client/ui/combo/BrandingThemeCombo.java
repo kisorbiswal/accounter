@@ -26,7 +26,6 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 			return "";
 	}
 
-
 	@Override
 	protected String getColumnData(ClientBrandingTheme object, int row, int col) {
 		switch (col) {
@@ -34,11 +33,6 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 			return object.getThemeName();
 		}
 		return null;
-	}
-
-	@Override
-	public void setDefaultValue(String value) {
-		super.setDefaultValue(value);
 	}
 
 	@Override

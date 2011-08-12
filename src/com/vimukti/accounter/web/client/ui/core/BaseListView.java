@@ -505,7 +505,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	}
 
-
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 		cmd = command;

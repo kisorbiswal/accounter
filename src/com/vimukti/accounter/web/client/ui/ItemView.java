@@ -494,7 +494,7 @@ public class ItemView extends BaseView<ClientItem> {
 				skuText.setValue(data.getUPCorSKU() != null ? data
 						.getUPCorSKU() : "");
 
-			weightText.setValue(UIUtils.toLong(data.getWeight()));
+			weightText.setValue(String.valueOf(data.getWeight()));
 
 			isellCheck.setValue(data.isISellThisItem());
 			if (data.getSalesDescription() != null)

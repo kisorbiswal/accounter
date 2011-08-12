@@ -72,7 +72,7 @@ public class RecieveVATView extends
 	private ArrayList<ClientReceiveVATEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
 	AccounterConstants accounterConstants = Accounter.constants();
-			
+
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
 	private AccounterConstants companyConstants = Accounter.constants();
@@ -348,7 +348,7 @@ public class RecieveVATView extends
 		transNumber.setValue(transaction.getNumber());
 		endingBalanceText.setAmount(transaction.getEndingBalance());
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-		amountText.setValue(transaction.getTotal());
+		amountText.setValue(String.valueOf(transaction.getTotal()));
 		List<ClientTransactionReceiveVAT> list = transaction
 				.getClientTransactionReceiveVAT();
 		int count = 0;
@@ -483,7 +483,7 @@ public class RecieveVATView extends
 		if (isEdit) {
 			if (!AccounterValidator.isPositiveAmount(totalAmount)) {
 				// FIXME Need to Configm Object
-				result.addError("TotalAmount",accounterConstants.amount());
+				result.addError("TotalAmount", accounterConstants.amount());
 			}
 		}
 		return result;

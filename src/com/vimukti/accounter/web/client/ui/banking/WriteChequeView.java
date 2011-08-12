@@ -207,7 +207,7 @@ public class WriteChequeView extends
 			// mainVLay.add(customerGrid);
 		} else if (gridView instanceof VendorTransactionGrid
 				|| gridView instanceof TaxAgencyTransactionGrid) {
-			@SuppressWarnings( { "unused" })
+			@SuppressWarnings({ "unused" })
 			VendorTransactionGrid vendorGrid = (VendorTransactionGrid) gridView;
 			setMenuRequired(true);
 		}
@@ -509,7 +509,8 @@ public class WriteChequeView extends
 
 			if (transaction == null)
 				if (!validateAmount()) {
-					result.addError(memoTextAreaItem, accounterConstants.amount());
+					result.addError(memoTextAreaItem,
+							accounterConstants.amount());
 				}
 		}
 		return result;
@@ -1107,16 +1108,17 @@ public class WriteChequeView extends
 				this.amtText.setAmount(transactionCustomerGrid.getTotal());
 				text.setValue(Utility.getNumberInWords(transactionCustomerGrid
 						.getTotal().toString()));
-				totalTxt.setValue(transactionCustomerGrid.getTotal());
+				totalTxt.setValue(String.valueOf(transactionCustomerGrid
+						.getTotal()));
 				netAmount.setAmount(transactionCustomerGrid.getGrandTotal());
 
 			} else if (payee instanceof ClientVendor
 					|| payee instanceof ClientTAXAgency) {
 				this.amtText.setAmount(transactionVendorGrid.getTotal());
 				text.setValue(Utility.getNumberInWords(transactionVendorGrid
-						.getTotal()
-						+ ""));
-				totalTxt.setValue(transactionVendorGrid.getTotal());
+						.getTotal() + ""));
+				totalTxt.setValue(String.valueOf(transactionVendorGrid
+						.getTotal()));
 				netAmount.setAmount(transactionVendorGrid.getGrandTotal());
 			}
 

@@ -723,11 +723,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						+ " "
 						+ UIUtils.getDateStringByDate(enteredDate.toString()),
 						this);
-				accmulatdDepreciationTxt.setValue(getDepreciationAmount());
+				accmulatdDepreciationTxt.setValue(String
+						.valueOf(getDepreciationAmount()));
 
 				if (isEdit)
-					accmulatdDepreciationTxt.setValue(data
-							.getAccumulatedDepreciationAmount());
+					accmulatdDepreciationTxt.setValue(String.valueOf(data
+							.getAccumulatedDepreciationAmount()));
 
 				acumulatedDeprcForm = new DynamicForm();
 				listforms.add(acumulatedDeprcForm);
@@ -980,8 +981,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 			if (!AccounterValidator.isValidPurchaseDate(purchaseDateTxt
 					.getEnteredDate())) {
-				result.addError(purchaseDateTxt,
-						Accounter.constants().invalidPurchaseDate());
+				result.addError(purchaseDateTxt, Accounter.constants()
+						.invalidPurchaseDate());
 			}
 
 		} else {
@@ -990,8 +991,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 			if (!AccounterValidator.isValidPurchaseDate(purchaseDateTxt
 					.getEnteredDate())) {
-				result.addError(purchaseDateTxt,
-						Accounter.constants().invalidPurchaseDate());
+				result.addError(purchaseDateTxt, Accounter.constants()
+						.invalidPurchaseDate());
 			}
 
 			if (accountCombo != null && accumulatedDepreciationAccount != null) {
@@ -1004,8 +1005,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (!AccounterValidator
 				.isFixedAssetPurchaseDateWithinRange(purchaseDateTxt
 						.getEnteredDate())) {
-			result.addError(purchaseDateTxt,
-					Accounter.constants().purchaseDatesShoudBewithInFiscalYearRange());
+			result.addError(purchaseDateTxt, Accounter.constants()
+					.purchaseDatesShoudBewithInFiscalYearRange());
 		}
 		return result;
 	}

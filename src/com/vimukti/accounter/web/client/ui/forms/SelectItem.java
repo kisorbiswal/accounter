@@ -7,13 +7,13 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SelectItem extends FormItem {
+public class SelectItem extends FormItem<String> {
 
 	ListBox listBox;
 	LinkedHashMap<String, String> propertyValueHashMap;
 
 	@Override
-	public Object getValue() {
+	public String getValue() {
 		if (listBox.getSelectedIndex() >= 0)
 			return listBox.getValue(listBox.getSelectedIndex());
 		return null;
@@ -61,21 +61,20 @@ public class SelectItem extends FormItem {
 		// NOTHING TO DO.
 	}
 
-	
 	public void setMultiple(boolean b) {
 		this.listBox.setMultipleSelect(b);
 
 	}
 
 	@Override
-	public void setValue(Object value) {
+	public void setValue(String value) {
 		int valuesCount = this.listBox.getItemCount();
 		for (int i = 0; i < valuesCount; i++) {
 			if (this.listBox.getItemText(i).equals(value))
 				this.listBox.setSelectedIndex(i);
 		}
 		if (this.listBox.getSelectedIndex() == -1) {
-			this.listBox.addItem((String) value);
+			this.listBox.addItem(value);
 			this.listBox.setSelectedIndex(0);
 
 		}
@@ -91,7 +90,6 @@ public class SelectItem extends FormItem {
 		}
 	}
 
-	@Override
 	public void setValueMap(String... values) {
 
 		listBox.clear();
