@@ -69,6 +69,11 @@ public class PhoneFaxForm extends DynamicForm {
 				if (event != null) {
 					try {
 						String ph = businessPhoneText.getValue().toString();
+						if(ph.equals(""))
+						{
+							errorWidget.clearAllErrors();
+							return;
+						}
 						if (!ph.equals("") && !UIUtils.isValidPhone(ph)) {
 							// BaseView.errordata.setHTML("<li> "
 							// + AccounterErrorType.INCORRECTINFORMATION
@@ -134,6 +139,11 @@ public class PhoneFaxForm extends DynamicForm {
 			public void onChange(ChangeEvent event) {
 				if (event != null) {
 					String fx = businessFaxText.getValue().toString();
+					if(fx.equals(""))
+					{
+						errorWidget.clearAllErrors();
+						return;
+					}
 					if (!fx.equals("") && !UIUtils.isValidFax(fx)) {
 						// BaseView.errordata
 						// .setHTML("<li> "
@@ -149,6 +159,7 @@ public class PhoneFaxForm extends DynamicForm {
 						// BaseView.errordata.setHTML("");
 						// BaseView.commentPanel.setVisible(false);
 
+						errorWidget.clearAllErrors();
 						ClientFax fax = new ClientFax();
 						fax.setType(UIUtils.getFaxType(businessFaxSelect
 								.getDisplayValue().toString()));
