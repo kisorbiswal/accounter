@@ -196,7 +196,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 			public void onResultSuccess(ClientCustomer result) {
 				if (result != null) {
-					ActionFactory.getNewCustomerAction().run(result, true);
+					ActionFactory.getNewCustomerAction().run(result, false);
 				}
 			}
 
