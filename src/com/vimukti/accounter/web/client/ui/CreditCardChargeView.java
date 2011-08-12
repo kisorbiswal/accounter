@@ -117,6 +117,7 @@ public class CreditCardChargeView extends
 		}
 
 		contactNameSelect.initCombo(idNamesForContacts);
+
 		// phoneSelect.initCombo(phones);
 
 		// ClientVendor cv = FinanceApplication.getCompany().getVendor(
@@ -339,7 +340,6 @@ public class CreditCardChargeView extends
 
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						selectedVendor = selectItem;
-
 						if (selectedVendor.getPaymentMethod() != null) {
 							paymentMethodSelected(selectedVendor
 									.getPaymentMethod());
@@ -353,6 +353,15 @@ public class CreditCardChargeView extends
 
 		contactNameSelect = new SelectCombo(Accounter.constants().contactName());
 		contactNameSelect.setHelpInformation(true);
+		contactNameSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						contactNameSelect.setSelected(selectItem);
+
+					}
+				});
 		// contactNameSelect.setWidth(100);
 		formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
@@ -702,16 +711,16 @@ public class CreditCardChargeView extends
 		// 1. if(! validTransactionDate(transactionDate)) ERROR
 		// if transaction date is with in the open fiscal year range, then it is
 		// valid transaction date
-		
-		
+
 		// 2. if( isInPreventPostingBeforeDate(transactionDate)) ERROR
-		// 		i.e the transaction date should not be before the company's preferred preventPostingBeforeDate
-		
+		// i.e the transaction date should not be before the company's preferred
+		// preventPostingBeforeDate
+
 		// 3. vendorForm validation
 		// 4. termsForm validation
 		// 5. if(isBlankTransation(vendorTransactionGrid)) ERROR
 		// 6. vendorTransactionGrid validation
-		
+
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
