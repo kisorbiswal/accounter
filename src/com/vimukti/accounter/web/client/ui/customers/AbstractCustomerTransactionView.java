@@ -283,7 +283,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		this.phoneList = contactsPhoneList.toArray(new String[contactsPhoneList
 				.size()]);
 
-		phoneSelect.setValueMap(phoneList);
+		// phoneSelect.setValueMap(phoneList);
 		if (phoneList != null && phoneList.length > 0)
 			this.phoneNo = phoneSelect.getValue().toString();
 		else
