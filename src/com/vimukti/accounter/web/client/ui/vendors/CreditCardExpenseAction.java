@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -33,28 +35,23 @@ public class CreditCardExpenseAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				try {
-
-					view = new CreditCardExpenseView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, CreditCardExpenseAction.this);
-					// UIUtils.setCanvas(view, getViewConfiguration());
-
-				} catch (Throwable t) {
-					onCreateFailed(t);
-				}
+			@Override
+			public void onSuccess() {
+				view = new CreditCardExpenseView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, CreditCardExpenseAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Customer View..", t);
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
 			}
 		});
-
 	}
 
 	@Override

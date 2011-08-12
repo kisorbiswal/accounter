@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -27,7 +29,8 @@ public class NewCashPurchaseAction extends Action {
 	}
 
 	public NewCashPurchaseAction(String newCashPurchase,
-			ClientCashPurchase cashPurchase, AccounterAsyncCallback<Object> callback) {
+			ClientCashPurchase cashPurchase,
+			AccounterAsyncCallback<Object> callback) {
 		super(newCashPurchase);
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
@@ -41,33 +44,23 @@ public class NewCashPurchaseAction extends Action {
 
 	private void runAsync(final Object data, final boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-
-				// //UIUtils.logError("Failed to load CashPurchase...", t);
-			}
-
-			public void onCreated() {
-
+			@Override
+			public void onSuccess() {
 				view = CashPurchaseView.getInstance();
-
-				try {
-
-					// UIUtils.setCanvas(view, getViewConfiguration());
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, NewCashPurchaseAction.this);
-
-				} catch (Throwable t) {
-
-					onCreateFailed(t);
-
-				}
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewCashPurchaseAction.this);
 
 			}
 
-		});
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
+			}
+		});
 	}
 
 	// @Override

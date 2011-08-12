@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -33,35 +35,24 @@ public class VendorPaymentsListAction extends Action {
 
 	@Override
 	public void run() {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-
-				// //UIUtils.logError("Failed to load VendorPaymentsList...",
-				// t);
-			}
-
-			public void onCreated() {
-
+			@Override
+			public void onSuccess() {
 				VendorPaymentsListView view = VendorPaymentsListView
 						.getInstance();
-
-				try {
-
-					// UIUtils.setCanvas(view, getViewConfiguration());
-					MainFinanceWindow.getViewManager().showView(view, null,
-							false, VendorPaymentsListAction.this);
-
-				} catch (Throwable t) {
-
-					onCreateFailed(t);
-
-				}
+				MainFinanceWindow.getViewManager().showView(view, null, false,
+						VendorPaymentsListAction.this);
 
 			}
 
-		});
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 
+			}
+		});
 	}
 
 	public ImageResource getBigImage() {
