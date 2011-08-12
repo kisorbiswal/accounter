@@ -227,8 +227,11 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			vlayTop.add(hlayTop);
 		} else {
 			hlayTop.add(addNewLabel);
-			hlayTop.setCellWidth(addNewLabel, getAddNewLabelString().length()
-					+ "px");
+			if (getAddNewLabelString().length() != 0) {
+				hlayTop.setCellWidth(addNewLabel, getAddNewLabelString()
+						.length()
+						+ "px");
+			}
 		}
 		if (isViewSelectRequired)
 			hlayTop.add(hlay);
@@ -480,8 +483,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (core.getObjectType() == grid.getType()
 				|| core.getObjectType() == AccounterCoreType.TAXAGENCY) {
 
-			IAccounterCore obj = Utility.getObject(grid.getRecords(),
-					core.getID());
+			IAccounterCore obj = Utility.getObject(grid.getRecords(), core
+					.getID());
 			switch (cmd) {
 			case AccounterCommand.CREATION_SUCCESS:
 			case AccounterCommand.UPDATION_SUCCESS:
