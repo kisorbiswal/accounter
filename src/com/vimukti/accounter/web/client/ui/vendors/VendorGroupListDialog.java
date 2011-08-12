@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -142,18 +143,16 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (inputDlg != null) {
-			String value = inputDlg.getTextItems().get(0).getValue().toString();
-			ClientVendorGroup vendorGroups2 = company
-					.getVendorGroupsByName(value);
-
+			String vendorName = inputDlg.getTextItems().get(0).getValue()
+					.toString();
+			ClientVendor vendorByName = company.getVendorByName(vendorName);
 			if (vendorGroup != null) {
-
-				if (!(vendorGroup.getName().equalsIgnoreCase(value) ? true
-						: (vendorGroups2 != null) ? false : true)) {
+				if (!(vendorGroup.getName().equalsIgnoreCase(vendorName) ? true
+						: vendorByName == null)) {
 					result.addError(this, Accounter.constants().alreadyExist());
 				}
 			} else {
-				if (vendorGroups2 != null) {
+				if (vendorByName != null) {
 					result.addError(this, UIUtils.getVendorString(Accounter
 							.constants().supplierGroupAlreadyExists(),
 							Accounter.constants().vendorGroupAlreadyExists()));
