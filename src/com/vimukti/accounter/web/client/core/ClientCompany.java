@@ -2369,113 +2369,75 @@ public class ClientCompany implements IAccounterCore {
 		return units;
 	}
 
-	public ClientTAXCode getTaxCodeByName(String taxCodeName) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientTAXCode getTaxCodeByName(String name) {
+		return Utility.getObjectByName(getTaxCodes(), name);
 	}
 
-	public ClientItemGroup getItemGroupByName(String itemGroupName) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientItemGroup getItemGroupByName(String name) {
+		return Utility.getObjectByName(getItemGroups(), name);
 	}
 
 	public ClientCreditRating getCreditRatingByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return Utility.getObjectByName(getCreditRatings(), name);
 	}
 
 	public ClientItem getItemByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return Utility.getObjectByName(getItems(), name);
 	}
 
-	public ClientPaymentTerms getPaymentTermsByName(String value) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientPaymentTerms getPaymentTermsByName(String name) {
+		return Utility.getObjectByName(getPaymentsTerms(), name);
 	}
 
 	public ClientPriceLevel getPriceLevelByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return Utility.getObjectByName(getPriceLevels(), name);
 	}
 
-	public ClientTAXGroup getTaxGroupByName(String groupName) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientTAXGroup getTaxGroupByName(String name) {
+		return Utility.getObjectByName(getTaxGroups(), name);
 	}
 
-	public ClientShippingMethod getShippingMethodByName(String methodName) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientShippingMethod getShippingMethodByName(String name) {
+		return Utility.getObjectByName(getShippingMethods(), name);
 	}
 
-	public ClientVendorGroup getVendorGroupByName(String vendorGroupName) {
-
-		for (ClientVendorGroup vendorGroup : vendorGroups) {
-			if (vendorGroup.getName().equalsIgnoreCase(vendorGroupName)) {
-				return vendorGroup;
-			}
-		}
-		return null;
+	public ClientVendorGroup getVendorGroupByName(String name) {
+		return Utility.getObjectByName(getVendorGroups(), name);
 	}
 
-	public ClientCustomerGroup getClientCustomerGroupByName(
-			String custmerGroupname) {
-		for (ClientCustomerGroup customerGroup : customerGroups) {
-			if (customerGroup.getName().equalsIgnoreCase(custmerGroupname)) {
-				return customerGroup;
-			}
-		}
-		return null;
-
+	public ClientCustomerGroup getCustomerGroupByName(String name) {
+		return Utility.getObjectByName(getCustomerGroups(), name);
 	}
 
-	public ClientFixedAsset getClientFixedAssetByName(String fixedAssetName) {
-		for (ClientFixedAsset fixedAsset : fixedAssets) {
-			if (fixedAsset.getName().equalsIgnoreCase(fixedAssetName)) {
-				return fixedAsset;
-			}
-		}
-		return null;
+	public ClientFixedAsset getFixedAssetByName(String name) {
+		return Utility.getObjectByName(getFixedAssets(), name);
 	}
 
-	public ClientBrandingTheme getClientBrandingThemeByName(
-			String brandingThemeName) {
-		for (ClientBrandingTheme clientBrandingTheme : brandingTheme) {
-			if (clientBrandingTheme.getName().equalsIgnoreCase(
-					brandingThemeName)) {
-				return clientBrandingTheme;
-			}
-		}
-		return null;
+	public ClientBrandingTheme getBrandingThemeByName(String name) {
+		return Utility.getObjectByName(getBrandingTheme(), name);
 	}
 
-	public ClientTAXItem getTaxItemByName(String itemName) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientTAXItem getTaxItemByName(String name) {
+		return Utility.getObjectByName(getTaxItems(), name);
 	}
 
 	public ClientSalesPerson getSalesPersonByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return Utility.getObjectByName(getsalesPerson(), name);
 	}
 
-	public ClientVendorGroup getVendorGroupsByName(String value) {
-		return null;
-
+	public ClientVendorGroup getVendorGroupsByName(String name) {
+		return Utility.getObjectByName(getVendorGroups(), name);
 	}
 
 	public ClientTAXGroup getVatGroupsbyname(String name) {
-		return null;
-
+		return Utility.getObjectByName(getVatGroups(), name);
 	}
 
 	public ClientTAXAgency getTaxAgenciesByName(String name) {
-		return null;
+		return Utility.getObjectByName(gettaxAgencies(), name);
 	}
 
 	public ClientTAXCode getTAXCodeByName(String name) {
-		return null;
-
+		return Utility.getObjectByName(getTaxCodes(), name);
 	}
 }
