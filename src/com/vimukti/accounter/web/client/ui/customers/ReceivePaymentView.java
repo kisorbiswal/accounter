@@ -1110,31 +1110,45 @@ public class ReceivePaymentView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
+
+		// Validations
+		// 1. isValidTransactionDate?
+		// 2. isInPreventPostingBeforeDate?
+		// 3. formItem validation
+		// 4. isBlankTransaction?
+		// 5. validateGrid?
+		// 6. isValidReceivePaymentAmount?
+		// 7. unUsedPaymentsAmount > 0 add warning
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateTransactionDate());
-		} else if (AccounterValidator
-				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem, accounterConstants.invalidateDate());
 		}
+
+		if (AccounterValidator
+				.isInPreventPostingBeforeDate(this.transactionDate)) {
+			result.addError(transactionDateItem,
+					accounterConstants.invalidateDate());
+		}
+
 		result.add(FormItem.validate(customerCombo, paymentMethodCombo,
 				depositInCombo));
 
 		if (AccounterValidator.isBlankTransaction(gridView)) {
 			result.addError(gridView, Accounter.constants().selectTransaction());
-		}
-		result.add(gridView.validateGrid());
+		} else
+			result.add(gridView.validateGrid());
+		
 		if (!isEdit) {
 			try {
 				if (AccounterValidator.isValidRecievePaymentAmount(
 						DataUtils.getAmountStringAsDouble(amtText.getValue()
 								.toString()), this.transactionTotal)) {
-					result.addError(amtText,
-							Accounter.constants().recievePaymentTotalAmount());
+					result.addError(amtText, Accounter.constants()
+							.recievePaymentTotalAmount());
 				}
 			} catch (Exception e) {
 				result.addError(amtText,
-						accounterConstants.invalidateTransactionDate());
+						accounterConstants.invalidAmount());
 			}
 		}
 		if (!isEdit
