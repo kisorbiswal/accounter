@@ -20,19 +20,12 @@ public class DepositDetailAction extends Action {
 
 			public void onCreated() {
 
-				try {
-					AbstractReportView<DepositDetail> report = new DepositDetailReport();
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent, DepositDetailAction.this);
-				} catch (Throwable t) {
-					onCreateFailed(t);
-				}
+				AbstractReportView<DepositDetail> report = new DepositDetailReport();
+				MainFinanceWindow.getViewManager().showView(report, data,
+						isDependent, DepositDetailAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// UIUtils.logError("Failed to Load Report...", t);
-			}
 		});
 
 	}

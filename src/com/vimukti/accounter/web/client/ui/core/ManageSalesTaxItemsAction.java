@@ -23,10 +23,10 @@ public class ManageSalesTaxItemsAction extends Action {
 		return null;
 	}
 
-//	@Override
-//	public ParentCanvas getView() {
-//		return this.view;
-//	}
+	// @Override
+	// public ParentCanvas getView() {
+	// return this.view;
+	// }
 
 	@Override
 	public void run() {
@@ -37,19 +37,10 @@ public class ManageSalesTaxItemsAction extends Action {
 	private void runAsync(final Object data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-			public void onCreateFailed(Throwable t) {
-
-			}
-
 			public void onCreated() {
-				try {
-					view = new SalesTaxItemsView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, ManageSalesTaxItemsAction.this);
-				} catch (Throwable e) {
-					onCreateFailed(e);
-
-				}
+				view = new SalesTaxItemsView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, ManageSalesTaxItemsAction.this);
 
 			}
 		});

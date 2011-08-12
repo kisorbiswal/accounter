@@ -4,6 +4,4 @@ public interface CreateViewAsyncCallback {
 
 	void onCreated();
 
-	void onCreateFailed(Throwable t);
-
 }
