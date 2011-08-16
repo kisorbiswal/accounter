@@ -178,8 +178,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		initTransactionNumber();
 
 		initCustomers();
-		if (!(customerTransactionViewInstance instanceof ReceivePaymentView))
-			initSalesPersons();
+
+		initSalesPersons();
 
 		initPriceLevels();
 

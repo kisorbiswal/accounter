@@ -167,11 +167,7 @@ public class CashDiscountDialog extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-		discountAccounts.put(key + "", selectedDiscountAccount);
-
-		callback.called(discAmtText.getAmount().toString());
-
-		return true;
+		return false;
 	}
 
 }

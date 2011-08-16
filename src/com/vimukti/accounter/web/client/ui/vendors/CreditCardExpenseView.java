@@ -349,9 +349,14 @@ public class CreditCardExpenseView extends
 		payMethSelect = createPaymentMethodSelectItem();
 		payMethSelect.setTitle(Accounter.constants().paymentMethod());
 		payMethSelect.setWidth(90);
-		payMethSelect.setComboItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
-						.check()));
+		List<String> paymentMthds = new ArrayList<String>();
+		paymentMthds.add(Accounter.constants().creditCard());
+		payMethSelect.initCombo(paymentMthds);
+		payMethSelect.setDefaultToFirstOption(true);
+		payMethSelect.setDisabled(true);
+		// payMethSelect.setComboItem(UIUtils
+		// .getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+		// .check()));
 
 		payFrmSelect = createPayFromselectItem();
 		payFrmSelect.setWidth(90);
@@ -378,7 +383,7 @@ public class CreditCardExpenseView extends
 
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
-		termsForm.setFields(payMethSelect, payFrmSelect, cheqNoText, delivDate);
+		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
 		termsForm.getCellFormatter().getElement(0, 0)
 				.setAttribute(Accounter.constants().width(), "203px");
 		forms.add(termsForm);
@@ -844,7 +849,7 @@ public class CreditCardExpenseView extends
 		isEdit = false;
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
-		payMethSelect.setDisabled(isEdit);
+		// payMethSelect.setDisabled(isEdit);
 		if (paymentMethod.equals(Accounter.constants().check())
 				|| paymentMethod.equals(Accounter.constants().cheque())) {
 			cheqNoText.setDisabled(isEdit);

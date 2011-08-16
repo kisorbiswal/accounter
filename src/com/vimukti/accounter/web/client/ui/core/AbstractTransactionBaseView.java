@@ -282,7 +282,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (transactionNumber == null)
 			return;
 
-		if (transaction != null) {
+		if (transaction != null && transaction.getID() != 0) {
 
 			transactionNumber.setValue(transaction.getNumber());
 			return;

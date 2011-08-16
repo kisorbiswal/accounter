@@ -1308,7 +1308,7 @@
 	-->
 	<sql-query name="getReceivePaymentTransactionsListForCustomer">
 		<query-param name="customerId" type="long" />
-		<return-scalar column="TRANSACTION_ID" type="string" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />

@@ -149,7 +149,9 @@ public class TransactionReceivePaymentGrid extends
 						.getAmountAsString(getAmountInForeignCurrency(receivePayment
 								.getCashDiscount()));
 			case 6:
-				return getAmountInForeignCurrency(receivePayment.getWriteOff());
+				return DataUtils
+						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+								.getWriteOff()));
 			case 7:
 				return DataUtils
 						.getAmountAsString(getAmountInForeignCurrency(receivePayment
@@ -206,8 +208,8 @@ public class TransactionReceivePaymentGrid extends
 			double amt, originalPayment;
 			try {
 				originalPayment = item.getPayment();
-				amt = getAmountInBaseCurrency(((Double) value).doubleValue());
-				item.setPayment(getAmountInBaseCurrency(amt));
+				amt = getAmountInBaseCurrency(Double.valueOf(value.toString()));
+				item.setPayment(amt);
 				updateAmountDue(item);
 				double totalValue = item.getCashDiscount() + item.getWriteOff()
 						+ item.getAppliedCredits() + item.getPayment();
