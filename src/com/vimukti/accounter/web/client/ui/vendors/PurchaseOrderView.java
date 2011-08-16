@@ -1055,6 +1055,28 @@ public class PurchaseOrderView extends
 
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
+		//Validations
+		//TODO:: is it required to validate transaction date?yes
+		//TODO:: do we require validation for dispatchdate, receiveddate?dispatchDate is not required
+		// 1. isValid transaction date?
+		// 2. is in prevent posting before date?
+		// 3. statusSelect valid?
+		// 4. is valid due date?
+		// 5. vendon form valid?
+		// 6. is blank transaction?
+		// 7. vendor transaction grid valid?
+		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
+		}
+
+		//TODO::: isvalid received date
+		
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
+		}
+		
 		if (!statusSelect.validate()) {
 			result.addError(statusSelect, statusSelect.getTitle());
 		}
@@ -1069,12 +1091,15 @@ public class PurchaseOrderView extends
 					+ Accounter.constants()
 							.cannotbeearlierthantransactiondate());
 		}
+		
 		result.add(vendorForm.validate());
+		
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 			result.addError(vendorTransactionGrid,
 					accounterConstants.blankTransaction());
-		}
-		result.add(vendorTransactionGrid.validateGrid());
+		}else
+			result.add(vendorTransactionGrid.validateGrid());
+		
 		return result;
 	}
 
