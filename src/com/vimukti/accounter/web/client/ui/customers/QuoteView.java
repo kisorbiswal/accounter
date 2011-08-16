@@ -420,6 +420,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 
 	}
 
+	@Override
+	protected void updateTransaction() {
+		super.updateTransaction();
+		transaction.setTotal(transactionTotalNonEditableText.getAmount());
+	}
+
 	protected void setDateValues(ClientFinanceDate date) {
 		if (date != null) {
 			super.setTransactionDate(date);
