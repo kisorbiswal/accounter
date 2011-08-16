@@ -199,10 +199,8 @@
 	</query>
 
 
-	<query name="getUsers.active">
-		from com.vimukti.accounter.core.User user where
-		user.isActive=true and user.userRole != 'Basic
-		Employee'
+	<query name="getAllUsers">
+		from com.vimukti.accounter.core.User user
 	</query>
 
 	<query name="getPayBill.form.accountId.and.status">
