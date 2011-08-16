@@ -12,7 +12,7 @@
 	<property name="linuxtar-lib.dir" value="${setup.dir}/tar/libs" />
 	<property name="win-lib.dir" value="${setup.dir}/windows/libs" />
 	<property name="gwt.sdk" location="${env.GWT_SDK}" />
-	<property name="version-number" value="1.1.4" />
+	<property name="version-number" value="1.0.0.4" />
 
 	<!-- Checking GWT path -->
 	<target name="check-gwtpath">
@@ -24,6 +24,7 @@
 	<path id="gwtlibraries">
 		<pathelement location="${gwt.sdk}/gwt-user.jar" />
 		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA.jar"/>
+		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA-sources.jar"/>
 		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" />
 		<fileset dir="${acc.dir}">
 			<include name="**/*.jar" />
@@ -156,7 +157,7 @@
 	</target>
 
 	<!--Windows Setup-->
-	<target name="win-setup" depends="setup">
+	<!-- <target name="win-setup" depends="setup">
 		<copy todir="${setup.dir}/windows">
 			<fileset dir="./">
 				<include name="libs/**" />
@@ -167,8 +168,7 @@
 				<include name="*.jar" />
 			</fileset>
 		</copy>
-		<exec command="makensis ${setup.dir}/windows/AccounterSetup.nsi">
-		</exec>
+		
 		<copy todir="${output.dir}">
 			<fileset dir="${setup.dir}/windows">
 				<include name="AccounterSetup.exe" />
@@ -185,10 +185,10 @@
 				<include name="Accounter.exe" />
 			</fileset>
 		</move>
-	</target>
+	</target> -->
 
 	<target name="clean-setup" depends="clean,setup" />
-	<target name="setupandclean" depends="clean-setup,linux-setup-tar,win-setup" />
+	<target name="setupandclean" depends="clean-setup,linux-setup-tar" />
 
 
 </project>
