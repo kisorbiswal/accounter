@@ -363,7 +363,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			// manager.merge(checks);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+      			e.printStackTrace();
 		}
 
 		return new ArrayList<IssuePaymentTransactionsList>(checks);
