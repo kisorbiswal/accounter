@@ -261,7 +261,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		OperationContext context = new OperationContext(coreUser,
 				getUserEmail(), String.valueOf(coreObject.getID()),
 				serverClassSimpleName);
-		return financeTool.update(context);
+		return financeTool.updateUser(context);
 	}
 
 	@Override
