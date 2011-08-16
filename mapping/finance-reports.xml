@@ -1634,7 +1634,7 @@
 		<return-scalar column="ACCOUNT" type="string" />
 		<return-scalar column="MEMO" type="string" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_ID" type="string" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="IS_VOIDED" type="boolean" />
 		
 		
