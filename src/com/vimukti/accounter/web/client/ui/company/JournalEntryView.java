@@ -90,7 +90,7 @@ public class JournalEntryView extends
 		// 5. is blank transaction?
 		// 6. is valid grid?
 		// 7. is valid total?
-		
+
 		if (memoText.getValue().toString() != null
 				&& memoText.getValue().toString().length() >= 256) {
 			result.addError(memoText, Accounter.constants()
@@ -425,7 +425,6 @@ public class JournalEntryView extends
 
 	@Override
 	protected void initTransactionViewData() {
-
 		if (transaction != null) {
 			jourNoText.setValue(transaction.getNumber());
 			transactionDateItem.setEnteredDate(transaction.getDate());
@@ -473,8 +472,9 @@ public class JournalEntryView extends
 			if (transaction.getMemo() != null)
 				memoText.setValue(transaction.getMemo());
 			updateTransaction();
+		} else {
+			setData(new ClientJournalEntry());
 		}
-		setData(new ClientJournalEntry());
 		initJournalNumber();
 		if (!isEdit)
 			initVocherNumer();
