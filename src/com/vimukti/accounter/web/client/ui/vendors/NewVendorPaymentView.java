@@ -486,7 +486,11 @@ public class NewVendorPaymentView extends
 	public ValidationResult validate() {
 
 		ValidationResult result = super.validate();
-
+		//Validations
+		// 1. is valid transaction date?
+		// 2. is in prevent posting before date?
+		// 3. pay form valid?
+		
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
