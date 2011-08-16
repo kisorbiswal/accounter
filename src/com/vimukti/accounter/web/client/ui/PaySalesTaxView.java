@@ -505,8 +505,8 @@ public class PaySalesTaxView extends
 		ValidationResult result = super.validate();
 
 		//Validations
-		//TODO::: 1. is valid transaction date?
-		//TODO::: 2. is in prevent posting before date?
+		// 1. is valid transaction date?
+		// 2. is in prevent posting before date?
 		// 3. filter form valid?
 		// 4. is blank transaction?
 		// 5. grid valid?
