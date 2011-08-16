@@ -212,7 +212,11 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		String name = groupName.getValue();
-
+		//already exists?
+		//form validation
+		//have transaction?
+		//grid validation
+		
 		ClientTAXGroup vatGroupsbyname = getCompany().getVatGroupsbyname(name);
 
 		if (!((isEdit && vatGroupsbyname != null || vatGroupsbyname.getID() == this
@@ -220,14 +224,16 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (vatGroupsbyname != null) ? false : true) : true)) {
 			result.addError(groupName, Accounter.constants().alreadyExist());
-			result.add(form.validate());
+			return result;
 		}
+
+		result.add(form.validate());
 
 		if (gridView != null && gridView.getRecords().isEmpty()) {
 			result.addError(gridView, Accounter.constants()
 					.pleaseenteraTransaction());
-		}
-		result.add(gridView.validateGrid());
+		} else
+			result.add(gridView.validateGrid());
 
 		return result;
 	}
