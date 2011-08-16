@@ -1060,7 +1060,7 @@ public class PurchaseOrderView extends
 		//TODO:: do we require validation for dispatchdate, receiveddate?dispatchDate is not required
 		// 1. isValid transaction date?
 		// 2. is in prevent posting before date?
-		// 3. statusSelect valid?
+		// 3. statusSelect valid? is valid received date?
 		// 4. is valid due date?
 		// 5. vendon form valid?
 		// 6. is blank transaction?
@@ -1069,12 +1069,15 @@ public class PurchaseOrderView extends
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
 		}
-
-		//TODO::: isvalid received date
 		
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateDate());
+		}
+		
+		// TODO::: isvalid received date
+		if(!AccounterValidator.isValidPurchaseOrderRecievedDate(deliveryDateItem.getDate(), transactionDate)){
+			result.addError(deliveryDateItem, Accounter.constants().receivedDateShouldNotBeAfterTransactionDate());
 		}
 		
 		if (!statusSelect.validate()) {
