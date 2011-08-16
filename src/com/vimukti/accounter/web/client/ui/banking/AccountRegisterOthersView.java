@@ -173,6 +173,7 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 	public void getAccountRegisterGrid(List<AccountRegister> result) {
 
 		grid.removeAllRecords();
+		grid.removeLoadingImage();
 		grid.balance = 0.0;
 		grid.totalBalance = 0.0;
 		if (accountRegister != null) {
@@ -181,6 +182,11 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 				grid.addData(accRegister);
 				// this.total += accRegister.getBalance();
 			}
+			if (accountRegister.size() == 0) {
+				grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
+			}
+		} else {
+			grid.addEmptyMessage(Accounter.constants().noRecordsToShow());
 		}
 		// grid.updateFooterValues(FinanceApplication.constants()
 		// .endingbalance(), 6);
@@ -217,6 +223,8 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 					}
 
 				});
+		grid.removeAllRecords();
+		grid.addLoadingImagePanel();
 
 	}
 

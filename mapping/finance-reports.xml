@@ -1708,7 +1708,7 @@
 					ON A.ID=AT.ACCOUNT_ID 
 				   JOIN TRANSACTION T
                                 ON T.ID = AT.TRANSACTION_ID
-                    JOIN BANK_ACCOUNT BA ON BA.ID = A.ID
+                    LEFT OUTER JOIN BANK_ACCOUNT BA ON BA.ID = A.ID
 		WHERE 
 			A.ID=:accountId AND 
 			T.T_DATE BETWEEN :startDate AND :endDate 

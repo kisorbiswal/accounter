@@ -274,10 +274,10 @@ public class ServerConvertUtil extends ObjectConvertUtil {
 					// if (srcField.getBoolean(src) == Boolean.FALSE)
 					// continue;
 					// }
-					if (srcfieldType.equals(double.class)) {
-						if (DecimalUtil.isEquals(srcField.getDouble(src), 0.0d))
-							continue;
-					}
+					// if (srcfieldType.equals(double.class)) {
+					// if (DecimalUtil.isEquals(srcField.getDouble(src), 0.0d))
+					// continue;
+					// }
 
 					// if Primitive
 					if (srcfieldType.isPrimitive()) {
