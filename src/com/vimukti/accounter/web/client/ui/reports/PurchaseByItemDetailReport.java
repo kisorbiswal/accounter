@@ -36,6 +36,7 @@ public class PurchaseByItemDetailReport extends
 		if (byCustomerDetail == null) {
 			Accounter.createReportService().getPurchasesByItemDetail(start,
 					end, this);
+			return;
 		} else if (byCustomerDetail.getItemName() != null) {
 			Accounter.createReportService().getPurchasesByItemDetail(
 					byCustomerDetail.getItemName(), start, end, this);
