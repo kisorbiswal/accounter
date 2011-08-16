@@ -70,7 +70,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (typeRadio.getValue() != null) {
+		if (typeRadio.getValue() == null) {
 			result.addError(this, Accounter.constants()
 					.pleaseSelecPaymentType());
 		}
