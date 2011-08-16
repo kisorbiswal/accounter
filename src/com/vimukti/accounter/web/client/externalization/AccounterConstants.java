@@ -4768,4 +4768,6 @@ public interface AccounterConstants extends Constants {
 
 	public String bothCustomerAndVendor();
 
+	public String receivedDateShouldNotBeAfterTransactionDate();
+
 }
