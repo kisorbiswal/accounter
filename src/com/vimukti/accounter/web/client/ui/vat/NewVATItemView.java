@@ -245,18 +245,20 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
-		result.add(DynamicForm.validate(this.getForms().toArray(
-				new DynamicForm[getForms().size()])));
+		/*result.add(DynamicForm.validate(this.getForms().toArray(
+				new DynamicForm[getForms().size()])));*/
+		//already exists?
+		//form validation
 
 		String name = vatItemNameText.getValue().toString() != null ? vatItemNameText
 				.getValue().toString() : "";
 
 		ClientTAXItem taxItemByName = getCompany().getTaxItemByName(name);
 		
-		if ((!isEdit && taxItemByName != null)){
-			result.addError(vatItemNameText, Accounter.constants()
-					.alreadyExist());
-		}
+//		if ((!isEdit && taxItemByName != null)){
+//			result.addError(vatItemNameText, Accounter.constants()
+//					.alreadyExist());
+//		}
 //		if (!((!isEdit && taxItemByName != null))
 //				|| !(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 //						: (taxItemByName != null
@@ -270,6 +272,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			if (taxItemByName != null) {
 				result.addError(vatItemNameText, Accounter.constants()
 						.alreadyExist());
+				return result;
 			}
 		}
 		result.add(DynamicForm.validate(this.getForms().toArray(
