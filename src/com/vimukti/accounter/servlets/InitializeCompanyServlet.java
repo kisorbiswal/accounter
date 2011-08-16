@@ -153,7 +153,6 @@ public class InitializeCompanyServlet extends BaseServlet {
 		permissions.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
 		permissions.setTypeOfViewReports(RolePermissions.TYPE_YES);
 		user.setPermissions(permissions);
-		user.setActive(true);
 		return user;
 	}
 }
