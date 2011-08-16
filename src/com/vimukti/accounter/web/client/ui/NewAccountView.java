@@ -880,6 +880,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		//accinfoform valid?
+		//check whether the account is already available or not
+		//valid account no?
+		//is prior to company prevent posting date?
+		//bankform valid?
+		
 		result.add(accInfoForm.validate());
 		String name = accNameText.getValue().toString() != null ? accNameText
 				.getValue().toString() : "";
@@ -890,6 +896,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				&& !(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: account == null) : true)) {
 			result.addError(accNameText, Accounter.constants().alreadyExist());
+			return result;
 		}
 		if (!(isEdit && data.getName().equalsIgnoreCase(
 				Accounter.constants().openingBalances()))) {
