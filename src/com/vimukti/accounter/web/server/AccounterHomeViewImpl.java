@@ -41,7 +41,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
-import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -1561,14 +1560,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
-	@Override
-	public ArrayList<ClientEmployee> getAllEmployees()
-			throws AccounterException {
-		FinanceTool tool = getFinanceTool();
-		if (tool != null) {
-			return tool.getAllEmployees();
-		}
-		return null;
-	}
+	// public ArrayList<ClientEmployee> getAllEmployees()
+	// throws AccounterException {
+	// FinanceTool tool = getFinanceTool();
+	// if (tool != null) {
+	// return tool.getAllEmployees();
+	// }
+	// return null;
+	// }
 
 }

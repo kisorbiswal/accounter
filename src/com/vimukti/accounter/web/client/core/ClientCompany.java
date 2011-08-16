@@ -173,7 +173,7 @@ public class ClientCompany implements IAccounterCore {
 
 	private List<ClientBrandingTheme> brandingTheme;
 
-	private List<ClientEmployee> usersList;
+	private List<ClientUserInfo> usersList;
 
 	// private List<ClientTAXItemGroup> vatItemGroups;
 
@@ -1580,6 +1580,9 @@ public class ClientCompany implements IAccounterCore {
 					ClientBrandingTheme theme = (ClientBrandingTheme) accounterCoreObject;
 					Utility.updateClientList(theme, brandingTheme);
 					break;
+				case USER:
+					ClientUserInfo user = (ClientUserInfo) accounterCoreObject;
+					Utility.updateClientList(user, this.usersList);
 				}
 		} catch (Exception e) {
 			if (e instanceof JavaScriptException) {
@@ -1974,11 +1977,11 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getArrayList(brandingTheme);
 	}
 
-	public void setUsersList(List<ClientEmployee> users) {
+	public void setUsersList(List<ClientUserInfo> users) {
 		this.usersList = users;
 	}
 
-	public List<ClientEmployee> getUsersList() {
+	public List<ClientUserInfo> getUsersList() {
 		return usersList;
 	}
 
@@ -2313,8 +2316,8 @@ public class ClientCompany implements IAccounterCore {
 		}
 		clientCompany.taxItems = taxItems;
 
-		List<ClientEmployee> usersList = new ArrayList<ClientEmployee>();
-		for (ClientEmployee clientEmployee : this.usersList) {
+		List<ClientUserInfo> usersList = new ArrayList<ClientUserInfo>();
+		for (ClientUserInfo clientEmployee : this.usersList) {
 			usersList.add(clientEmployee.clone());
 		}
 		clientCompany.usersList = usersList;
@@ -2439,5 +2442,14 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientTAXCode getTAXCodeByName(String name) {
 		return Utility.getObjectByName(getTaxCodes(), name);
+	}
+
+	public ClientUserInfo getUserById(long id) {
+		for (ClientUserInfo employee : usersList) {
+			if (employee.getID() == id) {
+				return employee;
+			}
+		}
+		return null;
 	}
 }

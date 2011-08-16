@@ -193,7 +193,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				OperationContext context = new OperationContext(coreUser,
 						getUserEmail(), String.valueOf(coreObject.getID()),
 						clientClassSimpleName);
-				return financeTool.create(context);
+				return financeTool.inviteUser(context);
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

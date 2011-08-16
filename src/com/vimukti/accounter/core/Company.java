@@ -4501,4 +4501,11 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		return currencies;
 	}
 
+	/**
+	 * @param user
+	 */
+	public void addUser(User user) {
+		this.users.add(user);
+	}
+
 }

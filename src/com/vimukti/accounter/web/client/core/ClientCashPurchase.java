@@ -18,7 +18,7 @@ public class ClientCashPurchase extends ClientTransaction {
 
 	ClientAddress vendorAddress;
 
-	ClientEmployee employee;
+	long employee;
 
 	String phone;
 
@@ -121,11 +121,11 @@ public class ClientCashPurchase extends ClientTransaction {
 		return AccounterCoreType.CASHPURCHASE;
 	}
 
-	public ClientEmployee getEmployee() {
+	public long getEmployee() {
 		return employee;
 	}
 
-	public void setEmployee(ClientEmployee employee) {
+	public void setEmployee(long employee) {
 		this.employee = employee;
 	}
 

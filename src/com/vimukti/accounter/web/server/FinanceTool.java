@@ -121,7 +121,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -262,47 +261,71 @@ public class FinanceTool implements IFinanceDAOService {
 			ObjectConvertUtil.setCompany((IAccounterServerCore) serverObject,
 					getCompany());
 
-			if (serverObject instanceof CreatableObject) {
-				// get the user from user id
-				User user = getCompany().getUserByUserEmail(userID);
-				Timestamp currentTime = new Timestamp(
-						System.currentTimeMillis());
-				((CreatableObject) serverObject).setCreatedBy(user);
-
-				((CreatableObject) serverObject).setCreatedDate(currentTime);
-				((CreatableObject) serverObject).setLastModifier(user);
-
-				((CreatableObject) serverObject)
-						.setLastModifiedDate(currentTime);
-			}
+			// if (serverObject instanceof CreatableObject) {
+			// // get the user from user id
+			// User user = getCompany().getUserByUserEmail(userID);
+			// Timestamp currentTime = new Timestamp(
+			// System.currentTimeMillis());
+			// ((CreatableObject) serverObject).setCreatedBy(user);
+			//
+			// ((CreatableObject) serverObject).setCreatedDate(currentTime);
+			// ((CreatableObject) serverObject).setLastModifier(user);
+			//
+			// ((CreatableObject) serverObject)
+			// .setLastModifiedDate(currentTime);
+			// }
 			canEdit(serverObject, data);
 
 			isTransactionNumberExist((IAccounterCore) data);
 
-			if (serverObject instanceof User) {
-				User user = (User) serverObject;
-				String email = user.getEmail();
-				User userByUserEmail = getUserByUserEmail(email);
-				if (userByUserEmail != null) {
-					if (userByUserEmail.isDeleted()) {
-						userByUserEmail.setDeleted(false);
-						userByUserEmail.setUserRole(user.getUserRole());
-						userByUserEmail.setPermissions(user.getPermissions());
-						userByUserEmail.setCanDoUserManagement(user
-								.isCanDoUserManagement());
-						serverObject = userByUserEmail;
-						session.saveOrUpdate(serverObject);
-					}
-				} else {
-					session.save(serverObject);
-				}
-			} else {
-				session.save(serverObject);
-			}
+			session.save(serverObject);
 			transaction.commit();
 			ChangeTracker.put(serverObject);
 
 			return serverObject.getID();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			transaction.rollback();
+			if (e instanceof AccounterException) {
+				throw (AccounterException) e;
+			} else {
+				throw new AccounterException(AccounterException.ERROR_INTERNAL,
+						e.getMessage());
+			}
+		}
+	}
+
+	public long inviteUser(OperationContext context) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		try {
+			IAccounterCore data = context.getData();
+			if (data == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT,
+						"Operation Data Found Null...." + data);
+			}
+			ClientUser clientUser = (ClientUser) data;
+			User user = new User(clientUser);
+			String email = user.getEmail();
+			User userByUserEmail = getUserByUserEmail(email);
+			if (userByUserEmail != null) {
+				if (userByUserEmail.isDeleted()) {
+					userByUserEmail.setDeleted(false);
+					userByUserEmail.setUserRole(user.getUserRole());
+					userByUserEmail.setPermissions(user.getPermissions());
+					userByUserEmail.setCanDoUserManagement(user
+							.isCanDoUserManagement());
+					user = userByUserEmail;
+					session.saveOrUpdate(user);
+				}
+			} else {
+				Company company = getCompany();
+				company.addUser(user);
+			}
+			transaction.commit();
+			ChangeTracker.put(clientUser.toUserInfo());
+			return user.getID();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			transaction.rollback();
@@ -6944,7 +6967,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Map<String, Double> vatReturnBoxes = new HashMap<String, Double>();
 			if (l.size() > 0) {
-				vatReturnBoxes.put(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES,
+				vatReturnBoxes.put(
+						AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES,
 						(Double) l.get(0));
 			}
 		}
@@ -7003,8 +7027,8 @@ public class FinanceTool implements IFinanceDAOService {
 				VATReturnBox vb = v.getTaxItem().getVatReturnBox();
 				for (Box b : boxes) {
 					if (vb.getVatBox().equals(b.getName())
-							|| (b.getName().equals(
-									AccounterServerConstants.UK_BOX10_UNCATEGORISED) && vb
+							|| (b.getName()
+									.equals(AccounterServerConstants.UK_BOX10_UNCATEGORISED) && vb
 									.getVatBox().equals("NONE"))) {
 						// if (v.getIncreaseVATLine())
 						// b.setAmount(b.getAmount() + v.getTotal());
@@ -7114,8 +7138,8 @@ public class FinanceTool implements IFinanceDAOService {
 										.isVATGroupEntry())
 								|| (vb.getVatBox()
 										.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES) && vb
-										.getTotalBox().equals(
-												AccounterServerConstants.BOX_NONE)))
+										.getTotalBox()
+										.equals(AccounterServerConstants.BOX_NONE)))
 							box.setAmount(box.getAmount()
 									+ (-1 * (taxRateCalculation.getVatAmount())));
 
@@ -7726,13 +7750,19 @@ public class FinanceTool implements IFinanceDAOService {
 		if (v.getTaxItem().getVatReturnBox().getVatBox()
 				.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
 			boxName = VATSummary.UK_BOX1_VAT_DUE_ON_SALES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getVatBox()
 				.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS;
 		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
 				.equals(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
 			boxName = VATSummary.UK_BOX3_TOTAL_OUTPUT;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getVatBox()
 				.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 			boxName = VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES;
 		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
@@ -7747,7 +7777,10 @@ public class FinanceTool implements IFinanceDAOService {
 		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
 				.equals(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
 			boxName = VATSummary.UK_BOX8_TOTAL_NET_SUPPLIES;
-		} else if (v.getTaxItem().getVatReturnBox().getVatBox()
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getVatBox()
 				.equals(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS;
 		} else {
@@ -7762,13 +7795,19 @@ public class FinanceTool implements IFinanceDAOService {
 		if (v.getTaxItem().getVatReturnBox().getTotalBox()
 				.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
 			boxName = VATSummary.UK_BOX1_VAT_DUE_ON_SALES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getTotalBox()
 				.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS;
 		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
 				.equals(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
 			boxName = VATSummary.UK_BOX3_TOTAL_OUTPUT;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getTotalBox()
 				.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
 			boxName = VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES;
 		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
@@ -7783,7 +7822,10 @@ public class FinanceTool implements IFinanceDAOService {
 		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
 				.equals(AccounterServerConstants.UK_BOX8_TOTAL_NET_SUPPLIES)) {
 			boxName = VATSummary.UK_BOX8_TOTAL_NET_SUPPLIES;
-		} else if (v.getTaxItem().getVatReturnBox().getTotalBox()
+		} else if (v
+				.getTaxItem()
+				.getVatReturnBox()
+				.getTotalBox()
 				.equals(AccounterServerConstants.UK_BOX9_TOTAL_NET_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX9_TOTAL_NET_ACQUISITIONS;
 		} else {
@@ -7795,12 +7837,14 @@ public class FinanceTool implements IFinanceDAOService {
 
 	private String setVATBoxName(String getBoxName) {
 		String boxName = null;
-		if (getBoxName.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
+		if (getBoxName
+				.equals(AccounterServerConstants.UK_BOX1_VAT_DUE_ON_SALES)) {
 			boxName = VATSummary.UK_BOX1_VAT_DUE_ON_SALES;
 		} else if (getBoxName
 				.equals(AccounterServerConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS)) {
 			boxName = VATSummary.UK_BOX2_VAT_DUE_ON_ACQUISITIONS;
-		} else if (getBoxName.equals(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
+		} else if (getBoxName
+				.equals(AccounterServerConstants.UK_BOX3_TOTAL_OUTPUT)) {
 			boxName = VATSummary.UK_BOX3_TOTAL_OUTPUT;
 		} else if (getBoxName
 				.equals(AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES)) {
@@ -8226,7 +8270,8 @@ public class FinanceTool implements IFinanceDAOService {
 			vatSummaries.add(new VATSummary(
 					AccounterServerConstants.UK_BOX4_VAT_RECLAMED_ON_PURCHASES,
 					VATSummary.UK_BOX4_VAT_RECLAMED_ON_PURCHASES, 0d));
-			vatSummaries.add(new VATSummary(AccounterServerConstants.UK_BOX5_NET_VAT,
+			vatSummaries.add(new VATSummary(
+					AccounterServerConstants.UK_BOX5_NET_VAT,
 					VATSummary.UK_BOX5_NET_VAT, 0d));
 			vatSummaries.add(new VATSummary(
 					AccounterServerConstants.UK_BOX6_TOTAL_NET_SALES,
@@ -8244,9 +8289,10 @@ public class FinanceTool implements IFinanceDAOService {
 					AccounterServerConstants.UK_BOX10_UNCATEGORISED,
 					VATSummary.UK_BOX10_UNCATEGORISED, 0d));
 		} else if (taxAgency.getVATReturn() == TAXAgency.RETURN_TYPE_IRELAND_VAT) {
-			vatSummaries.add(new VATSummary(
-					AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES,
-					VATSummary.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES, 0d));
+			vatSummaries
+					.add(new VATSummary(
+							AccounterServerConstants.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES,
+							VATSummary.IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES, 0d));
 			vatSummaries
 					.add(new VATSummary(
 							AccounterServerConstants.IRELAND_BOX2_VAT_DUE_ON_INTRA_EC_ACQUISITIONS,
@@ -8453,7 +8499,8 @@ public class FinanceTool implements IFinanceDAOService {
 		while ((iterator).hasNext()) {
 			OpenAndClosedOrders openAndClosedOrder = new OpenAndClosedOrders();
 			object = (Object[]) iterator.next();
-			openAndClosedOrder.setTransactionID(((BigInteger) object[0]).longValue());
+			openAndClosedOrder.setTransactionID(((BigInteger) object[0])
+					.longValue());
 			openAndClosedOrder.setTransactionType((Integer) object[1]);
 			openAndClosedOrder.setTransactionDate(new ClientFinanceDate(
 					((BigInteger) object[2]).longValue()));
@@ -9205,10 +9252,10 @@ public class FinanceTool implements IFinanceDAOService {
 					Account vatLiabilityAccount = new Account(
 							Account.TYPE_OTHER_CURRENT_LIABILITY,
 							String.valueOf(getNextNominalCode(Account.TYPE_OTHER_CURRENT_LIABILITY)),
-							AccounterServerConstants.VAT_LIABILITY_ACCOUNT_IR, true,
-							null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0,
-							false, "VAT Liability Account (IR)", 0.0, null,
-							true, true, Company.getCompany()
+							AccounterServerConstants.VAT_LIABILITY_ACCOUNT_IR,
+							true, null, Account.CASH_FLOW_CATEGORY_OPERATING,
+							0.0, false, "VAT Liability Account (IR)", 0.0,
+							null, true, true, Company.getCompany()
 									.getOpeningBalancesAccount(), null, true,
 							Company.getCompany().getPreferences()
 									.getStartOfFiscalYear());
@@ -9226,13 +9273,14 @@ public class FinanceTool implements IFinanceDAOService {
 
 					Account openingBalenceAcount = (Account) session
 							.getNamedQuery("unique.name.Account")
-							.setString(0, AccounterServerConstants.OPENING_BALANCE)
+							.setString(0,
+									AccounterServerConstants.OPENING_BALANCE)
 							.list().get(0);
 					Account salesTaxVAT = new Account(
 							Account.TYPE_OTHER_CURRENT_LIABILITY, "2120",
-							AccounterServerConstants.SALES_TAX_VAT_UNFILED, true,
-							null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0,
-							false, "", 0.0, null, true, false,
+							AccounterServerConstants.SALES_TAX_VAT_UNFILED,
+							true, null, Account.CASH_FLOW_CATEGORY_OPERATING,
+							0.0, false, "", 0.0, null, true, false,
 							openingBalenceAcount, "113", true, Company
 									.getCompany().getPreferences()
 									.getStartOfFiscalYear());
@@ -9659,7 +9707,8 @@ public class FinanceTool implements IFinanceDAOService {
 				}
 			}
 		}
-		rows.put(AccounterServerConstants.FINANCIAL_INDICATOR_SALES, salesEntries);
+		rows.put(AccounterServerConstants.FINANCIAL_INDICATOR_SALES,
+				salesEntries);
 
 		Map<Integer, Double> grossProfitEntries = new LinkedHashMap<Integer, Double>();
 
@@ -11603,20 +11652,19 @@ public class FinanceTool implements IFinanceDAOService {
 	 * @return
 	 * @throws AccounterException
 	 */
-	public ArrayList<ClientEmployee> getAllEmployees()
-			throws AccounterException {
+	public List<ClientUserInfo> getAllEmployees() throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<User> financeUsers = session.getNamedQuery("list.User").list();
-		List<ClientEmployee> employees = new ArrayList<ClientEmployee>();
+		List<ClientUserInfo> employees = new ArrayList<ClientUserInfo>();
 		for (User user : financeUsers) {
 			if (!user.isDeleted()) {
 				ClientUser clientUser = new ClientConvertUtil().toClientObject(
 						user, ClientUser.class);
-				ClientEmployee userInfo = clientUser.toEmplyee();
+				ClientUserInfo userInfo = clientUser.toUserInfo();
 				employees.add(userInfo);
 			}
 		}
-		return new ArrayList<ClientEmployee>(employees);
+		return employees;
 	}
 
 	@Override

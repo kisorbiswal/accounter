@@ -29,8 +29,6 @@ public class ClientUserInfo implements IAccounterCore {
 
 	private boolean isAdmin;
 
-	private int loginCount;
-
 	private long lastLogin;
 
 	/**
@@ -174,21 +172,6 @@ public class ClientUserInfo implements IAccounterCore {
 	 */
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
-	}
-
-	/**
-	 * @return the loginCount
-	 */
-	public int getLoginCount() {
-		return loginCount;
-	}
-
-	/**
-	 * @param loginCount
-	 *            the loginCount to set
-	 */
-	public void setLoginCount(int loginCount) {
-		this.loginCount = loginCount;
 	}
 
 	/**

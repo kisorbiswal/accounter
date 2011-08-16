@@ -428,12 +428,14 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar vatmenu = getSubMenu();
 
 		CustomMenuBar vatNews = getSubMenu();
-		vatNews.addItem(ActionFactory.getNewVatItemAction());
-		// vatNews.addItem(ActionFactory.getVatGroupAction());
-		vatNews.addItem(ActionFactory.getNewTAXCodeAction());
-		vatNews.addItem(ActionFactory.getNewTAXAgencyAction());
-		vatmenu.addItem(Accounter.constants().new1(), vatNews);
-		vatmenu.addSeparator();
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			vatNews.addItem(ActionFactory.getNewVatItemAction());
+			// vatNews.addItem(ActionFactory.getVatGroupAction());
+			vatNews.addItem(ActionFactory.getNewTAXCodeAction());
+			vatNews.addItem(ActionFactory.getNewTAXAgencyAction());
+			vatmenu.addItem(Accounter.constants().new1(), vatNews);
+			vatmenu.addSeparator();
+		}
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			vatmenu.addItem(ActionFactory.getAdjustTaxAction());
 			vatmenu.addItem(ActionFactory.getFileVatAction());
@@ -715,7 +717,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar vendorListMenuBar = getSubMenu();
 		vendorListMenuBar.addItem(ActionFactory.getVendorsAction());
 		if (Accounter.getUser().canSeeInvoiceTransactions()) {
-			ItemsAction itemsAction= ActionFactory.getItemsAction();
+			ItemsAction itemsAction = ActionFactory.getItemsAction();
 			itemsAction.setCatagory(ActionFactory.actionsConstants.vendor());
 			vendorListMenuBar.addItem(itemsAction);
 			vendorListMenuBar.addItem(ActionFactory.getBillsAction());
@@ -768,7 +770,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		CustomMenuBar customerListMenuBar = getSubMenu();
 		customerListMenuBar.addItem(ActionFactory.getCustomersAction());
 		if (Accounter.getUser().canSeeInvoiceTransactions()) {
-			ItemsAction itemsAction= ActionFactory.getItemsAction();
+			ItemsAction itemsAction = ActionFactory.getItemsAction();
 			itemsAction.setCatagory(ActionFactory.actionsConstants.customer());
 			customerListMenuBar.addItem(itemsAction);
 			customerListMenuBar.addItem(ActionFactory.getQuotesAction());
@@ -882,14 +884,18 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyMenuBar.addItem(ActionFactory.getPreferencesAction());
 			companyMenuBar.addSeparator();
 		}
-		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			companyMenuBar.addItem(Accounter.constants().itemTax(),
 					getSalesTaxSubmenu());
-		companyMenuBar.addItem(Accounter.constants().manageSupportLists(),
-				getManageSupportListSubmenu());
-		if (Accounter.getUser().canManageFiscalYears())
+		}
+		if (Accounter.getUser().canChangeSettings()) {
+			companyMenuBar.addItem(Accounter.constants().manageSupportLists(),
+					getManageSupportListSubmenu());
+		}
+		if (Accounter.getUser().canManageFiscalYears()) {
 			companyMenuBar.addItem(ActionFactory.getManageFiscalYearAction());
-		companyMenuBar.addSeparator();
+			companyMenuBar.addSeparator();
+		}
 		companyMenuBar.addItem(Accounter.constants().companyLists(),
 				getCompanyListMenu());
 
@@ -903,9 +909,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 					.addItem(ActionFactory.getChartOfAccountsAction());
 		if (Accounter.getUser().canSeeBanking())
 			companyListMenuBar.addItem(ActionFactory.getJournalEntriesAction());
-		if (Accounter.getUser().canSeeInvoiceTransactions()){
-			ItemsAction itemsAction= ActionFactory.getItemsAction();
-			itemsAction.setCatagory(ActionFactory.actionsConstants.bothCustomerAndVendor());
+		if (Accounter.getUser().canSeeInvoiceTransactions()) {
+			ItemsAction itemsAction = ActionFactory.getItemsAction();
+			itemsAction.setCatagory(ActionFactory.actionsConstants
+					.bothCustomerAndVendor());
 			companyListMenuBar.addItem(itemsAction);
 		}
 		companyListMenuBar.addItem(ActionFactory.getCustomersAction());

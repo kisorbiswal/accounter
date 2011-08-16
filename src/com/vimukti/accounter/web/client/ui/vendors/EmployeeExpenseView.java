@@ -11,9 +11,9 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -49,7 +49,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		// Setting Type
 		transaction.setType(ClientTransaction.TYPE_EMPLOYEE_EXPENSE);
 
-		transaction.setEmployee(employee.getSelectedValue());
+		transaction.setEmployee(employee.getSelectedValue().getID());
 
 		// Setting Contact
 		if (contact != null)
@@ -122,10 +122,10 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
-		employee.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientEmployee>() {
+		employee.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientUserInfo>() {
 
 			@Override
-			public void selectedComboBoxItem(ClientEmployee selectItem) {
+			public void selectedComboBoxItem(ClientUserInfo selectItem) {
 
 			}
 		});
@@ -170,7 +170,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		if (isEdit) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
-			employee.setComboItem(cashPurchase.getEmployee());
+			employee.setComboItem(getCompany().getUserById(
+					cashPurchase.getEmployee()));
 			employee.setDisabled(true);
 			if (Accounter.getUser().isAdmin()) {
 				employee.setAdmin(true);

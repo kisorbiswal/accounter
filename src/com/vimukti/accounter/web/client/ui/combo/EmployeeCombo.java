@@ -4,28 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
-public class EmployeeCombo extends CustomCombo<ClientEmployee> {
+public class EmployeeCombo extends CustomCombo<ClientUserInfo> {
 
-	public List<ClientEmployee> users = new ArrayList<ClientEmployee>();
+	public List<ClientUserInfo> users = new ArrayList<ClientUserInfo>();
 	private boolean isAdmin;
 
 	public EmployeeCombo(String title) {
 		super(title, false, 1);
-		Accounter.createHomeService().getAllEmployees(
-				new AccounterAsyncCallback<ArrayList<ClientEmployee>>() {
+		Accounter.createHomeService().getAllUsers(
+				new AccounterAsyncCallback<ArrayList<ClientUserInfo>>() {
 					@Override
-					public void onResultSuccess(ArrayList<ClientEmployee> result) {
+					public void onResultSuccess(ArrayList<ClientUserInfo> result) {
 						users = result;
 						if (isAdmin) {
 							initCombo(users);
 						} else {
-							for (ClientEmployee user : users) {
+							for (ClientUserInfo user : users) {
 								if (user.getID() == Accounter.getUser().getID()) {
-									List<ClientEmployee> tempUsers = new ArrayList<ClientEmployee>();
+									List<ClientUserInfo> tempUsers = new ArrayList<ClientUserInfo>();
 									tempUsers.add(user);
 									initCombo(tempUsers);
 									break;
@@ -43,7 +43,7 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 	}
 
 	@Override
-	protected String getDisplayName(ClientEmployee object) {
+	protected String getDisplayName(ClientUserInfo object) {
 		if (object != null)
 			return object.getDisplayName() != null ? object.getDisplayName()
 					: "";
@@ -52,7 +52,7 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 	}
 
 	@Override
-	protected String getColumnData(ClientEmployee object, int row, int col) {
+	protected String getColumnData(ClientUserInfo object, int row, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();
@@ -77,9 +77,9 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 		if (isAdmin) {
 			initCombo(users);
 		} else {
-			for (ClientEmployee user : users) {
+			for (ClientUserInfo user : users) {
 				if (user.getID() == Accounter.getUser().getID()) {
-					List<ClientEmployee> tempUsers = new ArrayList<ClientEmployee>();
+					List<ClientUserInfo> tempUsers = new ArrayList<ClientUserInfo>();
 					tempUsers.add(user);
 					initCombo(tempUsers);
 					break;

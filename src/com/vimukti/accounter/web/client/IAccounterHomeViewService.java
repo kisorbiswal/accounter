@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
-import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEntry;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -296,8 +295,5 @@ public interface IAccounterHomeViewService extends RemoteService {
 			int status);
 
 	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException;
-
-	public ArrayList<ClientEmployee> getAllEmployees()
-			throws AccounterException;
 
 }
