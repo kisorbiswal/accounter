@@ -173,8 +173,11 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				long mustdate = new ClientFinanceDate().getDate() - 180000;
 				if (new ClientFinanceDate(mustdate).before(dateOfBirth
 						.getEnteredDate())) {
-					addError(this, Accounter.constants()
+					addError(dateOfBirth, Accounter.constants()
 							.dateofBirthshouldshowmorethan18years());
+				}
+				else {
+					clearError(dateOfBirth);
 				}
 			}
 		});
@@ -367,7 +370,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 					.after(new ClientFinanceDate().getDateAsObject())) {
 				result.addError(dateOfBirth, Accounter.constants()
 						.invalidDateOfBirth());
-			} else if (!(new ClientFinanceDate(mustdate).before(dateOfBirth
+			} else if ((new ClientFinanceDate(mustdate).before(dateOfBirth
 					.getEnteredDate()))) {
 				result.addError(dateOfBirth,
 						"Sales Person should have 18 years");
