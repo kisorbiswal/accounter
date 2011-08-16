@@ -289,6 +289,8 @@ public class TransactionJournalEntryGrid extends
 	@Override
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
+		
+		//Validates account name
 		List<ClientEntry> entrylist = this.getRecords();
 		for (ClientEntry entry : entrylist) {
 			int row = this.objects.indexOf(entry);
