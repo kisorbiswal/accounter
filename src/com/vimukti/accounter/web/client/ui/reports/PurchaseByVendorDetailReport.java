@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByVendorDetailServerReport;
 
-
 public class PurchaseByVendorDetailReport extends
 		AbstractReportView<SalesByCustomerDetail> {
 
@@ -37,14 +36,13 @@ public class PurchaseByVendorDetailReport extends
 		if (byCustomerDetail == null) {
 			Accounter.createReportService().getPurchasesByVendorDetail(start,
 					end, this);
+			return;
 		} else if (byCustomerDetail.getName() != null) {
 			Accounter.createReportService().getPurchasesByVendorDetail(
 					byCustomerDetail.getName(), start, end, this);
 		}
 		this.byCustomerDetail = byCustomerDetail.getName();
 	}
-
-
 
 	@Override
 	public void onEdit() {
