@@ -345,7 +345,8 @@ public class NewVendorPaymentView extends
 		super.updateTransaction();
 		transaction.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
 
-		transaction.setVendor(getVendor());
+		if (getVendor() != null)
+			transaction.setVendor(getVendor());
 
 		if (billingAddress != null)
 			transaction.setAddress(billingAddress);
@@ -366,10 +367,8 @@ public class NewVendorPaymentView extends
 				value = String.valueOf(checkNo.getValue());
 			}
 			transaction.setCheckNumber(value);
-
 		} else {
 			transaction.setCheckNumber("");
-
 		}
 		printCheck.setValue(transaction.isToBePrinted());
 
@@ -500,7 +499,7 @@ public class NewVendorPaymentView extends
 					accounterConstants.invalidateDate());
 		}
 		result.add(payForm.validate());
-		
+
 		return result;
 	}
 

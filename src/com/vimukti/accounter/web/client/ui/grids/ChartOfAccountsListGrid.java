@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -110,11 +111,17 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	@Override
 	public void onDoubleClick(ClientAccount account) {
 		if (!Accounter.getUser().canDoBanking()
-				&& account.getType() == ClientAccount.TYPE_BANK)
+				&& account.getType() == ClientAccount.TYPE_BANK) {
 			return;
-		else if (!Accounter.getUser().canDoInvoiceTransactions())
+		} else if (!Accounter.getUser().canDoInvoiceTransactions()) {
 			return;
-		ActionFactory.getNewAccountAction().run(account, true);
+		}
+		if (account.getType() == ClientAccount.TYPE_BANK) {
+			ActionFactory.getNewBankAccountAction().run(
+					(ClientBankAccount) account, true);
+		} else {
+			ActionFactory.getNewAccountAction().run(account, true);
+		}
 
 	}
 

@@ -14,8 +14,8 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
@@ -952,8 +952,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				if (typeSelect.getSelectedValue().equals(
 						AccounterClientConstants.BANK_ACCCOUNT_TYPE_CHECKING))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_CHECKING;
-				else if (typeSelect.getSelectedValue().equals(
-						AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
+				else if (typeSelect
+						.getSelectedValue()
+						.equals(AccounterClientConstants.BANK_ACCCOUNT_TYPE_MONEY_MARKET))
 					type = ClientAccount.BANK_ACCCOUNT_TYPE_MONEY_MARKET;
 				else if (typeSelect.getSelectedValue().equals(
 						AccounterClientConstants.BANK_ACCCOUNT_TYPE_SAVING))
