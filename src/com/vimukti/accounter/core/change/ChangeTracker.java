@@ -20,13 +20,12 @@ public class ChangeTracker {
 	public static List<IAccounterCore> clientobjects = new ArrayList<IAccounterCore>();
 
 	public static void put(IAccounterServerCore obj) {
-		if (obj == null)
+		if (obj == null || obj.getID() == 0)
 			return;
 		IAccounterCore core;
 		try {
-			core = (IAccounterCore) new ClientConvertUtil()
-					.toClientObject(obj, Util
-							.getClientEqualentClass(obj.getClass()));
+			core = (IAccounterCore) new ClientConvertUtil().toClientObject(obj,
+					Util.getClientEqualentClass(obj.getClass()));
 		} catch (AccounterException e) {
 			e.printStackTrace();
 			return;
@@ -67,13 +66,13 @@ public class ChangeTracker {
 			return;
 		IAccounterCore core;
 		try {
-			core = (IAccounterCore) new ClientConvertUtil()
-					.toClientObject(serverObject, d);
+			core = (IAccounterCore) new ClientConvertUtil().toClientObject(
+					serverObject, d);
 		} catch (AccounterException e) {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		put(core, isTransaction);
 
 	}
