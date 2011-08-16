@@ -306,6 +306,7 @@ public class VATPaymentView extends
 
 	@Override
 	public ValidationResult validate() {
+		//NOTE:: not using it
 		ValidationResult result = accountInformationForm.validate();
 		result.add(paymentMethodForm.validate());
 		result.add(super.validate());
