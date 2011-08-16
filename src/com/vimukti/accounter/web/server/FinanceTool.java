@@ -5054,7 +5054,7 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setPaymentTermName((String) object[6]);
 			salesByCustomerDetail.setItemName((String) object[7]);
 			ClientQuantity quantity = new ClientQuantity();
-			quantity.setValue(object[8] == null ? 0 : ((BigInteger) object[8])
+			quantity.setValue(object[8] == null ? 0 : ((Double) object[8])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setUnitPrice(object[9] == null ? 0
@@ -5068,7 +5068,7 @@ public class FinanceTool implements IFinanceDAOService {
 					: ((Boolean) object[12]).booleanValue());
 			salesByCustomerDetail.setReference((String) object[13]);
 			salesByCustomerDetail.setTransactionId((object[14] == null ? 0
-					: ((Long) object[14])));
+					: (((BigInteger) object[14]).longValue())));
 			queryResult.add(salesByCustomerDetail);
 		}
 		// return prepareSalesPurchaseEntriesForVoid(queryResult);

@@ -113,7 +113,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	boolean amountsIncludeVAT;
 
-	String transactionMakeDepositEntries;
+	long transactionMakeDepositEntries;
 
 	private String currencyCode;
 	/**
@@ -217,12 +217,12 @@ public abstract class ClientTransaction implements IAccounterCore {
 	// this.isVATreturned = isVATreturned;
 	// }
 
-	public String getTransactionMakeDepositEntries() {
+	public long getTransactionMakeDepositEntries() {
 		return transactionMakeDepositEntries;
 	}
 
 	public void setTransactionMakeDepositEntries(
-			String transactionMakeDepositEntries) {
+			long transactionMakeDepositEntries) {
 		this.transactionMakeDepositEntries = transactionMakeDepositEntries;
 	}
 
