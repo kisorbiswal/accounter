@@ -185,7 +185,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		mainPanel = new VerticalPanel();
 		errorPanel = new VerticalPanel();
 		errorPanel.setVisible(false);
-		errorPanel.addStyleName("dialog_commentPanel");
+		errorPanel.addStyleName("errors error-panel");
 		mainPanel.setSize("100%", "100%");
 		// mainPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 		mainPanel.add(errorPanel);

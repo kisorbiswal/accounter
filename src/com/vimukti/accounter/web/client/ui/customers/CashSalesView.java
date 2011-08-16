@@ -393,6 +393,7 @@ public class CashSalesView extends
 
 	protected void updateTransaction() {
 		super.updateTransaction();
+		if(getCustomer()!=null)
 		transaction.setCustomer(getCustomer().getID());
 		transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 		if (depositInAccount != null)
