@@ -380,6 +380,11 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		
+		//form validation
+		//valid amount?
+		//valid radio value
+		//is valid sell or dispose date?
 		result.add(detailsForm.validate());
 		if (AccounterValidator.validate_ZeroAmount(salepriceText.getAmount())) {
 			result.addError(salepriceText, Accounter.constants().zeroAmount());
