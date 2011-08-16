@@ -245,6 +245,7 @@ public class TransactionReceivePaymentGrid extends
 	@Override
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
+		//Validates receive amount exceeds due amount 
 		for (ClientTransactionReceivePayment transactionReceivePayment : this
 				.getSelectedRecords()) {
 			double totalValue = getTotalValue(transactionReceivePayment);
