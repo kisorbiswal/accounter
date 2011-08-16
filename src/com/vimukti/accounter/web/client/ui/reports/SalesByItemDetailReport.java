@@ -38,6 +38,7 @@ public class SalesByItemDetailReport extends
 		if (byCustomerDetail == null) {
 			Accounter.createReportService().getSalesByItemDetail(start, end,
 					this);
+			return;
 		} else if (byCustomerDetail.getItemName() != null) {
 			Accounter.createReportService().getSalesByItemDetail(
 					byCustomerDetail.getItemName(), start, end, this);
