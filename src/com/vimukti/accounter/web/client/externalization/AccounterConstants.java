@@ -4770,6 +4770,12 @@ public interface AccounterConstants extends Constants {
 
 	public String receivedDateShouldNotBeAfterTransactionDate();
 
+	public String editProfile();
+
+	public String nameShouldnotbeempty();
+
+	public String bothnamessameasprevious();
+
 	public String Voided();
 
 	public String newProductItem();
