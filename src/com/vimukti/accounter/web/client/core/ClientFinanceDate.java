@@ -59,6 +59,7 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	}
 
 	public long getDate() {
+		
 		return (year * 10000) + (month * 100) + day;
 	}
 

@@ -363,7 +363,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			// manager.merge(checks);
 
 		} catch (Exception e) {
-      			e.printStackTrace();
+			e.printStackTrace();
 		}
 
 		return new ArrayList<IssuePaymentTransactionsList>(checks);
@@ -1092,15 +1092,21 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return makeDepositTransactionsList;
 	}
 
+	@Override
+	public ArrayList<PurchaseOrdersList> getPurchaseOrders()
+			throws AccounterException {
+
+		FinanceTool tool = getFinanceTool();
+
+		try {
+			return tool != null ? tool.getPurchaseOrdersList() : null;
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	/*
-	 * @Override public List<PurchaseOrdersList> getPurchaseOrders() throws
-	 * AccounterException {
-	 * 
-	 * FinanceTool tool = getFinanceTool();
-	 * 
-	 * try { return tool != null ? tool.getPurchaseOrdersList() : null; } catch
-	 * (DAOException e) { e.printStackTrace(); } return null; }
-	 * 
 	 * @Override public List<SalesOrdersList> getPurchaseOrdersForVendor(long
 	 * vendorID) throws AccounterException {
 	 * 
