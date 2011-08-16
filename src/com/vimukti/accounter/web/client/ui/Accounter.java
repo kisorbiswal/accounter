@@ -139,8 +139,8 @@ public class Accounter implements EntryPoint {
 	}
 
 	private void initGUI() {
-		setupWizard = new SetupWizard();
-		RootPanel.get("mainWindow").add(setupWizard);
+		mainWindow = new MainFinanceWindow();
+		RootPanel.get("mainWindow").add(mainWindow);
 	}
 
 	public static void loadAccounter(ClientCompanyPreferences preferences) {
