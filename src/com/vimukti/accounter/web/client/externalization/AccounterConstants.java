@@ -4772,4 +4772,6 @@ public interface AccounterConstants extends Constants {
 
 	public String Voided();
 
+	public String newProductItem();
+
 }
