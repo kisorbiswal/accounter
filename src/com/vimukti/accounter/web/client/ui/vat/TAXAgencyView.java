@@ -164,13 +164,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		ValidationResult result = new ValidationResult();
 
-		List<DynamicForm> forms = this.getForms();
-		for (DynamicForm form : forms) {
-			if (form != null) {
-				result.add(form.validate());
-			}
-		}
-
+		//already exists?
+		//form validation
+		
 		String name = taxAgencyText.getValue().toString();
 
 		ClientTAXAgency taxAgenciesByName = getCompany().getTaxAgenciesByName(
@@ -181,6 +177,14 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				|| (!isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 						: (taxAgenciesByName != null ? false : true)) : true)) {
 			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
+			return result;
+		}
+		
+		List<DynamicForm> forms = this.getForms();
+		for (DynamicForm form : forms) {
+			if (form != null) {
+				result.add(form.validate());
+			}
 		}
 		return result;
 	}
