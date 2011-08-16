@@ -322,8 +322,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(
-				customerConstants.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(customerConstants
+				.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -601,6 +601,7 @@ public class SalesOrderView extends
 			customerTransactionGrid.setRecords(transaction.getTransactionItems());
 			customerTransactionGrid.setCanEdit(false);
 		}
+		super.initTransactionViewData();
 		initTransactionNumber();
 		initSalesPersons();
 	}
@@ -829,8 +830,7 @@ public class SalesOrderView extends
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -856,11 +856,11 @@ public class SalesOrderView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		//Validations
-		//1. formItem validation
+		// Validations
+		// 1. formItem validation
 		result.add(FormItem.validate(statusSelect));
 		result.add(super.validate());
-		
+
 		return result;
 	}
 
