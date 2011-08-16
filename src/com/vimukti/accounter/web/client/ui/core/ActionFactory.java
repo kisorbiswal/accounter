@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.company.CreditRatingListAction;
 import com.vimukti.accounter.web.client.ui.company.CustomerGroupListAction;
 import com.vimukti.accounter.web.client.ui.company.CustomersAction;
 import com.vimukti.accounter.web.client.ui.company.DepreciationAction;
+import com.vimukti.accounter.web.client.ui.company.EditProfileAction;
 import com.vimukti.accounter.web.client.ui.company.FinanceLogAction;
 import com.vimukti.accounter.web.client.ui.company.FormLayoutsListAction;
 import com.vimukti.accounter.web.client.ui.company.IntegrateWithBusinessContactManagerAction;
@@ -509,7 +510,7 @@ public class ActionFactory {
 	}
 
 	public static NewItemAction getNewItemAction(boolean forCustomer) {
-		return new NewItemAction(actionsConstants.newItem(),forCustomer);
+		return new NewItemAction(actionsConstants.newItem(), forCustomer);
 	}
 
 	// public static NewItemAction getNewItemAction(ClientItem item,
@@ -610,7 +611,6 @@ public class ActionFactory {
 		return new NewQuoteAction(actionsConstants.newQuote(), quote,
 				callBackObject);
 	}
-
 
 	// public static NewItemAction getNewItemAction(ClientItem item,
 	// AccounterAsyncCallback<Object> callBackObject) {
@@ -1129,7 +1129,6 @@ public class ActionFactory {
 				.constants().supplierCredit(), actionsConstants.vendorCredit()));
 	}
 
-
 	public static NewCreditMemoAction getNewCreditMemoAction(
 			ClientVendorCreditMemo vendorCreditMemo,
 			AccounterAsyncCallback<Object> callBack) {
@@ -1246,6 +1245,10 @@ public class ActionFactory {
 
 	public static NewCurrencyAction getNewCurrencyAction() {
 		return new NewCurrencyAction(actionsConstants.newCurrency());
+	}
+
+	public static Action getEditProfileAction() {
+		return new EditProfileAction(actionsConstants.editProfile());
 	}
 
 }
