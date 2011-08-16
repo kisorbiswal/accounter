@@ -537,7 +537,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		if (isNewBankAccount())
-			lab1.setText(" " + Accounter.constants().bankCategory());
+			lab1.setText(" " + Accounter.constants().bankAccount());
 		else
 			lab1.setText(" " + Utility.getAccountTypeString(this.accountType)
 					+ " " + Accounter.constants().financeCategory());
@@ -723,7 +723,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 		}
 		if (isNewBankAccount())
-			lab1.setText(" " + Accounter.constants().bankCategory());
+			lab1.setText(" " + Accounter.constants().bankAccount());
 		else
 
 			lab1.setText(" " + Utility.getAccountTypeString(accountType) + " "
@@ -880,12 +880,12 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		//accinfoform valid?
-		//check whether the account is already available or not
-		//valid account no?
-		//is prior to company prevent posting date?
-		//bankform valid?
-		
+		// accinfoform valid?
+		// check whether the account is already available or not
+		// valid account no?
+		// is prior to company prevent posting date?
+		// bankform valid?
+
 		result.add(accInfoForm.validate());
 		String name = accNameText.getValue().toString() != null ? accNameText
 				.getValue().toString() : "";
