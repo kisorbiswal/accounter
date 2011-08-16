@@ -5314,7 +5314,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			salesByCustomerDetail.setName((String) object[5]);
 			ClientQuantity quantity = new ClientQuantity();
-			quantity.setValue(object[6] == null ? 0 : ((BigInteger) object[6])
+			quantity.setValue(object[6] == null ? 0 : ((Double) object[6])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setUnitPrice(object[7] == null ? 0
@@ -5386,7 +5386,7 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setItemName((String) object[1]);
 			salesByCustomerDetail.setItemGroup((String) object[2]);
 			ClientQuantity quantity = new ClientQuantity();
-			quantity.setValue(object[3] == null ? 0 : ((BigDecimal) object[3])
+			quantity.setValue(object[3] == null ? 0 : ((Double) object[3])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setAmount(object[4] == null ? 0
