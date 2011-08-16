@@ -358,8 +358,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		
+		//validate customer form
+		//check whether the customer is already available or not
+		//grid valid?
+		
 		result.add(customerForm.validate());
 		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			//FIXME:: its not required
 			if (!custTaxCode.validate())
 				result.addError(custTaxCode,
 						Accounter.messages()
