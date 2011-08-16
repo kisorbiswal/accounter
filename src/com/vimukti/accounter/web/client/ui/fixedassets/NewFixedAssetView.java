@@ -940,10 +940,15 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		//fixed asset already available or not?
+		//related form validations
+		//purchase date validation
+		
 		ClientFixedAsset fixedAssetByName = getCompany().getFixedAssetByName(
 				itemTxt.getValue().toString());
 		if (fixedAssetByName != null) {
 			result.addError(itemTxt, Accounter.constants().alreadyExist());
+			return result;
 		}
 		// if (Utility.isObjectExist(getCompany().getFixedAssets(), itemTxt
 		// .getValue().toString())) {
