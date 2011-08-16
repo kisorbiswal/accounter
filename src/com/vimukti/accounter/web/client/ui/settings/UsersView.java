@@ -128,7 +128,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getInviteUserAction().run(null, true);
+				ActionFactory.getInviteUserAction().run(null, false);
 			}
 		});
 		tabPanel = new DecoratedTabPanel();
