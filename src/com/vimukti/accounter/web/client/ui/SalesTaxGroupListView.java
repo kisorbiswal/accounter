@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -185,7 +184,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 			public void onSecondButtonClick() {
 
 				data = (ClientTAXGroup) grid.getSelection();
-				if (isEdit) {
+				if (data != null && data.getID() != 0) {
 					showAddEditTaxGroup(data);
 				} else {
 					Accounter
