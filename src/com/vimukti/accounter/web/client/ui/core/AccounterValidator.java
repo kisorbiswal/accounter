@@ -1298,4 +1298,10 @@ public class AccounterValidator {
 		return Accounter.getCompany();
 	}
 
+	public static boolean isValidPurchaseOrderRecievedDate(
+			ClientFinanceDate receivedDate, ClientFinanceDate transactionDate) {
+		return receivedDate.compareTo(transactionDate) <= 0;
+		
+	}
+
 }
