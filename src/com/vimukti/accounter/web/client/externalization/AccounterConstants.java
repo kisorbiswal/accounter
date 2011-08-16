@@ -1351,9 +1351,9 @@ public interface AccounterConstants extends Constants {
 	public String emailAndInternet();
 
 	public String emailFormatExpr();
-	
+
 	public String emailId();
-	
+
 	public String employee();
 
 	public String employeeBlah();
@@ -4353,7 +4353,7 @@ public interface AccounterConstants extends Constants {
 	public String youcantDeleteThisUser();
 
 	public String youCantDeleteYourSelf();
-	
+
 	public String youcanteditreceivePaymentitisvoidedordeleted();
 
 	public String youcantsavepaybillwith0amount();
@@ -4738,7 +4738,7 @@ public interface AccounterConstants extends Constants {
 
 	public String journalEntryCustomer();
 
-	public String journalEntryAccount();	 
+	public String journalEntryAccount();
 
 	public String priorasOfDate();
 
@@ -4750,14 +4750,14 @@ public interface AccounterConstants extends Constants {
 
 	public String invalidSalesOredrNumber();
 
-	 public String invalidAccountNumber();
+	public String invalidAccountNumber();
 
 	public String salesOrderNumberPositive();
 
 	public String salesOrderNumber();
 
 	public String salesOrderNumberGrater0();
-	
+
 	public String invalidTransactionAmount();
 
 	public String primaryCurrency();
@@ -4769,5 +4769,7 @@ public interface AccounterConstants extends Constants {
 	public String bothCustomerAndVendor();
 
 	public String receivedDateShouldNotBeAfterTransactionDate();
+
+	public String Voided();
 
 }
