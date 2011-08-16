@@ -566,6 +566,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		//validate email
+		//validate company details form
+		
 		// switch (this.validationCount) {
 		// case 2:
 		if (!emailText.validate()) {
