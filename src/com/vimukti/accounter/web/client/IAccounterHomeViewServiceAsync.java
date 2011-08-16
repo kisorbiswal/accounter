@@ -229,10 +229,10 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getSalesOrders(
 			AsyncCallback<ArrayList<SalesOrdersList>> callback);
 
-	/*
-	 * public void getPurchaseOrders(
-	 * AsyncCallback<ArrayList<PurchaseOrdersList>> callback);
-	 */
+	
+	  public void getPurchaseOrders(
+	  AsyncCallback<ArrayList<PurchaseOrdersList>> callback);
+	 
 
 	/*
 	 * public void getSalesOrdersForCustomer(long customerID,

@@ -198,11 +198,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<SalesOrdersList> getSalesOrders()
 			throws AccounterException;
 
-	/*
-	 * public ArrayList<PurchaseOrdersList> getPurchaseOrders() throws
-	 * AccounterException;
-	 * 
-	 * public ArrayList<SalesOrdersList> getSalesOrdersForCustomer(long
+	 public ArrayList<PurchaseOrdersList> getPurchaseOrders() throws
+	 AccounterException;
+	 
+	/* public ArrayList<SalesOrdersList> getSalesOrdersForCustomer(long
 	 * customerID) throws AccounterException;
 	 * 
 	 * public ArrayList<SalesOrdersList> getPurchaseOrdersForVendor(long
