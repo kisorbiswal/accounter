@@ -5782,7 +5782,7 @@ public class FinanceTool implements IFinanceDAOService {
 			transactionHistory.setIsVoid(object[12] == null ? true
 					: ((Boolean) object[12]).booleanValue());
 			transactionHistory.setReference((String) object[13]);
-			transactionHistory.setTransactionId((Long) object[14]);
+			transactionHistory.setTransactionId( ((BigInteger)object[14]).longValue());
 			transactionHistory
 					.setBeginningBalance((object[15] != null ? (((Double) object[15])
 							.doubleValue()) : 0.0));
