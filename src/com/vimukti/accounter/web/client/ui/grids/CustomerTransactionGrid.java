@@ -304,6 +304,7 @@ public class CustomerTransactionGrid extends
 		table.addColumn(indicatorColumn);
 
 		ListDataProvider<ClientTransactionItem> list = new ListDataProvider<ClientTransactionItem>();
+		list.addDataDisplay(table);
 
 		TransactionItemNameColumn transactionItemNameColumn = new TransactionItemNameColumn(
 				list);
@@ -330,6 +331,7 @@ public class CustomerTransactionGrid extends
 
 		TransactionVatColumn vatColumn = new TransactionVatColumn();
 		table.addColumn(vatColumn, Accounter.constants().vat());
+		
 
 	}
 

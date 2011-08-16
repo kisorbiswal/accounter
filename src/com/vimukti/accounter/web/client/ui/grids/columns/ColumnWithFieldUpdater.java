@@ -9,6 +9,7 @@ public abstract class ColumnWithFieldUpdater<T, C> extends Column<T,C> implement
 	public ColumnWithFieldUpdater(Cell<C> cell) {
 		super(cell);
 		setSortable(true);
+		setFieldUpdater(this);
 	}
 
 }
