@@ -1381,7 +1381,6 @@ public class CustomerTransactionGrid extends
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			switch (col) {
 			case 0:
-			case 3:
 				return false;
 
 			default:
@@ -1416,7 +1415,6 @@ public class CustomerTransactionGrid extends
 
 			switch (col) {
 			case 0:
-			case 3:
 				return false;
 			default:
 				return true;
