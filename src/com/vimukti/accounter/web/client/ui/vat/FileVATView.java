@@ -498,7 +498,9 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
-
+		//check whether vet agency is selected or not
+		//can save file vat or not
+		
 		if (this.selectedVatAgency == null && this.isEdit) {
 			result.addError(selectedVatAgency, Accounter.constants()
 					.pleaseSelectValidVATAgency());
