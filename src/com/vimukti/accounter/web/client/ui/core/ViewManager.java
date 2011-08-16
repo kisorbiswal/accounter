@@ -188,10 +188,10 @@ public class ViewManager extends VerticalPanel {
 		String token = action.getHistoryToken();
 
 		if (newview.getManager() == null) {
-			newview.init();
 			if (input != null) {
 				newview.setData(input);
 			}
+			newview.init();
 			newview.initData();
 			newview.setManager(this);
 		}
