@@ -5574,7 +5574,7 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setItemName((String) object[6]);
 			salesByCustomerDetail.setDescription((String) object[7]);
 			ClientQuantity quantity = new ClientQuantity();
-			quantity.setValue(object[8] == null ? 0 : ((BigInteger) object[8])
+			quantity.setValue(object[8] == null ? 0 : ((Double) object[8])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setUnitPrice(object[9] == null ? 0
@@ -5587,7 +5587,8 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setIsVoid(object[12] == null ? true
 					: ((Boolean) object[12]).booleanValue());
 			salesByCustomerDetail.setReference((String) object[13]);
-			salesByCustomerDetail.setTransactionId((Long) object[14]);
+			salesByCustomerDetail.setTransactionId(((BigInteger) object[14])
+					.longValue());
 			queryResult.add(salesByCustomerDetail);
 		}
 
@@ -5706,8 +5707,7 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setItemName((String) object[1]);
 			salesByCustomerDetail.setItemGroup((String) object[2]);
 			ClientQuantity quantity = new ClientQuantity();
-			quantity.setValue(object[3] == null ? 0 : ((BigDecimal) object[3])
-					.intValue());
+			quantity.setValue(object[3] == null ? 0 : (((Double) object[3])));
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setAmount(object[4] == null ? 0
 					: ((Double) object[4]).doubleValue());
@@ -5805,7 +5805,8 @@ public class FinanceTool implements IFinanceDAOService {
 			transactionHistory.setIsVoid(object[12] == null ? true
 					: ((Boolean) object[12]).booleanValue());
 			transactionHistory.setReference((String) object[13]);
-			transactionHistory.setTransactionId( ((BigInteger)object[14]).longValue());
+			transactionHistory.setTransactionId(((BigInteger) object[14])
+					.longValue());
 			transactionHistory
 					.setBeginningBalance((object[15] != null ? (((Double) object[15])
 							.doubleValue()) : 0.0));
