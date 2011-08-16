@@ -75,21 +75,8 @@
 		</java>
 	</target>
 
-	<target name="makewar">
-		<foreach target="compress_file" param="file">
-			<path>
-				<fileset dir="./war/accounter" id="outputhtml">
-					<include name="*.cache.js" />
-					<include name="**/*.js" />
-				</fileset>
-			</path>
-		</foreach>
-	</target>
 
-	<target name="compress_file" description="Compress file and make gz file">
-		<gzip src="${file}" zipfile="${file}.gz" />
-	</target>
-	<target name="setup" depends="compile,gwtcompile,makewar">
+	<target name="setup" depends="compile,gwtcompile">
 		<mkdir dir="${classes.dir}" />
 
 		<mkdir dir="${classes.dir}/war" />
