@@ -695,7 +695,7 @@ public class FinanceTool implements IFinanceDAOService {
 				log.info("Sending Changes From ChangeTracker:" + changes.length);
 				Session session = null;
 				session = HibernateUtil.getCurrentSession();
-				List<User> users = session.getNamedQuery("getUsers.active")
+				List<User> users = session.getNamedQuery("getAllUsers")
 						.list();
 
 				for (User user : users) {
