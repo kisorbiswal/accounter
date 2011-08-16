@@ -351,6 +351,39 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
+	public long updateUser(OperationContext updateContext)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+
+		org.hibernate.Transaction hibernateTransaction = session
+				.beginTransaction();
+		try {
+			IAccounterCore data = updateContext.getData();
+
+			ClientUser clientUser = (ClientUser) data;
+
+			User user = (User)session.get(User.class, clientUser.getID());
+
+			new ServerConvertUtil().toServerObject(user, (IAccounterCore) clientUser,
+					session);
+			canEdit(user, data);
+			session.flush();
+			session.saveOrUpdate(user);
+			hibernateTransaction.commit();
+			ChangeTracker.put(clientUser.toUserInfo());
+			return user.getID();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			hibernateTransaction.rollback();
+			if (e instanceof AccounterException) {
+				throw (AccounterException) e;
+			} else {
+				throw new AccounterException(AccounterException.ERROR_INTERNAL);
+			}
+		}
+
+	}
+
 	/**
 	 * This will Get Called when Update Operation is Invoked by the Client
 	 * 
