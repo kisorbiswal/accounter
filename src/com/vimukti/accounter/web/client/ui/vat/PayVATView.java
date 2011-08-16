@@ -448,6 +448,22 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 		ValidationResult result = super.validate();
 
+		//Validations
+		// 1. is valid transaction?
+		// 2. is in prevent posting before date?
+		// 3. main form valid?
+		// 4. is blank transaction?
+		// 5. grid valid?
+		// 6. is positive amount?
+		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
+		}
+
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
+		}
 		result.add(mainform.validate());
 
 		if (grid == null || grid.getRecords().isEmpty()) {
