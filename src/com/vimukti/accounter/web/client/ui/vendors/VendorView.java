@@ -207,6 +207,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		if (vendorByName != null || customerByName != null) {
 			result.addError(vendorNameText, Accounter.constants()
 					.alreadyExist());
+			return result;
 		}
 
 		result.add(vendorForm.validate());
