@@ -6604,9 +6604,9 @@ a#fdbk_tab:hover{
 .report-toolbar .downarrow-button{
 	width:47px\0 !important;
 }
-.gridHeaderRow td:FIRST-CHILD,.gridEvenRow td:FIRST-CHILD{
+/* .gridHeaderRow td:FIRST-CHILD,.gridEvenRow td:FIRST-CHILD{
 	width:25px !important;
-}
+} */
 .ReportGrid .gridHeaderRow td:FIRST-CHILD,.ReportGrid .gridEvenRow td:FIRST-CHILD{
 	width:inherit !important;
 }
