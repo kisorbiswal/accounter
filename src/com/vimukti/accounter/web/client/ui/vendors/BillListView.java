@@ -130,7 +130,7 @@ public class BillListView extends BaseListView<BillsList> {
 
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase("Open")) {
+		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().open())) {
 			List<BillsList> openRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -143,7 +143,8 @@ public class BillListView extends BaseListView<BillsList> {
 			}
 			grid.setRecords(openRecs);
 
-		} else if (text.equalsIgnoreCase("Voided")) {
+		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
+				.voided())) {
 			List<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -153,7 +154,8 @@ public class BillListView extends BaseListView<BillsList> {
 			}
 			grid.setRecords(voidedRecs);
 
-		} else if (text.equalsIgnoreCase("Over Due")) {
+		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
+				.overDue())) {
 			List<BillsList> overDueRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -178,7 +180,7 @@ public class BillListView extends BaseListView<BillsList> {
 		//
 		// grid.setRecords(deletedRecs);
 		// }
-		if (text.equalsIgnoreCase("All")) {
+		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().all())) {
 			grid.setRecords(initialRecords);
 
 		}
