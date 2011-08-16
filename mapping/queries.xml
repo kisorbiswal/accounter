@@ -207,7 +207,7 @@
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.PayBill pst where pst.payFrom.id
-		=:accountID and pst.isVoid=false and pst.status =:status
+		=:accountId and pst.isVoid=false and pst.status =:status
 	</query>
 
 	<query name="getPayVAT.form.accountId.and.status">
