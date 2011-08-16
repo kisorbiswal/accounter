@@ -6,7 +6,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -149,26 +148,30 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 		ValidationResult result = new ValidationResult();
 		if (inputDlg != null) {
 			String value = inputDlg.getTextItems().get(0).getValue().toString();
-			ClientCustomerGroup customerGroupByName = company.getCustomerGroupByName(UIUtils.toStr(value));
-			if (customerGroupByName != null){
+			ClientCustomerGroup customerGroupByName = company
+					.getCustomerGroupByName(UIUtils.toStr(value));
+			if (customerGroupByName != null) {
 				result.addError(this, Accounter.constants()
 						.customerGroupAlreadyExists());
 			}
-//			if (customerGroup != null) {
-//				if (!(customerGroup.getName().equalsIgnoreCase(
-//						UIUtils.toStr(value)) ? true
-//						: (Utility.isObjectExist(company.getCustomerGroups()
-//								) ? false : true))) {
-//					result.addError(this, Accounter.constants()
-//							.customerGroupAlreadyExists());
-//				}
-			} else {
-				ClientCustomerGroup customerGroupByName2 = getCompany().getCustomerGroupByName(inputDlg.getTextItems().get(0).getValue().toString());
-				if (customerGroupByName2 != null) {
-					result.addError(this, Accounter.constants()
-							.customerGroupAlreadyExists());
-				}
+			// if (customerGroup != null) {
+			// if (!(customerGroup.getName().equalsIgnoreCase(
+			// UIUtils.toStr(value)) ? true
+			// : (Utility.isObjectExist(company.getCustomerGroups()
+			// ) ? false : true))) {
+			// result.addError(this, Accounter.constants()
+			// .customerGroupAlreadyExists());
+			// }
+		} else {
+			ClientCustomerGroup customerGroupByName2 = getCompany()
+					.getCustomerGroupByName(
+							inputDlg.getTextItems().get(0).getValue()
+									.toString());
+			if (customerGroupByName2 != null) {
+				result.addError(this, Accounter.constants()
+						.customerGroupAlreadyExists());
 			}
+		}
 		return result;
 	}
 
