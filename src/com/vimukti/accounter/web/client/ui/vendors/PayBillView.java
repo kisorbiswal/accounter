@@ -645,6 +645,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		} else {
 
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
+			paymentMethodCombo.setDisabled(isEdit);
 
 			this.transactionItems = transaction.getTransactionItems();
 
@@ -657,6 +658,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			dueDate.setValue(new ClientFinanceDate(transaction
 					.getBillDueOnOrBefore()));
 			dueDate.setDisabled(true);
+
+			transactionNumber.setValue(transaction.getNumber());
+			transactionNumber.setDisabled(isEdit);
 
 			this.setVendor(getCompany().getVendor(transaction.getVendor()));
 			vendorSelected(getCompany().getVendor(transaction.getVendor()));
@@ -675,14 +679,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		} catch (Exception e) {
 			System.err.println(e);
 		}
-		gridView.removeAllRecords();
-		gridView.setAllTransactionItems(transaction.getTransactionItems());
 
 		initPayFromAccounts();
 	}
 
 	private void initListGridData(List<ClientTransactionPayBill> list) {
-		// int count = 0;
+		int count = 0;
 		double totalOrgAmt = 0.0;
 		// double totalDueAmount = 0.0;
 		// double cashDiscount = 0.0;
@@ -691,7 +693,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		for (ClientTransactionPayBill receivePayment : list) {
 			totalOrgAmt += receivePayment.getOriginalAmount();
 			this.gridView.addData(receivePayment);
-			// this.gridView.selectRow(count);
+			this.gridView.selectRow(count);
+			count++;
 		}
 	}
 
@@ -711,7 +714,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		
+
 		// Validations
 		// 1. is valid transaction date?
 		// 2. is in prevent posting before date?
@@ -719,7 +722,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// 4. filterForm valid?
 		// 5. do select transaction?
 		// 6. grid valid?
-		
+
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
