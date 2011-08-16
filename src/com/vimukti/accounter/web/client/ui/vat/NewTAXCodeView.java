@@ -301,9 +301,9 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
-
-		result.add(DynamicForm.validate(this.getForms().toArray(
-				new DynamicForm[getForms().size()])));
+		//already exists?
+		// validate form
+		
 		String name = vatCodeTxt.getValue() != null ? vatCodeTxt.getValue()
 				.toString() : "";
 
@@ -311,7 +311,12 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 		if ((!isEdit && taxCodeByName != null)) {
 			result.addError(vatCodeTxt, Accounter.constants().alreadyExist());
+			return result;
 		}
+		result.add(DynamicForm.validate(this.getForms().toArray(
+				new DynamicForm[getForms().size()])));
+		
+		
 		// if (!((!isEdit && taxCodeByName != null))
 		// || (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 		// : (taxCodeByName != null
