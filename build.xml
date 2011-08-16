@@ -23,6 +23,7 @@
 	<!-- gwt  libraries-->
 	<path id="gwtlibraries">
 		<pathelement location="${gwt.sdk}/gwt-user.jar" />
+		<pathelement location="${gwt.sdk}/validation-api-1.0.0.GA.jar"/>
 		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" />
 		<fileset dir="${acc.dir}">
 			<include name="**/*.jar" />
@@ -33,7 +34,7 @@
 		<pathelement location="${src.dir}" />
 		<pathelement location="${acc.dir}/src" />
 	</path>
-	<fileset file="webapp" id="webapp">
+	<fileset file="war" id="war">
 		<exclude name=".svn" />
 	</fileset>
 
@@ -41,7 +42,7 @@
 	<target name="clean">
 		<delete dir="${build.dir}" />
 		<delete defaultExcludes="false">
-			<fileset dir="./webapp/accounter" />
+			<fileset dir="./war/accounter" />
 		</delete>
 	</target>
 
@@ -59,13 +60,13 @@
 
 	</target>
 	<target name="gwtcompile" description="GWT COMPILATION">
-		<mkdir dir="./webapp" />
+		<mkdir dir="./war" />
 		<java classpathref="gwtlibraries" fork="true" classname="com.google.gwt.dev.Compiler">
 			<classpath>
 				<pathelement location="${acc.dir}/src" />
 			</classpath>
-			<jvmarg value="-Xmx1536m" />
-			<arg line="-war ./webapp/" />
+			<jvmarg value="-Xmx1024m" />
+			<arg line="-war ./war/" />
 			<arg line="-style OBF" />
 			<arg line="com.vimukti.accounter.web.Finance">
 			</arg>
@@ -73,10 +74,10 @@
 		</java>
 	</target>
 
-	<target name="makewebapp">
+	<target name="makewar">
 		<foreach target="compress_file" param="file">
 			<path>
-				<fileset dir="./webapp/accounter" id="outputhtml">
+				<fileset dir="./war/accounter" id="outputhtml">
 					<include name="*.cache.js" />
 					<include name="**/*.js" />
 				</fileset>
@@ -87,12 +88,12 @@
 	<target name="compress_file" description="Compress file and make gz file">
 		<gzip src="${file}" zipfile="${file}.gz" />
 	</target>
-	<target name="setup" depends="compile,gwtcompile,makewebapp">
+	<target name="setup" depends="compile,gwtcompile,makewar">
 		<mkdir dir="${classes.dir}" />
 
-		<mkdir dir="${classes.dir}/webapp" />
-		<copy todir="${classes.dir}/webapp">
-			<fileset dir="./webapp">
+		<mkdir dir="${classes.dir}/war" />
+		<copy todir="${classes.dir}/war">
+			<fileset dir="./war">
 				<exclude name="collaberadmin/**" />
 				<exclude name="com.vimukti.collaber.*/**" />
 				<exclude name="dialogs/**" />
