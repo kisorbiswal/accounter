@@ -504,6 +504,23 @@ public class PaySalesTaxView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 
+		//Validations
+		//TODO::: 1. is valid transaction date?
+		//TODO::: 2. is in prevent posting before date?
+		// 3. filter form valid?
+		// 4. is blank transaction?
+		// 5. grid valid?
+		// 6. is positive amount?
+		
+		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
+		}
+
+		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
+		}
 		result.add(filterForm.validate());
 		if (grid == null || grid.getRecords().isEmpty()) {
 			result.addError(grid, accounterConstants.blankTransaction());
