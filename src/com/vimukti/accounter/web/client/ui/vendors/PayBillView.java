@@ -711,6 +711,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
+		
+		// Validations
+		// 1. is valid transaction date?
+		// 2. is in prevent posting before date?
+		// 3. is pay form valid?
+		// 4. filterForm valid?
+		// 5. do select transaction?
+		// 6. grid valid?
+		
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
