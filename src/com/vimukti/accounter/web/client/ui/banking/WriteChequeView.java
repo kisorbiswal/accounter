@@ -361,28 +361,6 @@ public class WriteChequeView extends
 
 	}
 
-	protected void initTransactionViewData(ClientTransaction transactionObject) {
-
-		if (transaction == null) {
-			setData(new ClientWriteCheck());
-		} else {
-			if (transaction == null) {
-
-				transaction = (ClientWriteCheck) transactionObject;
-				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(transactionObject
-							.isAmountsIncludeVAT());
-				}
-				initMemoAndReference();
-
-			}
-		}
-		initTransactionNumber();
-		initPayToCombo();
-		setDisableFields();
-		initBankaccountCombo();
-	}
-
 	private void setDisableFields() {
 		if (isEdit) {
 			payForm.setDisabled(true);
@@ -480,12 +458,13 @@ public class WriteChequeView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		
-		//Validations
+
+		// Validations
 		// 1. payForm validation
 		// 2. bankAccForm validation
-		// 3. if(isBlankTransaction(transactionVendorGrid or transactionCustomerGrid)) ERROR
-		// 	  else transactionVendorGrid or transactionCustomerGrid validation
+		// 3. if(isBlankTransaction(transactionVendorGrid or
+		// transactionCustomerGrid)) ERROR
+		// else transactionVendorGrid or transactionCustomerGrid validation
 		// 4. if(!validPositiveAmount(gridTotalAmount)) ERROR
 		if (transaction == null) {
 
@@ -498,7 +477,7 @@ public class WriteChequeView extends
 							.isBlankTransaction(transactionCustomerGrid)) {
 						result.addError(transactionCustomerGrid,
 								accounterConstants.blankTransaction());
-					}else
+					} else
 						result.add(transactionCustomerGrid.validateGrid());
 				case ClientPayee.TYPE_VENDOR:
 				case ClientPayee.TYPE_TAX_AGENCY:
@@ -506,7 +485,7 @@ public class WriteChequeView extends
 							.isBlankTransaction(transactionVendorGrid)) {
 						result.addError(transactionVendorGrid,
 								accounterConstants.blankTransaction());
-					}else
+					} else
 						result.add(transactionVendorGrid.validateGrid());
 					// case ClientPayee.TYPE_TAX_AGENCY:
 					// return AccounterValidator
@@ -1103,11 +1082,6 @@ public class WriteChequeView extends
 	// }
 
 	@Override
-	public void setData(ClientWriteCheck data) {
-		super.setData(data);
-	}
-
-	@Override
 	public void updateNonEditableItems() {
 		if (payee != null) {
 
@@ -1403,5 +1377,20 @@ public class WriteChequeView extends
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().writeCheck();
+	}
+
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientWriteCheck());
+		} else {
+			if (vatinclusiveCheck != null) {
+				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+			}
+			initMemoAndReference();
+		}
+		initTransactionNumber();
+		initPayToCombo();
+		setDisableFields();
+		initBankaccountCombo();
 	}
 }
