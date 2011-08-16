@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -49,8 +48,6 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	// protected PaymentMethod paymentMethod;
 	protected ClientAccount account;
 
-	protected PayFromAccountsCombo payFrmSelect;
-
 	protected List<ClientAccount> accountsList;
 
 	protected ClientAddress billingAddress;
@@ -60,8 +57,6 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected long payFromAccount;
 	protected CheckboxItem vatinclusiveCheck;
-
-	private List<ClientAccount> listOfAccounts;
 
 	protected List<ClientAccount> accounts;
 	protected AmountLabel netAmount, transactionTotalNonEditableText,
@@ -79,8 +74,6 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected void initTransactionViewData() {
 
 		initAccounts();
-		initpayFromAccountCombo();
-
 	}
 
 	protected abstract void initMemoAndReference();
@@ -166,25 +159,6 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 		return amountItem;
 
-	}
-
-	public void initpayFromAccountCombo() {
-
-		// listOfAccounts = Utility.getPayFromAccounts(FinanceApplication
-		// .getCompany());
-		// getPayFromAccounts();
-		listOfAccounts = payFrmSelect.getAccounts();
-
-		payFrmSelect.initCombo(listOfAccounts);
-		payFrmSelect.setAccountTypes(UIUtils
-				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
-		payFrmSelect.setAccounts();
-		payFrmSelect.setDisabled(isEdit);
-
-		account = payFrmSelect.getSelectedValue();
-
-		if (account != null)
-			payFrmSelect.setComboItem(account);
 	}
 
 	protected void payFromAccountSelected(long accountID) {
