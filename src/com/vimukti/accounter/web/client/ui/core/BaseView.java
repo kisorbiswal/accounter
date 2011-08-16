@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public abstract class BaseView<T extends IAccounterCore> extends
-		AbstractBaseView<T> {
+		AbstractBaseView<T> implements IEditableView {
 
 	private ButtonBar buttonBar;
 
@@ -104,5 +104,15 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		buttonBar.add(saveAndCloseButton);
 		buttonBar.add(saveAndNewButton);
 		buttonBar.add(cancelButton);
+	}
+
+	@Override
+	public boolean canEdit() {
+		return isEdit;
+	}
+
+	@Override
+	public boolean isDirty() {
+		return isDirty;
 	}
 }

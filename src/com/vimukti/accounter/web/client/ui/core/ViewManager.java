@@ -214,7 +214,7 @@ public class ViewManager extends VerticalPanel {
 
 	private void updateButtons() {
 		if (existingView instanceof IEditableView) {
-			editButton.setVisible(true);
+			editButton.setVisible(((IEditableView) existingView).canEdit());
 		} else {
 			editButton.setVisible(false);
 		}
@@ -333,11 +333,11 @@ public class ViewManager extends VerticalPanel {
 		printButton = new ImageButton(Accounter.constants().print(), Accounter
 				.getFinanceImages().Print1Icon());
 		printButton.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent arg0) {
 				existingView.print();
-				
+
 			}
 		});
 		editButton = new ImageButton(Accounter.constants().edit(), Accounter

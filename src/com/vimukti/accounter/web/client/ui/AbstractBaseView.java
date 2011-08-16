@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -34,7 +33,6 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
-import com.vimukti.accounter.web.client.ui.core.IEditableView;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -50,20 +48,7 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
-		IAccounterWidget, WidgetWithErrors, IEditableView, ISaveCallback,
-		IDeleteCallback {
-
-	@Override
-	public boolean canEdit() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isDirty() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		IAccounterWidget, WidgetWithErrors, ISaveCallback, IDeleteCallback {
 
 	@Override
 	public void fitToSize(int height, int width) {
@@ -122,7 +107,6 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 		super.add(errorPanel);
 	}
 
-	
 	/**
 	 * Base reference for all RPC DO Services
 	 */
@@ -161,7 +145,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	private boolean isViewModfied;
 	private VerticalPanel errorPanel;
 	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
-	private boolean isDirty;
+	protected boolean isDirty;
 
 	private Set<Object> lastErrorSourcesFromValidation = new HashSet<Object>();
 

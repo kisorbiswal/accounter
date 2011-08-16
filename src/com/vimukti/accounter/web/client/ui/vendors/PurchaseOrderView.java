@@ -848,7 +848,9 @@ public class PurchaseOrderView extends
 
 	protected void updateTransaction() {
 		super.updateTransaction();
-		transaction.setVendor(getVendor().getID());
+		if (getVendor() != null) {
+			transaction.setVendor(getVendor().getID());
+		}
 
 		if (statusSelect.getSelectedValue().equals(OPEN))
 			transaction.setStatus(ClientTransaction.STATUS_OPEN);
@@ -1055,9 +1057,10 @@ public class PurchaseOrderView extends
 
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		//Validations
-		//TODO:: is it required to validate transaction date?yes
-		//TODO:: do we require validation for dispatchdate, receiveddate?dispatchDate is not required
+		// Validations
+		// TODO:: is it required to validate transaction date?yes
+		// TODO:: do we require validation for dispatchdate,
+		// receiveddate?dispatchDate is not required
 		// 1. isValid transaction date?
 		// 2. is in prevent posting before date?
 		// 3. statusSelect valid? is valid received date?
@@ -1069,17 +1072,19 @@ public class PurchaseOrderView extends
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
 		}
-		
+
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateDate());
 		}
-		
+
 		// TODO::: isvalid received date
-		if(!AccounterValidator.isValidPurchaseOrderRecievedDate(deliveryDateItem.getDate(), transactionDate)){
-			result.addError(deliveryDateItem, Accounter.constants().receivedDateShouldNotBeAfterTransactionDate());
+		if (!AccounterValidator.isValidPurchaseOrderRecievedDate(
+				deliveryDateItem.getDate(), transactionDate)) {
+			result.addError(deliveryDateItem, Accounter.constants()
+					.receivedDateShouldNotBeAfterTransactionDate());
 		}
-		
+
 		if (!statusSelect.validate()) {
 			result.addError(statusSelect, statusSelect.getTitle());
 		}
@@ -1094,15 +1099,15 @@ public class PurchaseOrderView extends
 					+ Accounter.constants()
 							.cannotbeearlierthantransactiondate());
 		}
-		
+
 		result.add(vendorForm.validate());
-		
+
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 			result.addError(vendorTransactionGrid,
 					accounterConstants.blankTransaction());
-		}else
+		} else
 			result.add(vendorTransactionGrid.validateGrid());
-		
+
 		return result;
 	}
 
