@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -25,7 +26,9 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
+import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -56,7 +59,7 @@ public class CreditCardChargeView extends
 	protected TextItem phoneSelect;
 
 	VendorCombo vendorNameSelect;
-
+	protected PayFromAccountsCombo payFrmSelect;
 	private TextAreaItem addrArea;
 
 	protected String selectPaymentMethod;
@@ -74,7 +77,8 @@ public class CreditCardChargeView extends
 	protected ClientContact contact;
 	protected Label titlelabel;
 	protected TextAreaItem billToAreaItem;
-
+	private List<ClientAccount> listOfAccounts;
+	
 	public CreditCardChargeView() {
 
 		super(ClientTransaction.TYPE_CREDIT_CARD_CHARGE,
@@ -286,6 +290,25 @@ public class CreditCardChargeView extends
 		initMemoAndReference();
 		initTransactionNumber();
 		addVendorsList();
+	}
+
+	private void initpayFromAccountCombo() {
+
+		// listOfAccounts = Utility.getPayFromAccounts(FinanceApplication
+		// .getCompany());
+		// getPayFromAccounts();
+		listOfAccounts = payFrmSelect.getAccounts();
+
+		payFrmSelect.initCombo(listOfAccounts);
+		payFrmSelect.setAccountTypes(UIUtils
+				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
+		payFrmSelect.setAccounts();
+		payFrmSelect.setDisabled(isEdit);
+
+		account = payFrmSelect.getSelectedValue();
+
+		if (account != null)
+			payFrmSelect.setComboItem(account);
 	}
 
 	private void resetElements() {
