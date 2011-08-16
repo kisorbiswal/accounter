@@ -69,6 +69,7 @@ public class InviteUserServlet extends BaseServlet {
 		Transaction transaction = session.beginTransaction();
 		Client invitedClient = getClient(invitedemailID);
 		boolean isExistedUser = true;
+		String randomString = HexUtil.getRandomString();
 		if (invitedClient == null) {
 			isExistedUser = false;
 			invitedClient = new Client();
@@ -81,7 +82,7 @@ public class InviteUserServlet extends BaseServlet {
 			invitedClient.setFirstName(firstName);
 			invitedClient.setLastName(lastName);
 			invitedClient.setPassword(HexUtil.bytesToHex(Security
-					.makeHash(invitedemailID + "***REMOVED***")));
+					.makeHash(invitedemailID + randomString)));
 			// invitedClient.setRequirePasswordReset(true);
 		} else {
 			Set<ServerCompany> invitedClientCompanies = invitedClient
@@ -102,8 +103,7 @@ public class InviteUserServlet extends BaseServlet {
 				UsersMailSendar.sendMailToOtherCompanyUser(invitedClient,
 						serverCompany.getCompanyName(), inviter);
 			} else {
-				sendMailToInvitedUser(invitedClient,
-						"***REMOVED***",
+				sendMailToInvitedUser(invitedClient, randomString,
 						serverCompany.getCompanyName());
 			}
 			transaction.commit();
