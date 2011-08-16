@@ -1174,7 +1174,7 @@ public class JournalEntry extends Transaction {
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
-		if (this.isVoid) {
+		if (this.isVoidBefore) {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
