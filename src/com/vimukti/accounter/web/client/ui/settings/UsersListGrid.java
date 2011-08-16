@@ -131,7 +131,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	@Override
 	public void onDoubleClick(ClientUserInfo obj) {
 		if (Accounter.getUser().isCanDoUserManagement()) {
-			ActionFactory.getInviteUserAction().run(obj, true);
+			ActionFactory.getInviteUserAction().run(obj, false);
 		}
 	}
 
