@@ -109,7 +109,7 @@ public class NewCustomerPaymentView extends
 
 		result.add(payForm.validate());
 		
-		if (AccounterValidator.isPositiveAmount(amountText.getAmount()))
+		if (!AccounterValidator.isPositiveAmount(amountText.getAmount()))
 			result.addError(amountText,
 					accounterConstants.invalidNegativeAmount());
 		return result;
