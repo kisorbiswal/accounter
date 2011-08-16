@@ -433,7 +433,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
   
 </div>
 <div>
-<label>Have Accounter account? <a href="/login" style="color: #CC0000">Login</a></label>
+<label>I already have an account. <a href="/login" style="color: #CC0000">Login</a></label>
 </div>
 	
 
