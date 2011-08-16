@@ -838,16 +838,25 @@ public class ItemView extends BaseView<ClientItem> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		//check whether the item is already available or not
+		//itemform valid?
+		//isSell or isBuy checked?
+		//salesinfoform or buyinfoform validation
+		//positive sales price and positive purchase price check
+		//valid income accont and valid expense account?
+		
 		String name = nameText.getValue().toString();
 		if (!isEdit) {
 			ClientItem clientItem = company.getItemByName(name);
 			if (clientItem != null) {
 				result.addError(nameText, Accounter.constants()
 						.aItemGroupAlreadyExistswiththisname());
+				return result;
 			}
 		}
 
 		result.add(itemForm.validate());
+		
 		if (!AccounterValidator.isSellorBuyCheck(isellCheck, ibuyCheck)) {
 			result.addError(isellCheck, accounterConstants.checkAnyone());
 		}
