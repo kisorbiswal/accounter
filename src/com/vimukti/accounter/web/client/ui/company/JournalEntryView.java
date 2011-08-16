@@ -82,6 +82,15 @@ public class JournalEntryView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
+		// Validations
+		// 1. is valid memo?
+		// 2. is valid transaction date?
+		// 3. is in prevent posting before date?
+		// 4. date form valid?
+		// 5. is blank transaction?
+		// 6. is valid grid?
+		// 7. is valid total?
+		
 		if (memoText.getValue().toString() != null
 				&& memoText.getValue().toString().length() >= 256) {
 			result.addError(memoText, Accounter.constants()
@@ -99,8 +108,8 @@ public class JournalEntryView extends
 		result.add(dateForm.validate());
 		if (AccounterValidator.isBlankTransaction(grid)) {
 			result.addError(grid, accounterConstants.blankTransaction());
-		}
-		result.add(grid.validateGrid());
+		} else
+			result.add(grid.validateGrid());
 		if (!grid.isValidTotal()) {
 			result.addError(grid, Accounter.constants().totalMustBeSame());
 		}
