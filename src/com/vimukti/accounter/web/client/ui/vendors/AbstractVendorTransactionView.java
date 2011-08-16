@@ -121,10 +121,10 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 		initVendors();
 		initTransactionTotalNonEditableItem();
-		if(vendorTransactionGrid!=null){
-		vendorTransactionGrid.removeAllRecords();
-		vendorTransactionGrid.setAllTransactionItems(transaction
-				.getTransactionItems());
+		if (vendorTransactionGrid != null) {
+			vendorTransactionGrid.removeAllRecords();
+			vendorTransactionGrid.setAllTransactionItems(transaction
+					.getTransactionItems());
 		}
 
 	}
@@ -224,10 +224,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	public void initPhones(ClientVendor vendor) {
 		if (phoneSelect == null)
 			return;
-
-		phoneSelect.setValue("");
-		phoneSelect.setValue("");
-
+		// phoneSelect.setValue("");
 		Set<String> contactsPhoneList = vendor.getContactsPhoneList();
 
 		this.phoneList = contactsPhoneList.toArray(new String[contactsPhoneList
@@ -239,8 +236,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		if (primaryContact != null) {
 			String primaryPhone = primaryContact.getBusinessPhone();
 			phoneSelect.setValue(primaryPhone);
-		}
-
+			this.phoneNo = primaryPhone;
+		} 
 	}
 
 	public void initContacts(ClientVendor vendor) {
@@ -259,12 +256,12 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			if (contact != null && contacts.contains(contact)) {
 				contactCombo.setComboItem(contact);
 				contactSelected(contact);
-
 			}
 
 		} else {
 			contactCombo.setValue("");
 			contactCombo.setDisabled(true);
+
 		}
 	}
 
