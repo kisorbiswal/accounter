@@ -348,6 +348,19 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
+		//check whether the sales person is already added or not
+		//valid date of birth?
+		
+		String name = employeeNameText.getValue().toString();
+		ClientSalesPerson clientSalesPerson = getCompany()
+				.getSalesPersonByName(name);
+		if (!(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
+				: clientSalesPerson == null) : true)) {
+			result.addError(employeeNameText, Accounter.constants()
+					.alreadyExist());
+			return result;
+		}
+				
 		if (dateOfBirth.getValue().getDate() != 0) {
 			long mustdate = new ClientFinanceDate().getDate() - 180000;
 			if (dateOfBirth.getValue().getDateAsObject()
@@ -361,14 +374,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			}
 		}
 		result.add(salesPersonForm.validate());
-		String name = employeeNameText.getValue().toString();
-		ClientSalesPerson clientSalesPerson = getCompany()
-				.getSalesPersonByName(name);
-		if (!(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
-				: clientSalesPerson == null) : true)) {
-			result.addError(employeeNameText, Accounter.constants()
-					.alreadyExist());
-		}
+		
 
 		long mustdate = new ClientFinanceDate().getDate() - 180000;
 		if (new ClientFinanceDate(mustdate)
