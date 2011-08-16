@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	private VerticalPanel mainPanel;
 	private Label userNameLabel, mailIdLabel;
-	private HTML changePasswordHtml;
+	private HTML changePasswordHtml, changeProfileHtml;
 	private ClientUser clientUser;
 
 	@Override
@@ -43,9 +43,18 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 				ActionFactory.getChangePasswordAction().run(null, false);
 			}
 		});
+
+		changeProfileHtml = new HTML("<a>Change profile</a>");
+		changeProfileHtml.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				ActionFactory.getEditProfileAction().run(null, false);
+			}
+		});
 		mainPanel.add(userNameLabel);
 		mainPanel.add(mailIdLabel);
 		mainPanel.add(changePasswordHtml);
+		mainPanel.add(changeProfileHtml);
 		mainPanel.setWidth("100%");
 		mainPanel.addStyleName("change_password_view");
 		add(mainPanel);
