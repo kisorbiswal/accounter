@@ -1163,7 +1163,7 @@ public class CustomerTransactionGrid extends
 				String qty = value.toString() != null
 						&& (value.toString().length() != 0 && value.toString()
 								.length() <= 8) ? value.toString()
-						: isItem ? "1" : "0";
+						: isItem ? "1" : "1";
 
 				if (qty.startsWith("" + UIUtils.getCurrencySymbol() + "")) {
 					qty = qty.replaceAll("" + UIUtils.getCurrencySymbol() + "",
@@ -1190,7 +1190,7 @@ public class CustomerTransactionGrid extends
 						update_quantity_inAllRecords(item.getQuantity()
 								.getValue());
 					} else {
-						quant.setValue(isItem ? 1 : 0);
+						quant.setValue(isItem ? 1 : 1);
 						item.setQuantity(quant);
 						transactionView.addError(this, Accounter.constants()
 								.quantity());
@@ -1276,7 +1276,7 @@ public class CustomerTransactionGrid extends
 							// baseCurrency or not.
 							item.setUnitPrice(isItem ? lineTotal : 0.0D);
 							ClientQuantity quant = new ClientQuantity();
-							quant.setValue(isItem ? 1 : 0);
+							quant.setValue(isItem ? 1 : 1);
 							item.setQuantity(quant);
 						}
 					} catch (Exception e) {
