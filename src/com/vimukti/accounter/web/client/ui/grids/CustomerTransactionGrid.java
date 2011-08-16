@@ -1485,6 +1485,10 @@ public class CustomerTransactionGrid extends
 	@Override
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
+		//Validations 
+		// 1. checking for the name of the transaction item
+		// 2. checking for the vat code if the company is of type UK
+		//TODO::: check whether this validation is working or not
 		for (ClientTransactionItem item : this.getRecords()) {
 			if (item.getType() == ClientTransactionItem.TYPE_COMMENT) {
 				continue;
