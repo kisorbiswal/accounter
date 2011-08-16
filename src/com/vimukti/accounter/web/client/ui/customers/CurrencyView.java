@@ -93,6 +93,8 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 		ClientCurrency currency = company.getCurrency(currencyNameText
 				.getValue().toString());
 		ValidationResult result = new ValidationResult();
+		
+		//checks whether the currency is already available or not?
 		if (currency != null) {
 			result.addError(currencyNameText, accounterConstants.alreadyExist());
 		}
