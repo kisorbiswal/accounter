@@ -21,6 +21,7 @@ public class TransactionIssuePaymentGrid extends
 	private double total = 0.0;
 	private IssuePaymentDialog issuePaymentView;
 	AccounterConstants accounterConstants = Accounter.constants();
+
 	public TransactionIssuePaymentGrid() {
 		super(true, true);
 	}
@@ -50,10 +51,10 @@ public class TransactionIssuePaymentGrid extends
 	public boolean isEmptyGrid() {
 		for (ClientTransactionIssuePayment bill : getRecords()) {
 			if (isSelected(bill)) {
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	@Override
