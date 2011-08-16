@@ -560,6 +560,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 				.getBrandingThemeByName(data.getThemeName());
 		if (getData() == null && brandingThemeByName != null) {
 			result.addError("TakenTheme", "Theme Name already exists");
+			return result;
 		}
 		result.add(nameForm.validate());
 		return result;
