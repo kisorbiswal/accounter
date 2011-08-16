@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.server;
 
 import java.io.NotSerializableException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
@@ -3740,7 +3741,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// for (int j = 0; j < obj.length; j++)
 			{
 				PurchaseOrdersList el = new PurchaseOrdersList();
-				el.setTransactionId((Long) obj[0]);
+				el.setTransactionId(((Long) obj[0]).longValue());
 				el.setType(((Integer) obj[1]).intValue());
 				el.setNumber(((String) obj[2]));
 				el.setPurchasePrice(((Double) obj[3]).doubleValue());
