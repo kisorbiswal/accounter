@@ -157,7 +157,6 @@ public class Client implements IAccounterServerCore {
 		user.setLastName(this.lastName);
 		user.setCountry(this.country);
 		user.setEmail(this.emailId);
-		user.setActive(this.isActive);
 		user.setPhoneNo(this.phoneNumber);
 		return user;
 	}
