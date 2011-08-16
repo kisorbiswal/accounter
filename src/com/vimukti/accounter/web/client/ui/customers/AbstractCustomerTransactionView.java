@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -26,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
@@ -306,6 +309,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (contactCombo == null)
 			return;
 
+		contactCombo.setDisabled(false);
+
 		this.contacts = customer.getContacts();
 		List<ClientContact> list = new ArrayList<ClientContact>(this.contacts);
 		if (contacts != null) {
@@ -532,12 +537,42 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					}
 
 				});
+		contactCombo.addNewContactHandler(new ValueCallBack<ClientContact>() {
+
+			@Override
+			public void execute(ClientContact value) {
+				addContactToCustomer(value);
+			}
+		});
 		contactCombo.setDisabled(isEdit);
 
 		formItems.add(contactCombo);
 
 		return contactCombo;
 
+	}
+
+	/**
+	 * @param value
+	 */
+	protected void addContactToCustomer(final ClientContact contact) {
+		ClientCustomer selectedCutomer = customerCombo.getSelectedValue();
+		if (selectedCutomer == null) {
+			return;
+		}
+		selectedCutomer.addContact(contact);
+		AccounterAsyncCallback<Long> asyncallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+				caught.printStackTrace();
+			}
+
+			public void onResultSuccess(Long result) {
+				contactSelected(contact);
+			}
+
+		};
+		Accounter.createCRUDService().update(selectedCutomer, asyncallBack);
 	}
 
 	public AddressCombo createBillToComboItem() {
@@ -996,6 +1031,11 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public void init() {
 
 		super.init();
+		if (customerCombo != null && customerCombo.getSelectedValue() == null) {
+			if (contactCombo != null) {
+				contactCombo.setDisabled(true);
+			}
+		}
 	}
 
 	@Override

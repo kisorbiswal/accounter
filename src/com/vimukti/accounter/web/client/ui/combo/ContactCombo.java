@@ -1,9 +1,12 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.ui.customers.AddNewContactDialog;
 
 public class ContactCombo extends CustomCombo<ClientContact> {
+
+	private ValueCallBack<ClientContact> newContactHandler;
 
 	public ContactCombo(String title) {
 		super(title, false, 1);
@@ -21,12 +24,9 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onAddNew() {
-		AddNewContactDialog addNewContactDialog = new AddNewContactDialog("contact ",
-				" ");
-
-		addNewContactDialog.addCallBack(createAddNewCallBack());
-		addNewContactDialog.hide();
-		addNewContactDialog.showAddEditTermDialog(null);
+		AddNewContactDialog addNewContactDialog = new AddNewContactDialog(
+				"contact ", " ");
+		addNewContactDialog.addSuccessCallback(newContactHandler);
 	}
 
 	public void setDefaultToFirstOption(boolean b) {
@@ -56,5 +56,13 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 			return object.getName().toString();
 		}
 		return null;
+	}
+
+	/**
+	 * @param valueCallBack
+	 */
+	public void addNewContactHandler(
+			ValueCallBack<ClientContact> newContactHandler) {
+		this.newContactHandler = newContactHandler;
 	}
 }

@@ -509,4 +509,11 @@ public class ClientCustomer extends ClientPayee {
 		return customer;
 	}
 
+	/**
+	 * @param contact
+	 */
+	public void addContact(ClientContact contact) {
+		this.contacts.add(contact);
+	}
+
 }
