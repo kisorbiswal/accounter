@@ -446,7 +446,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				memoTextAreaItem.setValue(memo);
 			}
 			// refText.setValue(quote.getReference());
-
 		}
 
 	}
@@ -544,6 +543,20 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			customerTransactionGrid.setCanEdit(false);
+
+			customerTransactionGrid.setDisabled(isEdit);
+			transactionDateItem.setDisabled(isEdit);
+			transactionNumber.setDisabled(isEdit);
+			phoneSelect.setDisabled(isEdit);
+			billToTextArea.setDisabled(isEdit);
+			customerCombo.setDisabled(isEdit);
+			payTermsSelect.setDisabled(isEdit);
+			salesPersonCombo.setDisabled(isEdit);
+			memoTextAreaItem.setDisabled(isEdit);
+			contactCombo.setDisabled(isEdit);
+			quoteExpiryDate.setDisabled(isEdit);
+			deliveryDate.setDisabled(isEdit);
+			taxCodeSelect.setDisabled(isEdit);
 		}
 		super.initTransactionViewData();
 		initAllItems();
@@ -603,9 +616,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		//Validations
+		// Validations
 		// 1. isValidDueOrDeliveryDate?
-		
+
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()
