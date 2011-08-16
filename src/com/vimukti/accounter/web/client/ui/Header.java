@@ -23,7 +23,9 @@ public class Header extends HorizontalPanel {
 
 	public static Label companyName;
 
-	private HTML logout, help, logo, userName;
+	public static HTML userName;
+	
+	private HTML logout, help, logo;
 
 	private VerticalPanel panel1, panel2;
 	private VerticalPanel panel3;

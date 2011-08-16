@@ -406,7 +406,6 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(Long result) {
-
 				coreObj.setID(result);
 				company.processUpdateOrCreateObject(coreObj);
 				source.saveSuccess(coreObj);
@@ -518,5 +517,25 @@ public class Accounter implements EntryPoint {
 
 	public static PlaceController placeController() {
 		return placeController;
+	}
+
+	public static <D extends IAccounterCore> void updateUser(
+			final ISaveCallback source, final D coreObj) {
+		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+				source.saveFailed(caught);
+				caught.printStackTrace();
+				// TODO handle other kind of errors
+			}
+
+			public void onResultSuccess(Long result) {
+				coreObj.setID(result);
+				company.processUpdateOrCreateObject(coreObj);
+				source.saveSuccess(coreObj);
+			}
+		};
+		Accounter.createCRUDService().updateUser((IAccounterCore) coreObj,
+				transactionCallBack);
 	}
 }
