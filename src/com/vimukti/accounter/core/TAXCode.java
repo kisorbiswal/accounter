@@ -222,7 +222,6 @@ public class TAXCode implements IAccounterServerCore, Lifecycle {
 		this.isOnSaveProccessed = true;
 
 		setIsECsalesEntry();
-		ChangeTracker.put(this);
 		return false;
 	}
 

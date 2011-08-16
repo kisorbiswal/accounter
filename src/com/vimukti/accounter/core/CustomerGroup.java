@@ -80,7 +80,6 @@ public class CustomerGroup extends CreatableObject implements
 			return true;
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
-		ChangeTracker.put(this);
 		return false;
 	}
 

@@ -296,7 +296,6 @@ public class SalesPerson extends CreatableObject implements
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
 		super.onSave(arg0);
-		ChangeTracker.put(this);
 		return false;
 	}
 

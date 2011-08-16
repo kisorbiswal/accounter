@@ -190,7 +190,6 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 			session.update(this.creditsAndPayments);
 			session.update(this.creditsAndPayments.getTransaction());
 		}
-		// ChangeTracker.put(this);
 		return false;
 	}
 

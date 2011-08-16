@@ -187,7 +187,6 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 		this.setStatus(FiscalYear.STATUS_OPEN);
 		Utility.updateCurrentFiscalYear();
 		onUpdate(session);
-		ChangeTracker.put(this);
 		return false;
 	}
 

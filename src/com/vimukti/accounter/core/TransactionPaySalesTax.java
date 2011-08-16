@@ -150,7 +150,6 @@ public class TransactionPaySalesTax implements IAccounterServerCore, Lifecycle {
 				session.saveOrUpdate(this.taxRateCalculation);
 			}
 		}
-		// ChangeTracker.put(this);
 		return false;
 	}
 

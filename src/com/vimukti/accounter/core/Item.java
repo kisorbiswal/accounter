@@ -408,8 +408,6 @@ public class Item extends CreatableObject implements IAccounterServerCore {
 		FinanceLogger.log("Item with Name {0} and {1} has been created ", this
 				.getName(), (this.isISellThisItem ? "Sales Price"
 				: "Purchase Price"));
-
-		ChangeTracker.put(this);
 		return false;
 	}
 

@@ -193,7 +193,6 @@ public class TransactionPayVAT implements IAccounterServerCore, Lifecycle {
 			}
 
 		}
-		// ChangeTracker.put(this);
 		return false;
 	}
 

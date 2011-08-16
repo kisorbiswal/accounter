@@ -180,7 +180,6 @@ public class TAXAgency extends Payee {
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
 		setType(TYPE_TAX_AGENCY);
-		ChangeTracker.put(this);
 		return false;
 	}
 

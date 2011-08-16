@@ -375,7 +375,6 @@ public class TransactionIssuePayment implements IAccounterServerCore, Lifecycle 
 			}
 
 		}
-		// ChangeTracker.put(this);
 		return false;
 	}
 

@@ -752,7 +752,6 @@ public class FixedAsset extends CreatableObject implements
 
 		}
 
-		ChangeTracker.put(this);
 		return false;
 	}
 

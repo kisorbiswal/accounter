@@ -370,7 +370,6 @@ public class TransactionPayBill implements IAccounterServerCore, Lifecycle {
 			}
 
 		}
-		// ChangeTracker.put(this);
 		return false;
 	}
 

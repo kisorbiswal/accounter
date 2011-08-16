@@ -117,7 +117,6 @@ public class VATReturnBox implements IAccounterServerCore, Lifecycle {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		ChangeTracker.put(this);
 		return false;
 	}
 

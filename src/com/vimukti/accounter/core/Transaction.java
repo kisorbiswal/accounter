@@ -693,7 +693,6 @@ public abstract class Transaction extends CreatableObject implements
 	public boolean onSave(Session session) throws CallbackException {
 		super.onSave(session);
 		doCreateEffect(session);
-
 		return false;
 	}
 

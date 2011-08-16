@@ -397,7 +397,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			this.journalEntry.setBalanceDue(this.journalEntry.getBalanceDue()
 					- amount);
 		}
-		// ChangeTracker.put(this);
 		return false;
 	}
 

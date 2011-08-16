@@ -107,7 +107,6 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore {
 				HibernateUtil.getCurrentSession().saveOrUpdate(item);
 			}
 		}
-		ChangeTracker.put(this);
 		return false;
 	}
 
