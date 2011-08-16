@@ -1274,7 +1274,7 @@ public class CustomerTransactionGrid extends
 							item.setLineTotal(lineTotal);
 							// TODO doubt here, whether to convert this into
 							// baseCurrency or not.
-							item.setUnitPrice(isItem ? lineTotal : 0.0D);
+							item.setUnitPrice(isItem ? lineTotal : lineTotal);
 							ClientQuantity quant = new ClientQuantity();
 							quant.setValue(isItem ? 1 : 1);
 							item.setQuantity(quant);
