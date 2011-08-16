@@ -42,6 +42,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 	public CustomerQuoteListDialog(InvoiceView parentView,
 			List<EstimatesAndSalesOrdersList> estimatesAndSalesOrder) {
+		super(Accounter.constants().quotesList(), "");
 		invoiceView = parentView;
 		this.estimatesAndSalesOrder = estimatesAndSalesOrder;
 		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
@@ -146,11 +147,11 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		buttonLayout.setCellHorizontalAlignment(okButtonLayout,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		mainLayout.add(buttonLayout);
+//		mainLayout.add(buttonLayout);
 		mainLayout.setSize("100%", "100%");
 
 		// add(mainLayout);
-		setBodyLayout(grid);
+		setBodyLayout(mainLayout);
 	}
 
 	protected void setRecord(EstimatesAndSalesOrdersList record) {

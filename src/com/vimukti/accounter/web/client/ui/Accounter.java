@@ -9,6 +9,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
@@ -17,6 +18,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
+import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
+import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
@@ -27,6 +30,7 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -39,6 +43,7 @@ import com.vimukti.accounter.web.client.theme.ThemeImages;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
+import com.vimukti.accounter.web.client.ui.setup.SetupWizard;
 
 /**
  * 
@@ -46,13 +51,16 @@ import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
  */
 public class Accounter implements EntryPoint {
 
-	private MainFinanceWindow mainWindow;
+	private static MainFinanceWindow mainWindow;
 	protected ValueCallBack<Accounter> callback;
 	private ClientFinanceDate endDate;
 	private static PlaceController placeController;
+	private static SetupWizard setupWizard;
 
 	private static ClientUser user = null;
 	private static ClientCompany company = null;
+
+	public final static String CI_SERVICE_ENTRY_POINT = "/do/accounter/ci/rpc/service";
 	public final static String CRUD_SERVICE_ENTRY_POINT = "/do/accounter/crud/rpc/service";
 	public final static String GET_SERVICE_ENTRY_POINT = "/do/accounter/get/rpc/service";
 	public final static String HOME_SERVICE_ENTRY_POINT = "/do/accounter/home/rpc/service";
@@ -60,6 +68,7 @@ public class Accounter implements EntryPoint {
 	public final static String USER_MANAGEMENT_ENTRY_POINT = "/do/accounter/user/rpc/service";
 
 	private static IAccounterCRUDServiceAsync crudService;
+	private static IAccounterCompanyInitializationServiceAsync cIService;
 	private static IAccounterGETServiceAsync getService;
 	private static IAccounterHomeViewServiceAsync homeViewService;
 	private static IAccounterReportServiceAsync reportService;
@@ -103,6 +112,7 @@ public class Accounter implements EntryPoint {
 				endDate = company.getTransactionStartDate();
 
 				// and, now we are ready to start the application.
+				removeLoadingImage();
 				initGUI();
 
 			}
@@ -129,8 +139,39 @@ public class Accounter implements EntryPoint {
 	}
 
 	private void initGUI() {
-		this.mainWindow = new MainFinanceWindow();
-		RootPanel.get("mainWindow").add(this.mainWindow);
+		setupWizard = new SetupWizard();
+		RootPanel.get("mainWindow").add(setupWizard);
+	}
+
+	public static void loadAccounter(ClientCompanyPreferences preferences) {
+		cIService = createCompanyInitializationService();
+		cIService.initalizeCompany(preferences, new AsyncCallback<Boolean>() {
+			@Override
+			public void onSuccess(Boolean result) {
+				if (result) {
+					RootPanel.get("mainWindow").remove(setupWizard);
+					mainWindow = new MainFinanceWindow();
+					RootPanel.get("mainWindow").add(mainWindow);
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+
+			}
+		});
+	}
+
+	public static IAccounterCompanyInitializationServiceAsync createCompanyInitializationService() {
+		if (cIService == null) {
+			cIService = (IAccounterCompanyInitializationServiceAsync) GWT
+					.create(IAccounterCompanyInitializationService.class);
+			((ServiceDefTarget) cIService)
+					.setServiceEntryPoint(Accounter.CI_SERVICE_ENTRY_POINT);
+		}
+
+		return cIService;
+
 	}
 
 	public static IAccounterCRUDServiceAsync createCRUDService() {
@@ -257,6 +298,11 @@ public class Accounter implements EntryPoint {
 	public enum AccounterType {
 		ERROR, WARNING, WARNINGWITHCANCEL, INFORMATION;
 	}
+
+	private native void removeLoadingImage() /*-{
+		var parent = $wnd.document.getElementById('loadingWrapper');
+		parent.style.visibility = 'hidden';
+	}-*/;
 
 	/**
 	 * 

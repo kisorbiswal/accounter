@@ -45,8 +45,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		initializeActionsWithTokens();
 		createControls();
 		sinkEvents(Event.ONMOUSEOVER);
-		removeLoadingImage();
-
 	}
 
 	private Widget getSalesMenuBar() {
@@ -54,10 +52,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		return null;
 	}
 
-	private native void removeLoadingImage() /*-{
-		var parent = $wnd.document.getElementById('loadingWrapper');
-		parent.style.visibility = 'hidden';
-	}-*/;
 
 	private void createControls() {
 		viewManager = new ViewManager(this);
