@@ -87,7 +87,7 @@
 				    </ol>
 				    <ol>
 						<li><img class="icon4" src="/images/Decide.png"/><p class="header_p_style"><b>Make Quick Decisions</b></p>
-					 	<p>With a glance of the dash board you can quickly understand whats working and what not working with your business. The insightful reports available in the software makes it easy for you to take quick decisions.</p>
+					 	<p>With a glance of the dash board you can quickly understand what is working and what is not working with your business? The insightful reports available in the software makes it easy for you to take quick decisions.</p>
 					 </li>
 						<li><img class="icon5" src="/images/Contacts.png"/><p class="header_p_style"><b>Contacts and Inventory</b></p>
 					 	<p>Manage and review your customers, suppliers and inventory items details easily.</p>

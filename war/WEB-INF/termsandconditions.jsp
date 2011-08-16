@@ -35,15 +35,15 @@
 						<p class="sites-header">Terms and Conditions</p>
 					</div>
 					<div class="adjust-padding" style="margin-top:25px;">
-						<p>&nbsp&nbsp&nbsp&nbsp&nbsp;&nbsp&nbsp&nbsp&nbsp&nbsp;This terms and conditions page describes the terms upon which you may access and use our Site. By visiting our Site, you affirm that you have read and accept all of the following terms and conditions, which may be updated by us from time to time without notice.</p>	
+						<p>&nbsp&nbsp&nbsp&nbsp&nbsp;&nbsp&nbsp&nbsp&nbsp&nbsp;These terms and conditions page describes the terms upon which you may access and use our Site. You affirm that you have read and accept all of the following terms and conditions, which may be updated by us from time to time without notice  by visiting our Site,.</p>	
 					</div>
 					<br>
 					<div class="adjust-padding">
-						<p>&nbsp&nbsp&nbsp&nbsp&nbsp;&nbsp&nbsp&nbsp&nbsp&nbsp;Accounter provides online accounting software as a service. We reserve the right to change our minds about things (like providing the Service for free). We own the copyrights, trademarks & all other intellectual property of Accounter. In our discretion, we may provide notices of changes to these terms and conditions or other matters by displaying notices or links to notices generally on our Site.</p>
+						<p>&nbsp&nbsp&nbsp&nbsp&nbsp;&nbsp&nbsp&nbsp&nbsp&nbsp;Accounter provides online accounting software as a service. We reserve the right to change our minds about things (like providing the Service for free). We own the copyrights, trademarks & all other intellectual property of Accounter. In our discretion, we may provide notices of changes to these terms and conditions or other matters by displaying notices or links to notice generally on our Site.</p>
 					</div>
 					<br>
 					<div class="adjust-padding">
-						<p>&nbsp&nbsp&nbsp&nbsp&nbsp;&nbsp&nbsp&nbsp&nbsp&nbsp;IN NO EVENT SHALL THE SOFTWARE OWNERS / DESIGNERS, DISTRIBUTORS, PROGRAMMERS, OR ANY RELATED BUSINESSES, ENTITY, OR ORGANISATION, OR ITS SUPPLIERS BE LIABLE FOR ANY SPECIAL, CONSEQUENTIAL, INDIRECT, INCIDENTAL OR SIMILAR DAMAGES WHATSOEVER, INCLUDING ANY LOST PROFITS, BUSINESS INTERRUPTION, OR ANY OTHER PECUNIARY LOSS, ARISING OUT OF THE USE OR THE INABILITY TO USE THE SOFTWARE OR THE PROVISION OF OR FAILURE TO PROVIDE SUPPORT SERVICES, EVEN IF THE SOFTWARE OWNERS / DESIGNERS, DISTRIBUTORS, PROGRAMMERS, OR ANY RELATED BUSINESSES, ENTITY, OR ORGANISATION HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. EVEN IF ANY INTERESTED PARTY HAS BEEN ADVISED OF ANY PROBLEMS, FAULTS OR ERRORS IN THE SOFTWARE PRODUCT.</p>
+						<p>&nbsp&nbsp&nbsp&nbsp&nbsp;&nbsp&nbsp&nbsp&nbsp&nbsp;IN NO EVENT WILL THE SOFTWARE OWNERS / DESIGNERS, DISTRIBUTORS, PROGRAMMERS, OR ANY RELATED BUSINESSES, ENTITY, OR ORGANISATION, OR ITS SUPPLIERS BE LIABLE FOR ANY SPECIAL, CONSEQUENTIAL, INDIRECT, INCIDENTAL OR SIMILAR DAMAGES WHATSOEVER, INCLUDING ANY LOST PROFITS, BUSINESS INTERRUPTION, OR ANY OTHER PECUNIARY LOSS, ARISING OUT OF THE USE OR THE INABILITY TO USE THE SOFTWARE OR THE PROVISION OF OR FAILURE TO PROVIDE SUPPORT SERVICES, EVEN IF THE SOFTWARE OWNERS / DESIGNERS, DISTRIBUTORS, PROGRAMMERS, OR ANY RELATED BUSINESSES, ENTITY, OR ORGANISATION HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. EVEN IF ANY INTERESTED PARTY HAS BEEN ADVISED OF ANY PROBLEMS, FAULTS OR ERRORS IN THE SOFTWARE PRODUCT.</p>
 					</div>
 				</div>
 			</div>

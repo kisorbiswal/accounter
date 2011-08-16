@@ -39,7 +39,7 @@
 					</div>
 					<br>
 					<div class="adjust-padding">
-						<p>&nbsp&nbsp&nbsp&nbsp&nbsp;In Accounter & in our business model we deal with Accounter & all its affliates, you share personal and financial information with us. We guarantee you that this information which is provided by you will be kept confidential. We assure you that all the information will be protected. </p>
+						<p>&nbsp&nbsp&nbsp&nbsp&nbsp;In Accounter & in our business model we deal with Accounter & all its affiliates, you share personal and financial information with us. We guarantee you that this information, which is provided by you will be kept confidential. We assure you that all the information will be protected. </p>
 					</div>
 					<br>
 					<div class="adjust-padding">
