@@ -25,8 +25,6 @@ public class User extends CreatableObject implements IAccounterServerCore {
 
 	private String userRole;
 
-	private boolean isActive;
-
 	private UserPermissions permissions;
 
 	private boolean canDoUserManagement;
@@ -225,14 +223,6 @@ public class User extends CreatableObject implements IAccounterServerCore {
 
 	public UserPermissions getPermissions() {
 		return permissions;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public boolean isActive() {
-		return isActive;
 	}
 
 	public String getName() {
