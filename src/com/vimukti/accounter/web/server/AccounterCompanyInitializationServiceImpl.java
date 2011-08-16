@@ -133,7 +133,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 	@Override
 	public Boolean initalizeCompany(ClientCompanyPreferences preferences) {
 
-		return null;
+		return true;
 	}
 
 }

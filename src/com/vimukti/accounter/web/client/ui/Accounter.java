@@ -157,7 +157,7 @@ public class Accounter implements EntryPoint {
 
 			@Override
 			public void onFailure(Throwable caught) {
-
+				Accounter.showError("Accounter Loading Failed");
 			}
 		});
 	}
