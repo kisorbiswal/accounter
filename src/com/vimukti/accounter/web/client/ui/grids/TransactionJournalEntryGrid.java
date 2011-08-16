@@ -289,14 +289,18 @@ public class TransactionJournalEntryGrid extends
 	@Override
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
-		
-		//Validates account name
+
+		// Validates account name
 		List<ClientEntry> entrylist = this.getRecords();
 		for (ClientEntry entry : entrylist) {
 			int row = this.objects.indexOf(entry);
 			if (AccounterValidator.isEmpty(getColumnValue(entry, 2))) {
-				result.addError(row + "," + 2, Accounter.messages()
-						.pleaseEnter(getTypeAsString(entry, entry.getType())));
+				if (!result.haveErrors()) {
+					result.addError(
+							row + "," + 2,
+							Accounter.messages().pleaseEnter(
+									getTypeAsString(entry, entry.getType())));
+				}
 			}
 
 		}
@@ -694,20 +698,20 @@ public class TransactionJournalEntryGrid extends
 	protected void onRecordAdd(ClientEntry record) {
 
 		double dueAmt = getGroupRecordsDueTotal();
-//
-//		if (DecimalUtil.isEquals(dueAmt, 0.0)) {
-//			record.setDebit(0.0);
-//			record.setCredit(0.0);
-//			record.setVoucherNumber(tempVoucherNumber);
-//		} else if (DecimalUtil.isGreaterThan(dueAmt, 0)) {
-//			record.setCredit(dueAmt);
-//			record.setDebit(0.0);
-//			record.setVoucherNumber(tempVoucherNumber);
-//		} else if (DecimalUtil.isLessThan(dueAmt, 0.0)) {
-//			record.setCredit(0.0);
-//			record.setDebit(-1 * dueAmt);
-//			record.setVoucherNumber(tempVoucherNumber);
-//		}
+		//
+		// if (DecimalUtil.isEquals(dueAmt, 0.0)) {
+		// record.setDebit(0.0);
+		// record.setCredit(0.0);
+		// record.setVoucherNumber(tempVoucherNumber);
+		// } else if (DecimalUtil.isGreaterThan(dueAmt, 0)) {
+		// record.setCredit(dueAmt);
+		// record.setDebit(0.0);
+		// record.setVoucherNumber(tempVoucherNumber);
+		// } else if (DecimalUtil.isLessThan(dueAmt, 0.0)) {
+		// record.setCredit(0.0);
+		// record.setDebit(-1 * dueAmt);
+		// record.setVoucherNumber(tempVoucherNumber);
+		// }
 	}
 
 	/**
