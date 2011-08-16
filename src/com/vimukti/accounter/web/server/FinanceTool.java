@@ -4,7 +4,6 @@
 package com.vimukti.accounter.web.server;
 
 import java.io.NotSerializableException;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
@@ -305,8 +304,7 @@ public class FinanceTool implements IFinanceDAOService {
 						AccounterException.ERROR_ILLEGAL_ARGUMENT,
 						"Operation Data Found Null...." + data);
 			}
-			ClientUser clientUser = (ClientUser) data;
-			User user = new User(clientUser);
+			User user = new User((ClientUser) data);
 			String email = user.getEmail();
 			User userByUserEmail = getUserByUserEmail(email);
 			if (userByUserEmail != null) {
@@ -324,7 +322,9 @@ public class FinanceTool implements IFinanceDAOService {
 				company.addUser(user);
 			}
 			transaction.commit();
-			ChangeTracker.put(clientUser.toUserInfo());
+			ClientUser clientObject = new ClientConvertUtil().toClientObject(
+					user, ClientUser.class);
+			ChangeTracker.put(clientObject.toUserInfo());
 			return user.getID();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -695,8 +695,7 @@ public class FinanceTool implements IFinanceDAOService {
 				log.info("Sending Changes From ChangeTracker:" + changes.length);
 				Session session = null;
 				session = HibernateUtil.getCurrentSession();
-				List<User> users = session.getNamedQuery("getAllUsers")
-						.list();
+				List<User> users = session.getNamedQuery("getAllUsers").list();
 
 				for (User user : users) {
 					try {
