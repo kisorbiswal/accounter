@@ -205,7 +205,6 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				return null;
 			}
 
-			user.setActive(true);
 			session.saveOrUpdate(user);
 			this.getThreadLocalRequest().getSession()
 					.setAttribute(EMAIL_ID, user.getEmail());
