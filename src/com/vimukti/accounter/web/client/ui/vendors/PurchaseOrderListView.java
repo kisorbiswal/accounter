@@ -58,6 +58,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	protected void initGrid() {
 		grid = new PurchaseOrderListGrid(this);
 		grid.init();
+
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		// Accounter.createHomeService().getPurchaseOrders(this);
+		Accounter.createHomeService().getPurchaseOrders(this);
 
 	}
 
@@ -142,7 +143,9 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 						if (viewSelect.getSelectedValue() != null) {
 							grid.setViewType(viewSelect.getSelectedValue());
 							filterList(viewSelect.getSelectedValue());
+							if(purchaseDetailView!=null)
 							purchaseDetailView.refreshView();
+
 						}
 
 					}
@@ -151,7 +154,6 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 		return viewSelect;
 	}
 
-	
 	private void filterList(String text) {
 		grid.removeAllRecords();
 		if (listOfPurchaseOrders != null) {
@@ -171,9 +173,11 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
 						grid.addData(purchaseOrder);
 					if (grid.getRecords().isEmpty()) {
-						purchaseDetailView.itemsGrid.clear();
-						purchaseDetailView.itemsGrid
-								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+						if (purchaseDetailView.itemsGrid != null) {
+							purchaseDetailView.itemsGrid.clear();
+							purchaseDetailView.itemsGrid
+									.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+						}
 					}
 					continue;
 				}
@@ -181,9 +185,11 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
 						grid.addData(purchaseOrder);
 					if (grid.getRecords().isEmpty()) {
-						purchaseDetailView.itemsGrid.clear();
-						purchaseDetailView.itemsGrid
-								.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+						if (purchaseDetailView.itemsGrid != null) {
+							purchaseDetailView.itemsGrid.clear();
+							purchaseDetailView.itemsGrid
+									.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+						}
 					}
 					continue;
 				}
@@ -192,10 +198,11 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
 		}
-		if (purchaseDetailView.itemsGrid.getRecords().isEmpty()) {
-			purchaseDetailView.itemsGrid
-					.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
-		}
+		if (purchaseDetailView.itemsGrid != null)
+			if (purchaseDetailView.itemsGrid.getRecords().isEmpty()) {
+				purchaseDetailView.itemsGrid
+						.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+			}
 	}
 
 	@Override

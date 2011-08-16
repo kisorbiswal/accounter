@@ -221,14 +221,14 @@ public class PurchaseDetailesView extends ParentCanvas {
 	 * this method will invoke while changing the selction of object
 	 */
 	public void refreshView() {
-		itemsGrid.clear();
-		itemsGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
-		orderNumberField.setText("");
-		customerNumberField.setText("");
-		dueDateField.setText("");
-		statusField.setText("");
-		billingAdress.setHTML("");
-		shippingAdress.setHTML("");
+//		itemsGrid.clear();
+//		itemsGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+//		orderNumberField.setText("");
+//		customerNumberField.setText("");
+//		dueDateField.setText("");
+//		statusField.setText("");
+//		billingAdress.setHTML("");
+//		shippingAdress.setHTML("");
 	}
 
 	/**
