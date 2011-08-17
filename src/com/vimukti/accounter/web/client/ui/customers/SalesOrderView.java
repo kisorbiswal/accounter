@@ -318,8 +318,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(customerConstants
-				.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(
+				customerConstants.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -560,6 +560,7 @@ public class SalesOrderView extends
 
 			contactSelected(this.contact);
 
+			phoneSelect.setDisabled(isEdit);
 			// billToaddressSelected(this.billingAddress);
 			// shipToAddressSelected(shippingAddress);
 
@@ -575,6 +576,7 @@ public class SalesOrderView extends
 					.getDueDate()));
 
 			memoTextAreaItem.setValue(transaction.getMemo());
+			memoTextAreaItem.setDisabled(isEdit);
 			// refText.setValue(salesOrderToBeEdited.getReference());
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -825,7 +827,8 @@ public class SalesOrderView extends
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
