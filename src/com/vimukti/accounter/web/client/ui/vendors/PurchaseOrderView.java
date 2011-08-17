@@ -188,14 +188,14 @@ public class PurchaseOrderView extends
 			taxCodeSelect = createTaxCodeSelectItem();
 			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
-			paymentsNonEditableText = new AmountLabel(accounterConstants
-					.payments());
+			paymentsNonEditableText = new AmountLabel(
+					accounterConstants.payments());
 			paymentsNonEditableText.setDisabled(true);
 			paymentsNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
-			balanceDueNonEditableText = new AmountField(accounterConstants
-					.balanceDue(), this);
+			balanceDueNonEditableText = new AmountField(
+					accounterConstants.balanceDue(), this);
 			balanceDueNonEditableText.setDisabled(true);
 			balanceDueNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -244,8 +244,8 @@ public class PurchaseOrderView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -668,6 +668,7 @@ public class PurchaseOrderView extends
 			deliveryDateItem.setEnteredDate(new ClientFinanceDate(transaction
 					.getDeliveryDate()));
 			memoTextAreaItem.setValue(transaction.getMemo());
+			memoTextAreaItem.setDisabled(isEdit);
 			// refText.setValue(purchaseOrderToBeEdited.getReference());
 			vendorTransactionGrid.setCanEdit(false);
 
@@ -1064,13 +1065,13 @@ public class PurchaseOrderView extends
 		// 6. is blank transaction?
 		// 7. vendor transaction grid valid?
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 
 		// TODO::: isvalid received date
@@ -1098,8 +1099,8 @@ public class PurchaseOrderView extends
 		result.add(vendorForm.validate());
 
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid, accounterConstants
-					.blankTransaction());
+			result.addError(vendorTransactionGrid,
+					accounterConstants.blankTransaction());
 		} else
 			result.add(vendorTransactionGrid.validateGrid());
 
