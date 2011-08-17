@@ -2,12 +2,14 @@ package com.vimukti.accounter.web.client.ui.setup;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
@@ -21,7 +23,7 @@ public class SetupWizard extends VerticalPanel {
 	private Button gotoButton;
 	private ClientCompanyPreferences preferences;
 	private Label progressHeader;
-
+	private AsyncCallback<Boolean> callback;
 	public int currentViewIndex = START_PAGE;
 
 	private AbstractSetupPage viewList[] = new AbstractSetupPage[] {
@@ -51,10 +53,11 @@ public class SetupWizard extends VerticalPanel {
 	private AbstractSetupPage viewToShow;
 	private int progressImagesIndex;
 
-	public SetupWizard() {
+	public SetupWizard(AsyncCallback<Boolean> callback) {
 		preferences = Accounter.getCompany().getPreferences();
 		creteControls();
 		this.addStyleName("setup_panel");
+		this.callback = callback;
 	}
 
 	public void creteControls() {
@@ -100,8 +103,8 @@ public class SetupWizard extends VerticalPanel {
 		viewPanel.addStyleName("view_panel");
 		viewButtonPanel.setSize("100%", "100%");
 		topPanel.setSize("100%", "100%");
-		progressPanel.getElement().getParentElement().addClassName(
-				"progress_panel");
+		progressPanel.getElement().getParentElement()
+				.addClassName("progress_panel");
 		topPanel.setCellHorizontalAlignment(progressPanel,
 				HasAlignment.ALIGN_RIGHT);
 
@@ -139,7 +142,9 @@ public class SetupWizard extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				Accounter.loadAccounter(preferences);
+				IAccounterCompanyInitializationServiceAsync cIService = Accounter
+						.createCompanyInitializationService();
+				cIService.initalizeCompany(preferences, callback);
 			}
 		});
 		nextButton.addClickHandler(new ClickHandler() {
