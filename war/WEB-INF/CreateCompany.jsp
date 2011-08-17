@@ -334,6 +334,8 @@ p {
 		   <select name="companyType">
 				<option value="1">UK</option>
 				<option value="0">US</option>
+				<option value="2">India</option>
+				<option value="3">Others</option>
 			</select>
 		 </div>
 		  <div class="createbutton">
