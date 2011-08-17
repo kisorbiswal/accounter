@@ -179,6 +179,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		 <select id="select-box" tabindex="10" name="country">
 <option value="United Kingdom">United Kingdom</option>
 											<option value="United States">United States</option>
+											<option value="India">India</option>
 											<option value="">---------------------</option>
 											<option value="Afghanistan">Afghanistan</option>
 											<option value="Albania">Albania</option>
