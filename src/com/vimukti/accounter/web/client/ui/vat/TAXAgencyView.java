@@ -26,7 +26,6 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -164,22 +163,25 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		ValidationResult result = new ValidationResult();
 
-		//already exists?
-		//form validation
-		
+		// already exists?
+		// form validation
+
 		String name = taxAgencyText.getValue().toString();
 
 		ClientTAXAgency taxAgenciesByName = getCompany().getTaxAgenciesByName(
 				name);
 
-		if (!((!isEdit && taxAgenciesByName != null || taxAgenciesByName
-				.getID() == this.getData().getID()) ? false : true)
-				|| (!isEdit ? (data.getName().equalsIgnoreCase(name) ? true
-						: (taxAgenciesByName != null ? false : true)) : true)) {
-			result.addError(taxAgencyText, Accounter.constants().alreadyExist());
-			return result;
+		if (taxAgenciesByName != null) {
+			if (!((!isEdit && taxAgenciesByName != null || taxAgenciesByName
+					.getID() == this.getData().getID()) ? false : true)
+					|| (!isEdit ? (data.getName().equalsIgnoreCase(name) ? true
+							: (taxAgenciesByName != null ? false : true))
+							: true)) {
+				result.addError(taxAgencyText, Accounter.constants()
+						.alreadyExist());
+				return result;
+			}
 		}
-		
 		List<DynamicForm> forms = this.getForms();
 		for (DynamicForm form : forms) {
 			if (form != null) {

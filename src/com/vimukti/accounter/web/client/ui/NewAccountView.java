@@ -1237,7 +1237,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		Long number = null;
 		if (number == null) {
 			number = (long) range1;
-			System.out.println("empty");
 			for (ClientAccount account : accounts) {
 				while (number.toString().equals(account.getNumber())) {
 					number++;
