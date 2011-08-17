@@ -180,6 +180,9 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		
+		//validate measurement name?
+		//validate units grid
 		if (nameItem.getValue().toString() == null
 				|| nameItem.getValue().toString().isEmpty()) {
 			result.addError(nameItem, Accounter.constants()
