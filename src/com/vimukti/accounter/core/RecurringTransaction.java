@@ -1,13 +1,17 @@
 package com.vimukti.accounter.core;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
-public class RecurringTransaction implements IAccounterCore, ScheduleIterator {
+public class RecurringTransaction implements IAccounterCore {
 	public final static int HOW_OFTEN_DAILY = 0;
-	public final static int HOW_OFTEN_WEEKLY = 1;
+	public final static int HOW_OFTEN_EVERY_OTHER_DAY = 1;
+	public final static int HOW_OFTEN_WEEKLY = 2;
+	public final static int HOW_OFTEN_EVERY_OTHER_WEEK = 3;
+	public final static int HOW_OFTEN_EVERY_FOUR_WEEK = 4;
 
 	public final static int DEU_DATE_DAYS_AFTER_THE_INVOICE = 0;
 	public final static int DEU_DATE_OF_THE_FOLLOWING_MONTH = 1;
@@ -25,7 +29,7 @@ public class RecurringTransaction implements IAccounterCore, ScheduleIterator {
 	private int dueDateValue;
 	private int dueDateType;
 
-	private Date lastScheduledOn;
+	private Date nextScheduleOn;
 
 	/**
 	 * {@link #ACTION_SAVE_DRAFT}, {@link #ACTION_APPROVE},
@@ -86,14 +90,14 @@ public class RecurringTransaction implements IAccounterCore, ScheduleIterator {
 		return 0;
 	}
 
-	public Date getLastScheduledOn() {
-		return lastScheduledOn;
-	}
-
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Date getNextScheduleOn() {
+		return nextScheduleOn;
 	}
 
 	@Override
@@ -110,6 +114,12 @@ public class RecurringTransaction implements IAccounterCore, ScheduleIterator {
 	 */
 	private ScheduleIterator getScheduleIterator() {
 		// TODO create related sheduleIterators
+		switch (howOftenType) {
+		case HOW_OFTEN_DAILY:
+			return new DailyScheduler();
+		default:
+			break;
+		}
 		return null;
 	}
 
@@ -121,7 +131,6 @@ public class RecurringTransaction implements IAccounterCore, ScheduleIterator {
 		return transaction;
 	}
 
-	@Override
 	public Date next() {
 		return getScheduleIterator().next();
 	}
@@ -156,8 +165,8 @@ public class RecurringTransaction implements IAccounterCore, ScheduleIterator {
 
 	}
 
-	public void setLastScheduledOn(Date lastScheduledOn) {
-		this.lastScheduledOn = lastScheduledOn;
+	public void setNextScheduleOn(Date nextScheduleOn) {
+		this.nextScheduleOn = nextScheduleOn;
 	}
 
 	public void setStartDate(Date startDate) {
@@ -167,4 +176,43 @@ public class RecurringTransaction implements IAccounterCore, ScheduleIterator {
 	public void setTransaction(Transaction transaction) {
 		this.transaction = transaction;
 	}
+
+	/**
+	 * This is for scheduling.
+	 * 
+	 * @author vimukti3
+	 * 
+	 */
+	private interface ScheduleIterator {
+
+		/**
+		 * Gives next scheduling date/time.
+		 * 
+		 * @return
+		 */
+		Date next();
+	}
+
+	/**
+	 * Daily scheduler.
+	 * 
+	 * @author vimukti3
+	 * 
+	 */
+	private class DailyScheduler implements ScheduleIterator {
+
+		@Override
+		public Date next() {
+			Calendar calendar = Calendar.getInstance();
+			if(nextScheduleOn==null){
+				calendar.setTime(startDate);
+			}else{
+				calendar.setTime(nextScheduleOn);
+			}
+			calendar.add(Calendar.DATE, 1);
+			return calendar.getTime();
+		}
+
+	}
+
 }
