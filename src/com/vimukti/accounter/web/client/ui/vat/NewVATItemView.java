@@ -194,13 +194,24 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		form1.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 
 		if (accounttype == 0)
-			form1.setFields(vatItemNameText, descriptionText,
-					isPercentatateAmtCheck, vatRateTextPerT, vatAgencyCombo,
-					statusCheck);
-		else
+			if (data != null && data.isPercentage()) {
+				form1.setFields(vatItemNameText, descriptionText,
+						isPercentatateAmtCheck, vatRateTextPerT,
+						vatAgencyCombo, statusCheck);
+			} else {
+				form1.setFields(vatItemNameText, descriptionText,
+						isPercentatateAmtCheck, vatRateText, vatAgencyCombo,
+						statusCheck);
+			}
+		else if (data != null && data.isPercentage()) {
 			form1.setFields(vatItemNameText, descriptionText,
 					isPercentatateAmtCheck, vatRateTextPerT, vatAgencyCombo,
 					vatReturnBoxCombo, statusCheck);
+		} else {
+			form1.setFields(vatItemNameText, descriptionText,
+					isPercentatateAmtCheck, vatRateText, vatAgencyCombo,
+					vatReturnBoxCombo, statusCheck);
+		}
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setSpacing(25);
@@ -343,8 +354,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		data.setActive(statusCheck.getValue() != null ? (Boolean) statusCheck
 				.getValue() : Boolean.FALSE);
 
-		data.setTaxRate((Boolean) this.isPercentatateAmtCheck.getValue() ? vatRateTextPerT
-				.getPercentage() : vatRateText.getAmount());
+		data.setTaxRate(/* (Boolean) this.isPercentatateAmtCheck.getValue() ? */vatRateTextPerT
+				.getPercentage() /* : vatRateText.getAmount() */);
 		data.setPercentage((Boolean) this.isPercentatateAmtCheck.getValue());
 	}
 
