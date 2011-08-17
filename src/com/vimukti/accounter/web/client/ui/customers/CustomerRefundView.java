@@ -144,7 +144,6 @@ public class CustomerRefundView extends
 		dateNoForm.setNumCols(4);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		forms.add(dateNoForm);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
@@ -256,8 +255,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -279,7 +278,8 @@ public class CustomerRefundView extends
 
 		checkNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
-						.chequeNo() : customerConstants.checkNo());
+						.chequeNo()
+						: customerConstants.checkNo());
 		checkNoText.setValue(Accounter.constants().toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
@@ -329,7 +329,6 @@ public class CustomerRefundView extends
 		DynamicForm balForm = new DynamicForm();
 		balForm.setFields(endBalText, custBalText);
 		balForm.getCellFormatter().setWidth(0, 0, "205px");
-		forms.add(balForm);
 
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.setWidth("100%");
@@ -583,12 +582,14 @@ public class CustomerRefundView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		//Validations
+		// Validations
 		// 1. if(!isPositiveAmount(amt)) ERROR
 		// 2. if(!validCustomerRefundAmount(amt, payFromAccount)) ERROR
-		
+
 		if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
-			result.addError(amtText, accounterConstants.invalidNegativeAmount());
+			result
+					.addError(amtText, accounterConstants
+							.invalidNegativeAmount());
 		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
 				amtText.getAmount(), payFromSelect.getSelectedValue())) {

@@ -102,7 +102,6 @@ public class CashSalesView extends
 		dateNoForm.setNumCols(4);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		forms.add(dateNoForm);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -130,8 +129,8 @@ public class CashSalesView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -154,7 +153,6 @@ public class CashSalesView extends
 		custForm.setNumCols(2);
 		custForm.setStyleName("align-form");
 		custForm.setWidth("100%");
-		forms.add(custForm);
 		salesPersonCombo = createSalesPersonComboItem();
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setWidth("92%");
@@ -186,9 +184,8 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
-		forms.add(termsForm);
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(160);
@@ -206,7 +203,6 @@ public class CashSalesView extends
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
 				"memoFormAlign");
-		forms.add(prodAndServiceForm1);
 
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
@@ -246,7 +242,6 @@ public class CashSalesView extends
 					transactionTotalNonEditableText);
 			prodAndServiceForm2.addStyleName("tax-form");
 		}
-		forms.add(prodAndServiceForm2);
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
@@ -393,8 +388,8 @@ public class CashSalesView extends
 
 	protected void updateTransaction() {
 		super.updateTransaction();
-		if(getCustomer()!=null)
-		transaction.setCustomer(getCustomer().getID());
+		if (getCustomer() != null)
+			transaction.setCustomer(getCustomer().getID());
 		transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 		if (depositInAccount != null)
 			transaction.setDepositIn(depositInAccount.getID());
@@ -448,8 +443,7 @@ public class CashSalesView extends
 			if (taxableLineTotal == null)
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -461,7 +455,8 @@ public class CashSalesView extends
 		} else {
 			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
 			vatTotalNonEditableText.setAmount(customerTransactionGrid
-					.getTotalValue() - customerTransactionGrid.getGrandTotal());
+					.getTotalValue()
+					- customerTransactionGrid.getGrandTotal());
 			setTransactionTotal(customerTransactionGrid.getTotalValue());
 		}
 
@@ -616,7 +611,7 @@ public class CashSalesView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		//Validations
+		// Validations
 		// 1. paymentMethodCombo validation
 		// 2. depositInCombo validation i.e form items
 		result.add(FormItem.validate(this.paymentMethodCombo,

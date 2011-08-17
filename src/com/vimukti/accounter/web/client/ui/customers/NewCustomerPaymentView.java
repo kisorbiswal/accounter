@@ -98,20 +98,20 @@ public class NewCustomerPaymentView extends
 		// 4. isNegativeAmount?
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateTransactionDate());
 		}
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
-			result.addError(transactionDateItem,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDateItem, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(payForm.validate());
 
 		if (!AccounterValidator.isPositiveAmount(amountText.getAmount()))
-			result.addError(amountText,
-					accounterConstants.invalidNegativeAmount());
+			result.addError(amountText, accounterConstants
+					.invalidNegativeAmount());
 		return result;
 	}
 
@@ -152,8 +152,8 @@ public class NewCustomerPaymentView extends
 
 		if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
 			String value;
-			if (checkNo.getValue().toString()
-					.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
+			if (checkNo.getValue().toString().equalsIgnoreCase(
+					Accounter.constants().toBePrinted())) {
 				value = String.valueOf(Accounter.constants().toBePrinted());
 			} else {
 				value = String.valueOf(checkNo.getValue());
@@ -345,7 +345,6 @@ public class NewCustomerPaymentView extends
 		dateNoForm.setNumCols(4);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		forms.add(dateNoForm);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -379,7 +378,6 @@ public class NewCustomerPaymentView extends
 		DynamicForm balForm = new DynamicForm();
 		balForm.setFields(endBalText, customerBalText);
 		balForm.getCellFormatter().setWidth(0, 0, "205px");
-		forms.add(balForm);
 
 		// payment
 		depositInCombo = createDepositInComboItem();
@@ -405,8 +403,8 @@ public class NewCustomerPaymentView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString()
-							.equalsIgnoreCase("true")) {
+					if (printCheck.getValue().toString().equalsIgnoreCase(
+							"true")) {
 						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
@@ -414,8 +412,9 @@ public class NewCustomerPaymentView extends
 							checkNo.setValue(Accounter.constants()
 									.toBePrinted());
 						else if (isEdit) {
-							checkNo.setValue(((ClientCustomerPrePayment) transaction)
-									.getCheckNumber());
+							checkNo
+									.setValue(((ClientCustomerPrePayment) transaction)
+											.getCheckNumber());
 						}
 					}
 				} else
@@ -455,7 +454,8 @@ public class NewCustomerPaymentView extends
 		// memo and Reference
 		endBalText
 				.setAmount(depositInCombo.getSelectedValue() != null ? depositInCombo
-						.getSelectedValue().getCurrentBalance() : 0.00);
+						.getSelectedValue().getCurrentBalance()
+						: 0.00);
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
@@ -529,9 +529,10 @@ public class NewCustomerPaymentView extends
 	}
 
 	private TextItem createCheckNumberItem() {
-		TextItem checkNoTextItem = new TextItem(
-				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.constants().check()) + " " + "No");
+		TextItem checkNoTextItem = new TextItem(UIUtils
+				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+						.check())
+				+ " " + "No");
 		checkNoTextItem.setHelpInformation(true);
 		return checkNoTextItem;
 	}

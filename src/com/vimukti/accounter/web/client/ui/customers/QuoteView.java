@@ -216,7 +216,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		dateNoForm.setNumCols(4);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		forms.add(dateNoForm);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -251,7 +250,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		custForm.getCellFormatter().setWidth(0, 0, "150");
 		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		custForm.setStyleName("align-form");
-		forms.add(custForm);
 
 		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
 		phoneForm.setWidth("100%");
@@ -276,9 +274,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
-		phoneForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
-		forms.add(phoneForm);
+		phoneForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(customerConstants.productAndService());
 
@@ -318,7 +315,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				"memoFormAlign");
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setFields(memoTextAreaItem);
-		forms.add(prodAndServiceForm1);
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		prodAndServiceForm2.setWidth("100%");
@@ -343,7 +339,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 					transactionTotalNonEditableText);
 			prodAndServiceForm2.addStyleName("tax-form");
 		}
-		forms.add(prodAndServiceForm2);
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
@@ -538,7 +533,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setValue(String.valueOf(transaction
-						.getTotal() - transaction.getNetAmount()));
+						.getTotal()
+						- transaction.getNetAmount()));
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
@@ -593,8 +589,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -607,7 +602,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
 			vatTotalNonEditableText.setAmount(customerTransactionGrid
-					.getTotalValue() - customerTransactionGrid.getGrandTotal());
+					.getTotalValue()
+					- customerTransactionGrid.getGrandTotal());
 			setTransactionTotal(customerTransactionGrid.getTotalValue());
 		}
 
@@ -619,8 +615,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(this.quoteExpiryDate
+				.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()
 					+ " "
 					+ customerConstants.expirationDate()

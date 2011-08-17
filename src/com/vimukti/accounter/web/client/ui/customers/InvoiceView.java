@@ -141,8 +141,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 						invoice.getPaymentTerm());
 				ClientFinanceDate transactionDate = this.transactionDateItem
 						.getEnteredDate();
-				ClientFinanceDate dueDate = new ClientFinanceDate(
-						invoice.getDueDate());
+				ClientFinanceDate dueDate = new ClientFinanceDate(invoice
+						.getDueDate());
 				dueDate = Utility.getCalculatedDueDate(transactionDate, terms);
 				if (dueDate != null) {
 					dueDateItem.setEnteredDate(dueDate);
@@ -193,7 +193,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		dateNoForm.setNumCols(4);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		forms.add(dateNoForm);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -257,8 +256,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
 
-		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -290,7 +289,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setNumCols(3);
 		custForm.setWidth("100%");
-		forms.add(custForm);
 		currencyWidget = createCurrencyWidget();
 		currencyWidget.setListener(new CurrencyChangeListener() {
 
@@ -308,8 +306,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				billToTextArea, emptylabel);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 
-		custForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "226px");
+		custForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "226px");
 		custForm.setStyleName("align-form");
 
 		if (UIUtils.isMSIEBrowser()) {
@@ -361,9 +359,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		termsForm.setStyleName("align-form");
 
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "200px");
-		forms.add(termsForm);
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "200px");
 		// multi
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth("400px");
@@ -411,8 +408,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		paymentsNonEditableText.setDisabled(true);
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
-		balanceDueNonEditableText = new AmountLabel(
-				customerConstants.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(customerConstants
+				.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -466,7 +463,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 					balanceDueNonEditableText);
 			amountsForm.setStyleName("invoice-total");
 			// forms.add(priceLevelForm);
-			forms.add(amountsForm);
 			// prodAndServiceHLay.add(priceLevelForm);
 			// prodAndServiceHLay.setCellHorizontalAlignment(priceLevelForm,
 			// ALIGN_RIGHT);
@@ -486,7 +482,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 					disabletextbox, transactionTotalNonEditableText,
 					disabletextbox, paymentsNonEditableText, disabletextbox,
 					balanceDueNonEditableText);
-			forms.add(prodAndServiceForm2);
 
 			prodAndServiceHLay.add(amountsForm);
 			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
@@ -619,8 +614,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					Accounter.getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -919,7 +913,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 						.getDeliverydate()));
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
-							transaction.getDueDate()) : getTransactionDate());
+							transaction.getDueDate())
+							: getTransactionDate());
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
@@ -1104,17 +1099,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		
+
 		ClientCustomer previousCustomer = getCustomer();
-		
+
 		if (getCustomer() != null && getCustomer() != previousCustomer) {
 			getEstimatesAndSalesOrder();
 		}
 		result.add(super.validate());
-		
-		//Validations
+
+		// Validations
 		// 1. IF(!isValidDueOrDeliveryDates(dueDate, transactionDate)) ERROR
-		
+
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				((InvoiceView) this).dueDateItem.getDate(),
 				getTransactionDate())) {
@@ -1128,7 +1123,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 							.cannotbeearlierthantransactiondate());
 		}
 
-		//FIXME :: do we require orderNumText? if not remove the related code.
+		// FIXME :: do we require orderNumText? if not remove the related code.
 		if (!orderNumText.getValue().equals("")) {
 			if (isNumberCorrect((String) orderNumText.getValue()) == 1) {
 				result.addError(orderNumText, Accounter.constants()

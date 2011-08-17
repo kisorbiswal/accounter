@@ -85,7 +85,6 @@ public class CustomerCreditMemoView extends
 		dateNoForm.setNumCols(4);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		forms.add(dateNoForm);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -112,11 +111,10 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "190px");
+		custForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
-		forms.add(custForm);
 
 		phoneSelect = new TextItem(customerConstants.phone());
 		phoneSelect.setHelpInformation(true);
@@ -129,7 +127,6 @@ public class CustomerCreditMemoView extends
 		// phoneForm.setFields(phoneSelect, salesPersonCombo);
 		// phoneForm.setFields(salesPersonCombo);
 		phoneForm.setStyleName("align-form");
-		forms.add(phoneForm);
 
 		Label lab2 = new Label(customerConstants.productAndService());
 
@@ -148,7 +145,6 @@ public class CustomerCreditMemoView extends
 		prodAndServiceForm1.setNumCols(2);
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setFields(memoTextAreaItem);
-		forms.add(prodAndServiceForm1);
 
 		salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 
@@ -183,7 +179,6 @@ public class CustomerCreditMemoView extends
 					transactionTotalNonEditableText);
 			prodAndServiceForm2.addStyleName("tax-form");
 		}
-		forms.add(prodAndServiceForm2);
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
 		prodAndServiceHLay.setWidth("100%");
@@ -434,8 +429,7 @@ public class CustomerCreditMemoView extends
 			if (taxableLineTotal == null)
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(),
-					taxableLineTotal,
+					transactionDateItem.getEnteredDate(), taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
