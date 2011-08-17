@@ -362,7 +362,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 
 	}
 
-	private Object toClientList(List<?> list) throws IllegalArgumentException,
+	private VList toClientList(List<?> list) throws IllegalArgumentException,
 			InstantiationException, IllegalAccessException, AccounterException {
 		if (list == null)
 			return null;
