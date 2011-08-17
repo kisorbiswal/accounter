@@ -644,11 +644,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	@Override
 	public void initData() {
-		// initTransactionViewData(transaction);
-		// else
-		if (transaction != null)
 
-			initTransactionViewData();
+		initTransactionViewData();
 
 		super.initData();
 
@@ -890,11 +887,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// 3. If(accountingType == UK)
 		// if(taxCodeName == "New S" && transactionDate is before 4 Jan 2011)
 		// ERROR
-		if(transaction!=null)
-		if (this.transaction.getTotal() <= 0) {
-			result.addError(this, Accounter.constants()
-					.transactiontotalcannotbe0orlessthan0());
-		}
+		if (transaction != null)
+			if (this.transaction.getTotal() <= 0) {
+				result.addError(this, Accounter.constants()
+						.transactiontotalcannotbe0orlessthan0());
+			}
 
 		if (transactionItems != null) {
 			for (ClientTransactionItem transactionItem : transactionItems) {
@@ -934,17 +931,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 * Updates the Transaction Obejct from the GUI Fields before saving.
 	 */
 	protected void updateTransaction() {
-		
-		if (transaction != null)
-		{
+
+		if (transaction != null) {
 			transaction.setDate(transactionDate.getDate());
 			transaction.setType(transactionType);
-		
-		if (transactionNumber != null)
-			transaction.setNumber(transactionNumber.getValue().toString());
-		processTransactionItems();
-		transaction.setTransactionItems(transactionItems);
-		// transactionObject.setModifiedOn(new Date());
+
+			if (transactionNumber != null)
+				transaction.setNumber(transactionNumber.getValue().toString());
+			processTransactionItems();
+			transaction.setTransactionItems(transactionItems);
+			// transactionObject.setModifiedOn(new Date());
 		}
 	}
 
