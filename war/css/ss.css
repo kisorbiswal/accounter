@@ -1742,6 +1742,10 @@ input[type="submit"]:FOCUS {
 	display: block;
 }
 
+#accounterForm label.error{
+	color:red !important;
+}
+
 .remaining-header-part-login a:FOCUS,.login-hover {
 	opacity: 0.5;
 	outline: 0px none;

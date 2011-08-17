@@ -4360,7 +4360,10 @@ td.menu-button-disable-parent {
 .report-hover {
 	background: #AAAAAA repeat-x scroll 0 0;
 }
-
+.no_records .report-hover{
+	background:none !important;
+	cursor:auto;
+}
 .disconnected .gridLabelCell .gwt-HTML img {
 	display: none;
 }
@@ -6061,6 +6064,7 @@ iframe { /*display:none;*/
 	font-weight: bold;
 	/*color: red;*/
 }
+
 .error-panel li{
 	list-style-type:none;
 }
@@ -6247,7 +6251,7 @@ normal
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.gwt-Button { /*padding: 0 5px 1px !important;*/
 		float: inherit !important;
-		/*line-height:2;*/
+		padding:0 5px 2px !important
 	}
 	.gwt-MenuBar-horizontal .gwt-MenuItem{
 	   height:18px !important;
