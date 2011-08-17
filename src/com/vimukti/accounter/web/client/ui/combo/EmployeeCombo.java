@@ -14,7 +14,16 @@ public class EmployeeCombo extends CustomCombo<ClientUserInfo> {
 	private boolean isAdmin;
 
 	public EmployeeCombo(String title) {
-		super(title, false, 1);
+		this(title, false);
+		if (!Accounter.getUser().isAdminUser()) {
+			isAdmin = false;
+		}else{
+			isAdmin = true;
+		}
+	}
+
+	public EmployeeCombo(String title, boolean b) {
+		super(title, b, 1);
 		Accounter.createHomeService().getAllUsers(
 				new AccounterAsyncCallback<ArrayList<ClientUserInfo>>() {
 					@Override
