@@ -604,9 +604,12 @@ public class VendorBillView extends
 	}
 
 	protected void updateTransaction() {
+		if(transaction == null)
+			return;
 		super.updateTransaction();
 		// Setting Vendor
-		transaction.setVendor(getVendor());
+		if(getVendor() != null)
+			transaction.setVendor(getVendor());
 
 		// Setting Contact
 		if (contact != null)
@@ -617,10 +620,10 @@ public class VendorBillView extends
 			transaction.setVendorAddress(billingAddress);
 
 		// Setting Phone
-		if (phoneNo == null)
-			transaction.setPhone(phoneSelect.getValue());
-		else
+		if (phoneNo != null)
 			transaction.setPhone(phoneNo);
+//		else
+//			transaction.setPhone(phoneNo);
 
 		// Setting Payment Terms
 		if (selectedPaymentTerm != null)
