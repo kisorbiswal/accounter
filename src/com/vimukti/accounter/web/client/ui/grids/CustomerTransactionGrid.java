@@ -1380,7 +1380,7 @@ public class CustomerTransactionGrid extends
 		switch (obj.getType()) {
 		case ClientTransactionItem.TYPE_ACCOUNT:
 			switch (col) {
-			case 0:
+			case 6:
 				return false;
 
 			default:
@@ -1414,7 +1414,7 @@ public class CustomerTransactionGrid extends
 		case ClientTransactionItem.TYPE_SERVICE:
 
 			switch (col) {
-			case 0:
+			case 6:
 				return false;
 			default:
 				return true;
