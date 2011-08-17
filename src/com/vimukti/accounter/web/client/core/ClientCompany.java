@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -194,7 +193,7 @@ public class ClientCompany implements IAccounterCore {
 	// this.vatItemGroups = vatItemGroups;
 	// }
 	//
-	// public List<ClientTAXItemGroup> getVatItemGroups() {
+	// public VList<ClientTAXItemGroup> getVatItemGroups() {
 	// return vatItemGroups;
 	// }
 
@@ -202,40 +201,48 @@ public class ClientCompany implements IAccounterCore {
 		this.taxCodes = TaxCodes;
 	}
 
-	public List<ClientTAXCode> getTaxCodes() {
+	public VList<ClientTAXCode> getTaxCodes() {
 		return taxCodes;
 	}
 
-	public List<ClientTAXCode> getActiveTaxCodes() {
-		List<ClientTAXCode> activeTaxCodes = new ArrayList<ClientTAXCode>();
+	public VList<ClientTAXCode> getActiveTaxCodes() {
+		VList<ClientTAXCode> activeTaxCodes = new VList<ClientTAXCode>();
 		for (ClientTAXCode taxCode : taxCodes) {
 			if (taxCode.isActive())
 				activeTaxCodes.add(taxCode);
 		}
-		return Utility.getArrayList(activeTaxCodes);
+		return activeTaxCodes;
 	}
 
 	public void setTaxAgencies(VList<ClientTAXAgency> taxAgencies) {
 		this.taxAgencies = taxAgencies;
 	}
 
-	public List<ClientTAXAgency> getTaxAgencies() {
+	public VList<ClientTAXAgency> getTaxAgencies() {
 		return taxAgencies;
 	}
 
-	public List<ClientTAXAgency> getActiveTAXAgencies() {
-		List<ClientTAXAgency> activeTaxAgencies = new ArrayList<ClientTAXAgency>();
-		for (ClientTAXAgency taxAgency : taxAgencies) {
-			if (taxAgency.isActive())
-				activeTaxAgencies.add(taxAgency);
-		}
-		return Utility.getArrayList(activeTaxAgencies);
+	public VList<ClientTAXAgency> getActiveTAXAgencies() {
+		return taxAgencies.filter(new ListFilter<ClientTAXAgency>() {
+
+			@Override
+			public boolean filter(ClientTAXAgency e) {
+				return e.isActive();
+			}
+		});
+		// List<ClientTAXAgency> activeTaxAgencies = new
+		// ArrayList<ClientTAXAgency>();
+		// for (ClientTAXAgency taxAgency : taxAgencies) {
+		// if (taxAgency.isActive())
+		// activeTaxAgencies.add(taxAgency);
+		// }
+		// return activeTaxAgencies;
 	}
 
 	/**
 	 * @return the vatReturns
 	 */
-	public List<ClientVATReturn> getVatReturns() {
+	public VList<ClientVATReturn> getVatReturns() {
 		return vatReturns;
 	}
 
@@ -257,7 +264,7 @@ public class ClientCompany implements IAccounterCore {
 	/**
 	 * @return the vatAdjustments
 	 */
-	public List<ClientTAXAdjustment> getTaxAdjustments() {
+	public VList<ClientTAXAdjustment> getTaxAdjustments() {
 		return taxAdjustments;
 	}
 
@@ -272,7 +279,7 @@ public class ClientCompany implements IAccounterCore {
 	/**
 	 * @return the vatGroups
 	 */
-	public List<ClientTAXGroup> getVatGroups() {
+	public VList<ClientTAXGroup> getVatGroups() {
 		return vatGroups;
 	}
 
@@ -287,7 +294,7 @@ public class ClientCompany implements IAccounterCore {
 	// /**
 	// * @return the vatItems
 	// */
-	// public List<ClientTAXItem> getVatItems() {
+	// public VList<ClientTAXItem> getVatItems() {
 	// return vatItems;
 	// }
 
@@ -303,13 +310,13 @@ public class ClientCompany implements IAccounterCore {
 		this.pendingItemReceiptsAccount = pendingItemReceiptsAccount;
 	}
 
-	// public List<ClientTAXItem> getActiveVatItems() {
+	// public VList<ClientTAXItem> getActiveVatItems() {
 	// List<ClientTAXItem> activeVatItems = new ArrayList<ClientTAXItem>();
 	// for (ClientTAXItem vatitem : vatItems) {
 	// if (vatitem.isActive())
 	// activeVatItems.add(vatitem);
 	// }
-	// return Utility.getArrayList(activeVatItems);
+	// return activeVatItems);
 	// }
 
 	public void setNominalCodeRange(Set<ClientNominalCodeRange> nominalCodeRange) {
@@ -321,7 +328,7 @@ public class ClientCompany implements IAccounterCore {
 	// * @param vatAgency
 	// * @return
 	// */
-	// public List<ClientTAXItem> getVatItems(ClientTAXAgency taxAgency) {
+	// public VList<ClientTAXItem> getVatItems(ClientTAXAgency taxAgency) {
 	//
 	// List<ClientTAXItem> vatItems = new ArrayList<ClientTAXItem>();
 	//
@@ -351,21 +358,28 @@ public class ClientCompany implements IAccounterCore {
 	// this.vatItems = vatItems;
 	// }
 
-	public List<ClientTAXItem> getActiveTaxItems() {
-		List<ClientTAXItem> activeTaxItems = new ArrayList<ClientTAXItem>();
-		for (ClientTAXItem taxItem : taxItems) {
-			if (taxItem.isActive())
-				activeTaxItems.add(taxItem);
-		}
-		return Utility.getArrayList(activeTaxItems);
+	public VList<ClientTAXItem> getActiveTaxItems() {
+		return taxItems.filter(new ListFilter<ClientTAXItem>() {
+
+			@Override
+			public boolean filter(ClientTAXItem e) {
+				return e.isActive();
+			}
+		});
+		// List<ClientTAXItem> activeTaxItems = new ArrayList<ClientTAXItem>();
+		// for (ClientTAXItem taxItem : taxItems) {
+		// if (taxItem.isActive())
+		// activeTaxItems.add(taxItem);
+		// }
+		// return activeTaxItems);
 	}
 
-	public List<ClientTAXItem> getTaxItems() {
+	public VList<ClientTAXItem> getTaxItems() {
 		return taxItems;
 	}
 
-	public List<ClientTAXItem> getTaxItems(ClientTAXAgency taxAgency) {
-		List<ClientTAXItem> taxItems = new ArrayList<ClientTAXItem>();
+	public VList<ClientTAXItem> getTaxItems(ClientTAXAgency taxAgency) {
+		VList<ClientTAXItem> taxItems = new VList<ClientTAXItem>();
 
 		if (this.taxItems == null) {
 			return taxItems;
@@ -383,7 +397,7 @@ public class ClientCompany implements IAccounterCore {
 
 	}
 
-	// public List<ClientTaxItem> getTaxItems(ClientTaxAgency taxAgency) {
+	// public VList<ClientTaxItem> getTaxItems(ClientTaxAgency taxAgency) {
 	// List<ClientTaxItem> taxItems = new ArrayList<ClientTaxItem>();
 	//
 	// if (this.taxItems == null) {
@@ -406,18 +420,18 @@ public class ClientCompany implements IAccounterCore {
 		this.taxItems = taxItems;
 	}
 
-	private List<ClientTAXAdjustment> taxAdjustments;
+	private VList<ClientTAXAdjustment> taxAdjustments;
 
-	private List<ClientTAXGroup> vatGroups;
-	private List<ClientTAXItem> taxItems;
+	private VList<ClientTAXGroup> vatGroups;
+	private VList<ClientTAXItem> taxItems;
 
 	// private List<ClientTAXItem> vatItems;
-	private List<ClientVATReturnBox> vatReturnBoxes;
+	private VList<ClientVATReturnBox> vatReturnBoxes;
 	public long id;
 
 	private ClientUser loggedInUser;
 
-	private List<ClientUnit> units;
+	private VList<ClientUnit> units;
 
 	// private List<ClientTaxItem> taxItems;
 
@@ -435,75 +449,97 @@ public class ClientCompany implements IAccounterCore {
 
 	// List<ClientPayType> payTypes;
 
-	public List<ClientCustomer> getCustomers() {
-		return Utility.getArrayList(customers);
+	public VList<ClientCustomer> getCustomers() {
+		return customers;
 	}
 
-	public List<ClientSalesPerson> getsalesPerson() {
-		return Utility.getArrayList(salesPersons);
+	public VList<ClientSalesPerson> getsalesPerson() {
+		return salesPersons;
 	}
 
-	public List<ClientCustomer> getActiveCustomers() {
-		List<ClientCustomer> activeCustomers = new ArrayList<ClientCustomer>();
-		for (ClientCustomer customer : customers) {
-			if (customer.isActive())
-				activeCustomers.add(customer);
-		}
-		return Utility.getArrayList(activeCustomers);
+	public VList<ClientCustomer> getActiveCustomers() {
+		return customers.filter(new ListFilter<ClientCustomer>() {
+
+			@Override
+			public boolean filter(ClientCustomer e) {
+				return e.isActive();
+			}
+		});
+		// List<ClientCustomer> activeCustomers = new
+		// ArrayList<ClientCustomer>();
+		// for (ClientCustomer customer : customers) {
+		// if (customer.isActive())
+		// activeCustomers.add(customer);
+		// }
+		// return activeCustomers;
 	}
 
-	public List<ClientBank> getBanks() {
-		return Utility.getArrayList(banks);
+	public VList<ClientBank> getBanks() {
+		return banks;
 	}
 
 	public void setBanks(VList<ClientBank> banks) {
 		this.banks = banks;
 	}
 
-	public List<ClientPayee> getPayees() {
-		return Utility.getArrayList(payees);
+	public VList<ClientPayee> getPayees() {
+		return payees;
 	}
 
-	public List<ClientPayee> getActivePayees() {
-		List<ClientPayee> activePayees = new ArrayList<ClientPayee>();
-		for (ClientPayee payee : getPayees()) {
-			if (payee.isActive())
-				activePayees.add(payee);
-		}
-		return Utility.getArrayList(activePayees);
+	public VList<ClientPayee> getActivePayees() {
+		return getPayees().filter(new ListFilter<ClientPayee>() {
+
+			@Override
+			public boolean filter(ClientPayee e) {
+				return e.isActive();
+			}
+		});
+		// List<ClientPayee> activePayees = new ArrayList<ClientPayee>();
+		// for (ClientPayee payee : getPayees()) {
+		// if (payee.isActive())
+		// activePayees.add(payee);
+		// }
+		// return activePayees);
 	}
 
 	public void setCustomers(VList<ClientCustomer> customers) {
 		this.customers = customers;
 	}
 
-	public List<ClientFiscalYear> getFiscalYears() {
-		return Utility.getArrayList(fiscalYears);
+	public VList<ClientFiscalYear> getFiscalYears() {
+		return fiscalYears;
 	}
 
 	public void setFiscalYears(VList<ClientFiscalYear> fiscalYears) {
 		this.fiscalYears = fiscalYears;
 	}
 
-	public List<ClientVendor> getVendors() {
-		return Utility.getArrayList(vendors);
+	public VList<ClientVendor> getVendors() {
+		return vendors;
 	}
 
-	public List<ClientVendor> getActiveVendors() {
-		List<ClientVendor> activeVendors = new ArrayList<ClientVendor>();
-		for (ClientVendor vendor : vendors) {
-			if (vendor.isActive())
-				activeVendors.add(vendor);
-		}
-		return Utility.getArrayList(activeVendors);
+	public VList<ClientVendor> getActiveVendors() {
+		return vendors.filter(new ListFilter<ClientVendor>() {
+
+			@Override
+			public boolean filter(ClientVendor e) {
+				return e.isActive();
+			}
+		});
+		// List<ClientVendor> activeVendors = new ArrayList<ClientVendor>();
+		// for (ClientVendor vendor : vendors) {
+		// if (vendor.isActive())
+		// activeVendors.add(vendor);
+		// }
+		// return activeVendors);
 	}
 
 	public void setVendors(VList<ClientVendor> vendors) {
 		this.vendors = vendors;
 	}
 
-	// public List<ClientTAXAgency> getTaxAgencies() {
-	// return Utility.getArrayList(taxAgencies);
+	// public VList<ClientTAXAgency> getTaxAgencies() {
+	// return taxAgencies);
 	// }
 	//
 	// public void setTaxAgencies(VList<ClientTAXAgency> taxAgencies) {
@@ -514,90 +550,126 @@ public class ClientCompany implements IAccounterCore {
 		this.preferences = preferences;
 	}
 
-	public List<ClientItem> getItems() {
-		return Utility.getArrayList(items);
+	public VList<ClientItem> getItems() {
+		return items;
 	}
 
-	public List<ClientItem> getServiceItems() {
-		List<ClientItem> serviceitems = new ArrayList<ClientItem>();
-		for (ClientItem item : getActiveItems()) {
-			if (item.getType() == ClientItem.TYPE_SERVICE)
-				serviceitems.add(item);
+	public VList<ClientItem> getServiceItems() {
+		return getActiveItems().filter(new ListFilter<ClientItem>() {
 
-		}
-		return Utility.getArrayList(serviceitems);
+			@Override
+			public boolean filter(ClientItem e) {
+				return e.getType() == ClientItem.TYPE_SERVICE;
+			}
+		});
+		// VList<ClientItem> serviceitems = new VList<ClientItem>();
+		// for (ClientItem item : getActiveItems()) {
+		// if (item.getType() == ClientItem.TYPE_SERVICE)
+		// serviceitems.add(item);
+		//
+		// }
+		// return serviceitems;
 	}
 
-	public List<ClientItem> getProductItems() {
-		List<ClientItem> productitems = new ArrayList<ClientItem>();
-		for (ClientItem item : getActiveItems()) {
-			if (item.getType() != ClientItem.TYPE_SERVICE)
-				productitems.add(item);
+	public VList<ClientItem> getProductItems() {
+		return getActiveItems().filter(new ListFilter<ClientItem>() {
 
-		}
-		return Utility.getArrayList(productitems);
+			@Override
+			public boolean filter(ClientItem e) {
+				return e.getType() != ClientItem.TYPE_SERVICE;
+			}
+		});
+		// List<ClientItem> productitems = new ArrayList<ClientItem>();
+		// for (ClientItem item : getActiveItems()) {
+		// if (item.getType() != ClientItem.TYPE_SERVICE)
+		// productitems.add(item);
+		//
+		// }
+		// return productitems);
 	}
 
-	public List<ClientItem> getPurchaseItems() {
-		List<ClientItem> purchaseitems = new ArrayList<ClientItem>();
-		for (ClientItem item : getAllItems()) {
-			if (item.isIBuyThisItem)
-				purchaseitems.add(item);
+	public VList<ClientItem> getPurchaseItems() {
+		return getAllItems().filter(new ListFilter<ClientItem>() {
 
-		}
-		return Utility.getArrayList(purchaseitems);
+			@Override
+			public boolean filter(ClientItem e) {
+				return e.isIBuyThisItem();
+			}
+		});
+		// List<ClientItem> purchaseitems = new ArrayList<ClientItem>();
+		// for (ClientItem item : getAllItems()) {
+		// if (item.isIBuyThisItem)
+		// purchaseitems.add(item);
+		//
+		// }
+		// return purchaseitems);
 	}
 
-	public List<ClientItem> getSalesItems() {
-		List<ClientItem> salesitems = new ArrayList<ClientItem>();
-		for (ClientItem item : getAllItems()) {
-			if (item.isISellThisItem)
-				salesitems.add(item);
+	public VList<ClientItem> getSalesItems() {
+		return getAllItems().filter(new ListFilter<ClientItem>() {
 
-		}
-		return Utility.getArrayList(salesitems);
+			@Override
+			public boolean filter(ClientItem e) {
+				return e.isISellThisItem();
+			}
+		});
+		// List<ClientItem> salesitems = new ArrayList<ClientItem>();
+		// for (ClientItem item : getAllItems()) {
+		// if (item.isISellThisItem)
+		// salesitems.add(item);
+		//
+		// }
+		// return salesitems);
 	}
 
-	public List<ClientItem> getActiveItems() {
-		List<ClientItem> activeItems = new ArrayList<ClientItem>();
-		for (ClientItem item : items) {
-			if (item.isActive())
-				activeItems.add(item);
-		}
-		return Utility.getArrayList(activeItems);
+	public VList<ClientItem> getActiveItems() {
+		return items.filter(new ListFilter<ClientItem>() {
+
+			@Override
+			public boolean filter(ClientItem e) {
+				return e.isActive();
+			}
+		});
+		// List<ClientItem> activeItems = new ArrayList<ClientItem>();
+		// for (ClientItem item : items) {
+		// if (item.isActive())
+		// activeItems.add(item);
+		// }
+		// return activeItems);
 	}
 
-	public List<ClientItem> getAllItems() {
-		List<ClientItem> activeItems = new ArrayList<ClientItem>();
-		for (ClientItem item : items) {
-			// if (item.isActive())
-			activeItems.add(item);
-		}
-		return Utility.getArrayList(activeItems);
+	public VList<ClientItem> getAllItems() {
+		return items;
+		// List<ClientItem> activeItems = new ArrayList<ClientItem>();
+		// for (ClientItem item : items) {
+		// // if (item.isActive())
+		// activeItems.add(item);
+		// }
+		// return activeItems;
 	}
 
 	public void setItems(VList<ClientItem> items) {
 		this.items = items;
 	}
 
-	public List<ClientCustomerGroup> getCustomerGroups() {
-		return Utility.getArrayList(customerGroups);
+	public VList<ClientCustomerGroup> getCustomerGroups() {
+		return customerGroups;
 	}
 
 	public void setCustomerGroups(VList<ClientCustomerGroup> customerGroups) {
 		this.customerGroups = customerGroups;
 	}
 
-	public List<ClientVendorGroup> getVendorGroups() {
-		return Utility.getArrayList(vendorGroups);
+	public VList<ClientVendorGroup> getVendorGroups() {
+		return vendorGroups;
 	}
 
 	public void setVendorGroups(VList<ClientVendorGroup> vendorGroups) {
 		this.vendorGroups = vendorGroups;
 	}
 
-	public List<ClientPaymentTerms> getPaymentsTerms() {
-		return Utility.getArrayList(paymentTerms);
+	public VList<ClientPaymentTerms> getPaymentsTerms() {
+		return paymentTerms;
 	}
 
 	public Map<String, String> getPaymentMethods() {
@@ -609,110 +681,126 @@ public class ClientCompany implements IAccounterCore {
 		this.paymentTerms = paymentsTerms;
 	}
 
-	public List<ClientShippingTerms> getShippingTerms() {
-		return Utility.getArrayList(shippingTerms);
+	public VList<ClientShippingTerms> getShippingTerms() {
+		return shippingTerms;
 	}
 
 	public void setShippingTerms(VList<ClientShippingTerms> shippingTerms) {
 		this.shippingTerms = shippingTerms;
 	}
 
-	public List<ClientShippingMethod> getShippingMethods() {
-		return Utility.getArrayList(shippingMethods);
+	public VList<ClientShippingMethod> getShippingMethods() {
+		return shippingMethods;
 	}
 
 	public void setShippingMethods(VList<ClientShippingMethod> shippingMethods) {
 		this.shippingMethods = shippingMethods;
 	}
 
-	public List<ClientPriceLevel> getPriceLevels() {
-		return Utility.getArrayList(priceLevels);
+	public VList<ClientPriceLevel> getPriceLevels() {
+		return priceLevels;
 	}
 
-	public List<ClientTAXItemGroup> getTaxItemGroups() {
-		return Utility.getArrayList(taxItemGroups);
+	public VList<ClientTAXItemGroup> getTaxItemGroups() {
+		return taxItemGroups;
 	}
 
 	public void setPriceLevels(VList<ClientPriceLevel> priceLevels) {
 		this.priceLevels = priceLevels;
 	}
 
-	public List<ClientItemGroup> getItemGroups() {
-		return Utility.getArrayList(ItemGroups);
+	public VList<ClientItemGroup> getItemGroups() {
+		return ItemGroups;
 	}
 
 	public void setItemGroups(VList<ClientItemGroup> itemGroups) {
 		ItemGroups = itemGroups;
 	}
 
-	// public List<ClientTaxCode> getTaxcodes() {
-	// return Utility.getArrayList(taxCodes);
+	// public VList<ClientTaxCode> getTaxcodes() {
+	// return taxCodes);
 	// }
-	// public List<ClientTaxCode> getActiveTaxCodes() {
+	// public VList<ClientTaxCode> getActiveTaxCodes() {
 	// List<ClientTaxCode> activeTaxCodes = new ArrayList<ClientTaxCode>();
 	// for (ClientTaxCode taxCode : taxCodes) {
 	// if (taxCode.getIsActive())
 	// activeTaxCodes.add(taxCode);
 	// }
-	// return Utility.getArrayList(activeTaxCodes);
+	// return activeTaxCodes);
 	// }
 	//
 	// public void setTaxcodes(VList<ClientTaxCode> taxcodes) {
 	// this.taxCodes = taxcodes;
 	// }
 
-	public List<ClientTAXGroup> getTaxGroups() {
-		return Utility.getArrayList(taxGroups);
+	public VList<ClientTAXGroup> getTaxGroups() {
+		return taxGroups;
 	}
 
 	public void setTaxGroups(VList<ClientTAXGroup> taxGroups) {
 		this.taxGroups = taxGroups;
 	}
 
-	public List<ClientTAXAgency> gettaxAgencies() {
-		return Utility.getArrayList(taxAgencies);
+	public VList<ClientTAXAgency> gettaxAgencies() {
+		return taxAgencies;
 	}
 
-	public List<ClientTAXAgency> getActiveTaxAgencies() {
-		List<ClientTAXAgency> activeTaxAgencies = new ArrayList<ClientTAXAgency>();
-		for (ClientTAXAgency taxAgency : taxAgencies) {
-			if (taxAgency.isActive())
-				activeTaxAgencies.add(taxAgency);
-		}
-		return Utility.getArrayList(activeTaxAgencies);
+	public VList<ClientTAXAgency> getActiveTaxAgencies() {
+		return taxAgencies.filter(new ListFilter<ClientTAXAgency>() {
+
+			@Override
+			public boolean filter(ClientTAXAgency e) {
+				return e.isActive();
+			}
+		});
+		// List<ClientTAXAgency> activeTaxAgencies = new
+		// ArrayList<ClientTAXAgency>();
+		// for (ClientTAXAgency taxAgency : taxAgencies) {
+		// if (taxAgency.isActive())
+		// activeTaxAgencies.add(taxAgency);
+		// }
+		// return activeTaxAgencies);
 	}
 
 	public void settaxAgencies(VList<ClientTAXAgency> taxAgencies) {
 		this.taxAgencies = taxAgencies;
 	}
 
-	public List<ClientPaySalesTax> getPaySalesTaxs() {
-		return Utility.getArrayList(paySalesTaxs);
+	public VList<ClientPaySalesTax> getPaySalesTaxs() {
+		return paySalesTaxs;
 	}
 
 	public void setPaySalesTaxs(VList<ClientPaySalesTax> paySalesTaxs) {
 		this.paySalesTaxs = paySalesTaxs;
 	}
 
-	public List<ClientCreditRating> getCreditRatings() {
-		return Utility.getArrayList(creditRatings);
+	public VList<ClientCreditRating> getCreditRatings() {
+		return creditRatings;
 	}
 
 	public void setCreditRatings(VList<ClientCreditRating> creditRatings) {
 		this.creditRatings = creditRatings;
 	}
 
-	public List<ClientSalesPerson> getSalesPersons() {
-		return Utility.getArrayList(salesPersons);
+	public VList<ClientSalesPerson> getSalesPersons() {
+		return salesPersons;
 	}
 
-	public List<ClientSalesPerson> getActiveSalesPersons() {
-		List<ClientSalesPerson> activeSalesPersons = new ArrayList<ClientSalesPerson>();
-		for (ClientSalesPerson salesPerson : salesPersons) {
-			if (salesPerson.isActive())
-				activeSalesPersons.add(salesPerson);
-		}
-		return Utility.getArrayList(activeSalesPersons);
+	public VList<ClientSalesPerson> getActiveSalesPersons() {
+		return salesPersons.filter(new ListFilter<ClientSalesPerson>() {
+
+			@Override
+			public boolean filter(ClientSalesPerson e) {
+				return e.isActive();
+			}
+		});
+		// List<ClientSalesPerson> activeSalesPersons = new
+		// ArrayList<ClientSalesPerson>();
+		// for (ClientSalesPerson salesPerson : salesPersons) {
+		// if (salesPerson.isActive())
+		// activeSalesPersons.add(salesPerson);
+		// }
+		// return activeSalesPersons);
 	}
 
 	public void setSalesPersons(VList<ClientSalesPerson> salesPersons) {
@@ -896,17 +984,24 @@ public class ClientCompany implements IAccounterCore {
 		this.accounts = accounts;
 	}
 
-	public List<ClientAccount> getAccounts() {
-		return Utility.getArrayList(accounts);
+	public VList<ClientAccount> getAccounts() {
+		return accounts;
 	}
 
-	public List<ClientAccount> getActiveAccounts() {
-		List<ClientAccount> activeAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : accounts) {
-			if (account.getIsActive())
-				activeAccounts.add(account);
-		}
-		return Utility.getArrayList(activeAccounts);
+	public VList<ClientAccount> getActiveAccounts() {
+		return accounts.filter(new ListFilter<ClientAccount>() {
+
+			@Override
+			public boolean filter(ClientAccount e) {
+				return e.getIsActive();
+			}
+		});
+		// List<ClientAccount> activeAccounts = new ArrayList<ClientAccount>();
+		// for (ClientAccount account : accounts) {
+		// if (account.getIsActive())
+		// activeAccounts.add(account);
+		// }
+		// return activeAccounts);
 	}
 
 	public ClientCompanyPreferences getPreferences() {
@@ -1317,27 +1412,44 @@ public class ClientCompany implements IAccounterCore {
 		this.nonInventoryItemDefaultExpenseAccount = nonInventoryItemDefaultExpenseAccount;
 	}
 
-	public List<ClientAccount> getAccounts(int accountType) {
-		List<ClientAccount> accounts = new ArrayList<ClientAccount>();
+	public VList<ClientAccount> getAccounts(final int accountType) {
+		return getAccounts().filter(new ListFilter<ClientAccount>() {
 
-		for (ClientAccount clientAccount : getAccounts()) {
-			if (clientAccount != null)
-				if (clientAccount.type == accountType) {
-					accounts.add(clientAccount);
+			@Override
+			public boolean filter(ClientAccount e) {
+				if (e != null) {
+					return e.type == accountType;
 				}
-
-		}
-
-		return accounts;
+				return false;
+			}
+		});
+		// List<ClientAccount> accounts = new ArrayList<ClientAccount>();
+		//
+		// for (ClientAccount clientAccount : getAccounts()) {
+		// if (clientAccount != null)
+		// if (clientAccount.type == accountType) {
+		// accounts.add(clientAccount);
+		// }
+		//
+		// }
+		//
+		// return accounts;
 	}
 
-	public List<ClientAccount> getActiveBankAccounts(int accountType) {
-		List<ClientAccount> activeAccounts = new ArrayList<ClientAccount>();
-		for (ClientAccount account : getAccounts()) {
-			if (account.getIsActive() && account.type == accountType)
-				activeAccounts.add(account);
-		}
-		return activeAccounts;
+	public VList<ClientAccount> getActiveBankAccounts(final int accountType) {
+		return getAccounts().filter(new ListFilter<ClientAccount>() {
+
+			@Override
+			public boolean filter(ClientAccount e) {
+				return e.getIsActive() && e.type == accountType;
+			}
+		});
+		// List<ClientAccount> activeAccounts = new ArrayList<ClientAccount>();
+		// for (ClientAccount account : getAccounts()) {
+		// if (account.getIsActive() && account.type == accountType)
+		// activeAccounts.add(account);
+		// }
+		// return activeAccounts;
 	}
 
 	public void processUpdateOrCreateObject(IAccounterCore accounterCoreObject) {
@@ -1793,11 +1905,12 @@ public class ClientCompany implements IAccounterCore {
 		this.fixedAssets = fixedAssets;
 	}
 
-	public List<ClientFixedAsset> getFixedAssets() {
+	public VList<ClientFixedAsset> getFixedAssets() {
 		return fixedAssets;
 	}
 
-	// public List<ClientSellingOrDisposingFixedAsset> getSellingDisposedItems()
+	// public VList<ClientSellingOrDisposingFixedAsset>
+	// getSellingDisposedItems()
 	// {
 	// return sellingDisposedItems;
 	// }
@@ -1869,7 +1982,7 @@ public class ClientCompany implements IAccounterCore {
 		this.vatReturnBoxes = vatReturnBoxes;
 	}
 
-	public List<ClientVATReturnBox> getVatReturnBoxes() {
+	public VList<ClientVATReturnBox> getVatReturnBoxes() {
 		return vatReturnBoxes;
 	}
 
@@ -1973,15 +2086,15 @@ public class ClientCompany implements IAccounterCore {
 		this.brandingTheme = brandingTheme;
 	}
 
-	public List<ClientBrandingTheme> getBrandingTheme() {
-		return Utility.getArrayList(brandingTheme);
+	public VList<ClientBrandingTheme> getBrandingTheme() {
+		return brandingTheme;
 	}
 
 	public void setUsersList(VList<ClientUserInfo> users) {
 		this.usersList = users;
 	}
 
-	public List<ClientUserInfo> getUsersList() {
+	public VList<ClientUserInfo> getUsersList() {
 		return usersList;
 	}
 
@@ -2286,7 +2399,7 @@ public class ClientCompany implements IAccounterCore {
 		}
 		clientCompany.shippingTerms = shippingTerms;
 
-		List<ClientTAXAdjustment> taxAdjustments = new ArrayList<ClientTAXAdjustment>();
+		VList<ClientTAXAdjustment> taxAdjustments = new VList<ClientTAXAdjustment>();
 		for (ClientTAXAdjustment clientTAXAdjustment : this.taxAdjustments) {
 			taxAdjustments.add(clientTAXAdjustment.clone());
 		}
@@ -2310,7 +2423,7 @@ public class ClientCompany implements IAccounterCore {
 		}
 		clientCompany.taxGroups = taxGroups;
 
-		List<ClientTAXItem> taxItems = new ArrayList<ClientTAXItem>();
+		VList<ClientTAXItem> taxItems = new VList<ClientTAXItem>();
 		for (ClientTAXItem clientTAXItem : this.taxItems) {
 			taxItems.add(clientTAXItem.clone());
 		}
@@ -2322,7 +2435,7 @@ public class ClientCompany implements IAccounterCore {
 		}
 		clientCompany.usersList = usersList;
 
-		List<ClientTAXGroup> vatGroups = new ArrayList<ClientTAXGroup>();
+		VList<ClientTAXGroup> vatGroups = new VList<ClientTAXGroup>();
 		for (ClientTAXGroup clientTAXGroup : this.vatGroups) {
 			vatGroups.add(clientTAXGroup.clone());
 		}
@@ -2368,7 +2481,7 @@ public class ClientCompany implements IAccounterCore {
 	/**
 	 * @return
 	 */
-	public List<ClientUnit> getUnits() {
+	public VList<ClientUnit> getUnits() {
 		return units;
 	}
 
