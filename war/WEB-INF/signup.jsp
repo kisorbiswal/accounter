@@ -145,6 +145,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		<span style="position: absolute; margin: 10px;">Please Wait...</span>
   </div>
   
+  
   <c:if test="${successmessage==null}">
     <form id="accounterForm" method="post" action="/signup">
 	   <div>
@@ -434,10 +435,9 @@ $.validator.addMethod("no_special_characters", function(value, element) {
   
 </div>
 <div>
-<label><a href="/login" style="color: #CC0000">I already have an account</a></label>
+<a href="/login" id="forget-link1">I already have an account</a>
+<br><br>
 </div>
-	
-
 		<script  type="text/javascript" >
 			if(${successmessage!=null}) {
 				document.getElementById("right-side-options").style.marginTop = "15px";
