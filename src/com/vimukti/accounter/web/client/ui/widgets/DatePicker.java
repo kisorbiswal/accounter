@@ -18,6 +18,8 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.PopupListener;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -76,6 +78,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			dateFormatter = DateTimeFormat.getFormat("MMM/dd/yyyy");
 
 		popup = new PopupCalendar(this);
+
 		changeHandlers = new ArrayList<ChangeHandler>();
 	}
 
@@ -279,6 +282,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 
 		synchronizeFromDate();
 		this.setCursorPos(cursorPos);
+		showPopup();
 	}
 
 	private void processIncrementDate(int cursorPos) {
@@ -333,6 +337,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 
 		synchronizeFromDate();
 		this.setCursorPos(cursorPos);
+		showPopup();
 	}
 
 	/**

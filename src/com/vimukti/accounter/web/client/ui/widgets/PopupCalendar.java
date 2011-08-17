@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
@@ -27,6 +28,55 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class PopupCalendar extends PopupPanel {
 
+	@Override
+	public boolean onKeyUpPreview(char key, int modifiers) {
+
+//		System.out.println(key);
+//		System.out.println(modifiers);
+//
+//		CellFormatter cellFormatter = daysGrid.getCellFormatter();
+//		for (int i = 0; i < 7; i++) {
+//
+//			for (int j = 0; j < 7; j++) {
+//				cellFormatter.removeStyleName(i, j, theme + "-"
+//						+ "current-month-selected");
+//			}
+//		}
+//		show();
+//
+//		if (key == '&') {
+//			if (x != 0)
+//				--x;
+//		} else if (key == '(') {
+//			if (x <= 7)
+//				++x;
+//		} else if (key == '%') {
+//			if (y != 0)
+//				--y;
+//		} else if (key == '\'') {
+//			if (y <= 7)
+//				++y;
+//		} else {
+//			System.out.println("enter");
+//			Date selectedDay = DatePickerUtils.addDays(
+//					getDaysGridOrigin(displayedMonth), x * 7 + y);
+//			if (datePicker.canBeSelected(selectedDay)) {
+//				datePicker.setSelectedDate(selectedDay);
+//				datePicker.synchronizeFromDate();
+//				this.hide();
+//				return true;
+//
+//			}
+//		}
+//
+//		System.out.println("X:" + x);
+//		System.out.println("Y:" + y);
+//
+//		if (x <= 7 && y <= 7)
+//			updateFocus(x, y);
+		return true;
+	}
+
 	private boolean leave;
 	private String theme;
 	private final DatePicker datePicker;
@@ -36,6 +86,8 @@ public class PopupCalendar extends PopupPanel {
 	private Label currentMonth;
 	private Grid daysGrid;
 	private Date displayedMonth;
+	private int x = 0;
+	private int y = 0;
 
 	{
 		this.leave = true;
@@ -44,6 +96,7 @@ public class PopupCalendar extends PopupPanel {
 		this.monthFormat = DateTimeFormat.getFormat("MMMM yyyy");
 		this.dayNumberFormat = DateTimeFormat.getFormat("d");
 		this.daysGrid = new Grid(7, 7);
+
 	}
 
 	/**
@@ -66,6 +119,7 @@ public class PopupCalendar extends PopupPanel {
 		drawMonthLine(panel);
 		drawWeekLine(panel);
 		drawDayGrid(panel);
+
 	}
 
 	/**
@@ -214,9 +268,12 @@ public class PopupCalendar extends PopupPanel {
 		weekLine.setStyleName(theme + "-" + "week-line");
 		Date weekFirstday = DatePickerUtils.getWeekFirstDay();
 		for (int i = 0; i < 7; i++) {
-			weekLine.setText(0, i, dayNameFormat.format(
-					DatePickerUtils.addDays(weekFirstday, i)).substring(0, 1)
-					.toUpperCase());
+			weekLine.setText(
+					0,
+					i,
+					dayNameFormat
+							.format(DatePickerUtils.addDays(weekFirstday, i))
+							.substring(0, 1).toUpperCase());
 		}
 		panel.add(weekLine);
 	}
@@ -229,6 +286,7 @@ public class PopupCalendar extends PopupPanel {
 	 *            The panel contained in the popup
 	 */
 	private void drawDayGrid(Panel panel) {
+
 		this.daysGrid.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Cell cell = daysGrid.getCellForEvent(event);
@@ -283,9 +341,7 @@ public class PopupCalendar extends PopupPanel {
 				cfJours.removeStyleName(i, j, theme + "-" + "cant-be-selected");
 
 				if (!datePicker.canBeSelected(cursor))
-					cfJours
-							.addStyleName(i, j, theme + "-"
-									+ "cant-be-selected");
+					cfJours.addStyleName(i, j, theme + "-" + "cant-be-selected");
 				else if (this.displayedMonth != null
 						&& DatePickerUtils.areEquals(this.displayedMonth,
 								cursor))
@@ -345,5 +401,41 @@ public class PopupCalendar extends PopupPanel {
 		}
 		return origineTableau;
 	}
+
+	// @Override
+	// public void onKeyPress(KeyPressEvent event) {
+	//
+	// System.out.println("Yes comming");
+	// NativeEvent nativeEvent = event.getNativeEvent();
+	// if (nativeEvent.getKeyCode() == KeyCodes.KEY_UP) {
+	//
+	// if (y != 0) {
+	// --y;
+	//
+	// updateFocus(x, y);
+	// }
+	//
+	// } else if (nativeEvent.getKeyCode() == KeyCodes.KEY_DOWN)
+	//
+	// {
+	//
+	// ++y;
+	// updateFocus(x, y);
+	//
+	// } else if (nativeEvent.getKeyCode() == KeyCodes.KEY_LEFT) {
+	//
+	// if (x != 0) {
+	// --x;
+	// updateFocus(x, y);
+	// }
+	// } else if (nativeEvent.getKeyCode() == KeyCodes.KEY_RIGHT) {
+	//
+	// ++x;
+	// updateFocus(x, y);
+	// }
+	//
+	// }
+
+
 
 }
