@@ -459,8 +459,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	public void deleteSuccess(Boolean result) {
-		if (callback != null)
-			callback.onResultSuccess(result);
+		if (getCallback() != null)
+			getCallback().onResultSuccess(result);
 	}
 
 	@Override
