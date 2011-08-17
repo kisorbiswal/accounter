@@ -125,9 +125,9 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 
 	protected List<DynamicForm> forms = new ArrayList<DynamicForm>();
 
-	protected List<FormItem> formItems = new ArrayList<FormItem>();
+	// protected List<FormItem> formItems = new ArrayList<FormItem>();
 
-	public boolean yesClicked;
+	// public boolean yesClicked;
 
 	/**
 	 * CallBack Functionality to Support the Add New Feature of Custom Combo

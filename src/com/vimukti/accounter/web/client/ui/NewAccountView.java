@@ -862,7 +862,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// Accounter.showInformation(result.getName()
 		// + " is updated successfully");
 
-		if (this.yesClicked && accountType == ClientAccount.TYPE_CREDIT_CARD) {
+		// if (this.yesClicked && accountType == ClientAccount.TYPE_CREDIT_CARD)
+		// {
+		if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
 			ActionFactory.getNewVendorAction().run(null, false);
 		}
 
