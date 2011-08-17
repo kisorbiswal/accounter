@@ -21,9 +21,9 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 	@Override
 	public String getDefaultAddNewCaption() {
 		if (getCompany().getAccountingType() == 0)
-			return Accounter.constants().newTAXAgency();
+			return Accounter.comboConstants().newTAXAgency();
 		else
-			return Accounter.constants().newVATAgency();
+			return Accounter.comboConstants().newVATAgency();
 
 	}
 

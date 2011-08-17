@@ -731,7 +731,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				}
 			} else if (itm.equals("Comment")) {
 				image = Accounter.getFinanceMenuImages().comments();
-			} else if (itm.equals("Sales Tax") || (itm.equals("Service Item"))) {
+			} else if (itm.equals("Sales Tax") || (itm.equals("Service Item"))|| (itm.equals("Service"))) {
 				if (sellServices) {
 					image = Accounter.getFinanceMenuImages().salestax();
 				} else {

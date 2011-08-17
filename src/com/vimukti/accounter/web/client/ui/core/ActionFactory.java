@@ -1141,15 +1141,15 @@ public class ActionFactory {
 	}
 
 	public static EnterBillsAction getEnterBillsAction() {
-		return new EnterBillsAction(actionsConstants.enterBills());
+		return new EnterBillsAction(actionsConstants.enterBill());
 	}
 
 	public static PayBillsAction getPayBillsAction() {
-		return new PayBillsAction(actionsConstants.payBills());
+		return new PayBillsAction(actionsConstants.payBill());
 	}
 
 	public static IssuePaymentsAction getIssuePaymentsAction() {
-		return new IssuePaymentsAction(actionsConstants.issuePayments());
+		return new IssuePaymentsAction(actionsConstants.issuePayment());
 	}
 
 	public static VendorPaymentsAction getNewVendorPaymentAction() {

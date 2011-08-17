@@ -6651,3 +6651,11 @@ a#fdbk_tab:hover{
     margin: 0;
     padding: 0;
 }
+.label-title{
+	font-weight: bold;
+	font-size: 18px;
+}
+.label-title-list {
+    font-size: 13px;
+    font-weight: bold;
+}

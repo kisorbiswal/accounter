@@ -150,31 +150,31 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   <div>
 	      <span class="mandatory">All fields are mandatory</span>
 	   </div>
-	   <div style="clear:both">
+	   <div style="clear:both" class="check_label">
 	     <label>First Name</label><br>
 		 <input id="mid-box"  type="text" tabindex="4" name="firstName">	
 	   </div>
-	    <div>
+	    <div class="check_label">
 	     <label>Last Name</label><br>
 		 <input id="mid-box1"  type="text" tabindex="5" name="lastName">	
 	   </div>
-	   <div>
-	     <label>Email ID</label><br>
+	   <div class="check_label">
+	     <label>Email Address</label><br>
 		 <input id="mid-box2"  type="text" tabindex="6" name="emailId">	
 	   </div>
-	   <div>
+	   <div class="check_label">
 	     <label>Password</label><br>
 		 <input id="mid-box4"  type="password" tabindex="7" name="password">
 	   </div>
-	   <div>
+	   <div class="check_label">
 	     <label>Confirm Password</label><br>
 		 <input id="mid-box5"  type="password" tabindex="8" name="confirmPassword">
 	   </div>
-	   <div>
+	   <div class="check_label">
 	     <label>Phone Number</label><br>
 		 <input id="mid-box6"  type="text" tabindex="9" name="phoneNumber">
 	   </div>
-	   <div>
+	   <div class="check_label">
 	     <label>Country</label>
 		 <select id="select-box" tabindex="10" name="country">
 <option value="United Kingdom">United Kingdom</option>

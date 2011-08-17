@@ -15,7 +15,7 @@ public class PayBillsAction extends Action {
 	protected PayBillView view;
 
 	public PayBillsAction(String icon) {
-		super(Accounter.constants().payBills());
+		super(Accounter.constants().payBill());
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}

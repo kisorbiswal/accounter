@@ -86,6 +86,11 @@ public class SetupWizard extends VerticalPanel {
 
 		viewButtonPanel.add(viewPanel);
 		viewButtonPanel.add(buttonPanel);
+		viewButtonPanel.setCellVerticalAlignment(buttonPanel,
+				HasAlignment.ALIGN_MIDDLE);
+
+		viewButtonPanel.setCellHeight(viewPanel, "93%");
+		viewButtonPanel.setCellHeight(buttonPanel, "7%");
 
 		topPanel.add(progressPanel);
 		topPanel.add(viewButtonPanel);

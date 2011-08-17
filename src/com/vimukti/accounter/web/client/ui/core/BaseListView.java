@@ -237,6 +237,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlayTop.add(hlay);
 
 		Label lab1 = new Label(getListViewHeading());
+		lab1.addStyleName("label-title-list");
 		lab1.setWidth("100%");
 
 		initGrid();

@@ -27,7 +27,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterComboConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.CustomComboItem;
@@ -37,7 +37,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	protected IAccounterComboSelectionChangeHandler<T> handler;
 
-	AccounterConstants comboConstants = Accounter.constants();
+	AccounterComboConstants comboConstants = Accounter.comboConstants();
 	private boolean isAddNewRequire;
 	private DropDownTable<T> dropDown;
 	private int cols;
@@ -191,7 +191,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			return;
 		dropDown.getRowElement(0).getStyle().setHeight(15, Unit.PX);
 		int x = getMainWidget().getAbsoluteLeft();
-		int y = getMainWidget().getAbsoluteTop() + 22;
+		int y = getMainWidget().getAbsoluteTop() + 27;
 		dropDown.setWidth(getMainWidget().getOffsetWidth() - 2 + "px");
 		// dropDown.setHeight(getMainWidget().getOffsetHeight() + "px");
 		//

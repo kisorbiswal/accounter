@@ -2,6 +2,7 @@
 	font-family: "ColabThi";
 	src: url("Fonts/ColabThi.otf") format("truetype");
 }
+
 /*.icon1,.icon2,.icon3,.icon4,.icon5,.icon6,.icon1 {
 	background: url("../images/zb-online-books-icon.png") no-repeat scroll 0
 		0 transparent;
@@ -144,7 +145,7 @@ p {
 
 a:link {
 	text-decoration: none;
-} /* unvisited link */
+}  /* unvisited link */
 #top {
 	clear: both;
 	background-color: #f7f6f2;
@@ -154,7 +155,7 @@ a:link {
 	height: 330px !important;
 	background: url("../images/Image-display_BG.png") repeat-x scroll 0 0
 		transparent;
-    padding-top:50px;
+	padding-top: 50px;
 }
 
 #mid {
@@ -168,8 +169,7 @@ a:link {
 	height: auto;
 }
 
-#mid-1 {
-	/*background-color: #f4f4f4;
+#mid-1 { /*background-color: #f4f4f4;
 	border: 1px solid #CCCCCC;
 	clear: both;
 	float: left;
@@ -180,14 +180,13 @@ a:link {
 	width: 523px;
 	font-family: arial;
 	font-size: 15px;*/
-	
 	background-color: #F4F4F4;
-    border: 1px solid #CCCCCC;
-    font-family: arial;
-    font-size: 15px;
-    height: auto;
-    margin: 0 auto;
-    width: 720px;
+	border: 1px solid #CCCCCC;
+	font-family: arial;
+	font-size: 15px;
+	height: auto;
+	margin: 0 auto;
+	width: 720px;
 }
 
 #mid-2 {
@@ -410,16 +409,14 @@ li {
 	color: #FFFFFF;
 	font-size: 17px;
 	font-weight:bold;
-}*/
-/*.home-jbg {
+}*/ /*.home-jbg {
 	float: left;
 	margin-left: 13px;
 	padding: 3px;
 	padding: 5.5px\0;
 	width: 50px;
 	color: #3299a4 !important;
-}*/
-/*.fea-jbg {
+}*/ /*.fea-jbg {
 	float: left;
 	margin-left: 13px;
 	padding: 3px;
@@ -638,7 +635,8 @@ a:visited {
 }
 
 .vertical-divider {
-	background: url("../images/dot-image.png") repeat-y scroll 0 0 transparent;
+	background: url("../images/dot-image.png") repeat-y scroll 0 0
+		transparent;
 	float: left;
 	height: 95px;
 	margin: 10px 0 0 0;
@@ -647,8 +645,8 @@ a:visited {
 }
 
 .seperator {
-	background: url("../images/signup-page-vertical-line.png") repeat-y scroll
-		0 0 transparent;
+	background: url("../images/signup-page-vertical-line.png") repeat-y
+		scroll 0 0 transparent;
 	float: left;
 	height: 830px;
 	margin-top: 41px;
@@ -790,8 +788,8 @@ input[type="text"] {
 	margin-left: 20px;
 	margin-top: -15px;
 	padding: 9px;
-	background: url("../images/signup-page-vertical-line.png") repeat-y scroll
-		0 0 transparent;
+	background: url("../images/signup-page-vertical-line.png") repeat-y
+		scroll 0 0 transparent;
 }
 
 .right-side-options {
@@ -830,14 +828,14 @@ input[type="text"] {
 	
 }
 
-.signup-box { 
+.signup-box {
 	text-align: left;
 }
 
 .signup-box-left-bot {
 	float: left;
-	background: url("../images/signup-box-left-bottom.png") no-repeat scroll 0
-		0 transparent;
+	background: url("../images/signup-box-left-bottom.png") no-repeat scroll
+		0 0 transparent;
 }
 
 #checkbox { /*margin-left: 35px;
@@ -858,10 +856,9 @@ input[type="text"] {
 	color: #A0A0A0;
 }
 
-#checkbox1 {
-	/*margin-left: -21px;
+#checkbox1 { /*margin-left: -21px;
 	margin-top: 27px;*/
-	margin-bottom:10px;
+	margin-bottom: 10px;
 }
 
 .button-signup-page {
@@ -945,7 +942,7 @@ input[type="text"] {
 
 .size-width {
 	margin: 10px auto;
-    width: 500px;
+	width: 500px;
 }
 
 .header1 p {
@@ -975,8 +972,8 @@ ul li {
 }
 
 #banner-left {
-	background: url("../images/pricing-banner-left.png") no-repeat scroll 0 0
-		transparent;
+	background: url("../images/pricing-banner-left.png") no-repeat scroll 0
+		0 transparent;
 	float: left;
 }
 
@@ -1041,8 +1038,8 @@ ul li {
 }
 
 #hed-right-tag {
-	background: url("../images/pricing-banner-tab-right.png") no-repeat scroll
-		0 0 transparent;
+	background: url("../images/pricing-banner-tab-right.png") no-repeat
+		scroll 0 0 transparent;
 }
 
 .banner-left {
@@ -1713,7 +1710,7 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 }
 
 :root #mid-box7 {
-	width: 210px \0/IE9;
+	width: 210px \0/ IE9;
 }
 
 #mid-box7 {
@@ -1721,7 +1718,6 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 	width: 210px\0;
 	height: 18px;
 }
-
 
 .terms-error span {
 	width: 170px\0;
@@ -1753,7 +1749,7 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity = 0.5) !important;
+	filter: alpha(opacity =   0.5) !important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
@@ -1810,7 +1806,8 @@ input[type="submit"]:FOCUS {
 }
 
 .left-arrow {
-	background: url("../images/Pop-up.png") no-repeat scroll 0 0 transparent;
+	background: url("../images/Pop-up.png") no-repeat scroll 0 0 transparent
+		;
 	float: left;
 	height: 15px;
 	margin-left: -13px;
@@ -1839,201 +1836,243 @@ input[type="submit"]:FOCUS {
 
 .success_box {
 	background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #E5E5E5;
-    border-radius: 3px 3px 3px 3px;
-    box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
-    font-weight: normal;
-    margin-left: 8px;
-    padding: 26px 24px 46px;
-    text-align:center;
+	border: 1px solid #E5E5E5;
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
+	font-weight: normal;
+	margin-left: 8px;
+	padding: 26px 24px 46px;
+	text-align: center;
 }
-.mandatory{
+
+.mandatory {
 	background-color: #FFFFE6;
-    border: 1px solid #E6EACD;
-    color: red;
-    float: right;
-    font-size: 11px;
-    font-weight: normal
+	border: 1px solid #E6EACD;
+	color: red;
+	float: right;
+	font-size: 11px;
+	font-weight: normal
 }
-.admin_details_header{
+
+.admin_details_header {
 	border-bottom: 1px solid #DBDBDB;
-    clear: both;
-    overflow: auto;
+	clear: both;
+	overflow: auto;
 }
-.reset-ok-button,.reset-cancel-button{
-	float:left;
-	margin:5px;
+
+.reset-ok-button,.reset-cancel-button {
+	float: left;
+	margin: 5px;
 }
-.activate-ok-button{
-	margin:5px;
+
+.activate-ok-button {
+	margin: 5px;
 }
-.reset-login-box,.activation_code_box{
+
+.reset-login-box,.activation_code_box {
 	background: none repeat scroll 0 0 white;
-    border: 1px solid #929292;
-    margin: 10px;
-    padding: 10px 0px;
+	border: 1px solid #929292;
+	margin: 10px;
+	padding: 10px 0px;
 }
-.reset_activation_code h2{
-	color:#3299A4;
+
+.reset_activation_code h2 {
+	color: #3299A4;
 }
-.reset_activation_code{
-	padding:10px;
+
+.reset_activation_code {
+	padding: 10px;
 }
+
 #accounterForm td:FIRST-CHILD {
-	text-align:right;
-	padding-right:15px;
+	text-align: right;
+	padding-right: 15px;
 }
-.login_box{
+
+.login_box {
 	background: none repeat scroll 0 0 white;
-    border: 1px solid #929292;
-    margin: 0 auto;
-    width: 500px;
+	border: 1px solid #929292;
+	margin: 0 auto;
+	width: 500px;
 }
-
-
 
 /* ////////////new login and forgot password css Date:3/8/2011*/
+* {
+	margin: 0 0;
+	padding: 0;
+}
 
-*{
-  margin:0px;
-  padding:0px;
+form {
+	font-weight: normal;
+	font-family: sans-serif;
 }
-form{
-  font-weight:normal;
-  font-family:sans-serif;
+
+#commanContainer {
+	margin: 7em auto;
+	width: 320px;
+	text-align: left;
 }
-#commanContainer{
-    margin: 7em auto;
-    width: 320px;
-    text-align:left;
+
+#commanContainer label {
+	color: #777777;
+	font-size: 14px;
+	margin: 0;
 }
-#commanContainer label{
-    color: #777777;
-    font-size: 14px;
+
+#commanContainer form,.form-box {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #B1B1B1;
+	border-radius: 3px 3px 3px 3px;
+	box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
+	font-weight: normal;
+	margin-left: 8px;
+	padding: 26px 24px 46px;
 }
-#commanContainer form,.form-box{
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #B1B1B1;
-    border-radius: 3px 3px 3px 3px;
-    box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
-    font-weight: normal;
-    margin-left: 8px;
-    padding: 26px 24px 46px;
+
+#commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select
+	{
+	background: none repeat scroll 0 0 #FBFBFB;
+	border: 1px solid #B1B1B1;
+	box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
+	margin: 2px 6px 1px 0px;
+	outline: medium none;
+	padding: 3px;
+	width: 97%;
+	height: 28px;
 }
-#commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select{
-    background: none repeat scroll 0 0 #FBFBFB;
-    border: 1px solid #B1B1B1;
-    box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
-    margin:2px 6px 16px 0px;
-    outline: medium none;
-    padding: 3px;
-    width: 97%;
-	height:28px;
+
+.rememberMe {
+	float: left;
 }
-.rememberMe{
-    float:left;
-}
-.loginbutton,#forgot-login,.signup-submit,.reset-button{
-    float:right;
+
+.loginbutton,#forgot-login,.signup-submit,.reset-button {
+	float: right;
 	margin-right: 8px;
 }
-.allviews-common-button{
-    background: none repeat scroll 0 0 #28757D;
-    border: 1px solid #002e36;
-    border-radius: 5px 5px 5px 5px;
-    color: white;
-    cursor: pointer;
-    font-family: sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    margin-top: -3px;
-    padding: 3px 10px;
+
+.allviews-common-button {
+	background: none repeat scroll 0 0 #28757D;
+	border: 1px solid #002e36;
+	border-radius: 5px 5px 5px 5px;
+	color: white;
+	cursor: pointer;
+	font-family: sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	margin-top: -3px;
+	padding: 3px 10px;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
-.loginbutton input:active,.loginbutton input:hover,.loginbutton input:focus{
-    background:#1a5158;
-	border:1px solid #9ebfc3;
+
+.loginbutton input:active,.loginbutton input:hover,.loginbutton input:focus
+	{
+	background: #1a5158;
+	border: 1px solid #9ebfc3;
 }
-.form-bottom-options,.activate-code{
-    margin: 0 0 0 16px;
-    padding: 16px 16px 0;
-    text-shadow: 0 1px 0 #FFFFFF;
+
+.form-bottom-options,.activate-code {
+	margin: 0 0 0 16px;
+	padding: 16px 16px 0;
+	text-shadow: 0 1px 0 #FFFFFF;
 }
-.form-bottom-options a,#commanContainer a{
-   color:#28757D;
-   text-decoration:underline;
+
+.form-bottom-options a,#commanContainer a {
+	color: #28757D;
+	text-decoration: underline;
 }
-.accounterLogo{
-   padding:0 0 15px 10px;
+
+.accounterLogo {
+	padding: 0 0 15px 10px;
 }
-.common-box{
-    border-radius: 3px 3px 3px 3px;
-    border-style: solid;
-    border-width: 1px;
-    margin: 0 0 16px 8px;
-    padding: 12px;
-    font-size:12px;
-	font-family:sans-serif;
+
+.common-box {
+	border-radius: 3px 3px 3px 3px;
+	border-style: solid;
+	border-width: 1px;
+	margin: 0 0 16px 8px;
+	padding: 12px;
+	font-size: 12px;
+	font-family: sans-serif;
 }
-#login_error{
+
+#login_error {
 	background-color: #FFEBE8;
-    border-color: #CC0000;
+	border-color: #CC0000;
 }
-#login_success{
+
+#login_success {
 	background-color: #FFEBE8;
-    border-color: #99C68E;
+	border-color: #99C68E;
 }
-#forgot-password_error,.create-company-message{
-    background-color: #FFFFE0;
-    border-color: #E6DB55;
+
+#forgot-password_error,.create-company-message {
+	background-color: #FFFFE0;
+	border-color: #E6DB55;
 }
-.signup-container{
-   width:500px !important;
-   margin:30px auto !important;
+
+.signup-container {
+	width: 500px !important;
+	margin: 30px auto !important;
 }
-.signup-submit{
-   margin-top:15px;
+
+.signup-submit {
+	margin-top: 15px;
 }
-.reset-header,.company-heading{
-   color:#28757D;
-   margin-bottom:10px;
+
+.reset-header,.company-heading {
+	color: #28757D;
+	margin-bottom: 10px;
 }
-#select-box{
-  padding:0px !important;	
+
+#select-box {
+	padding: 0px !important;
 }
-.createbutton{
-  float:right;	
+
+.createbutton {
+	float: right;
 }
-.form-box li{
+
+.form-box li {
 	list-style-type: none;
 	display: block;
 }
-.form-box li a{
-	font-size:15px;
+
+.form-box li a {
+	font-size: 15px;
 }
-.form-box div a:hover{
-	color:#3299A4 !important;
+
+.form-box div a:hover {
+	color: #3299A4 !important;
 }
 .form-box ul{
 	margin-top:10px;
 }
-.form-box{
-	height:200px;
-	overflow:auto;
+
+.form-box {
+	height: 200px;
+	overflow: auto;
 }
-a#fdbk_tab{
-	right:0px !important;
-	top:40% !important;
-	left:inherit !important;
-	margin:0 -7px 0 0 !important;
+
+.check_label {
+	margin:16px 0px 0px !important;
 }
-a#fdbk_tab:hover{
-	margin:0px -4px 0 0 !important;
+
+a#fdbk_tab {
+	right: 0px !important;
+	top: 40% !important;
+	left: inherit !important;
+	margin: 0 -7px 0 0 !important;
 }
-textarea{
-	resize:none;
+
+a#fdbk_tab:hover {
+	margin: 0px -4px 0 0 !important;
 }
-.resend-code{
-	padding:10px 0 0 35px;
+
+textarea {
+	resize: none;
+}
+
+.resend-code {
+	padding: 10px 0 0 35px;
 }
 /* End of the new Login and forgot password page*/
