@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -41,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
-		KeyPressHandler, FocusHandler {
+		KeyPressHandler, FocusHandler,BlurHandler{
 
 	private PopupCalendar popup;
 	private Date selectedDate;
@@ -94,6 +96,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		addChangeHandler(this);
 		addKeyPressHandler(this);
 		addFocusHandler(this);
+		addBlurHandler(this);
 	}
 
 	/**
@@ -493,6 +496,13 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	public void onFocus(FocusEvent arg0) {
 		showPopup();
 
+	}
+
+	@Override
+	public void onBlur(BlurEvent event) {
+		
+		this.popup.hide();
+		
 	}
 
 }
