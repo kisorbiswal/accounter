@@ -245,28 +245,30 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
-		/*result.add(DynamicForm.validate(this.getForms().toArray(
-				new DynamicForm[getForms().size()])));*/
-		//already exists?
-		//form validation
+		/*
+		 * result.add(DynamicForm.validate(this.getForms().toArray( new
+		 * DynamicForm[getForms().size()])));
+		 */
+		// already exists?
+		// form validation
 
 		String name = vatItemNameText.getValue().toString() != null ? vatItemNameText
 				.getValue().toString() : "";
 
 		ClientTAXItem taxItemByName = getCompany().getTaxItemByName(name);
-		
-//		if ((!isEdit && taxItemByName != null)){
-//			result.addError(vatItemNameText, Accounter.constants()
-//					.alreadyExist());
-//		}
-//		if (!((!isEdit && taxItemByName != null))
-//				|| !(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
-//						: (taxItemByName != null
-//								|| taxItemByName.getID() == this.getData()
-//										.getID() ? false : true)) : true)) {
-//			result.addError(vatItemNameText, Accounter.constants()
-//					.alreadyExist());
-//		}
+
+		// if ((!isEdit && taxItemByName != null)){
+		// result.addError(vatItemNameText, Accounter.constants()
+		// .alreadyExist());
+		// }
+		// if (!((!isEdit && taxItemByName != null))
+		// || !(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
+		// : (taxItemByName != null
+		// || taxItemByName.getID() == this.getData()
+		// .getID() ? false : true)) : true)) {
+		// result.addError(vatItemNameText, Accounter.constants()
+		// .alreadyExist());
+		// }
 
 		if (!isEdit) {
 			if (taxItemByName != null) {
@@ -338,7 +340,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 				: data != null ? data.getVatReturnBox() : null);
 		data.setTaxAgency(selectedVATAgency != null ? selectedVATAgency.getID()
 				: data != null ? data.getTaxAgency() : null);
-		data.setActive((Boolean) statusCheck.getValue());
+		data.setActive(statusCheck.getValue() != null ? (Boolean) statusCheck
+				.getValue() : Boolean.FALSE);
 
 		data.setTaxRate((Boolean) this.isPercentatateAmtCheck.getValue() ? vatRateTextPerT
 				.getPercentage() : vatRateText.getAmount());
@@ -447,7 +450,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			selectedBox = getCompany().getVatReturnBox(data.getVatReturnBox());
 			vatReturnBoxCombo.setComboItem(selectedBox);
 		}
-		statusCheck.setValue(data.isActive());
+		statusCheck.setValue(true);
 
 		vatRateTextPerT.setPercentage(data.getTaxRate());
 
