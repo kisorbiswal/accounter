@@ -87,6 +87,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 
 	String legalName;// registered name
 
+	private boolean isConfigured;
 	/**
 	 * this can hold a Set of {@link Address}
 	 */
@@ -3551,6 +3552,14 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 */
 	public int getAccountingType() {
 		return accountingType;
+	}
+
+	public boolean isConfigured() {
+		return isConfigured;
+	}
+
+	public void setConfigured(boolean isConfigured) {
+		this.isConfigured = isConfigured;
 	}
 
 	/**
