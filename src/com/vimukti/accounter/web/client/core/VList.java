@@ -169,7 +169,24 @@ public class VList<E> extends ArrayList<E> {
 	}
 
 	public boolean add(E e) {
-		add(size(), e);
+		for (ListFilter<E> filter : filters) {
+			if (!filter.filter(e)) {
+				return false;
+			}
+		}
+		super.add(e);
+
+		for (ListListener<E> listener : listeners) {
+			listener.onAdd(e);
+		}
+
+		Set<ListFilter<E>> keySet = filterListeners.keySet();
+		for (ListFilter<E> key : keySet) {
+			if (key.filter(e)) {
+				ListListener<E> listener = filterListeners.get(key);
+				listener.onAdd(e);
+			}
+		}
 		return true;
 	}
 
