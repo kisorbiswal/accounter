@@ -51,7 +51,7 @@ public class ReceiveVATAction extends Action {
 			public void onCreated() {
 
 					MainFinanceWindow.getViewManager().showView(
-							new RecieveVATView(), data, isDependent,
+							new ReceiveVATView(), data, isDependent,
 							ReceiveVATAction.this);
 
 			}

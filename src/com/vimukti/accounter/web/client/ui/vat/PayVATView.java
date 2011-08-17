@@ -368,7 +368,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						Accounter.showError(Accounter.constants()
 								.failedtogettheTransactionPayVATList());
 						grid.addEmptyMessage(Accounter.constants()
-								.noRecordsToShow());
+								.noFiledVatEntriesToPay());
 
 					}
 
@@ -383,7 +383,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 						if (result.size() == 0) {
 							// Accounter.showInformation("No PayVAT list to show");
 							grid.addEmptyMessage(Accounter.constants()
-									.noRecordsToShow());
+									.noFiledVatEntriesToPay());
 						} else {
 
 							// loadData(getfilterRecordsByDate(billsDue
@@ -448,7 +448,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 		ValidationResult result = super.validate();
 
-		//Validations
+		// Validations
 		// 1. is valid transaction?
 		// 2. is in prevent posting before date?
 		// 3. main form valid?

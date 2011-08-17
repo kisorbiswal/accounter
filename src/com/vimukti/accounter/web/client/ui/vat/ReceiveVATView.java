@@ -45,7 +45,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * @author Tirupathi
  * 
  */
-public class RecieveVATView extends
+public class ReceiveVATView extends
 		AbstractTransactionBaseView<ClientReceiveVAT> {
 
 	private static final int RECEIVEVAT_TRANSACTION_GRID = 0;
@@ -77,7 +77,7 @@ public class RecieveVATView extends
 	private TextItem transNumber;
 	private AccounterConstants companyConstants = Accounter.constants();
 
-	public RecieveVATView() {
+	public ReceiveVATView() {
 		super(ClientTransaction.TYPE_PAY_SALES_TAX, RECEIVEVAT_TRANSACTION_GRID);
 	}
 
@@ -299,14 +299,7 @@ public class RecieveVATView extends
 	private void initListGrid() {
 
 		gridLayout = new VerticalPanel();
-		grid = new TransactionReceiveVATGrid(!isEdit, true) {
-			@Override
-			protected String[] getColumns() {
-				return new String[] { companyConstants.vatAgency(),
-						companyConstants.taxDue(),
-						companyConstants.amountToReceive() };
-			}
-		};
+		grid = new TransactionReceiveVATGrid(!isEdit, true);
 		grid.setCanEdit(!isEdit);
 		grid.isEnable = false;
 		grid.init();
@@ -386,7 +379,7 @@ public class RecieveVATView extends
 						Accounter.showError(Accounter.constants()
 								.failedtogettheTransactionPayVATList());
 						grid.addEmptyMessage(Accounter.constants()
-								.noRecordsToShow());
+								.noFiledVatEntriesToReceive());
 
 					}
 
@@ -401,7 +394,7 @@ public class RecieveVATView extends
 						if (result.size() == 0) {
 							// Accounter.showInformation("No PayVAT list to show");
 							grid.addEmptyMessage(Accounter.constants()
-									.noRecordsToShow());
+									.noFiledVatEntriesToReceive());
 						} else {
 
 							// loadData(getfilterRecordsByDate(billsDue

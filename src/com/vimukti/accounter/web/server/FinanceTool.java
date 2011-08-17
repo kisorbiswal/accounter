@@ -8368,7 +8368,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session
-				.getNamedQuery("getVATReturn.by.check.lessZeroBalance");
+				.getNamedQuery("getVATReturn.by.check.BalanceGraterThanzero");
 
 		List<VATReturn> vatReturns = query.list();
 
@@ -8389,7 +8389,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session
-				.getNamedQuery("getVATReturn.by.check.lessZeroBalance balance<0");
+				.getNamedQuery("getVATReturn.by.check.BalancelessThanzero");
 
 		List<VATReturn> vatReturns = query.list();
 

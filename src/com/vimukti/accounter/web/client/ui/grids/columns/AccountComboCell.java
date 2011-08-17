@@ -4,6 +4,8 @@ import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -11,13 +13,16 @@ import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.text.shared.SimpleSafeHtmlRenderer;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.VList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class AccountComboCell extends
-		AbstractEditableCell<ClientAccount, ClientAccount> {
+		AbstractEditableCell<String, ClientAccount> {
 
 	private static final int ESCAPE = 27;
 
@@ -28,30 +33,38 @@ public class AccountComboCell extends
 	private Element lastParent;
 	private int lastIndex;
 	private int lastColumn;
-	private ClientAccount lastValue;
+	private String lastValue;
 	private PopupPanel panel;
 	private final SafeHtmlRenderer<String> renderer;
-	private ValueUpdater<ClientAccount> valueUpdater;
+	private ValueUpdater<String> valueUpdater;
+	private boolean isAddNewRequired;
 
 	/**
 	 * Constructs a new AccountComboCell
+	 * 
+	 * @param accounts
+	 * @param isAddNewRequired
 	 */
-	public AccountComboCell() {
-		this(new VList<ClientAccount>(), SimpleSafeHtmlRenderer.getInstance());
+	public AccountComboCell(VList<ClientAccount> accounts,
+			boolean isAddNewRequired) {
+		this(accounts, isAddNewRequired, SimpleSafeHtmlRenderer.getInstance());
 	}
 
 	/**
 	 * Constructs a new AccountComboCell
 	 * 
+	 * @param accounts
+	 * @param isAddNewRequired
 	 * @param renderer
 	 *            a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
 	 */
 	public AccountComboCell(VList<ClientAccount> accounts,
-			SafeHtmlRenderer<String> renderer) {
+			boolean isAddNewRequired, SafeHtmlRenderer<String> renderer) {
 		super("click", "keydown");
 		if (renderer == null) {
 			throw new IllegalArgumentException("renderer == null");
 		}
+		this.setAddNewRequired(isAddNewRequired);
 		this.renderer = renderer;
 		this.table = new AccountComboTable(accounts);
 		this.panel = new PopupPanel(true, true) {
@@ -80,7 +93,13 @@ public class AccountComboCell extends
 				lastParent = null;
 			}
 		});
-		panel.add(table);
+
+		VerticalPanel vPanel = new VerticalPanel();
+		if (isAddNewRequired()) {
+			vPanel.add(getAddNewLabel());
+		}
+		vPanel.add(table);
+		panel.add(vPanel);
 
 		// FIXME
 		// Hide the panel and call valueUpdater.update when a date is selected
@@ -105,16 +124,28 @@ public class AccountComboCell extends
 		// });
 	}
 
+	private Anchor getAddNewLabel() {
+		Anchor addNew = new Anchor(Accounter.constants().newAccount());
+		addNew.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+			}
+		});
+		return addNew;
+	}
+
 	@Override
 	public boolean isEditing(Context context, Element parent,
-			ClientAccount value) {
+			String value) {
 		return lastKey != null && lastKey.equals(context.getKey());
 	}
 
 	@Override
 	public void onBrowserEvent(Context context, Element parent,
-			ClientAccount value, NativeEvent event,
-			ValueUpdater<ClientAccount> valueUpdater) {
+			String value, NativeEvent event,
+			ValueUpdater<String> valueUpdater) {
 		super.onBrowserEvent(context, parent, value, event, valueUpdater);
 		if ("click".equals(event.getType())) {
 			onEnterKeyDown(context, parent, value, event, valueUpdater);
@@ -122,7 +153,7 @@ public class AccountComboCell extends
 	}
 
 	@Override
-	public void render(Context context, ClientAccount value, SafeHtmlBuilder sb) {
+	public void render(Context context, String value, SafeHtmlBuilder sb) {
 		// Get the view data.
 		Object key = context.getKey();
 		ClientAccount viewData = getViewData(key);
@@ -135,7 +166,7 @@ public class AccountComboCell extends
 		if (viewData != null) {
 			s = viewData.getName();
 		} else if (value != null) {
-			s = value.getName();
+			s = value;
 		}
 		if (s != null) {
 			sb.append(renderer.render(s));
@@ -144,8 +175,8 @@ public class AccountComboCell extends
 
 	@Override
 	protected void onEnterKeyDown(Context context, Element parent,
-			ClientAccount value, NativeEvent event,
-			ValueUpdater<ClientAccount> valueUpdater) {
+			String value, NativeEvent event,
+			ValueUpdater<String> valueUpdater) {
 		this.lastKey = context.getKey();
 		this.lastParent = parent;
 		this.lastValue = value;
@@ -165,6 +196,14 @@ public class AccountComboCell extends
 						lastParent.getAbsoluteTop() + offsetY);
 			}
 		});
+	}
+
+	public boolean isAddNewRequired() {
+		return isAddNewRequired;
+	}
+
+	public void setAddNewRequired(boolean isAddNewRequired) {
+		this.isAddNewRequired = isAddNewRequired;
 	}
 
 }

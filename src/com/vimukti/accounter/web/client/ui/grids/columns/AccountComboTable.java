@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.VList;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class AccountComboTable extends CellTable<ClientAccount> {
 
@@ -34,14 +33,6 @@ public class AccountComboTable extends CellTable<ClientAccount> {
 
 			@Override
 			public String getValue(ClientAccount object) {
-				if (object.equals("emptyRow"))
-					return "    ";
-				else if (object.equals("addNewCaption")) {
-					if (cols > 1)
-						return (col == 1) ? getDefaultAddNewCaption() : "  ";
-					else
-						return getDefaultAddNewCaption();
-				}
 				return getColumnData(object, 0, col);
 			}
 
@@ -53,11 +44,12 @@ public class AccountComboTable extends CellTable<ClientAccount> {
 
 		switch (col) {
 		case 0:
-			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
-				return object.getNumber();
-			} else {
-				return null;
-			}
+			// if (ClientCompanyPreferences.get().getUseAccountNumbers() ==
+			// true) {
+			return object.getNumber();
+			// } else {
+			// return null;
+			// }
 		case 1:
 			return object.getName();
 		case 2:
@@ -66,10 +58,5 @@ public class AccountComboTable extends CellTable<ClientAccount> {
 			break;
 		}
 		return null;
-	}
-
-	public String getDefaultAddNewCaption() {
-
-		return Accounter.constants().newAccount();
 	}
 }

@@ -278,6 +278,7 @@ public class Accounter implements EntryPoint {
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
 		getCompany("");
+		// RootPanel.get().add(new TestTable());
 	}
 
 	public String getUserDisplayName() {

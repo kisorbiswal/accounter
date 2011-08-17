@@ -721,9 +721,14 @@
 		vr.transactionItem.transaction.id=? and vr.vatReturn is not null
 	</query>
 
-	<query name="getVATReturn.by.check.lessZeroBalance">
+	<query name="getVATReturn.by.check.BalanceGraterThanzero">
 		from com.vimukti.accounter.core.VATReturn v where
 		v.balance &gt;0
+	</query>
+	
+	<query name="getVATReturn.by.check.BalancelessThanzero">
+		from com.vimukti.accounter.core.VATReturn v where
+		v.balance &lt;0
 	</query>
 
 	<query name="getVATReturn.by.taxagencyandenddate">

@@ -26,11 +26,12 @@ public class VListDataProvider<T> extends ListDataProvider<T> implements
 	@Override
 	public void onAdd(T e) {
 		this.getList().add(e);
+		this.refresh();
 	}
 
 	@Override
 	public void onRemove(T e) {
 		this.getList().remove(e);
+		this.refresh();
 	}
-
 }

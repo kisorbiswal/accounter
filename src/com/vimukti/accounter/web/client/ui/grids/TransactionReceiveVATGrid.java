@@ -11,14 +11,14 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
-import com.vimukti.accounter.web.client.ui.vat.RecieveVATView;
+import com.vimukti.accounter.web.client.ui.vat.ReceiveVATView;
 
 public class TransactionReceiveVATGrid extends
 		AbstractTransactionGrid<ClientTransactionReceiveVAT> {
 	AccounterConstants accounterConstants = Accounter.constants();
 	private int[] columns = { ListGrid.COLUMN_TYPE_TEXT,
 			ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXTBOX };
-	private RecieveVATView receiveVATView;
+	private ReceiveVATView receiveVATView;
 
 	public TransactionReceiveVATGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
@@ -87,7 +87,7 @@ public class TransactionReceiveVATGrid extends
 	@Override
 	protected String[] getColumns() {
 		return new String[] { companyConstants.vatAgency(),
-				companyConstants.taxDue(), companyConstants.amountToPay() };
+				companyConstants.taxDue(), companyConstants.amountToReceive() };
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class TransactionReceiveVATGrid extends
 		return null;
 	}
 
-	public void setRecieveVATView(RecieveVATView receiveVATView) {
+	public void setRecieveVATView(ReceiveVATView receiveVATView) {
 		this.receiveVATView = receiveVATView;
 
 	}

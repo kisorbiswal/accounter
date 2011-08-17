@@ -2615,6 +2615,10 @@ public interface AccounterConstants extends Constants {
 	public String noRecordsSelected();
 
 	public String noRecordsToShow();
+	
+	public String noFiledVatEntriesToReceive();
+	
+	public String noFiledVatEntriesToPay();
 
 	public String norecordstoshowinbetweentheselecteddates();
 

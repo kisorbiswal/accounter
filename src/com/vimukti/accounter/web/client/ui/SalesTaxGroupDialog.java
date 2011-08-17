@@ -184,33 +184,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 		// Available Tax Codes Layout
 		// DynamicForm availForm = new DynamicForm();
 
-		availTaxItemsGrid = new DialogGrid(false);
-		// availTaxCodesGrid.setCellsWidth(cellsWidth)
-
-		availTaxItemsGrid.setName(Accounter.constants().available());
-		setAvailTaxItemsGridFields();
-		setAvalableTCGridCellWidths();
-		availTaxItemsGrid.setView(SalesTaxGroupDialog.this);
-		// getAvailableRecords();
-		availTaxItemsGrid.addRecordClickHandler(new GridRecordClickHandler() {
-
-			@Override
-			public boolean onRecordClick(IsSerializable core, int column) {
-				// TODO Auto-generated method stub
-				return true;
-			}
-		});
-		availTaxItemsGrid.init();
-		// availTaxCodesGrid.setWidth("80%");
-		// availTaxCodesGrid.setHeight("100%");
-
-		// Buttons Layout
-		VerticalPanel buttonsLayout = new VerticalPanel();
-		buttonsLayout.setWidth("100px");
-		buttonsLayout.setSpacing(3);
-		// buttonsLayout.setMembersMargin(10);
-		// buttonsLayout.setLayoutMargin(10);
-		Button addButton = new Button(Accounter.constants().add());
+		addButton = new Button(Accounter.constants().add());
 		addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -224,6 +198,11 @@ public class SalesTaxGroupDialog extends BaseDialog {
 					availTaxItemsGrid.deleteRecord(gridRecord);
 					if (tempAvailTaxItemList != null)
 						tempAvailTaxItemList.remove(gridRecord);
+					if (availTaxItemsGrid.getRecords() == null
+							|| availTaxItemsGrid.getRecords().size() == 0
+							|| availTaxItemsGrid.getSelection() == null) {
+						addButton.setEnabled(false);
+					}
 
 				} else {
 
@@ -234,8 +213,9 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 			}
 		});
+		addButton.setEnabled(false);
 
-		Button removeButton = new Button(Accounter.constants().remove());
+		removeButton = new Button(Accounter.constants().remove());
 		removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -247,6 +227,11 @@ public class SalesTaxGroupDialog extends BaseDialog {
 					availTaxItemsGrid.addData(gridRecord);
 					if (tempAvailTaxItemList != null)
 						tempAvailTaxItemList.add(gridRecord);
+					if (selectTaxItemsGrid.getRecords() == null
+							|| selectTaxItemsGrid.getRecords().size() == 0
+							|| selectTaxItemsGrid.getSelection() == null) {
+						removeButton.setEnabled(false);
+					}
 				} else {
 
 					Accounter.showError(Accounter.constants()
@@ -256,6 +241,34 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 			}
 		});
+		removeButton.setEnabled(false);
+
+		availTaxItemsGrid = new DialogGrid(false);
+		// availTaxCodesGrid.setCellsWidth(cellsWidth)
+
+		availTaxItemsGrid.setName(Accounter.constants().available());
+		setAvailTaxItemsGridFields();
+		setAvalableTCGridCellWidths();
+		availTaxItemsGrid.setView(SalesTaxGroupDialog.this);
+		// getAvailableRecords();
+		availTaxItemsGrid.addRecordClickHandler(new GridRecordClickHandler() {
+
+			@Override
+			public boolean onRecordClick(IsSerializable core, int column) {
+				addButton.setEnabled(true);
+				return true;
+			}
+		});
+		availTaxItemsGrid.init();
+		// availTaxCodesGrid.setWidth("80%");
+		// availTaxCodesGrid.setHeight("100%");
+
+		// Buttons Layout
+		VerticalPanel buttonsLayout = new VerticalPanel();
+		buttonsLayout.setWidth("100px");
+		buttonsLayout.setSpacing(3);
+		// buttonsLayout.setMembersMargin(10);
+		// buttonsLayout.setLayoutMargin(10);
 
 		buttonsLayout.add(addButton);
 		buttonsLayout.add(removeButton);
@@ -273,7 +286,7 @@ public class SalesTaxGroupDialog extends BaseDialog {
 
 			@Override
 			public boolean onRecordClick(IsSerializable core, int column) {
-				// TODO Auto-generated method stub
+				removeButton.setEnabled(true);
 				return true;
 			}
 		});
