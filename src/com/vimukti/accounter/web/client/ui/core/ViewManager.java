@@ -188,6 +188,7 @@ public class ViewManager extends VerticalPanel {
 		String token = action.getHistoryToken();
 
 		if (newview.getManager() == null) {
+			newview.setPreferences(Accounter.getCompany().getPreferences());
 			if (input != null) {
 				newview.setData(input);
 			}

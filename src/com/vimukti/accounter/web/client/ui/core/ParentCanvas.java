@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 public abstract class ParentCanvas<T> extends VerticalPanel {
 
@@ -13,6 +14,8 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 	 */
 
 	protected T data;
+	
+	private ClientCompanyPreferences preferences;
 
 	private ViewManager manager;
 
@@ -107,5 +110,15 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 	public void setManager(ViewManager manager) {
 		this.manager = manager;
 	}
+
+	public ClientCompanyPreferences getPreferences() {
+		return preferences;
+	}
+
+	public void setPreferences(ClientCompanyPreferences preferences) {
+		this.preferences = preferences;
+	}
+	
+	
 
 }
