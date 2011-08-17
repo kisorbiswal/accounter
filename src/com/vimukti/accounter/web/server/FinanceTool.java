@@ -4,7 +4,6 @@
 package com.vimukti.accounter.web.server;
 
 import java.io.NotSerializableException;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
@@ -133,6 +132,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsEntry;
@@ -10100,7 +10100,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List list = session.getNamedQuery("get.All.Units").list();
 
-		List<ClientUnit> units = new ArrayList<ClientUnit>();
+		VList<ClientUnit> units = new VList<ClientUnit>();
 		Iterator iterator = list.iterator();
 		while (iterator.hasNext()) {
 			Unit unit = (Unit) iterator.next();
@@ -11686,10 +11686,10 @@ public class FinanceTool implements IFinanceDAOService {
 	 * @return
 	 * @throws AccounterException
 	 */
-	public List<ClientUserInfo> getAllEmployees() throws AccounterException {
+	public VList<ClientUserInfo> getAllEmployees() throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<User> financeUsers = session.getNamedQuery("list.User").list();
-		List<ClientUserInfo> employees = new ArrayList<ClientUserInfo>();
+		VList<ClientUserInfo> employees = new VList<ClientUserInfo>();
 		for (User user : financeUsers) {
 			if (!user.isDeleted()) {
 				ClientUser clientUser = new ClientConvertUtil().toClientObject(
