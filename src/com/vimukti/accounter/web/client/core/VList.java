@@ -238,12 +238,12 @@ public class VList<E> extends ArrayList<E> {
 	public boolean remove(Object e) {
 		boolean result = super.remove(e);
 		for (ListListener<E> listener : listeners) {
-			listener.onRemove(e);
+			listener.onRemove((E) e);
 		}
 		Set<ListFilter<E>> keySet = filterListeners.keySet();
 		for (ListFilter<E> key : keySet) {
 			ListListener<E> listener = filterListeners.get(key);
-			listener.onRemove(e);
+			listener.onRemove((E) e);
 		}
 		return result;
 	}

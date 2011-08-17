@@ -4,5 +4,5 @@ public interface ListListener<E> {
 	
 	public void onAdd(E e);
 
-	public void onRemove(Object e);
+	public void onRemove(E e);
 }
