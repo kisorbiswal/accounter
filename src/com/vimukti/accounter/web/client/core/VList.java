@@ -2,12 +2,12 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gwt.dev.util.collect.HashMap;
 
 public class VList<E> extends ArrayList<E> {
 	/**
