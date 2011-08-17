@@ -51,7 +51,6 @@ import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerPaymentView;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
-import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
@@ -368,7 +367,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		dateItem.setDisabled(isEdit);
 
-		formItems.add(dateItem);
+		// formItems.add(dateItem);
 
 		return dateItem;
 
@@ -387,7 +386,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		item.setDisabled(isEdit);
 
-		formItems.add(item);
+		// formItems.add(item);
 
 		if (UIUtils.isMSIEBrowser())
 			item.setWidth("150px");
@@ -400,7 +399,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		TextItem refText = new TextItem(Accounter.constants().reference());
 		refText.setHelpInformation(true);
-		formItems.add(refText);
+		// formItems.add(refText);
 
 		return refText;
 
@@ -449,7 +448,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// memoArea.setRowSpan(2);
 		// memoArea.setColSpan(3);
 
-		formItems.add(memoArea);
+		// formItems.add(memoArea);
 
 		return memoArea;
 
@@ -626,7 +625,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					}
 				});
 		paymentMethodSelect.setDisabled(isEdit);
-		formItems.add(paymentMethodSelect);
+		// formItems.add(paymentMethodSelect);
 
 		return paymentMethodSelect;
 
@@ -667,12 +666,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	@Override
 	public void disableUserEntry() {
 
-		if (this.formItems != null) {
-
-			for (FormItem item : formItems) {
-				// item.disable();
-			}
-		}
+		// if (this.formItems != null) {
+		//
+		// for (FormItem item : formItems) {
+		// // item.disable();
+		// }
+		// }
 	}
 
 	// public void setShowPriceWithVat(boolean showPriceWithVat) {
@@ -1145,7 +1144,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				});
 		payFromCombo.setDisabled(isEdit);
 		// payFromCombo.setShowDisabled(false);
-		formItems.add(payFromCombo);
+		// formItems.add(payFromCombo);
 		return payFromCombo;
 	}
 
