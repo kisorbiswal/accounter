@@ -58,34 +58,37 @@ public class VList<E> extends ArrayList<E> {
 				filteredList.add(e);
 			}
 		}
-		final DummyListener<E> newListListener = null;
-		final DummyListener<E> thisListListener = new DummyListener<E>() {
+
+		DummyListener<E> thisListListener = new DummyListener<E>() {
 
 			@Override
 			public void onAdd(E e) {
-				filteredList.addInternal(e, newListListener.getExcept());
+				filteredList.addInternal(e, getExcept());
 			}
 
 			@Override
 			public void onRemove(Object e) {
-				filteredList.removeInternal(e, newListListener.getExcept());
-
+				filteredList.removeInternal(e, getExcept());
 			}
 		};
 
-		newListListener.setExcept(new DummyListener<E>() {
+		DummyListener<E> newListListener = new DummyListener<E>() {
 
 			@Override
 			public void onAdd(E e) {
-				addInternal(e, null);
+				addInternal(e, getExcept());
 			}
 
 			@Override
 			public void onRemove(Object e) {
-				removeInternal(e, null);
+				removeInternal(e, getExcept());
 			}
-		});
-		filteredList.addListener(newListListener.getExcept());
+		};
+
+		thisListListener.setExcept(newListListener);
+		newListListener.setExcept(thisListListener);
+
+		filteredList.addListener(newListListener);
 
 		this.addListener(listFilter, thisListListener);
 		return filteredList;
@@ -316,14 +319,14 @@ public class VList<E> extends ArrayList<E> {
 		}
 	}
 
-	abstract class DummyListener<E> implements ListListener<E> {
-		private ListListener<E> except;
+	abstract class DummyListener<EE> implements ListListener<EE> {
+		private ListListener<EE> except;
 
-		public ListListener<E> getExcept() {
+		public ListListener<EE> getExcept() {
 			return except;
 		}
 
-		public void setExcept(ListListener<E> except) {
+		public void setExcept(ListListener<EE> except) {
 			this.except = except;
 		}
 	}
