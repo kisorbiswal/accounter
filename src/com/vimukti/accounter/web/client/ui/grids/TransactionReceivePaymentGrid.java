@@ -749,6 +749,7 @@ public class TransactionReceivePaymentGrid extends
 		updateData(obj);
 		// currentCol = canEdit ? 8 : 6;
 		// currentRow = indexOf(obj);
+
 	}
 
 	private void setAccountDefaultValues(ClientTransactionReceivePayment obj) {
@@ -886,6 +887,12 @@ public class TransactionReceivePaymentGrid extends
 			resetValue(obj);
 		}
 		super.onSelectionChanged(obj, row, isChecked);
+
+		double toBeSetAmount = 0.0;
+		for (ClientTransactionReceivePayment receivePayment : getSelectedRecords()) {
+			toBeSetAmount = receivePayment.getPayment();
+		}
+		paymentView.amtText.setValue("" + toBeSetAmount);
 	}
 
 	public void updateUnuseAmt() {
