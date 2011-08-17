@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -29,10 +31,10 @@ public class WriteChecksAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isEditable) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
+			@Override
+			public void onSuccess() {
 				WriteChequeView view = WriteChequeView.getInstance();
 
 				MainFinanceWindow.getViewManager().showView(view, data,
@@ -40,6 +42,12 @@ public class WriteChecksAction extends Action {
 
 			}
 
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
+			}
 		});
 	}
 
