@@ -278,11 +278,13 @@ public class SessionUtils {
 	}
 
 	private static boolean isList(Class<?> fieldType) {
-		if (fieldType.getName().equals("java.util.List")) {
+		if (fieldType.getName().endsWith(
+				"com.vimukti.accounter.web.client.core.VList")) {
 			return true;
 		}
 		for (Class<?> inter : fieldType.getInterfaces()) {
-			if (inter.getName().equals("java.util.List")) {
+			if (inter.getName().endsWith(
+					"com.vimukti.accounter.web.client.core.VList")) {
 				return true;
 			}
 		}
