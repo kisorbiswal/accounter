@@ -151,12 +151,14 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		button1.setFocus(true);
 		bodyLayout.add(grid);
+		bodyLayout.setCellWidth(grid, "90%");
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
 		VerticalPanel mainVlay = new VerticalPanel();
 		mainVlay.add(lab);
 		mainVlay.add(bodyLayout);
 		mainVlay.add(itemsGrid);
+		mainVlay.setWidth("100%");
 		this.add(mainVlay);
 
 		grid.addRecordClickHandler(new RecordClickHandler<ClientTAXGroup>() {
