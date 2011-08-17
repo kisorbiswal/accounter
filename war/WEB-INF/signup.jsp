@@ -434,7 +434,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
   
 </div>
 <div>
-<label>I already have an account. <a href="/login" style="color: #CC0000">Login</a></label>
+<label><a href="/login" style="color: #CC0000">I already have an account</a></label>
 </div>
 	
 
