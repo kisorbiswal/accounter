@@ -890,7 +890,7 @@ public class TransactionReceivePaymentGrid extends
 
 		double toBeSetAmount = 0.0;
 		for (ClientTransactionReceivePayment receivePayment : getSelectedRecords()) {
-			toBeSetAmount = receivePayment.getPayment();
+			toBeSetAmount += receivePayment.getPayment();
 		}
 		paymentView.amtText.setValue("" + toBeSetAmount);
 	}
