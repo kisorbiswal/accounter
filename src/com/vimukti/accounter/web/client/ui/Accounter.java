@@ -30,7 +30,6 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -54,9 +53,9 @@ public class Accounter implements EntryPoint {
 
 	private static MainFinanceWindow mainWindow;
 	protected ValueCallBack<Accounter> callback;
-	private ClientFinanceDate endDate;
+	private static ClientFinanceDate endDate;
 	private static PlaceController placeController;
-	private static SetupWizard setupWizard;
+	public static SetupWizard setupWizard;
 
 	private static ClientUser user = null;
 	private static ClientCompany company = null;
@@ -83,7 +82,7 @@ public class Accounter implements EntryPoint {
 	private static ThemeImages themeImages;
 	private static ClientFinanceDate startDate;
 
-	public void getCompany(String name) {
+	public static void loadCompany() {
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
 				.create(IAccounterGETService.class);
 		((ServiceDefTarget) getService)
@@ -111,13 +110,27 @@ public class Accounter implements EntryPoint {
 
 				// and, now we are ready to start the application.
 				removeLoadingImage();
-				
+
 				if (!company.isConfigured()) {
-					setupWizard = new SetupWizard();
+					setupWizard = new SetupWizard(new AsyncCallback<Boolean>() {
+						@Override
+						public void onSuccess(Boolean result) {
+							if (result) {
+								RootPanel.get("mainWindow").remove(setupWizard);
+								loadCompany();
+							}
+						}
+
+						@Override
+						public void onFailure(Throwable caught) {
+							Accounter.showError("Accounter Loading Failed");
+						}
+					});
+
 					RootPanel.get("mainWindow").add(setupWizard);
-					return;
+				} else {
+					initGUI();
 				}
-				initGUI();
 
 			}
 
@@ -142,30 +155,9 @@ public class Accounter implements EntryPoint {
 		company = c;
 	}
 
-	private void initGUI() {
-		// setupWizard = new SetupWizard();
-		// RootPanel.get("mainWindow").add(setupWizard);
+	private static void initGUI() {
 		mainWindow = new MainFinanceWindow();
 		RootPanel.get("mainWindow").add(mainWindow);
-	}
-
-	public static void loadAccounter(ClientCompanyPreferences preferences) {
-		cIService = createCompanyInitializationService();
-		cIService.initalizeCompany(preferences, new AsyncCallback<Boolean>() {
-			@Override
-			public void onSuccess(Boolean result) {
-				if (result) {
-					RootPanel.get("mainWindow").remove(setupWizard);
-					mainWindow = new MainFinanceWindow();
-					RootPanel.get("mainWindow").add(mainWindow);
-				}
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Accounter.showError("Accounter Loading Failed");
-			}
-		});
 	}
 
 	public static IAccounterCompanyInitializationServiceAsync createCompanyInitializationService() {
@@ -291,7 +283,7 @@ public class Accounter implements EntryPoint {
 	public void onModuleLoad() {
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
-		getCompany("");
+		loadCompany();
 	}
 
 	public String getUserDisplayName() {
@@ -313,7 +305,7 @@ public class Accounter implements EntryPoint {
 		ERROR, WARNING, WARNINGWITHCANCEL, INFORMATION;
 	}
 
-	private native void removeLoadingImage() /*-{
+	private static native void removeLoadingImage() /*-{
 		var parent = $wnd.document.getElementById('loadingWrapper');
 		parent.style.visibility = 'hidden';
 	}-*/;
