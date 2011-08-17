@@ -38,8 +38,8 @@ public class ARAgingDetailAction extends Action {
 
 			@Override
 			public void onFailure(Throwable arg0) {
-				// TODO Auto-generated method stub
-
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
 			}
 		});
 	}
