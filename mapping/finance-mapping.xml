@@ -585,7 +585,7 @@
 		<property name="faxNo" column="FAX_NO"></property>
 		<property name="email" column="EMAIL"></property>
 		<property name="webPageAddress" column="WEB_PAGE_ADDRESS"></property>
-		<component name="address" class="Address" lazy="false">
+		<component name="address" class="Address" lazy="false" >
 			<property name="type" column="TYPE" ></property>
 			<property name="address1" column="ADDRESS1" 
 				length="100"></property>
@@ -598,7 +598,7 @@
 				length="100"></property>
 			<property name="countryOrRegion" column="COUNTRY" 
 				length="100"></property>
-			<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
+			<property name="isSelected" column="IS_SELECTED" ></property>
 		</component>
 
 			<many-to-one name="createdBy" column="CREATED_BY" class="User"
