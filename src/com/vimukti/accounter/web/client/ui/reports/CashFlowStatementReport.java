@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.CashFlowStatementServerReport;
 
-
 public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
 
 	public CashFlowStatementReport() {
@@ -19,8 +18,12 @@ public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record,
-				ActionFactory.getTransactionDetailByAccountAction());
+		if (record.getID() != 0) {
+			UIUtils.runAction(record,
+					ActionFactory.getTransactionDetailByAccountAction());
+		} else {
+			UIUtils.runAction(record, ActionFactory.getProfitAndLossAction());
+		}
 	}
 
 	@Override
@@ -33,8 +36,6 @@ public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
 		Accounter.createReportService().getCashFlowReport(start, end, this);
 
 	}
-
-
 
 	@Override
 	public void onEdit() {

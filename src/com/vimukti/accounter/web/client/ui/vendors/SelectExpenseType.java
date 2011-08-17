@@ -95,8 +95,6 @@ public class SelectExpenseType extends BaseDialog {
 				ActionFactory.CreditCardExpenseAction().run(null, false);
 			} else if (radio.equals(CASH)) {
 				ActionFactory.CashExpenseAction().run(null, false);
-			} else if (radio.equals(EMPLOYEE)) {
-				ActionFactory.EmployeeExpenseAction().run(null, false);
 			} else {
 				Accounter.showError(Accounter.constants()
 						.pleaseSelectExpenseType());

@@ -134,9 +134,12 @@ public class BillListView extends BaseListView<BillsList> {
 			List<BillsList> openRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
-				if (rec.getType() == ClientTransaction.TYPE_ENTER_BILL
-						|| rec.getType() == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO
-						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
+				if ((rec.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
+						|| rec.getType() == ClientTransaction.TYPE_CASH_EXPENSE || rec
+						.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
+						|| ((rec.getType() == ClientTransaction.TYPE_ENTER_BILL || rec
+								.getType() == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) && DecimalUtil
+								.isGreaterThan(rec.getBalance(), 0))) {
 					if (!rec.isDeleted() && !rec.isVoided())
 						openRecs.add(rec);
 				}
