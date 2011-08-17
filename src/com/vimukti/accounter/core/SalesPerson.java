@@ -97,8 +97,8 @@ public class SalesPerson extends CreatableObject implements
 	 */
 	FinanceDate dateOfRelease;
 
-	String createdBy;
-	String lastModifier;
+//	String createdBy;
+//	String lastModifier;
 
 	private boolean isActive;
 	private String memo;
