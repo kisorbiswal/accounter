@@ -251,6 +251,16 @@
 		<url-pattern>/do.comet/simplepoll</url-pattern>
 	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>iAccounterCIImpl</servlet-name>
+		<url-pattern>/do/accounter/ci/rpc/service </url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>iAccounterCIImpl</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl
+		</servlet-class>
+	</servlet>
 	<servlet>
 		<servlet-name>iAccounterImpl</servlet-name>
 		<servlet-class>
