@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -24,38 +26,27 @@ public class AccountRegisterAction extends Action {
 		this.catagory = Accounter.constants().banking();
 	}
 
-
 	@Override
 	public void run() {
 		runAsync(data, isDependent);
 	}
 
 	public void runAsync(final Object data, final Boolean isEditable) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				try {
-					account = (ClientAccount) data;
-					// if (account.getType() == ClientAccount.TYPE_CREDIT_CARD
-					// || account.getType() == ClientAccount.TYPE_BANK) {
-					// MainFinanceWindow.getViewManager().showView(
-					// new AccountRegisterView(account), data,
-					// isEditable, AccountRegisterAction.this);
-					// } else {
-					MainFinanceWindow.getViewManager().showView(
-							new AccountRegisterOthersView(account), data,
-							isEditable, AccountRegisterAction.this);
-					// }
-
-				} catch (Throwable e) {
-					onCreateFailed(e);
-				}
-
+			@Override
+			public void onSuccess() {
+				account = (ClientAccount) data;
+				MainFinanceWindow.getViewManager().showView(
+						new AccountRegisterOthersView(account), data,
+						isEditable, AccountRegisterAction.this);
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Account Register....", t);
+			@Override
+			public void onFailure(Throwable arg0) {
+				Accounter
+						.showError(Accounter.constants().unableToshowtheview());
+
 			}
 		});
 	}
