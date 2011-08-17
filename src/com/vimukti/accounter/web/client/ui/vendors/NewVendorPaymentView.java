@@ -126,9 +126,10 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(UIUtils
-				.getVendorString(Accounter.constants().supplierPrePayment(),
-						Accounter.constants().vendorPrePayment())
+		Label lab1 = new Label(
+				UIUtils.getVendorString(Accounter.constants()
+						.supplierPrePayment(), Accounter.constants()
+						.vendorPrePayment())
 		// + "(" + getTransactionStatus() + ") "
 		);
 		lab1.setStyleName(Accounter.constants().labelTitle());
@@ -224,8 +225,8 @@ public class NewVendorPaymentView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
 						checkNo.setValue(Accounter.constants().toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
@@ -246,8 +247,7 @@ public class NewVendorPaymentView extends
 			}
 		});
 		checkNo = createCheckNumberItem(getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-				.constants().chequeNo()
-				: Accounter.constants().checkNo());
+				.constants().chequeNo() : Accounter.constants().checkNo());
 		checkNo.setValue(Accounter.constants().toBePrinted());
 		checkNo.setWidth(100);
 		checkNo.setDisabled(true);
@@ -279,8 +279,7 @@ public class NewVendorPaymentView extends
 
 		endBalText
 				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getCurrentBalance()
-						: 0.00);
+						.getSelectedValue().getCurrentBalance() : 0.00);
 
 		payForm.setCellSpacing(5);
 		payForm.setWidth("100%");
@@ -334,56 +333,60 @@ public class NewVendorPaymentView extends
 
 		updateTransaction();
 		super.saveAndUpdateView();
-		transaction.setType(ClientTransaction.TYPE_PAY_BILL);
+		if (transaction != null) {
+			transaction.setType(ClientTransaction.TYPE_PAY_BILL);
 
-		saveOrUpdate(transaction);
+			saveOrUpdate(transaction);
+		}
 
 	}
 
 	protected void updateTransaction() {
 		super.updateTransaction();
-		transaction.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
+		if (transaction != null) {
+			transaction.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
 
-		if (getVendor() != null)
-			transaction.setVendor(getVendor());
+			if (getVendor() != null)
+				transaction.setVendor(getVendor());
 
-		if (billingAddress != null)
-			transaction.setAddress(billingAddress);
+			if (billingAddress != null)
+				transaction.setAddress(billingAddress);
 
-		transaction.setPayFrom(payFromAccount);
+			transaction.setPayFrom(payFromAccount);
 
-		// adjustBalance();
-		transaction.setTotal(enteredBalance);
+			// adjustBalance();
+			transaction.setTotal(enteredBalance);
 
-		transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
+			transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
 
-		if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
-			String value;
-			if (checkNo.getValue().toString().equalsIgnoreCase(
-					Accounter.constants().toBePrinted())) {
-				value = String.valueOf(Accounter.constants().toBePrinted());
+			if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
+				String value;
+				if (checkNo.getValue().toString()
+						.equalsIgnoreCase(Accounter.constants().toBePrinted())) {
+					value = String.valueOf(Accounter.constants().toBePrinted());
+				} else {
+					value = String.valueOf(checkNo.getValue());
+				}
+				transaction.setCheckNumber(value);
 			} else {
-				value = String.valueOf(checkNo.getValue());
+				transaction.setCheckNumber("");
 			}
-			transaction.setCheckNumber(value);
-		} else {
-			transaction.setCheckNumber("");
+			printCheck.setValue(transaction.isToBePrinted());
+
+			// Setting Memo
+			transaction.setMemo(getMemoTextAreaItem());
+
+			// Setting Ref
+			// transaction.setReference(getRefText());
+
+			transaction.setEndingBalance(toBeSetEndingBalance);
+
+			transaction.setVendorBalance(toBeSetVendorBalance);
+
+			// Setting UnusedAmount
+			transaction.setUnusedAmount(amountText.getAmount());
+
 		}
-		printCheck.setValue(transaction.isToBePrinted());
-
-		// Setting Memo
-		transaction.setMemo(getMemoTextAreaItem());
-
-		// Setting Ref
-		// transaction.setReference(getRefText());
-
-		transaction.setEndingBalance(toBeSetEndingBalance);
-
-		transaction.setVendorBalance(toBeSetVendorBalance);
-
-		// Setting UnusedAmount
-		transaction.setUnusedAmount(amountText.getAmount());
-
 	}
 
 	@Override
@@ -490,12 +493,12 @@ public class NewVendorPaymentView extends
 		// 3. pay form valid?
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(payForm.validate());
 
