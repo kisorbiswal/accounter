@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -362,10 +361,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 			ClientUser clientUser = (ClientUser) data;
 
-			User user = (User)session.get(User.class, clientUser.getID());
+			User user = (User) session.get(User.class, clientUser.getID());
 
-			new ServerConvertUtil().toServerObject(user, (IAccounterCore) clientUser,
-					session);
+			new ServerConvertUtil().toServerObject(user,
+					(IAccounterCore) clientUser, session);
 			canEdit(user, data);
 			session.flush();
 			session.saveOrUpdate(user);
@@ -881,12 +880,12 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public <T extends IAccounterCore> ArrayList<T> getObjects(
+	public <T extends IAccounterCore> VList<T> getObjects(
 			AccounterCoreType type) throws DAOException, AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		List<T> clientObjects = new ArrayList<T>();
+		List<T> clientObjects = new VList<T>();
 
 		Class<?> serverClass = getClientEquivalentServerClass(type);
 
@@ -910,7 +909,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		}
 
-		ArrayList<T> arrayList = new ArrayList<T>(clientObjects);
+		VList<T> arrayList = new VList<T>(clientObjects);
 		return arrayList;
 
 	}
@@ -1022,7 +1021,7 @@ public class FinanceTool implements IFinanceDAOService {
 	public void alterFiscalYear(FiscalYear fiscalYear) throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-			List<FiscalYear> list = new ArrayList<FiscalYear>();
+			List<FiscalYear> list = new VList<FiscalYear>();
 			if (fiscalYear.getStartDate().equals(
 					fiscalYear.getPreviousStartDate())) {
 				session.saveOrUpdate(fiscalYear);
@@ -1133,7 +1132,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 */
 
 	@Override
-	public ArrayList<EnterBill> getBillsOwed() throws DAOException {
+	public VList<EnterBill> getBillsOwed() throws DAOException {
 		// Session session = getSessionFactory().openSession();
 		// Query query = session.createSQLQuery(
 		// "SELECT E.ID, E.VERSION, E.CREATED_DATE, E.MODIFIED_ON, E.VENDOR_ID, E.CONTACT_ID, E.VENDOR_ADDRESS_ID, E.PHONE, E.PAYMENT_TERM_ID, E.DUE_DATE, E.DELIVERY_DATE, E.MEMO, E.REFERENCE, E.TOTAL, E.PAYMENTS, E.BALANCE_DUE, E.ACCOUNTS_PAYABLE_ID FROM ENTER_BILL  E WHERE E.DUE_DATE <= CURRENT_DATE AND E.BALANCE_DUE>0.0"
@@ -1142,7 +1141,7 @@ public class FinanceTool implements IFinanceDAOService {
 		//
 		//
 		// Iterator iterator = query.list().iterator();
-		// List<EnterBill> list = new ArrayList<EnterBill>();
+		// List<EnterBill> list = new VList<EnterBill>();
 		// while(iterator.hasNext()){
 		// list.add((EnterBill)iterator.next());
 		// }
@@ -1169,7 +1168,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<BillsList> getBillsList(boolean isExpensesList)
+	public VList<BillsList> getBillsList(boolean isExpensesList)
 			throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -1179,7 +1178,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<BillsList> queryResult = new ArrayList<BillsList>();
+				List<BillsList> queryResult = new VList<BillsList>();
 				while ((iterator).hasNext()) {
 
 					BillsList billsList = new BillsList();
@@ -1210,7 +1209,7 @@ public class FinanceTool implements IFinanceDAOService {
 							queryResult.add(billsList);
 					}
 				}
-				return new ArrayList<BillsList>(queryResult);
+				return new VList<BillsList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1220,7 +1219,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<IssuePaymentTransactionsList> getChecks()
+	public VList<IssuePaymentTransactionsList> getChecks()
 			throws DAOException {
 
 		// Session session = getSessionFactory().openSession();
@@ -1228,13 +1227,13 @@ public class FinanceTool implements IFinanceDAOService {
 		// " SELECT WC.ID, WC.VERSION, WC.CREATED_DATE, WC.MODIFIED_ON, WC.KEY, WC.PAY_TO_TYPE, WC.ACCOUNT_ID, WC.CUSTOMER_ID, WC.VENDOR_ID, WC.TAX_AGENCY_ID, WC.ADDRESS_ID, WC.AMOUNT, WC.TOTAL, WC.MEMO FROM WRITE_CHECKS WC JOIN TRANSACTION  T ON T.ID = WC.ID AND T.STATUS = 0"
 		// ).toString());
 		// Iterator iterator = query.list().iterator();
-		// List<WriteCheck> list = new ArrayList<WriteCheck>();
+		// List<WriteCheck> list = new VList<WriteCheck>();
 		// while(iterator.hasNext()){
 		// list.add((WriteCheck)iterator.next());
 		// }
 
 		Session session = HibernateUtil.getCurrentSession();
-		List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new ArrayList<IssuePaymentTransactionsList>();
+		List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new VList<IssuePaymentTransactionsList>();
 		Query query = session.getNamedQuery("getWriteCheck.by.status")
 				.setParameter(0,
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
@@ -1387,7 +1386,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 
 		if (issuePaymentTransactionsList != null) {
-			return new ArrayList<IssuePaymentTransactionsList>(
+			return new VList<IssuePaymentTransactionsList>(
 					issuePaymentTransactionsList);
 		} else
 			throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -1395,7 +1394,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<IssuePaymentTransactionsList> getChecks(long account)
+	public VList<IssuePaymentTransactionsList> getChecks(long account)
 			throws DAOException {
 		try {
 			// Session session = getSessionFactory().openSession();
@@ -1404,13 +1403,13 @@ public class FinanceTool implements IFinanceDAOService {
 			// ).append(accountid).append(" AND T.STATUS = 0").toString());
 			// // query.setLong(1, accountid);
 			// Iterator iterator = query.list().iterator();
-			// List<WriteCheck> list = new ArrayList<WriteCheck>();
+			// List<WriteCheck> list = new VList<WriteCheck>();
 			// while(iterator.hasNext()){
 			// list.add((WriteCheck)iterator.next());
 			// }
 
 			Session session = HibernateUtil.getCurrentSession();
-			List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new ArrayList<IssuePaymentTransactionsList>();
+			List<IssuePaymentTransactionsList> issuePaymentTransactionsList = new VList<IssuePaymentTransactionsList>();
 			Query query = session
 					.getNamedQuery("getWriteCheck.by.bankacountIdandstatus")
 					.setParameter(0, account)
@@ -1682,7 +1681,7 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 
 			if (issuePaymentTransactionsList != null) {
-				return new ArrayList<IssuePaymentTransactionsList>(
+				return new VList<IssuePaymentTransactionsList>(
 						issuePaymentTransactionsList);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -1693,7 +1692,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<CreditCardCharge> getCreditCardChargesThisMonth(
+	public VList<CreditCardCharge> getCreditCardChargesThisMonth(
 			final long date) throws DAOException {
 		// SELECT * from com.vimukti.accounter.core.CREDIT_CARD_CHARGES CCC JOIN
 		// TRANSACTION T ON T.ID =
@@ -1721,16 +1720,16 @@ public class FinanceTool implements IFinanceDAOService {
 						.append(month).append(" AND YEAR(T.T_DATE) = ")
 						.append(month).toString());
 		Iterator iterator = query.list().iterator();
-		List<CreditCardCharge> list = new ArrayList<CreditCardCharge>();
+		List<CreditCardCharge> list = new VList<CreditCardCharge>();
 		while (iterator.hasNext()) {
 			list.add((CreditCardCharge) iterator.next());
 		}
 
-		return new ArrayList<CreditCardCharge>(list);
+		return new VList<CreditCardCharge>(list);
 	}
 
 	@Override
-	public ArrayList<CreditsAndPayments> getCustomerCreditsAndPayments(
+	public VList<CreditsAndPayments> getCustomerCreditsAndPayments(
 			long customer) throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -1741,7 +1740,7 @@ public class FinanceTool implements IFinanceDAOService {
 			List list = query.list();
 
 			if (list != null) {
-				return new ArrayList<CreditsAndPayments>(list);
+				return new VList<CreditsAndPayments>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1751,13 +1750,13 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<CustomerRefundsList> getCustomerRefundsList()
+	public VList<CustomerRefundsList> getCustomerRefundsList()
 			throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
 
-			List<CustomerRefundsList> customerRefundsList = new ArrayList<CustomerRefundsList>();
+			List<CustomerRefundsList> customerRefundsList = new VList<CustomerRefundsList>();
 			Query query = session.getNamedQuery("getCustomerRefund");
 			List list = query.list();
 
@@ -1817,7 +1816,7 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 
 			if (customerRefundsList != null) {
-				return new ArrayList<CustomerRefundsList>(customerRefundsList);
+				return new VList<CustomerRefundsList>(customerRefundsList);
 			} else
 				throw new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null);
@@ -1827,7 +1826,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Entry> getEntries(long journalEntryId) throws DAOException {
+	public VList<Entry> getEntries(long journalEntryId) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -1837,7 +1836,7 @@ public class FinanceTool implements IFinanceDAOService {
 			List<Entry> list = query.list();
 
 			if (list != null) {
-				return new ArrayList<Entry>(list);
+				return new VList<Entry>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1847,7 +1846,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Estimate> getEstimates() throws DAOException {
+	public VList<Estimate> getEstimates() throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 
@@ -1855,7 +1854,7 @@ public class FinanceTool implements IFinanceDAOService {
 			List<Estimate> list = query.list();
 
 			if (list != null) {
-				return new ArrayList<Estimate>(list);
+				return new VList<Estimate>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1865,7 +1864,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Estimate> getEstimates(long customer) throws DAOException {
+	public VList<Estimate> getEstimates(long customer) throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -1875,7 +1874,7 @@ public class FinanceTool implements IFinanceDAOService {
 			List<Estimate> list = query.list();
 
 			if (list != null) {
-				return new ArrayList<Estimate>(list);
+				return new VList<Estimate>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1885,7 +1884,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<InvoicesList> getInvoiceList() throws DAOException {
+	public VList<InvoicesList> getInvoiceList() throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			// FIXME :: query optimization
@@ -1895,7 +1894,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<InvoicesList> queryResult = new ArrayList<InvoicesList>();
+				List<InvoicesList> queryResult = new VList<InvoicesList>();
 				while ((iterator).hasNext()) {
 
 					InvoicesList invoicesList = new InvoicesList();
@@ -1921,7 +1920,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					queryResult.add(invoicesList);
 				}
-				return new ArrayList<InvoicesList>(queryResult);
+				return new VList<InvoicesList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1931,7 +1930,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<JournalEntry> getJournalEntries() throws DAOException {
+	public VList<JournalEntry> getJournalEntries() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -1940,7 +1939,7 @@ public class FinanceTool implements IFinanceDAOService {
 			List<JournalEntry> list = query.list();
 
 			if (list != null) {
-				return new ArrayList<JournalEntry>(list);
+				return new VList<JournalEntry>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -1971,7 +1970,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Estimate> getLatestQuotes() throws DAOException {
+	public VList<Estimate> getLatestQuotes() throws DAOException {
 		// SELECT E1.* FROM ESTIMATE E1 WHERE 10>(SELECT COUNT(*) FROM
 		// TRANSACTION E2 WHERE E1.ID<E2.ID)
 
@@ -1983,7 +1982,7 @@ public class FinanceTool implements IFinanceDAOService {
 			Object object[] = null;
 
 			Iterator iterator = list2.iterator();
-			List<Estimate> list = new ArrayList<Estimate>();
+			List<Estimate> list = new VList<Estimate>();
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
 				Estimate estimate = new Estimate();
@@ -1999,7 +1998,7 @@ public class FinanceTool implements IFinanceDAOService {
 				list.add(estimate);
 			}
 			if (list != null) {
-				return new ArrayList<Estimate>(list);
+				return new VList<Estimate>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2102,7 +2101,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<OverDueInvoicesList> getOverDueInvoices()
+	public VList<OverDueInvoicesList> getOverDueInvoices()
 			throws DAOException {
 		// try {
 		// Session session = getSessionFactory().openSession();
@@ -2135,7 +2134,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<OverDueInvoicesList> queryResult = new ArrayList<OverDueInvoicesList>();
+				List<OverDueInvoicesList> queryResult = new VList<OverDueInvoicesList>();
 				while ((iterator).hasNext()) {
 
 					OverDueInvoicesList overDueInvoicesList = new OverDueInvoicesList();
@@ -2156,7 +2155,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					queryResult.add(overDueInvoicesList);
 				}
-				return new ArrayList<OverDueInvoicesList>(queryResult);
+				return new VList<OverDueInvoicesList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2167,8 +2166,8 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<PaymentsList> getPaymentsList() throws DAOException {
-		List<PaymentsList> queryResult = new ArrayList<PaymentsList>();
+	public VList<PaymentsList> getPaymentsList() throws DAOException {
+		List<PaymentsList> queryResult = new VList<PaymentsList>();
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getPaymentsList");
@@ -2207,7 +2206,7 @@ public class FinanceTool implements IFinanceDAOService {
 						queryResult.add(paymentsList);
 					}
 				}
-				return new ArrayList<PaymentsList>(queryResult);
+				return new VList<PaymentsList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2218,7 +2217,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Item> getPurchaseItems() throws DAOException {
+	public VList<Item> getPurchaseItems() throws DAOException {
 
 		try {
 
@@ -2228,7 +2227,7 @@ public class FinanceTool implements IFinanceDAOService {
 					.getNamedQuery("getItem.by.check.isIBuyThisItemisTrue");
 
 			if (list != null) {
-				return new ArrayList<Item>(list);
+				return new VList<Item>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2239,7 +2238,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Item> getSalesItems() throws DAOException {
+	public VList<Item> getSalesItems() throws DAOException {
 
 		try {
 
@@ -2249,7 +2248,7 @@ public class FinanceTool implements IFinanceDAOService {
 					.getNamedQuery("getItem.by.checkisISellThisItemisTrue");
 
 			if (list != null) {
-				return new ArrayList<Item>(list);
+				return new VList<Item>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2260,7 +2259,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<PayBillTransactionList> getTransactionPayBills()
+	public VList<PayBillTransactionList> getTransactionPayBills()
 			throws DAOException {
 		try {
 
@@ -2270,7 +2269,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// required
 			List list = query.list();
 
-			List<PayBillTransactionList> queryResult = new ArrayList<PayBillTransactionList>();
+			List<PayBillTransactionList> queryResult = new VList<PayBillTransactionList>();
 
 			query = session
 					.getNamedQuery("getEntry.by.debitand.balanceDue.orderbyid");
@@ -2317,14 +2316,14 @@ public class FinanceTool implements IFinanceDAOService {
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
-			return new ArrayList<PayBillTransactionList>(queryResult);
+			return new VList<PayBillTransactionList>(queryResult);
 		} catch (DAOException e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		}
 	}
 
 	@Override
-	public ArrayList<PayBillTransactionList> getTransactionPayBills(
+	public VList<PayBillTransactionList> getTransactionPayBills(
 			final long vendorId) throws DAOException {
 		try {
 
@@ -2335,7 +2334,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			List<JournalEntry> openingBalanceEntries = query.list();
 
-			List<PayBillTransactionList> queryResult = new ArrayList<PayBillTransactionList>();
+			List<PayBillTransactionList> queryResult = new VList<PayBillTransactionList>();
 
 			for (JournalEntry je : openingBalanceEntries) {
 				PayBillTransactionList payBillTransactionList = new PayBillTransactionList();
@@ -2390,14 +2389,14 @@ public class FinanceTool implements IFinanceDAOService {
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
-			return new ArrayList<PayBillTransactionList>(queryResult);
+			return new VList<PayBillTransactionList>(queryResult);
 		} catch (DAOException e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		}
 	}
 
 	@Override
-	public ArrayList<ReceivePaymentTransactionList> getTransactionReceivePayments(
+	public VList<ReceivePaymentTransactionList> getTransactionReceivePayments(
 			long customerId, long paymentDate1) throws DAOException,
 			ParseException {
 		try {
@@ -2416,7 +2415,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// query.setLong("customerId", customerId);
 			// List list = query.list();
 
-			List<ReceivePaymentTransactionList> queryResult = new ArrayList<ReceivePaymentTransactionList>();
+			List<ReceivePaymentTransactionList> queryResult = new VList<ReceivePaymentTransactionList>();
 
 			query = session.getNamedQuery(
 					"getEntry.by.customerId.debitand.balanceDue.orderbyid")
@@ -2480,7 +2479,7 @@ public class FinanceTool implements IFinanceDAOService {
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
-			return new ArrayList<ReceivePaymentTransactionList>(queryResult);
+			return new VList<ReceivePaymentTransactionList>(queryResult);
 		} catch (DAOException e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		}
@@ -2488,7 +2487,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<CreditsAndPayments> getVendorCreditsAndPayments(long vendor)
+	public VList<CreditsAndPayments> getVendorCreditsAndPayments(long vendor)
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -2498,7 +2497,7 @@ public class FinanceTool implements IFinanceDAOService {
 		List<CreditsAndPayments> list = query.list();
 
 		// if (list != null) {
-		return new ArrayList<CreditsAndPayments>(list);
+		return new VList<CreditsAndPayments>(list);
 		// } else
 		// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 		// null));
@@ -2506,7 +2505,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<PaymentsList> getVendorPaymentsList() throws DAOException {
+	public VList<PaymentsList> getVendorPaymentsList() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -2518,7 +2517,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				ArrayList<PaymentsList> queryResult = new ArrayList<PaymentsList>();
+				VList<PaymentsList> queryResult = new VList<PaymentsList>();
 				while ((iterator).hasNext()) {
 
 					PaymentsList vendorPaymentsList = new PaymentsList();
@@ -2554,7 +2553,7 @@ public class FinanceTool implements IFinanceDAOService {
 						queryResult.add(vendorPaymentsList);
 					}
 				}
-				return new ArrayList<PaymentsList>(queryResult);
+				return new VList<PaymentsList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2652,7 +2651,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<BillsList> getLatestBills() throws DAOException {
+	public VList<BillsList> getLatestBills() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -2664,7 +2663,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<BillsList> queryResult = new ArrayList<BillsList>();
+				List<BillsList> queryResult = new VList<BillsList>();
 				while ((iterator).hasNext()) {
 
 					BillsList billsList = new BillsList();
@@ -2682,7 +2681,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					queryResult.add(billsList);
 				}
-				return new ArrayList<BillsList>(queryResult);
+				return new VList<BillsList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2692,7 +2691,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<CashPurchase> getLatestCashPurchases() throws DAOException {
+	public VList<CashPurchase> getLatestCashPurchases() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -2703,7 +2702,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Object object[] = null;
 			Iterator iterator = list2.iterator();
-			List<CashPurchase> list = new ArrayList<CashPurchase>();
+			List<CashPurchase> list = new VList<CashPurchase>();
 			while (iterator.hasNext()) {
 
 				object = (Object[]) iterator.next();
@@ -2719,7 +2718,7 @@ public class FinanceTool implements IFinanceDAOService {
 				list.add(cashPurchase);
 			}
 			if (list != null) {
-				return new ArrayList<CashPurchase>(list);
+				return new VList<CashPurchase>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2729,7 +2728,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<CashSales> getLatestCashSales() throws DAOException {
+	public VList<CashSales> getLatestCashSales() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -2738,7 +2737,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Object object[] = null;
 			Iterator iterator = list2.iterator();
-			List<CashSales> list = new ArrayList<CashSales>();
+			List<CashSales> list = new VList<CashSales>();
 			while (iterator.hasNext()) {
 
 				object = (Object[]) iterator.next();
@@ -2756,7 +2755,7 @@ public class FinanceTool implements IFinanceDAOService {
 				list.add(cashSale);
 			}
 			if (list != null) {
-				return new ArrayList<CashSales>(list);
+				return new VList<CashSales>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2766,7 +2765,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<WriteCheck> getLatestChecks() throws DAOException {
+	public VList<WriteCheck> getLatestChecks() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -2777,7 +2776,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Object object[] = null;
 			Iterator iterator = list2.iterator();
-			List<WriteCheck> list = new ArrayList<WriteCheck>();
+			List<WriteCheck> list = new VList<WriteCheck>();
 			while (iterator.hasNext()) {
 
 				object = (Object[]) iterator.next();
@@ -2799,7 +2798,7 @@ public class FinanceTool implements IFinanceDAOService {
 				list.add(writeCheck);
 			}
 			if (list != null) {
-				return new ArrayList<WriteCheck>(list);
+				return new VList<WriteCheck>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2809,7 +2808,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<CustomerRefund> getLatestCustomerRefunds()
+	public VList<CustomerRefund> getLatestCustomerRefunds()
 			throws DAOException {
 		try {
 
@@ -2819,7 +2818,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Object object[] = null;
 			Iterator iterator = list2.iterator();
-			List<CustomerRefund> list = new ArrayList<CustomerRefund>();
+			List<CustomerRefund> list = new VList<CustomerRefund>();
 			while (iterator.hasNext()) {
 
 				object = (Object[]) iterator.next();
@@ -2837,7 +2836,7 @@ public class FinanceTool implements IFinanceDAOService {
 				list.add(customerRefund);
 			}
 			if (list != null) {
-				return new ArrayList<CustomerRefund>(list);
+				return new VList<CustomerRefund>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2847,7 +2846,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Customer> getLatestCustomers() throws DAOException {
+	public VList<Customer> getLatestCustomers() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -2856,7 +2855,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Object[] object = null;
 			Iterator iterator = list2.iterator();
-			List<Customer> list = new ArrayList<Customer>();
+			List<Customer> list = new VList<Customer>();
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
 				Customer customer = new Customer();
@@ -2868,7 +2867,7 @@ public class FinanceTool implements IFinanceDAOService {
 				list.add(customer);
 			}
 			if (list != null) {
-				return new ArrayList<Customer>(list);
+				return new VList<Customer>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2878,7 +2877,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<MakeDeposit> getLatestDeposits() throws DAOException {
+	public VList<MakeDeposit> getLatestDeposits() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -2887,7 +2886,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Object[] object = null;
 			Iterator iterator = list2.iterator();
-			List<MakeDeposit> list = new ArrayList<MakeDeposit>();
+			List<MakeDeposit> list = new VList<MakeDeposit>();
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
 				MakeDeposit makeDeposit = new MakeDeposit();
@@ -2910,7 +2909,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			}
 			if (list != null) {
-				return new ArrayList<MakeDeposit>(list);
+				return new VList<MakeDeposit>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2920,7 +2919,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<TransferFund> getLatestFundsTransfer() throws DAOException {
+	public VList<TransferFund> getLatestFundsTransfer() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -2929,7 +2928,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Object object[] = null;
 			Iterator iterator = list2.iterator();
-			List<TransferFund> list = new ArrayList<TransferFund>();
+			List<TransferFund> list = new VList<TransferFund>();
 			while (iterator.hasNext()) {
 
 				object = (Object[]) iterator.next();
@@ -2949,7 +2948,7 @@ public class FinanceTool implements IFinanceDAOService {
 				list.add(transferFund);
 			}
 			if (list != null) {
-				return new ArrayList<TransferFund>(list);
+				return new VList<TransferFund>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2959,7 +2958,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Item> getLatestItems() throws DAOException {
+	public VList<Item> getLatestItems() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -2968,7 +2967,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Object object[] = null;
 			Iterator iterator = list2.iterator();
-			List<Item> list = new ArrayList<Item>();
+			List<Item> list = new VList<Item>();
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
 				Item item = new Item();
@@ -2980,7 +2979,7 @@ public class FinanceTool implements IFinanceDAOService {
 				list.add(item);
 			}
 			if (list != null) {
-				return new ArrayList<Item>(list);
+				return new VList<Item>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -2990,7 +2989,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<PaymentsList> getLatestPayments() throws DAOException {
+	public VList<PaymentsList> getLatestPayments() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -3000,7 +2999,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<PaymentsList> queryResult = new ArrayList<PaymentsList>();
+				List<PaymentsList> queryResult = new VList<PaymentsList>();
 				while ((iterator).hasNext()) {
 
 					PaymentsList paymentsList = new PaymentsList();
@@ -3022,7 +3021,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					queryResult.add(paymentsList);
 				}
-				return new ArrayList<PaymentsList>(queryResult);
+				return new VList<PaymentsList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -3032,7 +3031,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Vendor> getLatestVendors() throws DAOException {
+	public VList<Vendor> getLatestVendors() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -3041,7 +3040,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Object object[] = null;
 			Iterator iterator = list2.iterator();
-			List<Vendor> list = new ArrayList<Vendor>();
+			List<Vendor> list = new VList<Vendor>();
 			while (iterator.hasNext()) {
 				while (iterator.hasNext()) {
 					object = (Object[]) iterator.next();
@@ -3055,7 +3054,7 @@ public class FinanceTool implements IFinanceDAOService {
 				}
 			}
 			if (list != null) {
-				return new ArrayList<Vendor>(list);
+				return new VList<Vendor>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -3132,7 +3131,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Account> getTaxAgencyAccounts() throws DAOException {
+	public VList<Account> getTaxAgencyAccounts() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -3143,7 +3142,7 @@ public class FinanceTool implements IFinanceDAOService {
 			List<Account> list = query.list();
 
 			if (list != null) {
-				return new ArrayList<Account>(list);
+				return new VList<Account>(list);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -3174,7 +3173,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<ReceivePaymentsList> getReceivePaymentsList()
+	public VList<ReceivePaymentsList> getReceivePaymentsList()
 			throws DAOException {
 		try {
 
@@ -3185,7 +3184,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				ArrayList<ReceivePaymentsList> queryResult = new ArrayList<ReceivePaymentsList>();
+				VList<ReceivePaymentsList> queryResult = new VList<ReceivePaymentsList>();
 				while ((iterator).hasNext()) {
 
 					ReceivePaymentsList receivePaymentsList = new ReceivePaymentsList();
@@ -3217,9 +3216,9 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 	}
 
-	public ArrayList<ClientTransactionMakeDeposit> getTransactionMakeDeposits()
+	public VList<ClientTransactionMakeDeposit> getTransactionMakeDeposits()
 			throws DAOException {
-		List<ClientTransactionMakeDeposit> transactionMakeDepositsList = new ArrayList<ClientTransactionMakeDeposit>();
+		List<ClientTransactionMakeDeposit> transactionMakeDepositsList = new VList<ClientTransactionMakeDeposit>();
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -3228,7 +3227,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List<TransactionMakeDepositEntries> listing = query.list();
 
-		return new ArrayList<ClientTransactionMakeDeposit>(query.list());
+		return new VList<ClientTransactionMakeDeposit>(query.list());
 
 		// Query query = session
 		// .createQuery(
@@ -3327,7 +3326,7 @@ public class FinanceTool implements IFinanceDAOService {
 	// }
 
 	@Override
-	public ArrayList<InvoicesList> getLatestInvoices() throws DAOException {
+	public VList<InvoicesList> getLatestInvoices() throws DAOException {
 		try {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -3337,7 +3336,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<InvoicesList> queryResult = new ArrayList<InvoicesList>();
+				List<InvoicesList> queryResult = new VList<InvoicesList>();
 				while ((iterator).hasNext()) {
 
 					InvoicesList invoicesList = new InvoicesList();
@@ -3360,7 +3359,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					queryResult.add(invoicesList);
 				}
-				return new ArrayList<InvoicesList>(queryResult);
+				return new VList<InvoicesList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -3370,7 +3369,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Item> getLatestPurchaseItems() throws DAOException {
+	public VList<Item> getLatestPurchaseItems() throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getLatestPurchaseItems");
@@ -3378,7 +3377,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object object[] = null;
 		Iterator iterator = list2.iterator();
-		List<Item> list = new ArrayList<Item>();
+		List<Item> list = new VList<Item>();
 		while (iterator.hasNext()) {
 			object = (Object[]) iterator.next();
 			Item item = new Item();
@@ -3388,14 +3387,14 @@ public class FinanceTool implements IFinanceDAOService {
 			list.add(item);
 		}
 		if (list != null) {
-			return new ArrayList<Item>(list);
+			return new VList<Item>(list);
 		} else
 			throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 					null));
 	}
 
 	@Override
-	public ArrayList<ReceivePayment> getLatestReceivePayments()
+	public VList<ReceivePayment> getLatestReceivePayments()
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3404,7 +3403,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object object[] = null;
 		Iterator iterator = list2.iterator();
-		List<ReceivePayment> list = new ArrayList<ReceivePayment>();
+		List<ReceivePayment> list = new VList<ReceivePayment>();
 		while (iterator.hasNext()) {
 			object = (Object[]) iterator.next();
 			ReceivePayment receivePayment = new ReceivePayment();
@@ -3419,14 +3418,14 @@ public class FinanceTool implements IFinanceDAOService {
 			list.add(receivePayment);
 		}
 		if (list != null) {
-			return new ArrayList<ReceivePayment>(list);
+			return new VList<ReceivePayment>(list);
 		} else
 			throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 					null));
 	}
 
 	@Override
-	public ArrayList<Item> getLatestSalesItems() throws DAOException {
+	public VList<Item> getLatestSalesItems() throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getLatestSalesItems");
@@ -3434,7 +3433,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object object[] = null;
 		Iterator iterator = list2.iterator();
-		List<Item> list = new ArrayList<Item>();
+		List<Item> list = new VList<Item>();
 		while (iterator.hasNext()) {
 			object = (Object[]) iterator.next();
 			Item item = new Item();
@@ -3447,14 +3446,14 @@ public class FinanceTool implements IFinanceDAOService {
 			list.add(item);
 		}
 		if (list != null) {
-			return new ArrayList<Item>(list);
+			return new VList<Item>(list);
 		} else
 			throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 					null));
 	}
 
 	@Override
-	public ArrayList<PaymentsList> getLatestVendorPayments()
+	public VList<PaymentsList> getLatestVendorPayments()
 			throws DAOException {
 		try {
 
@@ -3465,7 +3464,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<PaymentsList> queryResult = new ArrayList<PaymentsList>();
+				List<PaymentsList> queryResult = new VList<PaymentsList>();
 				while ((iterator).hasNext()) {
 
 					PaymentsList vendorPaymentsList = new PaymentsList();
@@ -3489,7 +3488,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					queryResult.add(vendorPaymentsList);
 				}
-				return new ArrayList<PaymentsList>(queryResult);
+				return new VList<PaymentsList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -3517,7 +3516,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
+	public VList<PaySalesTaxEntries> getTransactionPaySalesTaxEntriesList(
 			long billsDueOnOrBefore) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3526,7 +3525,7 @@ public class FinanceTool implements IFinanceDAOService {
 				.getNamedQuery("getTAXRateCalculation.checkingby.salesLiabilityAccountName.taxDue");
 
 		List<TAXRateCalculation> list = query.list();
-		List<PaySalesTaxEntries> resultPaySalesTaxEntries = new ArrayList<PaySalesTaxEntries>();
+		List<PaySalesTaxEntries> resultPaySalesTaxEntries = new VList<PaySalesTaxEntries>();
 		FinanceDate financeDate = new FinanceDate(billsDueOnOrBefore);
 
 		if (list != null) {
@@ -3575,7 +3574,7 @@ public class FinanceTool implements IFinanceDAOService {
 		// FinanceDate financeDate = new FinanceDate(billsDueOnOrBefore);
 		//
 		// List<PaySalesTaxEntries> resultPaySalesTaxEntries = new
-		// ArrayList<PaySalesTaxEntries>();
+		// VList<PaySalesTaxEntries>();
 		// for (PaySalesTaxEntries pst : paySalesTaxEntries) {
 		//
 		// preParePaySalesTaxEntriesUsingPaymentTerms(
@@ -3583,7 +3582,7 @@ public class FinanceTool implements IFinanceDAOService {
 		// .getTaxAgency());
 		// }
 
-		return new ArrayList<PaySalesTaxEntries>(resultPaySalesTaxEntries);
+		return new VList<PaySalesTaxEntries>(resultPaySalesTaxEntries);
 	}
 
 	private void preParePaySalesTaxEntriesUsingPaymentTerms(
@@ -3663,7 +3662,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
+	public VList<EstimatesAndSalesOrdersList> getEstimatesAndSalesOrdersList(
 			long customerId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3672,7 +3671,7 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("customerId", customerId);
 
 		List list = query.list();
-		List<EstimatesAndSalesOrdersList> esl = new ArrayList<EstimatesAndSalesOrdersList>();
+		List<EstimatesAndSalesOrdersList> esl = new VList<EstimatesAndSalesOrdersList>();
 
 		for (int i = 0; i < list.size(); i++) {
 
@@ -3691,11 +3690,11 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		return new ArrayList<EstimatesAndSalesOrdersList>(esl);
+		return new VList<EstimatesAndSalesOrdersList>(esl);
 	}
 
 	@Override
-	public ArrayList<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
+	public VList<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			long vendorId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3704,7 +3703,7 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("vendorId", vendorId);
 
 		List list = query.list();
-		List<PurchaseOrdersAndItemReceiptsList> pil = new ArrayList<PurchaseOrdersAndItemReceiptsList>();
+		List<PurchaseOrdersAndItemReceiptsList> pil = new VList<PurchaseOrdersAndItemReceiptsList>();
 
 		for (int i = 0; i < list.size(); i++) {
 
@@ -3724,17 +3723,17 @@ public class FinanceTool implements IFinanceDAOService {
 
 		}
 
-		return new ArrayList<PurchaseOrdersAndItemReceiptsList>(pil);
+		return new VList<PurchaseOrdersAndItemReceiptsList>(pil);
 	}
 
-	public ArrayList<SalesOrdersList> getSalesOrdersList() throws DAOException {
+	public VList<SalesOrdersList> getSalesOrdersList() throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getSalesOrdersList");
 
 		List list = query.list();
-		List<SalesOrdersList> esl = new ArrayList<SalesOrdersList>();
+		List<SalesOrdersList> esl = new VList<SalesOrdersList>();
 
 		for (int i = 0; i < list.size(); i++) {
 
@@ -3755,10 +3754,10 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		return new ArrayList<SalesOrdersList>(esl);
+		return new VList<SalesOrdersList>(esl);
 	}
 
-	public ArrayList<PurchaseOrdersList> getPurchaseOrdersList()
+	public VList<PurchaseOrdersList> getPurchaseOrdersList()
 			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3766,7 +3765,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Query query = session.getNamedQuery("getPurchaseOrdersList");
 		// FIXME ::: check the sql query and change it to hql query if required
 		List list = query.list();
-		List<PurchaseOrdersList> pil = new ArrayList<PurchaseOrdersList>();
+		List<PurchaseOrdersList> pil = new VList<PurchaseOrdersList>();
 
 		for (int i = 0; i < list.size(); i++) {
 
@@ -3787,11 +3786,11 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		return new ArrayList<PurchaseOrdersList>(pil);
+		return new VList<PurchaseOrdersList>(pil);
 	}
 
 	@Override
-	public ArrayList<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
+	public VList<PurchaseOrdersList> getNotReceivedPurchaseOrdersList(
 			long vendorID) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -3801,7 +3800,7 @@ public class FinanceTool implements IFinanceDAOService {
 		// FIXME ::: check the sql query and change it to hql query if required
 
 		List list = query.list();
-		List<PurchaseOrdersList> pil = new ArrayList<PurchaseOrdersList>();
+		List<PurchaseOrdersList> pil = new VList<PurchaseOrdersList>();
 
 		for (int i = 0; i < list.size(); i++) {
 
@@ -3819,14 +3818,14 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		return new ArrayList<PurchaseOrdersList>(pil);
+		return new VList<PurchaseOrdersList>(pil);
 	}
 
 	@Override
-	public ArrayList<FixedAssetList> getFixedAssets(int status)
+	public VList<FixedAssetList> getFixedAssets(int status)
 			throws DAOException {
 
-		List<FixedAssetList> fal = new ArrayList<FixedAssetList>();
+		List<FixedAssetList> fal = new VList<FixedAssetList>();
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -3849,14 +3848,14 @@ public class FinanceTool implements IFinanceDAOService {
 			fal.add(fixedAssetList);
 		}
 
-		return new ArrayList<FixedAssetList>(fal);
+		return new VList<FixedAssetList>(fal);
 	}
 
 	@Override
-	public ArrayList<SellingOrDisposingFixedAssetList> getSellingOrDisposingFixedAssets()
+	public VList<SellingOrDisposingFixedAssetList> getSellingOrDisposingFixedAssets()
 			throws DAOException {
 
-		List<SellingOrDisposingFixedAssetList> fal = new ArrayList<SellingOrDisposingFixedAssetList>();
+		List<SellingOrDisposingFixedAssetList> fal = new VList<SellingOrDisposingFixedAssetList>();
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -3877,7 +3876,7 @@ public class FinanceTool implements IFinanceDAOService {
 			fixedAssetList.setLossOrGain(fixedAsset.getLossOrGain());
 			fal.add(fixedAssetList);
 		}
-		return new ArrayList<SellingOrDisposingFixedAssetList>(fal);
+		return new VList<SellingOrDisposingFixedAssetList>(fal);
 	}
 
 	@Override
@@ -3935,7 +3934,7 @@ public class FinanceTool implements IFinanceDAOService {
 				(new FinanceDate(depreciationTo)));
 		List<FixedAsset> fixedAssets = query.list();
 
-		List<Long> fixedAssetIDs = new ArrayList<Long>();
+		List<Long> fixedAssetIDs = new VList<Long>();
 
 		DepreciableFixedAssetsList depreciableFixedAssets = new DepreciableFixedAssetsList();
 
@@ -3976,7 +3975,7 @@ public class FinanceTool implements IFinanceDAOService {
 						.get(fixedAsset.getAssetAccount().getID()).add(
 								depreciableFixedAssetsEntry);
 			} else {
-				List<DepreciableFixedAssetsEntry> entries = new ArrayList<DepreciableFixedAssetsEntry>();
+				List<DepreciableFixedAssetsEntry> entries = new VList<DepreciableFixedAssetsEntry>();
 				entries.add(depreciableFixedAssetsEntry);
 				accountViceFixedAssets.put(
 						fixedAsset.getAssetAccount().getID(), entries);
@@ -4715,10 +4714,10 @@ public class FinanceTool implements IFinanceDAOService {
 	// }
 
 	@Override
-	public ArrayList<ClientFinanceDate> getFinancialYearStartDates()
+	public VList<ClientFinanceDate> getFinancialYearStartDates()
 			throws DAOException {
 
-		List<ClientFinanceDate> startDates = new ArrayList<ClientFinanceDate>();
+		List<ClientFinanceDate> startDates = new VList<ClientFinanceDate>();
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = Company.getCompany();
 		FinanceDate depreciationStartDate = company.getPreferences()
@@ -4738,14 +4737,14 @@ public class FinanceTool implements IFinanceDAOService {
 			cal.set(Calendar.MONTH, depStartDateCal.get(Calendar.MONTH));
 			startDates.add(new ClientFinanceDate(cal.getTime()));
 		}
-		return new ArrayList<ClientFinanceDate>(startDates);
+		return new VList<ClientFinanceDate>(startDates);
 	}
 
 	@Override
-	public ArrayList<ClientFinanceDate> getAllDepreciationFromDates()
+	public VList<ClientFinanceDate> getAllDepreciationFromDates()
 			throws DAOException {
 
-		List<ClientFinanceDate> fromDates = new ArrayList<ClientFinanceDate>();
+		List<ClientFinanceDate> fromDates = new VList<ClientFinanceDate>();
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = Company.getCompany();
 		FinanceDate depreciationStartDate = company.getPreferences()
@@ -4765,7 +4764,7 @@ public class FinanceTool implements IFinanceDAOService {
 		for (Object dep : list) {
 			fromDates.add(new ClientFinanceDate((Long) dep));
 		}
-		return new ArrayList<ClientFinanceDate>(fromDates);
+		return new VList<ClientFinanceDate>(fromDates);
 	}
 
 	// public void changeFiscalYearsStartDateTo(long newStartDate)
@@ -4786,7 +4785,7 @@ public class FinanceTool implements IFinanceDAOService {
 	private void changeFiscalYearsStartDate(FinanceDate modifiedStartDate) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		// List<FiscalYear> list = new ArrayList<FiscalYear>();
+		// List<FiscalYear> list = new VList<FiscalYear>();
 
 		// FinanceDate existingLeastStartDate = modifiedStartDate;
 		// FinanceDate existingHighestEndDate = modifiedStartDate;
@@ -4924,7 +4923,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 */
 
 	@Override
-	public ArrayList<AccountBalance> getAccountBalances() throws DAOException {
+	public VList<AccountBalance> getAccountBalances() throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("accountbalances");
@@ -4932,7 +4931,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			if (list.size() > 0) {
 
-				List<AccountBalance> accounterbalances = new ArrayList<AccountBalance>();
+				List<AccountBalance> accounterbalances = new VList<AccountBalance>();
 				Object[] object = null;
 				Iterator it = list.iterator();
 				while (it.hasNext()) {
@@ -4951,7 +4950,7 @@ public class FinanceTool implements IFinanceDAOService {
 					accounterbalances.add(accountBalance);
 
 				}
-				ArrayList<AccountBalance> arrayList = new ArrayList<AccountBalance>(
+				VList<AccountBalance> arrayList = new VList<AccountBalance>(
 						accounterbalances);
 				return arrayList;
 			}
@@ -4964,7 +4963,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<TrialBalance> getTrialBalance(final FinanceDate startDate,
+	public VList<TrialBalance> getTrialBalance(final FinanceDate startDate,
 			final FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -4975,7 +4974,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<TrialBalance> queryResult = new ArrayList<TrialBalance>();
+		List<TrialBalance> queryResult = new VList<TrialBalance>();
 		while ((iterator).hasNext()) {
 
 			TrialBalance t = new TrialBalance();
@@ -5014,7 +5013,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// }
 
 		}
-		return removeUnwantedEntries(new ArrayList<TrialBalance>(queryResult));
+		return removeUnwantedEntries(new VList<TrialBalance>(queryResult));
 
 		// Object obj = template.execute(new HibernateCallback(){
 		// @OverrideAc
@@ -5030,7 +5029,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
+	public VList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -5040,17 +5039,17 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
-		return (l != null && l.size() > 0) ? createSalesByCustomerDetailReport(new ArrayList<SalesByCustomerDetail>(
+		return (l != null && l.size() > 0) ? createSalesByCustomerDetailReport(new VList<SalesByCustomerDetail>(
 				l)) : null;
 
 	}
 
-	private ArrayList<SalesByCustomerDetail> createSalesByCustomerDetailReport(
+	private VList<SalesByCustomerDetail> createSalesByCustomerDetailReport(
 			List l) {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
+		List<SalesByCustomerDetail> queryResult = new VList<SalesByCustomerDetail>();
 		while ((iterator).hasNext()) {
 
 			SalesByCustomerDetail salesByCustomerDetail = new SalesByCustomerDetail();
@@ -5105,13 +5104,13 @@ public class FinanceTool implements IFinanceDAOService {
 			queryResult.add(salesByCustomerDetail);
 		}
 		// return prepareSalesPurchaseEntriesForVoid(queryResult);
-		return new ArrayList<SalesByCustomerDetail>(queryResult);
+		return new VList<SalesByCustomerDetail>(queryResult);
 	}
 
 	private List<SalesByCustomerDetail> prepareSalesPurchaseEntriesForVoid(
 			List<SalesByCustomerDetail> queryResult) {
 
-		List<SalesByCustomerDetail> list = new ArrayList<SalesByCustomerDetail>();
+		List<SalesByCustomerDetail> list = new VList<SalesByCustomerDetail>();
 		for (SalesByCustomerDetail detail : queryResult) {
 
 			if (detail.getIsVoid() == true) {
@@ -5129,13 +5128,13 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Transaction> getRegister(Account account)
+	public VList<Transaction> getRegister(Account account)
 			throws DAOException {
 		return null;
 	}
 
 	@Override
-	public ArrayList<AgedDebtors> getAgedDebtors(final FinanceDate startDate,
+	public VList<AgedDebtors> getAgedDebtors(final FinanceDate startDate,
 			final FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -5144,12 +5143,12 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		return prepareAgedDebotOrsorCreditors(new ArrayList<AgedDebtors>(l),
+		return prepareAgedDebotOrsorCreditors(new VList<AgedDebtors>(l),
 				startDate, endDate);
 	}
 
 	@Override
-	public ArrayList<AgedDebtors> getAgedDebtors(FinanceDate startDate,
+	public VList<AgedDebtors> getAgedDebtors(FinanceDate startDate,
 			FinanceDate endDate, int intervalDays, int throughDaysPassOut)
 			throws DAOException {
 
@@ -5161,7 +5160,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<AgedDebtors> getAgedCreditors(final FinanceDate startDate,
+	public VList<AgedDebtors> getAgedCreditors(final FinanceDate startDate,
 			final FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -5170,16 +5169,16 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		return prepareAgedDebotOrsorCreditors(new ArrayList<AgedDebtors>(l),
+		return prepareAgedDebotOrsorCreditors(new VList<AgedDebtors>(l),
 				startDate, endDate);
 
 	}
 
-	private ArrayList<AgedDebtors> prepareAgedDebotOrsorCreditors(List list,
+	private VList<AgedDebtors> prepareAgedDebotOrsorCreditors(List list,
 			final FinanceDate startDate, final FinanceDate endDate) {
 		Object[] object = null;
 		Iterator iterator = list.iterator();
-		List<AgedDebtors> queryResult = new ArrayList<AgedDebtors>();
+		List<AgedDebtors> queryResult = new VList<AgedDebtors>();
 		while ((iterator).hasNext()) {
 
 			AgedDebtors agedDebtors = new AgedDebtors();
@@ -5223,7 +5222,7 @@ public class FinanceTool implements IFinanceDAOService {
 						.getCategory() < arg1.getCategory() ? -1 : 0;
 			}
 		});
-		return new ArrayList<AgedDebtors>(queryResult);
+		return new VList<AgedDebtors>(queryResult);
 	}
 
 	public long getAgeing(ClientFinanceDate transactionDate,
@@ -5282,7 +5281,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getSalesByCustomerSummary(
+	public VList<SalesByCustomerDetail> getSalesByCustomerSummary(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -5294,7 +5293,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
+		List<SalesByCustomerDetail> queryResult = new VList<SalesByCustomerDetail>();
 		while ((iterator).hasNext()) {
 
 			SalesByCustomerDetail salesByCustomerDetail = new SalesByCustomerDetail();
@@ -5307,12 +5306,12 @@ public class FinanceTool implements IFinanceDAOService {
 
 			queryResult.add(salesByCustomerDetail);
 		}
-		return new ArrayList<SalesByCustomerDetail>(queryResult);
+		return new VList<SalesByCustomerDetail>(queryResult);
 
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
+	public VList<SalesByCustomerDetail> getSalesByItemDetail(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -5322,14 +5321,14 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
-		return createSalesByItemDetail(new ArrayList<SalesByCustomerDetail>(l));
+		return createSalesByItemDetail(new VList<SalesByCustomerDetail>(l));
 
 	}
 
-	private ArrayList<SalesByCustomerDetail> createSalesByItemDetail(List l) {
+	private VList<SalesByCustomerDetail> createSalesByItemDetail(List l) {
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
+		List<SalesByCustomerDetail> queryResult = new VList<SalesByCustomerDetail>();
 		while ((iterator).hasNext()) {
 
 			SalesByCustomerDetail salesByCustomerDetail = new SalesByCustomerDetail();
@@ -5389,14 +5388,15 @@ public class FinanceTool implements IFinanceDAOService {
 			 */
 			salesByCustomerDetail.setMemo((String) object[17]);
 			salesByCustomerDetail.setReference((String) object[18]);
-			salesByCustomerDetail.setTransactionId(((BigInteger) object[19]).longValue());
+			salesByCustomerDetail.setTransactionId(((BigInteger) object[19])
+					.longValue());
 			queryResult.add(salesByCustomerDetail);
 		}
-		return new ArrayList<SalesByCustomerDetail>(queryResult);
+		return new VList<SalesByCustomerDetail>(queryResult);
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getSalesByItemSummary(
+	public VList<SalesByCustomerDetail> getSalesByItemSummary(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -5409,7 +5409,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
+		List<SalesByCustomerDetail> queryResult = new VList<SalesByCustomerDetail>();
 		while ((iterator).hasNext()) {
 
 			SalesByCustomerDetail salesByCustomerDetail = new SalesByCustomerDetail();
@@ -5427,12 +5427,12 @@ public class FinanceTool implements IFinanceDAOService {
 
 			queryResult.add(salesByCustomerDetail);
 		}
-		return new ArrayList<SalesByCustomerDetail>(queryResult);
+		return new VList<SalesByCustomerDetail>(queryResult);
 
 	}
 
 	@Override
-	public ArrayList<TransactionHistory> getCustomerTransactionHistory(
+	public VList<TransactionHistory> getCustomerTransactionHistory(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws AccounterException {
 
@@ -5467,7 +5467,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<TransactionHistory> queryResult = new ArrayList<TransactionHistory>();
+		List<TransactionHistory> queryResult = new VList<TransactionHistory>();
 		Set<String> payee = new HashSet<String>();
 		Map<String, TransactionHistory> openingBalnaceEntries = new HashMap<String, TransactionHistory>();
 		while ((iterator).hasNext()) {
@@ -5538,13 +5538,13 @@ public class FinanceTool implements IFinanceDAOService {
 		mergeOpeningBalanceEntries(queryResult, payee, openingBalnaceEntries);
 
 		// return prepareEntriesForVoid(queryResult);
-		return new ArrayList<TransactionHistory>(queryResult);
+		return new VList<TransactionHistory>(queryResult);
 	}
 
 	private List<TransactionHistory> prepareEntriesForVoid(
 			List<TransactionHistory> queryResult) {
 
-		List<TransactionHistory> list = new ArrayList<TransactionHistory>();
+		List<TransactionHistory> list = new VList<TransactionHistory>();
 		for (TransactionHistory transactionHistory : queryResult) {
 
 			if (transactionHistory.getIsVoid() == true) {
@@ -5565,7 +5565,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
+	public VList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -5577,17 +5577,17 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List l = query.list();
 
-		return createPurchasesByVendorDetail(new ArrayList<SalesByCustomerDetail>(
+		return createPurchasesByVendorDetail(new VList<SalesByCustomerDetail>(
 				l));
 
 	}
 
-	private ArrayList<SalesByCustomerDetail> createPurchasesByVendorDetail(
+	private VList<SalesByCustomerDetail> createPurchasesByVendorDetail(
 			List l) {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
+		List<SalesByCustomerDetail> queryResult = new VList<SalesByCustomerDetail>();
 		while ((iterator).hasNext()) {
 
 			SalesByCustomerDetail salesByCustomerDetail = new SalesByCustomerDetail();
@@ -5625,11 +5625,11 @@ public class FinanceTool implements IFinanceDAOService {
 			queryResult.add(salesByCustomerDetail);
 		}
 
-		return new ArrayList<SalesByCustomerDetail>(queryResult);
+		return new VList<SalesByCustomerDetail>(queryResult);
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorSummary(
+	public VList<SalesByCustomerDetail> getPurchasesByVendorSummary(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -5642,7 +5642,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
+		List<SalesByCustomerDetail> queryResult = new VList<SalesByCustomerDetail>();
 		while ((iterator).hasNext()) {
 
 			SalesByCustomerDetail salesByCustomerDetail = new SalesByCustomerDetail();
@@ -5655,11 +5655,11 @@ public class FinanceTool implements IFinanceDAOService {
 
 			queryResult.add(salesByCustomerDetail);
 		}
-		return new ArrayList<SalesByCustomerDetail>(queryResult);
+		return new VList<SalesByCustomerDetail>(queryResult);
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
+	public VList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -5670,15 +5670,15 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List l = query.list();
 
-		return createPurchasesByItemDetail(new ArrayList<SalesByCustomerDetail>(
+		return createPurchasesByItemDetail(new VList<SalesByCustomerDetail>(
 				l));
 
 	}
 
-	private ArrayList<SalesByCustomerDetail> createPurchasesByItemDetail(List l) {
+	private VList<SalesByCustomerDetail> createPurchasesByItemDetail(List l) {
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
+		List<SalesByCustomerDetail> queryResult = new VList<SalesByCustomerDetail>();
 		while ((iterator).hasNext()) {
 
 			SalesByCustomerDetail salesByCustomerDetail = new SalesByCustomerDetail();
@@ -5713,11 +5713,11 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setTransactionId((((Long) object[13])));
 			queryResult.add(salesByCustomerDetail);
 		}
-		return new ArrayList<SalesByCustomerDetail>(queryResult);
+		return new VList<SalesByCustomerDetail>(queryResult);
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getPurchasesByItemSummary(
+	public VList<SalesByCustomerDetail> getPurchasesByItemSummary(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -5730,7 +5730,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
+		List<SalesByCustomerDetail> queryResult = new VList<SalesByCustomerDetail>();
 		while ((iterator).hasNext()) {
 
 			SalesByCustomerDetail salesByCustomerDetail = new SalesByCustomerDetail();
@@ -5747,12 +5747,12 @@ public class FinanceTool implements IFinanceDAOService {
 
 			queryResult.add(salesByCustomerDetail);
 		}
-		return new ArrayList<SalesByCustomerDetail>(queryResult);
+		return new VList<SalesByCustomerDetail>(queryResult);
 
 	}
 
 	@Override
-	public ArrayList<TransactionHistory> getVendorTransactionHistory(
+	public VList<TransactionHistory> getVendorTransactionHistory(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws AccounterException {
 
@@ -5785,7 +5785,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Iterator iterator = l.iterator();
 		Set<String> payee = new HashSet<String>();
 		Map<String, TransactionHistory> openingBalnaceEntries = new HashMap<String, TransactionHistory>();
-		List<TransactionHistory> queryResult = new ArrayList<TransactionHistory>();
+		List<TransactionHistory> queryResult = new VList<TransactionHistory>();
 		while ((iterator).hasNext()) {
 
 			TransactionHistory transactionHistory = new TransactionHistory();
@@ -5873,7 +5873,7 @@ public class FinanceTool implements IFinanceDAOService {
 		mergeOpeningBalanceEntries(queryResult, payee, openingBalnaceEntries);
 
 		// return prepareEntriesForVoid(queryResult);
-		return new ArrayList<TransactionHistory>(queryResult);
+		return new VList<TransactionHistory>(queryResult);
 
 	}
 
@@ -5899,7 +5899,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<AmountsDueToVendor> getAmountsDueToVendor(
+	public VList<AmountsDueToVendor> getAmountsDueToVendor(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -5912,7 +5912,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<AmountsDueToVendor> queryResult = new ArrayList<AmountsDueToVendor>();
+		List<AmountsDueToVendor> queryResult = new VList<AmountsDueToVendor>();
 		while ((iterator).hasNext()) {
 
 			AmountsDueToVendor amountsDueToVendor = new AmountsDueToVendor();
@@ -5939,11 +5939,11 @@ public class FinanceTool implements IFinanceDAOService {
 
 			queryResult.add(amountsDueToVendor);
 		}
-		return new ArrayList<AmountsDueToVendor>(queryResult);
+		return new VList<AmountsDueToVendor>(queryResult);
 	}
 
 	@Override
-	public ArrayList<MostProfitableCustomers> getMostProfitableCustomers(
+	public VList<MostProfitableCustomers> getMostProfitableCustomers(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -5956,7 +5956,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<MostProfitableCustomers> queryResult = new ArrayList<MostProfitableCustomers>();
+		List<MostProfitableCustomers> queryResult = new VList<MostProfitableCustomers>();
 		while ((iterator).hasNext()) {
 
 			MostProfitableCustomers mostProfitableCustomers = new MostProfitableCustomers();
@@ -6011,10 +6011,10 @@ public class FinanceTool implements IFinanceDAOService {
 
 		}
 
-		return new ArrayList<MostProfitableCustomers>(queryResult);
+		return new VList<MostProfitableCustomers>(queryResult);
 	}
 
-	public ArrayList<MostProfitableCustomers> getProfitabilityByCustomerDetail(
+	public VList<MostProfitableCustomers> getProfitabilityByCustomerDetail(
 			final long customer, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
 
@@ -6023,7 +6023,7 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter(0, customer);
 		List<JournalEntry> nonInvoicedLines = (List<JournalEntry>) query.list();
 
-		List<MostProfitableCustomers> profitabilityByCustomerDetailList = new ArrayList<MostProfitableCustomers>();
+		List<MostProfitableCustomers> profitabilityByCustomerDetailList = new VList<MostProfitableCustomers>();
 		int count = 0;
 		if (nonInvoicedLines != null) {
 			for (JournalEntry je : nonInvoicedLines) {
@@ -6098,12 +6098,12 @@ public class FinanceTool implements IFinanceDAOService {
 			mostProfitableCustomers.setReference((String) object[12]);
 			profitabilityByCustomerDetailList.add(mostProfitableCustomers);
 		}
-		return new ArrayList<MostProfitableCustomers>(
+		return new VList<MostProfitableCustomers>(
 				profitabilityByCustomerDetailList);
 	}
 
 	@Override
-	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
+	public VList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -6115,7 +6115,7 @@ public class FinanceTool implements IFinanceDAOService {
 		List l = query.list();
 
 		if (l.size() > 0) {
-			return createTransactionDetailByTaxItemEntries(new ArrayList<TransactionDetailByTaxItem>(
+			return createTransactionDetailByTaxItemEntries(new VList<TransactionDetailByTaxItem>(
 					l));
 		} else
 			return null;
@@ -6123,7 +6123,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
+	public VList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
 			final String taxItemName, final FinanceDate startDate,
 			final FinanceDate endDate) throws DAOException {
 
@@ -6138,18 +6138,18 @@ public class FinanceTool implements IFinanceDAOService {
 		List l = query.list();
 
 		if (l.size() > 0) {
-			return createTransactionDetailByTaxItemEntries(new ArrayList<TransactionDetailByTaxItem>(
+			return createTransactionDetailByTaxItemEntries(new VList<TransactionDetailByTaxItem>(
 					l));
 		} else
 			return null;
 
 	}
 
-	private ArrayList<TransactionDetailByTaxItem> createTransactionDetailByTaxItemEntries(
+	private VList<TransactionDetailByTaxItem> createTransactionDetailByTaxItemEntries(
 			List l) {
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<TransactionDetailByTaxItem> queryResult = new ArrayList<TransactionDetailByTaxItem>();
+		List<TransactionDetailByTaxItem> queryResult = new VList<TransactionDetailByTaxItem>();
 		while ((iterator).hasNext()) {
 
 			TransactionDetailByTaxItem TransactionDetailByTaxItem = new TransactionDetailByTaxItem();
@@ -6194,11 +6194,11 @@ public class FinanceTool implements IFinanceDAOService {
 
 			queryResult.add(TransactionDetailByTaxItem);
 		}
-		return new ArrayList<TransactionDetailByTaxItem>(queryResult);
+		return new VList<TransactionDetailByTaxItem>(queryResult);
 	}
 
 	@Override
-	public ArrayList<AccountRegister> getAccountRegister(
+	public VList<AccountRegister> getAccountRegister(
 			final FinanceDate startDate, final FinanceDate endDate,
 			final long accountId) throws DAOException {
 
@@ -6212,7 +6212,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<AccountRegister> queryResult = new ArrayList<AccountRegister>();
+		List<AccountRegister> queryResult = new VList<AccountRegister>();
 		while ((iterator).hasNext()) {
 
 			AccountRegister accountRegister = new AccountRegister();
@@ -6254,11 +6254,11 @@ public class FinanceTool implements IFinanceDAOService {
 
 			queryResult.add(accountRegister);
 		}
-		return new ArrayList<AccountRegister>(queryResult);
+		return new VList<AccountRegister>(queryResult);
 	}
 
 	@Override
-	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
+	public VList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			final FinanceDate startDate, final FinanceDate endDate)
 			throws DAOException {
 
@@ -6266,7 +6266,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			Session session = HibernateUtil.getCurrentSession();
 
-			List<TransactionDetailByAccount> transactionDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
+			List<TransactionDetailByAccount> transactionDetailByAccountList = new VList<TransactionDetailByAccount>();
 
 			Query query = session
 					.getNamedQuery("getTransactionDetailByAccount")
@@ -6281,7 +6281,7 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 
 			if (transactionDetailByAccountList != null) {
-				return new ArrayList<TransactionDetailByAccount>(
+				return new VList<TransactionDetailByAccount>(
 						transactionDetailByAccountList);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -6338,7 +6338,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<SalesTaxLiability> getSalesTaxLiabilityReport(
+	public VList<SalesTaxLiability> getSalesTaxLiabilityReport(
 			FinanceDate startDate, FinanceDate endDate)
 			throws AccounterException {
 
@@ -6363,7 +6363,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<SalesTaxLiability> queryResult = new ArrayList<SalesTaxLiability>();
+		List<SalesTaxLiability> queryResult = new VList<SalesTaxLiability>();
 		while ((iterator).hasNext()) {
 
 			SalesTaxLiability salesTaxLiability = new SalesTaxLiability();
@@ -6388,11 +6388,11 @@ public class FinanceTool implements IFinanceDAOService {
 					: ((Double) object[7]).doubleValue());
 			queryResult.add(salesTaxLiability);
 		}
-		return new ArrayList<SalesTaxLiability>(queryResult);
+		return new VList<SalesTaxLiability>(queryResult);
 	}
 
 	@Override
-	public ArrayList<Item> getPurchaseReportItems(FinanceDate startDate,
+	public VList<Item> getPurchaseReportItems(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -6404,7 +6404,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<Item> queryResult = new ArrayList<Item>();
+		List<Item> queryResult = new VList<Item>();
 		while ((iterator).hasNext()) {
 
 			Item item = new Item();
@@ -6415,11 +6415,11 @@ public class FinanceTool implements IFinanceDAOService {
 			item.setName((String) object[2]);
 			queryResult.add(item);
 		}
-		return new ArrayList<Item>(queryResult);
+		return new VList<Item>(queryResult);
 	}
 
 	@Override
-	public ArrayList<Item> getSalesReportItems(FinanceDate startDate,
+	public VList<Item> getSalesReportItems(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -6432,7 +6432,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<Item> queryResult = new ArrayList<Item>();
+		List<Item> queryResult = new VList<Item>();
 		while ((iterator).hasNext()) {
 
 			Item item = new Item();
@@ -6442,11 +6442,11 @@ public class FinanceTool implements IFinanceDAOService {
 			item.setName((String) object[2]);
 			queryResult.add(item);
 		}
-		return new ArrayList<Item>(queryResult);
+		return new VList<Item>(queryResult);
 	}
 
 	@Override
-	public ArrayList<Customer> getTransactionHistoryCustomers(
+	public VList<Customer> getTransactionHistoryCustomers(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -6459,7 +6459,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<Customer> queryResult = new ArrayList<Customer>();
+		List<Customer> queryResult = new VList<Customer>();
 		while ((iterator).hasNext()) {
 
 			Customer customer = new Customer();
@@ -6467,11 +6467,11 @@ public class FinanceTool implements IFinanceDAOService {
 			customer.setName((String) object[1]);
 			queryResult.add(customer);
 		}
-		return new ArrayList<Customer>(queryResult);
+		return new VList<Customer>(queryResult);
 	}
 
 	@Override
-	public ArrayList<Vendor> getTransactionHistoryVendors(
+	public VList<Vendor> getTransactionHistoryVendors(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -6484,7 +6484,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<Vendor> queryResult = new ArrayList<Vendor>();
+		List<Vendor> queryResult = new VList<Vendor>();
 		while ((iterator).hasNext()) {
 
 			Vendor vendor = new Vendor();
@@ -6492,7 +6492,7 @@ public class FinanceTool implements IFinanceDAOService {
 			vendor.setName((String) object[1]);
 			queryResult.add(vendor);
 		}
-		return new ArrayList<Vendor>(queryResult);
+		return new VList<Vendor>(queryResult);
 	}
 
 	@Override
@@ -6504,7 +6504,7 @@ public class FinanceTool implements IFinanceDAOService {
 		List list = query.list();
 		Object[] object = null;
 		Iterator iterator = list.iterator();
-		// List<Vendor> queryResult = new ArrayList<Vendor>();
+		// List<Vendor> queryResult = new VList<Vendor>();
 		ClientFinanceDate startDate = new ClientFinanceDate();
 		ClientFinanceDate endDate = new ClientFinanceDate();
 		if ((iterator).hasNext()) {
@@ -6519,7 +6519,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
+	public VList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			String itemName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
 
@@ -6531,13 +6531,13 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
-		return createPurchasesByItemDetail(new ArrayList<SalesByCustomerDetail>(
+		return createPurchasesByItemDetail(new VList<SalesByCustomerDetail>(
 				l));
 
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
+	public VList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			String vendorName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
 
@@ -6549,13 +6549,13 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return createPurchasesByVendorDetail(new ArrayList<SalesByCustomerDetail>(
+		return createPurchasesByVendorDetail(new VList<SalesByCustomerDetail>(
 				l));
 
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
+	public VList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String customerName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
 
@@ -6569,13 +6569,13 @@ public class FinanceTool implements IFinanceDAOService {
 				startDate.getDate()).setParameter("endDate", endDate.getDate()))
 				.list();
 
-		return createSalesByCustomerDetailReport(new ArrayList<SalesByCustomerDetail>(
+		return createSalesByCustomerDetailReport(new VList<SalesByCustomerDetail>(
 				l));
 
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
+	public VList<SalesByCustomerDetail> getSalesByItemDetail(
 			String itemName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
 
@@ -6589,12 +6589,12 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return createSalesByItemDetail(new ArrayList<SalesByCustomerDetail>(l));
+		return createSalesByItemDetail(new VList<SalesByCustomerDetail>(l));
 
 	}
 
 	@Override
-	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
+	public VList<TransactionDetailByAccount> getTransactionDetailByAccount(
 			String accountName, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
 
@@ -6610,7 +6610,7 @@ public class FinanceTool implements IFinanceDAOService {
 					"startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate());
 
-			List<TransactionDetailByAccount> transactionDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
+			List<TransactionDetailByAccount> transactionDetailByAccountList = new VList<TransactionDetailByAccount>();
 			List list = query.list();
 
 			if (list != null && list.size() > 0) {
@@ -6619,7 +6619,7 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 
 			if (transactionDetailByAccountList != null) {
-				return new ArrayList<TransactionDetailByAccount>(
+				return new VList<TransactionDetailByAccount>(
 						transactionDetailByAccountList);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -6631,7 +6631,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<TrialBalance> getBalanceSheetReport(FinanceDate startDate,
+	public VList<TrialBalance> getBalanceSheetReport(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -6647,7 +6647,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<TrialBalance> queryResult = new ArrayList<TrialBalance>();
+		List<TrialBalance> queryResult = new VList<TrialBalance>();
 
 		TrialBalance netIncomeTB = new TrialBalance();
 		netIncomeTB.setAccountName("P&L Brought Forward/YTD");
@@ -6695,12 +6695,12 @@ public class FinanceTool implements IFinanceDAOService {
 		List<TrialBalance> sortedList = getBalanceSheetSorted(queryResult);
 		sortedList.add(netIncomeTB);
 
-		return new ArrayList<TrialBalance>(sortedList);
+		return new VList<TrialBalance>(sortedList);
 
 	}
 
 	@Override
-	public ArrayList<TrialBalance> getProfitAndLossReport(
+	public VList<TrialBalance> getProfitAndLossReport(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -6731,7 +6731,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<TrialBalance> queryResult = new ArrayList<TrialBalance>();
+		List<TrialBalance> queryResult = new VList<TrialBalance>();
 		while ((iterator).hasNext()) {
 
 			TrialBalance t = new TrialBalance();
@@ -6767,8 +6767,8 @@ public class FinanceTool implements IFinanceDAOService {
 			// }
 
 		}
-		List<TrialBalance> sortedResult = new ArrayList<TrialBalance>();
-		List<TrialBalance> otherExpenseList = new ArrayList<TrialBalance>();
+		List<TrialBalance> sortedResult = new VList<TrialBalance>();
+		List<TrialBalance> otherExpenseList = new VList<TrialBalance>();
 
 		sortedResult = sortTheList(queryResult);
 		int index = 0;
@@ -6785,12 +6785,12 @@ public class FinanceTool implements IFinanceDAOService {
 
 		if (otherExpenseList.size() != 0)
 			sortedResult.addAll((index + 1), otherExpenseList);
-		return new ArrayList<TrialBalance>(sortedResult);
+		return new VList<TrialBalance>(sortedResult);
 	}
 
-	private ArrayList<TrialBalance> removeUnwantedEntries(
+	private VList<TrialBalance> removeUnwantedEntries(
 			List<TrialBalance> sortTheList) {
-		ArrayList<TrialBalance> list = new ArrayList<TrialBalance>();
+		VList<TrialBalance> list = new VList<TrialBalance>();
 		for (TrialBalance tb : sortTheList) {
 			if (!DecimalUtil.isEquals(tb.getAmount(), 0.0)
 					|| !DecimalUtil.isEquals(tb.getTotalAmount(), 0.0)
@@ -6812,7 +6812,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<TrialBalance> getCashFlowReport(FinanceDate startDate,
+	public VList<TrialBalance> getCashFlowReport(FinanceDate startDate,
 			FinanceDate endDate) throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -6845,7 +6845,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<TrialBalance> queryResult = new ArrayList<TrialBalance>();
+		List<TrialBalance> queryResult = new VList<TrialBalance>();
 		TrialBalance netIncomeTB = new TrialBalance();
 		netIncomeTB.setAccountName("Net Income");
 		netIncomeTB.setAmount(netIncome);
@@ -6896,7 +6896,7 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 		List<TrialBalance> sortedList = sortTheList(queryResult);
 		sortedList.add(0, netIncomeTB);
-		return new ArrayList<TrialBalance>(sortedList);
+		return new VList<TrialBalance>(sortedList);
 
 	}
 
@@ -6919,7 +6919,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	private List<TrialBalance> sortTheList(List<TrialBalance> queryResult) {
-		List<TrialBalance> sortedList = new ArrayList<TrialBalance>();
+		List<TrialBalance> sortedList = new VList<TrialBalance>();
 
 		for (TrialBalance t : queryResult) {
 
@@ -7194,7 +7194,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	private List<Box> createBoxes(TAXAgency vatAgency) {
 
-		List<Box> boxes = new ArrayList<Box>();
+		List<Box> boxes = new VList<Box>();
 
 		if (vatAgency.getVATReturn() == VATReturn.VAT_RETURN_UK_VAT) {
 			Box b1 = new Box();
@@ -7238,16 +7238,16 @@ public class FinanceTool implements IFinanceDAOService {
 			b9.setBoxNumber(9);
 			b10.setBoxNumber(10);
 
-			b1.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b2.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b3.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b4.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b5.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b6.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b7.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b8.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b9.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b10.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
+			b1.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b2.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b3.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b4.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b5.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b6.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b7.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b8.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b9.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b10.setTaxRateCalculations(new VList<TAXRateCalculation>());
 
 			boxes.add(b1);
 			boxes.add(b2);
@@ -7302,16 +7302,16 @@ public class FinanceTool implements IFinanceDAOService {
 			b9.setBoxNumber(9);
 			b10.setBoxNumber(10);
 
-			b1.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b2.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b3.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b4.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b5.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b6.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b7.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b8.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b9.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
-			b10.setTaxRateCalculations(new ArrayList<TAXRateCalculation>());
+			b1.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b2.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b3.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b4.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b5.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b6.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b7.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b8.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b9.setTaxRateCalculations(new VList<TAXRateCalculation>());
+			b10.setTaxRateCalculations(new VList<TAXRateCalculation>());
 
 			boxes.add(b1);
 			boxes.add(b2);
@@ -7328,7 +7328,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<VATDetail> getPriorVATReturnVATDetailReport(
+	public VList<VATDetail> getPriorVATReturnVATDetailReport(
 			TAXAgency vatAgency, FinanceDate endDate) throws DAOException,
 			ParseException {
 
@@ -7385,7 +7385,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List<TAXRateCalculation> vats = query.list();
 
-		List<VATDetail> vatDetails = new ArrayList<VATDetail>();
+		List<VATDetail> vatDetails = new VList<VATDetail>();
 
 		for (TAXRateCalculation v : vats) {
 
@@ -7904,10 +7904,10 @@ public class FinanceTool implements IFinanceDAOService {
 		return boxName;
 	}
 
-	private ArrayList<VATDetail> getListOfVATDetails(
+	private VList<VATDetail> getListOfVATDetails(
 			VATDetailReport vatDetailReport) {
 
-		List<VATDetail> vatDetails = new ArrayList<VATDetail>();
+		List<VATDetail> vatDetails = new VList<VATDetail>();
 
 		LinkedHashMap<String, List<VATDetail>> map = vatDetailReport
 				.getEntries();
@@ -8013,12 +8013,12 @@ public class FinanceTool implements IFinanceDAOService {
 			vatDetails.addAll(map
 					.get(VATDetailReport.IRELAND_BOX9_TOTAL_NET_PURCHASES));
 
-		return new ArrayList<VATDetail>(vatDetails);
+		return new VList<VATDetail>(vatDetails);
 
 	}
 
 	@Override
-	public ArrayList<VATSummary> getPriorReturnVATSummary(TAXAgency taxAgency,
+	public VList<VATSummary> getPriorReturnVATSummary(TAXAgency taxAgency,
 			FinanceDate endDate) throws DAOException, ParseException {
 		Session session = HibernateUtil.getCurrentSession();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -8037,7 +8037,7 @@ public class FinanceTool implements IFinanceDAOService {
 									+ endDate));
 		}
 
-		List<VATSummary> vatSummaries = new ArrayList<VATSummary>();
+		List<VATSummary> vatSummaries = new VList<VATSummary>();
 
 		vatSummaries.add(new VATSummary(VATSummary.UK_BOX1_VAT_DUE_ON_SALES,
 				vatReturn.getBoxes().get(0).getAmount()));
@@ -8063,11 +8063,11 @@ public class FinanceTool implements IFinanceDAOService {
 		vatSummaries.add(new VATSummary(VATSummary.UK_BOX10_UNCATEGORISED,
 				vatReturn.getBoxes().get(9).getAmount()));
 
-		return new ArrayList<VATSummary>(vatSummaries);
+		return new VList<VATSummary>(vatSummaries);
 	}
 
 	@Override
-	public ArrayList<VATDetail> getVATDetailReport(FinanceDate startDate,
+	public VList<VATDetail> getVATDetailReport(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException, ParseException {
 
 		VATDetailReport vatDetailReport = new VATDetailReport();
@@ -8078,7 +8078,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<VATSummary> getVAT100Report(TAXAgency taxAgency,
+	public VList<VATSummary> getVAT100Report(TAXAgency taxAgency,
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -8103,7 +8103,7 @@ public class FinanceTool implements IFinanceDAOService {
 					: ((FinanceDate) object[1]));
 
 		}
-		// List<Long> vatReturns = new ArrayList<VATReturn>();
+		// List<Long> vatReturns = new VList<VATReturn>();
 		// Long startDate1 = null;
 		// Long endDate1 = null;
 		// // for (VATReturn v : vatReturns) {
@@ -8284,12 +8284,12 @@ public class FinanceTool implements IFinanceDAOService {
 		// + AccounterConstants.UK_BOX2_VAT_DUE_ON_ACQUISITIONS);
 		// }
 
-		return new ArrayList<VATSummary>(vatSummaries);
+		return new VList<VATSummary>(vatSummaries);
 	}
 
 	private List<VATSummary> createRows(TAXAgency taxAgency) {
 
-		List<VATSummary> vatSummaries = new ArrayList<VATSummary>();
+		List<VATSummary> vatSummaries = new VList<VATSummary>();
 
 		if (taxAgency.getVATReturn() == TAXAgency.RETURN_TYPE_UK_VAT) {
 			vatSummaries.add(new VATSummary(
@@ -8361,7 +8361,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<PayVATEntries> getPayVATEntries() {
+	public VList<PayVATEntries> getPayVATEntries() {
 
 		List<PayVATEntries> payVATEntries = new Vector<PayVATEntries>();
 
@@ -8377,12 +8377,12 @@ public class FinanceTool implements IFinanceDAOService {
 			payVATEntries.add(new PayVATEntries(v));
 		}
 
-		return new ArrayList<PayVATEntries>(payVATEntries);
+		return new VList<PayVATEntries>(payVATEntries);
 
 	}
 
 	@Override
-	public ArrayList<ReceiveVATEntries> getReceiveVATEntries() {
+	public VList<ReceiveVATEntries> getReceiveVATEntries() {
 
 		List<ReceiveVATEntries> receiveVATEntries = new Vector<ReceiveVATEntries>();
 
@@ -8400,12 +8400,12 @@ public class FinanceTool implements IFinanceDAOService {
 			receiveVATEntries.add(new ReceiveVATEntries(v));
 		}
 
-		return new ArrayList<ReceiveVATEntries>(receiveVATEntries);
+		return new VList<ReceiveVATEntries>(receiveVATEntries);
 
 	}
 
 	@Override
-	public ArrayList<OpenAndClosedOrders> getOpenSalesOrders(
+	public VList<OpenAndClosedOrders> getOpenSalesOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -8415,11 +8415,11 @@ public class FinanceTool implements IFinanceDAOService {
 		.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+		return prepareQueryResult(new VList<OpenAndClosedOrders>(l));
 	}
 
 	@Override
-	public ArrayList<OpenAndClosedOrders> getClosedSalesOrders(
+	public VList<OpenAndClosedOrders> getClosedSalesOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8428,11 +8428,11 @@ public class FinanceTool implements IFinanceDAOService {
 		.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+		return prepareQueryResult(new VList<OpenAndClosedOrders>(l));
 	}
 
 	@Override
-	public ArrayList<OpenAndClosedOrders> getCompletedSalesOrders(
+	public VList<OpenAndClosedOrders> getCompletedSalesOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -8441,11 +8441,11 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+		return prepareQueryResult(new VList<OpenAndClosedOrders>(l));
 	}
 
 	@Override
-	public ArrayList<OpenAndClosedOrders> getCanceledSalesOrders(
+	public VList<OpenAndClosedOrders> getCanceledSalesOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -8454,11 +8454,11 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+		return prepareQueryResult(new VList<OpenAndClosedOrders>(l));
 	}
 
 	@Override
-	public ArrayList<OpenAndClosedOrders> getOpenPurchaseOrders(
+	public VList<OpenAndClosedOrders> getOpenPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8467,11 +8467,11 @@ public class FinanceTool implements IFinanceDAOService {
 		.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+		return prepareQueryResult(new VList<OpenAndClosedOrders>(l));
 	}
 
 	@Override
-	public ArrayList<OpenAndClosedOrders> getClosedPurchaseOrders(
+	public VList<OpenAndClosedOrders> getClosedPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8480,11 +8480,11 @@ public class FinanceTool implements IFinanceDAOService {
 		.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+		return prepareQueryResult(new VList<OpenAndClosedOrders>(l));
 	}
 
 	@Override
-	public ArrayList<OpenAndClosedOrders> getCompletedPurchaseOrders(
+	public VList<OpenAndClosedOrders> getCompletedPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8492,29 +8492,29 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+		return prepareQueryResult(new VList<OpenAndClosedOrders>(l));
 	}
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseOrders(
+	public VList<OpenAndClosedOrders> getPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		List l = ((Query) session.getNamedQuery("getPurchaseOrders")
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+		return prepareQueryResult(new VList<OpenAndClosedOrders>(l));
 	}
 
-	public ArrayList<OpenAndClosedOrders> getSalesOrders(FinanceDate startDate,
+	public VList<OpenAndClosedOrders> getSalesOrders(FinanceDate startDate,
 			FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 		List l = ((Query) session.getNamedQuery("getSalesOrders")
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+		return prepareQueryResult(new VList<OpenAndClosedOrders>(l));
 	}
 
 	@Override
-	public ArrayList<OpenAndClosedOrders> getCanceledPurchaseOrders(
+	public VList<OpenAndClosedOrders> getCanceledPurchaseOrders(
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8523,13 +8523,13 @@ public class FinanceTool implements IFinanceDAOService {
 		.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+		return prepareQueryResult(new VList<OpenAndClosedOrders>(l));
 	}
 
-	private ArrayList<OpenAndClosedOrders> prepareQueryResult(List l) {
+	private VList<OpenAndClosedOrders> prepareQueryResult(List l) {
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<OpenAndClosedOrders> queryResult = new ArrayList<OpenAndClosedOrders>();
+		List<OpenAndClosedOrders> queryResult = new VList<OpenAndClosedOrders>();
 		while ((iterator).hasNext()) {
 			OpenAndClosedOrders openAndClosedOrder = new OpenAndClosedOrders();
 			object = (Object[]) iterator.next();
@@ -8546,13 +8546,13 @@ public class FinanceTool implements IFinanceDAOService {
 					: 0.0);
 			queryResult.add(openAndClosedOrder);
 		}
-		return new ArrayList<OpenAndClosedOrders>(queryResult);
+		return new VList<OpenAndClosedOrders>(queryResult);
 	}
 
 	@Override
-	public ArrayList<UncategorisedAmountsReport> getUncategorisedAmountsReport(
+	public VList<UncategorisedAmountsReport> getUncategorisedAmountsReport(
 			FinanceDate fromDate, FinanceDate toDate) throws ParseException {
-		List<UncategorisedAmountsReport> uncategorisedAmounts = new ArrayList<UncategorisedAmountsReport>();
+		List<UncategorisedAmountsReport> uncategorisedAmounts = new VList<UncategorisedAmountsReport>();
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8671,15 +8671,15 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		return new ArrayList<UncategorisedAmountsReport>(uncategorisedAmounts);
+		return new VList<UncategorisedAmountsReport>(uncategorisedAmounts);
 	}
 
 	@Override
-	public ArrayList<VATItemDetail> getVATItemDetailReport(
+	public VList<VATItemDetail> getVATItemDetailReport(
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException {
 
-		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
+		List<VATItemDetail> vatItemDetails = new VList<VATItemDetail>();
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8737,15 +8737,15 @@ public class FinanceTool implements IFinanceDAOService {
 			vatItemDetails.add(vi);
 		}
 
-		return new ArrayList<VATItemDetail>(vatItemDetails);
+		return new VList<VATItemDetail>(vatItemDetails);
 	}
 
 	@Override
-	public ArrayList<VATItemDetail> getVATItemDetailReport(String taxItemName,
+	public VList<VATItemDetail> getVATItemDetailReport(String taxItemName,
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException {
 
-		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
+		List<VATItemDetail> vatItemDetails = new VList<VATItemDetail>();
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8848,17 +8848,17 @@ public class FinanceTool implements IFinanceDAOService {
 			// vatItemDetails.add(vi);
 		}
 
-		return new ArrayList<VATItemDetail>(vatItemDetails);
+		return new VList<VATItemDetail>(vatItemDetails);
 	}
 
 	@Override
-	public ArrayList<VATItemSummary> getVATItemSummaryReport(
+	public VList<VATItemSummary> getVATItemSummaryReport(
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException {
 
-		List<VATItemSummary> vatItemSummaries = new ArrayList<VATItemSummary>();
+		List<VATItemSummary> vatItemSummaries = new VList<VATItemSummary>();
 
-		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
+		List<VATItemDetail> vatItemDetails = new VList<VATItemDetail>();
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8910,15 +8910,15 @@ public class FinanceTool implements IFinanceDAOService {
 		if (vi != null)
 			vatItemSummaries.add(vi);
 
-		return new ArrayList<VATItemSummary>(vatItemSummaries);
+		return new VList<VATItemSummary>(vatItemSummaries);
 	}
 
 	@Override
-	public ArrayList<ECSalesListDetail> getECSalesListDetailReport(
+	public VList<ECSalesListDetail> getECSalesListDetailReport(
 			String payeeName, FinanceDate fromDate, FinanceDate toDate)
 			throws DAOException, ParseException {
 
-		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
+		List<VATItemDetail> vatItemDetails = new VList<VATItemDetail>();
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -8931,7 +8931,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
-		List<ECSalesListDetail> details = new ArrayList<ECSalesListDetail>();
+		List<ECSalesListDetail> details = new VList<ECSalesListDetail>();
 
 		Map<String, List<ECSalesListDetail>> customerWiseDetail = new LinkedHashMap<String, List<ECSalesListDetail>>();
 
@@ -8975,7 +8975,7 @@ public class FinanceTool implements IFinanceDAOService {
 						if (customerWiseDetail.containsKey(e.getName())) {
 							customerWiseDetail.get(e.getName()).add(e);
 						} else {
-							List<ECSalesListDetail> list = new ArrayList<ECSalesListDetail>();
+							List<ECSalesListDetail> list = new VList<ECSalesListDetail>();
 							list.add(e);
 							customerWiseDetail.put(e.getName(), list);
 						}
@@ -9021,15 +9021,15 @@ public class FinanceTool implements IFinanceDAOService {
 			details.addAll(customerWiseDetail.get(a));
 		}
 
-		return new ArrayList<ECSalesListDetail>(details);
+		return new VList<ECSalesListDetail>(details);
 
 	}
 
 	@Override
-	public ArrayList<ECSalesList> getECSalesListReport(FinanceDate fromDate,
+	public VList<ECSalesList> getECSalesListReport(FinanceDate fromDate,
 			FinanceDate toDate) throws DAOException, ParseException {
 
-		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
+		List<VATItemDetail> vatItemDetails = new VList<VATItemDetail>();
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -9041,7 +9041,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		List<TAXRateCalculation> taxRateCalculations = query.list();
 
-		List<ECSalesList> details = new ArrayList<ECSalesList>();
+		List<ECSalesList> details = new VList<ECSalesList>();
 
 		Map<String, Double> customerWiseDetail = new LinkedHashMap<String, Double>();
 
@@ -9091,12 +9091,12 @@ public class FinanceTool implements IFinanceDAOService {
 			details.add(e);
 		}
 
-		return new ArrayList<ECSalesList>(details);
+		return new VList<ECSalesList>(details);
 
 	}
 
 	@Override
-	public ArrayList<ReverseChargeListDetail> getReverseChargeListDetailReport(
+	public VList<ReverseChargeListDetail> getReverseChargeListDetailReport(
 			String payeeName, FinanceDate fromDate, FinanceDate toDate)
 			throws DAOException, ParseException {
 		// /////
@@ -9139,7 +9139,7 @@ public class FinanceTool implements IFinanceDAOService {
 				if (maps.containsKey(r.getCustomerName())) {
 					maps.get(r.getCustomerName()).add(r);
 				} else {
-					List<ReverseChargeListDetail> reverseChargesList = new ArrayList<ReverseChargeListDetail>();
+					List<ReverseChargeListDetail> reverseChargesList = new VList<ReverseChargeListDetail>();
 					reverseChargesList.add(r);
 					maps.put(r.getCustomerName(), reverseChargesList);
 				}
@@ -9165,7 +9165,7 @@ public class FinanceTool implements IFinanceDAOService {
 					if (maps.containsKey(r2.getCustomerName())) {
 						maps.get(r2.getCustomerName()).add(r2);
 					} else {
-						List<ReverseChargeListDetail> reverseChargesList = new ArrayList<ReverseChargeListDetail>();
+						List<ReverseChargeListDetail> reverseChargesList = new VList<ReverseChargeListDetail>();
 						reverseChargesList.add(r2);
 						maps.put(r2.getCustomerName(), reverseChargesList);
 					}
@@ -9178,18 +9178,18 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Arrays.sort(names, String.CASE_INSENSITIVE_ORDER);
 
-		List<ReverseChargeListDetail> reverseCharges = new ArrayList<ReverseChargeListDetail>();
+		List<ReverseChargeListDetail> reverseCharges = new VList<ReverseChargeListDetail>();
 
 		for (String s : names) {
 
 			reverseCharges.addAll(maps.get(s));
 		}
 
-		return new ArrayList<ReverseChargeListDetail>(reverseCharges);
+		return new VList<ReverseChargeListDetail>(reverseCharges);
 	}
 
 	@Override
-	public ArrayList<ReverseChargeList> getReverseChargeListReport(
+	public VList<ReverseChargeList> getReverseChargeListReport(
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException {
 		// /////
@@ -9259,7 +9259,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Arrays.sort(names, String.CASE_INSENSITIVE_ORDER);
 
-		List<ReverseChargeList> reverseCharges = new ArrayList<ReverseChargeList>();
+		List<ReverseChargeList> reverseCharges = new VList<ReverseChargeList>();
 
 		for (String s : names) {
 
@@ -9270,7 +9270,7 @@ public class FinanceTool implements IFinanceDAOService {
 			reverseCharges.add(r);
 		}
 
-		return new ArrayList<ReverseChargeList>(reverseCharges);
+		return new VList<ReverseChargeList>(reverseCharges);
 	}
 
 	@Override
@@ -9675,7 +9675,7 @@ public class FinanceTool implements IFinanceDAOService {
 		vg.setName(groupName);
 		vg.setPercentage(true);
 		vg.setSalesType(isSalesType);
-		List<TAXItem> vats = new ArrayList<TAXItem>();
+		List<TAXItem> vats = new VList<TAXItem>();
 		double groupRate = 0;
 		for (String s : vatItems) {
 			TAXItem v = (TAXItem) getServerObjectByName(
@@ -9697,7 +9697,7 @@ public class FinanceTool implements IFinanceDAOService {
 		Map<String, Map<Integer, Double>> rows = new LinkedHashMap<String, Map<Integer, Double>>();
 
 		Session session = HibernateUtil.getCurrentSession();
-		List<Account> accounts = new ArrayList<Account>(session.getNamedQuery(
+		List<Account> accounts = new VList<Account>(session.getNamedQuery(
 				"list.Account").list());
 		// List<Account> accounts = getCompany().getAccounts();
 
@@ -9995,61 +9995,61 @@ public class FinanceTool implements IFinanceDAOService {
 
 		company.setAccounts(getAccountsListBySorted());
 
-		company.setFiscalYears(new ArrayList<FiscalYear>(session.getNamedQuery(
+		company.setFiscalYears(new VList<FiscalYear>(session.getNamedQuery(
 				"list.FiscalYear").list()));
 
-		company.setPayees(new ArrayList<Payee>(session.getNamedQuery(
+		company.setPayees(new VList<Payee>(session.getNamedQuery(
 				"list.Payee").list()));
 
-		company.setItems(new ArrayList<Item>(session.getNamedQuery("list.Item")
+		company.setItems(new VList<Item>(session.getNamedQuery("list.Item")
 				.list()));
 
-		company.setCustomerGroups(new ArrayList<CustomerGroup>(session
+		company.setCustomerGroups(new VList<CustomerGroup>(session
 				.getNamedQuery("list.CustomerGroup").list()));
 
-		company.setVendorGroups(new ArrayList<VendorGroup>(session
+		company.setVendorGroups(new VList<VendorGroup>(session
 				.getNamedQuery("list.VendorGroup").list()));
 
-		company.setShippingTerms(new ArrayList<ShippingTerms>(session
+		company.setShippingTerms(new VList<ShippingTerms>(session
 				.getNamedQuery("list.ShippingTerms").list()));
 
-		company.setShippingMethods(new ArrayList<ShippingMethod>(session
+		company.setShippingMethods(new VList<ShippingMethod>(session
 				.getNamedQuery("list.ShippingMethod").list()));
 
-		company.setPriceLevels(new ArrayList<PriceLevel>(session.getNamedQuery(
+		company.setPriceLevels(new VList<PriceLevel>(session.getNamedQuery(
 				"list.PriceLevel").list()));
 
-		company.setItemGroups(new ArrayList<ItemGroup>(session.getNamedQuery(
+		company.setItemGroups(new VList<ItemGroup>(session.getNamedQuery(
 				"list.ItemGroup").list()));
 
-		company.setTaxGroups(new ArrayList<TAXGroup>(session.getNamedQuery(
+		company.setTaxGroups(new VList<TAXGroup>(session.getNamedQuery(
 				"list.TAXGroup").list()));
 
-		company.setPaymentTerms(new ArrayList<PaymentTerms>(session
+		company.setPaymentTerms(new VList<PaymentTerms>(session
 				.getNamedQuery("list.PaymentTerms").list()));
 
-		company.setCreditRatings(new ArrayList<CreditRating>(session
+		company.setCreditRatings(new VList<CreditRating>(session
 				.getNamedQuery("list.CreditRating").list()));
 
-		company.setSalesPersons(new ArrayList<SalesPerson>(session
+		company.setSalesPersons(new VList<SalesPerson>(session
 				.getNamedQuery("list.SalesPerson").list()));
 
-		company.setTaxCodes(new ArrayList<TAXCode>(session.getNamedQuery(
+		company.setTaxCodes(new VList<TAXCode>(session.getNamedQuery(
 				"list.TAXCode").list()));
 
-		company.setTaxItems(new ArrayList<TAXItem>(session.getNamedQuery(
+		company.setTaxItems(new VList<TAXItem>(session.getNamedQuery(
 				"list.TAXItem").list()));
 
-		company.setTaxItemGroups(new ArrayList<TAXItemGroup>(session
+		company.setTaxItemGroups(new VList<TAXItemGroup>(session
 				.getNamedQuery("list.TAXItemGroups").list()));
 
-		company.setBanks(new ArrayList<Bank>(session.getNamedQuery("list.Bank")
+		company.setBanks(new VList<Bank>(session.getNamedQuery("list.Bank")
 				.list()));
 
-		company.setTaxrates(new ArrayList<TaxRates>(session.getNamedQuery(
+		company.setTaxrates(new VList<TaxRates>(session.getNamedQuery(
 				"list.TaxRates").list()));
 
-		company.setFixedAssets(new ArrayList<FixedAsset>(session.getNamedQuery(
+		company.setFixedAssets(new VList<FixedAsset>(session.getNamedQuery(
 				"list.FixedAsset").list()));
 		// company
 		// .setSellingDisposingFixedAssets(new
@@ -10057,21 +10057,21 @@ public class FinanceTool implements IFinanceDAOService {
 		// session.getNamedQuery(
 		// "list.SellingOrDisposingFixedAsset").list()));
 
-		company.setVatReturns(new HashSet<VATReturn>(session.getNamedQuery(
+		company.setVatReturns(new VList<VATReturn>(session.getNamedQuery(
 				"list.VATReturn").list()));
 		company.setCurrencies(new HashSet<Currency>(session.getNamedQuery(
 				"list.currency").list()));
 
-		company.setTaxAdjustments(new ArrayList<TAXAdjustment>(session
+		company.setTaxAdjustments(new VList<TAXAdjustment>(session
 				.getNamedQuery("list.TAXAdjustment").list()));
 
-		// company.setVatCodes(new ArrayList<TAXCode>(session.getNamedQuery(
+		// company.setVatCodes(new VList<TAXCode>(session.getNamedQuery(
 		// "list.VATCode").list()));
 
-		// company.setVatItemGroups(new ArrayList<TAXItemGroup>(session
+		// company.setVatItemGroups(new VList<TAXItemGroup>(session
 		// .getNamedQuery("list.VATItemGroup").list()));
 
-		company.setTaxAgencies(new ArrayList<TAXAgency>(session.getNamedQuery(
+		company.setTaxAgencies(new VList<TAXAgency>(session.getNamedQuery(
 				"list.TAXAgency").list()));
 
 		company.setVatBoxes(new HashSet<Box>(session.getNamedQuery("list.Box")
@@ -10079,7 +10079,7 @@ public class FinanceTool implements IFinanceDAOService {
 		company.setVatReturnBoxes(new HashSet<VATReturnBox>(session
 				.getNamedQuery("list.VATReturnBox").list()));
 
-		company.setBrandingTheme(new ArrayList<BrandingTheme>(session
+		company.setBrandingTheme(new VList<BrandingTheme>(session
 				.getNamedQuery("list.BrandingTheme").list()));
 
 		company = company.toCompany(company);
@@ -10159,7 +10159,7 @@ public class FinanceTool implements IFinanceDAOService {
 		// }
 		// }
 		//
-		// List<FinanceLogger> log = new ArrayList<FinanceLogger>();
+		// List<FinanceLogger> log = new VList<FinanceLogger>();
 		//
 		// if (isNext) {
 		// for (int i = index + 1; i < index + 20; i++) {
@@ -10294,7 +10294,7 @@ public class FinanceTool implements IFinanceDAOService {
 		return NumberUtils.getNextTransactionNumber(transactionType);
 	}
 
-	public ArrayList<HrEmployee> getHREmployees() {
+	public VList<HrEmployee> getHREmployees() {
 		Session session = HibernateUtil.getCurrentSession();
 		SQLQuery query = session.createSQLQuery(
 				"SELECT empd.FULL_NAME as name FROM USERS empd").addScalar(
@@ -10303,7 +10303,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		// Object[] object = null;
 		Iterator iterator = list.iterator();
-		List<HrEmployee> hrEmployees = new ArrayList<HrEmployee>();
+		List<HrEmployee> hrEmployees = new VList<HrEmployee>();
 		while ((iterator).hasNext()) {
 
 			HrEmployee hrEmployee = new HrEmployee();
@@ -10313,7 +10313,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			hrEmployees.add(hrEmployee);
 		}
-		return new ArrayList<HrEmployee>(hrEmployees);
+		return new VList<HrEmployee>(hrEmployees);
 	}
 
 	// private String getStringwithIncreamentedDigit(String prevNumber) {
@@ -10445,11 +10445,11 @@ public class FinanceTool implements IFinanceDAOService {
 		return (Company) session.get(Company.class, 1l);
 	}
 
-	private List<Account> getAccountsListBySorted() {
+	private VList<Account> getAccountsListBySorted() {
 		Session session = HibernateUtil.getCurrentSession();
-		ArrayList<Account> list1 = new ArrayList<Account>();
-		List<Account> list2 = new ArrayList<Account>();
-		ArrayList<Account> list = new ArrayList<Account>(session.getNamedQuery(
+		VList<Account> list1 = new VList<Account>();
+		List<Account> list2 = new VList<Account>();
+		VList<Account> list = new VList<Account>(session.getNamedQuery(
 				"list.Account").list());
 		int sort[] = { 14, 15, 18, 16, 3, 4, 8, 9, 6, 12, 7, 13 };
 
@@ -10522,7 +10522,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<PayeeList> getPayeeList(int transactionCategory)
+	public VList<PayeeList> getPayeeList(int transactionCategory)
 			throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -10730,7 +10730,7 @@ public class FinanceTool implements IFinanceDAOService {
 				String payeeName = null;
 				PayeeList payeeList = null;
 				Iterator iterator = list.iterator();
-				List<PayeeList> queryResult = new ArrayList<PayeeList>();
+				List<PayeeList> queryResult = new VList<PayeeList>();
 				while ((iterator).hasNext()) {
 
 					object = (Object[]) iterator.next();
@@ -10781,7 +10781,7 @@ public class FinanceTool implements IFinanceDAOService {
 						queryResult.add(payeeList);
 					}
 				}
-				return new ArrayList<PayeeList>(queryResult);
+				return new VList<PayeeList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -10792,7 +10792,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 	private List<TrialBalance> getBalanceSheetSorted(List<TrialBalance> list) {
 
-		ArrayList<TrialBalance> sortedList = new ArrayList<TrialBalance>();
+		VList<TrialBalance> sortedList = new VList<TrialBalance>();
 
 		int sort[] = { 1, 4, 2, 5, 3, 6 };
 
@@ -10812,7 +10812,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<ExpenseList> getExpenseReportByType(int type,
+	public VList<ExpenseList> getExpenseReportByType(int type,
 			FinanceDate startDate, FinanceDate endDate) throws DAOException {
 		List list = null;
 		Session session = HibernateUtil.getCurrentSession();
@@ -10825,7 +10825,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Object[] object = null;
 		Iterator iterator = list.iterator();
-		List<ExpenseList> queryResult = new ArrayList<ExpenseList>();
+		List<ExpenseList> queryResult = new VList<ExpenseList>();
 		while ((iterator).hasNext()) {
 
 			ExpenseList expense = new ExpenseList();
@@ -10846,7 +10846,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		}
 
-		return new ArrayList<ExpenseList>(queryResult);
+		return new VList<ExpenseList>(queryResult);
 	}
 
 	@Override
@@ -10855,7 +10855,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<CheckDetailReport> getCheckDetailReport(
+	public VList<CheckDetailReport> getCheckDetailReport(
 			long paymentmethod, FinanceDate startDate, FinanceDate endDate)
 			throws DAOException {
 
@@ -10867,7 +10867,7 @@ public class FinanceTool implements IFinanceDAOService {
 		List list = query.list();
 		Object[] object = null;
 		Iterator iterator = list.iterator();
-		List<CheckDetailReport> queryResult = new ArrayList<CheckDetailReport>();
+		List<CheckDetailReport> queryResult = new VList<CheckDetailReport>();
 		while ((iterator).hasNext()) {
 
 			CheckDetailReport checkDetail = new CheckDetailReport();
@@ -10888,11 +10888,11 @@ public class FinanceTool implements IFinanceDAOService {
 
 		}
 
-		return new ArrayList<CheckDetailReport>(queryResult);
+		return new VList<CheckDetailReport>(queryResult);
 	}
 
 	@Override
-	public ArrayList<DepositDetail> getDepositDetail(FinanceDate startDate,
+	public VList<DepositDetail> getDepositDetail(FinanceDate startDate,
 			FinanceDate endDate) {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -10900,7 +10900,7 @@ public class FinanceTool implements IFinanceDAOService {
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate()).list();
 		Map<Long, List<DepositDetail>> map = new LinkedHashMap<Long, List<DepositDetail>>();
-		List<DepositDetail> depositDetails = new ArrayList<DepositDetail>();
+		List<DepositDetail> depositDetails = new VList<DepositDetail>();
 		Iterator it = list.iterator();
 		Long tempTransactionID = null;
 		double tempAmount = 0;
@@ -10925,7 +10925,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (map.containsKey(d.getTransactionId())) {
 				map.get(d.getTransactionId()).add(d);
 			} else {
-				List<DepositDetail> tempList = new ArrayList<DepositDetail>();
+				List<DepositDetail> tempList = new VList<DepositDetail>();
 				tempList.add(d);
 				map.put(d.getTransactionId(), tempList);
 			}
@@ -10938,7 +10938,7 @@ public class FinanceTool implements IFinanceDAOService {
 		for (Long s : ids)
 			depositDetails.addAll(map.get(s));
 
-		return new ArrayList<DepositDetail>(depositDetails);
+		return new VList<DepositDetail>(depositDetails);
 	}
 
 	public void deleteTaxCodeOfTaxItemGroupIfUSversion(Session session,
@@ -10960,7 +10960,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<PayeeStatementsList> getPayeeStatementsList(long id,
+	public VList<PayeeStatementsList> getPayeeStatementsList(long id,
 			long transactionDate, FinanceDate fromDate, FinanceDate toDate,
 			int noOfDays, boolean isEnabledOfZeroBalBox,
 			boolean isEnabledOfLessthanZeroBalBox,
@@ -10984,7 +10984,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<PayeeStatementsList> queryResult = new ArrayList<PayeeStatementsList>();
+				List<PayeeStatementsList> queryResult = new VList<PayeeStatementsList>();
 				while ((iterator).hasNext()) {
 
 					PayeeStatementsList statementsList = new PayeeStatementsList();
@@ -11037,7 +11037,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 					queryResult.add(statementsList);
 				}
-				return new ArrayList<PayeeStatementsList>(queryResult);
+				return new VList<PayeeStatementsList>(queryResult);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -11047,7 +11047,7 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<Double> getGraphPointsforAccount(int chartType,
+	public VList<Double> getGraphPointsforAccount(int chartType,
 			long accountNo) throws DAOException {
 
 		try {
@@ -11396,7 +11396,7 @@ public class FinanceTool implements IFinanceDAOService {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<Double> gPoints = new ArrayList<Double>();
+				List<Double> gPoints = new VList<Double>();
 
 				while (iterator.hasNext()) {
 					object = (Object[]) iterator.next();
@@ -11520,7 +11520,7 @@ public class FinanceTool implements IFinanceDAOService {
 					// gPoints.add(Double.valueOf(accountNo));
 
 				}
-				return new ArrayList<Double>(gPoints);
+				return new VList<Double>(gPoints);
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
@@ -11538,10 +11538,10 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<BillsList> getEmployeeExpensesByStatus(
+	public VList<BillsList> getEmployeeExpensesByStatus(
 			String employeeName, int status) throws DAOException {
 
-		List<BillsList> billsList = new ArrayList<BillsList>();
+		List<BillsList> billsList = new VList<BillsList>();
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = null;
 		if (employeeName != null)
@@ -11578,7 +11578,7 @@ public class FinanceTool implements IFinanceDAOService {
 					.getTime()));
 			billsList.add(bills);
 		}
-		return new ArrayList<BillsList>(billsList);
+		return new VList<BillsList>(billsList);
 	}
 
 	@Override
@@ -11616,10 +11616,10 @@ public class FinanceTool implements IFinanceDAOService {
 		return true;
 	}
 
-	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException {
+	public VList<ClientUserInfo> getAllUsers() throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<User> financeUsers = session.getNamedQuery("list.User").list();
-		List<ClientUserInfo> clientUsers = new ArrayList<ClientUserInfo>();
+		List<ClientUserInfo> clientUsers = new VList<ClientUserInfo>();
 		for (User user : financeUsers) {
 			if (!user.isDeleted()) {
 				ClientUser clientUser = new ClientConvertUtil().toClientObject(
@@ -11628,7 +11628,7 @@ public class FinanceTool implements IFinanceDAOService {
 				clientUsers.add(userInfo);
 			}
 		}
-		return new ArrayList<ClientUserInfo>(clientUsers);
+		return new VList<ClientUserInfo>(clientUsers);
 	}
 
 	/*
@@ -11638,7 +11638,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 * com.vimukti.accounter.services.IFinanceDAOService#getSalesOrders(boolean)
 	 */
 	@Override
-	public ArrayList<SalesOrdersList> getSalesOrders(boolean orderByDate) {
+	public VList<SalesOrdersList> getSalesOrders(boolean orderByDate) {
 		// its not using any where
 		return null;
 	}
@@ -11651,7 +11651,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 * )
 	 */
 	@Override
-	public ArrayList<PurchaseOrdersList> getPurchaseOrders(boolean orderByDate) {
+	public VList<PurchaseOrdersList> getPurchaseOrders(boolean orderByDate) {
 		// its not using any where
 		return null;
 	}
@@ -11664,7 +11664,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 * (long)
 	 */
 	@Override
-	public ArrayList<SalesOrdersList> getSalesOrdersForCustomer(long customerID) {
+	public VList<SalesOrdersList> getSalesOrdersForCustomer(long customerID) {
 		// its not using any where
 		return null;
 	}
@@ -11677,7 +11677,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 * (long)
 	 */
 	@Override
-	public ArrayList<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID) {
+	public VList<SalesOrdersList> getPurchaseOrdersForVendor(long vendorID) {
 		// its not using any where
 		return null;
 	}
@@ -11702,11 +11702,11 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public ArrayList<PayeeStatementsList> getCustomerStatement(long customer,
+	public VList<PayeeStatementsList> getCustomerStatement(long customer,
 			long fromDate, long toDate) {
 		Session session = HibernateUtil.getCurrentSession();
 
-		List<PayeeStatementsList> result = new ArrayList<PayeeStatementsList>();
+		List<PayeeStatementsList> result = new VList<PayeeStatementsList>();
 
 		Query query = session.getNamedQuery("getCustomerPreviousBalance");
 		query.setParameter("customerId", customer);
@@ -11735,7 +11735,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			result.add(record);
 		}
-		return new ArrayList<PayeeStatementsList>(result);
+		return new VList<PayeeStatementsList>(result);
 	}
 
 }
