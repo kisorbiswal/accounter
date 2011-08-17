@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -899,10 +898,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			data.setAccumulatedDepreciationAmount(0.0);
 
 		/* while registering the data from viewmode or updating a registeritem */
-		if ((isRegister && data != null)
+		if ((false && data != null)
 				|| (data != null && data.getStatus() == ClientFixedAsset.STATUS_REGISTERED)) {
 			data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
-		} else if (isRegister) {
+		} else if (false) {
 			/* while creating a registeritem */
 			data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
 		} else {
@@ -940,10 +939,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		//fixed asset already available or not?
-		//related form validations
-		//purchase date validation
-		
+		// fixed asset already available or not?
+		// related form validations
+		// purchase date validation
+
 		ClientFixedAsset fixedAssetByName = getCompany().getFixedAssetByName(
 				itemTxt.getValue().toString());
 		if (fixedAssetByName != null) {
@@ -955,63 +954,64 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// result.addError(itemTxt, Accounter.constants().alreadyExist());
 		// }
 
-		if (isRegister) {
-			assetNumberTxt.setRequired(true);
-			accountCombo.setRequired(true);
-			purchaseDateTxt.setRequired(true);
-			purchasePriceTxt.setRequired(true);
-			assetType.setRequired(true);
-			depreciationRate.setRequired(true);
-			depreciationMethod.setRequired(true);
-			depreciationAccount.setRequired(true);
-			if (acumulatedDeprcForm != null) {
-				accmulatdDepreciationTxt.setRequired(true);
-			}
-			if (accumulatedDepreciationAccountForm != null) {
-				accumulatedDepreciationAccount.setRequired(true);
-			}
+		// Commented due to isRegister variable removed
+		// if (isRegister) {
+		// assetNumberTxt.setRequired(true);
+		// accountCombo.setRequired(true);
+		// purchaseDateTxt.setRequired(true);
+		// purchasePriceTxt.setRequired(true);
+		// assetType.setRequired(true);
+		// depreciationRate.setRequired(true);
+		// depreciationMethod.setRequired(true);
+		// depreciationAccount.setRequired(true);
+		// if (acumulatedDeprcForm != null) {
+		// accmulatdDepreciationTxt.setRequired(true);
+		// }
+		// if (accumulatedDepreciationAccountForm != null) {
+		// accumulatedDepreciationAccount.setRequired(true);
+		// }
+		//
+		// result.add(itmNameForm.validate());
+		// result.add(itemInfoForm.validate());
+		// result.add(purchaseInfoForm.validate());
+		// result.add(assetTypeForm.validate());
+		// result.add(depreciationForm.validate());
+		// if (isAssetAccumulated) {
+		// result.add((acumulatedDeprcForm.validate()));
+		// }
+		// if (isAccumltd) {
+		// result.add((accumulatedDepreciationAccountForm.validate()));
+		// }
+		// double price = purchasePriceTxt.getAmount();
+		// if (DecimalUtil.isEquals(price, 0.0)) {
+		// result.addError(purchasePriceTxt, Accounter.constants()
+		// .purchasePricShouldNotBeZero());
+		//
+		// }
+		//
+		// if (!AccounterValidator.isValidPurchaseDate(purchaseDateTxt
+		// .getEnteredDate())) {
+		// result.addError(purchaseDateTxt, Accounter.constants()
+		// .invalidPurchaseDate());
+		// }
+		//
+		// } else {
+		result.add(itmNameForm.validate());
+		result.add(itemInfoForm.validate());
 
-			result.add(itmNameForm.validate());
-			result.add(itemInfoForm.validate());
-			result.add(purchaseInfoForm.validate());
-			result.add(assetTypeForm.validate());
-			result.add(depreciationForm.validate());
-			if (isAssetAccumulated) {
-				result.add((acumulatedDeprcForm.validate()));
-			}
-			if (isAccumltd) {
-				result.add((accumulatedDepreciationAccountForm.validate()));
-			}
-			double price = purchasePriceTxt.getAmount();
-			if (DecimalUtil.isEquals(price, 0.0)) {
-				result.addError(purchasePriceTxt, Accounter.constants()
-						.purchasePricShouldNotBeZero());
+		if (!AccounterValidator.isValidPurchaseDate(purchaseDateTxt
+				.getEnteredDate())) {
+			result.addError(purchaseDateTxt, Accounter.constants()
+					.invalidPurchaseDate());
+		}
 
-			}
-
-			if (!AccounterValidator.isValidPurchaseDate(purchaseDateTxt
-					.getEnteredDate())) {
-				result.addError(purchaseDateTxt, Accounter.constants()
-						.invalidPurchaseDate());
-			}
-
-		} else {
-			result.add(itmNameForm.validate());
-			result.add(itemInfoForm.validate());
-
-			if (!AccounterValidator.isValidPurchaseDate(purchaseDateTxt
-					.getEnteredDate())) {
-				result.addError(purchaseDateTxt, Accounter.constants()
-						.invalidPurchaseDate());
-			}
-
-			if (accountCombo != null && accumulatedDepreciationAccount != null) {
-				if (validateAccount()) {
-					result.addError(accountCombo, Accounter.constants()
-							.accandaccumulatedDepreciationAccShouldnotbesame());
-				}
+		if (accountCombo != null && accumulatedDepreciationAccount != null) {
+			if (validateAccount()) {
+				result.addError(accountCombo, Accounter.constants()
+						.accandaccumulatedDepreciationAccShouldnotbesame());
 			}
 		}
+		// }
 		if (!AccounterValidator
 				.isFixedAssetPurchaseDateWithinRange(purchaseDateTxt
 						.getEnteredDate())) {
