@@ -5389,7 +5389,7 @@ public class FinanceTool implements IFinanceDAOService {
 			 */
 			salesByCustomerDetail.setMemo((String) object[17]);
 			salesByCustomerDetail.setReference((String) object[18]);
-			salesByCustomerDetail.setTransactionId((Long) object[19]);
+			salesByCustomerDetail.setTransactionId(((BigInteger) object[19]).longValue());
 			queryResult.add(salesByCustomerDetail);
 		}
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
