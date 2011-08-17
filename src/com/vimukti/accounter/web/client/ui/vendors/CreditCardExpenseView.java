@@ -325,17 +325,17 @@ public class CreditCardExpenseView extends
 					}
 				});
 		// contactNameSelect.setWidth(100);
-		formItems.add(contactNameSelect);
+		// formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
 		billToAreaItem = new TextAreaItem(Accounter.constants().billTo());
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
-		formItems.add(billToCombo);
+		// formItems.add(billToCombo);
 		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		forms.add(phoneForm);
-		formItems.add(phoneSelect);
+		// formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(Accounter.constants().vendor());
 		vendorForm.setWidth("100%");
@@ -364,7 +364,7 @@ public class CreditCardExpenseView extends
 		payFrmSelect.setTitle(Accounter.constants().payFrom());
 		payFromAccount = 0;
 		payFrmSelect.setColSpan(0);
-		formItems.add(payFrmSelect);
+		// formItems.add(payFrmSelect);
 
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
@@ -373,13 +373,13 @@ public class CreditCardExpenseView extends
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isEdit);
 		cheqNoText.setWidth(100);
-		formItems.add(cheqNoText);
+		// formItems.add(cheqNoText);
 
 		delivDate = new DateField(Accounter.constants().deliveryDate());
 		delivDate.setHelpInformation(true);
 		delivDate.setColSpan(1);
 		delivDate.setValue(new ClientFinanceDate());
-		formItems.add(delivDate);
+		// formItems.add(delivDate);
 
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");

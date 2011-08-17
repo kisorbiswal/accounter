@@ -374,14 +374,14 @@ public class VendorBillView extends
 
 		forms.add(vendorForm);
 		// formItems.add(vendorCombo);
-		formItems.add(contactCombo);
-		formItems.add(billToCombo);
+		// formItems.add(contactCombo);
+		// formItems.add(billToCombo);
 
 		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(80);
 		phoneSelect.setDisabled(false);
-		formItems.add(phoneSelect);
+		// formItems.add(phoneSelect);
 
 		paymentTermsCombo = new PaymentTermsCombo(Accounter.constants()
 				.paymentTerms());

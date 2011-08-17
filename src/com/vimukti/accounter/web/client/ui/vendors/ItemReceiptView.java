@@ -96,8 +96,8 @@ public class ItemReceiptView extends
 		}
 
 		forms.add(dateNoForm);
-		formItems.add(transactionDateItem);
-		formItems.add(transactionNumber);
+		// formItems.add(transactionDateItem);
+		// formItems.add(transactionNumber);
 
 		vendorCombo = createVendorComboItem(UIUtils
 				.getVendorString(Accounter.constants().supplierName(),
@@ -128,7 +128,7 @@ public class ItemReceiptView extends
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(false);
 
-		formItems.add(phoneSelect);
+		// formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(Accounter.constants().supplier());
 		vendorForm.setNumCols(3);
@@ -137,8 +137,8 @@ public class ItemReceiptView extends
 				emptylabel, phoneSelect, emptylabel, billToCombo, emptylabel);
 
 		forms.add(vendorForm);
-		formItems.add(contactCombo);
-		formItems.add(billToCombo);
+		// formItems.add(contactCombo);
+		// formItems.add(billToCombo);
 
 		payTermsSelect = createPaymentTermsSelectItem();
 

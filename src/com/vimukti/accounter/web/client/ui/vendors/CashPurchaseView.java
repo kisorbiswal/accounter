@@ -107,8 +107,8 @@ public class CashPurchaseView extends
 			dateNoForm.setDisabled(true);
 
 		forms.add(dateNoForm);
-		formItems.add(transactionDateItem);
-		formItems.add(transactionNumber);
+		// formItems.add(transactionDateItem);
+		// formItems.add(transactionNumber);
 
 		vendorCombo = createVendorComboItem(UIUtils
 				.getVendorString(Accounter.constants().supplierName(),
@@ -137,8 +137,8 @@ public class CashPurchaseView extends
 		vendorForm.getCellFormatter().setWidth(0, 0, "160px");
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		forms.add(vendorForm);
-		formItems.add(contactCombo);
-		formItems.add(billToCombo);
+		// formItems.add(contactCombo);
+		// formItems.add(billToCombo);
 
 		payFromCombo = createPayFromCombo(Accounter.constants().payFrom());
 		// payFromCombo.setWidth(100);
@@ -184,8 +184,8 @@ public class CashPurchaseView extends
 				.setAttribute(Accounter.constants().width(), "203px");
 
 		forms.add(termsForm);
-		formItems.add(checkNo);
-		formItems.add(deliveryDateItem);
+		// formItems.add(checkNo);
+		// formItems.add(deliveryDateItem);
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		menuButton = createAddNewButton();

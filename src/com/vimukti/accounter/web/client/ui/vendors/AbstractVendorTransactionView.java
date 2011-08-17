@@ -237,7 +237,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			String primaryPhone = primaryContact.getBusinessPhone();
 			phoneSelect.setValue(primaryPhone);
 			this.phoneNo = primaryPhone;
-		} 
+		}
 	}
 
 	public void initContacts(ClientVendor vendor) {
@@ -285,7 +285,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 		taxCodeCombo.setDisabled(isEdit);
 
-		formItems.add(taxCodeCombo);
+		// formItems.add(taxCodeCombo);
 
 		return taxCodeCombo;
 
@@ -433,7 +433,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				});
 		payFromCombo.setDisabled(isEdit);
 		// payFromCombo.setShowDisabled(false);
-		formItems.add(payFromCombo);
+		// formItems.add(payFromCombo);
 		return payFromCombo;
 	}
 

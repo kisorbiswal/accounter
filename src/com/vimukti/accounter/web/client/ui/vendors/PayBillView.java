@@ -1034,7 +1034,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				});
 		payFromCombo.setDisabled(isEdit);
 		// payFromCombo.setShowDisabled(false);
-		formItems.add(payFromCombo);
+		// formItems.add(payFromCombo);
 		return payFromCombo;
 	}
 

@@ -266,7 +266,7 @@ public class PurchaseOrderView extends
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setDisabled(false);
 
-		formItems.add(phoneSelect);
+		// formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor()));
@@ -277,8 +277,8 @@ public class PurchaseOrderView extends
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 
 		forms.add(vendorForm);
-		formItems.add(contactCombo);
-		formItems.add(billToCombo);
+		// formItems.add(contactCombo);
+		// formItems.add(billToCombo);
 
 		purchaseOrderText = new TextItem(UIUtils.getVendorString(Accounter
 				.constants().supplierOrderNo(), Accounter.constants()
@@ -356,10 +356,10 @@ public class PurchaseOrderView extends
 		dateform.getCellFormatter().setWidth(0, 0, "230px");
 
 		forms.add(termsForm);
-		formItems.add(checkNo);
-		formItems.add(dueDateItem);
-		formItems.add(despatchDateItem);
-		formItems.add(deliveryDateItem);
+		// formItems.add(checkNo);
+		// formItems.add(dueDateItem);
+		// formItems.add(despatchDateItem);
+		// formItems.add(deliveryDateItem);
 
 		// Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 		vendorTransactionGrid = getGrid();
@@ -381,7 +381,7 @@ public class PurchaseOrderView extends
 		linksText.setWidth(100);
 		linksText.setShowTitle(false);
 		linksText.setDisabled(isEdit);
-		formItems.add(linksText);
+		// formItems.add(linksText);
 
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("80%");
@@ -524,7 +524,7 @@ public class PurchaseOrderView extends
 
 		shippingTermsCombo.setDisabled(isEdit);
 
-		formItems.add(shippingTermsCombo);
+		// formItems.add(shippingTermsCombo);
 
 		return shippingTermsCombo;
 	}
@@ -547,7 +547,7 @@ public class PurchaseOrderView extends
 
 		shippingMethodsCombo.setDisabled(isEdit);
 
-		formItems.add(shippingMethodsCombo);
+		// formItems.add(shippingMethodsCombo);
 
 		return shippingMethodsCombo;
 
@@ -570,7 +570,7 @@ public class PurchaseOrderView extends
 		shipToCombo.setDisabled(isEdit);
 		// shipToCombo.setShowDisabled(false);
 		if (ClientCompanyPreferences.get().isDoProductShipMents()) {
-			formItems.add(shipToCombo);
+			// formItems.add(shipToCombo);
 		}
 		return shipToCombo;
 
