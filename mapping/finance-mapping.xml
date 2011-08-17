@@ -584,8 +584,22 @@
 		<property name="faxNo" column="FAX_NO"></property>
 		<property name="email" column="EMAIL"></property>
 		<property name="webPageAddress" column="WEB_PAGE_ADDRESS"></property>
-		<property name="address" column="ADDRESS"
-			type="com.vimukti.accounter.core.Address"></property>
+		<component name="address" class="Address" lazy="false">
+			<property name="type" column="TYPE" ></property>
+			<property name="address1" column="ADDRESS1" 
+				length="100"></property>
+			<property name="street" column="STREET" 
+				length="100"></property>
+			<property name="city" column="CITY"  length="100"></property>
+			<property name="stateOrProvinence" column="STATE" 
+				length="100"></property>
+			<property name="zipOrPostalCode" column="ZIP" 
+				length="100"></property>
+			<property name="countryOrRegion" column="COUNTRY" 
+				length="100"></property>
+			<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
+		</component>
+
 			<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			lazy="false" not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIED_BY"
