@@ -11,12 +11,15 @@ import java.util.Map;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
 
 public class ClientConvertUtil extends ObjectConvertUtil {
 
-	private <T, R> R getClientAfterCheckingInCache(T obj, Class<R> destType) throws IllegalArgumentException, InstantiationException, IllegalAccessException, AccounterException {
+	private <T, R> R getClientAfterCheckingInCache(T obj, Class<R> destType)
+			throws IllegalArgumentException, InstantiationException,
+			IllegalAccessException, AccounterException {
 		Map<Object, Object> localCache = getCache();
 
 		if (obj == null) {
@@ -57,13 +60,15 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 	 * @param dstType
 	 *            Client Object
 	 * @return
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 * @throws AccounterException 
-	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws AccounterException
+	 * @throws IllegalArgumentException
 	 */
 
-	private <S, D> D toClientObjectInternal(S src, Class<D> dstType) throws InstantiationException, IllegalAccessException, IllegalArgumentException, AccounterException {
+	private <S, D> D toClientObjectInternal(S src, Class<D> dstType)
+			throws InstantiationException, IllegalAccessException,
+			IllegalArgumentException, AccounterException {
 		if (src == null)
 			return null;
 
@@ -127,7 +132,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 					}
 				} else if (isList(dstFieldType)) {
 					if (isSet(srcField.getType())) {
-						List list = new ArrayList();
+						VList list = new VList();
 						Set set = toClientSet((Set<?>) srcField.get(src));
 						if (set != null)
 							list.addAll(set);
@@ -165,7 +170,8 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		return dst;
 	}
 
-	private Map<Object, Object> toClientMap(Map<?, ?> map) throws AccounterException {
+	private Map<Object, Object> toClientMap(Map<?, ?> map)
+			throws AccounterException {
 
 		Map<Object, Object> clientMap = new HashMap<Object, Object>();
 		for (Object key : map.keySet()) {
@@ -203,9 +209,10 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 	 * @param dstType
 	 *            Client Object
 	 * @return
-	 * @throws AccounterException 
+	 * @throws AccounterException
 	 */
-	public <S, D> D toClientObject(S src, Class<D> dstType) throws AccounterException {
+	public <S, D> D toClientObject(S src, Class<D> dstType)
+			throws AccounterException {
 		D ret;
 		try {
 			ret = toClientObjectInternal(src, dstType);
@@ -329,7 +336,8 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		return null;
 	}
 
-	private Set<?> toClientSet(Set<?> set) throws IllegalArgumentException, InstantiationException, IllegalAccessException, AccounterException {
+	private Set<?> toClientSet(Set<?> set) throws IllegalArgumentException,
+			InstantiationException, IllegalAccessException, AccounterException {
 		if (set == null)
 			return null;
 		HashSet result = new HashSet();
@@ -354,10 +362,11 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 
 	}
 
-	private Object toClientList(List<?> list) throws IllegalArgumentException, InstantiationException, IllegalAccessException, AccounterException {
+	private Object toClientList(List<?> list) throws IllegalArgumentException,
+			InstantiationException, IllegalAccessException, AccounterException {
 		if (list == null)
 			return null;
-		ArrayList result = new ArrayList();
+		VList result = new VList();
 		if (list.size() == 0)
 			return result;
 
