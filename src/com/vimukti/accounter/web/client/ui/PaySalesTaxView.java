@@ -198,6 +198,7 @@ public class PaySalesTaxView extends
 	private void initListGrid() {
 
 		gridLayout = new VerticalPanel();
+		gridLayout.setWidth("100%");
 		grid = new TransactionPaySalesTaxGrid(!isEdit, true);
 		grid.setCurrentView(this);
 		grid.setCanEdit(true);
@@ -504,14 +505,14 @@ public class PaySalesTaxView extends
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 
-		//Validations
+		// Validations
 		// 1. is valid transaction date?
 		// 2. is in prevent posting before date?
 		// 3. filter form valid?
 		// 4. is blank transaction?
 		// 5. grid valid?
 		// 6. is positive amount?
-		
+
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDate,
 					accounterConstants.invalidateTransactionDate());
@@ -528,7 +529,7 @@ public class PaySalesTaxView extends
 			result.add(grid.validateGrid());
 		}
 		if (!AccounterValidator.isPositiveAmount(totalAmount)) {
-			result.addError(amountText,accounterConstants.amount());
+			result.addError(amountText, accounterConstants.amount());
 		}
 		return result;
 	}
