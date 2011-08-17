@@ -1290,7 +1290,7 @@ public class ReceivePaymentView extends
 
 		customerCombo.setRequired(true);
 		customerCombo.setDisabled(isEdit);
-		formItems.add(customerCombo);
+		// formItems.add(customerCombo);
 		return customerCombo;
 
 	}
@@ -1339,7 +1339,7 @@ public class ReceivePaymentView extends
 		accountCombo.setDisabled(isEdit);
 		accountCombo.setAccounts();
 
-		formItems.add(accountCombo);
+		// formItems.add(accountCombo);
 
 		return accountCombo;
 

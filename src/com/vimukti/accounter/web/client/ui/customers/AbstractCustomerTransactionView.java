@@ -517,7 +517,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		customerCombo.setRequired(true);
 		customerCombo.setDisabled(isEdit);
-		formItems.add(customerCombo);
+		// formItems.add(customerCombo);
 		return customerCombo;
 
 	}
@@ -546,7 +546,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		});
 		contactCombo.setDisabled(isEdit);
 
-		formItems.add(contactCombo);
+		// formItems.add(contactCombo);
 
 		return contactCombo;
 
@@ -593,7 +593,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		addressCombo.setDisabled(isEdit);
 
-		formItems.add(addressCombo);
+		// formItems.add(addressCombo);
 
 		return addressCombo;
 
@@ -682,7 +682,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		shipToCombo.setDisabled(isEdit);
 		// shipToCombo.setShowDisabled(false);
 
-		formItems.add(shipToCombo);
+		// formItems.add(shipToCombo);
 
 		return shipToCombo;
 
@@ -707,7 +707,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		salesPersonCombo.setDisabled(isEdit);
 
-		formItems.add(salesPersonCombo);
+		// formItems.add(salesPersonCombo);
 
 		return salesPersonCombo;
 
@@ -732,7 +732,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				});
 		accountCombo.setDisabled(isEdit);
 
-		formItems.add(accountCombo);
+		// formItems.add(accountCombo);
 
 		return accountCombo;
 
@@ -757,7 +757,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		shippingTermsCombo.setDisabled(isEdit);
 
-		formItems.add(shippingTermsCombo);
+		// formItems.add(shippingTermsCombo);
 
 		return shippingTermsCombo;
 	}
@@ -779,7 +779,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		shippingMethodsCombo.setDisabled(isEdit);
 
-		formItems.add(shippingMethodsCombo);
+		// formItems.add(shippingMethodsCombo);
 
 		return shippingMethodsCombo;
 
@@ -795,7 +795,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		dateItem.setDisabled(isEdit);
 
-		formItems.add(dateItem);
+		// formItems.add(dateItem);
 
 		return dateItem;
 
@@ -821,7 +821,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		taxCodeCombo.setDisabled(isEdit);
 
-		formItems.add(taxCodeCombo);
+		// formItems.add(taxCodeCombo);
 
 		return taxCodeCombo;
 
@@ -848,7 +848,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		priceLevelCombo.setDisabled(isEdit);
 		// priceLevelCombo.setShowDisabled(false);
 
-		formItems.add(priceLevelCombo);
+		// formItems.add(priceLevelCombo);
 
 		return priceLevelCombo;
 

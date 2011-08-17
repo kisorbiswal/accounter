@@ -151,7 +151,7 @@ public class SalesOrderView extends
 		customerCombo.setRequired(true);
 		customerCombo.setHelpInformation(true);
 		customerCombo.setDisabled(isEdit);
-		formItems.add(customerCombo);
+		// formItems.add(customerCombo);
 
 		customerCombo.setWidth(100);
 		quoteLabel = new LabelItem();
@@ -322,8 +322,8 @@ public class SalesOrderView extends
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
-		balanceDueNonEditableText = new AmountLabel(customerConstants
-				.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(
+				customerConstants.balanceDue());
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -598,7 +598,8 @@ public class SalesOrderView extends
 				this.transactionTotalNonEditableText.setAmount(transaction
 						.getTotal());
 			}
-			customerTransactionGrid.setRecords(transaction.getTransactionItems());
+			customerTransactionGrid.setRecords(transaction
+					.getTransactionItems());
 			customerTransactionGrid.setCanEdit(false);
 		}
 		super.initTransactionViewData();
@@ -803,7 +804,7 @@ public class SalesOrderView extends
 
 		dateItem.setDisabled(isEdit);
 
-		formItems.add(dateItem);
+		// formItems.add(dateItem);
 
 		return dateItem;
 
@@ -830,7 +831,8 @@ public class SalesOrderView extends
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 

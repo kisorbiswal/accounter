@@ -263,12 +263,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		quoteExpiryDate = new DateField(customerConstants.expirationDate());
 		quoteExpiryDate.setHelpInformation(true);
 		quoteExpiryDate.setEnteredDate(getTransactionDate());
-		formItems.add(quoteExpiryDate);
+		// formItems.add(quoteExpiryDate);
 		quoteExpiryDate.setDisabled(isEdit);
 
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
-		formItems.add(deliveryDate);
+		// formItems.add(deliveryDate);
 		if (ClientCompanyPreferences.get().isSalesPersonEnabled()) {
 			phoneForm.setFields(salesPersonCombo, payTermsSelect,
 					quoteExpiryDate, deliveryDate);

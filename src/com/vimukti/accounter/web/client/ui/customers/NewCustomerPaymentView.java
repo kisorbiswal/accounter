@@ -90,13 +90,13 @@ public class NewCustomerPaymentView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		
-		//Validations
+
+		// Validations
 		// 1. isValidTransactionDate?
 		// 2. isInPreventPostingBeforeDate?
 		// 3. payForm.validate?
 		// 4. isNegativeAmount?
-		
+
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
 			result.addError(transactionDateItem,
 					accounterConstants.invalidateTransactionDate());
@@ -108,7 +108,7 @@ public class NewCustomerPaymentView extends
 		}
 
 		result.add(payForm.validate());
-		
+
 		if (!AccounterValidator.isPositiveAmount(amountText.getAmount()))
 			result.addError(amountText,
 					accounterConstants.invalidNegativeAmount());
@@ -522,7 +522,7 @@ public class NewCustomerPaymentView extends
 
 		addressCombo.setDisabled(isEdit);
 
-		formItems.add(addressCombo);
+		// formItems.add(addressCombo);
 
 		return addressCombo;
 
