@@ -135,6 +135,7 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
+		<property name="isConfigured" column="IS_CONFIGURED"></property>
 		<property name="accountingType" column="ACCOUNTING_TYPE"></property>
 		<property name="fullName" unique="true" not-null="true"
 			column="FULL_NAME"></property>
