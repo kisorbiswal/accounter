@@ -689,8 +689,7 @@ public class WriteChequeView extends
 		labelLayout.add(nHPanel);
 		labelLayout.setCellHorizontalAlignment(nHPanel,
 				HasHorizontalAlignment.ALIGN_RIGHT);
-		forms.add(numForm);
-		formItems.add(date);
+		// formItems.add(date);
 
 		balText = new AmountField(Accounter.constants().balance(), this);
 		balText.setWidth(100);
@@ -721,7 +720,6 @@ public class WriteChequeView extends
 		bankAccForm = new DynamicForm();
 		bankAccForm.setFields(bankAccSelect, balText);
 		bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
-		forms.add(bankAccForm);
 
 		paytoSelect = new PayeeCombo(Accounter.constants().payTo());
 		// paytoSelect.setWidth(100);
@@ -765,15 +763,19 @@ public class WriteChequeView extends
 
 				});
 
-		formItems.add(paytoSelect);
+		// formItems.add(paytoSelect);
 
 		billToCombo = createBillToComboItem();
 		// billToCombo.setWidth(100);
-	
 
-		text = new TextItem(Accounter.constants().amount());
-		text.setWidth(100);
+		amtText = new AmountLabel(Accounter.constants().amount());
+		amtText.setWidth(60);
+		amtText.setAmount(0.00);
 		amtText.setDisabled(isEdit);
+
+		text = new TextItem("");
+		text.setWidth(100);
+		text.setDisabled(Boolean.TRUE);
 		amtText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -818,7 +820,6 @@ public class WriteChequeView extends
 		payForm.setWidth("100%");
 		payForm.setFields(paytoSelect, billToCombo);
 		payForm.getCellFormatter().setWidth(0, 0, "170px");
-		forms.add(payForm);
 
 		amtForm = new DynamicForm();
 		amtForm.setWidth("50%");
@@ -1093,7 +1094,8 @@ public class WriteChequeView extends
 					|| payee instanceof ClientTAXAgency) {
 				this.amtText.setAmount(transactionVendorGrid.getTotal());
 				text.setValue(Utility.getNumberInWords(transactionVendorGrid
-						.getTotal() + ""));
+						.getTotal()
+						+ ""));
 				totalTxt.setValue(String.valueOf(transactionVendorGrid
 						.getTotal()));
 				netAmount.setAmount(transactionVendorGrid.getGrandTotal());
