@@ -3,17 +3,13 @@
  */
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -21,7 +17,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
-import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -71,9 +66,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	}
 
 	public AbstractBaseView() {
-
 		sinkEvents(Event.ONCHANGE | Event.KEYEVENTS);
-
 		initRPCService();
 		this.addStyleName("abstract_base_view");
 		this.errorPanel = new VerticalPanel();
@@ -130,37 +123,37 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	 * Boxes Like say, Post, creating a Customer, the Customer object should be
 	 * added back to the Combo list.
 	 */
-	public AccounterAsyncCallback<Object> callback;
+	private AccounterAsyncCallback<Object> callback;
 
-	protected IAccounterReportServiceAsync rpcReportService;
+	// protected IAccounterReportServiceAsync rpcReportService;
 
-	public boolean isRegister;
+	// public boolean isRegister;
 
-	private DialogBox dialog;
+	// private DialogBox dialog;
 
-	private boolean isViewModfied;
+//	private boolean isViewModfied;
 	private VerticalPanel errorPanel;
 	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
 	protected boolean isDirty;
 
 	private Set<Object> lastErrorSourcesFromValidation = new HashSet<Object>();
 
-	/**
-	 * Convenience Method to Set CallBack
-	 * 
-	 * @param callBack
-	 */
-	public final void setCallBack(AccounterAsyncCallback<Object> callBack) {
-
-		this.callback = callBack;
-
-	}
+//	/**
+//	 * Convenience Method to Set CallBack
+//	 * 
+//	 * @param callBack
+//	 */
+//	public final void setCallBack(AccounterAsyncCallback<Object> callBack) {
+//
+//		this.setCallback(callBack);
+//
+//	}
 
 	protected void initRPCService() {
 		this.rpcGetService = Accounter.createGETService();
 		this.rpcDoSerivce = Accounter.createCRUDService();
 		this.rpcUtilService = Accounter.createHomeService();
-		this.rpcReportService = Accounter.createReportService();
+		// this.rpcReportService = Accounter.createReportService();
 
 	}
 
@@ -170,9 +163,9 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	 */
 	public void saveFailed(AccounterException exception) {
 
-		if (dialog != null) {
-			dialog.removeFromParent();
-		}
+		// if (dialog != null) {
+		// dialog.removeFromParent();
+		// }
 
 		// Accounter.showError(exception.getMessage());
 
@@ -194,8 +187,8 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	@Override
 	public void saveSuccess(IAccounterCore object) {
 		try {
-			if (this.callback != null) {
-				this.callback.onResultSuccess(object);
+			if (this.getCallback() != null) {
+				this.getCallback().onResultSuccess(object);
 			}
 			if (saveAndClose) {
 				getManager().closeCurrentView();
@@ -286,40 +279,40 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 				+ this.getAction().getText();
 	}
 
-	@Override
-	public void onBrowserEvent(Event event) {
-		Element element = DOM.eventGetTarget(event);
+//	@Override
+//	public void onBrowserEvent(Event event) {
+//		Element element = DOM.eventGetTarget(event);
+//
+//		switch (DOM.eventGetType(event)) {
+//		case Event.ONKEYPRESS:
+//			if (Arrays.asList("INPUT", "TEXTAREA").contains(
+//					element.getTagName()))
+//				isViewModfied = true;
+//
+//			break;
+//		case Event.ONCHANGE:
+//			if (Arrays.asList("SELECT", "RADIO", "CHECKBOX", "INPUT",
+//					"TEXTAREA").contains(element.getTagName())) {
+//				isViewModfied = true;
+//			}
+//			if (Arrays.asList("SELECT", "RADIO", "CHECKBOX").contains(
+//					element.getTagName()))
+//				isViewModfied = true;
+//
+//			break;
+//		default:
+//			break;
+//		}
+//		super.onBrowserEvent(event);
+//	}
 
-		switch (DOM.eventGetType(event)) {
-		case Event.ONKEYPRESS:
-			if (Arrays.asList("INPUT", "TEXTAREA").contains(
-					element.getTagName()))
-				isViewModfied = true;
+//	public boolean isViewModfied() {
+//		return isViewModfied;
+//	}
 
-			break;
-		case Event.ONCHANGE:
-			if (Arrays.asList("SELECT", "RADIO", "CHECKBOX", "INPUT",
-					"TEXTAREA").contains(element.getTagName())) {
-				isViewModfied = true;
-			}
-			if (Arrays.asList("SELECT", "RADIO", "CHECKBOX").contains(
-					element.getTagName()))
-				isViewModfied = true;
-
-			break;
-		default:
-			break;
-		}
-		super.onBrowserEvent(event);
-	}
-
-	public boolean isViewModfied() {
-		return isViewModfied;
-	}
-
-	public void setViewModfied(boolean isViewModified) {
-		this.isViewModfied = isViewModified;
-	}
+//	public void setViewModfied(boolean isViewModified) {
+//		this.isViewModfied = isViewModified;
+//	}
 
 	public ClientCompany getCompany() {
 		return Accounter.getCompany();
@@ -474,6 +467,14 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	public void showMenu(Widget nativeEvent) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public AccounterAsyncCallback<Object> getCallback() {
+		return callback;
+	}
+
+	public void setCallback(AccounterAsyncCallback<Object> callback) {
+		this.callback = callback;
 	}
 
 }
