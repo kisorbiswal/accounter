@@ -262,6 +262,7 @@ public class TransactionPayBillGrid extends
 	@Override
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
+		//validates receive payment amount excesses due amount or not
 		for (ClientTransactionPayBill transactionPayBill : this
 				.getSelectedRecords()) {
 

@@ -1285,7 +1285,7 @@ public class CustomerTransactionGrid extends
 							item.setLineTotal(0.0D);
 							item.setUnitPrice(0.0D);
 							ClientQuantity quant = new ClientQuantity();
-							quant.setValue(isItem ? 1 : 0);
+							quant.setValue(isItem ? 1 : 1);
 							item.setQuantity(quant);
 							Accounter.showError(e.getMessage());
 
