@@ -95,7 +95,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 				file.mkdir();
 			}
 
-			company.initialize();
+			//company.initialize();
 
 			FinanceTool.createView();
 
