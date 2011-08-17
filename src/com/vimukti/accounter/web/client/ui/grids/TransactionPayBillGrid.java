@@ -229,8 +229,9 @@ public class TransactionPayBillGrid extends
 
 	@Override
 	public void selectRow(int row) {
-		if (((CheckBox) getWidget(row, 0)).getValue() != true)
-			super.selectRow(row);
+		if (getWidget(row, 0) != null)
+			if (((CheckBox) getWidget(row, 0)).getValue() != true)
+				super.selectRow(row);
 	}
 
 	@Override
