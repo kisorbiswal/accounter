@@ -96,11 +96,7 @@ public class Accounter implements EntryPoint {
 
 			public void onResultSuccess(ClientCompany company) {
 				if (company == null) {
-					// TODO Redirect to Companies Servlet
-				}
 
-				if (company.getName() == null && company.getID() == 0) {
-					// TODO Launch to Company SetUp
 				}
 
 				// We got the company, set it for all further references.
@@ -113,6 +109,12 @@ public class Accounter implements EntryPoint {
 
 				// and, now we are ready to start the application.
 				removeLoadingImage();
+				
+				if (!company.isConfigured()) {
+					setupWizard = new SetupWizard();
+					RootPanel.get("mainWindow").add(setupWizard);
+					return;
+				}
 				initGUI();
 
 			}
@@ -278,7 +280,6 @@ public class Accounter implements EntryPoint {
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
 		getCompany("");
-		// RootPanel.get().add(new TestTable());
 	}
 
 	public String getUserDisplayName() {
