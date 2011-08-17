@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.PropertyParser;
+import com.vimukti.accounter.main.ServerConfiguration;
 
 public class UsersMailSendar {
 	private static PropertyParser propertyParser;
@@ -424,6 +425,7 @@ public class UsersMailSendar {
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = content.replaceAll("%PASSWORD%", password);
 		content = content.replaceAll("%EMAILID%", user.getEmailId());
+		content = replaceServerUrl(content);
 		// content = content.replaceAll("%LOGINURL%", loginURL);
 
 		String subject = propertyParser.getProperty("subjectForInviteUser", "");
@@ -464,7 +466,8 @@ public class UsersMailSendar {
 				.getProperty("contentForDefaultUser", "");
 		content = content.replaceAll("%USERNAME%", admin.getFirstName());
 		content = content.replaceAll("%COMPANY%", companyName);
-
+		content=replaceServerUrl(content);
+		
 		String subject = propertyParser
 				.getProperty("subjectForDefaultUser", "");
 
@@ -557,6 +560,7 @@ public class UsersMailSendar {
 				+ client.getLastName() + ",\n");
 		content.append(propertyParser.getProperty("contentForActivation", ""));
 		String contentStr = content.toString().replaceAll("%TOKEN%", token);
+		contentStr = replaceServerUrl(contentStr);
 
 		System.out.println("************* ACTIVATION CODE : " + token);
 
@@ -647,5 +651,9 @@ public class UsersMailSendar {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private static String replaceServerUrl(String content){
+		return content.replaceAll("%SERVERURL%", ServerConfiguration.getServerURL());
 	}
 }
