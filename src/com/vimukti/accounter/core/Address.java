@@ -180,7 +180,7 @@ public class Address implements IAccounterServerCore {
 	}
 
 	public void setStreet(String street2) {
-
+		this.street = street2;
 	}
 
 	@Override
