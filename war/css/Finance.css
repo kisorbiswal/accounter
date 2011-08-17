@@ -1860,14 +1860,11 @@ noindex:-o-prefocus,.table-checkbox-cell span input[type="checkbox"] {
 	background-image:none !important;
 	background-color:inherit !important;
 }*/
-input[disabled],input[disabled='disabled'] {
+.dropdown-disabled input[disabled],.dropdown-disabled input[disabled='disabled']
+,.gwt-TextBox input[disabled],.gwt-TextBox input[disabled='disabled']{
 	background: none repeat scroll 0 0 #E6E0DA !important;
     border: 1px solid #B1B1B1;
 	color: #b1a7ad;
-}
-.gwt-CheckBox-disabled input[disabled='disabled'],.gwt-CheckBox-disabled input[disabled]{
-	background:none\0 !important;
-	border:none\0 !important;
 }
 textarea[disabled] {
 	background: none repeat scroll 0 0 #E6E0DA !important;
@@ -5032,12 +5029,12 @@ td.gridDecimalCell {
     height: 22px !important;
     overflow: hidden;
     position: relative;
-    width: 180px !important;
+    width: 163px !important;
 }
 
 .dropdownTable {
-	  overflow-x: hidden;
-	  overflow-y:auto;
+	  overflow-x:hidden !important;
+	  overflow-y:auto !important;
 }
 
 .dropdownFlex td {
@@ -5055,7 +5052,7 @@ td.gridDecimalCell {
 	width: 3px !important;
 }
 
-table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
+table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER { /*background: #C6E2FF;*/
 	background: #CCCCCC !important;
 }
 
@@ -5143,13 +5140,15 @@ table.dropdownFlex tr:hover { /*background: #C6E2FF;*/
 }
 
 .tablelayoutInIE {
-	padding-left: 50px !important;
-	padding-right: 50px !important;
+	/*padding-left: 50px !important;
+	padding-right: 50px !important;*/
+	width:100%;
 }
 
 .tablelayoutInIE1 {
-	padding-left: 100px !important;
-	padding-right: 100pX !important;
+	/*padding-left: 100px !important;
+	padding-right: 100pX !important;*/
+	width:100%;
 }
 
 .main-w-finance {
@@ -5357,7 +5356,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	border: 0px none !important;
 	border-radius: 0 0 0 0 !important;*/
 	background: none repeat scroll 0 0 #1A5158;
-	background: none repeat scroll 0 0 #1A5158\0 !important;
+	background: none repeat scroll 0 0 #1A5158\0;
     border-radius: 5px 5px 5px 5px;
     color: white;
     cursor: pointer;
@@ -5594,12 +5593,13 @@ solid
 }
 
 .gwt-TextArea {
-	 border: 1px solid #B1B1B1;
+	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 1px 2px 2px #CCCCCC inset;
     height: 65px;
     resize: none;
     width: 180px !important;
+    padding:0px 5px !important;
 }
 
 .memoTextArea {
@@ -6502,6 +6502,9 @@ input[type="text"],textarea {
 }
 .finance_window,.group-toolbar{
 	width:100%;
+}
+.group-toolbar{
+	background:none repeat scroll 0 0 #3299A4;
 }
 .view_manager{
 	width:960px;
