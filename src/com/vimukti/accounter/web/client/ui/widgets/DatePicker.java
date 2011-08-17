@@ -39,7 +39,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
-		KeyPressHandler ,FocusHandler{
+		KeyPressHandler, FocusHandler {
 
 	private PopupCalendar popup;
 	private Date selectedDate;
@@ -59,12 +59,22 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		// }else{
 		// dateFormatter=DateTimeFormat.getFormat(DateUtil.getUserPreferredDateFormat());
 		// }
-		
-		
-		if (Accounter.getCompany().getPreferences().getDateFormat().equals("dd/MM/yyyy"))
+
+		if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("dd/MMM/yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("dd/MMM/yyyy");
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("dd/MM/yyyy"))
 			dateFormatter = DateTimeFormat.getFormat("dd/MM/yyyy");
-		if (Accounter.getCompany().getPreferences().getDateFormat().equals("MM/dd/yyyy"))
+
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MM/dd/yyyy"))
 			dateFormatter = DateTimeFormat.getFormat("MM/dd/yyyy");
+
+		else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMM/dd/yyyy"))
+			dateFormatter = DateTimeFormat.getFormat("MMM/dd/yyyy");
+
 		popup = new PopupCalendar(this);
 		changeHandlers = new ArrayList<ChangeHandler>();
 	}
@@ -196,6 +206,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 */
 	public void onKeyPress(KeyPressEvent event) {
 		int keyCode = event.getNativeEvent().getKeyCode();
+
 		switch (keyCode) {
 		case KeyCodes.KEY_ENTER:
 			parseDate();
@@ -205,10 +216,123 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			if (popup.isVisible())
 				popup.hidePopupCalendar();
 			break;
+		case KeyCodes.KEY_UP:
+			processIncrementDate(this.getCursorPos());
+			break;
+		case KeyCodes.KEY_DOWN:
+			processDecrementDate(this.getCursorPos());
+			break;
 		default:
 			break;
 		}
 
+	}
+
+	private void processDecrementDate(int cursorPos) {
+		if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("dd/MMM/yyyy")) {
+			if (cursorPos == 0 || cursorPos == 1) {
+				selectedDate.setDate(selectedDate.getDate() - 1);
+
+			} else if (cursorPos == 3 || cursorPos == 4 || cursorPos == 5) {
+				selectedDate.setMonth(selectedDate.getMonth() - 1);
+
+			} else if (cursorPos >= 7) {
+				selectedDate.setYear(selectedDate.getYear() - 1);
+			}
+		} else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("dd/MM/yyyy")) {
+			if (cursorPos == 0 || cursorPos == 1) {
+				selectedDate.setDate(selectedDate.getDate() - 1);
+
+			} else if (cursorPos == 3 || cursorPos == 4) {
+				selectedDate.setMonth(selectedDate.getMonth() - 1);
+
+			} else if (cursorPos >= 6) {
+				selectedDate.setYear(selectedDate.getYear() - 1);
+			}
+		} else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MM/dd/yyyy")) {
+			if (cursorPos == 0 || cursorPos == 1) {
+				selectedDate.setMonth(selectedDate.getMonth() - 1);
+
+			} else if (cursorPos == 3 || cursorPos == 4) {
+
+				selectedDate.setDate(selectedDate.getDate() - 1);
+
+			} else if (cursorPos >= 6) {
+				selectedDate.setYear(selectedDate.getYear() - 1);
+			}
+		} else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMM/dd/yyyy")) {
+			if (cursorPos <= 2) {
+				selectedDate.setMonth(selectedDate.getMonth() - 1);
+
+			} else if (cursorPos == 4 || cursorPos == 5) {
+
+				selectedDate.setDate(selectedDate.getDate() - 1);
+
+			} else if (cursorPos >= 7) {
+				selectedDate.setYear(selectedDate.getYear() - 1);
+			}
+		}
+
+		synchronizeFromDate();
+		this.setCursorPos(cursorPos);
+	}
+
+	private void processIncrementDate(int cursorPos) {
+
+		if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("dd/MMM/yyyy")) {
+			if (cursorPos == 0 || cursorPos == 1) {
+				selectedDate.setDate(selectedDate.getDate() + 1);
+
+			} else if (cursorPos == 3 || cursorPos == 4 || cursorPos == 5) {
+				selectedDate.setMonth(selectedDate.getMonth() + 1);
+
+			} else if (cursorPos >= 7) {
+				selectedDate.setYear(selectedDate.getYear() + 1);
+			}
+		} else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("dd/MM/yyyy")) {
+			if (cursorPos == 0 || cursorPos == 1) {
+				selectedDate.setDate(selectedDate.getDate() + 1);
+
+			} else if (cursorPos == 3 || cursorPos == 4) {
+				selectedDate.setMonth(selectedDate.getMonth() + 1);
+
+			} else if (cursorPos >= 6) {
+				selectedDate.setYear(selectedDate.getYear() + 1);
+			}
+		} else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MM/dd/yyyy")) {
+			if (cursorPos == 0 || cursorPos == 1) {
+				selectedDate.setMonth(selectedDate.getMonth() + 1);
+
+			} else if (cursorPos == 3 || cursorPos == 4) {
+
+				selectedDate.setDate(selectedDate.getDate() + 1);
+
+			} else if (cursorPos >= 6) {
+				selectedDate.setYear(selectedDate.getYear() + 1);
+			}
+		} else if (Accounter.getCompany().getPreferences().getDateFormat()
+				.equals("MMM/dd/yyyy")) {
+			if (cursorPos <= 2) {
+				selectedDate.setMonth(selectedDate.getMonth() + 1);
+
+			} else if (cursorPos == 4 || cursorPos == 5) {
+
+				selectedDate.setDate(selectedDate.getDate() + 1);
+
+			} else if (cursorPos >= 7) {
+				selectedDate.setYear(selectedDate.getYear() + 1);
+			}
+		}
+
+		synchronizeFromDate();
+		this.setCursorPos(cursorPos);
 	}
 
 	/**
@@ -283,9 +407,9 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			selectedDate = null;
 		} else {
 			try {
-			//	 Date parsedDate = dateFormatter.parse(getText());
-			Date parsedDate = new DateUtills().parseDate(getText());
-			
+				// Date parsedDate = dateFormatter.parse(getText());
+				Date parsedDate = new DateUtills().parseDate(getText());
+
 				if (canBeSelected(parsedDate))
 					selectedDate = parsedDate;
 
@@ -363,8 +487,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	@Override
 	public void onFocus(FocusEvent arg0) {
 		showPopup();
-		
-		
+
 	}
 
 }
