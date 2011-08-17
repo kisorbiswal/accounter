@@ -231,8 +231,8 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 		if (endDate == null)
 			endDate = new ClientFinanceDate();
 
-		this.rpcReportService.getAccountRegister(Accounter.getStartDate(),
-				endDate, takenaccount.getID(),
+		Accounter.createReportService().getAccountRegister(
+				Accounter.getStartDate(), endDate, takenaccount.getID(),
 				new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
 
 					public void onException(AccounterException caught) {
