@@ -136,7 +136,6 @@ public class PurchaseOrderView extends
 		dateNoForm.setNumCols(6);
 		dateNoForm.addStyleName("date-number");
 		dateNoForm.setFields(statusSelect, transactionDateItem);
-		forms.add(dateNoForm);
 
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("98%");
@@ -177,7 +176,6 @@ public class PurchaseOrderView extends
 					transactionTotalNonEditableText);
 			amountsForm.setStyleName("invoice-total");
 			// forms.add(priceLevelForm);
-			forms.add(amountsForm);
 			// prodAndServiceHLay.add(priceLevelForm);
 			// prodAndServiceHLay.setCellHorizontalAlignment(priceLevelForm,
 			// ALIGN_RIGHT);
@@ -190,14 +188,14 @@ public class PurchaseOrderView extends
 			taxCodeSelect = createTaxCodeSelectItem();
 			salesTaxTextNonEditable = createSalesTaxNonEditableLabel();
 			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
-			paymentsNonEditableText = new AmountLabel(
-					accounterConstants.payments());
+			paymentsNonEditableText = new AmountLabel(accounterConstants
+					.payments());
 			paymentsNonEditableText.setDisabled(true);
 			paymentsNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
-			balanceDueNonEditableText = new AmountField(
-					accounterConstants.balanceDue(), this);
+			balanceDueNonEditableText = new AmountField(accounterConstants
+					.balanceDue(), this);
 			balanceDueNonEditableText.setDisabled(true);
 			balanceDueNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -246,8 +244,8 @@ public class PurchaseOrderView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -276,8 +274,6 @@ public class PurchaseOrderView extends
 		vendorForm.getCellFormatter().setWidth(0, 0, "226px");
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 
-		forms.add(vendorForm);
-		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
 
 		purchaseOrderText = new TextItem(UIUtils.getVendorString(Accounter
@@ -355,7 +351,6 @@ public class PurchaseOrderView extends
 		termsForm.getCellFormatter().setWidth(0, 0, "230px");
 		dateform.getCellFormatter().setWidth(0, 0, "230px");
 
-		forms.add(termsForm);
 		// formItems.add(checkNo);
 		// formItems.add(dueDateItem);
 		// formItems.add(despatchDateItem);
@@ -387,7 +382,6 @@ public class PurchaseOrderView extends
 		memoForm.setWidth("80%");
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
-		forms.add(memoForm);
 		DynamicForm linksform = new DynamicForm();
 		linksform.setWidth("100%");
 		linksform.setItems(linksText);
@@ -1070,13 +1064,13 @@ public class PurchaseOrderView extends
 		// 6. is blank transaction?
 		// 7. vendor transaction grid valid?
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		// TODO::: isvalid received date
@@ -1104,8 +1098,8 @@ public class PurchaseOrderView extends
 		result.add(vendorForm.validate());
 
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
-					accounterConstants.blankTransaction());
+			result.addError(vendorTransactionGrid, accounterConstants
+					.blankTransaction());
 		} else
 			result.add(vendorTransactionGrid.validateGrid());
 

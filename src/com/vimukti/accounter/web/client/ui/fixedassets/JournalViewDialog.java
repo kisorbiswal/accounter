@@ -344,7 +344,6 @@ public class JournalViewDialog extends BaseDialog {
 		DynamicForm form = new DynamicForm();
 		form.setFields(getCombo(keyvalue));
 		form.getCellFormatter().setWidth(0, 0, "136");
-		forms.add(form);
 		return form;
 
 	}

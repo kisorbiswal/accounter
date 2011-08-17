@@ -131,7 +131,6 @@ public class VendorCreditMemoView extends
 		dateNoForm.setNumCols(4);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		forms.add(dateNoForm);
 		VerticalPanel datepanel = new VerticalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -143,8 +142,6 @@ public class VendorCreditMemoView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		forms.add(dateNoForm);
-
 		vendorCombo = createVendorComboItem(UIUtils
 				.getVendorString(Accounter.constants().supplierName(),
 						Accounter.constants().vendorName()));
@@ -155,9 +152,7 @@ public class VendorCreditMemoView extends
 			// FIXME--need to disable the form
 			// vendorForm.setDisabled(true);
 
-			forms.add(vendorForm);
-
-		phoneSelect = new TextItem(Accounter.constants().phone());
+			phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 
@@ -169,7 +164,6 @@ public class VendorCreditMemoView extends
 			// phoneForm.setDisabled(true);
 		}
 
-		forms.add(phoneForm);
 		netAmount = new AmountLabel(Accounter.constants().netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
@@ -195,8 +189,8 @@ public class VendorCreditMemoView extends
 		vendorForm = UIUtils.form(Accounter.constants().supplier());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
-		vendorForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "190px");
+		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -385,18 +379,18 @@ public class VendorCreditMemoView extends
 		// 4. isBlank transaction?
 		// 5. is vendor transaction grid valid?
 		if (AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
-					accounterConstants.blankTransaction());
+			result.addError(vendorTransactionGrid, accounterConstants
+					.blankTransaction());
 		} else
 			result.add(vendorTransactionGrid.validateGrid());
 		return result;

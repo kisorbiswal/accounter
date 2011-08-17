@@ -77,7 +77,6 @@ public class ItemReceiptView extends
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(4);
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		forms.add(dateNoForm);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
@@ -95,7 +94,6 @@ public class ItemReceiptView extends
 			dateNoForm.setDisabled(true);
 		}
 
-		forms.add(dateNoForm);
 		// formItems.add(transactionDateItem);
 		// formItems.add(transactionNumber);
 
@@ -136,7 +134,6 @@ public class ItemReceiptView extends
 		vendorForm.setFields(vendorCombo, purchaseLabel, contactCombo,
 				emptylabel, phoneSelect, emptylabel, billToCombo, emptylabel);
 
-		forms.add(vendorForm);
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
 
@@ -183,7 +180,6 @@ public class ItemReceiptView extends
 		DynamicForm memoForm = new DynamicForm();
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
-		forms.add(memoForm);
 
 		transactionTotalItem = new AmountField(Accounter.constants().total(),
 				this);
@@ -577,19 +573,19 @@ public class ItemReceiptView extends
 		// 6. validateGrid?
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
+				.getEnteredDate(), this.transactionDate)) {
 
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
@@ -601,8 +597,8 @@ public class ItemReceiptView extends
 
 		}
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
-					accounterConstants.blankTransaction());
+			result.addError(vendorTransactionGrid, accounterConstants
+					.blankTransaction());
 		} else
 			result.add(vendorTransactionGrid.validateGrid());
 		return result;
