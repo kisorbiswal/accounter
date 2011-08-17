@@ -251,7 +251,9 @@ public abstract class ClientPayee implements IAccounterCore {
 	public void setContacts(Set<ClientContact> contacts) {
 		this.contacts = contacts;
 	}
-
+	public void addContact(ClientContact contact) {
+		this.contacts.add(contact);
+	}
 	public String getWebPageAddress() {
 		return webPageAddress;
 	}
