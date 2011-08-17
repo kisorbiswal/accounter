@@ -434,7 +434,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
   </c:if>
   
 </div>
-<div>
+<div class="form-bottom-options">
 <a href="/login" id="forget-link1">I already have an account</a>
 <br><br>
 </div>
