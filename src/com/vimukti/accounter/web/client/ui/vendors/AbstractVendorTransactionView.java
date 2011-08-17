@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -22,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
@@ -373,7 +376,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	public ContactCombo createContactComboItem() {
 
 		ContactCombo contactCombo = new ContactCombo(Accounter.constants()
-				.contactName());
+				.contactName(), true);
 		contactCombo.setHelpInformation(true);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
@@ -385,10 +388,37 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 					}
 
 				});
+		contactCombo.addNewContactHandler(new ValueCallBack<ClientContact>() {
+
+			@Override
+			public void execute(ClientContact value) {
+				addContactToVendor(value);
+			}
+		});
 		contactCombo.setDisabled(isEdit);
 		// contactCombo.setShowDisabled(false);
 		return contactCombo;
 
+	}
+
+	protected void addContactToVendor(final ClientContact value) {
+		ClientVendor selectedVendor = vendorCombo.getSelectedValue();
+		if (selectedVendor == null) {
+			return;
+		}
+		selectedVendor.addContact(value);
+		AccounterAsyncCallback<Long> asyncallBack = new AccounterAsyncCallback<Long>() {
+
+			public void onException(AccounterException caught) {
+				caught.printStackTrace();
+			}
+
+			public void onResultSuccess(Long result) {
+				contactSelected(value);
+			}
+
+		};
+		Accounter.createCRUDService().update(selectedVendor, asyncallBack);
 	}
 
 	public AddressCombo createBillToComboItem() {

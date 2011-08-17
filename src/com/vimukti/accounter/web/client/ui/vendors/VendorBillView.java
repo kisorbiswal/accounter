@@ -683,7 +683,13 @@ public class VendorBillView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-
+		// Validations
+		// 1. is Valid transaction date?
+		// 2. is in prevent posting before date?
+		// 3. vendorForm valid?
+		// 4. is valid due date?
+		// 5. isBlank transaction?
+		// 6. is vendor transaction grid valid?
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
 			result.addError(transactionDate, accounterConstants
 					.invalidateTransactionDate());
@@ -708,8 +714,8 @@ public class VendorBillView extends
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
 			result.addError(vendorTransactionGrid, accounterConstants
 					.blankTransaction());
-		}
-		result.add(vendorTransactionGrid.validateGrid());
+		} else
+			result.add(vendorTransactionGrid.validateGrid());
 		return result;
 	}
 
