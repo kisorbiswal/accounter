@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -19,16 +21,20 @@ public class NewCurrencyAction extends Action<ClientCurrency> {
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
 			@Override
-			public void onCreated() {
+			public void onSuccess() {
 				// TODO Auto-generated method stub
 
 			}
 
-		});
+			@Override
+			public void onFailure(Throwable arg0) {
+				// TODO Auto-generated method stub
 
+			}
+		});
 	}
 
 	@Override
