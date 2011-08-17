@@ -41,8 +41,8 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 			@Override
 			public void actionResult(ClientVendor result) {
-				if(result.getDisplayName()!=null)
-				addItemThenfireEvent(result);
+				if (getDisplayName(result) != null)
+					addItemThenfireEvent(result);
 
 			}
 		});
