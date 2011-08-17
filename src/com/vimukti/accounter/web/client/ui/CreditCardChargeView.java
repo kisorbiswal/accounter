@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -230,7 +229,8 @@ public class CreditCardChargeView extends
 			if (isEdit) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
-								.getCheckNumber() : "");
+								.getCheckNumber()
+								: "");
 
 			}
 			cheqNoText.setDisabled(false);
@@ -342,7 +342,6 @@ public class CreditCardChargeView extends
 		dateNoForm.setNumCols(4);
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		forms.add(dateNoForm);
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 
@@ -356,8 +355,8 @@ public class CreditCardChargeView extends
 		labeldateNoLayout.add(regPanel);
 		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 
-		vendorNameSelect = new VendorCombo(
-				UIUtils.getVendorString(Accounter.constants().supplierName(),
+		vendorNameSelect = new VendorCombo(UIUtils
+				.getVendorString(Accounter.constants().supplierName(),
 						Accounter.constants().vendorName()));
 		vendorNameSelect.setHelpInformation(true);
 		vendorNameSelect.setWidth(100);
@@ -411,7 +410,6 @@ public class CreditCardChargeView extends
 		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		forms.add(phoneForm);
 		// formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(Accounter.constants().vendor());
@@ -420,8 +418,6 @@ public class CreditCardChargeView extends
 				billToAreaItem);
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		vendorForm.getCellFormatter().setWidth(0, 0, "180px");
-
-		forms.add(vendorForm);
 
 		payMethSelect = createPaymentMethodSelectItem();
 		payMethSelect.setTitle(Accounter.constants().paymentMethod());
@@ -445,8 +441,8 @@ public class CreditCardChargeView extends
 
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo() : Accounter.constants()
-						.checkNo());
+						.constants().chequeNo()
+						: Accounter.constants().checkNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isEdit);
 		cheqNoText.setWidth(100);
@@ -461,9 +457,8 @@ public class CreditCardChargeView extends
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "203px");
-		forms.add(termsForm);
+		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
+				Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -503,7 +498,6 @@ public class CreditCardChargeView extends
 		memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
-		forms.add(memoForm);
 
 		DynamicForm vatCheckform = new DynamicForm();
 		// vatCheckform.setFields(vatinclusiveCheck);
@@ -766,20 +760,20 @@ public class CreditCardChargeView extends
 		// 6. vendorTransactionGrid validation
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateTransactionDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate,
-					accounterConstants.invalidateDate());
+			result.addError(transactionDate, accounterConstants
+					.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 		result.add(termsForm.validate());
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid,
-					accounterConstants.blankTransaction());
+			result.addError(vendorTransactionGrid, accounterConstants
+					.blankTransaction());
 		} else
 			result.add(vendorTransactionGrid.validateGrid());
 		return result;

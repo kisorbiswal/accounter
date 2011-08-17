@@ -3,11 +3,9 @@
  */
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,8 +32,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
 import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 /**
  * This Class serves as the Base Root Class for all the views, in Accounter GUI,
@@ -123,7 +119,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 	 */
 	protected boolean saveAndClose;
 
-	protected List<DynamicForm> forms = new ArrayList<DynamicForm>();
+	// protected List<DynamicForm> forms = new ArrayList<DynamicForm>();
 
 	// protected List<FormItem> formItems = new ArrayList<FormItem>();
 

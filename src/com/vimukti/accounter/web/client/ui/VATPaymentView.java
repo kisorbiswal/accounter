@@ -90,7 +90,6 @@ public class VATPaymentView extends
 		// dateNoForm.setWidth("*");
 		// dateNoForm.setLayoutAlign(Alignment.RIGHT);
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		forms.add(dateNoForm);
 
 		vatAgency = new TextItem(Accounter.constants().vatAgency());
 		// vatAgency.setWidth("*");
@@ -153,7 +152,8 @@ public class VATPaymentView extends
 						selectedPayFromAccount = selectItem;
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance() : 0D;
+								.getTotalBalance()
+								: 0D;
 						calculateEndingBalance();
 
 						endingBalanceText.setValue(DataUtils
@@ -306,7 +306,7 @@ public class VATPaymentView extends
 
 	@Override
 	public ValidationResult validate() {
-		//NOTE:: not using it
+		// NOTE:: not using it
 		ValidationResult result = accountInformationForm.validate();
 		result.add(paymentMethodForm.validate());
 		result.add(super.validate());
