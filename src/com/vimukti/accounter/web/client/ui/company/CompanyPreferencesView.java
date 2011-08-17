@@ -19,8 +19,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -121,12 +121,13 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 			dateItem.setValue(new ClientFinanceDate(companyPreferences
 					.getPreventPostingBeforeDate()));
-			if (companyPreferences.getIsMyAccountantWillrunPayroll() != false)
-				// whowillrunAccTransfer.setValue(companyPreferences
-				// .getIsMyAccountantWillrunPayroll());
+			// if (companyPreferences.getIsMyAccountantWillrunPayroll() !=
+			// false)
+			// whowillrunAccTransfer.setValue(companyPreferences
+			// .getIsMyAccountantWillrunPayroll());
 
-				useAccountscheckbox.setValue(companyPreferences
-						.getUseAccountNumbers());
+			useAccountscheckbox.setValue(companyPreferences
+					.getUseAccountNumbers());
 			useCustomertID.setValue(companyPreferences.getUseCustomerId());
 			useVendorId.setValue(companyPreferences.getUseVendorId());
 			if (companyPreferences.getAgeingFromTransactionDateORDueDate() == CompanyPreferencesView.TYPE_AGEING_FROM_DUEDATE)
@@ -566,9 +567,9 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		//validate email
-		//validate company details form
-		
+		// validate email
+		// validate company details form
+
 		// switch (this.validationCount) {
 		// case 2:
 		if (!emailText.validate()) {
@@ -1265,7 +1266,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		for (ClientAccount account : accountlist) {
 			// System.out.println("Account Name " + account.getName());
-			if (account.getName().equals(AccounterClientConstants.OPENING_BALANCE))
+			if (account.getName().equals(
+					AccounterClientConstants.OPENING_BALANCE))
 				openingBalaccount = account;
 			else if (account.getName().equals(
 					AccounterClientConstants.ACCOUNTS_RECEIVABLE))
@@ -1288,7 +1290,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			else if (account.getName().equals(
 					AccounterClientConstants.UN_DEPOSITED_FUNDS))
 				undepositedFunds = account;
-			else if (account.getName().equals(AccounterClientConstants.BANK_CHARGE))
+			else if (account.getName().equals(
+					AccounterClientConstants.BANK_CHARGE))
 				bankCharge = account;
 			else if (account.getName().equals(
 					AccounterClientConstants.RETAINED_EARNINGS))
@@ -1297,7 +1300,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 					AccounterClientConstants.PENDING_ITEM_RECEIPTS))
 				pendingItemrecicpts = account;
 
-			else if (account.getName().equals(AccounterClientConstants.WRITE_OFF))
+			else if (account.getName().equals(
+					AccounterClientConstants.WRITE_OFF))
 				writeOffAccount = account;
 
 		}
