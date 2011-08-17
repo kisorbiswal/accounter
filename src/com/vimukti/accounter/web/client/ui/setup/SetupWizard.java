@@ -142,9 +142,25 @@ public class SetupWizard extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				IAccounterCompanyInitializationServiceAsync cIService = Accounter
-						.createCompanyInitializationService();
-				cIService.initalizeCompany(preferences, callback);
+				Accounter.createCRUDService().updateCompanyPreferences(
+						preferences, new AsyncCallback<Boolean>() {
+
+							@Override
+							public void onSuccess(Boolean result) {
+								if (result) {
+									IAccounterCompanyInitializationServiceAsync cIService = Accounter
+											.createCompanyInitializationService();
+									cIService.initalizeCompany(preferences,
+											callback);
+								}
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+
+							}
+						});
 			}
 		});
 		nextButton.addClickHandler(new ClickHandler() {
