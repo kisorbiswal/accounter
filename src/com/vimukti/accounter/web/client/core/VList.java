@@ -176,12 +176,34 @@ public class VList<E> extends ArrayList<E> {
 	}
 
 	public boolean add(E e) {
-		add(size(), e);
-		return true;
+		return addInternal(e, null);
 	}
 
 	public boolean addInternal(E e, ListListener<E> except) {
-		addInternal(size(), e, null);
+		for (ListFilter<E> filter : filters) {
+			if (!filter.filter(e)) {
+				return false;
+			}
+		}
+		super.add(e);
+
+		for (ListListener<E> listener : listeners) {
+			if (listener == except) {
+				continue;
+			}
+			listener.onAdd(e);
+		}
+
+		Set<ListFilter<E>> keySet = filterListeners.keySet();
+		for (ListFilter<E> key : keySet) {
+			if (key.filter(e)) {
+				ListListener<E> listener = filterListeners.get(key);
+				if (listener == except) {
+					continue;
+				}
+				listener.onAdd(e);
+			}
+		}
 		return true;
 	}
 
@@ -195,7 +217,7 @@ public class VList<E> extends ArrayList<E> {
 				return;
 			}
 		}
-		super.add(e);
+		super.add(index, e);
 
 		for (ListListener<E> listener : listeners) {
 			if (listener == except) {
