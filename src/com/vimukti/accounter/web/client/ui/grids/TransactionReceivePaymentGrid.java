@@ -247,7 +247,7 @@ public class TransactionReceivePaymentGrid extends
 	@Override
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
-		//Validates receive amount exceeds due amount 
+		// Validates receive amount exceeds due amount
 		for (ClientTransactionReceivePayment transactionReceivePayment : this
 				.getSelectedRecords()) {
 			double totalValue = getTotalValue(transactionReceivePayment);
@@ -740,13 +740,15 @@ public class TransactionReceivePaymentGrid extends
 	}
 
 	public void updateValue(ClientTransactionReceivePayment obj) {
-		setAccountDefaultValues(obj);
+		// setAccountDefaultValues(obj);
 		obj.setPayment(obj.getAmountDue());
-		updatePayment(obj);
+		// updatePayment(obj);
 		updateTotalPayment(obj.getPayment());
+		obj.setDummyDue(obj.getAmountDue() - obj.getPayment());
+		updateRecord(obj, indexOf(obj), canEdit ? 8 : 6);
 		updateData(obj);
-		currentCol = canEdit ? 8 : 6;
-		currentRow = indexOf(obj);
+		// currentCol = canEdit ? 8 : 6;
+		// currentRow = indexOf(obj);
 	}
 
 	private void setAccountDefaultValues(ClientTransactionReceivePayment obj) {
@@ -766,7 +768,7 @@ public class TransactionReceivePaymentGrid extends
 			cashDiscountAccount = getCompany().getAccountByName(
 					AccounterClientConstants.CASH_DISCOUNT_TAKEN);
 			writeOffAccount = getCompany().getAccountByName(
-					AccounterClientConstants.WRITE_OFF);
+					AccounterClientConstants.DISCOUNTS_TAKEN);
 			obj.setDiscountAccount(cashDiscountAccount.getID());
 			obj.setWriteOffAccount(writeOffAccount.getID());
 			break;
@@ -844,7 +846,7 @@ public class TransactionReceivePaymentGrid extends
 				&& creditsAndPaymentsDialiog.grid.getRecords().size() == 0)
 			creditsStack.clear();
 
-		setAccountDefaultValues(obj);
+		// setAccountDefaultValues(obj);
 		deleteTotalPayment(obj.getPayment());
 		obj.setPayment(0.0d);
 		obj.setCashDiscount(0.0d);
@@ -876,8 +878,8 @@ public class TransactionReceivePaymentGrid extends
 		if (isChecked && !selectedValues.contains(row)) {
 			this.rowFormatter.addStyleName(row, "selected");
 			selectedValues.add(row);
-			// updateValue(obj);
-			updateUnuseAmt();
+			updateValue(obj);
+			// updateUnuseAmt();
 		} else {
 			selectedValues.remove((Integer) row);
 			this.rowFormatter.removeStyleName(row, "selected");
