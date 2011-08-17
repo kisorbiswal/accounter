@@ -635,6 +635,7 @@ public class PurchaseOrderView extends
 			vendorSelected(company.getVendor(transaction.getVendor()));
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
+			phoneSelect.setDisabled(isEdit);
 			// vendoraddressSelected(purchaseOrderToBeEdited.getVendorAddress());
 			// shipToAddressSelected(purchaseOrderToBeEdited.getShippingAddress());
 
