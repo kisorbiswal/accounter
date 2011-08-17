@@ -55,6 +55,10 @@ public class ViewManager extends VerticalPanel {
 
 	private ImageButton closeButton;
 
+	ButtonGroup group1;
+	ButtonGroup group2;
+	ButtonGroup group3;
+
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
 		addStyleName("view_manager");
@@ -215,15 +219,19 @@ public class ViewManager extends VerticalPanel {
 
 	private void updateButtons() {
 		if (existingView instanceof IEditableView) {
-			editButton.setVisible(((IEditableView) existingView).canEdit());
+			// editButton.setVisible(((IEditableView) existingView).canEdit());
+			group2.add(editButton);
 		} else {
-			editButton.setVisible(false);
+			// editButton.setVisible(false);
+			group2.remove(editButton);
 		}
 
 		if (existingView instanceof IPrintableView) {
-			printButton.setVisible(true);
+			// printButton.setVisible(true);
+			group2.remove(printButton);
 		} else {
-			printButton.setVisible(false);
+			// printButton.setVisible(false);
+			group2.remove(printButton);
 		}
 	}
 
@@ -310,9 +318,9 @@ public class ViewManager extends VerticalPanel {
 
 	void initilizeToolBar() {
 
-		ButtonGroup group1 = new ButtonGroup();
-		ButtonGroup group2 = new ButtonGroup();
-		ButtonGroup group3 = new ButtonGroup();
+		group1 = new ButtonGroup();
+		group2 = new ButtonGroup();
+		group3 = new ButtonGroup();
 
 		previousButton = new ImageButton(Accounter.getFinanceImages()
 				.previousIcon());

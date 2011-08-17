@@ -567,6 +567,7 @@ public abstract class CustomTable extends VerticalPanel {
 
 	public void addEmptyMessage(String msg) {
 		this.body.setText(0, 0, msg);
+		this.body.setStyleName("no_records");
 		this.cellFormatter.setHorizontalAlignment(0, 0,
 				HasHorizontalAlignment.ALIGN_CENTER);
 	}
