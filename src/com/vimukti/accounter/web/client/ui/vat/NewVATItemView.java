@@ -353,8 +353,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		data.setActive(statusCheck.getValue() != null ? (Boolean) statusCheck
 				.getValue() : Boolean.FALSE);
 
-		data.setTaxRate(/* (Boolean) this.isPercentatateAmtCheck.getValue() ? */vatRateTextPerT
-				.getPercentage() /* : vatRateText.getAmount() */);
+		data.setTaxRate((Boolean) this.isPercentatateAmtCheck.getValue() ? vatRateTextPerT
+				.getPercentage() : vatRateText.getAmount());
 		data.setPercentage((Boolean) this.isPercentatateAmtCheck.getValue());
 	}
 
