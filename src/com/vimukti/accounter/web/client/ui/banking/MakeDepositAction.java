@@ -47,7 +47,6 @@ public class MakeDepositAction extends Action {
 						isDependent, MakeDepositAction.this);
 
 			}
-
 			@Override
 			public void onFailure(Throwable arg0) {
 				Accounter

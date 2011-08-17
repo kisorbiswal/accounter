@@ -690,7 +690,7 @@ public class WriteChequeView extends
 		labelLayout.setCellHorizontalAlignment(nHPanel,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		forms.add(numForm);
-		formItems.add(date);
+		// formItems.add(date);
 
 		balText = new AmountField(Accounter.constants().balance(), this);
 		balText.setWidth(100);
@@ -765,7 +765,7 @@ public class WriteChequeView extends
 
 				});
 
-		formItems.add(paytoSelect);
+		// formItems.add(paytoSelect);
 
 		billToCombo = createBillToComboItem();
 		// billToCombo.setWidth(100);
