@@ -414,7 +414,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas<List<R>>
 					toolbar.getEndDate());
 
 		}
-		makeReportRequest(toolbar.getStartDate(), toolbar.getEndDate());
+		// makeReportRequest(toolbar.getStartDate(), toolbar.getEndDate());
 	}
 
 	private void createReportTable() {

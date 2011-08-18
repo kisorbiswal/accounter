@@ -5656,8 +5656,8 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPurchasesByItemDetail")
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate);
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
 
@@ -5687,7 +5687,7 @@ public class FinanceTool implements IFinanceDAOService {
 					: new ClientFinanceDate(((BigInteger) object[6])
 							.longValue()));
 			ClientQuantity quantity = new ClientQuantity();
-			quantity.setValue(object[7] == null ? 0 : ((BigInteger) object[7])
+			quantity.setValue(object[7] == null ? 0 : ((Double) object[7])
 					.intValue());
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setUnitPrice(object[8] == null ? 0
@@ -5700,7 +5700,7 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setIsVoid(object[11] == null ? true
 					: ((Boolean) object[11]).booleanValue());
 			salesByCustomerDetail.setReference((String) object[12]);
-			salesByCustomerDetail.setTransactionId((((Long) object[13])));
+			salesByCustomerDetail.setTransactionId(((BigInteger) object[13]).longValue());
 			queryResult.add(salesByCustomerDetail);
 		}
 		return new VList<SalesByCustomerDetail>(queryResult);
