@@ -4,7 +4,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 /**
