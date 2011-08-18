@@ -2,16 +2,20 @@ package com.vimukti.accounter.services;
 
 import java.io.File;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -126,9 +130,41 @@ public class S2SServiceImpl implements IS2SService {
 	}
 
 	@Override
-	public void deleteClientFromCompany(String deletableEmail,
-			String senderEmail) {
-		// TODO Auto-generated method stub
+	public void deleteClientFromCompany(long serverCompanyId,
+			String deletableEmail) {
 
+		Session openSession = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+		Transaction beginTransaction = openSession.beginTransaction();
+
+		Client deletableClient = getClient(deletableEmail);
+
+		ServerCompany serverCompany = null;
+		try {
+			serverCompany = (ServerCompany) openSession.load(
+					ServerCompany.class, serverCompanyId);
+			serverCompany.getClients().remove(deletableClient);
+			openSession.saveOrUpdate(serverCompany);
+			deletableClient.getCompanies().remove(serverCompany);
+			openSession.saveOrUpdate(deletableClient);
+			beginTransaction.commit();
+		} catch (HibernateException e) {
+			beginTransaction.rollback();
+			return;
+		} catch (Exception e) {
+			beginTransaction.rollback();
+			return;
+		} finally {
+			if (openSession != null && openSession.isOpen()) {
+				openSession.close();
+			}
+		}
+	}
+
+	protected Client getClient(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+		namedQuery.setParameter(BaseServlet.EMAIL_ID, emailId);
+		Client client = (Client) namedQuery.uniqueResult();
+		return client;
 	}
 }

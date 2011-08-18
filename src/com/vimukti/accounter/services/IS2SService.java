@@ -19,7 +19,6 @@ public interface IS2SService {
 
 	public void deleteUserFromCompany(long companyID, String email);
 
-	public void deleteClientFromCompany(String deletableEmail,
-			String senderEmail);
+	public void deleteClientFromCompany(long serverCompanyId, String deletableEmail);
 
 }
