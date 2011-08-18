@@ -10,6 +10,7 @@ public class GraphPoints implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	int type;
 	String accountName;
 	double firstPoint = 0D;

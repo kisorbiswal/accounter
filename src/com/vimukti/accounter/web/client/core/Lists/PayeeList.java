@@ -14,7 +14,8 @@ public class PayeeList implements IAccounterCore {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6437227220504175273L;
+	private static final long serialVersionUID = 1L;
+	
 	int type;
 	public long id;
 	String payeeName;
