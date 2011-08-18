@@ -1,6 +1,11 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -69,9 +74,30 @@ public class CompaniesServlet extends BaseServlet {
 
 			Set<ServerCompany> companies = client.getCompanies();
 			if (companies.isEmpty()) {
-				req.setAttribute("message", "You Don't Have any Companies Now.");
+				req
+						.setAttribute("message",
+								"You Don't Have any Companies Now.");
 			} else {
-				req.setAttribute(ATTR_COMPANY_LIST, companies);
+				List<ServerCompany> list = new ArrayList<ServerCompany>();
+				for (ServerCompany serverCompany : companies) {
+					list.add(serverCompany);
+				}
+				Collections.sort(list, new Comparator<ServerCompany>() {
+
+					@Override
+					public int compare(ServerCompany company1,
+							ServerCompany company2) {
+						return company1.getCompanyName().compareTo(
+								company2.getCompanyName());
+					}
+
+				});
+				Set<ServerCompany> sortedCompanies = new HashSet<ServerCompany>();
+				for (ServerCompany serverCompany : list) {
+					sortedCompanies.add(serverCompany);
+				}
+
+				req.setAttribute(ATTR_COMPANY_LIST, list);
 			}
 			addUserCookies(resp, client);
 		} finally {
@@ -169,8 +195,8 @@ public class CompaniesServlet extends BaseServlet {
 	}
 
 	private void addCompanyCookies(HttpServletResponse resp, long companyID) {
-		Cookie companyCookie = new Cookie(COMPANY_COOKIE,
-				String.valueOf(companyID));
+		Cookie companyCookie = new Cookie(COMPANY_COOKIE, String
+				.valueOf(companyID));
 		companyCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		companyCookie.setPath("/");
 		resp.addCookie(companyCookie);
