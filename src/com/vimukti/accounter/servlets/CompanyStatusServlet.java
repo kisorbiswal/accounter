@@ -12,7 +12,7 @@ public class CompanyStatusServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String CREATING = "Creating the company...";
+	private static final String CREATING = "Creating Company Please wait...";
 	private String REFRESH_VIEW = "/WEB-INF/refresh.jsp";
 
 	@Override

@@ -308,12 +308,17 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	}
 
 	protected void onSubmitForApproval() {
-		// TODO Auto-generated method stub
+		updateTransaction();
+		transaction
+				.setExpenseStatus(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
+		saveOrUpdate(transaction);
 
 	}
 
 	protected void approve() {
-		// TODO Auto-generated method stub
-
+		updateTransaction();
+		transaction
+				.setExpenseStatus(ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
+		saveOrUpdate(transaction);
 	}
 }
