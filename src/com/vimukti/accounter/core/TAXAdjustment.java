@@ -128,7 +128,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	public Account getEffectingAccount() {
 
-		return this.adjustmentAccount;
+		return null;
 	}
 
 	@Override
@@ -166,7 +166,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public boolean onUpdate(Session s) throws CallbackException {
-		super.onSave(s);
+		super.onUpdate(s);
 		return false;
 	}
 
