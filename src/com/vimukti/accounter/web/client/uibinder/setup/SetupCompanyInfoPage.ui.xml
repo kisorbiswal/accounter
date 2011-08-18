@@ -8,9 +8,8 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:VerticalPanel width="660px" height="500px">
-			<g:HTML wordWrap="true"><h3>Enter Your Company Information</h3></g:HTML>
-			<g:HTML wordWrap="true"><p>Accounter uses this information on ur tax forms and forms you used to communicate with ur customers and vendors</p></g:HTML>
+		<g:VerticalPanel width="660px" height="500px" ui:field="viewPanel">
+			<g:HTML wordWrap="true" ui:field="AccounterInfo"></g:HTML>
 			<g:Grid width="500px" height="198px">
 				<g:row>
 					<g:customCell>
@@ -33,7 +32,7 @@
 						<g:Label/>
 					</g:customCell>
 					<g:customCell>
-						<g:HTML wordWrap="true"><p>The name you use on your tax and legal forms.Unless you use a DBA name, this will probably be the same as the company name <a href="" >Explain</a></p></g:HTML>
+						<g:HTML wordWrap="true" ui:field="LegalForm"></g:HTML>
 					</g:customCell>
 				</g:row>
 				<g:row>
@@ -49,7 +48,7 @@
 						<g:Label/>
 					</g:customCell>
 					<g:customCell>
-						<g:HTML wordWrap="true"><p>your Federal Employer Identification Number (EIN) or Social Security Number. Used only on tax forms</p></g:HTML>
+						<g:HTML wordWrap="true" ui:field="EIN"></g:HTML>
 					</g:customCell>
 				</g:row>
 				<g:row>
@@ -73,7 +72,13 @@
 						<g:Label text="City"/>
 					</g:customCell>
 					<g:customCell>
-						<g:TextBox/>
+						<g:HorizontalPanel>
+							<g:TextBox/>
+							<g:Label text="State"/>
+							<g:ListBox/>
+							<g:Label text="Zip"/>
+							<g:TextBox/>
+						</g:HorizontalPanel>
 					</g:customCell>
 				</g:row>
 				<g:row>
@@ -89,7 +94,11 @@
 						<g:Label text="Phone"/>
 					</g:customCell>
 					<g:customCell>
-						<g:TextBox/>
+						<g:HorizontalPanel>
+							<g:TextBox/>
+							<g:Label text="Fax"/>
+							<g:TextBox/>
+						</g:HorizontalPanel>
 					</g:customCell>
 				</g:row>
 				<g:row>
@@ -97,7 +106,7 @@
 						<g:Label text="New Label"/>
 					</g:customCell>
 					<g:customCell>
-						<g:HTML wordWrap="true"><p>Use the format</p></g:HTML>
+						<g:HTML wordWrap="true" ui:field="UseFormat"></g:HTML>
 					</g:customCell>
 				</g:row>
 				<g:row>
@@ -114,6 +123,14 @@
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="required field"/>
+					</g:customCell>
+					<g:customCell>
+						<g:HTML wordWrap="true" ui:field="requiredField"></g:HTML>
 					</g:customCell>
 				</g:row>
 			</g:Grid>
