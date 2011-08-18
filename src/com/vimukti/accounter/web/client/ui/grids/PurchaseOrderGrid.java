@@ -164,7 +164,8 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 				return item.getQuantity();
 			else {
 				return (item.getQuantity() != null || item.getLineTotal() == 0) ? item
-						.getQuantity() : "";
+						.getQuantity()
+						: "";
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
@@ -186,7 +187,8 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 					return getTAXCodeName(item.getTaxCode());
 				else
-					return item.isTaxable();
+					return item.isTaxable() ? Accounter.constants().taxable()
+							: Accounter.constants().nonTaxable();
 			} else {
 				return Accounter.getFinanceMenuImages().delete();
 			}
@@ -264,7 +266,8 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 				// lineTotalAmtString = lineTotalAmtString.replaceAll(",",
 				// "");
 				Double lineTotal = Double.parseDouble(DataUtils
-						.getReformatedAmount(lineTotalAmtString) + "");
+						.getReformatedAmount(lineTotalAmtString)
+						+ "");
 				try {
 					if (!AccounterValidator.isValidGridLineTotal(lineTotal)
 							&& !AccounterValidator.isAmountTooLarge(lineTotal)) {
