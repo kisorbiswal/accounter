@@ -1,7 +1,6 @@
 package com.vimukti.accounter.services;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
