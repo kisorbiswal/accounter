@@ -352,7 +352,7 @@ public class CustomerTransactionGrid extends
 				.getTransactionObject();
 
 		if (transactionObject != null) {
-			setAllTransactionItems(transactionObject.getTransactionItems());
+			//setAllTransactionItems(transactionObject.getTransactionItems());
 			if (transactionObject.getID() != 0) {
 				// ITS Edit Mode
 				// setShowMenu(false);
