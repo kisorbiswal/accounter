@@ -4786,4 +4786,6 @@ public interface AccounterConstants extends Constants {
 
 	public String newProductItem();
 
+	public String skipSetup();
+
 }
