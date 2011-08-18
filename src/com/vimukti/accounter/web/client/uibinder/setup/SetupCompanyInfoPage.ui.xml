@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
 	<ui:style>
 		/* Add CSS here. See the GWT docs on UI Binder for more details */
 		.important {
@@ -8,8 +8,115 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:VerticalPanel width="332px" height="281px">
-			<g:Grid width="255px" height="268px"/>
+		<g:VerticalPanel width="660px" height="500px">
+			<g:HTML wordWrap="true"><h3>Enter Your Company Information</h3></g:HTML>
+			<g:HTML wordWrap="true"><p>Accounter uses this information on ur tax forms and forms you used to communicate with ur customers and vendors</p></g:HTML>
+			<g:Grid width="500px" height="198px">
+				<g:row>
+					<g:customCell>
+						<g:Label text="Company Name :" width="150px" height="30px"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Legal Name" height="30px" width="150px"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label/>
+					</g:customCell>
+					<g:customCell>
+						<g:HTML wordWrap="true"><p>The name you use on your tax and legal forms.Unless you use a DBA name, this will probably be the same as the company name <a href="" >Explain</a></p></g:HTML>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Tax Id :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label/>
+					</g:customCell>
+					<g:customCell>
+						<g:HTML wordWrap="true"><p>your Federal Employer Identification Number (EIN) or Social Security Number. Used only on tax forms</p></g:HTML>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Street Adress"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="City"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Country"/>
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Phone"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="New Label"/>
+					</g:customCell>
+					<g:customCell>
+						<g:HTML wordWrap="true"><p>Use the format</p></g:HTML>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="E-Mail Address"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Website"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox/>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
 		</g:VerticalPanel>
 		<!--
 			Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete
