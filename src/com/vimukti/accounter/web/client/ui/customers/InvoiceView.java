@@ -1054,7 +1054,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	public void saveAndUpdateView() {
 
 		updateTransaction();
-
+		saveOrUpdate(getCustomer());
 		saveOrUpdate(transaction);
 
 	}
@@ -1064,11 +1064,18 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		if (getCustomer() != null) {
 			Set<ClientAddress> addr = shipToAddress.getAddresss();
 			billingAddress = allAddresses.get(ClientAddress.TYPE_BILL_TO);
-			if (billingAddress != null)
+			if (billingAddress != null) {
+				for (ClientAddress clientAddress : addr) {
+					if (clientAddress.getType() == ClientAddress.TYPE_BILL_TO) {
+						addr.remove(clientAddress);
+					}
+				}
+
 				addr.add(billingAddress);
+			}
 			if (!addr.isEmpty()) {
 				getCustomer().setAddress(addr);
-				Accounter.createOrUpdate(this, getCustomer());
+				// Accounter.createOrUpdate(this, getCustomer());
 
 				for (ClientAddress clientAddress : addr) {
 					if (clientAddress.getType() == ClientAddress.TYPE_SHIP_TO)
