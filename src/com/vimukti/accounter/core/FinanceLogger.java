@@ -77,7 +77,11 @@ public class FinanceLogger implements IAccounterServerCore {
 	public static void log(String description, String... objects) {
 
 		for (int i = 0; i < objects.length; i++) {
-			description = description.trim().replace("{" + i + "}", objects[i]);
+			String s = objects[i];
+			if (s != null) {
+				description = description.trim().replace("{" + i + "}",
+						objects[i]);
+			}
 		}
 		getInstance().strBuffer.append("Operation :" + description + "\n");
 		log.info(description + "\n");

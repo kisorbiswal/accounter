@@ -367,7 +367,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	@Override
 	public void saveAndUpdateView() {
 
-		if (this.selectedVatAgency != null && isEdit) {
+		if (this.selectedVatAgency != null && !isEdit) {
 			data.setTransactionDate(new ClientFinanceDate().getDate());
 
 		}

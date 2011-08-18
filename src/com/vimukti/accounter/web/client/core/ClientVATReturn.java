@@ -30,7 +30,7 @@ public class ClientVATReturn extends ClientTransaction {
 
 	List<ClientBox> boxes = new ArrayList<ClientBox>();
 
-	String journalEntry;
+	long journalEntry;
 
 	double balance;
 
@@ -82,7 +82,7 @@ public class ClientVATReturn extends ClientTransaction {
 	/**
 	 * @return the journalEntry
 	 */
-	public String getJournalEntry() {
+	public long getJournalEntry() {
 		return journalEntry;
 	}
 
@@ -90,7 +90,7 @@ public class ClientVATReturn extends ClientTransaction {
 	 * @param journalEntry
 	 *            the journalEntry to set
 	 */
-	public void setJournalEntry(String journalEntry) {
+	public void setJournalEntry(long journalEntry) {
 		this.journalEntry = journalEntry;
 	}
 

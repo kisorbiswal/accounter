@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.io.Serializable;
 
 import org.hibernate.CallbackException;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -138,23 +139,28 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
 
-		this.setType(Transaction.TYPE_ADJUST_VAT_RETURN);
+		FlushMode flushMode = session.getFlushMode();
+		session.setFlushMode(FlushMode.COMMIT);
+		try {
+			this.setType(Transaction.TYPE_ADJUST_VAT_RETURN);
 
-		// Query query = session.getNamedQuery("getNextTransactionNumber");
-		// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
-		// List list = query.list();
-		// //
-		// long nextVoucherNumber = 1;
-		// if (list != null && list.size() > 0) {
-		// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
-		// }
-		FinanceLogger.log("Create Journal Entry on VatAdjustment");
+			// Query query = session.getNamedQuery("getNextTransactionNumber");
+			// query.setLong("type", Transaction.TYPE_JOURNAL_ENTRY);
+			// List list = query.list();
+			// //
+			// long nextVoucherNumber = 1;
+			// if (list != null && list.size() > 0) {
+			// nextVoucherNumber = ((Long) list.get(0)).longValue() + 1;
+			// }
+			FinanceLogger.log("Create Journal Entry on VatAdjustment");
 
-		JournalEntry vatAdjustmentJournalEntry = new JournalEntry(this, number,
-				JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
+			JournalEntry vatAdjustmentJournalEntry = new JournalEntry(this,
+					number, JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY);
 
-		this.journalEntry = vatAdjustmentJournalEntry;
-
+			this.journalEntry = vatAdjustmentJournalEntry;
+		} finally {
+			session.setFlushMode(flushMode);
+		}
 		return false;
 	}
 
