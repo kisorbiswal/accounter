@@ -1,8 +1,14 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import net.zschech.gwt.comet.client.CometClient;
+import net.zschech.gwt.comet.client.CometListener;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -15,7 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.commet.AccounterCometClient;
+import com.vimukti.accounter.web.client.comet.AccounterCometSerializer;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -51,7 +57,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		// currently not using anywhere
 		return null;
 	}
-
 
 	private void createControls() {
 		viewManager = new ViewManager(this);
@@ -692,9 +697,58 @@ public class MainFinanceWindow extends VerticalPanel {
 		super.onLoad();
 		viewManager.fitToSize(this.getOffsetHeight(), 960);
 		// if (GWT.isScript())
-		AccounterCometClient.start();
+		startCometService();
 		this.getElement().getParentElement()
 				.addClassName("main-finance-window");
+	}
+
+	
+
+	private void startCometService() {
+		AccounterCometSerializer serializer = GWT
+				.create(AccounterCometSerializer.class);
+		CometClient cometClient = new CometClient("do/comet", serializer,
+				new CometListener() {
+
+					@Override
+					public void onRefresh() {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onMessage(List<? extends Serializable> messages) {
+						for (Serializable serializableObj : messages) {
+							Accounter.getCompany().processCommand(
+									(IAccounterCore) serializableObj);
+						}
+					}
+
+					@Override
+					public void onHeartbeat() {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onError(Throwable exception, boolean connected) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onDisconnected() {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onConnected(int heartbeat) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		cometClient.start();
 	}
 
 	@Override
@@ -734,7 +788,8 @@ public class MainFinanceWindow extends VerticalPanel {
 	@Override
 	protected void onUnload() {
 		super.onUnload();
-		AccounterCometClient.cometStop();
+		// TODO
+		// AccounterCometClient.cometStop();
 	}
 
 	public <T extends IAccounterCore> void historyChanged(String value) {

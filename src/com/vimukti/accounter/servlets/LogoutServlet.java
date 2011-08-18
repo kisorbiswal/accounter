@@ -7,7 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.vimukti.comet.server.CometManager;
+import com.vimukti.accounter.web.server.CometManager;
 
 public class LogoutServlet extends BaseServlet {
 	/**

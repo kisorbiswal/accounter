@@ -17,6 +17,19 @@
 		<location>/ex_500.html</location>
 	</error-page>
 
+	<!-- Listener for shutting down the comet processor when the ServletContext 
+		is destroyed -->
+	<listener>
+		<listener-class>net.zschech.gwt.comet.server.CometServletContextListener
+		</listener-class>
+	</listener>
+
+	<!-- Listener for invalidating CometSessions when HTTPSessions are invalidated -->
+	<listener>
+		<listener-class>net.zschech.gwt.comet.server.CometHttpSessionListener
+		</listener-class>
+	</listener>
+
 
 	<!-- <servlet> <servlet-name>FileDownload</servlet-name> <servlet-class> 
 		com.isomorphic.servlet.FileDownload</servlet-class> <init-param> <param-name>expires</param-name> 
@@ -210,46 +223,19 @@
 		</servlet-class> </servlet> <servlet-mapping> <servlet-name>Workspaces</servlet-name> 
 		<url-pattern>/do/bizantra/workspaces </url-pattern> </servlet-mapping> -->
 
+	<!-- the comet servlet for streaming messages to the client -->
 	<servlet>
-		<servlet-class>com.vimukti.comet.server.CometServerServlet
+		<servlet-name>comet</servlet-name>
+		<servlet-class>net.zschech.gwt.comet.server.CometServlet
 		</servlet-class>
-		<servlet-name>CometServerServlet
-		</servlet-name>
-		<init-param>
-			<param-name>maximum-bytes-written</param-name>
-			<param-value>5120</param-value>
-		</init-param>
-		<init-param>
-			<param-name>connection-timeout</param-name>
-			<param-value>19000</param-value>
-		</init-param>
 	</servlet>
+
+
 	<servlet-mapping>
-		<servlet-name>CometServerServlet
-		</servlet-name>
-		<url-pattern>/do.comet/xhrinteractive
-		</url-pattern>
+		<servlet-name>comet</servlet-name>
+		<url-pattern>/do/comet</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>CometServerServlet
-		</servlet-name>
-		<url-pattern>/do.comet/smartpoll</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>CometServerServlet
-		</servlet-name>
-		<url-pattern>/do.comet/longpoll</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>CometServerServlet
-		</servlet-name>
-		<url-pattern>/do.comet/iframe</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>CometServerServlet
-		</servlet-name>
-		<url-pattern>/do.comet/simplepoll</url-pattern>
-	</servlet-mapping>
+
 
 	<servlet-mapping>
 		<servlet-name>iAccounterCIImpl</servlet-name>

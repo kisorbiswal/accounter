@@ -16,7 +16,7 @@
 	<!-- <inherits name='com.smartgwt.SmartGwt' /> -->
 	<inherits name="com.google.gwt.activity.Activity" />
 	<inherits name="com.google.gwt.i18n.I18N" />
-	<inherits name="com.vimukti.comet.Comet" />
+	<inherits name="net.zschech.gwt.comet.Comet" />
 	<inherits name="com.google.gwt.visualization.Visualization" />
 	<!-- <inherits name='pl.balon.gwt.diagrams.Diagrams' /> -->
 

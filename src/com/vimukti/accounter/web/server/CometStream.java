@@ -1,6 +1,7 @@
-package com.vimukti.comet.server;
+package com.vimukti.accounter.web.server;
 
 import java.io.NotSerializableException;
+import java.io.Serializable;
 
 public interface CometStream {
 
@@ -10,5 +11,5 @@ public interface CometStream {
 	 * @param obj
 	 * @param method
 	 */
-	public void put(Object obj) throws NotSerializableException;
+	public void put(Serializable obj) throws NotSerializableException;
 }

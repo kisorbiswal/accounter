@@ -185,8 +185,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.CompanyPreferencesView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
-import com.vimukti.comet.server.CometManager;
-import com.vimukti.comet.server.CometStream;
 
 /**
  * @author Fernandez

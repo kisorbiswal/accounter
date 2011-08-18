@@ -5,7 +5,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import com.vimukti.accounter.core.FinanceLogger;
-import com.vimukti.comet.server.CometManager;
+import com.vimukti.accounter.web.server.CometManager;
 
 public class AccounterSessionListner implements HttpSessionListener
 

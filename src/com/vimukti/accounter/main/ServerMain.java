@@ -14,8 +14,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.server.IAccounterDummyService;
-import com.vimukti.comet.server.CometManager;
+import com.vimukti.accounter.web.server.CometManager;
 
 public class ServerMain extends Main {
 	private static boolean isDebug;
@@ -38,8 +37,6 @@ public class ServerMain extends Main {
 
 		server.start();
 		// session.close();
-
-		CometManager.initStream("accounter", IAccounterDummyService.class);
 
 		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();

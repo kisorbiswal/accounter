@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.zschech.gwt.comet.server.CometServlet;
+import net.zschech.gwt.comet.server.CometSession;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -27,7 +30,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.comet.server.CometManager;
 
 /**
  * 
@@ -59,7 +61,6 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	private void initChangeTracker() {
 
 		ChangeTracker.init();
-		CometManager.initStream("accounter", IAccounterDummyService.class);
 
 	}
 
@@ -213,8 +214,10 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 					.setAttribute(COMPANY_ID,
 							getCompanyName(getThreadLocalRequest()));
 			getThreadLocalRequest().getSession().setAttribute("offSet", offSet);
+			CometSession cometSession = CometServlet
+					.getCometSession(getHttpSession());
 			CometManager.initStream(getThreadLocalRequest().getSession()
-					.getId(), user.getEmail(), "bizantra");
+					.getId(), user.getEmail(), cometSession);
 
 			if (rememberMe) {
 				setCookies(string, password);

@@ -6,11 +6,15 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import net.zschech.gwt.comet.server.CometServlet;
+import net.zschech.gwt.comet.server.CometSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.vimukti.comet.server.CometManager;
+import com.vimukti.accounter.web.server.CometManager;
 
 public class PostLoginServlet extends BaseServlet {
 
@@ -32,7 +36,7 @@ public class PostLoginServlet extends BaseServlet {
 		String emailID = (String) request.getSession().getAttribute(EMAIL_ID);
 		RequestDispatcher dispatcher;
 		if (emailID != null) {
-			initComet(request.getSession().getId(), emailID);
+			initComet(request.getSession(), emailID);
 			// there is no session, so do external redirect to login page
 			// response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
 			// response.setHeader("Location", "/Accounter.jsp");
@@ -60,11 +64,11 @@ public class PostLoginServlet extends BaseServlet {
 	 * @param request
 	 * @param identity
 	 */
-	private void initComet(String sessionID, String emailID) {
+	private void initComet(HttpSession httpSession, String emailID) {
 		// Stream must be created otherwise user will get data
 		// Continuously and browser will struck
-		CometManager.initStream(sessionID, emailID, "accounter");
-
+		CometSession cometSession = CometServlet.getCometSession(httpSession);
+		CometManager.initStream(httpSession.getId(), emailID, cometSession);
 	}
 
 }
