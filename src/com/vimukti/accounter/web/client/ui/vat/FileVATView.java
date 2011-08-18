@@ -472,6 +472,8 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 			public void makeReportRequest(long vatAgency,
 					ClientFinanceDate startDate, ClientFinanceDate endDate) {
 				if (isSecondReuqest) {
+					this.startDate = startDate;
+					this.endDate = endDate;
 					super.makeReportRequest(vatAgency, startDate, endDate);
 				} else {
 					isSecondReuqest = true;
