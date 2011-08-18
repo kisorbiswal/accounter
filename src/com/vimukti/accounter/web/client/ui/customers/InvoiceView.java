@@ -94,7 +94,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	private TextItem orderNumText;
 	HorizontalPanel hpanel;
 	DynamicForm amountsForm;
-	private LinkedHashMap<Integer, ClientAddress> allAddresses = new LinkedHashMap<Integer, ClientAddress>();
+	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 
 	private void initBalanceDue() {
 
@@ -702,6 +702,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			super.setCustomerTaxCodetoAccount();
 
+		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		if (addressListOfCustomer != null) {
 			Iterator it = addressListOfCustomer.iterator();
 			while (it.hasNext()) {
