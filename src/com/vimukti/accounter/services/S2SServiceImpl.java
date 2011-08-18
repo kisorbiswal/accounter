@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
@@ -26,7 +27,12 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class S2SServiceImpl implements IS2SService {
+public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void createComapny(long companyID, String companyName,
