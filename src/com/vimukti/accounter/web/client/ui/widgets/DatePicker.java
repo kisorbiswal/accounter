@@ -15,6 +15,8 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
@@ -41,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
-		KeyPressHandler, FocusHandler, BlurHandler {
+		KeyPressHandler, FocusHandler, BlurHandler, MouseWheelHandler {
 
 	private PopupCalendar popup;
 	private Date selectedDate;
@@ -95,6 +97,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		addKeyPressHandler(this);
 		addFocusHandler(this);
 		addBlurHandler(this);
+		addMouseWheelHandler(this);
 	}
 
 	/**
@@ -502,6 +505,17 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	public void onBlur(BlurEvent event) {
 
 		this.popup.hidePopupCalendar();
+
+	}
+
+	@Override
+	public void onMouseWheel(MouseWheelEvent event) {
+		if (event.isNorth()) {
+
+			processDecrementDate(this.getCursorPos());
+		} else if (event.isSouth()) {
+			processIncrementDate(this.getCursorPos());
+		}
 
 	}
 
