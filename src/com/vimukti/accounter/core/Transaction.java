@@ -100,6 +100,8 @@ public abstract class Transaction extends CreatableObject implements
 
 	private String currencyCode;
 
+	private RecurringTransaction recurringTransaction;
+	
 	public String getCurrencyCode() {
 		return currencyCode;
 	}
@@ -1132,6 +1134,14 @@ public abstract class Transaction extends CreatableObject implements
 		// "File VAT already done in  this transaction date duration, can't Modify");
 
 		return true;
+	}
+
+	public void setRecurringTransaction(RecurringTransaction recurringTransaction) {
+		this.recurringTransaction = recurringTransaction;
+	}
+
+	public RecurringTransaction getRecurringTransaction() {
+		return recurringTransaction;
 	}
 
 }

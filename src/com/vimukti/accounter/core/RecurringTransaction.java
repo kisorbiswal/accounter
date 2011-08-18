@@ -20,6 +20,7 @@ public class RecurringTransaction extends CreatableObject implements
 	private static final long serialVersionUID = 1L;
 	
 	public final static int HOW_OFTEN_DAY = 0;
+	
 	public final static int HOW_OFTEN_WEEK = 1;
 	public final static int HOW_OFTEN_MONTH = 2;
 
@@ -47,6 +48,7 @@ public class RecurringTransaction extends CreatableObject implements
 	 * {@link #ACTION_APPROVE_SEND}
 	 */
 	private int actionType;
+	private String name;
 
 	private Transaction referringTransaction;
 
@@ -156,7 +158,8 @@ public class RecurringTransaction extends CreatableObject implements
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer("Every ");
+		StringBuffer sb = new StringBuffer();
+		sb.append(name).append(" - Every ");
 		sb.append(howOftenValue).append(' ');
 		switch (howOftenType) {
 		case HOW_OFTEN_DAY:
@@ -174,6 +177,14 @@ public class RecurringTransaction extends CreatableObject implements
 			break;
 		}
 		return sb.toString();
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	/**
