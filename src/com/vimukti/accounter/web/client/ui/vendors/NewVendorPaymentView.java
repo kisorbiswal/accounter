@@ -45,7 +45,7 @@ public class NewVendorPaymentView extends
 	private DynamicForm vendorForm;
 	private DynamicForm payForm;
 	Double toBeSetEndingBalance = 0.0D;
-	Double toBeSetVendorBalance;
+	Double toBeSetVendorBalance = 0.0D;
 	protected boolean isClose;
 	protected String paymentMethod = UIUtils
 			.getpaymentMethodCheckBy_CompanyType(Accounter.constants().check());
@@ -335,7 +335,6 @@ public class NewVendorPaymentView extends
 		super.saveAndUpdateView();
 		if (transaction != null) {
 			transaction.setType(ClientTransaction.TYPE_PAY_BILL);
-
 			saveOrUpdate(transaction);
 		}
 
@@ -500,6 +499,7 @@ public class NewVendorPaymentView extends
 			result.addError(transactionDate,
 					accounterConstants.invalidateDate());
 		}
+
 		result.add(payForm.validate());
 
 		return result;

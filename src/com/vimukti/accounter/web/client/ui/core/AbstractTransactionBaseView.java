@@ -731,7 +731,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				}
 			} else if (itm.equals("Comment")) {
 				image = Accounter.getFinanceMenuImages().comments();
-			} else if (itm.equals("Sales Tax") || (itm.equals("Service Item"))|| (itm.equals("Service"))) {
+			} else if (itm.equals("Sales Tax") || (itm.equals("Service Item"))
+					|| (itm.equals("Service"))) {
 				if (sellServices) {
 					image = Accounter.getFinanceMenuImages().salestax();
 				} else {
@@ -889,8 +890,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// ERROR
 		if (transaction != null)
 			if (this.transaction.getTotal() <= 0) {
-				result.addError(this, Accounter.constants()
-						.transactiontotalcannotbe0orlessthan0());
+				if (transaction instanceof ClientPayBill) {
+					result.addError(this, Accounter.constants().nullAmount());
+				} else {
+					result.addError(this, Accounter.constants()
+							.transactiontotalcannotbe0orlessthan0());
+				}
 			}
 
 		if (transactionItems != null) {

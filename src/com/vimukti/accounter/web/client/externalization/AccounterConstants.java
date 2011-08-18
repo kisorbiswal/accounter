@@ -2615,9 +2615,9 @@ public interface AccounterConstants extends Constants {
 	public String noRecordsSelected();
 
 	public String noRecordsToShow();
-	
+
 	public String noFiledVatEntriesToReceive();
-	
+
 	public String noFiledVatEntriesToPay();
 
 	public String norecordstoshowinbetweentheselecteddates();
@@ -4645,6 +4645,8 @@ public interface AccounterConstants extends Constants {
 	public String invalidateDate();
 
 	public String blankTransaction();
+
+	public String nullAmount();
 
 	public String customerPaymentOrBillPaymentBlankTransaction();
 

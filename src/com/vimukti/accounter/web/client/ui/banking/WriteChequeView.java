@@ -136,11 +136,11 @@ public class WriteChequeView extends
 	// bankAccSelect.initCombo(payFromAccounts);
 	// }
 	public void updateTotals() {
-		if (transaction == null) {
-			transactionVendorGrid.setVisible(true);
-			changeGrid(transactionVendorGrid);
-			transactionVendorGrid.updateTotals();
-		}
+		// if (transaction == null) {
+		transactionVendorGrid.setVisible(true);
+		changeGrid(transactionVendorGrid);
+		transactionVendorGrid.updateTotals();
+		// }
 	}
 
 	protected void updateAddressAndGrid() {
@@ -148,11 +148,11 @@ public class WriteChequeView extends
 		if (payee instanceof ClientCustomer) {
 			selectedCustomer = (ClientCustomer) payee;
 			addressList = selectedCustomer.getAddress();
-			if (transaction == null) {
-				transactionCustomerGrid.setVisible(true);
-				changeGrid(transactionCustomerGrid);
-				transactionCustomerGrid.updateTotals();
-			}
+			// if (transaction == null) {
+			transactionCustomerGrid.setVisible(true);
+			changeGrid(transactionCustomerGrid);
+			transactionCustomerGrid.updateTotals();
+			// }
 		} else if (payee instanceof ClientVendor) {
 
 			selectedVendor = (ClientVendor) payee;
@@ -1094,8 +1094,7 @@ public class WriteChequeView extends
 					|| payee instanceof ClientTAXAgency) {
 				this.amtText.setAmount(transactionVendorGrid.getTotal());
 				text.setValue(Utility.getNumberInWords(transactionVendorGrid
-						.getTotal()
-						+ ""));
+						.getTotal() + ""));
 				totalTxt.setValue(String.valueOf(transactionVendorGrid
 						.getTotal()));
 				netAmount.setAmount(transactionVendorGrid.getGrandTotal());
