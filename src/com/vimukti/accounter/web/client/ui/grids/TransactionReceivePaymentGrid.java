@@ -892,7 +892,7 @@ public class TransactionReceivePaymentGrid extends
 		for (ClientTransactionReceivePayment receivePayment : getSelectedRecords()) {
 			toBeSetAmount += receivePayment.getPayment();
 		}
-		paymentView.amtText.setValue("" + toBeSetAmount);
+		paymentView.setAmountRecieved(toBeSetAmount);
 	}
 
 	public void updateUnuseAmt() {
