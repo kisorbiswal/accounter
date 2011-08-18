@@ -370,7 +370,10 @@ public class NewVendorPaymentView extends
 			} else {
 				transaction.setCheckNumber("");
 			}
-			printCheck.setValue(transaction.isToBePrinted());
+			if (transaction.getID() != 0) {
+				printCheck.setValue(transaction.isToBePrinted());
+			} else
+				printCheck.setValue(true);
 
 			// Setting Memo
 			transaction.setMemo(getMemoTextAreaItem());
