@@ -348,7 +348,7 @@ public class PurchaseOrderView extends
 		if (ClientCompanyPreferences.get().isDoProductShipMents()) {
 			termsForm.setFields(shippingTermsCombo, shippingMethodsCombo);
 		}
-		termsForm.getCellFormatter().setWidth(0, 0, "230px");
+		termsForm.getCellFormatter().setWidth(0, 0, "208px");
 		dateform.getCellFormatter().setWidth(0, 0, "230px");
 
 		// formItems.add(checkNo);
@@ -414,20 +414,24 @@ public class PurchaseOrderView extends
 		topHLay.setCellWidth(rightVLay, "47%");
 		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		VerticalPanel panel = new VerticalPanel();
-		panel.add(createAddNewButton());
+		HorizontalPanel Hpanel = new HorizontalPanel();
+		Hpanel.setHorizontalAlignment(ALIGN_RIGHT);
+		Hpanel.add(createAddNewButton());
+		Hpanel.getElement().getStyle().setMarginTop(8, Unit.PX);
+
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.add(memoForm);
 		panel.add(amountsForm);
 
 		panel.setHorizontalAlignment(ALIGN_RIGHT);
-		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		HorizontalPanel bottomLayout = new HorizontalPanel();
+		VerticalPanel bottomLayout = new VerticalPanel();
 		bottomLayout.setWidth("100%");
 		bottomLayout.setHorizontalAlignment(ALIGN_RIGHT);
 
-		bottomLayout.add(memoForm);
+		bottomLayout.add(Hpanel);
 		bottomLayout.add(panel);
-		bottomLayout.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
+		panel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		// bottomLayout.add(linkspanel);
 
 		VerticalPanel mainVLay = new VerticalPanel();
@@ -444,7 +448,7 @@ public class PurchaseOrderView extends
 		if (UIUtils.isMSIEBrowser()) {
 			vendorForm.getCellFormatter().setWidth(0, 1, "200px");
 			vendorForm.setWidth("75%");
-			termsForm.getCellFormatter().setWidth(0, 1, "68%");
+			// termsForm.getCellFormatter().setWidth(0, 1, "68%");
 			memoForm.getCellFormatter().setWidth(0, 1, "300px");
 			memoForm.setWidth("40%");
 			statusSelect.setWidth("150px");
