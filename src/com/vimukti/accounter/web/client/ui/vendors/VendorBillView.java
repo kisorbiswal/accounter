@@ -135,8 +135,7 @@ public class VendorBillView extends
 			}
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
-							transaction.getDueDate())
-							: getTransactionDate());
+							transaction.getDueDate()) : getTransactionDate());
 			initMemoAndReference();
 			vendorTransactionGrid.setCanEdit(false);
 
@@ -604,11 +603,11 @@ public class VendorBillView extends
 	}
 
 	protected void updateTransaction() {
-		if(transaction == null)
+		if (transaction == null)
 			return;
 		super.updateTransaction();
 		// Setting Vendor
-		if(getVendor() != null)
+		if (getVendor() != null)
 			transaction.setVendor(getVendor());
 
 		// Setting Contact
@@ -622,8 +621,8 @@ public class VendorBillView extends
 		// Setting Phone
 		if (phoneNo != null)
 			transaction.setPhone(phoneNo);
-//		else
-//			transaction.setPhone(phoneNo);
+		// else
+		// transaction.setPhone(phoneNo);
 
 		// Setting Payment Terms
 		if (selectedPaymentTerm != null)
@@ -694,18 +693,18 @@ public class VendorBillView extends
 		// 5. isBlank transaction?
 		// 6. is vendor transaction grid valid?
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(dueDateItem
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				dueDateItem.getEnteredDate(), this.transactionDate)) {
 			result.addError(dueDateItem, Accounter.constants().the()
 					+ " "
 					+ Accounter.constants().dueDate()
@@ -715,8 +714,8 @@ public class VendorBillView extends
 							.cannotbeearlierthantransactiondate());
 		}
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid, accounterConstants
-					.blankTransaction());
+			result.addError(vendorTransactionGrid,
+					accounterConstants.blankTransaction());
 		} else
 			result.add(vendorTransactionGrid.validateGrid());
 		return result;
