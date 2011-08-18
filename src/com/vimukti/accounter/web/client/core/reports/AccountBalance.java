@@ -9,9 +9,13 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * @author vimukti16
  * 
  */
-@SuppressWarnings("serial")
 public class AccountBalance implements IsSerializable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	String name;
 	double balance;
 	int type;

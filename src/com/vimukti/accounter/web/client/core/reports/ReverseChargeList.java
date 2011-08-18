@@ -4,9 +4,13 @@ import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-@SuppressWarnings("serial")
 public class ReverseChargeList extends BaseReport implements IsSerializable,
 		Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	String name;
 

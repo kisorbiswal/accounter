@@ -6,9 +6,14 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 
-@SuppressWarnings("serial")
 public class MakeDepositTransactionsList implements IsSerializable,
 		Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 
 	public static final int TYPE_ACCOUNT = 1;
 

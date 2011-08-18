@@ -8,8 +8,12 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 
-@SuppressWarnings("serial")
 public class VATDetailReport implements IsSerializable, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static final String IRELAND_BOX1_VAT_CHARGED_ON_SUPPIES = "Box 1 Vat charged on supplies of Goods and Services";
 

@@ -5,8 +5,12 @@ import java.io.Serializable;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
-@SuppressWarnings("serial")
 public class SalesOrdersList implements IsSerializable, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	long transactionId;
 

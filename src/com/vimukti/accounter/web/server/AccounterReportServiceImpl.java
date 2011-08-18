@@ -51,9 +51,13 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 
-@SuppressWarnings("serial")
 public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		implements IAccounterReportService {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 

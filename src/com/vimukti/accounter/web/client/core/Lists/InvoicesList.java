@@ -17,8 +17,12 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
  *         Customer)
  * 
  */
-@SuppressWarnings("serial")
 public class InvoicesList implements IsSerializable, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	long transactionId;
 

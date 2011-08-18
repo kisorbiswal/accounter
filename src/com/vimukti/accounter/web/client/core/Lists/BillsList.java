@@ -15,8 +15,13 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
  *         (Vendor Bills, Vendor Credit Memo, Cash Purchase and Credit Card
  *         Charge and Write Check -> Vendor)
  */
-@SuppressWarnings("serial")
 public class BillsList implements IsSerializable, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 
 	long transactionId;
 

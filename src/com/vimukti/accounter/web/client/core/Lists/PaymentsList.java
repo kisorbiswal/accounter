@@ -21,8 +21,12 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
  *         (Customer Refunds , Vendor Payments,Cash Purchases, Credit Card
  *         Charge and all Write Checks)
  */
-@SuppressWarnings("serial")
 public class PaymentsList implements IsSerializable, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	long transactionId;
 

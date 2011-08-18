@@ -5,9 +5,13 @@ import java.io.Serializable;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-@SuppressWarnings("serial")
 public class SalesTaxLiability extends BaseReport implements IsSerializable,
 		Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	String taxAgencyName;
 

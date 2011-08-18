@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
  * 
  * @param <T>
  */
-@SuppressWarnings("serial")
 public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 		IAccounterWidget, WidgetWithErrors, ISaveCallback, IDeleteCallback {
 

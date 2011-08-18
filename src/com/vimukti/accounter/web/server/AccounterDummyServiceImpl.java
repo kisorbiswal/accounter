@@ -26,9 +26,13 @@ import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 
-@SuppressWarnings("serial")
 public class AccounterDummyServiceImpl extends AccounterRPCBaseServiceImpl
 		implements IAccounterDummyService {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public ClientAccount getClientAccount() {

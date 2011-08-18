@@ -5,9 +5,13 @@ import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-@SuppressWarnings("serial")
 public class KeyFinancialIndicators implements IsSerializable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	Map<String, Map<Integer, Double>> indicators;
 
 	public Map<String, Map<Integer, Double>> getIndicators() {

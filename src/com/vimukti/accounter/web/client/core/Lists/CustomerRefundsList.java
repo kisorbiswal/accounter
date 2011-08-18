@@ -15,8 +15,12 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
  * 
  *         (Customer Refunds and Write Checks -> for Customer)
  */
-@SuppressWarnings("serial")
 public class CustomerRefundsList implements IsSerializable, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	long transactionId;
 

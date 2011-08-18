@@ -5,9 +5,13 @@ import java.io.Serializable;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
-@SuppressWarnings("serial")
 public class SellingOrDisposingFixedAssetList implements IsSerializable,
 		Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * This will hold a secure 40 digit random number.

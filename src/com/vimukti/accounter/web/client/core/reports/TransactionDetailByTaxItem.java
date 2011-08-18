@@ -6,9 +6,13 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-@SuppressWarnings("serial")
 public class TransactionDetailByTaxItem extends BaseReport implements
 		IsSerializable, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	String payeeName;
 

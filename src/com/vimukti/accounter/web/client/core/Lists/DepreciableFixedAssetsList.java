@@ -6,9 +6,13 @@ import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-@SuppressWarnings("serial")
 public class DepreciableFixedAssetsList implements IsSerializable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	Map<Long, List<DepreciableFixedAssetsEntry>> accountViceFixedAssets;
 	List<Long> fixedAssetIDs;
 

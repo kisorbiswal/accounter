@@ -9,9 +9,13 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
  * @author vimukti16
  * 
  */
-@SuppressWarnings("serial")
 public class ReceivePaymentTransactionList implements IsSerializable,
 		Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	long transactionId;
 

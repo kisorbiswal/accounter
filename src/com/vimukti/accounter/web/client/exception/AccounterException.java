@@ -7,9 +7,13 @@ package com.vimukti.accounter.web.client.exception;
  * @author Prasanna Kumar G
  * 
  */
-@SuppressWarnings("serial")
 public class AccounterException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Used to tell that same number is already used for another Transaction or
 	 * Core object

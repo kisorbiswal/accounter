@@ -6,10 +6,14 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 
-@SuppressWarnings("serial")
 public class DummyDebitor extends BaseReport implements IsSerializable,
 		Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	String debitorName;
 	double debitdays_in30;
 	double debitdays_in60;
