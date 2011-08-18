@@ -40,8 +40,21 @@ public class S2SServiceImpl implements IS2SService {
 	}
 
 	@Override
-	public void deleteUserFromCompany(String email) {
-		// TODO Auto-generated method stub
+	public void deleteUserFromCompany(long companyID, String email) {
+		String schema = Server.COMPANY + companyID;
+		Session session = HibernateUtil.openSession(schema);
+		Transaction transaction = session.beginTransaction();
+		try {
+			Company company = (Company) session.get(Company.class, 1l);
+			User user = company.getUserByUserEmail(email);
+			session.delete(user);
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
 
 	}
 
