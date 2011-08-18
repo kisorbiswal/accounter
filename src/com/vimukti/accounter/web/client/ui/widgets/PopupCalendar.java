@@ -28,55 +28,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class PopupCalendar extends PopupPanel {
 
-	@Override
-	public boolean onKeyUpPreview(char key, int modifiers) {
-
-//		System.out.println(key);
-//		System.out.println(modifiers);
-//
-//		CellFormatter cellFormatter = daysGrid.getCellFormatter();
-//		for (int i = 0; i < 7; i++) {
-//
-//			for (int j = 0; j < 7; j++) {
-//				cellFormatter.removeStyleName(i, j, theme + "-"
-//						+ "current-month-selected");
-//			}
-//		}
-//		show();
-//
-//		if (key == '&') {
-//			if (x != 0)
-//				--x;
-//		} else if (key == '(') {
-//			if (x <= 7)
-//				++x;
-//		} else if (key == '%') {
-//			if (y != 0)
-//				--y;
-//		} else if (key == '\'') {
-//			if (y <= 7)
-//				++y;
-//		} else {
-//			System.out.println("enter");
-//			Date selectedDay = DatePickerUtils.addDays(
-//					getDaysGridOrigin(displayedMonth), x * 7 + y);
-//			if (datePicker.canBeSelected(selectedDay)) {
-//				datePicker.setSelectedDate(selectedDay);
-//				datePicker.synchronizeFromDate();
-//				this.hide();
-//				return true;
-//
-//			}
-//		}
-//
-//		System.out.println("X:" + x);
-//		System.out.println("Y:" + y);
-//
-//		if (x <= 7 && y <= 7)
-//			updateFocus(x, y);
-		return true;
-	}
-
 	private boolean leave;
 	private String theme;
 	private final DatePicker datePicker;
@@ -86,8 +37,6 @@ public class PopupCalendar extends PopupPanel {
 	private Label currentMonth;
 	private Grid daysGrid;
 	private Date displayedMonth;
-	private int x = 0;
-	private int y = 0;
 
 	{
 		this.leave = true;
@@ -435,7 +384,5 @@ public class PopupCalendar extends PopupPanel {
 	// }
 	//
 	// }
-
-
 
 }
