@@ -50,7 +50,4 @@ public class SetupStartPage extends Composite implements HasText {
 	public String getText() {
 		return null;
 	}
-creatControls(){
-	s
-}
 }
