@@ -1,12 +1,17 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Button;
@@ -39,6 +44,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
@@ -88,6 +94,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	private TextItem orderNumText;
 	HorizontalPanel hpanel;
 	DynamicForm amountsForm;
+	private LinkedHashMap<Integer, ClientAddress> allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 	private void initBalanceDue() {
 
@@ -245,8 +252,36 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		billToTextArea.setWidth(100);
 
 		billToTextArea.setTitle(Accounter.constants().billTo());
-		billToTextArea.setDisabled(true);
+		billToTextArea.setDisabled(isEdit);
 		billToTextArea.setHelpInformation(true);
+
+		if (addressListOfCustomer != null) {
+			Iterator it = addressListOfCustomer.iterator();
+			while (it.hasNext()) {
+				ClientAddress add = (ClientAddress) it.next();
+
+				allAddresses.put(add.getType(), add);
+			}
+		}
+		billToTextArea.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				new AddressDialog("", "", billToTextArea, "Bill to",
+						allAddresses);
+
+			}
+		});
+
+		billToTextArea.addFocusHandler(new FocusHandler() {
+
+			@Override
+			public void onFocus(FocusEvent event) {
+				new AddressDialog("", "", billToTextArea, "Bill to",
+						allAddresses);
+
+			}
+		});
 
 		shipToCombo = createShipToComboItem();
 
@@ -273,7 +308,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				});
 
 		if (transaction != null)
-			shipToAddress.businessSelect.setDisabled(true);
+			shipToAddress.setDisabled(true);
 		// phoneSelect = new SelectItem();
 		// phoneSelect.setWidth(100);
 		// phoneSelect.setTitle(customerConstants.phone());
@@ -882,8 +917,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				addresses.addAll(getCustomer().getAddress());
 			shipToAddress.setListOfCustomerAdress(addresses);
 			if (shippingAddress != null) {
-				shipToAddress.businessSelect.setValue(shippingAddress
-						.getAddressTypes().get(shippingAddress.getType()));
+				shipToAddress.businessSelect.setValue(UIUtils
+						.getAddressesTypes(shippingAddress.getType()));
 				shipToAddress.setAddres(shippingAddress);
 			}
 
@@ -1024,8 +1059,23 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	protected void updateTransaction() {
 		super.updateTransaction();
-		if (getCustomer() != null)
+		if (getCustomer() != null) {
+			Set<ClientAddress> addr = shipToAddress.getAddresss();
+			billingAddress = allAddresses.get(ClientAddress.TYPE_BILL_TO);
+			if (billingAddress != null)
+				addr.add(billingAddress);
+			if (!addr.isEmpty()) {
+				getCustomer().setAddress(addr);
+				Accounter.createOrUpdate(this, getCustomer());
+
+				for (ClientAddress clientAddress : addr) {
+					if (clientAddress.getType() == ClientAddress.TYPE_SHIP_TO)
+						shippingAddress = clientAddress;
+				}
+			}
+
 			transaction.setCustomer(getCustomer().getID());
+		}
 
 		if (dueDateItem.getEnteredDate() != null)
 			transaction.setDueDate((dueDateItem.getEnteredDate()).getDate());

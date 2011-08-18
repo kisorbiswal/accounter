@@ -8,6 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -48,7 +52,26 @@ public class ShipToForm extends DynamicForm {
 		addrArea.setHelpInformation(true);
 		addrArea.setWidth(100);
 		addrArea.setShowTitle(false);
-		addrArea.setDisabled(true);
+		// addrArea.setDisabled(true);
+		addrArea.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				new AddressDialog("", "", addrArea, businessSelect
+						.getSelectedValue(), allAddresses);
+
+			}
+		});
+
+		addrArea.addFocusHandler(new FocusHandler() {
+
+			@Override
+			public void onFocus(FocusEvent event) {
+				new AddressDialog("", "", addrArea, businessSelect
+						.getSelectedValue(), allAddresses);
+
+			}
+		});
 
 		if (toBeShown != null) {
 			businessSelect.setSelected(toBeShown.getAddressTypes().get(
