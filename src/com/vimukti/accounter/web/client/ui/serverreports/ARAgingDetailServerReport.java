@@ -196,13 +196,13 @@ public class ARAgingDetailServerReport extends
 	}
 
 	private void addCurrent(AgedDebtors record) {
-		if (!sectiontypes.contains("Current")) {
+		if (!sectiontypes.contains(Accounter.constants().current())) {
 			addTypeSection(Accounter.constants().current(), "");
 		}
 	}
 
 	private boolean addOneTothirty(AgedDebtors record) {
-		if (!sectiontypes.contains("0-30 Days")) {
+		if (!sectiontypes.contains(Accounter.constants().days30())) {
 			addTypeSection(Accounter.constants().days30(), "");
 			return false;
 		}
@@ -210,7 +210,7 @@ public class ARAgingDetailServerReport extends
 	}
 
 	private boolean addThirtyToSixty(AgedDebtors record) {
-		if (!sectiontypes.contains("31-60 Days")) {
+		if (!sectiontypes.contains(Accounter.constants().days60())) {
 			addTypeSection(Accounter.constants().days60(), "");
 			return false;
 		}
@@ -219,7 +219,7 @@ public class ARAgingDetailServerReport extends
 	}
 
 	private boolean addSixtyTo90(AgedDebtors record) {
-		if (!sectiontypes.contains("61-90 Days")) {
+		if (!sectiontypes.contains(Accounter.constants().days90())) {
 			addTypeSection(Accounter.constants().days90(), "");
 			return false;
 		}
@@ -228,7 +228,7 @@ public class ARAgingDetailServerReport extends
 	}
 
 	private boolean addGreaterThan90(AgedDebtors record) {
-		if (!sectiontypes.contains("Older")) {
+		if (!sectiontypes.contains(Accounter.constants().older())) {
 			addTypeSection(Accounter.constants().older(), "");
 			return false;
 		}
@@ -237,7 +237,7 @@ public class ARAgingDetailServerReport extends
 	}
 
 	private boolean addTotalBalance(AgedDebtors record) {
-		if (!sectiontypes.contains("Total Balance")) {
+		if (!sectiontypes.contains(Accounter.constants().totalBalance())) {
 			addTypeSection(Accounter.constants().totalBalance(), "");
 			return false;
 		}
