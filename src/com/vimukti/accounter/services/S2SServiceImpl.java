@@ -1,6 +1,8 @@
 package com.vimukti.accounter.services;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -16,8 +18,11 @@ import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.servlets.BaseServlet;
+import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -166,5 +171,77 @@ public class S2SServiceImpl implements IS2SService {
 		namedQuery.setParameter(BaseServlet.EMAIL_ID, emailId);
 		Client client = (Client) namedQuery.uniqueResult();
 		return client;
+	}
+
+	@Override
+	public void inviteUser(long companyId, ClientUserInfo userInfo,
+			String senderEmailId) {
+
+		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
+
+		Client inviter = getClient(senderEmailId);
+
+		ServerCompany serverCompany = null;
+		try {
+			serverCompany = (ServerCompany) session.load(ServerCompany.class,
+					companyId);
+		} catch (HibernateException e) {
+			// req.setAttribute("message", "Server Company null");
+			return;
+		}
+		Transaction transaction = session.beginTransaction();
+		String invitedUserEmailID = userInfo.getEmail();
+		Client invitedClient = getClient(invitedUserEmailID);
+		boolean isExistedUser = true;
+		String randomString = HexUtil.getRandomString();
+		if (invitedClient == null) {
+			isExistedUser = false;
+			invitedClient = new Client();
+			invitedClient.setActive(true);
+			Set<ServerCompany> servercompanies = new HashSet<ServerCompany>();
+			servercompanies.add(serverCompany);
+			invitedClient.setCompanies(servercompanies);
+			invitedClient.setCountry(inviter.getCountry());
+			invitedClient.setEmailId(invitedUserEmailID);
+			invitedClient.setFirstName(userInfo.getFirstName());
+			invitedClient.setLastName(userInfo.getLastName());
+			invitedClient.setPassword(HexUtil.bytesToHex(Security
+					.makeHash(invitedUserEmailID + randomString)));
+			// invitedClient.setRequirePasswordReset(true);
+		} else {
+			Set<ServerCompany> invitedClientCompanies = invitedClient
+					.getCompanies();
+			for (ServerCompany invitedClientCompany : invitedClientCompanies) {
+				if (serverCompany == invitedClientCompany) {
+					// req.setAttribute("message",
+					// "Invited user already exists in your company.");
+					return;
+				}
+			}
+			invitedClient.getCompanies().add(serverCompany);
+		}
+
+		try {
+			session.save(invitedClient);
+			if (isExistedUser) {
+				UsersMailSendar.sendMailToOtherCompanyUser(invitedClient,
+						serverCompany.getCompanyName(), inviter);
+			} else {
+				UsersMailSendar.sendMailToInvitedUser(invitedClient,
+						randomString, serverCompany.getCompanyName());
+			}
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+			// req.setAttribute("message",
+			// "Invited Client save process failed");
+			return;
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
+		// req.setAttribute("message", "");
+
 	}
 }

@@ -5,6 +5,7 @@ package com.vimukti.accounter.services;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -23,4 +24,7 @@ public interface IS2SServiceAsync {
 
 	public void deleteClientFromCompany(String deletableEmail,
 			String senderEmail, AsyncCallback<Void> callback);
+
+	public void inviteUser(long companyId, ClientUserInfo userInfo,
+			String senderEmailId, AsyncCallback<Void> callback);
 }
