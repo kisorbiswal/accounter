@@ -118,7 +118,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	 */
 	@Override
 	public void onDoubleClick(ClientTAXItem obj) {
-		ActionFactory.getNewVatItemAction().run(obj, true);
+		ActionFactory.getNewVatItemAction().run(obj, false);
 	}
 
 	@Override
