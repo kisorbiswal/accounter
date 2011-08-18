@@ -5,18 +5,22 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Administrator
  * 
  */
-public class SetupStartPage extends Composite implements HasText {
+public class SetupStartPage extends AbstractSetupPage {
 
 	private static SetupStartPageUiBinder uiBinder = GWT
 			.create(SetupStartPageUiBinder.class);
+	@UiField
+	Button startButton, skipButton;
 
 	interface SetupStartPageUiBinder extends UiBinder<Widget, SetupStartPage> {
 	}
@@ -34,20 +38,29 @@ public class SetupStartPage extends Composite implements HasText {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	public SetupStartPage(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
+	@UiField
+	VerticalPanel viewPanel;
 
-		// Can access @UiField after calling createAndBindUi
+	@Override
+	protected VerticalPanel getViewBody() {
+		return viewPanel;
 	}
 
-	public void setText(String text) {
+	@Override
+	protected String getViewHeader() {
+		return Accounter.constants().welcomeToStartup();
 	}
 
-	/**
-	 * Gets invoked when the default constructor is called and a string is
-	 * provided in the ui.xml file.
-	 */
-	public String getText() {
-		return null;
+	@Override
+	protected void onLoad() {
+		// TODO Auto-generated method stub
+
 	}
+
+	@Override
+	protected void onSave() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

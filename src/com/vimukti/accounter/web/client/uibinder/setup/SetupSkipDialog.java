@@ -1,17 +1,11 @@
 package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SetupSkipDialog extends Composite implements HasText {
+public class SetupSkipDialog extends AbstractSetupPage {
 
 	private static SetupSkipDialogUiBinder uiBinder = GWT
 			.create(SetupSkipDialogUiBinder.class);
@@ -23,25 +17,28 @@ public class SetupSkipDialog extends Composite implements HasText {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	@UiField
-	Button button;
-
-	public SetupSkipDialog(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-		button.setText(firstName);
+	@Override
+	protected VerticalPanel getViewBody() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	@UiHandler("button")
-	void onClick(ClickEvent e) {
-		Window.alert("Hello!");
+	@Override
+	protected String getViewHeader() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public void setText(String text) {
-		button.setText(text);
+	@Override
+	protected void onLoad() {
+		// TODO Auto-generated method stub
+
 	}
 
-	public String getText() {
-		return button.getText();
+	@Override
+	protected void onSave() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
