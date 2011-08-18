@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -40,6 +40,7 @@ public class PurchaseDetailesView extends ParentCanvas {
 		super();
 
 		this.setStyleName("selectedview");
+		init();
 	}
 
 	/**
@@ -220,14 +221,14 @@ public class PurchaseDetailesView extends ParentCanvas {
 	 * this method will invoke while changing the selction of object
 	 */
 	public void refreshView() {
-//		itemsGrid.clear();
-//		itemsGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
-//		orderNumberField.setText("");
-//		customerNumberField.setText("");
-//		dueDateField.setText("");
-//		statusField.setText("");
-//		billingAdress.setHTML("");
-//		shippingAdress.setHTML("");
+		// itemsGrid.clear();
+		// itemsGrid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		// orderNumberField.setText("");
+		// customerNumberField.setText("");
+		// dueDateField.setText("");
+		// statusField.setText("");
+		// billingAdress.setHTML("");
+		// shippingAdress.setHTML("");
 	}
 
 	/**
