@@ -255,14 +255,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		billToTextArea.setDisabled(isEdit);
 		billToTextArea.setHelpInformation(true);
 
-		if (addressListOfCustomer != null) {
-			Iterator it = addressListOfCustomer.iterator();
-			while (it.hasNext()) {
-				ClientAddress add = (ClientAddress) it.next();
-
-				allAddresses.put(add.getType(), add);
-			}
-		}
 		billToTextArea.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -709,6 +701,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		if (accountType == ClientCompany.ACCOUNTING_TYPE_UK)
 			super.setCustomerTaxCodetoAccount();
+
+		if (addressListOfCustomer != null) {
+			Iterator it = addressListOfCustomer.iterator();
+			while (it.hasNext()) {
+				ClientAddress add = (ClientAddress) it.next();
+
+				allAddresses.put(add.getType(), add);
+			}
+		}
 	}
 
 	/**
