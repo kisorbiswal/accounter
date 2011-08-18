@@ -558,7 +558,7 @@ public class SalesOrder extends Transaction {
 	@Override
 	public Payee getPayee() {
 
-		return this.customer;
+		return null;
 	}
 
 	@Override
