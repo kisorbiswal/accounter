@@ -55,7 +55,16 @@
 		<servlet-class>com.vimukti.accounter.servlets.NewLoginServlet
 		</servlet-class>
 	</servlet>
-
+	
+	<servlet-mapping>
+		<servlet-name>menuxml</servlet-name>
+		<url-pattern>desktop/mac/menu</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>menuxml</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.MacMenuServlet
+		</servlet-class>
+	</servlet>
 	<!-- <servlet-mapping> <servlet-name>new signup</servlet-name> <url-pattern>/signup</url-pattern> 
 		</servlet-mapping> <servlet> <servlet-name>new signup</servlet-name> <servlet-class>com.vimukti.accounter.servlets.SignupServlet 
 		</servlet-class> </servlet> -->
