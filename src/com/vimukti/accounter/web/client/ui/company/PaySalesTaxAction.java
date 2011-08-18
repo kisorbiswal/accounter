@@ -7,9 +7,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.PaySalesTaxView;
 import com.vimukti.accounter.web.client.ui.VATPaymentView;
-import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class PaySalesTaxAction extends Action {
 

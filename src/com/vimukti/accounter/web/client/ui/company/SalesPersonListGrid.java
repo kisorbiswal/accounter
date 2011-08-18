@@ -1,12 +1,8 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import java.util.Set;
-
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientFax;
-import com.vimukti.accounter.web.client.core.ClientPhone;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
