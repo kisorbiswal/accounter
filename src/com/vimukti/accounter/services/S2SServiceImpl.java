@@ -40,7 +40,7 @@ public class S2SServiceImpl implements IS2SService {
 	}
 
 	@Override
-	public void deleteUserFromCompany(String deletableEmail, String senderEmail) {
+	public void deleteUserFromCompany(String email) {
 		// TODO Auto-generated method stub
 
 	}
@@ -113,8 +113,9 @@ public class S2SServiceImpl implements IS2SService {
 	}
 
 	@Override
-	public void deleteClientFromCompany(String email) {
+	public void deleteClientFromCompany(String deletableEmail,
+			String senderEmail) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
