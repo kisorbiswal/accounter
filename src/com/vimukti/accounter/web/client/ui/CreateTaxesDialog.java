@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -16,7 +15,7 @@ public class CreateTaxesDialog extends BaseDialog {
 
 	DialogGrid listGridView;;
 
-	private HorizontalPanel bodyLayout;
+	// private HorizontalPanel bodyLayout;
 	int i = 0;
 
 	public CreateTaxesDialog(AbstractBaseView<?> parent) {
@@ -67,8 +66,12 @@ public class CreateTaxesDialog extends BaseDialog {
 
 	}
 
-	@SuppressWarnings("serial")
 	class CreateTax implements IAccounterCore {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
 		boolean isChecked;
 		String name;
