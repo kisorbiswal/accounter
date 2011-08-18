@@ -2,9 +2,13 @@ package com.vimukti.accounter.web.client.core;
 
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
-@SuppressWarnings("serial")
 public class ClientUserPreferences implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	String dashBoardPreferences = "WELCOME,BANKING_SUMMARY,PROFIT_AND_LOSS,CREDIT_OVERVIEW,DEBIT_OVERVIEW,LATEST_QUOTE,EXPENSES";
 	String customerSectionViewPreferences = "NEW_CUSTOMER,SALES_ITEM,PAYMENT_RECEIVED,CASH_SALES,CREDIT_AND_REFUNDS";
 	String vendorSectionViewPreferences = UIUtils.getVendorString(

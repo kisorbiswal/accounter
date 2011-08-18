@@ -2,9 +2,13 @@ package com.vimukti.accounter.web.client.core;
 
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 
-@SuppressWarnings("serial")
 public class ClientItem extends BaseReport implements IAccounterCore, IAccountable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int TYPE_SERVICE = 1;
 	public static final int TYPE_INVENTORY_PART = 2;
 

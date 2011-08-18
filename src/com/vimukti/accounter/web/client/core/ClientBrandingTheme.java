@@ -7,10 +7,9 @@ package com.vimukti.accounter.web.client.core;
  */
 public class ClientBrandingTheme implements IAccounterCore {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7185358806684919637L;
+
+	private static final long serialVersionUID = 1L;
+	
 	public static final String FONT_ARIAL = "Arial";
 	public static final String FONT_CALIBIRI = "Calibiri";
 	public static final String FONT_CAMBRIA = "Cambria";

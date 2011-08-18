@@ -3,8 +3,12 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
 public class ClientPhone implements IAccounterCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	int version;
 

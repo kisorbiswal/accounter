@@ -2,9 +2,13 @@ package com.vimukti.accounter.web.client.core;
 
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
-@SuppressWarnings("serial")
 public class ClientUser implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final String AVAILABLE = "Available";
 	public static final String OFFLINE = "Offline";
 

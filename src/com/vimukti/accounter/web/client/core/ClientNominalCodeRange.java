@@ -1,8 +1,12 @@
 package com.vimukti.accounter.web.client.core;
 
-@SuppressWarnings("serial")
 public class ClientNominalCodeRange implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int RANGE_FIXED_ASSET_MIN = 001;
 	public static final int RANGE_FIXED_ASSET_MAX = 999;
 	public static final int RANGE_OTHER_CURRENT_ASSET_MIN = 1000;

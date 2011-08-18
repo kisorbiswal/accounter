@@ -1,8 +1,12 @@
 package com.vimukti.accounter.web.client.core;
 
-@SuppressWarnings("serial")
 public class ClientFixedAssetNote implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String note;
 	private long id;
 

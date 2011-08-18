@@ -5,7 +5,7 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6293589247354234626L;
+	private static final long serialVersionUID = 1L;
 
 	long id;
 

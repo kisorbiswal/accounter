@@ -1,8 +1,12 @@
 package com.vimukti.accounter.web.client.core;
 
-@SuppressWarnings("serial")
 public class ClientPaymentTerms implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int DUE_NONE = 0;
 	public static final int DUE_CURRENT_MONTH = 1;
 	public static final int DUE_CURRENT_QUARTER = 2;

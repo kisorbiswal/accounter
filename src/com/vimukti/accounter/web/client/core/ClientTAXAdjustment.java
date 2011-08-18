@@ -10,9 +10,13 @@ import java.util.List;
  * @author vimukti5
  * 
  */
-@SuppressWarnings("serial")
 public class ClientTAXAdjustment extends ClientTransaction implements
 		IAccounterCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	// ClientJournalEntry journalEntry;
 

@@ -5,7 +5,7 @@ public class ClientUserPermissions implements IAccounterCore {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1371160964393449868L;
+	private static final long serialVersionUID = 1L;
 
 	// public static String BANK_RECONCILATION = "Bank Reconcilation";
 	// public static String INVOICES_AND_EXPENSES = "Invoices And Expenses";

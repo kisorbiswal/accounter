@@ -4,9 +4,13 @@ package com.vimukti.accounter.web.client.core;
  * @author vimukti21
  * 
  */
-@SuppressWarnings("serial")
 public class ClientAccount implements IAccounterCore, IAccountable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	// public static final int BASETYPE_INCOME = 1;
 	// public static final int BASETYPE_EXPENSE = 2;
 	// public static final int BASETYPE_ASSET = 3;

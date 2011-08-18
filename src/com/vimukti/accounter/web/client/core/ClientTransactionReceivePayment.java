@@ -6,8 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-@SuppressWarnings("serial")
 public class ClientTransactionReceivePayment implements IAccounterCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	int version;
 

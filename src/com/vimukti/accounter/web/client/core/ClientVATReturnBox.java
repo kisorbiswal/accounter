@@ -7,8 +7,12 @@ package com.vimukti.accounter.web.client.core;
  * @author vimukti43
  * 
  */
-@SuppressWarnings("serial")
 public class ClientVATReturnBox implements IAccounterCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	long id;
 

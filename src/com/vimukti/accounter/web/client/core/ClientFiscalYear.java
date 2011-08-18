@@ -1,8 +1,13 @@
 package com.vimukti.accounter.web.client.core;
 
-@SuppressWarnings("serial")
 public class ClientFiscalYear implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
 	public static final int STATUS_OPEN = 1;
 	public static final int STATUS_CLOSE = 2;
 

@@ -3,9 +3,13 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
 public class ClientAddress implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int TYPE_BUSINESS = 1;
 	public static final int TYPE_BILL_TO = 2;
 	public static final int TYPE_SHIP_TO = 3;

@@ -1,8 +1,12 @@
 package com.vimukti.accounter.web.client.core;
 
-@SuppressWarnings("serial")
 public class ClientSalesPerson implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int TITLE_DR = 1;
 	public static final int TITLE_MISS = 2;
 	public static final int TITLE_MR = 3;

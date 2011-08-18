@@ -10,8 +10,13 @@ import java.util.List;
  * @author vimukti5
  * 
  */
-@SuppressWarnings("serial")
 public class ClientBox implements IAccounterCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 
 	long id;
 

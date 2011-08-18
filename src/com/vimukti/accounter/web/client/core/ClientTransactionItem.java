@@ -13,7 +13,11 @@ import java.util.Set;
 
 public class ClientTransactionItem implements IAccounterCore {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
+	
 	public static final int TYPE_ITEM = 1;
 	public static final int TYPE_COMMENT = 2;
 	public static final int TYPE_SALESTAX = 3;

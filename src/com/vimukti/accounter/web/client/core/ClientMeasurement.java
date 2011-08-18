@@ -14,6 +14,11 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  */
 public class ClientMeasurement implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private ClientUnit defaultUnit;
 
 	private String desctiption;

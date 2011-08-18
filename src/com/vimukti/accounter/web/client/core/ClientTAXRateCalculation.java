@@ -6,6 +6,7 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	public long id;
 
 	/**

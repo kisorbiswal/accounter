@@ -1,10 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
 public class ClientCommodityCode implements IAccounterCore {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
 	long id;
 	String name;
 	String company;

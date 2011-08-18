@@ -2,6 +2,12 @@ package com.vimukti.accounter.web.client.core;
 
 public class ClientFinanceLogger implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+
 	public ClientFinanceLogger() {
 
 	}

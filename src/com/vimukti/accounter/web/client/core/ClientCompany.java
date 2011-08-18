@@ -84,8 +84,6 @@ public class ClientCompany implements IAccounterCore {
 
 	private long otherCashExpenseAccount;
 
-	private long VATliabilityAccount;
-
 	private long pendingItemReceiptsAccount;
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
@@ -1530,7 +1528,9 @@ public class ClientCompany implements IAccounterCore {
 					UIUtils.updateClientListAndTaxItemGroup(taxGroup, taxItems,
 							taxGroups, taxItemGroups);
 					if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-						ClientTAXCode code = getTAXCodeForTAXItemGroup((ClientTAXItemGroup) taxGroup);
+						// ClientTAXCode code =
+						// getTAXCodeForTAXItemGroup((ClientTAXItemGroup)
+						// taxGroup);
 						// Utility.updateClientList(code, taxCodes);
 					}
 
@@ -1552,7 +1552,9 @@ public class ClientCompany implements IAccounterCore {
 					UIUtils.updateClientListAndTaxItemGroup(taxItem, taxItems,
 							taxGroups, taxItemGroups);
 					if (getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-						ClientTAXCode code = getTAXCodeForTAXItemGroup((ClientTAXItemGroup) taxItem);
+						// ClientTAXCode code =
+						// getTAXCodeForTAXItemGroup((ClientTAXItemGroup)
+						// taxItem);
 						// Utility.updateClientList(code, taxCodes);
 					}
 

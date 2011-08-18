@@ -2,6 +2,9 @@ package com.vimukti.accounter.web.client.core;
 
 public class ClientPayVATEntries implements IAccounterCore {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	long vatAgency;

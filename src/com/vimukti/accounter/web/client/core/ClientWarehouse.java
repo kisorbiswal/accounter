@@ -8,8 +8,8 @@ public class ClientWarehouse implements IAccounterCore {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 32420869218969185L;
-
+	private static final long serialVersionUID = 1L;
+	
 	private ClientAddress address;
 	private Set<ClientItemStatus> itemStatuses;
 

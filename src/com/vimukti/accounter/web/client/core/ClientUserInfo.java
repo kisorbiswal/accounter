@@ -9,6 +9,11 @@ package com.vimukti.accounter.web.client.core;
  */
 public class ClientUserInfo implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private long id;
 
 	private String firstName;

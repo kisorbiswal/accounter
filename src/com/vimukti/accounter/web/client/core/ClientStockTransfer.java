@@ -12,6 +12,11 @@ import java.util.Set;
  */
 public class ClientStockTransfer implements IAccounterCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private ClientWarehouse fromWarehouse;
 	private ClientWarehouse toWarehouse;
 

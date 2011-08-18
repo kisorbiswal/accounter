@@ -5,8 +5,12 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.ui.Accounter;
 
-@SuppressWarnings("serial")
 public class ClientCompanyPreferences implements IAccounterCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private static int GENERAL_TIME_FORMAT_MINUTES;
 
