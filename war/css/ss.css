@@ -1934,13 +1934,13 @@ form {
 }
 
 #commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select
-	{
+{
 	background: none repeat scroll 0 0 #FBFBFB;
 	border: 1px solid #B1B1B1;
 	box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
-	margin: 2px 6px 1px 0px;
+	margin: 2px 6px 10px 0px;
 	outline: medium none;
-	padding: 3px;
+	padding:0px 0px 0px 3px;
 	width: 97%;
 	height: 28px;
 }
@@ -2049,7 +2049,7 @@ form {
 	color: #3299A4 !important;
 }
 .form-box ul{
-	margin-top:10px;
+	margin-top:20px;
 }
 
 .form-box {

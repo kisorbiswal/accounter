@@ -5371,7 +5371,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
     margin: 0 !important;
     padding: 0 5px 5px !important;
      padding: 4px 5px 5px\0 !important;
-    border:1px solid #002E36;
+    border:1px solid #002E36 !important;
 }
 .gwt-Button:hover,.image-button-hover{
 	background-color:#002e36 !important;
@@ -6494,10 +6494,17 @@ input[type="text"],textarea {
 }
 .setup_panel{
  	border: 1px solid gray;
-    height: 600px;
-    margin: 24px;
+    height: 500px;
+    margin: 4em auto;
     padding: 10px;
     width: 960px;
+}
+.progress_panel{
+	border-right: 1px solid gray;
+    padding-right: 25px;
+}
+.view_button{
+	padding-left:30px;
 }
 .setup_header_label{
 	color: #144149;
@@ -6662,4 +6669,7 @@ a#fdbk_tab:hover{
 .label-title-list {
     font-size: 13px;
     font-weight: bold;
+}
+.progress_panel table tr td{
+	padding:5px 0px;
 }
