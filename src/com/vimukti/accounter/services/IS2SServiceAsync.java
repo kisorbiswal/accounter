@@ -19,5 +19,9 @@ public interface IS2SServiceAsync {
 	public boolean isAdmin(long companyID, String emailID,
 			AsyncCallback<Boolean> callback);
 
-	public void deleteUserFromCompany(String email, AsyncCallback<Void> callback);
+	public void deleteUserFromCompany(String deletableEmail,
+			String senderEmail, AsyncCallback<Void> callback);
+
+	public void deleteClientFromCompany(String email,
+			AsyncCallback<Void> callback);
 }

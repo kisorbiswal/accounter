@@ -17,6 +17,8 @@ public interface IS2SService {
 
 	public boolean isAdmin(long companyID, String emailID);
 
-	public void deleteUserFromCompany(String email);
+	public void deleteUserFromCompany(String deletableEmail, String senderEmail);
+	
+	public void deleteClientFromCompany(String email);
 
 }
