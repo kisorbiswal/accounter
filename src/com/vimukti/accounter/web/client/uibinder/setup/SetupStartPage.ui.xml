@@ -9,29 +9,16 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:Label text="Welcome to Company Setup Wizard" />
-			<g:HTML wordWrap="true">
-				<P>Before you are starting work with accounter you have to setup
-					your company. This setup guide will help you how to setup your
-					company. We have kept 12 steps to setup your company. Setup
-					progress contains those 12 steps. By observing Setup progress you
-					can know how much process you have completed and how much process
-					remained. </P>
-			</g:HTML>
+			<g:HTML ui:field="setupInfo" wordWrap="true"></g:HTML>
 			<g:HorizontalPanel>
 				<g:VerticalPanel width="221px" height="159px">
-					<g:HTML wordWrap="true">
-						<P>If you are expert in accountant or accounter click "Skip Setup"
-							button to skip this setup </P>
-					</g:HTML>
-					<g:Button ui:field="skipButton">Skip Setup</g:Button>
+					<g:HTML ui:field="startSetupInfo" wordWrap="true"></g:HTML>
+					<g:Button ui:field="skipButton"></g:Button>
 				</g:VerticalPanel>
 				<g:VerticalPanel width="243px" height="161px">
-					<g:HTML wordWrap="true">
-						<p>If you are new accounter Click the "Start Setup" button to
-							start your company setup.</p>
+					<g:HTML ui:field="skipSetupInfo" wordWrap="true">
 					</g:HTML>
-					<g:Button ui:field="startButton">Start Setup</g:Button>
+					<g:Button ui:field="startButton"></g:Button>
 				</g:VerticalPanel>
 			</g:HorizontalPanel>
 		</g:VerticalPanel>

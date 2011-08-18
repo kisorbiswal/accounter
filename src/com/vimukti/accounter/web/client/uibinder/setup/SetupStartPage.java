@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -21,6 +22,7 @@ public class SetupStartPage extends AbstractSetupPage {
 			.create(SetupStartPageUiBinder.class);
 	@UiField
 	Button startButton, skipButton;
+	HTML setupInfo, startSetupInfo, skipSetupInfo;
 
 	interface SetupStartPageUiBinder extends UiBinder<Widget, SetupStartPage> {
 	}
@@ -43,6 +45,12 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	@Override
 	protected VerticalPanel getViewBody() {
+		startButton.setText(accounterConstants.startSetup());
+		skipButton.setText(accounterConstants.skipSetup());
+		setupInfo.setText(accounterMessages.userGuidelinesMessage());
+		startSetupInfo.setText(accounterMessages.startSetupInfo());
+		skipSetupInfo.setHTML(accounterMessages.skipSetupInfo());
+
 		return viewPanel;
 	}
 
