@@ -139,7 +139,8 @@ public class VATItemCombo extends CustomCombo<ClientTAXItem> {
 
 			@Override
 			public void actionResult(ClientTAXItem result) {
-				addItemThenfireEvent(result);
+				if (result.getName() != null || result.getDisplayName() != null)
+					addItemThenfireEvent(result);
 
 			}
 		});

@@ -37,7 +37,8 @@ public class VATAgencyAccountCombo extends AccountCombo {
 
 			@Override
 			public void actionResult(ClientAccount result) {
-				addItemThenfireEvent(result);
+				if (result.getDisplayName() != null || result.getName() != null)
+					addItemThenfireEvent(result);
 
 			}
 		});

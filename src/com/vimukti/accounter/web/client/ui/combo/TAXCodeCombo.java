@@ -81,6 +81,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 				@Override
 				public void actionResult(ClientTAXCode result) {
+
 					addItemThenfireEvent(result);
 
 				}
