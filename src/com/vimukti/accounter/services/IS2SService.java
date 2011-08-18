@@ -3,7 +3,7 @@
  */
 package com.vimukti.accounter.services;
 
-import com.vimukti.accounter.web.client.data.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**

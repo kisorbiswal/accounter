@@ -4,7 +4,7 @@
 package com.vimukti.accounter.services;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.vimukti.accounter.web.client.data.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**

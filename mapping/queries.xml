@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping default-access="field" package="com.vimukti.accounter.core">
+<hibernate-mapping default-access="field"
+	package="com.vimukti.accounter.core">
 
 
 	<query name="getCompany.by.CompanyID">
@@ -36,7 +37,8 @@
 
 
 	<query name="get.canVoidOrEditTransaction.from.transactionID">
-		select t.canVoidOrEdit from com.vimukti.accounter.core.Transaction t where t.id=?
+		select t.canVoidOrEdit from
+		com.vimukti.accounter.core.Transaction t where t.id=?
 	</query>
 
 	<query name="getdistnct.from.traction.by.date">
@@ -55,12 +57,14 @@
 
 	<query name="getFixedAsset.from.id">
 		select f from
-		com.vimukti.accounter.core.FixedAsset f where f.id=?
+		com.vimukti.accounter.core.FixedAsset f
+		where f.id=?
 	</query>
 
 	<query name="getEntry.from.journalEntryType">
 		select je from
-		com.vimukti.accounter.core.Entry e inner join
+		com.vimukti.accounter.core.Entry e
+		inner join
 		e.journalEntry je where
 		e.journalEntryType=3 order by je.id
 	</query>
@@ -75,13 +79,15 @@
 
 
 	<query name="getEntry.orderedby.id">
-		select je from com.vimukti.accounter.core.Entry e inner join
+		select je from com.vimukti.accounter.core.Entry e
+		inner join
 		e.journalEntry je where
 		e.customer.id=? order by je.id
 	</query>
 
 	<query name="getFiscalYear.by.check.isCurrentFiscalYearistrue">
-		select f.startDate from com.vimukti.accounter.core.FiscalYear f where
+		select f.startDate from
+		com.vimukti.accounter.core.FiscalYear f where
 		f.isCurrentFiscalYear=true
 	</query>
 
@@ -91,14 +97,16 @@
 		inner join
 		e.journalEntry je where
 		e.debit!=0.0 and
-		je.balanceDue>0.0 order
+		je.balanceDue>0.0
+		order
 		by
 		je.id
 	</query>
 
 	<query name="getEntry.by.vendorId.creditand.balanceDue.orderbyid">
 		select je from
-		com.vimukti.accounter.core.Entry e inner join
+		com.vimukti.accounter.core.Entry e
+		inner join
 		e.journalEntry je where
 		e.vendor.id=? and e.credit!=0.0 and
 		je.balanceDue>0.0 order by
@@ -107,7 +115,8 @@
 
 	<query name="getEntry.by.customerId.debitand.balanceDue.orderbyid">
 		select je from
-		com.vimukti.accounter.core.Entry e inner join
+		com.vimukti.accounter.core.Entry e
+		inner join
 		e.journalEntry je where
 		e.customer.id=? and e.debit !=0.0 and
 		je.balanceDue>0.0
@@ -117,18 +126,22 @@
 
 
 	<query name="getVATReturn.checkingby.taxagencyidand.dates">
-		select min(v.VATperiodStartDate), max(v.VATperiodEndDate) from
-		com.vimukti.accounter.core.VATReturn v where v.taxAgency.id
+		select min(v.VATperiodStartDate),
+		max(v.VATperiodEndDate) from
+		com.vimukti.accounter.core.VATReturn v
+		where v.taxAgency.id
 		=? group by v.taxAgency.id
 	</query>
 
 	<query name="get.name.fromAccount.byId">
 		select a.name from
-		com.vimukti.accounter.core.Account a where a.id=?
+		com.vimukti.accounter.core.Account
+		a where a.id=?
 	</query>
 
 	<query name="getDepreciation.from.depreciateFrom.byFixedassetId">
-		select d from com.vimukti.accounter.core.Depreciation d inner join
+		select d from com.vimukti.accounter.core.Depreciation
+		d inner join
 		d.fixedAsset where d.depreciateFrom >=? and d.status=? and
 		d.fixedAsset.id=?
 	</query>
@@ -136,7 +149,8 @@
 	<query name="update.Entry.oldNameTo.newName">
 		<query-param name="newName" type="string" />
 		<query-param name="oldName" type="string" />
-		update com.vimukti.accounter.core.Entry set memo=:newName where memo=:oldName
+		update com.vimukti.accounter.core.Entry set memo=:newName where
+		memo=:oldName
 	</query>
 
 	<query name="get.TransactionDate.from.TransactionbyDate">
@@ -151,34 +165,43 @@
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		select at.account.id as accountId, sum(at.amount) as amount from
-		com.vimukti.accounter.core.AccountTransaction at where at.account.type in (14,15,16,17,18) and
-		at.transaction.transactionDate between :startDate and :endDate group
+		com.vimukti.accounter.core.AccountTransaction at where at.account.type
+		in (14,15,16,17,18) and
+		at.transaction.transactionDate between
+		:startDate and :endDate group
 		by at.account.id
 	</query>
 
 	<query name="getDepreciation.byFixedAsset.andWithDetails">
-		select d from com.vimukti.accounter.core.Depreciation d inner join
-		d.fixedAsset where d.depreciateFrom >= ? and d.status=? and
+		select d from com.vimukti.accounter.core.Depreciation
+		d inner join
+		d.fixedAsset where d.depreciateFrom >= ? and d.status=?
+		and
 		d.fixedAsset.id=? group by d.fixedAsset.id
 	</query>
 
 
 	<query name="getEntry.byId.andMax">
-		select e.voucherNumber from com.vimukti.accounter.core.Entry e where
-		e.id = (select max(e1.id) from com.vimukti.accounter.core.Entry e1 )
+		select e.voucherNumber from
+		com.vimukti.accounter.core.Entry e where
+		e.id = (select max(e1.id) from
+		com.vimukti.accounter.core.Entry e1 )
 	</query>
 
 	<query name="getCustomerNumber.byId.andOrder">
-		select c.number from com.vimukti.accounter.core.Customer c order by c.id
+		select c.number from
+		com.vimukti.accounter.core.Customer c order by c.id
 	</query>
 
 	<query name="getassestNumber.from.FixedAsset">
-		select f.assetNumber from com.vimukti.accounter.core.FixedAsset f
+		select f.assetNumber from
+		com.vimukti.accounter.core.FixedAsset f
 	</query>
 
 	<query name="getTransactionNumber.by.type">
 		<query-param name="transactionType" type="int" />
-		select t.number from com.vimukti.accounter.core.Transaction t where t.type =:transactionType
+		select t.number from com.vimukti.accounter.core.Transaction t where
+		t.type =:transactionType
 	</query>
 
 	<query name="getPayeename.from.PayeebyId">
@@ -188,7 +211,8 @@
 
 
 	<query name="getFlow.by.Id.from.Account">
-		select a.flow from com.vimukti.accounter.core.Account a where a.id= (select max(a1.id) from
+		select a.flow from com.vimukti.accounter.core.Account
+		a where a.id= (select max(a1.id) from
 		com.vimukti.accounter.core.Account a1 where a1.parent is null)
 	</query>
 
@@ -267,7 +291,8 @@
 	<query name="getFlowList.form.Account.byId">
 		<query-param name="parentId" type="long" />
 		<query-param name="flow" type="string" />
-		from com.vimukti.accounter.core.Account a where a.parent.id=:parentId and
+		from com.vimukti.accounter.core.Account a where a.parent.id=:parentId
+		and
 		a.flow !=:flow order by a.id
 	</query>
 
@@ -725,7 +750,7 @@
 		from com.vimukti.accounter.core.VATReturn v where
 		v.balance &gt;0
 	</query>
-	
+
 	<query name="getVATReturn.by.check.BalancelessThanzero">
 		from com.vimukti.accounter.core.VATReturn v where
 		v.balance &lt;0
@@ -1284,18 +1309,24 @@
 		from com.vimukti.accounter.core.ServerCompany sc left join sc.clients
 		c where sc.id=:id and c=:client
 	</query>
-	
-	
+
+
 	<sql-query name="create.schema">
 		CREATE SCHEMA ?
 	</sql-query>
-	
+
 	<sql-query name="drop.schema">
 		DROP SCHEMA ?
 	</sql-query>
-	
+
 	<query name="get.All.Units">
 		from com.vimukti.accounter.core.Unit
+	</query>
+
+	<query name="adminUserForEmailId">
+		<query-param name="emailid" type="string" />
+		from com.vimukti.accounter.core.User user where user.email=:emailid
+		and user.isAdmin =true
 	</query>
 
 </hibernate-mapping>
