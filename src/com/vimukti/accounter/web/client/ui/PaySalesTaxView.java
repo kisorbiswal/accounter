@@ -47,7 +47,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  */
 public class PaySalesTaxView extends
 		AbstractTransactionBaseView<ClientPaySalesTax> {
-	private DateField date, billsDue;
+	private DateField billsDue;
 	private AmountField amountText, endingBalanceText;
 	private PayFromAccountsCombo payFromAccCombo;
 	private TAXAgencyCombo taxAgencyCombo;
@@ -245,9 +245,9 @@ public class PaySalesTaxView extends
 		transaction.setNumber(transactionNumber);
 
 		transaction.setType(ClientTransaction.TYPE_PAY_SALES_TAX);
-		if (date.getEnteredDate() != null)
+		if (transactionDateItem.getEnteredDate() != null)
 
-			transaction.setDate(date.getEnteredDate().getDate());
+			transaction.setDate(transactionDateItem.getEnteredDate().getDate());
 
 		transaction.setPayFrom(selectedPayFromAccount.getID());
 
@@ -288,25 +288,13 @@ public class PaySalesTaxView extends
 		Label lab = new Label(Accounter.constants().paySalesTax());
 		lab.setStyleName(Accounter.constants().labelTitle());
 
-		date = new DateField(null);
-		// date.setTitle(Accounter.constants().date());
-		date.setEnteredDate(new ClientFinanceDate());
-		date.setDisabled(isEdit);
-		date.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				String d = event.getValue().toString();
-				date.setEnteredDate(new ClientFinanceDate(d));
-				// fillGrid();
-			}
-		});
+		transactionDateItem = createTransactionDateItem();
 		transNumber = createTransactionNumberItem();
 
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
 		dateForm.setStyleName("datenumber-panel");
-		dateForm.setFields(date, transNumber);
+		dateForm.setFields(transactionDateItem, transNumber);
 
 		payFromAccCombo = new PayFromAccountsCombo(Accounter.constants()
 				.payFrom());
@@ -468,6 +456,7 @@ public class PaySalesTaxView extends
 			getTaxItems();
 			getPayFromAccounts();
 			fillGrid();
+			selectedPayFromAccount = payFromAccCombo.getSelectedValue();
 			return;
 		}
 		isEdit = true;
@@ -481,7 +470,7 @@ public class PaySalesTaxView extends
 			taxAgencyCombo.setComboItem(selectedTaxAgency);
 		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getBillsDueOnOrBefore()));
-		date.setEnteredDate(transaction.getDate());
+		transactionDateItem.setEnteredDate(transaction.getDate());
 		endingBalanceText.setAmount(transaction.getEndingBalance());
 		paymentMethodCombo.setComboItem(paymentMethod);
 		amountText.setAmount(transaction.getTotal());
@@ -657,7 +646,7 @@ public class PaySalesTaxView extends
 
 	private void enableFormItems() {
 		isEdit = false;
-		date.setDisabled(isEdit);
+		transactionDateItem.setDisabled(isEdit);
 		payFromAccCombo.setDisabled(isEdit);
 		paymentMethodCombo.setDisabled(isEdit);
 		billsDue.setDisabled(isEdit);
