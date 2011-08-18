@@ -1,20 +1,26 @@
 package com.vimukti.accounter.core;
 
-import java.util.Calendar;
 import java.util.Date;
 
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 
-public class RecurringTransaction implements IAccounterCore {
-	public final static int HOW_OFTEN_DAILY = 0;
-	public final static int HOW_OFTEN_EVERY_OTHER_DAY = 1;
-	public final static int HOW_OFTEN_WEEKLY = 2;
-	public final static int HOW_OFTEN_EVERY_OTHER_WEEK = 3;
-	public final static int HOW_OFTEN_EVERY_FOUR_WEEK = 4;
+/**
+ * Contains a referring transaction and has information for scheduling
+ * procedure.
+ * 
+ * @author vimukti3
+ * 
+ */
+public class RecurringTransaction extends CreatableObject implements
+		IAccounterServerCore {
+	public final static int HOW_OFTEN_DAY = 0;
+	public final static int HOW_OFTEN_WEEK = 1;
+	public final static int HOW_OFTEN_MONTH = 2;
 
-	public final static int DEU_DATE_DAYS_AFTER_THE_INVOICE = 0;
-	public final static int DEU_DATE_OF_THE_FOLLOWING_MONTH = 1;
+	public final static int DUE_DATE_DAYS_AFTER_THE_INVOICE = 0;
+	public final static int DUE_DATE_OF_THE_FOLLOWING_MONTH = 1;
+	public final static int DUE_DATE_OF_THE_CURRENT_MONTH = 2;
 
 	public final static int ACTION_SAVE_DRAFT = 0;
 	public final static int ACTION_APPROVE = 1;
@@ -23,13 +29,13 @@ public class RecurringTransaction implements IAccounterCore {
 	private int howOftenType;
 	private int howOftenValue;
 
-	private Date startDate;
-	private Date endDate;
+	private FinanceDate startDate;
+	private FinanceDate endDate; // Optional
 
 	private int dueDateValue;
 	private int dueDateType;
 
-	private Date nextScheduleOn;
+	private FinanceDate nextScheduleOn;
 
 	/**
 	 * {@link #ACTION_SAVE_DRAFT}, {@link #ACTION_APPROVE},
@@ -37,7 +43,7 @@ public class RecurringTransaction implements IAccounterCore {
 	 */
 	private int actionType;
 
-	private Transaction transaction;
+	private Transaction referringTransaction;
 
 	/**
 	 * 
@@ -48,20 +54,15 @@ public class RecurringTransaction implements IAccounterCore {
 
 	}
 
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		// TODO
+		return true;
+	}
+
 	public int getActionType() {
 		return actionType;
-	}
-
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public int getDueDateType() {
@@ -72,10 +73,6 @@ public class RecurringTransaction implements IAccounterCore {
 		return dueDateValue;
 	}
 
-	public Date getEndDate() {
-		return endDate;
-	}
-
 	public int getHowOftenType() {
 		return howOftenType;
 	}
@@ -84,26 +81,16 @@ public class RecurringTransaction implements IAccounterCore {
 		return howOftenValue;
 	}
 
-	@Override
-	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+	private FinanceDate getInitialDateForNextSchedule() {
+		return nextScheduleOn == null ? startDate : nextScheduleOn;
 	}
 
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Date getNextScheduleOn() {
+	public FinanceDate getNextScheduleOn() {
 		return nextScheduleOn;
 	}
 
-	@Override
-	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+	public Transaction getReferringTransaction() {
+		return referringTransaction;
 	}
 
 	/**
@@ -113,22 +100,25 @@ public class RecurringTransaction implements IAccounterCore {
 	 * @return
 	 */
 	private ScheduleIterator getScheduleIterator() {
-		// TODO create related sheduleIterators
 		switch (howOftenType) {
-		case HOW_OFTEN_DAILY:
-			return new DailyScheduler();
+		case HOW_OFTEN_DAY:
+			return new DaySchedular();
+		case HOW_OFTEN_WEEK:
+			return new WeekShceduler();
+		case HOW_OFTEN_MONTH:
+			return new MonthScheduler();
 		default:
 			break;
 		}
 		return null;
 	}
 
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public Transaction getTransaction() {
-		return transaction;
+	private boolean isValidScheduleTime(FinanceDate date) {
+		if (endDate == null) {
+			return true;
+		}
+		// TODO need to add another condition, date may equal.
+		return date.before(endDate);
 	}
 
 	public Date next() {
@@ -147,10 +137,6 @@ public class RecurringTransaction implements IAccounterCore {
 		this.dueDateValue = dueDateValue;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
 	public void setHowOftenType(int howOftenType) {
 		this.howOftenType = howOftenType;
 	}
@@ -159,22 +145,71 @@ public class RecurringTransaction implements IAccounterCore {
 		this.howOftenValue = howOftenValue;
 	}
 
-	@Override
-	public void setID(long id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setNextScheduleOn(Date nextScheduleOn) {
+	public void setNextScheduleOn(FinanceDate nextScheduleOn) {
 		this.nextScheduleOn = nextScheduleOn;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setReferringTransaction(Transaction referringTransaction) {
+		this.referringTransaction = referringTransaction;
 	}
 
-	public void setTransaction(Transaction transaction) {
-		this.transaction = transaction;
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer("Every ");
+		sb.append(howOftenValue).append(' ');
+		switch (howOftenType) {
+		case HOW_OFTEN_DAY:
+			sb.append("Day(s)");
+			break;
+		case HOW_OFTEN_MONTH:
+			sb.append("Month(s)");
+			break;
+		case HOW_OFTEN_WEEK:
+			sb.append("Week(s)");
+			break;
+
+		default:
+			sb.append("-");
+			break;
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Daily scheduler.
+	 * 
+	 * @author vimukti3
+	 * 
+	 */
+	private class DaySchedular implements ScheduleIterator {
+
+		@Override
+		public Date next() {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
+			calendar.add(Calendar.DATE, howOftenValue);
+			return isValidScheduleTime(new FinanceDate(calendar.date)) ? calendar
+					.getTime() : null;
+		}
+	}
+
+	/**
+	 * Month scheduler
+	 * 
+	 * @author vimukti3
+	 * 
+	 */
+	private class MonthScheduler implements ScheduleIterator {
+
+		@Override
+		public Date next() {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
+			calendar.add(Calendar.MONTH, howOftenValue);
+			return isValidScheduleTime(new FinanceDate(calendar.date)) ? calendar
+					.getTime() : null;
+		}
+
 	}
 
 	/**
@@ -188,31 +223,27 @@ public class RecurringTransaction implements IAccounterCore {
 		/**
 		 * Gives next scheduling date/time.
 		 * 
-		 * @return
+		 * @return date for next schedule. null if there is no next schedule.
 		 */
 		Date next();
 	}
 
 	/**
-	 * Daily scheduler.
+	 * Week scheduler.
 	 * 
 	 * @author vimukti3
 	 * 
 	 */
-	private class DailyScheduler implements ScheduleIterator {
+	private class WeekShceduler implements ScheduleIterator {
 
 		@Override
 		public Date next() {
 			Calendar calendar = Calendar.getInstance();
-			if(nextScheduleOn==null){
-				calendar.setTime(startDate);
-			}else{
-				calendar.setTime(nextScheduleOn);
-			}
-			calendar.add(Calendar.DATE, 1);
-			return calendar.getTime();
+			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
+			// 1week = 7 days.
+			calendar.add(Calendar.DATE, howOftenValue * 7);
+			return isValidScheduleTime(new FinanceDate(calendar.date)) ? calendar
+					.getTime() : null;
 		}
-
 	}
-
 }
