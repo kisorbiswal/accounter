@@ -1,9 +1,9 @@
 package com.vimukti.accounter.core;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.Calendar;
 
 /**
  * Contains a referring transaction and has information for scheduling
@@ -188,7 +188,7 @@ public class RecurringTransaction extends CreatableObject implements
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
 			calendar.add(Calendar.DATE, howOftenValue);
-			return isValidScheduleTime(new FinanceDate(calendar.date)) ? calendar
+			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
 		}
 	}
@@ -203,10 +203,10 @@ public class RecurringTransaction extends CreatableObject implements
 
 		@Override
 		public Date next() {
-			Calendar calendar = Calendar.getInstance();
+			java.util.Calendar calendar = Calendar.getInstance();
 			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
 			calendar.add(Calendar.MONTH, howOftenValue);
-			return isValidScheduleTime(new FinanceDate(calendar.date)) ? calendar
+			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
 		}
 
@@ -242,7 +242,7 @@ public class RecurringTransaction extends CreatableObject implements
 			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
 			// 1week = 7 days.
 			calendar.add(Calendar.DATE, howOftenValue * 7);
-			return isValidScheduleTime(new FinanceDate(calendar.date)) ? calendar
+			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
 		}
 	}
