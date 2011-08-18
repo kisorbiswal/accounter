@@ -14,13 +14,13 @@ import org.hibernate.Session;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class ServerConvertUtil extends ObjectConvertUtil {
 
 	Map<Map<Field, Object>, IAccounterServerCore> collections = new HashMap<Map<Field, Object>, IAccounterServerCore>();
-	private HashMap<Field, Object> fieldValues;
-	private Session currentSession;
+
+	// private HashMap<Field, Object> fieldValues;
+	// private Session currentSession;
 
 	public <D extends IAccounterServerCore, S extends IAccounterCore> Object toServerList(
 			List<?> set, Session session) {

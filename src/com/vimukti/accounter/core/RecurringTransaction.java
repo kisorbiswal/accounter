@@ -14,6 +14,11 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  */
 public class RecurringTransaction extends CreatableObject implements
 		IAccounterServerCore {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public final static int HOW_OFTEN_DAY = 0;
 	public final static int HOW_OFTEN_WEEK = 1;
 	public final static int HOW_OFTEN_MONTH = 2;
@@ -45,10 +50,6 @@ public class RecurringTransaction extends CreatableObject implements
 
 	private Transaction referringTransaction;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4937393711538114447L;
 
 	public RecurringTransaction() {
 
