@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import org.h2.engine.User;
-
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class UserPermissions implements IAccounterServerCore {
