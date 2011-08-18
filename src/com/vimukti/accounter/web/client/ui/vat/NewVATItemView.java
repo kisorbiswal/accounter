@@ -460,7 +460,10 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 			selectedBox = getCompany().getVatReturnBox(data.getVatReturnBox());
 			vatReturnBoxCombo.setComboItem(selectedBox);
 		}
-		statusCheck.setValue(true);
+		if (data.getID() != 0)
+			statusCheck.setValue(data.isActive());
+		else
+			statusCheck.setValue(true);
 
 		vatRateTextPerT.setPercentage(data.getTaxRate());
 
