@@ -105,6 +105,8 @@ public class SetupWizard extends VerticalPanel {
 		topPanel.setSize("100%", "100%");
 		progressPanel.getElement().getParentElement()
 				.addClassName("progress_panel");
+		viewButtonPanel.getElement().getParentElement()
+				.addClassName("view_button");
 		topPanel.setCellHorizontalAlignment(progressPanel,
 				HasAlignment.ALIGN_RIGHT);
 
