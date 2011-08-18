@@ -70,7 +70,7 @@ public class BaseServlet extends HttpServlet {
 	public static final int PHONE_NO = 2;
 
 	protected Company getCompanyById(String companyId) {
-		Session session = HibernateUtil.openSession(Server.COMPANY+companyId);
+		Session session = HibernateUtil.openSession(Server.COMPANY + companyId);
 		try {
 			Company comapny = (Company) session.get(Company.class,
 					Long.valueOf(companyId));
@@ -89,8 +89,7 @@ public class BaseServlet extends HttpServlet {
 		String companyID = getCookie(req, COMPANY_COOKIE);
 		Session session = HibernateUtil.openSession(Server.COMPANY + companyID);
 		try {
-			Company comapny = (Company) session.get(Company.class,
-					Long.valueOf(companyID));
+			Company comapny = (Company) session.get(Company.class, 1L);
 			if (comapny != null) {
 				return comapny;
 			}
