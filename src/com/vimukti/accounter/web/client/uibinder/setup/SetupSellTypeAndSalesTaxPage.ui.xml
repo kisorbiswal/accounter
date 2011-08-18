@@ -8,12 +8,29 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
+		<g:VerticalPanel ui:field="viewPanel">
+			<g:VerticalPanel ui:field="Sell">
+				<g:RadioButton name="new name" ui:field="ServicesOnly"/>
+				<g:Label ui:field="ServicesOnlyText"/>
+				<g:RadioButton name="new name" ui:field="ProductsOnly"/>
+				<g:Label ui:field="ProductsOnlyText"/>
+				<g:RadioButton name="new name" ui:field="Both"/>
+				<g:Label ui:field="BothText"/>
+			</g:VerticalPanel>
+			<g:VerticalPanel ui:field="SalesTax">
+				<g:HTML wordWrap="true" ui:field="SalesTaxHead"/>
+				<g:RadioButton name="new name" ui:field="SalesTaxYes"/>
+				<g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="SalesTaxNo"/>
+					<g:Label ui:field="SalesTaxNoText"/>
+				</g:HorizontalPanel>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
 		<!--
 			Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete
 			widget names. The ui:field attribute binds an element to a field in
 			the owner class. See the GWT docs on UI Binder for more details.
 		-->
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
+		
 	</g:HTMLPanel>
 </ui:UiBinder> 

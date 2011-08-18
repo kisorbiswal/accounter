@@ -8,5 +8,12 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
+		<g:VerticalPanel ui:field="viewPanel" width="" height="">
+			<g:Label ui:field="CustomizeAccounter"/>
+			<g:Label ui:field="SettingsLater"/>
+			<g:Label ui:field="Industry" styleName="industry"/>
+			<g:Label ui:field="SelectIndustry" styleName="select_industry"/>
+			<g:ListBox/>
+		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

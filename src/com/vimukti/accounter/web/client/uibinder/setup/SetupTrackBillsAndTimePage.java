@@ -7,6 +7,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * @author Administrator
@@ -16,6 +20,19 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 	private static SetupTrackBillsAndTimePageUiBinder uiBinder = GWT
 			.create(SetupTrackBillsAndTimePageUiBinder.class);
+	@UiField VerticalPanel viewPanel;
+	@UiField VerticalPanel TrackingBills;
+	@UiField VerticalPanel Managing;
+	@UiField HTML TrackOfBillsText;
+	@UiField HTML TrackOfBillsList;
+	@UiField HTML ManagingList;
+	@UiField HTML TrackTimeText;
+	@UiField RadioButton ManagingYes;
+	@UiField RadioButton TrackingTimeYes;
+	@UiField RadioButton ManagingNo;
+	@UiField HTML TrackingYesText;
+	@UiField RadioButton TrackingNo;
+	@UiField HTML ManagingYesText;
 
 	interface SetupTrackBillsAndTimePageUiBinder extends
 			UiBinder<Widget, SetupTrackBillsAndTimePage> {

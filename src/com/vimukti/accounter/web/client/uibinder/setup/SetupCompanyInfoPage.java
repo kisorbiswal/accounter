@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.uibinder.client.UiField;
 
 /**
  * @author Administrator
@@ -16,6 +17,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	private static SetupCompanyInfoPageUiBinder uiBinder = GWT
 			.create(SetupCompanyInfoPageUiBinder.class);
+	@UiField VerticalPanel viewPanel;
 
 	interface SetupCompanyInfoPageUiBinder extends
 			UiBinder<Widget, SetupCompanyInfoPage> {

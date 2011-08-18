@@ -5,6 +5,8 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -16,6 +18,10 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	private static SetupIndustrySelectionPageUiBinder uiBinder = GWT
 			.create(SetupIndustrySelectionPageUiBinder.class);
+	@UiField
+	VerticalPanel viewPanel;
+	@UiField
+	Label CustomizeAccounter;
 
 	interface SetupIndustrySelectionPageUiBinder extends
 			UiBinder<Widget, SetupIndustrySelectionPage> {

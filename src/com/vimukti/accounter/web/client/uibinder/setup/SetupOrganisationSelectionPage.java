@@ -7,6 +7,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.HTML;
 
 /**
  * @author Administrator
@@ -16,6 +20,22 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage{
 
 	private static SetupOrganisationSelectionPageUiBinder uiBinder = GWT
 			.create(SetupOrganisationSelectionPageUiBinder.class);
+	@UiField VerticalPanel viewPanel;
+	@UiField Label OrganizeText;
+	@UiField RadioButton PropriterShip;
+	@UiField Label UninCorporated;
+	@UiField RadioButton Partnership;
+	@UiField Label MorePartners;
+	@UiField RadioButton LLC;
+	@UiField Label LLCText;
+	@UiField RadioButton Corporation;
+	@UiField Label CorporationText;
+	@UiField RadioButton SCorporation;
+	@UiField Label SCorporationText;
+	@UiField RadioButton NonProfit;
+	@UiField Label NonProfitText;
+	@UiField RadioButton Other;
+	@UiField HTML OrganizationLink;
 
 	interface SetupOrganisationSelectionPageUiBinder extends
 			UiBinder<Widget, SetupOrganisationSelectionPage> {
