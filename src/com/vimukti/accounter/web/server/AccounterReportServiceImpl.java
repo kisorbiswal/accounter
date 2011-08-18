@@ -1828,7 +1828,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				name = agedDebtors.get(0).getName();
 
 			/* add the list to map */
-			sameDebtorsMap.put(i, sameDebtors);
+			if (sameDebtors.size() > 0) {
+				sameDebtorsMap.put(i, sameDebtors);
+			}
 		}
 
 		/*
