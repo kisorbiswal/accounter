@@ -110,4 +110,8 @@ public interface AccounterMessages extends Messages {
 	public String journalEntryVendor(String name);
 	
 	public String invalidAccountNumber(String name);
+
+	public String startSetupInfo();
+
+	public String skipSetupInfo();
 }
