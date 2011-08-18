@@ -1,7 +1,11 @@
 package com.vimukti.accounter.core;
 
-@SuppressWarnings("serial")
 public class BankAccount extends Account {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Bank bank;
 

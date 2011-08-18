@@ -13,8 +13,12 @@ import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 
-@SuppressWarnings("serial")
 public class Utility implements IsSerializable, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	int version;
 	static boolean isDelete;
@@ -758,11 +762,11 @@ public class Utility implements IsSerializable, Serializable {
 		subStringArray[j] = lhs.substring(0, i + 1);
 		String placeValue = "";
 
-		String faceValue = "";
-
-		String subPlaceValue = "";
-
-		String subFaceValue = "";
+		// String faceValue = "";
+		//
+		// String subPlaceValue = "";
+		//
+		// String subFaceValue = "";
 		if (subStringArray.length > 1) {
 			for (i = 0; i < subStringArray.length; i++) {
 				String subString = subStringArray[i];
@@ -1322,6 +1326,7 @@ public class Utility implements IsSerializable, Serializable {
 		}
 		return false;
 	}
+
 	public static <S extends IAccounterCore> boolean isObjectExist(
 			List<S> list, String name) {
 		if (list == null || list.isEmpty())
@@ -1335,6 +1340,7 @@ public class Utility implements IsSerializable, Serializable {
 		}
 		return false;
 	}
+
 	public static boolean checkIfNotNumber(String in) {
 		try {
 			Integer.parseInt(in);

@@ -15,10 +15,14 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * @author Chandan
  * 
  */
-@SuppressWarnings("serial")
 public class AccountTransaction extends CreatableObject implements
 		IAccounterServerCore, IsSerializable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	long id;
 	/**
 	 * This reference is maintained to know from what transaction the

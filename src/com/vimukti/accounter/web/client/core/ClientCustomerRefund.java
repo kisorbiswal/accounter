@@ -3,8 +3,12 @@ package com.vimukti.accounter.web.client.core;
 import java.util.HashSet;
 import java.util.Set;
 
-@SuppressWarnings("serial")
 public class ClientCustomerRefund extends ClientTransaction {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static final int NOT_ISSUED = 0;
 

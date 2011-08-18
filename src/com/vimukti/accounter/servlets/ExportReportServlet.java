@@ -18,8 +18,12 @@ import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-@SuppressWarnings("serial")
 public class ExportReportServlet extends BaseServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	String style;
 
 	@Override

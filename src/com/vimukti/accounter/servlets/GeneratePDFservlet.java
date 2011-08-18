@@ -28,8 +28,12 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-@SuppressWarnings("serial")
 public class GeneratePDFservlet extends BaseServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void service(HttpServletRequest arg0, HttpServletResponse arg1)

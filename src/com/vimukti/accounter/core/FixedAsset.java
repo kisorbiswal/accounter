@@ -37,10 +37,14 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  *         We can run Depreciation on registered Fixed Asset and as well as we
  *         can Sell or Dispose any Fixed Asset.
  */
-@SuppressWarnings("serial")
 public class FixedAsset extends CreatableObject implements
 		IAccounterServerCore, Cloneable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int STATUS_PENDING = 1;
 	public static final int STATUS_REGISTERED = 2;
 	public static final int STATUS_SOLD_OR_DISPOSED = 3;

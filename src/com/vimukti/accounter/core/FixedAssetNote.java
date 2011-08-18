@@ -9,10 +9,14 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author vimukti16
  * 
  */
-@SuppressWarnings("serial")
 public class FixedAssetNote extends CreatableObject implements
 		IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String note;
 
 	public FixedAssetNote() {

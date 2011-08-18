@@ -8,9 +8,13 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-@SuppressWarnings("serial")
 public class FinanceLogger implements IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private static Logger log = Logger.getLogger(FinanceLogger.class);
 	private static ThreadLocal<FinanceLogger> cache = new ThreadLocal<FinanceLogger>();
 

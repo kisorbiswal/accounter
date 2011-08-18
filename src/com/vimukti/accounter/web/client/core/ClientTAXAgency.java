@@ -12,8 +12,12 @@ import java.util.Set;
  * @author Murali
  * 
  */
-@SuppressWarnings("serial")
 public class ClientTAXAgency extends ClientPayee {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Payment Term for this TaxAgency

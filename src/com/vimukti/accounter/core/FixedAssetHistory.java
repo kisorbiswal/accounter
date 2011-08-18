@@ -8,8 +8,12 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-@SuppressWarnings("serial")
 public class FixedAssetHistory implements IAccounterServerCore, Lifecycle {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	long id;
 

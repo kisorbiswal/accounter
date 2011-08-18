@@ -61,8 +61,13 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  */
 
-@SuppressWarnings("serial")
 public class Invoice extends Transaction implements Lifecycle {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 
 	// static Logger log = Logger.getLogger(Invoice.class);
 

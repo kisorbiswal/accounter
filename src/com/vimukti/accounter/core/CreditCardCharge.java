@@ -32,8 +32,12 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  *         Liability|LongTermLiability) isIncrease true then Increase the
  *         current and total balance by Cash Purchase total otherwise Decrease
  */
-@SuppressWarnings("serial")
 public class CreditCardCharge extends Transaction {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * This is the {@link Vendor} to whom we are creating This CreditCardCharge

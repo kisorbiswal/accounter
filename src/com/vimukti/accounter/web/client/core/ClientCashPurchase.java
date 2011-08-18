@@ -2,9 +2,13 @@ package com.vimukti.accounter.web.client.core;
 
 import com.vimukti.accounter.web.client.ui.Accounter;
 
-@SuppressWarnings("serial")
 public class ClientCashPurchase extends ClientTransaction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int EMPLOYEE_EXPENSE_STATUS_SAVE = 0;
 	public static final int EMPLOYEE_EXPENSE_STATUS_DELETE = 1;
 	public static final int EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL = 2;

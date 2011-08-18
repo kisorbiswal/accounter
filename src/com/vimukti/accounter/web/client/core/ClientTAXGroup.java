@@ -3,9 +3,13 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
 public class ClientTAXGroup extends ClientTAXItemGroup {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	List<ClientTAXItem> taxItems;
 	double groupRate;
 

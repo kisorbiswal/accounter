@@ -8,9 +8,13 @@ import org.hibernate.classic.Lifecycle;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-@SuppressWarnings("serial")
 public class Contact implements IAccounterServerCore, Lifecycle {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * This will specify which Contact is Primary among all the Contacts of a
 	 * {@link Payee}

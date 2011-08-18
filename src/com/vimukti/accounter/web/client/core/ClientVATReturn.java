@@ -10,9 +10,12 @@ import java.util.List;
  * @author vimukti5
  * 
  */
-@SuppressWarnings("serial")
 public class ClientVATReturn extends ClientTransaction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * The Start date of this VAT Return
 	 */

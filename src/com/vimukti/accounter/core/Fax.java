@@ -4,9 +4,13 @@ import java.util.LinkedHashMap;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-@SuppressWarnings("serial")
 public class Fax implements IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int TYPE_BUSINESS = 1;
 	public static final int TYPE_HOME = 2;
 	public static final int TYPE_OTHER = 3;

@@ -47,8 +47,12 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  * 
  */
-@SuppressWarnings("serial")
 public class CashSales extends Transaction implements IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The payee to whom the sales is being done.

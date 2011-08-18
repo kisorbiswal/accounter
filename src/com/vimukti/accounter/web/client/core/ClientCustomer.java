@@ -5,8 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@SuppressWarnings("serial")
 public class ClientCustomer extends ClientPayee {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	long balanceAsOf;
 

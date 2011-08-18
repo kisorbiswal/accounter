@@ -14,9 +14,13 @@ import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-@SuppressWarnings("serial")
 public class ForgetPasswordServlet extends BaseServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String view = "/WEB-INF/forgotpassword.jsp";
 
 	@Override

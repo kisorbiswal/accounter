@@ -1,7 +1,11 @@
 package com.vimukti.accounter.web.client.core;
 
-@SuppressWarnings("serial")
 public class ClientCreditCardCharge extends ClientTransaction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	long vendor;
 
 	ClientContact contact;

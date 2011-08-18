@@ -5,9 +5,13 @@ import java.io.Serializable;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
-@SuppressWarnings("serial")
 public class AccounterClientConstants implements IsSerializable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final String SYMBOL_PLUS = "+";
 	public static final String SYMBOL_MINUS = "-";
 

@@ -19,10 +19,14 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Uday Kumar
  * 
  */
-@SuppressWarnings("serial")
 public class BrandingTheme extends CreatableObject implements
 		IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final String FONT_ARIAL = "Arial";
 	public static final String FONT_CALIBIRI = "Calibiri";
 	public static final String FONT_CAMBRIA = "Cambria";

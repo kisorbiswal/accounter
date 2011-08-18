@@ -6,10 +6,14 @@ import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-@SuppressWarnings("serial")
 public class ClientJournalEntry extends ClientTransaction implements
 		IsSerializable, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int TYPE_NORMAL_JOURNAL_ENTRY = 1;
 	public static final int TYPE_CASH_BASIS_JOURNAL_ENTRY = 2;
 

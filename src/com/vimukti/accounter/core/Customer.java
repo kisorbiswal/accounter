@@ -17,8 +17,12 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-@SuppressWarnings("serial")
 public class Customer extends Payee implements IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The till date up to which the Specified Opening balance of the Customer

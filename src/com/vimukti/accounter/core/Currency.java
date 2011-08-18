@@ -6,9 +6,12 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  * @author vimukti16 Not used Yet
  */
-@SuppressWarnings("serial")
 public class Currency implements IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int version;
 
 	public long getId() {

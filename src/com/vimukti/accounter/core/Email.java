@@ -4,9 +4,13 @@ import java.util.LinkedHashMap;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-@SuppressWarnings("serial")
 public class Email implements IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int TYPE_EMAIL_1 = 1;
 	public static final int TYPE_EMAIL_2 = 2;
 	public static final int TYPE_EMAIL_3 = 3;

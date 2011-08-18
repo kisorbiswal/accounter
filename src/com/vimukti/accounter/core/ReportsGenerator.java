@@ -128,11 +128,16 @@ public class ReportsGenerator {
 		return gridTemplate.getBody();
 	}
 
-	@SuppressWarnings("serial")
 	public ReportGridTemplate<?> getReportGridTemplate(
 			final FinanceTool finaTool, int generationType1) {
 
 		AccounterReportServiceImpl reportsSerivce = new AccounterReportServiceImpl() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			
+
 			@Override
 			protected FinanceTool getFinanceTool() {
 				return finaTool;

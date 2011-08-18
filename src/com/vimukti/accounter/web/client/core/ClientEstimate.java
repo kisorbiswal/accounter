@@ -1,7 +1,11 @@
 package com.vimukti.accounter.web.client.core;
 
-@SuppressWarnings("serial")
 public class ClientEstimate extends ClientTransaction {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static final int STATUS_OPEN = 0;
 

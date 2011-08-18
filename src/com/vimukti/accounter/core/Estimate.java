@@ -6,9 +6,13 @@ import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-@SuppressWarnings("serial")
 public class Estimate extends Transaction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int STATUS_OPEN = 0;
 	public static final int STATUS_REJECTED = 1;
 	public static final int STATUS_ACCECPTED = 2;

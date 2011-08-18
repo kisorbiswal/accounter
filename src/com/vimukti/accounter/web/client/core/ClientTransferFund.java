@@ -3,9 +3,13 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
 public class ClientTransferFund extends ClientTransaction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	long transferFrom;
 	long transferTo;
 

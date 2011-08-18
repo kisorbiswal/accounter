@@ -3,8 +3,12 @@ package com.vimukti.accounter.web.client.core;
 import java.util.HashSet;
 import java.util.Set;
 
-@SuppressWarnings("serial")
 public class ClientEnterBill extends ClientTransaction {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	long vendor;
 

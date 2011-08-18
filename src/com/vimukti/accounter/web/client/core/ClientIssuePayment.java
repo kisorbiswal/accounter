@@ -5,9 +5,13 @@ import java.io.Serializable;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
-@SuppressWarnings("serial")
 public class ClientIssuePayment extends ClientTransaction implements
 		IsSerializable, Serializable, Cloneable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	long account;
 

@@ -4,9 +4,13 @@ import java.util.LinkedHashMap;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-@SuppressWarnings("serial")
 public class Phone implements IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final int BUSINESS_PHONE_NUMBER = 1;
 	public static final int MOBILE_PHONE_NUMBER = 2;
 	public static final int HOME_PHONE_NUMBER = 3;

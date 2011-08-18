@@ -1,8 +1,12 @@
 package com.vimukti.accounter.web.client.core;
 
-@SuppressWarnings("serial")
 public class ClientItemReceipt extends ClientTransaction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	boolean toBePrinted;
 	boolean toBeEmailed;
 

@@ -2,9 +2,13 @@ package com.vimukti.accounter.core;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-@SuppressWarnings("serial")
 public class CommodityCode implements IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	long id;
 	/**
 	 * commodity code name.

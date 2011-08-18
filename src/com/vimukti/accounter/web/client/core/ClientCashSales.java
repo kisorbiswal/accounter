@@ -2,8 +2,12 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.List;
 
-@SuppressWarnings("serial")
 public class ClientCashSales extends ClientTransaction {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	long customer;
 

@@ -1,7 +1,11 @@
 package com.vimukti.accounter.web.client.core;
 
-@SuppressWarnings("serial")
 public class ClientBankAccount extends ClientAccount {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private long bank;
 
