@@ -952,7 +952,7 @@ public abstract class ListGrid<T> extends CustomTable {
 		selectedObject = null;
 		this.objects.remove(row);
 		this.removeRow(row);
-
+		if (this.objects.size()>0)
 		this.adjustCellsWidth(0, this.body);
 	}
 
