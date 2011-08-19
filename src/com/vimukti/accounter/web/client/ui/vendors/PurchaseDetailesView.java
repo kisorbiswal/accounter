@@ -187,7 +187,7 @@ public class PurchaseDetailesView extends ParentCanvas {
 	 */
 	public void setObjValues(ClientPurchaseOrder purchaseOrder) {
 
-		refreshView();
+	          	refreshView();
 
 		List<ClientTransactionItem> transactionItems = purchaseOrder
 				.getTransactionItems();
