@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
+import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> {
 
@@ -107,7 +108,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	@Override
 	public void onDoubleClick(AccountRegister obj) {
-
+		// if (Accounter.getUser().c)
+		ReportsRPC.openTransactionView(obj.getType(), obj.getTransactionId());
 	}
 
 	@Override
