@@ -25,7 +25,7 @@ public class PurchaseOrderAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+		runAsync(data, true);
 
 	}
 
