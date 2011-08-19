@@ -54,12 +54,12 @@ public class SetupReviewExpenseAccounts extends AbstractSetupPage implements
 
 	@Override
 	protected void createControls() {
-		expensesInfo.setText(accounterConstants.expenseInformation());
+		expensesInfo.setText(accounterMessages.expenseInformation());
 		recommendedInfo.setText(accounterMessages.recommendedAccounts());
 		Label accountName;
 		Label type;
 		CheckBox expensesClick;
-		restoreButton.setText(accounterMessages.restoreRecommendations());
+		restoreButton.setText(accounterConstants.restoreRecommendations());
 		expensesLink.setText(accounterMessages.whyshoudIUseRecommended());
 		expensesNote.setText(accounterMessages.recommendedNote());
 		reviewHead

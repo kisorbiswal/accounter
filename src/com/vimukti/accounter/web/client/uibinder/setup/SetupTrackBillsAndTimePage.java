@@ -81,7 +81,7 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		// TODO Auto-generated method stub
 
 		trackOfBillsText.setText(accounterConstants.doyouwantTrackTime());
-		trackOfBillsList.setText(accounterConstants.trackTimeList());
+		trackOfBillsList.setText(accounterMessages.trackTimeList());
 		managingList.setText(accounterMessages.managingList());
 		trackTimeText.setText(accounterConstants.doyouwantTrackBills());
 		managingYes.setText(accounterConstants.yes());
