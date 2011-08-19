@@ -61,8 +61,8 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		estimatesNo.setTitle(accounterConstants.no());
 		billingStatements.setText(accounterConstants.statementDescription());
 		someExampleText.setText(accounterConstants.statementSomeExample());
-		someExampleList.setText(accounterConstants.statementlist());
-		billingQuestion.setText(accounterConstants.statementQuestion());
+		someExampleList.setText(accounterMessages.statementlist());
+		billingQuestion.setText(accounterMessages.statementQuestion());
 		statementYes.setTitle(accounterConstants.yes());
 		statementsNo.setTitle(accounterConstants.no());
 	}

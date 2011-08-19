@@ -11,7 +11,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SetupReviewExpenseAccounts extends AbstractSetupPage implements HasText {
+public class SetupReviewExpenseAccounts extends AbstractSetupPage implements
+		HasText {
 
 	private static SetupReviewExpenseAccountsUiBinder uiBinder = GWT
 			.create(SetupReviewExpenseAccountsUiBinder.class);
@@ -54,13 +55,13 @@ public class SetupReviewExpenseAccounts extends AbstractSetupPage implements Has
 	@Override
 	protected void createControls() {
 		expensesInfo.setText(accounterConstants.expenseInformation());
-		recommendedInfo.setText(accounterConstants.recommendedAccounts());
+		recommendedInfo.setText(accounterMessages.recommendedAccounts());
 		Label accountName;
 		Label type;
 		CheckBox expensesClick;
-		restoreButton.setText(accounterConstants.restoreRecommendations());
-		expensesLink.setText(accounterConstants.whyshoudIUseRecommended());
-		expensesNote.setText(accounterConstants.recommendedNote());
+		restoreButton.setText(accounterMessages.restoreRecommendations());
+		expensesLink.setText(accounterMessages.whyshoudIUseRecommended());
+		expensesNote.setText(accounterMessages.recommendedNote());
 		reviewHead
 				.setText(accounterConstants.reviewIncomeAndExpensesAccounts());
 	}
@@ -86,7 +87,7 @@ public class SetupReviewExpenseAccounts extends AbstractSetupPage implements Has
 	@Override
 	public void setText(String text) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

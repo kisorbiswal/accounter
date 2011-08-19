@@ -82,7 +82,7 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 		trackOfBillsText.setText(accounterConstants.doyouwantTrackTime());
 		trackOfBillsList.setText(accounterConstants.trackTimeList());
-		managingList.setText(accounterConstants.managingList());
+		managingList.setText(accounterMessages.managingList());
 		trackTimeText.setText(accounterConstants.doyouwantTrackBills());
 		managingYes.setText(accounterConstants.yes());
 		trackingTimeYes.setText(accounterConstants.yes());
