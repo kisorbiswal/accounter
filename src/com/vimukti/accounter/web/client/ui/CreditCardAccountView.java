@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
@@ -144,7 +145,7 @@ public class CreditCardAccountView extends AbstractBaseView {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

@@ -257,7 +257,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

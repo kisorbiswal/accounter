@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -88,7 +89,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		leftVLay.add(payForm);
 
 		AmountField endBalText = new AmountField(
-				customerConstants.endingBalance(),this);
+				customerConstants.endingBalance(), this);
 		// endBalText.setWidth("*");
 		endBalText.setDisabled(true);
 
@@ -105,13 +106,11 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		topHLay.add(leftVLay);
 		topHLay.add(balForm);
 
-		Button saveCloseButt = new Button(
-				customerConstants.saveAndClose());
+		Button saveCloseButt = new Button(customerConstants.saveAndClose());
 		// saveCloseButt.setAutoFit(true);
 		// saveCloseButt.setLayoutAlign(Alignment.LEFT);
 
-		Button saveNewButt = new Button(
-				customerConstants.saveAndNew());
+		Button saveNewButt = new Button(customerConstants.saveAndNew());
 		// saveNewButt.setAutoFit(true);
 		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
 
@@ -156,7 +155,7 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

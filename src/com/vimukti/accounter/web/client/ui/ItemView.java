@@ -925,7 +925,7 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

@@ -44,7 +44,7 @@ public class DeleteThemeDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 		super.deleteSuccess(result);
 		ActionFactory.getInvoiceBrandingAction().run(null, true);
 	}

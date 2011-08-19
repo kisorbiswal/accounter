@@ -84,7 +84,7 @@ public class ExpenseClaims extends BaseView {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

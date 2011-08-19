@@ -417,7 +417,7 @@ public class AddEditSalesTaxCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

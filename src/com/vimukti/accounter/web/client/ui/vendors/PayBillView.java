@@ -864,7 +864,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 		// Nothing TO DO
 
 	}

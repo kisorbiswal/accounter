@@ -78,7 +78,7 @@ public abstract class BaseTable<T> extends CustomCellTable<T> implements
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 		// Accounter.showInformation("Deleted Successfully");
 		// TODO
 		// deleteRecord(this.getSelection());

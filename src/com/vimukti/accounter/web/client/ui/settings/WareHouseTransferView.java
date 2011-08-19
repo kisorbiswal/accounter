@@ -90,7 +90,7 @@ public class WareHouseTransferView extends BaseView<ClientWarehouse> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 		// currently not using
 
 	}

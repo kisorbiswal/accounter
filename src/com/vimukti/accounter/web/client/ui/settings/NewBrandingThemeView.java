@@ -624,7 +624,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 		// TODO Auto-generated method stub
 
 	}

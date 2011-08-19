@@ -567,7 +567,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 		// Not required for this class
 
 	}

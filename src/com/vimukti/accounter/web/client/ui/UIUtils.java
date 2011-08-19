@@ -573,32 +573,6 @@ public class UIUtils {
 	//
 	// }
 
-	public static AccounterAsyncCallback<Boolean> getGeneralizedDeleteCallBack(
-			final AbstractBaseView view) {
-
-		AccounterAsyncCallback<Boolean> callBack = new AccounterAsyncCallback<Boolean>() {
-
-			public void onException(AccounterException caught) {
-				view.deleteFailed(caught);
-			}
-
-			public void onResultSuccess(Boolean result) {
-				if (result == null || !result) {
-					onFailure(new Exception(Accounter.constants()
-							.unKnownExceptionGotNull()));
-					return;
-				}
-				// Accounter.stopExecution();
-				// view.updateCompany((IAccounterCore) result);
-				view.deleteSuccess(result);
-			}
-
-		};
-
-		return callBack;
-
-	}
-
 	//
 	// public static <T extends IAccounterCore> AccounterAsyncCallback<String>
 	// getGeneralizedSaveCallBack(

@@ -95,7 +95,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

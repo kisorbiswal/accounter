@@ -55,7 +55,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 		grid.deleteRecord(toBeDelete);
 		allAccounts.remove(toBeDelete);
 		// Accounter.showInformation(toBeDelete.getName()

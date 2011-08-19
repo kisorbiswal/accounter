@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -135,8 +136,7 @@ public class ConversionBalancesView extends BaseView {
 
 		addComparativeBalancesButton = new Button(
 				messages.addComparativeButton());
-		conversionDateButton = new Button(
-				messages.conversionDateButton());
+		conversionDateButton = new Button(messages.conversionDateButton());
 
 		headerButtonPanel.add(addComparativeBalancesButton);
 		headerButtonPanel.add(conversionDateButton);
@@ -214,17 +214,15 @@ public class ConversionBalancesView extends BaseView {
 
 	}
 
-
 	@Override
 	public void deleteFailed(AccounterException caught) {
 
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
-
 
 	@Override
 	protected String getViewTitle() {

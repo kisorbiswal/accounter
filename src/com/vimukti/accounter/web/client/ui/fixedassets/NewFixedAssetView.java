@@ -1053,7 +1053,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

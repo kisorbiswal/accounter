@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -219,11 +220,9 @@ public class ExpenseClaimList extends BaseView {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
-
 
 	@Override
 	protected String getViewTitle() {

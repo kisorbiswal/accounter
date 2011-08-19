@@ -275,7 +275,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

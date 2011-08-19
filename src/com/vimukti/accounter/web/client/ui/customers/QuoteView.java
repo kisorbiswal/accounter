@@ -657,7 +657,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

@@ -279,7 +279,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

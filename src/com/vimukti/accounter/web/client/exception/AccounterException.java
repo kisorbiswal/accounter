@@ -3,17 +3,19 @@
  */
 package com.vimukti.accounter.web.client.exception;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class AccounterException extends Exception {
+public class AccounterException extends Exception implements IsSerializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Used to tell that same number is already used for another Transaction or
 	 * Core object

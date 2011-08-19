@@ -436,8 +436,9 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(Boolean result) {
-				getCompany().processDeleteObject(data);
-				source.deleteSuccess(result);
+				getCompany().processDeleteObject(data.getObjectType(),
+						data.getID());
+				source.deleteSuccess(data);
 			}
 
 		};
@@ -454,8 +455,9 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(Boolean result) {
-				getCompany().processDeleteObject(data);
-				source.deleteSuccess(result);
+				getCompany().processDeleteObject(data.getObjectType(),
+						data.getID());
+				source.deleteSuccess(data);
 			}
 
 		};

@@ -378,7 +378,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 		// TODO Auto-generated method stub
 
 	}

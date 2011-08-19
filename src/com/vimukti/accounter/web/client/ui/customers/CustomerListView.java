@@ -1,10 +1,12 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -149,4 +151,14 @@ public class CustomerListView extends BaseListView<PayeeList> {
 		return Accounter.constants().customers();
 	}
 
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		Iterator<PayeeList> iterator = listOfCustomers.iterator();
+		while (iterator.hasNext()) {
+			PayeeList next = iterator.next();
+			if (next.getID() == result.getID()) {
+				iterator.remove();
+			}
+		}
+	}
 }

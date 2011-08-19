@@ -412,7 +412,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

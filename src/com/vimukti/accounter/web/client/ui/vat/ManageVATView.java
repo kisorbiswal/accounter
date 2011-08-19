@@ -117,7 +117,7 @@ public class ManageVATView extends AbstractBaseView {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 		// TODO Auto-generated method stub
 
 	}

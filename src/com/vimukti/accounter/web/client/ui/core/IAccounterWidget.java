@@ -11,7 +11,7 @@ public interface IAccounterWidget {
 
 	public void deleteFailed(AccounterException caught);
 
-	public void deleteSuccess(Boolean result);
+	public void deleteSuccess(IAccounterCore result);
 
 	// public long getID();
 	//

@@ -345,7 +345,7 @@ public class TransferFundsDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

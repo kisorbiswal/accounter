@@ -52,7 +52,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 		allItems.remove(toBeDeletedItem);
 		refreshTotal();

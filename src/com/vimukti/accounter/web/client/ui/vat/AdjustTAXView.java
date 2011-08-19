@@ -424,7 +424,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

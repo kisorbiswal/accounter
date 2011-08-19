@@ -126,8 +126,8 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		bodyLayout.add(listGridView);
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
-		buttonsLayout.getElement().getParentElement().setAttribute("width",
-				"25%");
+		buttonsLayout.getElement().getParentElement()
+				.setAttribute("width", "25%");
 		setBodyLayout(bodyLayout);
 		cancelBtn.setTitle(this.constants.close());
 		dialogHandler = new InputDialogHandler() {
@@ -290,8 +290,9 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 
 	private void updateOrAddRecord(T obj) {
 		IAccounterCore core = (IAccounterCore) obj;
-		if (Utility.getObject((List<IAccounterCore>) (ArrayList) listGridView
-				.getRecords(), core.getID()) != null)
+		if (Utility.getObject(
+				(List<IAccounterCore>) (ArrayList) listGridView.getRecords(),
+				core.getID()) != null)
 			deleteRecord();
 
 		listGridView.addData((IsSerializable) obj);
@@ -329,9 +330,8 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
-		if (result)
-			deleteRecord();
+	public void deleteSuccess(IAccounterCore result) {
+		deleteRecord();
 	}
 
 	@Override

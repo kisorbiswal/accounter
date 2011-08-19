@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -96,8 +97,7 @@ public class DisposingRegisteredItemView extends SellingRegisteredItemView {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

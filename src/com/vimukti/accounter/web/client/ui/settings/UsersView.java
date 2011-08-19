@@ -203,7 +203,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 	}
 
 	@Override

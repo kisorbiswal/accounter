@@ -156,7 +156,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 		// TODO Auto-generated method stub
 	}
 

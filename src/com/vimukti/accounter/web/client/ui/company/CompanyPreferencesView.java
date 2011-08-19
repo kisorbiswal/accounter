@@ -1380,7 +1380,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

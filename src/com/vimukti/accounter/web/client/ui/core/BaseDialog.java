@@ -361,7 +361,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 
 	}
 
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

@@ -547,7 +547,7 @@ public class PaySalesTaxView extends
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 
 	}
 

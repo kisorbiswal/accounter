@@ -1350,7 +1350,7 @@ public class ClientCompany implements IAccounterCore {
 				processUpdateOrCreateObject(command.data);
 				break;
 			case AccounterCommand.DELETION_SUCCESS:
-				processDeleteObject(command.data);
+				processDeleteObject(command.getObjectType(), command.getID());
 				return;
 			default:
 				break;
@@ -1712,15 +1712,9 @@ public class ClientCompany implements IAccounterCore {
 
 	}
 
-	public void processDeleteObject(IAccounterCore accounterCoreObject) {
+	public void processDeleteObject(AccounterCoreType objectType, long id) {
 
-		AccounterCoreType accounterCoreObjectType = accounterCoreObject
-				.getObjectType();
-
-		if (accounterCoreObjectType == null)
-			return;
-		long id = accounterCoreObject.getID();
-		switch (accounterCoreObjectType) {
+		switch (objectType) {
 
 		case ACCOUNT:
 

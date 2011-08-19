@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -246,16 +247,15 @@ public class CreditCardExpenseView extends
 			}
 		};
 		Ccard.setHelpInformation(true);
-		Ccard
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
+		Ccard.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
-					@Override
-					public void selectedComboBoxItem(ClientVendor selectItem) {
-						selectedVendor = selectItem;
-						Ccard.setComboItem(selectItem);
-						addPhonesContactsAndAddress();
-					}
-				});
+			@Override
+			public void selectedComboBoxItem(ClientVendor selectItem) {
+				selectedVendor = selectItem;
+				Ccard.setComboItem(selectItem);
+				addPhonesContactsAndAddress();
+			}
+		});
 
 		Ccard.setRequired(true);
 		String listString[] = new String[] {
@@ -372,8 +372,8 @@ public class CreditCardExpenseView extends
 
 		cheqNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-						.constants().chequeNo()
-						: Accounter.constants().checkNo());
+						.constants().chequeNo() : Accounter.constants()
+						.checkNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isEdit);
 		cheqNoText.setWidth(100);
@@ -388,8 +388,8 @@ public class CreditCardExpenseView extends
 		termsForm = UIUtils.form(Accounter.constants().terms());
 		termsForm.setWidth("100%");
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(Accounter.constants().itemsAndExpenses());
 
@@ -906,8 +906,7 @@ public class CreditCardExpenseView extends
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
-		// TODO Auto-generated method stub
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

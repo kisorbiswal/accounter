@@ -480,53 +480,54 @@ public class FinanceTool implements IFinanceDAOService {
 
 		org.hibernate.Transaction hibernateTransaction = session
 				.beginTransaction();
-
-		String arg1 = (context).getArg1();
-		String arg2 = (context).getArg2();
-
-		if (arg1 == null || arg2 == null) {
-			throw new AccounterException(
-					AccounterException.ERROR_ILLEGAL_ARGUMENT,
-					"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
-							+ context);
-		}
-
-		Class<?> clientClass = ObjectConvertUtil.getEqivalentClientClass(arg2);
-
-		Class<?> serverClass = ObjectConvertUtil
-				.getServerEqivalentClass(clientClass);
-
-		IAccounterServerCore serverObject = (IAccounterServerCore) session.get(
-				serverClass, Long.parseLong(arg1));
-
-		// if (objects != null && objects.size() > 0) {
-
-		// IAccounterServerCore serverObject = (IAccounterServerCore)
-		// objects
-		// .get(0);
-
-		if (serverObject == null) {
-
-		}
-		if (serverObject instanceof FiscalYear) {
-			((FiscalYear) serverObject).canDelete((FiscalYear) serverObject);
-			session.delete(serverObject);
-			// ChangeTracker.put(serverObject);
-		} else if (serverObject instanceof User) {
-			User user = (User) serverObject;
-			user.setDeleted(true);
-			session.saveOrUpdate(user);
-		} else {
-			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1))) {
-				session.delete(serverObject);
-			} else {
-				throw new AccounterException(
-						AccounterException.ERROR_OBJECT_IN_USE);
-			}
-		}
 		try {
-			hibernateTransaction.commit();
+			String arg1 = (context).getArg1();
+			String arg2 = (context).getArg2();
 
+			if (arg1 == null || arg2 == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ILLEGAL_ARGUMENT,
+						"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
+								+ context);
+			}
+
+			Class<?> clientClass = ObjectConvertUtil
+					.getEqivalentClientClass(arg2);
+
+			Class<?> serverClass = ObjectConvertUtil
+					.getServerEqivalentClass(clientClass);
+
+			IAccounterServerCore serverObject = (IAccounterServerCore) session
+					.get(serverClass, Long.parseLong(arg1));
+
+			// if (objects != null && objects.size() > 0) {
+
+			// IAccounterServerCore serverObject = (IAccounterServerCore)
+			// objects
+			// .get(0);
+
+			if (serverObject == null) {
+
+			}
+			if (serverObject instanceof FiscalYear) {
+				((FiscalYear) serverObject)
+						.canDelete((FiscalYear) serverObject);
+				session.delete(serverObject);
+				// ChangeTracker.put(serverObject);
+			} else if (serverObject instanceof User) {
+				User user = (User) serverObject;
+				user.setDeleted(true);
+				session.saveOrUpdate(user);
+			} else {
+				if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1))) {
+					session.delete(serverObject);
+				} else {
+					throw new AccounterException(
+							AccounterException.ERROR_OBJECT_IN_USE);
+				}
+			}
+			hibernateTransaction.commit();
+			// ChangeTracker.put(serverObject);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			hibernateTransaction.rollback();

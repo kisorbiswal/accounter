@@ -383,7 +383,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result){
 		listOfperiods.deleteRecord(listOfperiods.getSelection());
 	}
 

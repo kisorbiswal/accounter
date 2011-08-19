@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceLogger;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -180,7 +181,8 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 				new AccounterAsyncCallback<ArrayList<ClientFinanceLogger>>() {
 
 					@Override
-					public void onResultSuccess(ArrayList<ClientFinanceLogger> result) {
+					public void onResultSuccess(
+							ArrayList<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							grid.setRecords(result);
 							firstRecordID = result.get(0).getID();
@@ -211,7 +213,8 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 				new AccounterAsyncCallback<ArrayList<ClientFinanceLogger>>() {
 
 					@Override
-					public void onResultSuccess(ArrayList<ClientFinanceLogger> result) {
+					public void onResultSuccess(
+							ArrayList<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							if (result.size() < 20) {
 								prvsHyprLink.setEnabled(false);
@@ -276,7 +279,8 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 				new AccounterAsyncCallback<ArrayList<ClientFinanceLogger>>() {
 
 					@Override
-					public void onResultSuccess(ArrayList<ClientFinanceLogger> result) {
+					public void onResultSuccess(
+							ArrayList<ClientFinanceLogger> result) {
 						if (result != null && result.size() != 0) {
 							if (result.size() < 20)
 								prvsHyprLink.setEnabled(false);
@@ -306,7 +310,7 @@ public class FinanceLogView extends AbstractBaseView<ClientFinanceLogger> {
 	}
 
 	@Override
-	public void deleteSuccess(Boolean result) {
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
