@@ -193,11 +193,12 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		data.setFullName(data.getName());
 		data.setEmail(emailField.getValue().toString());
 		// user.setCanDoUserManagement(userManagementBox.getValue());
-
 		RolePermissions selectedRole = getSelectedRolePermission();
 		if (selectedRole != null) {
 			data.setUserRole(selectedRole.getRoleName());
-
+			if (selectedRole.getRoleName().equals(RolePermissions.ADMIN)) {
+				data.setAdmin(true);
+			}
 			ClientUserPermissions permissions = new ClientUserPermissions();
 			permissions.setTypeOfBankReconcilation(selectedRole
 					.getTypeOfBankReconcilation());
