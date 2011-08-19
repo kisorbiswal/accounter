@@ -66,8 +66,8 @@ public class ViewManager extends HorizontalPanel {
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
 		addStyleName("view_manager");
-		VerticalPanel leftPanel=new VerticalPanel();
-		this.viewHolder=new SimplePanel();
+		VerticalPanel leftPanel = new VerticalPanel();
+		this.viewHolder = new SimplePanel();
 		leftPanel.add(viewHolder);
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 
@@ -87,7 +87,7 @@ public class ViewManager extends HorizontalPanel {
 	}
 
 	private Widget createHelpPanel() {
-		//TODO implement help panel here
+		// TODO implement help panel here
 		return new SimplePanel();
 	}
 
@@ -231,8 +231,9 @@ public class ViewManager extends HorizontalPanel {
 
 	private void updateButtons() {
 		if (existingView instanceof IEditableView) {
-			// editButton.setVisible(((IEditableView) existingView).canEdit());
-			group2.add(editButton);
+			if (((IEditableView) existingView).canEdit()) {
+				group2.add(editButton);
+			}
 		} else {
 			// editButton.setVisible(false);
 			group2.remove(editButton);
