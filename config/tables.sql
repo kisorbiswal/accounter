@@ -2555,6 +2555,41 @@ LOCK TABLES `RECEIVE_VAT` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `recurring_transaction`
+--
+
+DROP TABLE IF EXISTS `recurring_transaction`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `recurring_transaction` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `HOW_OFTEN_TYPE` int(11) default NULL,
+  `HOW_OFTEN_VALUE` int(11) default NULL,
+  `DUE_DATE_TYPE` int(11) default NULL,
+  `DUE_DATE_VALUE` int(11) default NULL,
+  `ACTION_TYPE` int(11) default NULL,
+  `NAME` varchar(255) default NULL,
+  `START_DATE` bigint(20) default NULL,
+  `END_DATE` bigint(20) default NULL,
+  `NEXT_SCHEDULE_ON` bigint(20) default NULL,
+  `REF_TRANSACTION` bigint(20) NOT NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `REF_TRANSACTION` (`REF_TRANSACTION`),
+  KEY `FK1923903CAA43606B` (`REF_TRANSACTION`),
+  CONSTRAINT `FK1923903CAA43606B` FOREIGN KEY (`REF_TRANSACTION`) REFERENCES `transaction` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `recurring_transaction`
+--
+
+LOCK TABLES `recurring_transaction` WRITE;
+/*!40000 ALTER TABLE `recurring_transaction` DISABLE KEYS */;
+/*!40000 ALTER TABLE `recurring_transaction` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `RESET_PASSWORD_TOKEN`
 --
 
