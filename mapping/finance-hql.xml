@@ -76,6 +76,8 @@
 	</query>
 	<query name="list.User">from com.vimukti.accounter.core.User u order by
 		u.firstName,u.lastName</query>
+	<query name="list.RecurringTransaction">from com.vimukti.accounter.core.RecurringTransaction rt order by
+		rt.name</query>
 	<query name="list.VendorGroup">from com.vimukti.accounter.core.VendorGroup vg order
 		by vg.name
 	</query>

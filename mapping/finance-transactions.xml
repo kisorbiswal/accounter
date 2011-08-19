@@ -31,6 +31,7 @@
 			<list-index column="IDX" />
 			<one-to-many class="TransactionItem" />
 		</list>
+		<one-to-one name="recurringTransaction" class="com.vimukti.accounter.core.RecurringTransaction" property-ref="referringTransaction"/>
 		<property name="status" column="STATUS"></property>
 		<property name="canVoidOrEdit" column="CAN_VOID_OR_EDIT"></property>
 		<property name="isDeposited" column="IS_DEPOSITED"></property>
@@ -1383,5 +1384,27 @@
 		<many-to-one name="payExpense" class="PayExpense" lazy="false"
 			column="PAY_EXPENSE_ID">
 		</many-to-one>
+	</class>
+	<class name="RecurringTransaction" table="RECURRING_TRANSACTION">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<property name="howOftenType" column="HOW_OFTEN_TYPE"></property>
+		<property name="howOftenValue" column="HOW_OFTEN_VALUE"></property>
+		<property name="dueDateType" column="DUE_DATE_TYPE"></property>
+		<property name="dueDateValue" column="DUE_DATE_VALUE"></property>
+		<property name="actionType" column="ACTION_TYPE"></property>
+		<property name="name" column="NAME"></property>
+
+		<property name="startDate" column="START_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="endDate" column="END_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="nextScheduleOn" column="NEXT_SCHEDULE_ON"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		
+		<many-to-one name="referringTransaction" column="REF_TRANSACTION"
+	unique="true" not-null="true" />
+		
 	</class>
 </hibernate-mapping>
