@@ -124,10 +124,12 @@ public interface AccounterMessages extends Messages {
 
 	public String recommendedAccounts();
 
-	public String restoreRecommendations();
-
 	public String whyshoudIUseRecommended();
 
 	public String recommendedNote();
+
+	public String trackTimeList();
+
+	public String expenseInformation();
 
 }
