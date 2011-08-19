@@ -75,7 +75,7 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	 */
 	@Override
 	public void onDoubleClick(ClientTAXCode obj) {
-		ActionFactory.getNewTAXCodeAction().run(obj, true);
+		ActionFactory.getNewTAXCodeAction().run(obj, false);
 	}
 
 	/*
