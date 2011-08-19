@@ -1488,6 +1488,19 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return nextCustomerNumber;
 
 	}
+	@Override
+	public String getVendorNumber() {
+		String nextCustomerNumber = "";
+		try {
+
+			nextCustomerNumber = getFinanceTool().getNextVendorNumber();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return nextCustomerNumber;
+	}
 
 	@Override
 	public ArrayList<ClientReceiveVATEntries> getReceiveVATEntries()
