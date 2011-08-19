@@ -10,13 +10,13 @@ public class ImageButton extends Button {
 
 	public ImageButton(ImageResource res) {
 		this.res = res;
-		addStyleName("Empty-text");
+		setStyleName("Empty-text");
 	}
 
 	public ImageButton(String title, ImageResource res) {
 		super(title);
 		this.res = res;
-		addStyleName("image-button");
+		setStyleName("image-button");
 	}
 
 	public ImageButton(String title, ImageResource res, ClickHandler handler) {
