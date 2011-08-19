@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -46,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CreditRatingCombo;
+import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -111,7 +113,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	ContactGrid gridView;
 	SelectCombo payMethSelect;
 
-	// CurrencyCombo currencyCombo;
+	CurrencyCombo currencyCombo;
 
 	// private ClientCustomer takenCustomer;
 
@@ -358,14 +360,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		
-		//validate customer form
-		//check whether the customer is already available or not
-		//grid valid?
-		
+
+		// validate customer form
+		// check whether the customer is already available or not
+		// grid valid?
+
 		result.add(customerForm.validate());
 		if (company.getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			//FIXME:: its not required
+			// FIXME:: its not required
 			if (!custTaxCode.validate())
 				result.addError(custTaxCode,
 						Accounter.messages()
@@ -846,16 +848,15 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					}
 
 				});
-		// currencyCombo = new CurrencyCombo(Accounter.constants().currency());
-		// currencyCombo
-		// .addSelectionChangeHandler(new
-		// IAccounterComboSelectionChangeHandler<ClientCurrency>() {
-		//
-		// @Override
-		// public void selectedComboBoxItem(ClientCurrency selectItem) {
-		//
-		// }
-		// });
+		currencyCombo = new CurrencyCombo(Accounter.constants().currency());
+		currencyCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientCurrency selectItem) {
+
+					}
+				});
 		bankAccountSelect = new TextItem(customerConstants.bankAccountNo());
 		bankAccountSelect.setHelpInformation(true);
 		bankNameSelect = new TextItem(customerConstants.bankName());
