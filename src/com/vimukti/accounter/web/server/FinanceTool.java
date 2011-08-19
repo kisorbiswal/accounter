@@ -8738,7 +8738,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		Query query = session
 				.getNamedQuery(
-						"getTAXAdjustment.by.dates.groupedByIdtransactionItem")
+						"getTAXRateCalculation.by.dates.groupedByIdtransactionItem")
 				.setParameter("startDate", fromDate)
 				.setParameter("endDate", toDate)
 				.setParameter("taxItemName", taxItemName);
@@ -8806,7 +8806,7 @@ public class FinanceTool implements IFinanceDAOService {
 		// Entries from the VATAdjustment
 		query = session
 				.getNamedQuery(
-						"getTAXRateCalculation.by.dates.groupedByIdtransactionItem")
+						"getTAXAdjustment.by.dates.and.taxItemName")
 				.setParameter("startDate", fromDate)
 				.setParameter("endDate", toDate)
 				.setParameter("taxItemName", taxItemName);

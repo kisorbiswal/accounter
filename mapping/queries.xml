@@ -1329,4 +1329,13 @@
 		and user.isAdmin =true
 	</query>
 
+	<query name="getTAXAdjustment.by.dates.and.taxItemName">
+		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="taxItemName" type="String" />
+		from com.vimukti.accounter.core.TAXAdjustment v where
+		v.taxItem.name=:taxItemName and v.transactionDate between :startDate
+		and :endDate order by v.taxItem.name, v.journalEntry.transactionDate
+	</query>
+
 </hibernate-mapping>
