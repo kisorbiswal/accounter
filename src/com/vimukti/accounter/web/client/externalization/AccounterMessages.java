@@ -103,7 +103,7 @@ public interface AccounterMessages extends Messages {
 	public String selectIndustryInfoHTML();
 
 	public String selectIndustry();
-
+	
 	public String userGuidelinesMessage();
 
 	public String accounterUseYourForms();
