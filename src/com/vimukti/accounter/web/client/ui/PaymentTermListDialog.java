@@ -112,39 +112,64 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	protected ClientPaymentTerms getPaymentTerms() {
 		ClientPaymentTerms clientPaymentTerms;
-		if (paymentTerm != null)
+		if (paymentTerm != null) {
 			clientPaymentTerms = paymentTerm;
-		else
+
+			clientPaymentTerms
+					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
+							.getValue().toString() : "");
+			clientPaymentTerms
+					.setDescription(dialog.descText.getValue() != null ? dialog.descText
+							.getValue().toString() : "");
+			clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
+					.getValue() != null ? dialog.discDayText.getValue() : "0"));
+			clientPaymentTerms.setDiscountPercent(UIUtils
+					.toDbl(dialog.discText.getValue().toString()
+							.replaceAll("%", "") != null ? dialog.discText
+							.getValue().toString().replaceAll("%", "") : "0"));
+
+			for (int i = 0; i < dialog.dueValues.length; i++) {
+				if (dialog.dueSelect.getValue() != null) {
+					if (dialog.dueSelect.getValue().toString()
+							.equals(dialog.dueValues[i]))
+						clientPaymentTerms.setDue(i + 1);
+				}
+			}
+			clientPaymentTerms.setDueDays(UIUtils.toInt(dialog.dayText
+					.getValue() != null ? dialog.dayText.getValue() : "0"));
+		} else {
 			clientPaymentTerms = new ClientPaymentTerms();
 
+			clientPaymentTerms
+					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
+							.getValue().toString() : "");
+			clientPaymentTerms
+					.setDescription(dialog.descText.getValue() != null ? dialog.descText
+							.getValue().toString() : "");
+			clientPaymentTerms
+					.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
+							.getNumber() != null ? dialog.discDayText
+							.getNumber() : "0"));
+			clientPaymentTerms.setDiscountPercent(UIUtils
+					.toDbl(dialog.discText.getPercentage().toString()
+							.replaceAll("%", "") != null ? dialog.discText
+							.getPercentage().toString().replaceAll("%", "")
+							: "0"));
+
+			for (int i = 0; i < dialog.dueValues.length; i++) {
+				if (dialog.dueSelect.getValue() != null) {
+					if (dialog.dueSelect.getValue().toString()
+							.equals(dialog.dueValues[i]))
+						clientPaymentTerms.setDue(i + 1);
+				}
+			}
+			clientPaymentTerms.setDueDays(UIUtils.toInt(dialog.dayText
+					.getNumber() != null ? dialog.dayText.getNumber() : "0"));
+		}
 		/*
 		 * all these are modified cause after editing clientPaymentTerms was not
 		 * getting the values from text field. Now its working
 		 */
-
-		clientPaymentTerms
-				.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
-						.getValue().toString() : "");
-		clientPaymentTerms
-				.setDescription(dialog.descText.getValue() != null ? dialog.descText
-						.getValue().toString() : "");
-		clientPaymentTerms.setIfPaidWithIn(UIUtils.toInt(dialog.discDayText
-				.getValue() != null ? dialog.discDayText.getValue() : "0"));
-		clientPaymentTerms.setDiscountPercent(UIUtils
-				.toDbl(dialog.discText.getValue().toString()
-						.replaceAll("%", "") != null ? dialog.discText
-						.getValue().toString().replaceAll("%", "") : "0"));
-
-		for (int i = 0; i < dialog.dueValues.length; i++) {
-			if (dialog.dueSelect.getValue() != null) {
-				if (dialog.dueSelect.getValue().toString()
-						.equals(dialog.dueValues[i]))
-					clientPaymentTerms.setDue(i + 1);
-			}
-		}
-		clientPaymentTerms
-				.setDueDays(UIUtils.toInt(dialog.dayText.getValue() != null ? dialog.dayText
-						.getValue() : "0"));
 
 		return clientPaymentTerms;
 	}
