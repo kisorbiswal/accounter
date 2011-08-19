@@ -22,8 +22,6 @@ public class PriceLevel extends CreatableObject implements IAccounterServerCore 
 	 */
 	int version;
 
-	long id;
-
 	/**
 	 * This field stores the name of the Price Level
 	 */
