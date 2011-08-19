@@ -113,6 +113,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 	double totalTaxableAmount;
 	double totalNonTaxableAmount;
 
+	private long recurringTransaction;
+	
 	// For UK version only
 
 	boolean amountsIncludeVAT;
@@ -798,6 +800,14 @@ public abstract class ClientTransaction implements IAccounterCore {
 		clientTransactionClone.transactionPaySalesTax = transactionPaySalesTax;
 
 		return clientTransactionClone;
+	}
+
+	public void setRecurringTransaction(long recurringTransaction) {
+		this.recurringTransaction = recurringTransaction;
+	}
+
+	public long getRecurringTransaction() {
+		return recurringTransaction;
 	}
 
 }

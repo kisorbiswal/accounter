@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
@@ -23,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
 import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
+import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
@@ -295,5 +297,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			int status);
 
 	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException;
+
+	ArrayList<ClientRecurringTransaction> getRecurringsList() throws AccounterException;
 
 }

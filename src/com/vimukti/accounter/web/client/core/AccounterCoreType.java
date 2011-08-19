@@ -191,7 +191,8 @@ public enum AccounterCoreType implements IsSerializable {
 
 	MEASUREMENT("ClientMeasurement", "Measurement"),
 
-	STOCK_TRANSFER("ClientStockTransfer", "StockTransfer");
+	STOCK_TRANSFER("ClientStockTransfer", "StockTransfer"), RECURRING_TRANSACTION(
+			"ClientRecurringTransaction", "RecurringTransaction");
 
 	private String clientName;
 	private String serverName;

@@ -91,6 +91,7 @@ import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.customers.QuotesAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivedPaymentsAction;
+import com.vimukti.accounter.web.client.ui.customers.RecurringsListAction;
 import com.vimukti.accounter.web.client.ui.customers.SalesOrderAction;
 import com.vimukti.accounter.web.client.ui.customers.SalesOrderListAction;
 import com.vimukti.accounter.web.client.ui.customers.SalesPersonAction;
@@ -1251,4 +1252,7 @@ public class ActionFactory {
 		return new EditProfileAction(actionsConstants.editProfile());
 	}
 
+	public static Action getRecurringsListAction(){
+		return new RecurringsListAction("Recurrings List action");
+	}
 }

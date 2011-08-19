@@ -1,29 +1,16 @@
-package com.vimukti.accounter.core;
+package com.vimukti.accounter.web.client.core;
 
-import java.util.Calendar;
 import java.util.Date;
 
-import org.hibernate.CallbackException;
-import org.hibernate.Session;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 
-import com.vimukti.accounter.web.client.exception.AccounterException;
-
-/**
- * Contains a referring transaction and has information for scheduling
- * procedure.
- * 
- * @author vimukti3
- * 
- */
-public class RecurringTransaction extends CreatableObject implements
-		IAccounterServerCore {
-	/**
-	 * 
-	 */
+public class ClientRecurringTransaction implements IAccounterCore {
 	private static final long serialVersionUID = 1L;
-	
+
 	public final static int HOW_OFTEN_DAY = 0;
-	
+
 	public final static int HOW_OFTEN_WEEK = 1;
 	public final static int HOW_OFTEN_MONTH = 2;
 
@@ -38,13 +25,19 @@ public class RecurringTransaction extends CreatableObject implements
 	private int howOftenType;
 	private int howOftenValue;
 
-	private FinanceDate startDate;
-	private FinanceDate endDate; // Optional
+	private long id;
+
+	private long startDate;
+	private long endDate; // Optional
 
 	private int dueDateValue;
 	private int dueDateType;
 
-	private FinanceDate nextScheduleOn;
+	private long nextScheduleOn;
+	
+	//Extra client fields, will be used for displaying in grid
+	private double refTransactionTotal;
+	private int refTransactionType;
 
 	/**
 	 * {@link #ACTION_SAVE_DRAFT}, {@link #ACTION_APPROVE},
@@ -53,19 +46,18 @@ public class RecurringTransaction extends CreatableObject implements
 	private int actionType;
 	private String name;
 
-	private Transaction referringTransaction;
+	private long referringTransaction;
 
-
-	public RecurringTransaction() {
-
+	public ClientRecurringTransaction() {
+		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		// TODO
-		return true;
-	}
+	// @Override
+	// public boolean canEdit(IAccounterServerCore clientObject)
+	// throws AccounterException {
+	// // TODO
+	// return true;
+	// }
 
 	public int getActionType() {
 		return actionType;
@@ -87,15 +79,15 @@ public class RecurringTransaction extends CreatableObject implements
 		return howOftenValue;
 	}
 
-	private FinanceDate getInitialDateForNextSchedule() {
-		return nextScheduleOn == null ? startDate : nextScheduleOn;
+	private long getInitialDateForNextSchedule() {
+		return nextScheduleOn == 0 ? getStartDate() : nextScheduleOn;
 	}
 
-	public FinanceDate getNextScheduleOn() {
+	public long getNextScheduleOn() {
 		return nextScheduleOn;
 	}
 
-	public Transaction getReferringTransaction() {
+	public long getReferringTransaction() {
 		return referringTransaction;
 	}
 
@@ -119,12 +111,12 @@ public class RecurringTransaction extends CreatableObject implements
 		return null;
 	}
 
-	private boolean isValidScheduleTime(FinanceDate date) {
-		if (endDate == null) {
+	private boolean isValidScheduleTime(ClientFinanceDate date) {
+		if (getEndDate() == 0) {
 			return true;
 		}
 		// TODO need to add another condition, date may equal.
-		return date.before(endDate);
+		return date.before(new ClientFinanceDate(getEndDate()));
 	}
 
 	public Date next() {
@@ -151,14 +143,12 @@ public class RecurringTransaction extends CreatableObject implements
 		this.howOftenValue = howOftenValue;
 	}
 
-	public void setNextScheduleOn(FinanceDate nextScheduleOn) {
+	public void setNextScheduleOn(long nextScheduleOn) {
 		this.nextScheduleOn = nextScheduleOn;
 	}
 
-	public void setReferringTransaction(Transaction referringTransaction) {
+	public void setReferringTransaction(long referringTransaction) {
 		this.referringTransaction = referringTransaction;
-		if(referringTransaction!=null)
-			referringTransaction.setRecurringTransaction(this);
 	}
 
 	@Override
@@ -203,9 +193,9 @@ public class RecurringTransaction extends CreatableObject implements
 		@Override
 		public Date next() {
 			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
+			calendar.setTime(new Date(getInitialDateForNextSchedule()));
 			calendar.add(Calendar.DATE, howOftenValue);
-			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
+			return isValidScheduleTime(new ClientFinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
 		}
 	}
@@ -220,10 +210,10 @@ public class RecurringTransaction extends CreatableObject implements
 
 		@Override
 		public Date next() {
-			java.util.Calendar calendar = Calendar.getInstance();
-			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new Date(getInitialDateForNextSchedule()));
 			calendar.add(Calendar.MONTH, howOftenValue);
-			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
+			return isValidScheduleTime(new ClientFinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
 		}
 
@@ -256,17 +246,104 @@ public class RecurringTransaction extends CreatableObject implements
 		@Override
 		public Date next() {
 			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
+			calendar.setTime(new Date(getInitialDateForNextSchedule()));
 			// 1week = 7 days.
 			calendar.add(Calendar.DATE, howOftenValue * 7);
-			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
+			return isValidScheduleTime(new ClientFinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
 		}
 	}
 
 	@Override
-	public boolean onDelete(Session session) throws CallbackException {
-		
-		return false;
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.RECURRING_TRANSACTION;
+	}
+
+	@Override
+	public void setID(long id) {
+		this.id = id;
+
+	}
+
+	@Override
+	public long getID() {
+		return id;
+	}
+
+	@Override
+	public String getClientClassSimpleName() {
+		return "ClientRecurringTransaction";
+	}
+
+	public String getFrequencyString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Every ");
+		if (howOftenValue == 1) {
+			// Do nothing
+		} else if (howOftenValue == 2) {
+			sb.append("Other ");
+		}else {
+			sb.append(howOftenValue).append(' ');
+		}
+
+		switch (howOftenType) {
+		case HOW_OFTEN_DAY:
+			sb.append("Day");
+			break;
+		case HOW_OFTEN_WEEK:
+			sb.append("Week");
+			break;
+		case HOW_OFTEN_MONTH:
+			sb.append("Month");
+			break;
+		default:
+			break;
+		}
+
+		if (howOftenValue >= 3) {
+			sb.append('s');
+		}
+
+		return sb.toString();
+	}
+
+	public void setStartDate(long startDate) {
+		this.startDate = startDate;
+	}
+
+	public long getStartDate() {
+		return startDate;
+	}
+
+	public void setEndDate(long endDate) {
+		this.endDate = endDate;
+	}
+
+	public long getEndDate() {
+		return endDate;
+	}
+
+	public void setRefTransactionTotal(double transactionTotal) {
+		this.refTransactionTotal = transactionTotal;
+	}
+
+	public double getRefTransactionTotal() {
+		return refTransactionTotal;
+	}
+
+	public void setRefTransactionType(int transactionType) {
+		this.refTransactionType = transactionType;
+	}
+
+	public int getRefTransactionType() {
+		return refTransactionType;
+	}
+
+		
 }

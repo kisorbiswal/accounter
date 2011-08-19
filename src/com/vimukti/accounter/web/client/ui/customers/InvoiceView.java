@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
+import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
@@ -50,6 +51,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
@@ -73,6 +75,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> {
 
 	private CurrencyWidget currencyWidget;
+	private Button recurringButton;
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE, CUSTOMER_TRANSACTION_GRID);
@@ -570,8 +573,69 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		if (UIUtils.isMSIEBrowser())
 			resetFromView();
 
+		recurringButton = new Button();
+		recurringButton.setText("Make it recurring");
+		recurringButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				if (transaction.getRecurringTransaction() == 0) {
+					// create new recurring for this transaction
+					openRecurringDialog();
+				} else {
+					// open existing recurring transaction.
+					Accounter.createGETService().getObjectById(
+							AccounterCoreType.RECURRING_TRANSACTION,
+							transaction.getRecurringTransaction(),
+							new AsyncCallback<ClientRecurringTransaction>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									Accounter
+											.showError("Unable to copen recurring transaction "
+													+ caught);
+								}
+
+								@Override
+								public void onSuccess(
+										ClientRecurringTransaction result) {
+									openRecurringDialog(result);
+								}
+							});
+				}
+
+			}
+		});
+		mainVLay.add(recurringButton);
+
 		this.add(mainVLay);
 
+	}
+
+	// for new recurring
+	private void openRecurringDialog() {
+		openRecurringDialog(null);
+	}
+
+	// for editing existing recurring
+	private void openRecurringDialog(ClientRecurringTransaction result) {
+
+		RecurringTransactionDialog dialog = null;
+		if (result == null) {
+			dialog = new RecurringTransactionDialog(this);
+		} else {
+			dialog = new RecurringTransactionDialog(result);
+		}
+		
+		dialog.setCallback(new ActionCallback<ClientRecurringTransaction>() {
+
+			@Override
+			public void actionResult(ClientRecurringTransaction result) {
+				System.out.println("Recurring result" + result);
+			}
+		});
+		dialog.show();
 	}
 
 	private void quoteLabelListener() {

@@ -53,6 +53,7 @@ import com.vimukti.accounter.web.client.core.ClientPaySalesTaxEntries;
 import com.vimukti.accounter.web.client.core.ClientPayVATEntries;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
+import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
@@ -1487,19 +1488,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return nextCustomerNumber;
 
 	}
-	@Override
-	public String getVendorNumber() {
-		String nextCustomerNumber = "";
-		try {
-
-			nextCustomerNumber = getFinanceTool().getNextVendorNumber();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return nextCustomerNumber;
-	}
 
 	@Override
 	public ArrayList<ClientReceiveVATEntries> getReceiveVATEntries()
@@ -1579,7 +1567,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
-	
+	@Override
+	public ArrayList<ClientRecurringTransaction> getRecurringsList() throws AccounterException {
+		
+		FinanceTool tool = getFinanceTool();
+		if (tool != null) {
+			return tool.getAllRecurringTransactions();
+		}
+		return null;		
+	}
 
 	// public ArrayList<ClientEmployee> getAllEmployees()
 	// throws AccounterException {

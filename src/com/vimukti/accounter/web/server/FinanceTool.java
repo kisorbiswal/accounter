@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -82,6 +83,7 @@ import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.ReceiveVATEntries;
+import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.ShippingMethod;
@@ -123,6 +125,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
@@ -480,54 +483,55 @@ public class FinanceTool implements IFinanceDAOService {
 
 		org.hibernate.Transaction hibernateTransaction = session
 				.beginTransaction();
-		try {
-			String arg1 = (context).getArg1();
-			String arg2 = (context).getArg2();
 
-			if (arg1 == null || arg2 == null) {
-				throw new AccounterException(
-						AccounterException.ERROR_ILLEGAL_ARGUMENT,
-						"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
-								+ context);
-			}
+		String arg1 = (context).getArg1();
+		String arg2 = (context).getArg2();
 
-			Class<?> clientClass = ObjectConvertUtil
-					.getEqivalentClientClass(arg2);
+		if (arg1 == null || arg2 == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT,
+					"Delete Operation Cannot be Processed id or cmd.arg2 Found Null...."
+							+ context);
+		}
 
-			Class<?> serverClass = ObjectConvertUtil
-					.getServerEqivalentClass(clientClass);
+		Class<?> clientClass = ObjectConvertUtil.getEqivalentClientClass(arg2);
 
-			IAccounterServerCore serverObject = (IAccounterServerCore) session
-					.get(serverClass, Long.parseLong(arg1));
+		Class<?> serverClass = ObjectConvertUtil
+				.getServerEqivalentClass(clientClass);
 
-			// if (objects != null && objects.size() > 0) {
+		IAccounterServerCore serverObject = (IAccounterServerCore) session.get(
+				serverClass, Long.parseLong(arg1));
 
-			// IAccounterServerCore serverObject = (IAccounterServerCore)
-			// objects
-			// .get(0);
+		// if (objects != null && objects.size() > 0) {
 
-			if (serverObject == null) {
+		// IAccounterServerCore serverObject = (IAccounterServerCore)
+		// objects
+		// .get(0);
 
-			}
-			if (serverObject instanceof FiscalYear) {
-				((FiscalYear) serverObject)
-						.canDelete((FiscalYear) serverObject);
-				session.delete(serverObject);
-				// ChangeTracker.put(serverObject);
-			} else if (serverObject instanceof User) {
-				User user = (User) serverObject;
-				user.setDeleted(true);
-				session.saveOrUpdate(user);
-			} else {
-				if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1))) {
-					session.delete(serverObject);
-				} else {
-					throw new AccounterException(
-							AccounterException.ERROR_OBJECT_IN_USE);
-				}
-			}
-			hibernateTransaction.commit();
+		if (serverObject == null) {
+
+		}
+		if (serverObject instanceof FiscalYear) {
+			((FiscalYear) serverObject).canDelete((FiscalYear) serverObject);
+			session.delete(serverObject);
 			// ChangeTracker.put(serverObject);
+		} else if (serverObject instanceof User) {
+			User user = (User) serverObject;
+			user.setDeleted(true);
+			session.saveOrUpdate(user);
+		} else if (serverObject instanceof RecurringTransaction) {
+			session.delete(serverObject);
+		} else {
+			if (canDelete(serverClass.getSimpleName(), Long.parseLong(arg1))) {
+				session.delete(serverObject);
+			} else {
+				throw new AccounterException(
+						AccounterException.ERROR_OBJECT_IN_USE);
+			}
+		}
+		try {
+			hibernateTransaction.commit();
+
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			hibernateTransaction.rollback();
@@ -11724,6 +11728,29 @@ public class FinanceTool implements IFinanceDAOService {
 			result.add(record);
 		}
 		return new VList<PayeeStatementsList>(result);
+	}
+
+	public VList<ClientRecurringTransaction> getAllRecurringTransactions()
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		List<RecurringTransaction> transactions = session.getNamedQuery(
+				"list.RecurringTransaction").list();
+
+		List<ClientRecurringTransaction> clientObjs = new ArrayList<ClientRecurringTransaction>();
+		for (RecurringTransaction recurringTransaction : transactions) {
+			ClientRecurringTransaction clientObject = new ClientConvertUtil()
+					.toClientObject(recurringTransaction,
+							ClientRecurringTransaction.class);
+			clientObject.setRefTransactionTotal(recurringTransaction.getReferringTransaction().getTotal());
+			clientObject.setRefTransactionType(recurringTransaction.getReferringTransaction().getType());
+			
+			//TODO doubt
+			clientObject.setReferringTransaction(recurringTransaction.getReferringTransaction().getID());
+			
+			clientObjs.add(clientObject);
+		}
+
+		return new VList<ClientRecurringTransaction>(clientObjs);
 	}
 
 }
