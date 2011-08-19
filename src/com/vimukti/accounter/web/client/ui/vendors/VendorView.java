@@ -780,6 +780,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		data.setPayeeSince(vendorSinceDate.getEnteredDate().getDate());
 
 		// Setting Currency
+		if(currencyCombo.getSelectedValue() != null)
 		data.setCurrency(currencyCombo.getSelectedValue().toString());
 		// Setting Balance
 		if (!isEdit) {
