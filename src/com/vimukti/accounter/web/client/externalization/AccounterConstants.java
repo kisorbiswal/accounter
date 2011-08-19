@@ -4788,4 +4788,6 @@ public interface AccounterConstants extends Constants {
 
 	public String skipSetup();
 
+	public String displayName();
+
 }
