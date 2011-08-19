@@ -140,6 +140,7 @@ public class BizDecorPanel extends FlexTable {
 				panelTitle.getElement().getStyle().setTextDecoration(
 						TextDecoration.NONE);
 				titleClicked();
+				
 			}
 		});
 		TC.add(panelTitle);

@@ -1304,18 +1304,18 @@ public class Utility implements IsSerializable, Serializable {
 
 				}
 			} else if (iAccounterCore instanceof ClientVendor) {
-				if (((ClientVendor) iAccounterCore).getAccountNumber().equals(
+				if (((ClientVendor) iAccounterCore).getVendorNumber().equals(
 						"")) {
-					((ClientVendor) iAccounterCore).setAccountNumber(String
+					((ClientVendor) iAccounterCore).setVendorNumber(String
 							.valueOf(0));
 				}
 				if (checkIfNotNumber(((ClientVendor) iAccounterCore)
-						.getAccountNumber())) {
+						.getVendorNumber())) {
 					throw new InvalidEntryException(
 							"A Supplier Account Number shouble be a number");
 				}
 				if (Integer.parseInt(((ClientVendor) iAccounterCore)
-						.getAccountNumber()) < 1) {
+						.getVendorNumber()) < 1) {
 					throw new InvalidEntryException(
 							"A Supplier Account Number shouble be positive");
 				}

@@ -5698,7 +5698,8 @@ public class FinanceTool implements IFinanceDAOService {
 			salesByCustomerDetail.setIsVoid(object[11] == null ? true
 					: ((Boolean) object[11]).booleanValue());
 			salesByCustomerDetail.setReference((String) object[12]);
-			salesByCustomerDetail.setTransactionId(((BigInteger) object[13]).longValue());
+			salesByCustomerDetail.setTransactionId(((BigInteger) object[13])
+					.longValue());
 			queryResult.add(salesByCustomerDetail);
 		}
 		return new VList<SalesByCustomerDetail>(queryResult);
@@ -8805,8 +8806,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		// Entries from the VATAdjustment
 		query = session
-				.getNamedQuery(
-						"getTAXAdjustment.by.dates.and.taxItemName")
+				.getNamedQuery("getTAXAdjustment.by.dates.and.taxItemName")
 				.setParameter("startDate", fromDate)
 				.setParameter("endDate", toDate)
 				.setParameter("taxItemName", taxItemName);
@@ -10835,6 +10835,11 @@ public class FinanceTool implements IFinanceDAOService {
 	@Override
 	public String getNextCustomerNumber() {
 		return NumberUtils.getNextCustomerNumber();
+	}
+
+	@Override
+	public String getNextVendorNumber() throws DAOException {
+		return NumberUtils.getNextVendorNumber();
 	}
 
 	@Override

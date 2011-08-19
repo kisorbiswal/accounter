@@ -324,6 +324,8 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ArrayList<ClientFinanceDate>> callBack);
 
 	public void getCustomerNumber(AsyncCallback<String> callback);
+	
+	public void getVendorNumber(AsyncCallback<String> callback);
 
 	void getReceiveVATEntries(
 			AsyncCallback<ArrayList<ClientReceiveVATEntries>> callback);

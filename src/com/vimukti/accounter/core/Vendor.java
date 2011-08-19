@@ -30,7 +30,7 @@ public class Vendor extends Payee {
 	 */
 	private static final long serialVersionUID = -3859959561067390029L;
 
-	String accountNumber;
+	String vendorNumber;
 
 	/**
 	 * The date up to which the specified Vendor
@@ -140,8 +140,8 @@ public class Vendor extends Payee {
 	/**
 	 * @return the accountNumber
 	 */
-	public String getAccountNumber() {
-		return accountNumber;
+	public String getVendorNumber() {
+		return vendorNumber;
 	}
 
 	/**

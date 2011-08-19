@@ -102,6 +102,35 @@ public class NumberUtils {
 		return getStringwithIncreamentedDigitForCustomer(prevNumber);
 	}
 	
+	public static String getNextVendorNumber() {
+		String prevNumber = getPreviousVendorNumber();
+
+		return getStringwithIncreamentedDigitForCustomer(prevNumber);
+
+	}
+	
+	private static String getPreviousVendorNumber() {
+		Query query = HibernateUtil
+				.getCurrentSession()
+				.getNamedQuery(
+						"getVendorNumber.byId.andOrder");
+
+		List list = query.list();
+		if ((list.size() == 0)) {
+			return "0";
+		}
+
+		for (int i = list.size() - 1; i >= 0; i--) {
+			String num = (String) list.get(i);
+			if (num.replaceAll("[\\D]", "").length() > 0) {
+				return num;
+			} else
+				return num+"0";
+		}
+
+		return "0";
+	}
+
 	public static String getPreviousCustomerNumber() {
 
 		Query query = HibernateUtil
@@ -174,4 +203,6 @@ public class NumberUtils {
 		return prevNumber;
 
 	}
+
+	
 }

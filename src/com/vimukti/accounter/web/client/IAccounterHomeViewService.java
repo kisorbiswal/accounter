@@ -283,6 +283,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
 	public String getCustomerNumber();
+	public String getVendorNumber();
 
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
 			long accountNo);

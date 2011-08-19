@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -80,6 +81,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	DynamicForm vendorForm, accInfoForm;
 
+	TextItem vendorNoText;
 	TextItem vendorNameText, fileAsText, accountText, bankNameText,
 			bankBranchText, webText, linksText, expenseAccountsText,
 			federalText, panNumberText, serviceTaxRegisterationNumber;
@@ -241,6 +243,11 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
 
+		vendorNoText = new TextItem("Vendor Number");
+		vendorNoText.setHelpInformation(true);
+		vendorNoText.setRequired(true);
+		vendorNoText.setWidth(100);
+
 		fileAsText = new TextItem(Accounter.constants().fileAs());
 		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
@@ -257,7 +264,12 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor()));
-		vendorForm.setFields(vendorNameText);
+		if (getCompany().getPreferences().getUseVendorId()) {
+			vendorForm.setFields(vendorNameText, vendorNoText);
+		} else {
+			vendorForm.setFields(vendorNameText);
+
+		}
 		vendorForm.setWidth("100%");
 		vendorForm.setStyleName(Accounter.constants().venderForm());
 		vendorForm.getCellFormatter().setWidth(0, 0, "245px");
@@ -751,6 +763,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		data.setName(vendorNameText.getValue().toString() != null ? vendorNameText
 				.getValue().toString() : "");
 
+		data.setVendorNumber(vendorNoText.getValue().toString());
+
 		// Setting File As
 		data.setFileAs(fileAsText.getValue().toString());
 
@@ -780,8 +794,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		data.setPayeeSince(vendorSinceDate.getEnteredDate().getDate());
 
 		// Setting Currency
-		if(currencyCombo.getSelectedValue() != null)
-		data.setCurrency(currencyCombo.getSelectedValue().toString());
+		if (currencyCombo.getSelectedValue() != null)
+			data.setCurrency(currencyCombo.getSelectedValue().toString());
 		// Setting Balance
 		if (!isEdit) {
 			double bal = balanceText.getAmount() != null ? balanceText
@@ -985,6 +999,25 @@ public class VendorView extends BaseView<ClientVendor> {
 	private void initMainValues() {
 		// Setting Vendor Name
 		vendorNameText.setValue(data.getName());
+
+		if (data.getID() == 0) {
+			Accounter.createHomeService().getVendorNumber(
+					new AccounterAsyncCallback<String>() {
+
+						@Override
+						public void onResultSuccess(String result) {
+							vendorNoText.setValue(result);
+						}
+
+						@Override
+						public void onException(AccounterException caught) {
+						}
+					});
+		} else {
+			vendorNoText.setValue(data.getVendorNumber());
+		}
+
+		vendorNoText.setValue(data.getVendorNumber());
 		// Setting File as
 		fileAsText.setValue(data.getFileAs());
 		data.getPrimaryContact();

@@ -12,7 +12,7 @@ public class ClientVendor extends ClientPayee {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	String accountno;
+	String vendorNumber;
 
 	long selectedAdress;
 
@@ -56,16 +56,16 @@ public class ClientVendor extends ClientPayee {
 	/**
 	 * @return the accountNumber
 	 */
-	public String getAccountNumber() {
-		return accountno;
+	public String getVendorNumber() {
+		return vendorNumber;
 	}
 
 	/**
 	 * @param accountNumber
 	 *            the accountNumber to set
 	 */
-	public void setAccountNumber(String accountNumber) {
-		this.accountno = accountNumber;
+	public void setVendorNumber(String accountNumber) {
+		this.vendorNumber = accountNumber;
 	}
 
 	public String getBankBranch() {

@@ -641,6 +641,7 @@ public interface IFinanceDAOService {
 			FinanceDate fromDate, FinanceDate toDate) throws DAOException,
 			ParseException;
 
+	public String getNextVendorNumber() throws DAOException;
 	public String getNextCustomerNumber() throws DAOException;
 
 	public ArrayList<DepositDetail> getDepositDetail(FinanceDate startDate,
