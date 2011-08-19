@@ -5,9 +5,13 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.uibinder.client.UiField;
 
 /**
  * @author Administrator
@@ -17,7 +21,34 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	private static SetupCompanyInfoPageUiBinder uiBinder = GWT
 			.create(SetupCompanyInfoPageUiBinder.class);
-	@UiField VerticalPanel viewPanel;
+	@UiField
+	VerticalPanel viewPanel;
+	@UiField
+	Grid CompanyInfoField;
+	@UiField
+	TextBox CompanyName;
+	@UiField
+	TextBox LegalName;
+	@UiField
+	TextBox TaxId;
+	@UiField
+	TextBox StreetAddress1;
+	@UiField
+	TextBox StreetAdress2;
+	@UiField
+	HorizontalPanel City;
+	@UiField
+	ListBox Country;
+	@UiField
+	HorizontalPanel PhonePanel;
+	@UiField
+	TextBox Phone;
+	@UiField
+	TextBox Fax;
+	@UiField
+	TextBox EmailAddress;
+	@UiField
+	TextBox WebSite;
 
 	interface SetupCompanyInfoPageUiBinder extends
 			UiBinder<Widget, SetupCompanyInfoPage> {
