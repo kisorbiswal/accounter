@@ -444,7 +444,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		data.setBankAccountNo(bankAccountSelect.getValue().toString());
 
 		// Setting currency
-	//	 data.setCurrency(currencyCombo.getValue().toString());
+ data.setCurrency(currencyCombo.getValue().toString());
 
 		// Setting Bank name
 		data.setBankName(bankNameSelect.getValue().toString());
