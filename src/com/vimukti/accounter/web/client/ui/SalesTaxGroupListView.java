@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
@@ -65,6 +66,12 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
+		int errorCode = caught.getErrorCode();
+		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
+			Accounter.showError(AccounterExceptions.accounterErrors
+					.taxGroupInUse());
+			return;
+		}
 
 	}
 
