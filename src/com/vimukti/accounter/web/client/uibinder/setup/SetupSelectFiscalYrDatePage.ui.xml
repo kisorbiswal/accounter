@@ -12,7 +12,7 @@
 			<g:HTML wordWrap="true"/>
 			<g:HorizontalPanel>
 				<g:Label ui:field="FiscalStarts"/>
-				<g:ListBox/>
+				<g:ListBox ui:field="FiscalStartsList"/>
 			</g:HorizontalPanel>
 			<g:VerticalPanel>
 				<g:HTML wordWrap="true" ui:field="FiscalHeader"/>
