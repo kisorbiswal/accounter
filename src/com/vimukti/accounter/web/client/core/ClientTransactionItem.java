@@ -79,7 +79,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 * Every TransactionItem consists of a set of for the purpose
 	 */
 
-	public Set<ClientItemBackUp> itemBackUpList = new HashSet<ClientItemBackUp>();
+	private long itemBackUp;
 
 	/**
 	 * Every TransactionItem in UK consists of a set of for the purpose

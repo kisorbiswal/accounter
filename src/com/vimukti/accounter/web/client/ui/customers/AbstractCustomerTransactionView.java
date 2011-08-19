@@ -194,7 +194,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		initMemoAndReference();
 
-//		initTransactionsItems();
+		initTransactionsItems();
 
 	}
 

@@ -1031,11 +1031,9 @@
 		<many-to-one name="transaction" class="Transaction" lazy="false"
 			column="TRANSACTION_ID">
 		</many-to-one>
-		<set name="itemBackUpList" inverse="true" cascade="save-update,delete-orphan"
-			lazy="false">
-			<key column="TRANSACTION_ITEM_ID"></key>
-			<one-to-many class="ItemBackUp" />
-		</set>
+		<many-to-one name="itemBackUp" class="ItemBackUp" cascade="save-update,delete"
+			lazy="false" column="ITEM_BACK_UP">
+		</many-to-one>
 		<!-- <set name="taxRateCalculationEntriesList" inverse="true" cascade="all-delete-orphan" 
 			lazy="false"> <key column="TRANSACTION_ITEM_ID"></key> <one-to-many class="TaxRateCalculation" 
 			/> </set> -->

@@ -19,8 +19,6 @@ public class ClientItemBackUp implements IAccounterCore {
 
 	public long id;
 
-	long transactionItem;
-
 	long item;
 
 	long incomeAccount;
@@ -38,14 +36,6 @@ public class ClientItemBackUp implements IAccounterCore {
 	@Override
 	public void setID(long id) {
 		this.id = id;
-	}
-
-	public long getTransactionItem() {
-		return transactionItem;
-	}
-
-	public void setTransactionItem(long transactionItem) {
-		this.transactionItem = transactionItem;
 	}
 
 	public long getItem() {

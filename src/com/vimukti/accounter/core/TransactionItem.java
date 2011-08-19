@@ -148,7 +148,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 */
 
 	@ReffereredObject
-	Set<ItemBackUp> itemBackUpList = new HashSet<ItemBackUp>();
+	ItemBackUp itemBackUp;
 	/**
 	 * Every TransactionItem in UK consists of a set of
 	 * {@link TAXRateCalculation} for the purpose
@@ -486,10 +486,10 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		/**
 		 * First take the Back up of the TransactionItem information
 		 */
-		ItemBackUp itemBackUp = null;
+		// ItemBackUp itemBackUp = null;
 		if (this.type == TYPE_ITEM || this.type == TYPE_SERVICE) {
-			itemBackUp = new ItemBackUp(this);
-			this.itemBackUpList.add(itemBackUp);
+			this.itemBackUp = new ItemBackUp(this);
+			// this.itemBackUpList.add(itemBackUp);
 		}
 
 		if (!Arrays.asList(Transaction.TYPE_ESTIMATE,
@@ -596,17 +596,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	// return result;
 	// }
 
-	private ItemBackUp getItemBackUp(Set<ItemBackUp> itemBackUpList, Item item) {
-		ItemBackUp result = null;
-		for (ItemBackUp backUp : itemBackUpList) {
-			if (backUp.transactionItem == this && backUp.item.id == item.id) {
-				result = backUp;
-				break;
-			}
-		}
-		return result;
-	}
-
 	public boolean isPositiveTransaction() {
 		return this.transaction.isPositiveTransaction();
 	}
@@ -631,27 +620,27 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			return this.account;
 
 		case TYPE_ITEM:
-			ItemBackUp itemBackUp = getItemBackUp(itemBackUpList, this.item);
+			// ItemBackUp itemBackUp = getItemBackUp(itemBackUpList, this.item);
 
 			if (this.isVoid) {
 				if (this.transaction.isDebitTransaction()) {
 					if (this.transaction.getType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-						return itemBackUp.getIncomeAccount();
+						return this.itemBackUp.getIncomeAccount();
 					} else if (this.transaction.getType() == Transaction.TYPE_WRITE_CHECK
 							&& ((WriteCheck) this.transaction).getCustomer() != null) {
 
-						return itemBackUp.getIncomeAccount();
+						return this.itemBackUp.getIncomeAccount();
 
 					} else {
 
-						return itemBackUp.getExpenseAccount();
+						return this.itemBackUp.getExpenseAccount();
 					}
 
 				} else {
 					if (this.transaction.getType() == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
-						return itemBackUp.getExpenseAccount();
+						return this.itemBackUp.getExpenseAccount();
 					} else {
-						return itemBackUp.getIncomeAccount();
+						return this.itemBackUp.getIncomeAccount();
 					}
 
 				}
@@ -679,27 +668,28 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				}
 			}
 		case TYPE_SERVICE:
-			ItemBackUp itemBackUp1 = getItemBackUp(itemBackUpList, this.item);
+			// ItemBackUp itemBackUp1 = getItemBackUp(itemBackUpList,
+			// this.item);
 
 			if (this.isVoid) {
 				if (this.transaction.isDebitTransaction()) {
 					if (this.transaction.getType() == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-						return itemBackUp1.getIncomeAccount();
+						return this.itemBackUp.getIncomeAccount();
 					} else if (this.transaction.getType() == Transaction.TYPE_WRITE_CHECK
 							&& ((WriteCheck) this.transaction).getCustomer() != null) {
 
-						return itemBackUp1.getIncomeAccount();
+						return this.itemBackUp.getIncomeAccount();
 
 					} else {
 
-						return itemBackUp1.getExpenseAccount();
+						return this.itemBackUp.getExpenseAccount();
 					}
 
 				} else {
 					if (this.transaction.getType() == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
-						return itemBackUp1.getExpenseAccount();
+						return this.itemBackUp.getExpenseAccount();
 					} else {
-						return itemBackUp1.getIncomeAccount();
+						return this.itemBackUp.getIncomeAccount();
 					}
 
 				}
@@ -774,9 +764,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	public void deleteCreatedEntries(Session session) {
 
-		if (this.itemBackUpList != null) {
-			this.itemBackUpList.clear();
-		}
+		// if (this.itemBackUpList != null) {
+		// this.itemBackUpList.clear();
+		// }
 
 		if (this.taxRateCalculationEntriesList != null) {
 			this.taxRateCalculationEntriesList.clear();

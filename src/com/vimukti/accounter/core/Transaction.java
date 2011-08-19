@@ -101,7 +101,7 @@ public abstract class Transaction extends CreatableObject implements
 	private String currencyCode;
 
 	private RecurringTransaction recurringTransaction;
-	
+
 	public String getCurrencyCode() {
 		return currencyCode;
 	}
@@ -1026,7 +1026,7 @@ public abstract class Transaction extends CreatableObject implements
 	public void cleanTransactionitems(Transaction coreObject) {
 		if (coreObject.getTransactionItems() != null) {
 			for (TransactionItem item : coreObject.getTransactionItems()) {
-				item.itemBackUpList.clear();
+				// item.itemBackUpList.clear();
 				item.taxRateCalculationEntriesList.clear();
 			}
 		}
@@ -1136,7 +1136,8 @@ public abstract class Transaction extends CreatableObject implements
 		return true;
 	}
 
-	public void setRecurringTransaction(RecurringTransaction recurringTransaction) {
+	public void setRecurringTransaction(
+			RecurringTransaction recurringTransaction) {
 		this.recurringTransaction = recurringTransaction;
 	}
 

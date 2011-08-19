@@ -917,6 +917,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			List<ClientAddress> addresses = new ArrayList<ClientAddress>();
 			if (getCustomer() != null)
 				addresses.addAll(getCustomer().getAddress());
+			allAddresses = new LinkedHashMap<Integer, ClientAddress>();
+			Iterator<ClientAddress> it = addresses.iterator();
+			while (it.hasNext()) {
+				ClientAddress add = (ClientAddress) it.next();
+
+				allAddresses.put(add.getType(), add);
+			}
 			shipToAddress.setListOfCustomerAdress(addresses);
 			if (shippingAddress != null) {
 				shipToAddress.businessSelect.setValue(UIUtils

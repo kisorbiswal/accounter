@@ -26,8 +26,6 @@ public class ItemBackUp implements IAccounterServerCore, Lifecycle {
 
 	long id;
 
-	TransactionItem transactionItem;
-
 	Item item;
 
 	Account incomeAccount;
@@ -40,7 +38,6 @@ public class ItemBackUp implements IAccounterServerCore, Lifecycle {
 
 	public ItemBackUp(TransactionItem transactionItem) {
 		this();
-		this.transactionItem = transactionItem;
 		this.item = transactionItem.getItem();
 		this.incomeAccount = transactionItem.getItem().getIncomeAccount();
 		this.expenseAccount = transactionItem.getItem().getExpenseAccount();
@@ -48,14 +45,6 @@ public class ItemBackUp implements IAccounterServerCore, Lifecycle {
 
 	public long getID() {
 		return id;
-	}
-
-	public TransactionItem getTransactionItem() {
-		return transactionItem;
-	}
-
-	public void setTransactionItem(TransactionItem transactionItem) {
-		this.transactionItem = transactionItem;
 	}
 
 	public Item getItem() {

@@ -939,8 +939,6 @@
 		<id name="id" column="ID">
 			<generator class="native"></generator>
 		</id>
-		<many-to-one name="transactionItem" class="TransactionItem"
-			lazy="false" column="TRANSACTION_ITEM_ID"></many-to-one>
 		<many-to-one name="item" class="Item" lazy="false" column="ITEM_ID"></many-to-one>
 		<many-to-one name="incomeAccount" class="Account" lazy="false"
 			column="INCOME_ACCOUNT_ID"></many-to-one>
