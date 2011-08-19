@@ -62,7 +62,8 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 		try {
 			Company company = (Company) session.get(Company.class, 1l);
 			User user = company.getUserByUserEmail(email);
-			session.delete(user);
+			company.getUsers().remove(user);
+			session.saveOrUpdate(company);
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,7 +75,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 	}
 
 	private void init(Company company, long serverCompnayId,
-			ClientUser clientUser) {
+			ClientUser clientUser) throws AccounterException {
 
 		String schemaName = Server.COMPANY + serverCompnayId;
 
@@ -87,7 +88,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 		} catch (Exception e) {
 			e.printStackTrace();
 			serverTransaction.rollback();
-			return;
+			throw new AccounterException(e);
 		}
 		Session companySession = HibernateUtil.openSession(schemaName, true);
 		Transaction transaction = companySession.beginTransaction();
@@ -119,7 +120,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			e.printStackTrace();
 			dropSchema(schemaName);
 			transaction.rollback();
-			return;
+			throw new AccounterException(e);
 		} finally {
 			if (companySession.isOpen()) {
 				companySession.close();
@@ -127,7 +128,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 		}
 	}
 
-	private void dropSchema(String schemaName) {
+	private void dropSchema(String schemaName) throws AccounterException {
 		Session session = HibernateUtil.openSession(Server.LOCAL_DATABASE);
 		Transaction serverTransaction = session.beginTransaction();
 		try {
@@ -137,6 +138,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 		} catch (Exception e) {
 			e.printStackTrace();
 			serverTransaction.rollback();
+			throw new AccounterException(e);
 		}
 	}
 

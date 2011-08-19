@@ -40,7 +40,8 @@ public class LogoutServlet extends BaseServlet {
 	private void deleteCookie(HttpServletRequest request,
 			HttpServletResponse response) {
 		for (Cookie cookie : request.getCookies()) {
-			if (cookie.getName().endsWith("_accounter_01_infinity_2711")) {
+			if (cookie.getName().endsWith(OUR_COOKIE)
+					|| cookie.getName().equals(COMPANY_COOKIE)) {
 				cookie.setMaxAge(0);
 				cookie.setPath("/");
 				response.addCookie(cookie);

@@ -1,8 +1,6 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -18,8 +16,14 @@ import org.mortbay.util.UrlEncoded;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ServerCompany;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class CreateCompanyServlet extends BaseServlet {
 
@@ -52,7 +56,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		}
 		String status = (String) session.getAttribute(COMPANY_CREATION_STATUS);
 		if (status != null) {
-			response.sendRedirect("/companystatus");
+			response.sendRedirect(COMPANY_STATUS_URL);
 			return;
 		}
 		doCreateCompany(request, response, emailID);
@@ -117,34 +121,49 @@ public class CreateCompanyServlet extends BaseServlet {
 		}
 		final long serverId = serverCompany.getId();
 		final long clientId = client.getID();
-		final String urlString = getUrlString(serverCompany, emailID, client);
+		final String domainName = serverCompany.getServerDomain();
+		final String serverCompanyName = serverCompany.getCompanyName();
+		final int serverCompanyType = serverCompany.getCompanyType();
+		final ClientUser user = getUser(client);
 		final HttpSession httpSession = request.getSession(true);
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
+				httpSession.setAttribute(COMPANY_CREATION_STATUS,
+						COMPANY_CREATING);
+				IS2SService s2sService = getS2sSyncProxy(domainName);
 				try {
-					httpSession.setAttribute(COMPANY_CREATION_STATUS,
-							"Creating");
-					URL url = new URL(urlString.toString());
-					HttpURLConnection connection = (HttpURLConnection) url
-							.openConnection();
-					int responseCode = connection.getResponseCode();
-					if (responseCode == 200) {
-						httpSession.setAttribute(COMPANY_CREATION_STATUS,
-								"Success");
-					} else {
-						rollback(serverId, clientId);
-						httpSession.setAttribute(COMPANY_CREATION_STATUS,
-								"Fail");
-					}
-				} catch (IOException e1) {
-					e1.printStackTrace();
+					s2sService.createComapny(serverId, serverCompanyName,
+							serverCompanyType, user);
+					httpSession
+							.setAttribute(COMPANY_CREATION_STATUS, "Success");
+				} catch (AccounterException e) {
+					rollback(serverId, clientId);
+					httpSession.setAttribute(COMPANY_CREATION_STATUS, "Fail");
 				}
 			}
 		}).start();
-		response.sendRedirect("/companystatus");
+		response.sendRedirect(COMPANY_STATUS_URL);
 		return;
+	}
+
+	private ClientUser getUser(Client client) {
+		User user = client.toUser();
+		user.setFullName(user.getFirstName() + " " + user.getLastName());
+		user.setUserRole(RolePermissions.ADMIN);
+		user.setAdmin(true);
+		user.setCanDoUserManagement(true);
+		UserPermissions permissions = new UserPermissions();
+		permissions.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
+		permissions.setTypeOfExpences(RolePermissions.TYPE_APPROVE);
+		permissions.setTypeOfInvoices(RolePermissions.TYPE_YES);
+		permissions.setTypeOfLockDates(RolePermissions.TYPE_YES);
+		permissions.setTypeOfPublishReports(RolePermissions.TYPE_YES);
+		permissions.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
+		permissions.setTypeOfViewReports(RolePermissions.TYPE_YES);
+		user.setPermissions(permissions);
+		return user.getClientUser();
 	}
 
 	private ServerCompany getServerCompany(String companyName) {
@@ -244,13 +263,10 @@ public class CreateCompanyServlet extends BaseServlet {
 		if (emailID == null) {
 			redirectExternal(request, response, LOGIN_URL);
 		}
-		if (session != null) {
-			String status = (String) session
-					.getAttribute(COMPANY_CREATION_STATUS);
-			if (status != null) {
-				response.sendRedirect("/companystatus");
-				return;
-			}
+		String status = (String) session.getAttribute(COMPANY_CREATION_STATUS);
+		if (status != null) {
+			response.sendRedirect("/companystatus");
+			return;
 		}
 		// Set standard HTTP/1.1 no-cache headers.
 		response.setHeader("Cache-Control",

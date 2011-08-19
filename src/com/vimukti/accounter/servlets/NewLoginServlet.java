@@ -117,7 +117,36 @@ public class NewLoginServlet extends BaseServlet {
 		if (emailID == null) {
 			// if session is not there then we show the form and user fills it
 			// which gets submitted to same url
-			dispatch(request, response, LOGIN_VIEW);
+			String userCookie = getCookie(request, OUR_COOKIE);
+			if (userCookie == null) {
+				dispatch(request, response, LOGIN_VIEW);
+				return;
+			}
+			String[] split = userCookie.split(",");
+			Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+			Query query = session
+					.getNamedQuery("getclient.from.central.db.using.emailid.and.password");
+			query.setParameter(EMAIL_ID, split[0]);
+			query.setParameter(PASSWORD, split[1]);
+			Client client = (Client) query.uniqueResult();
+			if (client == null) {
+				dispatch(request, response, LOGIN_VIEW);
+				return;
+			}
+			httpSession.setAttribute(EMAIL_ID, client.getEmailId());
+
+			Transaction transaction = session.beginTransaction();
+			try {
+				client.setLoginCount(client.getLoginCount() + 1);
+				client.setLastLoginTime(System.currentTimeMillis());
+				session.saveOrUpdate(client);
+				transaction.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				transaction.rollback();
+			}
+			redirectExternal(request, response, COMPANIES_URL);
+
 		} else {
 
 			// Get the Client using the mail id

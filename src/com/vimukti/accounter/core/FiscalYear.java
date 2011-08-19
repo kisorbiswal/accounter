@@ -411,7 +411,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 				.setParameter("startDate", object.getStartDate())
 				.setParameter("endDate", object.getEndDate()).list();
 		if (list != null && list.size() != 0)
-			throw new AccounterException(AccounterException.ERROR_CANT_VOID);
+			throw new AccounterException(AccounterException.ERROR_OBJECT_IN_USE);
 		// "You already created some transaction in this period, You can't delete");
 		return true;
 	}

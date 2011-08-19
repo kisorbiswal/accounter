@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -20,6 +21,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.grids.BillsListGrid;
+import com.vimukti.accounter.web.client.ui.grids.BillsTable;
 
 /**
  * 
@@ -35,6 +37,7 @@ public class BillListView extends BaseListView<BillsList> {
 	private SelectCombo currentView;
 	public String viewType;
 	public int transactionType;
+	private BillsTable table;
 
 	private BillListView() {
 		super();
@@ -81,10 +84,27 @@ public class BillListView extends BaseListView<BillsList> {
 	public void updateInGrid(BillsList objectTobeModified) {
 	}
 
+	// @Override
+	// protected void createControls() {
+	// super.createControls();
+	// ((VerticalPanel) gridLayout.getParent()).add(table);
+	// HorizontalPanel panel = new HorizontalPanel();
+	// panel.add(table);
+	// panel.setWidth("100%");
+	// panel.setCellHeight(table, "100%");
+	// panel.setCellWidth(table, "70%");
+	// table.setWidth("100%");
+	// ((VerticalPanel) gridLayout.getParent()).add(panel);
+	// // add(table);
+	// }
+
 	@Override
 	protected void initGrid() {
 		grid = new BillsListGrid(false);
 		grid.init();
+
+		table = new BillsTable();
+		table.init();
 	}
 
 	@Override
@@ -131,7 +151,7 @@ public class BillListView extends BaseListView<BillsList> {
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().open())) {
-			List<BillsList> openRecs = new ArrayList<BillsList>();
+			VList<BillsList> openRecs = new VList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
 				if ((rec.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
@@ -145,10 +165,11 @@ public class BillListView extends BaseListView<BillsList> {
 				}
 			}
 			grid.setRecords(openRecs);
+			table.setData(openRecs);
 
 		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
 				.voided())) {
-			List<BillsList> voidedRecs = new ArrayList<BillsList>();
+			VList<BillsList> voidedRecs = new VList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
 				if (rec.isVoided() && !rec.isDeleted()) {
@@ -156,10 +177,11 @@ public class BillListView extends BaseListView<BillsList> {
 				}
 			}
 			grid.setRecords(voidedRecs);
+			table.setData(voidedRecs);
 
 		} else if (text.equalsIgnoreCase(Accounter.getFinanceConstants()
 				.overDue())) {
-			List<BillsList> overDueRecs = new ArrayList<BillsList>();
+			VList<BillsList> overDueRecs = new VList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
 				if (rec.getType() == ClientTransaction.TYPE_ENTER_BILL
@@ -169,6 +191,7 @@ public class BillListView extends BaseListView<BillsList> {
 				}
 			}
 			grid.setRecords(overDueRecs);
+			table.setData(overDueRecs);
 
 		}
 		// else if (currentView.getValue().toString().equalsIgnoreCase(
@@ -184,11 +207,14 @@ public class BillListView extends BaseListView<BillsList> {
 		// grid.setRecords(deletedRecs);
 		// }
 		if (text.equalsIgnoreCase(Accounter.getFinanceConstants().all())) {
+			VList<BillsList> list = new VList<BillsList>();
+			list.addAll(initialRecords);
 			grid.setRecords(initialRecords);
-
+			table.setData(list);
 		}
-		if (grid.getRecords().isEmpty())
+		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
+		}
 
 	}
 

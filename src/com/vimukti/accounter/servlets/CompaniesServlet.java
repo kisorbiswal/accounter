@@ -32,8 +32,11 @@ import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 public class CompaniesServlet extends BaseServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static final String SUCCESS = "Your company is created successfully";
-	private static final String FAIL = "Company creation failed";
+	private static final String CREATE_SUCCESS = "Your company is created successfully";
+	private static final String CREATE_FAIL = "Company creation failed";
+
+	private static final String DELETE_SUCCESS = "Your company is deleted successfully.";
+	private static final String DELETE_FAIL = "Company Deletion failed.";
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
 
@@ -50,12 +53,30 @@ public class CompaniesServlet extends BaseServlet {
 				.getAttribute(COMPANY_CREATION_STATUS);
 		if (status != null) {
 			if (status.equals("Success")) {
-				req.setAttribute("message", SUCCESS);
+				req.setAttribute("message", CREATE_SUCCESS);
 			} else {
-				req.setAttribute("message", FAIL);
+				req.setAttribute("message", CREATE_FAIL);
 			}
 			httpSession.removeAttribute(COMPANY_CREATION_STATUS);
 		}
+
+		String deleteStatus = (String) httpSession
+				.getAttribute(COMPANY_DELETION_STATUS);
+		if (deleteStatus != null) {
+			if (deleteStatus.equals("Success")) {
+				req.setAttribute("message", DELETE_SUCCESS);
+			} else {
+				req.setAttribute(
+						"message",
+						DELETE_FAIL
+								+ " "
+								+ httpSession
+										.getAttribute("DeletionFailureMessage"));
+			}
+			httpSession.removeAttribute("DeletionFailureMessage");
+			httpSession.removeAttribute(COMPANY_DELETION_STATUS);
+		}
+
 		String companyID = req.getParameter(COMPANY_ID);
 
 		if (companyID != null) {
@@ -74,9 +95,7 @@ public class CompaniesServlet extends BaseServlet {
 
 			Set<ServerCompany> companies = client.getCompanies();
 			if (companies.isEmpty()) {
-				req
-						.setAttribute("message",
-								"You Don't Have any Companies Now.");
+				req.setAttribute("message", "You Don't Have any Companies Now.");
 			} else {
 				List<ServerCompany> list = new ArrayList<ServerCompany>();
 				for (ServerCompany serverCompany : companies) {
@@ -99,7 +118,7 @@ public class CompaniesServlet extends BaseServlet {
 
 				req.setAttribute(ATTR_COMPANY_LIST, list);
 			}
-			addUserCookies(resp, client);
+			// addUserCookies(resp, client);
 		} finally {
 			if (session != null && session.isOpen()) {
 				session.close();
@@ -124,7 +143,6 @@ public class CompaniesServlet extends BaseServlet {
 		} else {
 			companyID = companies.iterator().next().getID();
 		}
-		setCookies(resp, client, companyID);
 		redirectExternal(req, resp, ACCOUNTER_URL);
 	}
 
@@ -188,15 +206,9 @@ public class CompaniesServlet extends BaseServlet {
 		doGet(req, resp);
 	}
 
-	private void setCookies(HttpServletResponse response, Client client,
-			long companyID) {
-		addCompanyCookies(response, companyID);
-		addUserCookies(response, client);
-	}
-
 	private void addCompanyCookies(HttpServletResponse resp, long companyID) {
-		Cookie companyCookie = new Cookie(COMPANY_COOKIE, String
-				.valueOf(companyID));
+		Cookie companyCookie = new Cookie(COMPANY_COOKIE,
+				String.valueOf(companyID));
 		companyCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		companyCookie.setPath("/");
 		resp.addCookie(companyCookie);

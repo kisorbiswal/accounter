@@ -95,7 +95,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 				file.mkdir();
 			}
 
-			//company.initialize();
+			// company.initialize();
 
 			FinanceTool.createView();
 
@@ -127,6 +127,10 @@ public class InitializeCompanyServlet extends BaseServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			serverTransaction.rollback();
+		} finally {
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 	}
 

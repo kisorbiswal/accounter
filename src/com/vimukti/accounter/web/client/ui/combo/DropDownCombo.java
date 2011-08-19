@@ -503,9 +503,11 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 					popup.hide();
 				setValue(getDefaultAddNewCaption());
 				onAddNew();
-			} else if (handler != null) {
+			} else {
 				selectedObject = comboItems.get(rowIndex - 1);
-				handler.selectedComboBoxItem(selectedObject);
+				if (handler != null) {
+					handler.selectedComboBoxItem(selectedObject);
+				}
 				setSelectedItem(selectedObject, rowIndex);
 				if (popup.isShowing())
 					popup.hide();

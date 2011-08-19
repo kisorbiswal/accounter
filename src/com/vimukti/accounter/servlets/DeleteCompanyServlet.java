@@ -1,97 +1,162 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 /**
- * 
- * @author P.Praneeth
- * 
- *         This servlet is used to delete attachments from space(Rackspace or
- *         localspace) and then drops DB.
+ * @author Prasanna Kumar G
  * 
  */
 
 public class DeleteCompanyServlet extends BaseServlet {
 
+	private static final String IS_DELETE_ALL_USERS = "deleteAllUsers";
+
+	private String deleteCompanyView = "/WEB-INF/deleteCompany.jsp";
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		req.getSession().setAttribute(COMPANY_ID, req.getParameter(COMPANY_ID));
+		dispatch(req, resp, deleteCompanyView);
+	}
+
 	/**
-	 * 
+	 * @param req
+	 * @param resp
+	 * @throws IOException
 	 */
-	private static final long serialVersionUID = 1L;
-	private String DELETED_SUCCESSFULLY = "101";
+	private void deleteComapny(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		final String email = (String) req.getSession().getAttribute(EMAIL_ID);
+
+		String message = "";
+
+		final String companyID = (String) req.getSession().getAttribute(
+				COMPANY_ID);
+		final boolean deleteAllUsers = req.getParameter("delete").equals(
+				"deleteAllUsers");
+		final HttpSession httpSession = req.getSession();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				httpSession.setAttribute(COMPANY_DELETION_STATUS,
+						COMPANY_DELETING);
+				Session session = HibernateUtil.openSession(LOCAL_DATABASE);
+				Transaction transaction = session.beginTransaction();
+				try {
+
+					Client client = getClient(email);
+					ServerCompany serverCompany = null;
+					if (companyID == null) {
+						httpSession.setAttribute(COMPANY_DELETION_STATUS,
+								"Fail");
+						httpSession.setAttribute("DeletionFailureMessage",
+								"Internal Error.");
+						return;
+					}
+					for (ServerCompany cmpny : client.getCompanies()) {
+						if (cmpny.getID() == Long.parseLong(companyID)) {
+							serverCompany = cmpny;
+						}
+					}
+
+					if (serverCompany == null) {
+						httpSession.setAttribute(COMPANY_DELETION_STATUS,
+								"Fail");
+						httpSession.setAttribute("DeletionFailureMessage",
+								"Company Doesnot Exist");
+						return;
+					}
+
+					String schemaName = Server.COMPANY + companyID;
+
+					IS2SService s2sService = getS2sSyncProxy(serverCompany
+							.getServerDomain());
+
+					boolean isAdmin = s2sService.isAdmin(
+							Long.parseLong(companyID), email);
+
+					if (!isAdmin) {
+						httpSession.setAttribute(COMPANY_DELETION_STATUS,
+								"Fail");
+						httpSession
+								.setAttribute("DeletionFailureMessage",
+										"You Don't have Permissions to Delete this Company");
+						// req.setAttribute("message",
+						// "You don't have permisssions to to Delete this Company");
+						// dispatch(req, resp, deleteCompanyView);
+						return;
+					}
+
+					if (deleteAllUsers
+							|| serverCompany.getClients().size() == 1) {
+						// Deleting ServerCompany
+						client.getCompanies().remove(serverCompany);
+						session.delete(serverCompany);
+						session.saveOrUpdate(client);
+
+						// Drop Company Database
+						Query dropSchema = session
+								.createSQLQuery("DROP SCHEMA " + schemaName);
+						dropSchema.executeUpdate();
+					} else {
+
+						// Deleting Client from ServerCompany
+						client.getCompanies().remove(serverCompany);
+						session.saveOrUpdate(client);
+
+						s2sService.deleteUserFromCompany(
+								Long.parseLong(companyID), email);
+					}
+					transaction.commit();
+					httpSession
+							.setAttribute(COMPANY_DELETION_STATUS, "Success");
+				} catch (Exception e) {
+					e.printStackTrace();
+					transaction.rollback();
+					httpSession.setAttribute(COMPANY_DELETION_STATUS, "Fail");
+					httpSession.setAttribute("DeletionFailureMessage",
+							"Internal Error Occured");
+				} finally {
+					httpSession.removeAttribute(COMPANY_ID);
+					session.close();
+				}
+			}
+		}).start();
+
+		if (message.isEmpty()) {
+			message = "Success";
+		}
+		redirectExternal(req, resp, COMPANY_STATUS_URL);
+		// req.setAttribute("message", message);
+		// dispatch(req, resp, deleteCompanyView);
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String domainName = req.getParameter("domainName");
-		if (domainName == null) {
+		String emailID = (String) req.getSession().getAttribute(EMAIL_ID);
+		if (emailID == null) {
+			dispatchMessage("Session Expired.", req, resp, deleteCompanyView);
 			return;
 		}
-		deleteCompany(domainName);
-		resp.getWriter().write(DELETED_SUCCESSFULLY);
 
-	}
-
-	// @Override
-	// protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-	// throws ServletException, IOException {
-	// String domainName = req.getParameter("domainName");
-	// if (domainName == null) {
-	// return;
-	// }
-	// deleteCompany(domainName);
-	// }
-
-	private void deleteCompany(String domainName) {
-		deleteAttachments(domainName);
-		try {
-			Session session = HibernateUtil.openSession(LOCAL_DATABASE);
-			Transaction tx = session.beginTransaction();
-			session.createSQLQuery("drop schema " + domainName).executeUpdate();
-			session.createSQLQuery(
-					"delete from BIZANTRA_COMPANY where NAME =:companyName")
-					.setString("companyName", domainName).executeUpdate();
-			tx.commit();
-			session.close();
-
-			// LiveServer.getInstance().removeCompany(domainName);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void deleteAttachments(String domainName) {
-		try {
-			Session session = HibernateUtil.openSession(domainName);
-			Transaction tx = session.beginTransaction();
-			List<String> attachmentsList = session.getNamedQuery(
-					"get.all.attachments").list();
-			for (String attId : attachmentsList) {
-				// session.delete(att);
-				// Server.getInstance().deleteAttachment(attId);
-			}
-			ArrayList<Object> list = (ArrayList<Object>) session
-					.getNamedQuery("get.identities.by.company")
-					.setString("companyName", domainName).list();
-			for (Object userId : list) {
-				String collaberId = (String) userId;
-				Server.invalidateAllSessionIds(collaberId);
-			}
-			tx.commit();
-			session.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		deleteComapny(req, resp);
 	}
 }

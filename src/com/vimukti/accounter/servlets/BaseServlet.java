@@ -14,12 +14,14 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -32,13 +34,15 @@ public class BaseServlet extends HttpServlet {
 
 	public static final String COMPANY_COOKIE = "cid";
 
-	public static final String USER_COOKIE = "user";
-
 	public static final String COMPANY_ID = "companyId";
 
 	public static final String EMAIL_ID = "emailId";
 	public static final String PASSWORD = "password";
 	protected static final String COMPANY_CREATION_STATUS = "comCreationStatus";
+	protected static final String COMPANY_DELETION_STATUS = "deleteCompanyStatus";
+
+	protected static final String COMPANY_DELETING = "Deleting";
+	protected static final String COMPANY_CREATING = "Creating";
 
 	protected static final String PARAM_DESTINATION = "destination";
 	protected static final String PARAM_SERVER_COMPANY_ID = "serverCompanyId";
@@ -59,6 +63,9 @@ public class BaseServlet extends HttpServlet {
 	public static final String COMPANIES_URL = "/companies";
 	protected static final String ACTIVATION_URL = "/activation";
 	protected static final String CREATE_COMPANY_URL = "/createcompany";
+	protected static final String DELETE_COMPANY_URL = "/deletecompany";
+	protected static final String DELETE_COMPANY_FROM_USER = "/deletecompanyfromuser";
+	protected String COMPANY_STATUS_URL = "/companystatus";
 
 	/**
 	 * 
@@ -294,10 +301,16 @@ public class BaseServlet extends HttpServlet {
 		buffer.append(",");
 		buffer.append(client.getPassword());
 		buffer.append("");
-		Cookie userCookie = new Cookie(USER_COOKIE, buffer.toString());
+		Cookie userCookie = new Cookie(OUR_COOKIE, buffer.toString());
 		userCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		userCookie.setPath("/");
 		resp.addCookie(userCookie);
+	}
+
+	protected IS2SService getS2sSyncProxy(String domainName) {
+		String url = "http://" + domainName + ":8890/stosservice";
+		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
+				"");
 	}
 
 }

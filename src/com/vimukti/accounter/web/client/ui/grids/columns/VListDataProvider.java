@@ -14,13 +14,12 @@ public class VListDataProvider<T> extends ListDataProvider<T> implements
 	}
 
 	public VListDataProvider(VList<T> vList) {
-		vList.addListener(this);
-		this.getList().addAll(vList);
+		setList(vList);
 	}
 
-	public void setList(VList<T> listToWrap) {
-		listToWrap.addListener(this);
-		super.setList(listToWrap);
+	public void setList(VList<T> vList) {
+		vList.addListener(this);
+		this.getList().addAll(vList);
 	}
 
 	@Override

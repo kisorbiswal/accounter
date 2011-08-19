@@ -13,21 +13,29 @@ public class CompanyStatusServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String CREATING = "Creating Company Please wait...";
+	private static final String DELETING = "Deleting Company Please wait...";
 	private String REFRESH_VIEW = "/WEB-INF/refresh.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		if (session != null) {
-			String status = (String) session
-					.getAttribute(COMPANY_CREATION_STATUS);
-			if (status != null) {
-				if (status.equals("Creating")) {
-					req.setAttribute("successmessage", CREATING);
-					req.getRequestDispatcher(REFRESH_VIEW).forward(req, resp);
-					return;
-				}
+		String status = (String) session.getAttribute(COMPANY_CREATION_STATUS);
+		if (status != null) {
+			if (status.equals(COMPANY_CREATING)) {
+				req.setAttribute("successmessage", CREATING);
+				req.getRequestDispatcher(REFRESH_VIEW).forward(req, resp);
+				return;
+			}
+		}
+
+		String deleteStatus = (String) session
+				.getAttribute(COMPANY_DELETION_STATUS);
+		if (deleteStatus != null) {
+			if (deleteStatus.equals(COMPANY_DELETING)) {
+				req.setAttribute("successmessage", DELETING);
+				req.getRequestDispatcher(REFRESH_VIEW).forward(req, resp);
+				return;
 			}
 		}
 		redirectExternal(req, resp, COMPANIES_URL);

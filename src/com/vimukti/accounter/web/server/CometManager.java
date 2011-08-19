@@ -19,7 +19,6 @@ public class CometManager {
 	 */
 	private static HashMap<String, Map<String, CometSession>> map = new HashMap<String, Map<String, CometSession>>();
 
-
 	// private static CommandQueue<ObjectPayload> queue;
 
 	/**
@@ -58,7 +57,6 @@ public class CometManager {
 		return str;
 	}
 
-
 	public static void initStream(String sessionID, String emailID,
 			CometSession cometSession) {
 		Map<String, CometSession> queues = map.get(emailID);
@@ -74,7 +72,7 @@ public class CometManager {
 		if (queues != null) {
 			queues.remove(sessionID);
 		}
-		if (queues.size() == 0) {
+		if (queues == null || queues.size() == 0) {
 			map.remove(emailID);
 		}
 	}

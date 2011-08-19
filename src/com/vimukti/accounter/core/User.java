@@ -109,22 +109,23 @@ public class User extends CreatableObject implements IAccounterServerCore {
 		this.setCanDoUserManagement(clientUser.isCanDoUserManagement());
 		this.setUserRole(clientUser.getUserRole());
 		this.setAdmin(clientUser.isAdmin());
-		UserPermissions userPermissions = new UserPermissions();
-		userPermissions.setTypeOfBankReconcilation(clientUser.getPermissions()
-				.getTypeOfBankReconcilation());
-		userPermissions.setTypeOfInvoices(clientUser.getPermissions()
-				.getTypeOfInvoices());
-		userPermissions.setTypeOfExpences(clientUser.getPermissions()
-				.getTypeOfExpences());
-		userPermissions.setTypeOfSystemSettings(clientUser.getPermissions()
-				.getTypeOfSystemSettings());
-		userPermissions.setTypeOfViewReports(clientUser.getPermissions()
-				.getTypeOfViewReports());
-		userPermissions.setTypeOfPublishReports(clientUser.getPermissions()
-				.getTypeOfPublishReports());
-		userPermissions.setTypeOfLockDates(clientUser.getPermissions()
-				.getTypeOfLockDates());
-		this.setPermissions(userPermissions);
+		ClientUserPermissions permissions = clientUser.getPermissions();
+		if (permissions != null) {
+			UserPermissions userPermissions = new UserPermissions();
+			userPermissions.setTypeOfBankReconcilation(permissions
+					.getTypeOfBankReconcilation());
+			userPermissions.setTypeOfInvoices(permissions.getTypeOfInvoices());
+			userPermissions.setTypeOfExpences(permissions.getTypeOfExpences());
+			userPermissions.setTypeOfSystemSettings(permissions
+					.getTypeOfSystemSettings());
+			userPermissions.setTypeOfViewReports(permissions
+					.getTypeOfViewReports());
+			userPermissions.setTypeOfPublishReports(permissions
+					.getTypeOfPublishReports());
+			userPermissions
+					.setTypeOfLockDates(permissions.getTypeOfLockDates());
+			this.setPermissions(userPermissions);
+		}
 	}
 
 	/**
@@ -244,20 +245,23 @@ public class User extends CreatableObject implements IAccounterServerCore {
 		user.setEmail(this.getEmail());
 		user.setCanDoUserManagement(this.isCanDoUserManagement());
 		user.setUserRole(this.getUserRole());
-		ClientUserPermissions userPermissions = new ClientUserPermissions();
-		userPermissions.setTypeOfBankReconcilation(this.getPermissions()
-				.getTypeOfBankReconcilation());
-		userPermissions.setTypeOfInvoices(this.getPermissions()
-				.getTypeOfInvoices());
-		userPermissions.setTypeOfSystemSettings(this.getPermissions()
-				.getTypeOfSystemSettings());
-		userPermissions.setTypeOfViewReports(this.getPermissions()
-				.getTypeOfViewReports());
-		userPermissions.setTypeOfPublishReports(this.getPermissions()
-				.getTypeOfPublishReports());
-		userPermissions.setTypeOfLockDates(this.getPermissions()
-				.getTypeOfLockDates());
-		user.setPermissions(userPermissions);
+		user.setAdmin(this.isAdmin);
+		if (getPermissions() != null) {
+			ClientUserPermissions userPermissions = new ClientUserPermissions();
+			userPermissions.setTypeOfBankReconcilation(this.getPermissions()
+					.getTypeOfBankReconcilation());
+			userPermissions.setTypeOfInvoices(this.getPermissions()
+					.getTypeOfInvoices());
+			userPermissions.setTypeOfSystemSettings(this.getPermissions()
+					.getTypeOfSystemSettings());
+			userPermissions.setTypeOfViewReports(this.getPermissions()
+					.getTypeOfViewReports());
+			userPermissions.setTypeOfPublishReports(this.getPermissions()
+					.getTypeOfPublishReports());
+			userPermissions.setTypeOfLockDates(this.getPermissions()
+					.getTypeOfLockDates());
+			user.setPermissions(userPermissions);
+		}
 		user.setID(getID());
 		return user;
 	}

@@ -775,7 +775,7 @@ public class VendorBillView extends
 					if (result.size() > 0) {
 						showPurchaseDialog(result);
 					} else {
-						onFailure(new Exception());
+						onException(new AccounterException());
 					}
 
 				}
