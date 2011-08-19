@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
@@ -45,7 +46,11 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 			@Override
 			public boolean onRecordClick(IsSerializable core, int column) {
-				enableEditRemoveButtons(true);
+				if (core != null) {
+					ClientVendorGroup vendorGroup = (ClientVendorGroup) core;
+					if (!vendorGroup.isDefault())
+						enableEditRemoveButtons(true);
+				}
 				return true;
 			}
 
@@ -67,10 +72,19 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 			}
 
 			public void onThirdButtonClick() {
-				deleteObject((IAccounterCore) listGridView.getSelection());
-				if (vendorGroups == null) {
-					enableEditRemoveButtons(false);
+				if (listGridView != null) {
+					ClientVendorGroup selectedGroup = (ClientVendorGroup) listGridView
+							.getSelection();
+					if (selectedGroup != null && selectedGroup.isDefault()) {
+						return;
+					}
+
+					deleteObject((IAccounterCore) listGridView.getSelection());
+					if (vendorGroups == null) {
+						enableEditRemoveButtons(false);
+					}
 				}
+
 			}
 
 		};
