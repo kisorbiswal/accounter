@@ -730,7 +730,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			result.addError(transactionDate,
 					accounterConstants.invalidateDate());
 		}
-		result.add(payForm.validate());
+		ValidationResult payFormValidationResult = payForm.validate();
+		if(payFormValidationResult.haveErrors()||payFormValidationResult.haveWarnings()){
+			result.add(payFormValidationResult);
+			return result;
+		}
+		
+		
 		if (filterForm != null) {
 			result.add(filterForm.validate());
 			return result;
