@@ -132,19 +132,19 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 		listOfTypes.add(COMPLETED);
 		listOfTypes.add(CANCELLED);
 		viewSelect.initCombo(listOfTypes);
-		viewSelect.setComboItem(OPEN);
+		
 		if (UIUtils.isMSIEBrowser())
 			viewSelect.setWidth("120px");
+		viewSelect.setComboItem(OPEN);
 		viewSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (viewSelect.getSelectedValue() != null) {
-							grid.setViewType(viewSelect.getSelectedValue());
-							filterList(viewSelect.getSelectedValue());
-							if(purchaseDetailView!=null)
-							purchaseDetailView.refreshView();
+							grid.setViewType(viewSelect.getSelectedValue()
+									.toString());
+							filterList(viewSelect.getSelectedValue().toString());
 
 						}
 
