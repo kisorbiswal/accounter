@@ -111,8 +111,8 @@ public class CustomerCreditMemoView extends
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
-		custForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "190px");
+		custForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
@@ -288,8 +288,9 @@ public class CustomerCreditMemoView extends
 
 	protected void updateTransaction() {
 		super.updateTransaction();
+		if (customer != null)
 
-		transaction.setCustomer(getCustomer().getID());
+			transaction.setCustomer(getCustomer().getID());
 		if (contact != null)
 			transaction.setContact(contact);
 		if (salesPerson != null)
@@ -429,7 +430,8 @@ public class CustomerCreditMemoView extends
 			if (taxableLineTotal == null)
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
