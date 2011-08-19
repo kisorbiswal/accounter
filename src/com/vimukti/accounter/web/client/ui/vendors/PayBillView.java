@@ -93,8 +93,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		amtText.setAmount(0.0);
 		endBalText
 				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
-						.getSelectedValue().getTotalBalance()
-						: 0.0);
+						.getSelectedValue().getTotalBalance() : 0.0);
 	}
 
 	/*
@@ -265,10 +264,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 				record.setAppliedCredits(curntRec.getCredits());
 
-				record
-						.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
-								.getDiscountDate().getDate()
-								: 0);
+				record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
+						.getDiscountDate().getDate() : 0);
 
 				record.setDueDate(curntRec.getDueDate() != null ? curntRec
 						.getDueDate().getDate() : 0);
@@ -725,24 +722,32 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// 6. grid valid?
 
 		if (!AccounterValidator.isValidTransactionDate(this.transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(payForm.validate());
 		if (filterForm != null) {
 			result.add(filterForm.validate());
 		}
 		if (!isEdit) {
-			if (gridView == null || gridView.getRecords().isEmpty()
-					|| gridView.getSelectedRecords().size() == 0) {
-				result.addError(gridView, Accounter.constants()
-						.selectTransaction());
-			} else {
+			/*
+			 * if (gridView == null || gridView.getRecords().isEmpty() ||
+			 * gridView.getSelectedRecords().size() == 0) {
+			 * result.addError(gridView, Accounter.constants()
+			 * .selectTransaction()); }
+			 */
+			if (AccounterValidator.isBlankTransaction(gridView)) {
+				result.addError(vendorTransactionGrid,
+						accounterConstants.blankTransaction());
+			}
+
+			else {
+
 				result.add(gridView.validateGrid());
 			}
 		}
@@ -788,8 +793,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (getVendor() != null) {
 
 			for (PayBillTransactionList cont : filterList) {
-				if (getVendor().getName().toString().equalsIgnoreCase(
-						cont.getVendorName().toString())) {
+				if (getVendor().getName().toString()
+						.equalsIgnoreCase(cont.getVendorName().toString())) {
 
 					tempList.add(cont);
 				}
