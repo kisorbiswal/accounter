@@ -255,8 +255,8 @@ public class CustomerRefundView extends
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isChecked = (Boolean) event.getValue();
 				if (isChecked) {
-					if (printCheck.getValue().toString().equalsIgnoreCase(
-							"true")) {
+					if (printCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(Accounter.constants()
 								.toBePrinted());
 						checkNoText.setDisabled(true);
@@ -278,8 +278,7 @@ public class CustomerRefundView extends
 
 		checkNoText = new TextItem(
 				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? customerConstants
-						.chequeNo()
-						: customerConstants.checkNo());
+						.chequeNo() : customerConstants.checkNo());
 		checkNoText.setValue(Accounter.constants().toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
@@ -387,8 +386,9 @@ public class CustomerRefundView extends
 		transaction.setDate(transactionDateItem.getEnteredDate().getDate());
 
 		transaction.setNumber(transactionNumber.getValue().toString());
+		if (customer != null)
 
-		transaction.setPayTo(getCustomer().getID());
+			transaction.setPayTo(getCustomer().getID());
 
 		if (billingAddress != null)
 			transaction.setAddress(billingAddress);
@@ -587,9 +587,7 @@ public class CustomerRefundView extends
 		// 2. if(!validCustomerRefundAmount(amt, payFromAccount)) ERROR
 
 		if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
-			result
-					.addError(amtText, accounterConstants
-							.invalidNegativeAmount());
+			result.addError(amtText, accounterConstants.invalidNegativeAmount());
 		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
 				amtText.getAmount(), payFromSelect.getSelectedValue())) {
