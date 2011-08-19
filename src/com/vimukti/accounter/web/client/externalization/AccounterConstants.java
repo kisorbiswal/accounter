@@ -4790,6 +4790,12 @@ public interface AccounterConstants extends Constants {
 
 	public String displayName();
 
+	public String clients();
+
+	public String tenants();
+
+	public String legands();
+
 	public String noBillsAreAvailableFirstAddABill();
 
 }
