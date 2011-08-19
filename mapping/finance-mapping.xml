@@ -695,6 +695,7 @@
 		<property name="cstNumber" column="CST_NUMBER"></property>
 		<property name="serviceTaxRegistrationNumber" column="SERVICE_TAX_REGISTRATION_NUMBER"></property>
 		<property name="tinNumber" column="TIN_NUMBER"></property>
+		<!-- <property name="currency" column="CURRENCY"></property> -->
 		<joined-subclass name="Customer" table="CUSTOMER">
 			<key column="ID" />
 			<property name="balanceAsOf" column="BALANCE_AS_OF"
