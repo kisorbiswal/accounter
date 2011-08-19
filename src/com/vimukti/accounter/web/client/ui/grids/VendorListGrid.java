@@ -90,34 +90,35 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	private String getMonthAsString(int month) {
 		switch (month) {
-		case 0:
-			return Accounter.constants().jan();
 		case 1:
-			return Accounter.constants().feb();
+			return Accounter.constants().jan();
 		case 2:
-			return Accounter.constants().mar();
+			return Accounter.constants().feb();
 		case 3:
-			return Accounter.constants().apr();
+			return Accounter.constants().mar();
 		case 4:
-			return Accounter.constants().may();
+			return Accounter.constants().apr();
 		case 5:
-			return Accounter.constants().jun();
+			return Accounter.constants().may();
 		case 6:
-			return Accounter.constants().jul();
+			return Accounter.constants().jun();
 		case 7:
 		case -5:
-			return Accounter.constants().aug();
+			return Accounter.constants().jul();
 		case 8:
 		case -4:
-			return Accounter.constants().sept();
+			return Accounter.constants().aug();
 		case 9:
 		case -3:
-			return Accounter.constants().oct();
+			return Accounter.constants().sept();
 		case 10:
 		case -2:
-			return Accounter.constants().nov();
+			return Accounter.constants().oct();
 		case 11:
 		case -1:
+			return Accounter.constants().nov();
+		case 12:
+		case 0:
 			return Accounter.constants().dec();
 
 		}
