@@ -45,6 +45,7 @@ public abstract class ClientPayee implements IAccounterCore {
 	String cstNumber;
 	String serviceTaxRegistrationNumber;
 	String tinNumber;
+	String currency;
 
 	Set<ClientAddress> address = new HashSet<ClientAddress>();
 	Set<ClientPhone> phoneNumbers = new HashSet<ClientPhone>();
@@ -426,6 +427,14 @@ public abstract class ClientPayee implements IAccounterCore {
 		payee.phoneNumbers = phones;
 
 		return payee;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
 }
