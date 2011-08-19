@@ -518,8 +518,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				.financialDetails());
 		financeDetailsForm.setFields(expenseAccountsSelect, creditLimitText,
 				preferredShippingSelect, preferredPaymentSelect,
-				payTermsSelect, accountText, bankNameText, bankBranchText,
-				currencyCombo);
+				payTermsSelect, accountText, bankNameText, bankBranchText);
 
 		vendorGroupSelect = new VendorGroupCombo(UIUtils.getVendorString(
 				Accounter.constants().supplierGroup(), Accounter.constants()
