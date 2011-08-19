@@ -9,19 +9,20 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:HTML wordWrap="true"/>
+			<g:HTML wordWrap="true" ui:field="fiscalHead"/>
+			<g:HTML wordWrap="true" ui:field="fiscalInfo"/>
 			<g:HorizontalPanel>
-				<g:Label ui:field="FiscalStarts"/>
-				<g:ListBox ui:field="FiscalStartsList"/>
+				<g:Label ui:field="fiscalStarts"/>
+				<g:ListBox ui:field="fiscalStartsList"/>
 			</g:HorizontalPanel>
 			<g:VerticalPanel>
-				<g:HTML wordWrap="true" ui:field="FiscalHeader"/>
-				<g:Label ui:field="StartDate"/>
-				<g:RadioButton name="new name" ui:field="BeginingFiscal"/>
-				<g:HTML wordWrap="true" ui:field="BeginingFiscalText"/>
-				<g:RadioButton name="new name" ui:field="TodaysDate"/>
-				<g:HTML wordWrap="true" ui:field="TodaysDateText"/>
-				<p1:DateBox ui:field="FiscalDate"/>
+				<g:HTML wordWrap="true" ui:field="fiscalHeader"/>
+				<g:Label ui:field="startDate"/>
+				<g:RadioButton name="new name" ui:field="beginingFiscal"/>
+				<g:HTML wordWrap="true" ui:field="beginingFiscalText"/>
+				<g:RadioButton name="new name" ui:field="todaysDate"/>
+				<g:HTML wordWrap="true" ui:field="todaysDateText"/>
+				<p1:DateBox ui:field="fiscalDate"/>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 		<!--

@@ -23,29 +23,29 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
-	RadioButton ServicesOnly;
+	RadioButton servicesOnly;
 	@UiField
-	Label ServicesOnlyText;
+	Label servicesOnlyText;
 	@UiField
-	RadioButton ProductsOnly;
+	RadioButton productsOnly;
 	@UiField
-	Label ProductsOnlyText;
+	Label productsOnlyText;
 	@UiField
-	RadioButton Both;
+	RadioButton both;
 	@UiField
-	Label BothText;
+	Label bothText;
 	@UiField
-	VerticalPanel Sell;
+	VerticalPanel sell;
 	@UiField
-	VerticalPanel SalesTax;
+	VerticalPanel salesTax;
 	@UiField
-	Label SalesTaxNoText;
+	RadioButton salesTaxNo;
 	@UiField
-	RadioButton SalesTaxNo;
+	RadioButton salesTaxYes;
 	@UiField
-	RadioButton SalesTaxYes;
+	HTML salesTaxHead;
 	@UiField
-	HTML SalesTaxHead;
+	HTML wtdoyouSell;
 
 	interface SetupSellTypeAndSalesTaxPageUiBinder extends
 			UiBinder<Widget, SetupSellTypeAndSalesTaxPage> {
@@ -81,6 +81,16 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	protected void createControls() {
 		// TODO Auto-generated method stub
 
+		servicesOnly.setText(accounterConstants.services_labelonly());
+		servicesOnlyText.setText(accounterConstants.servicesOnly());
+		productsOnly.setText(accounterConstants.products_labelonly());
+		productsOnlyText.setText(accounterConstants.productsOnly());
+		both.setText(accounterConstants.bothservicesandProduct_labelonly());
+		bothText.setText(accounterConstants.bothServicesandProducts());
+		salesTaxNo.setText(accounterConstants.no());
+		salesTaxYes.setText(accounterConstants.yes());
+		salesTaxHead.setText(accounterConstants.doyouchargesalestax());
+		wtdoyouSell.setText(accounterConstants.whatDoYouSell());
 	}
 
 }

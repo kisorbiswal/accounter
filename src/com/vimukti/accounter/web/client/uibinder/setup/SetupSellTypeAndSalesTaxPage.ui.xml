@@ -9,21 +9,19 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:VerticalPanel ui:field="Sell">
-				<g:RadioButton name="new name" ui:field="ServicesOnly"/>
-				<g:Label ui:field="ServicesOnlyText"/>
-				<g:RadioButton name="new name" ui:field="ProductsOnly"/>
-				<g:Label ui:field="ProductsOnlyText"/>
-				<g:RadioButton name="new name" ui:field="Both"/>
-				<g:Label ui:field="BothText"/>
+			<g:VerticalPanel ui:field="sell">
+				<g:HTML wordWrap="true" ui:field="wtdoyouSell"/>
+				<g:RadioButton name="new name" ui:field="servicesOnly"/>
+				<g:Label ui:field="servicesOnlyText"/>
+				<g:RadioButton name="new name" ui:field="productsOnly"/>
+				<g:Label ui:field="productsOnlyText"/>
+				<g:RadioButton name="new name" ui:field="both"/>
+				<g:Label ui:field="bothText"/>
 			</g:VerticalPanel>
-			<g:VerticalPanel ui:field="SalesTax">
-				<g:HTML wordWrap="true" ui:field="SalesTaxHead"/>
-				<g:RadioButton name="new name" ui:field="SalesTaxYes"/>
-				<g:HorizontalPanel>
-					<g:RadioButton name="new name" ui:field="SalesTaxNo"/>
-					<g:Label ui:field="SalesTaxNoText"/>
-				</g:HorizontalPanel>
+			<g:VerticalPanel ui:field="salesTax">
+				<g:HTML wordWrap="true" ui:field="salesTaxHead"/>
+				<g:RadioButton name="new name" ui:field="salesTaxYes"/>
+				<g:RadioButton name="new name" ui:field="salesTaxNo"/>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 		<!--

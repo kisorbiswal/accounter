@@ -8,24 +8,25 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:Label ui:field="ExpensesInfo"/>
-			<g:HTML wordWrap="true" ui:field="RecommendedInfo"/>
+			<g:HTML wordWrap="true" ui:field="reviewHead"/>
+			<g:Label ui:field="expensesInfo"/>
+			<g:HTML wordWrap="true" ui:field="recommendedInfo"/>
 			<g:Grid>
 				<g:row>
 					<g:customCell>
-						<g:CheckBox ui:field="ExpensesClick"/>
+						<g:CheckBox ui:field="expensesClick"/>
 					</g:customCell>
 					<g:customCell>
-						<g:Label ui:field="AccountName"/>
+						<g:Label ui:field="accountName"/>
 					</g:customCell>
 					<g:customCell>
-						<g:Label ui:field="Type"/>
+						<g:Label ui:field="type"/>
 					</g:customCell>
 				</g:row>
 			</g:Grid>
-			<g:Button enabled="false" ui:field="RestoreButton"/>
-			<g:HTML wordWrap="true" ui:field="ExpensesLink"/>
-			<g:HTML wordWrap="true" ui:field="ExpensesNote"/>
+			<g:Button enabled="false" ui:field="restoreButton"/>
+			<g:HTML wordWrap="true" ui:field="expensesLink"/>
+			<g:HTML wordWrap="true" ui:field="expensesNote"/>
 		</g:VerticalPanel>
 		
 	</g:HTMLPanel>

@@ -16,25 +16,21 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
-	Label EstimatesYesText;
+	RadioButton estimatesYes;
 	@UiField
-	RadioButton EstimatesYes;
+	RadioButton estimatesNo;
 	@UiField
-	RadioButton EstimatesNo;
+	Label billingStatements;
 	@UiField
-	Label BillingStatements;
+	Label someExampleText;
 	@UiField
-	Label SomeExampleText;
+	HTML someExampleList;
 	@UiField
-	HTML SomeExampleList;
+	Label billingQuestion;
 	@UiField
-	Label BillingQuestion;
+	RadioButton statementYes;
 	@UiField
-	RadioButton StatementYes;
-	@UiField
-	Label StatementYesText;
-	@UiField
-	RadioButton StatementsNo;
+	RadioButton statementsNo;
 
 	interface SetupUsingEstimatesAndStatementsPageUiBinder extends
 			UiBinder<Widget, SetupUsingEstimatesAndStatementsPage> {
@@ -61,6 +57,13 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	protected void createControls() {
 		// TODO Auto-generated method stub
 
+		estimatesYes.setText(accounterConstants.yes());
+		estimatesNo.setTitle(accounterConstants.no());
+		billingStatements.setText(accounterConstants.statementDescription());
+		someExampleText.setText(accounterConstants.statementSomeExample());
+		someExampleList.setText(accounterConstants.statementlist());
+		billingQuestion.setText(accounterConstants.statementQuestion());
+		statementYes.setTitle(accounterConstants.yes());
+		statementsNo.setTitle(accounterConstants.no());
 	}
-
 }

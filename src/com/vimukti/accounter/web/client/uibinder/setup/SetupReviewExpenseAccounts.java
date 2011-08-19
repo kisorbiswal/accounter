@@ -5,14 +5,13 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SetupReviewExpenseAccounts extends AbstractSetupPage {
+public class SetupReviewExpenseAccounts extends AbstractSetupPage implements HasText {
 
 	private static SetupReviewExpenseAccountsUiBinder uiBinder = GWT
 			.create(SetupReviewExpenseAccountsUiBinder.class);
@@ -29,21 +28,23 @@ public class SetupReviewExpenseAccounts extends AbstractSetupPage {
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
-	Label ExpensesInfo;
+	Label expensesInfo;
 	@UiField
-	HTML RecommendedInfo;
+	HTML recommendedInfo;
 	@UiField
-	Label AccountName;
+	Label accountName;
 	@UiField
-	Label Type;
+	Label type;
 	@UiField
-	CheckBox ExpensesClick;
+	CheckBox expensesClick;
 	@UiField
-	Button RestoreButton;
+	Button restoreButton;
 	@UiField
-	HTML ExpensesLink;
+	HTML expensesLink;
 	@UiField
-	HTML ExpensesNote;
+	HTML expensesNote;
+	@UiField
+	HTML reviewHead;
 
 	public SetupReviewExpenseAccounts(String firstName) {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -52,8 +53,16 @@ public class SetupReviewExpenseAccounts extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		// TODO Auto-generated method stub
-
+		expensesInfo.setText(accounterConstants.expenseInformation());
+		recommendedInfo.setText(accounterConstants.recommendedAccounts());
+		Label accountName;
+		Label type;
+		CheckBox expensesClick;
+		restoreButton.setText(accounterConstants.restoreRecommendations());
+		expensesLink.setText(accounterConstants.whyshoudIUseRecommended());
+		expensesNote.setText(accounterConstants.recommendedNote());
+		reviewHead
+				.setText(accounterConstants.reviewIncomeAndExpensesAccounts());
 	}
 
 	@Override
@@ -66,6 +75,18 @@ public class SetupReviewExpenseAccounts extends AbstractSetupPage {
 	protected void onSave() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setText(String text) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

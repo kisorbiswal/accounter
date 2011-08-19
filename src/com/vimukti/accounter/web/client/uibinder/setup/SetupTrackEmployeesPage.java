@@ -64,6 +64,13 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	protected void createControls() {
 		// TODO Auto-generated method stub
 
+		w2Employees.setText(accounterConstants.wehavW2Employes());
+		contractors.setText(accounterConstants.wehavContractors());
+		trackExpenses.setText(accounterConstants.trackEmployeeExpenses());
+		employeeYes.setText(accounterConstants.yes());
+		employeeNo.setText(accounterConstants.no());
+		trackYes.setText(accounterConstants.yes());
+		trackNo.setText(accounterConstants.no());
 	}
 
 }

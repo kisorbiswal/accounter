@@ -25,23 +25,27 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
-	Label FiscalStarts;
+	Label fiscalStarts;
 	@UiField
-	HTML FiscalHeader;
+	HTML fiscalHeader;
 	@UiField
-	Label StartDate;
+	Label startDate;
 	@UiField
-	RadioButton BeginingFiscal;
+	RadioButton beginingFiscal;
 	@UiField
-	HTML BeginingFiscalText;
+	HTML beginingFiscalText;
 	@UiField
-	RadioButton TodaysDate;
+	RadioButton todaysDate;
 	@UiField
-	HTML TodaysDateText;
+	HTML todaysDateText;
 	@UiField
-	DateBox FiscalDate;
+	DateBox fiscalDate;
 	@UiField
-	ListBox FiscalStartsList;
+	ListBox fiscalStartsList;
+	@UiField
+	HTML fiscalInfo;
+	@UiField
+	HTML fiscalHead;
 
 	interface SetupSelectFiscalYrDatePageUiBinder extends
 			UiBinder<Widget, SetupSelectFiscalYrDatePage> {
@@ -71,6 +75,28 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	protected void createControls() {
 		// TODO Auto-generated method stub
 
+		fiscalStarts.setText(accounterConstants.myFiscalYearsStartsIn());
+		fiscalHeader.setText(accounterConstants.selectdateToTrackFinance());
+		startDate.setText(accounterConstants.yourSelecteddateisStartdate());
+		beginingFiscal.setText(accounterConstants.beginingOfthefiscalYear());
+		beginingFiscalText.setText(accounterConstants
+				.enterTransactionsTocompleteTaxreturns());
+		todaysDate.setText(accounterConstants.useTodaysDateasStartdate());
+		todaysDateText.setText(accounterConstants
+				.enterTransactionsTocompleteTaxreturns());
+		String[] monthNames = new String[] { accounterConstants.january(),
+				accounterConstants.february(), accounterConstants.march(),
+				accounterConstants.april(), accounterConstants.may(),
+				accounterConstants.june(), accounterConstants.july(),
+				accounterConstants.august(), accounterConstants.september(),
+				accounterConstants.october(), accounterConstants.november(),
+				accounterConstants.december() };
+		// fiscalStartsList = null;
+		for (int i = 0; i < monthNames.length; i++) {
+			fiscalStartsList.addItem(monthNames[i]);
+		}
+		fiscalInfo.setText(accounterConstants.fiscalYearsaemasTaxyear());
+		fiscalHead.setText(accounterConstants.selectFirstMonthOfFiscalYear());
 	}
 
 	@Override

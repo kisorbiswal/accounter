@@ -22,29 +22,29 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
-	VerticalPanel TrackingBills;
+	VerticalPanel trackingBillsPanel;
 	@UiField
-	VerticalPanel Managing;
+	VerticalPanel managing;
 	@UiField
-	HTML TrackOfBillsText;
+	HTML trackOfBillsText;
 	@UiField
-	HTML TrackOfBillsList;
+	HTML trackOfBillsList;
 	@UiField
-	HTML ManagingList;
+	HTML managingList;
 	@UiField
-	HTML TrackTimeText;
+	HTML trackTimeText;
 	@UiField
-	RadioButton ManagingYes;
+	RadioButton managingYes;
 	@UiField
-	RadioButton TrackingTimeYes;
+	RadioButton trackingTimeYes;
 	@UiField
-	RadioButton ManagingNo;
+	RadioButton managingNo;
 	@UiField
-	HTML TrackingYesText;
+	RadioButton trackingNo;
 	@UiField
-	RadioButton TrackingNo;
+	HTML managingInfo;
 	@UiField
-	HTML ManagingYesText;
+	HTML trackingTimeDes;
 
 	interface SetupTrackBillsAndTimePageUiBinder extends
 			UiBinder<Widget, SetupTrackBillsAndTimePage> {
@@ -80,6 +80,16 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	protected void createControls() {
 		// TODO Auto-generated method stub
 
-	}
+		trackOfBillsText.setText(accounterConstants.doyouwantTrackTime());
+		trackOfBillsList.setText(accounterConstants.trackTimeList());
+		managingList.setText(accounterConstants.managingList());
+		trackTimeText.setText(accounterConstants.doyouwantTrackBills());
+		managingYes.setText(accounterConstants.yes());
+		trackingTimeYes.setText(accounterConstants.yes());
+		managingNo.setText(accounterConstants.no());
+		trackingNo.setText(accounterConstants.no());
+		trackingTimeDes.setText(accounterConstants.timetrackingdescription());
+		managingInfo.setText(accounterConstants.billstrackingdescription());
 
+	}
 }
