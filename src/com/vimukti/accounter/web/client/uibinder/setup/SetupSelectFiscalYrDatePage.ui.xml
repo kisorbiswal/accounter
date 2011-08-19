@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.datepicker.client">
 	<ui:style>
 		/* Add CSS here. See the GWT docs on UI Binder for more details */
 		.important {
@@ -8,12 +8,27 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
+		<g:VerticalPanel ui:field="viewPanel">
+			<g:HTML wordWrap="true"/>
+			<g:HorizontalPanel>
+				<g:Label ui:field="FiscalStarts"/>
+				<g:ListBox/>
+			</g:HorizontalPanel>
+			<g:VerticalPanel>
+				<g:HTML wordWrap="true" ui:field="FiscalHeader"/>
+				<g:Label ui:field="StartDate"/>
+				<g:RadioButton name="new name" ui:field="BeginingFiscal"/>
+				<g:HTML wordWrap="true" ui:field="BeginingFiscalText"/>
+				<g:RadioButton name="new name" ui:field="TodaysDate"/>
+				<g:HTML wordWrap="true" ui:field="TodaysDateText"/>
+				<p1:DateBox ui:field="FiscalDate"/>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
 		<!--
 			Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete
 			widget names. The ui:field attribute binds an element to a field in
 			the owner class. See the GWT docs on UI Binder for more details.
 		-->
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
+	
 	</g:HTMLPanel>
 </ui:UiBinder> 

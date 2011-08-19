@@ -9,16 +9,16 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:RadioButton name="new name" text="Yes"/>
+			<g:RadioButton name="new name" text="Yes" ui:field="EmployeeYes"/>
 			<g:VerticalPanel>
 				<g:CheckBox ui:field="W2Employees"/>
 				<g:CheckBox ui:field="Contractors"/>
 			</g:VerticalPanel>
-			<g:RadioButton name="new name"/>
+			<g:RadioButton name="new name" ui:field="EmployeeNo"/>
 			<g:VerticalPanel>
 				<g:HTML wordWrap="true" ui:field="TrackExpenses"/>
-				<g:RadioButton name="new name"/>
-				<g:RadioButton name="new name"/>
+				<g:RadioButton name="new name" ui:field="TrackYes"/>
+				<g:RadioButton name="new name" ui:field="TrackNo"/>
 			</g:VerticalPanel>
 			<g:HorizontalPanel>
 				<g:Image/>

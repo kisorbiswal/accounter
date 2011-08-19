@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
 
 /**
  * @author Administrator
@@ -25,6 +26,10 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	@UiField CheckBox Contractors;
 	@UiField HTML TrackExpenses;
 	@UiField Label AccounterPayroll;
+	@UiField RadioButton EmployeeYes;
+	@UiField RadioButton EmployeeNo;
+	@UiField RadioButton TrackYes;
+	@UiField RadioButton TrackNo;
 
 	interface SetupTrackEmployeesPageUiBinder extends
 			UiBinder<Widget, SetupTrackEmployeesPage> {

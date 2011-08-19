@@ -7,6 +7,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
  * @author Administrator
@@ -16,6 +21,15 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	private static SetupSelectFiscalYrDatePageUiBinder uiBinder = GWT
 			.create(SetupSelectFiscalYrDatePageUiBinder.class);
+	@UiField VerticalPanel viewPanel;
+	@UiField Label FiscalStarts;
+	@UiField HTML FiscalHeader;
+	@UiField Label StartDate;
+	@UiField RadioButton BeginingFiscal;
+	@UiField HTML BeginingFiscalText;
+	@UiField RadioButton TodaysDate;
+	@UiField HTML TodaysDateText;
+	@UiField DateBox FiscalDate;
 
 	interface SetupSelectFiscalYrDatePageUiBinder extends
 			UiBinder<Widget, SetupSelectFiscalYrDatePage> {
