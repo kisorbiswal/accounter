@@ -68,7 +68,7 @@ public class ViewManager extends HorizontalPanel {
 		addStyleName("view_manager");
 		VerticalPanel leftPanel = new VerticalPanel();
 		this.viewHolder = new SimplePanel();
-		leftPanel.add(viewHolder);
+		
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -80,6 +80,7 @@ public class ViewManager extends HorizontalPanel {
 		// handleBackSpaceEvent();
 		this.toolBar = new ToolBar();
 		leftPanel.add(toolBar);
+		leftPanel.add(viewHolder);
 		this.add(leftPanel);
 		this.add(createHelpPanel());
 		initilizeToolBar();
