@@ -8,16 +8,16 @@
 		}
 	</ui:style>
 	<g:VerticalPanel ui:field="viewPanel">
-		<g:RadioButton ui:field="employeeYes" />
+		<g:RadioButton name="trackEmployee" ui:field="employeeYes" />
 		<g:VerticalPanel>
 			<g:CheckBox ui:field="w2Employees" />
 			<g:CheckBox ui:field="contractors" />
 		</g:VerticalPanel>
-		<g:RadioButton ui:field="employeeNo" />
+		<g:RadioButton name="trackEmployee" ui:field="employeeNo" />
 		<g:VerticalPanel ui:field="trackPanel">
 			<g:HTML wordWrap="true" ui:field="trackExpenses" />
-			<g:RadioButton ui:field="trackYes" />
-			<g:RadioButton ui:field="trackNo" />
+			<g:RadioButton name="trackEmployeeType" ui:field="trackYes" />
+			<g:RadioButton name="trackEmployeeType" ui:field="trackNo" />
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 	<!--

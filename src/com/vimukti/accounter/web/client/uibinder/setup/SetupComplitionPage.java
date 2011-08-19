@@ -19,10 +19,14 @@ public class SetupComplitionPage extends AbstractSetupPage {
 
 	private static SetupComplitionPageUiBinder uiBinder = GWT
 			.create(SetupComplitionPageUiBinder.class);
-	@UiField VerticalPanel viewPanel;
-	@UiField Label CongratulationLabel2;
-	@UiField Label CongratulationLabel1;
-	@UiField HTML CongratulationInfo;
+	@UiField
+	VerticalPanel viewPanel;
+	@UiField
+	Label congratulationLabel2;
+	@UiField
+	Label congratulationLabel1;
+	@UiField
+	HTML congratulationInfo;
 
 	interface SetupComplitionPageUiBinder extends
 			UiBinder<Widget, SetupComplitionPage> {
@@ -39,6 +43,7 @@ public class SetupComplitionPage extends AbstractSetupPage {
 	 */
 	public SetupComplitionPage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override

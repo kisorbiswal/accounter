@@ -59,6 +59,7 @@ public class SetupReferPage extends AbstractSetupPage {
 	 */
 	public SetupReferPage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override
@@ -75,7 +76,28 @@ public class SetupReferPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		// TODO Auto-generated method stub
+		headerLabel.setText(accounterConstants.howDoYouRefer());
+		// adding Items to customer list box
+		customerListBox.addItem(accounterConstants.customers());
+		customerListBox.addItem(accounterConstants.clients());
+		customerListBox.addItem(accounterConstants.tenants());
+
+		supplierListBox.addItem(accounterConstants.suppliers());
+		supplierListBox.addItem(accounterConstants.vendors());
+
+		accountListBox.addItem(accounterConstants.accounts());
+		accountListBox.addItem(accounterConstants.legands());
+
+		customerLabel.setText(accounterConstants.customer());
+		supplierLabel.setText(accounterConstants.supplier());
+		accountLabel.setText(accounterConstants.account());
+
+		customerCommentLabel.setText(accounterConstants
+				.howDoYouReferYourCustoemrs());
+		supplierCommentLabel.setText(accounterConstants
+				.howDoYouReferYourSuppliers());
+		accountCommentLabel.setText(accounterConstants
+				.howDoYouReferYourAccounts());
 
 	}
 

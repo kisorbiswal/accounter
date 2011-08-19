@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
+import com.vimukti.accounter.web.client.ui.CustomLabel;
 
 /**
  * @author Administrator
@@ -24,37 +25,37 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
-	Label OrganizeText;
+	Label organizeText;
 	@UiField
-	RadioButton PropriterShip;
+	RadioButton propriterShip;
 	@UiField
-	Label UninCorporated;
+	Label uninCorporated;
 	@UiField
-	RadioButton Partnership;
+	RadioButton partnership;
 	@UiField
-	Label MorePartners;
+	Label morePartners;
 	@UiField
-	RadioButton LLC;
+	RadioButton lLC;
 	@UiField
-	Label LLCText;
+	Label lLCText;
 	@UiField
-	RadioButton Corporation;
+	RadioButton corporation;
 	@UiField
-	Label CorporationText;
+	Label corporationText;
 	@UiField
-	RadioButton SCorporation;
+	RadioButton sCorporation;
 	@UiField
-	Label SCorporationText;
+	Label sCorporationText;
 	@UiField
-	RadioButton NonProfit;
+	RadioButton nonProfit;
 	@UiField
-	Label NonProfitText;
+	Label nonProfitText;
 	@UiField
-	RadioButton Other;
+	RadioButton other;
 	@UiField
-	HTML OrganizationLink;
+	HTML organizationLink;
 	@UiField
-	ListBox LLCCombo;
+	ListBox lLCCombo;
 
 	interface SetupOrganisationSelectionPageUiBinder extends
 			UiBinder<Widget, SetupOrganisationSelectionPage> {
@@ -71,6 +72,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	 */
 	public SetupOrganisationSelectionPage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override
@@ -87,8 +89,25 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		// TODO Auto-generated method stub
+		organizeText.setTitle(accounterConstants
+				.howIsYourCompanyOrganizedDesc());
+		propriterShip.setText(accounterConstants.soleProprietorship());
+		partnership.setText(accounterConstants.partnershipOrLLP());
+		lLC.setText(accounterConstants.LLC());
+		corporation.setText(accounterConstants.corporation());
+		sCorporation.setText(accounterConstants.sCorporation());
+		nonProfit.setText(accounterConstants.nonProfit());
+		other.setText(accounterConstants.otherNone());
 
+		organizeText
+				.setText(accounterConstants.howIsYourCompanyOrganizedDesc());
+		uninCorporated.setText(accounterConstants.soleProprietorshipDesc());
+		morePartners.setText(accounterConstants.partnershipOrLLPDesc());
+		lLCText.setText(accounterConstants.LLCDesc());
+		corporationText.setText(accounterConstants.sCorporationDesc());
+		sCorporationText.setText(accounterConstants.corporationDesc());
+		nonProfitText.setText(accounterConstants.nonProfitDesc());
+		// HTML organizationLink;
 	}
 
 }

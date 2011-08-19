@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SetupReviewExpenseAccounts extends Composite implements HasText {
+public class SetupReviewExpenseAccounts extends AbstractSetupPage {
 
 	private static SetupReviewExpenseAccountsUiBinder uiBinder = GWT
 			.create(SetupReviewExpenseAccountsUiBinder.class);
@@ -50,13 +50,19 @@ public class SetupReviewExpenseAccounts extends Composite implements HasText {
 	}
 
 	@Override
-	public String getText() {
+	protected void createControls() {
 		// TODO Auto-generated method stub
-		return null;
+
 	}
 
 	@Override
-	public void setText(String text) {
+	protected void onLoad() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void onSave() {
 		// TODO Auto-generated method stub
 
 	}

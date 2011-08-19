@@ -9,11 +9,11 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:VerticalPanel ui:field="viewPanel" width="" height="">
-			<g:Label ui:field="CustomizeAccounter"/>
-			<g:Label ui:field="SettingsLater"/>
-			<g:Label ui:field="Industry" styleName="industry"/>
-			<g:Label ui:field="SelectIndustry" styleName="select_industry"/>
-			<g:ListBox ui:field="IndustryList"/>
+			<g:Label ui:field="customizeAccounter"/>
+			<g:Label ui:field="settingsLater"/>
+			<g:Label ui:field="industry" styleName="industry"/>
+			<g:Label ui:field="selectIndustry" styleName="select_industry"/>
+			<g:ListBox ui:field="industryList"/>
 		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

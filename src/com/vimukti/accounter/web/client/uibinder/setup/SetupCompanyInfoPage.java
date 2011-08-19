@@ -102,9 +102,9 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		cityTextBox.setText(accounterConstants.city());
 		country.setTitle(accounterConstants.country());
 		phone.setText(accounterConstants.phone());
-		TextBox fax;
-		TextBox emailAddress;
-		TextBox webSite;
+		fax.setText(accounterConstants.fax());
+		emailAddress.setText(accounterConstants.emailId());
+		webSite.setText(accounterConstants.webSite());
 	}
 
 }

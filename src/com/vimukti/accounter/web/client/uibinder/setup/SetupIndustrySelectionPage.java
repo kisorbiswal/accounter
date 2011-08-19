@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Administrator
@@ -22,9 +23,9 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
-	Label CustomizeAccounter;
+	ListBox industryList;
 	@UiField
-	ListBox IndustryList;
+	Label customizeAccounter, settingsLater, industry, selectIndustry;
 
 	interface SetupIndustrySelectionPageUiBinder extends
 			UiBinder<Widget, SetupIndustrySelectionPage> {
@@ -41,6 +42,7 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	 */
 	public SetupIndustrySelectionPage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override
@@ -57,8 +59,47 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		// TODO Auto-generated method stub
+		customizeAccounter.setText(accounterMessages.selectIndustryInfoHTML());
+		settingsLater.setText(accounterMessages.industrySelectNote());
+		selectIndustry.setText(accounterMessages.selectIndustry());
+		industryList.setName(accounterConstants.industry());
+
+		String[] industries = new String[] {
+				Accounter.constants().accountingorBookkeeping(),
+				Accounter.constants().advertisingorPublicRelations(),
+				Accounter.constants().agricultureRanchingFarming(),
+				Accounter.constants().artWritingPhotography(),
+				Accounter.constants().automotiveSalesAndRepair(),
+				Accounter.constants().churhorReligiousOrganisation(),
+				Accounter.constants().constructionGeneralContractor(),
+				Accounter.constants().constructionTrades(),
+				Accounter.constants().designArchitectureEngineering(),
+				Accounter.constants().financialServices(),
+				Accounter.constants().hairSallonBeautysaloon(),
+				Accounter.constants().informationTechnology(),
+				Accounter.constants().insuranceAgencyorBroker(),
+				Accounter.constants().lawncareOrlandscaping(),
+				Accounter.constants().legalServices(),
+				Accounter.constants().lodging(),
+				Accounter.constants().manufacturerRepresentativeOrAgent(),
+				Accounter.constants().manufacturing(),
+				Accounter.constants().medicalDentalorhealthservices(),
+				Accounter.constants().nonProfit(),
+				Accounter.constants().professionalConsulting(),
+				Accounter.constants().propertyManagementorHomeAssociation(),
+				Accounter.constants().realEstateBrokerageorDeveloper(),
+				Accounter.constants().rental(),
+				Accounter.constants().repairandMaintenance(),
+				Accounter.constants().restaurantCatererorbar(),
+				Accounter.constants().retailShoporonlinecommerce(),
+				Accounter.constants().salesIndependentAgent(),
+				Accounter.constants().transportationTruckingordelivery(),
+				Accounter.constants().wholesaledistributionandsales(),
+				Accounter.constants().generalProductbasedBusiness(),
+				Accounter.constants().generalServicebasedBusiness() };
+		for (int i = 0; i < industries.length; i++) {
+			industryList.addItem(industries[i]);
+		}
 
 	}
-
 }

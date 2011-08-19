@@ -31,6 +31,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	 */
 	public SetupCurrencyPage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override
