@@ -42,18 +42,6 @@ public class SetupComplitionPage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected VerticalPanel getViewBody() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected String getViewHeader() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected void onLoad() {
 		// TODO Auto-generated method stub
 
@@ -61,6 +49,12 @@ public class SetupComplitionPage extends AbstractSetupPage {
 
 	@Override
 	protected void onSave() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void createControls() {
 		// TODO Auto-generated method stub
 
 	}

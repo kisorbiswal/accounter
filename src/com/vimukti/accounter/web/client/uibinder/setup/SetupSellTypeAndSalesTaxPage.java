@@ -5,12 +5,12 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.HTML;
 
 /**
  * @author Administrator
@@ -20,19 +20,32 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	private static SetupSellTypeAndSalesTaxPageUiBinder uiBinder = GWT
 			.create(SetupSellTypeAndSalesTaxPageUiBinder.class);
-	@UiField VerticalPanel viewPanel;
-	@UiField RadioButton ServicesOnly;
-	@UiField Label ServicesOnlyText;
-	@UiField RadioButton ProductsOnly;
-	@UiField Label ProductsOnlyText;
-	@UiField RadioButton Both;
-	@UiField Label BothText;
-	@UiField VerticalPanel Sell;
-	@UiField VerticalPanel SalesTax;
-	@UiField Label SalesTaxNoText;
-	@UiField RadioButton SalesTaxNo;
-	@UiField RadioButton SalesTaxYes;
-	@UiField HTML SalesTaxHead;
+	@UiField
+	VerticalPanel viewPanel;
+	@UiField
+	RadioButton ServicesOnly;
+	@UiField
+	Label ServicesOnlyText;
+	@UiField
+	RadioButton ProductsOnly;
+	@UiField
+	Label ProductsOnlyText;
+	@UiField
+	RadioButton Both;
+	@UiField
+	Label BothText;
+	@UiField
+	VerticalPanel Sell;
+	@UiField
+	VerticalPanel SalesTax;
+	@UiField
+	Label SalesTaxNoText;
+	@UiField
+	RadioButton SalesTaxNo;
+	@UiField
+	RadioButton SalesTaxYes;
+	@UiField
+	HTML SalesTaxHead;
 
 	interface SetupSellTypeAndSalesTaxPageUiBinder extends
 			UiBinder<Widget, SetupSellTypeAndSalesTaxPage> {
@@ -52,18 +65,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected VerticalPanel getViewBody() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected String getViewHeader() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected void onLoad() {
 		// TODO Auto-generated method stub
 
@@ -71,6 +72,12 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	@Override
 	protected void onSave() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void createControls() {
 		// TODO Auto-generated method stub
 
 	}

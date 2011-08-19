@@ -7,34 +7,30 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
+	<g:VerticalPanel ui:field="mainViewPanel">
+		<g:Label ui:field="headerLabel">
+		</g:Label>
 		<g:VerticalPanel ui:field="viewPanel">
 			<g:VerticalPanel ui:field="Managing">
-				<g:HTML wordWrap="true"/>
-				<g:HTML wordWrap="true" ui:field="ManagingList"/>
-				<g:HTML wordWrap="true" ui:field="TrackTimeText"/>
+				<g:HTML wordWrap="true" />
+				<g:HTML wordWrap="true" ui:field="ManagingList" />
+				<g:HTML wordWrap="true" ui:field="TrackTimeText" />
 				<g:HorizontalPanel>
-					<g:RadioButton name="new name" ui:field="ManagingYes"/>
-					<g:HTML wordWrap="true" ui:field="ManagingYesText"/>
+					<g:RadioButton name="new name" ui:field="ManagingYes" />
+					<g:HTML wordWrap="true" ui:field="ManagingYesText" />
 				</g:HorizontalPanel>
-				<g:RadioButton name="new name" ui:field="ManagingNo"/>
+				<g:RadioButton name="new name" ui:field="ManagingNo" />
 			</g:VerticalPanel>
 			<g:VerticalPanel ui:field="TrackingBills">
-				<g:HTML wordWrap="true"/>
-				<g:HTML wordWrap="true" ui:field="TrackOfBillsList"/>
-				<g:HTML wordWrap="true" ui:field="TrackOfBillsText"/>
+				<g:HTML wordWrap="true" />
+				<g:HTML wordWrap="true" ui:field="TrackOfBillsList" />
+				<g:HTML wordWrap="true" ui:field="TrackOfBillsText" />
 				<g:HorizontalPanel>
-					<g:RadioButton name="new name" ui:field="TrackingTimeYes"/>
-					<g:HTML wordWrap="true" ui:field="TrackingYesText"/>
+					<g:RadioButton name="new name" ui:field="TrackingTimeYes" />
+					<g:HTML wordWrap="true" ui:field="TrackingYesText" />
 				</g:HorizontalPanel>
-				<g:RadioButton name="new name" ui:field="TrackingNo"/>
+				<g:RadioButton name="new name" ui:field="TrackingNo" />
 			</g:VerticalPanel>
 		</g:VerticalPanel>
-		<!--
-			Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete
-			widget names. The ui:field attribute binds an element to a field in
-			the owner class. See the GWT docs on UI Binder for more details.
-		-->
-		
-	</g:HTMLPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

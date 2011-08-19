@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Administrator
@@ -24,31 +26,35 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
-	Grid CompanyInfoField;
+	Grid companyInfoField;
 	@UiField
-	TextBox CompanyName;
+	TextBox companyName;
 	@UiField
-	TextBox LegalName;
+	TextBox legalName;
 	@UiField
-	TextBox TaxId;
+	TextBox taxId;
 	@UiField
-	TextBox StreetAddress1;
+	TextBox streetAddress1;
 	@UiField
-	TextBox StreetAdress2;
+	TextBox streetAdress2;
 	@UiField
-	HorizontalPanel City;
+	ListBox country;
 	@UiField
-	ListBox Country;
+	HorizontalPanel phonePanel;
 	@UiField
-	HorizontalPanel PhonePanel;
+	TextBox phone;
 	@UiField
-	TextBox Phone;
+	TextBox fax;
 	@UiField
-	TextBox Fax;
+	TextBox emailAddress;
 	@UiField
-	TextBox EmailAddress;
+	TextBox webSite;
 	@UiField
-	TextBox WebSite;
+	TextBox zip;
+	@UiField
+	ListBox stateListBox;
+	@UiField
+	TextBox cityTextBox;
 
 	interface SetupCompanyInfoPageUiBinder extends
 			UiBinder<Widget, SetupCompanyInfoPage> {
@@ -65,17 +71,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	 */
 	public SetupCompanyInfoPage() {
 		initWidget(uiBinder.createAndBindUi(this));
-	}
-
-	@Override
-	protected VerticalPanel getViewBody() {
-		return null;
-	}
-
-	@Override
-	protected String getViewHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		createControls();
 	}
 
 	@Override
@@ -86,8 +82,29 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	@Override
 	protected void onSave() {
-		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void createControls() {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			taxId.setText(accounterConstants.taxId());
+		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			taxId.setText(accounterConstants.vatNo());
+		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+			taxId.setText(accounterConstants.panNumber());
+		}
+		companyName.setText(accounterConstants.displayName());
+		legalName.setText(accounterConstants.legalName());
+
+		streetAddress1.setText(accounterConstants.streetAddress1());
+		streetAdress2.setText(accounterConstants.streetAddress2());
+		cityTextBox.setText(accounterConstants.city());
+		country.setTitle(accounterConstants.country());
+		phone.setText(accounterConstants.phone());
+		TextBox fax;
+		TextBox emailAddress;
+		TextBox webSite;
 	}
 
 }

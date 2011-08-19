@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Image;
 
 /**
  * @author Administrator
- *
+ * 
  */
 public class SetupProgressPanel extends AbstractSetupPage {
 
@@ -50,43 +50,34 @@ public class SetupProgressPanel extends AbstractSetupPage {
 	}
 
 	/**
-	 * Because this class has a default constructor, it can
-	 * be used as a binder template. In other words, it can be used in other
-	 * *.ui.xml files as follows:
-	 * <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	 *   xmlns:g="urn:import:**user's package**">
-	 *  <g:**UserClassName**>Hello!</g:**UserClassName>
-	 * </ui:UiBinder>
-	 * Note that depending on the widget that is used, it may be necessary to
-	 * implement HasHTML instead of HasText.
+	 * Because this class has a default constructor, it can be used as a binder
+	 * template. In other words, it can be used in other *.ui.xml files as
+	 * follows: <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	 * xmlns:g="urn:import:**user's package**">
+	 * <g:**UserClassName**>Hello!</g:**UserClassName> </ui:UiBinder> Note that
+	 * depending on the widget that is used, it may be necessary to implement
+	 * HasHTML instead of HasText.
 	 */
 	public SetupProgressPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
 	@Override
-	protected VerticalPanel getViewBody() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected String getViewHeader() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected void onLoad() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void onSave() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
+	@Override
+	protected void createControls() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

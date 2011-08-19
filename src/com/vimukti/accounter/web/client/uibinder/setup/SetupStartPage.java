@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Administrator
@@ -40,24 +39,12 @@ public class SetupStartPage extends AbstractSetupPage {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
+	public SetupStartPage(SetupWizard setupWizard) {
+
+	}
+
 	@UiField
 	VerticalPanel viewPanel;
-
-	@Override
-	protected VerticalPanel getViewBody() {
-		startButton.setText(accounterConstants.startSetup());
-		skipButton.setText(accounterConstants.skipSetup());
-		setupInfo.setText(accounterMessages.userGuidelinesMessage());
-		startSetupInfo.setText(accounterMessages.startSetupInfo());
-		skipSetupInfo.setHTML(accounterMessages.skipSetupInfo());
-
-		return viewPanel;
-	}
-
-	@Override
-	protected String getViewHeader() {
-		return Accounter.constants().welcomeToStartup();
-	}
 
 	@Override
 	protected void onLoad() {
@@ -68,6 +55,16 @@ public class SetupStartPage extends AbstractSetupPage {
 	@Override
 	protected void onSave() {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void createControls() {
+		startButton.setText(accounterConstants.startSetup());
+		skipButton.setText(accounterConstants.skipSetup());
+		setupInfo.setText(accounterMessages.userGuidelinesMessage());
+		startSetupInfo.setText(accounterMessages.startSetupInfo());
+		skipSetupInfo.setHTML(accounterMessages.skipSetupInfo());
 
 	}
 

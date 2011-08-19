@@ -21,7 +21,7 @@
 			<g:Label ui:field="MorePartners"/>
 			<g:RadioButton name="new name" ui:field="LLC"/>
 			<g:Label ui:field="LLCText"/>
-			<g:ListBox/>
+			<g:ListBox ui:field="LLCCombo"/>
 			<g:RadioButton name="new name" ui:field="Corporation"/>
 			<g:Label ui:field="CorporationText"/>
 			<g:RadioButton name="new name" ui:field="SCorporation"/>

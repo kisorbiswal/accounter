@@ -41,6 +41,24 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	@UiField
 	DateBox FiscalDate;
 	@UiField
+	VerticalPanel viewPanel;
+	@UiField
+	Label FiscalStarts;
+	@UiField
+	HTML FiscalHeader;
+	@UiField
+	Label StartDate;
+	@UiField
+	RadioButton BeginingFiscal;
+	@UiField
+	HTML BeginingFiscalText;
+	@UiField
+	RadioButton TodaysDate;
+	@UiField
+	HTML TodaysDateText;
+	@UiField
+	DateBox FiscalDate;
+	@UiField
 	ListBox FiscalStartsList;
 
 	interface SetupSelectFiscalYrDatePageUiBinder extends
@@ -61,22 +79,19 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected VerticalPanel getViewBody() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected String getViewHeader() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected void onLoad() {
 		// TODO Auto-generated method stub
 
 	}
+
+
+	@Override
+	protected void createControls() {
+		// TODO Auto-generated method stub
+
+
+	}
+
 
 	@Override
 	protected void onSave() {

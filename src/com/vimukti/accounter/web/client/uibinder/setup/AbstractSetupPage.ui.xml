@@ -6,9 +6,7 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
 		<g:VerticalPanel ui:field="mainViewPanel">
 			<g:Label ui:field="header" text=""/>
 		</g:VerticalPanel>
-	</g:HTMLPanel>
 </ui:UiBinder> 
