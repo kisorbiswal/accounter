@@ -12,8 +12,10 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -29,7 +31,7 @@ import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
  * 
  */
 
-public class ViewManager extends VerticalPanel {
+public class ViewManager extends HorizontalPanel {
 
 	/**
 	 * This reference var. holds currently opened view. it is not only
@@ -59,9 +61,14 @@ public class ViewManager extends VerticalPanel {
 	ButtonGroup group2;
 	ButtonGroup group3;
 
+	private SimplePanel viewHolder;
+
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
 		addStyleName("view_manager");
+		VerticalPanel leftPanel=new VerticalPanel();
+		this.viewHolder=new SimplePanel();
+		leftPanel.add(viewHolder);
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -72,17 +79,22 @@ public class ViewManager extends VerticalPanel {
 		});
 		// handleBackSpaceEvent();
 		this.toolBar = new ToolBar();
-		this.add(toolBar);
+		leftPanel.add(toolBar);
+		this.add(leftPanel);
+		this.add(createHelpPanel());
 		initilizeToolBar();
 		initializeActivityManager();
+	}
+
+	private Widget createHelpPanel() {
+		//TODO implement help panel here
+		return new SimplePanel();
 	}
 
 	private void initializeActivityManager() {
 		this.manager = new ActivityManager(new AccounterActivityMapper(),
 				Accounter.getEventBus());
-		SimplePanel panel = new SimplePanel();
-		manager.setDisplay(panel);
-		this.add(panel);
+		manager.setDisplay(viewHolder);
 	}
 
 	private void handleBackSpaceEvent() {
@@ -213,7 +225,7 @@ public class ViewManager extends VerticalPanel {
 			existingView.removeFromParent();
 		}
 		existingView = newview;
-		add(newview);
+		viewHolder.add(newview);
 		updateButtons();
 	}
 
@@ -270,7 +282,7 @@ public class ViewManager extends VerticalPanel {
 			if (data != null && callback != null) {
 				callback.actionResult(data);
 			}
-			this.add(item.view);
+			viewHolder.add(item.view);
 			this.views.add(item);
 			History.newItem(item.action.getHistoryToken(), false);
 		}
