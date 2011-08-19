@@ -5358,7 +5358,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
 	color: white !important;
 	border: 0px none !important;
 	border-radius: 0 0 0 0 !important;*/
-	background: none repeat scroll 0 0 #1A5158;
+	background: none repeat scroll 0 0 #1A5158 !important;
 	background: none repeat scroll 0 0 #1A5158\0;
     border-radius: 5px 5px 5px 5px;
     color: white;
@@ -6591,6 +6591,8 @@ a#fdbk_tab:hover{
     border-radius:5px 5px 5px 5px;
 	-webkit-border-radius:5px 5px 5px 5px;
 	-moz-border-radius:5px 5px 5px 5px;
+	 height: 25px;
+    padding-bottom: 5px;
 }
 .cancle-Btn{
 	background-color: #E4E4E4 !important;
