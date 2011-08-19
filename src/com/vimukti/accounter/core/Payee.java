@@ -72,6 +72,7 @@ public abstract class Payee extends CreatableObject implements
 	String cstNumber;
 	String serviceTaxRegistrationNumber;
 	String tinNumber;
+	private String currency;
 
 	public transient boolean isOnSaveProccessed;
 
@@ -470,6 +471,14 @@ public abstract class Payee extends CreatableObject implements
 
 	public void setTINNumber(String tINNumber) {
 		tinNumber = tINNumber;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
 }
