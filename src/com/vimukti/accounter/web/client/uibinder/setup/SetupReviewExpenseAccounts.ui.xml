@@ -1,0 +1,32 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<g:VerticalPanel ui:field="viewPanel">
+			<g:Label ui:field="ExpensesInfo"/>
+			<g:HTML wordWrap="true" ui:field="RecommendedInfo"/>
+			<g:Grid>
+				<g:row>
+					<g:customCell>
+						<g:CheckBox ui:field="ExpensesClick"/>
+					</g:customCell>
+					<g:customCell>
+						<g:Label ui:field="AccountName"/>
+					</g:customCell>
+					<g:customCell>
+						<g:Label ui:field="Type"/>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+			<g:Button enabled="false" ui:field="RestoreButton"/>
+			<g:HTML wordWrap="true" ui:field="ExpensesLink"/>
+			<g:HTML wordWrap="true" ui:field="ExpensesNote"/>
+		</g:VerticalPanel>
+		
+	</g:HTMLPanel>
+</ui:UiBinder> 

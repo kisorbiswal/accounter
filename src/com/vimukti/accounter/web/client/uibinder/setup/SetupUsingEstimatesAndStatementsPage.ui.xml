@@ -8,6 +8,26 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
+		<g:VerticalPanel ui:field="viewPanel">
+			<g:HorizontalPanel>
+				<g:RadioButton name="new name" ui:field="EstimatesYes"/>
+				<g:Label ui:field="EstimatesYesText"/>
+			</g:HorizontalPanel>
+			<g:RadioButton name="new name" ui:field="EstimatesNo"/>
+			<g:VerticalPanel>
+				<g:Label ui:field="BillingStatements"/>
+				<g:Label ui:field="SomeExampleText"/>
+				<g:HTML wordWrap="true" ui:field="SomeExampleList"/>
+				<g:VerticalPanel>
+					<g:Label ui:field="BillingQuestion"/>
+					<g:HorizontalPanel>
+						<g:RadioButton name="new name" ui:field="StatementYes"/>
+						<g:Label ui:field="StatementYesText"/>
+					</g:HorizontalPanel>
+					<g:RadioButton name="new name" ui:field="StatementsNo"/>
+				</g:VerticalPanel>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
 
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -7,6 +7,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
 
 /**
  * @author Administrator
@@ -16,6 +19,10 @@ public class SetupComplitionPage extends AbstractSetupPage {
 
 	private static SetupComplitionPageUiBinder uiBinder = GWT
 			.create(SetupComplitionPageUiBinder.class);
+	@UiField VerticalPanel viewPanel;
+	@UiField Label CongratulationLabel2;
+	@UiField Label CongratulationLabel1;
+	@UiField HTML CongratulationInfo;
 
 	interface SetupComplitionPageUiBinder extends
 			UiBinder<Widget, SetupComplitionPage> {
