@@ -1298,6 +1298,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 								+ nominalCodeRange[1]);
 				return false;
 			}
+			else {
+				clearError(accNoText);
+			}
 		}
 		accNoText.setValue(String.valueOf(number));
 
