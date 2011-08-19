@@ -77,7 +77,8 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 	@Override
 	public void deleteSuccess(IAccounterCore result){
-
+		grid.deleteRecord((ClientTAXGroup) result);
+		itemsGrid.removeAllRecords();
 	}
 
 	@Override

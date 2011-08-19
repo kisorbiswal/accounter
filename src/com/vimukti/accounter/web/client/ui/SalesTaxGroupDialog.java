@@ -224,7 +224,10 @@ public class SalesTaxGroupDialog extends BaseDialog {
 							.getSelection();
 					selectTaxItemsGrid.deleteRecord(gridRecord);
 					tempSelectedTaxItemList.remove(gridRecord);
+					int selectedIndex = availTaxItemsGrid
+							.getSelectedRecordIndex();
 					availTaxItemsGrid.addData(gridRecord);
+					availTaxItemsGrid.selectRecord(selectedIndex);
 					if (tempAvailTaxItemList != null)
 						tempAvailTaxItemList.add(gridRecord);
 					if (selectTaxItemsGrid.getRecords() == null

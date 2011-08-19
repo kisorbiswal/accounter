@@ -162,7 +162,7 @@ public class TAXItem extends TAXItemGroup {
 		accounterCore.setObjectType(AccounterCoreType.TAXITEM);
 		ChangeTracker.put(accounterCore);
 
-		return false;
+		return super.onDelete(session);
 	}
 
 	@Override

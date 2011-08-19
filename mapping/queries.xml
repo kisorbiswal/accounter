@@ -1342,5 +1342,10 @@
 		v.taxItem.name=:taxItemName and v.transactionDate between :startDate
 		and :endDate order by v.taxItem.name, v.journalEntry.transactionDate
 	</query>
+	
+	<query name="getTAXCode.for.TAXItemGroup">
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.TAXCode t where t.TAXItemGrpForSales.id=:id
+	</query>
 
 </hibernate-mapping>

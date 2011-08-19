@@ -106,8 +106,13 @@ public class TAXItemGroup extends CreatableObject implements
 	}
 
 	@Override
-	public boolean onDelete(Session arg0) throws CallbackException {
-
+	public boolean onDelete(Session session) throws CallbackException {
+		if (Company.getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+			TAXCode code = (TAXCode) session
+					.getNamedQuery("getTAXCode.for.TAXItemGroup")
+					.setParameter("id", this.id).uniqueResult();
+			session.delete(code);
+		}
 		return false;
 	}
 

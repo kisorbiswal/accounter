@@ -546,10 +546,22 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	private boolean canDelete(String serverClass, long id) {
+		String queryName = getCanDeleteQueryName(serverClass);
 		Query query = HibernateUtil.getCurrentSession()
-				.getNamedQuery("canDelete" + serverClass)
+				.getNamedQuery(queryName)
 				.setParameter("inputId", id);
 		return executeQuery(query);
+	}
+
+	private String getCanDeleteQueryName(String serverClass) {
+		StringBuffer query = new StringBuffer("canDelete");
+		query.append(serverClass);
+		if(serverClass.equals("TAXItem") || serverClass.equals("TAXGroup")) {
+			if(getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+				query.append("ForUS");
+			}
+		}
+		return query.toString();
 	}
 
 	public void updateCompanyPreferences(OperationContext context)
