@@ -444,7 +444,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		data.setBankAccountNo(bankAccountSelect.getValue().toString());
 
 		// Setting currency
-		 data.setCurrency(currencyCombo.getValue().toString());
+	//	 data.setCurrency(currencyCombo.getValue().toString());
 
 		// Setting Bank name
 		data.setBankName(bankNameSelect.getValue().toString());
@@ -487,6 +487,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// }
 		Set<ClientContact> allContacts = new HashSet<ClientContact>();
 
+		if(allGivenRecords.isEmpty())
+		{
+			data.setContacts(allContacts);
+		}
 		for (IsSerializable rec : allGivenRecords) {
 			ClientContact tempRecord = (ClientContact) rec;
 			ClientContact contact = new ClientContact();
