@@ -57,7 +57,7 @@
 				<input id="mid-box1"  type="password" name="password" tabindex="2">
 			  </div>
 			  <div class="rememberMe">
-			    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn" value="unchecked"/> 
+			    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn"/> 
 				<label>Remember Me</label>
 			  </div>
 			  <div class="loginbutton">

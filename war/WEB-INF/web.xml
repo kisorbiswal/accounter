@@ -105,6 +105,16 @@
 		<servlet-class>com.vimukti.accounter.developer.api.RegistrationServlet
 		</servlet-class>
 	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>S2SService</servlet-name>
+		<url-pattern>/stosservice</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>S2SService</servlet-name>
+		<servlet-class>com.vimukti.accounter.services.S2SServiceImpl
+		</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>Companies</servlet-name>

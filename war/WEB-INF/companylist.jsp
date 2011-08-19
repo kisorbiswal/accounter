@@ -11,6 +11,7 @@
   <div id="commanContainer">
 	<div>
 		<img src="../images/Accounter_logo_title.png" class="accounterLogo" />
+		<a href="/do/logout">Logout</a>
 	</div>
     <div class="company_lists">
        
@@ -24,7 +25,8 @@
 	    <c:if test="${companeyList != null}">
 		   <c:forEach var="company" items="${companeyList}">
 			   <c:set var='url' value="/companies?companyId=${company.id}"/>
-			   <li><a href=${url}>${company.companyName}</a></li>
+			    <c:set var='deleteurl' value="/deletecompany?companyId=${company.id}"/>
+			   <div><a href=${url}>${company.companyName}</a> <a href=${deleteurl}>delete</a></div>
 		   </c:forEach>
 	    </c:if>
 	    
