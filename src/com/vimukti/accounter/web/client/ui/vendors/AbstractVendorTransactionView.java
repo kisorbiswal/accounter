@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -174,6 +175,13 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			return;
 		this.setVendor(vendor);
 		initContacts(vendor);
+
+		Iterator<ClientContact> iterator = contacts.iterator();
+		while (iterator.hasNext()) {
+			contactCombo.setValue(iterator.next().getName());
+			break;
+		}
+
 		// initPhones(vendor);
 		paymentMethodSelected(vendor.getPaymentMethod());
 		addressListOfVendor = vendor.getAddress();
@@ -244,6 +252,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	}
 
 	public void initContacts(ClientVendor vendor) {
+
 		if (contactCombo == null)
 			return;
 		this.contacts = vendor.getContacts();
@@ -320,6 +329,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			phoneSelect.setValue(this.phoneNo);
 			contactCombo.setValue(contact.getName());
 		}
+
 		// contactCombo.setDisabled(isEdit);
 
 	}
@@ -393,6 +403,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			@Override
 			public void execute(ClientContact value) {
 				addContactToVendor(value);
+				initContacts(vendorCombo.getSelectedValue());
+
 			}
 		});
 		contactCombo.setDisabled(isEdit);
@@ -406,6 +418,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		if (selectedVendor == null) {
 			return;
 		}
+
 		selectedVendor.addContact(value);
 		AccounterAsyncCallback<Long> asyncallBack = new AccounterAsyncCallback<Long>() {
 

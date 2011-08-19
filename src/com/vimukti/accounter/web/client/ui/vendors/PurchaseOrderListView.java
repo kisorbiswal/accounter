@@ -145,6 +145,7 @@ public class PurchaseOrderListView extends BaseListView<PurchaseOrdersList> {
 							grid.setViewType(viewSelect.getSelectedValue()
 									.toString());
 							filterList(viewSelect.getSelectedValue().toString());
+							
 
 						}
 
