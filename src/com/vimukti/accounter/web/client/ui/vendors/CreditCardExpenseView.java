@@ -198,8 +198,15 @@ public class CreditCardExpenseView extends
 
 	@Override
 	protected void createControls() {
+		String vendorString = null;
 
-		Ccard = new VendorCombo(Accounter.constants().supplierName(), true) {
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			vendorString = Accounter.constants().supplierName();
+		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			vendorString = Accounter.constants().vendorName();
+		}
+
+		Ccard = new VendorCombo(vendorString, true) {
 			@Override
 			public void initCombo(List<ClientVendor> list) {
 				Iterator<ClientVendor> iterator = list.iterator();
