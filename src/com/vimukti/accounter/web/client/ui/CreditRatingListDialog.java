@@ -160,15 +160,15 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	@Override
 	protected boolean onOK() {
+
 		if (creditRating != null) {
-			if (creditRating != null) {
-				EditCreditRatings();
-				creditRating = null;
-			} else {
-				createCreditRatings();
-				creditRating = null;
-			}
+			EditCreditRatings();
+			creditRating = null;
+		} else {
+			createCreditRatings();
+			creditRating = null;
 		}
+
 		return true;
 	}
 
