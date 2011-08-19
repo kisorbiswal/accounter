@@ -4802,21 +4802,4 @@ public interface AccounterConstants extends Constants {
 
 	public String statementSomeExample();
 
-	public String statementlist();
-
-	public String statementQuestion();
-
-	public String managingList();
-
-	public String trackTimeList();
-
-	public String expenseInformation();
-
-	public String recommendedAccounts();
-
-	public String restoreRecommendations();
-
-	public String whyshoudIUseRecommended();
-
-	public String recommendedNote();
 }

@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.externalization;
 
-import java.awt.Stroke;
-
 import com.google.gwt.i18n.client.Messages;
 import com.google.gwt.safehtml.shared.SafeHtml;
 
@@ -103,7 +101,7 @@ public interface AccounterMessages extends Messages {
 	public String selectIndustryInfoHTML();
 
 	public String selectIndustry();
-	
+
 	public String userGuidelinesMessage();
 
 	public String accounterUseYourForms();
@@ -117,5 +115,23 @@ public interface AccounterMessages extends Messages {
 	public String startSetupInfo();
 
 	public String skipSetupInfo();
-	
+
+	public String statementlist();
+
+	public String statementQuestion();
+
+	public String managingList();
+
+	public String trackTimeList();
+
+	public String expenseInformation();
+
+	public String recommendedAccounts();
+
+	public String restoreRecommendations();
+
+	public String whyshoudIUseRecommended();
+
+	public String recommendedNote();
+
 }
