@@ -172,7 +172,11 @@ public class NewCustomerPaymentView extends
 
 		}
 		// transaction.setToBePrinted(isChecked);
-		printCheck.setValue(transaction.isToBePrinted());
+		if (transaction.getID() != 0)
+
+			printCheck.setValue(transaction.isToBePrinted());
+		else
+			printCheck.setValue(true);
 
 		if (transactionDate != null)
 			transaction.setDate(transactionDateItem.getEnteredDate().getDate());
