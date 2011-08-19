@@ -23,6 +23,7 @@ public class SetupReviewExpenseAccounts extends AbstractSetupPage {
 
 	public SetupReviewExpenseAccounts() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@UiField

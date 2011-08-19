@@ -14,6 +14,7 @@ public class SetupSkipDialog extends AbstractSetupPage {
 
 	public SetupSkipDialog() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override

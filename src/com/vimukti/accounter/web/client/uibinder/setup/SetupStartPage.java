@@ -10,6 +10,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 
 /**
  * @author Administrator
@@ -17,10 +19,12 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SetupStartPage extends AbstractSetupPage {
 
+	private SetupWizard setupWizard;
 	private static SetupStartPageUiBinder uiBinder = GWT
 			.create(SetupStartPageUiBinder.class);
 	@UiField
 	Button startButton, skipButton;
+	@UiField
 	HTML setupInfo, startSetupInfo, skipSetupInfo;
 
 	interface SetupStartPageUiBinder extends UiBinder<Widget, SetupStartPage> {
@@ -36,11 +40,13 @@ public class SetupStartPage extends AbstractSetupPage {
 	 * HasHTML instead of HasText.
 	 */
 	public SetupStartPage() {
-		initWidget(uiBinder.createAndBindUi(this));
+
 	}
 
 	public SetupStartPage(SetupWizard setupWizard) {
-
+		initWidget(uiBinder.createAndBindUi(this));
+		this.setupWizard = setupWizard;
+		createControls();
 	}
 
 	@UiField
@@ -60,12 +66,21 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		startButton.setText(accounterConstants.startSetup());
-		skipButton.setText(accounterConstants.skipSetup());
-		setupInfo.setText(accounterMessages.userGuidelinesMessage());
-		startSetupInfo.setText(accounterMessages.startSetupInfo());
-		skipSetupInfo.setHTML(accounterMessages.skipSetupInfo());
+		this.startButton.setText(accounterConstants.startSetup());
+		this.skipButton.setText(accounterConstants.skipSetup());
+		this.setupInfo.setText(accounterMessages.userGuidelinesMessage());
+		this.startSetupInfo.setText(accounterMessages.startSetupInfo());
+		this.skipSetupInfo.setHTML(accounterMessages.skipSetupInfo());
 
 	}
 
+	@UiHandler("startButton")
+	void onStartButtonClick(ClickEvent event) {
+		setupWizard.currentViewIndex++;
+		setupWizard.showView();
+	}
+
+	@UiHandler("skipButton")
+	void onSkipButtonClick(ClickEvent event) {
+	}
 }

@@ -45,6 +45,7 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 
 	public SetupTrackEmployeesPage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override

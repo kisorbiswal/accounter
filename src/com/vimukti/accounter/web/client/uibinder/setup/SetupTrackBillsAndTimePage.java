@@ -61,6 +61,7 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	 */
 	public SetupTrackBillsAndTimePage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override

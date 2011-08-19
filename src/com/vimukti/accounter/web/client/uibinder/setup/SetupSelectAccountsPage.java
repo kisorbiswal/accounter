@@ -31,6 +31,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	 */
 	public SetupSelectAccountsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override

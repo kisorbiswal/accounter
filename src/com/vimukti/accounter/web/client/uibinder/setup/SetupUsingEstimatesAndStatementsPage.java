@@ -13,17 +13,28 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 
 	private static SetupUsingEstimatesAndStatementsPageUiBinder uiBinder = GWT
 			.create(SetupUsingEstimatesAndStatementsPageUiBinder.class);
-	@UiField VerticalPanel viewPanel;
-	@UiField Label EstimatesYesText;
-	@UiField RadioButton EstimatesYes;
-	@UiField RadioButton EstimatesNo;
-	@UiField Label BillingStatements;
-	@UiField Label SomeExampleText;
-	@UiField HTML SomeExampleList;
-	@UiField Label BillingQuestion;
-	@UiField RadioButton StatementYes;
-	@UiField Label StatementYesText;
-	@UiField RadioButton StatementsNo;
+	@UiField
+	VerticalPanel viewPanel;
+	@UiField
+	Label EstimatesYesText;
+	@UiField
+	RadioButton EstimatesYes;
+	@UiField
+	RadioButton EstimatesNo;
+	@UiField
+	Label BillingStatements;
+	@UiField
+	Label SomeExampleText;
+	@UiField
+	HTML SomeExampleList;
+	@UiField
+	Label BillingQuestion;
+	@UiField
+	RadioButton StatementYes;
+	@UiField
+	Label StatementYesText;
+	@UiField
+	RadioButton StatementsNo;
 
 	interface SetupUsingEstimatesAndStatementsPageUiBinder extends
 			UiBinder<Widget, SetupUsingEstimatesAndStatementsPage> {
@@ -31,6 +42,7 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 
 	public SetupUsingEstimatesAndStatementsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override

@@ -58,6 +58,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	 */
 	public SetupSelectFiscalYrDatePage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override

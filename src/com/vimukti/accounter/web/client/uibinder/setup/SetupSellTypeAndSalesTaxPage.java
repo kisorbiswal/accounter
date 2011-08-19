@@ -62,6 +62,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	 */
 	public SetupSellTypeAndSalesTaxPage() {
 		initWidget(uiBinder.createAndBindUi(this));
+		createControls();
 	}
 
 	@Override
