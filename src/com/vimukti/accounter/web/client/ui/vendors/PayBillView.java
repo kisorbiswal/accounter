@@ -733,6 +733,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		result.add(payForm.validate());
 		if (filterForm != null) {
 			result.add(filterForm.validate());
+			return result;
 		}
 		if (!isEdit) {
 			/*
@@ -743,7 +744,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			 */
 			if (AccounterValidator.isBlankTransaction(gridView)) {
 				result.addError(vendorTransactionGrid,
-						accounterConstants.blankTransaction());
+						accounterConstants.noBillsAreAvailableFirstAddABill());
 			}
 
 			else {
