@@ -21,6 +21,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -308,7 +309,8 @@ public class BaseServlet extends HttpServlet {
 	}
 
 	protected IS2SService getS2sSyncProxy(String domainName) {
-		String url = "http://" + domainName + ":8890/stosservice";
+		String url = "http://" + domainName + ":"
+				+ ServerConfiguration.getMainServerPort() + "/stosservice";
 		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
 				"");
 	}
