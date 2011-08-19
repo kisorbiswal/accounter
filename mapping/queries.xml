@@ -192,6 +192,11 @@
 		select c.number from
 		com.vimukti.accounter.core.Customer c order by c.id
 	</query>
+	
+	<query name="getVendorNumber.byId.andOrder">
+		select v.vendorNumber from
+		com.vimukti.accounter.core.Vendor v order by v.id
+	</query>
 
 	<query name="getassestNumber.from.FixedAsset">
 		select f.assetNumber from
