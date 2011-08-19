@@ -4349,31 +4349,31 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		this.taxId = taxId;
 	}
 
-	public void toCompany(ClientCompany clientCompany) {
+	public void updatePreferences(ClientCompany clientCompany) {
 
 		ServerConvertUtil serverConvertUtil = new ServerConvertUtil();
-		this.fullName = clientCompany.getName();
+		this.setFullName(clientCompany.getName());
 
-		this.tradingAddress = serverConvertUtil.toServerObject(
+		this.setTradingAddress(serverConvertUtil.toServerObject(
 				this.tradingAddress, clientCompany.getTradingAddress(),
-				HibernateUtil.getCurrentSession());
-		this.registeredAddress = serverConvertUtil.toServerObject(
+				HibernateUtil.getCurrentSession()));
+		this.setRegisteredAddress(serverConvertUtil.toServerObject(
 				this.registeredAddress, clientCompany.getRegisteredAddress(),
-				HibernateUtil.getCurrentSession());
+				HibernateUtil.getCurrentSession()));
 
-		this.companyEmail = clientCompany.getCompanyEmail();
+		this.setCompanyEmail(clientCompany.getCompanyEmail());
 		// RegisteredName=legalName
-		this.legalName = clientCompany.getTradingName();
-		this.registrationNumber = clientCompany.getRegistrationNumber();
-		this.phone = clientCompany.getPhone();
-		this.fax = clientCompany.getFax();
-		this.taxId = clientCompany.getTaxId();
-		this.webSite = clientCompany.getWebSite();
-		this.bankAccountNo = clientCompany.getBankAccountNo();
-		this.sortCode = clientCompany.getSortCode();
-		this.preferences = serverConvertUtil.toServerObject(this.preferences,
+		this.setTradingName(clientCompany.getTradingName());
+		this.setRegistrationNumber(clientCompany.getRegistrationNumber());
+		this.setPhone(clientCompany.getPhone());
+		this.setFax(clientCompany.getFax());
+		this.setTaxId(clientCompany.getTaxId());
+		this.setWebSite(clientCompany.getWebSite());
+		this.setBankAccountNo(clientCompany.getBankAccountNo());
+		this.setSortCode(clientCompany.getSortCode());
+		this.setPreferences(serverConvertUtil.toServerObject(this.preferences,
 				clientCompany.getPreferences(),
-				HibernateUtil.getCurrentSession());
+				HibernateUtil.getCurrentSession()));
 	}
 
 	public ClientCompany toClientCompany() throws AccounterException {

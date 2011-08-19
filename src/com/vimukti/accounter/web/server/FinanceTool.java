@@ -615,11 +615,11 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 
 			Company cmp = Company.getCompany();
-			cmp.toCompany((ClientCompany) data);
+			cmp.updatePreferences((ClientCompany) data);
 
+			HibernateUtil.getCurrentSession().update(cmp);
+			transaction.commit();
 			ChangeTracker.put(cmp.toClientCompany());
-			Company serverObject = cmp;
-			HibernateUtil.getCurrentSession().update(serverObject);
 			return cmp.getID();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
