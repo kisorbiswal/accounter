@@ -1,16 +1,16 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ReportUtility {
 
 	public static int companyType;
 
 	public static String getTransactionName(int transactionType) {
-		AccounterConstants constants = Accounter.constants();
+		AccounterConstants constants = Global.get().constants();
 		String transactionName = null;
 		switch (transactionType) {
 		case ClientTransaction.MEMO_OPENING_BALANCE:
