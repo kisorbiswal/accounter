@@ -79,7 +79,7 @@ public class SetupWizard extends VerticalPanel {
 				CustomLabel label = new CustomLabel(progressLabels[iii]);
 				progressImages[iii] = new Image(Accounter.getFinanceImages()
 						.tickMark());
-				progressImages[iii].setVisible(false);
+				progressImages[iii].addStyleName("tick_hidden");
 				progressPanel1.add(progressImages[iii]);
 				progressPanel1.add(label);
 
@@ -256,7 +256,7 @@ public class SetupWizard extends VerticalPanel {
 		// setting the progress
 		if (currentViewIndex > 1) {
 			progressImagesIndex = currentViewIndex - 2;
-			progressImages[progressImagesIndex].setVisible(true);
+			progressImages[progressImagesIndex].addStyleName("tick_show");
 		}
 	}
 }
