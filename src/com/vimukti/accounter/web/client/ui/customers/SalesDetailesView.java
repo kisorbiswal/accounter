@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -149,7 +148,7 @@ public class SalesDetailesView extends ParentCanvas {
 		flexTable.setWidget(4, 0, statusLabel);
 		flexTable.setWidget(5, 0, itemsLabel);
 		flexTable.setWidget(7, 0, billingAddress);
-		if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+		if (getPreferences().isDoProductShipMents()) {
 			flexTable.setWidget(9, 0, shippingAddress);
 		}
 		flexTable.setWidget(1, 1, orderNumberField);
@@ -158,7 +157,7 @@ public class SalesDetailesView extends ParentCanvas {
 		flexTable.setWidget(4, 1, statusField);
 		flexTable.setWidget(6, 0, itemsGrid);
 		flexTable.setWidget(8, 0, billingAdress);
-		if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+		if (getPreferences().isDoProductShipMents()) {
 			flexTable.setWidget(10, 0, shippingAdress);
 		}
 		cellFormatter.setColSpan(6, 0, 2);
