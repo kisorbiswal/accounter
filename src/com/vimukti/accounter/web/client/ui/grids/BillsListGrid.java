@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -33,9 +32,9 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		case 3:
 			return bills.getVendorName();
 		case 4:
-			return DataUtils.getAmountAsString(bills.getOriginalAmount());
+			return amountAsString(bills.getOriginalAmount());
 		case 5:
-			return DataUtils.getAmountAsString(bills.getBalance());
+			return amountAsString(bills.getBalance());
 		case 6:
 			if (!bills.isVoided())
 				return Accounter.getFinanceImages().notvoid();
