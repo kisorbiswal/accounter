@@ -120,9 +120,11 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 		// paymentMethodCombo.setWidth(100);
 
 		billsDue = new DateField(companyConstants.returnsDueOnOrBefore());
+
 		billsDue.setHelpInformation(true);
 		billsDue.setTitle(companyConstants.returnsDueOnOrBefore());
 		billsDue.setDisabled(isEdit);
+
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override

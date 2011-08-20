@@ -230,4 +230,12 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 	public void addClickHandler(ClickHandler handler) {
 		datePicker.addClickHandler(handler);
 	}
+
+	public void addEmpty_Date_FieldStyle() {
+		datePicker.addStyleName("empty_date_field");
+	}
+
+	public void removeEmpty_Date_FieldStyle() {
+		datePicker.removeStyleName("empty_date_field");
+	}
 }

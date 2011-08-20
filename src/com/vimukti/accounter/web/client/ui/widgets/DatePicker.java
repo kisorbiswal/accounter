@@ -91,6 +91,9 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	public DatePicker() {
 		super();
 		setText(dateFormatter.getPattern());
+
+		this.addStyleName("empty_date_field");
+
 		// sinkEvents(Event.ONCLICK);
 		// addClickHandler(this);
 		addChangeHandler(this);
@@ -152,7 +155,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 */
 	public void setSelectedDate(Date value) {
 		this.selectedDate = value;
-
+		this.removeStyleName("empty_date_field");
 		synchronizeFromDate();
 
 		// fireChange();
@@ -349,13 +352,15 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 * Display the date in the DatePicker.
 	 */
 	public void synchronizeFromDate() {
+		this.removeStyleName("empty_date_field");
 		if (this.selectedDate != null) {
+
 			this.setText(dateFormatter.format(this.selectedDate));
 			if (handler != null)
 				handler.onDateValueChange(new ClientFinanceDate(
 						this.selectedDate));
 		} else {
-			this.setText("");
+
 		}
 	}
 
@@ -438,6 +443,8 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 * @return boolean
 	 */
 	public boolean canBeSelected(Date selectedDay) {
+		
+	
 		if (this.getOldestDate() != null
 				&& selectedDay.after(this.getOldestDate()))
 			return false;
