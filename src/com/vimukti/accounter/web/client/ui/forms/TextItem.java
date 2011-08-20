@@ -83,8 +83,9 @@ public class TextItem extends FormItem<String> {
 
 	@Override
 	public void setValue(String value) {
-		if (value != null)
+		if (value != null){
 			this.textBox.setText(value);
+		}
 	}
 
 	public void setKeyPressHandler(KeyPressListener keyPressListener) {
