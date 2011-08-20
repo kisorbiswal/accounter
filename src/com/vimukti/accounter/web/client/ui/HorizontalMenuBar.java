@@ -4,6 +4,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.theme.ThemesUtil;
@@ -13,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class HorizontalMenuBar extends HorizontalPanel {
 
+	private ClientCompanyPreferences preferences = Global.get().preferences();
 	public static String oldToken;
 
 	public HorizontalMenuBar() {
@@ -58,14 +60,14 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
-		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+		if (getPreferences().isSalesOrderEnabled()) {
 			menuitem = menuBar.addItem(Accounter.constants().sales(),
 					getSalesSubMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		}
 
-		if (ClientCompanyPreferences.get().isPurchaseOrderEnabled()) {
+		if (getPreferences().isPurchaseOrderEnabled()) {
 			menuitem = menuBar.addItem(Accounter.constants().purchases(),
 					getPurchaseSubMenu());
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
@@ -580,7 +582,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		purchaseMenuBar.addItem(ActionFactory.getPurchaseByItemSummaryAction());
 		purchaseMenuBar.addItem(ActionFactory.getPurchaseByItemAction());
 
-		if (ClientCompanyPreferences.get().isPurchaseOrderEnabled()) {
+		if (getPreferences().isPurchaseOrderEnabled()) {
 			purchaseMenuBar.addItem(ActionFactory.getPurchaseOpenOrderAction());
 		}
 		return purchaseMenuBar;
@@ -607,7 +609,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		salesMenuBar.addItem(ActionFactory.getSalesByItemSummaryAction());
 		salesMenuBar.addItem(ActionFactory.getSalesByItemDetailAction());
 
-		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+		if (getPreferences().isSalesOrderEnabled()) {
 			salesMenuBar.addItem(ActionFactory.getSalesOpenOrderAction());
 		}
 		return salesMenuBar;
@@ -972,6 +974,14 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			salesTaxMenuBar.addItem(ActionFactory.getNewTAXAgencyAction());
 		return salesTaxMenuBar;
+	}
+
+	public ClientCompanyPreferences getPreferences() {
+		return preferences;
+	}
+
+	public void setPreferences(ClientCompanyPreferences preferences) {
+		this.preferences = preferences;
 	}
 
 }
