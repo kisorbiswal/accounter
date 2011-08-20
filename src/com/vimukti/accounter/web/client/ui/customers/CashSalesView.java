@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
@@ -168,16 +167,16 @@ public class CashSalesView extends
 		termsForm.setIsGroup(true);
 		termsForm.setNumCols(2);
 
-		if (ClientCompanyPreferences.get().isSalesPersonEnabled()) {
+		if (getPreferences().isSalesPersonEnabled()) {
 			termsForm.setFields(salesPersonCombo, paymentMethodCombo,
 					depositInCombo);
-			if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+			if (getPreferences().isDoProductShipMents()) {
 				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
 			}
 		} else {
 			termsForm.setFields(paymentMethodCombo, depositInCombo);
-			if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+			if (getPreferences().isDoProductShipMents()) {
 				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
 			}
@@ -268,7 +267,7 @@ public class CashSalesView extends
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(custForm);
-		if (ClientCompanyPreferences.get().isDoProductShipMents())
+		if (getPreferences().isDoProductShipMents())
 			leftVLay.add(shipToAddress);
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
@@ -658,7 +657,7 @@ public class CashSalesView extends
 				this.customerCombo.addComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+				if (getPreferences().isSalesPersonEnabled())
 					this.salesPersonCombo
 							.addComboItem((ClientSalesPerson) core);
 
@@ -683,7 +682,7 @@ public class CashSalesView extends
 				this.customerCombo.updateComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+				if (getPreferences().isSalesPersonEnabled())
 					this.salesPersonCombo
 							.updateComboItem((ClientSalesPerson) core);
 
@@ -707,7 +706,7 @@ public class CashSalesView extends
 				this.customerCombo.removeComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+				if (getPreferences().isSalesPersonEnabled())
 					this.salesPersonCombo
 							.removeComboItem((ClientSalesPerson) core);
 
@@ -762,7 +761,7 @@ public class CashSalesView extends
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
 		customerCombo.setDisabled(isEdit);
-		if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+		if (getPreferences().isSalesPersonEnabled())
 			salesPersonCombo.setDisabled(isEdit);
 		paymentMethodCombo.setDisabled(isEdit);
 		depositInCombo.setDisabled(isEdit);
