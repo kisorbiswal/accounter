@@ -12,9 +12,12 @@
 
 <script type="text/javascript" src="/jscripts/jquery-1.6.2.js"></script>
 <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+<script src="/jscripts/passwordStrength.js" type="text/javascript"></script>
 <script type="text/javascript" >
 
 $(document).ready(function() {
+	$('#mid-box').attr('autocomplete', 'off');
+	$('#mid-box').password_strength();
  $('#submitButton').click(function() {
 		$("#accounterForm").validate({
 			rules: {
