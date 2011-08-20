@@ -230,7 +230,8 @@ public class ViewManager extends HorizontalPanel {
 			existingView.removeFromParent();
 		}
 		existingView = newview;
-		viewTitleLabel.setText(action.getCatagory() + "  >  " + action.getText());
+		viewTitleLabel.setText(action.getCatagory() + "  >  "
+				+ action.getText());
 		viewHolder.add(newview);
 		updateButtons();
 	}
@@ -247,7 +248,7 @@ public class ViewManager extends HorizontalPanel {
 
 		if (existingView instanceof IPrintableView) {
 			// printButton.setVisible(true);
-			group2.remove(printButton);
+			group2.add(printButton);
 		} else {
 			// printButton.setVisible(false);
 			group2.remove(printButton);
@@ -342,7 +343,7 @@ public class ViewManager extends HorizontalPanel {
 		group3 = new ButtonGroup();
 		viewTitleLabel = new Label(Accounter.constants().dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
-		
+
 		previousButton = new ImageButton(Accounter.getFinanceImages()
 				.previousIcon());
 		previousButton.addClickHandler(new ClickHandler() {
