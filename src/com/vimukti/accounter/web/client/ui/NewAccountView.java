@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -186,7 +185,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accNoText.setRequired(true);
 		accNoText.setWidth(100);
 		accNoText.addBlurHandler(new BlurHandler() {
-
 			@Override
 			public void onBlur(BlurEvent event) {
 				if (accNoText.getNumber() != null)
@@ -353,7 +351,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
 			// opBalText, asofDate, catSelect);
 
-			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			if (getPreferences().getUseAccountNumbers() == true) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 						statusBox, opBalText, asofDate);
 			} else {
@@ -369,7 +367,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, cashFlowCatSelect, opBalText, asofDate,
 			// catSelect);
-			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			if (getPreferences().getUseAccountNumbers() == true) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 						statusBox, opBalText, asofDate);
 			} else {
@@ -483,7 +481,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, subAccSelect, hierText, cashFlowCatSelect,
 			// opBalText, asofDate, catSelect);
-			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			if (getPreferences().getUseAccountNumbers() == true) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 						statusBox, opBalText, asofDate);
 			} else {
@@ -509,7 +507,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 			// statusBox, cashFlowCatSelect, opBalText, asofDate,
 			// catSelect);
-			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			if (getPreferences().getUseAccountNumbers() == true) {
 				accInfoForm.setFields(accTypeSelect, accNoText, accNameText,
 						statusBox, opBalText, asofDate);
 			} else {
@@ -1297,11 +1295,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 								+ Accounter.constants().and()
 								+ nominalCodeRange[1]);
 				return false;
-			}
-			else {
+			} else {
 				clearError(accNoText);
 			}
 		}
+
 		accNoText.setValue(String.valueOf(number));
 
 		return true;
@@ -1332,7 +1330,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
