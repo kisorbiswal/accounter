@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -29,6 +30,8 @@ import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
  */
 public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 
+	private String decimalCharacter = Global.get().preferences().getDecimalCharacter();
+	
 	private ClientCustomerCreditMemo creditMemo;
 	private CustomerCreditMemoView view;
 	private HorizontalPanel vatPanel;
@@ -170,13 +173,13 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 			footer2Map = getMap(
 					"Sub Total",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(lineTotal) + "</p>",
+							+ DataUtils.getAmountAsString(lineTotal, decimalCharacter) + "</p>",
 					"VAT Total",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(vatTotal) + "</p>",
+							+ DataUtils.getAmountAsString(vatTotal, decimalCharacter) + "</p>",
 					"Total",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(totalAmount) + "</p>");
+							+ DataUtils.getAmountAsString(totalAmount, decimalCharacter) + "</p>");
 			// footer2Map.put("0",
 			// "<strong>Sub Total</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 			// + DataUtils.getAmountAsString(lineTotal));
@@ -203,13 +206,13 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 			footer2Map = getMap(
 					"Sub Total",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(lineTotal) + "</p>",
+							+ DataUtils.getAmountAsString(lineTotal, decimalCharacter) + "</p>",
 					"Total Tax",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(taxTotal) + "</p>",
+							+ DataUtils.getAmountAsString(taxTotal, decimalCharacter) + "</p>",
 					"Total",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(totalAmount) + "</p>");
+							+ DataUtils.getAmountAsString(totalAmount, decimalCharacter) + "</p>");
 
 			// footer2Map.put("0",
 			// "<strong>Sub Total</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
