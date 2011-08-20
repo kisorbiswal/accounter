@@ -110,7 +110,7 @@ public class ApplyCreditDialog extends BaseDialog {
 				this);
 		adjPayText.setColSpan(1);
 		adjPayText.setDisabled(true);
-		adjPayText.setValue(DataUtils.getAmountAsString(DataUtils
+		adjPayText.setValue(amountAsString(DataUtils
 				.getBalance(amountDue)
 				- DataUtils.getBalance(cashDiscount)));
 
