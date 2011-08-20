@@ -3,12 +3,16 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -19,7 +23,7 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 	private TextItem nameItem;
 	private TextItem titleItem;
 	private TextItem businessPhoneItem;
-	private TextItem emailItem;
+	private EmailField emailItem;
 
 	public AddNewContactDialog(String title, String descript) {
 		super(title, descript);
@@ -56,11 +60,28 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 		businessPhoneItem.setRequired(true);
 		items.add(businessPhoneItem);
 
-		emailItem = new TextItem(Accounter.constants().email());
+		emailItem = new EmailField(Accounter.constants().email());
 		emailItem.setHelpInformation(true);
 		emailItem.setRequired(true);
 		items.add(emailItem);
+
+		emailItem.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				emailItem.setText(getValidMail(emailItem.getValue()));
+			}
+		});
 		return items.toArray(new TextItem[items.size()]);
+	}
+
+	private String getValidMail(String email) {
+		if (!UIUtils.isValidEmail(email)) {
+			Accounter.showError(Accounter.constants().invalidEmail());
+			return "";
+		} else
+			return email;
+
 	}
 
 	@Override

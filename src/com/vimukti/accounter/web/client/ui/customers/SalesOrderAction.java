@@ -15,7 +15,7 @@ public class SalesOrderAction extends Action {
 
 	public SalesOrderAction(String text) {
 		super(text);
-		this.catagory = Accounter.constants().customer();
+		this.catagory = Accounter.constants().sales();
 	}
 
 	public SalesOrderAction(String text, ClientSalesOrder salesOrder,

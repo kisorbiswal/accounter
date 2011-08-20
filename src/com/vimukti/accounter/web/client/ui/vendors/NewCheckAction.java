@@ -46,7 +46,9 @@ public class NewCheckAction extends Action {
 
 			}
 
+			@SuppressWarnings("unused")
 			public void onCreateFailed(Throwable t) {
+				System.err.println((Exception) t);
 				// //UIUtils.logError("Failed to Load WriteChecks..", t);
 			}
 		});

@@ -46,7 +46,7 @@ import com.vimukti.accounter.web.client.theme.ThemeImages;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
-import com.vimukti.accounter.web.client.ui.setup.SetupWizard;
+import com.vimukti.accounter.web.client.uibinder.setup.SetupWizard;
 
 /**
  * 

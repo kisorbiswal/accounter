@@ -13,6 +13,7 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -56,6 +57,8 @@ public class ViewManager extends HorizontalPanel {
 	private ImageButton editButton;
 
 	private ImageButton closeButton;
+
+	private Label viewTitleLabel;
 
 	ButtonGroup group1;
 	ButtonGroup group2;
@@ -227,6 +230,7 @@ public class ViewManager extends HorizontalPanel {
 			existingView.removeFromParent();
 		}
 		existingView = newview;
+		viewTitleLabel.setText(action.getCatagory() + "  >  " + action.getText());
 		viewHolder.add(newview);
 		updateButtons();
 	}
@@ -336,7 +340,9 @@ public class ViewManager extends HorizontalPanel {
 		group1 = new ButtonGroup();
 		group2 = new ButtonGroup();
 		group3 = new ButtonGroup();
-
+		viewTitleLabel = new Label(Accounter.constants().dashBoard());
+		viewTitleLabel.addStyleName("viewTitle");
+		
 		previousButton = new ImageButton(Accounter.getFinanceImages()
 				.previousIcon());
 		previousButton.addClickHandler(new ClickHandler() {
@@ -385,6 +391,7 @@ public class ViewManager extends HorizontalPanel {
 		});
 		group1.add(nextButton);
 		group1.add(previousButton);
+		group1.add(viewTitleLabel);
 
 		group2.add(editButton);
 		group2.add(printButton);

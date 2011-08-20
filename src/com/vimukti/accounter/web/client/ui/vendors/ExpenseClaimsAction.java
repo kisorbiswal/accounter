@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
@@ -9,6 +10,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
  * @author Uday Kumar
  * 
  */
+@SuppressWarnings("unchecked")
 public class ExpenseClaimsAction extends Action {
 
 	ExpenseClaims view;
@@ -17,6 +19,8 @@ public class ExpenseClaimsAction extends Action {
 	public ExpenseClaimsAction(String text, int selectedTab) {
 		super(text);
 		this.selectedTab = selectedTab;
+		catagory = Accounter.getCompany().isUKAccounting() ? Accounter
+				.constants().supplier() : Accounter.constants().vendor();
 	}
 
 	@Override
