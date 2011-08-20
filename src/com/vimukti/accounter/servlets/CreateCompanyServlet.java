@@ -19,10 +19,10 @@ import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.main.Server;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class CreateCompanyServlet extends BaseServlet {
@@ -105,7 +105,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			serverCompany.setCompanyType(companyType);
 			serverCompany.setConfigured(false);
 			serverCompany.setCreatedDate(new Date());
-			serverCompany.setServerAddress("");// TODO
+			serverCompany.setServerAddress(getServerAddress());
 			session.saveOrUpdate(serverCompany);
 
 			client.getCompanies().add(serverCompany);
@@ -121,7 +121,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		}
 		final long serverId = serverCompany.getId();
 		final long clientId = client.getID();
-		final String domainName = serverCompany.getServerDomain();
+		final String domainName = serverCompany.getServerAddress();
 		final String serverCompanyName = serverCompany.getCompanyName();
 		final int serverCompanyType = serverCompany.getCompanyType();
 		final ClientUser user = getUser(client);
@@ -138,7 +138,7 @@ public class CreateCompanyServlet extends BaseServlet {
 							serverCompanyType, user);
 					httpSession
 							.setAttribute(COMPANY_CREATION_STATUS, "Success");
-				} catch (AccounterException e) {
+				} catch (Exception e) {
 					rollback(serverId, clientId);
 					httpSession.setAttribute(COMPANY_CREATION_STATUS, "Fail");
 				}
@@ -146,6 +146,15 @@ public class CreateCompanyServlet extends BaseServlet {
 		}).start();
 		response.sendRedirect(COMPANY_STATUS_URL);
 		return;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private String getServerAddress() {
+		// TODO
+		return ServerConfiguration.getServerDomainName();
 	}
 
 	private ClientUser getUser(Client client) {
