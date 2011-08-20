@@ -6,7 +6,6 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -25,15 +24,9 @@ public class SetupReferPage extends AbstractSetupPage {
 	@UiField
 	Label headerLabel;
 	@UiField
-	Grid referPanel;
-	@UiField
-	ListBox customerListBox;
-	@UiField
 	Label supplierLabel;
 	@UiField
 	Label customerLabel;
-	@UiField
-	ListBox supplierListBox;
 	@UiField
 	Label accountLabel;
 	@UiField
@@ -44,6 +37,10 @@ public class SetupReferPage extends AbstractSetupPage {
 	Label supplierCommentLabel;
 	@UiField
 	Label accountCommentLabel;
+	@UiField
+	ListBox customerListBox;
+	@UiField
+	ListBox supplierListBox;
 
 	interface SetupReferPageUiBinder extends UiBinder<Widget, SetupReferPage> {
 	}
@@ -99,9 +96,6 @@ public class SetupReferPage extends AbstractSetupPage {
 		accountCommentLabel.setText(accounterConstants
 				.howDoYouReferYourAccounts());
 
-		customerCommentLabel.addStyleName("referComment");
-		supplierCommentLabel.addStyleName("referComment");
-		accountCommentLabel.addStyleName("referComment");
 	}
 
 	@Override
