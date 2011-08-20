@@ -859,6 +859,7 @@ public class PurchaseOrderView extends
 		else if (statusSelect.getSelectedValue().equals(CANCELLED))
 			transaction.setStatus(ClientTransaction.STATUS_CANCELLED);
 
+		
 		if (contact != null)
 			transaction.setContact(contact);
 		if (phoneSelect.getValue() != null)

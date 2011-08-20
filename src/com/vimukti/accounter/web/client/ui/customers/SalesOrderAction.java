@@ -31,7 +31,7 @@ public class SalesOrderAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, true);
+		runAsync(data, isDependent);
 
 	}
 
