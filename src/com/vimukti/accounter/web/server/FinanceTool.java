@@ -11032,6 +11032,10 @@ public class FinanceTool implements IFinanceDAOService {
 							: (String) object[14]);
 					statementsList.setPaymentTerm(object[15] == null ? null
 							: (String) object[15]);
+
+					statementsList.setTransactionId(object[16] == null ? null
+							: ((Long) object[16]).longValue());
+
 					long ageing = getAgeing(
 							statementsList.getTransactionDate(),
 							statementsList.getDueDate(), toDate);
