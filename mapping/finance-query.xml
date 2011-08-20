@@ -4640,6 +4640,7 @@
 		<return-scalar column="SALES_PERSON_NAME" type="string"/>
 		<return-scalar column="SHIPPING_METHOD_NAME" type="string"/>
 		<return-scalar column="PAYMENT_TERM_NAME" type="string"/>
+		<return-scalar column="TRANSACTION_ID" type="long"></return-scalar>
 		
 		SELECT T.T_TYPE AS TRANSACTION_TYPE,
 				T.NUMBER AS TRANSACTION_NUMBER,
@@ -4670,7 +4671,9 @@
         		PA.ZIP AS ZIP,
 				SP.FIRST_NAME AS SALES_PERSON_NAME,
 				SM.NAME AS SHIPPING_METHOD_NAME,
-				PT.NAME AS PAYMENT_TERM_NAME
+				PT.NAME AS PAYMENT_TERM_NAME,
+				T.ID AS TRANSACTION_ID
+				
 
 			FROM TRANSACTION T
 			LEFT OUTER JOIN INVOICE I ON I.ID = T.ID
