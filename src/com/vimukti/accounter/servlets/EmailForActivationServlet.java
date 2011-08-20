@@ -54,6 +54,9 @@ public class EmailForActivationServlet extends BaseServlet {
 
 	private Activation getActivationByEmailId(String email) {
 		Session session = HibernateUtil.getCurrentSession();
+		if(session == null){
+			session = HibernateUtil.openSession(LOCAL_DATABASE);
+		}
 		try{
 		if (session != null) {
 			if(!session.isOpen())
