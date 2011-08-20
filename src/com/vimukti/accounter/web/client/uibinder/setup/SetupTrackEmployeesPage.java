@@ -30,13 +30,13 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	@UiField
 	HTML trackExpenses;
 	@UiField
-	RadioButton employeeYes;
+	RadioButton trackEmployeeYes;
 	@UiField
-	RadioButton employeeNo;
+	RadioButton trackEmployeeNo;
 	@UiField
-	RadioButton trackYes;
+	RadioButton trackEmployeeExpenseYes;
 	@UiField
-	RadioButton trackNo;
+	RadioButton trackEmployeeExpenseNo;
 	@UiField
 	VerticalPanel trackPanel;
 	@UiField
@@ -70,10 +70,10 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		w2Employees.setText(accounterConstants.wehavW2Employes());
 		contractors.setText(accounterConstants.wehavContractors());
 		trackExpenses.setText(accounterConstants.trackEmployeeExpenses());
-		employeeYes.setText(accounterConstants.yes());
-		employeeNo.setText(accounterConstants.no());
-		trackYes.setText(accounterConstants.yes());
-		trackNo.setText(accounterConstants.no());
+		trackEmployeeYes.setText(accounterConstants.yes());
+		trackEmployeeNo.setText(accounterConstants.no());
+		trackEmployeeExpenseYes.setText(accounterConstants.yes());
+		trackEmployeeExpenseNo.setText(accounterConstants.no());
 	}
 
 	@Override
