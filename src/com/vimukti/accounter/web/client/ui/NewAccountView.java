@@ -891,13 +891,24 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				.getValue().toString() : "";
 		ClientCompany company = getCompany();
 		ClientAccount account = company.getAccountByName(name);
-		if (name != null
-				&& !name.isEmpty()
-				&& !(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
-						: account == null) : true)) {
-			result.addError(accNameText, Accounter.constants().alreadyExist());
+		if (name != null && !name.isEmpty()) {
+			if (isEdit ? (account == null ? false : !data.getName()
+					.equalsIgnoreCase(name)) : account != null) {
+
+				result.addError(accNameText, Accounter.constants()
+						.alreadyExist());
+				return result;
+			}
+		}
+		long number = accNoText.getNumber();
+		account = company.getAccountByNumber(number);
+		if (isEdit ? (account == null ? false : !(Long.parseLong(data
+				.getNumber()) == number)) : account != null) {
+
+			result.addError(accNameText, Accounter.constants().alreadyAccountExist());
 			return result;
 		}
+
 		if (!(isEdit && data.getName().equalsIgnoreCase(
 				Accounter.constants().openingBalances()))) {
 			validateAccountNumber(accNoText.getNumber());
@@ -937,7 +948,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		data.setType(accountType);
 		data.setNumber(accNoText.getNumber() != null ? accNoText.getNumber()
-				.toString() : "");
+				.toString() : "0");
 		data.setName(accNameText.getValue().toString() != null ? accNameText
 				.getValue().toString() : "");
 		data.setIsActive(statusBox.getValue() != null ? (Boolean) statusBox
