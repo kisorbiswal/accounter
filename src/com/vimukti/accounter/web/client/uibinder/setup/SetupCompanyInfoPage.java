@@ -3,19 +3,23 @@
  */
 package com.vimukti.accounter.web.client.uibinder.setup;
 
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.HTML;
 
 /**
  * @author Administrator
@@ -41,8 +45,6 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	TextBox streetAdress2;
 	@UiField
 	ListBox country;
-	@UiField
-	HorizontalPanel phonePanel;
 	@UiField
 	TextBox phone;
 	@UiField
@@ -120,7 +122,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	@Override
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.enterYourCompanyInfo());
-		
+
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			taxIDLabel.setText(accounterConstants.taxId());
 		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -142,6 +144,45 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		emailAdressLabel.setText(accounterConstants.emailId());
 		webSiteLabel.setText(accounterConstants.webSite());
 		useFormat.setHTML("");
+		Accounter.createGETService().getCountries(
+				new AsyncCallback<List<String>>() {
+
+					@Override
+					public void onSuccess(List<String> result) {
+						for (int i = 0; i < result.size(); i++) {
+							country.addItem(result.get(i));
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Accounter.showError("Unable to get countries list");
+					}
+				});
+
+		country.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Accounter.createGETService().getStates(
+						country.getItemText(country.getSelectedIndex()),
+						new AsyncCallback<List<String>>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+
+							}
+
+							@Override
+							public void onSuccess(List<String> result) {
+								for (int i = 0; i < result.size(); i++) {
+									stateListBox.addItem(result.get(i));
+								}
+							}
+						});
+			}
+		});
+
 	}
 
 	@Override
