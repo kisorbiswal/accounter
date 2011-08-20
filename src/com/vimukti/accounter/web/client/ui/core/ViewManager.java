@@ -67,8 +67,9 @@ public class ViewManager extends HorizontalPanel {
 		this.mainWindow = financeWindow;
 		addStyleName("view_manager");
 		VerticalPanel leftPanel = new VerticalPanel();
+		leftPanel.setWidth("100%");
 		this.viewHolder = new SimplePanel();
-		
+
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
