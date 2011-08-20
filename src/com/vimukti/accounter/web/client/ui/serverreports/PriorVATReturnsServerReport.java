@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -69,7 +68,7 @@ public class PriorVATReturnsServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().priorVATReturns();
+		return getConstants().priorVATReturns();
 	}
 
 	@Override
@@ -86,11 +85,11 @@ public class PriorVATReturnsServerReport extends
 			iniHandler();
 		if (this.row == -1) {
 			this.sectionName = "";
-			addSection("", Accounter.constants()
+			addSection("", getConstants()
 					.netVATToPayOrReclaimIfNegativeBOX5(), new int[] {});
 
-			this.sectionName = Accounter.constants().vatDue();
-			addSection(this.sectionName, Accounter.constants()
+			this.sectionName = getConstants().vatDue();
+			addSection(this.sectionName, getConstants()
 					.totalVATDueBOX3(), new int[] { 1 });
 			row = 0;
 		} else if (this.row < 4) {
@@ -215,5 +214,5 @@ public class PriorVATReturnsServerReport extends
 		}
 		return -1;
 	}
-
+	
 }

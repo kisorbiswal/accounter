@@ -3,12 +3,15 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
@@ -27,6 +30,7 @@ public abstract class AbstractFinaneReport<R> extends
 	public boolean isVATDetailReport;
 	public boolean isVATSummaryReport;
 
+	public AccounterConstants constants;
 	protected List<Integer> columnstoHide = new ArrayList<Integer>();
 
 	ReportGridTemplate<R> grid;
@@ -40,6 +44,8 @@ public abstract class AbstractFinaneReport<R> extends
 	public ClientFinanceDate endDate;
 	public ClientFinanceDate currentFiscalYearStartDate;
 	public ClientFinanceDate currentFiscalYearEndDate;
+	
+	private  final ClientCompanyPreferences preferences;
 
 	public static final int COLUMN_TYPE_TEXT = 1;
 	public static final int COLUMN_TYPE_AMOUNT = 2;
@@ -59,10 +65,14 @@ public abstract class AbstractFinaneReport<R> extends
 
 	public IFinanceReport<R> reportView;
 	protected String navigateObjectName;
-	private int companyType;
+	
+	private int companyType=0;
 
 	public AbstractFinaneReport() {
-		this.companyType=Accounter.getCompany().getAccountingType();
+		
+		this.preferences = Global.get().preferences();
+		this.constants= Global.get().constants();
+		
 		this.columns = this.getColunms();
 		if (generationType == 1001) {
 			this.grid = new PDFReportGridTemplate<R>(columns, ishowGridFooter);
@@ -74,10 +84,15 @@ public abstract class AbstractFinaneReport<R> extends
 	}
 
 	@SuppressWarnings( { "unchecked" })
-	public AbstractFinaneReport(long startDate, long endDate, int generationType) {
+	public AbstractFinaneReport( long startDate, long endDate, int generationType ) {
+		
+		this.preferences = Global.get().preferences();
+		this.constants= Global.get().constants();
+		
 		this.startDate = new ClientFinanceDate(startDate);
 		this.endDate = new ClientFinanceDate(endDate);
 		this.generationType = generationType;
+	
 		this.columns = this.getColunms();
 		if (generationType == 1001) {
 			this.grid = new PDFReportGridTemplate<R>(columns, ishowGridFooter);
@@ -86,6 +101,7 @@ public abstract class AbstractFinaneReport<R> extends
 		}
 		this.grid.setReportView(this);
 	}
+
 
 	void setReportGridTemplate(ReportGridTemplate<R> reportGridTemplate) {
 		this.grid = reportGridTemplate;
@@ -124,7 +140,8 @@ public abstract class AbstractFinaneReport<R> extends
 			System.err.println("EXCEPTION " + e);
 		}
 	}
-
+	
+	
 	public String dateFormat(ClientFinanceDate date) {
 		try {
 			if (date == null)
@@ -252,6 +269,7 @@ public abstract class AbstractFinaneReport<R> extends
 	 * @return all column names in order
 	 */
 	public abstract String[] getColunms();
+	
 
 	/**
 	 * 
@@ -669,4 +687,21 @@ public abstract class AbstractFinaneReport<R> extends
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
+
+	public ClientCompanyPreferences getPreferences() {
+		return preferences;
+	}
+
+//	public void setPreferences(ClientCompanyPreferences preferences) {
+//		this.preferences = preferences;
+//	}
+	public AccounterConstants getConstants()
+	{
+		if (constants == null) {
+			constants = (AccounterConstants) GWT
+					.create(AccounterConstants.class);
+		}
+		return constants;
+	}
+	
 }

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -56,7 +55,7 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().ecSalesList();
+		return getConstants().ecSalesList();
 	}
 
 	@Override
@@ -74,7 +73,7 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 	@Override
 	public void processRecord(ECSalesList record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 1 });
+			addSection("", getConstants().total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 
@@ -154,5 +153,5 @@ public class ECSalesListServerReport extends AbstractFinaneReport<ECSalesList> {
 		this.sectionDepth = 0;
 		this.sectionName = "";
 	}
-
+	
 }

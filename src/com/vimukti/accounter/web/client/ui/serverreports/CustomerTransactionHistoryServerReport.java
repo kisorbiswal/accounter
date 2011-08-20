@@ -12,7 +12,9 @@ public class CustomerTransactionHistoryServerReport extends
 		AbstractFinaneReport<TransactionHistory> {
 
 	public CustomerTransactionHistoryServerReport(
+			
 			IFinanceReport<TransactionHistory> reportView) {
+	
 		this.reportView = reportView;
 	}
 
@@ -32,18 +34,24 @@ public class CustomerTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().customer(),
-				Accounter.constants().date(), Accounter.constants().type(),
-				Accounter.constants().noDot(),
-				// ".invoicedAmount(),
-				// ".paidAmount(),
-				// ".paymentTerms(),
-				// ".dueDate(),
-				// ".debit(),
-				// ".credit(),
-				// ".reference(),
-				Accounter.constants().account(), Accounter.constants().amount() };
 
+	
+			return new String[] {
+					getConstants().customer(),
+					getConstants().date(),
+					getConstants().type(),
+					getConstants().noDot(),
+					// ".invoicedAmount(),
+					// ".paidAmount(),
+					// ".paymentTerms(),
+					// ".dueDate(),
+					// ".debit(),
+					// ".credit(),
+					// ".reference(),
+					getConstants().account(),
+					getConstants().amount() };
+
+		
 	}
 
 	@Override
@@ -128,13 +136,26 @@ public class CustomerTransactionHistoryServerReport extends
 	@Override
 	public void processRecord(TransactionHistory record) {
 		if (sectionDepth == 0) {
-			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					Accounter.constants().total() }, new int[] { 5 });
+			if (constants != null) {
+				addSection(new String[] { "", "" }, new String[] { "", "", "",
+						"", constants.total() }, new int[] { 5 });
+			} else {
+				addSection(new String[] { "", "" }, new String[] { "", "", "",
+						"", Accounter.constants().total() }, new int[] { 5 });
+			}
+
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getName();
-			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					"", Accounter.constants().total() }, new int[] { 5 });
+			if (constants != null) {
+				addSection(new String[] { sectionName }, new String[] { "", "",
+						"", "", constants.total() }, new int[] { 5 });
+			} else {
+				addSection(new String[] { sectionName }, new String[] { "", "",
+						"", "", Accounter.constants().total() },
+						new int[] { 5 });
+			}
+
 		}
 		// else if (sectionDepth == 2) {
 		// // Inside fist section
@@ -207,12 +228,19 @@ public class CustomerTransactionHistoryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().customer(),
-				Accounter.constants().date(), Accounter.constants().type(),
-				Accounter.constants().noDot(), Accounter.constants().account(),
-				Accounter.constants().amount() };
+
+		
+			return new String[] { getConstants().customer(),
+					getConstants().date(), getConstants().type(),
+					getConstants().noDot(),
+					getConstants().account(),
+					getConstants().amount() };
+
+		
+
 	}
 
+	
 	// private void printDataForIEBrowser() {
 	// String gridhtml = grid.toString();
 	// String headerhtml = grid.getHeader();

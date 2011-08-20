@@ -30,17 +30,17 @@ public class AmountsDueToVendorServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getVendorString(Accounter.constants().supplierName(), Accounter
+				getVendorString(getConstants().supplierName(), Accounter
 						.constants().vendorName()),
-				Accounter.constants().active(), Accounter.constants().city(),
-				Accounter.constants().state(), Accounter.constants().zipCode(),
-				Accounter.constants().phone(), Accounter.constants().balance() };
+				getConstants().active(), getConstants().city(),
+				getConstants().state(), getConstants().zipCode(),
+				getConstants().phone(), getConstants().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getVendorString(Accounter.constants().amountDueToSupplier(),
-				Accounter.constants().amountDueToVendor());
+		return getVendorString(getConstants().amountDueToSupplier(),
+				getConstants().amountDueToVendor());
 	}
 
 	@Override
@@ -67,8 +67,8 @@ public class AmountsDueToVendorServerReport extends
 		case 0:
 			return record.getName();
 		case 1:
-			return record.getIsActive() ? Accounter.constants().yes()
-					: Accounter.constants().no();
+			return record.getIsActive() ? getConstants().yes()
+					: getConstants().no();
 		case 2:
 			return record.getCity();
 		case 3:
@@ -86,7 +86,7 @@ public class AmountsDueToVendorServerReport extends
 	@Override
 	public void processRecord(AmountsDueToVendor record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 6 });
+			addSection("", getConstants().total(), new int[] { 6 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -107,11 +107,11 @@ public class AmountsDueToVendorServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getVendorString(Accounter.constants().supplierName(), Accounter
+				getVendorString(getConstants().supplierName(), Accounter
 						.constants().vendorName()),
-				Accounter.constants().active(), Accounter.constants().city(),
-				Accounter.constants().state(), Accounter.constants().zipCode(),
-				Accounter.constants().phone(), Accounter.constants().balance() };
+				getConstants().active(), getConstants().city(),
+				getConstants().state(), getConstants().zipCode(),
+				getConstants().phone(), getConstants().balance() };
 	}
 
 }

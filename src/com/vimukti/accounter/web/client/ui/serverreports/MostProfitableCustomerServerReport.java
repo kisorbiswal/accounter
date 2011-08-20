@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -17,6 +16,7 @@ public class MostProfitableCustomerServerReport extends
 
 	public MostProfitableCustomerServerReport(
 			IFinanceReport<MostProfitableCustomers> reportView) {
+		
 		this.reportView = reportView;
 	}
 
@@ -33,16 +33,16 @@ public class MostProfitableCustomerServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().customer(),
-				Accounter.constants().invoicedAmount(),
-				Accounter.constants().cost(),
-				Accounter.constants().dollarMargin(),
-				Accounter.constants().percMargin() };
+		return new String[] { getConstants().customer(),
+				getConstants().invoicedAmount(),
+				getConstants().cost(),
+				getConstants().dollarMargin(),
+				getConstants().percMargin() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().mostProfitableCustomers();
+		return getConstants().mostProfitableCustomers();
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class MostProfitableCustomerServerReport extends
 	@Override
 	public void processRecord(MostProfitableCustomers record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 1, 2, 3,
+			addSection("", getConstants().total(), new int[] { 1, 2, 3,
 					4 });
 		} else if (sectionDepth == 1) {
 			return;
@@ -159,11 +159,11 @@ public class MostProfitableCustomerServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().customer(),
-				Accounter.constants().invoicedAmount(),
-				Accounter.constants().cost(),
-				Accounter.constants().dollarMargin(),
-				Accounter.constants().percMargin() };
+		return new String[] { getConstants().customer(),
+				getConstants().invoicedAmount(),
+				getConstants().cost(),
+				getConstants().dollarMargin(),
+				getConstants().percMargin() };
 	}
-
+	
 }

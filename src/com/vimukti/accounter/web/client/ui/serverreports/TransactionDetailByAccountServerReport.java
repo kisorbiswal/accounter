@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -64,7 +63,7 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().all();
+		return getConstants().all();
 	}
 
 	@Override
@@ -76,15 +75,15 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", Accounter.constants().name(),
-				Accounter.constants().date(), " ",
-				Accounter.constants().number(), Accounter.constants().amount(),
-				Accounter.constants().balance() };
+		return new String[] { "", getConstants().name(),
+				getConstants().date(), " ",
+				getConstants().number(), getConstants().amount(),
+				getConstants().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().transactionDetailsByFinanceCategory();
+		return getConstants().transactionDetailsByFinanceCategory();
 	}
 
 	@Override
@@ -109,7 +108,7 @@ public class TransactionDetailByAccountServerReport extends
 	public void processRecord(TransactionDetailByAccount record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					Accounter.constants().total() }, new int[] { 5 });
+					getConstants().total() }, new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getAccountName();
 			addSection(new String[] { sectionName }, new String[] { "" },
@@ -197,10 +196,10 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", Accounter.constants().name(),
-				Accounter.constants().date(), " ",
-				Accounter.constants().number(), Accounter.constants().amount(),
-				Accounter.constants().balance() };
+		return new String[] { "", getConstants().name(),
+				getConstants().date(), " ",
+				getConstants().number(), getConstants().amount(),
+				getConstants().balance() };
 	}
-
+	
 }

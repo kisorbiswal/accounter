@@ -3,9 +3,14 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Sorting;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 
 public abstract class ReportGridTemplate<R> {
+
+	public String decimalCharacter = Global.get().preferences()
+			.getDecimalCharacter();
 
 	protected String[] columns = {};
 
@@ -51,6 +56,8 @@ public abstract class ReportGridTemplate<R> {
 	public abstract void initBody();
 
 	public abstract String getBody();
+
+	public abstract String getBody(AccounterConstants accounterConstants);
 
 	public abstract void addCell(boolean bold, String cellValue, int depth,
 			boolean underline, int cellWidth, int columnType);

@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -52,11 +51,11 @@ public class VATItemDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().type(),
-				Accounter.constants().date(), Accounter.constants().number(),
-				Accounter.constants().name(), Accounter.constants().memo(),
-				Accounter.constants().amount(),
-				Accounter.constants().salesPrice() };
+		return new String[] { getConstants().type(),
+				getConstants().date(), getConstants().number(),
+				getConstants().name(), getConstants().memo(),
+				getConstants().amount(),
+				getConstants().salesPrice() };
 	}
 
 	@Override
@@ -71,7 +70,7 @@ public class VATItemDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().vatItemDetail();
+		return getConstants().vatItemDetail();
 	}
 
 	@Override
@@ -107,11 +106,11 @@ public class VATItemDetailServerReport extends
 	public void processRecord(VATItemDetail record) {
 		// VATItemSummary itemList = (VATItemSummary) data;
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 5 });
+			addSection("", getConstants().total(), new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			this.name = record.getName();
-			addSection(sectionName, Accounter.constants().total(),
+			addSection(sectionName, getConstants().total(),
 					new int[] { 5 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
@@ -206,11 +205,11 @@ public class VATItemDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().type(),
-				Accounter.constants().date(), Accounter.constants().number(),
-				Accounter.constants().name(), Accounter.constants().memo(),
-				Accounter.constants().amount(),
-				Accounter.constants().salesPrice() };
+		return new String[] { getConstants().type(),
+				getConstants().date(), getConstants().number(),
+				getConstants().name(), getConstants().memo(),
+				getConstants().amount(),
+				getConstants().salesPrice() };
 	}
-
+	
 }

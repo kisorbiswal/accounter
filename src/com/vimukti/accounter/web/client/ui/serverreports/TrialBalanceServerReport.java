@@ -1,9 +1,7 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -20,12 +18,12 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().all();
+		return getConstants().all();
 	}
 
 	@Override
 	public Object getColumnData(TrialBalance record, int columnIndex) {
-		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+		if (getPreferences().getUseAccountNumbers() == true) {
 			switch (columnIndex) {
 			case 0:
 				return record.getAccountName();
@@ -54,7 +52,7 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public int[] getColumnTypes() {
-		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+		if (getPreferences().getUseAccountNumbers() == true) {
 			return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
 					COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
 		} else {
@@ -66,21 +64,21 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
-			return new String[] { Accounter.constants().accountName(),
-					Accounter.constants().accountNumber(),
-					Accounter.constants().debit(),
-					Accounter.constants().credit() };
+		if (getPreferences().getUseAccountNumbers() == true) {
+			return new String[] { getConstants().accountName(),
+					getConstants().accountNumber(),
+					getConstants().debit(),
+					getConstants().credit() };
 		} else {
-			return new String[] { Accounter.constants().accountName(), "",
-					Accounter.constants().debit(),
-					Accounter.constants().credit() };
+			return new String[] { getConstants().accountName(), "",
+					getConstants().debit(),
+					getConstants().credit() };
 		}
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().trialBalance();
+		return getConstants().trialBalance();
 	}
 
 	@Override
@@ -100,7 +98,7 @@ public class TrialBalanceServerReport extends
 	public void processRecord(TrialBalance record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "",
-					Accounter.constants().total() }, new int[] { 2, 3 });
+					getConstants().total() }, new int[] { 2, 3 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -148,7 +146,7 @@ public class TrialBalanceServerReport extends
 	}
 
 	public int sort(TrialBalance obj1, TrialBalance obj2, int col) {
-		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+		if (getPreferences().getUseAccountNumbers() == true) {
 			switch (col) {
 			case 0:
 				return obj1.getAccountName().toLowerCase()
@@ -190,16 +188,16 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
-			return new String[] { Accounter.constants().accountName(),
-					Accounter.constants().accountNumber(),
-					Accounter.constants().debit(),
-					Accounter.constants().credit() };
+		if (getPreferences().getUseAccountNumbers() == true) {
+			return new String[] { getConstants().accountName(),
+					getConstants().accountNumber(),
+					getConstants().debit(),
+					getConstants().credit() };
 		} else {
-			return new String[] { Accounter.constants().accountName(), "",
-					Accounter.constants().debit(),
-					Accounter.constants().credit() };
+			return new String[] { getConstants().accountName(), "",
+					getConstants().debit(),
+					getConstants().credit() };
 		}
 	}
-
+	
 }

@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -54,18 +53,18 @@ public class SalesByItemDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().item(),
-				Accounter.constants().date(), Accounter.constants().type(),
-				Accounter.constants().noDot(),
-				Accounter.constants().quantity(),
-				Accounter.constants().unitPrice(),
-				Accounter.constants().discount(),
-				Accounter.constants().amount() };
+		return new String[] { getConstants().item(),
+				getConstants().date(), getConstants().type(),
+				getConstants().noDot(),
+				getConstants().quantity(),
+				getConstants().unitPrice(),
+				getConstants().discount(),
+				getConstants().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().salesByItemDetail();
+		return getConstants().salesByItemDetail();
 	}
 
 	@Override
@@ -103,11 +102,11 @@ public class SalesByItemDetailServerReport extends
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					"", "", Accounter.constants().total() }, new int[] { 7 });
+					"", "", getConstants().total() }, new int[] { 7 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getItemName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					"", "", "", Accounter.constants().total() },
+					"", "", "", getConstants().total() },
 					new int[] { 7 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
@@ -231,13 +230,13 @@ public class SalesByItemDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().item(),
-				Accounter.constants().date(), Accounter.constants().type(),
-				Accounter.constants().noDot(),
-				Accounter.constants().quantity(),
-				Accounter.constants().unitPrice(),
-				Accounter.constants().discount(),
-				Accounter.constants().amount() };
+		return new String[] { getConstants().item(),
+				getConstants().date(), getConstants().type(),
+				getConstants().noDot(),
+				getConstants().quantity(),
+				getConstants().unitPrice(),
+				getConstants().discount(),
+				getConstants().amount() };
 	}
-
+	
 }

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -56,17 +55,17 @@ public class TransactionDetailByTaxItemServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", Accounter.constants().taxRate(),
-				Accounter.constants().date(), Accounter.constants().no(),
-				Accounter.constants().name(), Accounter.constants().memo(),
-				Accounter.constants().salesTax(),
-				Accounter.constants().taxableAmount() };
+		return new String[] { "", getConstants().taxRate(),
+				getConstants().date(), getConstants().no(),
+				getConstants().name(), getConstants().memo(),
+				getConstants().salesTax(),
+				getConstants().taxableAmount() };
 
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().transactionDetailByTaxCode();
+		return getConstants().transactionDetailByTaxCode();
 	}
 
 	@Override
@@ -92,7 +91,7 @@ public class TransactionDetailByTaxItemServerReport extends
 	@Override
 	public void processRecord(TransactionDetailByTaxItem record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 6, 7 });
+			addSection("", getConstants().total(), new int[] { 6, 7 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getTaxItemName();
 			addSection(record.getTaxAgencyName() + "-" + sectionName, "",
@@ -126,11 +125,11 @@ public class TransactionDetailByTaxItemServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", Accounter.constants().taxRate(),
-				Accounter.constants().date(), Accounter.constants().no(),
-				Accounter.constants().name(), Accounter.constants().memo(),
-				Accounter.constants().salesTax(),
-				Accounter.constants().taxableAmount() };
+		return new String[] { "", getConstants().taxRate(),
+				getConstants().date(), getConstants().no(),
+				getConstants().name(), getConstants().memo(),
+				getConstants().salesTax(),
+				getConstants().taxableAmount() };
 	}
-
+	
 }

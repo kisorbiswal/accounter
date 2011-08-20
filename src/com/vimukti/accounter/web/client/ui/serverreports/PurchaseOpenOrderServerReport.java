@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -65,11 +64,11 @@ public class PurchaseOpenOrderServerReport extends
 	@Override
 	public String[] getColunms() {
 		// if (isPurchases)
-		return new String[] { Accounter.constants().orderDate(),
-				Accounter.constants().supplier(),
+		return new String[] { getConstants().orderDate(),
+				getConstants().supplier(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
-				Accounter.constants().amount() };
+				getConstants().amount() };
 		// else
 		// return new String[] {
 		// FinanceApplication.constants().orderDate(),
@@ -79,7 +78,7 @@ public class PurchaseOpenOrderServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().purchaseOrderReport();
+		return getConstants().purchaseOrderReport();
 	}
 
 	@Override
@@ -125,11 +124,11 @@ public class PurchaseOpenOrderServerReport extends
 		// else
 		// col = 2;
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { col });
+			addSection("", getConstants().total(), new int[] { col });
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getVendorOrCustomerName();
-			addSection(sectionName, Accounter.constants().total(),
+			addSection(sectionName, getConstants().total(),
 					new int[] { col });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
@@ -251,11 +250,11 @@ public class PurchaseOpenOrderServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().orderDate(),
-				Accounter.constants().supplier(),
+		return new String[] { getConstants().orderDate(),
+				getConstants().supplier(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
-				Accounter.constants().amount() };
+				getConstants().amount() };
 	}
-
+	
 }

@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
@@ -87,6 +88,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 
 	@Override
 	public String getValue(Object object) {
+
 		return (object instanceof Double ? DataUtils
 				.getAmountAsString((Double) object) : object.toString());
 	}
@@ -192,6 +194,19 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	@Override
 	public void setColumnTypes(int[] columnTypes) {
 		this.columnTypes = columnTypes;
+	}
+
+	@Override
+	public String getBody(AccounterConstants accounterConstants) {
+
+		if (body == null) {
+			this.body = accounterConstants.noRecordsToShow();
+			;
+		} else {
+			this.body = this.body + "</table></div></div></td></tr></table>";
+		}
+		return this.body;
+
 	}
 
 }

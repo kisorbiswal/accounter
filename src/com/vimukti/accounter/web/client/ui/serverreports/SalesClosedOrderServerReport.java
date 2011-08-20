@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -53,15 +52,15 @@ public class SalesClosedOrderServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().orderDate(),
-				Accounter.constants().customer(),
-				Accounter.constants().description(),
-				Accounter.constants().quantity(), Accounter.constants().value() };
+		return new String[] { getConstants().orderDate(),
+				getConstants().customer(),
+				getConstants().description(),
+				getConstants().quantity(), getConstants().value() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().salesCloseOrder();
+		return getConstants().salesCloseOrder();
 	}
 
 	@Override
@@ -79,11 +78,11 @@ public class SalesClosedOrderServerReport extends
 	@Override
 	public void processRecord(OpenAndClosedOrders record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().totalOf(), new int[] { 4 });
+			addSection("", getConstants().totalOf(), new int[] { 4 });
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getVendorOrCustomerName();
-			addSection(sectionName, Accounter.constants().totalOf()
+			addSection(sectionName, getConstants().totalOf()
 					+ sectionName, new int[] { 4 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
@@ -148,10 +147,10 @@ public class SalesClosedOrderServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().orderDate(),
-				Accounter.constants().customer(),
-				Accounter.constants().description(),
-				Accounter.constants().quantity(), Accounter.constants().value() };
+		return new String[] { getConstants().orderDate(),
+				getConstants().customer(),
+				getConstants().description(),
+				getConstants().quantity(), getConstants().value() };
 	}
-
+	
 }

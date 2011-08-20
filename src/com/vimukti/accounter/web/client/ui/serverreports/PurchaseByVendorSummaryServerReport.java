@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -40,16 +39,15 @@ public class PurchaseByVendorSummaryServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getVendorString(Accounter.constants().supplierName(), Accounter
-						.constants().vendorName()),
+				getVendorString(getConstants().supplierName(), getConstants().vendorName()),
 				// getVendorString("Supplier Group", "Vendor Group"),
-				Accounter.constants().amount() };
+				getConstants().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getVendorString(Accounter.constants()
-				.purchaseBySupplierSummary(), Accounter.constants()
+		return getVendorString(getConstants()
+				.purchaseBySupplierSummary(), getConstants()
 				.purchaseByVendorSummary());
 	}
 
@@ -68,7 +66,7 @@ public class PurchaseByVendorSummaryServerReport extends
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 1 });
+			addSection("", getConstants().total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -156,9 +154,9 @@ public class PurchaseByVendorSummaryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getVendorString(Accounter.constants().supplierName(), Accounter
-						.constants().vendorName()),
+				getVendorString(getConstants().supplierName(), getConstants().vendorName()),
 				// getVendorString("Supplier Group", "Vendor Group"),
-				Accounter.constants().amount() };
+				getConstants().amount() };
 	}
+	
 }

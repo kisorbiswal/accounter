@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -45,7 +44,7 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().all();
+		return getConstants().all();
 	}
 
 	@Override
@@ -56,19 +55,19 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { " ", Accounter.constants().transactionDate(),
-				Accounter.constants().amount(), Accounter.constants().balance() };
+		return new String[] { " ", getConstants().transactionDate(),
+				getConstants().amount(), getConstants().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().expenseReport();
+		return getConstants().expenseReport();
 	}
 
 	@Override
 	public void processRecord(ExpenseList record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 2 });
+			addSection("", getConstants().total(), new int[] { 2 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(sectionName, "", new int[] { 2 });
@@ -242,13 +241,13 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { " ", Accounter.constants().transactionDate(),
-				Accounter.constants().amount(), Accounter.constants().balance() };
+		return new String[] { " ", getConstants().transactionDate(),
+				getConstants().amount(), getConstants().balance() };
 	}
 
 	@Override
 	public void makeReportRequest(long start, long end) {
 
 	}
-
+	
 }

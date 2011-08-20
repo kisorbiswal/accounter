@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
@@ -44,23 +43,23 @@ public class APAgingDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().name(),
-				Accounter.constants().date(), Accounter.constants().type(),
-				Accounter.constants().number(), /*
+		return new String[] { getConstants().name(),
+				getConstants().date(), getConstants().type(),
+				getConstants().number(), /*
 												 * "Void", "Payment Terms" ,
 												 * "Due Date",
 												 */
-				Accounter.constants().ageing(), Accounter.constants().amount(), /* "Total" */};
+				getConstants().ageing(), getConstants().amount(), /* "Total" */};
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().apAgeingDetails();
+		return getConstants().apAgeingDetails();
 	}
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().all();
+		return getConstants().all();
 	}
 
 	@Override
@@ -195,23 +194,23 @@ public class APAgingDetailServerReport extends
 	// }
 
 	private void addCurrent(AgedDebtors record) {
-		if (!sectiontypes.contains(Accounter.constants().current())) {
+		if (!sectiontypes.contains(getConstants().current())) {
 			// closeAllSection();
-			addTypeSection(Accounter.constants().current(), "");
+			addTypeSection(getConstants().current(), "");
 		}
 	}
 
 	private boolean addOneTothirty(AgedDebtors record) {
-		if (!sectiontypes.contains(Accounter.constants().days30())) {
-			addTypeSection(Accounter.constants().days30(), "");
+		if (!sectiontypes.contains(getConstants().days30())) {
+			addTypeSection(getConstants().days30(), "");
 			return false;
 		}
 		return true;
 	}
 
 	private boolean addThirtyToSixty(AgedDebtors record) {
-		if (!sectiontypes.contains(Accounter.constants().days60())) {
-			addTypeSection(Accounter.constants().days60(), "");
+		if (!sectiontypes.contains(getConstants().days60())) {
+			addTypeSection(getConstants().days60(), "");
 			return false;
 		}
 		return true;
@@ -219,8 +218,8 @@ public class APAgingDetailServerReport extends
 	}
 
 	private boolean addSixtyTo90(AgedDebtors record) {
-		if (!sectiontypes.contains(Accounter.constants().days90())) {
-			addTypeSection(Accounter.constants().days90(), "");
+		if (!sectiontypes.contains(getConstants().days90())) {
+			addTypeSection(getConstants().days90(), "");
 			return false;
 		}
 		return true;
@@ -228,8 +227,8 @@ public class APAgingDetailServerReport extends
 	}
 
 	private boolean addGreaterThan90(AgedDebtors record) {
-		if (!sectiontypes.contains(Accounter.constants().older())) {
-			addTypeSection(Accounter.constants().older(), "");
+		if (!sectiontypes.contains(getConstants().older())) {
+			addTypeSection(getConstants().older(), "");
 			return false;
 		}
 		return true;
@@ -237,8 +236,8 @@ public class APAgingDetailServerReport extends
 	}
 
 	private boolean addTotalBalance(AgedDebtors record) {
-		if (!sectiontypes.contains(Accounter.constants().totalBalance())) {
-			addTypeSection(Accounter.constants().totalBalance(), "");
+		if (!sectiontypes.contains(getConstants().totalBalance())) {
+			addTypeSection(getConstants().totalBalance(), "");
 			return false;
 		}
 		return true;
@@ -247,7 +246,7 @@ public class APAgingDetailServerReport extends
 	public void addTypeSection(String title, String bottomTitle) {
 		if (!sectiontypes.contains(title)) {
 			addSection(new String[] { title }, new String[] { "", "", "", "",
-					Accounter.constants().total() }, new int[] { 5 });
+					getConstants().total() }, new int[] { 5 });
 			types.add(title);
 			sectiontypes.add(title);
 		}
@@ -391,13 +390,13 @@ public class APAgingDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().name(),
-				Accounter.constants().date(), Accounter.constants().type(),
-				Accounter.constants().number(), /*
+		return new String[] { getConstants().name(),
+				getConstants().date(), getConstants().type(),
+				getConstants().number(), /*
 												 * "Void", "Payment Terms" ,
 												 * "Due Date",
 												 */
-				Accounter.constants().ageing(), Accounter.constants().amount(), /* "Total" */};
+				getConstants().ageing(), getConstants().amount(), /* "Total" */};
 	}
-
+	
 }

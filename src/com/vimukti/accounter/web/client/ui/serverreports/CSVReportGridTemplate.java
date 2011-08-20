@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-
 
 public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 
@@ -122,6 +122,12 @@ public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 		}
 		columnHeader = columnHeader + "\n";
 		return columnHeader;
+	}
+
+	@Override
+	public String getBody(AccounterConstants accounterConstants) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

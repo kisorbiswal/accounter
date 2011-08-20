@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class SalesTaxLiabilityServerReport extends
@@ -51,19 +50,19 @@ public class SalesTaxLiabilityServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().taxCode(),
-				Accounter.constants().taxRate(),
-				Accounter.constants().taxCollected(),
-				Accounter.constants().totalSales(),
-				Accounter.constants().nonTaxable(),
-				Accounter.constants().nonTaxableOther(),
-				Accounter.constants().taxable() };
+		return new String[] { getConstants().taxCode(),
+				getConstants().taxRate(),
+				getConstants().taxCollected(),
+				getConstants().totalSales(),
+				getConstants().nonTaxable(),
+				getConstants().nonTaxableOther(),
+				getConstants().taxable() };
 
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().salesTaxLiability();
+		return getConstants().salesTaxLiability();
 	}
 
 	@Override
@@ -81,7 +80,7 @@ public class SalesTaxLiabilityServerReport extends
 	@Override
 	public void processRecord(SalesTaxLiability record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 2, 3, 4,
+			addSection("", getConstants().total(), new int[] { 2, 3, 4,
 					5, 6 });
 		} else if (sectionDepth == 1) {
 			// First time
@@ -89,8 +88,7 @@ public class SalesTaxLiabilityServerReport extends
 			addSection(sectionName, "", new int[0]);
 		} else if (sectionDepth == 2) {
 			// Inside fist section
-			addSection(Accounter.constants().beginingBalance(), Accounter
-					.constants().total(), new int[] { 2, 3, 4, 5, 6 });
+			addSection(getConstants().beginingBalance(), getConstants().total(), new int[] { 2, 3, 4, 5, 6 });
 		} else if (sectionDepth == 3) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getTaxAgencyName())) {
@@ -121,13 +119,13 @@ public class SalesTaxLiabilityServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().taxCode(),
-				Accounter.constants().taxRate(),
-				Accounter.constants().taxCollected(),
-				Accounter.constants().totalSales(),
-				Accounter.constants().nonTaxable(),
-				Accounter.constants().nonTaxableOther(),
-				Accounter.constants().taxable() };
+		return new String[] { getConstants().taxCode(),
+				getConstants().taxRate(),
+				getConstants().taxCollected(),
+				getConstants().totalSales(),
+				getConstants().nonTaxable(),
+				getConstants().nonTaxableOther(),
+				getConstants().taxable() };
 	}
-
+	
 }

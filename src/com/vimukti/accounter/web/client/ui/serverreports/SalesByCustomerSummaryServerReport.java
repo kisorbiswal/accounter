@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -40,14 +39,14 @@ public class SalesByCustomerSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().customerName(),
+		return new String[] { getConstants().customerName(),
 				// FinanceApplication.constants().customerGroup(),
-				Accounter.constants().amount() };
+				getConstants().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().salesByCustomerSummary();
+		return getConstants().salesByCustomerSummary();
 	}
 
 	@Override
@@ -67,7 +66,7 @@ public class SalesByCustomerSummaryServerReport extends
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 1 });
+			addSection("", getConstants().total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -128,9 +127,9 @@ public class SalesByCustomerSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().customerName(),
+		return new String[] { getConstants().customerName(),
 				// FinanceApplication.constants().customerGroup(),
-				Accounter.constants().amount() };
+				getConstants().amount() };
 	}
-
+	
 }

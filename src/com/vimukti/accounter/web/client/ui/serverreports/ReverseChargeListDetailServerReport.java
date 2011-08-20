@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -57,15 +56,15 @@ public class ReverseChargeListDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().date(),
-				Accounter.constants().noDot(), Accounter.constants().name(),
-				Accounter.constants().memo(), Accounter.constants().amount(),
-				Accounter.constants().salesPrice() };
+		return new String[] { getConstants().date(),
+				getConstants().noDot(), getConstants().name(),
+				getConstants().memo(), getConstants().amount(),
+				getConstants().salesPrice() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().reverseChargeListDetail();
+		return getConstants().reverseChargeListDetail();
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class ReverseChargeListDetailServerReport extends
 	@Override
 	public void processRecord(ReverseChargeListDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 5 });
+			addSection("", getConstants().total(), new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(sectionName, "", new int[] { 5 });
@@ -206,10 +205,10 @@ public class ReverseChargeListDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().date(),
-				Accounter.constants().noDot(), Accounter.constants().name(),
-				Accounter.constants().memo(), Accounter.constants().amount(),
-				Accounter.constants().salesPrice() };
+		return new String[] { getConstants().date(),
+				getConstants().noDot(), getConstants().name(),
+				getConstants().memo(), getConstants().amount(),
+				getConstants().salesPrice() };
 	}
-
+	
 }

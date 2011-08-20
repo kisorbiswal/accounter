@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -9,6 +10,8 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class CustomerStatementReport extends
 		AbstractReportView<PayeeStatementsList> {
+	public ClientCompanyPreferences preferences;
+	
 	public int precategory = 1001;
 	public long customerId;
 

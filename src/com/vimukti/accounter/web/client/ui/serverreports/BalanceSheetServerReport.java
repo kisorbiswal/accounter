@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -44,7 +43,7 @@ public class BalanceSheetServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().all();
+		return getConstants().all();
 	}
 
 	@Override
@@ -71,7 +70,7 @@ public class BalanceSheetServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				Accounter.constants().categoryNumber(),
+				getConstants().categoryNumber(),
 				"",
 				getDateByCompanyType(getStartDate()) + "-"
 						+ getDateByCompanyType(getEndDate()), "" };
@@ -80,7 +79,7 @@ public class BalanceSheetServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				Accounter.constants().categoryNumber(),
+				getConstants().categoryNumber(),
 				"",
 				getDateByCompanyType(getStartDate()) + "-"
 						+ getDateByCompanyType(getEndDate()), "" };
@@ -88,7 +87,7 @@ public class BalanceSheetServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().balanceSheet();
+		return getConstants().balanceSheet();
 	}
 
 	@Override
@@ -174,17 +173,16 @@ public class BalanceSheetServerReport extends
 		// }
 
 		if (!sectiontypes.contains("Net Assets")) {
-			addTypeSection(Accounter.constants().netAssets(), "", Accounter
-					.constants().netAssets());
+			addTypeSection(getConstants().netAssets(), "", getConstants().netAssets());
 		}
 
 		if (!sectiontypes.contains("Net Current Assets")) {
-			addTypeSection(Accounter.constants().netCurrentAssets(), "",
-					Accounter.constants().netCurrentAssets());
+			addTypeSection(getConstants().netCurrentAssets(), "",
+					getConstants().netCurrentAssets());
 		}
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET) {
 			if (!sectiontypes.contains("Current Assets")) {
-				addTypeSection(Accounter.constants().currentAssets());
+				addTypeSection(getConstants().currentAssets());
 			}
 			// if (record.getGroupType() == ClientAccount.GROUPTYPE_CASH)
 			// if (!sectiontypes.contains(FinanceApplication
@@ -198,10 +196,10 @@ public class BalanceSheetServerReport extends
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_LIABILITY) {
 			if (!sectiontypes.contains("Current Liabilities")) {
 
-				closePrevSection(Accounter.constants().currentAssets());
+				closePrevSection(getConstants().currentAssets());
 				// closeSection(types.indexOf(FinanceApplication
 				// .constants().currentAssets()));
-				addTypeSection(Accounter.constants().currentLiabilities());
+				addTypeSection(getConstants().currentLiabilities());
 			}
 		}
 
@@ -215,8 +213,8 @@ public class BalanceSheetServerReport extends
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_FIXED_ASSET) {
 			if (!sectiontypes.contains("Fixed Assets")) {
 				// closeAllSection();
-				closePrevSection(Accounter.constants().currentLiabilities());
-				closePrevSection(Accounter.constants().netCurrentAssets());
+				closePrevSection(getConstants().currentLiabilities());
+				closePrevSection(getConstants().netCurrentAssets());
 				// closePrevSection(FinanceApplication.constants()
 				// .currentAssets());
 				// closePrevSection()
@@ -230,35 +228,35 @@ public class BalanceSheetServerReport extends
 				// }) {
 				// closeSection(i);
 				// }
-				addTypeSection(Accounter.constants().fixedAssets());
+				addTypeSection(getConstants().fixedAssets());
 			}
 		}
 
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY) {
 			if (!sectiontypes.contains("Long Term  Liabilities")) {
 				if (sectiontypes.contains("Fixed Assets"))
-					closePrevSection(Accounter.constants().fixedAssets());
+					closePrevSection(getConstants().fixedAssets());
 				else {
-					closePrevSection(Accounter.constants().currentLiabilities());
-					closePrevSection(Accounter.constants().netCurrentAssets());
+					closePrevSection(getConstants().currentLiabilities());
+					closePrevSection(getConstants().netCurrentAssets());
 				}
-				addTypeSection(Accounter.constants().longTermLiabilities());
+				addTypeSection(getConstants().longTermLiabilities());
 			}
 		}
 
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
 			if (!sectiontypes.contains("Other Nominal Finance Categories")) {
 				if (sectiontypes.contains("Long Term  Liabilities")) {
-					closePrevSection(Accounter.constants()
+					closePrevSection(getConstants()
 							.longTermLiabilities());
 				} else if (sectiontypes.contains("Fixed Assets")) {
-					closePrevSection(Accounter.constants().fixedAssets());
+					closePrevSection(getConstants().fixedAssets());
 				} else {
-					closePrevSection(Accounter.constants().currentLiabilities());
-					closePrevSection(Accounter.constants().netCurrentAssets());
+					closePrevSection(getConstants().currentLiabilities());
+					closePrevSection(getConstants().netCurrentAssets());
 				}
 
-				addTypeSection(Accounter.constants()
+				addTypeSection(getConstants()
 						.otherNominalFinanceCategories());
 			}
 		}
@@ -269,8 +267,8 @@ public class BalanceSheetServerReport extends
 				dividendAmount = record.getAmount();
 			if (!sectiontypes.contains("Capital And Reserves")) {
 				closeAllSection();
-				addTypeSection(Accounter.constants().capitalAndReserves(),
-						Accounter.constants().shareHolderFunds());
+				addTypeSection(getConstants().capitalAndReserves(),
+						getConstants().shareHolderFunds());
 			}
 		}
 
@@ -292,22 +290,22 @@ public class BalanceSheetServerReport extends
 			if (!sectiontypes.contains("Liabilities and Equity")) {
 				closeOtherSections();
 				closeAllSection();
-				addTypeSection(Accounter.constants().liabilitiesandEquity());
+				addTypeSection(getConstants().liabilitiesandEquity());
 			}
-			addTypeSection(Accounter.constants().liabilities());
+			addTypeSection(getConstants().liabilities());
 		}
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_LIABILITY) {
 			if (!sectiontypes.contains("Current Liabilities")) {
-				addTypeSection(Accounter.constants().currentLiabilities());
+				addTypeSection(getConstants().currentLiabilities());
 			}
 		}
 
 		if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY) {
 			if (!sectiontypes.contains("Long Term  Liabilities")) {
 				closeOtherSections();
-				closeSection(types.indexOf(Accounter.constants()
+				closeSection(types.indexOf(getConstants()
 						.currentLiabilities()));
-				addTypeSection(Accounter.constants().longTermLiabilities());
+				addTypeSection(getConstants().longTermLiabilities());
 			}
 		}
 
@@ -330,7 +328,7 @@ public class BalanceSheetServerReport extends
 					new String[] {
 							"",
 							record.getAccountName() + " "
-									+ Accounter.constants().total() },
+									+ getConstants().total() },
 					new int[] { 3 });
 			return true;
 		}
@@ -383,7 +381,7 @@ public class BalanceSheetServerReport extends
 	public void addTypeSection(String title) {
 		if (!sectiontypes.contains(title)) {
 			addSection(new String[] { "", title }, new String[] { "",
-					title + " " + Accounter.constants().total() },
+					title + " " + getConstants().total() },
 					new int[] { 3 });
 			types.add(title);
 			sectiontypes.add(title);
@@ -559,5 +557,5 @@ public class BalanceSheetServerReport extends
 		// else
 		return 200;
 	}
-
+	
 }

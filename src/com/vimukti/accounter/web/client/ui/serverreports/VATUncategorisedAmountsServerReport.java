@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -57,15 +56,15 @@ public class VATUncategorisedAmountsServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().type(),
-				Accounter.constants().date(), Accounter.constants().no(),
-				Accounter.constants().sourceName(),
-				Accounter.constants().amount(), Accounter.constants().balance() };
+		return new String[] { getConstants().type(),
+				getConstants().date(), getConstants().no(),
+				getConstants().sourceName(),
+				getConstants().amount(), getConstants().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().unCategorisedVATAmountsDetail();
+		return getConstants().unCategorisedVATAmountsDetail();
 	}
 
 	@Override
@@ -97,8 +96,8 @@ public class VATUncategorisedAmountsServerReport extends
 	@Override
 	public void processRecord(UncategorisedAmountsReport record) {
 		if (sectionDepth == 0) {
-			addSection(Accounter.constants().unCategorisedTaxAmountsDetail(),
-					Accounter.constants().unCategorisedTaxAmountsDetail(),
+			addSection(getConstants().unCategorisedTaxAmountsDetail(),
+					getConstants().unCategorisedTaxAmountsDetail(),
 					new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			return;
@@ -179,10 +178,10 @@ public class VATUncategorisedAmountsServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().type(),
-				Accounter.constants().date(), Accounter.constants().no(),
-				Accounter.constants().sourceName(),
-				Accounter.constants().amount(), Accounter.constants().balance() };
+		return new String[] { getConstants().type(),
+				getConstants().date(), getConstants().no(),
+				getConstants().sourceName(),
+				getConstants().amount(), getConstants().balance() };
 	}
-
+	
 }

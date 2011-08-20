@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class PurchaseByVendorDetailServerReport extends
@@ -14,7 +13,7 @@ public class PurchaseByVendorDetailServerReport extends
 
 	public PurchaseByVendorDetailServerReport(
 			IFinanceReport<SalesByCustomerDetail> reportView) {
-		this.reportView = reportView;
+				this.reportView = reportView;
 	}
 
 	public PurchaseByVendorDetailServerReport(long startDate, long endDate,
@@ -50,17 +49,15 @@ public class PurchaseByVendorDetailServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getVendorString(Accounter.constants().supplier(), Accounter
-						.constants().vendor()), Accounter.constants().date(),
-				Accounter.constants().type(), Accounter.constants().noDot(),
-				Accounter.constants().amount() };
+				getVendorString(getConstants().supplier(), getConstants().vendor()), getConstants().date(),
+				getConstants().type(), getConstants().noDot(),
+				getConstants().amount() };
 	}
 
 	@Override
 	public String getTitle() {
 		return getVendorString(
-				Accounter.constants().purchaseBySupplierDetail(), Accounter
-						.constants().purchaseByVendorDetail());
+				getConstants().purchaseBySupplierDetail(), getConstants().purchaseByVendorDetail());
 	}
 
 	@Override
@@ -101,11 +98,11 @@ public class PurchaseByVendorDetailServerReport extends
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "", "", "",
-					Accounter.constants().total() }, new int[] { 4 });
+					getConstants().total() }, new int[] { 4 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					Accounter.constants().total() }, new int[] { 4 });
+					getConstants().total() }, new int[] { 4 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {
@@ -191,10 +188,9 @@ public class PurchaseByVendorDetailServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getVendorString(Accounter.constants().supplier(), Accounter
-						.constants().supplierName()),
-				Accounter.constants().date(), Accounter.constants().type(),
-				Accounter.constants().noDot(), Accounter.constants().amount() };
+				getVendorString(getConstants().supplier(), getConstants().supplierName()),
+				getConstants().date(), getConstants().type(),
+				getConstants().noDot(), getConstants().amount() };
 	}
-
+	
 }

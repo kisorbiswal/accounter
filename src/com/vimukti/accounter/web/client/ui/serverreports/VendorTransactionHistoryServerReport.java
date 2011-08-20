@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
@@ -40,11 +39,10 @@ public class VendorTransactionHistoryServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getVendorString(Accounter.constants().supplier(), Accounter
-						.constants().vendor()), Accounter.constants().date(),
-				Accounter.constants().type(), Accounter.constants().no(),
+				getVendorString(getConstants().supplier(), getConstants().vendor()), getConstants().date(),
+				getConstants().type(), getConstants().no(),
 				// FinanceApplication.constants().reference(),
-				Accounter.constants().account(), Accounter.constants().amount()
+				getConstants().account(), getConstants().amount()
 		// FinanceApplication.constants().transactionAmount(),
 		// FinanceApplication.constants().paidAmount(),
 		// FinanceApplication.constants().discount(),
@@ -65,8 +63,8 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return UIUtils.getVendorString(Accounter.constants()
-				.supplierTransactionHistory(), Accounter.constants()
+		return UIUtils.getVendorString(getConstants()
+				.supplierTransactionHistory(), getConstants()
 				.vendorTransactionHistory());
 	}
 
@@ -146,12 +144,12 @@ public class VendorTransactionHistoryServerReport extends
 	public void processRecord(TransactionHistory record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					Accounter.constants().total() }, new int[] { 5 });
+					getConstants().total() }, new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			// First time
 			this.sectionName = record.getName();
 			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					"", Accounter.constants().total() }, new int[] { 5 });
+					"", getConstants().total() }, new int[] { 5 });
 		}
 		// else if (sectionDepth == 2) {
 		// // Inside fist section
@@ -232,9 +230,9 @@ public class VendorTransactionHistoryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getVendorString(Accounter.constants().supplier(), Accounter
-						.constants().vendor()), Accounter.constants().date(),
-				Accounter.constants().type(), Accounter.constants().no(),
-				Accounter.constants().account(), Accounter.constants().amount() };
+				getVendorString(getConstants().supplier(), getConstants().vendor()), getConstants().date(),
+				getConstants().type(), getConstants().no(),
+				getConstants().account(), getConstants().amount() };
 	}
+	
 }

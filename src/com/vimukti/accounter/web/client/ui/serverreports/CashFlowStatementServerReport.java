@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -31,7 +30,7 @@ public class CashFlowStatementServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().all();
+		return getConstants().all();
 	}
 
 	@Override
@@ -78,7 +77,7 @@ public class CashFlowStatementServerReport extends
 	@Override
 	public String getTitle() {
 		// return FinanceApplication.constants().profitAndLoss();
-		return Accounter.constants().cashFlowReport();
+		return getConstants().cashFlowReport();
 	}
 
 	@Override
@@ -99,7 +98,7 @@ public class CashFlowStatementServerReport extends
 	@Override
 	public void processRecord(TrialBalance record) {
 		if (sectionDepth == 0) {
-			addTypeSection(" ", Accounter.constants().cashAtEndOfPeriod());
+			addTypeSection(" ", getConstants().cashAtEndOfPeriod());
 		}
 		if (record.getAccountName().equals("Net Income")) {
 			addOperatingTypes(record);
@@ -161,14 +160,13 @@ public class CashFlowStatementServerReport extends
 							.addRow(null,
 									1,
 									new Object[] {
-											Accounter
-													.constants()
+											getConstants()
 													.netCashChangeForThePeriod(),
 											(totalFinaning + totaloperating + totalInvesting) },
 									true, true, true);
 					CashFlowStatementServerReport.this.grid.addRow(null, 1,
 							new Object[] {
-									Accounter.constants()
+									getConstants()
 											.cashAtBeginningOfThePeriod(),
 									cashBegigginperiod }, true, true, true);
 					section.data[1] = (totalFinaning + totaloperating
@@ -204,16 +202,15 @@ public class CashFlowStatementServerReport extends
 	public void addOperatingTypes(TrialBalance record) {
 		if (!sectiontypes.contains("OPERATING ACTIVITIES")) {
 			closeAllSection();
-			addTypeSection("OPERATING ACTIVITIES", Accounter.constants()
+			addTypeSection("OPERATING ACTIVITIES", getConstants()
 					.netCashProvidedByOperatingActivities());
 		}
 		if (record.getAccountName().equals("Net Income"))
 			return;
 		if (!sectiontypes
 				.contains("Adjustments to reconcile net Income to net Cash")) {
-			addTypeSection(Accounter.constants()
-					.adjustmentsToReconcileNetIncomeToNetCash(), Accounter
-					.constants().endOfARNINC());
+			addTypeSection(getConstants()
+					.adjustmentsToReconcileNetIncomeToNetCash(), getConstants().endOfARNINC());
 		}
 
 	}
@@ -221,7 +218,7 @@ public class CashFlowStatementServerReport extends
 	public void addInvestingTypes(TrialBalance record) {
 		if (!sectiontypes.contains("INVESTING ACTIVITIES")) {
 			closeAllSection();
-			addTypeSection("INVESTING ACTIVITIES", Accounter.constants()
+			addTypeSection("INVESTING ACTIVITIES", getConstants()
 					.netCashProvidedByinvestingActivities());
 		}
 	}
@@ -229,7 +226,7 @@ public class CashFlowStatementServerReport extends
 	public void addFinancingTypes(TrialBalance record) {
 		if (!sectiontypes.contains("FINANCING ACTIVITIES")) {
 			closeAllSection();
-			addTypeSection("FINANCING ACTIVITIES", Accounter.constants()
+			addTypeSection("FINANCING ACTIVITIES", getConstants()
 					.netCashProvidedByfinancingActivities());
 		}
 	}
@@ -249,7 +246,7 @@ public class CashFlowStatementServerReport extends
 			curentParent = record.getAccountName();
 			addSection(
 					record.getAccountNumber() + "-" + record.getAccountName(),
-					Accounter.constants().total() + record.getAccountName(),
+					getConstants().total() + record.getAccountName(),
 					new int[] { 1 });
 			return true;
 		}
@@ -344,7 +341,7 @@ public class CashFlowStatementServerReport extends
 		else
 			return -1;
 	}
-
+	
 	// private void printDataForIEBrowser() {
 	// String gridhtml = grid.toString();
 	// String headerhtml = grid.getHeader();

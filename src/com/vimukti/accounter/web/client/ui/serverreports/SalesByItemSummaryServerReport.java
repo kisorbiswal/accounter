@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -12,7 +11,7 @@ public class SalesByItemSummaryServerReport extends
 
 	public SalesByItemSummaryServerReport(
 			IFinanceReport<SalesByCustomerDetail> reportView) {
-		this.reportView = reportView;
+			this.reportView = reportView;
 	}
 
 	public SalesByItemSummaryServerReport(long startDate, long endDate,
@@ -43,15 +42,15 @@ public class SalesByItemSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { Accounter.constants().item(),
+		return new String[] { getConstants().item(),
 				// FinanceApplication.constants().itemGroup(),
-				Accounter.constants().quantity(),
-				Accounter.constants().amount() };
+				getConstants().quantity(),
+				getConstants().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().salesByItemSummary();
+		return getConstants().salesByItemSummary();
 	}
 
 	@Override
@@ -70,7 +69,7 @@ public class SalesByItemSummaryServerReport extends
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "",
-					Accounter.constants().total() }, new int[] { 2 });
+					getConstants().total() }, new int[] { 2 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -136,10 +135,10 @@ public class SalesByItemSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().item(),
+		return new String[] { getConstants().item(),
 				// FinanceApplication.constants().itemGroup(),
-				Accounter.constants().quantity(),
-				Accounter.constants().amount() };
+				getConstants().quantity(),
+				getConstants().amount() };
 	}
-
+	
 }

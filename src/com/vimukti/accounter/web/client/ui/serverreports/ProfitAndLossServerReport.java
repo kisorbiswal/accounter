@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -62,7 +60,7 @@ public class ProfitAndLossServerReport extends
 	public Object getColumnData(TrialBalance record, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+			if (getPreferences().getUseAccountNumbers() == true) {
 				return record.getAccountNumber();
 			} else {
 				return null;
@@ -85,7 +83,7 @@ public class ProfitAndLossServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().all();
+		return getConstants().all();
 	}
 
 	@Override
@@ -98,7 +96,7 @@ public class ProfitAndLossServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				Accounter.constants().categoryNumber(),
+				getConstants().categoryNumber(),
 				"",
 				// FIXME for reports these are NULL...
 				"" + getDateByCompanyType(getStartDate()) + " - "
@@ -115,7 +113,7 @@ public class ProfitAndLossServerReport extends
 	public String[] getDynamicHeaders() {
 
 		return new String[] {
-				Accounter.constants().categoryNumber(),
+				getConstants().categoryNumber(),
 				"",
 				"" + getDateByCompanyType(getStartDate()) + " - "
 						+ getDateByCompanyType(getEndDate()),
@@ -129,7 +127,7 @@ public class ProfitAndLossServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().profitAndLoss();
+		return getConstants().profitAndLoss();
 	}
 
 	@Override
@@ -150,7 +148,7 @@ public class ProfitAndLossServerReport extends
 			iniHandler();
 
 		if (sectionDepth == 0) {
-			addTypeSection("", Accounter.constants().netOrdinaryIncome());
+			addTypeSection("",getConstants().netOrdinaryIncome());
 		}
 		addOrdinaryIncomeOrExpenseTypes(record);
 		// if (record.getBaseType() ==
@@ -286,22 +284,21 @@ public class ProfitAndLossServerReport extends
 		if (record.getAccountType() == ClientAccount.TYPE_INCOME
 				|| record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
 			if (!sectiontypes.contains("GrossProfit")) {
-				addTypeSection(Accounter.constants().grossProfit(), "",
-						Accounter.constants().grossProfit());
+				addTypeSection(getConstants().grossProfit(), "",
+						getConstants().grossProfit());
 
 			}
 			if (record.getAccountType() == ClientAccount.TYPE_INCOME)
 				if (!sectiontypes.contains("Income")) {
 
-					addTypeSection(Accounter.constants().income(), Accounter
-							.constants().incomeTotals());
+					addTypeSection(getConstants().income(), getConstants().incomeTotals());
 				}
 			if (record.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
 				if (!sectiontypes.contains("Cost of good Sold")) {
 					closeOtherSections();
 					closeSection(types.indexOf("Income"));
-					addTypeSection(Accounter.constants().costOfGoodSold(),
-							Accounter.constants().cogsTotal());
+					addTypeSection(getConstants().costOfGoodSold(),
+							getConstants().cogsTotal());
 
 				}
 
@@ -313,8 +310,7 @@ public class ProfitAndLossServerReport extends
 				for (int i = types.size() - 2; i > 0; i--) {
 					closeSection(i);
 				}
-				addTypeSection(Accounter.constants().otherExpense(), Accounter
-						.constants().otherExpenseTotals());
+				addTypeSection(getConstants().otherExpense(), getConstants().otherExpenseTotals());
 			}
 		}
 
@@ -322,8 +318,7 @@ public class ProfitAndLossServerReport extends
 
 			if (!sectiontypes.contains("Expense")) {
 				closeAllSection();
-				addTypeSection(Accounter.constants().expense(), Accounter
-						.constants().expenseTotals());
+				addTypeSection(getConstants().expense(), getConstants().expenseTotals());
 			}
 		}
 
@@ -332,8 +327,8 @@ public class ProfitAndLossServerReport extends
 	public void addOtherIncomeOrExpenseTypes(TrialBalance record) {
 		if (!sectiontypes.contains("Other Income or Expense")) {
 			closeAllSection();
-			addTypeSection(Accounter.constants().otherIncomeOrExpense(),
-					Accounter.constants().netOtherIncome());
+			addTypeSection(getConstants().otherIncomeOrExpense(),
+					getConstants().netOtherIncome());
 		}
 		// if (record.getAccountType() == ClientAccount.TYPE_OTHER_INCOME) {
 		// if (!sectiontypes.contains(FinanceApplication.constants()
@@ -349,8 +344,7 @@ public class ProfitAndLossServerReport extends
 				for (int i = types.size() - 2; i > 0; i--) {
 					closeSection(i);
 				}
-				addTypeSection(Accounter.constants().otherExpense(), Accounter
-						.constants().otherExpenseTotals());
+				addTypeSection(getConstants().otherExpense(), getConstants().otherExpenseTotals());
 			}
 		}
 
@@ -374,7 +368,7 @@ public class ProfitAndLossServerReport extends
 			addSection(
 					record.getAccountNumber() + "-" + record.getAccountName(),
 					record.getAccountName() + "  "
-							+ Accounter.constants().total(), new int[] { 3, 5 });
+							+ getConstants().total(), new int[] { 3, 5 });
 			return true;
 		}
 		return false;
@@ -534,4 +528,5 @@ public class ProfitAndLossServerReport extends
 				lastDay);
 		// return lastDay;
 	}
+	
 }

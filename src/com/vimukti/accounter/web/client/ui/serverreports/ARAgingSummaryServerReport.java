@@ -55,15 +55,15 @@ public class ARAgingSummaryServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { Accounter.constants().debtor(),
-				Accounter.constants().days30(), Accounter.constants().days60(),
-				Accounter.constants().days90(), Accounter.constants().older(),
-				Accounter.constants().totalBalance() };
+		return new String[] { getConstants().debtor(),
+				getConstants().days30(), getConstants().days60(),
+				getConstants().days90(), getConstants().older(),
+				getConstants().totalBalance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().arAgeingSummary();
+		return getConstants().arAgeingSummary();
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class ARAgingSummaryServerReport extends
 	@Override
 	public void processRecord(DummyDebitor record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 1, 2, 3,
+			addSection("", getConstants().total(), new int[] { 1, 2, 3,
 					4, 5 });
 		} else if (sectionDepth == 1) {
 			return;
@@ -229,10 +229,10 @@ public class ARAgingSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().debtor(),
-				Accounter.constants().days30(), Accounter.constants().days60(),
-				Accounter.constants().days90(), Accounter.constants().older(),
-				Accounter.constants().totalBalance() };
+		return new String[] { getConstants().debtor(),
+				getConstants().days30(), getConstants().days60(),
+				getConstants().days90(), getConstants().older(),
+				getConstants().totalBalance() };
 	}
-
+	
 }

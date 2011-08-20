@@ -1,8 +1,9 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -55,7 +56,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().vat100();
+		return getConstants().vat100();
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.constants().all();
+		return getConstants().all();
 	}
 
 	@Override
@@ -79,11 +80,11 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 			iniHandler();
 		if (this.row == -1) {
 			this.sectionName = "";
-			addSection("", Accounter.constants()
+			addSection("", getConstants()
 					.box5NetVATToPayOrReclaimIfNegative(), new int[] {});
 
-			this.sectionName = Accounter.constants().vatDue();
-			addSection(this.sectionName, Accounter.constants()
+			this.sectionName = getConstants().vatDue();
+			addSection(this.sectionName, getConstants()
 					.box3TotalVATDue(), new int[] { 1 });
 			row = 0;
 		} else if (this.row < 4) {
@@ -200,5 +201,13 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 			return 175;
 		else
 			return -1;
+	}
+	public AccounterConstants getConstants()
+	{
+		if (constants == null) {
+			constants = (AccounterConstants) GWT
+					.create(AccounterConstants.class);
+		}
+		return constants;
 	}
 }

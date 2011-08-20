@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -52,15 +51,15 @@ public class APAgingSummaryServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { Accounter.constants().creditor(),
-				Accounter.constants().days30(), Accounter.constants().days60(),
-				Accounter.constants().days90(), Accounter.constants().older(),
-				Accounter.constants().totalBalance() };
+		return new String[] { getConstants().creditor(),
+				getConstants().days30(), getConstants().days60(),
+				getConstants().days90(), getConstants().older(),
+				getConstants().totalBalance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().apAgeingSummary();
+		return getConstants().apAgeingSummary();
 	}
 
 	@Override
@@ -94,7 +93,7 @@ public class APAgingSummaryServerReport extends
 	@Override
 	public void processRecord(DummyDebitor record) {
 		if (sectionDepth == 0) {
-			addSection("", Accounter.constants().total(), new int[] { 1, 2, 3,
+			addSection("", getConstants().total(), new int[] { 1, 2, 3,
 					4, 5 });
 		} else if (sectionDepth == 1) {
 			return;
@@ -228,10 +227,10 @@ public class APAgingSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { Accounter.constants().creditor(),
-				Accounter.constants().days30(), Accounter.constants().days60(),
-				Accounter.constants().days90(), Accounter.constants().older(),
-				Accounter.constants().totalBalance() };
+		return new String[] { getConstants().creditor(),
+				getConstants().days30(), getConstants().days60(),
+				getConstants().days90(), getConstants().older(),
+				getConstants().totalBalance() };
 	}
-
+	
 }
