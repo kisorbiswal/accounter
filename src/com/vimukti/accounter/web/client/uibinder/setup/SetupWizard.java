@@ -219,10 +219,12 @@ public class SetupWizard extends VerticalPanel {
 			previousView.onSave();
 			this.viewPanel.remove(previousView);
 		}
-		viewToShow = viewList[currentViewIndex];
-		viewToShow.setPreferences(preferences);
 		while (!viewToShow.doShow()) {
 			currentViewIndex++;
+			viewToShow = viewList[currentViewIndex];
+			viewToShow.setPreferences(preferences);
+		}
+		if (viewToShow.doShow()) {
 			viewToShow = viewList[currentViewIndex];
 			viewToShow.setPreferences(preferences);
 		}

@@ -35,4 +35,9 @@ public class SetupSkipDialog extends AbstractSetupPage {
 
 	}
 
+	@Override
+	public boolean doShow() {
+		return true;
+	}
+
 }

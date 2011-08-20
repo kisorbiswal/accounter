@@ -14,6 +14,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
 
 /**
  * @author Administrator
@@ -55,6 +57,36 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	ListBox stateListBox;
 	@UiField
 	TextBox cityTextBox;
+	@UiField
+	Label displayNameLabel;
+	@UiField
+	Label legalNameLabel;
+	@UiField
+	Label taxIDLabel;
+	@UiField
+	Label streetAddress2Label;
+	@UiField
+	Label streetAdreess1Label;
+	@UiField
+	Label cityLabel;
+	@UiField
+	Label stateLabel;
+	@UiField
+	Label zipLabel;
+	@UiField
+	Label countryLabel;
+	@UiField
+	Label phoneLabel;
+	@UiField
+	Label faxLabel;
+	@UiField
+	Label emailAdressLabel;
+	@UiField
+	Label webSiteLabel;
+	@UiField
+	HTML useFormat;
+	@UiField
+	Label headerLabel;
 
 	interface SetupCompanyInfoPageUiBinder extends
 			UiBinder<Widget, SetupCompanyInfoPage> {
@@ -87,24 +119,34 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
+		headerLabel.setText(accounterConstants.enterYourCompanyInfo());
+		
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			taxId.setText(accounterConstants.taxId());
+			taxIDLabel.setText(accounterConstants.taxId());
 		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			taxId.setText(accounterConstants.vatNo());
+			taxIDLabel.setText(accounterConstants.vatNo());
 		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-			taxId.setText(accounterConstants.panNumber());
+			taxIDLabel.setText(accounterConstants.panNumber());
 		}
-		companyName.setText(accounterConstants.displayName());
-		legalName.setText(accounterConstants.legalName());
 
-		streetAddress1.setText(accounterConstants.streetAddress1());
-		streetAdress2.setText(accounterConstants.streetAddress2());
-		cityTextBox.setText(accounterConstants.city());
-		country.setTitle(accounterConstants.country());
-		phone.setText(accounterConstants.phone());
-		fax.setText(accounterConstants.fax());
-		emailAddress.setText(accounterConstants.emailId());
-		webSite.setText(accounterConstants.webSite());
+		displayNameLabel.setText(accounterConstants.displayName());
+		legalNameLabel.setText(accounterConstants.legalName());
+		streetAddress2Label.setText(accounterConstants.streetAddress2());
+		streetAdreess1Label.setText(accounterConstants.streetAddress1());
+		cityLabel.setText(accounterConstants.city());
+		stateLabel.setText(accounterConstants.state());
+		zipLabel.setText(accounterConstants.zipCode());
+		countryLabel.setText(accounterConstants.country());
+		phoneLabel.setText(accounterConstants.phone());
+		faxLabel.setText(accounterConstants.fax());
+		emailAdressLabel.setText(accounterConstants.emailId());
+		webSiteLabel.setText(accounterConstants.webSite());
+		useFormat.setHTML("");
+	}
+
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 
 }

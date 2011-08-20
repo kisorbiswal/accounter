@@ -1,37 +1,73 @@
-/**
- * 
- */
 package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * @author Administrator
- * 
- */
-public class SetupSelectAccountsPage extends AbstractSetupPage {
+public class SetupSelectAccountsPage extends AbstractSetupPage implements
+		HasText {
 
-	private static SetupSelectAccountsPageUiBinder uiBinder = GWT
-			.create(SetupSelectAccountsPageUiBinder.class);
+	private static SetupReviewExpenseAccountsUiBinder uiBinder = GWT
+			.create(SetupReviewExpenseAccountsUiBinder.class);
 
-	interface SetupSelectAccountsPageUiBinder extends
+	interface SetupReviewExpenseAccountsUiBinder extends
 			UiBinder<Widget, SetupSelectAccountsPage> {
 	}
 
-	/**
-	 * Because this class has a default constructor, it can be used as a binder
-	 * template. In other words, it can be used in other *.ui.xml files as
-	 * follows: <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	 * xmlns:g="urn:import:**user's package**">
-	 * <g:**UserClassName**>Hello!</g:**UserClassName> </ui:UiBinder> Note that
-	 * depending on the widget that is used, it may be necessary to implement
-	 * HasHTML instead of HasText.
-	 */
 	public SetupSelectAccountsPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+	}
+
+	@UiField
+	VerticalPanel viewPanel;
+	@UiField
+	Label expensesInfo;
+	@UiField
+	HTML recommendedInfo;
+	@UiField
+	Label accountName;
+	@UiField
+	Label type;
+	@UiField
+	CheckBox expensesClick;
+	@UiField
+	Button restoreButton;
+	@UiField
+	HTML expensesLink;
+	@UiField
+	HTML expensesNote;
+	@UiField
+	HTML reviewHead;
+	@UiField
+	Label headerLabel;
+
+	public SetupSelectAccountsPage(String firstName) {
+		initWidget(uiBinder.createAndBindUi(this));
+
+	}
+
+	@Override
+	protected void createControls() {
+		headerLabel.setText(accounterConstants.reviewIncomeAndExpensesAccounts());
+		
+		expensesInfo.setText(accounterConstants.expenseInformation());
+		recommendedInfo.setText(accounterMessages.recommendedAccounts());
+		Label accountName;
+		Label type;
+		CheckBox expensesClick;
+		restoreButton.setText(accounterConstants.restoreRecommendations());
+		expensesLink.setText(accounterMessages.whyshoudIUseRecommended());
+		expensesNote.setText(accounterMessages.recommendedNote());
+		reviewHead
+				.setText(accounterConstants.reviewIncomeAndExpensesAccounts());
 	}
 
 	@Override
@@ -47,9 +83,20 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected void createControls() {
+	public String getText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setText(String text) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 
 }

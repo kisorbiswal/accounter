@@ -7,28 +7,23 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
+	<g:VerticalPanel ui:field="mainViewPanel">
+		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
 			<g:VerticalPanel ui:field="sell">
-				<g:HTML wordWrap="true" ui:field="wtdoyouSell"/>
-				<g:RadioButton name="new name" ui:field="servicesOnly"/>
-				<g:Label ui:field="servicesOnlyText"/>
-				<g:RadioButton name="new name" ui:field="productsOnly"/>
-				<g:Label ui:field="productsOnlyText"/>
-				<g:RadioButton name="new name" ui:field="both"/>
-				<g:Label ui:field="bothText"/>
+				<g:HTML wordWrap="true" ui:field="wtdoyouSell" />
+				<g:RadioButton name="new name" ui:field="servicesOnly" />
+				<g:Label ui:field="servicesOnlyText" />
+				<g:RadioButton name="new name" ui:field="productsOnly" />
+				<g:Label ui:field="productsOnlyText" />
+				<g:RadioButton name="new name" ui:field="both" />
+				<g:Label ui:field="bothText" />
 			</g:VerticalPanel>
 			<g:VerticalPanel ui:field="salesTax">
-				<g:HTML wordWrap="true" ui:field="salesTaxHead"/>
-				<g:RadioButton name="new name" ui:field="salesTaxYes"/>
-				<g:RadioButton name="new name" ui:field="salesTaxNo"/>
+				<g:HTML wordWrap="true" ui:field="salesTaxHead" />
+				<g:RadioButton name="new name" ui:field="salesTaxYes" />
+				<g:RadioButton name="new name" ui:field="salesTaxNo" />
 			</g:VerticalPanel>
 		</g:VerticalPanel>
-		<!--
-			Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete
-			widget names. The ui:field attribute binds an element to a field in
-			the owner class. See the GWT docs on UI Binder for more details.
-		-->
-		
-	</g:HTMLPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

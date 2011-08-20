@@ -46,6 +46,8 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	HTML fiscalInfo;
 	@UiField
 	HTML fiscalHead;
+	@UiField
+	Label headerLabel;
 
 	interface SetupSelectFiscalYrDatePageUiBinder extends
 			UiBinder<Widget, SetupSelectFiscalYrDatePage> {
@@ -73,7 +75,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		// TODO Auto-generated method stub
+		headerLabel.setText(accounterConstants.selectFirstMonthOfFiscalYear());
 
 		fiscalStarts.setText(accounterConstants.myFiscalYearsStartsIn());
 		fiscalHeader.setText(accounterConstants.selectdateToTrackFinance());
@@ -103,6 +105,11 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	protected void onSave() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 
 }

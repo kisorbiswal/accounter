@@ -5,11 +5,12 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -25,7 +26,11 @@ public class SetupStartPage extends AbstractSetupPage {
 	@UiField
 	Button startButton, skipButton;
 	@UiField
-	HTML setupInfo, startSetupInfo, skipSetupInfo;
+	HTML startSetupInfo, skipSetupInfo, setupInfo;
+	@UiField
+	VerticalPanel viewPanel;
+	@UiField
+	Label headerLabel;
 
 	interface SetupStartPageUiBinder extends UiBinder<Widget, SetupStartPage> {
 	}
@@ -49,9 +54,6 @@ public class SetupStartPage extends AbstractSetupPage {
 		createControls();
 	}
 
-	@UiField
-	VerticalPanel viewPanel;
-
 	@Override
 	protected void onLoad() {
 		// TODO Auto-generated method stub
@@ -66,21 +68,27 @@ public class SetupStartPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
+		this.headerLabel.setText(accounterConstants.welcomeToStartup());
 		this.startButton.setText(accounterConstants.startSetup());
 		this.skipButton.setText(accounterConstants.skipSetup());
-		this.setupInfo.setText(accounterMessages.userGuidelinesMessage());
-		this.startSetupInfo.setText(accounterMessages.startSetupInfo());
+		this.setupInfo.setHTML(accounterMessages.userGuidelinesMessage());
+		this.startSetupInfo.setHTML(accounterMessages.startSetupInfo());
 		this.skipSetupInfo.setHTML(accounterMessages.skipSetupInfo());
 
+		startButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				setupWizard.currentViewIndex++;
+				setupWizard.showView();
+			}
+		});
+
 	}
 
-	@UiHandler("startButton")
-	void onStartButtonClick(ClickEvent event) {
-		setupWizard.currentViewIndex++;
-		setupWizard.showView();
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 
-	@UiHandler("skipButton")
-	void onSkipButtonClick(ClickEvent event) {
-	}
 }

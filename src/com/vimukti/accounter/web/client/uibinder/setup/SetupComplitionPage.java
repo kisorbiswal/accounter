@@ -5,11 +5,11 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
 
 /**
  * @author Administrator
@@ -27,6 +27,8 @@ public class SetupComplitionPage extends AbstractSetupPage {
 	Label congratulationLabel1;
 	@UiField
 	HTML congratulationInfo;
+	@UiField
+	Label headerLabel;
 
 	interface SetupComplitionPageUiBinder extends
 			UiBinder<Widget, SetupComplitionPage> {
@@ -60,8 +62,12 @@ public class SetupComplitionPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		// TODO Auto-generated method stub
+		headerLabel.setText(accounterConstants.congratulations());
+	}
 
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 
 }

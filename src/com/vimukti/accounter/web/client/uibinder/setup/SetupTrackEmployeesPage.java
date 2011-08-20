@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -38,6 +39,8 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	RadioButton trackNo;
 	@UiField
 	VerticalPanel trackPanel;
+	@UiField
+	Label headerLabel;
 
 	interface SetupTrackEmployeesPageUiBinder extends
 			UiBinder<Widget, SetupTrackEmployeesPage> {
@@ -62,7 +65,7 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		// TODO Auto-generated method stub
+		headerLabel.setText(accounterConstants.doyouHaveEmployees());
 
 		w2Employees.setText(accounterConstants.wehavW2Employes());
 		contractors.setText(accounterConstants.wehavContractors());
@@ -71,6 +74,11 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		employeeNo.setText(accounterConstants.no());
 		trackYes.setText(accounterConstants.yes());
 		trackNo.setText(accounterConstants.no());
+	}
+
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 
 }

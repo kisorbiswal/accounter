@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -45,6 +46,8 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	HTML managingInfo;
 	@UiField
 	HTML trackingTimeDes;
+	@UiField
+	Label headerLabel;
 
 	interface SetupTrackBillsAndTimePageUiBinder extends
 			UiBinder<Widget, SetupTrackBillsAndTimePage> {
@@ -78,8 +81,8 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		// TODO Auto-generated method stub
-
+		headerLabel.setText(accounterConstants.managingBills());
+		
 		trackOfBillsText.setText(accounterConstants.doyouwantTrackTime());
 		trackOfBillsList.setText(accounterMessages.trackTimeList());
 		managingList.setText(accounterMessages.managingList());
@@ -91,5 +94,10 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		trackingTimeDes.setText(accounterConstants.timetrackingdescription());
 		managingInfo.setText(accounterConstants.billstrackingdescription());
 
+	}
+
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 }

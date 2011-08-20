@@ -69,6 +69,8 @@ public class SetupProgressPanel extends AbstractSetupPage {
 	Image fiscalYearImage;
 	@UiField
 	Image requiredImage;
+	@UiField
+	Label headerLabel;
 
 	interface SetupProgressPanelUiBinder extends
 			UiBinder<Widget, SetupProgressPanel> {
@@ -114,6 +116,11 @@ public class SetupProgressPanel extends AbstractSetupPage {
 		billTracking.setText(accounterConstants.setBillTracking());
 		fiscalYear.setText(accounterConstants.setFiscalYear());
 		requiredAccounts.setText(accounterConstants.selectRequiredAccounts());
+	}
+
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 
 }

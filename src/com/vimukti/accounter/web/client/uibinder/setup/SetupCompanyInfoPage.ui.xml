@@ -7,12 +7,14 @@
 			font-weight: bold;
 		}
 	</ui:style>
-		<g:VerticalPanel width="660px" height="500px" ui:field="viewPanel">
+	<g:VerticalPanel ui:field="mainViewPanel">
+		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
+		<g:VerticalPanel ui:field="viewPanel">
 			<g:HTML wordWrap="true" ui:field="AccounterInfo"></g:HTML>
 			<g:Grid width="500px" height="198px" ui:field="companyInfoField">
 				<g:row>
 					<g:customCell>
-						<g:Label text="Company Name :" width="150px" height="30px"/>
+						<g:Label width="150px" height="30px" ui:field="displayNameLabel"/>
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox ui:field="companyName"/>
@@ -20,7 +22,7 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label text="Legal Name" height="30px" width="150px"/>
+						<g:Label height="30px" width="150px" ui:field="legalNameLabel"/>
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox ui:field="legalName"/>
@@ -36,7 +38,7 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label text="Tax Id :"/>
+						<g:Label ui:field="taxIDLabel"/>
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox ui:field="taxId"/>
@@ -52,7 +54,7 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label text="Street Adress"/>
+						<g:Label ui:field="streetAdreess1Label"/>
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox ui:field="streetAddress1"/>
@@ -60,7 +62,7 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label/>
+						<g:Label ui:field="streetAddress2Label"/>
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox ui:field="streetAdress2"/>
@@ -68,21 +70,21 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label text="City"/>
+						<g:Label ui:field="cityLabel"/>
 					</g:customCell>
 					<g:customCell>
 						<g:HorizontalPanel ui:field="addressPanel">
 							<g:TextBox ui:field="cityTextBox"/>
-							<g:Label text="State"/>
+							<g:Label ui:field="stateLabel"/>
 							<g:ListBox ui:field="stateListBox"/>
-							<g:Label text="Zip"/>
+							<g:Label ui:field="zipLabel"/>
 							<g:TextBox ui:field="zip"/>
 						</g:HorizontalPanel>
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label text="Country"/>
+						<g:Label ui:field="countryLabel"/>
 					</g:customCell>
 					<g:customCell>
 						<g:ListBox ui:field="country"/>
@@ -90,12 +92,12 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label text="Phone"/>
+						<g:Label ui:field="phoneLabel"/>
 					</g:customCell>
 					<g:customCell>
 						<g:HorizontalPanel ui:field="phonePanel">
 							<g:TextBox ui:field="phone"/>
-							<g:Label text="Fax"/>
+							<g:Label ui:field="faxLabel"/>
 							<g:TextBox ui:field="fax"/>
 						</g:HorizontalPanel>
 					</g:customCell>
@@ -105,12 +107,12 @@
 						<g:Label/>
 					</g:customCell>
 					<g:customCell>
-						<g:HTML wordWrap="true" ui:field="UseFormat"></g:HTML>
+						<g:HTML wordWrap="true" ui:field="useFormat"></g:HTML>
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label text="E-Mail Address"/>
+						<g:Label ui:field="emailAdressLabel"/>
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox ui:field="emailAddress"/>
@@ -118,7 +120,7 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label text="Website"/>
+						<g:Label ui:field="webSiteLabel"/>
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox ui:field="webSite"/>
@@ -126,17 +128,10 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label text="required field"/>
-					</g:customCell>
-					<g:customCell>
 						<g:HTML wordWrap="true" ui:field="requiredField"></g:HTML>
 					</g:customCell>
 				</g:row>
 			</g:Grid>
 		</g:VerticalPanel>
-		<!--
-			Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete
-			widget names. The ui:field attribute binds an element to a field in
-			the owner class. See the GWT docs on UI Binder for more details.
-		-->
+		</g:VerticalPanel>
 </ui:UiBinder> 

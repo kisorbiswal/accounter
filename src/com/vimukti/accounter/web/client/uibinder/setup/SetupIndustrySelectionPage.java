@@ -6,6 +6,7 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -25,7 +26,11 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	@UiField
 	ListBox industryList;
 	@UiField
-	Label customizeAccounter, settingsLater, industry, selectIndustry;
+	HTML customizeAccounter, settingsLater, industry;
+	@UiField
+	Label selectIndustry;
+	@UiField
+	Label headerLabel;
 
 	interface SetupIndustrySelectionPageUiBinder extends
 			UiBinder<Widget, SetupIndustrySelectionPage> {
@@ -59,8 +64,10 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		customizeAccounter.setText(accounterMessages.selectIndustryInfoHTML());
-		settingsLater.setText(accounterMessages.industrySelectNote());
+		headerLabel.setText(accounterConstants.howDoYouRefer());
+		
+		customizeAccounter.setHTML(accounterMessages.selectIndustryInfoHTML());
+		settingsLater.setHTML(accounterMessages.industrySelectNote());
 		selectIndustry.setText(accounterMessages.selectIndustry());
 		industryList.setName(accounterConstants.industry());
 
@@ -101,5 +108,10 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 			industryList.addItem(industries[i]);
 		}
 
+	}
+
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 }

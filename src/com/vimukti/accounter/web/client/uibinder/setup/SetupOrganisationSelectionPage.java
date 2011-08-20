@@ -55,6 +55,8 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	HTML organizationLink;
 	@UiField
 	ListBox lLCCombo;
+	@UiField
+	Label headerLabel;
 
 	interface SetupOrganisationSelectionPageUiBinder extends
 			UiBinder<Widget, SetupOrganisationSelectionPage> {
@@ -88,6 +90,8 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
+		headerLabel.setText(accounterConstants.howIsYourCompanyOrganized());
+		
 		organizeText.setTitle(accounterConstants
 				.howIsYourCompanyOrganizedDesc());
 		propriterShip.setText(accounterConstants.soleProprietorship());
@@ -107,6 +111,11 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		sCorporationText.setText(accounterConstants.corporationDesc());
 		nonProfitText.setText(accounterConstants.nonProfitDesc());
 		// HTML organizationLink;
+	}
+
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 
 }

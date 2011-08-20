@@ -5,6 +5,8 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -15,6 +17,8 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	private static SetupCurrencyPageUiBinder uiBinder = GWT
 			.create(SetupCurrencyPageUiBinder.class);
+	@UiField
+	Label headerLabel;
 
 	interface SetupCurrencyPageUiBinder extends
 			UiBinder<Widget, SetupCurrencyPage> {
@@ -48,8 +52,14 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
+		headerLabel.setText(accounterConstants.howDoYouRefer());
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 
 }

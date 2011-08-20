@@ -8,11 +8,16 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractSetupPage extends Composite {
 
+	protected ClientCompanyPreferences preferences;
 	protected AccounterConstants accounterConstants = Accounter.constants();
 	protected AccounterMessages accounterMessages = Accounter.messages();
 
-	public AbstractSetupPage() {
+	public AbstractSetupPage(ClientCompanyPreferences preferences) {
+		this.preferences = preferences;
+	}
 
+	public AbstractSetupPage() {
+		this(Accounter.getCompany().getPreferences());
 	}
 
 	protected abstract void createControls();
@@ -26,8 +31,5 @@ public abstract class AbstractSetupPage extends Composite {
 
 	}
 
-	public boolean doShow() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public abstract boolean doShow();
 }

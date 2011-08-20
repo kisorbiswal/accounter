@@ -7,6 +7,8 @@
 			font-weight: bold;
 		}
 	</ui:style>
+	<g:VerticalPanel ui:field="mainViewPanel">
+		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 	<g:VerticalPanel ui:field="viewPanel">
 		<g:RadioButton name="trackEmployee" ui:field="employeeYes" />
 		<g:VerticalPanel>
@@ -20,9 +22,5 @@
 			<g:RadioButton name="trackEmployeeType" ui:field="trackNo" />
 		</g:VerticalPanel>
 	</g:VerticalPanel>
-	<!--
-		Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete
-		widget names. The ui:field attribute binds an element to a field in
-		the owner class. See the GWT docs on UI Binder for more details.
-	-->
+	</g:VerticalPanel>
 </ui:UiBinder> 

@@ -7,21 +7,21 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
+	<g:VerticalPanel ui:field="mainViewPanel">
+		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:RadioButton name="new name" ui:field="estimatesYes"/>
-			<g:RadioButton name="new name" ui:field="estimatesNo"/>
+			<g:RadioButton name="estimateGroup" ui:field="estimatesYes" />
+			<g:RadioButton name="estimateGroup" ui:field="estimatesNo" />
 			<g:VerticalPanel>
-				<g:Label ui:field="billingStatements"/>
-				<g:Label ui:field="someExampleText"/>
-				<g:HTML wordWrap="true" ui:field="someExampleList"/>
+				<g:Label ui:field="billingStatements" />
+				<g:Label ui:field="someExampleText" />
+				<g:HTML wordWrap="true" ui:field="someExampleList" />
 				<g:VerticalPanel>
-					<g:Label ui:field="billingQuestion"/>
-					<g:RadioButton name="new name" ui:field="statementYes"/>
-					<g:RadioButton name="new name" ui:field="statementsNo"/>
+					<g:Label ui:field="billingQuestion" />
+					<g:RadioButton name="statementGroup" ui:field="statementYes" />
+					<g:RadioButton name="statementGroup" ui:field="statementsNo" />
 				</g:VerticalPanel>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
-
-	</g:HTMLPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

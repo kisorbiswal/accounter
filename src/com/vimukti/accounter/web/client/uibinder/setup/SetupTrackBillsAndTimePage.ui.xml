@@ -8,8 +8,7 @@
 		}
 	</ui:style>
 	<g:VerticalPanel ui:field="mainViewPanel">
-		<g:Label ui:field="headerLabel">
-		</g:Label>
+		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
 			<g:VerticalPanel ui:field="managing">
 				<g:HTML wordWrap="true" ui:field="managingInfo" />

@@ -46,6 +46,8 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	HTML salesTaxHead;
 	@UiField
 	HTML wtdoyouSell;
+	@UiField
+	Label headerLabel;
 
 	interface SetupSellTypeAndSalesTaxPageUiBinder extends
 			UiBinder<Widget, SetupSellTypeAndSalesTaxPage> {
@@ -79,7 +81,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		// TODO Auto-generated method stub
+		headerLabel.setText(accounterConstants.whatDoYouSell());
 
 		servicesOnly.setText(accounterConstants.services_labelonly());
 		servicesOnlyText.setText(accounterConstants.servicesOnly());
@@ -91,6 +93,11 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		salesTaxYes.setText(accounterConstants.yes());
 		salesTaxHead.setText(accounterConstants.doyouchargesalestax());
 		wtdoyouSell.setText(accounterConstants.whatDoYouSell());
+	}
+
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 
 }

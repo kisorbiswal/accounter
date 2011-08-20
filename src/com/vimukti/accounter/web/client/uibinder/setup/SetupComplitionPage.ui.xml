@@ -7,7 +7,8 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
+	<g:VerticalPanel ui:field="mainViewPanel">
+		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
 			<g:HTML wordWrap="true" ui:field="congratulationInfo"/>
 			<g:Label ui:field="congratulationLabel1"/>
@@ -19,5 +20,5 @@
 			the owner class. See the GWT docs on UI Binder for more details.
 		-->
 		
-	</g:HTMLPanel>
+</g:VerticalPanel>
 </ui:UiBinder> 

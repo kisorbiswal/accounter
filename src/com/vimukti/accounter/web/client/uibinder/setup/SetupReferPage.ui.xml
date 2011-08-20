@@ -7,12 +7,12 @@
 			font-weight: bold;
 		}
 	</ui:style>
-		<g:VerticalPanel width="353px" height="375px" ui:field="viewPanel">
-			<g:Label ui:field="headerLabel"/>
-			<g:Grid height="199px" ui:field="referPanel">
+		<g:VerticalPanel ui:field="mainViewPanel">
+		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
+			<g:Grid ui:field="referPanel">
 				<g:row>
 					<g:customCell>
-						<g:Label width="304px" ui:field="customerLabel"/>
+						<g:Label ui:field="customerLabel"/>
 					</g:customCell>
 					<g:customCell>
 						<g:ListBox ui:field="customerListBox"/>

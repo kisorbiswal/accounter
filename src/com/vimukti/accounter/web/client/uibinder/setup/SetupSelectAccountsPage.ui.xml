@@ -2,18 +2,32 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-		/* Add CSS here. See the GWT docs on UI Binder for more details */
 		.important {
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		<!--
-			Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete
-			widget names. The ui:field attribute binds an element to a field in
-			the owner class. See the GWT docs on UI Binder for more details.
-		-->
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
-	</g:HTMLPanel>
+	<g:VerticalPanel ui:field="mainViewPanel">
+		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
+		<g:VerticalPanel ui:field="viewPanel">
+			<g:HTML wordWrap="true" ui:field="reviewHead" />
+			<g:Label ui:field="expensesInfo" />
+			<g:HTML wordWrap="true" ui:field="recommendedInfo" />
+			<g:Grid>
+				<g:row>
+					<g:customCell>
+						<g:CheckBox ui:field="expensesClick" />
+					</g:customCell>
+					<g:customCell>
+						<g:Label ui:field="accountName" />
+					</g:customCell>
+					<g:customCell>
+						<g:Label ui:field="type" />
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+			<g:Button enabled="false" ui:field="restoreButton" />
+			<g:HTML wordWrap="true" ui:field="expensesLink" />
+			<g:HTML wordWrap="true" ui:field="expensesNote" />
+		</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

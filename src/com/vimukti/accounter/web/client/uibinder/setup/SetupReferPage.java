@@ -21,7 +21,7 @@ public class SetupReferPage extends AbstractSetupPage {
 	private static SetupReferPageUiBinder uiBinder = GWT
 			.create(SetupReferPageUiBinder.class);
 	@UiField
-	VerticalPanel viewPanel;
+	VerticalPanel mainViewPanel;
 	@UiField
 	Label headerLabel;
 	@UiField
@@ -99,6 +99,11 @@ public class SetupReferPage extends AbstractSetupPage {
 		accountCommentLabel.setText(accounterConstants
 				.howDoYouReferYourAccounts());
 
+	}
+
+	@Override
+	public boolean doShow() {
+		return true;
 	}
 
 }
