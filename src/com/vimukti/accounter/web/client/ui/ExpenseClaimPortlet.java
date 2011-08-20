@@ -84,15 +84,11 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 
 		updateAmounts();
 
-		allExpAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsString(allExpensesAmount));
-		cashExpAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsString(cashExpenseAmount));
+		allExpAmtLabel = getAmountLabel(amountAsString(allExpensesAmount));
+		cashExpAmtLabel = getAmountLabel(amountAsString(cashExpenseAmount));
 		cashExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		empExpAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsString(employeeExpenseAmount));
-		ccExpAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsString(ccExpenseAmount));
+		empExpAmtLabel = getAmountLabel(amountAsString(employeeExpenseAmount));
+		ccExpAmtLabel = getAmountLabel(amountAsString(ccExpenseAmount));
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
 		fTable.setWidget(0, 0, allExpLabel);
@@ -200,12 +196,11 @@ public class ExpenseClaimPortlet extends DashBoardPortlet {
 	}
 
 	public void updateAmountLabels() {
-		cashExpAmtLabel.setText(DataUtils.getAmountAsString(cashExpenseAmount));
-		ccExpAmtLabel.setText(DataUtils.getAmountAsString(ccExpenseAmount));
-		empExpAmtLabel.setText(DataUtils
-				.getAmountAsString(employeeExpenseAmount));
+		cashExpAmtLabel.setText(amountAsString(cashExpenseAmount));
+		ccExpAmtLabel.setText(amountAsString(ccExpenseAmount));
+		empExpAmtLabel.setText(amountAsString(employeeExpenseAmount));
 
-		allExpAmtLabel.setText(DataUtils.getAmountAsString(allExpensesAmount));
+		allExpAmtLabel.setText(amountAsString(allExpensesAmount));
 	}
 
 }
