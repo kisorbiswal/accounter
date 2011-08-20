@@ -30,6 +30,16 @@ public class IntegerField extends TextItem {
 		// });
 	}
 
+	@Override
+	public void setValue(String value) {
+		super.setValue(value);
+		if (value != null)
+			try {
+				number = Long.parseLong(value);
+			} catch (Exception e) {
+			}
+	}
+
 	private BlurHandler getBlurHandler() {
 
 		BlurHandler blurHandler = new BlurHandler() {
