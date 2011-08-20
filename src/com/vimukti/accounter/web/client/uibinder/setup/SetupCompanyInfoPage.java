@@ -164,6 +164,12 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				if (stateListBox.getItemCount() != 0) {
+					for (int i = 0; i < stateListBox.getItemCount(); i++) {
+						stateListBox.removeItem(i);
+					}
+				}
+
 				Accounter.createGETService().getStates(
 						country.getItemText(country.getSelectedIndex()),
 						new AsyncCallback<List<String>>() {
