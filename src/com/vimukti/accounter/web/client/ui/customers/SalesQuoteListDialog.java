@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -187,7 +186,7 @@ public class SalesQuoteListDialog extends BaseDialog {
 			case 3:
 				return company.getCustomer(estimate.getCustomer()).getName();
 			case 4:
-				return DataUtils.getAmountAsString(estimate.getTotal());
+				return amountAsString(estimate.getTotal());
 			}
 		}
 		return null;
