@@ -14,23 +14,23 @@
 			<g:Grid width="500px" height="198px" ui:field="companyInfoField">
 				<g:row>
 					<g:customCell>
-						<g:Label width="150px" height="30px" ui:field="displayNameLabel"/>
+						<g:Label width="150px" height="30px" ui:field="displayNameLabel" />
 					</g:customCell>
 					<g:customCell>
-						<g:TextBox ui:field="companyName"/>
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label height="30px" width="150px" ui:field="legalNameLabel"/>
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="legalName"/>
+						<g:TextBox ui:field="companyName" />
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label/>
+						<g:Label height="30px" width="150px" ui:field="legalNameLabel" />
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="legalName" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label />
 					</g:customCell>
 					<g:customCell>
 						<g:HTML wordWrap="true" ui:field="LegalForm"></g:HTML>
@@ -38,73 +38,87 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label ui:field="taxIDLabel"/>
+						<g:Label ui:field="taxIDLabel" />
 					</g:customCell>
 					<g:customCell>
-						<g:TextBox ui:field="taxId"/>
+						<g:TextBox ui:field="taxId" />
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label/>
+						<g:Label />
 					</g:customCell>
 					<g:customCell>
 						<g:HTML wordWrap="true" ui:field="EIN"></g:HTML>
 					</g:customCell>
 				</g:row>
-				<g:row>
+					<g:row>
 					<g:customCell>
-						<g:Label ui:field="streetAdreess1Label"/>
+						<g:Label ui:field="countryLabel" />
 					</g:customCell>
 					<g:customCell>
-						<g:TextBox ui:field="streetAddress1"/>
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="streetAddress2Label"/>
-					</g:customCell>
-					<g:customCell>
-						<g:TextBox ui:field="streetAdress2"/>
+						<g:ListBox ui:field="country" />
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label ui:field="cityLabel"/>
+						<g:Label ui:field="stateLabel" />
 					</g:customCell>
 					<g:customCell>
-						<g:HorizontalPanel ui:field="addressPanel">
-							<g:TextBox ui:field="cityTextBox"/>
-							<g:Label ui:field="stateLabel"/>
-							<g:ListBox ui:field="stateListBox"/>
-							<g:Label ui:field="zipLabel"/>
-							<g:TextBox ui:field="zip"/>
-						</g:HorizontalPanel>
+						<g:ListBox ui:field="stateListBox" />
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label ui:field="countryLabel"/>
+						<g:Label ui:field="streetAdreess1Label" />
 					</g:customCell>
 					<g:customCell>
-						<g:ListBox ui:field="country"/>
-					</g:customCell>
-				</g:row>
-				<g:row>
-					<g:customCell>
-						<g:Label ui:field="phoneLabel"/>
-					</g:customCell>
-					<g:customCell>
-						<g:HorizontalPanel ui:field="phonePanel">
-							<g:TextBox ui:field="phone"/>
-							<g:Label ui:field="faxLabel"/>
-							<g:TextBox ui:field="fax"/>
-						</g:HorizontalPanel>
+						<g:TextBox ui:field="streetAddress1" />
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label/>
+						<g:Label ui:field="streetAddress2Label" />
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="streetAdress2" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="cityLabel" />
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="cityTextBox" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="zipLabel" />
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="zip" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="phoneLabel" />
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="phone" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="faxLabel" />
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="fax" />
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label />
 					</g:customCell>
 					<g:customCell>
 						<g:HTML wordWrap="true" ui:field="useFormat"></g:HTML>
@@ -112,18 +126,18 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label ui:field="emailAdressLabel"/>
+						<g:Label ui:field="emailAdressLabel" />
 					</g:customCell>
 					<g:customCell>
-						<g:TextBox ui:field="emailAddress"/>
+						<g:TextBox ui:field="emailAddress" />
 					</g:customCell>
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label ui:field="webSiteLabel"/>
+						<g:Label ui:field="webSiteLabel" />
 					</g:customCell>
 					<g:customCell>
-						<g:TextBox ui:field="webSite"/>
+						<g:TextBox ui:field="webSite" />
 					</g:customCell>
 				</g:row>
 				<g:row>
@@ -133,5 +147,5 @@
 				</g:row>
 			</g:Grid>
 		</g:VerticalPanel>
-		</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 
