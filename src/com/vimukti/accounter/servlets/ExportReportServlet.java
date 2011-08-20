@@ -74,7 +74,7 @@ public class ExportReportServlet extends BaseServlet {
 		}
 	}
 
-	private ITemplate getTempleteObjByRequest(HttpServletRequest request) {
+	private ITemplate getTempleteObjByRequest(HttpServletRequest request) throws IOException {
 		Session session = null;
 		try {
 			String companyName = getCompanyName(request);
@@ -97,7 +97,7 @@ public class ExportReportServlet extends BaseServlet {
 	}
 
 	private ITemplate getReportTemplate(HttpServletRequest request,
-			FinanceTool financeTool) {
+			FinanceTool financeTool) throws IOException {
 
 		long startDate = Long.parseLong(request.getParameter("startDate"));
 		int reportType = Integer.parseInt(request.getParameter("reportType"));
