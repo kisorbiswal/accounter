@@ -6514,7 +6514,7 @@ input[type="text"],textarea {
     height: 500px;
     margin: 4em auto;
     padding: 10px;
-    width: 960px;
+    width: 800px;
 }
 .progress_panel{
 	border-right: 1px solid gray;
@@ -6530,6 +6530,10 @@ input[type="text"],textarea {
 }
 .finance_window,.group-toolbar{
 	width:100%;
+	box-shadow: 1px 2px 2px #1A5158;
+}
+.menuPopupContent{
+	box-shadow: 1px 2px 2px #002e36;
 }
 .group-toolbar{
 	background:none repeat scroll 0 0 #3299A4;
@@ -6740,4 +6744,27 @@ a#fdbk_tab:hover{
 .empty_date_field{
 	color:#666;
 	text-transform: lowercase;
+}
+.skip_start{
+	 padding: 50px 10px 10px;
+}
+.skip_start tr td{
+	padding-right:30px;
+}
+.skip_start tr td button{
+	float: right !important;
+    margin: 20px 100px 0 0 !important;
+}
+.setup_Info,.company_Info_table{
+	margin-top: 10px;
+}
+.view_panel{
+	padding:10px;
+}
+.company_Info_table .gwt-ListBox{
+	border: 1px solid #B1B1B1;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 1px 2px 2px #CCCCCC inset;
+    height: 24px;
+    width: 193px;
 }
