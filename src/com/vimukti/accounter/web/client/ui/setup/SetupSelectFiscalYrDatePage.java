@@ -96,6 +96,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	@Override
 	public void onLoad() {
+		if(monthNam.size()>0)
 		monthsCombo.setValue(monthNam
 				.get(preferences.getFiscalYearFirstMonth()));
 		if (preferences.isBeginingorTodaysdate()) {
