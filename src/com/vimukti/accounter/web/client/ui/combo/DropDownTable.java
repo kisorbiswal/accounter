@@ -212,10 +212,9 @@ public class DropDownTable<T> extends CellTable<T> {
 
 	}
 
-	
 	public List<T> getDummyRecords() {
 		List<T> Dummy = new ArrayList<T>();
-		Dummy.add((T) "emptyRow");
+		// Dummy.add((T) "emptyRow");
 		if (isAddNewRequire)
 			Dummy.add((T) "addNewCaption");
 		return Dummy;
@@ -277,12 +276,12 @@ public class DropDownTable<T> extends CellTable<T> {
 
 	public void removeAllrows() {
 		this.body.removeAllRows();
-		removeColumn(getColumns()[1]);
+		removeColumn(getColumns()[0]);
 		init(isAddNewRequire);
 	}
 
 	public void clear() {
-		removeColumn(getColumns()[1]);
+		removeColumn(getColumns()[0]);
 		init(isAddNewRequire);
 	}
 
