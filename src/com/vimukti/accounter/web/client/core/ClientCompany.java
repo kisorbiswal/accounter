@@ -1697,6 +1697,14 @@ public class ClientCompany implements IAccounterCore {
 				case USER:
 					ClientUserInfo user = (ClientUserInfo) accounterCoreObject;
 					Utility.updateClientList(user, this.usersList);
+					long userID = user.getID();
+					ClientUser loggedInUser = getLoggedInUser();
+					if (loggedInUser.getID() == userID) {
+						loggedInUser.firstName = user.getFirstName();
+						loggedInUser.fullName = user.getFullName();
+						loggedInUser.lastName = user.getLastName();
+						Accounter.setUser(loggedInUser);
+					}
 				}
 		} catch (Exception e) {
 			if (e instanceof JavaScriptException) {
