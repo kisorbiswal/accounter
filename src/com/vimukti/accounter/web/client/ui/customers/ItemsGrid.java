@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -45,9 +44,9 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 		case 1:
 			return obj.getQuantity();
 		case 2:
-			return DataUtils.getAmountAsString(obj.getUnitPrice());
+			return amountAsString(obj.getUnitPrice());
 		case 3:
-			return DataUtils.getAmountAsString(obj.getLineTotal());
+			return amountAsString(obj.getLineTotal());
 		default:
 			return null;
 		}
