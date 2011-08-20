@@ -640,7 +640,7 @@ public class PayBill extends Transaction {
 		/**
 		 * If Pay Bill is already is voided or deleted , we can't edit it
 		 */
-		if ((this.isVoid && payBill.isVoid)
+		if ((this.isVoidBefore && payBill.isVoidBefore)
 				|| (this.isDeleted() && payBill.isDeleted())) {
 			if (this.type == PayBill.TYPE_PAY_BILL)
 				throw new AccounterException(
