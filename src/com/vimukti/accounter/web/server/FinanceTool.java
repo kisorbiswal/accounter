@@ -11741,6 +11741,12 @@ public class FinanceTool implements IFinanceDAOService {
 		return new VList<PayeeStatementsList>(result);
 	}
 
+
+	public ClientCompanyPreferences getClientCompanyPreferences() throws AccounterException{
+		ClientCompanyPreferences clientCompanyPreferences = new ClientConvertUtil().toClientObject(getCompany().getPreferences(), ClientCompanyPreferences.class);
+		return clientCompanyPreferences;
+	}
+
 	public VList<ClientRecurringTransaction> getAllRecurringTransactions()
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
