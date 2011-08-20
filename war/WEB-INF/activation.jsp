@@ -20,7 +20,20 @@
 						}
 					});
 				});
+				$('input#actiovationTextbox').keypress(function(e) {
+					  if (e.keyCode == '9') {
+					     e.preventDefault();
+					    $('#submitButton').focus();
+					   }
+					});
+				$('#submitButton').keypress(function(e) {
+					  if (e.keyCode == '9') {
+					     e.preventDefault();
+					    $('#emailforactivation').focus();
+					   }
+					});
 			});
+			
 		</script>
   </head>
     <body>
@@ -45,7 +58,7 @@
 			</div>
 		 </form>
 		 <div class="resend-code">
-		 	<a href="/emailforactivation">Resend activation code</a>
+		 	<a id= "emailforactivation" href="/emailforactivation">Resend activation code</a>
 		 </div>
      </div>
      

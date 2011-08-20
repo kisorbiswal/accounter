@@ -33,6 +33,12 @@ $(document).ready(function() {
 			}
 		});
 	});
+	$('#SelectcompanyType').keypress(function(e) {
+		  if (e.keyCode == '9') {
+		     e.preventDefault();
+		    $('#submitButton').focus();
+		   }
+		});
 });
 </script>
 <!--                                           -->
@@ -331,7 +337,7 @@ p {
 		 </div>
 		 <div>
 		   <label>Company Type</label>
-		   <select name="companyType">
+		   <select name="companyType" id = "SelectcompanyType">
 				<option value="1">UK</option>
 				<option value="0">US</option>
 				<option value="2">India</option>
