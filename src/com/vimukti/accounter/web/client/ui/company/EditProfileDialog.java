@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.Header;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.TextBoxItem;
 
-public class EditProfileDialog extends BaseDialog {
+public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 	private TextBoxItem firstNameTextItem;
 	private TextBoxItem lastNameTextItem;
 	private VerticalPanel mainPanel;
@@ -67,6 +67,7 @@ public class EditProfileDialog extends BaseDialog {
 										.updatedSuccessfully());
 								Header.userName.setText("Hello "
 										+ userInfo.getFullName());
+								getCallback().actionResult(userInfo);
 							} else {
 								addError(this, Accounter.constants()
 										.yourPresentPasswordisWrong());
@@ -76,7 +77,7 @@ public class EditProfileDialog extends BaseDialog {
 					});
 
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -85,7 +86,7 @@ public class EditProfileDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
