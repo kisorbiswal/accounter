@@ -23,9 +23,12 @@ import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class GeneratePDFservlet extends BaseServlet {
@@ -47,7 +50,7 @@ public class GeneratePDFservlet extends BaseServlet {
 	}
 
 	public void generatePDF(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response, String companyName) {
 
 		ServletOutputStream sos = null;
 		try {
@@ -62,7 +65,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			String style = ("FinanceDir" + File.separator + "FinancePrint.css");
 
 			TemplateAndConcerter result = getTempleteObjByRequest(request,
-					footerImg, style);
+					footerImg, style, companyName);
 			response.setContentType("application/pdf");
 			response.setHeader("Content-disposition", "attachment; filename="
 					+ result.template.getFileName().replace(" ", "") + ".pdf");
@@ -83,17 +86,21 @@ public class GeneratePDFservlet extends BaseServlet {
 	}
 
 	private TemplateAndConcerter getTempleteObjByRequest(
-			HttpServletRequest request, String footerImg, String style) {
+			HttpServletRequest request, String footerImg, String style,
+			String companyName) throws IOException, AccounterException {
 		Session session = null;
 		try {
 
-			String companyName = getCompanyName(request);
-			session = HibernateUtil.openSession(companyName);
+			String companyID = getCookie(request, COMPANY_COOKIE);
+			session = HibernateUtil.openSession(Server.COMPANY + companyID);
 
-			FinanceTool financetool = getFinanceTool(request);
+			FinanceTool financetool = new FinanceTool();
 			TemplateBuilder.setCmpName(companyName);
 
 			TemplateAndConcerter result = new TemplateAndConcerter();
+
+			CompanyPreferenceThreadLocal.set(financetool
+					.getClientCompanyPreferences());
 
 			String objectId = request.getParameter("objectId");
 			if (objectId != null) {
@@ -112,6 +119,7 @@ public class GeneratePDFservlet extends BaseServlet {
 
 					result.converter = new Converter(
 							getPageSizeType(brandingTheme.getPageSizeType()));
+
 					result.template = new InvoiceTemplete(invoice,
 							brandingTheme, footerImg, style);
 				}
@@ -142,7 +150,8 @@ public class GeneratePDFservlet extends BaseServlet {
 	}
 
 	private ITemplate getReportTemplate(HttpServletRequest request,
-			FinanceTool financeTool, String footerImg, String style) {
+			FinanceTool financeTool, String footerImg, String style)
+			throws IOException {
 
 		long startDate = Long.parseLong(request.getParameter("startDate"));
 		int reportType = Integer.parseInt(request.getParameter("reportType"));
@@ -185,7 +194,7 @@ public class GeneratePDFservlet extends BaseServlet {
 		String companyName = getCompanyName(request);
 		if (companyName == null)
 			return;
-		generatePDF(request, response);
+		generatePDF(request, response, companyName);
 	}
 
 	@Override
