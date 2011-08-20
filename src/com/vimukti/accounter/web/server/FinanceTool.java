@@ -3689,7 +3689,7 @@ public class FinanceTool implements IFinanceDAOService {
 			// for (int j = 0; j < obj.length; j++)
 			{
 				EstimatesAndSalesOrdersList el = new EstimatesAndSalesOrdersList();
-				el.setTransactionId((Long) obj[0]);
+				el.setTransactionId(((Long) obj[0]).longValue());
 				el.setType(((Integer) obj[1]).intValue());
 				el.setTransactionNumber(((String) obj[2]));
 				el.setTotal(((Double) obj[3]).doubleValue());
@@ -11740,12 +11740,6 @@ public class FinanceTool implements IFinanceDAOService {
 			result.add(record);
 		}
 		return new VList<PayeeStatementsList>(result);
-	}
-
-
-	public ClientCompanyPreferences getClientCompanyPreferences() throws AccounterException{
-		ClientCompanyPreferences clientCompanyPreferences = new ClientConvertUtil().toClientObject(getCompany().getPreferences(), ClientCompanyPreferences.class);
-		return clientCompanyPreferences;
 	}
 
 	public VList<ClientRecurringTransaction> getAllRecurringTransactions()
