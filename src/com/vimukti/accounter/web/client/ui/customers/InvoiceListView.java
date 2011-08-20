@@ -85,7 +85,7 @@ public class InvoiceListView extends BaseListView<InvoicesList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getInvoiceList(startDate.getDate(),
+		Accounter.createHomeService().getInvoiceList(startDate==null?0:startDate.getDate(),
 				endDate.getDate(), this);
 	}
 
