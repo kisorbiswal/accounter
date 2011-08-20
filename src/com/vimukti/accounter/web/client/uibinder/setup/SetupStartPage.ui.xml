@@ -3,15 +3,23 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
 		/* Add CSS here. See the GWT docs on UI Binder for more details */
-		.important {
-			font-weight: bold;
+		.skip_start {
+			padding: 4px;
+		}
+		
+		.skip_start TR TD {
+			padding: 4px;
+		}
+		
+		.skip_start TR TD BUTTON {
+			float: right !important;
 		}
 	</ui:style>
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
 			<g:HTML ui:field="setupInfo" wordWrap="true"></g:HTML>
-			<g:Grid>
+			<g:Grid styleName="{style.skip_start}">
 				<g:row>
 					<g:customCell>
 						<g:HTML ui:field="skipSetupInfo" wordWrap="true"></g:HTML>
