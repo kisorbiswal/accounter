@@ -6,10 +6,12 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class UserDetailsView extends AbstractBaseView<ClientUser> {
@@ -27,6 +29,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	private void createControls() {
 
 		mainPanel = new VerticalPanel();
+		Accounter.getCompany();
 		userNameLabel = new Label(Accounter.constants().nameColon()
 				+ Accounter.getUser().getFullName());
 		userNameLabel.setStyleName("user-name");
@@ -48,7 +51,19 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 		changeProfileHtml.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getEditProfileAction().run(null, false);
+				// ActionFactory.getEditProfileAction().run(null, false);
+				EditProfileDialog dialog = new EditProfileDialog(Accounter
+						.constants().editProfile(), null);
+				dialog.setCallback(new ActionCallback<ClientUserInfo>() {
+
+					@Override
+					public void actionResult(ClientUserInfo result) {
+						userNameLabel.setText(Accounter.constants().nameColon()
+								+ result.getFullName());
+					}
+				});
+				dialog.center();
+				dialog.show();
 			}
 		});
 		mainPanel.add(userNameLabel);
@@ -95,7 +110,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
