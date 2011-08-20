@@ -731,12 +731,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					accounterConstants.invalidateDate());
 		}
 		ValidationResult payFormValidationResult = payForm.validate();
-		if(payFormValidationResult.haveErrors()||payFormValidationResult.haveWarnings()){
+		if (payFormValidationResult.haveErrors()
+				|| payFormValidationResult.haveWarnings()) {
 			result.add(payFormValidationResult);
 			return result;
 		}
-		
-		
+
 		if (filterForm != null) {
 			result.add(filterForm.validate());
 			return result;
@@ -864,7 +864,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// Nothing TO DO
 
 	}
@@ -970,8 +970,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		gridLayout.insert(gridView, 2);
 		getTransactionPayBills(this.getVendor());
 		memoTextAreaItem.setDisabled(isEdit);
-		transaction = null;
-
+		transaction = new ClientPayBill();
+		data = transaction;
 	}
 
 	@Override
