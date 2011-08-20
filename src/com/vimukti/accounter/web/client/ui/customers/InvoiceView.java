@@ -24,7 +24,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -373,15 +372,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
-		if (ClientCompanyPreferences.get().isSalesPersonEnabled()) {
+		if (getPreferences().isSalesPersonEnabled()) {
 			termsForm.setFields(salesPersonCombo, payTermsSelect, dueDateItem,
 					orderNumText);
-			if (ClientCompanyPreferences.get().isDoProductShipMents())
+			if (getPreferences().isDoProductShipMents())
 				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
 		} else {
 			termsForm.setFields(payTermsSelect, dueDateItem, orderNumText);
-			if (ClientCompanyPreferences.get().isDoProductShipMents())
+			if (getPreferences().isDoProductShipMents())
 				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
 
@@ -1490,7 +1489,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		quoteLabelListener();
 
 		shipToAddress.businessSelect.setDisabled(isEdit);
-		if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+		if (getPreferences().isSalesPersonEnabled())
 			salesPersonCombo.setDisabled(isEdit);
 		payTermsSelect.setDisabled(isEdit);
 
@@ -1529,7 +1528,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				this.customerCombo.addComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+				if (getPreferences().isSalesPersonEnabled())
 					this.salesPersonCombo
 							.addComboItem((ClientSalesPerson) core);
 
@@ -1554,7 +1553,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				this.customerCombo.updateComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+				if (getPreferences().isSalesPersonEnabled())
 					this.salesPersonCombo
 							.updateComboItem((ClientSalesPerson) core);
 
@@ -1578,7 +1577,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 				this.customerCombo.removeComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+				if (getPreferences().isSalesPersonEnabled())
 					this.salesPersonCombo
 							.removeComboItem((ClientSalesPerson) core);
 
