@@ -48,7 +48,7 @@ textarea,.rich-text-area-body {
 	margin-right: 10px;
 }
 .Writecheck_addNew{
-	float: right;
+	float: right !important;
 }
 .viewTitle{
 	color: white;
