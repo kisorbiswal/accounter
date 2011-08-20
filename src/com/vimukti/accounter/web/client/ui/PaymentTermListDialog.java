@@ -220,7 +220,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	@Override
 	protected List<ClientPaymentTerms> getRecords() {
-		return (List<ClientPaymentTerms>) getCompany().getPaymentsTerms();
+		return getCompany().getPaymentsTerms();
 	}
 
 	@Override

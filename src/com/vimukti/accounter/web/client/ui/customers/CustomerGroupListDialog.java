@@ -130,8 +130,8 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	}
 
 	@Override
-	protected List getRecords() {
-		return (List) getCompany().getCustomerGroups();
+	protected List<ClientCustomerGroup> getRecords() {
+		return getCompany().getCustomerGroups();
 	}
 
 	public void deleteCallBack() {
@@ -188,5 +188,4 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 		}
 		return true;
 	}
-
 }

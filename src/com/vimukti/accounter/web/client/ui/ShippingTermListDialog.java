@@ -136,7 +136,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	}
 
 	@Override
-	protected List getRecords() {
+	protected List<ClientShippingTerms> getRecords() {
 		return getCompany().getShippingTerms();
 	}
 

@@ -133,7 +133,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	@Override
 	protected List<ClientCreditRating> getRecords() {
-		return (List<ClientCreditRating>) getCompany().getCreditRatings();
+		return getCompany().getCreditRatings();
 	}
 
 	@Override
@@ -171,5 +171,4 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 		return true;
 	}
-
 }

@@ -23,8 +23,6 @@ public class CustomerGroup extends CreatableObject implements
 
 	int version;
 
-	long id;
-
 	/**
 	 * The name of the Group
 	 */
@@ -92,11 +90,6 @@ public class CustomerGroup extends CreatableObject implements
 		super.onSave(arg0);
 		ChangeTracker.put(this);
 		return false;
-	}
-
-	@Override
-	public long getID() {
-		return this.id;
 	}
 
 	@Override

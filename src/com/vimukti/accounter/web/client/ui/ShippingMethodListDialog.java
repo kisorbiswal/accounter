@@ -142,7 +142,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	@Override
 	protected List<ClientShippingMethod> getRecords() {
-		return (List<ClientShippingMethod>) getCompany().getShippingMethods();
+		return getCompany().getShippingMethods();
 	}
 
 	@Override
