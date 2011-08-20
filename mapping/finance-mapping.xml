@@ -224,7 +224,7 @@
 			<property name="depreciationStartDate" column="CP_DEPRECIATION_START_DATE"
 				not-null="true" type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="preventPostingBeforeDate" column="CP_PREVENT_POSTING_DATE"
-				not-null="true" type="com.vimukti.accounter.core.LongUseType"></property>
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="dateFormat" column="DATE_FORMAT" not-null="true"></property>
 			<!-- <property name="legalName" column="CP_LEGAL_NAME" not-null="true"></property> -->
 
@@ -274,7 +274,7 @@
 
 			<!-- PURCHASE -->
 			<property name="isPurchaseOrderEnabled" column="IS_PURCHASE_ORDER_ENABLED"></property>
-
+			<property name="fiscalYearFirstMonth" column="CP_FISCAL_YEAR_FIRST_MONTH"></property>
 		</component>
 		<property name="phone" column="PHONE"></property>
 		<property name="fax" column="FAX"></property>

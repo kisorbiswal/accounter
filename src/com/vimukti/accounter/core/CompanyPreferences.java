@@ -73,7 +73,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private FinanceDate depreciationStartDate = new FinanceDate();
 
-	FinanceDate preventPostingBeforeDate = new FinanceDate();
+	FinanceDate preventPostingBeforeDate;
 	private boolean doyouKeepTrackofBills;
 
 	private boolean doYouKeepTrackOfTime;

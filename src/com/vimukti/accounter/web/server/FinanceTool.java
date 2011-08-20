@@ -548,16 +548,15 @@ public class FinanceTool implements IFinanceDAOService {
 	private boolean canDelete(String serverClass, long id) {
 		String queryName = getCanDeleteQueryName(serverClass);
 		Query query = HibernateUtil.getCurrentSession()
-				.getNamedQuery(queryName)
-				.setParameter("inputId", id);
+				.getNamedQuery(queryName).setParameter("inputId", id);
 		return executeQuery(query);
 	}
 
 	private String getCanDeleteQueryName(String serverClass) {
 		StringBuffer query = new StringBuffer("canDelete");
 		query.append(serverClass);
-		if(serverClass.equals("TAXItem") || serverClass.equals("TAXGroup")) {
-			if(getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
+		if (serverClass.equals("TAXItem") || serverClass.equals("TAXGroup")) {
+			if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 				query.append("ForUS");
 			}
 		}
@@ -592,7 +591,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 			company.setPreferences(serverCompanyPreferences);
 			session.update(company);
-
+			transaction.commit();
 			// CompanyPreferences serverObject = serverCompanyPreferences;
 			ChangeTracker.put(serverCompanyPreferences);
 		} catch (Exception e) {
@@ -11753,12 +11752,15 @@ public class FinanceTool implements IFinanceDAOService {
 			ClientRecurringTransaction clientObject = new ClientConvertUtil()
 					.toClientObject(recurringTransaction,
 							ClientRecurringTransaction.class);
-			clientObject.setRefTransactionTotal(recurringTransaction.getReferringTransaction().getTotal());
-			clientObject.setRefTransactionType(recurringTransaction.getReferringTransaction().getType());
-			
-			//TODO doubt
-			clientObject.setReferringTransaction(recurringTransaction.getReferringTransaction().getID());
-			
+			clientObject.setRefTransactionTotal(recurringTransaction
+					.getReferringTransaction().getTotal());
+			clientObject.setRefTransactionType(recurringTransaction
+					.getReferringTransaction().getType());
+
+			// TODO doubt
+			clientObject.setReferringTransaction(recurringTransaction
+					.getReferringTransaction().getID());
+
 			clientObjs.add(clientObject);
 		}
 

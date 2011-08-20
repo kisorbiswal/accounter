@@ -97,9 +97,9 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	@Override
 	public void onLoad() {
-		if(monthNam.size()>0)
-		monthsCombo.setValue(monthNam
-				.get(preferences.getFiscalYearFirstMonth()));
+		if (monthNam.size() > 0)
+			monthsCombo.setComboItem(monthNam.get(preferences
+					.getFiscalYearFirstMonth()));
 		if (preferences.isBeginingorTodaysdate()) {
 			beginingYear.setValue(true);
 			datepicker.setDisabled(true);
@@ -117,7 +117,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 		preferences.setFiscalYearFirstMonth(monthNam.indexOf(monthsCombo
 				.getSelectedValue()));
 		preferences.setBeginingorTodaysdate(beginingYear.getValue());
-		preferences.setTrackFinanceDate(datepicker.getDate().getDate());
+		preferences.setPreventPostingBeforeDate(datepicker.getDate().getDate());
 		// TODO Auto-generated method stub
 
 	}
