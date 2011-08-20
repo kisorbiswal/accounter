@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -253,9 +252,9 @@ public class VendorBillListDialog extends BaseDialog {
 			case 3:
 				return record.getVendorName();
 			case 4:
-				return DataUtils.getAmountAsString(record.getTotal());
+				return amountAsString(record.getTotal());
 			case 5:
-				return DataUtils.getAmountAsString(record.getRemainingTotal());
+				return amountAsString(record.getRemainingTotal());
 			}
 		}
 		return null;
