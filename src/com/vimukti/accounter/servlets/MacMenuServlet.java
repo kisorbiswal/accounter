@@ -29,6 +29,7 @@ public class MacMenuServlet extends BaseServlet {
 			String emailId = (String) session.getAttribute(EMAIL_ID);
 			Company company = getCompany(req);
 			generateXML(company, emailId);
+			resp.setContentType("text/xml");
 			if (builder != null) {
 				resp.getOutputStream().write(builder.toString().getBytes());
 			}
@@ -99,7 +100,7 @@ public class MacMenuServlet extends BaseServlet {
 	}
 
 	private void addHeader() {
-		builder.append("<xml><AccounterLogout text =\"Logout\">do/logout</AccounterLogout><ChangePassword text = \"User Details\">accounter#userDetails</ChangePassword><menus>");
+		builder.append("<xml><AccounterLogout text=\"Logout\">do/logout</AccounterLogout><ChangePassword text= \"User Details\">accounter#userDetails</ChangePassword><menus>");
 	}
 
 	private void addVatMenuItem() {
@@ -363,7 +364,7 @@ public class MacMenuServlet extends BaseServlet {
 	private void menu(StringBuilder builder, String text, String shortcut,
 			String value) {
 		// <Menu text="Dashboard" shortcut="D">accounter#dashBoard</Menu>
-		builder.append("<Menu text=\"").append(text).append("\" shortcut=\"")
+		builder.append("	<Menu text=\"").append(text).append("\" shortcut=\"")
 				.append(shortcut).append("\">").append(value).append("</Menu>");
 	}
 
@@ -373,13 +374,13 @@ public class MacMenuServlet extends BaseServlet {
 
 	private void menu(StringBuilder builder, String text, String value) {
 		// <Menu text="Dashboard">accounter#dashBoard</Menu>
-		builder.append("<Menu text=\"").append(text).append("\">")
+		builder.append("	<Menu text=\"").append(text).append("\">")
 				.append(value).append("</Menu>");
 	}
 
 	private void subMenu(StringBuilder builder, String text, String value) {
 		// <SubMenu text="Accounts List">accounter#accountsList</SubMenu>
-		builder.append("<SubMenu text=\"").append(text).append("\">")
+		builder.append("	<SubMenu text=\"").append(text).append("\">")
 				.append(value).append("</SubMenu>");
 	}
 
@@ -387,20 +388,20 @@ public class MacMenuServlet extends BaseServlet {
 			String value) {
 		// <SubMenu text="New Customer"
 		// shortcut="C">accounter#newCustomer</SubMenu>
-		builder.append("<SubMenu text=\"").append(text)
+		builder.append("	<SubMenu text=\"").append(text)
 				.append("\" shortcut=\"").append(sortcut).append("\">")
 				.append(value).append("</SubMenu>");
 	}
 
 	private void separator(StringBuilder builder) {
 		// <Seperator/>
-		builder.append("<Seperator/>");
+		builder.append("	<Seperator />");
 	}
 
 	private void mainMenu(StringBuilder builder, String text,
 			StringBuilder value) {
 		// <MainMenu text="Company"></MainMenu>
-		builder.append("<MainMenu text=\"").append(text).append("\">")
+		builder.append("	<MainMenu text=\"").append(text).append("\">")
 				.append(value).append("</MainMenu>");
 	}
 }
