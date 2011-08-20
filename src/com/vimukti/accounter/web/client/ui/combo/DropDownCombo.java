@@ -93,9 +93,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 					@Override
 					public String getValue(T object) {
-						if (object.equals("emptyRow"))
-							return "    ";
-						else if (object.equals("addNewCaption")) {
+						// if (object.equals("emptyRow"))
+						// return "    ";
+						if (object.equals("addNewCaption")) {
 							if (cols > 1)
 								return (col == 1) ? getDefaultAddNewCaption()
 										: "  ";
@@ -492,12 +492,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		// int index = listbox.getSelectedIndex();
 
 		IAccounterComboSelectionChangeHandler<T> handler = getHandler();
-		if (rowIndex > 1)
+		if (rowIndex > 0)
 			selectedObject = comboItems.get(rowIndex
-					- (isAddNewRequire ? 2 : 1));
+					- (isAddNewRequire ? 1 : 0));
 		switch (rowIndex) {
 
-		case 1:
+		case 0:
 			if (isAddNewRequire) {
 				if (popup.isShowing())
 					popup.hide();
@@ -515,28 +515,11 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 			break;
 
-		case 0:
-
-			if (handler != null) {
-				selectedObject = null;
-				setSelectedItem(null, rowIndex);
-				// <<<<<<< .working
-				// handler.selectedComboBoxItem(selectedObject);
-				if (popup.isShowing())
-					popup.hide();
-				// =======
-				// if (popup.isShowing())
-				// popup.hide();
-				// >>>>>>> .merge-right.r20318
-			}
-
-			break;
-
 		default:
 
 			if (handler != null) {
 				selectedObject = comboItems.get(rowIndex
-						- (isAddNewRequire ? 2 : 1));
+						- (isAddNewRequire ? 1 : 0));
 				handler.selectedComboBoxItem(selectedObject);
 				setSelectedItem(selectedObject, rowIndex);
 				if (popup.isShowing())
@@ -590,7 +573,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		int index = getObjectIndex(coreObject);
 		if (index > 0) {
 			comboItems.remove(index);
-			dropDown.removeRow(isAddNewRequire ? index + 2 : index + 1);
+			dropDown.removeRow(isAddNewRequire ? index + 1 : index + 0);
 		}
 
 	}
@@ -694,7 +677,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			updateComboItemsInSorted(combos, value);
 			if (combos != null && combos.size() > 0)
 				index = comboItems.indexOf(combos.get(0))
-						+ (isAddNewRequire ? 2 : 1);
+						+ (isAddNewRequire ? 1 : 0);
 		}
 		selectedName = value;
 		changeValue(index);
