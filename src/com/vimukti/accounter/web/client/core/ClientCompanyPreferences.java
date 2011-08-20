@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
+
 public class ClientCompanyPreferences implements IAccounterCore {
 
 	/**
@@ -675,12 +677,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		return "ClientCompanyPreferences";
 	}
 
-	// public static ClientCompanyPreferences get() {
-	// if (preferences == null) {
-	// preferences = Accounter.getCompany().getPreferences();
-	// }
-	// return preferences;
-	// }
+	public static ClientCompanyPreferences get() {
+		if (preferences == null) {
+			preferences = Global.get().preferences();
+		}
+		return preferences;
+	}
 
 	/**
 	 * 
