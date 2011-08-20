@@ -145,15 +145,14 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 	public void setRecord(ClientTransactionReceivePayment record) {
 		this.record = record;
 		if (cashDiscText != null)
-			cashDiscText.setValue(DataUtils.getAmountAsString(record
+			cashDiscText.setValue(amountAsString(record
 					.getCashDiscount()));
 	}
 
 	public void setRecord(ClientTransactionPayBill record) {
 		this.transactionPaybill = record;
 		if (cashDiscText != null)
-			cashDiscText.setValue(DataUtils
-					.getAmountAsString(transactionPaybill.getCashDiscount()));
+			cashDiscText.setValue(amountAsString(transactionPaybill.getCashDiscount()));
 	}
 
 	public void setVendor(ClientVendor vendor) {
@@ -217,7 +216,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 			// toBeSetTotalAmtTouse += cpRecord.getAmtTouse();
 		}
 
-		totBalText.setValue(DataUtils.getAmountAsString(toBeSetTotalBalance));
+		totBalText.setValue(amountAsString(toBeSetTotalBalance));
 		totalBalances = toBeSetTotalBalance;
 		totCredAmtText.setAmount(toBeSetTotalCredtAmt);
 
@@ -236,10 +235,9 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 			amtDueText = new AmountField(customerConstants.amountDue(), this);
 			amtDueText.setColSpan(1);
 			if (transactionPaybill != null)
-				amtDueText.setValue(DataUtils
-						.getAmountAsString(transactionPaybill.getAmountDue()));
+				amtDueText.setValue(amountAsString(transactionPaybill.getAmountDue()));
 			else if (record != null)
-				amtDueText.setValue(DataUtils.getAmountAsString(record
+				amtDueText.setValue(amountAsString(record
 						.getAmountDue()));
 			amtDueText.setDisabled(true);
 		}
@@ -252,10 +250,9 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 		cashDiscText = new AmountField(customerConstants.cashDiscount(), this);
 		cashDiscText.setColSpan(1);
 		if (transactionPaybill != null)
-			cashDiscText.setValue(DataUtils
-					.getAmountAsString(transactionPaybill.getCashDiscount()));
+			cashDiscText.setValue(amountAsString(transactionPaybill.getCashDiscount()));
 		else if (record != null)
-			cashDiscText.setValue(DataUtils.getAmountAsString(record
+			cashDiscText.setValue(amountAsString(record
 					.getCashDiscount()));
 		cashDiscText.setDisabled(true);
 
@@ -277,14 +274,12 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 
 			initialAdjustPayment = adjustPayment;
 
-			adjPayText.setValue(DataUtils
-					.getAmountAsString(initialAdjustPayment));
+			adjPayText.setValue(amountAsString(initialAdjustPayment));
 		} else {
 			if (transactionPaybill != null)
-				adjPayText.setValue(DataUtils
-						.getAmountAsString(transactionPaybill.getPayment()));
+				adjPayText.setValue(amountAsString(transactionPaybill.getPayment()));
 			else if (record != null)
-				adjPayText.setValue(DataUtils.getAmountAsString(record
+				adjPayText.setValue(amountAsString(record
 						.getPayment()));
 		}
 		totAmtUseText = new AmountField(customerConstants.totalAmountToUse(),
@@ -341,7 +336,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 			return;
 		if (!DecimalUtil.isLessThan(adjustPayment, 0))
 			this.adjPayText
-					.setValue(DataUtils.getAmountAsString(adjustPayment));
+					.setValue(amountAsString(adjustPayment));
 		else
 			this.adjPayText.setValue("0.0");
 
@@ -351,7 +346,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 		if (totalBalances == null)
 			totalBalances = 0.0D;
 
-		totBalText.setValue(DataUtils.getAmountAsString(totalBalances));
+		totBalText.setValue(amountAsString(totalBalances));
 
 		this.totalBalances = totalBalances;
 
@@ -361,8 +356,7 @@ public class CustomerCreditsAndPaymentsDialiog extends BaseDialog {
 		if (totalAmountToUse == null)
 			totalAmountToUse = 0.0;
 
-		totAmtUseText.setValue(DataUtils
-				.getAmountAsString(getTotalCreditAmount()));
+		totAmtUseText.setValue(amountAsString(getTotalCreditAmount()));
 
 		this.totalAmountToUse = totalAmountToUse;
 
