@@ -2,7 +2,6 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class CompanyPreferences implements IAccounterServerCore {
@@ -149,7 +148,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	int fiscalYearFirstMonth;
 	boolean isBeginingorTodaysdate;
-	ClientFinanceDate trackFinanceDate;
+	FinanceDate trackFinanceDate;
 
 	public boolean isPurchaseOrderEnabled() {
 		return isPurchaseOrderEnabled;
@@ -159,11 +158,11 @@ public class CompanyPreferences implements IAccounterServerCore {
 		this.isPurchaseOrderEnabled = isPurchaseOrderEnabled;
 	}
 
-	public ClientFinanceDate getTrackFinanceDate() {
+	public FinanceDate getTrackFinanceDate() {
 		return trackFinanceDate;
 	}
 
-	public void setTrackFinanceDate(ClientFinanceDate trackFinanceDate) {
+	public void setTrackFinanceDate(FinanceDate trackFinanceDate) {
 		this.trackFinanceDate = trackFinanceDate;
 	}
 

@@ -132,18 +132,18 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean trackEmployeeExpenses;
 	int fiscalYearFirstMonth=1;
 	boolean isBeginingorTodaysdate;
-	ClientFinanceDate trackFinanceDate;
+	long trackFinanceDate;
 	private String referCustomers;
 	private String referSuplliers;
 	private String referAccounts;
 	private boolean doyouwantEstimates;
 	private boolean doyouwanrstatements;
 
-	public ClientFinanceDate getTrackFinanceDate() {
+	public long getTrackFinanceDate() {
 		return trackFinanceDate;
 	}
 
-	public void setTrackFinanceDate(ClientFinanceDate trackFinanceDate) {
+	public void setTrackFinanceDate(long trackFinanceDate) {
 		this.trackFinanceDate = trackFinanceDate;
 	}
 
