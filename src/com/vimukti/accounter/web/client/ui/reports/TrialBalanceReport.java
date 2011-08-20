@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -55,7 +54,7 @@ public class TrialBalanceReport extends AbstractReportView<TrialBalance> {
 	}
 
 	public int sort(TrialBalance obj1, TrialBalance obj2, int col) {
-		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+		if (getPreferences().getUseAccountNumbers() == true) {
 			switch (col) {
 			case 0:
 				return obj1.getAccountName().toLowerCase()
