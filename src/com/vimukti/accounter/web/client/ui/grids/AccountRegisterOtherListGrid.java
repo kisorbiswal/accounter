@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -38,21 +37,20 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 			return accRegister.getNumber();
 		case 3:
 			if (DecimalUtil.isGreaterThan(accRegister.getAmount(), 0.0))
-				return DataUtils.getAmountAsString(accRegister.getAmount());
+				return amountAsString(accRegister.getAmount());
 			else
-				return DataUtils.getAmountAsString(0.00);
+				return amountAsString(0.00);
 		case 4:
 			if (DecimalUtil.isLessThan(accRegister.getAmount(), 0.0))
-				return DataUtils
-						.getAmountAsString(-1 * accRegister.getAmount());
+				return amountAsString(-1 * accRegister.getAmount());
 			else
-				return DataUtils.getAmountAsString(0.00);
+				return amountAsString(0.00);
 		case 5:
 			return accRegister.getAccount();
 		case 6:
 			return accRegister.getMemo();
 		case 7:
-			return DataUtils.getAmountAsString(getBalanceValue(accRegister));
+			return amountAsString(getBalanceValue(accRegister));
 
 		case 8:
 			if (!accRegister.isVoided())
