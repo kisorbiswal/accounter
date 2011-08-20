@@ -30,8 +30,9 @@ import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
  */
 public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 
-	private String decimalCharacter = Global.get().preferences().getDecimalCharacter();
-	
+	private String decimalCharacter = Global.get().preferences()
+			.getDecimalCharacter();
+
 	private ClientCustomerCreditMemo creditMemo;
 	private CustomerCreditMemoView view;
 	private HorizontalPanel vatPanel;
@@ -173,13 +174,13 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 			footer2Map = getMap(
 					"Sub Total",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(lineTotal, decimalCharacter) + "</p>",
+							+ DataUtils.getAmountAsString(lineTotal) + "</p>",
 					"VAT Total",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(vatTotal, decimalCharacter) + "</p>",
+							+ DataUtils.getAmountAsString(vatTotal) + "</p>",
 					"Total",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(totalAmount, decimalCharacter) + "</p>");
+							+ DataUtils.getAmountAsString(totalAmount) + "</p>");
 			// footer2Map.put("0",
 			// "<strong>Sub Total</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 			// + DataUtils.getAmountAsString(lineTotal));
@@ -206,13 +207,13 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 			footer2Map = getMap(
 					"Sub Total",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(lineTotal, decimalCharacter) + "</p>",
+							+ DataUtils.getAmountAsString(lineTotal) + "</p>",
 					"Total Tax",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(taxTotal, decimalCharacter) + "</p>",
+							+ DataUtils.getAmountAsString(taxTotal) + "</p>",
 					"Total",
 					"<p align=\"right\">"
-							+ DataUtils.getAmountAsString(totalAmount, decimalCharacter) + "</p>");
+							+ DataUtils.getAmountAsString(totalAmount) + "</p>");
 
 			// footer2Map.put("0",
 			// "<strong>Sub Total</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
