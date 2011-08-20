@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -41,7 +42,8 @@ import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
  * 
  */
 public class InvoicePrintLayout extends VerticalPanel {
-
+	private String decimalCharacter = Global.get().preferences()
+			.getDecimalCharacter();
 	private ClientInvoice invoice;
 	private InvoiceView invoiceView;
 	private HorizontalPanel vatPanel;
