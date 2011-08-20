@@ -1165,6 +1165,8 @@ public class PurchaseOrderView extends
 
 		vendorTransactionGrid.setDisabled(isEdit);
 		vendorTransactionGrid.setCanEdit(true);
+
+		memoTextAreaItem.setDisabled(isEdit);
 		super.onEdit();
 	}
 
