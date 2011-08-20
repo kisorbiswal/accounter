@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -194,7 +193,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 				// company.getVendor(purchaseOrder.getVendorName()).getName();
 				return purchaseOrder.getVendorName();
 			case 4:
-				return DataUtils.getAmountAsString(purchaseOrder
+				return amountAsString(purchaseOrder
 						.getPurchasePrice());
 			}
 		}
