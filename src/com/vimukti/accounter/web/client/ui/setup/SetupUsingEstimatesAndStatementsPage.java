@@ -44,8 +44,8 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		stateMentYesRadioButton = new RadioButton(STATEMENTS,
 				accounterConstants.yes());
 
-		statementNoRadioButton = new RadioButton(STATEMENTS, accounterConstants
-				.no());
+		statementNoRadioButton = new RadioButton(STATEMENTS,
+				accounterConstants.no());
 
 		mainPanel.add(descrptionHtml);
 		mainPanel.add(subTitleHtml);
@@ -63,7 +63,7 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	@Override
 	public void onLoad() {
 		boolean doyouwantEstimates = preferences.isDoyouwantEstimates();
-		boolean doyouwanrstatements = preferences.isDoyouwanrstatements();
+		boolean doyouwanrstatements = preferences.isDoyouwantstatements();
 		// estimates
 		if (doyouwantEstimates) {
 			yesRadioButton.setValue(true);

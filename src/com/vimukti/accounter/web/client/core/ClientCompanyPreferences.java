@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.Global;
 
 public class ClientCompanyPreferences implements IAccounterCore {
@@ -12,13 +13,83 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static int GENERAL_TIME_FORMAT_MINUTES;
+	private static final long USE_ACCOUNT_NO = 0x1L;
 
-	private static int GENERAL_TIME_FORMAT_DECIMAL;
+	private static final long USE_CLASSES = 0x2L;
 
-	private static final int SHOW_SUMMARY = 10;
+	private static final long USE_JOBS = 0x4L;
 
-	private static final int SHOW_LIST = 20;
+	private static final long USE_CHANGE_LOG = 0x8L;
+
+	private static final long HAVE_EMPLOYEES = 0x10L;
+
+	private static final long HAVE_W2_EMPLOYEES = 0x20L;
+
+	private static final long HAVE_1099_CONTRACTORS = 0x40L;
+
+	private static final long TRACK_EMPLOYEE_EXPENSES = 0x80L;
+
+	private static final long WANT_ESTIMATES = 0x100L;
+
+	private static final long USE_FOREIGN_CURRENCY = 0x200L;
+
+	private static final long MY_ACCOUNT_WILL_RUN_PAYROLL = 0x400L;
+
+	private static final long ENABLE_MULTI_CURRENCY = 0x800L;
+
+	private static final long KEEP_TRACK_OF_BILLS = 0x1000L;
+
+	private static final long KEEP_TRACK_OF_TIME = 0x2000L;
+
+	private static final long CHARGE_SALES_TAX = 0x4000L;
+
+	/**
+	 * whether the Customers in our company pay Sales Tax or not
+	 */
+	private static final long PAY_SALES_TAX = 0x8000L;
+
+	/**
+	 * whether we can use Id's for the Customer while creating them or not.
+	 */
+	private static final long USE_CUSTOMER_ID = 0x10000L;
+
+	/**
+	 * To Confirm whether we can allow duplicate {@link Transaction} Numbers or
+	 * not
+	 */
+	private static final long ALLOW_DUPLICATE_DOCUMENT_NO = 0x20000L;
+
+	private static final long SALES_ORDER_ENABLE = 0x40000L;
+
+	private static final long PURCHASE_ORDER_ENABLE = 0x80000L;
+
+	private static final long USE_VENDOR_ID = 0x100000L;
+
+	private static final long USE_ITEM_NUMBERS = 0x200000L;
+
+	private static final long SALES_PERSON_ENABLE = 0x400000L;
+
+	private static final long CALCULATE_FINANCE_CHARGE_FROM_INVOICE_DATE = 0x800000L;
+
+	private static final long CHECK_ITEM_QUANTITY_ON_HAND = 0x1000000L;
+
+	private static final long UPDATE_COST_AUTOMATIC = 0x2000000L;
+
+	private static final long SELL_SERVICES = 0x4000000L;
+
+	private static final long SELL_PRODUCTS = 0x8000000L;
+
+	private static final long ENTER_VAT_INFORMATION_NOW = 0x10000000L;
+
+	private static final long REPORT_VAT_ON_ACURAL_BASIS = 0x20000000L;
+
+	private static final long TRACK_VAT = 0x40000000L;
+
+	private static final long IS_ACCURAL_BASIS = 0x80000000L;
+
+	private static final long IS_BEGINNING_ON_TODAYS_DATE = 0x100000000L;
+
+	private static final long WANT_STATEMENTS = 0x200000000L;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
@@ -31,39 +102,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static ClientCompanyPreferences preferences;
 
-	boolean useAccountNumbers;
-
 	private String dateFormat;
-
-	boolean useClasses;
-
-	private boolean salesOrderEnabled;
-
-	private boolean isSalesPersonEnabled;
-
-	private boolean isPurchaseOrderEnabled;
-
-	private boolean doYouChargesalesTax;
-
-	private boolean doyouKeepTrackofBills;
-
-	private boolean doYouKeepTrackOfTime;
-
-	boolean useJobs;
-
-	boolean useChangeLog;
 
 	double logSpaceUsed;
 
-	boolean allowDuplicateDocumentNumbers;
-
-	boolean doYouPaySalesTax;
-
 	public long id;
 
-	boolean isAccuralBasis;// if True then Accural (when customer is Invoiced),
-	// if False then Cash Basis(when customer pays
-	// Invoice)
 	long startOfFiscalYear;
 
 	long endOfFiscalYear;
@@ -74,12 +118,9 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	long lastDepreciationDate;
 
-	boolean isMyAccountantWillrunPayroll;
 	private String industryType;
 
 	// Customer Preferrences
-
-	boolean useCustomerId;
 
 	String defaultShippingTerm;
 
@@ -89,34 +130,20 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	int graceDays = 0;
 
-	boolean doesCalculateFinanceChargeFromInvoiceDate;
-
 	// If true then finance
 	// chagrge will
 	// calculate from
 	// Invoice date other
 	// wise from Due Date.
 	private boolean doProductShipMents;
-	boolean useVendorId;
 	int ageingFromTransactionDateORDueDate = 1;
 
-	boolean useItemNumbers;
-	boolean checkForItemQuantityOnHand;
-	boolean updateCostAutomatically;
-
-	// VAT Preferences
-	boolean enterVATinformationNow = true;
 	String VATregistrationNumber;
 	int VATreportingPeriod = VAT_REPORTING_PERIOD_QUARTERLY;
 	int endingPeriodForVATreporting = VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC;
-	boolean reportVATonAccuralBasis = true;
-	boolean enableMultiCurrency = false;
 	private ClientCurrency baseCurrency;
 
 	private String decimalCharacte = ".";
-
-	private boolean sellServices;
-	private boolean sellProducts;
 
 	// currency related properties
 	private ClientCurrency primaryCurrency;
@@ -125,19 +152,28 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	// Organization type
 	private int organizationType;
 
+	int fiscalYearFirstMonth = 1;
 	// for tracking employes in setup page
 	boolean haveEpmloyees;
 	boolean haveW_2Employees;
 	boolean have1099contractors;
 	boolean trackEmployeeExpenses;
-	int fiscalYearFirstMonth = 1;
 	boolean isBeginingorTodaysdate;
 	long trackFinanceDate;
 	private String referCustomers;
 	private String referSuplliers;
 	private String referAccounts;
-	private boolean doyouwantEstimates;
-	private boolean doyouwanrstatements;
+
+	private long preferencesFlag;
+
+	/**
+	 * Creates new Instance
+	 */
+	public ClientCompanyPreferences() {
+		this.preferencesFlag |= (USE_ACCOUNT_NO | IS_ACCURAL_BASIS
+				| SELL_SERVICES | SELL_SERVICES | ENTER_VAT_INFORMATION_NOW
+				| REPORT_VAT_ON_ACURAL_BASIS | TRACK_VAT);
+	}
 
 	public long getTrackFinanceDate() {
 		return trackFinanceDate;
@@ -148,11 +184,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isBeginingorTodaysdate() {
-		return isBeginingorTodaysdate;
+		return get(IS_BEGINNING_ON_TODAYS_DATE);
 	}
 
-	public void setBeginingorTodaysdate(boolean isBeginingorTodaysdate) {
-		this.isBeginingorTodaysdate = isBeginingorTodaysdate;
+	public void setBeginingorTodaysdate(boolean value) {
+		set(IS_BEGINNING_ON_TODAYS_DATE, value);
 	}
 
 	public int getFiscalYearFirstMonth() {
@@ -165,31 +201,35 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	// String legalName;
 
-	/**
-	 * @return the id
-	 */
-
 	public boolean isSellServices() {
-		return sellServices;
+		return get(SELL_SERVICES);
 	}
 
-	public void setSellServices(boolean sellServices) {
-		this.sellServices = sellServices;
+	public void setSellServices(boolean value) {
+		set(SELL_SERVICES, value);
 	}
 
 	public boolean isSellProducts() {
-		return sellProducts;
+		return get(SELL_PRODUCTS);
 	}
 
-	public void setSellProducts(boolean sellProducts) {
-		this.sellProducts = sellProducts;
+	public void setSellProducts(boolean value) {
+		set(SELL_PRODUCTS, value);
 	}
 
 	/**
 	 * @return the useAccountNumbers
 	 */
 	public boolean getUseAccountNumbers() {
-		return useAccountNumbers;
+		return get(USE_ACCOUNT_NO);
+	}
+
+	/**
+	 * @param useAccountNumbers
+	 *            the useAccountNumbers to set
+	 */
+	public void setUseAccountNumbers(boolean value) {
+		set(USE_ACCOUNT_NO, value);
 	}
 
 	/**
@@ -208,26 +248,48 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	// }
 
 	/**
-	 * @param useAccountNumbers
-	 *            the useAccountNumbers to set
-	 */
-	public void setUseAccountNumbers(boolean useAccountNumbers) {
-		this.useAccountNumbers = useAccountNumbers;
-	}
-
-	/**
 	 * @return the useClasses
 	 */
 	public boolean getUseClasses() {
-		return useClasses;
+		return get(USE_CLASSES);
 	}
 
 	/**
 	 * @param useClasses
 	 *            the useClasses to set
 	 */
-	public void setUseClasses(boolean useClasses) {
-		this.useClasses = useClasses;
+	public void setUseClasses(boolean value) {
+		set(USE_CLASSES, value);
+	}
+
+	/**
+	 * @return the useChangeLog
+	 */
+	public boolean getUseChangeLog() {
+		return get(USE_CHANGE_LOG);
+	}
+
+	/**
+	 * @param useChangeLog
+	 *            the useChangeLog to set
+	 */
+	public void setUseChangeLog(boolean value) {
+		set(USE_CHANGE_LOG, value);
+	}
+
+	/**
+	 * @return the useJobs
+	 */
+	public boolean getUseJobs() {
+		return get(USE_JOBS);
+	}
+
+	/**
+	 * @param useJobs
+	 *            the useJobs to set
+	 */
+	public void setUseJobs(boolean value) {
+		set(USE_JOBS, value);
 	}
 
 	public String getDefaultShippingTerm() {
@@ -240,13 +302,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setStartOfFiscalYear(long startOfFiscalYear) {
 		this.startOfFiscalYear = startOfFiscalYear;
-	}
-
-	/**
-	 * @return the useJobs
-	 */
-	public boolean getUseJobs() {
-		return useJobs;
 	}
 
 	/**
@@ -268,15 +323,15 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 * @return the enterVATinformationNow
 	 */
 	public boolean isEnterVATinformationNow() {
-		return enterVATinformationNow;
+		return get(ENTER_VAT_INFORMATION_NOW);
 	}
 
 	/**
 	 * @param enterVATinformationNow
 	 *            the enterVATinformationNow to set
 	 */
-	public void setEnterVATinformationNow(boolean enterVATinformationNow) {
-		this.enterVATinformationNow = enterVATinformationNow;
+	public void setEnterVATinformationNow(boolean value) {
+		set(ENTER_VAT_INFORMATION_NOW, value);
 	}
 
 	/**
@@ -328,55 +383,15 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 * @return the reportVATonAccuralBasis
 	 */
 	public boolean isReportVATonAccuralBasis() {
-		return reportVATonAccuralBasis;
+		return get(REPORT_VAT_ON_ACURAL_BASIS);
 	}
 
 	/**
 	 * @param reportVATonAccuralBasis
 	 *            the reportVATonAccuralBasis to set
 	 */
-	public void setReportVATonAccuralBasis(boolean reportVATonAccuralBasis) {
-		this.reportVATonAccuralBasis = reportVATonAccuralBasis;
-	}
-
-	/**
-	 * @param isAccuralBasis
-	 *            the isAccuralBasis to set
-	 */
-	public void setAccuralBasis(boolean isAccuralBasis) {
-		this.isAccuralBasis = isAccuralBasis;
-	}
-
-	/**
-	 * @param isMyAccountantWillrunPayroll
-	 *            the isMyAccountantWillrunPayroll to set
-	 */
-	public void setMyAccountantWillrunPayroll(
-			boolean isMyAccountantWillrunPayroll) {
-		this.isMyAccountantWillrunPayroll = isMyAccountantWillrunPayroll;
-	}
-
-	/**
-	 * @param useJobs
-	 *            the useJobs to set
-	 */
-	public void setUseJobs(boolean useJobs) {
-		this.useJobs = useJobs;
-	}
-
-	/**
-	 * @return the useChangeLog
-	 */
-	public boolean getUseChangeLog() {
-		return useChangeLog;
-	}
-
-	/**
-	 * @param useChangeLog
-	 *            the useChangeLog to set
-	 */
-	public void setUseChangeLog(boolean useChangeLog) {
-		this.useChangeLog = useChangeLog;
+	public void setReportVATonAccuralBasis(boolean value) {
+		set(REPORT_VAT_ON_ACURAL_BASIS, value);
 	}
 
 	/**
@@ -398,69 +413,72 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 * @return the allowDuplicateDocumentNumbers
 	 */
 	public boolean getAllowDuplicateDocumentNumbers() {
-		return allowDuplicateDocumentNumbers;
+		return get(ALLOW_DUPLICATE_DOCUMENT_NO);
 	}
 
 	/**
 	 * @param allowDuplicateDocumentNumbers
 	 *            the allowDuplicateDocumentNumbers to set
 	 */
-	public void setAllowDuplicateDocumentNumbers(
-			boolean allowDuplicateDocumentNumbers) {
-		this.allowDuplicateDocumentNumbers = allowDuplicateDocumentNumbers;
+	public void setAllowDuplicateDocumentNumbers(boolean value) {
+		set(ALLOW_DUPLICATE_DOCUMENT_NO, value);
 	}
 
 	/**
 	 * @return the doYouPaySalesTax
 	 */
 	public boolean getDoYouPaySalesTax() {
-		return doYouPaySalesTax;
+		return get(PAY_SALES_TAX);
 	}
 
 	/**
 	 * @param doYouPaySalesTax
 	 *            the doYouPaySalesTax to set
 	 */
-	public void setDoYouPaySalesTax(boolean doYouPaySalesTax) {
-		this.doYouPaySalesTax = doYouPaySalesTax;
+	public void setDoYouPaySalesTax(boolean value) {
+		set(PAY_SALES_TAX, value);
 	}
 
-	/**
-	 * @return the isAccuralBasis
-	 */
-	public boolean getIsAccuralBasis() {
-		return isAccuralBasis;
+	public boolean isAccuralBasis() {
+		return get(IS_ACCURAL_BASIS);
 	}
 
 	/**
 	 * @param isAccuralBasis
 	 *            the isAccuralBasis to set
 	 */
-	public void setIsAccuralBasis(boolean isAccuralBasis) {
-		this.isAccuralBasis = isAccuralBasis;
+	public void setIsAccuralBasis(boolean value) {
+		set(IS_ACCURAL_BASIS, value);
 	}
 
 	/**
 	 * @return the isMyAccountantWillrunPayroll
 	 */
 	public boolean getIsMyAccountantWillrunPayroll() {
-		return isMyAccountantWillrunPayroll;
+		return get(MY_ACCOUNT_WILL_RUN_PAYROLL);
 	}
 
 	/**
 	 * @param isMyAccountantWillrunPayroll
 	 *            the isMyAccountantWillrunPayroll to set
 	 */
-	public void setIsMyAccountantWillrunPayroll(
-			boolean isMyAccountantWillrunPayroll) {
-		this.isMyAccountantWillrunPayroll = isMyAccountantWillrunPayroll;
+	public void setMyAccountantWillrunPayroll(boolean value) {
+		set(MY_ACCOUNT_WILL_RUN_PAYROLL, value);
 	}
 
 	/**
 	 * @return the useCustomerId
 	 */
 	public boolean getUseCustomerId() {
-		return useCustomerId;
+		return get(USE_CUSTOMER_ID);
+	}
+
+	/**
+	 * @param useCustomerId
+	 *            the useCustomerId to set
+	 */
+	public void setUseCustomerId(boolean value) {
+		set(USE_CUSTOMER_ID, value);
 	}
 
 	public long getPreventPostingBeforeDate() {
@@ -469,14 +487,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setPreventPostingBeforeDate(long preventPostingBeforeDate) {
 		this.preventPostingBeforeDate = preventPostingBeforeDate;
-	}
-
-	/**
-	 * @param useCustomerId
-	 *            the useCustomerId to set
-	 */
-	public void setUseCustomerId(boolean useCustomerId) {
-		this.useCustomerId = useCustomerId;
 	}
 
 	/**
@@ -545,76 +555,75 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 * @return the doesCalculateFinanceChargeFromInvoiceDate
 	 */
 	public boolean getDoesCalculateFinanceChargeFromInvoiceDate() {
-		return doesCalculateFinanceChargeFromInvoiceDate;
+		return get(CALCULATE_FINANCE_CHARGE_FROM_INVOICE_DATE);
 	}
 
 	/**
 	 * @param doesCalculateFinanceChargeFromInvoiceDate
 	 *            the doesCalculateFinanceChargeFromInvoiceDate to set
 	 */
-	public void setDoesCalculateFinanceChargeFromInvoiceDate(
-			boolean doesCalculateFinanceChargeFromInvoiceDate) {
-		this.doesCalculateFinanceChargeFromInvoiceDate = doesCalculateFinanceChargeFromInvoiceDate;
+	public void setDoesCalculateFinanceChargeFromInvoiceDate(boolean value) {
+		set(CALCULATE_FINANCE_CHARGE_FROM_INVOICE_DATE, value);
 	}
 
 	/**
 	 * @return the useVendorId
 	 */
 	public boolean getUseVendorId() {
-		return useVendorId;
+		return get(USE_VENDOR_ID);
 	}
 
 	/**
 	 * @param useVendorId
 	 *            the useVendorId to set
 	 */
-	public void setUseVendorId(boolean useVendorId) {
-		this.useVendorId = useVendorId;
+	public void setUseVendorId(boolean value) {
+		set(USE_VENDOR_ID, value);
 	}
 
 	/**
 	 * @return the useItemNumbers
 	 */
 	public boolean getUseItemNumbers() {
-		return useItemNumbers;
+		return get(USE_ITEM_NUMBERS);
 	}
 
 	/**
 	 * @param useItemNumbers
 	 *            the useItemNumbers to set
 	 */
-	public void setUseItemNumbers(boolean useItemNumbers) {
-		this.useItemNumbers = useItemNumbers;
+	public void setUseItemNumbers(boolean value) {
+		set(USE_ITEM_NUMBERS, value);
 	}
 
 	/**
 	 * @return the checkForItemQuantityOnHand
 	 */
 	public boolean getCheckForItemQuantityOnHand() {
-		return checkForItemQuantityOnHand;
+		return get(CHECK_ITEM_QUANTITY_ON_HAND);
 	}
 
 	/**
 	 * @param checkForItemQuantityOnHand
 	 *            the checkForItemQuantityOnHand to set
 	 */
-	public void setCheckForItemQuantityOnHand(boolean checkForItemQuantityOnHand) {
-		this.checkForItemQuantityOnHand = checkForItemQuantityOnHand;
+	public void setCheckForItemQuantityOnHand(boolean value) {
+		set(CHECK_ITEM_QUANTITY_ON_HAND, value);
 	}
 
 	/**
 	 * @return the updateCostAutomatically
 	 */
 	public boolean getUpdateCostAutomatically() {
-		return updateCostAutomatically;
+		return get(UPDATE_COST_AUTOMATIC);
 	}
 
 	/**
 	 * @param updateCostAutomatically
 	 *            the updateCostAutomatically to set
 	 */
-	public void setUpdateCostAutomatically(boolean updateCostAutomatically) {
-		this.updateCostAutomatically = updateCostAutomatically;
+	public void setUpdateCostAutomatically(boolean value) {
+		set(UPDATE_COST_AUTOMATIC, value);
 	}
 
 	public long getStartOfFiscalYear() {
@@ -701,27 +710,27 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isSalesOrderEnabled() {
-		return salesOrderEnabled;
+		return get(SALES_ORDER_ENABLE);
 	}
 
-	public void setSalesOrderEnabled(boolean salesOrderEnabled) {
-		this.salesOrderEnabled = salesOrderEnabled;
+	public void setSalesOrderEnabled(boolean value) {
+		set(SALES_ORDER_ENABLE, value);
 	}
 
 	public boolean isSalesPersonEnabled() {
-		return isSalesPersonEnabled;
+		return get(SALES_PERSON_ENABLE);
 	}
 
-	public void setSalesPerson(boolean isSalesPersonEnabled) {
-		this.isSalesPersonEnabled = isSalesPersonEnabled;
+	public void setSalesPerson(boolean value) {
+		set(SALES_PERSON_ENABLE, value);
 	}
 
 	public boolean isPurchaseOrderEnabled() {
-		return isPurchaseOrderEnabled;
+		return get(PURCHASE_ORDER_ENABLE);
 	}
 
-	public void setPurchaseOrderEnabled(boolean purchaseOrderEnabled) {
-		this.isPurchaseOrderEnabled = purchaseOrderEnabled;
+	public void setPurchaseOrderEnabled(boolean value) {
+		set(PURCHASE_ORDER_ENABLE, value);
 	}
 
 	public String getDateFormat() {
@@ -734,11 +743,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isEnableMultiCurrency() {
-		return enableMultiCurrency;
+		return get(ENABLE_MULTI_CURRENCY);
 	}
 
-	public void setEnableMultiCurrency(boolean enableMultiCurrency) {
-		this.enableMultiCurrency = enableMultiCurrency;
+	public void setEnableMultiCurrency(boolean value) {
+		set(ENABLE_MULTI_CURRENCY, value);
 	}
 
 	public ClientCurrency getBaseCurrency() {
@@ -791,59 +800,59 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isHaveEpmloyees() {
-		return haveEpmloyees;
+		return get(HAVE_EMPLOYEES);
 	}
 
-	public void setHaveEpmloyees(boolean haveEpmloyees) {
-		this.haveEpmloyees = haveEpmloyees;
+	public void setHaveEpmloyees(boolean value) {
+		set(HAVE_EMPLOYEES, value);
 	}
 
 	public boolean isHaveW_2Employees() {
-		return haveW_2Employees;
+		return get(HAVE_W2_EMPLOYEES);
 	}
 
-	public void setHaveW_2Employees(boolean haveW_2Employees) {
-		this.haveW_2Employees = haveW_2Employees;
+	public void setHaveW_2Employees(boolean value) {
+		set(HAVE_W2_EMPLOYEES, value);
 	}
 
 	public boolean isHave1099contractors() {
-		return have1099contractors;
+		return get(HAVE_1099_CONTRACTORS);
 	}
 
-	public void setHave1099contractors(boolean have1099contractors) {
-		this.have1099contractors = have1099contractors;
+	public void setHave1099contractors(boolean value) {
+		set(HAVE_1099_CONTRACTORS, value);
 	}
 
 	public boolean isTrackEmployeeExpenses() {
-		return trackEmployeeExpenses;
+		return get(TRACK_EMPLOYEE_EXPENSES);
 	}
 
-	public void setTrackEmployeeExpenses(boolean trackEmployeeExpenses) {
-		this.trackEmployeeExpenses = trackEmployeeExpenses;
+	public void setTrackEmployeeExpenses(boolean value) {
+		set(TRACK_EMPLOYEE_EXPENSES, value);
 	}
 
 	public boolean isDoYouChargesalesTax() {
-		return doYouChargesalesTax;
+		return get(CHARGE_SALES_TAX);
 	}
 
-	public void setDoYouChargesalesTax(boolean doYouChargesalesTax) {
-		this.doYouChargesalesTax = doYouChargesalesTax;
+	public void setDoYouChargesalesTax(boolean value) {
+		set(CHARGE_SALES_TAX, value);
 	}
 
 	public boolean isDoyouKeepTrackofBills() {
-		return doyouKeepTrackofBills;
+		return get(KEEP_TRACK_OF_BILLS);
 	}
 
-	public void setDoyouKeepTrackofBills(boolean doyouKeepTrackofBills) {
-		this.doyouKeepTrackofBills = doyouKeepTrackofBills;
+	public void setDoyouKeepTrackofBills(boolean value) {
+		set(KEEP_TRACK_OF_BILLS, value);
 	}
 
 	public boolean isDoYouKeepTrackOfTime() {
-		return doYouKeepTrackOfTime;
+		return get(KEEP_TRACK_OF_TIME);
 	}
 
-	public void setDoYouKeepTrackOfTime(boolean doYouKeepTrackOfTime) {
-		this.doYouKeepTrackOfTime = doYouKeepTrackOfTime;
+	public void setDoYouKeepTrackOfTime(boolean value) {
+		set(KEEP_TRACK_OF_TIME, value);
 	}
 
 	public String getReferCustomers() {
@@ -871,19 +880,19 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isDoyouwantEstimates() {
-		return doyouwantEstimates;
+		return get(WANT_ESTIMATES);
 	}
 
-	public void setDoyouwantEstimates(boolean doyouwantEstimates) {
-		this.doyouwantEstimates = doyouwantEstimates;
+	public void setDoyouwantEstimates(boolean value) {
+		set(WANT_ESTIMATES, value);
 	}
 
-	public boolean isDoyouwanrstatements() {
-		return doyouwanrstatements;
+	public boolean isDoyouwantstatements() {
+		return get(WANT_STATEMENTS);
 	}
 
-	public void setDoyouwanrstatements(boolean doyouwanrstatements) {
-		this.doyouwanrstatements = doyouwanrstatements;
+	public void setDoyouwantstatements(boolean value) {
+		set(WANT_STATEMENTS, value);
 	}
 
 	public String getIndustryType() {
@@ -893,4 +902,32 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public void setIndustryType(String industryType) {
 		this.industryType = industryType;
 	}
+
+	/**
+	 * @return the preferencesFlag
+	 */
+	public long getPreferencesFlag() {
+		return preferencesFlag;
+	}
+
+	/**
+	 * @param preferencesFlag
+	 *            the preferencesFlag to set
+	 */
+	public void setPreferencesFlag(long preferencesFlag) {
+		this.preferencesFlag = preferencesFlag;
+	}
+
+	private boolean get(long flag) {
+		return (this.preferencesFlag & flag) == flag;
+	}
+
+	private void set(long flag, boolean isSet) {
+		if (isSet) {
+			this.preferencesFlag |= flag;
+		} else {
+			this.preferencesFlag &= ~flag;
+		}
+	}
+
 }

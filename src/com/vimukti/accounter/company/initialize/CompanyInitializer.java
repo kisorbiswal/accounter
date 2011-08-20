@@ -37,7 +37,7 @@ public abstract class CompanyInitializer {
 	 * 
 	 * @see Company
 	 */
-	protected CompanyPreferences preferences = new CompanyPreferences();
+	protected CompanyPreferences preferences;
 
 	/**
 	 * This is the direct references to the Accounts Receivable Account for the
@@ -76,6 +76,7 @@ public abstract class CompanyInitializer {
 	 */
 	public CompanyInitializer(Company company) {
 		this.company = company;
+		preferences = company.getPreferences();
 	}
 
 	/**

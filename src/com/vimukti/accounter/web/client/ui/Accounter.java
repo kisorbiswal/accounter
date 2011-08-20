@@ -508,7 +508,8 @@ public class Accounter implements EntryPoint {
 
 	public static void updateCompany(final ISaveCallback callback,
 			final ClientCompany clientCompany) {
-
+		boolean useAccountNumbers = clientCompany.getPreferences()
+				.getUseAccountNumbers();
 		AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
 
 			public void onException(AccounterException caught) {

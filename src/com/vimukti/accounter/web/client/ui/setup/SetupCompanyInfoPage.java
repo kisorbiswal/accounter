@@ -126,8 +126,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			this.phonenumberText.setValue(company.getPhone());
 			this.webaddressText.setValue(company.getWebSite());
 			this.emailText.setValue(company.getCompanyEmail());
-			allAddresses.put(ClientAddress.TYPE_COMPANY, company
-					.getTradingAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY,
+					company.getTradingAddress());
 			setAddressToTextItem(streetadressText, company.getTradingAddress());
 		}
 	}
@@ -174,7 +174,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		ClientCompany clientCompany = new ClientCompany();
 		clientCompany.id = company.id;
 		clientCompany.setName(companynameText.getValue().toString());
-		clientCompany.setTradingName(streetadressText.getValue().toString());
+		clientCompany.setTradingName(legalnameText.getValue().toString());
 		clientCompany.setPhone(phonenumberText.getValue().toString());
 		clientCompany.setCompanyEmail(emailText.getValue().toString());
 		clientCompany.setTaxId(taxId.getValue().toString());

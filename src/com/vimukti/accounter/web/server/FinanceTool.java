@@ -578,7 +578,7 @@ public class FinanceTool implements IFinanceDAOService {
 						"Update Company Preferences, as the Source Object could not be Found....");
 			}
 
-			Company company = getCompany();
+			Company company = Company.getCompany();
 			// String IdentiName =
 			// this.getSpace().getIDentity().getDisplayName();
 
@@ -588,7 +588,6 @@ public class FinanceTool implements IFinanceDAOService {
 			serverCompanyPreferences = new ServerConvertUtil().toServerObject(
 					serverCompanyPreferences, (ClientCompanyPreferences) data,
 					session);
-
 			company.setPreferences(serverCompanyPreferences);
 			session.update(company);
 			transaction.commit();
@@ -616,7 +615,9 @@ public class FinanceTool implements IFinanceDAOService {
 			Company cmp = Company.getCompany();
 			cmp.updatePreferences((ClientCompany) data);
 
-			HibernateUtil.getCurrentSession().update(cmp);
+			long preferencesFlag = cmp.getPreferences().getPreferencesFlag();
+			System.out.println(preferencesFlag);
+			session.update(cmp);
 			transaction.commit();
 			ChangeTracker.put(cmp.toClientCompany());
 			return cmp.getID();
@@ -10440,8 +10441,21 @@ public class FinanceTool implements IFinanceDAOService {
 	 * @return
 	 */
 	public Company getCompany() {
+		return getCompany(false);
+	}
+
+	/**
+	 * Returns the Current Company
+	 * 
+	 * @return
+	 */
+	private Company getCompany(boolean load) {
 		Session session = HibernateUtil.getCurrentSession();
-		return (Company) session.get(Company.class, 1l);
+		if (!load) {
+			return (Company) session.get(Company.class, 1l);
+		} else {
+			return (Company) session.load(Company.class, 1l);
+		}
 	}
 
 	private VList<Account> getAccountsListBySorted() {

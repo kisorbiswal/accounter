@@ -686,7 +686,6 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// .equals("2"));
 		// System.out.println("radio value:" +
 		// whowillrunAccTransfer.getValue());
-
 		companyPreferences
 				.setUseAccountNumbers(getBooleanValue(useAccountscheckbox));
 		companyPreferences.setUseCustomerId(getBooleanValue(useCustomertID));
@@ -1380,7 +1379,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
