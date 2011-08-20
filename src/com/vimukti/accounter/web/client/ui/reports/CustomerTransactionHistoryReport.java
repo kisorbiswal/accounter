@@ -90,6 +90,12 @@ public final class CustomerTransactionHistoryReport extends
 				"");
 	}
 
+	@Override
+	public boolean canPrint() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 	/*
 	 * private void printDataForIEBrowser() { String gridhtml = grid.toString();
 	 * String headerhtml = grid.getHeader(); String footerhtml =
