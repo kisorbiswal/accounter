@@ -47,7 +47,13 @@ textarea,.rich-text-area-body {
 	font-family: times New Roman;
 	margin-right: 10px;
 }
-
+.Writecheck_addNew{
+	float: right;
+}
+.viewTitle{
+	color: white;
+	margin: 5px 0 0 10px;
+}
 *,.gwt-ToggleButton * {
 	outline: none;
 }
@@ -6476,7 +6482,7 @@ input[type="text"],textarea {
 }
 .vimukti-name a{
 	color:#A53B01 !important;
-}
+ }
 .feedback-name a{
    text-decoration: none;
    color:#a53b01 !important;
