@@ -24,15 +24,15 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 	private List<ClientAccount> accountList;
 	private List<Integer> accounTypes;
 	private boolean useAccountNumbers;
-	
+
 	public AccountCombo(String title) {
-		super(title, true, 3);
+		this(title, true);
 	}
 
-	
 	public AccountCombo(String title, boolean b) {
 		super(title, b, 3);
-		this.useAccountNumbers = Global.get().preferences().getUseAccountNumbers();
+		this.useAccountNumbers = Global.get().preferences()
+				.getUseAccountNumbers();
 	}
 
 	protected abstract List<ClientAccount> getAccounts();
@@ -95,7 +95,7 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 			if (useAccountNumbers) {
 				return object.getNumber();
 			} else {
-				return null;
+				return "";
 			}
 		case 1:
 			return getDisplayName(object);
