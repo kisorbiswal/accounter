@@ -112,7 +112,6 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		return currentView;
 	}
 
-	
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (currentView.getSelectedValue().equalsIgnoreCase("Not Issued")) {
@@ -130,7 +129,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 			List<PaymentsList> allRecs = initialRecords;
 			for (PaymentsList rec : allRecs) {
 				if (Utility.getStatus(rec.getType(), rec.getStatus())
-						.equalsIgnoreCase("Issued")) {
+						.equalsIgnoreCase("Issued") && !rec.isVoided()) {
 					issued.add(rec);
 				}
 			}
@@ -178,8 +177,6 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 		super.fitToSize(height, width);
 
 	}
-
-
 
 	@Override
 	public void onEdit() {
