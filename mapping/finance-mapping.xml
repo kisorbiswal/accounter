@@ -196,29 +196,12 @@
 			lazy="false">
 
 			<!-- Company Preferences -->
-			<property name="useAccountNumbers" column="CP_USE_ACCOUNT_NUMBERS"
-				not-null="true"></property>
-			<property name="useClasses" column="CP_USE_CLASSES"
-				not-null="true"></property>
-			<property name="useJobs" column="CP_USE_JOBS" not-null="true"></property>
-			<property name="useChangeLog" column="CP_USE_CHANGE_LOG"
-				not-null="true"></property>
 			<property name="logSpaceUsed" column="CP_LOG_SPACE_USED"
-				not-null="true"></property>
-			<property name="allowDuplicateDocumentNumbers" column="CP_ALLOW_DUPLICATE_DOCUMENT_NUMBERS"
-				not-null="true"></property>
-			<property name="doYouPaySalesTax" column="CP_DO_YOU_PAY_SALES_TAX"
-				not-null="true"></property>
-			<property name="isAccuralBasis" column="CP_IS_ACCURAL_BASI"
 				not-null="true"></property>
 			<property name="startOfFiscalYear" column="CP_START_OF_FISCAL_YEAR"
 				type="com.vimukti.accounter.core.LongUseType" not-null="true"></property>
 			<property name="endOfFiscalYear" column="CP_END_OF_FISCAL_YEAR"
 				type="com.vimukti.accounter.core.LongUseType" not-null="true"></property>
-			<property name="useForeignCurrency" column="CP_USE_FOREIGN_CURRENCY"
-				not-null="true"></property>
-			<property name="isMyAccountantWillrunPayroll" column="CP_IS_MY_ACCOUNTANT_WILL_RUN_PAYROLL"
-				not-null="true"></property>
 			<property name="startDate" column="CP_FISCAL_YEAR_START_DATE"
 				not-null="true" type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="depreciationStartDate" column="CP_DEPRECIATION_START_DATE"
@@ -229,8 +212,6 @@
 			<!-- <property name="legalName" column="CP_LEGAL_NAME" not-null="true"></property> -->
 
 			<!-- Customer Preferences -->
-			<property name="useCustomerId" column="CP_USE_CUSTOMER_ID"
-				not-null="true"></property>
 			<many-to-one name="defaultShippingTerm" class="ShippingTerms"
 				lazy="false" column="CP_DEFAULT_SHIPPING_TERM">
 			</many-to-one>
@@ -239,41 +220,18 @@
 			<property name="defaultMinimumFinanceCharge" column="CP_DEFAULT_MINIMUM_FINANCE_CHARGE"
 				not-null="true"></property>
 			<property name="graceDays" column="CP_GRACE_DAYS" not-null="true"></property>
-			<property name="doesCalculateFinanceChargeFromInvoiceDate"
-				column="CP_CALCULATE_FINANCE_CHARGE_FROM_INVOICE_DATE" not-null="true"></property>
-
-			<!-- Vendor Preferences -->
-			<property name="useVendorId" column="CP_USE_VENDOR_ID"
-				not-null="true"></property>
-			<property name="salesOrderEnabled" column="SALES_ORDER_ENABLED"
-				not-null="true"></property>
-			<property name="useItemNumbers" column="CP_USE_ITEM_NUMBERS"
-				not-null="true"></property>
-			<property name="checkForItemQuantityOnHand" column="CP_CHECK_FOR_ITEM_QUANTITY_ON_HAND"
-				not-null="true"></property>
-			<property name="updateCostAutomatically" column="CP_UPDATE_COST_AUTOMATICALLY"
-				not-null="true"></property>
 
 			<!-- VAT Preferences -->
-			<property name="enterVATinformationNow" column="ENTER_VAT_INFORMATION_NOW"
-				not-null="true"></property>
 			<property name="VATregistrationNumber" column="VAT_REGISTRATION_NUMBER"
 				not-null="true"></property>
 			<property name="VATreportingPeriod" column="VAT_REPORTING_PERIOD"
 				not-null="true"></property>
 			<property name="endingPeriodForVATreporting" column="ENDING_PERIOD_FOR_VAT_REPORTING"
 				not-null="true"></property>
-			<property name="reportVATonAccuralBasis" column="REPORT_VAT_ON_ACCURAL_BASIS"
-				not-null="true"></property>
-			<property name="trackVAT" column="TRACK_VAT" not-null="true"></property>
 			<property name="VATtaxAgencyName" column="VAT_TAX_AGENCY_NAME"
 				not-null="true"></property>
-			<property name="isSalesPersonEnabled" column="IS_SALES_PERSON_ENABLED"></property>
-			<property name="sellServices" column="SELL_SERVICES"></property>
-			<property name="sellProducts" column="SELL_PRODUCTS"></property>
 
-			<!-- PURCHASE -->
-			<property name="isPurchaseOrderEnabled" column="IS_PURCHASE_ORDER_ENABLED"></property>
+			<property name="preferencesFlag" column="CP_FLAGS" not-null="true"></property>
 			<property name="fiscalYearFirstMonth" column="CP_FISCAL_YEAR_FIRST_MONTH"></property>
 		</component>
 		<property name="phone" column="PHONE"></property>
