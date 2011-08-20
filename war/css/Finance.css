@@ -6761,12 +6761,14 @@ a#fdbk_tab:hover{
 .view_panel{
 	padding:10px;
 }
-.company_Info_table .gwt-ListBox{
+.company_Info_table .gwt-ListBox,.refer_listbox{
+	  width: 193px;
+}
+.company_Info_table .gwt-ListBox,.industry_list,.refer_listbox{
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 1px 2px 2px #CCCCCC inset;
     height: 24px;
-    width: 193px;
 }
 .tick_hidden{
 	visibility: hidden;
@@ -6785,4 +6787,22 @@ a#fdbk_tab:hover{
 .company_Info_table tr td:FIRST-CHILD {
 	text-align: right;
 	padding-right:25px;
+}
+.industry_list{
+	width:250px;
+	margin:10px;
+}
+.settings_later{
+	padding:10px 0px;
+}
+.select_industry,.organized_radio{
+	font-weight:bold;
+}
+.organisation_Info{
+	color:black;
+	font-size:13px;
+	padding: 7px 0;
+}
+.organization_listbox{
+	margin: 0 0 14px 25px;
 }
