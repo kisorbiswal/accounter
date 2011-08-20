@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -267,7 +266,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
 		// formItems.add(deliveryDate);
-		if (ClientCompanyPreferences.get().isSalesPersonEnabled()) {
+		if (getPreferences().isSalesPersonEnabled()) {
 			phoneForm.setFields(salesPersonCombo, payTermsSelect,
 					quoteExpiryDate, deliveryDate);
 		} else {
@@ -675,7 +674,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.customerCombo.addComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+				if (getPreferences().isSalesPersonEnabled())
 					this.salesPersonCombo
 							.addComboItem((ClientSalesPerson) core);
 
@@ -692,7 +691,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.customerCombo.updateComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+				if (getPreferences().isSalesPersonEnabled())
 					this.salesPersonCombo
 							.updateComboItem((ClientSalesPerson) core);
 
@@ -708,7 +707,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				this.customerCombo.removeComboItem((ClientCustomer) core);
 
 			if (core.getObjectType() == AccounterCoreType.SALES_PERSON)
-				if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+				if (getPreferences().isSalesPersonEnabled())
 					this.salesPersonCombo
 							.removeComboItem((ClientSalesPerson) core);
 
@@ -757,7 +756,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		transactionDateItem.setDisabled(isEdit);
 		transactionNumber.setDisabled(isEdit);
 		customerCombo.setDisabled(isEdit);
-		if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+		if (getPreferences().isSalesPersonEnabled())
 			salesPersonCombo.setDisabled(isEdit);
 		payTermsSelect.setDisabled(isEdit);
 		deliveryDate.setDisabled(isEdit);
