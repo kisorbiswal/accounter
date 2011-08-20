@@ -16,6 +16,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.ClientGlobal;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
@@ -26,6 +28,7 @@ import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
+import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -281,6 +284,8 @@ public class Accounter implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+		IGlobal global=GWT.create(ClientGlobal.class);
+		Global.set(global);
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
 		loadCompany();
