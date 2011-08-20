@@ -14,7 +14,7 @@
 			<g:Grid width="500px" height="198px" ui:field="companyInfoField" styleName="company_Info_table">
 				<g:row>
 					<g:customCell>
-						<g:Label width="150px" height="30px" ui:field="displayNameLabel" />
+						<g:Label width="" height="" ui:field="displayNameLabel" />
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox ui:field="companyName" />
@@ -22,7 +22,7 @@
 				</g:row>
 				<g:row>
 					<g:customCell>
-						<g:Label height="30px" width="150px" ui:field="legalNameLabel" />
+						<g:Label height="" width="" ui:field="legalNameLabel" />
 					</g:customCell>
 					<g:customCell>
 						<g:TextBox ui:field="legalName" />
