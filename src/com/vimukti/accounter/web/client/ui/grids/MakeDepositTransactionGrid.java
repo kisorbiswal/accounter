@@ -35,6 +35,7 @@ public class MakeDepositTransactionGrid extends
 
 	private SelectItem typeCombo;
 	AccounterConstants accounterConstants = Accounter.constants();
+	
 
 	public MakeDepositTransactionGrid() {
 		super(false, true);
@@ -121,7 +122,7 @@ public class MakeDepositTransactionGrid extends
 
 		// super
 		// .updateFooterValues(
-		// DataUtils.getAmountAsString(totallinetotal), 3);
+		// amountAsString(totallinetotal), 3);
 		transactionView.updateNonEditableItems();
 	}
 
@@ -367,7 +368,7 @@ public class MakeDepositTransactionGrid extends
 		case 2:
 			return obj.getReference() != null ? obj.getReference() : "";
 		case 3:
-			return DataUtils.getAmountAsString(getAmountInForeignCurrency(obj
+			return amountAsString(getAmountInForeignCurrency(obj
 					.getAmount()));
 		case 4:
 			return Accounter.getFinanceMenuImages().delete();

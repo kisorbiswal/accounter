@@ -137,20 +137,20 @@ public class CustomerTransactionGrid extends
 		case 1:
 			return item.getQuantity() + "";
 		case 2:
-			return DataUtils.getAmountAsString(getAmountInForeignCurrency(item
+			return amountAsString(getAmountInForeignCurrency(item
 					.getUnitPrice()));
 		case 3:
-			return DataUtils.getAmountAsString(item.getLineTotal());
+			return amountAsString(item.getLineTotal());
 		case 4:
 			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				return DataUtils.getAmountAsString(UIUtils.getVATItem(
+				return amountAsString(UIUtils.getVATItem(
 						item.getTaxCode(), true).getTaxRate());
 			} else {
 				return item.isTaxable() ? Accounter.constants().taxable()
 						: Accounter.constants().nonTaxable();
 			}
 		default:
-			return DataUtils.getAmountAsString(getVatTotal());
+			return amountAsString(getVatTotal());
 		}
 
 	}
@@ -563,12 +563,12 @@ public class CustomerTransactionGrid extends
 		// column count from '1'
 		// if (!isBankingTransaction)
 		// this.addFooterValues(new String[] { "", "", "Sub Total",
-		// DataUtils.getAmountAsString(0.00), "", "Discount: 0%",
-		// "Line Total: " + DataUtils.getAmountAsString(0.00), });
+		// amountAsString(0.00), "", "Discount: 0%",
+		// "Line Total: " + amountAsString(0.00), });
 		// else
 		// this.addFooterValues(new String[] { "", "", "Sub Total",
-		// DataUtils.getAmountAsString(0.00),
-		// "Line Total: " + DataUtils.getAmountAsString(0.00), });
+		// amountAsString(0.00),
+		// "Line Total: " + amountAsString(0.00), });
 		// FXIME check it for VAT implementation
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
 			createVATItemAndTaxCodeCombo();
@@ -576,26 +576,26 @@ public class CustomerTransactionGrid extends
 		if (!isBankingTransaction && !isSalesOrderTransaction) {
 			// this.addFooterValues(new String[] { "", "", "", "", "",
 			// FinanceApplication.constants().total(),
-			// DataUtils.getAmountAsString(0.00), });
+			// amountAsString(0.00), });
 		} else if (isSalesOrderTransaction) {
 
 			// this.addFooterValues(new String[] { "", "", "", "", "", "",
-			// DataUtils.getAmountAsString(0.00), "" });
+			// amountAsString(0.00), "" });
 
 		} else {
 			// this.addFooterValues(new String[] { "", "", "",
-			// DataUtils.getAmountAsString(0.00), "" });
+			// amountAsString(0.00), "" });
 		}
 		if (getCompany().getAccountingType() == 1) {
 			if (!isBankingTransaction)
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
 					// this.addFooterValue(FinanceApplication.constants()
 					// .VAT(), 7);
-					// this.addFooterValue(DataUtils.getAmountAsString(0.00),
+					// this.addFooterValue(amountAsString(0.00),
 					// 8);
 				}
 			// setBottomLabelTitle("VAT: "
-			// + DataUtils.getAmountAsString(totalVat), 8);
+			// + amountAsString(totalVat), 8);
 		}
 
 		addRecordClickHandler(new RecordClickHandler<ClientTransactionItem>() {
@@ -742,18 +742,16 @@ public class CustomerTransactionGrid extends
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(item
+				return amountAsString(getAmountInForeignCurrency(item
 								.getUnitPrice()));
 			else {
 				double amount = getAmountInForeignCurrency(item.getUnitPrice());
-				return (amount != 0 || item.getLineTotal() == 0) ? DataUtils
-						.getAmountAsString(amount) : "";
+				return (amount != 0 || item.getLineTotal() == 0) ? amountAsString(amount) : "";
 			}
 		case 5:
 			return DataUtils.getNumberAsPercentString(item.getDiscount() + "");
 		case 6:
-			return DataUtils.getAmountAsString(item.getLineTotal());
+			return amountAsString(item.getLineTotal());
 		case 7:
 			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK)
@@ -770,7 +768,7 @@ public class CustomerTransactionGrid extends
 			}
 		case 8:
 			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK)
-				return DataUtils.getAmountAsString(item.getVATfraction());
+				return amountAsString(item.getVATfraction());
 			else
 				return Accounter.getFinanceMenuImages().delete();
 		case 9:
@@ -923,13 +921,13 @@ public class CustomerTransactionGrid extends
 
 		// if (!isBankingTransaction)
 		// this.updateFooterValues("Discount: " + totaldiscount + "%", 5);
-		// this.updateFooterValues(DataUtils.getAmountAsString(totallinetotal),
+		// this.updateFooterValues(amountAsString(totallinetotal),
 		// 6);
 		//
 		// if (FinanceApplication.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_UK) {
 		// if (!isBankingTransaction) {
-		// this.updateFooterValues(DataUtils.getAmountAsString(totalVat),
+		// this.updateFooterValues(amountAsString(totalVat),
 		// 8);
 		// }
 		// }
@@ -950,13 +948,15 @@ public class CustomerTransactionGrid extends
 								+ "");
 				double vatAmount = getVATAmount(rec.getTaxCode(), rec);
 				totalVATAmount += vatAmount;
-				vat.put(taxCodeWidRate, DataUtils.getAmountAsString(vatAmount));
+				vat.put(taxCodeWidRate, amountAsString(vatAmount));
 				vatMap.put(r++, vat);
 			}
 		}
 		vat = new HashMap<String, String>();
-		vat.put(Accounter.constants().totalVAT(), DataUtils
-				.getAmountAsString(totalVATAmount));
+
+		vat.put(Accounter.constants().totalVAT(),
+				amountAsString(totalVATAmount));
+
 		vatMap.put(r++, vat);
 		return vatMap;
 	}

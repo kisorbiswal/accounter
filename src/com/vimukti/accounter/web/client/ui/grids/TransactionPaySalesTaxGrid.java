@@ -88,12 +88,10 @@ public class TransactionPaySalesTaxGrid extends
 						.getName()) : "")
 						: " ";
 			case 2:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(paySalesTax
+				return amountAsString(getAmountInForeignCurrency(paySalesTax
 								.getTaxDue()));
 			case 3:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(paySalesTax
+				return amountAsString(getAmountInForeignCurrency(paySalesTax
 								.getAmountToPay()));
 			default:
 				break;
@@ -113,8 +111,7 @@ public class TransactionPaySalesTaxGrid extends
 						.getName() : "";
 
 			case 2:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(paySalesTax
+				return amountAsString(getAmountInForeignCurrency(paySalesTax
 								.getAmountToPay()));
 			default:
 				break;
@@ -213,7 +210,7 @@ public class TransactionPaySalesTaxGrid extends
 			footertotal += record.getAmountToPay();
 		}
 		// this.updateFooterValues(FinanceApplication.constants().total()
-		// + DataUtils.getAmountAsString(footertotal), 3);
+		// + amountAsString(footertotal), 3);
 		paySalesTaxView.totalAmount = footertotal;
 		paySalesTaxView.refreshAmounts();
 

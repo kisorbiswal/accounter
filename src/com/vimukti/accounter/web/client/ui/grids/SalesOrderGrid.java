@@ -295,17 +295,16 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
-				return DataUtils.getAmountAsString(item.getUnitPrice());
+				return amountAsString(item.getUnitPrice());
 			else {
-				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
-						.getAmountAsString(item.getUnitPrice()) : "";
+				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? amountAsString(item.getUnitPrice()) : "";
 			}
 		case 5:
 			return DataUtils.getNumberAsPercentString(item.getDiscount() + "");
 			// case 6:
-			// return DataUtils.getAmountAsString(item.getBackOrder());
+			// return amountAsString(item.getBackOrder());
 		case 6:
-			return DataUtils.getAmountAsString(item.getLineTotal());
+			return amountAsString(item.getLineTotal());
 		case 7:
 			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -315,21 +314,21 @@ public class SalesOrderGrid extends CustomerTransactionGrid {
 							: Accounter.constants().nonTaxable();
 				}
 			} else {
-				return DataUtils.getAmountAsString(item.getInvoiced());
+				return amountAsString(item.getInvoiced());
 			}
 		case 8:
 			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
 				if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
-					return DataUtils.getAmountAsString(item.getVATfraction());
+					return amountAsString(item.getVATfraction());
 				} else {
-					return DataUtils.getAmountAsString(item.getInvoiced());
+					return amountAsString(item.getInvoiced());
 				}
 			} else {
 				return Accounter.getFinanceMenuImages().delete();
 			}
 		case 9:
 			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				return DataUtils.getAmountAsString(item.getInvoiced());
+				return amountAsString(item.getInvoiced());
 			} else {
 				return Accounter.getFinanceMenuImages().delete();
 			}

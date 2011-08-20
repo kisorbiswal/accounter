@@ -71,16 +71,16 @@ public class TransactionPayBillGrid extends
 		// this.addFooterValue(FinanceApplication.constants().subTotal(),
 		// canEdit ? 1 : 0);
 		// // OriginalAmount total
-		// this.addFooterValue(DataUtils.getAmountAsString(0.00), canEdit ? 2 :
+		// this.addFooterValue(amountAsString(0.00), canEdit ? 2 :
 		// 1);
 		// // Total AmountDue
 		// if (canEdit)
-		// this.addFooterValue(DataUtils.getAmountAsString(0.00), 3);
+		// this.addFooterValue(amountAsString(0.00), 3);
 		// // Total CashDiscount amount
-		// this.addFooterValue(DataUtils.getAmountAsString(0.00), canEdit ? 5 :
+		// this.addFooterValue(amountAsString(0.00), canEdit ? 5 :
 		// 3);
 		// // Total Payment
-		// this.addFooterValue(DataUtils.getAmountAsString(0.00), canEdit ? 7 :
+		// this.addFooterValue(amountAsString(0.00), canEdit ? 7 :
 		// 6);
 	}
 
@@ -118,19 +118,19 @@ public class TransactionPayBillGrid extends
 				return paybill.getBillNumber();
 
 			case 2:
-				return DataUtils.getAmountAsString(paybill.getOriginalAmount());
+				return amountAsString(paybill.getOriginalAmount());
 			case 3:
-				return DataUtils.getAmountAsString(paybill.getDummyDue());
+				return amountAsString(paybill.getDummyDue());
 			case 4:
 				return paybill.getDiscountDate() != 0 ? UIUtils
 						.getDateByCompanyType(new ClientFinanceDate(paybill
 								.getDiscountDate())) : "";
 			case 5:
-				return DataUtils.getAmountAsString(paybill.getCashDiscount());
+				return amountAsString(paybill.getCashDiscount());
 			case 6:
-				return DataUtils.getAmountAsString(paybill.getAppliedCredits());
+				return amountAsString(paybill.getAppliedCredits());
 			case 7:
-				return DataUtils.getAmountAsString(paybill.getPayment());
+				return amountAsString(paybill.getPayment());
 			default:
 				return "";
 			}
@@ -139,20 +139,20 @@ public class TransactionPayBillGrid extends
 			case 0:
 				return paybill.getBillNumber();
 			case 1:
-				return DataUtils.getAmountAsString(paybill.getOriginalAmount());
+				return amountAsString(paybill.getOriginalAmount());
 			case 2:
 				return paybill.getDiscountDate() != 0 ? UIUtils
 						.getDateByCompanyType(new ClientFinanceDate(paybill
 								.getDiscountDate())) : "";
 			case 3:
-				return DataUtils.getAmountAsString(paybill.getCashDiscount());
+				return amountAsString(paybill.getCashDiscount());
 			case 4:
-				return DataUtils.getAmountAsString(paybill.getAppliedCredits());
+				return amountAsString(paybill.getAppliedCredits());
 			case 5:
 				// FIXME-->backend people need to set it
 				return "";
 			case 6:
-				return DataUtils.getAmountAsString(paybill.getPayment());
+				return amountAsString(paybill.getPayment());
 			default:
 				return "";
 			}

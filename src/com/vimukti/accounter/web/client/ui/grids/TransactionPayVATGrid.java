@@ -73,7 +73,7 @@ public class TransactionPayVATGrid extends
 			}
 
 			payVATView.adjustAmountAndEndingBalance(toBeSetAmount);
-			// updateFooterValues(DataUtils.getAmountAsString(toBeSetAmount),
+			// updateFooterValues(amountAsString(toBeSetAmount),
 			// 2);
 
 		} catch (Exception e) {
@@ -101,10 +101,10 @@ public class TransactionPayVATGrid extends
 					payVAT.getTaxAgency());
 			return taxAgency != null ? taxAgency.getName() : "";
 		case 1:
-			return DataUtils.getAmountAsString(payVAT.getTaxDue());
+			return amountAsString(payVAT.getTaxDue());
 
 		case 2:
-			return DataUtils.getAmountAsString(payVAT.getAmountToPay());
+			return amountAsString(payVAT.getAmountToPay());
 		default:
 			break;
 		}
@@ -143,7 +143,7 @@ public class TransactionPayVATGrid extends
 			totalAmount += obj.getAmountToPay();
 		}
 		payVATView.adjustAmountAndEndingBalance(totalAmount);
-		// updateFooterValues(DataUtils.getAmountAsString(totalAmount), 2);
+		// updateFooterValues(amountAsString(totalAmount), 2);
 	}
 
 	public boolean isSelected(ClientTransactionPayVAT obj) {
@@ -177,7 +177,7 @@ public class TransactionPayVATGrid extends
 		}
 
 		payVATView.adjustAmountAndEndingBalance(toBeSetAmount);
-		// updateFooterValues(DataUtils.getAmountAsString(toBeSetAmount), 2);
+		// updateFooterValues(amountAsString(toBeSetAmount), 2);
 	}
 
 	@Override

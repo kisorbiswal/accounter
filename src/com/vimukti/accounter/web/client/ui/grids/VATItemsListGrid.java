@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 /**
@@ -92,7 +91,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			if (item.isPercentage())
 				return item.getTaxRate() + "%";
 			else
-				return DataUtils.getAmountAsString(item.getTaxRate());
+				return amountAsString(item.getTaxRate());
 		case 5:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";

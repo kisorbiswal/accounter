@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -84,9 +83,9 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 					.getDateByCompanyType(new ClientFinanceDate(item
 							.getPurchaseDate())) : "";
 		case 4:
-			return DataUtils.getAmountAsString(item.getPurchasePrice());
+			return amountAsString(item.getPurchasePrice());
 		case 5:
-			return DataUtils.getAmountAsString(item.getBookValue());
+			return amountAsString(item.getBookValue());
 		case 6:
 			return Accounter.constants().showHistory();
 		case 7:

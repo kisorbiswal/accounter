@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -82,7 +81,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 					.getDateByCompanyType(new ClientFinanceDate(asset
 							.getPurchaseDate())) : "";
 		case 4:
-			return DataUtils.getAmountAsString(asset.getPurchasePrice());
+			return amountAsString(asset.getPurchasePrice());
 		case 5:
 			return Accounter.constants().showHistory();
 		case 6:

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
@@ -19,17 +18,17 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 		case 0:
 			return customer.getDebitorName();
 		case 1:
-			return DataUtils.getAmountAsString(customer.getDebitdays_in30()
+			return amountAsString(customer.getDebitdays_in30()
 					+ customer.getDebitdays_incurrent());
 		case 2:
 
-			return DataUtils.getAmountAsString(customer.getDebitdays_in60());
+			return amountAsString(customer.getDebitdays_in60());
 		case 3:
-			return DataUtils.getAmountAsString(customer.getDebitdays_in90());
+			return amountAsString(customer.getDebitdays_in90());
 		case 4:
-			return DataUtils.getAmountAsString(customer.getDebitdays_inolder());
+			return amountAsString(customer.getDebitdays_inolder());
 		case 5:
-			return DataUtils.getAmountAsString(customer.getDebitdays_in30()
+			return amountAsString(customer.getDebitdays_in30()
 					+ customer.getDebitdays_in60()
 					+ customer.getDebitdays_in90()
 					+ customer.getDebitdays_inolder()
@@ -151,18 +150,18 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 			addParentOrEdit(
 					1,
 					0,
-					DataUtils.getAmountAsString(parent.getDebitdays_in30()
+					amountAsString(parent.getDebitdays_in30()
 							+ parent.getDebitdays_incurrent()));
 			addParentOrEdit(2, 0,
-					DataUtils.getAmountAsString(parent.getDebitdays_in60()));
+					amountAsString(parent.getDebitdays_in60()));
 			addParentOrEdit(3, 0,
-					DataUtils.getAmountAsString(parent.getDebitdays_in90()));
+					amountAsString(parent.getDebitdays_in90()));
 			addParentOrEdit(4, 0,
-					DataUtils.getAmountAsString(parent.getDebitdays_inolder()));
+					amountAsString(parent.getDebitdays_inolder()));
 			addParentOrEdit(
 					5,
 					0,
-					DataUtils.getAmountAsString(parent.getDebitdays_in30()
+					amountAsString(parent.getDebitdays_in30()
 							+ parent.getDebitdays_in60()
 							+ parent.getDebitdays_in90()
 							+ parent.getDebitdays_inolder()

@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -54,9 +53,9 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		case 5:
 			return invoicesList.getNetAmount();
 		case 6:
-			return DataUtils.getAmountAsString(invoicesList.getTotalPrice());
+			return amountAsString(invoicesList.getTotalPrice());
 		case 7:
-			return DataUtils.getAmountAsString(invoicesList.getBalance());
+			return amountAsString(invoicesList.getBalance());
 		case 8:
 
 			if (!invoicesList.isVoided())

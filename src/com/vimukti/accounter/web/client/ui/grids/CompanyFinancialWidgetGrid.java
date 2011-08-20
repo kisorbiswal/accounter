@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.KeyFinancialIndicator;
 
@@ -57,7 +56,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 			rowTotal = 0.0;
 			return account.getKeyIndicator();
 		case 7:
-			return DataUtils.getAmountAsString(rowTotal);
+			return amountAsString(rowTotal);
 		}
 		Double amt = account.getIndicators().get(colsMap.get(index));
 		if (amt == null) {
@@ -68,7 +67,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 				rowTotal += amt;
 			}
 		}
-		return DataUtils.getAmountAsString(amt);
+		return amountAsString(amt);
 	}
 
 	@Override

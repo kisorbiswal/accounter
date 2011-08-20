@@ -24,7 +24,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**
@@ -74,6 +77,8 @@ public abstract class CustomTable extends VerticalPanel {
 	// private final FinanceImages images = GWT.create(FinanceImages.class);
 	private boolean hasLoadingImage;
 	protected int width;
+
+	private ClientCompanyPreferences preferences = Global.get().preferences();
 
 	public CustomTable() {
 		sinkEvents(Event.ONDBLCLICK);
@@ -720,4 +725,19 @@ public abstract class CustomTable extends VerticalPanel {
 		return isShowFooter;
 	}
 
+	public ClientCompanyPreferences getPreferences() {
+		return preferences;
+	}
+
+	public void setPreferences(ClientCompanyPreferences preferences) {
+		this.preferences = preferences;
+	}
+
+	public String getDecimalChar() {
+		return getPreferences().getDecimalCharacter();
+	}
+
+	public String amountAsString(Double amount) {
+		return DataUtils.getAmountAsString(amount);
+	}
 }

@@ -5,7 +5,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
@@ -60,11 +59,9 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 					.getItemTypeText(obj) : "";
 		case 4:
 			if (!ItemListView.isPurchaseType) {
-				return DataUtils.getAmountAsString(obj.getSalesPrice()) != null ? DataUtils
-						.getAmountAsString(obj.getSalesPrice()) : "";
+				return amountAsString(obj.getSalesPrice()) != null ? amountAsString(obj.getSalesPrice()) : "";
 			} else
-				return DataUtils.getAmountAsString(obj.getPurchasePrice()) != null ? DataUtils
-						.getAmountAsString(obj.getPurchasePrice()) : "";
+				return amountAsString(obj.getPurchasePrice()) != null ? amountAsString(obj.getPurchasePrice()) : "";
 
 		case 5:
 			return Accounter.getFinanceMenuImages().delete();

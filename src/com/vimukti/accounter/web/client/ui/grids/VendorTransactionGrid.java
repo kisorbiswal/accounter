@@ -224,7 +224,7 @@ public class VendorTransactionGrid extends
 		// if (!isBankingTransaction && !isPurchseOrderTransaction)
 		// this.addFooterValues(new String[] { "", "", "", "",
 		// FinanceApplication.constants().total(),
-		// DataUtils.getAmountAsString(0.00), });
+		// amountAsString(0.00), });
 		// else if (isPurchseOrderTransaction) {
 		//
 		// this.addFooterValues(new String[] { "", "", "", "", "", "",
@@ -237,7 +237,7 @@ public class VendorTransactionGrid extends
 			createVatItemAndTaxCodeCombo();
 			if (!isBankingTransaction && !isPurchseOrderTransaction) {
 				// this.addFooterValue("VAT", 6);
-				// this.addFooterValue(DataUtils.getAmountAsString(0.00), 7);
+				// this.addFooterValue(amountAsString(0.00), 7);
 			}
 		}
 
@@ -328,6 +328,7 @@ public class VendorTransactionGrid extends
 					}
 				});
 		// taxCodeCombo.setGrid(this);
+
 
 		taxCodeCombo = new TAXCodeCombo(Accounter.constants().vatCode(),
 				isAddNewRequired, false);
@@ -467,9 +468,9 @@ public class VendorTransactionGrid extends
 			totalVat += rec.getVATfraction();
 		}
 		// if (isPurchseOrderTransaction) {
-		// this.addFooterValue(DataUtils.getAmountAsString(totallinetotal), 7);
+		// this.addFooterValue(amountAsString(totallinetotal), 7);
 		// } else {
-		// this.addFooterValue(DataUtils.getAmountAsString(totallinetotal), 5);
+		// this.addFooterValue(amountAsString(totallinetotal), 5);
 		// }
 
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
@@ -490,7 +491,7 @@ public class VendorTransactionGrid extends
 		// if (FinanceApplication.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_UK
 		// && !isPurchseOrderTransaction) {
-		// this.addFooterValue(DataUtils.getAmountAsString(totalVat), 7);
+		// this.addFooterValue(amountAsString(totalVat), 7);
 		// }
 
 	}
@@ -782,16 +783,14 @@ public class VendorTransactionGrid extends
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(item
+				return amountAsString(getAmountInForeignCurrency(item
 								.getUnitPrice()));
 			else {
-				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(item
+				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? amountAsString(getAmountInForeignCurrency(item
 								.getUnitPrice())) : "";
 			}
 		case 5:
-			return DataUtils.getAmountAsString(getAmountInForeignCurrency(item
+			return amountAsString(getAmountInForeignCurrency(item
 					.getLineTotal()));
 		case 6:
 			if (getCompany().getPreferences().getDoYouPaySalesTax()) {
@@ -807,8 +806,7 @@ public class VendorTransactionGrid extends
 			// return "/images/delete.png";
 		case 7:
 			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(item
+				return amountAsString(getAmountInForeignCurrency(item
 								.getVATfraction()));
 			} else {
 				return Accounter.getFinanceMenuImages().delete();

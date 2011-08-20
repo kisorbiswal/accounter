@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListView;
@@ -45,7 +44,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 		case 2:
 			return obj.getVendorName();
 		case 3:
-			return DataUtils.getAmountAsString(obj.getPurchasePrice());
+			return amountAsString(obj.getPurchasePrice());
 
 		default:
 			break;

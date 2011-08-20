@@ -169,17 +169,15 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 			}
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(item
+				return amountAsString(getAmountInForeignCurrency(item
 								.getUnitPrice()));
 			else {
 				return (getAmountInForeignCurrency(item.getUnitPrice()) != 0 || item
-						.getLineTotal() == 0) ? DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(item
+						.getLineTotal() == 0) ? amountAsString(getAmountInForeignCurrency(item
 								.getUnitPrice())) : "";
 			}
 		case 5:
-			return DataUtils.getAmountAsString(item.getLineTotal());
+			return amountAsString(item.getLineTotal());
 		case 6:
 			return item.getInvoiced() + "";
 		case 7:
@@ -195,7 +193,7 @@ public class PurchaseOrderGrid extends VendorTransactionGrid {
 
 		case 8:
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-				return DataUtils.getAmountAsString(item.getVATfraction());
+				return amountAsString(item.getVATfraction());
 		case 9:
 			return Accounter.getFinanceMenuImages().delete();
 		default:

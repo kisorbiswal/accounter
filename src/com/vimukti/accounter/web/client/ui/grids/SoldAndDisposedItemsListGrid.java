@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -88,9 +87,9 @@ public class SoldAndDisposedItemsListGrid extends
 					.getDateByCompanyType(new ClientFinanceDate(date)) : "";
 
 		case 4:
-			return DataUtils.getAmountAsString(asset.getSalePrice());
+			return amountAsString(asset.getSalePrice());
 		case 5:
-			return DataUtils.getAmountAsString(asset.getLossOrGain());
+			return amountAsString(asset.getLossOrGain());
 
 		case 6:
 			return Accounter.constants().showHistory();

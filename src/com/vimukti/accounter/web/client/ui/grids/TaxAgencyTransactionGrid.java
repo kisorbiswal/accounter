@@ -59,7 +59,7 @@ public class TaxAgencyTransactionGrid extends
 		case 1:
 			return item.getDescription();
 		case 2:
-			return DataUtils.getAmountAsString(item.getLineTotal());
+			return amountAsString(item.getLineTotal());
 		case 3:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -249,7 +249,7 @@ public class TaxAgencyTransactionGrid extends
 
 		// this.updateFooterValues(FinanceApplication.constants()
 		// .totalcolan()
-		// + DataUtils.getAmountAsString(totallinetotal), 2);
+		// + amountAsString(totallinetotal), 2);
 		transactionView.updateNonEditableItems();
 
 	}

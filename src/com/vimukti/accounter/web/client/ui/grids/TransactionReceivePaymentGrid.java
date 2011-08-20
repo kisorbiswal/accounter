@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CashDiscountDialog;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -134,33 +133,27 @@ public class TransactionReceivePaymentGrid extends
 			case 1:
 				return receivePayment.getNumber();
 			case 2:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+				return amountAsString(getAmountInForeignCurrency(receivePayment
 								.getInvoiceAmount()));
 			case 3:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+				return amountAsString(getAmountInForeignCurrency(receivePayment
 								.getDummyDue()));
 			case 4:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 5:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+				return amountAsString(getAmountInForeignCurrency(receivePayment
 								.getCashDiscount()));
 			case 6:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+				return amountAsString(getAmountInForeignCurrency(receivePayment
 								.getWriteOff()));
 			case 7:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+				return amountAsString(getAmountInForeignCurrency(receivePayment
 								.getAppliedCredits()));
 
 			case 8:
 
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+				return amountAsString(getAmountInForeignCurrency(receivePayment
 								.getPayment()));
 
 			default:
@@ -171,27 +164,22 @@ public class TransactionReceivePaymentGrid extends
 			case 0:
 				return receivePayment.getNumber();
 			case 1:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+				return amountAsString(getAmountInForeignCurrency(receivePayment
 								.getInvoiceAmount()));
 			case 2:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 3:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+				return amountAsString(getAmountInForeignCurrency(receivePayment
 								.getCashDiscount()));
 			case 4:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+				return amountAsString(getAmountInForeignCurrency(receivePayment
 								.getWriteOff()));
 			case 5:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+				return amountAsString(getAmountInForeignCurrency(receivePayment
 								.getAppliedCredits()));
 			case 6:
-				return DataUtils
-						.getAmountAsString(getAmountInForeignCurrency(receivePayment
+				return amountAsString(getAmountInForeignCurrency(receivePayment
 								.getPayment()));
 			default:
 				break;

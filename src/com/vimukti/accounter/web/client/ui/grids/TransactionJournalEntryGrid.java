@@ -414,10 +414,10 @@ public class TransactionJournalEntryGrid extends
 		case 3:
 			return entry.getMemo() + "";
 		case 4:
-			return DataUtils.getAmountAsString(getAmountInForeignCurrency(entry
+			return amountAsString(getAmountInForeignCurrency(entry
 					.getDebit()));
 		case 5:
-			return DataUtils.getAmountAsString(getAmountInForeignCurrency(entry
+			return amountAsString(getAmountInForeignCurrency(entry
 					.getCredit()));
 		case 6:
 			// if (FinanceApplication.getCompany().getAccountingType() ==
@@ -725,8 +725,8 @@ public class TransactionJournalEntryGrid extends
 			creditTotal += rec.getCredit();
 			debitTotal += rec.getDebit();
 		}
-		// updateFooterValues(DataUtils.getAmountAsString(debitTotal), 4);
-		// updateFooterValues(DataUtils.getAmountAsString(creditTotal), 5);
+		// updateFooterValues(amountAsString(debitTotal), 4);
+		// updateFooterValues(amountAsString(creditTotal), 5);
 		setCreditTotal(creditTotal);
 		setDebitTotal(debitTotal);
 		transactionView.updateNonEditableItems();
