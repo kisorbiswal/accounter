@@ -10,6 +10,7 @@ import java.util.Set;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -173,7 +174,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected ClientCustomer customer;
 
-	AccounterConstants accounterConstants = Accounter.constants();
+	AccounterConstants accounterConstants = Global.get().constants();
+
+	private boolean useAccountNumbers;
 
 	@Override
 	protected void initTransactionViewData() {
@@ -1217,4 +1220,12 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		this.customer = customer;
 	}
 
+	public boolean isUseAccountNumbers() {
+		return useAccountNumbers;
+	}
+
+	public void setUseAccountNumbers(boolean useAccountNumbers) {
+		this.useAccountNumbers = useAccountNumbers;
+	}
+	
 }
