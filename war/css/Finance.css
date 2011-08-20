@@ -3889,7 +3889,7 @@ div.edit:hover {
 	cursor: default;
 	color: white;
 	height: 30px !important;
-	padding: 7px 4px 3px 6px !important;
+	padding: 6px 4px 3px 6px !important;
 	border-top: 0 none !important;
 }
 
@@ -5231,7 +5231,7 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER { /*background: #C6E2FF;*/
 	/*cursor: pointer !important;
 	color: none !important;*/
 	background: none repeat scroll 0 0 #b7b7b7 !important;
-	border:1px solid #858585;
+	border:1px solid #858585 !important;
 }
 
 .gwt-Button[disabled]:hover {
@@ -5368,7 +5368,7 @@ td.td01,.no-title .biz-decor-panel td.td01 {
     font-size: 13px !important;
     font-weight: normal;
     height: 25px !important;
-    margin: 0 !important;
+    margin: 0 3px !important;
     padding: 0 5px 5px !important;
      padding: 4px 5px 5px\0 !important;
     border:1px solid #002E36 !important;
@@ -6222,7 +6222,7 @@ normal
 .upload-logo {
 	border: 1px solid #DDDDDD;
 	height: 150px !important;
-	margin: 2px;
+	margin: 10px 2px;
 	width: 164px !important;
 }
 .upload-logo img{
@@ -6593,6 +6593,11 @@ a#fdbk_tab:hover{
 	-moz-border-radius:5px 5px 5px 5px;
 	 height: 25px;
     padding-bottom: 5px;
+    padding-right:5px;
+    cursor:pointer;
+}
+.image-button:hover{
+	background-color:#002E36;
 }
 .cancle-Btn{
 	background-color: #E4E4E4 !important;
@@ -6600,6 +6605,9 @@ a#fdbk_tab:hover{
     color: black !important;
     padding-left:22px !important;
     padding:0 5px 0 22px\0 !important;
+}
+.cancle-Btn:hover{
+	background-color:#A0A0A0 !important;
 }
 .grouped-buttons{
 	padding:5px 0px;
@@ -6674,4 +6682,19 @@ a#fdbk_tab:hover{
 }
 .progress_panel table tr td{
 	padding:5px 0px;
+}
+.caption table td:FIRST-CHILD img{
+	padding-right:5px;
+}
+.tabMiddle .tabMiddleCenterInner .gwt-Label{
+	color:white;
+	padding-bottom: 3px;
+}
+.picture-link button {
+	margin: 60px 0 0;
+    text-align: center;
+}
+.panel-logo .change-logo,.panel-logo .remove-logo{
+	color: #1A5158;
+    margin-right: 8px;
 }
