@@ -2092,11 +2092,14 @@ textarea {
 	float:right;
 	font-size:13px;
 	text-decoration: none !important;
+	padding-top: 3px;
 }
 .companies-list a:hover{
 	text-decoration: underline !important;
 }
 .companies-list{
 	clear:both;
+	overflow: auto;
+	margin-bottom:3px;
 }
 /* End of the new Login and forgot password page*/
