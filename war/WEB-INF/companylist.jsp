@@ -11,7 +11,7 @@
   <div id="commanContainer">
 	<div>
 		<img src="../images/Accounter_logo_title.png" class="accounterLogo" />
-		<a href="/do/logout">Logout</a>
+		
 	</div>
     <div class="company_lists">
        
@@ -20,18 +20,21 @@
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
        <div class="form-box">
-      	<div> <a href="/createcompany" style="font-weight:bold;font-size:20px">Create New Company </a></div>
+      	<div> <a href="/createcompany" class="create_new_company">Create New Company </a></div>
       	<ul>
 	    <c:if test="${companeyList != null}">
 		   <c:forEach var="company" items="${companeyList}">
 			   <c:set var='url' value="/companies?companyId=${company.id}"/>
 			    <c:set var='deleteurl' value="/deletecompany?companyId=${company.id}"/>
-			   <div><a href=${url}>${company.companyName}</a> <a href=${deleteurl}>delete</a></div>
+			   <div class="companies-list"><a href=${url}>${company.companyName}</a> <a href=${deleteurl}>Delete</a></div>
 		   </c:forEach>
 	    </c:if>
 	    
 	   </ul>
 	  </div>
+    </div>
+    <div class="form-bottom-options">
+      <a href="/do/logout">Logout</a>
     </div>
    </div>
    

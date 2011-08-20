@@ -213,16 +213,16 @@
 	</table>-->
 	<div id="mainWindow"></div>
 	<script type="text/javascript" language="javascript" src="/accounter/accounter.nocache.js"></script>
-	<!--<table width="100%" id="mainFooter" style="visibility:hidden">
+	<table id="mainFooter" style="visibility:hidden" >
 	   <tr>
 	      <td>
-		     <table width="100%">
+		     <!--<table width="100%">
 		       <tr>
 			      <td><div class="left-corner"></div></td>
 			      <td width="98%"><div class="mid-repeat"></div></td>
 			      <td><div class="right-corner"></div></td>
 			    </tr>
-		     </table>
+		     </table>-->
 		   </td>
 	   </tr>
 	   <tr>
@@ -230,7 +230,7 @@
 	      <table width="100%">
 	       <tr>
 		      <td><div class="footer-left"></div></td>
-		      <td width="99%">
+		      <td width="100%">
 		         <div class="feedback-option">
 		             <div class="vimukti-name">
 		               <a target="/blank" href="http://www.vimukti.com/">Vimukti Technologies Pvt Ltd.</a> All rights reserved
@@ -245,7 +245,7 @@
 	     </table>
 	    </td>
 	   </tr>
-	</table>-->
+	</table>
 	
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
