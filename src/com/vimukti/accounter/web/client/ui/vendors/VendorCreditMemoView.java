@@ -148,11 +148,11 @@ public class VendorCreditMemoView extends
 
 		contactCombo = createContactComboItem();
 
-		if (this.isEdit)
-			// FIXME--need to disable the form
-			// vendorForm.setDisabled(true);
+		// if (this.isEdit)
+		// FIXME--need to disable the form
+		// vendorForm.setDisabled(true);
 
-			phoneSelect = new TextItem(Accounter.constants().phone());
+		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 
@@ -189,8 +189,8 @@ public class VendorCreditMemoView extends
 		vendorForm = UIUtils.form(Accounter.constants().supplier());
 		vendorForm.setWidth("50%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
-		vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "190px");
+		vendorForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "190px");
 
 		leftVLay.add(vendorForm);
 
@@ -378,19 +378,19 @@ public class VendorCreditMemoView extends
 		// 3. vendorForm valid?
 		// 4. isBlank transaction?
 		// 5. is vendor transaction grid valid?
-		if (AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 		result.add(vendorForm.validate());
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid, accounterConstants
-					.blankTransaction());
+			result.addError(vendorTransactionGrid,
+					accounterConstants.blankTransaction());
 		} else
 			result.add(vendorTransactionGrid.validateGrid());
 		return result;
@@ -450,7 +450,7 @@ public class VendorCreditMemoView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
