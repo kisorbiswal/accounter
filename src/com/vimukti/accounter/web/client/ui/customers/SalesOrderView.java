@@ -1098,6 +1098,7 @@ public class SalesOrderView extends
 		dueDateItem.setDisabled(isEdit);
 		shipToAddress.businessSelect.setDisabled(isEdit);
 		customerTransactionGrid.setCanEdit(true);
+		memoTextAreaItem.setDisabled(isEdit);
 		super.onEdit();
 	}
 
