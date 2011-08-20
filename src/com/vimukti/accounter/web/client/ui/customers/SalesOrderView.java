@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -284,7 +283,7 @@ public class SalesOrderView extends
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(customerConstants.terms());
 		termsForm.setNumCols(2);
-		if (ClientCompanyPreferences.get().isSalesPersonEnabled()) {
+		if (getPreferences().isSalesPersonEnabled()) {
 			termsForm.setFields(transactionNumber, customerOrderText,
 					salesPersonCombo, payTermsSelect, shippingTermsCombo,
 					shippingMethodsCombo, dueDateItem);
@@ -385,7 +384,7 @@ public class SalesOrderView extends
 		leftVLay.setHorizontalAlignment(ALIGN_LEFT);
 		// leftVLay.setWidth("100%");
 		leftVLay.add(custForm);
-		if (ClientCompanyPreferences.get().isDoProductShipMents())
+		if (getPreferences().isDoProductShipMents())
 			leftVLay.add(shipToAddress);
 
 		VerticalPanel rightVLay = new VerticalPanel();
@@ -1091,7 +1090,7 @@ public class SalesOrderView extends
 		quoteLabel.setDisabled(isEdit);
 
 		quoteLabelListener();
-		if (ClientCompanyPreferences.get().isSalesPersonEnabled())
+		if (getPreferences().isSalesPersonEnabled())
 			salesPersonCombo.setDisabled(isEdit);
 		shippingTermsCombo.setDisabled(isEdit);
 		payTermsSelect.setDisabled(isEdit);
