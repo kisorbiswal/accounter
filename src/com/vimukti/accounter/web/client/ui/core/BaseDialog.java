@@ -18,16 +18,19 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.ISaveCallback;
 import com.vimukti.accounter.web.client.ui.WarningsDialog;
@@ -45,6 +48,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		implements IAccounterWidget, WidgetWithErrors, ISaveCallback,
 		IDeleteCallback {
 
+	private ClientCompanyPreferences preferences = Global.get().preferences();
 	// private String title;
 	protected HorizontalPanel headerLayout;
 	private String description;
@@ -378,6 +382,14 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		return new ValidationResult();
 	}
 
+	public ClientCompanyPreferences getPreferences() {
+		return preferences;
+	}
+
+	public void setPreferences(ClientCompanyPreferences preferences) {
+		this.preferences = preferences;
+	}
+
 	@Override
 	public void processupdateView(IAccounterCore core, int command) {
 
@@ -408,4 +420,11 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		}
 	}
 
+	public String getDecimalChar() {
+		return getPreferences().getDecimalCharacter();
+	}
+
+	public String amountAsString(Double amount) {
+		return DataUtils.getAmountAsString(amount);
+	}
 }
