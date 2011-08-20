@@ -484,6 +484,17 @@
 		<filter-name>AccounterDebugFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<filter>
+		<filter-name>ServletLocaleFilter</filter-name>
+		<filter-class>com.vimukti.accounter.servlets.ServletLocaleFilter
+		</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>ServletLocaleFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<!-- <listener> <listener-class>com.bizantra.server.main.BizantraSessionListner 
 		</listener-class> </listener> -->
