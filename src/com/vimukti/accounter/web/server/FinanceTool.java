@@ -10440,7 +10440,7 @@ public class FinanceTool implements IFinanceDAOService {
 	 * 
 	 * @return
 	 */
-	private Company getCompany() {
+	public Company getCompany() {
 		Session session = HibernateUtil.getCurrentSession();
 		return (Company) session.get(Company.class, 1l);
 	}
@@ -11740,6 +11740,12 @@ public class FinanceTool implements IFinanceDAOService {
 			result.add(record);
 		}
 		return new VList<PayeeStatementsList>(result);
+	}
+
+
+	public ClientCompanyPreferences getClientCompanyPreferences() throws AccounterException{
+		ClientCompanyPreferences clientCompanyPreferences = new ClientConvertUtil().toClientObject(getCompany().getPreferences(), ClientCompanyPreferences.class);
+		return clientCompanyPreferences;
 	}
 
 	public VList<ClientRecurringTransaction> getAllRecurringTransactions()
