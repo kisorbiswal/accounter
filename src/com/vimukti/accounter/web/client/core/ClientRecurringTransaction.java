@@ -2,8 +2,6 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.Date;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 
 public class ClientRecurringTransaction implements IAccounterCore {

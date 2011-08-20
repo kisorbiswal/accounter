@@ -14,7 +14,6 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.server.CometManager;
 
 public class ServerMain extends Main {
 	private static boolean isDebug;
