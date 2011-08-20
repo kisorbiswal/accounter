@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.widgets.WorkbenchPanel;
 
 public abstract class DashBoardPortlet extends WorkbenchPanel {
 
-	private ClientCompanyPreferences preferences=Global.get().preferences();
+	private ClientCompanyPreferences preferences = Global.get().preferences();
 	private HTML title = new HTML();
 	private String name;
 	protected Label all;
@@ -188,13 +188,11 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		return preferences;
 	}
 
-
-	
-	public String getDecimalCharacter()
-	{
+	public String getDecimalCharacter() {
 		return getPreferences().getDecimalCharacter();
 	}
-	public String amountAsString(Double amount){
-		return DataUtils.getAmountAsString(amount, getDecimalCharacter());
+
+	public String amountAsString(Double amount) {
+		return DataUtils.getAmountAsString(amount);
 	}
 }
