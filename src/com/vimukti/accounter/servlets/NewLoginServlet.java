@@ -23,6 +23,7 @@ import com.vimukti.accounter.utils.Security;
 public class NewLoginServlet extends BaseServlet {
 
 	private static final String LOGIN_VIEW = "/WEB-INF/login.jsp";
+	private static final String ACTIVATION_VIEW = "/WEB-INF/activation.jsp";
 
 	protected static final Log LOG = LogFactory.getLog(ActivationServlet.class);
 
@@ -37,22 +38,28 @@ public class NewLoginServlet extends BaseServlet {
 				// if valid credentials are there we redirect to <dest> param or
 				// /companies
 
-				if (client.isRequirePasswordReset()) {
+				if (!client.isActive()) {
 					// TODO send the ResetPAssword page
 					// client.setRequirePasswordReset(false);
 					// saveEntry(client);
-				}
+					request.setAttribute(
+							"successmessage",
+							"Your account is not yet activated. Please enter the activation code below to activate your account or click on Resend activate code to get the activation code again.");
+					dispatch(request, response, ACTIVATION_VIEW);
 
-				String destUrl = request.getParameter(PARAM_DESTINATION);
-				HttpSession httpSession = request.getSession();
-				httpSession.setAttribute(EMAIL_ID, client.getEmailId());
-				if (destUrl == null || destUrl.isEmpty()) {
-					client.setLoginCount(client.getLoginCount() + 1);
-					client.setLastLoginTime(System.currentTimeMillis());
-					openSession.saveOrUpdate(client);
-					redirectExternal(request, response, COMPANIES_URL);
 				} else {
-					redirectExternal(request, response, destUrl);
+
+					String destUrl = request.getParameter(PARAM_DESTINATION);
+					HttpSession httpSession = request.getSession();
+					httpSession.setAttribute(EMAIL_ID, client.getEmailId());
+					if (destUrl == null || destUrl.isEmpty()) {
+						client.setLoginCount(client.getLoginCount() + 1);
+						client.setLastLoginTime(System.currentTimeMillis());
+						openSession.saveOrUpdate(client);
+						redirectExternal(request, response, COMPANIES_URL);
+					} else {
+						redirectExternal(request, response, destUrl);
+					}
 				}
 				return;
 			} else {
