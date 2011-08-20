@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
@@ -23,7 +22,6 @@ import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -45,7 +43,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		super(Accounter.constants().quotesList(), "");
 		invoiceView = parentView;
 		this.estimatesAndSalesOrder = estimatesAndSalesOrder;
-		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+		if (getPreferences().isSalesOrderEnabled()) {
 
 			setText(Accounter.constants().quoteAndSalesOrderList());
 		} else {
@@ -65,7 +63,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
 		Label infoLabel = null;
-		if (ClientCompanyPreferences.get().isSalesOrderEnabled()) {
+		if (getPreferences().isSalesOrderEnabled()) {
 			infoLabel = new Label(Accounter.constants()
 					.selectQuoteOrSalesOrder());
 		} else {
@@ -241,10 +239,9 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			case 3:
 				return estimate.getCustomerName();
 			case 4:
-				return DataUtils.getAmountAsString(estimate.getTotal());
+				return amountAsString(estimate.getTotal());
 			case 5:
-				return DataUtils
-						.getAmountAsString(estimate.getRemainingTotal());
+				return amountAsString(estimate.getRemainingTotal());
 			}
 		}
 		return null;
