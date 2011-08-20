@@ -20,11 +20,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
@@ -1426,7 +1426,7 @@ public class UIUtils {
 		}
 
 		DateTimeFormat dateFormatter = DateTimeFormat
-				.getFormat(ClientCompanyPreferences.get().getDateFormat());
+				.getFormat(Global.get().preferences().getDateFormat());
 
 		return dateFormatter.format(date.getDateAsObject());
 
@@ -1952,5 +1952,7 @@ public class UIUtils {
 		return clientCurrencies;
 
 	}
+
+	
 
 }
