@@ -73,9 +73,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 		}
 
-		menuitem = menuBar.addItem(Accounter.constants().fixedAssets(),
-				getFixedAssetsMenu());
-		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
+		// menuitem = menuBar.addItem(Accounter.constants().fixedAssets(),
+		// getFixedAssetsMenu());
+		// ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (Accounter.getUser().canViewReports()) {
 			menuitem = menuBar.addItem(Accounter.constants().reports(),
