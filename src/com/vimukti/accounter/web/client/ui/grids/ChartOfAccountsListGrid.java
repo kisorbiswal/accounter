@@ -4,10 +4,8 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -26,7 +24,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	@Override
 	protected Object getColumnValue(ClientAccount obj, int col) {
 
-		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+		if (getPreferences().getUseAccountNumbers() == true) {
 			switch (col) {
 			case 0:
 				return obj.getIsActive();
@@ -37,7 +35,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 3:
 				return Utility.getAccountTypeString(obj.getType());
 			case 4:
-				return DataUtils.getAmountAsString(!DecimalUtil.isEquals(
+				return amountAsString(!DecimalUtil.isEquals(
 						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
 						: 0.0);
 			case 5:
@@ -59,7 +57,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			case 2:
 				return Utility.getAccountTypeString(obj.getType());
 			case 3:
-				return DataUtils.getAmountAsString(!DecimalUtil.isEquals(
+				return amountAsString(!DecimalUtil.isEquals(
 						obj.getTotalBalance(), 0.0) ? obj.getTotalBalance()
 						: 0.0);
 			case 4:
@@ -79,7 +77,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	@Override
 	protected String[] getColumns() {
 
-		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+		if (getPreferences().getUseAccountNumbers() == true) {
 			bankingContants = Accounter.constants();
 			return new String[] { bankingContants.active(),
 					bankingContants.no(), bankingContants.name(),
@@ -127,7 +125,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected int[] setColTypes() {
-		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+		if (getPreferences().getUseAccountNumbers() == true) {
 			return new int[] { ListGrid.COLUMN_TYPE_CHECK,
 					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_TEXT,
@@ -144,7 +142,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (ClientCompanyPreferences.get().getUseAccountNumbers() == true) {
+		if (getPreferences().getUseAccountNumbers() == true) {
 			if (index == 6) {
 				if (UIUtils.isMSIEBrowser())
 					return 25;
