@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
@@ -345,7 +344,7 @@ public class PurchaseOrderView extends
 		termsForm.setWidth("100%");
 		termsForm.setFields(transactionNumber, purchaseOrderText,
 				payTermsSelect);
-		if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+		if (getPreferences().isDoProductShipMents()) {
 			termsForm.setFields(shippingTermsCombo, shippingMethodsCombo);
 		}
 		termsForm.getCellFormatter().setWidth(0, 0, "208px");
@@ -394,7 +393,7 @@ public class PurchaseOrderView extends
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
 		leftVLay.add(vendorForm);
-		if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+		if (getPreferences().isDoProductShipMents()) {
 			leftVLay.add(shipToAddress);
 		}
 		VerticalPanel rightVLay = new VerticalPanel();
@@ -567,7 +566,7 @@ public class PurchaseOrderView extends
 
 		shipToCombo.setDisabled(isEdit);
 		// shipToCombo.setShowDisabled(false);
-		if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+		if (getPreferences().isDoProductShipMents()) {
 			// formItems.add(shipToCombo);
 		}
 		return shipToCombo;
