@@ -14,6 +14,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 
 public class ServerMain extends Main {
 	private static boolean isDebug;
@@ -31,6 +32,8 @@ public class ServerMain extends Main {
 		session.close();
 
 		EmailManager.getInstance().start();
+
+		Global.set(new ServerGlobal());
 
 		Server server = new Server();
 
