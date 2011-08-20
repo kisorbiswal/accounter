@@ -4,6 +4,8 @@
 package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTML;
@@ -91,9 +93,9 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	@Override
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.howIsYourCompanyOrganized());
-		
-		organizeText.setTitle(accounterConstants
-				.howIsYourCompanyOrganizedDesc());
+
+		organizeText
+				.setText(accounterConstants.howIsYourCompanyOrganizedDesc());
 		propriterShip.setText(accounterConstants.soleProprietorship());
 		partnership.setText(accounterConstants.partnershipOrLLP());
 		lLC.setText(accounterConstants.LLC());
@@ -110,7 +112,72 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		corporationText.setText(accounterConstants.sCorporationDesc());
 		sCorporationText.setText(accounterConstants.corporationDesc());
 		nonProfitText.setText(accounterConstants.nonProfitDesc());
+
+		organizeText.addStyleName("organisation_comment");
+		uninCorporated.addStyleName("organisation_comment");
+		morePartners.addStyleName("organisation_comment");
+		lLCText.addStyleName("organisation_comment");
+		corporationText.addStyleName("organisation_comment");
+		sCorporationText.addStyleName("organisation_comment");
+		nonProfitText.addStyleName("organisation_comment");
+
 		// HTML organizationLink;
+
+		propriterShip.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
+		partnership.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
+
+		lLCCombo.addStyleName("organisation_combo");
+
+		lLCCombo.addItem(accounterConstants.llcSingleMemberForm());
+		lLCCombo.addItem(accounterConstants.llcMultiMemberForm());
+		lLCCombo.setEnabled(false);
+		lLC.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(true);
+			}
+		});
+		corporation.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
+		sCorporation.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
+		nonProfit.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
+		other.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				lLCCombo.setEnabled(false);
+			}
+		});
 	}
 
 	@Override

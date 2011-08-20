@@ -64,8 +64,8 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.howDoYouRefer());
-		
+		headerLabel.setText(accounterConstants.selectYourIndustry());
+
 		customizeAccounter.setHTML(accounterMessages.selectIndustryInfoHTML());
 		settingsLater.setHTML(accounterMessages.industrySelectNote());
 		selectIndustry.setText(accounterMessages.selectIndustry());

@@ -99,6 +99,9 @@ public class SetupReferPage extends AbstractSetupPage {
 		accountCommentLabel.setText(accounterConstants
 				.howDoYouReferYourAccounts());
 
+		customerCommentLabel.addStyleName("referComment");
+		supplierCommentLabel.addStyleName("referComment");
+		accountCommentLabel.addStyleName("referComment");
 	}
 
 	@Override
