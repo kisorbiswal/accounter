@@ -6137,7 +6137,11 @@ iframe { /*display:none;*/
 	/*background: url("../images/body-shadow-right.png") repeat-y scroll right
 		top #F0F0F0;
 	padding-right: 15px;*/
-	background:#F0F0F0;
+	background: none repeat scroll 0 0 #F0F0F0;
+    height: auto;
+    margin: 0;
+    min-height: 100%;
+    padding: 0;
 }
 
 .setting-class-panel {
@@ -6458,6 +6462,7 @@ input[type="text"],textarea {
    background:url("/images/Footer_left.png")no-repeat scroll 0 0 transparent;
    height:35px;
    width:5px;
+   margin-right: -5px;
 }
 .feedback-option{
    background:url("/images/Footer_mid.png") repeat-x scroll 0 0 transparent;
@@ -6467,6 +6472,10 @@ input[type="text"],textarea {
    background:url("/images/Footer_right.png")no-repeat scroll 0 0 transparent;
    height:35px;
    width:5px;
+   margin-left:-5px;
+}
+.vimukti-name a{
+	color:#A53B01 !important;
 }
 .feedback-name a{
    text-decoration: none;
@@ -6520,6 +6529,7 @@ input[type="text"],textarea {
 .view_manager{
 	width:960px;
 	margin-left:20px;
+	padding-bottom:55px;
 }
 .organisation_comment{
 	color: #808080;
@@ -6697,4 +6707,12 @@ a#fdbk_tab:hover{
 .panel-logo .change-logo,.panel-logo .remove-logo{
 	color: #1A5158;
     margin-right: 8px;
+}
+#mainFooter{
+	clear: both;
+    height: 45px;
+    margin-top: -55px;
+    position: relative;
+    width: 100%;
+    z-index: 10;
 }

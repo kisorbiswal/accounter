@@ -209,7 +209,7 @@ a:hover {
 	margin-left: -20px;
 }
 
-.real-right-image input[type="image"] {
+.real-right-image input[type="image"],.real-right-image img {
 	height: 110px;
 	width: 100px;
 }
