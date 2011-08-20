@@ -8,11 +8,14 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.widgets.WorkbenchPanel;
 
 public abstract class DashBoardPortlet extends WorkbenchPanel {
 
+	private ClientCompanyPreferences preferences=Global.get().preferences();
 	private HTML title = new HTML();
 	private String name;
 	protected Label all;
@@ -179,5 +182,19 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	public ClientCompany getCompany() {
 		return Accounter.getCompany();
 
+	}
+
+	public ClientCompanyPreferences getPreferences() {
+		return preferences;
+	}
+
+
+	
+	public String getDecimalCharacter()
+	{
+		return getPreferences().getDecimalCharacter();
+	}
+	public String amountAsString(Double amount){
+		return DataUtils.getAmountAsString(amount, getDecimalCharacter());
 	}
 }
