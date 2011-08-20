@@ -48,7 +48,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 	@Override
 	public void onDoubleClick(ClientTAXItem obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			ActionFactory.getNewVatItemAction().run(obj, true);
+			ActionFactory.getNewVatItemAction().run(obj, false);
 		}
 
 	}
