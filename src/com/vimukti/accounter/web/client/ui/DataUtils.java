@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RegExpValidator;
@@ -60,15 +60,15 @@ public class DataUtils {
 	}
 
 	public final static native String removeSpaces(String s)/*-{
-															var tokens = s.split(" ");
-															var resultingString = "";
+		var tokens = s.split(" ");
+		var resultingString = "";
 
-															for (i = 0; i < tokens.length; i++) {
-															if (!tokens[i] == " ")
-															resultingString = resultingString + tokens[i] + " ";
-															}
-															return resultingString;
-															}-*/;
+		for (i = 0; i < tokens.length; i++) {
+			if (!tokens[i] == " ")
+				resultingString = resultingString + tokens[i] + " ";
+		}
+		return resultingString;
+	}-*/;
 
 	/*
 	 * /*-{ var tokens=s.split(" "); var resultingString=""; $wnd.alert(s);
@@ -227,6 +227,8 @@ public class DataUtils {
 		if (amount == null)
 			amount = 0.00;
 
+		String decimalCharacter = Global.get().preferences()
+				.getDecimalCharacter();
 		StringBuffer buffer = new StringBuffer();
 
 		/*
@@ -249,28 +251,24 @@ public class DataUtils {
 		 */
 
 		String string = buffer.toString();
-		if (!string.contains(ClientCompanyPreferences.get()
-				.getDecimalCharacter()))
+		if (!string.contains(decimalCharacter))
 			buffer.append(".00");
 		else {
-			int index = string.indexOf(ClientCompanyPreferences.get()
-					.getDecimalCharacter());
+			int index = string.indexOf(decimalCharacter);
 			String sub = string.substring(index);
 			if (sub.length() == 2)
 				buffer.append("0");
 		}
-		String nextStr = buffer.substring(buffer
-				.indexOf(ClientCompanyPreferences.get().getDecimalCharacter()));
+		String nextStr = buffer.substring(buffer.indexOf(decimalCharacter));
 		if (buffer.charAt(0) == '-') {
 			String sign = "-";
 			String valueWithSign = sign
-					+ insertCommas(buffer.substring(1, buffer
-							.indexOf(ClientCompanyPreferences.get()
-									.getDecimalCharacter()))) + nextStr;
+					+ insertCommas(buffer.substring(1,
+							buffer.indexOf(decimalCharacter))) + nextStr;
 			return valueWithSign;
 		}
-		String value = insertCommas(buffer.substring(0, buffer
-				.indexOf(ClientCompanyPreferences.get().getDecimalCharacter())))
+		String value = insertCommas(buffer.substring(0,
+				buffer.indexOf(decimalCharacter)))
 				+ nextStr;
 
 		return value;
@@ -330,7 +328,7 @@ public class DataUtils {
 
 class NumberFormat {
 	public static final String COMMA = ",";
-	public static final String PERIOD = ClientCompanyPreferences.get()
+	public static final String PERIOD = Global.get().preferences()
 			.getDecimalCharacter();
 	public static final char DASH = '-';
 	public static final char LEFT_PAREN = '(';
@@ -671,8 +669,8 @@ class NumberFormat {
 	}
 
 	private static native String toFixed(double val, int places) /*-{
-																	return val.toFixed(places);
-																	}-*/;
+		return val.toFixed(places);
+	}-*/;
 
 	private static double asNumber(String val, String inputDecimalValue) {
 		if (val == null)
