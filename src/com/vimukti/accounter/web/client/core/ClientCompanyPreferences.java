@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
-
 public class ClientCompanyPreferences implements IAccounterCore {
 
 	/**
@@ -58,7 +56,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean allowDuplicateDocumentNumbers;
 
 	boolean doYouPaySalesTax;
-	
+
 	public long id;
 
 	boolean isAccuralBasis;// if True then Accural (when customer is Invoiced),
@@ -130,7 +128,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean haveW_2Employees;
 	boolean have1099contractors;
 	boolean trackEmployeeExpenses;
-	int fiscalYearFirstMonth=1;
+	int fiscalYearFirstMonth = 1;
 	boolean isBeginingorTodaysdate;
 	long trackFinanceDate;
 	private String referCustomers;
@@ -677,12 +675,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		return "ClientCompanyPreferences";
 	}
 
-	public static ClientCompanyPreferences get() {
-		if (preferences == null) {
-			preferences = Accounter.getCompany().getPreferences();
-		}
-		return preferences;
-	}
+	// public static ClientCompanyPreferences get() {
+	// if (preferences == null) {
+	// preferences = Accounter.getCompany().getPreferences();
+	// }
+	// return preferences;
+	// }
 
 	/**
 	 * 
