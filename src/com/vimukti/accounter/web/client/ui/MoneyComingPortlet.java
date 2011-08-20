@@ -121,14 +121,12 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 				if (result != null && result.size() > 0) {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					overDueAmtLabel.setText(DataUtils
-							.getAmountAsString(overDueInvoiceAmount));
+					overDueAmtLabel.setText(amountAsString(overDueInvoiceAmount));
 				}
 				if (result != null && result.size() > 0) {
 					draftInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					draftAmtLabel.setText(DataUtils
-							.getAmountAsString(draftInvoiceAmount));
+					draftAmtLabel.setText(amountAsString(draftInvoiceAmount));
 				}
 
 				Runnable runnable = new Runnable() {
