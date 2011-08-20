@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ServerCompany implements IAccounterServerCore {
@@ -15,7 +14,6 @@ public class ServerCompany implements IAccounterServerCore {
 	private String serverAddress;
 	private boolean isConfigured;
 	private Set<Client> clients = new HashSet<Client>();
-	private String serverDomain = ServerConfiguration.getServerDomainName();
 
 	public String getCompanyName() {
 		return companyName;
@@ -99,18 +97,4 @@ public class ServerCompany implements IAccounterServerCore {
 		return id;
 	}
 
-	/**
-	 * @return the serverDomain
-	 */
-	public String getServerDomain() {
-		return serverDomain;
-	}
-
-	/**
-	 * @param serverDomain
-	 *            the serverDomain to set
-	 */
-	public void setServerDomain(String serverDomain) {
-		this.serverDomain = serverDomain;
-	}
 }
