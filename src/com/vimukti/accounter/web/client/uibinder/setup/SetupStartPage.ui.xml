@@ -18,8 +18,8 @@
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:HTML ui:field="setupInfo" wordWrap="true"></g:HTML>
-			<g:Grid styleName="{style.skip_start}">
+			<g:HTML ui:field="setupInfo" wordWrap="true" styleName="setup_Info"></g:HTML>
+			<g:Grid styleName="skip_start">
 				<g:row>
 					<g:customCell>
 						<g:HTML ui:field="skipSetupInfo" wordWrap="true"></g:HTML>
