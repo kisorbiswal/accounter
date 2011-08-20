@@ -38,7 +38,7 @@ public class SalesDetailesView extends ParentCanvas {
 		super();
 
 		this.setStyleName("selectedview");
-		init();
+		//init();
 	}
 
 	/**

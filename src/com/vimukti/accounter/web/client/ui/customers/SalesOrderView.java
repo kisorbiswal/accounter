@@ -593,8 +593,8 @@ public class SalesOrderView extends
 				this.transactionTotalNonEditableText.setAmount(transaction
 						.getTotal());
 			}
-			customerTransactionGrid.setRecords(transaction
-					.getTransactionItems());
+			// customerTransactionGrid.setRecords(transaction
+			//		.getTransactionItems());
 			customerTransactionGrid.setCanEdit(false);
 		}
 		super.initTransactionViewData();
