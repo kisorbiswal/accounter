@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -982,7 +981,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		if (accounttype == 1) {
 			termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect,
 					vatregno, custTaxCode);
-			if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+			if (getPreferences().isDoProductShipMents()) {
 				termsForm.setFields(shipMethSelect);
 			}
 		} else if (accounttype == 0) {
@@ -990,7 +989,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			// custTaxCode.setRequired(true);
 			termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect,
 					custTaxCode);
-			if (ClientCompanyPreferences.get().isDoProductShipMents()) {
+			if (getPreferences().isDoProductShipMents()) {
 				termsForm.setFields(shipMethSelect);
 			}
 		}
