@@ -76,6 +76,7 @@ public class BaseServlet extends HttpServlet {
 	public static final int MAIL_ID = 0;
 	public static final int NAME = 1;
 	public static final int PHONE_NO = 2;
+	private static final int ACTIVATION_CODE_SIZE = 10;
 
 	protected Company getCompanyById(String companyId) {
 		Session session = HibernateUtil.openSession(Server.COMPANY + companyId);
@@ -276,7 +277,7 @@ public class BaseServlet extends HttpServlet {
 	 * @return
 	 */
 	protected String createActivation(String emailID) {
-		String token = SecureUtils.createID();
+		String token = SecureUtils.createID(ACTIVATION_CODE_SIZE);
 		Activation activation = new Activation();
 		activation.setEmailId(emailID);
 		activation.setToken(token);
