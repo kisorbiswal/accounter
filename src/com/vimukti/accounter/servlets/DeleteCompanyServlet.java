@@ -87,7 +87,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 					String schemaName = Server.COMPANY + companyID;
 
 					IS2SService s2sService = getS2sSyncProxy(serverCompany
-							.getServerDomain());
+							.getServerAddress());
 
 					boolean isAdmin = s2sService.isAdmin(
 							Long.parseLong(companyID), email);
@@ -153,7 +153,8 @@ public class DeleteCompanyServlet extends BaseServlet {
 			throws ServletException, IOException {
 		String emailID = (String) req.getSession().getAttribute(EMAIL_ID);
 		if (emailID == null) {
-			dispatchMessage("Session Expired.", req, resp, deleteCompanyView);
+			req.setAttribute("message", "Session Expired.");
+			dispatch(req, resp, deleteCompanyView);
 			return;
 		}
 
