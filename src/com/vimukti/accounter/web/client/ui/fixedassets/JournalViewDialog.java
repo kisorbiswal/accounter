@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.RevenueAccountCombo;
@@ -133,8 +132,7 @@ public class JournalViewDialog extends BaseDialog {
 			value = journalSummary.get(StringValue);
 			if (!DecimalUtil.isEquals(value, 0.0)) {
 				disposalSummaryForm.setText(row, 0, StringValue);
-				disposalSummaryForm.setText(row, 1, DataUtils
-						.getAmountAsString(value));
+				disposalSummaryForm.setText(row, 1, amountAsString(value));
 			}
 			disposalSummaryForm.getCellFormatter().setWidth(0, 0, "100%");
 			row++;
@@ -172,8 +170,7 @@ public class JournalViewDialog extends BaseDialog {
 				value = disposalJOurnal.get(keyValue);
 				if (DecimalUtil.isLessThan(value, 0)) {
 					debitvalue = value * (-1);
-					disposalJournalForm.setText(row, col++, DataUtils
-							.getAmountAsString(debitvalue));
+					disposalJournalForm.setText(row, col++, amountAsString(debitvalue));
 					disposalJournalForm.setText(row, col++, "" + " ");
 					disposalJournalForm.getCellFormatter().setStyleName(row,
 							col - 1, "column-seperater");
@@ -185,8 +182,7 @@ public class JournalViewDialog extends BaseDialog {
 					disposalJournalForm.setText(row, col++, "" + " ");
 					disposalJournalForm.getCellFormatter().setStyleName(row,
 							col - 1, "column-seperater");
-					disposalJournalForm.setText(row, col++, DataUtils
-							.getAmountAsString(value));
+					disposalJournalForm.setText(row, col++, amountAsString(value));
 
 					setCreditTotal(value);
 				}
@@ -228,10 +224,10 @@ public class JournalViewDialog extends BaseDialog {
 		HTML totalLabel = new HTML();
 		totalLabel.setHTML(Accounter.constants().total());
 		String debittotal = "<strong>"
-				+ DataUtils.getAmountAsString(this.debitTotal) + "</strong>";
+				+ amountAsString(this.debitTotal) + "</strong>";
 		HTML debitValueLabel = new HTML(debittotal);
 		String credittotal = "<strong>"
-				+ DataUtils.getAmountAsString(this.creditTotal) + "</strong>";
+				+ amountAsString(this.creditTotal) + "</strong>";
 		HTML creditValueLabel = new HTML(credittotal);
 		form.setWidget(row, 0, totalLabel);
 		form.setWidget(row, 1, debitValueLabel);
