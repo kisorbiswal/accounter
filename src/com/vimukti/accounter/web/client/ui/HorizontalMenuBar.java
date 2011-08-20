@@ -927,7 +927,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyListMenuBar.addItem(ActionFactory.getPaymentsAction());
 		companyListMenuBar.addItem(ActionFactory.getSalesPersonAction());
 		// companyListMenuBar.addItem(ActionFactory.getWarehouseListAction());
-		companyListMenuBar.addItem(ActionFactory.getRecurringsListAction());
+		// companyListMenuBar.addItem(ActionFactory.getRecurringsListAction());
 		return companyListMenuBar;
 	}
 
