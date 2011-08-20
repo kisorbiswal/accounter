@@ -102,7 +102,7 @@ public interface AccounterMessages extends Messages {
 
 	public String selectIndustry();
 
-	public String userGuidelinesMessage();
+	public SafeHtml userGuidelinesMessage();
 
 	public String accounterUseYourForms();
 
@@ -112,9 +112,9 @@ public interface AccounterMessages extends Messages {
 
 	public String invalidAccountNumber(String name);
 
-	public String startSetupInfo();
+	public SafeHtml startSetupInfo();
 
-	public String skipSetupInfo();
+	public SafeHtml skipSetupInfo();
 
 	public String statementlist();
 
