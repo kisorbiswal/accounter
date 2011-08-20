@@ -6768,3 +6768,21 @@ a#fdbk_tab:hover{
     height: 24px;
     width: 193px;
 }
+.tick_hidden{
+	visibility: hidden;
+	padding-right:5px;
+}
+.tick_show{
+	visibility: visible;
+	padding-right:5px;
+}
+.progress_header{
+	color: #144149;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 15px;
+}
+.company_Info_table tr td:FIRST-CHILD {
+	text-align: right;
+	padding-right:25px;
+}
