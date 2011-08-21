@@ -123,7 +123,6 @@ public class CustomerPrePayment extends Transaction {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		org.hibernate.Transaction transaction = session.beginTransaction();
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -151,7 +150,6 @@ public class CustomerPrePayment extends Transaction {
 						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
-		transaction.commit();
 
 		return false;
 	}
@@ -247,7 +245,6 @@ public class CustomerPrePayment extends Transaction {
 	public void onEdit(Transaction clonedObject) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		org.hibernate.Transaction transaction = session.beginTransaction();
 		CustomerPrePayment customerPrePayment = (CustomerPrePayment) clonedObject;
 		if ((this.isVoid && !clonedObject.isVoid)
 				|| (this.isDeleted() && !clonedObject.isDeleted() && !this.isVoid)) {
@@ -310,7 +307,6 @@ public class CustomerPrePayment extends Transaction {
 		}
 
 		super.onEdit(customerPrePayment);
-		transaction.commit();
 	}
 
 	@Override
