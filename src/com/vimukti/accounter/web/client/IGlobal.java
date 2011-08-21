@@ -8,7 +8,17 @@ public interface IGlobal {
 	public AccounterConstants constants();
 
 	public ClientCompanyPreferences preferences();
-	
-	
+
+	public String Customer();
+
+	public String customer();
+
+	public String Account();
+
+	public String account();
+
+	public String Supplier();
+
+	public String supplier();
 
 }
