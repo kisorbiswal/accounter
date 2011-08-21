@@ -57,7 +57,7 @@ public class SetupReferPage extends AbstractSetupPage {
 		referaccountsLabel.addStyleName("referComment");
 		accountCombo = new SelectCombo(accounterConstants.account());
 		accountCombo.addItem(accounterConstants.Account());
-		accountCombo.addItem(accounterConstants.Ledgar());
+		accountCombo.addItem(accounterConstants.Ledger());
 		accountForm = UIUtils.form(accounterConstants.customer());
 		accountForm.setWidth("100%");
 		accountForm.setFields(accountCombo);

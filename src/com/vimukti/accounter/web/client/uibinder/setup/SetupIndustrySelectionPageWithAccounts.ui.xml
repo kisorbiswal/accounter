@@ -17,7 +17,11 @@
 			<g:HTML ui:field="industry" styleName="industry">
 			</g:HTML>
 			<g:Label ui:field="selectIndustry" styleName="select_industry" />
-			<g:ListBox ui:field="industryList" />
+			<g:HorizontalPanel ui:field="industryAccountsPanel">
+				<g:ListBox ui:field="industryList"/>
+				<g:ListBox ui:field="accountsList" />
+			</g:HorizontalPanel>
+			
 		</g:VerticalPanel>
 </g:VerticalPanel>
 </ui:UiBinder> 

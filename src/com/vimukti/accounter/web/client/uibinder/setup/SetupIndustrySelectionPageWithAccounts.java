@@ -25,7 +25,11 @@ public class SetupIndustrySelectionPageWithAccounts extends AbstractSetupPage {
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
+	VerticalPanel industryAccountsPanel;
+	@UiField
 	ListBox industryList;
+	@UiField
+	ListBox accountsList;
 	@UiField
 	HTML customizeAccounter, settingsLater, industry;
 	@UiField

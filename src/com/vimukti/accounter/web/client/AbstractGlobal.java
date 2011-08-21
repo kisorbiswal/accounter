@@ -62,7 +62,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientAccount.ACCOUNT:
 			return constants().Account();
 		case ClientAccount.LEGAND:
-			return constants().Ledgar();
+			return constants().Ledger();
 		default:
 			return constants().Account();
 		}
@@ -75,7 +75,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientAccount.ACCOUNT:
 			return constants().account();
 		case ClientAccount.LEGAND:
-			return constants().ledgar();
+			return constants().ledger();
 		default:
 			return constants().account();
 		}
