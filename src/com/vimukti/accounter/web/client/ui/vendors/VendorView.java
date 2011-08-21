@@ -200,6 +200,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
+		result.add(vendorForm.validate());
+		
 		String name = vendorNameText.getValue();
 
 		ClientVendor vendorByName = company.getVendorByName(name);
@@ -217,9 +219,16 @@ public class VendorView extends BaseView<ClientVendor> {
 					.alreadyExist());
 			return result;
 		}
+		data.setName(name);
+		data.setVendorNumber(vendorNoText.getValue().toString());
+		String error = objectExist(data);
+		if (error != null && !error.isEmpty()) {
+			result.addError(vendorNoText, error);
+			return result;
+		}
+		
 
-		result.add(vendorForm.validate());
-
+		
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
 		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asOfDate)) {
 			result.addError(balanceDate, Accounter.constants().priorasOfDate());
@@ -228,6 +237,44 @@ public class VendorView extends BaseView<ClientVendor> {
 		return result;
 	}
 
+	public String objectExist(ClientVendor vendor) {
+
+		String error = null;
+
+		List<ClientVendor> list = Accounter.getCompany().getVendors();
+		if (list == null || list.isEmpty())
+			return "";
+		for (ClientVendor old : list) {
+			if (old.getID() == vendor.getID()) {
+				continue;
+			}
+			if (vendor.getName().equalsIgnoreCase(old.getName())) {
+				for(ClientVendor client : list){
+					if(vendor.getVendorNumber().equals(client.getVendorNumber())){
+						error = Accounter.constants().vendorAlreadyExistsWithTheNameAndNumber();
+						break;
+					}
+				}
+				error = Accounter.constants().vendorAlreadyExistsWithTheName();
+						break;
+			}else if(vendor.getVendorNumber().isEmpty()){
+				error = Accounter.constants().pleaseEnterVendorNumberItShouldNotBeEmpty();
+				break;
+			}
+			else if (vendor.getVendorNumber().equals(old.getVendorNumber())) {
+				error = Accounter.constants().vendorAlreadyExistsWithTheNumber();
+				break;
+			} else if (checkIfNotNumber(vendor.getVendorNumber())) {
+				error = Accounter.constants().vendorNumberShouldBeNumber();
+				break;
+			} else if (Integer.parseInt(vendor.getVendorNumber().toString()) < 1) {
+				error = Accounter.constants().vendorNumberShouldBePos();
+				break;
+			}
+
+		}
+		return error;
+	}
 	private boolean isObjectExist(long id, String name) {
 		List<ClientVendor> vendors = getCompany().getVendors();
 		for (ClientVendor old : vendors) {
