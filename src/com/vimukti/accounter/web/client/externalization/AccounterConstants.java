@@ -24,8 +24,6 @@ public interface AccounterConstants extends Constants {
 
 	public String account();
 
-	public String Account();
-
 	public String accountantTransfer();
 
 	public String accountCategory();
@@ -959,8 +957,6 @@ public interface AccounterConstants extends Constants {
 	public String custom();
 
 	public String customer();
-
-	public String Customer();
 
 	public String customerAddress();
 
@@ -3332,8 +3328,6 @@ public interface AccounterConstants extends Constants {
 
 	public String saveAndClose();
 
-	public String selectSalesOrder();
-
 	public String saveAndNew();
 
 	public String saveButton();
@@ -3607,8 +3601,6 @@ public interface AccounterConstants extends Constants {
 	public String sun();
 
 	public String supplier();
-
-	public String Supplier();
 
 	public String supplierAddress();
 
@@ -4177,8 +4169,6 @@ public interface AccounterConstants extends Constants {
 	public String venderForm();
 
 	public String vendor();
-
-	public String Vendor();
 
 	public String vendor1099();
 
@@ -4800,21 +4790,13 @@ public interface AccounterConstants extends Constants {
 
 	public String displayName();
 
-	public String client();
+	public String clients();
 
-	public String Client();
+	public String tenants();
 
-	public String tenant();
-
-	public String Tenant();
-
-	public String ledger();
-
-	public String Ledger();
+	public String legands();
 
 	public String noBillsAreAvailableFirstAddABill();
-
-	public String statementDescription();
 
 	public String statementSomeExample();
 
@@ -4822,20 +4804,6 @@ public interface AccounterConstants extends Constants {
 
 	public String expenseInformation();
 
-	public String donar();
-
-	public String Donar();
-
-	public String guest();
-
-	public String Guest();
-
-	public String member();
-
-	public String Member();
-
-	public String patitent();
-
-	public String Patitent();
+	public String accounterMessages();
 
 }

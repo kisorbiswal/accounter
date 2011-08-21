@@ -130,4 +130,8 @@ public interface AccounterMessages extends Messages {
 
 	public String trackTimeList();
 
+	public String statementDescription();
+
+	public String trackingtimehead();
+
 }
