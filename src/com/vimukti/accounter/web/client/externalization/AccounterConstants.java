@@ -1518,6 +1518,8 @@ public interface AccounterConstants extends Constants {
 
 	public String expired();
 
+	public String exportToCSV();
+
 	public String failed();
 
 	public String failed2exlematorymarks();
