@@ -97,7 +97,10 @@ public class TextItem extends FormItem<String> {
 		textBox.addBlurHandler(blurHandler);
 
 	}
-
+	@Override
+	public void addFocusHandler(com.google.gwt.event.dom.client.FocusHandler focusHandler) {
+		this.textBox.addFocusHandler(focusHandler);
+	};
 	public void setKeyBoardHandler(KeyPressHandler keyPressHandler) {
 		textBox.addKeyPressHandler(keyPressHandler);
 	}
