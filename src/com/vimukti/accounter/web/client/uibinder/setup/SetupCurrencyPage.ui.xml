@@ -9,11 +9,16 @@
 	</ui:style>
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
-		<!--
-			Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete
-			widget names. The ui:field attribute binds an element to a field in
-			the owner class. See the GWT docs on UI Binder for more details.
-		-->
-		<g:Button styleName="{style.important}" ui:field="button" />
+		<g:Grid>
+			<g:row>
+				<g:customCell>
+					<g:Label ui:field="primaryCurrenyLabel"/>
+				</g:customCell>
+				<g:customCell>
+					<g:ListBox visibleItemCount="1" ui:field="primaryCurrencyListBox"/>
+				</g:customCell>
+			</g:row>
+		</g:Grid>
+		<g:VerticalPanel ui:field="currencyListGridPanel"/>
 	</g:VerticalPanel>
 </ui:UiBinder> 
