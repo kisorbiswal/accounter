@@ -32,7 +32,8 @@ import com.vimukti.accounter.web.client.ui.core.ReportUtility;
  */
 
 public abstract class AbstractReportView<R> extends ParentCanvas<List<R>>
-		implements ISorting<R>, IFinanceReport<R>, AsyncCallback<ArrayList<R>>, IPrintableView{
+		implements ISorting<R>, IFinanceReport<R>, AsyncCallback<ArrayList<R>>,
+		IPrintableView {
 
 	public static final int TOOLBAR_TYPE_DATE_RANGE = 1;
 	public static final int TOOLBAR_TYPE_AS_OF = 2;
@@ -778,9 +779,15 @@ public abstract class AbstractReportView<R> extends ParentCanvas<List<R>>
 	public void setCompanyType(int type) {
 		this.serverReport.setCompanyType(getCompany().getAccountingType());
 	}
-	
+
 	@Override
 	public boolean canPrint() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
 		// TODO Auto-generated method stub
 		return true;
 	}
