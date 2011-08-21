@@ -4846,4 +4846,12 @@ public interface AccounterConstants extends Constants {
 
 	public String theFinanceCategoryNoShouldBeBetween();
 
+	public String vendorNumberShouldBePos();
+
+	public String vendorNumberShouldBeNumber();
+
+	public String vendorAlreadyExistsWithTheNumber();
+
+	public String vendorAlreadyExistsWithTheName();
+
 }
