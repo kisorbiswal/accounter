@@ -4787,6 +4787,7 @@ public class FinanceTool implements IFinanceDAOService {
 	private void changeFiscalYearsStartDate(FinanceDate modifiedStartDate) {
 
 		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
 		// List<FiscalYear> list = new VList<FiscalYear>();
 
 		// FinanceDate existingLeastStartDate = modifiedStartDate;
@@ -4911,6 +4912,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		// }
 		Utility.updateCurrentFiscalYear();
+		transaction.commit();
 
 	}
 
@@ -11531,10 +11533,12 @@ public class FinanceTool implements IFinanceDAOService {
 
 	public void createAdminUser(ClientUser user) {
 		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
 		User admin = new User(user);
 		session.save(admin);
 		this.getCompany().getUsersList().add(admin);
 		session.saveOrUpdate(this);
+		transaction.commit();
 	}
 
 	@Override
