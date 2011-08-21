@@ -46,12 +46,12 @@
 		   </div>
 		   </c:if>	
 		   <form id="accounterForm" method="post" action="/login">
-		      <div>
+		      <div class="email_password">
 			    <label>Email</label>
 				<br>
 				<input id="mid-box"  type="text" name="emailId" tabindex="1">
 			  </div>
-			  <div>
+			  <div class="email_password">
 			    <label>Password</label>
 				<br>
 				<input id="mid-box1"  type="password" name="password" tabindex="2">
