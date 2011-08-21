@@ -61,8 +61,18 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	}
 
 	private void print() {
-		UIUtils.downloadAttachment(((ClientInvoice) clientTransaction).getID(),
-				ClientTransaction.TYPE_INVOICE, brandingTheme.getID());
+
+		if (ClientTransaction.TYPE_INVOICE == clientTransaction.getType()) {
+			UIUtils.downloadAttachment(
+					((ClientInvoice) clientTransaction).getID(),
+					ClientTransaction.TYPE_INVOICE, brandingTheme.getID());
+		} else if (ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO == clientTransaction
+				.getType()) {
+			UIUtils.downloadAttachment(clientTransaction.getID(),
+					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
+					brandingTheme.getID());
+		}
+
 	}
 
 	@Override
