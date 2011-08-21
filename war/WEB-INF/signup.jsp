@@ -420,11 +420,22 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   </div>
 	</form>
   </c:if>
-  
+  <div class="form-bottom-options">
+  <a href="/login" id="forget-link1">I already have an account</a>
+  <br><br>
+  </div> 
 </div>
-<div class="form-bottom-options">
-<a href="/login" id="forget-link1">I already have an account</a>
-<br><br>
+
+
+<!-- Footer Section-->
+
+<div id="mainFooter"  >
+<div>
+   <span>&copy Vimukti Technologies Pvt Ltd</span> |
+   <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
+   <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
+   <a target="_blank" href="/site/support"> Support </a>
+</div>
 </div>
 		<script  type="text/javascript" >
 			if(${successmessage!=null}) {

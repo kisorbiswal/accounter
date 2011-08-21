@@ -95,7 +95,19 @@ padding-top:20px;
 	<div class="companyLabel"><label id="hdError1" class="hdError1"></label></div>
 	</div> -->
 	<br/><br/><br/><br/><br/><br/><p style="margin:6px;"><a href="/bizantra" style="color:blue">Back to Login</a></p>
-	<div class="servermsg" id="servermsg">${message}</div> 
+	<div class="servermsg" id="servermsg">${message}</div>
+	
+    <!-- Footer Section-->
+	
+	<div id="mainFooter"   >
+    <div>
+       <span>&copy Vimukti Technologies Pvt Ltd</span> |
+       <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
+       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
+       <a target="_blank" href="/site/support"> Support </a>
+    </div>
+</div>
+	
 	
 	<script type="text/javascript" charset="utf-8">
 			var is_ssl = ("https:" == document.location.protocol);
