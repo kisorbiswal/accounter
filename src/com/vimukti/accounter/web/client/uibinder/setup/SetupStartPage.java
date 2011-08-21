@@ -80,6 +80,8 @@ public class SetupStartPage extends AbstractSetupPage {
 			@Override
 			public void onClick(ClickEvent event) {
 				setupWizard.currentViewIndex++;
+				setupWizard.setSkip(false);
+				setupWizard.getProgessPanel();
 				setupWizard.showView();
 			}
 		});
@@ -90,6 +92,7 @@ public class SetupStartPage extends AbstractSetupPage {
 			public void onClick(ClickEvent event) {
 				setupWizard.currentViewIndex++;
 				setupWizard.setSkip(true);
+				setupWizard.getProgessPanel();
 				setupWizard.showView();
 			}
 		});

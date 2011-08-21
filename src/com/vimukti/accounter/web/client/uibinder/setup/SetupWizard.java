@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -25,6 +26,7 @@ public class SetupWizard extends VerticalPanel {
 	private Label progressHeader;
 	private AsyncCallback<Boolean> callback;
 	public int currentViewIndex = START_PAGE;
+	private FlexTable progressTable;
 
 	private AbstractSetupPage viewList[] = new AbstractSetupPage[] {
 			new SetupStartPage(this), new SetupCompanyInfoPage(),
@@ -41,11 +43,11 @@ public class SetupWizard extends VerticalPanel {
 			new SetupOrganisationSelectionPage(),
 			new SetupIndustrySelectionPage(), new SetupComplitionPage() };
 
-	private Image progressImages[] = new Image[viewList.length - 2];
-	private String progressLabels[] = new String[] {
+	private Image startProgressImages[] = new Image[viewList.length - 2];
+	private String startProgressLabels[] = new String[] {
 			Accounter.constants().setCompanyInfo(),
-			Accounter.constants().companyOrganization(),
 			Accounter.constants().selectIndustryType(),
+			Accounter.constants().companyOrganization(),
 			Accounter.constants().selectReferringNames(),
 			Accounter.constants().trackEmployeeExpenses(),
 			Accounter.constants().whatDoYouSell(),
@@ -54,9 +56,17 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().setBillTracking(),
 			Accounter.constants().setFiscalYear(),
 			Accounter.constants().selectRequiredAccounts() };
+
+	private Image skipProgressImages[] = new Image[skipViewList.length - 2];
+	private String skipProgressLabels[] = new String[] {
+			Accounter.constants().setCompanyInfo(),
+			Accounter.constants().selectIndustryType(),
+			Accounter.constants().companyOrganization() };
+	private int skipProgressImagesIndex;
+
 	private AbstractSetupPage previousView;
 	private AbstractSetupPage viewToShow;
-	private int progressImagesIndex;
+	private int startProgressImagesIndex;
 	private boolean isSkip;
 
 	public SetupWizard(AsyncCallback<Boolean> callback) {
@@ -80,17 +90,7 @@ public class SetupWizard extends VerticalPanel {
 
 			// add progress steps
 			// setting images
-			for (int iii = 0; iii < progressImages.length; iii++) {
-				HorizontalPanel progressPanel1 = new HorizontalPanel();
-				CustomLabel label = new CustomLabel(progressLabels[iii]);
-				progressImages[iii] = new Image(Accounter.getFinanceImages()
-						.tickMark());
-				progressImages[iii].addStyleName("tick_hidden");
-				progressPanel1.add(progressImages[iii]);
-				progressPanel1.add(label);
 
-				progressPanel.add(progressPanel1);
-			}
 			buttonPanel = new HorizontalPanel();
 			buttonPanel.setVisible(false);
 
@@ -190,9 +190,13 @@ public class SetupWizard extends VerticalPanel {
 					if (currentViewIndex != START_PAGE) {
 						currentViewIndex--;
 						showView();
+						if (currentViewIndex == 0) {
+							removeProgressPanel();
+
+						}
 					} else {
 						viewPanel.remove(viewToShow);
-						showStartPage();
+						removeProgressPanel();
 					}
 
 				}
@@ -268,9 +272,42 @@ public class SetupWizard extends VerticalPanel {
 
 		// setting the progress
 		if (currentViewIndex > 1) {
-			progressImagesIndex = currentViewIndex - 2;
-			progressImages[progressImagesIndex].addStyleName("tick_show");
+			if (isSkip) {
+				skipProgressImagesIndex = currentViewIndex - 2;
+				skipProgressImages[skipProgressImagesIndex]
+						.addStyleName("tick_show");
+			} else {
+				startProgressImagesIndex = currentViewIndex - 2;
+				startProgressImages[startProgressImagesIndex]
+						.addStyleName("tick_show");
+			}
+
 		}
+	}
+
+	public void getProgessPanel() {
+		progressTable = new FlexTable();
+		if (isSkip) {
+			for (int iii = 0; iii < skipProgressImages.length; iii++) {
+				CustomLabel label = new CustomLabel(skipProgressLabels[iii]);
+				skipProgressImages[iii] = new Image(Accounter
+						.getFinanceImages().tickMark());
+				skipProgressImages[iii].addStyleName("tick_hidden");
+				progressTable.setWidget(iii, 0, skipProgressImages[iii]);
+				progressTable.setWidget(iii, 1, label);
+			}
+		} else {
+			for (int iii = 0; iii < startProgressImages.length; iii++) {
+				CustomLabel label = new CustomLabel(startProgressLabels[iii]);
+				startProgressImages[iii] = new Image(Accounter
+						.getFinanceImages().tickMark());
+				startProgressImages[iii].addStyleName("tick_hidden");
+				progressTable.setWidget(iii, 0, startProgressImages[iii]);
+				progressTable.setWidget(iii, 1, label);
+			}
+
+		}
+		progressPanel.add(progressTable);
 	}
 
 	/**
@@ -278,6 +315,10 @@ public class SetupWizard extends VerticalPanel {
 	 */
 	private boolean isFirstView() {
 		return currentViewIndex != START_PAGE;
+	}
+
+	private void removeProgressPanel() {
+		progressPanel.remove(progressTable);
 	}
 
 	/**
