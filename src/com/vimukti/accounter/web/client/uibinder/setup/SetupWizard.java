@@ -105,18 +105,18 @@ public class SetupWizard extends VerticalPanel {
 			topPanel.add(progressPanel);
 			topPanel.add(viewButtonPanel);
 
-			topPanel.setCellWidth(progressPanel, "25%");
-			topPanel.setCellWidth(viewButtonPanel, "75%");
+			topPanel.setCellWidth(progressPanel, "28%");
+			topPanel.setCellWidth(viewButtonPanel, "72%");
 			viewPanel.addStyleName("view_panel");
 			viewButtonPanel.setSize("100%", "100%");
 			topPanel.setSize("100%", "100%");
-			progressPanel.getElement().getParentElement().addClassName(
-					"progress_panel");
 			topPanel.setCellHorizontalAlignment(progressPanel,
 					HasAlignment.ALIGN_RIGHT);
 
 			this.add(topPanel);
 
+			progressPanel.getElement().getParentElement().setClassName(
+					"progress_panel_hide");
 			// adding buttons to button panel
 			// skipButton = new Button(Accounter.constants().skip());
 			backButton = new Button(Accounter.constants().back());
@@ -308,6 +308,8 @@ public class SetupWizard extends VerticalPanel {
 
 		}
 		progressPanel.add(progressTable);
+		progressPanel.getElement().getParentElement().setClassName(
+				"progress_panel_show");
 	}
 
 	/**
@@ -319,6 +321,8 @@ public class SetupWizard extends VerticalPanel {
 
 	private void removeProgressPanel() {
 		progressPanel.remove(progressTable);
+		progressPanel.getElement().getParentElement().setClassName(
+				"progress_panel_hide");
 	}
 
 	/**
