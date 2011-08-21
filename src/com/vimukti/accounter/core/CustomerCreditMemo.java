@@ -407,6 +407,7 @@ public class CustomerCreditMemo extends Transaction implements
 
 		CustomerCreditMemo customerCreditMemo = (CustomerCreditMemo) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction transaction = session.beginTransaction();
 		//
 		// Customer cust = (Customer) session.get(Customer.class,
 		// customerCreditMemo.customer.id);
@@ -499,6 +500,7 @@ public class CustomerCreditMemo extends Transaction implements
 
 		}
 		super.onEdit(clonedObject);
+		transaction.commit();
 
 	}
 
