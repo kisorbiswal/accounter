@@ -234,11 +234,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		customerCombo.setHelpInformation(true);
 		customerCombo.setWidth("100%");
 		quoteLabel = new LabelItem();
-		if (getCompany().getPreferences().isDoyouwantEstimates()) {
+		if (getPreferences().isDoyouwantEstimates()
+				&& getPreferences().isSalesOrderEnabled()) {
 			quoteLabel.setValue(Accounter.constants().quotesandsalesOrder());
-		} else {
-			quoteLabel.setValue("Sales Order");
+		} else if (getPreferences().isSalesOrderEnabled()) {
+			quoteLabel.setValue(Accounter.constants().salesOrder());
 
+		} else if (getPreferences().isDoyouwantEstimates()) {
+			quoteLabel.setValue(Accounter.constants().quotes());
 		}
 		quoteLabel.setWidth("100%");
 		quoteLabel.addStyleName("falseHyperlink");
@@ -430,6 +433,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 		priceLevelSelect = createPriceLevelSelectItem();
 		taxCodeSelect = createTaxCodeSelectItem();
+
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		netAmountLabel = createNetAmountLabel();
@@ -512,10 +516,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 			// balanceDueNonEditableText, taxCodeSelect, priceLevelSelect);
 			amountsForm.setNumCols(4);
 			amountsForm.addStyleName("tax-form");
-			amountsForm.setFields(taxCodeSelect, salesTaxTextNonEditable,
-					disabletextbox, transactionTotalNonEditableText,
-					disabletextbox, paymentsNonEditableText, disabletextbox,
-					balanceDueNonEditableText);
+
+			if (getPreferences().isDoYouChargesalesTax()) {
+				amountsForm.setFields(taxCodeSelect, salesTaxTextNonEditable,
+						disabletextbox, transactionTotalNonEditableText,
+						disabletextbox, paymentsNonEditableText,
+						disabletextbox, balanceDueNonEditableText);
+			} else {
+				amountsForm.setFields(transactionTotalNonEditableText, disabletextbox,
+						paymentsNonEditableText, disabletextbox,
+						balanceDueNonEditableText);
+			}
 
 			prodAndServiceHLay.add(amountsForm);
 			prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,

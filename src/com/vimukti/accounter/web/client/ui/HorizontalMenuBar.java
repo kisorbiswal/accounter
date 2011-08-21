@@ -779,7 +779,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			ItemsAction itemsAction = ActionFactory.getItemsAction();
 			itemsAction.setCatagory(ActionFactory.actionsConstants.customer());
 			customerListMenuBar.addItem(itemsAction);
-			if (preferences.isDoyouwantEstimates()) {
+			if (getPreferences().isDoyouwantEstimates()) {
 				customerListMenuBar.addItem(ActionFactory.getQuotesAction());
 			}
 			customerListMenuBar.addItem(ActionFactory.getInvoicesAction(null));
@@ -799,7 +799,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			newCustomerMenuBar.addItem(ActionFactory.getNewCustomerAction());
 			newCustomerMenuBar.addItem(ActionFactory.getNewItemAction(true));
-			if (preferences.isDoyouwantEstimates()) {
+			if (getPreferences().isDoyouwantEstimates()) {
 				newCustomerMenuBar.addItem(ActionFactory.getNewQuoteAction());
 			}
 			newCustomerMenuBar.addItem(ActionFactory.getNewInvoiceAction());
@@ -895,8 +895,10 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyMenuBar.addSeparator();
 		}
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			companyMenuBar.addItem(Accounter.constants().itemTax(),
-					getSalesTaxSubmenu());
+			if (getPreferences().isDoYouChargesalesTax()) {
+				companyMenuBar.addItem(Accounter.constants().itemTax(),
+						getSalesTaxSubmenu());
+			}
 		}
 		if (Accounter.getUser().canChangeSettings()) {
 			companyMenuBar.addItem(Accounter.constants().manageSupportLists(),

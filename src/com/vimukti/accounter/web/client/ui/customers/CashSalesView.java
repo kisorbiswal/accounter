@@ -128,8 +128,8 @@ public class CashSalesView extends
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
 				.setVerticalAlign(VerticalAlign.TOP);
-		shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "40px");
+		shipToAddress.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "40px");
 		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -183,8 +183,8 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-		termsForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		termsForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(160);
@@ -236,9 +236,14 @@ public class CashSalesView extends
 			// prodAndServiceForm2.setFields(taxCodeSelect,
 			// salesTaxTextNonEditable, priceLevelSelect,
 			// transactionTotalNonEditableText);
-			prodAndServiceForm2.setFields(taxCodeSelect,
-					salesTaxTextNonEditable, disabletextbox,
-					transactionTotalNonEditableText);
+			if (getPreferences().isDoYouChargesalesTax()) {
+				prodAndServiceForm2.setFields(taxCodeSelect,
+						salesTaxTextNonEditable, disabletextbox,
+						transactionTotalNonEditableText);
+			} else {
+				prodAndServiceForm2.setFields(disabletextbox,
+						transactionTotalNonEditableText);
+			}
 			prodAndServiceForm2.addStyleName("tax-form");
 		}
 
@@ -442,7 +447,8 @@ public class CashSalesView extends
 			if (taxableLineTotal == null)
 				return;
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -454,8 +460,7 @@ public class CashSalesView extends
 		} else {
 			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
 			vatTotalNonEditableText.setAmount(customerTransactionGrid
-					.getTotalValue()
-					- customerTransactionGrid.getGrandTotal());
+					.getTotalValue() - customerTransactionGrid.getGrandTotal());
 			setTransactionTotal(customerTransactionGrid.getTotalValue());
 		}
 
@@ -638,7 +643,7 @@ public class CashSalesView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

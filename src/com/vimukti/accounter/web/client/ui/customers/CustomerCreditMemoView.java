@@ -173,9 +173,16 @@ public class CustomerCreditMemoView extends
 					transactionTotalNonEditableText);
 			prodAndServiceForm2.addStyleName("invoice-total");
 		} else {
-			prodAndServiceForm2.setFields(taxCodeSelect,
-					salesTaxTextNonEditable, disabletextbox,
-					transactionTotalNonEditableText);
+
+			if (getPreferences().isDoYouChargesalesTax()) {
+				prodAndServiceForm2.setFields(taxCodeSelect,
+						salesTaxTextNonEditable, disabletextbox,
+						transactionTotalNonEditableText);
+			} else {
+				prodAndServiceForm2.setFields(disabletextbox,
+						transactionTotalNonEditableText);
+
+			}
 			prodAndServiceForm2.addStyleName("tax-form");
 		}
 
@@ -527,7 +534,7 @@ public class CustomerCreditMemoView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
 	}
