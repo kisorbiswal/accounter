@@ -102,7 +102,6 @@ public abstract class CompanyInitializer {
 		initializeDefaultEquityAccounts();
 
 		session.saveOrUpdate(company);
-
 	}
 
 	public Company getCompany() {
@@ -979,6 +978,7 @@ public abstract class CompanyInitializer {
 
 	public void initializeDefaultAssetsAccounts() {
 		Session session = HibernateUtil.getCurrentSession();
+
 		// Current Accounts
 		accountsReceivableAccount = new Account(
 				Account.TYPE_OTHER_CURRENT_ASSET, "1001",
