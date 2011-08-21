@@ -22,6 +22,12 @@
 						}
 					});
 				});
+				$('#emailidBox').keypress(function(e) {
+					  if (e.keyCode == '9') {
+					     e.preventDefault();
+					    $('#submitButton').focus();
+					   }
+					});
 			});
 		</script>
   </head>
@@ -40,7 +46,7 @@
 			</div>
 			<div>
 			  <label>Enter registered Email-ID:</label>
-			  <input type="text" name="emailid">
+			  <input id = "emailidBox" type="text" name="emailid">
 			</div>
 			<div class="reset-button">
 			   <input type="submit" tabindex="3" value="Resend Activation Code" name="resend" class="allviews-common-button" id="submitButton">
