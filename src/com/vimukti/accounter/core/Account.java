@@ -1012,6 +1012,7 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		org.hibernate.Transaction transaction = session.beginTransaction();
 		super.onUpdate(session);
 		FlushMode flushMode = session.getFlushMode();
 		session.setFlushMode(FlushMode.COMMIT);
@@ -1129,6 +1130,7 @@ public class Account extends CreatableObject implements IAccounterServerCore {
 		ChangeTracker.put(this);
 
 		session.setFlushMode(flushMode);
+		transaction.commit();
 		return false;
 	}
 
