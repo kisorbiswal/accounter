@@ -10846,12 +10846,14 @@ public class FinanceTool implements IFinanceDAOService {
 
 	@Override
 	public String getNextCustomerNumber() {
-		return NumberUtils.getNextCustomerNumber();
+		return NumberUtils.getNextAutoCustomerNumber();
+		//return NumberUtils.getNextCustomerNumber();
 	}
 
 	@Override
 	public String getNextVendorNumber() throws DAOException {
-		return NumberUtils.getNextVendorNumber();
+		return NumberUtils.getNextAutoVendorNumber();
+		//return NumberUtils.getNextVendorNumber();
 	}
 
 	@Override
