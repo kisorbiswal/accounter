@@ -126,8 +126,12 @@ public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 
 	@Override
 	public String getBody(AccounterConstants accounterConstants) {
-		// TODO Auto-generated method stub
-		return null;
+		if (body == null) {
+
+			this.body = accounterConstants.noRecordsToShow();
+
+		}
+		return this.body;
 	}
 
 }
