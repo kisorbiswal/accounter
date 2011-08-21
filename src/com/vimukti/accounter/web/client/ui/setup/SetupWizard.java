@@ -27,16 +27,24 @@ public class SetupWizard extends VerticalPanel {
 	public int currentViewIndex = START_PAGE;
 
 	private AbstractSetupPage viewList[] = new AbstractSetupPage[] {
-			new SetupStartPage(this), new SetupCompanyInfoPage(),
+			new SetupStartPage(this),
+			new SetupCompanyInfoPage(),
 			new SetupIndustrySelectionPage(),
-			new SetupOrganisationSelectionPage(), new SetupReferPage(),
-			new SetupTrackEmployeesPage(), new SetupSellTypeAndSalesTaxPage(),
+			new SetupOrganisationSelectionPage(),
+			new SetupReferPage(),
+			/* new SetupTrackEmployeesPage(), */new SetupSellTypeAndSalesTaxPage(),
 			new SetupUsingEstimatesAndStatementsPage(),
 			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
 			new SetupSelectFiscalYrDatePage(), new SetupSelectAccountsPage(),
 			new SetupComplitionPage() };
 
-	private Image progressImages[] = new Image[viewList.length - 2];
+	// TODO Change Organization Page
+	private AbstractSetupPage skipViewList[] = new AbstractSetupPage[] {
+			new SetupStartPage(this), new SetupCompanyInfoPage(),
+			new SetupOrganisationSelectionPage(),
+			new SetupIndustrySelectionPage(), new SetupComplitionPage() };
+
+	private Image progressImages[] = new Image[getViewList().length - 2];
 	private String progressLabels[] = new String[] {
 			Accounter.constants().setCompanyInfo(),
 			Accounter.constants().selectIndustryType(),
@@ -52,6 +60,7 @@ public class SetupWizard extends VerticalPanel {
 	private AbstractSetupPage previousView;
 	private AbstractSetupPage viewToShow;
 	private int progressImagesIndex;
+	private boolean isSkip;
 
 	public SetupWizard(AsyncCallback<Boolean> callback) {
 		preferences = Accounter.getCompany().getPreferences();
@@ -213,14 +222,14 @@ public class SetupWizard extends VerticalPanel {
 			previousView.onSave();
 			this.viewPanel.remove(previousView);
 		}
-		viewToShow = viewList[currentViewIndex];
+		viewToShow = getViewList()[currentViewIndex];
 		viewToShow.setPreferences(preferences);
 		while (!viewToShow.doShow()) {
 			currentViewIndex++;
-			viewToShow = viewList[currentViewIndex];
+			viewToShow = getViewList()[currentViewIndex];
 			viewToShow.setPreferences(preferences);
 		}
-		if (currentViewIndex == viewList.length - 1) {
+		if (currentViewIndex == getViewList().length - 1) {
 			backNextButtonPanel.addStyleName("back_GoToPanel");
 		} else {
 			backNextButtonPanel.addStyleName("back_NextPanel");
@@ -230,7 +239,7 @@ public class SetupWizard extends VerticalPanel {
 		// checking button display related conditions
 		if (currentViewIndex != START_PAGE) {
 			buttonPanel.setVisible(true);
-			if (currentViewIndex != viewList.length - 1) {
+			if (currentViewIndex != getViewList().length - 1) {
 				// skipButton.setVisible(true);
 				nextButton.setVisible(true);
 
@@ -249,6 +258,19 @@ public class SetupWizard extends VerticalPanel {
 		if (currentViewIndex > 1) {
 			progressImagesIndex = currentViewIndex - 2;
 			progressImages[progressImagesIndex].setVisible(true);
+		}
+	}
+
+	/**
+	 * Returns ViewList
+	 * 
+	 * @return
+	 */
+	private AbstractSetupPage[] getViewList() {
+		if (isSkip) {
+			return skipViewList;
+		} else {
+			return viewList;
 		}
 	}
 }

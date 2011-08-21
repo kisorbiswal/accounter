@@ -85,7 +85,7 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean doShow() {
+	public boolean canShow() {
 		return true;
 	}
 

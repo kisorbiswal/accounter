@@ -17,8 +17,8 @@ public interface IGlobal {
 
 	public String account();
 
-	public String Supplier();
+	public String Vendor();
 
-	public String supplier();
+	public String vendor();
 
 }

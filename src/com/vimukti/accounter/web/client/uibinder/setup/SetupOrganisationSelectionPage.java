@@ -169,7 +169,6 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		});
 	}
 
-	@Override
 	public void onLoad() {
 
 		switch (preferences.getOrganizationType()) {
@@ -222,7 +221,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean doShow() {
+	public boolean canShow() {
 		return true;
 	}
 

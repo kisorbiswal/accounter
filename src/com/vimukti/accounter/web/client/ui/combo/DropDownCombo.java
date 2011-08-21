@@ -445,10 +445,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	}
 
-	private void setSelectedIndex(int i) {
-
-	}
-
 	/**
 	 * This method will be invoked when a new item about to add in effect of
 	 * "addNewXXX" option

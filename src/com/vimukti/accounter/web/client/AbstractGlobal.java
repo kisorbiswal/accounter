@@ -62,7 +62,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientAccount.ACCOUNT:
 			return constants().Account();
 		case ClientAccount.LEGAND:
-			return constants().Legand();
+			return constants().Ledgar();
 		default:
 			return constants().Account();
 		}
@@ -75,14 +75,14 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientAccount.ACCOUNT:
 			return constants().account();
 		case ClientAccount.LEGAND:
-			return constants().legand();
+			return constants().ledgar();
 		default:
 			return constants().account();
 		}
 	}
 
 	@Override
-	public String Supplier() {
+	public String Vendor() {
 		int referCustomers = preferences().getReferAccounts();
 		switch (referCustomers) {
 		case ClientVendor.SUPPLIER:
@@ -90,12 +90,12 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientVendor.VENDOR:
 			return constants().Vendor();
 		default:
-			return constants().Supplier();
+			return constants().Vendor();
 		}
 	}
 
 	@Override
-	public String supplier() {
+	public String vendor() {
 		int referCustomers = preferences().getReferAccounts();
 		switch (referCustomers) {
 		case ClientVendor.SUPPLIER:
@@ -103,7 +103,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientVendor.VENDOR:
 			return constants().vendor();
 		default:
-			return constants().supplier();
+			return constants().vendor();
 		}
 	}
 

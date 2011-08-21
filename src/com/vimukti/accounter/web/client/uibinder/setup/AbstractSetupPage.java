@@ -31,5 +31,5 @@ public abstract class AbstractSetupPage extends Composite {
 
 	}
 
-	public abstract boolean doShow();
+	public abstract boolean canShow();
 }

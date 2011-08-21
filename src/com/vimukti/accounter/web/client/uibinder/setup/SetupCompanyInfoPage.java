@@ -124,7 +124,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			taxIDLabel.setText(accounterConstants.panNumber());
 		}
 
-		displayNameLabel.setText(accounterConstants.displayName());
+		displayNameLabel.setText(accounterConstants.companyName());
 		legalNameLabel.setText(accounterConstants.legalName());
 		streetAddress2Label.setText(accounterConstants.streetAddress2());
 		streetAdreess1Label.setText(accounterConstants.streetAddress1());
@@ -183,10 +183,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 						});
 			}
 		});
-
 	}
 
-	@Override
 	public void onLoad() {
 
 		this.company = Accounter.getCompany();
@@ -238,14 +236,13 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					.getSelectedIndex()));
 		}
 		if (country.getSelectedIndex() != 1)
-			address.setCountryOrRegion(countries
-					.get(country.getSelectedIndex()));
+			address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
 		company.setTradingAddress(address);
 		Accounter.setCompany(clientCompany);
 	}
 
 	@Override
-	public boolean doShow() {
+	public boolean canShow() {
 		return true;
 	}
 

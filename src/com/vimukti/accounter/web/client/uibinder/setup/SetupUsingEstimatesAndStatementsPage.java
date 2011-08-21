@@ -96,7 +96,7 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean doShow() {
+	public boolean canShow() {
 		return true;
 	}
 }

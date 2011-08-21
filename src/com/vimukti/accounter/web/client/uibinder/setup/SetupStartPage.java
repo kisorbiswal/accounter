@@ -84,10 +84,20 @@ public class SetupStartPage extends AbstractSetupPage {
 			}
 		});
 
+		this.skipButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				setupWizard.currentViewIndex++;
+				setupWizard.setSkip(true);
+				setupWizard.showView();
+			}
+		});
+
 	}
 
 	@Override
-	public boolean doShow() {
+	public boolean canShow() {
 		return true;
 	}
 

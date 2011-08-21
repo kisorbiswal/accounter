@@ -66,7 +66,7 @@ public class SetupComplitionPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean doShow() {
+	public boolean canShow() {
 		return true;
 	}
 

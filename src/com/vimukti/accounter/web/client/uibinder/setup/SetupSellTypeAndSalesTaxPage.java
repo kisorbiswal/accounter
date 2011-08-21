@@ -67,7 +67,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		createControls();
 	}
 
-
 	@Override
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.whatDoYouSell());
@@ -83,7 +82,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		salesTaxHead.setText(accounterConstants.doyouchargesalestax());
 		wtdoyouSell.setText(accounterConstants.whatDoYouSell());
 	}
-	
+
 	@Override
 	public void onLoad() {
 		boolean sellServices = preferences.isSellServices();
@@ -108,7 +107,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	}
 
-	@Override
 	public void onSave() {
 
 		if (servicesOnly.getValue())
@@ -128,9 +126,8 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 	}
 
-
 	@Override
-	public boolean doShow() {
+	public boolean canShow() {
 		return true;
 	}
 

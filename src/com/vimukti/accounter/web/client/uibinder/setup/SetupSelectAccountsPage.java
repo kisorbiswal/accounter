@@ -95,7 +95,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage implements
 	}
 
 	@Override
-	public boolean doShow() {
+	public boolean canShow() {
 		return true;
 	}
 

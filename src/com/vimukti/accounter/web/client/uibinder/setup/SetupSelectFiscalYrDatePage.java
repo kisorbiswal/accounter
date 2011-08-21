@@ -3,18 +3,14 @@
  */
 package com.vimukti.accounter.web.client.uibinder.setup;
 
-import java.util.Date;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
  * @author Administrator
@@ -85,14 +81,13 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	}
 
-	@Override
 	public void onSave() {
 		preferences
 				.setFiscalYearFirstMonth(fiscalStartsList.getSelectedIndex());
 	}
 
 	@Override
-	public boolean doShow() {
+	public boolean canShow() {
 		return true;
 	}
 

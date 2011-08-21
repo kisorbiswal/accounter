@@ -28,13 +28,18 @@ public class SetupWizard extends VerticalPanel {
 
 	private AbstractSetupPage viewList[] = new AbstractSetupPage[] {
 			new SetupStartPage(this), new SetupCompanyInfoPage(),
-			new SetupIndustrySelectionPage(),
-			new SetupOrganisationSelectionPage(), new SetupReferPage(),
+			new SetupOrganisationSelectionPage(),
+			new SetupIndustrySelectionPage(), new SetupReferPage(),
 			new SetupTrackEmployeesPage(), new SetupSellTypeAndSalesTaxPage(),
 			new SetupUsingEstimatesAndStatementsPage(),
 			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
 			new SetupSelectFiscalYrDatePage(), new SetupSelectAccountsPage(),
 			new SetupComplitionPage() };
+
+	private AbstractSetupPage[] skipViewList = new AbstractSetupPage[] {
+			new SetupStartPage(this), new SetupCompanyInfoPage(),
+			new SetupOrganisationSelectionPage(),
+			new SetupIndustrySelectionPage(), new SetupComplitionPage() };
 
 	private Image progressImages[] = new Image[viewList.length - 2];
 	private String progressLabels[] = new String[] {
@@ -52,6 +57,7 @@ public class SetupWizard extends VerticalPanel {
 	private AbstractSetupPage previousView;
 	private AbstractSetupPage viewToShow;
 	private int progressImagesIndex;
+	private boolean isSkip;
 
 	public SetupWizard(AsyncCallback<Boolean> callback) {
 		preferences = Accounter.getCompany().getPreferences();
@@ -104,8 +110,8 @@ public class SetupWizard extends VerticalPanel {
 			viewPanel.addStyleName("view_panel");
 			viewButtonPanel.setSize("100%", "100%");
 			topPanel.setSize("100%", "100%");
-			progressPanel.getElement().getParentElement().addClassName(
-					"progress_panel");
+			progressPanel.getElement().getParentElement()
+					.addClassName("progress_panel");
 			topPanel.setCellHorizontalAlignment(progressPanel,
 					HasAlignment.ALIGN_RIGHT);
 
@@ -219,16 +225,23 @@ public class SetupWizard extends VerticalPanel {
 			previousView.onSave();
 			this.viewPanel.remove(previousView);
 		}
-		while (!viewToShow.doShow()) {
-			currentViewIndex++;
-			viewToShow = viewList[currentViewIndex];
-			viewToShow.setPreferences(preferences);
+
+		// while (!viewToShow.doShow()) {
+		// currentViewIndex++;
+		// viewToShow = viewList[currentViewIndex];
+		// viewToShow.setPreferences(preferences);
+		// }
+		viewToShow = getNextView();
+
+		if (viewToShow == null) {
+			return;
 		}
-		if (viewToShow.doShow()) {
-			viewToShow = viewList[currentViewIndex];
-			viewToShow.setPreferences(preferences);
-		}
-		if (currentViewIndex == viewList.length - 1) {
+
+		// if (viewToShow.doShow()) {
+		// viewToShow = viewList[currentViewIndex];
+		// viewToShow.setPreferences(preferences);
+		// }
+		if (isLastView()) {
 			backNextButtonPanel.addStyleName("back_GoToPanel");
 		} else {
 			backNextButtonPanel.addStyleName("back_NextPanel");
@@ -236,9 +249,9 @@ public class SetupWizard extends VerticalPanel {
 		this.viewPanel.add(viewToShow);
 
 		// checking button display related conditions
-		if (currentViewIndex != START_PAGE) {
+		if (isFirstView()) {
 			buttonPanel.setVisible(true);
-			if (currentViewIndex != viewList.length - 1) {
+			if (!isLastView()) {
 				// skipButton.setVisible(true);
 				nextButton.setVisible(true);
 
@@ -257,6 +270,48 @@ public class SetupWizard extends VerticalPanel {
 		if (currentViewIndex > 1) {
 			progressImagesIndex = currentViewIndex - 2;
 			progressImages[progressImagesIndex].addStyleName("tick_show");
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean isFirstView() {
+		return currentViewIndex != START_PAGE;
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean isLastView() {
+		return currentViewIndex == getViewsList().length - 1;
+	}
+
+	private AbstractSetupPage getNextView() {
+		AbstractSetupPage nextView = getViewsList()[currentViewIndex];
+		nextView.setPreferences(preferences);
+		while (!nextView.canShow()) {
+			currentViewIndex++;
+			if (currentViewIndex > getViewsList().length - 1) {
+				return null;
+			}
+			nextView = getViewsList()[currentViewIndex];
+		}
+		return nextView;
+	}
+
+	/**
+	 * @param b
+	 */
+	public void setSkip(boolean value) {
+		this.isSkip = value;
+	}
+
+	private AbstractSetupPage[] getViewsList() {
+		if (isSkip) {
+			return skipViewList;
+		} else {
+			return viewList;
 		}
 	}
 }

@@ -4,6 +4,8 @@
 package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTML;
@@ -14,13 +16,12 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
- * @author Administrator
+ * @author Prasanna Kumar G
  * 
  */
-public class SetupIndustrySelectionPage extends AbstractSetupPage {
-
-	private static SetupIndustrySelectionPageUiBinder uiBinder = GWT
-			.create(SetupIndustrySelectionPageUiBinder.class);
+public class SetupIndustrySelectionPageWithAccounts extends AbstractSetupPage {
+	private static SetupIndustrySelectionPageWithAccountsUiBinder uiBinder = GWT
+			.create(SetupIndustrySelectionPageWithAccountsUiBinder.class);
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
@@ -32,8 +33,8 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	@UiField
 	Label headerLabel;
 
-	interface SetupIndustrySelectionPageUiBinder extends
-			UiBinder<Widget, SetupIndustrySelectionPage> {
+	interface SetupIndustrySelectionPageWithAccountsUiBinder extends
+			UiBinder<Widget, SetupIndustrySelectionPageWithAccounts> {
 	}
 
 	/**
@@ -45,9 +46,21 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	 * depending on the widget that is used, it may be necessary to implement
 	 * HasHTML instead of HasText.
 	 */
-	public SetupIndustrySelectionPage() {
+	public SetupIndustrySelectionPageWithAccounts() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
+	}
+
+	@Override
+	protected void onLoad() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void onSave() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -59,7 +72,7 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 		selectIndustry.setText(accounterMessages.selectIndustry());
 		industryList.setName(accounterConstants.industry());
 
-		String[] industries = new String[] {
+		final String[] industries = new String[] {
 				Accounter.constants().accountingorBookkeeping(),
 				Accounter.constants().advertisingorPublicRelations(),
 				Accounter.constants().agricultureRanchingFarming(),
@@ -95,27 +108,24 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 		for (int i = 0; i < industries.length; i++) {
 			industryList.addItem(industries[i]);
 		}
-		industryList.setVisibleItemCount(15);
 
-	}
+		industryList.addChangeHandler(new ChangeHandler() {
 
-	public void onLoad() {
-
-		int industryType = preferences.getIndustryType();
-		if (industryType != 0)
-			industryList.setSelectedIndex(industryType);
-	}
-
-	@Override
-	public void onSave() {
-
-		int selectedValue = industryList.getSelectedIndex();
-		if (selectedValue != 0)
-			preferences.setIndustryType(selectedValue);
+			@Override
+			public void onChange(ChangeEvent event) {
+				int selectedIndex = industryList.getSelectedIndex();
+				if (selectedIndex < 0) {
+					return;
+				}
+				String selectedIndusty = industries[selectedIndex];
+			}
+		});
+		industryList.setVisibleItemCount(10);
 	}
 
 	@Override
 	public boolean canShow() {
 		return true;
 	}
+
 }

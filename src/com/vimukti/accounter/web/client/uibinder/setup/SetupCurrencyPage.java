@@ -58,7 +58,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	}
 
 	@Override
-	public boolean doShow() {
+	public boolean canShow() {
 		return true;
 	}
 
