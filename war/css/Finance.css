@@ -6532,9 +6532,7 @@ input[type="text"],textarea {
 	width:100%;
 	box-shadow: 1px 2px 2px #1A5158;
 }
-.menuPopupContent{
-	box-shadow: 1px 2px 2px #002e36;
-}
+
 .group-toolbar{
 	background:none repeat scroll 0 0 #3299A4;
 }
@@ -6805,4 +6803,7 @@ a#fdbk_tab:hover{
 }
 .organization_listbox{
 	margin: 0 0 14px 25px;
+}
+.refer_customer,.refer_supplier,.refer_account{
+	padding: 10px 0 0 15px;
 }
