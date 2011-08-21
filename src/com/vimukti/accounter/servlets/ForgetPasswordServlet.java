@@ -86,11 +86,12 @@ public class ForgetPasswordServlet extends BaseServlet {
 	private void sendLinkToUser(Client client, String activationCode) {
 
 		Session session = HibernateUtil.getCurrentSession();
-
+		Transaction transaction = session.beginTransaction();
 		client.setRequirePasswordReset(true);
 
 		session.save(client);
 
+		transaction.commit();
 		String link = "https://www.accounterlive.com/activation";
 
 		UsersMailSendar.sendResetPasswordLinkToUser(link, activationCode,
