@@ -54,6 +54,8 @@ public class ViewManager extends HorizontalPanel {
 
 	private ImageButton printButton;
 
+	private ImageButton exportButton;
+
 	private ImageButton editButton;
 
 	private ImageButton closeButton;
@@ -248,10 +250,14 @@ public class ViewManager extends HorizontalPanel {
 
 		if (existingView instanceof IPrintableView) {
 			// printButton.setVisible(true);
+			group2.add(exportButton);
 			group2.add(printButton);
+
 		} else {
 			// printButton.setVisible(false);
+			group2.remove(exportButton);
 			group2.remove(printButton);
+
 		}
 	}
 
@@ -371,6 +377,18 @@ public class ViewManager extends HorizontalPanel {
 
 			}
 		});
+
+		exportButton = new ImageButton(Accounter.constants().exportToCSV(),
+				Accounter.getFinanceImages().exportIcon());
+		exportButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				existingView.exportToCsv();
+
+			}
+		});
+
 		editButton = new ImageButton(Accounter.constants().edit(), Accounter
 				.getFinanceImages().editIcon());
 		editButton.addClickHandler(new ClickHandler() {
@@ -395,6 +413,8 @@ public class ViewManager extends HorizontalPanel {
 		group1.add(viewTitleLabel);
 
 		group2.add(editButton);
+
+		group2.add(exportButton);
 		group2.add(printButton);
 
 		group3.add(closeButton);
