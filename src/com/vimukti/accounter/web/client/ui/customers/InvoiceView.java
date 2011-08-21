@@ -1649,4 +1649,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 		return Accounter.constants().invoice();
 	}
 
+	@Override
+	public void exportToCsv() {
+	}
 }
