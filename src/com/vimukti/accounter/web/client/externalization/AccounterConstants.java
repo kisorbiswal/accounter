@@ -4840,4 +4840,8 @@ public interface AccounterConstants extends Constants {
 
 	public String doyouchargeVat();
 
+	public String theFinanceCategoryNoShouldBeBetween1100And1179();
+
+	public String theFinanceCategoryNoShouldBeBetween();
+
 }
