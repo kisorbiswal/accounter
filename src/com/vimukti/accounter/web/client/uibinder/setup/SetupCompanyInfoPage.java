@@ -233,9 +233,13 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		address.setAddress1(streetAddress1.getValue());
 		address.setStreet(streetAdress2.getValue());
 		address.setCity(cityTextBox.getValue());
-		address.setStateOrProvinence(states
-				.get(stateListBox.getSelectedIndex()));
-		address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
+		if (stateListBox.getSelectedIndex() != -1) {
+			address.setStateOrProvinence(states.get(stateListBox
+					.getSelectedIndex()));
+		}
+		if (country.getSelectedIndex() != 1)
+			address.setCountryOrRegion(countries
+					.get(country.getSelectedIndex()));
 		company.setTradingAddress(address);
 		Accounter.setCompany(clientCompany);
 	}
