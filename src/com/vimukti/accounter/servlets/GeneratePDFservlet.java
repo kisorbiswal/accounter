@@ -1,9 +1,11 @@
 package com.vimukti.accounter.servlets;
 
 import java.awt.Dimension;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -14,11 +16,12 @@ import org.hibernate.Session;
 import org.zefer.pd4ml.PD4Constants;
 
 import com.vimukti.accounter.core.BrandingTheme;
-import com.vimukti.accounter.core.CreditNoteTemplete;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CreditNotePDFTemplete;
 import com.vimukti.accounter.core.CustomerCreditMemo;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.Invoice;
-import com.vimukti.accounter.core.InvoiceTemplete;
+import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
@@ -32,6 +35,12 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class GeneratePDFservlet extends BaseServlet {
+	public ITemplate template;
+	public Converter converter;
+
+	private String outPutString;
+	private String fileName;
+	private int transactionType;
 
 	/**
 	 * 
@@ -42,11 +51,6 @@ public class GeneratePDFservlet extends BaseServlet {
 	protected void service(HttpServletRequest arg0, HttpServletResponse arg1)
 			throws ServletException, IOException {
 		super.service(arg0, arg1);
-	}
-
-	class TemplateAndConcerter {
-		ITemplate template;
-		Converter converter;
 	}
 
 	public void generatePDF(HttpServletRequest request,
@@ -64,15 +68,36 @@ public class GeneratePDFservlet extends BaseServlet {
 
 			String style = ("FinanceDir" + File.separator + "FinancePrint.css");
 
-			TemplateAndConcerter result = getTempleteObjByRequest(request,
-					footerImg, style, companyName);
+			getTempleteObjByRequest(request, footerImg, style, companyName);
+
 			response.setContentType("application/pdf");
 			response.setHeader("Content-disposition", "attachment; filename="
-					+ result.template.getFileName().replace(" ", "") + ".pdf");
+					+ fileName.replace(" ", "") + ".pdf");
 			sos = response.getOutputStream();
 
+			switch (transactionType) {
+			// for invoice
+			case Transaction.TYPE_INVOICE:
+				java.io.InputStream inputStream = new ByteArrayInputStream(
+						outPutString.getBytes());
+				InputStreamReader reader = new InputStreamReader(inputStream);
+				converter.generatePdfDocuments(fileName, sos, reader);
+				break;
+			// for credit note
+			case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
+				java.io.InputStream inputStr = new ByteArrayInputStream(
+						outPutString.getBytes());
+				InputStreamReader creditReader = new InputStreamReader(inputStr);
+				converter.generatePdfDocuments(fileName, sos, creditReader);
+				break;
+
+			default:
+				// for generating pdf document for reports
+				converter.generatePdfReports(template, sos);
+				break;
+			}
+
 			System.err.println("Converter obj created");
-			result.converter.generatePDF(result.template, sos);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -85,10 +110,11 @@ public class GeneratePDFservlet extends BaseServlet {
 		}
 	}
 
-	private TemplateAndConcerter getTempleteObjByRequest(
-			HttpServletRequest request, String footerImg, String style,
-			String companyName) throws IOException, AccounterException {
+	private void getTempleteObjByRequest(HttpServletRequest request,
+			String footerImg, String style, String companyName)
+			throws Exception, IOException, AccounterException {
 		Session session = null;
+
 		try {
 
 			String companyID = getCookie(request, COMPANY_COOKIE);
@@ -97,52 +123,70 @@ public class GeneratePDFservlet extends BaseServlet {
 			FinanceTool financetool = new FinanceTool();
 			TemplateBuilder.setCmpName(companyName);
 
-			TemplateAndConcerter result = new TemplateAndConcerter();
-
+			Company company = financetool.getCompany();
 			CompanyPreferenceThreadLocal.set(financetool
 					.getClientCompanyPreferences());
 
 			String objectId = request.getParameter("objectId");
 			if (objectId != null) {
-				int type = Integer.parseInt(request.getParameter("type"));
+				transactionType = Integer
+						.parseInt(request.getParameter("type"));
+				fileName = "";
 
-				if (type == Transaction.TYPE_INVOICE) {
+				String brandingThemeId = request
+						.getParameter("brandingThemeId");
+				BrandingTheme brandingTheme = (BrandingTheme) financetool
+						.getServerObjectForid(AccounterCoreType.BRANDINGTHEME,
+								Long.parseLong(brandingThemeId));
+
+				if (transactionType == Transaction.TYPE_INVOICE) {
 					Invoice invoice = (Invoice) financetool
 							.getServerObjectForid(AccounterCoreType.INVOICE,
 									Long.parseLong(objectId));
-					String brandingThemeId = request
-							.getParameter("brandingThemeId");
-					BrandingTheme brandingTheme = (BrandingTheme) financetool
-							.getServerObjectForid(
-									AccounterCoreType.BRANDINGTHEME,
-									Long.parseLong(brandingThemeId));
 
-					result.converter = new Converter(
+					converter = new Converter(
 							getPageSizeType(brandingTheme.getPageSizeType()));
 
-					result.template = new InvoiceTemplete(invoice,
-							brandingTheme, footerImg, style);
+					// template = new InvoiceTemplete(invoice,
+					// brandingTheme, footerImg, style);
+
+					InvoicePDFTemplete invoiceHtmlTemplete = new InvoicePDFTemplete(
+							invoice, brandingTheme, company);
+
+					fileName = invoiceHtmlTemplete.getFileName();
+
+					outPutString = invoiceHtmlTemplete.generatePDF();
+
 				}
 				// for Credit Note
-				if (type == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-					result.converter = new Converter();
+				if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+					converter = new Converter(
+							getPageSizeType(brandingTheme.getPageSizeType()));
 					CustomerCreditMemo memo = (CustomerCreditMemo) financetool
 							.getServerObjectForid(
 									AccounterCoreType.CUSTOMERCREDITMEMO,
 									Long.parseLong(objectId));
-					result.template = new CreditNoteTemplete(memo, footerImg,
-							style);
+
+					CreditNotePDFTemplete creditNotePDFTemplete = new CreditNotePDFTemplete(
+							memo, brandingTheme, company);
+
+					fileName = creditNotePDFTemplete.getFileName();
+
+					outPutString = creditNotePDFTemplete
+							.generateCreditMemoPDF();
+
 				}
 
 			}
 			// for Reports
 			else {
-				result.converter = new Converter();
-				result.template = getReportTemplate(request, financetool,
-						footerImg, style);
+				transactionType = 0;
+				converter = new Converter();
+				template = getReportTemplate(request, financetool, footerImg,
+						style);
+				fileName = template.getFileName();
 			}
 
-			return result;
 		} finally {
 			session.close();
 		}
