@@ -147,10 +147,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private int organizationType;
 
 	// for tracking employes in setup page
-	private String referCustomers;
-	private String referSuplliers;
-	private String referAccounts;
-	private String industryType;
+	private int referCustomers;
+	private int referSuplliers;
+	private int referAccounts;
+	private int industryType;
 	// for select fiscal year in setup
 
 	int fiscalYearFirstMonth;
@@ -806,27 +806,27 @@ public class CompanyPreferences implements IAccounterServerCore {
 		set(KEEP_TRACK_OF_TIME, value);
 	}
 
-	public String getReferCustomers() {
+	public int getReferCustomers() {
 		return referCustomers;
 	}
 
-	public void setReferCustomers(String referCustomers) {
+	public void setReferCustomers(int referCustomers) {
 		this.referCustomers = referCustomers;
 	}
 
-	public String getReferSuplliers() {
+	public int getReferSuplliers() {
 		return referSuplliers;
 	}
 
-	public void setReferSuplliers(String referSuplliers) {
+	public void setReferSuplliers(int referSuplliers) {
 		this.referSuplliers = referSuplliers;
 	}
 
-	public String getReferAccounts() {
+	public int getReferAccounts() {
 		return referAccounts;
 	}
 
-	public void setReferAccounts(String referAccounts) {
+	public void setReferAccounts(int referAccounts) {
 		this.referAccounts = referAccounts;
 	}
 
@@ -846,11 +846,11 @@ public class CompanyPreferences implements IAccounterServerCore {
 		set(WANT_STATEMENTS, value);
 	}
 
-	public String getIndustryType() {
+	public int getIndustryType() {
 		return industryType;
 	}
 
-	public void setIndustryType(String industryType) {
+	public void setIndustryType(int industryType) {
 		this.industryType = industryType;
 	}
 
