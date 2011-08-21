@@ -206,7 +206,13 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		ClientCustomer customerByName = company.getCustomerByName(name);
 
-		if (vendorByName != null || customerByName != null) {
+		if (customerByName != null) {
+			result.addError(vendorNameText, Accounter.constants()
+					.alreadyExist());
+			return result;
+		}
+		if (vendorByName != null
+				&& !(this.getData().getID() == vendorByName.getID())) {
 			result.addError(vendorNameText, Accounter.constants()
 					.alreadyExist());
 			return result;
@@ -1146,7 +1152,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

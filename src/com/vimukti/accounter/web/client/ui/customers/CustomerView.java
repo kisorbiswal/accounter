@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -380,6 +381,22 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		data.setName(custNameText.getValue().toString());
 
 		data.setNumber(custNoText.getValue().toString());
+
+		ClientVendor vendorByName = company.getVendorByName(custNameText
+				.getValue());
+
+		ClientCustomer customerByName = company.getCustomerByName(custNameText
+				.getValue());
+
+		if (vendorByName != null) {
+			result.addError(custNameText, Accounter.constants().alreadyExist());
+			return result;
+		}
+		if (customerByName != null
+				&& !(this.getData().getID() == customerByName.getID())) {
+			result.addError(custNameText, Accounter.constants().alreadyExist());
+			return result;
+		}
 		String s = objectExist(data);
 		if (s != null && !s.isEmpty()) {
 
@@ -1214,7 +1231,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
