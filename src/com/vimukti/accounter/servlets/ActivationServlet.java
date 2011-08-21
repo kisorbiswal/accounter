@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
@@ -77,13 +79,15 @@ public class ActivationServlet extends BaseServlet {
 				session.setAttribute(EMAIL_ID, activation.getEmailId());
 				String activationType = (String) session
 						.getAttribute(ACTIVATION_TYPE);
-				if (activationType != null && activationType.equals("resetpassword")) {
+				if (activationType != null
+						&& activationType.equals("resetpassword")) {
 					session.removeAttribute(ACTIVATION_TYPE);
 					redirectExternal(req, resp, RESET_PASSWORD_URL);
 					return;
 				}
 
 				Session hbSession = HibernateUtil.openSession(LOCAL_DATABASE);
+				Transaction transaction = hbSession.beginTransaction();
 				try {
 					Client client = (Client) hbSession
 							.getNamedQuery("getClient.by.mailId")
@@ -93,14 +97,20 @@ public class ActivationServlet extends BaseServlet {
 					saveEntry(client);
 
 					// delete activation object
-					hbSession.getNamedQuery("delete.activation.by.emailId")
-							.setParameter("emailId", activation.getEmailId())
-							.executeUpdate();
+					
+					Query query = hbSession
+							.getNamedQuery("delete.activation.by.emailId");
+					query.setParameter("emailId", activation.getEmailId()
+							.trim());
+					int updatedRows = query.executeUpdate();
+					LOG.debug("No of updated rows = " + updatedRows);
+					transaction.commit();
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
 					if (hbSession != null)
 						hbSession.close();
+					
 				}
 
 				// redirect To ActivationPage.
