@@ -107,6 +107,7 @@ public class SetupWizard extends VerticalPanel {
 
 			topPanel.setCellWidth(progressPanel, "28%");
 			topPanel.setCellWidth(viewButtonPanel, "72%");
+
 			viewPanel.addStyleName("view_panel");
 			viewButtonPanel.setSize("100%", "100%");
 			topPanel.setSize("100%", "100%");
@@ -174,12 +175,12 @@ public class SetupWizard extends VerticalPanel {
 
 				@Override
 				public void onClick(ClickEvent arg0) {
-					if (currentViewIndex != viewList.length - 1) {
-						// if (viewList[currentViewIndex].validate()) {
-						currentViewIndex++;
-						// }
+					if (viewList[currentViewIndex].validate()) {
+						if (currentViewIndex != viewList.length - 1) {
+							currentViewIndex++;
+						}
+						showView();
 					}
-					showView();
 				}
 			});
 
@@ -187,18 +188,20 @@ public class SetupWizard extends VerticalPanel {
 
 				@Override
 				public void onClick(ClickEvent arg0) {
-					if (currentViewIndex != START_PAGE) {
-						currentViewIndex--;
-						showView();
-						if (currentViewIndex == 0) {
+					if (viewList[currentViewIndex].validate()) {
+						if (currentViewIndex != START_PAGE) {
+							currentViewIndex--;
+							showView();
+							if (currentViewIndex == 0) {
+								removeProgressPanel();
+
+							}
+						} else {
+							viewPanel.remove(viewToShow);
 							removeProgressPanel();
-
 						}
-					} else {
-						viewPanel.remove(viewToShow);
-						removeProgressPanel();
-					}
 
+					}
 				}
 			});
 			previousView = null;
@@ -225,7 +228,7 @@ public class SetupWizard extends VerticalPanel {
 	protected void showView() {
 
 		previousView = viewToShow;
-		if (previousView != null) {
+		if (previousView != null && previousView.validate()) {
 			previousView.onSave();
 			this.viewPanel.remove(previousView);
 		}
@@ -307,7 +310,9 @@ public class SetupWizard extends VerticalPanel {
 			}
 
 		}
+
 		progressPanel.add(progressTable);
+		progressTable.addStyleName("progress_panel_data");
 		progressPanel.getElement().getParentElement().setClassName(
 				"progress_panel_show");
 	}

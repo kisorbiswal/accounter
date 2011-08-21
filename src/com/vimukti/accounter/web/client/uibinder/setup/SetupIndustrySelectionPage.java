@@ -118,4 +118,13 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	public boolean canShow() {
 		return true;
 	}
+
+	@Override
+	protected boolean validate() {
+		if (industryList.getSelectedIndex() == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

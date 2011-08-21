@@ -88,4 +88,14 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 		return true;
 	}
 
+	@Override
+	protected boolean validate() {
+		if (fiscalStartsList.getSelectedIndex() == -1) {
+			return false;
+		} else {
+			return true;
+		}
+
+	}
+
 }

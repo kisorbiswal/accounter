@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Administrator
@@ -122,4 +123,19 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 		}
 	}
 
+	@Override
+	protected boolean validate() {
+		if ((!(managingYes.getValue() || managingNo.getValue()))
+				&& (!(trackingTimeYes.getValue() || trackingNo.getValue()))) {
+			return false;
+		} else if (!(managingYes.getValue() || managingNo.getValue())) {
+			Accounter.showMessage("First");
+			return false;
+		} else if (!(trackingTimeYes.getValue() || trackingNo.getValue())) {
+			Accounter.showMessage("Second");
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

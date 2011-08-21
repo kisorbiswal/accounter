@@ -111,8 +111,6 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 						.getValue());
 				preferences.setHaveW_2Employees(w2Employees.getValue());
 				preferences.setHave1099contractors(contractors.getValue());
-			} else {
-				Accounter.showError("Please select emlployee type..");
 			}
 
 		} else {
@@ -141,5 +139,22 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		if (trackPanel.isAttached())
 			mainViewPanel.remove(trackPanel);
 
+	}
+
+	@Override
+	protected boolean validate() {
+		if (trackEmployeeYes.getValue()) {
+			if (!(w2Employees.getValue() || contractors.getValue())) {
+				Accounter.showError("Please select emlployee type..");
+				return false;
+			} else if (trackEmployeeExpenseYes.getValue()
+					|| trackEmployeeExpenseNo.getValue()) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
 	}
 }

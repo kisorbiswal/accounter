@@ -249,4 +249,9 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		return true;
 	}
 
+	@Override
+	protected boolean validate() {
+		return true;
+	}
+
 }

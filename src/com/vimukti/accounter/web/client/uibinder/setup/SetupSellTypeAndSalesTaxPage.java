@@ -137,4 +137,22 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		return true;
 	}
 
+	@Override
+	protected boolean validate() {
+		if ((!(servicesOnly.getValue() || productsOnly.getValue() || both
+				.getValue()))
+				&& (!(salesTaxYes.getValue() || salesTaxNo.getValue()))) {
+			return false;
+		} else if (!(servicesOnly.getValue() || productsOnly.getValue() || both
+				.getValue())) {
+			Accounter.showMessage("First");
+			return false;
+		} else if (!(salesTaxYes.getValue() || salesTaxNo.getValue())) {
+			Accounter.showMessage("Second");
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 }

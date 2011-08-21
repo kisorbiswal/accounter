@@ -121,7 +121,6 @@ public class SetupIndustrySelectionPageWithAccounts extends AbstractSetupPage {
 				if (selectedIndex < 0) {
 					return;
 				}
-				String selectedIndusty = industries[selectedIndex];
 			}
 		});
 		industryList.setVisibleItemCount(10);
@@ -130,6 +129,15 @@ public class SetupIndustrySelectionPageWithAccounts extends AbstractSetupPage {
 	@Override
 	public boolean canShow() {
 		return true;
+	}
+
+	@Override
+	protected boolean validate() {
+		if (industryList.getSelectedIndex() == -1) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

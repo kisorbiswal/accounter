@@ -60,9 +60,6 @@ public class SetupSelectAccountsPage extends AbstractSetupPage implements
 		
 		expensesInfo.setText(accounterConstants.expenseInformation());
 		recommendedInfo.setText(accounterMessages.recommendedAccounts());
-		Label accountName;
-		Label type;
-		CheckBox expensesClick;
 		restoreButton.setText(accounterConstants.restoreRecommendations());
 		expensesLink.setText(accounterMessages.whyshoudIUseRecommended());
 		expensesNote.setText(accounterMessages.recommendedNote());
@@ -96,6 +93,12 @@ public class SetupSelectAccountsPage extends AbstractSetupPage implements
 
 	@Override
 	public boolean canShow() {
+		return true;
+	}
+
+	@Override
+	protected boolean validate() {
+		// TODO Auto-generated method stub
 		return true;
 	}
 

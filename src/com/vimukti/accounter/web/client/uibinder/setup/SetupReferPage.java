@@ -122,4 +122,30 @@ public class SetupReferPage extends AbstractSetupPage {
 			preferences.setReferAccounts(accounts);
 	}
 
+	@Override
+	protected boolean validate() {
+		if (customerListBox.getSelectedIndex() == -1
+				&& supplierListBox.getSelectedIndex() == -1
+				&& accountListBox.getSelectedIndex() == -1) {
+			return false;
+		} else if (customerListBox.getSelectedIndex() == -1
+				&& supplierListBox.getSelectedIndex() == -1) {
+			return false;
+		} else if (supplierListBox.getSelectedIndex() == -1
+				&& accountListBox.getSelectedIndex() == -1) {
+			return false;
+		} else if (customerListBox.getSelectedIndex() == -1
+				&& accountListBox.getSelectedIndex() == -1) {
+			return false;
+		} else if (customerListBox.getSelectedIndex() == -1) {
+			return false;
+		} else if (supplierListBox.getSelectedIndex() == -1) {
+			return false;
+		} else if (accountListBox.getSelectedIndex() == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 }

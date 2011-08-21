@@ -92,4 +92,13 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 		return true;
 	}
 
+	@Override
+	protected boolean validate() {
+		if (primaryCurrencyListBox.getSelectedIndex() == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 }

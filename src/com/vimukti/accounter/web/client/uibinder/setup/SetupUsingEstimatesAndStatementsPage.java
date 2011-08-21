@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 
@@ -100,5 +101,21 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	@Override
 	public boolean canShow() {
 		return true;
+	}
+
+	@Override
+	protected boolean validate() {
+		if ((!(estimatesYes.getValue() || estimatesNo.getValue()))
+				&& (!(statementYes.getValue() || statementsNo.getValue()))) {
+			return false;
+		} else if (!(estimatesYes.getValue() || estimatesNo.getValue())) {
+			Accounter.showMessage("First");
+			return false;
+		} else if (!(statementYes.getValue() || statementsNo.getValue())) {
+			Accounter.showMessage("Second");
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

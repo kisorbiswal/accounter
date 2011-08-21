@@ -225,4 +225,9 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		return true;
 	}
 
+	@Override
+	protected boolean validate() {
+		return true;
+	}
+
 }
