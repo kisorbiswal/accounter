@@ -117,8 +117,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	// private ClientCustomer takenCustomer;
 
-	private DynamicForm customerForm;
 	private DynamicForm accInfoForm;
+	private DynamicForm customerForm;
 	private AddressForm addrsForm;
 	private PhoneFaxForm fonFaxForm;
 	private EmailForm emailForm;
@@ -399,8 +399,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		}
 		String s = objectExist(data);
 		if (s != null && !s.isEmpty()) {
-
 			result.addError(custNameText, s);
+			return result;
 		}
 
 		gridView.validateGrid();
