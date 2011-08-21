@@ -34,7 +34,7 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 
 			@Override
 			public void actionResult(ClientTAXAgency result) {
-				if(result.getName()!=null || result.getDisplayName()!=null)
+				if(result.getName()!=null)
 				addItemThenfireEvent(result);
 
 			}
