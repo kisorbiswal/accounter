@@ -2147,4 +2147,28 @@ background-color: #bcfcb1;
 #mainFooter a:hover{
 	text-decoration: underline;
 }
+#maintananceContainer{
+	background: none repeat scroll 0 0 #EAEEF1;
+    margin: 0 auto;
+    overflow: auto;
+    width: 960px;
+    height:300px;
+    text-align:left;
+}
+.maintainence_logo{
+	float:left;
+}
+.maintainence_message{
+	color: #395169;
+    float: right;
+    line-height: 2;
+}
+.maintanance_subcont{
+	padding:25px;
+	overflow:auto;
+}
+.unavailable_page{
+	overflow: auto;
+    padding: 20px 25px 0;
+}
 /* End of the new Login and forgot password page*/
