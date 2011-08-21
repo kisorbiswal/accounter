@@ -6,11 +6,11 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.mattbertolini.hermes.Hermes;
-import com.vimukti.accounter.web.client.IGlobal;
+import com.vimukti.accounter.web.client.AbstractGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 
-public class ServerGlobal implements IGlobal {
+public class ServerGlobal extends AbstractGlobal {
 
 	private Map<Locale, AccounterConstants> constents = new HashMap<Locale, AccounterConstants>();
 
@@ -21,9 +21,9 @@ public class ServerGlobal implements IGlobal {
 	public AccounterConstants constants() {
 		Locale locale = ServerLocal.get();
 		AccounterConstants accounterConstants = this.constents.get(locale);
-		if(accounterConstants==null){
+		if (accounterConstants == null) {
 			try {
-				accounterConstants=	createAccounterConstants(locale);
+				accounterConstants = createAccounterConstants(locale);
 				this.constents.put(locale, accounterConstants);
 			} catch (IOException e) {
 				throw new RuntimeException();
@@ -32,8 +32,10 @@ public class ServerGlobal implements IGlobal {
 		return accounterConstants;
 	}
 
-	private AccounterConstants createAccounterConstants(Locale locale) throws IOException {
-		AccounterConstants constants=Hermes.get(AccounterConstants.class, locale.getLanguage());
+	private AccounterConstants createAccounterConstants(Locale locale)
+			throws IOException {
+		AccounterConstants constants = Hermes.get(AccounterConstants.class,
+				locale.getLanguage());
 		return constants;
 	}
 
@@ -41,7 +43,5 @@ public class ServerGlobal implements IGlobal {
 	public ClientCompanyPreferences preferences() {
 		return CompanyPreferenceThreadLocal.get();
 	}
-
-	
 
 }
