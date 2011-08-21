@@ -221,27 +221,6 @@
 	       <a target="_blank" href="/site/support"> Support </a>
 	    </div>
 	</div>
-	  <!-- <tr>
-	     <td>
-	      <table width="100%">
-	       <tr>
-		      <td><div class="footer-left"></div></td>
-		      <td width="100%">
-		         <div class="feedback-option">
-		             <div class="vimukti-name">
-		               <a target="/blank" href="http://www.vimukti.com/">Vimukti Technologies Pvt Ltd.</a> All rights reserved
-		         </div>
-		         <div class="feedback-name">
-		             Send your feedback to: <a target="_blank" href="/site/support">support@accounterlive.com</a>
-		         </div>
-		         </div>
-		      </td>
-		      <td><div class="footer-right"></div></td>
-		    </tr>
-	     </table>
-	    </td>
-	   </tr>
-	</table>-->
 	
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
