@@ -250,7 +250,6 @@ public class CustomerCreditMemo extends Transaction implements
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		org.hibernate.Transaction transaction = session.beginTransaction();
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
@@ -270,7 +269,7 @@ public class CustomerCreditMemo extends Transaction implements
 			this.setCreditsAndPayments(creditsAndPayments);
 			session.save(creditsAndPayments);
 		}
-		transaction.commit();
+
 		return false;
 
 	}
@@ -500,7 +499,6 @@ public class CustomerCreditMemo extends Transaction implements
 
 		}
 		super.onEdit(clonedObject);
-		
 
 	}
 
