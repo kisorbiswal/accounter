@@ -91,17 +91,17 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	@Override
 	public void onLoad() {
 
-		String industryType = preferences.getIndustryType();
-		if (industryType != null)
-			industryCombo.setValue(industryType);
+//		String industryType = preferences.getIndustryType();
+//		if (industryType != null)
+//			industryCombo.setValue(industryType);
 	}
 
 	@Override
 	public void onSave() {
 
-		String selectedValue = industryCombo.getSelectedValue();
-		if (selectedValue != null)
-			preferences.setIndustryType(selectedValue);
+//		String selectedValue = industryCombo.getSelectedValue();
+//		if (selectedValue != null)
+//			preferences.setIndustryType(selectedValue);
 	}
 
 	@Override

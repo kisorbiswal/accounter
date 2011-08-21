@@ -84,16 +84,16 @@ public class SetupReferPage extends AbstractSetupPage {
 	@Override
 	public void onLoad() {
 
-		String referCustomers = preferences.getReferCustomers();
-		String referSuplliers = preferences.getReferSuplliers();
-		String referAccounts = preferences.getReferAccounts();
+//		String referCustomers = preferences.getReferCustomers();
+//		String referSuplliers = preferences.getReferSuplliers();
+//		String referAccounts = preferences.getReferAccounts();
 
-		if (referCustomers != null)
-			customerCombo.setSelected(referCustomers);
-		if (referAccounts != null)
-			accountCombo.setSelected(referAccounts);
-		if (referSuplliers != null)
-			supplierCombo.setSelected(referSuplliers);
+		// if (referCustomers != null)
+		// customerCombo.setSelected(referCustomers);
+		// if (referAccounts != null)
+		// accountCombo.setSelected(referAccounts);
+		// if (referSuplliers != null)
+		// supplierCombo.setSelected(referSuplliers);
 	}
 
 	@Override
@@ -101,12 +101,12 @@ public class SetupReferPage extends AbstractSetupPage {
 		String customer = customerCombo.getSelectedValue();
 		String suplier = supplierCombo.getSelectedValue();
 		String accounts = accountCombo.getSelectedValue();
-		if (customer != null)
-			preferences.setReferCustomers(customer);
-		if (suplier != null)
-			preferences.setReferSuplliers(suplier);
-		if (accounts != null)
-			preferences.setReferAccounts(accounts);
+//		if (customer != null)
+//			preferences.setReferCustomers(customer);
+//		if (suplier != null)
+//			preferences.setReferSuplliers(suplier);
+//		if (accounts != null)
+//			preferences.setReferAccounts(accounts);
 	}
 
 	@Override
