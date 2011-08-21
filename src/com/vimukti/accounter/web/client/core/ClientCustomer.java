@@ -7,6 +7,20 @@ import java.util.Set;
 
 public class ClientCustomer extends ClientPayee {
 
+	public static final int CUSTOMER = 1;
+
+	public static final int CLIENT = 2;
+
+	public static final int TENANT = 3;
+
+	public static final int DONAR = 4;
+
+	public static final int GUEST = 5;
+
+	public static final int MEMBER = 6;
+
+	public static final int PATITEINT = 7;
+
 	/**
 	 * 
 	 */

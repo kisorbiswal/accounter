@@ -7,6 +7,9 @@ import java.util.Set;
 
 public class ClientVendor extends ClientPayee {
 
+	public static final int SUPPLIER = 1;
+
+	public static final int VENDOR = 2;
 	/**
 	 * 
 	 */

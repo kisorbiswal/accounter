@@ -6,11 +6,15 @@ package com.vimukti.accounter.web.client.core;
  */
 public class ClientAccount implements IAccounterCore, IAccountable {
 
+	public static final int ACCOUNT = 1;
+
+	public static final int LEGAND = 2;
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	// public static final int BASETYPE_INCOME = 1;
 	// public static final int BASETYPE_EXPENSE = 2;
 	// public static final int BASETYPE_ASSET = 3;
