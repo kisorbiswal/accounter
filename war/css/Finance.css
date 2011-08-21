@@ -6517,9 +6517,15 @@ input[type="text"],textarea {
     padding: 10px;
     width: 800px;
 }
-.progress_panel{
+.progress_panel_show{
 	border-right: 1px solid gray;
     padding-right: 25px;
+    visibility:visible; 
+}
+.progress_panel_hide{
+	border-right: 1px solid gray;
+    padding-right: 25px;
+    display: none;
 }
 .view_button{
 	padding-left:30px;
