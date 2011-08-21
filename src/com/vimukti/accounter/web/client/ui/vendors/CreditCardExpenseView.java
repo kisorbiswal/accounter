@@ -236,7 +236,7 @@ public class CreditCardExpenseView extends
 
 					@Override
 					public void actionResult(ClientVendor result) {
-						if (result.getDisplayName() != null)
+						if (result.getName() != null)
 							addItemThenfireEvent(result);
 
 					}
