@@ -45,8 +45,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	@UiField
 	HTML salesTaxHead;
 	@UiField
-	HTML wtdoyouSell;
-	@UiField
 	Label headerLabel;
 
 	interface SetupSellTypeAndSalesTaxPageUiBinder extends
@@ -80,7 +78,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		salesTaxNo.setText(accounterConstants.no());
 		salesTaxYes.setText(accounterConstants.yes());
 		salesTaxHead.setText(accounterConstants.doyouchargesalestax());
-		wtdoyouSell.setText(accounterConstants.whatDoYouSell());
 	}
 
 	@Override

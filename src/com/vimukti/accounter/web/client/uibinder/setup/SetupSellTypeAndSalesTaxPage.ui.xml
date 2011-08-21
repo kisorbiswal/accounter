@@ -10,19 +10,18 @@
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:VerticalPanel ui:field="sell">
-				<g:HTML wordWrap="true" ui:field="wtdoyouSell" />
+			<g:VerticalPanel ui:field="sell" styleName="sell_panel">
 				<g:RadioButton name="new name" ui:field="servicesOnly" />
-				<g:Label ui:field="servicesOnlyText" />
+				<g:Label ui:field="servicesOnlyText" styleName="organisation_comment" />
 				<g:RadioButton name="new name" ui:field="productsOnly" />
-				<g:Label ui:field="productsOnlyText" />
+				<g:Label ui:field="productsOnlyText" styleName="organisation_comment" />
 				<g:RadioButton name="new name" ui:field="both" />
-				<g:Label ui:field="bothText" />
+				<g:Label ui:field="bothText" styleName="organisation_comment" />
 			</g:VerticalPanel>
-			<g:VerticalPanel ui:field="salesTax">
-				<g:HTML wordWrap="true" ui:field="salesTaxHead" />
-				<g:RadioButton name="new name" ui:field="salesTaxYes" />
-				<g:RadioButton name="new name" ui:field="salesTaxNo" />
+			<g:VerticalPanel ui:field="salesTax" styleName="sales_tax">
+				<g:HTML wordWrap="true" ui:field="salesTaxHead" styleName="setup_header_label" />
+				<g:RadioButton name="new name" ui:field="salesTaxYes" styleName="employee_yesno" />
+				<g:RadioButton name="new name" ui:field="salesTaxNo" styleName="employee_yesno" />
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>

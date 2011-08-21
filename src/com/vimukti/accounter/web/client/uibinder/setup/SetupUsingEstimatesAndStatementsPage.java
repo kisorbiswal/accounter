@@ -20,8 +20,6 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	@UiField
 	RadioButton estimatesNo;
 	@UiField
-	Label billingStatements;
-	@UiField
 	Label someExampleText;
 	@UiField
 	HTML someExampleList;
@@ -33,6 +31,10 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	RadioButton statementsNo;
 	@UiField
 	Label headerLabel;
+	@UiField
+	HTML billingStatements;
+	@UiField
+	Label stmt_header;
 
 	interface SetupUsingEstimatesAndStatementsPageUiBinder extends
 			UiBinder<Widget, SetupUsingEstimatesAndStatementsPage> {
@@ -80,19 +82,19 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		}
 	}
 
-
 	@Override
 	protected void createControls() {
 		headerLabel.setText(accounterConstants
 				.wanttoCreateEstimatesInAccounter());
 		estimatesYes.setText(accounterConstants.yes());
-		estimatesNo.setTitle(accounterConstants.no());
-		billingStatements.setText(accounterConstants.statementDescription());
+		estimatesNo.setText(accounterConstants.no());
+		billingStatements.setHTML(accounterMessages.statementDescription());
 		someExampleText.setText(accounterConstants.statementSomeExample());
-		someExampleList.setText(accounterMessages.statementlist());
+		someExampleList.setHTML(accounterMessages.statementlist());
 		billingQuestion.setText(accounterMessages.statementQuestion());
-		statementYes.setTitle(accounterConstants.yes());
-		statementsNo.setTitle(accounterConstants.no());
+		statementYes.setText(accounterConstants.yes());
+		statementsNo.setText(accounterConstants.no());
+		stmt_header.setText(accounterConstants.expenseInformation());
 	}
 
 	@Override

@@ -10,19 +10,20 @@
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:VerticalPanel ui:field="managing">
+			<g:VerticalPanel ui:field="managing" styleName="bills_panel">
 				<g:HTML wordWrap="true" ui:field="managingInfo" />
 				<g:HTML wordWrap="true" ui:field="managingList" />
-				<g:HTML wordWrap="true" ui:field="trackTimeText" />
-				<g:RadioButton name="new name" ui:field="managingYes" />
-				<g:RadioButton name="new name" ui:field="managingNo" />
+				<g:HTML wordWrap="true" ui:field="trackTimeText" styleName="track_question" />
+				<g:RadioButton name="new name" ui:field="managingYes" styleName="employee_yesno" />
+				<g:RadioButton name="new name" ui:field="managingNo" styleName="employee_yesno" />
 			</g:VerticalPanel>
-			<g:VerticalPanel ui:field="trackingBillsPanel">
+			<g:VerticalPanel ui:field="trackingBillsPanel" styleName="track_time_panel">
+				<g:Label text="New Label" styleName="setup_header_label" ui:field="track_time_head"/>
 				<g:HTML wordWrap="true" ui:field="trackingTimeDes" />
 				<g:HTML wordWrap="true" ui:field="trackOfBillsList" />
-				<g:HTML wordWrap="true" ui:field="trackOfBillsText" />
-				<g:RadioButton name="new name" ui:field="trackingTimeYes" />
-				<g:RadioButton name="new name" ui:field="trackingNo" />
+				<g:HTML wordWrap="true" ui:field="trackOfBillsText" styleName="track_question" />
+				<g:RadioButton name="new name" ui:field="trackingTimeYes" styleName="employee_yesno" />
+				<g:RadioButton name="new name" ui:field="trackingNo" styleName="employee_yesno" />
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>

@@ -10,16 +10,19 @@
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:RadioButton name="estimateGroup" ui:field="estimatesYes" />
-			<g:RadioButton name="estimateGroup" ui:field="estimatesNo" />
-			<g:VerticalPanel>
-				<g:Label ui:field="billingStatements" />
+			<g:VerticalPanel styleName="estimate_stmt_acc">
+				<g:RadioButton name="estimateGroup" ui:field="estimatesYes" styleName="employee_yesno" />
+				<g:RadioButton name="estimateGroup" ui:field="estimatesNo" styleName="employee_yesno" />
+			</g:VerticalPanel>
+			<g:VerticalPanel styleName="estimate_stmt_acc">
+				<g:Label ui:field="stmt_header" styleName="setup_header_label"/>
+				<g:HTML wordWrap="true" ui:field="billingStatements"/>
 				<g:Label ui:field="someExampleText" />
 				<g:HTML wordWrap="true" ui:field="someExampleList" />
-				<g:VerticalPanel>
-					<g:Label ui:field="billingQuestion" />
-					<g:RadioButton name="statementGroup" ui:field="statementYes" />
-					<g:RadioButton name="statementGroup" ui:field="statementsNo" />
+				<g:VerticalPanel styleName="billing_stmt_footer" width="100%">
+					<g:Label ui:field="billingQuestion" styleName="billing_question" />
+					<g:RadioButton name="statementGroup" ui:field="statementYes" styleName="employee_yesno" />
+					<g:RadioButton name="statementGroup" ui:field="statementsNo" styleName="employee_yesno" />
 				</g:VerticalPanel>
 			</g:VerticalPanel>
 		</g:VerticalPanel>

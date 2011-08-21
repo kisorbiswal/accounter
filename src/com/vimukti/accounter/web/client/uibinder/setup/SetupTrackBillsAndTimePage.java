@@ -48,6 +48,8 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	HTML trackingTimeDes;
 	@UiField
 	Label headerLabel;
+	@UiField
+	Label track_time_head;
 
 	interface SetupTrackBillsAndTimePageUiBinder extends
 			UiBinder<Widget, SetupTrackBillsAndTimePage> {
@@ -71,16 +73,17 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.managingBills());
 
-		trackOfBillsText.setText(accounterConstants.doyouwantTrackTime());
-		trackOfBillsList.setText(accounterMessages.trackTimeList());
-		managingList.setText(accounterMessages.managingList());
-		trackTimeText.setText(accounterConstants.doyouwantTrackBills());
+		trackOfBillsText.setHTML(accounterConstants.doyouwantTrackTime());
+		trackOfBillsList.setHTML(accounterMessages.trackTimeList());
+		managingList.setHTML(accounterMessages.managingList());
+		trackTimeText.setHTML(accounterConstants.doyouwantTrackBills());
 		managingYes.setText(accounterConstants.yes());
 		trackingTimeYes.setText(accounterConstants.yes());
 		managingNo.setText(accounterConstants.no());
 		trackingNo.setText(accounterConstants.no());
-		trackingTimeDes.setText(accounterConstants.timetrackingdescription());
-		managingInfo.setText(accounterConstants.billstrackingdescription());
+		trackingTimeDes.setHTML(accounterConstants.timetrackingdescription());
+		managingInfo.setHTML(accounterConstants.billstrackingdescription());
+		track_time_head.setText(accounterMessages.trackingtimehead());
 
 	}
 

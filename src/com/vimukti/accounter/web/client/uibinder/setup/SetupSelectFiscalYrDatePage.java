@@ -29,8 +29,6 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	@UiField
 	HTML fiscalInfo;
 	@UiField
-	HTML fiscalHead;
-	@UiField
 	Label headerLabel;
 
 	String[] monthNames;
@@ -69,8 +67,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 		for (int i = 0; i < monthNames.length; i++) {
 			fiscalStartsList.addItem(monthNames[i]);
 		}
-		fiscalInfo.setText(accounterConstants.fiscalYearsaemasTaxyear());
-		fiscalHead.setText(accounterConstants.selectFirstMonthOfFiscalYear());
+		fiscalInfo.setHTML(accounterConstants.fiscalYearsaemasTaxyear());
 	}
 
 	@Override
