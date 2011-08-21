@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.serverreports.CustomerTransactionHistoryServerReport;
 
-
 public final class CustomerTransactionHistoryReport extends
 		AbstractReportView<TransactionHistory> {
 
@@ -32,8 +31,6 @@ public final class CustomerTransactionHistoryReport extends
 			ReportsRPC.openTransactionView(record.getType(),
 					record.getTransactionId());
 	}
-
-
 
 	@Override
 	public void onEdit() {
@@ -86,7 +83,7 @@ public final class CustomerTransactionHistoryReport extends
 	public void exportToCsv() {
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 118, "",
+				Integer.parseInt(String.valueOf(endDate.getDate())), 119, "",
 				"");
 	}
 
