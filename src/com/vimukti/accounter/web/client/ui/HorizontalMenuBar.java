@@ -779,7 +779,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			ItemsAction itemsAction = ActionFactory.getItemsAction();
 			itemsAction.setCatagory(ActionFactory.actionsConstants.customer());
 			customerListMenuBar.addItem(itemsAction);
-			customerListMenuBar.addItem(ActionFactory.getQuotesAction());
+			if (preferences.isDoyouwantEstimates()) {
+				customerListMenuBar.addItem(ActionFactory.getQuotesAction());
+			}
 			customerListMenuBar.addItem(ActionFactory.getInvoicesAction(null));
 		}
 		if (Accounter.getUser().canSeeBanking()) {
@@ -797,7 +799,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			newCustomerMenuBar.addItem(ActionFactory.getNewCustomerAction());
 			newCustomerMenuBar.addItem(ActionFactory.getNewItemAction(true));
-			newCustomerMenuBar.addItem(ActionFactory.getNewQuoteAction());
+			if (preferences.isDoyouwantEstimates()) {
+				newCustomerMenuBar.addItem(ActionFactory.getNewQuoteAction());
+			}
 			newCustomerMenuBar.addItem(ActionFactory.getNewInvoiceAction());
 		}
 		if (Accounter.getUser().canDoBanking())

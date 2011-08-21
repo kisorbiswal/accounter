@@ -43,12 +43,14 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		super(Accounter.constants().quotesList(), "");
 		invoiceView = parentView;
 		this.estimatesAndSalesOrder = estimatesAndSalesOrder;
-		if (getPreferences().isSalesOrderEnabled()) {
-
+		if (getPreferences().isSalesOrderEnabled()
+				&& getPreferences().isDoyouwantEstimates()) {
 			setText(Accounter.constants().quoteAndSalesOrderList());
-		} else {
+		} else if (getPreferences().isDoyouwantEstimates()) {
 			setText(Accounter.constants().quoteList());
 
+		} else if (getPreferences().isSalesOrderEnabled()) {
+			setText(Accounter.constants().salesOrderList());
 		}
 		createControl();
 		setWidth("600px");
@@ -63,11 +65,14 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
 		Label infoLabel = null;
-		if (getPreferences().isSalesOrderEnabled()) {
+		if (getPreferences().isSalesOrderEnabled()
+				&& getPreferences().isDoyouwantEstimates()) {
 			infoLabel = new Label(Accounter.constants()
 					.selectQuoteOrSalesOrder());
-		} else {
+		} else if (getPreferences().isDoyouwantEstimates()) {
 			infoLabel = new Label(Accounter.constants().selectQuote());
+		} else if (getPreferences().isSalesOrderEnabled()) {
+			infoLabel = new Label(Accounter.constants().selectSalesOrder());
 		}
 		mainLayout.add(infoLabel);
 
@@ -82,16 +87,15 @@ public class CustomerQuoteListDialog extends BaseDialog {
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<EstimatesAndSalesOrdersList>() {
 
-					@Override
-					public void OnCellDoubleClick(
-							EstimatesAndSalesOrdersList core, int column) {
-						setRecord(core);
+			@Override
+			public void OnCellDoubleClick(EstimatesAndSalesOrdersList core,
+					int column) {
+				setRecord(core);
 
-					}
-				});
+			}
+		});
 
 		// getGridData();
 		setQuoteList(estimatesAndSalesOrder);
@@ -145,7 +149,7 @@ public class CustomerQuoteListDialog extends BaseDialog {
 		buttonLayout.setCellHorizontalAlignment(okButtonLayout,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-//		mainLayout.add(buttonLayout);
+		// mainLayout.add(buttonLayout);
 		mainLayout.setSize("100%", "100%");
 
 		// add(mainLayout);
@@ -184,8 +188,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.SALESORDER, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
+				record.getTransactionId(), callback);
 	}
 
 	private void getEstimate(EstimatesAndSalesOrdersList record) {
@@ -207,8 +211,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ESTIMATE,
+				record.getTransactionId(), callback);
 
 	}
 

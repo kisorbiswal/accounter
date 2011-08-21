@@ -3328,6 +3328,8 @@ public interface AccounterConstants extends Constants {
 
 	public String saveAndClose();
 
+	public String selectSalesOrder();
+
 	public String saveAndNew();
 
 	public String saveButton();
