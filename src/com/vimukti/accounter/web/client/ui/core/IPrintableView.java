@@ -8,4 +8,6 @@ public interface IPrintableView {
 	 * @return
 	 */
 	public boolean canPrint();
+
+	public boolean canExportToCsv();
 }
