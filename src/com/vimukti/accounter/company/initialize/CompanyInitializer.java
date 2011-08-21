@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -84,7 +85,7 @@ public abstract class CompanyInitializer {
 	 */
 	public void init() {
 		Session session = HibernateUtil.getCurrentSession();
-
+		Transaction transaction = session.beginTransaction();
 		intializeCompanyValues();
 
 		openingBalancesAccount = new Account(Account.TYPE_EQUITY, "3040",
@@ -93,6 +94,8 @@ public abstract class CompanyInitializer {
 				null, true, true, null, "4", true,
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(openingBalancesAccount);
+		transaction.commit();
+		transaction = session.beginTransaction();
 		company.setOpeningBalancesAccount(openingBalancesAccount);
 
 		initializeDefaultAssetsAccounts();
@@ -102,6 +105,7 @@ public abstract class CompanyInitializer {
 		initializeDefaultEquityAccounts();
 
 		session.saveOrUpdate(company);
+		transaction.commit();
 	}
 
 	public Company getCompany() {
