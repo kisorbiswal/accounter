@@ -94,8 +94,6 @@ public abstract class CompanyInitializer {
 				null, true, true, null, "4", true,
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(openingBalancesAccount);
-		transaction.commit();
-		transaction = session.beginTransaction();
 		company.setOpeningBalancesAccount(openingBalancesAccount);
 
 		initializeDefaultAssetsAccounts();
@@ -982,7 +980,6 @@ public abstract class CompanyInitializer {
 
 	public void initializeDefaultAssetsAccounts() {
 		Session session = HibernateUtil.getCurrentSession();
-
 		// Current Accounts
 		accountsReceivableAccount = new Account(
 				Account.TYPE_OTHER_CURRENT_ASSET, "1001",
