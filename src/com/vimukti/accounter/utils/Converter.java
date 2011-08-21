@@ -3,6 +3,7 @@ package com.vimukti.accounter.utils;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringReader;
 
@@ -34,7 +35,14 @@ public class Converter {
 		this.dimension = PD4Constants.A4;
 	}
 
-	public void generatePDF(ITemplate template, OutputStream outputStream)
+	/**
+	 * this method is used to generate Pdf documents for all reports
+	 * 
+	 * @param template
+	 * @param outputStream
+	 * @throws Exception
+	 */
+	public void generatePdfReports(ITemplate template, OutputStream outputStream)
 			throws Exception {
 		File pdfTempFile = File.createTempFile(
 				template.getFileName().replace(" ", ""), ".pdf");
@@ -101,9 +109,47 @@ public class Converter {
 			System.err.println("error occured");
 			e.printStackTrace();
 		} finally {
-			// if (fos != null) {
-			// fos.close();
-			// }
+			if (fos != null) {
+				fos.close();
+			}
+		}
+
+	}
+
+	/**
+	 * this method is used to generate PDF documents for Invoice and Credit Note
+	 * Memo
+	 * 
+	 * @param fileName
+	 * @param outputStream
+	 * @param reader
+	 * @throws Exception
+	 */
+	public void generatePdfDocuments(String fileName,
+			OutputStream outputStream, InputStreamReader reader)
+			throws Exception {
+		File pdfTempFile = File.createTempFile(fileName.replace(" ", ""),
+				".pdf");
+		java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfTempFile);
+		try {
+
+			PD4ML pd4ml = new PD4ML();
+			System.err.println("PD4ML Obj created");
+			pd4ml.setPageInsets(new Insets(20, 10, 10, 10));
+			pd4ml.setHtmlWidth(950);
+			pd4ml.setPageSize(dimension);
+
+			pd4ml.enableTableBreaks(true);
+			pd4ml.enableDebugInfo();
+
+			pd4ml.render(reader, outputStream == null ? fos : outputStream);
+		} catch (Exception e) {
+			System.err.println("error occured");
+			e.printStackTrace();
+		} finally {
+			if (fos != null) {
+				fos.close();
+			}
 		}
 
 	}
