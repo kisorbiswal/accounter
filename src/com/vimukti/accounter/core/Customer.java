@@ -385,6 +385,7 @@ public class Customer extends Payee implements IAccounterServerCore {
 		// SessionUtils.updateReferenceCount(previousCustomer, this, session,
 		// true);
 		// }
+		org.hibernate.Transaction transaction = session.beginTransaction(); 
 		super.onUpdate(session);
 		if (!DecimalUtil.isEquals(this.openingBalance, 0.0)
 				&& isOpeningBalanceEditable) {
@@ -411,7 +412,7 @@ public class Customer extends Payee implements IAccounterServerCore {
 		// * Is to update Memo in Entry if and only if customer Name was altered
 		// */
 		// this.updateEntryMemo(session);
-
+		transaction.commit();
 		ChangeTracker.put(this);
 		return false;
 	}
