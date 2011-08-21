@@ -4854,4 +4854,8 @@ public interface AccounterConstants extends Constants {
 
 	public String vendorAlreadyExistsWithTheName();
 
+	public String vendorAlreadyExistsWithTheNameAndNumber();
+
+	public String pleaseEnterVendorNumberItShouldNotBeEmpty();
+
 }
