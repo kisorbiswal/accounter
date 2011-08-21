@@ -10,6 +10,8 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -53,6 +55,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  */
 public class NewAccountView extends BaseView<ClientAccount> {
 
+	private static final int BANK_CAT_BEGIN_NO = 1100;
+	private static final int BANK_CAT_END_NO = 1179;
 	private int accountType;
 	private SelectCombo accTypeSelect;
 	private TextItem accNameText, bankAccNumText, hierText;
@@ -189,6 +193,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			public void onBlur(BlurEvent event) {
 				if (accNoText.getNumber() != null)
 					validateAccountNumber(accNoText.getNumber());
+
+			}
+		});
+		accNoText.addFocusHandler(new FocusHandler() {
+
+			@Override
+			public void onFocus(FocusEvent event) {
+				displayAndSetAccountNo();
 
 			}
 		});
@@ -437,6 +449,42 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		listforms.add(commentsForm);
 
 	}
+
+	protected void displayAndSetAccountNo() {
+		long financeCategoryNumber = 0;
+
+		if (isNewBankAccount()) {
+			addError(accNoText, Accounter.constants()
+					.theFinanceCategoryNoShouldBeBetween1100And1179());
+			financeCategoryNumber = autoGenerateAccountnumber(BANK_CAT_BEGIN_NO,
+					BANK_CAT_END_NO);
+
+		} else {
+			accountSubBaseType = UIUtils.getAccountSubBaseType(accountType);
+
+			nominalCodeRange = getCompany().getNominalCodeRange(
+					accountSubBaseType);
+
+			if (nominalCodeRange == null
+					&& accountSubBaseType == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
+				return;
+			}
+			addError(accNoText, Accounter.constants()
+					.theFinanceCategoryNoShouldBeBetween()
+					+ "  "
+					+ nominalCodeRange[0]
+					+ " "
+					+ Accounter.constants().and()
+					+ " " + nominalCodeRange[1]);
+			financeCategoryNumber = autoGenerateAccountnumber(nominalCodeRange[0],
+					nominalCodeRange[1]);
+			
+		}
+
+		accNoText.setValue(String.valueOf(financeCategoryNumber));
+	}
+
+	
 
 	protected void setCashFlowType() {
 		switch (this.accountType) {
@@ -905,7 +953,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (isEdit ? (account == null ? false : !(Long.parseLong(data
 				.getNumber()) == number)) : account != null) {
 
-			result.addError(accNameText, Accounter.constants().alreadyAccountExist());
+			result.addError(accNameText, Accounter.constants()
+					.alreadyAccountExist());
 			return result;
 		}
 
@@ -1242,6 +1291,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	 * @return long number
 	 */
 	public long autoGenerateAccountnumber(int range1, int range2) {
+		//TODO::: add a filter to filter the accounts based on the account type
 		List<ClientAccount> accounts = getCompany().getAccounts();
 		Long number = null;
 		if (number == null) {
