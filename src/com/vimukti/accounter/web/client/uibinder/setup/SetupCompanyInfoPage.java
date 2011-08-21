@@ -202,10 +202,18 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			this.streetAddress1.setValue(address.getAddress1());
 			this.streetAdress2.setValue(address.getStreet());
 			this.cityTextBox.setValue(address.getCity());
-			this.stateListBox.setSelectedIndex(states.indexOf(address
-					.getStateOrProvinence()));
-			this.country.setSelectedIndex(countries.indexOf(address
-					.getCountryOrRegion()));
+			if (address.getStateOrProvinence() != ""
+					&& address.getStateOrProvinence() != null
+					&& address.getStateOrProvinence().length() != 0) {
+				this.stateListBox.setSelectedIndex(states.indexOf(address
+						.getStateOrProvinence()));
+			}
+			if (address.getCountryOrRegion() != ""
+					&& address.getCountryOrRegion() != null
+					&& address.getStateOrProvinence().length() != 0) {
+				this.country.setSelectedIndex(countries.indexOf(address
+						.getCountryOrRegion()));
+			}
 		}
 	}
 
