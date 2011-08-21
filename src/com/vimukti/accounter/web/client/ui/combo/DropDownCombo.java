@@ -504,7 +504,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				setValue(getDefaultAddNewCaption());
 				onAddNew();
 			} else {
-				selectedObject = comboItems.get(rowIndex - 1);
+				selectedObject = comboItems.get(rowIndex);
 				if (handler != null) {
 					handler.selectedComboBoxItem(selectedObject);
 				}
