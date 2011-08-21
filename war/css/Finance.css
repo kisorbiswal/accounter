@@ -6760,10 +6760,10 @@ a#fdbk_tab:hover{
 .view_panel{
 	padding:10px;
 }
-.company_Info_table .gwt-ListBox,.refer_listbox,.fiscal_listbox{
+.company_Info_table .gwt-ListBox,.refer_listbox,.fiscal_listbox,.currency_listbox{
 	  width: 193px;
 }
-.company_Info_table .gwt-ListBox,.industry_list,.refer_listbox,.fiscal_listbox{
+.company_Info_table .gwt-ListBox,.industry_list,.refer_listbox,.fiscal_listbox,.currency_listbox{
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 1px 2px 2px #CCCCCC inset;
@@ -6855,4 +6855,7 @@ a#fdbk_tab:hover{
 .fiscal_panel td:FIRST-CHILD {
 	vertical-align: middle !important;
 	padding-right:10px;
+}
+.currency_listbox{
+	margin:10px;
 }
