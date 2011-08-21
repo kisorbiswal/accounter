@@ -197,20 +197,22 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			this.webSite.setValue(company.getWebSite());
 			this.emailAddress.setValue(company.getCompanyEmail());
 			address = company.getTradingAddress();
-			this.streetAddress1.setValue(address.getAddress1());
-			this.streetAdress2.setValue(address.getStreet());
-			this.cityTextBox.setValue(address.getCity());
-			if (address.getStateOrProvinence() != ""
-					&& address.getStateOrProvinence() != null
-					&& address.getStateOrProvinence().length() != 0) {
-				this.stateListBox.setSelectedIndex(states.indexOf(address
-						.getStateOrProvinence()));
-			}
-			if (address.getCountryOrRegion() != ""
-					&& address.getCountryOrRegion() != null
-					&& address.getStateOrProvinence().length() != 0) {
-				this.country.setSelectedIndex(countries.indexOf(address
-						.getCountryOrRegion()));
+			if (address != null) {
+				this.streetAddress1.setValue(address.getAddress1());
+				this.streetAdress2.setValue(address.getStreet());
+				this.cityTextBox.setValue(address.getCity());
+				if (address.getStateOrProvinence() != ""
+						&& address.getStateOrProvinence() != null
+						&& address.getStateOrProvinence().length() != 0) {
+					this.stateListBox.setSelectedIndex(states.indexOf(address
+							.getStateOrProvinence()));
+				}
+				if (address.getCountryOrRegion() != ""
+						&& address.getCountryOrRegion() != null
+						&& address.getStateOrProvinence().length() != 0) {
+					this.country.setSelectedIndex(countries.indexOf(address
+							.getCountryOrRegion()));
+				}
 			}
 		}
 	}
@@ -236,7 +238,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					.getSelectedIndex()));
 		}
 		if (country.getSelectedIndex() != 1)
-			address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
+			address.setCountryOrRegion(countries
+					.get(country.getSelectedIndex()));
 		company.setTradingAddress(address);
 		Accounter.setCompany(clientCompany);
 	}

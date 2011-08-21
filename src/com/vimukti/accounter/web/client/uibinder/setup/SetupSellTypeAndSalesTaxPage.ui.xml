@@ -11,17 +11,17 @@
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
 			<g:VerticalPanel ui:field="sell" styleName="sell_panel">
-				<g:RadioButton name="new name" ui:field="servicesOnly" />
+				<g:RadioButton name="sell_type" ui:field="servicesOnly" />
 				<g:Label ui:field="servicesOnlyText" styleName="organisation_comment" />
-				<g:RadioButton name="new name" ui:field="productsOnly" />
+				<g:RadioButton name="sell_type" ui:field="productsOnly" />
 				<g:Label ui:field="productsOnlyText" styleName="organisation_comment" />
-				<g:RadioButton name="new name" ui:field="both" />
+				<g:RadioButton name="sell_type" ui:field="both" />
 				<g:Label ui:field="bothText" styleName="organisation_comment" />
 			</g:VerticalPanel>
 			<g:VerticalPanel ui:field="salesTax" styleName="sales_tax">
 				<g:HTML wordWrap="true" ui:field="salesTaxHead" styleName="setup_header_label" />
-				<g:RadioButton name="new name" ui:field="salesTaxYes" styleName="employee_yesno" />
-				<g:RadioButton name="new name" ui:field="salesTaxNo" styleName="employee_yesno" />
+				<g:RadioButton name="sales_tax" ui:field="salesTaxYes" styleName="employee_yesno" />
+				<g:RadioButton name="sales_tax" ui:field="salesTaxNo" styleName="employee_yesno" />
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>

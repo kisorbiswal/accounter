@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Administrator
@@ -77,7 +79,14 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		bothText.setText(accounterConstants.bothServicesandProducts());
 		salesTaxNo.setText(accounterConstants.no());
 		salesTaxYes.setText(accounterConstants.yes());
-		salesTaxHead.setText(accounterConstants.doyouchargesalestax());
+		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			salesTaxHead.setText(accounterConstants.doyouchargeVat());
+		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			salesTaxHead.setText(accounterConstants.doyouchargesalestax());
+		} else {
+			salesTaxHead.setText("");
+		}
+
 	}
 
 	@Override

@@ -44,8 +44,8 @@ public class SetupWizard extends VerticalPanel {
 	private Image progressImages[] = new Image[viewList.length - 2];
 	private String progressLabels[] = new String[] {
 			Accounter.constants().setCompanyInfo(),
-			Accounter.constants().selectIndustryType(),
 			Accounter.constants().companyOrganization(),
+			Accounter.constants().selectIndustryType(),
 			Accounter.constants().selectReferringNames(),
 			Accounter.constants().trackEmployeeExpenses(),
 			Accounter.constants().whatDoYouSell(),
@@ -110,8 +110,8 @@ public class SetupWizard extends VerticalPanel {
 			viewPanel.addStyleName("view_panel");
 			viewButtonPanel.setSize("100%", "100%");
 			topPanel.setSize("100%", "100%");
-			progressPanel.getElement().getParentElement()
-					.addClassName("progress_panel");
+			progressPanel.getElement().getParentElement().addClassName(
+					"progress_panel");
 			topPanel.setCellHorizontalAlignment(progressPanel,
 					HasAlignment.ALIGN_RIGHT);
 

@@ -56,7 +56,7 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		createControls();
 	}
 
-		@Override
+	@Override
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.doyouHaveEmployees());
 
@@ -68,61 +68,62 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		trackEmployeeExpenseYes.setText(accounterConstants.yes());
 		trackEmployeeExpenseNo.setText(accounterConstants.no());
 
-		if (trackEmployeeExpenseNo.getValue()) {
-			if (trackPanel.isAttached())
-				mainViewPanel.remove(trackPanel);
+		if (!trackEmployeeExpenseYes.getValue()) {
+			// if (trackPanel.isAttached())
+			mainViewPanel.remove(trackPanel);
 		}
+
 	}
-		
-		@Override
-		public void onLoad() {
-			if (preferences.isHaveEpmloyees()) {
-				trackEmployeeYes.setValue(true);
-			} else {
-				trackEmployeeNo.setValue(true);
-			}
 
-			if (preferences.isTrackEmployeeExpenses()) {
-				trackEmployeeExpenseYes.setValue(true);
-			} else {
-				trackEmployeeExpenseNo.setValue(true);
-			}
-			if (preferences.isHaveW_2Employees()) {
-				w2Employees.setValue(true);
-			} else {
-				w2Employees.setValue(false);
-			}
-
-			if (preferences.isHave1099contractors()) {
-				contractors.setValue(true);
-			} else {
-				contractors.setValue(false);
-			}
-
+	@Override
+	public void onLoad() {
+		if (preferences.isHaveEpmloyees()) {
+			trackEmployeeYes.setValue(true);
+		} else {
+			trackEmployeeNo.setValue(true);
 		}
 
-		@Override
-		public void onSave() {
-			if (trackEmployeeYes.getValue()) {
-				if ((w2Employees.getValue() || contractors.getValue())) {
-					preferences.setHaveEpmloyees(trackEmployeeYes.getValue());
-					preferences
-							.setTrackEmployeeExpenses(trackEmployeeExpenseYes.getValue());
-					preferences.setHaveW_2Employees(w2Employees.getValue());
-					preferences.setHave1099contractors(contractors
-							.getValue());
-				} else {
-					Accounter.showError("Please select emlployee type..");
-				}
+		if (preferences.isTrackEmployeeExpenses()) {
+			trackEmployeeExpenseYes.setValue(true);
+		} else {
+			trackEmployeeExpenseNo.setValue(true);
+		}
+		if (preferences.isHaveW_2Employees()) {
+			w2Employees.setValue(true);
+		} else {
+			w2Employees.setValue(false);
+		}
 
-			} else {
+		if (preferences.isHave1099contractors()) {
+			contractors.setValue(true);
+		} else {
+			contractors.setValue(false);
+		}
+
+	}
+
+	@Override
+	public void onSave() {
+		if (trackEmployeeYes.getValue()) {
+			if ((w2Employees.getValue() || contractors.getValue())) {
 				preferences.setHaveEpmloyees(trackEmployeeYes.getValue());
-				preferences.setTrackEmployeeExpenses(trackEmployeeExpenseYes.getValue());
+				preferences.setTrackEmployeeExpenses(trackEmployeeExpenseYes
+						.getValue());
 				preferences.setHaveW_2Employees(w2Employees.getValue());
 				preferences.setHave1099contractors(contractors.getValue());
+			} else {
+				Accounter.showError("Please select emlployee type..");
 			}
 
+		} else {
+			preferences.setHaveEpmloyees(trackEmployeeYes.getValue());
+			preferences.setTrackEmployeeExpenses(trackEmployeeExpenseYes
+					.getValue());
+			preferences.setHaveW_2Employees(w2Employees.getValue());
+			preferences.setHave1099contractors(contractors.getValue());
 		}
+
+	}
 
 	@Override
 	public boolean canShow() {
