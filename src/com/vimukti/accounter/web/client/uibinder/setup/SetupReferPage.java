@@ -60,18 +60,6 @@ public class SetupReferPage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected void onLoad() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void onSave() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.howDoYouRefer());
 		// adding Items to customer list box
@@ -96,6 +84,34 @@ public class SetupReferPage extends AbstractSetupPage {
 		accountCommentLabel.setText(accounterConstants
 				.howDoYouReferYourAccounts());
 
+	}
+
+	@Override
+	public void onLoad() {
+
+		int referCustomers = preferences.getReferCustomers();
+		int referSuplliers = preferences.getReferSuplliers();
+		int referAccounts = preferences.getReferAccounts();
+
+		if (referCustomers != 0)
+			customerListBox.setSelectedIndex(referCustomers);
+		if (referAccounts != 0)
+			accountListBox.setSelectedIndex(referAccounts);
+		if (referSuplliers != 0)
+			supplierListBox.setSelectedIndex(referSuplliers);
+	}
+
+	@Override
+	public void onSave() {
+		int customer = customerListBox.getSelectedIndex();
+		int suplier = supplierListBox.getSelectedIndex();
+		int accounts = accountListBox.getSelectedIndex();
+		if (customer != 0)
+			preferences.setReferCustomers(customer);
+		if (suplier != 0)
+			preferences.setReferSuplliers(suplier);
+		if (accounts != 0)
+			preferences.setReferAccounts(accounts);
 	}
 
 	@Override

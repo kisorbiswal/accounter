@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -89,6 +90,9 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	HTML useFormat;
 	@UiField
 	Label headerLabel;
+	private ClientCompany company;
+	private ClientAddress address;
+	private List<String> countries, states;
 
 	interface SetupCompanyInfoPageUiBinder extends
 			UiBinder<Widget, SetupCompanyInfoPage> {
@@ -106,17 +110,6 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	public SetupCompanyInfoPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
-	}
-
-	@Override
-	protected void onLoad() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void onSave() {
-
 	}
 
 	@Override
@@ -149,6 +142,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 					@Override
 					public void onSuccess(List<String> result) {
+						countries = result;
 						for (int i = 0; i < result.size(); i++) {
 							country.addItem(result.get(i));
 						}
@@ -181,6 +175,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 							@Override
 							public void onSuccess(List<String> result) {
+								states = result;
 								for (int i = 0; i < result.size(); i++) {
 									stateListBox.addItem(result.get(i));
 								}
@@ -189,6 +184,52 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			}
 		});
 
+	}
+
+	@Override
+	public void onLoad() {
+
+		this.company = Accounter.getCompany();
+		if (this.company != null) {
+			companyName.setValue(company.getName());
+			legalName.setValue(company.getTradingName());
+			this.taxId.setValue(company.getTaxId());
+			this.fax.setValue(company.getFax());
+			this.phone.setValue(company.getPhone());
+			this.webSite.setValue(company.getWebSite());
+			this.emailAddress.setValue(company.getCompanyEmail());
+			address = company.getTradingAddress();
+			this.streetAddress1.setValue(address.getAddress1());
+			this.streetAdress2.setValue(address.getStreet());
+			this.cityTextBox.setValue(address.getCity());
+			this.stateListBox.setSelectedIndex(states.indexOf(address
+					.getStateOrProvinence()));
+			this.country.setSelectedIndex(countries.indexOf(address
+					.getCountryOrRegion()));
+		}
+	}
+
+	@Override
+	public void onSave() {
+
+		ClientCompany clientCompany = new ClientCompany();
+		address = new ClientAddress();
+		clientCompany.id = company.id;
+		clientCompany.setName(companyName.getValue().toString());
+		clientCompany.setTradingName(legalName.getValue().toString());
+		clientCompany.setPhone(phone.getValue().toString());
+		clientCompany.setCompanyEmail(emailAddress.getValue().toString());
+		clientCompany.setTaxId(taxId.getValue().toString());
+		clientCompany.setFax(fax.getValue().toString());
+		clientCompany.setWebSite(webSite.getValue().toString());
+		address.setAddress1(streetAddress1.getValue());
+		address.setStreet(streetAdress2.getValue());
+		address.setCity(cityTextBox.getValue());
+		address.setStateOrProvinence(states
+				.get(stateListBox.getSelectedIndex()));
+		address.setCountryOrRegion(countries.get(country.getSelectedIndex()));
+		company.setTradingAddress(address);
+		Accounter.setCompany(clientCompany);
 	}
 
 	@Override

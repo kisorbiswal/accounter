@@ -67,17 +67,6 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		createControls();
 	}
 
-	@Override
-	protected void onLoad() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void onSave() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	protected void createControls() {
@@ -94,6 +83,51 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		salesTaxHead.setText(accounterConstants.doyouchargesalestax());
 		wtdoyouSell.setText(accounterConstants.whatDoYouSell());
 	}
+	
+	@Override
+	public void onLoad() {
+		boolean sellServices = preferences.isSellServices();
+		if (sellServices)
+			servicesOnly.setValue(true);
+		boolean sellProducts = preferences.isSellProducts();
+		if (sellProducts)
+			productsOnly.setValue(true);
+		if (sellServices && sellProducts)
+			both.setValue(true);
+
+		if (preferences.getDoYouPaySalesTax()) {
+			salesTaxYes.setValue(true);
+		} else {
+			salesTaxNo.setValue(true);
+		}
+		if (preferences.isDoYouChargesalesTax()) {
+			salesTaxYes.setValue(true);
+		} else {
+			salesTaxNo.setValue(true);
+		}
+
+	}
+
+	@Override
+	public void onSave() {
+
+		if (servicesOnly.getValue())
+			preferences.setSellServices(true);
+		if (productsOnly.getValue())
+			preferences.setSellProducts(true);
+		if (both.getValue()) {
+			preferences.setSellServices(true);
+			preferences.setSellProducts(true);
+		}
+
+		if (salesTaxYes.getValue()) {
+			preferences.setDoYouChargesalesTax(true);
+		} else {
+			preferences.setDoYouChargesalesTax(false);
+		}
+
+	}
+
 
 	@Override
 	public boolean doShow() {

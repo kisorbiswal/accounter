@@ -68,21 +68,9 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected void onLoad() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void onSave() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.managingBills());
-		
+
 		trackOfBillsText.setText(accounterConstants.doyouwantTrackTime());
 		trackOfBillsList.setText(accounterMessages.trackTimeList());
 		managingList.setText(accounterMessages.managingList());
@@ -100,4 +88,35 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	public boolean doShow() {
 		return true;
 	}
+
+	@Override
+	public void onLoad() {
+
+		if (preferences.isDoyouKeepTrackofBills()) {
+			managingYes.setValue(true);
+		} else {
+			managingNo.setValue(true);
+		}
+		if (preferences.isDoYouKeepTrackOfTime()) {
+			trackingTimeYes.setValue(true);
+		} else {
+			trackingNo.setValue(true);
+		}
+	}
+
+	@Override
+	public void onSave() {
+		if (managingYes.getValue()) {
+			preferences.setDoyouKeepTrackofBills(true);
+		} else {
+			preferences.setDoyouKeepTrackofBills(false);
+		}
+
+		if (trackingTimeYes.getValue()) {
+			preferences.setDoYouKeepTrackOfTime(true);
+		} else {
+			preferences.setDoYouKeepTrackOfTime(false);
+		}
+	}
+
 }

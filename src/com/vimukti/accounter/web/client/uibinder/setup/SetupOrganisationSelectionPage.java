@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.setup.OrganizationTypeConstants;
 
 /**
  * @author Administrator
@@ -76,18 +77,6 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	public SetupOrganisationSelectionPage() {
 		initWidget(uiBinder.createAndBindUi(this));
 		createControls();
-	}
-
-	@Override
-	protected void onLoad() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void onSave() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -178,6 +167,58 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 				lLCCombo.setEnabled(false);
 			}
 		});
+	}
+
+	@Override
+	public void onLoad() {
+
+		switch (preferences.getOrganizationType()) {
+		case OrganizationTypeConstants.SOLE_PROPRIETORSHIP:
+			propriterShip.setValue(true);
+			break;
+		case OrganizationTypeConstants.CORPORATION:
+			partnership.setValue(true);
+			break;
+		case OrganizationTypeConstants.S_CORPORATION:
+			sCorporation.setValue(true);
+			break;
+		case OrganizationTypeConstants.LLC:
+			lLC.setValue(true);
+			break;
+		case OrganizationTypeConstants.PARTNERSHIP:
+			partnership.setValue(true);
+			break;
+		case OrganizationTypeConstants.NON_PROFIT:
+			nonProfit.setValue(true);
+			break;
+		case OrganizationTypeConstants.OTHER:
+			other.setValue(true);
+		}
+	}
+
+	@Override
+	public void onSave() {
+		if (propriterShip.getValue()) {
+			preferences
+					.setOrganizationType(OrganizationTypeConstants.SOLE_PROPRIETORSHIP);
+		} else if (partnership.getValue()) {
+			preferences
+					.setOrganizationType(OrganizationTypeConstants.CORPORATION);
+		} else if (sCorporation.getValue()) {
+			preferences
+					.setOrganizationType(OrganizationTypeConstants.S_CORPORATION);
+		} else if (lLC.getValue()) {
+			preferences.setOrganizationType(OrganizationTypeConstants.LLC);
+		} else if (partnership.getValue()) {
+			preferences
+					.setOrganizationType(OrganizationTypeConstants.PARTNERSHIP);
+		} else if (nonProfit.getValue()) {
+			preferences
+					.setOrganizationType(OrganizationTypeConstants.NON_PROFIT);
+		} else {
+			preferences.setOrganizationType(OrganizationTypeConstants.OTHER);
+		}
+
 	}
 
 	@Override

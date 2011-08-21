@@ -51,18 +51,6 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected void onLoad() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void onSave() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.selectYourIndustry());
 
@@ -108,6 +96,22 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 			industryList.addItem(industries[i]);
 		}
 
+	}
+
+	@Override
+	public void onLoad() {
+
+		int industryType = preferences.getIndustryType();
+		if (industryType != 0)
+			industryList.setSelectedIndex(industryType);
+	}
+
+	@Override
+	public void onSave() {
+
+		int selectedValue = industryList.getSelectedIndex();
+		if (selectedValue != 0)
+			preferences.setIndustryType(selectedValue);
 	}
 
 	@Override

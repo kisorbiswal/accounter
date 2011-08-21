@@ -3,6 +3,8 @@
  */
 package com.vimukti.accounter.web.client.uibinder.setup;
 
+import java.util.Date;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -27,20 +29,6 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	@UiField
 	Label fiscalStarts;
 	@UiField
-	HTML fiscalHeader;
-	@UiField
-	Label startDate;
-	@UiField
-	RadioButton beginingFiscal;
-	@UiField
-	HTML beginingFiscalText;
-	@UiField
-	RadioButton todaysDate;
-	@UiField
-	HTML todaysDateText;
-	@UiField
-	DateBox fiscalDate;
-	@UiField
 	ListBox fiscalStartsList;
 	@UiField
 	HTML fiscalInfo;
@@ -48,6 +36,8 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	HTML fiscalHead;
 	@UiField
 	Label headerLabel;
+
+	String[] monthNames;
 
 	interface SetupSelectFiscalYrDatePageUiBinder extends
 			UiBinder<Widget, SetupSelectFiscalYrDatePage> {
@@ -68,25 +58,11 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected void onLoad() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.selectFirstMonthOfFiscalYear());
 
 		fiscalStarts.setText(accounterConstants.myFiscalYearsStartsIn());
-		fiscalHeader.setText(accounterConstants.selectdateToTrackFinance());
-		startDate.setText(accounterConstants.yourSelecteddateisStartdate());
-		beginingFiscal.setText(accounterConstants.beginingOfthefiscalYear());
-		beginingFiscalText.setText(accounterConstants
-				.enterTransactionsTocompleteTaxreturns());
-		todaysDate.setText(accounterConstants.useTodaysDateasStartdate());
-		todaysDateText.setText(accounterConstants
-				.enterTransactionsTocompleteTaxreturns());
-		String[] monthNames = new String[] { accounterConstants.january(),
+		monthNames = new String[] { accounterConstants.january(),
 				accounterConstants.february(), accounterConstants.march(),
 				accounterConstants.april(), accounterConstants.may(),
 				accounterConstants.june(), accounterConstants.july(),
@@ -102,9 +78,17 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected void onSave() {
-		// TODO Auto-generated method stub
+	public void onLoad() {
+		if (monthNames.length > 0)
+			fiscalStartsList.setSelectedIndex(preferences
+					.getFiscalYearFirstMonth());
 
+	}
+
+	@Override
+	public void onSave() {
+		preferences
+				.setFiscalYearFirstMonth(fiscalStartsList.getSelectedIndex());
 	}
 
 	@Override

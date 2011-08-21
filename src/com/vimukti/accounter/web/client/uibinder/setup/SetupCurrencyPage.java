@@ -52,7 +52,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.howDoYouRefer());
+		headerLabel.setText(accounterConstants.setSupportedCurrencies());
 		// TODO Auto-generated method stub
 
 	}

@@ -4,14 +4,16 @@
 package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Administrator
@@ -21,6 +23,9 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 
 	private static SetupTrackEmployeesPageUiBinder uiBinder = GWT
 			.create(SetupTrackEmployeesPageUiBinder.class);
+
+	@UiField
+	VerticalPanel mainViewPanel;
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
@@ -28,7 +33,7 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	@UiField
 	CheckBox contractors;
 	@UiField
-	HTML trackExpenses;
+	Label trackExpenses;
 	@UiField
 	RadioButton trackEmployeeYes;
 	@UiField
@@ -51,19 +56,7 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		createControls();
 	}
 
-	@Override
-	protected void onLoad() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void onSave() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
+		@Override
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.doyouHaveEmployees());
 
@@ -74,11 +67,78 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 		trackEmployeeNo.setText(accounterConstants.no());
 		trackEmployeeExpenseYes.setText(accounterConstants.yes());
 		trackEmployeeExpenseNo.setText(accounterConstants.no());
+
+		if (trackEmployeeExpenseNo.getValue()) {
+			if (trackPanel.isAttached())
+				mainViewPanel.remove(trackPanel);
+		}
 	}
+		
+		@Override
+		public void onLoad() {
+			if (preferences.isHaveEpmloyees()) {
+				trackEmployeeYes.setValue(true);
+			} else {
+				trackEmployeeNo.setValue(true);
+			}
+
+			if (preferences.isTrackEmployeeExpenses()) {
+				trackEmployeeExpenseYes.setValue(true);
+			} else {
+				trackEmployeeExpenseNo.setValue(true);
+			}
+			if (preferences.isHaveW_2Employees()) {
+				w2Employees.setValue(true);
+			} else {
+				w2Employees.setValue(false);
+			}
+
+			if (preferences.isHave1099contractors()) {
+				contractors.setValue(true);
+			} else {
+				contractors.setValue(false);
+			}
+
+		}
+
+		@Override
+		public void onSave() {
+			if (trackEmployeeYes.getValue()) {
+				if ((w2Employees.getValue() || contractors.getValue())) {
+					preferences.setHaveEpmloyees(trackEmployeeYes.getValue());
+					preferences
+							.setTrackEmployeeExpenses(trackEmployeeExpenseYes.getValue());
+					preferences.setHaveW_2Employees(w2Employees.getValue());
+					preferences.setHave1099contractors(contractors
+							.getValue());
+				} else {
+					Accounter.showError("Please select emlployee type..");
+				}
+
+			} else {
+				preferences.setHaveEpmloyees(trackEmployeeYes.getValue());
+				preferences.setTrackEmployeeExpenses(trackEmployeeExpenseYes.getValue());
+				preferences.setHaveW_2Employees(w2Employees.getValue());
+				preferences.setHave1099contractors(contractors.getValue());
+			}
+
+		}
 
 	@Override
 	public boolean doShow() {
 		return true;
 	}
 
+	@UiHandler("trackEmployeeYes")
+	void onTrackEmployeeYesClick(ClickEvent event) {
+		if (!trackPanel.isAttached())
+			mainViewPanel.add(trackPanel);
+	}
+
+	@UiHandler("trackEmployeeNo")
+	void onTrackEmployeeNoClick(ClickEvent event) {
+		if (trackPanel.isAttached())
+			mainViewPanel.remove(trackPanel);
+
+	}
 }

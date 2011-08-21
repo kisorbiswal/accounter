@@ -44,16 +44,42 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	}
 
 	@Override
-	protected void onLoad() {
-		// TODO Auto-generated method stub
-
+	public void onLoad() {
+		boolean doyouwantEstimates = preferences.isDoyouwantEstimates();
+		boolean doyouwanrstatements = preferences.isDoyouwantstatements();
+		// estimates
+		if (doyouwantEstimates) {
+			estimatesYes.setValue(true);
+		} else {
+			estimatesNo.setValue(true);
+		}
+		// statements
+		if (doyouwanrstatements) {
+			statementYes.setValue(true);
+		} else {
+			statementsNo.setValue(true);
+		}
 	}
 
 	@Override
-	protected void onSave() {
-		// TODO Auto-generated method stub
+	public void onSave() {
 
+		boolean yesEstmatesvalue = estimatesYes.getValue();
+		boolean yesStatementvalue = statementYes.getValue();
+		// Estimates
+		if (yesEstmatesvalue) {
+			preferences.setDoyouwantEstimates(true);
+		} else {
+			preferences.setDoyouwantEstimates(false);
+		}
+		// Statements
+		if (yesStatementvalue) {
+			preferences.setDoyouwantEstimates(true);
+		} else {
+			preferences.setDoyouwantEstimates(false);
+		}
 	}
+
 
 	@Override
 	protected void createControls() {

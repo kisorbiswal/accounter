@@ -10,21 +10,12 @@
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
-			<g:HTML wordWrap="true" ui:field="fiscalHead"/>
-			<g:HTML wordWrap="true" ui:field="fiscalInfo"/>
+			<g:HTML wordWrap="true" ui:field="fiscalHead" />
+			<g:HTML wordWrap="true" ui:field="fiscalInfo" />
 			<g:HorizontalPanel>
-				<g:Label ui:field="fiscalStarts"/>
-				<g:ListBox ui:field="fiscalStartsList"/>
+				<g:Label ui:field="fiscalStarts" />
+				<g:ListBox ui:field="fiscalStartsList" />
 			</g:HorizontalPanel>
-			<g:VerticalPanel>
-				<g:HTML wordWrap="true" ui:field="fiscalHeader"/>
-				<g:Label ui:field="startDate"/>
-				<g:RadioButton name="new name" ui:field="beginingFiscal"/>
-				<g:HTML wordWrap="true" ui:field="beginingFiscalText"/>
-				<g:RadioButton name="new name" ui:field="todaysDate"/>
-				<g:HTML wordWrap="true" ui:field="todaysDateText"/>
-				<p1:DateBox ui:field="fiscalDate"/>
-			</g:VerticalPanel>
 		</g:VerticalPanel>
-		</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 
