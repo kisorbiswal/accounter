@@ -118,7 +118,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	long lastDepreciationDate;
 
-	private String industryType;
+	private int industryType;
 
 	// Customer Preferrences
 
@@ -160,9 +160,9 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean trackEmployeeExpenses;
 	boolean isBeginingorTodaysdate;
 	long trackFinanceDate;
-	private String referCustomers;
-	private String referSuplliers;
-	private String referAccounts;
+	private int referCustomers;
+	private int referSuplliers;
+	private int referAccounts;
 
 	private long preferencesFlag;
 
@@ -855,27 +855,27 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		set(KEEP_TRACK_OF_TIME, value);
 	}
 
-	public String getReferCustomers() {
+	public int getReferCustomers() {
 		return referCustomers;
 	}
 
-	public void setReferCustomers(String referCustomers) {
+	public void setReferCustomers(int referCustomers) {
 		this.referCustomers = referCustomers;
 	}
 
-	public String getReferSuplliers() {
+	public int getReferSuplliers() {
 		return referSuplliers;
 	}
 
-	public void setReferSuplliers(String referSuplliers) {
+	public void setReferSuplliers(int referSuplliers) {
 		this.referSuplliers = referSuplliers;
 	}
 
-	public String getReferAccounts() {
+	public int getReferAccounts() {
 		return referAccounts;
 	}
 
-	public void setReferAccounts(String referAccounts) {
+	public void setReferAccounts(int referAccounts) {
 		this.referAccounts = referAccounts;
 	}
 
@@ -895,11 +895,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		set(WANT_STATEMENTS, value);
 	}
 
-	public String getIndustryType() {
+	public int getIndustryType() {
 		return industryType;
 	}
 
-	public void setIndustryType(String industryType) {
+	public void setIndustryType(int industryType) {
 		this.industryType = industryType;
 	}
 
