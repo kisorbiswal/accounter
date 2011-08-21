@@ -491,11 +491,8 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	public void init() {
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction transaction = session.beginTransaction();
 		super.init();
 		initDefaultUSAccounts();
-		transaction.commit();
 	}
 
 	/*
