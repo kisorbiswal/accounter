@@ -4808,9 +4808,9 @@ public interface AccounterConstants extends Constants {
 
 	public String Tenant();
 
-	public String ledgar();
+	public String ledger();
 
-	public String Ledgar();
+	public String Ledger();
 
 	public String noBillsAreAvailableFirstAddABill();
 
