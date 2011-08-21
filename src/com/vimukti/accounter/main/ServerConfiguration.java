@@ -68,6 +68,7 @@ public class ServerConfiguration {
 	private static String rsContainerName;
 
 	public static boolean isDebugMode;
+	private static boolean isUnderMaintanance;
 
 	public static String getRsContainerName() {
 		return rsContainerName;
@@ -414,4 +415,11 @@ public class ServerConfiguration {
 		return attachmentsDir;
 	}
 
+	public static boolean isUnderMaintainance() {
+		return isUnderMaintanance;
+	}
+
+	public static void setUnderMaintainance(boolean value) {
+		isUnderMaintanance = value;
+	}
 }
