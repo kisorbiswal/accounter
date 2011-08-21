@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -1059,13 +1058,9 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	public void init() {
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction transaction = session.beginTransaction();
 		super.init();
 		initDefaultUKAccounts();
 		// createUKDefaultVATCodesAndVATAgency(session);
-		transaction.commit();
-		
 
 	}
 
