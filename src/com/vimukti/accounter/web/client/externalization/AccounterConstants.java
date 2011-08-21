@@ -4838,4 +4838,6 @@ public interface AccounterConstants extends Constants {
 
 	public String accounterMessages();
 
+	public String doyouchargeVat();
+
 }
