@@ -6531,11 +6531,14 @@ input[type="text"],textarea {
 }
 .finance_window,.group-toolbar{
 	width:100%;
-	box-shadow: 1px 2px 2px #1A5158;
 }
 
 .group-toolbar{
 	background:none repeat scroll 0 0 #3299A4;
+	box-shadow: 1px 2px 2px #1A5158;
+}
+.menuPopupContent{
+    box-shadow: 1px 2px 2px #1A5158;
 }
 .view_manager{
 	width:960px;
@@ -6711,9 +6714,11 @@ a#fdbk_tab:hover{
 	color:white;
 	padding-bottom: 3px;
 }
-.picture-link button {
-	margin: 60px 0 0;
+.picture-link {
     text-align: center;
+}
+.upload-logo td{
+	vertical-align: middle !important;
 }
 .panel-logo .change-logo,.panel-logo .remove-logo{
 	color: #1A5158;
