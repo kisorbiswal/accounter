@@ -15,7 +15,7 @@
 					<g:Label ui:field="primaryCurrenyLabel"/>
 				</g:customCell>
 				<g:customCell>
-					<g:ListBox visibleItemCount="1" ui:field="primaryCurrencyListBox"/>
+					<g:ListBox visibleItemCount="1" ui:field="primaryCurrencyListBox" styleName="currency_listbox"/>
 				</g:customCell>
 			</g:row>
 		</g:Grid>
