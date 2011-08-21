@@ -63,19 +63,23 @@ public class SetupReferPage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(accounterConstants.howDoYouRefer());
 		// adding Items to customer list box
-		customerListBox.addItem(accounterConstants.customers());
-		customerListBox.addItem(accounterConstants.clients());
-		customerListBox.addItem(accounterConstants.tenants());
+		customerListBox.addItem(accounterConstants.Customer());
+		customerListBox.addItem(accounterConstants.Client());
+		customerListBox.addItem(accounterConstants.Tenant());
+		customerListBox.addItem(accounterConstants.Donar());
+		customerListBox.addItem(accounterConstants.Guest());
+		customerListBox.addItem(accounterConstants.Member());
+		customerListBox.addItem(accounterConstants.Patitent());
 
-		supplierListBox.addItem(accounterConstants.suppliers());
-		supplierListBox.addItem(accounterConstants.vendors());
+		supplierListBox.addItem(accounterConstants.Supplier());
+		supplierListBox.addItem(accounterConstants.Vendor());
 
-		accountListBox.addItem(accounterConstants.accounts());
-		accountListBox.addItem(accounterConstants.legands());
+		accountListBox.addItem(accounterConstants.Account());
+		accountListBox.addItem(accounterConstants.Legand());
 
-		customerLabel.setText(accounterConstants.customer());
-		supplierLabel.setText(accounterConstants.supplier());
-		accountLabel.setText(accounterConstants.account());
+		customerLabel.setText(accounterConstants.Customer());
+		supplierLabel.setText(accounterConstants.Supplier());
+		accountLabel.setText(accounterConstants.Account());
 
 		customerCommentLabel.setText(accounterConstants
 				.howDoYouReferYourCustoemrs());
@@ -87,6 +91,10 @@ public class SetupReferPage extends AbstractSetupPage {
 	}
 
 	@Override
+	public boolean canShow() {
+		return true;
+	}
+
 	public void onLoad() {
 
 		int referCustomers = preferences.getReferCustomers();
@@ -112,11 +120,6 @@ public class SetupReferPage extends AbstractSetupPage {
 			preferences.setReferSuplliers(suplier);
 		if (accounts != 0)
 			preferences.setReferAccounts(accounts);
-	}
-
-	@Override
-	public boolean doShow() {
-		return true;
 	}
 
 }
