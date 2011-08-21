@@ -15,7 +15,11 @@ import com.vimukti.accounter.core.CSVReportTemplate;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
+import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
+import com.vimukti.accounter.main.Server;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ExportReportServlet extends BaseServlet {
@@ -23,7 +27,7 @@ public class ExportReportServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	String style;
 
 	@Override
@@ -74,17 +78,23 @@ public class ExportReportServlet extends BaseServlet {
 		}
 	}
 
-	private ITemplate getTempleteObjByRequest(HttpServletRequest request) throws IOException {
+	private ITemplate getTempleteObjByRequest(HttpServletRequest request)
+			throws IOException, AccounterException {
 		Session session = null;
 		try {
 			String companyName = getCompanyName(request);
 			if (companyName == null)
 				return null;
-			session = HibernateUtil.openSession(companyName);
 
-			FinanceTool financetool = (FinanceTool) session.load(
-					FinanceTool.class, 1l);
+			String companyID = getCookie(request, COMPANY_COOKIE);
+			session = HibernateUtil.openSession(Server.COMPANY + companyID);
+
+			FinanceTool financetool = new FinanceTool();
 			TemplateBuilder.setCmpName(companyName);
+
+			ClientCompanyPreferences clientCompanyPreferences = financetool
+					.getClientCompanyPreferences();
+			CompanyPreferenceThreadLocal.set(clientCompanyPreferences);
 
 			ITemplate template = null;
 			template = getReportTemplate(request, financetool);
