@@ -1,8 +1,8 @@
 /** Add css rules here for your application. */
 	/** Example rules used by the template application (remove for your app) */
 	/*
- *	@author P.Praneeth
- *
+ *	@author A.Praveena
+ *  
  */
 body {
 	font-family: Arial Unicode MS, Arial, sans-serif;
@@ -18,7 +18,8 @@ body {
 	/*font-size: 10pt;*/
 	font-size: medium !important;
 	font-weight: normal; /*
-	
+	 
+	    /* -moz-linear-gradient(100% 100% 90deg, #99C757, #CCFE8B) repeat scroll 0 0 transparent */
 	
 		 For WebKit (Safari, Google Chrome etc) 
 		background: -webkit-gradient(linear, left top, left bottom, from(#fff), to( #f0f1f0));
@@ -6526,7 +6527,7 @@ input[type="text"],textarea {
 .setup_header_label{
 	color: #144149;
     font-size: 23px;
-    padding-bottom: 6px;
+    padding-bottom: 15px;
 }
 .finance_window,.group-toolbar{
 	width:100%;
@@ -6759,10 +6760,10 @@ a#fdbk_tab:hover{
 .view_panel{
 	padding:10px;
 }
-.company_Info_table .gwt-ListBox,.refer_listbox{
+.company_Info_table .gwt-ListBox,.refer_listbox,.fiscal_listbox{
 	  width: 193px;
 }
-.company_Info_table .gwt-ListBox,.industry_list,.refer_listbox{
+.company_Info_table .gwt-ListBox,.industry_list,.refer_listbox,.fiscal_listbox{
 	border: 1px solid #B1B1B1;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 1px 2px 2px #CCCCCC inset;
@@ -6793,7 +6794,8 @@ a#fdbk_tab:hover{
 .settings_later{
 	padding:10px 0px;
 }
-.select_industry,.organized_radio{
+.select_industry,.organized_radio,.employee_yesno,
+.gwt-RadioButton,.billing_question{
 	font-weight:bold;
 }
 .organisation_Info{
@@ -6804,6 +6806,53 @@ a#fdbk_tab:hover{
 .organization_listbox{
 	margin: 0 0 14px 25px;
 }
-.refer_customer,.refer_supplier,.refer_account{
+.refer_customer,.refer_supplier,.refer_account,.refer_panel{
 	padding: 10px 0 0 15px;
+}
+.refer_panel{
+	margin:15px 0px;
+}
+.refer_panel td:FIRST-CHILD{
+	width:100px;
+	vertical-align: middle !important;
+}
+.refer_panel td:FIRST-CHILD div{
+	font-size:17px;
+}
+.check_label{
+	margin: 10px 0 10px 15px;
+}
+.check_label td,.sales_tax td{
+	padding:10px 0px;
+}
+.track_emp_vpanel td,.sales_tax td,.estimate_stmt_acc td,.bills_panel td,.track_time_panel td{
+	padding:0 0 10px 0px;
+}
+.track_emp_vpanel td:FIRST-CHILD,.sales_tax td:FIRST-CHILD ,.estimate_stmt_acc td:FIRST-CHILD
+,.bills_panel td:FIRST-CHILD,.track_time_panel td:FIRST-CHILD {
+	padding:10px 0 0 0;
+}
+.track_emp_vpanel td:FIRST-CHILD .setup_header_label
+,.sales_tax td:FIRST-CHILD .setup_header_label,.estimate_stmt_acc td:FIRST-CHILD .setup_header_label
+,.bills_panel td:FIRST-CHILD .setup_header_label,.track_time_panel td:FIRST-CHILD .setup_header_label{
+	padding:0px 0 5px 0;
+}
+#mainWindow{
+	min-height: 100%;
+	height: auto;
+}
+.billing_stmt_footer{
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	padding:0 0 10px 25px;
+}
+.track_time_panel .employee_yesno,.track_question,.bills_panel .employee_yesno{
+	padding-left:25px;
+}
+.fiscal_panel{
+	margin-top:25px;
+}
+.fiscal_panel td:FIRST-CHILD {
+	vertical-align: middle !important;
+	padding-right:10px;
 }
