@@ -104,7 +104,10 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			company.setCompanyEmail(user.getEmail());
 
 			// Comment these 4 Lines If you want Company Setup
-			CompanyPreferences preferences = new CompanyPreferences();
+			CompanyPreferences preferences = company.getPreferences();
+			if (preferences == null) {
+				preferences = new CompanyPreferences();
+			}
 			preferences.setSellProducts(true);
 			preferences.setSellServices(true);
 			company.setConfigured(true);
