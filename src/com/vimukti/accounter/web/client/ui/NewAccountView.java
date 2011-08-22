@@ -201,7 +201,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			@Override
 			public void onFocus(FocusEvent event) {
-				displayAndSetAccountNo();
+				// displayAndSetAccountNo();
 
 			}
 		});
@@ -585,7 +585,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			lab1.setText(" " + Accounter.constants().bankAccount());
 		else
 			lab1.setText(" " + Utility.getAccountTypeString(this.accountType)
-					+ " " + Accounter.constants().financeCategory());
+					+ " " + Accounter.constants().account());
 
 	}
 
@@ -718,7 +718,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
 
 			bankAccNumText = new TextItem(Accounter.constants()
-					.bankFinanceCategorynumber());
+					.bankAccountNumber());
 			bankAccNumText.setHelpInformation(true);
 			bankAccNumText.setWidth(100);
 
@@ -772,7 +772,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		else
 
 			lab1.setText(" " + Utility.getAccountTypeString(accountType) + " "
-					+ Accounter.constants().financeCategory());
+					+ Accounter.constants().account());
 
 	}
 

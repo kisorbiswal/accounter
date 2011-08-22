@@ -15,7 +15,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 	private Label moreLabel;
 
 	Anchor accountReceivable, accountPayable, banking, expences, customer,
-			vendor, inviteUser, createBankAcc, financeCategories;
+			vendor, inviteUser, createBankAcc, accounts;
 
 	public GettingStartedPortlet(String title) {
 		super(title);
@@ -40,7 +40,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 		inviteUser = getAnchor(Accounter.constants().inviteOtherUser());
 		createBankAcc = getAnchor(Accounter.constants()
 				.createanyadditionalbankaccounts());
-		financeCategories = getAnchor(Accounter.constants().financeCategories());
+		accounts = getAnchor(Accounter.constants().accounts());
 		// minHtml = new HTML(
 		// "<p>Now you are ready to start using Accounter on a regular basis to record and report on normal business transcations. There is <a href='http://help.accounter.com'><font color='green'>full online help</font></a> and tips on each screen in Accounter if you need it. It's really up to you what you do next.</p><ul><li>Add "
 		// + accountReceivable
@@ -192,8 +192,7 @@ public class GettingStartedPortlet extends DashBoardPortlet {
 						.createanyadditionalbankaccounts())) {
 					if (Accounter.getUser().canDoBanking())
 						ActionFactory.getNewBankAccountAction().run(null, true);
-				} else if (title.equals(Accounter.constants()
-						.financeCategories())) {
+				} else if (title.equals(Accounter.constants().accounts())) {
 					if (Accounter.getUser().canSeeInvoiceTransactions())
 						ActionFactory.getChartOfAccountsAction()
 								.run(null, true);
