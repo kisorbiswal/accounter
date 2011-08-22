@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
@@ -9,6 +10,7 @@ import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -736,9 +738,9 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		registeredAddress.type = Address.TYPE_COMPANY_REGISTRATION;
 	}
 
-	public void initialize() {
+	public void initialize(List<TemplateAccount> accounts) {
 
-		CompanyInitializedFactory.getInitializer(this).init();
+		CompanyInitializedFactory.getInitializer(this).init(accounts);
 		/*
 		 * Session session = HibernateUtil.getCurrentSession(); switch
 		 * (accountingType) { case ACCOUNTING_TYPE_US:
