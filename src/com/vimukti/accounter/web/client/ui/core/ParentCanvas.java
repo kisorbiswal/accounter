@@ -28,7 +28,8 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 	}
 	
 
-	public void close() {
+	public void cancel() {
+		setData(null);
 		getManager().closeCurrentView();
 	}
 

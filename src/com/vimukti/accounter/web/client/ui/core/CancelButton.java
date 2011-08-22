@@ -29,7 +29,7 @@ public class CancelButton extends ImageButton {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				currentView.close();
+				currentView.cancel();
 			}
 		});
 	}

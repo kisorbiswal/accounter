@@ -433,7 +433,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 
 						@Override
 						public boolean onNoClick() {
-							close();
+							cancel();
 							return true;
 						}
 
@@ -444,7 +444,7 @@ public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
 						}
 					});
 		} else {
-			close();
+			cancel();
 		}
 	}
 
