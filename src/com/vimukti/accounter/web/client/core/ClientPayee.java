@@ -256,9 +256,11 @@ public abstract class ClientPayee implements IAccounterCore {
 	public void setContacts(Set<ClientContact> contacts) {
 		this.contacts = contacts;
 	}
+
 	public void addContact(ClientContact contact) {
 		this.contacts.add(contact);
 	}
+
 	public String getWebPageAddress() {
 		return webPageAddress;
 	}
@@ -437,4 +439,14 @@ public abstract class ClientPayee implements IAccounterCore {
 		this.currency = currency;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientPayee) {
+			ClientPayee payee = (ClientPayee) obj;
+			return this.getID() == payee.getID() ? true : false;
+		}
+		return false;
+	}
 }

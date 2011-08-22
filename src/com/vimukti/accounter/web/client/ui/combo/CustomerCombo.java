@@ -39,7 +39,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 			@Override
 			public void actionResult(ClientCustomer result) {
-				if (result.getDisplayName()!=null)
+				if (result.getDisplayName() != null)
 					addItemThenfireEvent(result);
 			}
 		});
@@ -56,4 +56,9 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 		return null;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
+	}
 }

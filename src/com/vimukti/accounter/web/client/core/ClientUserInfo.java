@@ -231,4 +231,15 @@ public class ClientUserInfo implements IAccounterCore {
 		clientUserInfo.permissions = this.permissions.clone();
 		return clientUserInfo;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientUserInfo) {
+			ClientUserInfo userInfo = (ClientUserInfo) obj;
+			return this.getID() == userInfo.getID() ? true : false;
+		}
+		return false;
+	}
 }

@@ -9,7 +9,6 @@ public class ClientItemGroup implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	int version;
 
@@ -118,4 +117,14 @@ public class ClientItemGroup implements IAccounterCore {
 
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientItemGroup) {
+			ClientItemGroup itemGroup = (ClientItemGroup) obj;
+			return this.getID() == itemGroup.getID() ? true : false;
+		}
+		return false;
+	}
 }

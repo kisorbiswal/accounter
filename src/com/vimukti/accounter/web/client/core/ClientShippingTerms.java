@@ -107,4 +107,14 @@ public class ClientShippingTerms implements IAccounterCore {
 		return shippingTerms;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientShippingTerms) {
+			ClientShippingTerms shippingTerms = (ClientShippingTerms) obj;
+			return this.getID() == shippingTerms.getID() ? true : false;
+		}
+		return false;
+	}
 }

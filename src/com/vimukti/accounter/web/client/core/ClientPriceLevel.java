@@ -125,4 +125,14 @@ public class ClientPriceLevel implements IAccounterCore {
 		return priceLevel;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientPriceLevel) {
+			ClientPriceLevel priceLevel = (ClientPriceLevel) obj;
+			return this.getID() == priceLevel.getID() ? true : false;
+		}
+		return false;
+	}
 }

@@ -87,4 +87,14 @@ public class ClientCreditRating implements IAccounterCore {
 
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientCreditRating) {
+			ClientCreditRating creditRating = (ClientCreditRating) obj;
+			return this.getID() == creditRating.getID() ? true : false;
+		}
+		return false;
+	}
 }

@@ -490,4 +490,15 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ClientAccount) {
+			ClientAccount account = (ClientAccount) obj;
+			if (this.getID() == account.getID())
+				return true;
+		} else {
+			return false;
+		}
+		return false;
+	}
 }

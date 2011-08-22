@@ -135,4 +135,14 @@ public class ClientTAXItem extends ClientTAXItemGroup implements IAccountable {
 		return ClientTransactionItem.TYPE_SALESTAX;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientTAXItem) {
+			ClientTAXItem taxItem = (ClientTAXItem) obj;
+			return this.getID() == taxItem.getID() ? true : false;
+		}
+		return false;
+	}
 }

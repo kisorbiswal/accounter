@@ -534,4 +534,14 @@ public class ClientCustomer extends ClientPayee {
 		this.contacts.add(contact);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientCustomer) {
+			ClientCustomer customer = (ClientCustomer) obj;
+			return this.getID() == customer.getID() ? true : false;
+		}
+		return false;
+	}
 }

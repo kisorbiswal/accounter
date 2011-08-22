@@ -144,4 +144,14 @@ public class ClientTAXAgency extends ClientPayee {
 		return taxAgency;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientTAXAgency) {
+			ClientTAXAgency taxAgency = (ClientTAXAgency) obj;
+			return this.getID() == taxAgency.getID() ? true : false;
+		}
+		return false;
+	}
 }

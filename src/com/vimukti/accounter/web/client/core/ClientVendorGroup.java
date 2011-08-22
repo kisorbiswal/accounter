@@ -6,7 +6,7 @@ public class ClientVendorGroup implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	int version;
 	long id;
 	String name;
@@ -104,4 +104,14 @@ public class ClientVendorGroup implements IAccounterCore {
 		return clientVendorGroupClone;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientVendorGroup) {
+			ClientVendorGroup vendorGroup = (ClientVendorGroup) obj;
+			return this.getID() == vendorGroup.getID() ? true : false;
+		}
+		return false;
+	}
 }

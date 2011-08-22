@@ -78,4 +78,15 @@ public class ClientCustomerGroup implements IAccounterCore {
 		return customerGroup;
 
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientCustomerGroup) {
+			ClientCustomerGroup customerGroup = (ClientCustomerGroup) obj;
+			return this.getID() == customerGroup.getID() ? true : false;
+		}
+		return false;
+	}
 }

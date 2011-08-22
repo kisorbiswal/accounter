@@ -96,4 +96,15 @@ public class ClientShippingMethod implements IAccounterCore {
 				.clone();
 		return shippingMethod;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientShippingMethod) {
+			ClientShippingMethod shippingMethod = (ClientShippingMethod) obj;
+			return this.getID() == shippingMethod.getID() ? true : false;
+		}
+		return false;
+	}
 }

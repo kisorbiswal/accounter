@@ -7,9 +7,8 @@ package com.vimukti.accounter.web.client.core;
  */
 public class ClientBrandingTheme implements IAccounterCore {
 
-
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String FONT_ARIAL = "Arial";
 	public static final String FONT_CALIBIRI = "Calibiri";
 	public static final String FONT_CAMBRIA = "Cambria";
@@ -328,4 +327,13 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+
+		if (obj instanceof ClientBrandingTheme) {
+			ClientBrandingTheme brandingTheme = (ClientBrandingTheme) obj;
+			return this.getID() == brandingTheme.getID() ? true : false;
+		}
+		return false;
+	}
 }

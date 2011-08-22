@@ -9,7 +9,7 @@ public class ClientAddress implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int TYPE_BUSINESS = 1;
 	public static final int TYPE_BILL_TO = 2;
 	public static final int TYPE_SHIP_TO = 3;
@@ -245,5 +245,18 @@ public class ClientAddress implements IAccounterCore {
 		ClientAddress clientAddress = (ClientAddress) this.clone();
 		return clientAddress;
 
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ClientAddress) {
+			ClientAddress address = (ClientAddress) obj;
+			if (this.getID() == address.getID()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return false;
 	}
 }

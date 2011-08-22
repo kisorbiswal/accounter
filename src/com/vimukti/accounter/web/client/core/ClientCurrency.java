@@ -121,4 +121,14 @@ public class ClientCurrency implements IAccounterCore {
 
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientCurrency) {
+			ClientCurrency currency = (ClientCurrency) obj;
+			return this.getID() == currency.getID() ? true : false;
+		}
+		return false;
+	}
 }

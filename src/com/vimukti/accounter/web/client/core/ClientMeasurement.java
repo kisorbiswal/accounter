@@ -194,6 +194,17 @@ public class ClientMeasurement implements IAccounterCore {
 		}
 		measurement.units = units;
 		return measurement;
-
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientMeasurement) {
+			ClientMeasurement measurement = (ClientMeasurement) obj;
+			return this.getID() == measurement.getID() ? true : false;
+		}
+		return false;
+	}
+
 }

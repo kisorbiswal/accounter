@@ -9,7 +9,7 @@ public class ClientWarehouse implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private ClientAddress address;
 	private Set<ClientItemStatus> itemStatuses;
 
@@ -117,4 +117,14 @@ public class ClientWarehouse implements IAccounterCore {
 		return clientWarehouse;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientWarehouse) {
+			ClientWarehouse warehouse = (ClientWarehouse) obj;
+			return this.getID() == warehouse.getID() ? true : false;
+		}
+		return false;
+	}
 }

@@ -6,7 +6,6 @@ public class ClientBank implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	long id;
 
@@ -78,4 +77,15 @@ public class ClientBank implements IAccounterCore {
 
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ClientBank) {
+			ClientBank bank = (ClientBank) obj;
+			if (this.getID() == bank.getID())
+				return true;
+		} else {
+			return false;
+		}
+		return false;
+	}
 }

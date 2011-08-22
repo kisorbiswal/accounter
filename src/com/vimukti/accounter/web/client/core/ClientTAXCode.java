@@ -6,7 +6,7 @@ public class ClientTAXCode implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	long id;
 	String name;
 	String description;
@@ -133,4 +133,14 @@ public class ClientTAXCode implements IAccounterCore {
 		return taxCode;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientTAXCode) {
+			ClientTAXCode taxCode = (ClientTAXCode) obj;
+			return this.getID() == taxCode.getID() ? true : false;
+		}
+		return false;
+	}
 }

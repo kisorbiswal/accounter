@@ -166,4 +166,14 @@ public class ClientPaymentTerms implements IAccounterCore {
 		return paymentTerms;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientPaymentTerms) {
+			ClientPaymentTerms paymentTerms = (ClientPaymentTerms) obj;
+			return this.getID() == paymentTerms.getID() ? true : false;
+		}
+		return false;
+	}
 }

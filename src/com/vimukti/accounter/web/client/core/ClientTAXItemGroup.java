@@ -15,7 +15,6 @@ public class ClientTAXItemGroup implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	long id;
 
@@ -154,4 +153,14 @@ public class ClientTAXItemGroup implements IAccounterCore {
 		return taxItemGroup;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientTAXItemGroup) {
+			ClientTAXItemGroup taxItemGroup = (ClientTAXItemGroup) obj;
+			return this.getID() == taxItemGroup.getID() ? true : false;
+		}
+		return false;
+	}
 }

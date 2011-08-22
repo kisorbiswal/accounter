@@ -6,7 +6,7 @@ public class ClientSalesPerson implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int TITLE_DR = 1;
 	public static final int TITLE_MISS = 2;
 	public static final int TITLE_MR = 3;
@@ -402,4 +402,14 @@ public class ClientSalesPerson implements IAccounterCore {
 		return memo;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientSalesPerson) {
+			ClientSalesPerson salesPerson = (ClientSalesPerson) obj;
+			return this.getID() == salesPerson.getID() ? true : false;
+		}
+		return false;
+	}
 }

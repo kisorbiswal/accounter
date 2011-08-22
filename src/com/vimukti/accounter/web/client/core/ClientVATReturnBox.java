@@ -151,4 +151,14 @@ public class ClientVATReturnBox implements IAccounterCore {
 		return clientVATReturnBoxClone;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientVATReturnBox) {
+			ClientVATReturnBox vatReturnBox = (ClientVATReturnBox) obj;
+			return this.getID() == vatReturnBox.getID() ? true : false;
+		}
+		return false;
+	}
 }

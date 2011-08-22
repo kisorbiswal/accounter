@@ -504,4 +504,15 @@ public class ClientVendor extends ClientPayee {
 		return vendor;
 
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientVendor) {
+			ClientVendor vendor = (ClientVendor) obj;
+			return this.getID() == vendor.getID() ? true : false;
+		}
+		return false;
+	}
 }
