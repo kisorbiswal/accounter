@@ -6683,7 +6683,7 @@ a#fdbk_tab:hover{
     background-color: #e4e4e4 !important;
     padding:10px !important;
 }
-.grouped-buttons td:FIRST-CHILD .Empty-text,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons .image-button {
+.grouped-buttons td:FIRST-CHILD .Empty-text,.grouped-buttons td:FIRST-CHILD .image-button{
     border-color: #A0A0A0;
     border-color: #A0A0A0\0 !important;
     border-radius: 5px 0 0 5px !important;
@@ -6695,7 +6695,7 @@ a#fdbk_tab:hover{
 	border: 1px solid #A0A0A0 !important;
 	color:black\0 !important;
 }
-.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button{
+.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button,.grouped-buttons .image-button{
 	border-color:#a0a0a0;
     background-color: #e4e4e4;
     background-color: #e4e4e4\0 !important;
@@ -6895,4 +6895,7 @@ a#fdbk_tab:hover{
 }
 .currency_listbox{
 	margin:10px;
+}
+.progress_panel_data td .gwt-Label{
+	padding:5px 0px;
 }
