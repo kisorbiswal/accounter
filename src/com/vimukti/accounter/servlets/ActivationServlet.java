@@ -42,7 +42,7 @@ public class ActivationServlet extends BaseServlet {
 		if (parameter != null && parameter.equals("109")) {
 			req.setAttribute(
 					"successmessage",
-					"Reset Password link has been sent to the given emailId, Kindly check your Mail box.");
+					"Reset Password code has been sent to the given emailId. Kindly check your inbox and enter that code below to reset the password.");
 			session.setAttribute(ACTIVATION_TYPE, "resetpassword");
 		}
 		dispatch(req, resp, VIEW);
