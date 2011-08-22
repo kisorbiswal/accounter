@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public abstract class BaseView<T extends IAccounterCore> extends
-		AbstractBaseView<T> implements IEditableView, IPrintableView {
+		AbstractBaseView<T> implements IEditableView {
 
 	private ButtonBar buttonBar;
 
@@ -116,15 +116,4 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		return isDirty;
 	}
 
-	@Override
-	public boolean canPrint() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean canExportToCsv() {
-		// TODO Auto-generated method stub
-		return true;
-	}
 }
