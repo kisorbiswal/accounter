@@ -199,10 +199,11 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<SalesOrdersList> getSalesOrders()
 			throws AccounterException;
 
-	 public ArrayList<PurchaseOrdersList> getPurchaseOrders() throws
-	 AccounterException;
-	 
-	/* public ArrayList<SalesOrdersList> getSalesOrdersForCustomer(long
+	public ArrayList<PurchaseOrdersList> getPurchaseOrders()
+			throws AccounterException;
+
+	/*
+	 * public ArrayList<SalesOrdersList> getSalesOrdersForCustomer(long
 	 * customerID) throws AccounterException;
 	 * 
 	 * public ArrayList<SalesOrdersList> getPurchaseOrdersForVendor(long
@@ -284,6 +285,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
 	public String getCustomerNumber();
+
 	public String getVendorNumber();
 
 	public ArrayList<Double> getGraphPointsforAccount(int chartType,
@@ -297,6 +299,12 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public ArrayList<ClientUserInfo> getAllUsers() throws AccounterException;
 
-	ArrayList<ClientRecurringTransaction> getRecurringsList() throws AccounterException;
+	ArrayList<ClientRecurringTransaction> getRecurringsList()
+			throws AccounterException;
+
+	// For merging
+
+	public void mergeCustomer(ClientCustomer clientCustomer,
+			ClientCustomer clientCustomer2) throws AccounterException;
 
 }

@@ -1488,6 +1488,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return nextCustomerNumber;
 
 	}
+
 	@Override
 	public String getVendorNumber() {
 		String nextCustomerNumber = "";
@@ -1581,13 +1582,29 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientRecurringTransaction> getRecurringsList() throws AccounterException {
-		
+	public ArrayList<ClientRecurringTransaction> getRecurringsList()
+			throws AccounterException {
+
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			return tool.getAllRecurringTransactions();
 		}
-		return null;		
+		return null;
+	}
+
+	@Override
+	public void mergeCustomer(ClientCustomer fromClientCustomer,ClientCustomer toClientCustomer) throws AccounterException {
+		FinanceTool tool = getFinanceTool();
+		if (tool != null) {
+
+			try {
+				tool.mergeCustomer(fromClientCustomer, toClientCustomer);
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	// public ArrayList<ClientEmployee> getAllEmployees()

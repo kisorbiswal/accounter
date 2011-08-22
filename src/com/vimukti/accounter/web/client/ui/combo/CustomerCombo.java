@@ -9,7 +9,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	public CustomerCombo(String title) {
 		super(title);
-		initCombo(getCompany().getActiveCustomers());
+		initCombo(getCompany().getCustomers());
 
 	}
 

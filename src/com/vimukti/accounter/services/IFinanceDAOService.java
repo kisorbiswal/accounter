@@ -34,6 +34,7 @@ import com.vimukti.accounter.core.VATReturn;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -132,6 +133,21 @@ public interface IFinanceDAOService {
 
 	public void alterFiscalYear(final FiscalYear fiscalYear)
 			throws DAOException;
+
+	/**
+	 * For merging the from one customer to another customer
+	 * 
+	 * @param fromID
+	 * @param toID
+	 */
+	public void mergeCustomer(ClientCustomer fromClientCustomer,
+			ClientCustomer toClientCustomer) throws DAOException;
+
+	public void mergeVendor(long fromID, long toID) throws DAOException;
+
+	public void mergeAcoount(long fromID, long toID) throws DAOException;
+
+	public void mergeItem(long fromID, long toID) throws DAOException;
 
 	/**
 	 * Company Home page widgets Related Dao Methods
@@ -642,6 +658,7 @@ public interface IFinanceDAOService {
 			ParseException;
 
 	public String getNextVendorNumber() throws DAOException;
+
 	public String getNextCustomerNumber() throws DAOException;
 
 	public ArrayList<DepositDetail> getDepositDetail(FinanceDate startDate,

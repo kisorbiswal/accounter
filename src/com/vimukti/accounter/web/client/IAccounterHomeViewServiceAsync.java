@@ -344,4 +344,6 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getAllUsers(AsyncCallback<ArrayList<ClientUserInfo>> callback);
 
+	void mergeCustomer(ClientCustomer clientCustomer, ClientCustomer clientCustomer1, AsyncCallback<Void> callback);
+
 }
