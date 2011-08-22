@@ -124,6 +124,8 @@ public class GeneratePDFservlet extends BaseServlet {
 			TemplateBuilder.setCmpName(companyName);
 
 			Company company = financetool.getCompany();
+			int companyType = company.getAccountingType();
+
 			CompanyPreferenceThreadLocal.set(financetool
 					.getClientCompanyPreferences());
 
@@ -181,9 +183,10 @@ public class GeneratePDFservlet extends BaseServlet {
 			// for Reports
 			else {
 				transactionType = 0;
+				fileName = "";
 				converter = new Converter();
 				template = getReportTemplate(request, financetool, footerImg,
-						style);
+						style, companyType);
 				fileName = template.getFileName();
 			}
 
@@ -194,8 +197,8 @@ public class GeneratePDFservlet extends BaseServlet {
 	}
 
 	private ITemplate getReportTemplate(HttpServletRequest request,
-			FinanceTool financeTool, String footerImg, String style)
-			throws IOException {
+			FinanceTool financeTool, String footerImg, String style,
+			int companyType) throws IOException {
 
 		long startDate = Long.parseLong(request.getParameter("startDate"));
 		int reportType = Integer.parseInt(request.getParameter("reportType"));
@@ -206,10 +209,12 @@ public class GeneratePDFservlet extends BaseServlet {
 		ReportsGenerator generator;
 		if (status == null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPEPDF);
+					navigatedName, ReportsGenerator.GENERATIONTYPEPDF,
+					companyType);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, status);
+					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, status,
+					companyType);
 		}
 
 		String gridTemplate = generator.generate(financeTool,
