@@ -213,15 +213,25 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 
 	public void reportRequest() {
 		if (!endingDateCombo.getSelectedValue().isEmpty())
-			selectedEndDate = UIUtils.stringToDate(endingDateCombo
-					.getSelectedValue());
-		if (selectedEndDate == null) {
+			setSelectedEndDate(UIUtils.stringToDate(endingDateCombo
+					.getSelectedValue()));
+		if (getSelectedEndDate() == null) {
 			getView().showRecords();
 			return;
 		}
+		setStartDate(getSelectedEndDate());
+		setEndDate(getSelectedEndDate());
 		// if (selectedEndDate.length() == 0)
 		// return;
 		reportview
-				.makeReportRequest(selectedVATAgency.getID(), selectedEndDate);
+				.makeReportRequest(selectedVATAgency.getID(), getSelectedEndDate());
+	}
+
+	public ClientFinanceDate getSelectedEndDate() {
+		return selectedEndDate;
+	}
+
+	public void setSelectedEndDate(ClientFinanceDate selectedEndDate) {
+		this.selectedEndDate = selectedEndDate;
 	}
 }

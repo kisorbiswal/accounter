@@ -1484,7 +1484,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		ArrayList<VATSummary> vatSummaryList = new ArrayList<VATSummary>();
 
 		try {
-			TAXAgency vatAgency = (TAXAgency) loadObjectById("TAXAgency",
+			TAXAgency vatAgency = (TAXAgency) loadObjectById(
+					AccounterCoreType.TAXAGENCY
+							.getServerClassFullyQualifiedName(),
 					taxAgncy);
 			vatSummaryList = getFinanceTool().getPriorReturnVATSummary(
 					vatAgency, new FinanceDate(endDate));

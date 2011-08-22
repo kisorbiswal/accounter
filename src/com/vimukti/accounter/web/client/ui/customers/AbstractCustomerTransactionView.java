@@ -981,7 +981,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			result.add(custForm.validate());
 		}
 		if (!(this.transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS)) {
-			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US
+					&& getCompany().getPreferences().getDoYouPaySalesTax()) {
 				if (taxCodeSelect != null)
 					if (!taxCodeSelect.validate()) {
 						result.addError(taxCodeSelect, Accounter.messages()
@@ -1227,5 +1228,5 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public void setUseAccountNumbers(boolean useAccountNumbers) {
 		this.useAccountNumbers = useAccountNumbers;
 	}
-	
+
 }

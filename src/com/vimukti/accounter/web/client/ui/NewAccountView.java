@@ -790,18 +790,19 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		} else {
 			for (int type : UIUtils.accountTypes) {
-				if (getCompany().getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK)
-					list.add(Utility.getAccountTypeString(type));
-				else if (type != ClientAccount.TYPE_CASH
-						&& type != ClientAccount.TYPE_OTHER_INCOME
-						&& type != ClientAccount.TYPE_INVENTORY_ASSET
-						&& type != ClientAccount.TYPE_CREDIT_CARD
-						&& type != ClientAccount.TYPE_PAYROLL_LIABILITY) {
-					if (!Accounter.getUser().canDoBanking()
-							&& type == ClientAccount.TYPE_BANK)
-						continue;
-					list.add(Utility.getAccountTypeString(type));
-				}
+				// if (getCompany().getAccountingType() !=
+				// ClientCompany.ACCOUNTING_TYPE_UK)
+				// list.add(Utility.getAccountTypeString(type));
+				// else if (type != ClientAccount.TYPE_CASH
+				// && type != ClientAccount.TYPE_OTHER_INCOME
+				// && type != ClientAccount.TYPE_INVENTORY_ASSET
+				// && type != ClientAccount.TYPE_CREDIT_CARD
+				// && type != ClientAccount.TYPE_PAYROLL_LIABILITY) {
+				if (!Accounter.getUser().canDoBanking()
+						&& type == ClientAccount.TYPE_BANK)
+					continue;
+				list.add(Utility.getAccountTypeString(type));
+				// }
 			}
 			if (accountType != ClientAccount.TYPE_BANK
 					&& accountType != ClientAccount.TYPE_CREDIT_CARD) {

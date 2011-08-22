@@ -58,10 +58,10 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 	@Override
 	public void print() {
 
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 136, "",
-				"", vatAgency);
+		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
+				.getDate())), Integer.parseInt(String
+				.valueOf(((PriorVATReturnToolBar) toolbar).getSelectedEndDate()
+						.getDate())), 136, "", "", vatAgency);
 	}
 
 	@Override
@@ -82,10 +82,10 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 	}
 
 	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 147, "",
-				"");
+		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
+				.getDate())), Integer.parseInt(String
+				.valueOf(((PriorVATReturnToolBar) toolbar).getSelectedEndDate()
+						.getDate())), 147, "", "");
 	}
 
 }
