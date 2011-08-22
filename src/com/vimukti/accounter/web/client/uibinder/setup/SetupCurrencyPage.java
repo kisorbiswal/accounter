@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.grids.CurrenciesGrid;
 
@@ -96,6 +97,9 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		if (primaryCurrencyListBox.getSelectedIndex() == -1) {
+			Accounter.showError(accounterMessages
+					.pleaseselectvalidtransactionGrid(accounterConstants
+							.currency()));
 			return false;
 		} else {
 			return true;

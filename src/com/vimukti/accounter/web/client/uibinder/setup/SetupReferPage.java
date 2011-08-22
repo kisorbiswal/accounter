@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Administrator
@@ -127,21 +128,39 @@ public class SetupReferPage extends AbstractSetupPage {
 		if (customerListBox.getSelectedIndex() == -1
 				&& supplierListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
+			Accounter.showError(accounterConstants.howDoYouRefer() + " "
+					+ accounterConstants.customers() + " "
+					+ accounterConstants.supplier() + " "
+					+ accounterConstants.accounts() + "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
 				&& supplierListBox.getSelectedIndex() == -1) {
+			Accounter.showError(accounterConstants.howDoYouRefer() + " "
+					+ accounterConstants.customers() + " "
+					+ accounterConstants.supplier() + "?");
 			return false;
 		} else if (supplierListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
+			Accounter.showError(accounterConstants.howDoYouRefer() + " "
+					+ accounterConstants.supplier() + " "
+					+ accounterConstants.accounts() + "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
+			Accounter.showError(accounterConstants.howDoYouRefer() + " "
+					+ accounterConstants.customers() + " "
+					+ accounterConstants.accounts());
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1) {
+			Accounter
+					.showError(accounterConstants.howDoYouReferYourCustoemrs());
 			return false;
 		} else if (supplierListBox.getSelectedIndex() == -1) {
+			Accounter
+					.showError(accounterConstants.howDoYouReferYourSuppliers());
 			return false;
 		} else if (accountListBox.getSelectedIndex() == -1) {
+			Accounter.showError(accounterConstants.howDoYouReferYourAccounts());
 			return false;
 		} else {
 			return true;

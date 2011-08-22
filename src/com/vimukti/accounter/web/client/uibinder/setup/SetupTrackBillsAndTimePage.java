@@ -127,12 +127,14 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	protected boolean validate() {
 		if ((!(managingYes.getValue() || managingNo.getValue()))
 				&& (!(trackingTimeYes.getValue() || trackingNo.getValue()))) {
+			Accounter.showError(accounterMessages
+					.pleaseEnter(accounterConstants.details()));
 			return false;
 		} else if (!(managingYes.getValue() || managingNo.getValue())) {
-			Accounter.showMessage("First");
+			Accounter.showMessage(accounterConstants.managingBills());
 			return false;
 		} else if (!(trackingTimeYes.getValue() || trackingNo.getValue())) {
-			Accounter.showMessage("Second");
+			Accounter.showMessage(accounterConstants.doyouwantTrackBills());
 			return false;
 		} else {
 			return true;

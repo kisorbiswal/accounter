@@ -145,10 +145,13 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	protected boolean validate() {
 		if (trackEmployeeYes.getValue()) {
 			if (!(w2Employees.getValue() || contractors.getValue())) {
-				Accounter.showError("Please select emlployee type..");
+				Accounter.showError(accounterMessages
+						.pleaseselectvalidtransactionGrid(accounterConstants
+								.employeeType()));
 				return false;
 			} else if (!(trackEmployeeExpenseYes.getValue() || trackEmployeeExpenseNo
 					.getValue())) {
+				Accounter.showError(accounterConstants.trackEmployeeExpenses());
 				return false;
 			} else {
 				return true;

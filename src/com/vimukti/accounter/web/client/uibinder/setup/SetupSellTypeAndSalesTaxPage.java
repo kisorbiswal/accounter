@@ -142,13 +142,15 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		if ((!(servicesOnly.getValue() || productsOnly.getValue() || both
 				.getValue()))
 				&& (!(salesTaxYes.getValue() || salesTaxNo.getValue()))) {
+			Accounter.showError(accounterMessages
+					.pleaseEnter(accounterConstants.details()));
 			return false;
 		} else if (!(servicesOnly.getValue() || productsOnly.getValue() || both
 				.getValue())) {
-			Accounter.showMessage("First");
+			Accounter.showMessage(accounterConstants.whatDoYouSell());
 			return false;
 		} else if (!(salesTaxYes.getValue() || salesTaxNo.getValue())) {
-			Accounter.showMessage("Second");
+			Accounter.showMessage(salesTaxHead.getText());
 			return false;
 		} else {
 			return true;

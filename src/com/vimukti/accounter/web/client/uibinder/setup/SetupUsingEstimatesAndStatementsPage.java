@@ -46,6 +46,27 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 		createControls();
 	}
 
+
+	@Override
+	protected void createControls() {
+		headerLabel.setText(accounterConstants
+				.wanttoCreateEstimatesInAccounter());
+		estimatesYes.setText(accounterConstants.yes());
+		estimatesNo.setText(accounterConstants.no());
+		billingStatements.setHTML(accounterMessages.statementDescription());
+		someExampleText.setText(accounterConstants.statementSomeExample());
+		someExampleList.setHTML(accounterMessages.statementlist());
+		billingQuestion.setText(accounterMessages.statementQuestion());
+		statementYes.setText(accounterConstants.yes());
+		statementsNo.setText(accounterConstants.no());
+		stmt_header.setText(accounterConstants.expenseInformation());
+	}
+
+	@Override
+	public boolean canShow() {
+		return true;
+	}
+
 	@Override
 	public void onLoad() {
 		boolean doyouwantEstimates = preferences.isDoyouwantEstimates();
@@ -82,37 +103,20 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 			preferences.setDoyouwantEstimates(false);
 		}
 	}
-
-	@Override
-	protected void createControls() {
-		headerLabel.setText(accounterConstants
-				.wanttoCreateEstimatesInAccounter());
-		estimatesYes.setText(accounterConstants.yes());
-		estimatesNo.setText(accounterConstants.no());
-		billingStatements.setHTML(accounterMessages.statementDescription());
-		someExampleText.setText(accounterConstants.statementSomeExample());
-		someExampleList.setHTML(accounterMessages.statementlist());
-		billingQuestion.setText(accounterMessages.statementQuestion());
-		statementYes.setText(accounterConstants.yes());
-		statementsNo.setText(accounterConstants.no());
-		stmt_header.setText(accounterConstants.expenseInformation());
-	}
-
-	@Override
-	public boolean canShow() {
-		return true;
-	}
-
 	@Override
 	protected boolean validate() {
 		if ((!(estimatesYes.getValue() || estimatesNo.getValue()))
 				&& (!(statementYes.getValue() || statementsNo.getValue()))) {
+			Accounter.showError(accounterMessages
+					.pleaseEnter(accounterConstants.details()));
 			return false;
 		} else if (!(estimatesYes.getValue() || estimatesNo.getValue())) {
-			Accounter.showMessage("First");
+			Accounter.showError(accounterMessages
+					.pleaseEnter(accounterConstants.wanttoCreateEstimatesInAccounter()));
 			return false;
 		} else if (!(statementYes.getValue() || statementsNo.getValue())) {
-			Accounter.showMessage("Second");
+			Accounter.showError(accounterMessages
+					.pleaseEnter(accounterConstants.expenseInformation()));
 			return false;
 		} else {
 			return true;

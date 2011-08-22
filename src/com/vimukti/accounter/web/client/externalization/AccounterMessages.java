@@ -136,4 +136,6 @@ public interface AccounterMessages extends Messages {
 	
 	public SafeHtml setupComplitionDesc();
 
+	public String vatIDValidationDesc();
+
 }

@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Administrator
@@ -91,6 +92,8 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		if (fiscalStartsList.getSelectedIndex() == -1) {
+			Accounter.showError(accounterConstants
+					.selectFirstMonthOfFiscalYear());
 			return false;
 		} else {
 			return true;

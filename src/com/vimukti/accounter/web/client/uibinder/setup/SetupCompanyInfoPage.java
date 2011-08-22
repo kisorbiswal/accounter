@@ -249,9 +249,74 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		return true;
 	}
 
+	public static boolean checkIfNotNumber(String in) {
+		try {
+			Integer.parseInt(in);
+
+		} catch (NumberFormatException ex) {
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	protected boolean validate() {
-		return true;
+		if (companyName.getText().trim() != null
+				|| companyName.getText().trim() != ""
+				|| companyName.getText().trim().length() != 0) {
+			if (companyName.getText().trim() != null
+					|| companyName.getText().trim() != ""
+					|| companyName.getText().trim().length() != 0) {
+				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+					if (taxId.getText().length() == 10) {
+						if (taxId.getText().indexOf(2) == '-'
+								&& checkIfNotNumber(taxId.getText().substring(
+										0, 1))
+								&& checkIfNotNumber(taxId.getText().substring(
+										3, 9))) {
+							return true;
+						} else {
+							Accounter.showError(accounterMessages
+									.vatIDValidationDesc());
+							return false;
+						}
+					} else {
+						Accounter.showError(accounterMessages
+								.vatIDValidationDesc());
+						return false;
+					}
+				} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+					if (taxId.getText().length() == 10) {
+						if (taxId.getText().indexOf(2) == '-'
+								&& checkIfNotNumber(taxId.getText().substring(
+										0, 1))
+								&& checkIfNotNumber(taxId.getText().substring(
+										3, 9))) {
+							return true;
+						} else {
+							Accounter.showError(accounterMessages
+									.vatIDValidationDesc());
+							return false;
+						}
+					} else {
+						Accounter.showError(accounterMessages
+								.vatIDValidationDesc());
+						return false;
+					}
+				} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
+					taxIDLabel.setText(accounterConstants.panNumber());
+					return true;
+				} else {
+					return true;
+				}
+			} else {
+				return true;
+			}
+
+		} else {
+			return false;
+		}
+
 	}
 
 }
