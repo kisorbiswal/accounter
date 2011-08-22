@@ -21,8 +21,8 @@ public class CustomCellTable<T> extends CellTable<T> {
 	protected VListDataProvider<T> dataProvider = new VListDataProvider<T>();
 
 	/** Attach a column sort handler to the ListDataProvider to sort the list. */
-	protected ListHandler<T> sortHandler = new ListHandler<T>(
-			dataProvider.getList());
+	protected ListHandler<T> sortHandler = new ListHandler<T>(dataProvider
+			.getList());
 
 	public void init() {
 		this.addColumnSortHandler(sortHandler);
@@ -30,6 +30,9 @@ public class CustomCellTable<T> extends CellTable<T> {
 
 	public void setData(VList<T> list) {
 		dataProvider.setList(list);
+		if (dataProvider.getDataDisplays().contains(this)) {
+			dataProvider.removeDataDisplay(this);
+		}
 		dataProvider.addDataDisplay(this);
 	}
 

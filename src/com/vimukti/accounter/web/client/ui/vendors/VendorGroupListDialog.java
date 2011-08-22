@@ -47,8 +47,11 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 			public boolean onRecordClick(IsSerializable core, int column) {
 				if (core != null) {
 					ClientVendorGroup vendorGroup = (ClientVendorGroup) core;
-					if (!vendorGroup.isDefault())
+					if (vendorGroup.isDefault()) {
+						enableEditRemoveButtons(false);
+					} else {
 						enableEditRemoveButtons(true);
+					}
 				}
 				return true;
 			}
