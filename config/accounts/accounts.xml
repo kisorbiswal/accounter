@@ -462,4 +462,50 @@
 		</accounts>
 		<!-- End of Type-9 Industry Account lists -->
 	</industry>
+	<industry type="16" name="Lodging ( Hotel , Motel)">
+		<accounts>
+			<account type="Income" name="Banquets &amp; Events Income" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Food &amp; Beverages Sales " default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Gift Shop &amp; Vending Sales" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Lodging Sales" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Sales Discounts" default="false" systemOnly="false" countries=""></account>
+			<account type="Cost of Goods Sold" name="Linens &amp; Lodging Supplies" default="true" systemOnly="false" countries=""></account>
+			<account type="Cost of Goods Sold" name="Merchant Account fees" default="true" systemOnly="false" countries=""></account>
+			<account type="Cost of Goods Sold" name="Purchases -Food &amp; Beverages" default="false" systemOnly="false" countries=""></account>
+			<account type="Cost of Goods Sold" name="Purchases- Resale Items" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Advertising &amp; Promotion" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Automobile Expense" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Bank Service Charges" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Business Licenses &amp; Permits" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Charitable Conrtibutions" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Computer &amp; Internet Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Depreciation Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Dues &amp; Subscriptions" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Equipment Rental" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Insurance expense" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="General Liability Expenses" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="GHealth Insurance" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Life &amp; Disability Insurance" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Workers Compenstation" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Interest Expense" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Janitorial Expenses" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Landscaping &amp; Groundskeeping" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Meals &amp; Entertainment" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Miscellaneous Expenses" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Office Supplies" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Postage &amp; delivery" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Professoinal Fees" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Small Tools &amp; Equipments" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Taxes &amp; Property" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Telephone Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Uniform" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Utilities Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Other Income" name="Insurance proceeds recieved" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Income" name="Interest Income" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Income" name="Proceeds from sales of Assests" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Political Contributions" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries=""></account>
+		</accounts>
+	</industry>
 </industries>
