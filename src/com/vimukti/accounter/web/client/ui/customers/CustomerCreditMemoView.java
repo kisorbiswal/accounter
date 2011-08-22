@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -35,7 +36,8 @@ import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class CustomerCreditMemoView extends
-		AbstractCustomerTransactionView<ClientCustomerCreditMemo> {
+		AbstractCustomerTransactionView<ClientCustomerCreditMemo> implements
+		IPrintableView {
 
 	private ArrayList<DynamicForm> listforms;
 	private TextAreaItem billToTextArea;
@@ -674,5 +676,17 @@ public class CustomerCreditMemoView extends
 	@Override
 	protected String getViewTitle() {
 		return Accounter.constants().customerCreditNote();
+	}
+
+	@Override
+	public boolean canPrint() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }
