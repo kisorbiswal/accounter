@@ -121,6 +121,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -8206,9 +8207,7 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		query = session
-				.getNamedQuery("getTAXAdjustment.by.taxAgencyidanddates")
-				.setParameter("fromDate", fromDate)
+		query = session.getNamedQuery("").setParameter("fromDate", fromDate)
 				.setParameter("toDate", toDate)
 				.setParameter("taxAgency", taxAgency.getID());
 
@@ -11105,19 +11104,6 @@ public class FinanceTool implements IFinanceDAOService {
 
 			if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
 
-				Calendar nextMonthStartDateCal = new GregorianCalendar();
-				nextMonthStartDateCal.setTime(currentDate.getAsDateObject());
-				nextMonthStartDateCal.set(Calendar.MONTH,
-						nextMonthStartDateCal.get(Calendar.MONTH) + 1);
-				nextMonthStartDateCal.set(Calendar.DATE, 1);
-
-				Calendar nextMonthEndDateCal = new GregorianCalendar();
-				nextMonthEndDateCal.setTime(currentDate.getAsDateObject());
-				nextMonthEndDateCal.set(Calendar.MONTH,
-						nextMonthEndDateCal.get(Calendar.MONTH) + 1);
-				nextMonthEndDateCal.set(Calendar.DATE, nextMonthEndDateCal
-						.getActualMaximum(Calendar.DAY_OF_MONTH));
-
 				Calendar currentMonthStartDateCal = new GregorianCalendar();
 				currentMonthStartDateCal.setTime(currentDate.getAsDateObject());
 				currentMonthStartDateCal.set(Calendar.DATE, 1);
@@ -11194,23 +11180,21 @@ public class FinanceTool implements IFinanceDAOService {
 						previousFourthMonthEndDateCal
 								.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-				// Calendar previousFifthMonthStartDateCal = new
-				// GregorianCalendar();
-				// previousFifthMonthStartDateCal.setTime(currentDate
-				// .getAsDateObject());
-				// previousFifthMonthStartDateCal.set(Calendar.MONTH,
-				// previousFifthMonthStartDateCal.get(Calendar.MONTH) - 5);
-				// previousFifthMonthStartDateCal.set(Calendar.DATE, 1);
+				Calendar previousFifthMonthStartDateCal = new GregorianCalendar();
+				previousFifthMonthStartDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousFifthMonthStartDateCal.set(Calendar.MONTH,
+						previousFifthMonthStartDateCal.get(Calendar.MONTH) - 5);
+				previousFifthMonthStartDateCal.set(Calendar.DATE, 1);
 
-				// Calendar previousFifthMonthEndDateCal = new
-				// GregorianCalendar();
-				// previousFifthMonthEndDateCal.setTime(currentDate
-				// .getAsDateObject());
-				// previousFifthMonthEndDateCal.set(Calendar.MONTH,
-				// previousFifthMonthEndDateCal.get(Calendar.MONTH) - 5);
-				// previousFifthMonthEndDateCal.set(Calendar.DATE,
-				// previousFifthMonthEndDateCal
-				// .getActualMaximum(Calendar.DAY_OF_MONTH));
+				Calendar previousFifthMonthEndDateCal = new GregorianCalendar();
+				previousFifthMonthEndDateCal.setTime(currentDate
+						.getAsDateObject());
+				previousFifthMonthEndDateCal.set(Calendar.MONTH,
+						previousFifthMonthEndDateCal.get(Calendar.MONTH) - 5);
+				previousFifthMonthEndDateCal.set(Calendar.DATE,
+						previousFifthMonthEndDateCal
+								.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 				query = session
 						.getNamedQuery("getGraphPointsForDebtors")
@@ -11218,6 +11202,14 @@ public class FinanceTool implements IFinanceDAOService {
 								"debtorAccountID",
 								getCompany().getAccountsReceivableAccount()
 										.getID())
+						.setParameter(
+								"previousFifthMonthStartDateCal",
+								new FinanceDate(previousFifthMonthStartDateCal
+										.getTime()).getDate())
+						.setParameter(
+								"previousFifthMonthEndDateCal",
+								new FinanceDate(previousFifthMonthEndDateCal
+										.getTime()).getDate())
 						.setParameter(
 								"previousFourthMonthStartDateCal",
 								new FinanceDate(previousFourthMonthStartDateCal
@@ -11257,15 +11249,7 @@ public class FinanceTool implements IFinanceDAOService {
 						.setParameter(
 								"currentMonthEndDateCal",
 								new FinanceDate(currentMonthEndDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"nextMonthStartDateCal",
-								new FinanceDate(nextMonthStartDateCal.getTime())
-										.getDate())
-						.setParameter(
-								"nextMonthEndDateCal",
-								new FinanceDate(nextMonthEndDateCal.getTime())
-										.getDate());
+										.getTime()).getDate());
 
 			}
 
@@ -11296,7 +11280,7 @@ public class FinanceTool implements IFinanceDAOService {
 								dateCal[i].get(Calendar.MONTH) + 1);
 					}
 				}
-				
+
 				query = session
 						.getNamedQuery("getGraphPointsForCreditors")
 						.setParameter(
@@ -11793,6 +11777,62 @@ public class FinanceTool implements IFinanceDAOService {
 		}
 
 		return new VList<ClientRecurringTransaction>(clientObjs);
+	}
+
+	@Override
+	public void mergeCustomer(ClientCustomer fromClientCustomer,
+			ClientCustomer toClientCustomer) throws DAOException {
+
+		Session session = HibernateUtil.getCurrentSession();
+		double mergeBalance = fromClientCustomer.getBalance()
+				+ toClientCustomer.getBalance();
+		
+		SQLQuery sqlQuery = session.createSQLQuery("");
+		sqlQuery.executeUpdate();
+
+		
+		// Updating
+				session.getNamedQuery("update.merge.Payee.mergeoldbalance.tonewbalance")
+				.setParameter("id", toClientCustomer.getID())
+				.setParameter("balance", mergeBalance).executeUpdate();
+
+//		session.getNamedQuery(
+//				"update.CashSale.merge.newCustomerId.to.oldCustomerId")
+//				.setParameter("toID", toClientCustomer.getID())
+//				.setParameter("fromID", fromClientCustomer.getID())
+//				.executeUpdate();
+//		session.getNamedQuery(
+//				"update.customer.merge.newCustomerId.to.oldCustomerId")
+//				.setParameter("toID", toClientCustomer.getID())
+//				.setParameter("fromID", fromClientCustomer.getID())
+//				.executeUpdate();
+//		
+//		session.getNamedQuery(
+//				"update.CustomerCreditMemo.merge.newCustomerId.to.oldCustomerId")
+//				.setParameter("toID", toClientCustomer.getID())
+//				.setParameter("fromID", fromClientCustomer.getID())
+//				.executeUpdate();
+		
+		
+
+	}
+
+	@Override
+	public void mergeVendor(long fromID, long toID) throws DAOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mergeAcoount(long fromID, long toID) throws DAOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mergeItem(long fromID, long toID) throws DAOException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -783,6 +783,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				customerListMenuBar.addItem(ActionFactory.getQuotesAction());
 			}
 			customerListMenuBar.addItem(ActionFactory.getInvoicesAction(null));
+
 		}
 		if (Accounter.getUser().canSeeBanking()) {
 			customerListMenuBar.addItem(ActionFactory
@@ -863,6 +864,57 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		return subMenu;
 	}
 
+	private Command getMergeCustomerCommand() {
+		Command dashBoardcmd = new Command() {
+
+			@Override
+			public void execute() {
+				CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog(
+						"Merge Customer", "");
+				customerMergeDialog.show();
+			}
+		};
+		return dashBoardcmd;
+	}
+
+	private Command getMergeAccountCommand() {
+		Command dashBoardcmd = new Command() {
+
+			@Override
+			public void execute() {
+				AccountMergeDialog accountMergeDialog = new AccountMergeDialog(
+						"Merge Account", "");
+				accountMergeDialog.show();
+			}
+		};
+		return dashBoardcmd;
+	}
+
+	private Command getMergeVendorCommand() {
+		Command dashBoardcmd = new Command() {
+
+			@Override
+			public void execute() {
+				VendorMergeDialog vendorMergeDialog = new VendorMergeDialog(
+						"Merge Vendor", "");
+				vendorMergeDialog.show();
+			}
+		};
+		return dashBoardcmd;
+	}
+
+	private Command getMergeItemCommand() {
+		Command dashBoardcmd = new Command() {
+
+			@Override
+			public void execute() {
+				ItemMergeDialog dialog = new ItemMergeDialog("MergeItem", "");
+				dialog.show();
+			}
+		};
+		return dashBoardcmd;
+	}
+
 	private Command getDashBoardCommand() {
 		Command dashBoardcmd = new Command() {
 
@@ -908,10 +960,24 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyMenuBar.addItem(ActionFactory.getManageFiscalYearAction());
 			companyMenuBar.addSeparator();
 		}
+
+		companyMenuBar.addItem("Merge Accounts", getMergeSubMenu());
+		companyMenuBar.addSeparator();
 		companyMenuBar.addItem(Accounter.constants().companyLists(),
 				getCompanyListMenu());
 
 		return companyMenuBar;
+	}
+
+	private CustomMenuBar getMergeSubMenu() {
+		CustomMenuBar mergeAccountsMenuBar = getSubMenu();
+		mergeAccountsMenuBar.addItem("Merge Customers",
+				getMergeCustomerCommand());
+		mergeAccountsMenuBar.addItem("Merge Vendors", getMergeVendorCommand());
+		mergeAccountsMenuBar.addItem("Merge Acounts", getMergeAccountCommand());
+		mergeAccountsMenuBar.addItem("Merge Items", getMergeItemCommand());
+
+		return mergeAccountsMenuBar;
 	}
 
 	private CustomMenuBar getCompanyListMenu() {
