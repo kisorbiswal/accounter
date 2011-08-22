@@ -2171,4 +2171,18 @@ background-color: #bcfcb1;
 	overflow: auto;
     padding: 20px 25px 0;
 }
+.terms_unorderlist li{
+	display: list-item !important;
+    list-style-type: square !important;
+    list-style-image: none !important;
+}
+.terms_unorderlist{
+     margin: 10px 0 0 30px;
+}
+.mid2_height{
+  height:auto !important;	
+}
+.terms_and_contions,.privacy_policy{
+  padding:0px 40px;
+}
 /* End of the new Login and forgot password page*/
