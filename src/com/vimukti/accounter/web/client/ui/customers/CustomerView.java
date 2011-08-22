@@ -397,11 +397,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			result.addError(custNameText, Accounter.constants().alreadyExist());
 			return result;
 		}
-		String s = objectExist(data);
-		if (s != null && !s.isEmpty()) {
-			result.addError(custNameText, s);
-			return result;
-		}
 
 		gridView.validateGrid();
 
