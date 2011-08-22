@@ -407,7 +407,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		 </select>
 	   </div>
 	   <div>
-	     <label style="padding-left:5px;">I have read and I accept the<a href="/site/termsandconditions" tabindex="12">Terms of Use</a></label>
+	     <label style="padding-left:5px;">I have read and I accept the<a href="/site/termsandconditions" target="_blank" tabindex="12">Terms of Use</a></label>
 	     <input id="checkbox" type="checkbox" name="agree" tabindex="11" style="float:left" >
 		 
 	   </div>
