@@ -244,9 +244,9 @@ public class CustomerRefundView extends
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		// paymentMethodCombo.setWidth(100);
-		paymentMethodCombo.setComboItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
-						.check()));
+//		paymentMethodCombo.setComboItem(UIUtils
+//				.getpaymentMethodCheckBy_CompanyType(Accounter.constants()
+//						.check()));
 
 		printCheck = new CheckboxItem(customerConstants.toBePrinted());
 		printCheck.setValue(true);
