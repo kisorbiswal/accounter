@@ -192,7 +192,7 @@ a:link {
 #mid-2 {
 	clear: both;
 	background-color: #f4f4f4;
-	height: 550px !important;
+	height: 550px ;
 	width: 863px !important;
 	float: left;
 	margin-top: 40px;
@@ -234,7 +234,7 @@ a:link {
 #privacy-layout {
 	clear: both;
 	background-color: #f4f4f4;
-	height: 350px !important;
+	height: 350px;
 	width: 850px !important;
 	float: left;
 	margin-top: 40px;
