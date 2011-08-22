@@ -11792,9 +11792,9 @@ public class FinanceTool implements IFinanceDAOService {
 
 		
 		// Updating
-				session.getNamedQuery("update.merge.Payee.mergeoldbalance.tonewbalance")
-				.setParameter("id", toClientCustomer.getID())
-				.setParameter("balance", mergeBalance).executeUpdate();
+//				session.getNamedQuery("update.merge.Payee.mergeoldbalance.tonewbalance")
+//				.setParameter("id", toClientCustomer.getID())
+//				.setParameter("balance", mergeBalance).executeUpdate();
 
 //		session.getNamedQuery(
 //				"update.CashSale.merge.newCustomerId.to.oldCustomerId")
