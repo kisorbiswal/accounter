@@ -75,15 +75,14 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", getConstants().name(),
-				getConstants().date(), " ",
-				getConstants().number(), getConstants().amount(),
+		return new String[] { "", getConstants().name(), getConstants().date(),
+				" ", getConstants().number(), getConstants().amount(),
 				getConstants().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().transactionDetailsByFinanceCategory();
+		return getConstants().transactionDetailsByAccount();
 	}
 
 	@Override
@@ -196,10 +195,9 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", getConstants().name(),
-				getConstants().date(), " ",
-				getConstants().number(), getConstants().amount(),
+		return new String[] { "", getConstants().name(), getConstants().date(),
+				" ", getConstants().number(), getConstants().amount(),
 				getConstants().balance() };
 	}
-	
+
 }
