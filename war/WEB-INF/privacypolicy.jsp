@@ -68,6 +68,10 @@
 			<br>
 			
 			<h2>THE END</h2>
+			<div class="" style="margin-top:25px;">
+			<p>If you have any questions or concerns regarding this Privacy Policy Statement, please contact us at support@accounterlive.com . We shall respond to all inquiries within  2 -4 days of receipt upon ascertaining your identity.</p>	
+		</div>
+		
 					
 					</div>
 			</div>
