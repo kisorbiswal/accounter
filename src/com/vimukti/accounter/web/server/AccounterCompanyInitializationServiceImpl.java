@@ -141,7 +141,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		Transaction beginTransaction = session.beginTransaction();
 		try {
 			Company company = (Company) session.load(Company.class, 1l);
-			company.initialize();
+			company.initialize(null);
 			company.setConfigured(true);
 			session.saveOrUpdate(company);
 			beginTransaction.commit();
