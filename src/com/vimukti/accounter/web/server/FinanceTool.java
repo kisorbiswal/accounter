@@ -10849,13 +10849,13 @@ public class FinanceTool implements IFinanceDAOService {
 	@Override
 	public String getNextCustomerNumber() {
 		return NumberUtils.getNextAutoCustomerNumber();
-		//return NumberUtils.getNextCustomerNumber();
+		// return NumberUtils.getNextCustomerNumber();
 	}
 
 	@Override
 	public String getNextVendorNumber() throws DAOException {
 		return NumberUtils.getNextAutoVendorNumber();
-		//return NumberUtils.getNextVendorNumber();
+		// return NumberUtils.getNextVendorNumber();
 	}
 
 	@Override
@@ -11105,6 +11105,19 @@ public class FinanceTool implements IFinanceDAOService {
 
 			if (chartType == GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE) {
 
+				Calendar nextMonthStartDateCal = new GregorianCalendar();
+				nextMonthStartDateCal.setTime(currentDate.getAsDateObject());
+				nextMonthStartDateCal.set(Calendar.MONTH,
+						nextMonthStartDateCal.get(Calendar.MONTH) + 1);
+				nextMonthStartDateCal.set(Calendar.DATE, 1);
+
+				Calendar nextMonthEndDateCal = new GregorianCalendar();
+				nextMonthEndDateCal.setTime(currentDate.getAsDateObject());
+				nextMonthEndDateCal.set(Calendar.MONTH,
+						nextMonthEndDateCal.get(Calendar.MONTH) + 1);
+				nextMonthEndDateCal.set(Calendar.DATE, nextMonthEndDateCal
+						.getActualMaximum(Calendar.DAY_OF_MONTH));
+
 				Calendar currentMonthStartDateCal = new GregorianCalendar();
 				currentMonthStartDateCal.setTime(currentDate.getAsDateObject());
 				currentMonthStartDateCal.set(Calendar.DATE, 1);
@@ -11181,21 +11194,23 @@ public class FinanceTool implements IFinanceDAOService {
 						previousFourthMonthEndDateCal
 								.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-				Calendar previousFifthMonthStartDateCal = new GregorianCalendar();
-				previousFifthMonthStartDateCal.setTime(currentDate
-						.getAsDateObject());
-				previousFifthMonthStartDateCal.set(Calendar.MONTH,
-						previousFifthMonthStartDateCal.get(Calendar.MONTH) - 5);
-				previousFifthMonthStartDateCal.set(Calendar.DATE, 1);
+				// Calendar previousFifthMonthStartDateCal = new
+				// GregorianCalendar();
+				// previousFifthMonthStartDateCal.setTime(currentDate
+				// .getAsDateObject());
+				// previousFifthMonthStartDateCal.set(Calendar.MONTH,
+				// previousFifthMonthStartDateCal.get(Calendar.MONTH) - 5);
+				// previousFifthMonthStartDateCal.set(Calendar.DATE, 1);
 
-				Calendar previousFifthMonthEndDateCal = new GregorianCalendar();
-				previousFifthMonthEndDateCal.setTime(currentDate
-						.getAsDateObject());
-				previousFifthMonthEndDateCal.set(Calendar.MONTH,
-						previousFifthMonthEndDateCal.get(Calendar.MONTH) - 5);
-				previousFifthMonthEndDateCal.set(Calendar.DATE,
-						previousFifthMonthEndDateCal
-								.getActualMaximum(Calendar.DAY_OF_MONTH));
+				// Calendar previousFifthMonthEndDateCal = new
+				// GregorianCalendar();
+				// previousFifthMonthEndDateCal.setTime(currentDate
+				// .getAsDateObject());
+				// previousFifthMonthEndDateCal.set(Calendar.MONTH,
+				// previousFifthMonthEndDateCal.get(Calendar.MONTH) - 5);
+				// previousFifthMonthEndDateCal.set(Calendar.DATE,
+				// previousFifthMonthEndDateCal
+				// .getActualMaximum(Calendar.DAY_OF_MONTH));
 
 				query = session
 						.getNamedQuery("getGraphPointsForDebtors")
@@ -11203,14 +11218,6 @@ public class FinanceTool implements IFinanceDAOService {
 								"debtorAccountID",
 								getCompany().getAccountsReceivableAccount()
 										.getID())
-						.setParameter(
-								"previousFifthMonthStartDateCal",
-								new FinanceDate(previousFifthMonthStartDateCal
-										.getTime()).getDate())
-						.setParameter(
-								"previousFifthMonthEndDateCal",
-								new FinanceDate(previousFifthMonthEndDateCal
-										.getTime()).getDate())
 						.setParameter(
 								"previousFourthMonthStartDateCal",
 								new FinanceDate(previousFourthMonthStartDateCal
@@ -11250,7 +11257,15 @@ public class FinanceTool implements IFinanceDAOService {
 						.setParameter(
 								"currentMonthEndDateCal",
 								new FinanceDate(currentMonthEndDateCal
-										.getTime()).getDate());
+										.getTime()).getDate())
+						.setParameter(
+								"nextMonthStartDateCal",
+								new FinanceDate(nextMonthStartDateCal.getTime())
+										.getDate())
+						.setParameter(
+								"nextMonthEndDateCal",
+								new FinanceDate(nextMonthEndDateCal.getTime())
+										.getDate());
 
 			}
 
@@ -11281,7 +11296,7 @@ public class FinanceTool implements IFinanceDAOService {
 								dateCal[i].get(Calendar.MONTH) + 1);
 					}
 				}
-
+				
 				query = session
 						.getNamedQuery("getGraphPointsForCreditors")
 						.setParameter(
