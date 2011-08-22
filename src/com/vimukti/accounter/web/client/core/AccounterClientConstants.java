@@ -34,14 +34,14 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	// Constants for Account types
 	public static final String TYPE_INCOME = "Income";
 	public static final String TYPE_OTHER_INCOME = "Other Income";
-	public static final String TYPE_EXPENSE = "Indirect Cost";
-	public static final String TYPE_OTHER_EXPENSE = "Other Direct Cost";
-	public static final String TYPE_COST_OF_GOODS_SOLD = "Direct Cost of Goods Sold";
+	public static final String TYPE_EXPENSE = "Expense";
+	public static final String TYPE_OTHER_EXPENSE = "Other Expense";
+	public static final String TYPE_COST_OF_GOODS_SOLD = "Cost of Goods Sold";
 	public static final String TYPE_CASH = "Cash";
 	public static final String TYPE_BANK = "Bank";
-	public static final String TYPE_OTHER_CURRENT_ASSET = "Current Asset";
+	public static final String TYPE_OTHER_CURRENT_ASSET = "Other Current Asset";
 	public static final String TYPE_INVENTORY_ASSET = "Inventory Asset";
-	public static final String TYPE_OTHER_ASSET = "Other Balance Sheet Category";
+	public static final String TYPE_OTHER_ASSET = "Other Asset";
 	public static final String TYPE_FIXED_ASSET = "Fixed Asset";
 	public static final String TYPE_CREDIT_CARD = "Credit Card";
 	public static final String TYPE_PAYROLL_LIABILITY = "Payroll Liability";
