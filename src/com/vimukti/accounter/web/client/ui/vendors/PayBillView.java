@@ -904,6 +904,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						@Override
 						public boolean onYesClick() {
 							voidTransaction();
+							setEdit(false);
+							getManager().updateButtons();
 							return true;
 						}
 

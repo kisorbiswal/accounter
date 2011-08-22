@@ -238,23 +238,22 @@ public class ViewManager extends HorizontalPanel {
 		updateButtons();
 	}
 
-	private void updateButtons() {
-		if (existingView instanceof IEditableView) {
-			if (((IEditableView) existingView).canEdit()) {
-				group2.add(editButton);
-			}
+	public void updateButtons() {
+		if (existingView instanceof IEditableView
+				&& ((IEditableView) existingView).canEdit()) {
+			group2.add(editButton);
 		} else {
-			// editButton.setVisible(false);
 			group2.remove(editButton);
 		}
 
 		if (existingView instanceof IPrintableView) {
-			// printButton.setVisible(true);
-			group2.add(exportButton);
-			group2.add(printButton);
-
+			if (((IPrintableView) existingView).canExportToCsv()) {
+				group2.add(exportButton);
+			}
+			if (((IPrintableView) existingView).canPrint()) {
+				group2.add(printButton);
+			}
 		} else {
-			// printButton.setVisible(false);
 			group2.remove(exportButton);
 			group2.remove(printButton);
 
@@ -300,6 +299,7 @@ public class ViewManager extends HorizontalPanel {
 			this.views.add(item);
 			History.newItem(item.action.getHistoryToken(), false);
 		}
+		updateButtons();
 	}
 
 	/**
@@ -396,6 +396,7 @@ public class ViewManager extends HorizontalPanel {
 			@Override
 			public void onClick(ClickEvent arg0) {
 				existingView.onEdit();
+				updateButtons();
 			}
 		});
 
