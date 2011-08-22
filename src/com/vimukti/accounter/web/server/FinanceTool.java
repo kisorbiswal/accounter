@@ -121,6 +121,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -11296,7 +11297,7 @@ public class FinanceTool implements IFinanceDAOService {
 								dateCal[i].get(Calendar.MONTH) + 1);
 					}
 				}
-				
+
 				query = session
 						.getNamedQuery("getGraphPointsForCreditors")
 						.setParameter(
@@ -11794,6 +11795,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		return new VList<ClientRecurringTransaction>(clientObjs);
 	}
+
 	@Override
 	public void mergeCustomer(ClientCustomer fromClientCustomer,
 			ClientCustomer toClientCustomer) throws DAOException {
@@ -11801,34 +11803,31 @@ public class FinanceTool implements IFinanceDAOService {
 		Session session = HibernateUtil.getCurrentSession();
 		double mergeBalance = fromClientCustomer.getBalance()
 				+ toClientCustomer.getBalance();
-		
+
 		SQLQuery sqlQuery = session.createSQLQuery("");
 		sqlQuery.executeUpdate();
 
-		
 		// Updating
-//				session.getNamedQuery("update.merge.Payee.mergeoldbalance.tonewbalance")
-//				.setParameter("id", toClientCustomer.getID())
-//				.setParameter("balance", mergeBalance).executeUpdate();
+		// session.getNamedQuery("update.merge.Payee.mergeoldbalance.tonewbalance")
+		// .setParameter("id", toClientCustomer.getID())
+		// .setParameter("balance", mergeBalance).executeUpdate();
 
-//		session.getNamedQuery(
-//				"update.CashSale.merge.newCustomerId.to.oldCustomerId")
-//				.setParameter("toID", toClientCustomer.getID())
-//				.setParameter("fromID", fromClientCustomer.getID())
-//				.executeUpdate();
-//		session.getNamedQuery(
-//				"update.customer.merge.newCustomerId.to.oldCustomerId")
-//				.setParameter("toID", toClientCustomer.getID())
-//				.setParameter("fromID", fromClientCustomer.getID())
-//				.executeUpdate();
-//		
-//		session.getNamedQuery(
-//				"update.CustomerCreditMemo.merge.newCustomerId.to.oldCustomerId")
-//				.setParameter("toID", toClientCustomer.getID())
-//				.setParameter("fromID", fromClientCustomer.getID())
-//				.executeUpdate();
-		
-		
+		// session.getNamedQuery(
+		// "update.CashSale.merge.newCustomerId.to.oldCustomerId")
+		// .setParameter("toID", toClientCustomer.getID())
+		// .setParameter("fromID", fromClientCustomer.getID())
+		// .executeUpdate();
+		// session.getNamedQuery(
+		// "update.customer.merge.newCustomerId.to.oldCustomerId")
+		// .setParameter("toID", toClientCustomer.getID())
+		// .setParameter("fromID", fromClientCustomer.getID())
+		// .executeUpdate();
+		//
+		// session.getNamedQuery(
+		// "update.CustomerCreditMemo.merge.newCustomerId.to.oldCustomerId")
+		// .setParameter("toID", toClientCustomer.getID())
+		// .setParameter("fromID", fromClientCustomer.getID())
+		// .executeUpdate();
 
 	}
 
