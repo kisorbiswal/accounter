@@ -101,6 +101,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 			company.getUsers().add(user);
 			company.setCompanyEmail(user.getEmail());
+			company.setConfigured(true);
 			companySession.save(company);
 
 			// Create Attachment Directory for company
@@ -111,6 +112,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 				file.mkdir();
 			}
 
+			company.initialize(null);
 			FinanceTool.createView();
 
 			transaction.commit();
