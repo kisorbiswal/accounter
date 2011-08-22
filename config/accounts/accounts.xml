@@ -648,4 +648,116 @@
 			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries=""></account>
 		</accounts>
 	</industry>
+	<industry type="20" name="Non- Profit">
+		<accounts>
+			<account type="Income" name="Direct Public Grants" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Corporate and Business Grants" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Discounts - Longterm Grants" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Foundation &amp; Trust Grants" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Nonprofit Organization Grants" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Direct Public Support" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Corporate Contributions" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Donated Art" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Donated Prof fees, Facilities" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Gift in kind-Goods" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Indivit , Business Contributions" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Legacies &amp; Bequests " default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Uncollectible Pledges, EST" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Volunteer Services, Non-GAAP" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Government Projects" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Agency ( Government) Projects" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Federal Contracts" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Local Government Contracts" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="State Grants" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Indirect Public Support" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="United way, CFC Contributions" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Investments" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Affiliated org. Contributions" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Cost of other assests Sales" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Dividend, Interest ( Securities)" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Interest Savings, Short-term CD" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Other Assest Sales" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Other Investment Revenue" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Other types of Income" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Advertising sales" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Inventory sales" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Program Income" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Bad debts, EST- Program sales" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Member Assessments" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Membership Dues" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Rentals" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Cost of Personal property Rent" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Miscellaneous Revenue" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Cost of Rent Rev- Debt Prop" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Cost of Rent Rec-Non debt Prop" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Personal Property Rent Revenue" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Rent Revenue -Debt Property" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Rent Revenue -Nondebt Prop" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Rev Released from Restrictions" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Securities" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Cost of Security Sales" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Security Sales" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Special Events Income" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Special Events Contributions" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Speciel Events Sales ( Nongift)" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Program Services fees" default="true" systemOnly="false" countries=""></account>
+			<account type="Cost Of Goods" name="Cost of Sales - Inventory Sales" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Awards &amp; Grants" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Benefits Paid To or For members" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Cash Awards &amp; Grants" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Noncash Awards &amp; grants" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Specific Awards to Individuals" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Business Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Bad Debts" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Business Registration Fees" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Fines, Penalties, Judgments" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Taxes- Not UBIT" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="UBIT Taxes" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Contract Servces" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Accounting Fees" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Donated Prof Fees - GAAP" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Fundraising Fees" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Legal Fees" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Outside Contract Services" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Volunteer Services, Non-GAAP" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Facilities &amp; Equipments" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Depr and Amrot - Allowable" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Depr and Amrot - Non Allowable" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Donated Facilities" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Equip Rental &amp; Maintenance" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Property Insurance" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Real Estate, personal Prop Tax" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Rent,Parking, Untilites" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Operations" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Books, Subscriptions, reference" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Postage, Mailing serivice" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Printing &amp; Copying" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Supplies" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Telephone, Telecommunications" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Other Types of Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Advertising Expenses" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Insurance Liability , D &amp; O" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Interest Expense General" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="List Rental" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Memberships Dues" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Other Costs" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Staff Development" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Travel &amp; Meetings" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Conference , Convention, Meeting" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Travel" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Janitorial Expenses" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Mortgage Interest" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Income" name="Other Changes in NET Assests" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Income" name="Unrealized gains &amp; losses" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Additions to Reserves" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Capital Purchases" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Grant Capital Purchase -Vehicle" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Grant Capital Purchase -Bldg" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Grant Capital Purchase - Equip" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Grant Capital Purchase-Land" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Payments to Affiliates" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Program Admin Allocations" default="false" systemOnly="false" countries=""></account>
+		</accounts>
+	</industry>>
 </industries>
