@@ -55,7 +55,7 @@
 		<servlet-class>com.vimukti.accounter.servlets.NewLoginServlet
 		</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>menuxml</servlet-name>
 		<url-pattern>desktop/mac/menu</url-pattern>
@@ -105,7 +105,7 @@
 		<servlet-class>com.vimukti.accounter.developer.api.RegistrationServlet
 		</servlet-class>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>S2SService</servlet-name>
 		<url-pattern>/stosservice</url-pattern>
@@ -456,11 +456,11 @@
 			</param-value>
 		</init-param>
 	</filter>
-	<filter-mapping>
-		<filter-name>GzipFilter</filter-name>
-		<url-pattern>*</url-pattern>
-		<!-- NEED TO ADD MORE PATTERNS [EXCEPT COMET] -->
-	</filter-mapping>
+	<!-- <filter-mapping> -->
+	<!-- <filter-name>GzipFilter</filter-name> -->
+	<!-- <url-pattern>*</url-pattern> -->
+	<!-- NEED TO ADD MORE PATTERNS [EXCEPT COMET] -->
+	<!-- </filter-mapping> -->
 
 
 	<filter>
@@ -484,7 +484,7 @@
 		<filter-name>AccounterDebugFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>ServletLocaleFilter</filter-name>
 		<filter-class>com.vimukti.accounter.servlets.ServletLocaleFilter
