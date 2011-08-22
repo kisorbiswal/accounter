@@ -6695,6 +6695,13 @@ a#fdbk_tab:hover{
 	border: 1px solid #A0A0A0 !important;
 	color:black\0 !important;
 }
+.grouped-buttons .image-button{
+	margin:0 -2px;
+	border-radius:0px;
+}
+.grouped-buttons td:first-child .image-button{
+	margin-right:2px;
+}
 .grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button,.grouped-buttons .image-button{
 	border-color:#a0a0a0;
     background-color: #e4e4e4;
