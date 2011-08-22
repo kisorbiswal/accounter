@@ -1657,13 +1657,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	public boolean canPrint() {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
 	@Override
 	public boolean canExportToCsv() {
-		// TODO Auto-generated method stub
-		return true;
+
+		return false;
 	}
 }
