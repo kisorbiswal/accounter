@@ -19,7 +19,7 @@
 					<div>
 						<p class="sites-header">Privacy Policy</p>
 					</div>
-					<h3>General:<h3>
+					<h3>General:</h3>
 					<div class="" style="margin-top:25px;">
 						<p>Accounter is a website owned, designed and maintained by Vimukti Technologies Pvt. Ltd. We know about the importance of online privacy. So we keep our customers Personal Information safe and secure. Accounter will use your Personal Information to give you the ultimate experience in working with us. In the following Privacy Policy  we have mentioned about the way we will be accessing your information. In case we do change the Privacy Policy Statement we will keep you updated via email notifications.This Privacy Policy applies exclusively to Vimukti Technologies Pvt. Ltd.</p>	
 					</div>
