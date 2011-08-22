@@ -581,14 +581,14 @@ public class CustomerRefundView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 		// Validations
 		// 1. if(!isPositiveAmount(amt)) ERROR
 		// 2. if(!validCustomerRefundAmount(amt, payFromAccount)) ERROR
 
-		if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
-			result.addError(amtText, accounterConstants.invalidNegativeAmount());
-		}
+//		if (!AccounterValidator.isPositiveAmount(this.amtText.getAmount())) {
+//			result.addError(amtText, accounterConstants.invalidNegativeAmount());
+//		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
 				amtText.getAmount(), payFromSelect.getSelectedValue())) {
 			result.addWarning(amtText,
