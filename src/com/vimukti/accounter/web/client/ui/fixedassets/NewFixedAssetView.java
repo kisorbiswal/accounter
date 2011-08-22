@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -390,8 +391,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		});
 		depreciationMethod.setView(this);
 
-		depreciationAccount = new DepreciationAccountCombo(Accounter
-				.constants().depreciationAccount());
+		depreciationAccount = new DepreciationAccountCombo(Accounter.messages()
+				.depreciationAccount(Global.get().Account()));
 
 		assetTypeForm = new DynamicForm();
 		assetTypeForm.setFields(assetType, depreciationRate);
@@ -617,12 +618,14 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		isAccumltd = true;
 		infoLabl2 = new Label(
 				Accounter
-						.constants()
-						.assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount());
+						.messages()
+						.assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount(
+								Global.get().account()));
 		infoLabl2.addStyleName("requiredField");
 
 		accumulatedDepreciationAccount = new FixedAssetAccountCombo(Accounter
-				.constants().accumulatedDepreciationAccount());
+				.messages().accumulatedDepreciationAccount(
+						Global.get().account()));
 		accumulatedDepreciationAccount
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -1007,8 +1010,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		if (accountCombo != null && accumulatedDepreciationAccount != null) {
 			if (validateAccount()) {
-				result.addError(accountCombo, Accounter.constants()
-						.accandaccumulatedDepreciationAccShouldnotbesame());
+				result.addError(
+						accountCombo,
+						Accounter
+								.messages()
+								.accandaccumulatedDepreciationAccShouldnotbesame(
+										Global.get().account()));
 			}
 		}
 		// }
@@ -1053,7 +1060,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

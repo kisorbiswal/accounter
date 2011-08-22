@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -92,11 +93,11 @@ public class CompanyInfoDialog extends BaseDialog {
 			this.emailText.setValue(company.getCompanyEmail());
 			this.bankAccountText.setValue(company.getBankAccountNo());
 			this.sortCodeText.setValue(company.getSortCode());
-			allAddresses.put(ClientAddress.TYPE_COMPANY, company
-					.getTradingAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY,
+					company.getTradingAddress());
 			setAddressToTextItem(textareaItem, company.getTradingAddress());
-			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION, company
-					.getRegisteredAddress());
+			allAddresses.put(ClientAddress.TYPE_COMPANY_REGISTRATION,
+					company.getRegisteredAddress());
 			setAddressToTextItem(textareaItem2, company.getRegisteredAddress());
 			registrationNumberText.setValue(company.getRegistrationNumber());
 
@@ -212,7 +213,8 @@ public class CompanyInfoDialog extends BaseDialog {
 		taxIDText.setHelpInformation(true);
 
 		bankAccountText = new TextItem();
-		bankAccountText.setTitle(Accounter.constants().bankAccountNo());
+		bankAccountText.setTitle(Accounter.messages().bankAccountNo(
+				Global.get().Account()));
 		bankAccountText.setHelpInformation(true);
 
 		sortCodeText = new TextItem();
@@ -418,7 +420,7 @@ public class CompanyInfoDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

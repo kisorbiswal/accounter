@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -277,8 +278,8 @@ public class PurchaseOrderView extends
 		// formItems.add(billToCombo);
 
 		purchaseOrderText = new TextItem(UIUtils.getVendorString(Accounter
-				.constants().supplierOrderNo(), Accounter.constants()
-				.vendorOrderNo()));
+				.messages().supplierOrderNo(Global.get().Vendor()), Accounter
+				.messages().vendorOrderNo(Global.get().Vendor())));
 		purchaseOrderText.setWidth(50);
 		purchaseOrderText.setColSpan(1);
 		purchaseOrderText.setDisabled(isInViewMode());
@@ -577,8 +578,8 @@ public class PurchaseOrderView extends
 	public AddressCombo createVendorAddressComboItem() {
 
 		AddressCombo addressCombo = new AddressCombo(UIUtils.getVendorString(
-				Accounter.constants().supplierAddress(), Accounter.constants()
-						.vendorAddress()));
+				Accounter.messages().supplierAddress(Global.get().Vendor()),
+				Accounter.messages().vendorAddress(Global.get().Vendor())));
 
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -859,7 +860,6 @@ public class PurchaseOrderView extends
 		else if (statusSelect.getSelectedValue().equals(CANCELLED))
 			transaction.setStatus(ClientTransaction.STATUS_CANCELLED);
 
-		
 		if (contact != null)
 			transaction.setContact(contact);
 		if (phoneSelect.getValue() != null)
@@ -1001,7 +1001,7 @@ public class PurchaseOrderView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

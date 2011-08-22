@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -62,7 +63,8 @@ public class BankingPortlet extends DashBoardPortlet {
 			bankAccounts = getCompany().getActiveBankAccounts(
 					ClientAccount.TYPE_BANK);
 		}
-		Button addAccount = new Button(Accounter.constants().addBankAccount());
+		Button addAccount = new Button(Accounter.messages().addBankAccount(
+				Global.get().account()));
 		addAccount.addStyleName("addAccountPortlet");
 		if (Accounter.getUser().canDoBanking()) {
 			body.add(addAccount);
@@ -141,8 +143,9 @@ public class BankingPortlet extends DashBoardPortlet {
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
-								.failedtogetBankaccountchartvalues());
+						Accounter.showError(Accounter.messages()
+								.failedtogetBankaccountchartvalues(
+										Global.get().account()));
 					}
 
 					@Override

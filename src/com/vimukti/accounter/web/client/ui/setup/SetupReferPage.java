@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.setup;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -26,38 +27,34 @@ public class SetupReferPage extends AbstractSetupPage {
 
 		VerticalPanel mainPanel = new VerticalPanel();
 
-		referCustomerLabel = new Label(Accounter.constants()
-				.howDoYouReferYourCustoemrs());
+		referCustomerLabel = new Label(Accounter.messages()
+				.howDoYouReferYourCustoemrs(Global.get().Account()));
 		referCustomerLabel.addStyleName("referComment");
-		customerCombo = new SelectCombo(accounterConstants.customer());
+		customerCombo = new SelectCombo(Accounter.constants().customer());
 		customerForm = UIUtils.form(accounterConstants.customer());
-		customerCombo.addItem(accounterConstants.Customer());
-		customerCombo.addItem(accounterConstants.Client());
-		customerCombo.addItem(accounterConstants.Tenant());
-		customerCombo.addItem(accounterConstants.Donar());
-		customerCombo.addItem(accounterConstants.Guest());
-		customerCombo.addItem(accounterConstants.Member());
-		customerCombo.addItem(accounterConstants.Patitent());
+		customerCombo.addItem("Customers");
+		customerCombo.addItem("Clients");
+		customerCombo.addItem("Tenants");
 		customerForm.setWidth("100%");
 		customerForm.setFields(customerCombo);
 
 		refersuppliersLabel = new Label(Accounter.constants()
 				.howDoYouReferYourSuppliers());
 		refersuppliersLabel.addStyleName("referComment");
-		supplierCombo = new SelectCombo(accounterConstants.supplier());
-		supplierCombo.addItem(accounterConstants.Supplier());
-		supplierCombo.addItem(accounterConstants.Vendor());
+		supplierCombo = new SelectCombo(Accounter.constants().supplier());
+		supplierCombo.addItem("Suppliers");
+		supplierCombo.addItem("Vendors");
 		supplierCombo.setHelpInformation(true);
 		supplierForm = UIUtils.form(accounterConstants.customer());
 		supplierForm.setWidth("100%");
 		supplierForm.setFields(supplierCombo);
 
-		referaccountsLabel = new Label(Accounter.constants()
-				.howDoYouReferYourAccounts());
+		referaccountsLabel = new Label(Accounter.messages()
+				.howDoYouReferYourAccounts(Global.get().Account()));
 		referaccountsLabel.addStyleName("referComment");
-		accountCombo = new SelectCombo(accounterConstants.account());
-		accountCombo.addItem(accounterConstants.Account());
-		accountCombo.addItem(accounterConstants.Ledger());
+		accountCombo = new SelectCombo(Accounter.constants().account());
+		accountCombo.addItem("Accounts");
+		accountCombo.addItem("Legands");
 		accountForm = UIUtils.form(accounterConstants.customer());
 		accountForm.setWidth("100%");
 		accountForm.setFields(accountCombo);
@@ -88,25 +85,20 @@ public class SetupReferPage extends AbstractSetupPage {
 	@Override
 	public void onLoad() {
 
-		int referCustomers = preferences.getReferCustomers();
-		int referSuplliers = preferences.getReferSuplliers();
-		int referAccounts = preferences.getReferAccounts();
-		customerCombo.setSelectedItem(referCustomers);
-		accountCombo.setSelectedItem(referAccounts);
-		supplierCombo.setSelectedItem(referSuplliers);
+		// String referCustomers = preferences.getReferCustomers();
+		// String referSuplliers = preferences.getReferSuplliers();
+		// String referAccounts = preferences.getReferAccounts();
+
+		// if (referCustomers != null)
+		// customerCombo.setSelected(referCustomers);
+		// if (referAccounts != null)
+		// accountCombo.setSelected(referAccounts);
+		// if (referSuplliers != null)
+		// supplierCombo.setSelected(referSuplliers);
 	}
 
 	@Override
 	public void onSave() {
-		// String customer = customerCombo.getSelectedValue();
-		// String suplier = supplierCombo.getSelectedValue();
-		// String accounts = accountCombo.getSelectedValue();
-		// if (customer != null)
-		// preferences.setReferCustomers(customer);
-		// if (suplier != null)
-		// preferences.setReferSuplliers(suplier);
-		// if (accounts != null)
-		// preferences.setReferAccounts(accounts);
 		String customer = customerCombo.getSelectedValue();
 		String suplier = supplierCombo.getSelectedValue();
 		String accounts = accountCombo.getSelectedValue();

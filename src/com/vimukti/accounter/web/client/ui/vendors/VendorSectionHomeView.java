@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -208,7 +209,8 @@ public class VendorSectionHomeView extends BaseHomeView {
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
-		String[] totalWidget = { Accounter.constants().newVendor(),
+		String[] totalWidget = {
+				Accounter.messages().newVendor(Global.get().Vendor()),
 				Accounter.constants().itemPurchase(),
 				Accounter.constants().billPaid(),
 				Accounter.constants().cashPurchase() };

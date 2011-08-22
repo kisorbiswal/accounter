@@ -9,6 +9,7 @@ import java.util.Map;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -520,8 +521,8 @@ public class CustomerTransactionGrid extends
 		//
 		// });
 
-		accountsCombo = new SalesAccountsCombo(
-				Accounter.constants().accounts(), isAddNewRequired);
+		accountsCombo = new SalesAccountsCombo(Accounter.messages().accounts(
+				Global.get().Account()), isAddNewRequired);
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
 		accountsCombo

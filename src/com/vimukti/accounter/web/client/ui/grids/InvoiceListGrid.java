@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -83,9 +84,10 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		customerConstants = Accounter.constants();
 		return new String[] { customerConstants.type(),
 				customerConstants.date(), customerConstants.no(),
-				customerConstants.customerName(), customerConstants.dueDate(),
-				customerConstants.netPrice(), customerConstants.totalPrice(),
-				customerConstants.balance(), customerConstants.voided()
+				Accounter.messages().customerName(Global.get().Customer()),
+				customerConstants.dueDate(), customerConstants.netPrice(),
+				customerConstants.totalPrice(), customerConstants.balance(),
+				customerConstants.voided()
 		// , ""
 		};
 	}

@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.InvalidOperationException;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -114,8 +115,8 @@ public class CashSalesView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(customerConstants
-				.customerName());
+		customerCombo = createCustomerComboItem(Accounter.messages()
+				.customerName(Global.get().Customer()));
 
 		contactCombo = createContactComboItem();
 
@@ -237,6 +238,7 @@ public class CashSalesView extends
 			// prodAndServiceForm2.setFields(taxCodeSelect,
 			// salesTaxTextNonEditable, priceLevelSelect,
 			// transactionTotalNonEditableText);
+			
 			if (getPreferences().getDoYouPaySalesTax()) {
 				prodAndServiceForm2.setFields(taxCodeSelect,
 						salesTaxTextNonEditable, disabletextbox,

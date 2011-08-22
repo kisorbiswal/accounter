@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -39,16 +41,20 @@ public class PurchaseByVendorSummaryServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getVendorString(getConstants().supplierName(), getConstants().vendorName()),
+				getVendorString(
+						Accounter.messages()
+								.supplierName(Global.get().Vendor()), Accounter
+								.messages().vendorName(Global.get().Vendor())),
 				// getVendorString("Supplier Group", "Vendor Group"),
 				getConstants().amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getVendorString(getConstants()
-				.purchaseBySupplierSummary(), getConstants()
-				.purchaseByVendorSummary());
+		return getVendorString(
+				Accounter.messages().purchaseBySupplierSummary(
+						Global.get().vendor()), Accounter.messages()
+						.purchaseByVendorSummary(Global.get().vendor()));
 	}
 
 	@Override
@@ -154,9 +160,12 @@ public class PurchaseByVendorSummaryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getVendorString(getConstants().supplierName(), getConstants().vendorName()),
+				getVendorString(
+						Accounter.messages()
+								.supplierName(Global.get().vendor()), Accounter
+								.messages().vendorName(Global.get().Vendor())),
 				// getVendorString("Supplier Group", "Vendor Group"),
 				getConstants().amount() };
 	}
-	
+
 }

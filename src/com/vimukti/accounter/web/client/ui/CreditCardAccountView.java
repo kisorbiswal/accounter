@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -24,20 +25,23 @@ public class CreditCardAccountView extends AbstractBaseView {
 
 	private void createControls() {
 
-		accTypeText = new TextItem(Accounter.constants().accountType());
+		accTypeText = new TextItem(Accounter.messages().accountType(
+				Global.get().Account()));
 		// accTypeText.setWidth("*");
 		accTypeText.setDisabled(true);
 		accTypeText.setValue(Accounter.constants().creditCardOrLineOfCredit());
 
 		TextItem numText = new TextItem(Accounter.constants().accountNo());
 		// numText.setWidth("*");
-		TextItem accNameText = new TextItem(Accounter.constants().accountName());
+		TextItem accNameText = new TextItem(Accounter.messages().accountName(
+				Global.get().Account()));
 		// accNameText.setWidth("*");
 		accNameText.setRequired(true);
 		CheckboxItem activeCheck = new CheckboxItem(Accounter.constants()
 				.active());
-		SelectItem cashFlowSelect = new SelectItem(Accounter.constants()
-				.cashFlowCategory());
+		SelectItem cashFlowSelect = new SelectItem(Accounter.messages()
+				.cashFlowCategory(Global.get().Account()));
+
 		// cashFlowSelect.setWidth("*");
 		cashFlowSelect.setValue(Accounter.constants().operating());
 		AmountField opBalText = new AmountField(Accounter.constants()
@@ -46,13 +50,14 @@ public class CreditCardAccountView extends AbstractBaseView {
 		DateItem asofDate = UIUtils.date(Accounter.constants().asOf());
 		// asofDate.setWidth("*");
 
-		DynamicForm chartForm = UIUtils.form(Accounter.constants()
-				.chartOfAccountsInformation());
+		DynamicForm chartForm = UIUtils.form(Accounter.messages()
+				.chartOfAccountsInformation(Global.get().Account()));
+
 		chartForm.setFields(accTypeText, numText, accNameText, activeCheck,
 				cashFlowSelect, opBalText, asofDate);
 
-		CheckboxItem basisCheck = new CheckboxItem(Accounter.constants()
-				.thisIsConsideredACashAccount());
+		CheckboxItem basisCheck = new CheckboxItem(Accounter.messages()
+				.thisIsConsideredACashAccount(Global.get().account()));
 
 		DynamicForm basisForm = UIUtils.form(Accounter.constants()
 				.cashBasisAccounting());
@@ -81,8 +86,8 @@ public class CreditCardAccountView extends AbstractBaseView {
 				.cardOrLoadNumber());
 		// cardNumText.setWidth("*");
 
-		DynamicForm creditForm = UIUtils.form(Accounter.constants()
-				.creditCardAccountInformation());
+		DynamicForm creditForm = UIUtils.form(Accounter.messages()
+				.creditCardAccountInformation(Global.get().account()));
 		// creditForm.setWidth("*");
 		// creditForm.setAutoHeight();
 		creditForm.setFields(bankName, limitText, cardNumText);

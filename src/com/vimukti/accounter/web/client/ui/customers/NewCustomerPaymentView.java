@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -340,7 +341,8 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(Accounter.constants().customerPrePayment());
+		Label lab1 = new Label(Accounter.messages().customerPrePayment(
+				Global.get().Customer()));
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
@@ -366,8 +368,8 @@ public class NewCustomerPaymentView extends
 		labeldateNoLayout.add(datepanel);
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		// customer and address
-		customerCombo = createCustomerComboItem(customerConstants
-				.customerName());
+		customerCombo = createCustomerComboItem(Accounter.messages()
+				.customerName(Global.get().customer()));
 
 		billToCombo = createBillToComboItem(customerConstants.address());
 
@@ -377,8 +379,8 @@ public class NewCustomerPaymentView extends
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
-		customerBalText = new AmountField(customerConstants.customerBalance(),
-				this);
+		customerBalText = new AmountField(Accounter.messages().customerBalance(
+				Global.get().Customer()), this);
 		customerBalText.setHelpInformation(true);
 		customerBalText.setDisabled(true);
 		customerBalText.setWidth(100);
@@ -763,7 +765,7 @@ public class NewCustomerPaymentView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -781,6 +783,6 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().customerPayment();
+		return Accounter.messages().customerPayment(Global.get().Customer());
 	}
 }

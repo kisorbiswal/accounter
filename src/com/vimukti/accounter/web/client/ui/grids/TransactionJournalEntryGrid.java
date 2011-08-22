@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEntry;
@@ -277,7 +278,8 @@ public class TransactionJournalEntryGrid extends
 		case 2:
 			return new String[] {
 					"",
-					Accounter.constants().financialAccount(),
+					Accounter.messages().financialAccount(
+							Global.get().Account()),
 					UIUtils.getVendorString(Accounter.constants().supplier(),
 							Accounter.constants().vendor()),
 					Accounter.constants().customer() };
@@ -414,11 +416,9 @@ public class TransactionJournalEntryGrid extends
 		case 3:
 			return entry.getMemo() + "";
 		case 4:
-			return amountAsString(getAmountInForeignCurrency(entry
-					.getDebit()));
+			return amountAsString(getAmountInForeignCurrency(entry.getDebit()));
 		case 5:
-			return amountAsString(getAmountInForeignCurrency(entry
-					.getCredit()));
+			return amountAsString(getAmountInForeignCurrency(entry.getCredit()));
 		case 6:
 			// if (FinanceApplication.getCompany().getAccountingType() ==
 			// ClientCompany.ACCOUNTING_TYPE_UK) {

@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -104,19 +105,22 @@ public class VendorCreditMemoView extends
 	@Override
 	public void createControls() {
 
-		Label lab1 = new Label(UIUtils.getVendorString(Accounter.constants()
-				.supplierCredit(), Accounter.constants().vendorCredit())
+		Label lab1 = new Label(UIUtils.getVendorString(Accounter.messages()
+				.supplierCredit(Global.get().Vendor()), Accounter.messages()
+				.vendorCredit(Global.get().Vendor()))
 				+ "(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		if (transaction == null
 				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-			lab1 = new Label(UIUtils.getVendorString(Accounter.constants()
-					.supplierCredit(), Accounter.constants().vendorCredit()));
+			lab1 = new Label(UIUtils.getVendorString(Accounter.messages()
+					.supplierCredit(Global.get().Vendor()), Accounter
+					.messages().vendorCredit(Global.get().Vendor())));
 
 		else
-			lab1 = new Label(UIUtils.getVendorString(Accounter.constants()
-					.supplierCredit(), Accounter.constants().vendorCredit())
+			lab1 = new Label(UIUtils.getVendorString(Accounter.messages()
+					.supplierCredit(Global.get().Vendor()), Accounter
+					.messages().vendorCredit(Global.get().Vendor()))
 					+ "(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
@@ -143,9 +147,9 @@ public class VendorCreditMemoView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		vendorCombo = createVendorComboItem(UIUtils
-				.getVendorString(Accounter.constants().supplierName(),
-						Accounter.constants().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
+				.messages().supplierName(Global.get().Vendor()), Accounter
+				.messages().vendorName(Global.get().Vendor())));
 
 		contactCombo = createContactComboItem();
 
@@ -534,8 +538,9 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants().supplierCredit(),
-				Accounter.constants().vendorCredit());
+		return UIUtils.getVendorString(
+				Accounter.messages().supplierCredit(Global.get().Vendor()),
+				Accounter.messages().vendorCredit(Global.get().Vendor()));
 	}
 
 	@Override

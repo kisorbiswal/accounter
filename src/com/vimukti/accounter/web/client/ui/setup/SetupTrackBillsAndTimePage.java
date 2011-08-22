@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.setup;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
@@ -38,8 +40,9 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 		billsdescription = new HTML(accounterConstants
 				.billstrackingdescription());
-		billsmanageCashflowHtml1 = new HTML(accounterConstants
-				.billstrackingmanageCashflowStep1());
+		billsmanageCashflowHtml1 = new HTML(Accounter
+.messages()
+				.billstrackingmanageCashflowStep1(Global.get().vendor()));
 		billsmanageCashflowHtml2 = new HTML(accounterConstants
 				.billstrackingmanageCashflowStep2());
 		billsmanageCashflowHtml3 = new HTML(accounterConstants

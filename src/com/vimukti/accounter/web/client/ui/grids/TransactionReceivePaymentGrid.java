@@ -8,6 +8,7 @@ import java.util.Stack;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -505,8 +506,8 @@ public class TransactionReceivePaymentGrid extends
 				creditsAndPaymentsDialiog.updateFields();
 			}
 		} else if (!gotCreditsAndPayments && canEdit) {
-			Accounter.showInformation(Accounter.constants()
-					.noCreditsforthiscustomer());
+			Accounter.showInformation(Accounter.messages()
+					.noCreditsforthiscustomer(Global.get().customer()));
 		}
 		if (!canEdit) {
 			creditsAndPaymentsDialiog = new CustomerCreditsAndPaymentsDialiog(

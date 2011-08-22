@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -589,7 +590,8 @@ public class AccounterValidator {
 	}
 
 	public static void void_Transaction() {
-		Accounter.showError(accounterConstants.taxAgencyFinanceAcount());
+		Accounter.showError(Accounter.messages().taxAgencyFinanceAcount(
+				Global.get().account()));
 		// Accounter.stopExecution();
 
 	}
@@ -604,7 +606,8 @@ public class AccounterValidator {
 			throws InvalidTransactionEntryException {
 
 		if (!item.isIBuyThisItem()) {
-			Accounter.showError(accounterConstants.cannotUsePurchaseItem());
+			Accounter.showError(Accounter.messages().cannotUsePurchaseItem(
+					Global.get().Account()));
 			return false;
 			// throw new InvalidTransactionEntryException(
 			// AccounterErrorType.cannotUsePurchaseItem);
@@ -617,7 +620,8 @@ public class AccounterValidator {
 			throws InvalidTransactionEntryException {
 
 		if (!item.isISellThisItem()) {
-			Accounter.showError(accounterConstants.cannotUseSalesItem());
+			Accounter.showError(Accounter.messages().cannotUseSalesItem(
+					Global.get().Account()));
 			return false;
 			// throw new InvalidTransactionEntryException(
 			// AccounterErrorType.cannotUseSalesItem);
@@ -1118,7 +1122,7 @@ public class AccounterValidator {
 
 	public static boolean isBlankTransaction(
 			AbstractTransactionGrid<?> transactionGrid) {
-		if(transactionGrid == null)
+		if (transactionGrid == null)
 			return true;
 		if (transactionGrid != null && transactionGrid.getRecords().isEmpty()) {
 			return true;
@@ -1225,7 +1229,8 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean isPriorToCompanyPreventPostingDate(ClientFinanceDate asOfDate) {
+	public static boolean isPriorToCompanyPreventPostingDate(
+			ClientFinanceDate asOfDate) {
 
 		ClientFinanceDate companyStartDate = new ClientFinanceDate(getCompany()
 				.getPreferences().getPreventPostingBeforeDate());
@@ -1301,7 +1306,7 @@ public class AccounterValidator {
 	public static boolean isValidPurchaseOrderRecievedDate(
 			ClientFinanceDate receivedDate, ClientFinanceDate transactionDate) {
 		return receivedDate.compareTo(transactionDate) <= 0;
-		
+
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -65,14 +67,14 @@ public class TrialBalanceServerReport extends
 	@Override
 	public String[] getColunms() {
 		if (getPreferences().getUseAccountNumbers() == true) {
-			return new String[] { getConstants().accountName(),
-					getConstants().accountNumber(),
-					getConstants().debit(),
-					getConstants().credit() };
+			return new String[] {
+					Accounter.messages().accountName(Global.get().Account()),
+					Accounter.messages().accountNumber(Global.get().Account()),
+					getConstants().debit(), getConstants().credit() };
 		} else {
-			return new String[] { getConstants().accountName(), "",
-					getConstants().debit(),
-					getConstants().credit() };
+			return new String[] {
+					Accounter.messages().accountName(Global.get().Account()),
+					"", getConstants().debit(), getConstants().credit() };
 		}
 	}
 
@@ -189,15 +191,15 @@ public class TrialBalanceServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		if (getPreferences().getUseAccountNumbers() == true) {
-			return new String[] { getConstants().accountName(),
-					getConstants().accountNumber(),
-					getConstants().debit(),
-					getConstants().credit() };
+			return new String[] {
+					Accounter.messages().accountName(Global.get().Account()),
+					Accounter.messages().accountNumber(Global.get().Account()),
+					getConstants().debit(), getConstants().credit() };
 		} else {
-			return new String[] { getConstants().accountName(), "",
-					getConstants().debit(),
-					getConstants().credit() };
+			return new String[] {
+					Accounter.messages().accountName(Global.get().Account()),
+					"", getConstants().debit(), getConstants().credit() };
 		}
 	}
-	
+
 }

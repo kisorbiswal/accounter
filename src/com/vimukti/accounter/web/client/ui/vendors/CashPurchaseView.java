@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -109,9 +110,9 @@ public class CashPurchaseView extends
 		// formItems.add(transactionDateItem);
 		// formItems.add(transactionNumber);
 
-		vendorCombo = createVendorComboItem(UIUtils
-				.getVendorString(Accounter.constants().supplierName(),
-						Accounter.constants().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
+				.messages().supplierName(Global.get().Vendor()), Accounter
+				.messages().vendorName(Global.get().Vendor())));
 		vendorCombo.setHelpInformation(true);
 		// vendorCombo.setWidth(100);
 		contactCombo = createContactComboItem();

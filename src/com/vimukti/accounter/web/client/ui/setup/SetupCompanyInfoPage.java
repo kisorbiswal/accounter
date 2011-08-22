@@ -47,7 +47,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
-		HTML label = new HTML(Accounter.messages().accounterUseYourForms());
+		HTML label = new HTML(Accounter.constants().accounterUseYourForms());
 
 		companynameText = new TextItem(Accounter.constants().companyName());
 		companynameText.setHelpInformation(true);

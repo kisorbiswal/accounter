@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -201,8 +202,8 @@ public class SalesOrderView extends
 		custForm.getCellFormatter().setWidth(0, 1, "180px");
 		custForm.getCellFormatter().setWidth(0, 0, "225px");
 
-		customerOrderText = new TextItem(Accounter.constants()
-				.customerOrderNo());
+		customerOrderText = new TextItem(Accounter.messages().customerOrderNo(
+				Global.get().customer()));
 		customerOrderText.setWidth(50);
 		customerOrderText.setColSpan(1);
 		customerOrderText.setDisabled(isInViewMode());
@@ -595,7 +596,7 @@ public class SalesOrderView extends
 						.getTotal());
 			}
 			// customerTransactionGrid.setRecords(transaction
-			//		.getTransactionItems());
+			// .getTransactionItems());
 			customerTransactionGrid.setCanEdit(false);
 		}
 		super.initTransactionViewData();
@@ -866,7 +867,8 @@ public class SalesOrderView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (getCustomer() == null) {
-			Accounter.showError(Accounter.constants().pleaseSelectCustomer());
+			Accounter.showError(Accounter.messages().pleaseSelectCustomer(
+					Global.get().customer()));
 		} else {
 			this.rpcUtilService.getEstimates(getCustomer().getID(),
 					new AccounterAsyncCallback<ArrayList<ClientEstimate>>() {
@@ -1021,7 +1023,7 @@ public class SalesOrderView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

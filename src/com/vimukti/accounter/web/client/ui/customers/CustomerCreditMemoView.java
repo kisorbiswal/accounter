@@ -27,7 +27,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -52,7 +51,8 @@ public class CustomerCreditMemoView extends
 	@Override
 	protected void createControls() {
 
-		Label lab1 = new Label(customerConstants.customerCreditNote());
+		Label lab1 = new Label(Accounter.messages().customerCreditNote(
+				Global.get().Customer()));
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();
@@ -100,8 +100,8 @@ public class CustomerCreditMemoView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(customerConstants
-				.customerName());
+		customerCombo = createCustomerComboItem(Accounter.messages()
+				.customerName(Global.get().Customer()));
 
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
@@ -647,10 +647,8 @@ public class CustomerCreditMemoView extends
 	@Override
 	public void print() {
 		updateTransaction();
-		ActionFactory.getBrandingThemeComboAction().run(transaction, false);
-
-		// UIUtils.downloadAttachment(transaction.getID(),
-		// ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
+		UIUtils.downloadAttachment(transaction.getID(),
+				ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
 
 	}
 
@@ -677,7 +675,7 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().customerCreditNote();
+		return Accounter.messages().customerCreditNote(Global.get().Customer());
 	}
 
 	@Override

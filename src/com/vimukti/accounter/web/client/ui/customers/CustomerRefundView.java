@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -310,7 +311,8 @@ public class CustomerRefundView extends
 		endBalText.setDisabled(true);
 		setEndingBalance(null);
 
-		custBalText = new AmountField(customerConstants.customerBalance(), this);
+		custBalText = new AmountField(Accounter.messages().customerBalance(
+				Global.get().Customer()), this);
 		custBalText.setHelpInformation(true);
 		custBalText.setDisabled(true);
 		setCustomerBalance(null);
@@ -629,7 +631,7 @@ public class CustomerRefundView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -746,7 +748,7 @@ public class CustomerRefundView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().customerRefund();
+		return Accounter.messages().customerRefund(Global.get().Customer());
 	}
 
 }

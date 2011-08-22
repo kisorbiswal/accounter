@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -117,11 +118,15 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().service(), Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().service(), Accounter.constants()
+							.productItem());
 		else
-			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().service(), Accounter.constants().productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().service(), Accounter.constants()
+							.productItem());
 		// FinanceApplication.constants().comment());
 
 	}
@@ -314,7 +319,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (menuItem.equals(Accounter.constants().accounts())) {
+		if (menuItem.equals(Accounter.messages().accounts(
+				Global.get().Account()))) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 					&& !getCompany().getPreferences().getDoYouPaySalesTax()) {

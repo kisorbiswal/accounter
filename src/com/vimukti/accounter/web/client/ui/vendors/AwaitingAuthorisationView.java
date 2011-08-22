@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -61,8 +62,9 @@ public class AwaitingAuthorisationView extends BaseView {
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
 					// else
 					if (records.size() != grid.getSelectedRecords().size())
-						Accounter.showError(Accounter.constants()
-								.pleaseSelectPayFromAccount());
+						Accounter.showError(Accounter.messages()
+								.pleaseSelectPayFromAccount(
+										Global.get().Account()));
 				} else {
 					Accounter.showInformation(Accounter.constants()
 							.noRecordsToShow());

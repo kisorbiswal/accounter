@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -276,11 +277,13 @@ public class ActionFactory {
 	}
 
 	public static NewBankAccountAction getNewBankAccountAction() {
-		return new NewBankAccountAction(actionsConstants.newBankCategory());
+		return new NewBankAccountAction(Accounter.messages().newBankCategory(
+				Global.get().Account()));
 	}
 
 	public static AccountRegisterAction getAccountRegisterAction() {
-		return new AccountRegisterAction(actionsConstants.accountRegister());
+		return new AccountRegisterAction(Accounter.messages().accountRegister(
+				Global.get().Account()));
 
 	}
 
@@ -331,7 +334,8 @@ public class ActionFactory {
 	}
 
 	public static ChartsOfAccountsAction getChartsOfAccountsAction() {
-		return new ChartsOfAccountsAction(actionsConstants.chartOfAccounts());
+		return new ChartsOfAccountsAction(Accounter.messages().chartOfAccounts(
+				Global.get().Account()));
 	}
 
 	public static PaymentsAction getPaymentsAction() {
@@ -381,15 +385,18 @@ public class ActionFactory {
 	}
 
 	public static NewAccountAction getNewAccountAction() {
-		return new NewAccountAction(actionsConstants.newAccount());
+		return new NewAccountAction(Accounter.messages().newAccount(
+				Global.get().Account()));
 	}
 
 	public static MergeCustomersAction getMergeCustomersAction() {
-		return new MergeCustomersAction(actionsConstants.mergeCustomers());
+		return new MergeCustomersAction(Accounter.messages().mergeCustomers(
+				Global.get().Customer()));
 	}
 
 	public static MergeVendorsAction getMergeVendorsAction() {
-		return new MergeVendorsAction(actionsConstants.mergeSuppliers());
+		return new MergeVendorsAction(Accounter.messages().mergeSuppliers(
+				Global.get().vendor()));
 	}
 
 	public static MergeItemsAction getMergeItemsAction() {
@@ -397,8 +404,8 @@ public class ActionFactory {
 	}
 
 	public static MergeFinancialAccountsAction getMergeFinancialAccountsAction() {
-		return new MergeFinancialAccountsAction(
-				actionsConstants.mergeFinancialAccounts());
+		return new MergeFinancialAccountsAction(Accounter.messages()
+				.mergeFinancialAccounts(Global.get().Account()));
 	}
 
 	public static ManageSalesTaxGroupsAction getManageSalesTaxGroupsAction() {
@@ -434,13 +441,14 @@ public class ActionFactory {
 	// }
 
 	public static CustomerGroupListAction getCustomerGroupListAction() {
-		return new CustomerGroupListAction(actionsConstants.customerGroupList());
+		return new CustomerGroupListAction(Accounter.messages()
+				.customerGroupList(Global.get().Customer()));
 	}
 
 	public static VendorGroupListAction getVendorGroupListAction() {
-		return new VendorGroupListAction(UIUtils.getVendorString(
-				actionsConstants.supplierGroupList(),
-				actionsConstants.vendorGroupList()));
+		return new VendorGroupListAction(UIUtils.getVendorString(Accounter
+				.messages().supplierGroupList(Global.get().Vendor()), Accounter
+				.messages().vendorGroupList(Global.get().Vendor())));
 	}
 
 	public static PaymentTermListAction getPaymentTermListAction() {
@@ -485,13 +493,13 @@ public class ActionFactory {
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction() {
-		return new ChartOfAccountsAction(
-				actionsConstants.accounterCategoryList());
+		return new ChartOfAccountsAction(Accounter.messages()
+				.accounterCategoryList(Global.get().Account()));
 	}
 
 	public static ChartOfAccountsAction getChartOfAccountsAction(int accountType) {
-		return new ChartOfAccountsAction(
-				actionsConstants.accounterCategoryList(), accountType);
+		return new ChartOfAccountsAction(Accounter.messages()
+				.accounterCategoryList(Global.get().Account()), accountType);
 	}
 
 	public static SalesPersonListsAction getSalesPersonListAction() {
@@ -580,18 +588,20 @@ public class ActionFactory {
 	// Customers actions Factory
 
 	public static NewCustomerAction getNewCustomerAction() {
-		return new NewCustomerAction(actionsConstants.newCustomer());
+		return new NewCustomerAction(Accounter.messages().newCustomer(
+				Global.get().Customer()));
 	}
 
 	public static NewCustomerAction getNewCustomerAction(
 			ClientCustomer customer,
 			AccounterAsyncCallback<Object> callBackObject) {
-		return new NewCustomerAction(actionsConstants.newCustomer(), customer,
-				callBackObject);
+		return new NewCustomerAction(Accounter.messages().newCustomer(
+				Global.get().Customer()), customer, callBackObject);
 	}
 
 	public static CustomersHomeAction getCustomersHomeAction() {
-		return new CustomersHomeAction(actionsConstants.customersHome());
+		return new CustomersHomeAction(Accounter.messages().customersHome(
+				Global.get().Customer()));
 	}
 
 	public static AddEditSalesTaxCodeAction getAddEditSalesTaxCodeAction() {
@@ -667,7 +677,8 @@ public class ActionFactory {
 	}
 
 	public static CustomerRefundAction getCustomerRefundAction() {
-		return new CustomerRefundAction(actionsConstants.customerRefund());
+		return new CustomerRefundAction(Accounter.messages().customerRefund(
+				Global.get().Customer()));
 	}
 
 	// public static CustomerRefundAction getCustomerRefundAction(
@@ -682,7 +693,8 @@ public class ActionFactory {
 	}
 
 	public static CustomersAction getCustomersAction() {
-		return new CustomersAction(actionsConstants.customers());
+		return new CustomersAction(Accounter.messages().customers(
+				Global.get().Customer()));
 	}
 
 	public static ItemsAction getItemsAction() {
@@ -703,7 +715,8 @@ public class ActionFactory {
 	}
 
 	public static CustomerRefundsAction getCustomerRefundsAction() {
-		return new CustomerRefundsAction(actionsConstants.customerRefunds());
+		return new CustomerRefundsAction(Accounter.messages().customerRefunds(
+				Global.get().Customer()));
 	}
 
 	public static SalesOrderAction getSalesOrderAction() {
@@ -723,7 +736,8 @@ public class ActionFactory {
 	}
 
 	public static CustomerPaymentsAction getNewCustomerPaymentAction() {
-		return new CustomerPaymentsAction(actionsConstants.customerPrePayment());
+		return new CustomerPaymentsAction(Accounter.messages()
+				.customerPrePayment(Global.get().Customer()));
 	}
 
 	public static BrandingThemeComboAction getBrandingThemeComboAction() {
@@ -793,7 +807,8 @@ public class ActionFactory {
 
 	public static VendorsListAction getVendorListAction() {
 		return new VendorsListAction(UIUtils.getVendorString(Accounter
-				.constants().suppliersList(), actionsConstants.vendorsList()));
+				.messages().suppliersList(Global.get().Vendor()),
+				actionsConstants.vendorsList()));
 	}
 
 	public static BalanceSheetAction getBalanceSheetAction() {
@@ -809,8 +824,8 @@ public class ActionFactory {
 	}
 
 	public static TransactionDetailByAccountAction getTransactionDetailByAccountAction() {
-		return new TransactionDetailByAccountAction(
-				actionsConstants.transactionDetailByAccount());
+		return new TransactionDetailByAccountAction(Accounter.messages()
+				.transactionDetailByAccount(Global.get().Account()));
 	}
 
 	public static GLReportAction getGlReportAction() {
@@ -836,18 +851,18 @@ public class ActionFactory {
 	}
 
 	public static CustomerTransactionHistoryAction getCustomerTransactionHistoryAction() {
-		return new CustomerTransactionHistoryAction(
-				actionsConstants.customerTransactionHistory());
+		return new CustomerTransactionHistoryAction(Accounter.messages()
+				.customerTransactionHistory(Global.get().Customer()));
 	}
 
 	public static MostProfitableCustomersAction getMostProfitableCustomersAction() {
-		return new MostProfitableCustomersAction(
-				actionsConstants.mostProfitableCustomers());
+		return new MostProfitableCustomersAction(Accounter.messages()
+				.mostProfitableCustomers(Global.get().customer()));
 	}
 
 	public static SalesByCustomerSummaryAction getSalesByCustomerSummaryAction() {
-		return new SalesByCustomerSummaryAction(
-				actionsConstants.salesByCustomerSummary());
+		return new SalesByCustomerSummaryAction(Accounter.messages()
+				.salesByCustomerSummary(Global.get().customer()));
 	}
 
 	public static SalesByCustomerDetailAction getSalesByCustomerDetailAction() {
@@ -875,8 +890,9 @@ public class ActionFactory {
 
 	public static VendorTransactionHistoryAction getVendorTransactionHistoryAction() {
 		return new VendorTransactionHistoryAction(UIUtils.getVendorString(
-				actionsConstants.supplierTransactionHistory(), Accounter
-						.constants().vendorTransactionHistory()));
+				Accounter.messages().supplierTransactionHistory(
+						Global.get().Vendor()), Accounter.messages()
+						.vendorTransactionHistory(Global.get().Vendor())));
 	}
 
 	// public static AmountsDueToVendorsAction getAmountsDueToVendorsAction() {
@@ -895,14 +911,16 @@ public class ActionFactory {
 
 	public static PurchaseByVendorSummaryAction getPurchaseByVendorSummaryAction() {
 		return new PurchaseByVendorSummaryAction(UIUtils.getVendorString(
-				actionsConstants.purchaseBySupplierSummary(), Accounter
-						.constants().purchaseByVendorSummary()));
+				Accounter.messages().purchaseBySupplierSummary(
+						Global.get().vendor()), Accounter.messages()
+						.purchaseByVendorSummary(Global.get().vendor())));
 	}
 
 	public static PurchaseByVendorDetailsAction getPurchaseByVendorDetailAction() {
 		return new PurchaseByVendorDetailsAction(UIUtils.getVendorString(
-				actionsConstants.purchaseBySupplierDetail(), Accounter
-						.constants().purchaseByVendorDetail()));
+				Accounter.messages().purchaseBySupplierDetail(
+						Global.get().vendor()), Accounter.messages()
+						.purchaseByVendorDetail(Global.get().vendor())));
 	}
 
 	public static PurchaseByItemSummaryAction getPurchaseByItemSummaryAction() {
@@ -999,7 +1017,8 @@ public class ActionFactory {
 	}
 
 	public static Action getStatementReport() {
-		return new StatementReportAction(actionsConstants.customerStatement());
+		return new StatementReportAction(Accounter.messages()
+				.customerStatement(Global.get().Customer()));
 	}
 
 	// sales order action factory
@@ -1081,20 +1100,22 @@ public class ActionFactory {
 	}
 
 	public static VendorsHomeAction getVendorsHomeAction() {
-		return new VendorsHomeAction(UIUtils.getVendorString(
-				actionsConstants.supplierhome(), actionsConstants.vendorHome()));
+		return new VendorsHomeAction(UIUtils.getVendorString(Accounter
+				.messages().supplierhome(Global.get().Vendor()), Accounter
+				.messages().vendorHome(Global.get().Vendor())));
 	}
 
 	public static NewVendorAction getNewVendorAction() {
-		return new NewVendorAction(UIUtils.getVendorString(Accounter
-				.constants().newSupplier(), actionsConstants.newVendor()));
+		return new NewVendorAction(UIUtils.getVendorString(Accounter.messages()
+				.newSupplier(Global.get().Vendor()), Accounter.messages()
+				.newVendor(Global.get().Vendor())));
 	}
 
 	public static NewVendorAction getNewVendorAction(ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
-		return new NewVendorAction(UIUtils.getVendorString(Accounter
-				.constants().newSupplier(), actionsConstants.newVendor()),
-				vendor, callback);
+		return new NewVendorAction(UIUtils.getVendorString(Accounter.messages()
+				.newSupplier(Global.get().Vendor()), Accounter.messages()
+				.newVendor(Global.get().Vendor())), vendor, callback);
 	}
 
 	public static PurchaseItemsAction getPurchaseItemsAction() {
@@ -1127,7 +1148,8 @@ public class ActionFactory {
 
 	public static NewCreditMemoAction getNewCreditMemoAction() {
 		return new NewCreditMemoAction(UIUtils.getVendorString(Accounter
-				.constants().supplierCredit(), actionsConstants.vendorCredit()));
+				.messages().supplierCredit(Global.get().Vendor()), Accounter
+				.messages().vendorCredit(Global.get().Vendor())));
 	}
 
 	public static NewCreditMemoAction getNewCreditMemoAction(
@@ -1155,8 +1177,8 @@ public class ActionFactory {
 
 	public static VendorPaymentsAction getNewVendorPaymentAction() {
 		return new VendorPaymentsAction(UIUtils.getVendorString(Accounter
-				.constants().supplierPrePayment(), actionsConstants
-				.vendorPrePayment()));
+				.messages().supplierPrePayment(Global.get().Vendor()),
+				Accounter.messages().vendorPrePayment(Global.get().Vendor())));
 	}
 
 	public static RecordExpensesAction getRecordExpensesAction() {
@@ -1174,7 +1196,8 @@ public class ActionFactory {
 
 	public static VendorsListAction getVendorsAction() {
 		return new VendorsListAction(UIUtils.getVendorString(Accounter
-				.constants().suppliers(), actionsConstants.vendors()));
+				.messages().suppliers(Global.get().Vendor()), Accounter
+				.messages().vendors(Global.get().Vendor())));
 	}
 
 	// public static Item getItemAction() {
@@ -1192,8 +1215,8 @@ public class ActionFactory {
 	public static VendorPaymentsListAction getVendorPaymentsAction() {
 
 		return new VendorPaymentsListAction(UIUtils.getVendorString(Accounter
-				.constants().supplierPayments(), actionsConstants
-				.vendorPayments()));
+				.messages().supplierPayments(Global.get().Vendor()), Accounter
+				.messages().vendorPayments(Global.get().Vendor())));
 	}
 
 	public static PurchaseOrderAction getPurchaseOrderAction() {
@@ -1252,7 +1275,7 @@ public class ActionFactory {
 		return new EditProfileAction(actionsConstants.editProfile());
 	}
 
-	public static Action getRecurringsListAction(){
+	public static Action getRecurringsListAction() {
 		return new RecurringsListAction("Recurrings List action");
 	}
 }

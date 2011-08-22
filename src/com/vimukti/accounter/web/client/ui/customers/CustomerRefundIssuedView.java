@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
@@ -27,7 +28,8 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 		// setCanDragReposition(true);
 		// setShowCloseButton(true);
 
-		Label lab1 = new Label(Accounter.constants().customerRefundIssued());
+		Label lab1 = new Label(Accounter.messages().customerRefundIssued(
+				Global.get().Customer()));
 		// lab1.setWrap(false);
 
 		TextItem pay2Text = new TextItem();
@@ -183,7 +185,8 @@ public class CustomerRefundIssuedView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return customerConstants.customerRefundIssued();
+		return Accounter.messages().customerRefundIssued(
+				Global.get().Customer());
 	}
 
 }

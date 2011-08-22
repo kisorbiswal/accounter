@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -40,7 +41,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 	@Override
 	public String getGoToText() {
-		return Accounter.constants().goToAccountReceivable();
+		return Accounter.messages().goToAccountReceivable(
+				Global.get().account());
 	}
 
 	@Override
@@ -111,8 +113,9 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.constants()
-						.failedtogetAccountReceivablechartvalues());
+				Accounter.showError(Accounter.messages()
+						.failedtogetAccountReceivablechartvalues(
+								Global.get().account()));
 			}
 
 			@Override

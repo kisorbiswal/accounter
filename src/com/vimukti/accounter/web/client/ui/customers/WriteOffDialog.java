@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -80,8 +81,8 @@ public class WriteOffDialog extends BaseDialog {
 
 	private void createControls() {
 
-		discAccSelect = new OtherAccountsCombo(customerConstants
-				.writeOffAccount(), false);
+		discAccSelect = new OtherAccountsCombo(Accounter.messages()
+				.writeOffAccount(Global.get().Account()), false);
 		discAccSelect.initCombo(allAccounts);
 		discAccSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {

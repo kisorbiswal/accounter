@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -82,12 +83,12 @@ public class SetupReferPage extends AbstractSetupPage {
 		supplierLabel.setText(accounterConstants.Supplier());
 		accountLabel.setText(accounterConstants.Account());
 
-		customerCommentLabel.setText(accounterConstants
-				.howDoYouReferYourCustoemrs());
+		customerCommentLabel.setText(Accounter.messages()
+				.howDoYouReferYourCustoemrs(Global.get().customer()));
 		supplierCommentLabel.setText(accounterConstants
 				.howDoYouReferYourSuppliers());
-		accountCommentLabel.setText(accounterConstants
-				.howDoYouReferYourAccounts());
+		accountCommentLabel.setText(Accounter.messages()
+				.howDoYouReferYourAccounts(Global.get().customer()));
 
 	}
 
@@ -129,38 +130,42 @@ public class SetupReferPage extends AbstractSetupPage {
 				&& supplierListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
-					+ accounterConstants.customers() + " "
-					+ accounterConstants.supplier() + " "
-					+ accounterConstants.accounts() + "?");
+					+ Accounter.messages().customers(Global.get().customer())
+					+ " " + accounterConstants.supplier() + " "
+					+ Accounter.messages().accounts(Global.get().account())
+					+ "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
 				&& supplierListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
-					+ accounterConstants.customers() + " "
-					+ accounterConstants.supplier() + "?");
+					+ Accounter.messages().customers(Global.get().customer())
+					+ " " + accounterConstants.supplier() + "?");
 			return false;
 		} else if (supplierListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
 					+ accounterConstants.supplier() + " "
-					+ accounterConstants.accounts() + "?");
+					+ Accounter.messages().accounts(Global.get().account())
+					+ "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
 				&& accountListBox.getSelectedIndex() == -1) {
 			Accounter.showError(accounterConstants.howDoYouRefer() + " "
-					+ accounterConstants.customers() + " "
-					+ accounterConstants.accounts());
+					+ Accounter.messages().customers(Global.get().customer())
+					+ " "
+					+ Accounter.messages().accounts(Global.get().Account()));
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1) {
-			Accounter
-					.showError(accounterConstants.howDoYouReferYourCustoemrs());
+			Accounter.showError(Accounter.messages()
+					.howDoYouReferYourCustoemrs(Global.get().customer()));
 			return false;
 		} else if (supplierListBox.getSelectedIndex() == -1) {
 			Accounter
 					.showError(accounterConstants.howDoYouReferYourSuppliers());
 			return false;
 		} else if (accountListBox.getSelectedIndex() == -1) {
-			Accounter.showError(accounterConstants.howDoYouReferYourAccounts());
+			Accounter.showError(Accounter.messages().howDoYouReferYourAccounts(
+					Global.get().Account()));
 			return false;
 		} else {
 			return true;

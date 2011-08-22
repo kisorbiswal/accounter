@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -30,8 +31,10 @@ public class AmountsDueToVendorServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getVendorString(getConstants().supplierName(), Accounter
-						.constants().vendorName()),
+				getVendorString(
+						Accounter.messages()
+								.supplierName(Global.get().Vendor()), Accounter
+								.messages().vendorName(Global.get().Vendor())),
 				getConstants().active(), getConstants().city(),
 				getConstants().state(), getConstants().zipCode(),
 				getConstants().phone(), getConstants().balance() };
@@ -39,7 +42,8 @@ public class AmountsDueToVendorServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getVendorString(getConstants().amountDueToSupplier(),
+		return getVendorString(
+				Accounter.messages().amountDueToSupplier(Global.get().Vendor()),
 				getConstants().amountDueToVendor());
 	}
 
@@ -67,8 +71,8 @@ public class AmountsDueToVendorServerReport extends
 		case 0:
 			return record.getName();
 		case 1:
-			return record.getIsActive() ? getConstants().yes()
-					: getConstants().no();
+			return record.getIsActive() ? getConstants().yes() : getConstants()
+					.no();
 		case 2:
 			return record.getCity();
 		case 3:
@@ -107,8 +111,10 @@ public class AmountsDueToVendorServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getVendorString(getConstants().supplierName(), Accounter
-						.constants().vendorName()),
+				getVendorString(
+						Accounter.messages()
+								.supplierName(Global.get().Vendor()), Accounter
+								.messages().vendorName(Global.get().Vendor())),
 				getConstants().active(), getConstants().city(),
 				getConstants().state(), getConstants().zipCode(),
 				getConstants().phone(), getConstants().balance() };

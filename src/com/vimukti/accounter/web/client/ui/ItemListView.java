@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -52,7 +53,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 		allItems.remove(toBeDeletedItem);
 		refreshTotal();
@@ -155,8 +156,9 @@ public class ItemListView extends BaseListView<ClientItem> {
 				|| this.catageory.equals(Accounter.constants().supplier())) {
 			isPurchaseType = true;
 			isSalesType = false;
-		} else if (this.catageory.equals(Accounter.constants()
-				.bothCustomerAndVendor())) {
+		} else if (this.catageory.equals(Accounter.messages()
+				.bothCustomerAndVendor(Global.get().Customer(),
+						Global.get().Vendor()))) {
 			isSalesType = isPurchaseType = true;
 		}
 	}

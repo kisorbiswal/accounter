@@ -1,9 +1,11 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class PurchaseByVendorDetailServerReport extends
@@ -13,7 +15,7 @@ public class PurchaseByVendorDetailServerReport extends
 
 	public PurchaseByVendorDetailServerReport(
 			IFinanceReport<SalesByCustomerDetail> reportView) {
-				this.reportView = reportView;
+		this.reportView = reportView;
 	}
 
 	public PurchaseByVendorDetailServerReport(long startDate, long endDate,
@@ -49,7 +51,8 @@ public class PurchaseByVendorDetailServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getVendorString(getConstants().supplier(), getConstants().vendor()), getConstants().date(),
+				getVendorString(getConstants().supplier(), getConstants()
+						.vendor()), getConstants().date(),
 				getConstants().type(), getConstants().noDot(),
 				getConstants().amount() };
 	}
@@ -57,7 +60,9 @@ public class PurchaseByVendorDetailServerReport extends
 	@Override
 	public String getTitle() {
 		return getVendorString(
-				getConstants().purchaseBySupplierDetail(), getConstants().purchaseByVendorDetail());
+				Accounter.messages().purchaseBySupplierDetail(
+						Global.get().vendor()), Accounter.messages()
+						.purchaseByVendorDetail(Global.get().Vendor()));
 	}
 
 	@Override
@@ -188,9 +193,10 @@ public class PurchaseByVendorDetailServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getVendorString(getConstants().supplier(), getConstants().supplierName()),
+				getVendorString(getConstants().supplier(), Accounter.messages()
+						.supplierName(Global.get().vendor())),
 				getConstants().date(), getConstants().type(),
 				getConstants().noDot(), getConstants().amount() };
 	}
-	
+
 }

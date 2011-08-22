@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.LinkedHashMap;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -23,7 +24,8 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 	// private ClientCompany company;
 
 	private final String VENDOR_PAY = UIUtils.getVendorString(Accounter
-			.constants().supplierPay(), Accounter.constants().vendorpay());
+			.messages().supplierPay(Global.get().Vendor()), Accounter
+			.messages().vendorpay(Global.get().Vendor()));
 
 	private final String CUST_REFUND = Accounter.constants().custRefund();
 

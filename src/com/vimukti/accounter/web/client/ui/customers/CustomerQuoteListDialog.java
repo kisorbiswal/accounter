@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -78,7 +79,8 @@ public class CustomerQuoteListDialog extends BaseDialog {
 
 		grid = new DialogGrid(false);
 		grid.addColumns(customerConstants.date(), customerConstants.no(),
-				customerConstants.type(), customerConstants.customerName(),
+				customerConstants.type(),
+				Accounter.messages().customerName(Global.get().Customer()),
 				customerConstants.total(), customerConstants.remainingTotal());
 		grid.setView(this);
 		grid.setCellsWidth(70, 30, 80, -1, 60, 95);

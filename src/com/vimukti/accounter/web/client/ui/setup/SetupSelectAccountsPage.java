@@ -1,12 +1,14 @@
 package com.vimukti.accounter.web.client.ui.setup;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 
 public class SetupSelectAccountsPage extends AbstractSetupPage {
 
 	@Override
 	public String getHeader() {
-		return this.accounterConstants.reviewIncomeAndExpensesAccounts();
+		return this.accounterMessages.reviewIncomeAndExpensesAccounts(Global
+				.get().account());
 	}
 
 	@Override

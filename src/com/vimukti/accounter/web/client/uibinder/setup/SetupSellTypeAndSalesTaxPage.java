@@ -80,7 +80,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		salesTaxNo.setText(accounterConstants.no());
 		salesTaxYes.setText(accounterConstants.yes());
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			salesTaxHead.setText(accounterConstants.doyouchargeVat());
+			salesTaxHead.setText(Accounter.constants().doyouchargeVat());
 		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 			salesTaxHead.setText(accounterConstants.doyouchargesalestax());
 		} else {

@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -201,7 +202,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		ValidationResult result = new ValidationResult();
 		result.add(vendorForm.validate());
-		
+
 		String name = vendorNameText.getValue();
 
 		ClientVendor vendorByName = company.getVendorByName(name);
@@ -226,9 +227,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			result.addError(vendorNoText, error);
 			return result;
 		}
-		
 
-		
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
 		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asOfDate)) {
 			result.addError(balanceDate, Accounter.constants().priorasOfDate());
@@ -249,32 +248,41 @@ public class VendorView extends BaseView<ClientVendor> {
 				continue;
 			}
 			if (vendor.getName().equalsIgnoreCase(old.getName())) {
-				for(ClientVendor client : list){
-					if(vendor.getVendorNumber().equals(client.getVendorNumber())){
-						error = Accounter.constants().vendorAlreadyExistsWithTheNameAndNumber();
+				for (ClientVendor client : list) {
+					if (vendor.getVendorNumber().equals(
+							client.getVendorNumber())) {
+						error = Accounter.messages()
+								.vendorAlreadyExistsWithTheNameAndNumber(
+										Global.get().Vendor());
 						break;
 					}
 				}
-				error = Accounter.constants().vendorAlreadyExistsWithTheName();
-						break;
-			}else if(vendor.getVendorNumber().isEmpty()){
-				error = Accounter.constants().pleaseEnterVendorNumberItShouldNotBeEmpty();
+				error = Accounter.messages().vendorAlreadyExistsWithTheName(
+						Global.get().vendor());
 				break;
-			}
-			else if (vendor.getVendorNumber().equals(old.getVendorNumber())) {
-				error = Accounter.constants().vendorAlreadyExistsWithTheNumber();
+			} else if (vendor.getVendorNumber().isEmpty()) {
+				error = Accounter.messages()
+						.pleaseEnterVendorNumberItShouldNotBeEmpty(
+								Global.get().vendor());
+				break;
+			} else if (vendor.getVendorNumber().equals(old.getVendorNumber())) {
+				error = Accounter.messages().vendorAlreadyExistsWithTheNumber(
+						Global.get().Vendor());
 				break;
 			} else if (checkIfNotNumber(vendor.getVendorNumber())) {
-				error = Accounter.constants().vendorNumberShouldBeNumber();
+				error = Accounter.messages().vendorNumberShouldBeNumber(
+						Global.get().Vendor());
 				break;
 			} else if (Integer.parseInt(vendor.getVendorNumber().toString()) < 1) {
-				error = Accounter.constants().vendorNumberShouldBePos();
+				error = Accounter.messages().vendorNumberShouldBePos(
+						Global.get().Vendor());
 				break;
 			}
 
 		}
 		return error;
 	}
+
 	private boolean isObjectExist(long id, String name) {
 		List<ClientVendor> vendors = getCompany().getVendors();
 		for (ClientVendor old : vendors) {
@@ -289,9 +297,9 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	private VerticalPanel getGeneralTab() {
-		vendorNameText = new TextItem(
-				UIUtils.getVendorString(Accounter.constants().supplierName(),
-						Accounter.constants().vendorName()));
+		vendorNameText = new TextItem(UIUtils.getVendorString(Accounter
+				.messages().supplierName(Global.get().Vendor()), Accounter
+				.messages().vendorName(Global.get().Vendor())));
 		vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
@@ -330,14 +338,15 @@ public class VendorView extends BaseView<ClientVendor> {
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
 		accInfoForm.setWidth("100%");
-		accInfoForm.setGroupTitle(Accounter.constants().accountInformation());
+		accInfoForm.setGroupTitle(Accounter.messages().accountInformation(
+				Global.get().Account()));
 
 		statusCheck = new CheckboxItem(Accounter.constants().active());
 		statusCheck.setValue(true);
 
 		vendorSinceDate = new DateField(UIUtils.getVendorString(Accounter
-				.constants().supplierSince(), Accounter.constants()
-				.vendorSince()));
+				.messages().supplierSince(Global.get().Vendor()), Accounter
+				.messages().vendorSince(Global.get().Vendor())));
 		vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
@@ -355,7 +364,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				if (!isInViewMode()) {
 					ClientFinanceDate vendSinceDate = vendorSinceDate.getDate();
 					if (date.before(vendSinceDate)) {
-						String msg = Accounter.constants().msg();
+						String msg = Accounter.messages().msg(
+								Global.get().Vendor());
 						// Accounter.showError(msg);
 					}
 				}
@@ -586,8 +596,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				payTermsSelect, accountText, bankNameText, bankBranchText);
 
 		vendorGroupSelect = new VendorGroupCombo(UIUtils.getVendorString(
-				Accounter.constants().supplierGroup(), Accounter.constants()
-						.vendorGroup()));
+				Accounter.messages().supplierGroup(Global.get().Vendor()),
+				Accounter.messages().vendorGroup(Global.get().Vendor())));
 		vendorGroupSelect.setHelpInformation(true);
 		// vendorGroupSelect.setWidth(100);
 		vendorGroupSelect
@@ -617,7 +627,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		federalText.setHelpInformation(true);
 		federalText.setWidth(100);
 
-		panNumberText = new TextItem(Accounter.constants().panNumber());
+		panNumberText = new TextItem(Accounter.messages().panNumber(
+				Global.get().Account()));
 		panNumberText.setHelpInformation(true);
 		panNumberText.setWidth(100);
 
@@ -654,8 +665,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		vatRegistrationNumber.setHelpInformation(true);
 		vatRegistrationNumber.setWidth(100);
 		vendorTaxCode = new TAXCodeCombo(UIUtils.getVendorString(Accounter
-				.constants().supplierVatCode(), Accounter.constants()
-				.vendorVatCode()), false);
+				.messages().supplierVatCode(Global.get().Vendor()), Accounter
+				.messages().vendorVatCode(Global.get().Vendor())), false);
 		vendorTaxCode.setHelpInformation(true);
 		vendorTaxCode.setWidth(100);
 		vendorTaxCode
@@ -770,10 +781,11 @@ public class VendorView extends BaseView<ClientVendor> {
 		super.saveFailed(exception);
 		String msg;
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			msg = Accounter.constants()
-					.duplicationOfSupplierNameAreNotAllowed();
+			msg = Accounter.messages().duplicationOfSupplierNameAreNotAllowed(
+					Global.get().Vendor());
 		} else
-			msg = Accounter.constants().duplicationOfVendorNameAreNotAllowed();
+			msg = Accounter.messages().duplicationOfVendorNameAreNotAllowed(
+					Global.get().Vendor());
 		// BaseView.errordata.setHTML(msg);
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
@@ -1289,7 +1301,8 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants().newSupplier(),
-				Accounter.constants().newVendor());
+		return UIUtils.getVendorString(
+				Accounter.messages().newSupplier(Global.get().Vendor()),
+				Accounter.messages().newVendor(Global.get().Vendor()));
 	}
 }

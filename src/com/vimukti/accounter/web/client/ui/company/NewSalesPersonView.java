@@ -18,6 +18,7 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -112,11 +113,11 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		salesPersonForm.setFields(employeeNameText, fileAsText, jobTitleText);
 		salesPersonForm.getCellFormatter().setWidth(0, 0, "280px");
 
-		expenseAccountForm = UIUtils.form(Accounter.constants()
-				.expenseAccount());
+		expenseAccountForm = UIUtils.form(Accounter.messages().expenseAccount(
+				Global.get().Account()));
 		expenseAccountForm.setWidth("90%");
-		expenseSelect = new GridAccountsCombo(Accounter.constants()
-				.expenseAccount());
+		expenseSelect = new GridAccountsCombo(Accounter.messages()
+				.expenseAccount(Global.get().Account()));
 		expenseSelect.setWidth("180px");
 		expenseSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {

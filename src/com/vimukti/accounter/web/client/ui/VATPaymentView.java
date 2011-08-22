@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -152,8 +153,7 @@ public class VATPaymentView extends
 						selectedPayFromAccount = selectItem;
 						initialEndingBalance = !DecimalUtil.isEquals(
 								selectedPayFromAccount.getTotalBalance(), 0) ? selectedPayFromAccount
-								.getTotalBalance()
-								: 0D;
+								.getTotalBalance() : 0D;
 						calculateEndingBalance();
 
 						endingBalanceText.setValue(DataUtils
@@ -166,8 +166,8 @@ public class VATPaymentView extends
 		accountInformationForm.setIsGroup(true);
 		accountInformationForm.setWidth("100%");
 		// accountInformationForm.setAutoHeight();
-		accountInformationForm.setGroupTitle(Accounter.constants()
-				.accountInformation());
+		accountInformationForm.setGroupTitle(Accounter.messages()
+				.accountInformation(Global.get().Account()));
 		accountInformationForm.setFields(payFromAccCombo, endingBalanceText);
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
@@ -331,7 +331,7 @@ public class VATPaymentView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

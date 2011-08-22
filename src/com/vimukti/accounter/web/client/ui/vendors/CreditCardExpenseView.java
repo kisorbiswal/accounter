@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
@@ -203,9 +204,11 @@ public class CreditCardExpenseView extends
 		String vendorString = null;
 
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			vendorString = Accounter.constants().supplierName();
+			vendorString = Accounter.messages().supplierName(
+					Global.get().Vendor());
 		} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			vendorString = Accounter.constants().vendorName();
+			vendorString = Accounter.messages().vendorName(
+					Global.get().Vendor());
 		}
 
 		Ccard = new VendorCombo(vendorString, true) {
@@ -874,11 +877,13 @@ public class CreditCardExpenseView extends
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().serviceItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().serviceItem());
 		else
-			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().serviceItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().serviceItem());
 	}
 
 	public void saveAndUpdateView() {

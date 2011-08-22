@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -12,8 +13,8 @@ public class PaymentDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 	private AccounterConstants customerConstants = Accounter.constants();
 	private final String RECEIVE_PAYMENT = customerConstants.receivePayment();
-	private final String CUSTOMER_PREPAYMENT = customerConstants
-			.customerPrePayment();
+	private final String CUSTOMER_PREPAYMENT = Accounter.messages()
+			.customerPrePayment(Global.get().Customer());
 
 	public PaymentDialog() {
 		super(Accounter.constants().payments(), "");

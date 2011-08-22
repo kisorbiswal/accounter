@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -158,7 +159,8 @@ public class ConversionBalancesView extends BaseView {
 		creditLabel = new AmountLabel(Accounter.constants().totalCredits());
 		adjustmentLabel = new AmountLabel(Accounter.constants().adjustments());
 		tabFlexTable = new FlexTable();
-		account = new Label(Accounter.constants().conversionAccount());
+		account = new Label(Accounter.messages().conversionAccount(
+				Global.get().Account()));
 		credit = new Label(Accounter.constants().credit());
 		debit = new Label(Accounter.constants().debit());
 
@@ -174,7 +176,8 @@ public class ConversionBalancesView extends BaseView {
 		removeZeroBalance.setShowTitle(false);
 		removeZeroBalance.setDisabled(isInViewMode());
 		showAllAccounts = new LabelItem();
-		showAllAccounts.setValue(Accounter.constants().showAllAccounts());
+		showAllAccounts.setValue(Accounter.messages().showAllAccounts(
+				Global.get().Account()));
 		showAllAccounts.addStyleName("falseHyperlink");
 		showAllAccounts.setShowTitle(false);
 		showAllAccounts.setDisabled(isInViewMode());

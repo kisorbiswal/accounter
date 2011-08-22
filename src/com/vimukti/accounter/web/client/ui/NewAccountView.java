@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -171,7 +172,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		lab1.addStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("35px");
 		hierarchy = new String("");
-		accTypeSelect = new SelectCombo(Accounter.constants().accountType());
+		accTypeSelect = new SelectCombo(Accounter.messages().accountType(
+				Global.get().Account()));
 		accTypeSelect.setHelpInformation(true);
 		// accTypeSelect.setWidth(100);
 		accTypeSelect
@@ -206,7 +208,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 		});
 
-		accNameText = new TextItem(Accounter.constants().accountName());
+		accNameText = new TextItem(Accounter.messages().accountName(
+				Global.get().Account()));
 		accNameText.setHelpInformation(true);
 		accNameText.setRequired(true);
 		accNameText.setWidth(100);
@@ -250,8 +253,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		statusBox.setWidth(100);
 		statusBox.setValue(true);
 
-		cashFlowCatSelect = new SelectItem(Accounter.constants()
-				.cashFlowCategory());
+		cashFlowCatSelect = new SelectItem(Accounter.messages()
+				.cashFlowCategory(Global.get().Account()));
 		cashFlowCatSelect.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -322,8 +325,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		catSelect.setWidth(100);
 		catSelect.setDisabled(true);
 
-		accInfoForm = UIUtils.form(Accounter.constants()
-				.chartOfAccountsInformation());
+		accInfoForm = UIUtils.form(Accounter.messages()
+				.chartOfAccountsInformation(Global.get().Account()));
 		accInfoForm.setWidth("100%");
 
 		topHLay = new HorizontalPanel();
@@ -400,8 +403,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		}
 		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
-		cashAccountCheck = new CheckboxItem(Accounter.constants()
-				.thisIsConsideredACashAccount());
+		cashAccountCheck = new CheckboxItem(Accounter.messages()
+				.thisIsConsideredACashAccount(Global.get().Account()));
 		cashAccountCheck.setWidth(100);
 
 		cashBasisForm = new DynamicForm();
@@ -582,7 +585,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		if (isNewBankAccount())
-			lab1.setText(" " + Accounter.constants().bankAccount());
+			lab1.setText(" "
+					+ Accounter.messages().bankAccount(Global.get().Account()));
 		else
 			lab1.setText(" " + Utility.getAccountTypeString(this.accountType)
 					+ " " + Accounter.constants().account());
@@ -666,8 +670,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					.cardOrLoadNumber());
 			cardNumText.setHelpInformation(true);
 			cardNumText.setWidth(100);
-			creditCardForm = UIUtils.form(Accounter.constants()
-					.creditCardAccountInformation());
+			creditCardForm = UIUtils.form(Accounter.messages()
+					.creditCardAccountInformation((Global.get().Account())));
 			creditCardForm.setFields(getBankNameSelectItem(), limitText,
 					cardNumText);
 			creditCardForm.setWidth("100%");
@@ -694,8 +698,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (bankForm == null) {
 
-			typeSelect = new SelectCombo(Accounter.constants()
-					.bankAccountType());
+			typeSelect = new SelectCombo(Accounter.messages().bankAccountType(
+					Global.get().Account()));
 			// typeSelect.setWidth(100);
 			// typeSelect.setWidth("*");
 			typeMap = new ArrayList<String>();
@@ -717,15 +721,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			typeSelect.setRequired(true);
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
 
-			bankAccNumText = new TextItem(Accounter.constants()
-					.bankAccountNumber());
+			bankAccNumText = new TextItem(Accounter.messages()
+					.bankAccountNumber(Global.get().account()));
 			bankAccNumText.setHelpInformation(true);
 			bankAccNumText.setWidth(100);
 
 			// accNameText.setWidth("*");
 
-			bankForm = UIUtils.form(Accounter.constants()
-					.bankAccountInformation());
+			bankForm = UIUtils.form(Accounter.messages()
+					.bankAccountInformation(Global.get().Account()));
 			bankForm.setWidth("100%");
 			bankForm.setFields(getBankNameSelectItem(), typeSelect,
 					bankAccNumText);
@@ -768,7 +772,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 		}
 		if (isNewBankAccount())
-			lab1.setText(" " + Accounter.constants().bankAccount());
+			lab1.setText(" "
+					+ Accounter.messages().bankAccount(Global.get().Account()));
 		else
 
 			lab1.setText(" " + Utility.getAccountTypeString(accountType) + " "
@@ -953,8 +958,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (isInViewMode() ? (account == null ? false : !(Long.parseLong(data
 				.getNumber()) == number)) : account != null) {
 
-			result.addError(accNameText, Accounter.constants()
-					.alreadyAccountExist());
+			result.addError(accNameText, Accounter.messages()
+					.alreadyAccountExist(Global.get().Account()));
 			return result;
 		}
 
@@ -1317,8 +1322,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (!isInViewMode()) {
 			for (ClientAccount account : accounts) {
 				if (number.toString().equals(account.getNumber())) {
-					addError(accNoText, Accounter.constants()
-							.alreadyAccountExist());
+					addError(accNoText, Accounter.messages()
+							.alreadyAccountExist(Global.get().account()));
 					return false;
 				}
 			}
@@ -1328,8 +1333,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				addError(
 						accNoText,
 						Accounter
-								.constants()
-								.theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179());
+								.messages()
+								.theAccountNumberchosenisincorrectPleasechooseaNumberbetween1100and1179(
+										Global.get().account()));
 				return false;
 			} else {
 				clearError(accNoText);
@@ -1349,8 +1355,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				addError(
 						accNoText,
 						Accounter
-								.constants()
-								.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
+								.messages()
+								.theAccountNumberchosenisincorrectPleaschooseaNumberbetween(
+										Global.get().account())
 								+ "  "
 								+ nominalCodeRange[0]
 								+ Accounter.constants().and()

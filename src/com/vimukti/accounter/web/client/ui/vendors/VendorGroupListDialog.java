@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
@@ -29,11 +30,14 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	private InputDialog inputDlg;
 
 	public VendorGroupListDialog() {
-		super(UIUtils.getVendorString(Accounter.constants()
-				.manageSupplierGroup(), Accounter.constants()
-				.manageVendorGroup()), UIUtils.getVendorString(Accounter
-				.constants().toAddSupplierGroup(), Accounter.constants()
-				.toAddVendorGroup()));
+		super(UIUtils
+				.getVendorString(
+						Accounter.messages().manageSupplierGroup(
+								Global.get().Vendor()), Accounter.messages()
+								.manageVendorGroup(Global.get().vendor())),
+				UIUtils.getVendorString(Accounter.constants()
+						.toAddSupplierGroup(), Accounter.messages()
+						.toAddVendorGroup(Global.get().vendor())));
 		setWidth("400px");
 		initialise();
 		center();
@@ -113,10 +117,12 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	public void showAddEditGroupDialog(ClientVendorGroup rec) {
 		vendorGroup = rec;
 		inputDlg = new InputDialog(this, UIUtils.getVendorString(Accounter
-				.constants().supplierGroup(), Accounter.constants()
-				.vendorGroup()), "", UIUtils.getVendorString(Accounter
-				.constants().supplierGroup(), Accounter.constants()
-				.vendorGroup())) {
+				.messages().supplierGroup(Global.get().Vendor()), Accounter
+				.messages().vendorCredit(Global.get().Vendor())), "",
+				UIUtils.getVendorString(
+						Accounter.messages().supplierGroup(
+								Global.get().Vendor()), Accounter.messages()
+								.vendorGroup(Global.get().Vendor()))) {
 		};
 
 		if (vendorGroup != null) {
@@ -168,9 +174,11 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 				}
 			} else {
 				if (vendorByName != null) {
-					result.addError(this, UIUtils.getVendorString(Accounter
-							.constants().supplierGroupAlreadyExists(),
-							Accounter.constants().vendorGroupAlreadyExists()));
+					result.addError(this, UIUtils.getVendorString(
+							Accounter.messages().supplierGroupAlreadyExists(
+									Global.get().vendor()),
+							Accounter.messages().vendorGroupAlreadyExists(
+									Global.get().Vendor())));
 				}
 			}
 		}

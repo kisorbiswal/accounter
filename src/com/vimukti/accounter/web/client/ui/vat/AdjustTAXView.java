@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -121,7 +122,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		vatLine.setValue(Accounter.constants().vatLine());
 
 		vatAccount = new LabelItem();
-		vatAccount.setValue(Accounter.constants().vatAccount());
+		vatAccount.setValue(Accounter.messages().vatAccount(
+				Global.get().Account()));
 
 		vatLinetxt = new LabelItem();
 		vatAccounttxt = new LabelItem();
@@ -184,8 +186,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 		else
 			vatItemCombo.setRequired(true);
 
-		adjustAccountCombo = new OtherAccountsCombo(Accounter.constants()
-				.adjustmentAccount());
+		adjustAccountCombo = new OtherAccountsCombo(Accounter.messages()
+				.adjustmentAccount(Global.get().Account()));
 		adjustAccountCombo.setHelpInformation(true);
 		// adjustAccountCombo.setWidth(100);
 		adjustAccountCombo.setPopupWidth("600px");
@@ -215,7 +217,8 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 			taxAgencyCombo.setTitle(Accounter.constants().taxAgency());
 			vatItemCombo.setTitle(Accounter.constants().taxItem());
 			vatLine.setValue(Accounter.constants().taxLine());
-			vatAccount.setValue(Accounter.constants().taxAccount());
+			vatAccount.setValue(Accounter.messages().taxAccount(
+					Global.get().Account()));
 		}
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
@@ -424,7 +427,7 @@ public class AdjustTAXView extends BaseView<ClientTAXAdjustment> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

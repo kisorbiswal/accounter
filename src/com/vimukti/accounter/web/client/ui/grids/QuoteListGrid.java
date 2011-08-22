@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -110,8 +111,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	protected String[] getColumns() {
 		customerConstants = Accounter.constants();
 		return new String[] { customerConstants.date(), customerConstants.no(),
-				customerConstants.customerName(), customerConstants.phone(),
-				customerConstants.salesPerson(),
+				Accounter.messages().customerName(Global.get().Customer()),
+				customerConstants.phone(), customerConstants.salesPerson(),
 				customerConstants.expirationDate(),
 				customerConstants.deliveryDate(),
 				customerConstants.totalPrice(), customerConstants.reject()

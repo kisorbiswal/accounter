@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -55,7 +56,7 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().setCurrency(),
 			Accounter.constants().setBillTracking(),
 			Accounter.constants().setFiscalYear(),
-			Accounter.constants().selectRequiredAccounts() };
+			Accounter.messages().selectRequiredAccounts(Global.get().account()) };
 
 	private Image skipProgressImages[] = new Image[skipViewList.length - 2];
 	private String skipProgressLabels[] = new String[] {
@@ -116,8 +117,8 @@ public class SetupWizard extends VerticalPanel {
 
 			this.add(topPanel);
 
-			progressPanel.getElement().getParentElement().setClassName(
-					"progress_panel_hide");
+			progressPanel.getElement().getParentElement()
+					.setClassName("progress_panel_hide");
 			// adding buttons to button panel
 			// skipButton = new Button(Accounter.constants().skip());
 			backButton = new Button(Accounter.constants().back());
@@ -313,8 +314,8 @@ public class SetupWizard extends VerticalPanel {
 
 		progressPanel.add(progressTable);
 		progressTable.addStyleName("progress_panel_data");
-		progressPanel.getElement().getParentElement().setClassName(
-				"progress_panel_show");
+		progressPanel.getElement().getParentElement()
+				.setClassName("progress_panel_show");
 	}
 
 	/**
@@ -326,8 +327,8 @@ public class SetupWizard extends VerticalPanel {
 
 	private void removeProgressPanel() {
 		progressPanel.remove(progressTable);
-		progressPanel.getElement().getParentElement().setClassName(
-				"progress_panel_hide");
+		progressPanel.getElement().getParentElement()
+				.setClassName("progress_panel_hide");
 	}
 
 	/**

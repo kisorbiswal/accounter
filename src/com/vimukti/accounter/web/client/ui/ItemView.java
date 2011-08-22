@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -303,8 +304,8 @@ public class ItemView extends BaseView<ClientItem> {
 		// purchasePriceTxt.setValidators(floatRangeValidator);
 		// purchasePriceTxt.setValidateOnChange(true);
 
-		expAccCombo = new PurchaseItemCombo(Accounter.constants()
-				.expenseAccount());
+		expAccCombo = new PurchaseItemCombo(Accounter.messages()
+				.expenseAccount(Global.get().Account()));
 		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
 		expAccCombo
@@ -328,8 +329,8 @@ public class ItemView extends BaseView<ClientItem> {
 				});
 		expAccCombo.setPopupWidth("500px");
 		prefVendorCombo = new VendorCombo(UIUtils.getVendorString(Accounter
-				.constants().preferredSupplier(), Accounter.constants()
-				.preferredVendor()));
+				.messages().preferredSupplier(Global.get().Vendor()), Accounter
+				.messages().preferredVendor(Global.get().Vendor())));
 		prefVendorCombo.setHelpInformation(true);
 		prefVendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -338,11 +339,16 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		vendItemNumText = new IntegerField(this,
-				this.type != TYPE_SERVICE ? UIUtils.getVendorString(Accounter
-						.constants().supplierProductNo(), Accounter.constants()
-						.vendorProductNo()) : UIUtils.getVendorString(Accounter
-						.constants().supplierServiceNo(), Accounter.constants()
-						.vendorServiceNo()));
+				this.type != TYPE_SERVICE ? UIUtils.getVendorString(
+						Accounter.messages().supplierProductNo(
+								Global.get().Vendor()),
+						Accounter.messages().vendorProductNo(
+								Global.get().Vendor()))
+						: UIUtils.getVendorString(
+								Accounter.messages().supplierServiceNo(
+										Global.get().Vendor()),
+								Accounter.messages().vendorServiceNo(
+										Global.get().Vendor())));
 		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);
 

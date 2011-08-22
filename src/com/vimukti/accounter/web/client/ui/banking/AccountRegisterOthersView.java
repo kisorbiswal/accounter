@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
@@ -90,8 +91,9 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 		hlayTop.add(form);
 		hlayTop.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 
-		lab1 = new Label(Accounter.constants().accountRegister() + " - "
-				+ takenaccount.getName());
+		lab1 = new Label(Accounter.messages().accountRegister(
+				Global.get().Account())
+				+ " - " + takenaccount.getName());
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		HorizontalPanel lableHpanel = new HorizontalPanel();
 		lableHpanel.setWidth("100%");
@@ -209,8 +211,9 @@ public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
 				new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
 
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
-								.failedtoGetListofAccounts()
+						Accounter.showError(Accounter.messages()
+								.failedtoGetListofAccounts(
+										Global.get().account())
 								+ takenaccount.getName());
 
 					}

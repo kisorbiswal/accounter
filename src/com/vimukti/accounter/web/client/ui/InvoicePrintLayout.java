@@ -91,7 +91,8 @@ public class InvoicePrintLayout extends VerticalPanel {
 						.getTransactionDate())),
 				Accounter.constants().invoiceNumber(),
 				invoice.getNumber() + "", Accounter.constants().orderNumber(),
-				invoice.getOrderNum(), Accounter.constants().customerNumber(),
+				invoice.getOrderNum(),
+				Accounter.messages().customerNumber(Global.get().Customer()),
 				getCompany().getCustomer(invoice.getCustomer()).getNumber() });
 
 		HorizontalPanel datepanel = new HorizontalPanel();
@@ -448,7 +449,7 @@ public class InvoicePrintLayout extends VerticalPanel {
 				+ getCompany().getPreferences().getVATregistrationNumber(), ""
 				+ "<br/>", Accounter.constants().sortCodeColon()
 				+ getCompany().getSortCode(), "" + "<br/>", Accounter
-				.constants().bankAccountNumberColon()
+				.messages().bankAccountNumberColon(Global.get().Account())
 				+ getCompany().getBankAccountNo(), "" + "<br/>");
 
 		FlexTable vatTable = util.getThinBorderWidget(2, 3, detailsMap, true);

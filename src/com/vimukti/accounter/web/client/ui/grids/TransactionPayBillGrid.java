@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -584,8 +585,8 @@ public class TransactionPayBillGrid extends
 			creditsAndPaymentsDialiog.show();
 
 		} else {
-			Accounter.showInformation(Accounter.constants()
-					.noCreditsForThisVendor());
+			Accounter.showInformation(Accounter.messages()
+					.noCreditsForThisVendor(Global.get().vendor()));
 		}
 
 	}

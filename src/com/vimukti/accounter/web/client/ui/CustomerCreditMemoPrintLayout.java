@@ -65,7 +65,7 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 		labeldateNoLayout.add(lab1);
 
 		Map<String, String> dateNumMap = getMap(new String[] {
-				Accounter.constants().customerName(),
+				Accounter.messages().customerName(Global.get().Customer()),
 				Accounter.getCompany().getCustomer(creditMemo.getCustomer())
 						.getName(),
 				Accounter.constants().creditDate(),
@@ -102,8 +102,8 @@ public class CustomerCreditMemoPrintLayout extends VerticalPanel {
 			}
 		}
 
-		Map<String, String> billAdrsMap = getMap(Accounter.constants()
-				.customerBillTo(), billAdrs);
+		Map<String, String> billAdrsMap = getMap(Accounter.messages()
+				.customerBillTo(Global.get().Customer()), billAdrs);
 		FlexTable billToTable = util.getWidget(2, 1, billAdrsMap, true);
 		billToTable.setSize("280px", "150px");
 		adressHPanel.add(billToTable);

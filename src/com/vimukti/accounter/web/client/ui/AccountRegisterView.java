@@ -7,6 +7,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -81,8 +83,8 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 	protected void createControls() {
 
-		bankAccSelect = new DepositInAccountCombo(Accounter.constants()
-				.bankAccount());
+		bankAccSelect = new DepositInAccountCombo(Accounter.messages()
+				.bankAccount(Global.get().account()));
 		bankAccSelect.setRequired(true);
 
 		bankAccSelect
@@ -136,8 +138,9 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 		hlayTop.add(hlay);
 
-		lab1 = new Label(Accounter.constants().accountRegister() + " - "
-				+ takenaccount.getName());
+		lab1 = new Label(Accounter.messages().accountRegister(
+				Global.get().Account())
+				+ " - " + takenaccount.getName());
 
 		grid = new AccountRegisterListGrid(false, ClientAccount.TYPE_BANK);
 		grid.addStyleName("listgrid-tl");
@@ -236,8 +239,10 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 				new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
 
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.constants()
-								.failedtoGetListofAccounts()
+						Accounter.showError(Accounter.messages()
+								.failedtoGetListofAccounts(
+										Global.get().account())
+
 								+ takenaccount.getName());
 
 					}
@@ -279,7 +284,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -328,7 +333,8 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().accountRegister();
+		return Accounter.messages().accountRegister(Global.get().Account());
+
 	}
 
 	@Override

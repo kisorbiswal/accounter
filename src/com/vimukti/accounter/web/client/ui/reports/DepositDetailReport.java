@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
@@ -70,7 +71,7 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 	public String[] getColunms() {
 		return new String[] { "", Accounter.constants().number(),
 				Accounter.constants().date(), Accounter.constants().name(),
-				Accounter.constants().accountName(),
+				Accounter.messages().accountName(Global.get().Account()),
 				Accounter.constants().amount() };
 	}
 

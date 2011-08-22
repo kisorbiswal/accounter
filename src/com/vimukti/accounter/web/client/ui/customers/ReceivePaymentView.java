@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -155,8 +156,9 @@ public class ReceivePaymentView extends
 						new AccounterAsyncCallback<ArrayList<ReceivePaymentTransactionList>>() {
 
 							public void onException(AccounterException caught) {
-								Accounter.showError(Accounter.constants()
-										.failedToGetRecievePayments()
+								Accounter.showError(Accounter.messages()
+										.failedToGetRecievePayments(
+												Global.get().customer())
 										+ selectedCustomer.getName());
 								gridView.addEmptyMessage(Accounter.constants()
 										.noRecordsToShow());
@@ -488,8 +490,8 @@ public class ReceivePaymentView extends
 		payForm.setStyleName("align-form");
 		payForm.getCellFormatter().setWidth(0, 0, "180px");
 
-		customerNonEditablebalText = new AmountField(Accounter.constants()
-				.customerBalance(), this);
+		customerNonEditablebalText = new AmountField(Accounter.messages()
+				.customerBalance(Global.get().Customer()), this);
 		customerNonEditablebalText.setHelpInformation(true);
 		customerNonEditablebalText.setWidth(100);
 		customerNonEditablebalText.setDisabled(true);

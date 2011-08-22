@@ -19,6 +19,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -385,8 +387,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		taxIDText = new TextItem(Accounter.constants().federalTaxId());
 		taxIDText.setHelpInformation(true);
 
-		bankAccountText = new IntegerField(this, Accounter.constants()
-				.bankAccountNo());
+		bankAccountText = new IntegerField(this, Accounter.messages()
+				.bankAccountNo(Global.get().Account()));
 		// bankAccountText.setTitle();
 		bankAccountText.setHelpInformation(true);
 
@@ -812,13 +814,16 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 				.getNumbersandIdsTitle());
 
 		useAccountscheckbox = new CheckboxItem();
-		useAccountscheckbox.setTitle(Accounter.constants().useAccountNos());
+		useAccountscheckbox.setTitle(Accounter.messages().useAccountNos(
+				Global.get().account()));
 
 		useCustomertID = new CheckboxItem();
-		useCustomertID.setTitle(Accounter.constants().useCustomerId());
+		useCustomertID.setTitle(Accounter.messages().useCustomerId(
+				Global.get().customer()));
 
 		useVendorId = new CheckboxItem();
-		useVendorId.setTitle(Accounter.constants().useVendorId());
+		useVendorId.setTitle(Accounter.messages().useVendorId(
+				Global.get().vendor()));
 		ageingFromTransactionDateORDueDate = new RadioGroupItem(Accounter
 				.constants().ageingDetails());
 
@@ -1035,8 +1040,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 		accountsreceivablecombo.setWidth(150);
 		// accountsreceivablecombo.setWrapTitle(false);
-		accountsPayablecombo = new OtherAccountsCombo(Accounter.constants()
-				.accountsPayable());
+		accountsPayablecombo = new OtherAccountsCombo(Accounter.messages()
+				.accountsPayable(Global.get().Account()));
 		accountsPayablecombo.initCombo(accounts);
 		accountsPayablecombo.setWidth(150);
 		// accountsPayablecombo.setWrapTitle(false);
@@ -1088,8 +1093,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		jobresellAccountCombo.initCombo(accounts);
 
 		jobresellAccountCombo.setWidth(150);
-		writeOffAccountCombo = new OtherAccountsCombo(Accounter.constants()
-				.writeOffAccount());
+		writeOffAccountCombo = new OtherAccountsCombo(Accounter.messages()
+				.writeOffAccount(Global.get().account()));
 		writeOffAccountCombo.initCombo(accounts);
 		writeOffAccountCombo.setWidth(150);
 		defaultCashCombo = new OtherAccountsCombo(Accounter.constants()
@@ -1247,112 +1252,112 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	}
 
-	// public void initAllCombos(List<ClientAccount> accountlist) {
-	// ClientAccount openingBalaccount = null;
-	// ClientAccount accountsReceivable = null;
-	// ClientAccount accountsPayable = null;
-	// ClientAccount salesTaxpayable = null;
-	// ClientAccount cashDiscountGiven = null;
-	// ClientAccount cashDiscountTaken = null;
-	// ClientAccount payRollLiability = null;
-	// ClientAccount undepositedFunds = null;
-	// ClientAccount bankCharge = null;
-	// ClientAccount retainedEarnings = null;
-	// ClientAccount pendingItemrecicpts = null;
-	//
-	// ClientAccount writeOffAccount = null;
-	//
-	// for (ClientAccount account : accountlist) {
-	// // System.out.println("Account Name " + account.getName());
-	// if (account.getName().equals(
-	// AccounterClientConstants.OPENING_BALANCE))
-	// openingBalaccount = account;
-	// else if (account.getName().equals(
-	// AccounterClientConstants.ACCOUNTS_RECEIVABLE))
-	// accountsReceivable = account;
-	// else if (account.getName().equals(
-	// AccounterClientConstants.ACCOUNTS_PAYABLE))
-	// accountsPayable = account;
-	// else if (account.getName().equals(
-	// AccounterClientConstants.SALES_TAX_PAYABLE))
-	// salesTaxpayable = account;
-	// else if (account.getName().equals(
-	// AccounterClientConstants.CASH_DISCOUNT_GIVEN))
-	// cashDiscountGiven = account;
-	// else if (account.getName().equals(
-	// AccounterClientConstants.CASH_DISCOUNT_TAKEN))
-	// cashDiscountTaken = account;
-	// else if (account.getName().equals(
-	// AccounterClientConstants.EMPLOYEE_PAYROLL_LIABILITIES))
-	// payRollLiability = account;
-	// else if (account.getName().equals(
-	// AccounterClientConstants.UN_DEPOSITED_FUNDS))
-	// undepositedFunds = account;
-	// else if (account.getName().equals(
-	// AccounterClientConstants.BANK_CHARGE))
-	// bankCharge = account;
-	// else if (account.getName().equals(
-	// AccounterClientConstants.RETAINED_EARNINGS))
-	// retainedEarnings = account;
-	// else if (account.getName().equals(
-	// AccounterClientConstants.PENDING_ITEM_RECEIPTS))
-	// pendingItemrecicpts = account;
-	//
-	// else if (account.getName().equals(
-	// AccounterClientConstants.WRITE_OFF))
-	// writeOffAccount = account;
-	//
-	// }
-	// openinBalcombo.initCombo(accountlist);
-	// openinBalcombo.setComboItem(openingBalaccount);
-	//
-	// accountsreceivablecombo.initCombo(accountlist);
-	// accountsreceivablecombo.setComboItem(accountsReceivable);
-	// accountsPayablecombo.initCombo(accountlist);
-	// accountsPayablecombo.setComboItem(accountsPayable);
-	//
-	// salesTaxPayablecombo.initCombo(accountlist);
-	// salesTaxPayablecombo.setComboItem(salesTaxpayable);
-	// cashDiscountGivencombo.initCombo(accountlist);
-	// cashDiscountGivencombo.setComboItem(cashDiscountGiven);
-	//
-	// cashDiscountTakencombo.initCombo(accountlist);
-	// cashDiscountTakencombo.setComboItem(cashDiscountTaken);
-	//
-	// payrollLiabilitycombo.initCombo(accountlist);
-	// payrollLiabilitycombo.setComboItem(payRollLiability);
-	//
-	// undepositedFoundscombo.initCombo(accountlist);
-	// undepositedFoundscombo.setComboItem(undepositedFunds);
-	//
-	// bankChargecombo.initCombo(accountlist);
-	// bankChargecombo.setComboItem(bankCharge);
-	//
-	// retainedEarningsCombo.initCombo(accountlist);
-	// retainedEarningsCombo.setComboItem(retainedEarnings);
-	//
-	// pendingItemrecicptsCombo.initCombo(accountlist);
-	// pendingItemrecicptsCombo.setComboItem(pendingItemrecicpts);
-	//
-	// jobresellAccountCombo.initCombo(accountlist);
-	// writeOffAccountCombo.initCombo(accountlist);
-	// writeOffAccountCombo.setComboItem(writeOffAccount);
-	// defaultCashCombo.initCombo(accountlist);
-	// openinBalcombo.setDisabled(true);
-	// accountsreceivablecombo.setDisabled(true);
-	// salesTaxPayablecombo.setDisabled(true);
-	// accountsPayablecombo.setDisabled(true);
-	// cashDiscountGivencombo.setDisabled(true);
-	// cashDiscountTakencombo.setDisabled(true);
-	// payrollLiabilitycombo.setDisabled(true);
-	// undepositedFoundscombo.setDisabled(true);
-	// bankChargecombo.setDisabled(true);
-	// retainedEarningsCombo.setDisabled(true);
-	// pendingItemrecicptsCombo.setDisabled(true);
-	// jobresellAccountCombo.setDisabled(true);
-	// writeOffAccountCombo.setDisabled(true);
-	// defaultCashCombo.setDisabled(true);
-	// }
+	public void initAllCombos(List<ClientAccount> accountlist) {
+		ClientAccount openingBalaccount = null;
+		ClientAccount accountsReceivable = null;
+		ClientAccount accountsPayable = null;
+		ClientAccount salesTaxpayable = null;
+		ClientAccount cashDiscountGiven = null;
+		ClientAccount cashDiscountTaken = null;
+		ClientAccount payRollLiability = null;
+		ClientAccount undepositedFunds = null;
+		ClientAccount bankCharge = null;
+		ClientAccount retainedEarnings = null;
+		ClientAccount pendingItemrecicpts = null;
+
+		ClientAccount writeOffAccount = null;
+
+		for (ClientAccount account : accountlist) {
+			// System.out.println("Account Name " + account.getName());
+			if (account.getName().equals(
+					AccounterClientConstants.OPENING_BALANCE))
+				openingBalaccount = account;
+			else if (account.getName().equals(
+					AccounterClientConstants.ACCOUNTS_RECEIVABLE))
+				accountsReceivable = account;
+			else if (account.getName().equals(
+					AccounterClientConstants.ACCOUNTS_PAYABLE))
+				accountsPayable = account;
+			else if (account.getName().equals(
+					AccounterClientConstants.SALES_TAX_PAYABLE))
+				salesTaxpayable = account;
+			else if (account.getName().equals(
+					AccounterClientConstants.CASH_DISCOUNT_GIVEN))
+				cashDiscountGiven = account;
+			else if (account.getName().equals(
+					AccounterClientConstants.CASH_DISCOUNT_TAKEN))
+				cashDiscountTaken = account;
+			else if (account.getName().equals(
+					AccounterClientConstants.EMPLOYEE_PAYROLL_LIABILITIES))
+				payRollLiability = account;
+			else if (account.getName().equals(
+					AccounterClientConstants.UN_DEPOSITED_FUNDS))
+				undepositedFunds = account;
+			else if (account.getName().equals(
+					AccounterClientConstants.BANK_CHARGE))
+				bankCharge = account;
+			else if (account.getName().equals(
+					AccounterClientConstants.RETAINED_EARNINGS))
+				retainedEarnings = account;
+			else if (account.getName().equals(
+					AccounterClientConstants.PENDING_ITEM_RECEIPTS))
+				pendingItemrecicpts = account;
+
+			else if (account.getName().equals(
+					AccounterClientConstants.WRITE_OFF))
+				writeOffAccount = account;
+
+		}
+		openinBalcombo.initCombo(accountlist);
+		openinBalcombo.setComboItem(openingBalaccount);
+
+		accountsreceivablecombo.initCombo(accountlist);
+		accountsreceivablecombo.setComboItem(accountsReceivable);
+		accountsPayablecombo.initCombo(accountlist);
+		accountsPayablecombo.setComboItem(accountsPayable);
+
+		salesTaxPayablecombo.initCombo(accountlist);
+		salesTaxPayablecombo.setComboItem(salesTaxpayable);
+		cashDiscountGivencombo.initCombo(accountlist);
+		cashDiscountGivencombo.setComboItem(cashDiscountGiven);
+
+		cashDiscountTakencombo.initCombo(accountlist);
+		cashDiscountTakencombo.setComboItem(cashDiscountTaken);
+
+		payrollLiabilitycombo.initCombo(accountlist);
+		payrollLiabilitycombo.setComboItem(payRollLiability);
+
+		undepositedFoundscombo.initCombo(accountlist);
+		undepositedFoundscombo.setComboItem(undepositedFunds);
+
+		bankChargecombo.initCombo(accountlist);
+		bankChargecombo.setComboItem(bankCharge);
+
+		retainedEarningsCombo.initCombo(accountlist);
+		retainedEarningsCombo.setComboItem(retainedEarnings);
+
+		pendingItemrecicptsCombo.initCombo(accountlist);
+		pendingItemrecicptsCombo.setComboItem(pendingItemrecicpts);
+
+		jobresellAccountCombo.initCombo(accountlist);
+		writeOffAccountCombo.initCombo(accountlist);
+		writeOffAccountCombo.setComboItem(writeOffAccount);
+		defaultCashCombo.initCombo(accountlist);
+		openinBalcombo.setDisabled(true);
+		accountsreceivablecombo.setDisabled(true);
+		salesTaxPayablecombo.setDisabled(true);
+		accountsPayablecombo.setDisabled(true);
+		cashDiscountGivencombo.setDisabled(true);
+		cashDiscountTakencombo.setDisabled(true);
+		payrollLiabilitycombo.setDisabled(true);
+		undepositedFoundscombo.setDisabled(true);
+		bankChargecombo.setDisabled(true);
+		retainedEarningsCombo.setDisabled(true);
+		pendingItemrecicptsCombo.setDisabled(true);
+		jobresellAccountCombo.setDisabled(true);
+		writeOffAccountCombo.setDisabled(true);
+		defaultCashCombo.setDisabled(true);
+	}
 
 	public void setDefaultValues() {
 

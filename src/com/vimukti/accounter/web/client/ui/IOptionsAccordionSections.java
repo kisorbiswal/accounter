@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 
 class Section {
@@ -17,11 +18,15 @@ class Section {
 public interface IOptionsAccordionSections {
 	AccounterConstants constants = Accounter.constants();
 	final String COMPANY = constants.company();
-	final String COMPANY_NEW_ACCOUNT = constants.newAccount();
+	final String COMPANY_NEW_ACCOUNT = Accounter.messages().newAccount(
+			Global.get().Account());
 
-	final String CUSTOMERS = constants.customers();
-	final String CUSTOMERS_HOME = constants.customersHome();
-	final String CUSTOMERS_NEW = constants.newCustomer();
+	final String CUSTOMERS = Accounter.messages().customers(
+			Global.get().Customer());
+	final String CUSTOMERS_HOME = Accounter.messages().customersHome(
+			Global.get().Customer());
+	final String CUSTOMERS_NEW = Accounter.messages().newCustomer(
+			Global.get().Customer());
 	final String CUSTOMERS_NEW_ITEM = constants.newItem();
 	final String CUSTOMERS_NEW_QUOTE = constants.newQuote();
 	final String CUSTOMERS_NEW_INVOICE = constants.newInvoice();
@@ -31,41 +36,49 @@ public interface IOptionsAccordionSections {
 			.creditAndRefunds();
 	final String CUSTOMER_CREDIT_CARD_PROCESSING = constants
 			.creditCardProcessing();
-	final String CUSTOMER_FIND_CUSTOMERS = constants.customers();
+	final String CUSTOMER_FIND_CUSTOMERS = Accounter.messages().customers(
+			Global.get().Customer());
 	final String CUSTOMER_FIND_ITEMS = constants.products();
 	final String CUSTOMER_FIND_QUOTES = constants.quotes();
 	final String CUSTOMER_FIND_INVOICES = constants.invoices();
 	final String CUSTOMER_FIND_RECEIVED_PAYMENTS = constants.receivedPayments();
-	final String CUSTOMER_FIND_CUSTOMER_REFUNDS = constants.customerRefunds();
+	final String CUSTOMER_FIND_CUSTOMER_REFUNDS = Accounter.messages()
+			.customerRefunds(Global.get().customer());
 
 	final String VENDORS = UIUtils.getVendorString(constants.supplier(),
-			constants.vendors());
-	final String VENDORS_HOME = UIUtils.getVendorString(
-			constants.supplierHome(), constants.vendorHome());
-	final String VENDORS_NEW_VENDOR = UIUtils.getVendorString(
-			constants.newSupplier(), constants.newVendor());
+			Accounter.messages().vendors(Global.get().Vendor()));
+	final String VENDORS_HOME = UIUtils.getVendorString(Accounter.messages()
+			.supplierHome(Global.get().Vendor()), Accounter.messages()
+			.vendorHome(Global.get().Vendor()));
+	final String VENDORS_NEW_VENDOR = UIUtils.getVendorString(Accounter
+			.messages().newSupplier(Global.get().Vendor()), Accounter
+			.messages().newVendor(Global.get().Vendor()));
 	final String VENDORS_NEW_ITEM = constants.newProduct();
 	final String VENDORS_ENTER_BILLS = constants.enterBills();
 	final String VENDORS_PAY_BILLS = constants.payBills();
 	final String VENDORS_NEW_CASH_PURCHASE = constants.newCashPurchase();
 	final String VENDORS_ISSUE_PAYMENT = constants.issuePayment();
 	final String VENDORS_NEW_CREDIT_MEMO = constants.newCredit();
-	final String VENDORS_FIND_VENDORS = UIUtils.getVendorString(
-			constants.suppliers(), constants.vendors());
+	final String VENDORS_FIND_VENDORS = UIUtils.getVendorString(Accounter
+			.messages().suppliers(Global.get().Vendor()), Accounter.messages()
+			.vendors(Global.get().Vendor()));
 	final String VENDORS_FIND_ITEMS = constants.products();
 	final String VENDORS_FIND_BILLS = constants.bills();
 	final String VENDORS_FIND_VENDOR_PAYMENTS = UIUtils.getVendorString(
-			constants.supplierPayments(), constants.vendorPayments());
+			Accounter.messages().supplierPayments(Global.get().Vendor()),
+			Accounter.messages().vendorPayments(Global.get().Vendor()));
 
 	final String BANKING = constants.banking();
 	final String BANKING_HOME = constants.bankingHome();
-	final String BANKING_NEW_BANK_ACCOUNT = constants.newBankAccount();
+	final String BANKING_NEW_BANK_ACCOUNT = Accounter.messages()
+			.newBankAccount(Global.get().Account());
 	final String BANKING_WRITE_CHECKS = constants.writeChecks();
 	final String BANKING_MAKE_DEPOSIT = constants.makeDeposit();
 	final String BANKING_TRANSFER_FUNDS = constants.transferFunds();
 	final String BANKING_PAY_BILLS = constants.payBills();
 	final String BANKING_CREDITCARD_CHARGE = constants.creditCardCharge();
-	final String BANKING_FIND_CHART_OF_ACCOUNTS = constants.chartOfAccounts();
+	final String BANKING_FIND_CHART_OF_ACCOUNTS = Accounter.messages()
+			.chartOfAccounts(Global.get().Account());
 	final String BANKING_FIND_PAYMENTS = constants.payments();
 
 	final String START_NEW_TASK = constants.startanewTask();
@@ -129,36 +142,56 @@ public interface IOptionsAccordionSections {
 
 					}), };
 
-	final String[] sectionLabels = { constants.customers(),
-			UIUtils.getVendorString(constants.suppliers(), constants.vendors()), constants.employees(),
-			constants.sectionhash1(),constants.sectionhash2(), constants.sectionhash3(), constants.sectionhash4()};
+	final String[] sectionLabels = {
+			Accounter.messages().customers(Global.get().Customer()),
+			UIUtils.getVendorString(
+					Accounter.messages().suppliers(Global.get().Vendor()),
+					Accounter.messages().vendors(Global.get().Vendor())),
+			constants.employees(), constants.sectionhash1(),
+			constants.sectionhash2(), constants.sectionhash3(),
+			constants.sectionhash4() };
 
 	final String[][][] labels = {
 
 	};
-	final String[] custStartLabels = { constants.newCustomer(), constants.newProduct(),
-			constants.newQuote(), constants.newInvoice(), constants.receivedPayment(), constants.newCashSale(),
-			constants.newCreditsAndRefunds(), constants.creditCardProcessing() };
+	final String[] custStartLabels = {
+			Accounter.messages().newCustomer(Global.get().Customer()),
+			constants.newProduct(), constants.newQuote(),
+			constants.newInvoice(), constants.receivedPayment(),
+			constants.newCashSale(), constants.newCreditsAndRefunds(),
+			constants.creditCardProcessing() };
 
-	final String[] custFindLabels = { constants.customers(), constants.products() };
+	final String[] custFindLabels = {
+			Accounter.messages().customers(Global.get().Customer()),
+			constants.products() };
 
 	// Vendors Section
 	final String[] vendStartLabels = {
-			UIUtils.getVendorString(constants.supplierBendor(), constants.vendorBendor()),
-			UIUtils.getVendorString(constants.supplierBlah(), constants.vendorBlah()),
-			UIUtils.getVendorString(constants.supplierWhendor(), constants.vendorWhendor()) };
+			UIUtils.getVendorString(
+					Accounter.messages().supplierBendor(Global.get().Vendor()),
+					Accounter.messages().vendorBendor(Global.get().Vendor())),
+			UIUtils.getVendorString(
+					Accounter.messages().supplierBlah(Global.get().Vendor()),
+					Accounter.messages().vendorBlah(Global.get().Vendor())),
+			UIUtils.getVendorString(
+					Accounter.messages().supplierWhendor(Global.get().Vendor()),
+					Accounter.messages().vendorWhendor(Global.get().Vendor())) };
 
-	final String[] vendFindLabels = { constants.findtis(), constants.findtat(), constants.findbla() };
+	final String[] vendFindLabels = { constants.findtis(), constants.findtat(),
+			constants.findbla() };
 
 	// Employees Section
-	final String[] empStartLabels = { constants.employeeEmpty(), constants.employeeBlah(),
-			constants.employeeTemployee() };
+	final String[] empStartLabels = { constants.employeeEmpty(),
+			constants.employeeBlah(), constants.employeeTemployee() };
 
-	final String[] empFindLabels = { constants.findtis(), constants.findtat(), constants.findbla() };
+	final String[] empFindLabels = { constants.findtis(), constants.findtat(),
+			constants.findbla() };
 
 	// ...
-	final String[] startLabels = { constants.emptyexlematorymark1(), constants.emptyexlematorymark2(), constants.enuffexlematorymark() };
+	final String[] startLabels = { constants.emptyexlematorymark1(),
+			constants.emptyexlematorymark2(), constants.enuffexlematorymark() };
 
-	final String[] findLabels = { constants.wat(), constants.u(), constants.want() };
+	final String[] findLabels = { constants.wat(), constants.u(),
+			constants.want() };
 
 }

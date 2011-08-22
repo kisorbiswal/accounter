@@ -1,9 +1,11 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -82,7 +84,8 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getConstants().transactionDetailsByAccount();
+		return Accounter.messages().transactionDetailsByAccount(
+				Global.get().account());
 	}
 
 	@Override

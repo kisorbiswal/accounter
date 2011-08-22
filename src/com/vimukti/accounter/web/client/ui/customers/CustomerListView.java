@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
@@ -65,7 +66,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return customerConstants.customerList();
+		return Accounter.messages().customerList(Global.get().Customer());
 	}
 
 	@Override
@@ -148,7 +149,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().customers();
+		return Accounter.messages().customers(Global.get().Customer());
 	}
 
 	@Override

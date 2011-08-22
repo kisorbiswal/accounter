@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -38,9 +39,11 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 				break;
 			case 1:
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-					colArray[index] = Accounter.constants().vendorName();
+					colArray[index] = Accounter.messages().vendorName(
+							Global.get().Vendor());
 				if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK)
-					colArray[index] = Accounter.constants().supplierName();
+					colArray[index] = Accounter.messages().supplierName(
+							Global.get().Vendor());
 				break;
 			case 2:
 				colArray[index] = Accounter.constants().currentMonth();

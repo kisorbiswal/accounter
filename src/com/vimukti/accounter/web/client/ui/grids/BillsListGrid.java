@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -70,8 +71,10 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 				vendorConstants.type(),
 				vendorConstants.date(),
 				vendorConstants.no(),
-				UIUtils.getVendorString(Accounter.constants().supplierName(),
-						Accounter.constants().vendorName()),
+				UIUtils.getVendorString(
+						Accounter.messages()
+								.supplierName(Global.get().Vendor()), Accounter
+								.messages().vendorName(Global.get().Vendor())),
 				vendorConstants.originalAmount(), vendorConstants.balance(),
 				vendorConstants.isVoid()
 		// , ""

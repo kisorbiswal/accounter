@@ -11,6 +11,7 @@ import java.util.Set;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -141,13 +142,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().serviceItem(), Accounter.constants()
-					.productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().account()),
+					Accounter.constants().serviceItem(), Accounter.constants()
+							.productItem());
 		else
-			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().serviceItem(), Accounter.constants()
-					.productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().account()),
+					Accounter.constants().serviceItem(), Accounter.constants()
+							.productItem());
 	}
 
 	protected void initVendors() {
@@ -665,7 +668,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	// }
 	protected void onAddNew(String menuItem) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (menuItem.equals(Accounter.constants().accounts())) {
+		if (menuItem.equals(Accounter.messages().accounts(
+				Global.get().account()))) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK
 					&& !getCompany().getPreferences().getDoYouPaySalesTax()) {

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -23,8 +24,9 @@ public class NewVendorAction extends Action<ClientVendor> {
 	private int openedFrom;
 
 	public NewVendorAction(String text) {
-		super(UIUtils.getVendorString(Accounter.constants().newSupplier(),
-				Accounter.constants().newVendor()));
+		super(UIUtils.getVendorString(
+				Accounter.messages().newSupplier(Global.get().Vendor()),
+				Accounter.messages().newVendor(Global.get().Vendor())));
 		this.catagory = UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor());
 	}
@@ -55,7 +57,6 @@ public class NewVendorAction extends Action<ClientVendor> {
 
 			}
 
-			 
 		});
 
 	}

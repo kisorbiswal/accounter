@@ -1,9 +1,11 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class CustomerStatementServerReport extends
@@ -11,7 +13,7 @@ public class CustomerStatementServerReport extends
 
 	public CustomerStatementServerReport(
 			IFinanceReport<PayeeStatementsList> reportView) {
-		
+
 		this.reportView = reportView;
 	}
 
@@ -22,26 +24,22 @@ public class CustomerStatementServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().date(),
-				getConstants().type(), getConstants().no(),
-				getConstants().dueDate(),
-				getConstants().invoiceAmount(),
-				getConstants().payment(),
+		return new String[] { getConstants().date(), getConstants().type(),
+				getConstants().no(), getConstants().dueDate(),
+				getConstants().invoiceAmount(), getConstants().payment(),
 				getConstants().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().customerStatement();
+		return Accounter.messages().customerStatement(Global.get().Customer());
 	}
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().date(),
-				getConstants().type(), getConstants().no(),
-				getConstants().dueDate(),
-				getConstants().invoiceAmount(),
-				getConstants().payment(),
+		return new String[] { getConstants().date(), getConstants().type(),
+				getConstants().no(), getConstants().dueDate(),
+				getConstants().invoiceAmount(), getConstants().payment(),
 				getConstants().balance() };
 	}
 

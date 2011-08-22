@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -13,7 +14,7 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 
 	String[] keys = { Accounter.constants().grossProfit(),
 			Accounter.constants().netProfit(),
-			Accounter.constants().bankAccounts() };
+			Accounter.messages().bankAccounts(Global.get().Account()) };
 
 	Map<Integer, Integer> colsMap = new HashMap<Integer, Integer>();
 	private Double rowTotal = 0.0;

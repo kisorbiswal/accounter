@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -125,7 +126,8 @@ public class AccountComboCell extends
 	}
 
 	private Anchor getAddNewLabel() {
-		Anchor addNew = new Anchor(Accounter.constants().newAccount());
+		Anchor addNew = new Anchor(Accounter.messages().newAccount(
+				Global.get().Account()));
 		addNew.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -137,15 +139,13 @@ public class AccountComboCell extends
 	}
 
 	@Override
-	public boolean isEditing(Context context, Element parent,
-			String value) {
+	public boolean isEditing(Context context, Element parent, String value) {
 		return lastKey != null && lastKey.equals(context.getKey());
 	}
 
 	@Override
-	public void onBrowserEvent(Context context, Element parent,
-			String value, NativeEvent event,
-			ValueUpdater<String> valueUpdater) {
+	public void onBrowserEvent(Context context, Element parent, String value,
+			NativeEvent event, ValueUpdater<String> valueUpdater) {
 		super.onBrowserEvent(context, parent, value, event, valueUpdater);
 		if ("click".equals(event.getType())) {
 			onEnterKeyDown(context, parent, value, event, valueUpdater);
@@ -175,8 +175,7 @@ public class AccountComboCell extends
 
 	@Override
 	protected void onEnterKeyDown(Context context, Element parent,
-			String value, NativeEvent event,
-			ValueUpdater<String> valueUpdater) {
+			String value, NativeEvent event, ValueUpdater<String> valueUpdater) {
 		this.lastKey = context.getKey();
 		this.lastParent = parent;
 		this.lastValue = value;

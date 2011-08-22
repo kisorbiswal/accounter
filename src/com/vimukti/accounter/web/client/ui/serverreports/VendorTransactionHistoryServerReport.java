@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
@@ -39,7 +41,8 @@ public class VendorTransactionHistoryServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getVendorString(getConstants().supplier(), getConstants().vendor()), getConstants().date(),
+				getVendorString(getConstants().supplier(), getConstants()
+						.vendor()), getConstants().date(),
 				getConstants().type(), getConstants().no(),
 				// FinanceApplication.constants().reference(),
 				getConstants().account(), getConstants().amount()
@@ -63,9 +66,9 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return UIUtils.getVendorString(getConstants()
-				.supplierTransactionHistory(), getConstants()
-				.vendorTransactionHistory());
+		return UIUtils.getVendorString(Accounter.messages()
+				.supplierTransactionHistory(Global.get().Vendor()), Accounter
+				.messages().vendorTransactionHistory(Global.get().Vendor()));
 	}
 
 	@Override
@@ -230,9 +233,10 @@ public class VendorTransactionHistoryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getVendorString(getConstants().supplier(), getConstants().vendor()), getConstants().date(),
+				getVendorString(getConstants().supplier(), getConstants()
+						.vendor()), getConstants().date(),
 				getConstants().type(), getConstants().no(),
 				getConstants().account(), getConstants().amount() };
 	}
-	
+
 }

@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
@@ -90,8 +91,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getCashFlowStatementAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getCashFlowStatementAction());
 			}
 
 		});
@@ -109,15 +110,15 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem transactionDetailsByAccountsLink = new LinkItem();
-		transactionDetailsByAccountsLink.setLinkTitle(Accounter.constants()
-				.transactionDetailsByAccount());
+		transactionDetailsByAccountsLink.setLinkTitle(Accounter.messages()
+				.transactionDetailsByAccount(Global.get().Account()));
 		transactionDetailsByAccountsLink.setShowTitle(false);
 		transactionDetailsByAccountsLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getTransactionDetailByAccountAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getTransactionDetailByAccountAction());
 			}
 
 		});
@@ -136,15 +137,15 @@ public class ReportSectionView extends BaseHomeView {
 		salesForm.setNumCols(1);
 
 		LinkItem salesByCustomerSummaryLink = new LinkItem();
-		salesByCustomerSummaryLink.setLinkTitle(Accounter.constants()
-				.salesByCustomerSummary());
+		salesByCustomerSummaryLink.setLinkTitle(Accounter.messages()
+				.salesByCustomerSummary(Global.get().customer()));
 		salesByCustomerSummaryLink.setShowTitle(false);
 		salesByCustomerSummaryLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getSalesByCustomerSummaryAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getSalesByCustomerSummaryAction());
 			}
 
 		});
@@ -157,8 +158,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getSalesByCustomerDetailAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getSalesByCustomerDetailAction());
 			}
 
 		});
@@ -171,8 +172,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getSalesByItemSummaryAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getSalesByItemSummaryAction());
 			}
 
 		});
@@ -185,8 +186,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getSalesByItemDetailAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getSalesByItemDetailAction());
 			}
 
 		});
@@ -206,29 +207,29 @@ public class ReportSectionView extends BaseHomeView {
 		purchaseForm.setNumCols(1);
 
 		LinkItem purchaseBySupplierSummaryLink = new LinkItem();
-		purchaseBySupplierSummaryLink.setLinkTitle(Accounter.constants()
-				.purchaseBySupplierSummary());
+		purchaseBySupplierSummaryLink.setLinkTitle(Accounter.messages()
+				.purchaseBySupplierSummary(Global.get().Vendor()));
 		purchaseBySupplierSummaryLink.setShowTitle(false);
 		purchaseBySupplierSummaryLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getPurchaseByVendorSummaryAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getPurchaseByVendorSummaryAction());
 			}
 
 		});
 
 		LinkItem purchaseBySupplierDetailLink = new LinkItem();
-		purchaseBySupplierDetailLink.setLinkTitle(Accounter.constants()
-				.purchaseBySupplierDetail());
+		purchaseBySupplierDetailLink.setLinkTitle(Accounter.messages()
+				.purchaseBySupplierDetail(Global.get().vendor()));
 		purchaseBySupplierDetailLink.setShowTitle(false);
 		purchaseBySupplierDetailLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getPurchaseByVendorDetailAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getPurchaseByVendorDetailAction());
 			}
 
 		});
@@ -241,8 +242,8 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getPurchaseByItemSummaryAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getPurchaseByItemSummaryAction());
 			}
 
 		});
@@ -274,15 +275,15 @@ public class ReportSectionView extends BaseHomeView {
 		otherForm.setNumCols(1);
 
 		LinkItem customerTransactionHistoryLink = new LinkItem();
-		customerTransactionHistoryLink.setLinkTitle(Accounter.constants()
-				.customerTransactionHistory());
+		customerTransactionHistoryLink.setLinkTitle(Accounter.messages()
+				.customerTransactionHistory(Global.get().customer()));
 		customerTransactionHistoryLink.setShowTitle(false);
 		customerTransactionHistoryLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getCustomerTransactionHistoryAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getCustomerTransactionHistoryAction());
 			}
 
 		});
@@ -306,37 +307,35 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils
-						.runAction(acc, ActionFactory
-								.getAorpAgingDetailAction());
+				UIUtils.runAction(acc, ActionFactory.getAorpAgingDetailAction());
 			}
 
 		});
 
 		LinkItem supplierTransactionHistoryLink = new LinkItem();
-		supplierTransactionHistoryLink.setLinkTitle(Accounter.constants()
-				.supplierTransactionHistory());
+		supplierTransactionHistoryLink.setLinkTitle(Accounter.messages()
+				.supplierTransactionHistory(Global.get().Vendor()));
 		supplierTransactionHistoryLink.setShowTitle(false);
 		supplierTransactionHistoryLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getVendorTransactionHistoryAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getVendorTransactionHistoryAction());
 			}
 
 		});
 
 		LinkItem mostProfitableCustomerLink = new LinkItem();
-		mostProfitableCustomerLink.setLinkTitle(Accounter.constants()
-				.mostProfitableCustomer());
+		mostProfitableCustomerLink.setLinkTitle(Accounter.messages()
+				.mostProfitableCustomer(Global.get().customer()));
 		mostProfitableCustomerLink.setShowTitle(false);
 		mostProfitableCustomerLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory
-						.getMostProfitableCustomersAction());
+				UIUtils.runAction(acc,
+						ActionFactory.getMostProfitableCustomersAction());
 			}
 
 		});

@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.comet.AccounterCometSerializer;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -264,12 +265,15 @@ public class MainFinanceWindow extends VerticalPanel {
 		// reportMenuBar.addSeparator();
 		reportMenuBar.addItem(Accounter.constants().companyAndFinancial(),
 				getCompanyAndFinancialMenu());
-		reportMenuBar.addItem(Accounter.constants().customersAndReceivable(),
+		reportMenuBar.addItem(
+				Accounter.messages().customersAndReceivable(
+						Global.get().Customer()),
 				getCustomersAndReceivableMenu());
 		reportMenuBar.addItem(Accounter.constants().sales(), getSalesMenu());
-		reportMenuBar.addItem(UIUtils.getVendorString(Accounter.constants()
-				.suppliersAndPayables(), Accounter.constants()
-				.vendorsAndPayables()), getVendorAndPayablesMenu());
+		reportMenuBar.addItem(UIUtils.getVendorString(Accounter.messages()
+				.suppliersAndPayables(Global.get().Vendor()), Accounter
+				.messages().vendorsAndPayables(Global.get().Vendor())),
+				getVendorAndPayablesMenu());
 		reportMenuBar.addItem(Accounter.constants().purchase(),
 				getPurchaseMenu());
 		// if (FinanceApplication.getCompany().getAccountingType() ==
@@ -473,9 +477,9 @@ public class MainFinanceWindow extends VerticalPanel {
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}
-		vendorMenuBar.addItem(UIUtils.getVendorString(Accounter.constants()
-				.supplierLists(), Accounter.constants().vendorLists()),
-				getVendorListMenu());
+		vendorMenuBar.addItem(UIUtils.getVendorString(Accounter.messages()
+				.supplierLists(Global.get().Vendor()), Accounter.messages()
+				.vendorLists(Global.get().Vendor())), getVendorListMenu());
 		return vendorMenuBar;
 	}
 
@@ -525,7 +529,8 @@ public class MainFinanceWindow extends VerticalPanel {
 			customerMenuBar.addItem(ActionFactory.getCustomerRefundAction());
 			customerMenuBar.addSeparator();
 		}
-		customerMenuBar.addItem(Accounter.constants().customerLists(),
+		customerMenuBar.addItem(
+				Accounter.messages().customerLists(Global.get().Customer()),
 				getCustomerListMenu());
 		return customerMenuBar;
 	}
@@ -701,8 +706,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		this.getElement().getParentElement()
 				.addClassName("main-finance-window");
 	}
-
-	
 
 	private void startCometService() {
 		AccounterCometSerializer serializer = GWT

@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
@@ -34,7 +35,6 @@ import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -117,8 +117,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	// private ClientCustomer takenCustomer;
 
-	private DynamicForm accInfoForm;
 	private DynamicForm customerForm;
+	private DynamicForm accInfoForm;
 	private AddressForm addrsForm;
 	private PhoneFaxForm fonFaxForm;
 	private EmailForm emailForm;
@@ -290,26 +290,32 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			if (customer.getName().equalsIgnoreCase(old.getName())) {
 				for (ClientCustomer old2 : list) {
 					if (customer.getNumber().equals(old2.getNumber())) {
-						error = Accounter.constants()
-								.customerAlreadyExistsWithNameAndNo();
+						error = Accounter.messages()
+								.customerAlreadyExistsWithNameAndNo(
+										Global.get().customer());
 						break;
 					}
 				}
-				return Accounter.constants().customerAlreadyExistsWithName();
+				return Accounter.messages().customerAlreadyExistsWithName(
+						Global.get().customer());
 			} else if (customer.getNumber().equals(old.getNumber())) {
 				for (ClientCustomer old2 : list) {
 					if (customer.getName().equalsIgnoreCase(old2.getName())) {
-						error = Accounter.constants()
-								.customerAlreadyExistsWithNameAndNo();
+						error = Accounter.messages()
+								.customerAlreadyExistsWithNameAndNo(
+										Global.get().customer());
 						break;
 					}
 				}
-				return Accounter.constants().customerAlreadyExistsWithNumber();
+				return Accounter.messages().customerAlreadyExistsWithNumber(
+						Global.get().customer());
 			} else if (checkIfNotNumber(customer.getNumber())) {
-				error = Accounter.constants().customerNumberShouldBeNumber();
+				error = Accounter.messages().customerNumberShouldBeNumber(
+						Global.get().customer());
 				break;
 			} else if (Integer.parseInt(customer.getNumber().toString()) < 1) {
-				error = Accounter.constants().customerNumberShouldBePos();
+				error = Accounter.messages().customerNumberShouldBePos(
+						Global.get().customer());
 				break;
 			}
 
@@ -382,21 +388,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		data.setNumber(custNoText.getValue().toString());
 
-		ClientVendor vendorByName = company.getVendorByName(custNameText
-				.getValue());
-
-		ClientCustomer customerByName = company.getCustomerByName(custNameText
-				.getValue());
-
-		if (vendorByName != null) {
-			result.addError(custNameText, Accounter.constants().alreadyExist());
-			return result;
-		}
-		if (customerByName != null
-				&& !(this.getData().getID() == customerByName.getID())) {
-			result.addError(custNameText, Accounter.constants().alreadyExist());
-			return result;
-		}
 
 		gridView.validateGrid();
 
@@ -581,12 +572,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private VerticalPanel getGeneralTab() {
 
-		custNameText = new TextItem(customerConstants.customerName());
+		custNameText = new TextItem(Accounter.messages().customerName(
+				Global.get().Customer()));
 		custNameText.setHelpInformation(true);
 		custNameText.setRequired(true);
 		custNameText.setWidth(100);
 
-		custNoText = new TextItem(customerConstants.customerNumber());
+		custNoText = new TextItem(Accounter.messages().customerNumber(
+				Global.get().Customer()));
 		custNoText.setHelpInformation(true);
 		custNoText.setRequired(true);
 		custNoText.setWidth(100);
@@ -621,12 +614,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
-		accInfoForm.setGroupTitle(customerConstants.accountInformation());
+		accInfoForm.setGroupTitle(Accounter.messages().accountInformation(
+				Global.get().Account()));
 
 		statusCheck = new CheckboxItem(customerConstants.active());
 		statusCheck.setValue(true);
 
-		customerSinceDate = new DateField(customerConstants.customerSince());
+		customerSinceDate = new DateField(Accounter.messages().customerSince(
+				Global.get().Customer()));
 		customerSinceDate.setHelpInformation(true);
 		customerSinceDate.setEnteredDate(new ClientFinanceDate());
 
@@ -876,13 +871,15 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 					}
 				});
-		bankAccountSelect = new TextItem(customerConstants.bankAccountNo());
+		bankAccountSelect = new TextItem(Accounter.messages().bankAccountNo(
+				Global.get().Account()));
 		bankAccountSelect.setHelpInformation(true);
 		bankNameSelect = new TextItem(customerConstants.bankName());
 		bankNameSelect.setHelpInformation(true);
 		bankBranchSelect = new TextItem(customerConstants.bankBranch());
 		bankBranchSelect.setHelpInformation(true);
-		panNumberText = new TextItem(customerConstants.panNumber());
+		panNumberText = new TextItem(Accounter.messages().panNumber(
+				Global.get().Account()));
 		panNumberText.setHelpInformation(true);
 		cstNumberText = new TextItem(customerConstants.cstNumber());
 		cstNumberText.setHelpInformation(true);
@@ -944,8 +941,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 				});
 
-		custGroupSelect = new CustomerGroupCombo(
-				customerConstants.customerGroup());
+		custGroupSelect = new CustomerGroupCombo(Accounter.messages()
+				.customerGroup(Global.get().Customer()));
 		custGroupSelect.setHelpInformation(true);
 		custGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomerGroup>() {
@@ -973,8 +970,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		vatregno = new TextItem(Accounter.constants().vatRegistrationNumber());
 		vatregno.setHelpInformation(true);
 		vatregno.setWidth(100);
-		custTaxCode = new TAXCodeCombo(Accounter.constants().customerVATCode(),
-				true);
+		custTaxCode = new TAXCodeCombo(Accounter.messages().customerVATCode(
+				Global.get().Customer()), true);
 		custTaxCode.setHelpInformation(true);
 		custTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
@@ -58,26 +59,25 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		grid = new DialogGrid(false);
 		grid.addColumns(Accounter.constants().date(), Accounter.constants()
 				.no(), Accounter.constants().type(), UIUtils.getVendorString(
-				Accounter.constants().supplierName(), Accounter.constants()
-						.vendorName()), Accounter.constants().total());
+				Accounter.messages().supplierName(Global.get().Vendor()),
+				Accounter.messages().vendorName(Global.get().Vendor())),
+				Accounter.constants().total());
 		grid.setView(this);
 		grid.init();
 		grid.setColumnTypes(ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
 
-					@Override
-					public void OnCellDoubleClick(PurchaseOrdersList record,
-							int column) {
+			@Override
+			public void OnCellDoubleClick(PurchaseOrdersList record, int column) {
 
-						if (record != null)
-							getPurchaseOrder(record);
+				if (record != null)
+					getPurchaseOrder(record);
 
-					}
+			}
 
-				});
+		});
 
 		// getGridData();
 		setPurchaseOrderList(purchaseOrderList);
@@ -173,8 +173,8 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
+				record.getTransactionId(), callback);
 
 	}
 
@@ -193,8 +193,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 				// company.getVendor(purchaseOrder.getVendorName()).getName();
 				return purchaseOrder.getVendorName();
 			case 4:
-				return amountAsString(purchaseOrder
-						.getPurchasePrice());
+				return amountAsString(purchaseOrder.getPurchasePrice());
 			}
 		}
 		return null;

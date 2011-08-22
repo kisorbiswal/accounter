@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
@@ -33,18 +34,16 @@ public class CustomerTransactionHistoryServerReport1 extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { " ", getConstants().date(),
-				getConstants().noDot(),
-				getConstants().invoicedAmount(),
-				getConstants().paidAmount(),
-				getConstants().balance(),
-				getConstants().paymentTerms(),
-				getConstants().dueDate(), getConstants().debit(),
-				getConstants().credit() };
+				getConstants().noDot(), getConstants().invoicedAmount(),
+				getConstants().paidAmount(), getConstants().balance(),
+				getConstants().paymentTerms(), getConstants().dueDate(),
+				getConstants().debit(), getConstants().credit() };
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().customerTransactionHistory();
+		return Accounter.messages().customerTransactionHistory(
+				Global.get().Customer());
 	}
 
 	@Override
@@ -90,7 +89,8 @@ public class CustomerTransactionHistoryServerReport1 extends
 			addSection(sectionName, "", new int[0]);
 		} else if (sectionDepth == 2) {
 			// Inside fist section
-			addSection(getConstants().beginingBalance(), getConstants().endingBalance(), new int[] { 3, 5, 8, 9 });
+			addSection(getConstants().beginingBalance(), getConstants()
+					.endingBalance(), new int[] { 3, 5, 8, 9 });
 		} else if (sectionDepth == 3) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getName())) {
@@ -209,13 +209,10 @@ public class CustomerTransactionHistoryServerReport1 extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { " ", getConstants().date(),
-				getConstants().noDot(),
-				getConstants().invoicedAmount(),
-				getConstants().paidAmount(),
-				getConstants().balance(),
-				getConstants().paymentTerms(),
-				getConstants().dueDate(), getConstants().debit(),
-				getConstants().credit() };
+				getConstants().noDot(), getConstants().invoicedAmount(),
+				getConstants().paidAmount(), getConstants().balance(),
+				getConstants().paymentTerms(), getConstants().dueDate(),
+				getConstants().debit(), getConstants().credit() };
 	}
-	
+
 }

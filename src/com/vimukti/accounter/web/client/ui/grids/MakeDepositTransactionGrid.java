@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -35,7 +36,6 @@ public class MakeDepositTransactionGrid extends
 
 	private SelectItem typeCombo;
 	AccounterConstants accounterConstants = Accounter.constants();
-	
 
 	public MakeDepositTransactionGrid() {
 		super(false, true);
@@ -148,8 +148,8 @@ public class MakeDepositTransactionGrid extends
 			}
 		});
 
-		accountCombo = new MakeDepositAccountCombo(Accounter.constants()
-				.accounts());
+		accountCombo = new MakeDepositAccountCombo(Accounter.messages()
+				.accounts(Global.get().Account()));
 		accountCombo.setGrid(this);
 		// accountCombo.setWidth("600");
 		accountCombo
@@ -324,8 +324,8 @@ public class MakeDepositTransactionGrid extends
 		if (value.toString().equals("Financial Account")) {
 			selectedObject
 					.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
-			setText(currentRow, currentCol, Accounter.constants()
-					.financialAccount());
+			setText(currentRow, currentCol, Accounter.messages()
+					.financialAccount(Global.get().Account()));
 		} else if (value.toString().equals("Vendor")) {
 			selectedObject.setType(ClientTransactionMakeDeposit.TYPE_VENDOR);
 			setText(currentRow, currentCol, Accounter.constants().vendor());
@@ -368,8 +368,7 @@ public class MakeDepositTransactionGrid extends
 		case 2:
 			return obj.getReference() != null ? obj.getReference() : "";
 		case 3:
-			return amountAsString(getAmountInForeignCurrency(obj
-					.getAmount()));
+			return amountAsString(getAmountInForeignCurrency(obj.getAmount()));
 		case 4:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -441,12 +440,16 @@ public class MakeDepositTransactionGrid extends
 		switch (col) {
 		case 0:
 			if (Accounter.getCompany().getAccountingType() == 1) {
-				return new String[] { Accounter.constants().financialAccount(),
+				return new String[] {
+						Accounter.messages().financialAccount(
+								Global.get().Account()),
 						Accounter.constants().vendor(),
 						Accounter.constants().customer(),
 						Accounter.constants().vat() };
 			} else {
-				return new String[] { Accounter.constants().financialAccount(),
+				return new String[] {
+						Accounter.messages().financialAccount(
+								Global.get().Account()),
 						Accounter.constants().vendor(),
 						Accounter.constants().customer() };
 			}
@@ -483,8 +486,8 @@ public class MakeDepositTransactionGrid extends
 		return new String[] { // bankingConstants.date(),
 				// bankingConstants.no(), bankingConstants.paymentMethod(),
 				bankingConstants.receivedFrom(),
-				bankingConstants.accountFrom(), bankingConstants.reference(),
-				bankingConstants.amount(), "" };
+				Accounter.messages().accountFrom(Global.get().Account()),
+				bankingConstants.reference(), bankingConstants.amount(), "" };
 	}
 
 	@Override

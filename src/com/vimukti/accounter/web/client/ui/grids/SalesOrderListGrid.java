@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -74,7 +75,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().date(),
 				Accounter.constants().orderNumber(),
-				Accounter.constants().customerName(),
+				Accounter.messages().customerName(Global.get().Customer()),
 				Accounter.constants().totalPrice() };
 	}
 

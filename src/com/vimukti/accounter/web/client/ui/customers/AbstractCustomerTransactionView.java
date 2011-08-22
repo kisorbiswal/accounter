@@ -416,14 +416,16 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().serviceItem(), Accounter.constants()
-					.productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().serviceItem(), Accounter.constants()
+							.productItem());
 		// FinanceApplication.constants().salesTax());
 		else
-			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().serviceItem(), Accounter.constants()
-					.productItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().Account()),
+					Accounter.constants().serviceItem(), Accounter.constants()
+							.productItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
 
@@ -1064,7 +1066,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	// }
 	protected void onAddNew(String item) {
 		ClientTransactionItem transactionItem = new ClientTransactionItem();
-		if (item.equals(Accounter.constants().accounts())) {
+		if (item.equals(Accounter.messages().accounts(Global.get().Account()))) {
 			transactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 			List<ClientTAXCode> taxCodes = getCompany().getActiveTaxCodes();
 			long ztaxCodeid = 0;

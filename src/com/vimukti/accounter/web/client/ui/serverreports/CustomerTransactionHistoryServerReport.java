@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
@@ -12,9 +13,9 @@ public class CustomerTransactionHistoryServerReport extends
 		AbstractFinaneReport<TransactionHistory> {
 
 	public CustomerTransactionHistoryServerReport(
-			
-			IFinanceReport<TransactionHistory> reportView) {
-	
+
+	IFinanceReport<TransactionHistory> reportView) {
+
 		this.reportView = reportView;
 	}
 
@@ -35,28 +36,23 @@ public class CustomerTransactionHistoryServerReport extends
 	@Override
 	public String[] getColunms() {
 
-	
-			return new String[] {
-					getConstants().customer(),
-					getConstants().date(),
-					getConstants().type(),
-					getConstants().noDot(),
-					// ".invoicedAmount(),
-					// ".paidAmount(),
-					// ".paymentTerms(),
-					// ".dueDate(),
-					// ".debit(),
-					// ".credit(),
-					// ".reference(),
-					getConstants().account(),
-					getConstants().amount() };
+		return new String[] { getConstants().customer(), getConstants().date(),
+				getConstants().type(), getConstants().noDot(),
+				// ".invoicedAmount(),
+				// ".paidAmount(),
+				// ".paymentTerms(),
+				// ".dueDate(),
+				// ".debit(),
+				// ".credit(),
+				// ".reference(),
+				getConstants().account(), getConstants().amount() };
 
-		
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.constants().customerTransactionHistory();
+		return Accounter.messages().customerTransactionHistory(
+				Global.get().Customer());
 	}
 
 	public int getColumnWidth(int index) {
@@ -229,18 +225,12 @@ public class CustomerTransactionHistoryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 
-		
-			return new String[] { getConstants().customer(),
-					getConstants().date(), getConstants().type(),
-					getConstants().noDot(),
-					getConstants().account(),
-					getConstants().amount() };
-
-		
+		return new String[] { getConstants().customer(), getConstants().date(),
+				getConstants().type(), getConstants().noDot(),
+				getConstants().account(), getConstants().amount() };
 
 	}
 
-	
 	// private void printDataForIEBrowser() {
 	// String gridhtml = grid.toString();
 	// String headerhtml = grid.getHeader();

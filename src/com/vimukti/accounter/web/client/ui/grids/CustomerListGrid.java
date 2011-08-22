@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -71,7 +72,8 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 				colArray[index] = Accounter.constants().active();
 				break;
 			case 1:
-				colArray[index] = Accounter.constants().customerName();
+				colArray[index] = Accounter.messages().customerName(
+						Global.get().Customer());
 				break;
 			case 2:
 				colArray[index] = Accounter.constants().currentMonth();

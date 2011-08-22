@@ -3,10 +3,12 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class StatementServerReport extends
@@ -52,9 +54,9 @@ public class StatementServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getConstants().date(),
-				getConstants().type(), getConstants().noDot(),
-				getConstants().ageing(), getConstants().amount() };
+		return new String[] { getConstants().date(), getConstants().type(),
+				getConstants().noDot(), getConstants().ageing(),
+				getConstants().amount() };
 	}
 
 	@Override
@@ -100,7 +102,7 @@ public class StatementServerReport extends
 
 	@Override
 	public String getTitle() {
-		return getConstants().customerStatement();
+		return Accounter.messages().customerStatement(Global.get().Customer());
 	}
 
 	@Override
@@ -250,9 +252,9 @@ public class StatementServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getConstants().date(),
-				getConstants().type(), getConstants().noDot(),
-				getConstants().ageing(), getConstants().amount() };
+		return new String[] { getConstants().date(), getConstants().type(),
+				getConstants().noDot(), getConstants().ageing(),
+				getConstants().amount() };
 	}
-	
+
 }

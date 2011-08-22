@@ -10,6 +10,8 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class SetupSelectAccountsPage extends AbstractSetupPage implements
 		HasText {
@@ -56,15 +58,16 @@ public class SetupSelectAccountsPage extends AbstractSetupPage implements
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(accounterConstants.reviewIncomeAndExpensesAccounts());
-		
+		headerLabel.setText(Accounter.messages()
+				.reviewIncomeAndExpensesAccounts(Global.get().account()));
+
 		expensesInfo.setText(accounterConstants.expenseInformation());
 		recommendedInfo.setText(accounterMessages.recommendedAccounts());
 		restoreButton.setText(accounterConstants.restoreRecommendations());
 		expensesLink.setText(accounterMessages.whyshoudIUseRecommended());
 		expensesNote.setText(accounterMessages.recommendedNote());
-		reviewHead
-				.setText(accounterConstants.reviewIncomeAndExpensesAccounts());
+		reviewHead.setText(Accounter.messages()
+				.reviewIncomeAndExpensesAccounts(Global.get().account()));
 	}
 
 	@Override

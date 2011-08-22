@@ -4,6 +4,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -28,29 +30,29 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	public VerticalPanel getPageBody() {
 		VerticalPanel viewContainer = new VerticalPanel();
 
-		soleProprietorshipRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.soleProprietorship());
-		partnershipRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.partnershipOrLLP());
+		soleProprietorshipRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.soleProprietorship());
+		partnershipRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.partnershipOrLLP());
 		llcRadio = new RadioButton(ORG_TYPE, accounterConstants.LLC());
-		corporationRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.corporation());
-		sCorporationRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.sCorporation());
-		nonProfitRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.nonProfit());
-		otherNoneRadio = new RadioButton(ORG_TYPE, accounterConstants
-				.otherNone());
+		corporationRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.corporation());
+		sCorporationRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.sCorporation());
+		nonProfitRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.nonProfit());
+		otherNoneRadio = new RadioButton(ORG_TYPE,
+				accounterConstants.otherNone());
 
-		CustomLabel headerDesc = new CustomLabel(accounterConstants
-				.howIsYourCompanyOrganizedDesc());
-		soleProprietorshipLabel = new CustomLabel(accounterConstants
-				.soleProprietorshipDesc());
-		partnershipLabel = new CustomLabel(accounterConstants
-				.partnershipOrLLPDesc());
+		CustomLabel headerDesc = new CustomLabel(Accounter.messages()
+				.howIsYourCompanyOrganizedDesc(Global.get().account()));
+		soleProprietorshipLabel = new CustomLabel(
+				accounterConstants.soleProprietorshipDesc());
+		partnershipLabel = new CustomLabel(
+				accounterConstants.partnershipOrLLPDesc());
 		llcLabel = new CustomLabel(accounterConstants.LLCDesc());
-		sCorporationLabel = new CustomLabel(accounterConstants
-				.sCorporationDesc());
+		sCorporationLabel = new CustomLabel(
+				accounterConstants.sCorporationDesc());
 		corporationLabel = new CustomLabel(accounterConstants.corporationDesc());
 		nonProfitLabel = new CustomLabel(accounterConstants.nonProfitDesc());
 

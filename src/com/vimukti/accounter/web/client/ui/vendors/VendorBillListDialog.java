@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientItemReceipt;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
@@ -64,38 +65,38 @@ public class VendorBillListDialog extends BaseDialog {
 		grid = new DialogGrid(false);
 		grid.addColumns(Accounter.constants().date(), Accounter.constants()
 				.no(), Accounter.constants().type(), UIUtils.getVendorString(
-				Accounter.constants().supplierName(), Accounter.constants()
-						.vendorName()), Accounter.constants().total(),
-				Accounter.constants().remainingTotal());
+				Accounter.messages().supplierName(Global.get().Vendor()),
+				Accounter.messages().vendorName(Global.get().Vendor())),
+				Accounter.constants().total(), Accounter.constants()
+						.remainingTotal());
 		grid.setCellsWidth(60, 20, 90, -1, 60, 95);
 		grid.setView(this);
 		grid.init();
 
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersAndItemReceiptsList>() {
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersAndItemReceiptsList>() {
 
-					@Override
-					public void OnCellDoubleClick(
-							PurchaseOrdersAndItemReceiptsList core, int column) {
+			@Override
+			public void OnCellDoubleClick(
+					PurchaseOrdersAndItemReceiptsList core, int column) {
 
-						setRecord(core);
-						// try {
-						// ClientEstimate record = (ClientEstimate) core;
-						//
-						// String estimateId = record.getID();
-						// selectedEstimate = getEstimate(estimateId);
-						//
-						// if (invoiceView != null && selectedEstimate != null)
-						// invoiceView.selectedQuote(selectedEstimate);
-						//
-						// removeFromParent();
-						//
-						// } catch (Exception e) {
-						// Accounter.showError("Error Loading Quote...");
-						// }
+				setRecord(core);
+				// try {
+				// ClientEstimate record = (ClientEstimate) core;
+				//
+				// String estimateId = record.getID();
+				// selectedEstimate = getEstimate(estimateId);
+				//
+				// if (invoiceView != null && selectedEstimate != null)
+				// invoiceView.selectedQuote(selectedEstimate);
+				//
+				// removeFromParent();
+				//
+				// } catch (Exception e) {
+				// Accounter.showError("Error Loading Quote...");
+				// }
 
-					}
-				});
+			}
+		});
 
 		// getGridData();
 		// setQuoteList(estimates);
@@ -199,8 +200,8 @@ public class VendorBillListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ITEMRECEIPT, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ITEMRECEIPT,
+				record.getTransactionId(), callback);
 
 	}
 
@@ -221,8 +222,8 @@ public class VendorBillListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
+				record.getTransactionId(), callback);
 
 	}
 

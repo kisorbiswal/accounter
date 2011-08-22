@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -96,8 +97,9 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	public void showAddEditGroupDialog(ClientCustomerGroup rec) {
 		customerGroup = rec;
-		inputDlg = new InputDialog(this, customerConstants.customerGroup(), "",
-				Accounter.constants().customerGroup()) {
+		inputDlg = new InputDialog(this, Accounter.messages().customerGroup(
+				Global.get().Customer()), "", Accounter.messages()
+				.customerGroup(Global.get().Customer())) {
 		};
 
 		if (customerGroup != null) {
@@ -151,8 +153,8 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 			ClientCustomerGroup customerGroupByName = company
 					.getCustomerGroupByName(UIUtils.toStr(value));
 			if (customerGroupByName != null) {
-				result.addError(this, Accounter.constants()
-						.customerGroupAlreadyExists());
+				result.addError(this, Accounter.messages()
+						.customerGroupAlreadyExists(Global.get().Customer()));
 			}
 			// if (customerGroup != null) {
 			// if (!(customerGroup.getName().equalsIgnoreCase(
@@ -168,8 +170,8 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 							inputDlg.getTextItems().get(0).getValue()
 									.toString());
 			if (customerGroupByName2 != null) {
-				result.addError(this, Accounter.constants()
-						.customerGroupAlreadyExists());
+				result.addError(this, Accounter.messages()
+						.customerGroupAlreadyExists(Global.get().Customer()));
 			}
 		}
 		return result;

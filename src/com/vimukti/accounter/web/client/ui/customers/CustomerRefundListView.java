@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
@@ -57,7 +58,8 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return customerConstants.getCustomersRefundListViewHeading();
+		return Accounter.messages().getCustomersRefundListViewHeading(
+				Global.get().Customer());
 	}
 
 	@Override
@@ -165,8 +167,6 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 		super.fitToSize(height, width);
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
@@ -185,6 +185,6 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().customerRefunds();
+		return Accounter.messages().customerRefunds(Global.get().Customer());
 	}
 }

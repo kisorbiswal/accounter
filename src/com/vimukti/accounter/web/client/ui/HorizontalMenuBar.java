@@ -45,12 +45,13 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			}
 		}
 
-		menuitem = menuBar.addItem(Accounter.constants().customer(),
+		menuitem = menuBar.addItem(
+				Accounter.messages().Customer(Global.get().Customer()),
 				getCustomerMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		menuitem = menuBar.addItem(UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter.constants().vendor()),
+		menuitem = menuBar.addItem(
+				Accounter.messages().supplier(Global.get().Vendor()),
 				getVendorMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
@@ -496,13 +497,16 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		// reportMenuBar.addSeparator();
 		reportMenuBar.addItem(Accounter.constants().companyAndFinancial(),
 				getCompanyAndFinancialMenu());
-		reportMenuBar.addItem(Accounter.constants().customersAndReceivable(),
+		reportMenuBar.addItem(
+				Accounter.messages().customersAndReceivable(
+						Global.get().Customer()),
 				getCustomersAndReceivableMenu());
 
 		reportMenuBar.addItem(Accounter.constants().sales(), getSalesMenu());
-		reportMenuBar.addItem(UIUtils.getVendorString(Accounter.constants()
-				.suppliersAndPayables(), Accounter.constants()
-				.vendorsAndPayables()), getVendorAndPayablesMenu());
+		reportMenuBar.addItem(UIUtils.getVendorString(Accounter.messages()
+				.suppliersAndPayables(Global.get().Vendor()), Accounter
+				.messages().vendorsAndPayables(Global.get().Vendor())),
+				getVendorAndPayablesMenu());
 		reportMenuBar.addItem(Accounter.constants().purchase(),
 				getPurchaseMenu());
 		// if (Accounter.getCompany().getAccountingType() ==
@@ -713,9 +717,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}
-		vendorMenuBar.addItem(UIUtils.getVendorString(Accounter.constants()
-				.supplierLists(), Accounter.constants().vendorLists()),
-				getVendorListMenu());
+		vendorMenuBar.addItem(UIUtils.getVendorString(Accounter.messages()
+				.supplierLists(Global.get().Vendor()), Accounter.messages()
+				.vendorLists(Global.get().Vendor())), getVendorListMenu());
 		return vendorMenuBar;
 	}
 
@@ -767,7 +771,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			customerMenuBar.addItem(ActionFactory.getCustomerRefundAction());
 			customerMenuBar.addSeparator();
 		}
-		customerMenuBar.addItem(Accounter.constants().customerLists(),
+		customerMenuBar.addItem(
+				Accounter.messages().customerLists(Global.get().Customer()),
 				getCustomerListMenu());
 		return customerMenuBar;
 	}
@@ -779,7 +784,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			ItemsAction itemsAction = ActionFactory.getItemsAction();
 			itemsAction.setCatagory(ActionFactory.actionsConstants.customer());
 			customerListMenuBar.addItem(itemsAction);
-			if (getPreferences().isDoyouwantEstimates()) {
+			if (preferences.isDoyouwantEstimates()) {
 				customerListMenuBar.addItem(ActionFactory.getQuotesAction());
 			}
 			customerListMenuBar.addItem(ActionFactory.getInvoicesAction(null));
@@ -800,7 +805,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			newCustomerMenuBar.addItem(ActionFactory.getNewCustomerAction());
 			newCustomerMenuBar.addItem(ActionFactory.getNewItemAction(true));
-			if (getPreferences().isDoyouwantEstimates()) {
+			if (preferences.isDoyouwantEstimates()) {
 				newCustomerMenuBar.addItem(ActionFactory.getNewQuoteAction());
 			}
 			newCustomerMenuBar.addItem(ActionFactory.getNewInvoiceAction());
@@ -947,6 +952,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyMenuBar.addSeparator();
 		}
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			
 			if (getPreferences().getDoYouPaySalesTax()) {
 				companyMenuBar.addItem(Accounter.constants().itemTax(),
 						getSalesTaxSubmenu());
@@ -989,8 +995,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyListMenuBar.addItem(ActionFactory.getJournalEntriesAction());
 		if (Accounter.getUser().canSeeInvoiceTransactions()) {
 			ItemsAction itemsAction = ActionFactory.getItemsAction();
-			itemsAction.setCatagory(ActionFactory.actionsConstants
-					.bothCustomerAndVendor());
+			itemsAction.setCatagory(Accounter.messages().bothCustomerAndVendor(
+					Global.get().Customer(), Global.get().Vendor()));
 			companyListMenuBar.addItem(itemsAction);
 		}
 		companyListMenuBar.addItem(ActionFactory.getCustomersAction());

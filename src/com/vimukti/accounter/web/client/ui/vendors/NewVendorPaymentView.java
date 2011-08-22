@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -127,10 +128,9 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(
-				UIUtils.getVendorString(Accounter.constants()
-						.supplierPrePayment(), Accounter.constants()
-						.vendorPrePayment())
+		Label lab1 = new Label(UIUtils.getVendorString(Accounter.messages()
+				.supplierPrePayment(Global.get().Vendor()), Accounter
+				.messages().vendorPrePayment(Global.get().Vendor()))
 		// + "(" + getTransactionStatus() + ") "
 		);
 		lab1.setStyleName(Accounter.constants().labelTitle());
@@ -172,8 +172,8 @@ public class NewVendorPaymentView extends
 		endBalText.setDisabled(true);
 
 		vendorBalText = new AmountField(UIUtils.getVendorString(Accounter
-				.constants().supplierBalance(), Accounter.constants()
-				.vendorBalance()), this);
+				.messages().supplierBalance(Global.get().Vendor()), Accounter
+				.messages().vendorBalance(Global.get().Vendor())), this);
 		vendorBalText.setHelpInformation(true);
 		vendorBalText.setDisabled(true);
 		vendorBalText.setWidth(100);
@@ -552,7 +552,7 @@ public class NewVendorPaymentView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -681,8 +681,8 @@ public class NewVendorPaymentView extends
 	@Override
 	protected String getViewTitle() {
 		return UIUtils.getVendorString(
-				Accounter.constants().supplierPayments(), Accounter.constants()
-						.vendorPayments());
+				Accounter.messages().supplierPayments(Global.get().Vendor()),
+				Accounter.messages().vendorPayments(Global.get().Vendor()));
 	}
 
 }

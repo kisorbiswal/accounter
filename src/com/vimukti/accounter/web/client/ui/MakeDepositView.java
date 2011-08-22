@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
@@ -350,7 +351,8 @@ public class MakeDepositView extends
 		// FIXME-- check the condition,there is no possiblity of type/account to
 		// be '0'
 		if (rec.getType() == 0 || (rec.getAccount() == 0)) {
-			Accounter.showError(Accounter.constants().pleaseChooseAnAccount());
+			Accounter.showError(Accounter.messages().pleaseChooseAnAccount(
+					Global.get().account()));
 			return false;
 		}
 		return true;
@@ -775,8 +777,8 @@ public class MakeDepositView extends
 			}
 		});
 
-		cashBackAccountSelect = new CashBackAccountsCombo(Accounter.constants()
-				.cashBackAccount());
+		cashBackAccountSelect = new CashBackAccountsCombo(Accounter.messages()
+				.cashBackAccount(Global.get().Account()));
 		cashBackAccountSelect.setHelpInformation(true);
 		cashBackAccountSelect.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.CASH_BACK_ACCOUNTS_COMBO));

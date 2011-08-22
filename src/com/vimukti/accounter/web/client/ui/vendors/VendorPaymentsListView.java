@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -45,17 +46,17 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return UIUtils.getVendorString(Accounter.constants()
-				.addANewSupplierPayment(), Accounter.constants()
-				.addANewVendorPayment());
+		return UIUtils.getVendorString(Accounter.messages()
+				.addANewSupplierPayment(Global.get().Vendor()), Accounter
+				.messages().addANewVendorPayment(Global.get().Vendor()));
 	}
 
 	@Override
 	protected String getListViewHeading() {
 
-		return UIUtils.getVendorString(Accounter.constants()
-				.supplierPaymentList(), Accounter.constants()
-				.vendorPaymentsList());
+		return UIUtils.getVendorString(Accounter.messages()
+				.supplierPaymentList(Global.get().Vendor()), Accounter
+				.messages().vendorPaymentsList(Global.get().Vendor()));
 	}
 
 	@Override
@@ -196,7 +197,7 @@ public class VendorPaymentsListView extends BaseListView<PaymentsList> {
 	@Override
 	protected String getViewTitle() {
 		return UIUtils.getVendorString(
-				Accounter.constants().supplierPayments(), Accounter.constants()
-						.vendorPayments());
+				Accounter.messages().supplierPayments(Global.get().Vendor()),
+				Accounter.messages().vendorPayments(Global.get().Vendor()));
 	}
 }

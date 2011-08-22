@@ -12,6 +12,7 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.NoSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -207,8 +208,9 @@ public class BillsTable extends BaseTable<BillsList> {
 						.compareTo(o2.getVendorName().toLowerCase());
 			}
 		};
-		this.addColumn(vendor, UIUtils.getVendorString(Accounter.constants()
-				.supplierName(), Accounter.constants().vendorName()));
+		this.addColumn(vendor, UIUtils.getVendorString(Accounter.messages()
+				.supplierName(Global.get().Vendor()), Accounter.messages()
+				.vendorName(Global.get().Vendor())));
 
 		DecimalTextColumn<BillsList> originalAmount = new DecimalTextColumn<BillsList>() {
 

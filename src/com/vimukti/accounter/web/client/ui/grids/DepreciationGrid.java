@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientDepreciationDummyEntry;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -37,8 +38,8 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 	}
 
 	private void createControls() {
-		accountsCombo = new FixedAssetAccountCombo(Accounter.constants()
-				.accounts());
+		accountsCombo = new FixedAssetAccountCombo(Accounter.messages()
+				.accounts(Global.get().Account()));
 		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
 		accountsCombo
@@ -95,9 +96,11 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.constants().account(),
+		return new String[] {
+				Accounter.constants().account(),
 				Accounter.constants().amounttobeDepreciated(),
-				Accounter.constants().accumulatedDepreciationAccount() };
+				Accounter.messages().accumulatedDepreciationAccount(
+						Global.get().account()) };
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -56,7 +57,7 @@ public class SetupWizard extends VerticalPanel {
 			Accounter.constants().setCurrency(),
 			Accounter.constants().setBillTracking(),
 			Accounter.constants().setFiscalYear(),
-			Accounter.constants().selectRequiredAccounts() };
+			Accounter.messages().selectRequiredAccounts(Global.get().Account()) };
 	private AbstractSetupPage previousView;
 	private AbstractSetupPage viewToShow;
 	private int progressImagesIndex;

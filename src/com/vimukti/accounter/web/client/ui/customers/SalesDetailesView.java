@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
@@ -103,7 +104,7 @@ public class SalesDetailesView extends ParentCanvas {
 		orderNumberField = new HTML();
 
 		Label conLabel = new Label();
-		conLabel.setText(Accounter.constants().customerOrderNumber());
+		conLabel.setText(Accounter.messages().customerOrderNumber(Global.get().customer()));
 		conLabel.setStyleName("selectedview_labelstyle");
 
 		customerNumberField = new HTML();

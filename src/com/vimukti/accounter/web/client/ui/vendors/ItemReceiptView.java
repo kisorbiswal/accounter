@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -98,9 +99,9 @@ public class ItemReceiptView extends
 		// formItems.add(transactionDateItem);
 		// formItems.add(transactionNumber);
 
-		vendorCombo = createVendorComboItem(UIUtils
-				.getVendorString(Accounter.constants().supplierName(),
-						Accounter.constants().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
+				.messages().supplierName(Global.get().Vendor()), Accounter
+				.messages().vendorName(Global.get().Vendor())));
 		vendorCombo.setWidth(100);
 		purchaseLabel = new LinkItem();
 		purchaseLabel.setLinkTitle(Accounter.constants().purchaseOrders());
@@ -471,9 +472,9 @@ public class ItemReceiptView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (getVendor() == null) {
-			Accounter.showError(UIUtils.getVendorString(Accounter.constants()
-					.pleaseSelectSupplier(), Accounter.constants()
-					.pleaseSelectVendor()));
+			Accounter.showError(UIUtils.getVendorString(Accounter.messages()
+					.pleaseSelectSupplier(Global.get().vendor()), Accounter
+					.messages().pleaseSelectVendor(Global.get().vendor())));
 		} else {
 			this.rpcUtilService
 					.getNotReceivedPurchaseOrdersList(
@@ -552,7 +553,7 @@ public class ItemReceiptView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// NOTHING TO DO.
 	}
 
@@ -574,19 +575,19 @@ public class ItemReceiptView extends
 		// 6. validateGrid?
 
 		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateTransactionDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateTransactionDate());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-			result.addError(transactionDate, accounterConstants
-					.invalidateDate());
+			result.addError(transactionDate,
+					accounterConstants.invalidateDate());
 		}
 
 		result.add(vendorForm.validate());
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 
 			result.addError(deliveryDateItem, Accounter.constants().the()
 					+ " "
@@ -598,8 +599,8 @@ public class ItemReceiptView extends
 
 		}
 		if (AccounterValidator.isBlankTransaction(vendorTransactionGrid)) {
-			result.addError(vendorTransactionGrid, accounterConstants
-					.blankTransaction());
+			result.addError(vendorTransactionGrid,
+					accounterConstants.blankTransaction());
 		} else
 			result.add(vendorTransactionGrid.validateGrid());
 		return result;

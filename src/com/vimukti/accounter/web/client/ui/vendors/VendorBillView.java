@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -338,9 +339,9 @@ public class VendorBillView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		vendorCombo = createVendorComboItem(UIUtils
-				.getVendorString(Accounter.constants().supplierName(),
-						Accounter.constants().vendorName()));
+		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
+				.messages().supplierName(Global.get().Vendor()), Accounter
+				.messages().vendorName(Global.get().Vendor())));
 		// vendorCombo.setWidth(100);
 		// purchaseLabel = new LinkItem();
 		// purchaseLabel.setLinkTitle(FinanceApplication.constants()
@@ -751,7 +752,8 @@ public class VendorBillView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (getVendor() == null) {
-			Accounter.showError(Accounter.constants().pleaseSelectTheVendor());
+			Accounter.showError(Accounter.messages().pleaseSelectTheVendor(
+					Global.get().Vendor()));
 		} else {
 
 			if (dialog != null && dialog.preVendor != null

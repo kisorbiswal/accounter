@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ViewConfiguration;
@@ -31,8 +32,8 @@ public class SelectAccountTypeDialog extends BaseDialog {
 
 	public SelectAccountTypeDialog(List<Integer> options,
 			ViewConfiguration configuration) {
-		super(Accounter.constants().selectAccountType(), Accounter.constants()
-				.selectAccountType());
+		super(Accounter.messages().selectAccountType(Global.get().Account()),
+				Accounter.messages().selectAccountType(Global.get().Account()));
 		this.options = options;
 		this.configuration = configuration;
 		createControls();
@@ -45,8 +46,8 @@ public class SelectAccountTypeDialog extends BaseDialog {
 
 		incomeAndExpenseForm = new DynamicForm();
 		incomeAndExpenseForm.setIsGroup(true);
-		incomeAndExpenseForm.setGroupTitle(Accounter.constants()
-				.incomeAndExpenseAccounts());
+		incomeAndExpenseForm.setGroupTitle(Accounter.messages()
+				.incomeAndExpenseAccounts(Global.get().Account()));
 		// incomeAndExpenseForm.setWrapItemTitles(false);
 		// incomeAndExpenseForm.setItemLayout(FormLayoutType.ABSOLUTE);
 		// incomeAndExpenseForm.setMargin(10);
@@ -61,18 +62,20 @@ public class SelectAccountTypeDialog extends BaseDialog {
 		accountTypes = new LinkedHashMap<String, String>();
 		if (options != null && options.size() != 0) {
 			for (int type : options) {
-				accountTypes.put(String.valueOf(type), " "
-						+ UIUtils.nbsp(Utility.getAccountTypeString(type))
-						+ " ");
+				accountTypes.put(String.valueOf(type),
+						" " + UIUtils.nbsp(Utility.getAccountTypeString(type))
+								+ " ");
 			}
 			defaultId = String.valueOf(options.get(0));
 
 		} else {
 			for (int i = 0; i < UIUtils.accountTypes.length - 2; i++) {
-				accountTypes.put(String.valueOf(UIUtils.accountTypes[i]), " "
-						+ UIUtils.nbsp(Utility
-								.getAccountTypeString(UIUtils.accountTypes[i]))
-						+ " ");
+				accountTypes
+						.put(String.valueOf(UIUtils.accountTypes[i]),
+								" "
+										+ UIUtils.nbsp(Utility
+												.getAccountTypeString(UIUtils.accountTypes[i]))
+										+ " ");
 
 			}
 			defaultId = String.valueOf(UIUtils.accountTypes[0]);

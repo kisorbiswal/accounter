@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -232,8 +233,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		 * }
 		 */
 
-		customerCombo = createCustomerComboItem(customerConstants
-				.customerName());
+		customerCombo = createCustomerComboItem(Accounter.messages()
+				.customerName(Global.get().Customer()));
 		customerCombo.setHelpInformation(true);
 		customerCombo.setWidth("100%");
 		quoteLabel = new LabelItem();
@@ -1143,7 +1144,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	public void saveAndUpdateView() {
 
 		updateTransaction();
-		// saveOrUpdate(getCustomer());
+		saveOrUpdate(getCustomer());
 		saveOrUpdate(transaction);
 
 	}
@@ -1343,7 +1344,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (this.rpcUtilService == null)
 			return;
 		if (getCustomer() == null) {
-			Accounter.showError(Accounter.constants().pleaseSelectCustomer());
+			Accounter.showError(Accounter.messages().pleaseSelectCustomer(Global.get().customer()));
 		} else {
 
 			// if (dialog != null && dialog.preCustomer != null
@@ -1652,9 +1653,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		return Accounter.constants().invoice();
 	}
 
-	@Override
-	public void exportToCsv() {
-	}
 
 	@Override
 	public boolean canPrint() {

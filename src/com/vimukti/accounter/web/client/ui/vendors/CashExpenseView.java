@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -210,11 +211,13 @@ public class CashExpenseView extends CashPurchaseView {
 	@Override
 	public void showMenu(Widget button) {
 		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US)
-			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().serviceItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().account()),
+					Accounter.constants().serviceItem());
 		else
-			setMenuItems(button, Accounter.constants().accounts(), Accounter
-					.constants().serviceItem());
+			setMenuItems(button,
+					Accounter.messages().accounts(Global.get().account()),
+					Accounter.constants().serviceItem());
 	}
 
 	@Override

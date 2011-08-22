@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -200,8 +201,8 @@ public class VendorTransactionGrid extends
 				});
 		productItemCombo.setGrid(this);
 
-		accountsCombo = new PurchaseAccountsCombo(Accounter.constants()
-				.accounts(), isAddNewRequired);
+		accountsCombo = new PurchaseAccountsCombo(Accounter.messages()
+				.accounts(Global.get().Account()), isAddNewRequired);
 		accountsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -328,7 +329,6 @@ public class VendorTransactionGrid extends
 					}
 				});
 		// taxCodeCombo.setGrid(this);
-
 
 		taxCodeCombo = new TAXCodeCombo(Accounter.constants().vatCode(),
 				isAddNewRequired, false);
@@ -784,10 +784,10 @@ public class VendorTransactionGrid extends
 		case 4:
 			if (item.getType() != ClientTransactionItem.TYPE_ACCOUNT)
 				return amountAsString(getAmountInForeignCurrency(item
-								.getUnitPrice()));
+						.getUnitPrice()));
 			else {
 				return (item.getUnitPrice() != 0 || item.getLineTotal() == 0) ? amountAsString(getAmountInForeignCurrency(item
-								.getUnitPrice())) : "";
+						.getUnitPrice())) : "";
 			}
 		case 5:
 			return amountAsString(getAmountInForeignCurrency(item
@@ -807,7 +807,7 @@ public class VendorTransactionGrid extends
 		case 7:
 			if (this.accountingType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				return amountAsString(getAmountInForeignCurrency(item
-								.getVATfraction()));
+						.getVATfraction()));
 			} else {
 				return Accounter.getFinanceMenuImages().delete();
 			}

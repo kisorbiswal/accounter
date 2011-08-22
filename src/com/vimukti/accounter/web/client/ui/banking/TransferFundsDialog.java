@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -58,10 +59,10 @@ public class TransferFundsDialog extends BaseDialog {
 	private Double transferAmount = 0D;
 	private Button editButton;
 	public boolean isValidatedTransferAmount = false;
-	
+
 	public TransferFundsDialog(Object data) {
-		super(Accounter.constants().transferFunds(), Accounter.constants()
-				.toTransferFunds());
+		super(Accounter.constants().transferFunds(), Accounter.messages()
+				.toTransferFunds(Global.get().account()));
 		createControls();
 		addAccountsNameToList();
 		addAccountsName2ToList();
@@ -86,7 +87,8 @@ public class TransferFundsDialog extends BaseDialog {
 		accountComboFrom.setSelected(fromAccount != null ? accountComboFrom
 				.getDisplayName(fromAccount) : "");
 		accountComboFrom.setDisabled(true);
-		balanceFromText.setValue(amountAsString(fromAccount != null ? fromAccount
+		balanceFromText
+				.setValue(amountAsString(fromAccount != null ? fromAccount
 						.getTotalBalance() : 0.0));
 		ClientAccount toAccount = getCompany().getAccount(data.getTransferTo());
 		accountTo = toAccount;
@@ -94,7 +96,7 @@ public class TransferFundsDialog extends BaseDialog {
 				.getDisplayName(toAccount) : "");
 		accountComboTo.setDisabled(true);
 		balanceToText.setValue(amountAsString(toAccount != null ? toAccount
-						.getTotalBalance() : 0.0));
+				.getTotalBalance() : 0.0));
 		memoText.setValue(data.getMemo());
 		memoText.setDisabled(true);
 		amountText.setValue(amountAsString(data.getTotal()));
@@ -118,8 +120,8 @@ public class TransferFundsDialog extends BaseDialog {
 
 		// Transfer From
 
-		accountComboFrom = new IncomeAndExpensesAccountCombo(bankingConstants
-				.fromAccount());
+		accountComboFrom = new IncomeAndExpensesAccountCombo(Accounter
+				.messages().fromAccount(Global.get().Account()));
 
 		accountComboFrom.setRequired(true);
 		// accountComboFrom.setWidth("*");
@@ -157,8 +159,8 @@ public class TransferFundsDialog extends BaseDialog {
 
 		// Transfer To
 
-		accountComboTo = new IncomeAndExpensesAccountCombo(bankingConstants
-				.toAccount());
+		accountComboTo = new IncomeAndExpensesAccountCombo(Accounter.messages()
+				.toAccount(Global.get().Account()));
 		// accountComboTo.setAddNewCaptionTitle(CustomCombo.addNewBankAccount);
 
 		accountComboTo.setRequired(true);
@@ -276,15 +278,13 @@ public class TransferFundsDialog extends BaseDialog {
 	}
 
 	protected void updateToBalance(ClientAccount accountTo) {
-		balanceToText.setValue(amountAsString(accountTo
-				.getTotalBalance()));
+		balanceToText.setValue(amountAsString(accountTo.getTotalBalance()));
 
 	}
 
 	protected void updateFromBalance(ClientAccount accountFrom) {
 
-		balanceFromText.setValue(amountAsString(accountFrom
-				.getTotalBalance()));
+		balanceFromText.setValue(amountAsString(accountFrom.getTotalBalance()));
 
 	}
 
@@ -342,7 +342,7 @@ public class TransferFundsDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -401,5 +401,5 @@ public class TransferFundsDialog extends BaseDialog {
 		createTransferFundsDialog();
 		return false;
 	}
-	
+
 }

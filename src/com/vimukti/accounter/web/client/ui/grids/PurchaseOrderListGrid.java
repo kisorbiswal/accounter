@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
@@ -29,8 +30,10 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 		return new String[] {
 				Accounter.constants().date(),
 				Accounter.constants().number(),
-				UIUtils.getVendorString(Accounter.constants().supplierName(),
-						Accounter.constants().vendorName()),
+				UIUtils.getVendorString(
+						Accounter.messages()
+								.supplierName(Global.get().Vendor()), Accounter
+								.messages().vendorName(Global.get().Vendor())),
 				Accounter.constants().purchasePrice() };
 	}
 
