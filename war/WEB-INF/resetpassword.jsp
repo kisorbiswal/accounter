@@ -39,7 +39,7 @@ $(document).ready(function() {
 	
 	$('.reset_password').click(function(){
 	    $('.indication-box').remove();	
-	     $('#reset_hint_box').append("<div class='indication-box'><div class='left-arrow'></div><div class='box-data'>Use 3 to 60characters, don't use your name or Zoho ID. Use mix of lower/uppercase letters, numbers and special characters</div></div>");        
+	     $('#reset_hint_box').append("<div class='indication-box'><div class='left-arrow'></div><div class='box-data'>Use 3 to 60characters, don't use your name. Use mix of lower/uppercase letters, numbers and special characters</div></div>");        
 	    }).blur(function() {
 	        $('.indication-box').remove();
 	 });
