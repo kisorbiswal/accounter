@@ -85,6 +85,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 
 			company.getUsers().add(user);
 			company.setCompanyEmail(user.getEmail());
+			company.setConfigured(true);
 			companySession.save(company);
 
 			// Create Attachment Directory for company
@@ -95,7 +96,7 @@ public class InitializeCompanyServlet extends BaseServlet {
 				file.mkdir();
 			}
 
-			// company.initialize();
+			company.initialize(null);
 
 			FinanceTool.createView();
 
