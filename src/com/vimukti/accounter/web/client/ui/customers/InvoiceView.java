@@ -53,6 +53,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -71,7 +72,8 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * @modified by B.Srinivasa Rao
  * 
  */
-public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> {
+public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
+		implements IPrintableView {
 
 	private CurrencyWidget currencyWidget;
 	private Button recurringButton;
@@ -523,9 +525,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 						disabletextbox, paymentsNonEditableText,
 						disabletextbox, balanceDueNonEditableText);
 			} else {
-				amountsForm.setFields(transactionTotalNonEditableText, disabletextbox,
-						paymentsNonEditableText, disabletextbox,
-						balanceDueNonEditableText);
+				amountsForm.setFields(transactionTotalNonEditableText,
+						disabletextbox, paymentsNonEditableText,
+						disabletextbox, balanceDueNonEditableText);
 			}
 
 			prodAndServiceHLay.add(amountsForm);
@@ -1651,5 +1653,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 
 	@Override
 	public void exportToCsv() {
+	}
+
+	@Override
+	public boolean canPrint() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }
