@@ -68,6 +68,8 @@ public class ViewManager extends HorizontalPanel {
 
 	private SimplePanel viewHolder;
 
+	ButtonGroup group4;
+
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
 		addStyleName("view_manager");
@@ -242,9 +244,9 @@ public class ViewManager extends HorizontalPanel {
 	public void updateButtons() {
 		if (existingView instanceof IEditableView
 				&& ((IEditableView) existingView).canEdit()) {
-			group2.add(editButton);
+			group4.add(editButton);
 		} else {
-			group2.remove(editButton);
+			group4.remove(editButton);
 		}
 
 		if (existingView instanceof IPrintableView) {
@@ -348,6 +350,7 @@ public class ViewManager extends HorizontalPanel {
 		group1 = new ButtonGroup();
 		group2 = new ButtonGroup();
 		group3 = new ButtonGroup();
+		group4 = new ButtonGroup();
 		viewTitleLabel = new Label(Accounter.constants().dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
 
@@ -413,7 +416,7 @@ public class ViewManager extends HorizontalPanel {
 		group1.add(previousButton);
 		group1.add(viewTitleLabel);
 
-		group2.add(editButton);
+		group4.add(editButton);
 
 		group2.add(exportButton);
 		group2.add(printButton);
@@ -421,6 +424,7 @@ public class ViewManager extends HorizontalPanel {
 		group3.add(closeButton);
 
 		toolBar.add(HasHorizontalAlignment.ALIGN_LEFT, group1);
+		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group4);
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group2);
 		toolBar.add(HasHorizontalAlignment.ALIGN_RIGHT, group3);
 		toolBar.addStyleName("group-toolbar");
