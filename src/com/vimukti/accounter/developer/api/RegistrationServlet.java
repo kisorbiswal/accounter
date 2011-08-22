@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Developer;
@@ -94,6 +95,7 @@ public class RegistrationServlet extends BaseServlet {
 			req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
 		}
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		Transaction transaction = hibernateSession.beginTransaction();
 		try {
 			Client client = getClient(emailId);
 			if (client == null) {
@@ -147,9 +149,10 @@ public class RegistrationServlet extends BaseServlet {
 			developer.setSecretKey(secretKey);
 			saveEntry(developer);
 			sendApiInfoPage(developer, req, resp);
-
+			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			transaction.rollback();
 		} finally {
 			if (hibernateSession != null) {
 				hibernateSession.close();
