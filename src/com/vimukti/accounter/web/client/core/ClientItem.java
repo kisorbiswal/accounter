@@ -2,13 +2,14 @@ package com.vimukti.accounter.web.client.core;
 
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 
-public class ClientItem extends BaseReport implements IAccounterCore, IAccountable {
+public class ClientItem extends BaseReport implements IAccounterCore,
+		IAccountable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int TYPE_SERVICE = 1;
 	public static final int TYPE_INVENTORY_PART = 2;
 
@@ -394,6 +395,18 @@ public class ClientItem extends BaseReport implements IAccounterCore, IAccountab
 		ClientItem item = (ClientItem) this.clone();
 		return item;
 
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ClientItem) {
+			ClientItem item = (ClientItem) obj;
+			if (this.getID() == item.getID())
+				return true;
+		} else {
+			return false;
+		}
+		return false;
 	}
 
 }
