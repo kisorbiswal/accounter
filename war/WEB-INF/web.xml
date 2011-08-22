@@ -515,7 +515,7 @@
 		<param-name>version</param-name>
 		<param-value>1.0.0.2</param-value>
 	</context-param>
-	<servlet-mapping>
+	<!--<servlet-mapping>
 		<servlet-name>maintanance</servlet-name>
 		<url-pattern>/maintanance</url-pattern>
 	</servlet-mapping>
@@ -523,6 +523,6 @@
 		<servlet-name>maintanance</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.MaintananceServlet
 		</servlet-class>
-	</servlet>
+	</servlet>  -->
 
 </web-app>
