@@ -117,9 +117,9 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		// session.save(fiscalYear);
 
 		Account saelsTaxVAT = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
-				"2120", AccounterServerConstants.SALES_TAX_VAT_UNFILED, true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "113", true,
+				"2120", AccounterServerConstants.SALES_TAX_VAT_UNFILED, true,
+				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
+				0.0, null, true, false, openingBalancesAccount, "113", true,
 				this.preferences.getPreventPostingBeforeDate());
 
 		session.save(saelsTaxVAT);
@@ -372,7 +372,6 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		createUKDefaultVATCodesAndVATAgency(session);
 		// createNominalCodesRanges(session);
 		// createDefaultBrandingTheme(session);
-		
 
 	}
 
@@ -494,8 +493,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 		PaymentTerms dueOnReceipt = new PaymentTerms(
 				AccounterServerConstants.PM_DUE_ON_RECEIPT,
-				AccounterServerConstants.DUE_ON_RECEIPT, 0, 0, PaymentTerms.DUE_NONE,
-				0, true);
+				AccounterServerConstants.DUE_ON_RECEIPT, 0, 0,
+				PaymentTerms.DUE_NONE, 0, true);
 
 		session.save(dueOnReceipt);
 
@@ -530,7 +529,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 		// Current Fiscal Year creation
 
 		VendorGroup creditCardCompanies = new VendorGroup();
-		creditCardCompanies.setName(AccounterServerConstants.CREDIT_CARD_COMPANIES);
+		creditCardCompanies
+				.setName(AccounterServerConstants.CREDIT_CARD_COMPANIES);
 		creditCardCompanies.setDefault(true);
 		session.save(creditCardCompanies);
 
@@ -662,12 +662,14 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 			defaultVATAgency.setSalesLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
-					.setString(0, AccounterServerConstants.SALES_TAX_VAT_UNFILED)
+					.setString(0,
+							AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					.list().get(0));
 
 			defaultVATAgency.setPurchaseLiabilityAccount((Account) session
 					.getNamedQuery("unique.name.Account")
-					.setString(0, AccounterServerConstants.SALES_TAX_VAT_UNFILED)
+					.setString(0,
+							AccounterServerConstants.SALES_TAX_VAT_UNFILED)
 					.list().get(0));
 
 			defaultVATAgency.setDefault(true);
@@ -1058,7 +1060,7 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	public void init() {
-		super.init();
+		// super.init();
 		initDefaultUKAccounts();
 		// createUKDefaultVATCodesAndVATAgency(session);
 

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.company.initialize;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
@@ -17,6 +18,8 @@ import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
+import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 
 public abstract class CompanyInitializer {
@@ -82,10 +85,25 @@ public abstract class CompanyInitializer {
 	/**
 	 * this is used to get the company type
 	 */
-	public void init() {
+	public void init(List<TemplateAccount> defaultAccounts) {
 		Session session = HibernateUtil.getCurrentSession();
 
 		intializeCompanyValues();
+		if (defaultAccounts != null) {
+			VList<Account> accounts = new VList<Account>();
+			for (int accountId = 1; accountId <= defaultAccounts.size(); accountId++) {
+				TemplateAccount account = defaultAccounts.get(accountId);
+				Account defaultAccount = new Account(account.getTypeAsInt(),
+						"", account.getName(), true, null,
+						account.getCashFlowAsInt(), 0.0, false, "", 0.0, null,
+						true, true, null, String.valueOf(accountId), true,
+						this.preferences.getPreventPostingBeforeDate());
+
+				session.save(defaultAccount);
+				accounts.add(defaultAccount);
+			}
+			company.setAccounts(accounts);
+		}
 
 		openingBalancesAccount = new Account(Account.TYPE_EQUITY, "3040",
 				AccounterServerConstants.OPENING_BALANCE, true, null,
@@ -102,7 +120,12 @@ public abstract class CompanyInitializer {
 		initializeDefaultEquityAccounts();
 
 		session.saveOrUpdate(company);
+
+		init();
+
 	}
+
+	protected abstract void init();
 
 	public Company getCompany() {
 		return company;

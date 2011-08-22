@@ -13,7 +13,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	public void init() {
-		super.init();
+		// super.init();
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -230,8 +229,8 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 		PaymentTerms dueOnReceipt = new PaymentTerms(
 				AccounterServerConstants.PM_DUE_ON_RECEIPT,
-				AccounterServerConstants.DUE_ON_RECEIPT, 0, 0, PaymentTerms.DUE_NONE,
-				0, true);
+				AccounterServerConstants.DUE_ON_RECEIPT, 0, 0,
+				PaymentTerms.DUE_NONE, 0, true);
 
 		session.save(dueOnReceipt);
 
@@ -249,7 +248,8 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 		session.save(netSixty);
 
-		PaymentTerms monthly = new PaymentTerms(AccounterServerConstants.PM_MONTHLY,
+		PaymentTerms monthly = new PaymentTerms(
+				AccounterServerConstants.PM_MONTHLY,
 				AccounterServerConstants.SALES_TAX_PAID_MONTHLY, 0, 0,
 				PaymentTerms.DUE_CURRENT_MONTH, 30, true);
 
@@ -328,7 +328,8 @@ public class USCompanyInitializer extends CompanyInitializer {
 		}
 
 		VendorGroup creditCardCompanies = new VendorGroup();
-		creditCardCompanies.setName(AccounterServerConstants.CREDIT_CARD_COMPANIES);
+		creditCardCompanies
+				.setName(AccounterServerConstants.CREDIT_CARD_COMPANIES);
 		creditCardCompanies.setDefault(true);
 		session.save(creditCardCompanies);
 
@@ -491,7 +492,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 
 	@Override
 	public void init() {
-		super.init();
+		// super.init();
 		initDefaultUSAccounts();
 	}
 
