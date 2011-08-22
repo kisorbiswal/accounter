@@ -462,6 +462,11 @@ public class WriteChequeView extends
 		// transactionCustomerGrid)) ERROR
 		// else transactionVendorGrid or transactionCustomerGrid validation
 		// 4. if(!validPositiveAmount(gridTotalAmount)) ERROR
+		if (result.getErrors().size()>0)
+			return result;
+		if (payForm!=null){
+			result.add(payForm.validate());
+		}
 		if (transaction == null) {
 
 			result.add(DynamicForm.validate(payForm, bankAccForm));
@@ -556,6 +561,7 @@ public class WriteChequeView extends
 		transaction.setAddress(billingAddress);
 
 		// Setting Transactions
+		if (payee!=null)
 		switch (payee.getType()) {
 		case ClientPayee.TYPE_CUSTOMER:
 			transaction.setPayToType(ClientWriteCheck.TYPE_CUSTOMER);
@@ -592,7 +598,7 @@ public class WriteChequeView extends
 
 			break;
 		}
-
+		transaction.setTotal(amtText.getAmount());
 		transaction.setAmount(amtText.getAmount());
 		transaction.setInWords(amtText.getValue().toString());
 
