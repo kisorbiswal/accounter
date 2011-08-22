@@ -91,10 +91,9 @@ public class ItemView extends BaseView<ClientItem> {
 
 	private SelectCombo measurement, wareHouse;
 
-	public ItemView(ClientItem item, int type, boolean isGeneratedFromCustomer) {
+	public ItemView(int type, boolean isGeneratedFromCustomer) {
 
 		super();
-		setData(item);
 		this.type = type;
 		this.company = getCompany();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;

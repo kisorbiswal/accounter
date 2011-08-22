@@ -60,7 +60,7 @@ public class NewItemAction extends Action<ClientItem> {
 
 				} else {
 
-					ItemView view = new ItemView(data, type, forCustomer);
+					ItemView view = new ItemView(type, forCustomer);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
 				}
