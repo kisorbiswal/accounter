@@ -109,7 +109,8 @@ public class ReportsGenerator {
 	public static final int GENERATIONTYPECSV = 1002;
 
 	public ReportsGenerator(int reportType, long starDate, long endDate,
-			String navigateObjectName, int generationType) {
+			String navigateObjectName, int generationType, int companyType) {
+		ReportsGenerator.companyType = companyType;
 		this.reportType = reportType;
 		this.startDate = new FinanceDate(starDate);
 		this.endDate = new FinanceDate(endDate);
@@ -117,7 +118,9 @@ public class ReportsGenerator {
 	}
 
 	public ReportsGenerator(int reportType, long starDate, long endDate,
-			String navigateObjectName, int generationType, String status) {
+			String navigateObjectName, int generationType, String status,
+			int companyType) {
+		ReportsGenerator.companyType = companyType;
 		this.reportType = reportType;
 		this.startDate = new FinanceDate(starDate);
 		this.endDate = new FinanceDate(endDate);
@@ -1164,7 +1167,10 @@ public class ReportsGenerator {
 		case REPORT_TYPE_AP_AGEINGDETAIL:
 			return "AP Ageing Detail Report";
 		case REPORT_TYPE_VENDORTRANSACTIONHISTORY:
-			return "Supplier Transaction History Report";
+			if (ReportsGenerator.companyType == Company.ACCOUNTING_TYPE_UK)
+				return "Supplier Transaction History Report";
+			if (ReportsGenerator.companyType == Company.ACCOUNTING_TYPE_US)
+				return "Vendor Transaction History Report";
 		case REPORT_TYPE_PURCHASEBYVENDORSUMMARY:
 			return "Purchase By Supplier Summary Report";
 		case REPORT_TYPE_PURCHASEBYVENDORDETAIL:
