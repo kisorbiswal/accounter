@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -266,7 +267,7 @@ public class MakeDepositView extends
 					gridView.removeAllRecords();
 					gridView.setRecords(result);
 
-				} else if (!isEdit) {
+				} else if (!isInViewMode()) {
 					gridView.removeAllRecords();
 					Accounter.showError(Accounter.constants()
 							.noDepositsToShow());
@@ -361,7 +362,7 @@ public class MakeDepositView extends
 		gridView.setCanEdit(true);
 		gridView.init();
 		gridView.setHeight("250px");
-		gridView.setDisabled(isEdit);
+		gridView.setDisabled(isInViewMode());
 		gridView.getElement().getStyle().setMarginTop(10, Unit.PX);
 	}
 
@@ -594,7 +595,7 @@ public class MakeDepositView extends
 		super.initData();
 		getDepositInAccounts();
 
-		if (isEdit) {
+		if (isInViewMode()) {
 			depositInSelect.setComboItem(getCompany().getAccount(
 					((ClientMakeDeposit) transaction).getDepositIn()));
 			this.selectedDepositInAccount = getCompany().getAccount(
@@ -695,7 +696,7 @@ public class MakeDepositView extends
 		depositInSelect.setRequired(true);
 		// depositInSelect.setWidth(100);
 		depositInSelect.setPopupWidth("450px");
-		depositInSelect.setDisabled(isEdit);
+		depositInSelect.setDisabled(isInViewMode());
 		depositInSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					public void selectedComboBoxItem(ClientAccount selectItem) {
@@ -835,7 +836,7 @@ public class MakeDepositView extends
 		panel.add(addButton);
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		addButton.setEnabled(!isEdit);
+		addButton.setEnabled(!isInViewMode());
 
 		HorizontalPanel botHLay = new HorizontalPanel();
 		botHLay.setWidth("100%");
@@ -850,7 +851,7 @@ public class MakeDepositView extends
 		vPanel.add(panel);
 		vPanel.add(botHLay);
 
-		if (isEdit) {
+		if (isInViewMode()) {
 			date.setValue(transaction.getDate());
 			depositInSelect.setComboItem(getCompany().getAccount(
 					((ClientMakeDeposit) transaction).getDepositIn()));
@@ -925,7 +926,7 @@ public class MakeDepositView extends
 	public void setData(ClientMakeDeposit data) {
 
 		super.setData(data);
-		if (isEdit && (!transaction.isMakeDeposit()))
+		if (isInViewMode() && (!transaction.isMakeDeposit()))
 			try {
 				throw new Exception(Accounter.constants()
 						.unabletoLoadTheRequiredDeposit());
@@ -1155,15 +1156,15 @@ public class MakeDepositView extends
 	}
 
 	private void enableFormItems() {
-		isEdit = false;
-		date.setDisabled(isEdit);
-		depositInSelect.setDisabled(isEdit);
-		addButton.setEnabled(!isEdit);
-		gridView.setDisabled(isEdit);
-		cashBackMemoText.setDisabled(isEdit);
-		cashBackAmountText.setDisabled(isEdit);
-		cashBackAccountSelect.setDisabled(isEdit);
-		memoText.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		date.setDisabled(isInViewMode());
+		depositInSelect.setDisabled(isInViewMode());
+		addButton.setEnabled(!isInViewMode());
+		gridView.setDisabled(isInViewMode());
+		cashBackMemoText.setDisabled(isInViewMode());
+		cashBackAmountText.setDisabled(isInViewMode());
+		cashBackAccountSelect.setDisabled(isInViewMode());
+		memoText.setDisabled(isInViewMode());
 		// For deleting the transctionItems after we edit
 		for (ClientTransactionMakeDeposit ctmd : transaction
 				.getTransactionMakeDeposit())

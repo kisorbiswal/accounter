@@ -96,7 +96,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private void initPaymentTermsCombo() {
 
 		paymentTermsCombo.initCombo(getCompany().getPaymentsTerms());
-		if (isEdit && (data.getPaymentTerm()) != 0) {
+		if (isInViewMode() && (data.getPaymentTerm()) != 0) {
 			selectedPaymentTerm = getCompany().getPaymentTerms(
 					data.getPaymentTerm());
 			paymentTermsCombo.setComboItem(selectedPaymentTerm);
@@ -172,9 +172,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				name);
 
 		if (taxAgenciesByName != null) {
-			if (!((!isEdit && taxAgenciesByName != null || taxAgenciesByName
+			if (!((!isInViewMode() && taxAgenciesByName != null || taxAgenciesByName
 					.getID() == this.getData().getID()) ? false : true)
-					|| (!isEdit ? (data.getName().equalsIgnoreCase(name) ? true
+					|| (!isInViewMode() ? (data.getName().equalsIgnoreCase(name) ? true
 							: (taxAgenciesByName != null ? false : true))
 							: true)) {
 				result.addError(taxAgencyText, Accounter.constants()
@@ -596,7 +596,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	public void initData() {
 
 		initPaymentTermsCombo();
-		if (isEdit) {
+		if (isInViewMode()) {
 			this.selectedSalesAccount = getCompany().getAccount(
 					data.getSalesLiabilityAccount());
 			this.selectedPurchaseAccount = getCompany().getAccount(

@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -134,8 +135,8 @@ public class CreditCardChargeView extends
 			// FIXME check and fix the below code
 			phoneSelect.setValue(transaction.getPhone());
 
-		contactNameSelect.setDisabled(isEdit);
-		phoneSelect.setDisabled(isEdit);
+		contactNameSelect.setDisabled(isInViewMode());
+		phoneSelect.setDisabled(isInViewMode());
 		return;
 		// if (primaryContact == null) {
 		// contactNameSelect.setSelected("");
@@ -184,14 +185,14 @@ public class CreditCardChargeView extends
 	protected void initVendorsList(List<ClientVendor> result) {
 		// First identify existing selected vendor
 		for (ClientVendor vendor : result) {
-			if (isEdit)
+			if (isInViewMode())
 				if (vendor.getID() == transaction.getVendor()) {
 					selectedVendor = vendor;
 				}
 		}
 		vendorNameSelect.initCombo(result);
-		vendorNameSelect.setDisabled(isEdit);
-		if (isEdit) {
+		vendorNameSelect.setDisabled(isInViewMode());
+		if (isInViewMode()) {
 			vendorNameSelect.setComboItem(selectedVendor);
 			billToaddressSelected(selectedVendor.getSelectedAddress());
 			addPhonesContactsAndAddress();
@@ -210,7 +211,7 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (isEdit) {
+		if (isInViewMode()) {
 			memoTextAreaItem.setDisabled(true);
 			setMemoTextAreaItem(((ClientCreditCardCharge) transaction)
 					.getMemo());
@@ -226,7 +227,7 @@ public class CreditCardChargeView extends
 				&& (paymentMethod
 						.equals(com.vimukti.accounter.web.client.core.AccounterClientConstants.PAYMENT_METHOD_CHECK) || paymentMethod
 						.equals(com.vimukti.accounter.web.client.core.AccounterClientConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
-			if (isEdit) {
+			if (isInViewMode()) {
 				cheqNoText
 						.setValue(transaction.getCheckNumber() != null ? transaction
 								.getCheckNumber()
@@ -262,7 +263,7 @@ public class CreditCardChargeView extends
 			contact = transaction.getContact();
 			delivDate.setValue(new ClientFinanceDate(transaction
 					.getDeliveryDate()));
-			delivDate.setDisabled(isEdit);
+			delivDate.setDisabled(isInViewMode());
 			phoneSelect.setValue(transaction.getPhone());
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				netAmount.setAmount(transaction.getNetAmount());
@@ -277,7 +278,7 @@ public class CreditCardChargeView extends
 			if (transaction.getPayFrom() != 0)
 				payFromAccountSelected(transaction.getPayFrom());
 			payFrmSelect.setComboItem(getCompany().getAccount(payFromAccount));
-			payFrmSelect.setDisabled(isEdit);
+			payFrmSelect.setDisabled(isInViewMode());
 			cheqNoText.setValue(transaction.getCheckNumber());
 			cheqNoText.setDisabled(true);
 			paymentMethodSelected(transaction.getPaymentMethod());
@@ -303,7 +304,7 @@ public class CreditCardChargeView extends
 		payFrmSelect.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
 		payFrmSelect.setAccounts();
-		payFrmSelect.setDisabled(isEdit);
+		payFrmSelect.setDisabled(isInViewMode());
 
 		account = payFrmSelect.getSelectedValue();
 
@@ -444,7 +445,7 @@ public class CreditCardChargeView extends
 						.constants().chequeNo()
 						: Accounter.constants().checkNo());
 		cheqNoText.setHelpInformation(true);
-		cheqNoText.setDisabled(isEdit);
+		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
 		// formItems.add(cheqNoText);
 
@@ -483,7 +484,7 @@ public class CreditCardChargeView extends
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		vendorTransactionGrid.isEnable = false;
 		vendorTransactionGrid.init();
-		vendorTransactionGrid.setDisabled(isEdit);
+		vendorTransactionGrid.setDisabled(isInViewMode());
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -621,7 +622,7 @@ public class CreditCardChargeView extends
 		if (UIUtils.isMSIEBrowser())
 			resetFormView();
 
-		if (isEdit) {
+		if (isInViewMode()) {
 			payFrmSelect.setComboItem(getCompany().getAccount(
 					transaction.getPayFrom()));
 		}
@@ -856,25 +857,25 @@ public class CreditCardChargeView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
 		// payMethSelect.setDisabled(isEdit);
 		if (paymentMethod.equals(Accounter.constants().check())
 				|| paymentMethod.equals(Accounter.constants().cheque())) {
-			cheqNoText.setDisabled(isEdit);
+			cheqNoText.setDisabled(isInViewMode());
 		} else {
-			cheqNoText.setDisabled(!isEdit);
+			cheqNoText.setDisabled(!isInViewMode());
 		}
-		delivDate.setDisabled(isEdit);
+		delivDate.setDisabled(isInViewMode());
 		// billToCombo.setDisabled(isEdit);
-		vendorNameSelect.setDisabled(isEdit);
-		contactNameSelect.setDisabled(isEdit);
-		phoneSelect.setDisabled(isEdit);
-		payFrmSelect.setDisabled(isEdit);
+		vendorNameSelect.setDisabled(isInViewMode());
+		contactNameSelect.setDisabled(isInViewMode());
+		phoneSelect.setDisabled(isInViewMode());
+		payFrmSelect.setDisabled(isInViewMode());
 		vendorTransactionGrid.setCanEdit(true);
-		memoTextAreaItem.setDisabled(isEdit);
-		vendorTransactionGrid.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isInViewMode());
+		vendorTransactionGrid.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

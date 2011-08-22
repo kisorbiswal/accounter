@@ -53,6 +53,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -142,7 +143,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	private void initDueDate() {
 
-		if (isEdit) {
+		if (isInViewMode()) {
 			ClientInvoice invoice = (ClientInvoice) transaction;
 			if (invoice.getDueDate() != 0) {
 				dueDateItem.setEnteredDate(new ClientFinanceDate(invoice
@@ -248,7 +249,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		quoteLabel.setWidth("100%");
 		quoteLabel.addStyleName("falseHyperlink");
 		quoteLabel.setShowTitle(false);
-		quoteLabel.setDisabled(isEdit);
+		quoteLabel.setDisabled(isInViewMode());
 		LabelItem emptylabel = new LabelItem();
 		emptylabel.setValue("");
 		emptylabel.setWidth("100%");
@@ -264,7 +265,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		billToTextArea.setWidth(100);
 
 		billToTextArea.setTitle(Accounter.constants().billTo());
-		billToTextArea.setDisabled(isEdit);
+		billToTextArea.setDisabled(isInViewMode());
 		billToTextArea.setHelpInformation(true);
 
 		billToTextArea.addClickHandler(new ClickHandler() {
@@ -367,7 +368,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		dueDateItem.setEnteredDate(getTransactionDate());
 		dueDateItem.setColSpan(1);
 		dueDateItem.setTitle(customerConstants.dueDate());
-		dueDateItem.setDisabled(isEdit);
+		dueDateItem.setDisabled(isInViewMode());
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
 
@@ -463,7 +464,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		customerTransactionGrid.init();
 		customerTransactionGrid.setCanEdit(true);
-		customerTransactionGrid.setDisabled(isEdit);
+		customerTransactionGrid.setDisabled(isInViewMode());
 		customerTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
@@ -656,7 +657,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	private void quoteLabelListener() {
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			quoteLabel.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -858,7 +859,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					salesPerson.getID()));
 
 		}
-		salesPersonCombo.setDisabled(isEdit);
+		salesPersonCombo.setDisabled(isInViewMode());
 	}
 
 	public void selectedQuote(ClientEstimate selectedEstimate) {
@@ -1498,29 +1499,29 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (UIUtils.isMSIEBrowser())
 			custForm.setWidth("100%");
 
-		isEdit = false;
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
 
-		customerCombo.setDisabled(isEdit);
-		quoteLabel.setDisabled(isEdit);
+		customerCombo.setDisabled(isInViewMode());
+		quoteLabel.setDisabled(isInViewMode());
 		quoteLabelListener();
 
-		shipToAddress.businessSelect.setDisabled(isEdit);
+		shipToAddress.businessSelect.setDisabled(isInViewMode());
 		if (getPreferences().isSalesPersonEnabled())
-			salesPersonCombo.setDisabled(isEdit);
-		payTermsSelect.setDisabled(isEdit);
+			salesPersonCombo.setDisabled(isInViewMode());
+		payTermsSelect.setDisabled(isInViewMode());
 
-		dueDateItem.setDisabled(isEdit);
-		deliveryDate.setDisabled(isEdit);
+		dueDateItem.setDisabled(isInViewMode());
+		deliveryDate.setDisabled(isInViewMode());
 
-		priceLevelSelect.setDisabled(isEdit);
-		taxCodeSelect.setDisabled(isEdit);
+		priceLevelSelect.setDisabled(isInViewMode());
+		taxCodeSelect.setDisabled(isInViewMode());
 
-		orderNumText.setDisabled(isEdit);
-		memoTextAreaItem.setDisabled(isEdit);
+		orderNumText.setDisabled(isInViewMode());
+		memoTextAreaItem.setDisabled(isInViewMode());
 
-		customerTransactionGrid.setDisabled(isEdit);
+		customerTransactionGrid.setDisabled(isInViewMode());
 		customerTransactionGrid.setCanEdit(true);
 		super.onEdit();
 

@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -197,12 +198,12 @@ public class PaySalesTaxView extends
 
 		gridLayout = new VerticalPanel();
 		gridLayout.setWidth("100%");
-		grid = new TransactionPaySalesTaxGrid(!isEdit, true);
+		grid = new TransactionPaySalesTaxGrid(!isInViewMode(), true);
 		grid.setCurrentView(this);
 		grid.setCanEdit(true);
 		grid.isEnable = false;
 		grid.init();
-		grid.setDisabled(isEdit);
+		grid.setDisabled(isInViewMode());
 		grid.setHeight("200px");
 		// if (!isEdit)
 		// grid.updateFooterValues(FinanceApplication.constants()
@@ -226,7 +227,7 @@ public class PaySalesTaxView extends
 	}
 
 	private void updateAmountAndEndingBalanceItems() {
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			this.amountText.setAmount(totalAmount);
 			this.endingBalanceText.setAmount(endingBalance);
 		}
@@ -315,7 +316,7 @@ public class PaySalesTaxView extends
 					}
 
 				});
-		payFromAccCombo.setDisabled(isEdit);
+		payFromAccCombo.setDisabled(isInViewMode());
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth(100);
@@ -328,13 +329,13 @@ public class PaySalesTaxView extends
 
 			@Override
 			public void onDateValueChange(ClientFinanceDate date) {
-				if (!isEdit)
+				if (!isInViewMode())
 					fillGrid();
 				// if (transactionObject == null)
 				// loadData(getfilterRecordsByDate(date, entries));
 			}
 		});
-		billsDue.setDisabled(isEdit);
+		billsDue.setDisabled(isInViewMode());
 		taxAgencyCombo = new TAXAgencyCombo(Accounter.constants().taxAgency());
 		taxAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
@@ -348,7 +349,7 @@ public class PaySalesTaxView extends
 					}
 
 				});
-		taxAgencyCombo.setDisabled(isEdit);
+		taxAgencyCombo.setDisabled(isInViewMode());
 		filterForm = new DynamicForm();
 		// filterForm.setWidth("100%");
 		filterForm = UIUtils.form(Accounter.constants().filter());
@@ -457,7 +458,7 @@ public class PaySalesTaxView extends
 			selectedPayFromAccount = payFromAccCombo.getSelectedValue();
 			return;
 		}
-		isEdit = true;
+		setMode(EditMode.VIEW);
 
 		selectedPayFromAccount = getCompany().getAccount(
 				transaction.getPayFrom());
@@ -615,7 +616,7 @@ public class PaySalesTaxView extends
 								}
 
 							};
-							if (isEdit) {
+							if (isInViewMode()) {
 								AccounterCoreType type = UIUtils
 										.getAccounterCoreType(transaction
 												.getType());
@@ -643,13 +644,13 @@ public class PaySalesTaxView extends
 	}
 
 	private void enableFormItems() {
-		isEdit = false;
-		transactionDateItem.setDisabled(isEdit);
-		payFromAccCombo.setDisabled(isEdit);
-		paymentMethodCombo.setDisabled(isEdit);
-		billsDue.setDisabled(isEdit);
-		taxAgencyCombo.setDisabled(isEdit);
-		grid.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		transactionDateItem.setDisabled(isInViewMode());
+		payFromAccCombo.setDisabled(isInViewMode());
+		paymentMethodCombo.setDisabled(isInViewMode());
+		billsDue.setDisabled(isInViewMode());
+		taxAgencyCombo.setDisabled(isInViewMode());
+		grid.setDisabled(isInViewMode());
 
 		super.onEdit();
 		fillGrid();

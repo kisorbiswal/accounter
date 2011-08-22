@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -73,7 +74,7 @@ public class NewCustomerPaymentView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (isEdit) {
+		if (isInViewMode()) {
 
 			ClientCustomerPrePayment customerPrePayment = (ClientCustomerPrePayment) transaction;
 
@@ -267,7 +268,7 @@ public class NewCustomerPaymentView extends
 			enteredBalance = 0D;
 		}
 		if (getCustomer() != null) {
-			if (isEdit
+			if (isInViewMode()
 					&& getCustomer().getID() == (customerPrePayment
 							.getCustomer())
 					&& !DecimalUtil.isEquals(enteredBalance, 0)) {
@@ -292,7 +293,7 @@ public class NewCustomerPaymentView extends
 				toBeSetEndingBalance = depositInAccount.getTotalBalance()
 						- enteredBalance;
 			}
-			if (isEdit
+			if (isInViewMode()
 					&& depositInAccount.getID() == (customerPrePayment
 							.getDepositIn())
 					&& !DecimalUtil.isEquals(enteredBalance, 0)) {
@@ -418,7 +419,7 @@ public class NewCustomerPaymentView extends
 						if (depositInAccount == null)
 							checkNo.setValue(Accounter.constants()
 									.toBePrinted());
-						else if (isEdit) {
+						else if (isInViewMode()) {
 							checkNo.setValue(((ClientCustomerPrePayment) transaction)
 									.getCheckNumber());
 						}
@@ -525,7 +526,7 @@ public class NewCustomerPaymentView extends
 
 				});
 
-		addressCombo.setDisabled(isEdit);
+		addressCombo.setDisabled(isInViewMode());
 
 		// formItems.add(addressCombo);
 
@@ -701,13 +702,13 @@ public class NewCustomerPaymentView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		customerCombo.setDisabled(isEdit);
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
-		printCheck.setDisabled(isEdit);
-		amountText.setDisabled(isEdit);
-		paymentMethodCombo.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		customerCombo.setDisabled(isInViewMode());
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
+		printCheck.setDisabled(isInViewMode());
+		amountText.setDisabled(isInViewMode());
+		paymentMethodCombo.setDisabled(isInViewMode());
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNo.setValue(Accounter.constants().toBePrinted());

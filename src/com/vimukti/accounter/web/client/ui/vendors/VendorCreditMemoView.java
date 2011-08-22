@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -159,7 +160,7 @@ public class VendorCreditMemoView extends
 		DynamicForm phoneForm = UIUtils.form(Accounter.constants()
 				.phoneNumber());
 		phoneForm.setFields(phoneSelect);
-		if (this.isEdit) {
+		if (this.isInViewMode()) {
 			// FiXME--The form need to be disabled
 			// phoneForm.setDisabled(true);
 		}
@@ -180,7 +181,7 @@ public class VendorCreditMemoView extends
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		vendorTransactionGrid.isEnable = false;
 		vendorTransactionGrid.init();
-		vendorTransactionGrid.setDisabled(isEdit);
+		vendorTransactionGrid.setDisabled(isInViewMode());
 		vendorTransactionGrid.getElement().getStyle().setMarginTop(10, Unit.PX);
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -315,7 +316,7 @@ public class VendorCreditMemoView extends
 	@Override
 	public void initMemoAndReference() {
 
-		if (this.isEdit) {
+		if (this.isInViewMode()) {
 
 			ClientVendorCreditMemo vendorCreditMemo = (ClientVendorCreditMemo) transaction;
 
@@ -500,12 +501,12 @@ public class VendorCreditMemoView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		vendorCombo.setDisabled(isEdit);
-		transactionDateItem.setDisabled(isEdit);
-		memoTextAreaItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
-		vendorTransactionGrid.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		vendorCombo.setDisabled(isInViewMode());
+		transactionDateItem.setDisabled(isInViewMode());
+		memoTextAreaItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
+		vendorTransactionGrid.setDisabled(isInViewMode());
 		vendorTransactionGrid.setCanEdit(true);
 
 		super.onEdit();

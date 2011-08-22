@@ -168,7 +168,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	public void checkBoxClicked(RolePermissions obj) {
 		if (canDoUserManagement(obj)) {
 			userManagementBox.setValue(true);
-			if (isEdit && data.isAdmin())
+			if (isInViewMode() && data.isAdmin())
 				userManagementBox.setEnabled(false);
 			else
 				userManagementBox.setEnabled(true);

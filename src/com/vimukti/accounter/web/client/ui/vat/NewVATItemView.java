@@ -280,7 +280,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// .alreadyExist());
 		// }
 
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			if (taxItemByName != null) {
 				result.addError(vatItemNameText, Accounter.constants()
 						.alreadyExist());

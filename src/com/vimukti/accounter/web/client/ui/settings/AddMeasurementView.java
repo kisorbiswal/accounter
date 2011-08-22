@@ -142,7 +142,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 					}
 				});
 		defaultItem.setRequired(true);
-		defaultItem.setDisabled(isEdit);
+		defaultItem.setDisabled(isInViewMode());
 		panel.add(defaultForm);
 		// horizontalPanel.add(saveButton);
 		// horizontalPanel.setSpacing(20);

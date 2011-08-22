@@ -148,7 +148,7 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 	}
 
 	private void initView() {
-		if (isEdit) {
+		if (isInViewMode()) {
 			groupName.setValue(data.getName());
 			desc.setValue(data.getDescription());
 			// salesTypeRadio.setValue(data.isSalesType());
@@ -219,9 +219,9 @@ public class VATGroupView extends BaseView<ClientTAXGroup> {
 		
 		ClientTAXGroup vatGroupsbyname = getCompany().getVatGroupsbyname(name);
 
-		if (!((isEdit && vatGroupsbyname != null || vatGroupsbyname.getID() == this
+		if (!((isInViewMode() && vatGroupsbyname != null || vatGroupsbyname.getID() == this
 				.getData().getID()) ? false : true)
-				|| (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
+				|| (isInViewMode() ? (data.getName().equalsIgnoreCase(name) ? true
 						: (vatGroupsbyname != null) ? false : true) : true)) {
 			result.addError(groupName, Accounter.constants().alreadyExist());
 			return result;

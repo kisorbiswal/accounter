@@ -358,7 +358,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		String name = employeeNameText.getValue().toString();
 		ClientSalesPerson clientSalesPerson = getCompany()
 				.getSalesPersonByName(name);
-		if (!(isEdit ? (data.getName().equalsIgnoreCase(name) ? true
+		if (!(isInViewMode() ? (data.getName().equalsIgnoreCase(name) ? true
 				: clientSalesPerson == null) : true)) {
 			result.addError(employeeNameText, Accounter.constants()
 					.alreadyExist());

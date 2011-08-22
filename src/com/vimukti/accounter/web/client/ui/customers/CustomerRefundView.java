@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -176,7 +177,7 @@ public class CustomerRefundView extends
 		payFromSelect = new PayFromAccountsCombo(customerConstants.payFrom());
 		payFromSelect.setHelpInformation(true);
 		payFromSelect.setRequired(true);
-		payFromSelect.setDisabled(isEdit);
+		payFromSelect.setDisabled(isInViewMode());
 		// payFromSelect.setWidth("100%");
 		payFromSelect.setPopupWidth("500px");
 		payFromSelect
@@ -197,7 +198,7 @@ public class CustomerRefundView extends
 		amtText.setHelpInformation(true);
 		amtText.setRequired(true);
 		amtText.setWidth(100);
-		amtText.setDisabled(isEdit);
+		amtText.setDisabled(isInViewMode());
 		amtText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -421,7 +422,7 @@ public class CustomerRefundView extends
 
 	private String getCheckValue() {
 		String value;
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			if (checkNoText.getValue().equals(
 					Accounter.constants().toBePrinted())) {
 				value = String.valueOf(Accounter.constants().toBePrinted());
@@ -696,15 +697,15 @@ public class CustomerRefundView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
-		customerCombo.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
+		customerCombo.setDisabled(isInViewMode());
 
-		payFromSelect.setDisabled(isEdit);
-		amtText.setDisabled(isEdit);
-		memoTextAreaItem.setDisabled(isEdit);
-		paymentMethodCombo.setDisabled(isEdit);
+		payFromSelect.setDisabled(isInViewMode());
+		amtText.setDisabled(isInViewMode());
+		memoTextAreaItem.setDisabled(isInViewMode());
+		paymentMethodCombo.setDisabled(isInViewMode());
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(Accounter.constants().toBePrinted());

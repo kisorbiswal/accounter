@@ -158,7 +158,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		vendors = result;
 
 		vendorCombo.initCombo(result);
-		vendorCombo.setDisabled(isEdit);
+		vendorCombo.setDisabled(isInViewMode());
 
 		if (getVendor() != null)
 			vendorCombo.setComboItem(getVendor());
@@ -241,7 +241,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		this.phoneList = contactsPhoneList.toArray(new String[contactsPhoneList
 				.size()]);
 
-		phoneSelect.setDisabled(isEdit);
+		phoneSelect.setDisabled(isInViewMode());
 		ClientContact primaryContact = vendor.getPrimaryContact();
 
 		if (primaryContact != null) {
@@ -263,7 +263,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			List<ClientContact> contactList = new ArrayList<ClientContact>();
 			contactList.addAll(contacts);
 			contactCombo.initCombo(contactList);
-			contactCombo.setDisabled(isEdit);
+			contactCombo.setDisabled(isInViewMode());
 
 			if (contact != null && contacts.contains(contact)) {
 				contactCombo.setComboItem(contact);
@@ -295,7 +295,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 				});
 
-		taxCodeCombo.setDisabled(isEdit);
+		taxCodeCombo.setDisabled(isInViewMode());
 
 		// formItems.add(taxCodeCombo);
 
@@ -314,7 +314,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		// payFromCombo.setAccountTypes(UIUtils
 		// .getOptionsByType(AccountCombo.payFromCombo));
 		payFromCombo.setAccounts();
-		payFromCombo.setDisabled(isEdit);
+		payFromCombo.setDisabled(isInViewMode());
 		payFromAccount = payFromCombo.getSelectedValue();
 		if (payFromAccount != null)
 			payFromCombo.setComboItem(payFromAccount);
@@ -341,7 +341,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 						Accounter.constants().vendor()));
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
-		vendorCombo.setDisabled(isEdit);
+		vendorCombo.setDisabled(isInViewMode());
 		// vendorCombo.setShowDisabled(false);
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -366,7 +366,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 						.vendor()));
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(isRequired);
-		vendorCombo.setDisabled(isEdit);
+		vendorCombo.setDisabled(isInViewMode());
 		// vendorCombo.setShowDisabled(false);
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -407,7 +407,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 			}
 		});
-		contactCombo.setDisabled(isEdit);
+		contactCombo.setDisabled(isInViewMode());
 		// contactCombo.setShowDisabled(false);
 		return contactCombo;
 
@@ -451,7 +451,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 				});
 
-		addressCombo.setDisabled(isEdit);
+		addressCombo.setDisabled(isInViewMode());
 		// addressCombo.setShowDisabled(false);
 
 		return addressCombo;
@@ -474,7 +474,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 					}
 
 				});
-		payFromCombo.setDisabled(isEdit);
+		payFromCombo.setDisabled(isInViewMode());
 		// payFromCombo.setShowDisabled(false);
 		// formItems.add(payFromCombo);
 		return payFromCombo;
@@ -558,10 +558,10 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		List<ClientAddress> adressList = new ArrayList<ClientAddress>();
 		adressList.addAll(tempSet);
 		billToCombo.initCombo(adressList);
-		billToCombo.setDisabled(isEdit);
+		billToCombo.setDisabled(isInViewMode());
 		billToCombo.setDefaultToFirstOption(false);
 
-		if (isEdit && billingAddress != null) {
+		if (isInViewMode() && billingAddress != null) {
 			billToCombo.setComboItem(billingAddress);
 			return;
 		}
@@ -589,7 +589,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 		final TextItem checkNo = new TextItem(title);
 		checkNo.setHelpInformation(true);
-		checkNo.setDisabled(isEdit);
+		checkNo.setDisabled(isInViewMode());
 		// checkNo.setShowDisabled(false);
 		if (transaction != null) {
 			if (transactionType == ClientTransaction.TYPE_CASH_PURCHASE) {
@@ -633,7 +633,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			}
 		}
 
-		dateItem.setDisabled(isEdit);
+		dateItem.setDisabled(isInViewMode());
 		// dateItem.setShowDisabled(false);
 		// dateItem.setEnforceDate(true);
 
@@ -745,13 +745,13 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	public void onEdit() {
 
 		if (phoneSelect != null)
-			phoneSelect.setDisabled(isEdit);
+			phoneSelect.setDisabled(isInViewMode());
 		if (contactCombo != null)
-			contactCombo.setDisabled(isEdit);
+			contactCombo.setDisabled(isInViewMode());
 		if (payFromCombo != null)
-			payFromCombo.setDisabled(isEdit);
+			payFromCombo.setDisabled(isInViewMode());
 		if (billToCombo != null)
-			billToCombo.setDisabled(isEdit);
+			billToCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}

@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -101,7 +102,7 @@ public class CashPurchaseView extends
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		labeldateNoLayout.add(datepanel);
 
-		if (this.isEdit)
+		if (this.isInViewMode())
 			// --the form need to be disabled here
 			dateNoForm.setDisabled(true);
 
@@ -123,7 +124,7 @@ public class CashPurchaseView extends
 		phoneSelect = new TextItem(Accounter.constants().phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		if (isEdit)
+		if (isInViewMode())
 			phoneSelect.setDisabled(true);
 
 		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
@@ -167,7 +168,7 @@ public class CashPurchaseView extends
 						}
 
 						if (paymentMethod.equals(Accounter.constants().check())
-								&& isEdit && payFromAccount != null) {
+								&& isInViewMode() && payFromAccount != null) {
 							ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 							checkNo.setValue(cashPurchase.getCheckNumber());
 						}
@@ -201,7 +202,7 @@ public class CashPurchaseView extends
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		vendorTransactionGrid.isEnable = false;
 		vendorTransactionGrid.init();
-		vendorTransactionGrid.setDisabled(isEdit);
+		vendorTransactionGrid.setDisabled(isInViewMode());
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
@@ -333,7 +334,7 @@ public class CashPurchaseView extends
 				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 				.equalsIgnoreCase(Accounter.constants().cheque())
 				: paymentMethod.equalsIgnoreCase(Accounter.constants().check())
-						&& isEdit) {
+						&& isInViewMode()) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			checkNo.setValue(cashPurchase.getCheckNumber());
 			// setCheckNumber();
@@ -465,7 +466,7 @@ public class CashPurchaseView extends
 			checkNo.setDisabled(true);
 
 		}
-		if (isEdit) {
+		if (isInViewMode()) {
 			if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? paymentMethod
 					.equalsIgnoreCase(Accounter.constants().cheque())
 					: paymentMethod.equalsIgnoreCase(Accounter.constants()
@@ -698,21 +699,21 @@ public class CashPurchaseView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		vendorCombo.setDisabled(isEdit);
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
-		paymentMethodCombo.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		vendorCombo.setDisabled(isInViewMode());
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
+		paymentMethodCombo.setDisabled(isInViewMode());
 		if (paymentMethod.equals(Accounter.constants().check())
 				|| paymentMethod.equals(Accounter.constants().cheque())) {
-			checkNo.setDisabled(isEdit);
+			checkNo.setDisabled(isInViewMode());
 		} else {
-			checkNo.setDisabled(!isEdit);
+			checkNo.setDisabled(!isInViewMode());
 		}
-		deliveryDateItem.setDisabled(isEdit);
-		vendorTransactionGrid.setDisabled(isEdit);
+		deliveryDateItem.setDisabled(isInViewMode());
+		vendorTransactionGrid.setDisabled(isInViewMode());
 		vendorTransactionGrid.setCanEdit(true);
-		memoTextAreaItem.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

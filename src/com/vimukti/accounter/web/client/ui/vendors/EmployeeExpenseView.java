@@ -168,7 +168,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		termsForm.setWidth("100%");
 		vPanel.add(termsForm);
 
-		if (isEdit) {
+		if (isInViewMode()) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			employee.setComboItem(getCompany().getUserById(
 					cashPurchase.getEmployee()));
@@ -261,7 +261,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	@Override
 	protected void enableFormItems() {
 		super.enableFormItems();
-		employee.setDisabled(isEdit);
+		employee.setDisabled(isInViewMode());
 		if (Accounter.getUser().isAdmin()) {
 			employee.setAdmin(true);
 		}

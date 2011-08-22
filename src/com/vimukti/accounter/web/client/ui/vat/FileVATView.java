@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -21,7 +20,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientVATReturn;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -33,7 +31,6 @@ import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.VATBoxGrid;
-import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 import com.vimukti.accounter.web.client.ui.reports.VAT100Report;
 
 public class FileVATView extends BaseView<ClientVATReturn> {
@@ -367,7 +364,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	@Override
 	public void saveAndUpdateView() {
 
-		if (this.selectedVatAgency != null && !isEdit) {
+		if (this.selectedVatAgency != null && !isInViewMode()) {
 			data.setTransactionDate(new ClientFinanceDate().getDate());
 
 		}
@@ -479,7 +476,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 		// check whether vet agency is selected or not
 		// can save file vat or not
 
-		if (this.selectedVatAgency == null && this.isEdit) {
+		if (this.selectedVatAgency == null && this.isInViewMode()) {
 			result.addError(selectedVatAgency, Accounter.constants()
 					.pleaseSelectValidVATAgency());
 		} else {

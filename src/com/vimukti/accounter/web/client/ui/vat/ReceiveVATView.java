@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -126,7 +127,7 @@ public class ReceiveVATView extends
 
 				});
 
-		depositInAccCombo.setDisabled(isEdit);
+		depositInAccCombo.setDisabled(isInViewMode());
 		depositInAccCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
@@ -135,7 +136,7 @@ public class ReceiveVATView extends
 		billsDue = new DateField(companyConstants.returnsDueOnOrBefore());
 		billsDue.setHelpInformation(true);
 		billsDue.setTitle(companyConstants.returnsDueOnOrBefore());
-		billsDue.setDisabled(isEdit);
+		billsDue.setDisabled(isInViewMode());
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
@@ -300,12 +301,12 @@ public class ReceiveVATView extends
 	private void initListGrid() {
 
 		gridLayout = new VerticalPanel();
-		grid = new TransactionReceiveVATGrid(!isEdit, true);
-		grid.setCanEdit(!isEdit);
+		grid = new TransactionReceiveVATGrid(!isInViewMode(), true);
+		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
 		grid.setRecieveVATView(this);
-		grid.setDisabled(isEdit);
+		grid.setDisabled(isInViewMode());
 		grid.setHeight("200px");
 		// if (!isEdit) {
 		// // grid.addFooterValue("Total", 1);
@@ -477,7 +478,7 @@ public class ReceiveVATView extends
 					accounterConstants.invalidateDate());
 		}
 		result.add(mainform.validate());
-		if (isEdit) {
+		if (isInViewMode()) {
 			if (grid.getRecords().isEmpty()) {
 				result.addError(grid, Accounter.constants()
 						.youdonthaveanyfiledVATentriestoselect());
@@ -490,7 +491,7 @@ public class ReceiveVATView extends
 		} else {
 			result.add(grid.validateGrid());
 		}
-		if (isEdit) {
+		if (isInViewMode()) {
 			if (!AccounterValidator.isPositiveAmount(totalAmount)) {
 				// FIXME Need to Configm Object
 				result.addError("TotalAmount", accounterConstants.amount());
@@ -636,7 +637,7 @@ public class ReceiveVATView extends
 								}
 
 							};
-							if (isEdit) {
+							if (isInViewMode()) {
 								AccounterCoreType type = UIUtils
 										.getAccounterCoreType(transaction
 												.getType());
@@ -663,12 +664,12 @@ public class ReceiveVATView extends
 	}
 
 	private void enableFormItems() {
-		isEdit = false;
-		date.setDisabled(isEdit);
-		paymentMethodCombo.setDisabled(isEdit);
-		billsDue.setDisabled(isEdit);
-		vatAgencyCombo.setDisabled(isEdit);
-		depositInAccCombo.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		date.setDisabled(isInViewMode());
+		paymentMethodCombo.setDisabled(isInViewMode());
+		billsDue.setDisabled(isInViewMode());
+		vatAgencyCombo.setDisabled(isInViewMode());
+		depositInAccCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 		fillGrid();

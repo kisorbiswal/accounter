@@ -211,13 +211,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void initListGrid() {
-		gridView = new TransactionPayBillGrid(!isEdit, true);
-		gridView.setCanEdit(!isEdit);
+		gridView = new TransactionPayBillGrid(!isInViewMode(), true);
+		gridView.setCanEdit(!isInViewMode());
 		gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		gridView.setPaymentView(this);
 		gridView.init();
 		gridView.setHeight("200px");
-		gridView.setDisabled(isEdit);
+		gridView.setDisabled(isInViewMode());
 	}
 
 	/*
@@ -644,7 +644,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		} else {
 
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-			paymentMethodCombo.setDisabled(isEdit);
+			paymentMethodCombo.setDisabled(isInViewMode());
 
 			this.transactionItems = transaction.getTransactionItems();
 
@@ -659,7 +659,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			dueDate.setDisabled(true);
 
 			transactionNumber.setValue(transaction.getNumber());
-			transactionNumber.setDisabled(isEdit);
+			transactionNumber.setDisabled(isInViewMode());
 
 			this.setVendor(getCompany().getVendor(transaction.getVendor()));
 			vendorSelected(getCompany().getVendor(transaction.getVendor()));
@@ -742,7 +742,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			result.add(filterForm.validate());
 			return result;
 		}
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			/*
 			 * if (gridView == null || gridView.getRecords().isEmpty() ||
 			 * gridView.getSelectedRecords().size() == 0) {
@@ -905,8 +905,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						@Override
 						public boolean onYesClick() {
 							voidTransaction();
-							setMode(EditMode.EDIT);
-							getManager().updateButtons();
 							return true;
 						}
 
@@ -931,7 +929,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 								}
 
 							};
-							if (isEdit) {
+							if (isInViewMode()) {
 								AccounterCoreType type = UIUtils
 										.getAccounterCoreType(transaction
 												.getType());
@@ -960,19 +958,19 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	private void enableFormItems() {
 
-		isEdit = false;
-		date.setDisabled(isEdit);
-		vendorCombo.setDisabled(isEdit);
-		paymentMethodCombo.setDisabled(isEdit);
-		dueDate.setDisabled(isEdit);
-		gridView.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		date.setDisabled(isInViewMode());
+		vendorCombo.setDisabled(isInViewMode());
+		paymentMethodCombo.setDisabled(isInViewMode());
+		dueDate.setDisabled(isInViewMode());
+		gridView.setDisabled(isInViewMode());
 
 		super.onEdit();
 		gridView.removeFromParent();
 		initListGrid();
 		gridLayout.insert(gridView, 2);
 		getTransactionPayBills(this.getVendor());
-		memoTextAreaItem.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isInViewMode());
 		transaction = new ClientPayBill();
 		data = transaction;
 	}
@@ -1014,7 +1012,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						Accounter.constants().vendor()));
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
-		vendorCombo.setDisabled(isEdit);
+		vendorCombo.setDisabled(isInViewMode());
 		// vendorCombo.setShowDisabled(false);
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -1048,7 +1046,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					}
 
 				});
-		payFromCombo.setDisabled(isEdit);
+		payFromCombo.setDisabled(isInViewMode());
 		// payFromCombo.setShowDisabled(false);
 		// formItems.add(payFromCombo);
 		return payFromCombo;
@@ -1062,7 +1060,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		vendors = result;
 
 		vendorCombo.initCombo(result);
-		vendorCombo.setDisabled(isEdit);
+		vendorCombo.setDisabled(isInViewMode());
 
 		if (getVendor() != null)
 			vendorCombo.setComboItem(getVendor());
@@ -1074,7 +1072,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// payFromCombo.setAccountTypes(UIUtils
 		// .getOptionsByType(AccountCombo.payFromCombo));
 		payFromCombo.setAccounts();
-		payFromCombo.setDisabled(isEdit);
+		payFromCombo.setDisabled(isInViewMode());
 		payFromAccount = payFromCombo.getSelectedValue();
 		if (payFromAccount != null)
 			payFromCombo.setComboItem(payFromAccount);

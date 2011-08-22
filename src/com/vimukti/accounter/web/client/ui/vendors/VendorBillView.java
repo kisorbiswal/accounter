@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -35,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -91,8 +93,8 @@ public class VendorBillView extends
 		List<ClientAddress> adrsList = new ArrayList<ClientAddress>();
 		adrsList.addAll(addressListOfVendor);
 		billToCombo.initCombo(adrsList);
-		contactCombo.setDisabled(isEdit);
-		billToCombo.setDisabled(isEdit);
+		contactCombo.setDisabled(isInViewMode());
+		billToCombo.setDisabled(isInViewMode());
 		// phoneSelect.setValueMap();
 		setMemoTextAreaItem("");
 		// setRefText("");
@@ -147,7 +149,7 @@ public class VendorBillView extends
 
 	private void initBalanceDue() {
 
-		if (isEdit) {
+		if (isInViewMode()) {
 
 			setBalanceDue(((ClientEnterBill) transaction).getBalanceDue());
 
@@ -170,9 +172,10 @@ public class VendorBillView extends
 		paymentTermsList = getCompany().getPaymentsTerms();
 
 		paymentTermsCombo.initCombo(paymentTermsList);
-		paymentTermsCombo.setDisabled(isEdit);
+		paymentTermsCombo.setDisabled(isInViewMode());
 
-		if (isEdit && ((ClientEnterBill) transaction).getPaymentTerm() != 0) {
+		if (isInViewMode()
+				&& ((ClientEnterBill) transaction).getPaymentTerm() != 0) {
 			ClientPaymentTerms paymentTerm = getCompany().getPaymentTerms(
 					((ClientEnterBill) transaction).getPaymentTerm());
 			paymentTermsCombo.setComboItem(paymentTerm);
@@ -198,7 +201,7 @@ public class VendorBillView extends
 			vendorTransactionGrid.removeAllRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
-		if (isEdit && this.selectedPaymentTerm != null)
+		if (isInViewMode() && this.selectedPaymentTerm != null)
 			paymentTermSelected(selectedPaymentTerm);
 		if (transaction == null)
 			getPurchaseOrdersAndItemReceipt();
@@ -216,7 +219,7 @@ public class VendorBillView extends
 			vendorTransactionGrid.removeAllRecords();
 
 		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
-		if (!(isEdit && vendor.getID() == transaction.getVendor()))
+		if (!(isInViewMode() && vendor.getID() == transaction.getVendor()))
 			setPaymentTermsCombo(vendor);
 		if (transaction == null)
 			getPurchaseOrdersAndItemReceipt();
@@ -359,7 +362,7 @@ public class VendorBillView extends
 		// contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
-		if (this.isEdit)
+		if (this.isInViewMode())
 			billToCombo.setDisabled(true);
 
 		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
@@ -384,7 +387,7 @@ public class VendorBillView extends
 				.paymentTerms());
 		paymentTermsCombo.setHelpInformation(true);
 		// paymentTermsCombo.setWidth(80);
-		paymentTermsCombo.setDisabled(isEdit);
+		paymentTermsCombo.setDisabled(isInViewMode());
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
@@ -401,7 +404,7 @@ public class VendorBillView extends
 		dueDateItem.setEnteredDate(getTransactionDate());
 		dueDateItem.setColSpan(1);
 		dueDateItem.setTitle(Accounter.constants().dueDate());
-		dueDateItem.setDisabled(isEdit);
+		dueDateItem.setDisabled(isInViewMode());
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
 		// deliveryDateItem.setWidth(100);
@@ -440,7 +443,7 @@ public class VendorBillView extends
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		vendorTransactionGrid.isEnable = false;
 		vendorTransactionGrid.init();
-		vendorTransactionGrid.setDisabled(isEdit);
+		vendorTransactionGrid.setDisabled(isInViewMode());
 		vendorTransactionGrid.getElement().getStyle().setMarginTop(10, Unit.PX);
 		memoTextAreaItem = createMemoTextAreaItem();
 		// memoTextAreaItem.setWidth(100);
@@ -478,7 +481,7 @@ public class VendorBillView extends
 		totalForm.setFields(netAmount, vatTotalNonEditableText,
 				transactionTotalNonEditableText);
 
-		if (this.isEdit)
+		if (this.isInViewMode())
 			totalForm.setFields(balanceDueNonEditableText);
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -581,7 +584,7 @@ public class VendorBillView extends
 	private void paymentTermSelected(ClientPaymentTerms selectItem) {
 		selectedPaymentTerm = selectItem;
 		// paymentTermsCombo.setComboItem(selectedPaymentTerm);
-		if (isEdit) {
+		if (isInViewMode()) {
 			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
 			setDueDate(Utility.getCalculatedDueDate(getTransactionDate(),
 					selectedPaymentTerm).getDate());
@@ -919,7 +922,7 @@ public class VendorBillView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -960,7 +963,9 @@ public class VendorBillView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+				String errorString = AccounterExceptions.getErrorString(caught
+						.getErrorCode());
+				Accounter.showError(errorString);
 			}
 
 			@Override
@@ -978,19 +983,19 @@ public class VendorBillView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		vendorCombo.setDisabled(isEdit);
-		phoneSelect.setDisabled(isEdit);
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		vendorCombo.setDisabled(isInViewMode());
+		phoneSelect.setDisabled(isInViewMode());
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
 		// purchaseLabel.setDisabled(isEdit);
-		paymentTermsCombo.setDisabled(isEdit);
-		dueDateItem.setDisabled(isEdit);
-		deliveryDateItem.setDisabled(isEdit);
-		vendorTransactionGrid.setDisabled(isEdit);
+		paymentTermsCombo.setDisabled(isInViewMode());
+		dueDateItem.setDisabled(isInViewMode());
+		deliveryDateItem.setDisabled(isInViewMode());
+		vendorTransactionGrid.setDisabled(isInViewMode());
 		vendorTransactionGrid.setCanEdit(true);
 		balanceDueNonEditableText.setDisabled(true);
-		memoTextAreaItem.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isInViewMode());
 
 		super.onEdit();
 	}

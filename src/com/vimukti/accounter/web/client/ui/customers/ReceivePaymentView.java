@@ -41,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -122,7 +123,7 @@ public class ReceivePaymentView extends
 		gridView.creditsStack = null;
 		gridView.initCreditsAndPayments(getCustomer());
 
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			gridView.removeAllRecords();
 			gridView.addLoadingImagePanel();
 			getTransactionReceivePayments(selectedCustomer);
@@ -303,13 +304,13 @@ public class ReceivePaymentView extends
 	}
 
 	private void initListGrid() {
-		gridView = new TransactionReceivePaymentGrid(!isEdit, true);
+		gridView = new TransactionReceivePaymentGrid(!isInViewMode(), true);
 		gridView.setPaymentView(this);
 		gridView.setCustomer(this.getCustomer());
-		gridView.setCanEdit(!isEdit);
+		gridView.setCanEdit(!isInViewMode());
 		gridView.isEnable = false;
 		gridView.init();
-		gridView.setDisabled(isEdit);
+		gridView.setDisabled(isInViewMode());
 		gridView.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		gridView.setHeight("200px");
 	}
@@ -418,7 +419,7 @@ public class ReceivePaymentView extends
 		amtText = new AmountField(Accounter.constants().amountReceived(), this);
 		amtText.setHelpInformation(true);
 		amtText.setWidth(100);
-		amtText.setDisabled(isEdit);
+		amtText.setDisabled(isInViewMode());
 
 		amtText.addBlurHandler(new BlurHandler() {
 
@@ -991,7 +992,7 @@ public class ReceivePaymentView extends
 
 			depositInCombo.setComboItem(getCompany().getAccount(
 					depositInAccount.getID()));
-			depositInCombo.setDisabled(isEdit);
+			depositInCombo.setDisabled(isInViewMode());
 		}
 
 	}
@@ -1033,7 +1034,7 @@ public class ReceivePaymentView extends
 		} else
 			result.add(gridView.validateGrid());
 
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			try {
 				if (!AccounterValidator.isValidRecievePaymentAmount(
 						DataUtils.getAmountStringAsDouble(amtText.getValue()
@@ -1045,7 +1046,7 @@ public class ReceivePaymentView extends
 				result.addError(amtText, accounterConstants.invalidAmount());
 			}
 		}
-		if (!isEdit
+		if (!isInViewMode()
 				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0))
 			result.addWarning(unUsedPaymentsText,
 					AccounterWarningType.recievePayment);
@@ -1185,13 +1186,13 @@ public class ReceivePaymentView extends
 	}
 
 	private void enableFormItems() {
-		isEdit = false;
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
 
-		customerCombo.setDisabled(isEdit);
-		amtText.setDisabled(isEdit);
-		paymentMethodCombo.setDisabled(isEdit);
+		customerCombo.setDisabled(isInViewMode());
+		amtText.setDisabled(isInViewMode());
+		paymentMethodCombo.setDisabled(isInViewMode());
 
 		super.onEdit();
 
@@ -1200,7 +1201,7 @@ public class ReceivePaymentView extends
 		gridLayout.insert(gridView, 2);
 
 		getTransactionReceivePayments(this.getCustomer());
-		memoTextAreaItem.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isInViewMode());
 		transaction = new ClientReceivePayment();
 		data = transaction;
 		// this.rpcUtilService.getTransactionReceivePayments(customer
@@ -1281,7 +1282,7 @@ public class ReceivePaymentView extends
 				});
 
 		customerCombo.setRequired(true);
-		customerCombo.setDisabled(isEdit);
+		customerCombo.setDisabled(isInViewMode());
 		// formItems.add(customerCombo);
 		return customerCombo;
 
@@ -1300,7 +1301,7 @@ public class ReceivePaymentView extends
 
 		customerCombo.initCombo(result);
 		// customerCombo.setHelpInformation(true);
-		customerCombo.setDisabled(isEdit);
+		customerCombo.setDisabled(isInViewMode());
 
 	}
 
@@ -1328,7 +1329,7 @@ public class ReceivePaymentView extends
 					}
 
 				});
-		accountCombo.setDisabled(isEdit);
+		accountCombo.setDisabled(isInViewMode());
 		accountCombo.setAccounts();
 
 		// formItems.add(accountCombo);

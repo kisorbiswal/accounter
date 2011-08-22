@@ -303,7 +303,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			phoneSelect.setValue(primaryPhone);
 		}
 
-		phoneSelect.setDisabled(isEdit);
+		phoneSelect.setDisabled(isInViewMode());
 
 	}
 
@@ -318,7 +318,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		List<ClientContact> list = new ArrayList<ClientContact>(this.contacts);
 		if (contacts != null) {
 			contactCombo.initCombo(list);
-			contactCombo.setDisabled(isEdit);
+			contactCombo.setDisabled(isInViewMode());
 		} else {
 			contactCombo.setDisabled(true);
 			contactCombo.setValue("");
@@ -498,7 +498,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		customerCombo.initCombo(result);
 		// customerCombo.setHelpInformation(true);
-		customerCombo.setDisabled(isEdit);
+		customerCombo.setDisabled(isInViewMode());
 
 	}
 
@@ -519,7 +519,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				});
 
 		customerCombo.setRequired(true);
-		customerCombo.setDisabled(isEdit);
+		customerCombo.setDisabled(isInViewMode());
 		// formItems.add(customerCombo);
 		return customerCombo;
 
@@ -547,7 +547,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				addContactToCustomer(value);
 			}
 		});
-		contactCombo.setDisabled(isEdit);
+		contactCombo.setDisabled(isInViewMode());
 
 		// formItems.add(contactCombo);
 
@@ -594,7 +594,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		addressCombo.setDisabled(isEdit);
+		addressCombo.setDisabled(isInViewMode());
 
 		// formItems.add(addressCombo);
 
@@ -617,7 +617,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		List<ClientAddress> list = new ArrayList(tempSet);
 		shipToCombo.initCombo(list);
 		shipToAddressSelected(address);
-		shipToCombo.setDisabled(isEdit);
+		shipToCombo.setDisabled(isInViewMode());
 
 	}
 
@@ -646,7 +646,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		List<ClientAddress> list = new ArrayList(tempSet);
 		billToCombo.initCombo(list);
 		billToaddressSelected(address);
-		billToCombo.setDisabled(isEdit);
+		billToCombo.setDisabled(isInViewMode());
 
 	}
 
@@ -682,7 +682,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		shipToCombo.setDisabled(isEdit);
+		shipToCombo.setDisabled(isInViewMode());
 		// shipToCombo.setShowDisabled(false);
 
 		// formItems.add(shipToCombo);
@@ -708,7 +708,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		salesPersonCombo.setDisabled(isEdit);
+		salesPersonCombo.setDisabled(isInViewMode());
 
 		// formItems.add(salesPersonCombo);
 
@@ -733,7 +733,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					}
 
 				});
-		accountCombo.setDisabled(isEdit);
+		accountCombo.setDisabled(isInViewMode());
 
 		// formItems.add(accountCombo);
 
@@ -758,7 +758,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		shippingTermsCombo.setDisabled(isEdit);
+		shippingTermsCombo.setDisabled(isInViewMode());
 
 		// formItems.add(shippingTermsCombo);
 
@@ -780,7 +780,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		shippingMethodsCombo.setDisabled(isEdit);
+		shippingMethodsCombo.setDisabled(isInViewMode());
 
 		// formItems.add(shippingMethodsCombo);
 
@@ -796,7 +796,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		dateItem.setTitle(Accounter.constants().deliveryDate());
 		dateItem.setColSpan(1);
 
-		dateItem.setDisabled(isEdit);
+		dateItem.setDisabled(isInViewMode());
 
 		// formItems.add(dateItem);
 
@@ -822,7 +822,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		taxCodeCombo.setDisabled(isEdit);
+		taxCodeCombo.setDisabled(isInViewMode());
 
 		// formItems.add(taxCodeCombo);
 
@@ -848,7 +848,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		priceLevelCombo.setDisabled(isEdit);
+		priceLevelCombo.setDisabled(isInViewMode());
 		// priceLevelCombo.setShowDisabled(false);
 
 		// formItems.add(priceLevelCombo);
@@ -878,7 +878,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					}
 
 				});
-		comboItem.setDisabled(isEdit);
+		comboItem.setDisabled(isInViewMode());
 		// comboItem.setShowDisabled(false);
 		//
 		return comboItem;
@@ -1136,7 +1136,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (shippingMethod != null && shippingMethodsCombo != null) {
 			shippingMethodsCombo.setComboItem(getCompany().getShippingMethod(
 					shippingMethod.getID()));
-			shippingMethodsCombo.setDisabled(isEdit);
+			shippingMethodsCombo.setDisabled(isInViewMode());
 		}
 
 	}
@@ -1146,7 +1146,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (shippingTerm != null && shippingTermsCombo != null) {
 			shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
 					shippingTerm.getID()));
-			shippingTermsCombo.setDisabled(isEdit);
+			shippingTermsCombo.setDisabled(isInViewMode());
 		}
 	}
 
@@ -1189,7 +1189,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 			depositInCombo.setComboItem(getCompany().getAccount(
 					depositInAccount.getID()));
-			depositInCombo.setDisabled(isEdit);
+			depositInCombo.setDisabled(isInViewMode());
 		}
 
 	}
@@ -1197,19 +1197,19 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	@Override
 	public void onEdit() {
 		if (shippingMethodsCombo != null)
-			shippingMethodsCombo.setDisabled(isEdit);
+			shippingMethodsCombo.setDisabled(isInViewMode());
 		if (shippingTermsCombo != null)
-			shippingTermsCombo.setDisabled(isEdit);
+			shippingTermsCombo.setDisabled(isInViewMode());
 		if (depositInCombo != null)
-			depositInCombo.setDisabled(isEdit);
+			depositInCombo.setDisabled(isInViewMode());
 		if (phoneSelect != null)
-			phoneSelect.setDisabled(isEdit);
+			phoneSelect.setDisabled(isInViewMode());
 		if (contactCombo != null)
-			contactCombo.setDisabled(isEdit);
+			contactCombo.setDisabled(isInViewMode());
 		if (shipToCombo != null)
-			shipToCombo.setDisabled(isEdit);
+			shipToCombo.setDisabled(isInViewMode());
 		if (billToCombo != null)
-			billToCombo.setDisabled(isEdit);
+			billToCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

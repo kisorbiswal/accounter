@@ -62,7 +62,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	@Override
 	public void initData() {
 		ClientTAXCode vat = (ClientTAXCode) getData();
-		if (isEdit) {
+		if (isInViewMode()) {
 			vatCodeTxt.setValue(vat.getName() != null ? vat.getName() : "");
 			vatCode = vat.getName() != null ? vat.getName() : "";
 			description.setValue(vat.getDescription() != null ? vat
@@ -308,7 +308,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 		ClientTAXCode taxCodeByName = getCompany().getTAXCodeByName(name);
 
-		if ((!isEdit && taxCodeByName != null)) {
+		if ((!isInViewMode() && taxCodeByName != null)) {
 			result.addError(vatCodeTxt, Accounter.constants().alreadyExist());
 			return result;
 		}

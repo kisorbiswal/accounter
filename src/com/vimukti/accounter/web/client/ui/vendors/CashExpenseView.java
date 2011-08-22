@@ -89,7 +89,7 @@ public class CashExpenseView extends CashPurchaseView {
 		// vendorForm.removeFromParent();
 		// verticalPanel.add(vendorForm);
 
-		if (isEdit) {
+		if (isInViewMode()) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			petycash.setComboItem(cashPurchase.getCashExpenseAccount());
 			petycash.setDisabled(true);

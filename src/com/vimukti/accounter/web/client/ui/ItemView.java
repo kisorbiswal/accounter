@@ -106,7 +106,7 @@ public class ItemView extends BaseView<ClientItem> {
 			List<ClientTAXCode> result = getCompany().getActiveTaxCodes();
 			if (result != null) {
 				taxCode.initCombo(getCompany().getActiveTaxCodes());
-				if (isEdit) {
+				if (isInViewMode()) {
 					taxCode.setComboItem(getCompany().getTAXCode(
 							data.getTaxCode()));
 				} else if (!getCompany().getPreferences().getDoYouPaySalesTax()) {
@@ -186,7 +186,7 @@ public class ItemView extends BaseView<ClientItem> {
 		itemForm.setStyleName("item-form-view");
 		itemForm.setIsGroup(true);
 		itemForm.setGroupTitle(Accounter.constants().item());
-		if (isEdit) {
+		if (isInViewMode()) {
 			this.type = data.getType();
 		}
 		if (type == TYPE_SERVICE) {
@@ -721,12 +721,12 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (clientItemgroup != null) {
 			itemGroupCombo.initCombo(clientItemgroup);
-			if (isEdit) {
+			if (isInViewMode()) {
 				itemGroupCombo.setComboItem(getCompany().getItemGroup(
 						data.getItemGroup()));
 			}
 		}
-		if (isEdit) {
+		if (isInViewMode()) {
 			if (data.isISellThisItem()) {
 				isellCheck.setDisabled(false);
 				ibuyCheck.setDisabled(true);
@@ -748,7 +748,7 @@ public class ItemView extends BaseView<ClientItem> {
 		List<ClientVendor> clientVendor = getCompany().getActiveVendors();
 		if (clientVendor != null) {
 			prefVendorCombo.initCombo(clientVendor);
-			if (isEdit) {
+			if (isInViewMode()) {
 				prefVendorCombo.setComboItem(getCompany().getVendor(
 						data.getPreferredVendor()));
 				if (data.isIBuyThisItem() == false)
@@ -807,7 +807,7 @@ public class ItemView extends BaseView<ClientItem> {
 				expAccCombo.setComboItem(defaultExpAccount);
 			}
 		}
-		if (isEdit) {
+		if (isInViewMode()) {
 
 			accountCombo.setComboItem(getCompany().getAccount(
 					data.getIncomeAccount()));
@@ -845,7 +845,7 @@ public class ItemView extends BaseView<ClientItem> {
 		//valid income accont and valid expense account?
 		
 		String name = nameText.getValue().toString();
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			ClientItem clientItem = company.getItemByName(name);
 			if (clientItem != null) {
 				result.addError(nameText, Accounter.constants()

@@ -41,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -123,7 +124,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	private void getSubAccounts() {
 		subAccounts = getCompany().getAccounts(accountType);
-		if (isEdit) {
+		if (isInViewMode()) {
 			for (ClientAccount account : subAccounts) {
 				if (account.getID() == getData().getID()) {
 					subAccounts.remove(account);
@@ -150,7 +151,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		bankNameSelect.initCombo(allBanks);
 
-		if (isEdit
+		if (isInViewMode()
 				&& data instanceof ClientBankAccount
 				&& (selectedBank = getCompany().getBank(
 						((ClientBankAccount) data).getBank())) != null) {
@@ -456,8 +457,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (isNewBankAccount()) {
 			addError(accNoText, Accounter.constants()
 					.theFinanceCategoryNoShouldBeBetween1100And1179());
-			financeCategoryNumber = autoGenerateAccountnumber(BANK_CAT_BEGIN_NO,
-					BANK_CAT_END_NO);
+			financeCategoryNumber = autoGenerateAccountnumber(
+					BANK_CAT_BEGIN_NO, BANK_CAT_END_NO);
 
 		} else {
 			accountSubBaseType = UIUtils.getAccountSubBaseType(accountType);
@@ -476,15 +477,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					+ " "
 					+ Accounter.constants().and()
 					+ " " + nominalCodeRange[1]);
-			financeCategoryNumber = autoGenerateAccountnumber(nominalCodeRange[0],
-					nominalCodeRange[1]);
-			
+			financeCategoryNumber = autoGenerateAccountnumber(
+					nominalCodeRange[0], nominalCodeRange[1]);
+
 		}
 
 		accNoText.setValue(String.valueOf(financeCategoryNumber));
 	}
-
-	
 
 	protected void setCashFlowType() {
 		switch (this.accountType) {
@@ -755,7 +754,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			accTypeSelect.setDisabled(true);
 		} else {
 
-			if (!isEdit) {
+			if (!isInViewMode()) {
 				accTypeSelect.initCombo(getAccountsList());
 				setAccountType(Integer.parseInt(defaultId));
 				accounttype_selected();
@@ -941,7 +940,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		ClientCompany company = getCompany();
 		ClientAccount account = company.getAccountByName(name);
 		if (name != null && !name.isEmpty()) {
-			if (isEdit ? (account == null ? false : !data.getName()
+			if (isInViewMode() ? (account == null ? false : !data.getName()
 					.equalsIgnoreCase(name)) : account != null) {
 
 				result.addError(accNameText, Accounter.constants()
@@ -951,7 +950,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		long number = accNoText.getNumber();
 		account = company.getAccountByNumber(number);
-		if (isEdit ? (account == null ? false : !(Long.parseLong(data
+		if (isInViewMode() ? (account == null ? false : !(Long.parseLong(data
 				.getNumber()) == number)) : account != null) {
 
 			result.addError(accNameText, Accounter.constants()
@@ -959,7 +958,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			return result;
 		}
 
-		if (!(isEdit && data.getName().equalsIgnoreCase(
+		if (!(isInViewMode() && data.getName().equalsIgnoreCase(
 				Accounter.constants().openingBalances()))) {
 			validateAccountNumber(accNoText.getNumber());
 		}
@@ -1079,7 +1078,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (accountType != ClientAccount.TYPE_BANK
 				&& accountType != ClientAccount.TYPE_CREDIT_CARD)
 			getSubAccounts();
-		if (isEdit)
+		if (isInViewMode())
 			initView();
 		super.initData();
 		// if (takenAccount == null)
@@ -1292,7 +1291,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	 * @return long number
 	 */
 	public long autoGenerateAccountnumber(int range1, int range2) {
-		//TODO::: add a filter to filter the accounts based on the account type
+		// TODO::: add a filter to filter the accounts based on the account type
 		List<ClientAccount> accounts = getCompany().getAccounts();
 		Long number = null;
 		if (number == null) {
@@ -1315,7 +1314,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			return true;
 
 		List<ClientAccount> accounts = getCompany().getAccounts();
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			for (ClientAccount account : accounts) {
 				if (number.toString().equals(account.getNumber())) {
 					addError(accNoText, Accounter.constants()
@@ -1431,7 +1430,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	@Override
 	public void onEdit() {
-
+		setMode(EditMode.EDIT);
 	}
 
 	@Override

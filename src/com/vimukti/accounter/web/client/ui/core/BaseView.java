@@ -15,7 +15,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	protected int accountType;
 	private EditMode mode;
-	protected boolean isEdit;
+	// private boolean isInViewMode;
 
 	protected SaveAndCloseButton saveAndCloseButton;
 
@@ -118,7 +118,15 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 
 	public void setMode(EditMode mode) {
+		if (this.mode == mode) {
+			return;
+		}
 		this.mode = mode;
+		getManager().updateButtons();
+	}
+
+	public boolean isInViewMode() {
+		return this.mode == EditMode.VIEW;
 	}
 
 }

@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -233,7 +234,7 @@ public class NewVendorPaymentView extends
 						if (payFromAccount == null)
 							checkNo.setValue(Accounter.constants()
 									.toBePrinted());
-						else if (isEdit) {
+						else if (isInViewMode()) {
 							checkNo.setValue(((ClientPayBill) transaction)
 									.getCheckNumber());
 						}
@@ -644,14 +645,14 @@ public class NewVendorPaymentView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		vendorCombo.setDisabled(isEdit);
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
-		printCheck.setDisabled(isEdit);
-		checkNo.setDisabled(isEdit);
-		amountText.setDisabled(isEdit);
-		paymentMethodCombo.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		vendorCombo.setDisabled(isInViewMode());
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
+		printCheck.setDisabled(isInViewMode());
+		checkNo.setDisabled(isInViewMode());
+		amountText.setDisabled(isInViewMode());
+		paymentMethodCombo.setDisabled(isInViewMode());
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNo.setValue(Accounter.constants().toBePrinted());

@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -122,7 +123,7 @@ public class CustomerCreditMemoView extends
 		phoneSelect = new TextItem(customerConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		phoneSelect.setDisabled(isEdit);
+		phoneSelect.setDisabled(isInViewMode());
 		salesPersonCombo = createSalesPersonComboItem();
 
 		DynamicForm phoneForm = UIUtils.form(customerConstants.phoneNumber());
@@ -161,7 +162,7 @@ public class CustomerCreditMemoView extends
 		customerTransactionGrid.isEnable = false;
 		customerTransactionGrid.init();
 		customerTransactionGrid.setCanEdit(true);
-		customerTransactionGrid.setDisabled(isEdit);
+		customerTransactionGrid.setDisabled(isInViewMode());
 		customerTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 
 		final TextItem disabletextbox = new TextItem();
@@ -623,16 +624,16 @@ public class CustomerCreditMemoView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
-		customerCombo.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
+		customerCombo.setDisabled(isInViewMode());
 		if (getPreferences().isSalesPersonEnabled())
-			salesPersonCombo.setDisabled(isEdit);
-		priceLevelSelect.setDisabled(isEdit);
-		taxCodeSelect.setDisabled(isEdit);
-		memoTextAreaItem.setDisabled(isEdit);
-		customerTransactionGrid.setDisabled(isEdit);
+			salesPersonCombo.setDisabled(isInViewMode());
+		priceLevelSelect.setDisabled(isInViewMode());
+		taxCodeSelect.setDisabled(isInViewMode());
+		memoTextAreaItem.setDisabled(isInViewMode());
+		customerTransactionGrid.setDisabled(isInViewMode());
 		customerTransactionGrid.setCanEdit(true);
 		super.onEdit();
 

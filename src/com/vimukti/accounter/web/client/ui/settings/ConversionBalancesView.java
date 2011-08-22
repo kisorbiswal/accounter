@@ -172,12 +172,12 @@ public class ConversionBalancesView extends BaseView {
 		removeZeroBalance.setValue(Accounter.constants().removeZeroBalances());
 		removeZeroBalance.addStyleName("falseHyperlink");
 		removeZeroBalance.setShowTitle(false);
-		removeZeroBalance.setDisabled(isEdit);
+		removeZeroBalance.setDisabled(isInViewMode());
 		showAllAccounts = new LabelItem();
 		showAllAccounts.setValue(Accounter.constants().showAllAccounts());
 		showAllAccounts.addStyleName("falseHyperlink");
 		showAllAccounts.setShowTitle(false);
-		showAllAccounts.setDisabled(isEdit);
+		showAllAccounts.setDisabled(isInViewMode());
 		footerCommentHtml = new HTML(messages.footerComment());
 
 		labelsForm = new DynamicForm();

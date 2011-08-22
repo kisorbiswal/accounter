@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -135,7 +136,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		} else
 			salesPersonCombo.setValue("");
 
-		salesPersonCombo.setDisabled(isEdit);
+		salesPersonCombo.setDisabled(isInViewMode());
 
 	}
 
@@ -238,7 +239,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		phoneSelect = new TextItem(customerConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		phoneSelect.setDisabled(isEdit);
+		phoneSelect.setDisabled(isInViewMode());
 
 		custForm = UIUtils.form(customerConstants.customer());
 		custForm.setCellSpacing(5);
@@ -261,7 +262,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		quoteExpiryDate.setHelpInformation(true);
 		quoteExpiryDate.setEnteredDate(getTransactionDate());
 		// formItems.add(quoteExpiryDate);
-		quoteExpiryDate.setDisabled(isEdit);
+		quoteExpiryDate.setDisabled(isInViewMode());
 
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
@@ -273,8 +274,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			phoneForm.setFields(payTermsSelect, quoteExpiryDate, deliveryDate);
 		}
 		phoneForm.setStyleName("align-form");
-		phoneForm.getCellFormatter().getElement(0, 0).setAttribute(
-				Accounter.constants().width(), "203px");
+		phoneForm.getCellFormatter().getElement(0, 0)
+				.setAttribute(Accounter.constants().width(), "203px");
 
 		Label lab2 = new Label(customerConstants.productAndService());
 
@@ -303,7 +304,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		customerTransactionGrid.isEnable = false;
 		customerTransactionGrid.init();
 		customerTransactionGrid.setCanEdit(true);
-		customerTransactionGrid.setDisabled(isEdit);
+		customerTransactionGrid.setDisabled(isInViewMode());
 		customerTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 
 		final TextItem disabletextbox = new TextItem();
@@ -518,7 +519,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 						.getExpirationDate()));
 
 			if (transaction.getID() != 0) {
-				isEdit = Boolean.TRUE;
+				setMode(EditMode.VIEW);
 			}
 			this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 			// taxCodeSelected(this.taxCode);
@@ -532,26 +533,25 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setValue(String.valueOf(transaction
-						.getTotal()
-						- transaction.getNetAmount()));
+						.getTotal() - transaction.getNetAmount()));
 			}
 			memoTextAreaItem.setDisabled(true);
 			transactionTotalNonEditableText.setAmount(transaction.getTotal());
 			customerTransactionGrid.setCanEdit(false);
 
-			customerTransactionGrid.setDisabled(isEdit);
-			transactionDateItem.setDisabled(isEdit);
-			transactionNumber.setDisabled(isEdit);
-			phoneSelect.setDisabled(isEdit);
-			billToTextArea.setDisabled(isEdit);
-			customerCombo.setDisabled(isEdit);
-			payTermsSelect.setDisabled(isEdit);
-			salesPersonCombo.setDisabled(isEdit);
-			memoTextAreaItem.setDisabled(isEdit);
-			contactCombo.setDisabled(isEdit);
-			quoteExpiryDate.setDisabled(isEdit);
-			deliveryDate.setDisabled(isEdit);
-			taxCodeSelect.setDisabled(isEdit);
+			customerTransactionGrid.setDisabled(isInViewMode());
+			transactionDateItem.setDisabled(isInViewMode());
+			transactionNumber.setDisabled(isInViewMode());
+			phoneSelect.setDisabled(isInViewMode());
+			billToTextArea.setDisabled(isInViewMode());
+			customerCombo.setDisabled(isInViewMode());
+			payTermsSelect.setDisabled(isInViewMode());
+			salesPersonCombo.setDisabled(isInViewMode());
+			memoTextAreaItem.setDisabled(isInViewMode());
+			contactCombo.setDisabled(isInViewMode());
+			quoteExpiryDate.setDisabled(isInViewMode());
+			deliveryDate.setDisabled(isInViewMode());
+			taxCodeSelect.setDisabled(isInViewMode());
 		}
 		super.initTransactionViewData();
 		initAllItems();
@@ -588,7 +588,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 				return;
 
 			Double salesTax = taxCode != null ? Utility.getCalculatedSalesTax(
-					transactionDateItem.getEnteredDate(), taxableLineTotal,
+					transactionDateItem.getEnteredDate(),
+					taxableLineTotal,
 					getCompany().getTAXItemGroup(
 							taxCode.getTAXItemGrpForSales())) : 0;
 
@@ -601,8 +602,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		} else if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
 			netAmountLabel.setAmount(customerTransactionGrid.getGrandTotal());
 			vatTotalNonEditableText.setAmount(customerTransactionGrid
-					.getTotalValue()
-					- customerTransactionGrid.getGrandTotal());
+					.getTotalValue() - customerTransactionGrid.getGrandTotal());
 			setTransactionTotal(customerTransactionGrid.getTotalValue());
 		}
 
@@ -614,8 +614,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
 
-		if (!AccounterValidator.isValidDueOrDelivaryDates(this.quoteExpiryDate
-				.getEnteredDate(), this.transactionDate)) {
+		if (!AccounterValidator.isValidDueOrDelivaryDates(
+				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
 			result.addError(this.quoteExpiryDate, Accounter.constants().the()
 					+ " "
 					+ customerConstants.expirationDate()
@@ -656,7 +656,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -752,20 +752,20 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate> {
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
-		customerCombo.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
+		customerCombo.setDisabled(isInViewMode());
 		if (getPreferences().isSalesPersonEnabled())
-			salesPersonCombo.setDisabled(isEdit);
-		payTermsSelect.setDisabled(isEdit);
-		deliveryDate.setDisabled(isEdit);
-		quoteExpiryDate.setDisabled(isEdit);
-		taxCodeSelect.setDisabled(isEdit);
-		memoTextAreaItem.setDisabled(isEdit);
-		priceLevelSelect.setDisabled(isEdit);
+			salesPersonCombo.setDisabled(isInViewMode());
+		payTermsSelect.setDisabled(isInViewMode());
+		deliveryDate.setDisabled(isInViewMode());
+		quoteExpiryDate.setDisabled(isInViewMode());
+		taxCodeSelect.setDisabled(isInViewMode());
+		memoTextAreaItem.setDisabled(isInViewMode());
+		priceLevelSelect.setDisabled(isInViewMode());
 		customerTransactionGrid.setCanEdit(true);
-		customerTransactionGrid.setDisabled(isEdit);
+		customerTransactionGrid.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

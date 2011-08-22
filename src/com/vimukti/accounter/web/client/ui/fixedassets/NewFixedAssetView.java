@@ -106,7 +106,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	@Override
 	public void initData() {
 
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			initAssetNumber();
 		} else {
 			selectedAssetAccount = getCompany().getAccount(
@@ -136,7 +136,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (selectedOption != null
 				&& selectedOption
 						.equalsIgnoreCase(Accounter.constants().edit())
-				&& isEdit && data.getAssetAccount() != 0
+				&& isInViewMode() && data.getAssetAccount() != 0
 				&& accumltdAccVPanel != null
 				&& mainVPanel.getWidgetIndex(accumltdAccVPanel) == -1) {
 			showAccumltdAccountForm();
@@ -412,7 +412,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		mainVPanel = new VerticalPanel();
 		mainVPanel.setSize("100%", "");
-		if (isEdit) {
+		if (isInViewMode()) {
 			assetOptions = new SelectItem(Accounter.constants().assetOptions());
 			if (data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
 				assetOptions.setValueMap("", Accounter.constants().edit(),
@@ -484,7 +484,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		showAccumultdDepAmountForm(purchaseDateTxt.getEnteredDate());
 
 		// populating the data into respective fields in edit mode
-		if (isEdit) {
+		if (isInViewMode()) {
 
 			itemTxt.setValue(data.getName() != null ? data.getName() : "");
 			assetNumberTxt.setValue(data.getAssetNumber());
@@ -547,11 +547,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 * In edit mode,if the asset is other than the pending item,"Register"
 		 * button should be hide
 		 */
-		if (isEdit
+		if (isInViewMode()
 				&& (data.getStatus() == ClientFixedAsset.STATUS_REGISTERED || data
 						.getStatus() == ClientFixedAsset.STATUS_REGISTERED)) {
 			registerButton.setVisible(false);
-		} else if (isEdit
+		} else if (isInViewMode()
 				&& (data.getStatus() == ClientFixedAsset.STATUS_SOLD_OR_DISPOSED)) {
 			registerButton.setVisible(false);
 			saveAndCloseButton.setVisible(false);
@@ -586,7 +586,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 				if (noteDialog.noteArea.getValue() != null) {
 					String value = noteDialog.noteArea.getValue().toString();
-					if (isEdit && value.length() != 0) {
+					if (isInViewMode() && value.length() != 0) {
 						ClientFixedAssetNote note = new ClientFixedAssetNote();
 						note.setNote(value);
 						List<ClientFixedAssetNote> noteList = data
@@ -655,7 +655,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 * setting the linked Account(AccumulatedDep.Account) for the selected
 		 * AssetAccount in edit mode
 		 */
-		if (isEdit && data.getAssetAccount() != 0) {
+		if (isInViewMode() && data.getAssetAccount() != 0) {
 			if (getCompany().getAccount(data.getAssetAccount())
 					.getLinkedAccumulatedDepreciationAccount() != 0) {
 				long accumulatedAccountID = getCompany().getAccount(
@@ -671,7 +671,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				accumulatedDepreciationAccount.setSelected("");
 
 		}
-		if (isEdit) {
+		if (isInViewMode()) {
 			accumulatedDepreciationAccount
 					.setComboItem(getCompany().getAccount(
 							data.getLinkedAccumulatedDepreciationAccount()));
@@ -725,7 +725,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				accmulatdDepreciationTxt.setValue(String
 						.valueOf(getDepreciationAmount()));
 
-				if (isEdit)
+				if (isInViewMode())
 					accmulatdDepreciationTxt.setValue(String.valueOf(data
 							.getAccumulatedDepreciationAmount()));
 
@@ -754,7 +754,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	public double getDepreciationAmount() {
 		try {
 
-			if (isEdit && accmulatdDepreciationTxt.getDisabled()) {
+			if (isInViewMode() && accmulatdDepreciationTxt.getDisabled()) {
 				accmulatdDepreciationTxt.setAmount(data
 						.getAccumulatedDepreciationAmount());
 			} else {
@@ -1022,9 +1022,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	}
 
 	private boolean validateName(String name) {
-		if (!(!isEdit && getCompany().getFixedAssetByName(name) != null ? true
+		if (!(!isInViewMode() && getCompany().getFixedAssetByName(name) != null ? true
 				: false)
-				|| !(isEdit && !(data.getName().equalsIgnoreCase(name) ? true
+				|| !(isInViewMode() && !(data.getName().equalsIgnoreCase(name) ? true
 						: getCompany().getFixedAssetByName(name) != null ? false
 								: true))) {
 			isVerified = true;

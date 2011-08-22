@@ -211,13 +211,14 @@ public class ViewManager extends HorizontalPanel {
 		String token = action.getHistoryToken();
 
 		if (newview.getManager() == null) {
+			newview.setManager(this);
 			newview.setPreferences(Accounter.getCompany().getPreferences());
 			if (input != null) {
 				newview.setData(input);
 			}
 			newview.init();
 			newview.initData();
-			newview.setManager(this);
+
 		}
 
 		this.views.add(new HistoryItem(newview, action));
@@ -396,7 +397,6 @@ public class ViewManager extends HorizontalPanel {
 			@Override
 			public void onClick(ClickEvent arg0) {
 				existingView.onEdit();
-				updateButtons();
 			}
 		});
 

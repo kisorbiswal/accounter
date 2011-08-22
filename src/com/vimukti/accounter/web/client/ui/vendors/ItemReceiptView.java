@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
@@ -90,7 +91,7 @@ public class ItemReceiptView extends
 		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		labeldateNoLayout.add(datepanel);
 
-		if (this.isEdit) {
+		if (this.isInViewMode()) {
 			dateNoForm.setDisabled(true);
 		}
 
@@ -104,7 +105,7 @@ public class ItemReceiptView extends
 		purchaseLabel = new LinkItem();
 		purchaseLabel.setLinkTitle(Accounter.constants().purchaseOrders());
 		purchaseLabel.setShowTitle(false);
-		purchaseLabel.setDisabled(isEdit);
+		purchaseLabel.setDisabled(isInViewMode());
 		purchaseLabel.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -161,7 +162,7 @@ public class ItemReceiptView extends
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		vendorTransactionGrid.isEnable = false;
 		vendorTransactionGrid.init();
-		vendorTransactionGrid.setDisabled(isEdit);
+		vendorTransactionGrid.setDisabled(isInViewMode());
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
@@ -277,7 +278,7 @@ public class ItemReceiptView extends
 					}
 
 				});
-		comboItem.setDisabled(isEdit);
+		comboItem.setDisabled(isInViewMode());
 		// comboItem.setShowDisabled(false);
 		//
 		return comboItem;
@@ -311,7 +312,7 @@ public class ItemReceiptView extends
 
 	@Override
 	protected void initMemoAndReference() {
-		if (this.isEdit) {
+		if (this.isInViewMode()) {
 
 			ClientItemReceipt itemReceipt = (ClientItemReceipt) transaction;
 
@@ -651,15 +652,15 @@ public class ItemReceiptView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		vendorCombo.setDisabled(isEdit);
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
-		payTermsSelect.setDisabled(isEdit);
-		purchaseLabel.setDisabled(isEdit);
-		vendorTransactionGrid.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		vendorCombo.setDisabled(isInViewMode());
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
+		payTermsSelect.setDisabled(isInViewMode());
+		purchaseLabel.setDisabled(isInViewMode());
+		vendorTransactionGrid.setDisabled(isInViewMode());
 
-		deliveryDateItem.setDisabled(isEdit);
+		deliveryDateItem.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

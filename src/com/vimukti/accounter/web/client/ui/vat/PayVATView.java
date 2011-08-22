@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -113,7 +114,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 				});
 
-		payFromAccCombo.setDisabled(isEdit);
+		payFromAccCombo.setDisabled(isInViewMode());
 		payFromAccCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
@@ -123,7 +124,7 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 		billsDue.setHelpInformation(true);
 		billsDue.setTitle(companyConstants.returnsDueOnOrBefore());
-		billsDue.setDisabled(isEdit);
+		billsDue.setDisabled(isInViewMode());
 
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -290,14 +291,14 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 
 		gridLayout = new VerticalPanel();
 		gridLayout.setWidth("100%");
-		grid = new TransactionPayVATGrid(!isEdit, true);
-		grid.setCanEdit(!isEdit);
+		grid = new TransactionPayVATGrid(!isInViewMode(), true);
+		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
 		grid.setPayVATView(this);
-		grid.setDisabled(isEdit);
+		grid.setDisabled(isInViewMode());
 		// grid.setHeight("200px");
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			// grid.addFooterValue("Total", 1);
 			// grid
 			// .updateFooterValues(DataUtils
@@ -646,12 +647,12 @@ public class PayVATView extends AbstractTransactionBaseView<ClientPayVAT> {
 	}
 
 	private void enableFormItems() {
-		isEdit = false;
-		date.setDisabled(isEdit);
-		paymentMethodCombo.setDisabled(isEdit);
-		billsDue.setDisabled(isEdit);
-		taxAgencyCombo.setDisabled(isEdit);
-		payFromAccCombo.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		date.setDisabled(isInViewMode());
+		paymentMethodCombo.setDisabled(isInViewMode());
+		billsDue.setDisabled(isInViewMode());
+		taxAgencyCombo.setDisabled(isInViewMode());
+		payFromAccCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 		fillGrid();

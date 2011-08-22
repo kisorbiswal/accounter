@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -122,7 +123,7 @@ public class PurchaseOrderView extends
 					}
 				});
 		statusSelect.setRequired(true);
-		statusSelect.setDisabled(isEdit);
+		statusSelect.setDisabled(isInViewMode());
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
@@ -218,7 +219,7 @@ public class PurchaseOrderView extends
 		vendorCombo.setRequired(true);
 		vendorCombo.setHelpInformation(true);
 
-		vendorCombo.setDisabled(isEdit);
+		vendorCombo.setDisabled(isInViewMode());
 		// vendorCombo.setShowDisabled(false);
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -280,7 +281,7 @@ public class PurchaseOrderView extends
 				.vendorOrderNo()));
 		purchaseOrderText.setWidth(50);
 		purchaseOrderText.setColSpan(1);
-		purchaseOrderText.setDisabled(isEdit);
+		purchaseOrderText.setDisabled(isInViewMode());
 
 		payTermsSelect = createPaymentTermsSelectItem();
 
@@ -289,9 +290,9 @@ public class PurchaseOrderView extends
 		shippingMethodsCombo = createShippingMethodCombo();
 
 		dueDateItem = new DateField(Accounter.constants().dueDate());
-		dueDateItem.setDisabled(isEdit);
+		dueDateItem.setDisabled(isInViewMode());
 		// dueDateItem.setWidth(100);
-		if (isEdit) {
+		if (isInViewMode()) {
 			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
 		} else
 			setDueDate(new ClientFinanceDate().getDate());
@@ -311,8 +312,8 @@ public class PurchaseOrderView extends
 
 		});
 		despatchDateItem = new DateField(Accounter.constants().despatchDate());
-		despatchDateItem.setDisabled(isEdit);
-		if (isEdit) {
+		despatchDateItem.setDisabled(isInViewMode());
+		if (isInViewMode()) {
 		} else
 			setDespatchDate(new ClientFinanceDate().getDate());
 		despatchDateItem.addChangedHandler(new ChangeHandler() {
@@ -362,7 +363,7 @@ public class PurchaseOrderView extends
 		vendorTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		vendorTransactionGrid.isEnable = false;
 		vendorTransactionGrid.init();
-		vendorTransactionGrid.setDisabled(isEdit);
+		vendorTransactionGrid.setDisabled(isInViewMode());
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
@@ -374,7 +375,7 @@ public class PurchaseOrderView extends
 		linksText = new TextItem();
 		linksText.setWidth(100);
 		linksText.setShowTitle(false);
-		linksText.setDisabled(isEdit);
+		linksText.setDisabled(isInViewMode());
 		// formItems.add(linksText);
 
 		DynamicForm memoForm = new DynamicForm();
@@ -387,7 +388,7 @@ public class PurchaseOrderView extends
 		HorizontalPanel linkspanel = new HorizontalPanel();
 		linkspanel.setWidth("70%");
 		linkspanel.add(addLinksButton);
-		addLinksButton.setEnabled(isEdit);
+		addLinksButton.setEnabled(isInViewMode());
 		linkspanel.add(linksform);
 
 		VerticalPanel leftVLay = new VerticalPanel();
@@ -497,7 +498,7 @@ public class PurchaseOrderView extends
 					}
 
 				});
-		comboItem.setDisabled(isEdit);
+		comboItem.setDisabled(isInViewMode());
 		// comboItem.setShowDisabled(false);
 		//
 		return comboItem;
@@ -519,7 +520,7 @@ public class PurchaseOrderView extends
 
 				});
 
-		shippingTermsCombo.setDisabled(isEdit);
+		shippingTermsCombo.setDisabled(isInViewMode());
 
 		// formItems.add(shippingTermsCombo);
 
@@ -542,7 +543,7 @@ public class PurchaseOrderView extends
 
 				});
 
-		shippingMethodsCombo.setDisabled(isEdit);
+		shippingMethodsCombo.setDisabled(isInViewMode());
 
 		// formItems.add(shippingMethodsCombo);
 
@@ -564,7 +565,7 @@ public class PurchaseOrderView extends
 
 				});
 
-		shipToCombo.setDisabled(isEdit);
+		shipToCombo.setDisabled(isInViewMode());
 		// shipToCombo.setShowDisabled(false);
 		if (getPreferences().isDoProductShipMents()) {
 			// formItems.add(shipToCombo);
@@ -590,7 +591,7 @@ public class PurchaseOrderView extends
 
 				});
 
-		addressCombo.setDisabled(isEdit);
+		addressCombo.setDisabled(isInViewMode());
 		// addressCombo.setShowDisabled(false);
 
 		return addressCombo;
@@ -632,7 +633,7 @@ public class PurchaseOrderView extends
 			vendorSelected(company.getVendor(transaction.getVendor()));
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
-			phoneSelect.setDisabled(isEdit);
+			phoneSelect.setDisabled(isInViewMode());
 			// vendoraddressSelected(purchaseOrderToBeEdited.getVendorAddress());
 			// shipToAddressSelected(purchaseOrderToBeEdited.getShippingAddress());
 
@@ -671,7 +672,7 @@ public class PurchaseOrderView extends
 			deliveryDateItem.setEnteredDate(new ClientFinanceDate(transaction
 					.getDeliveryDate()));
 			memoTextAreaItem.setValue(transaction.getMemo());
-			memoTextAreaItem.setDisabled(isEdit);
+			memoTextAreaItem.setDisabled(isInViewMode());
 			// refText.setValue(purchaseOrderToBeEdited.getReference());
 			vendorTransactionGrid.setCanEdit(false);
 
@@ -694,7 +695,7 @@ public class PurchaseOrderView extends
 
 	private void initDeliveryDate() {
 
-		if (isEdit) {
+		if (isInViewMode()) {
 			ClientPurchaseOrder purchaseOrder = (ClientPurchaseOrder) transaction;
 			deliveryDateItem.setEnteredDate(new ClientFinanceDate(purchaseOrder
 					.getDeliveryDate()));
@@ -723,10 +724,10 @@ public class PurchaseOrderView extends
 		List<ClientAddress> adressList = new ArrayList<ClientAddress>();
 		adressList.addAll(tempSet);
 		billToCombo.initCombo(adressList);
-		billToCombo.setDisabled(isEdit);
+		billToCombo.setDisabled(isInViewMode());
 		// billToCombo.setShowDisabled(false);
 
-		if (isEdit && billingAddress != null) {
+		if (isInViewMode() && billingAddress != null) {
 			billToCombo.setComboItem(billingAddress);
 			return;
 		}
@@ -764,9 +765,9 @@ public class PurchaseOrderView extends
 		List<ClientAddress> adressList = new ArrayList<ClientAddress>();
 		adressList.addAll(tempSet);
 		shipToCombo.initCombo(adressList);
-		shipToCombo.setDisabled(isEdit);
+		shipToCombo.setDisabled(isInViewMode());
 
-		if (isEdit && shippingAddress != null) {
+		if (isInViewMode() && shippingAddress != null) {
 			shipToCombo.setComboItem(shippingAddress);
 			return;
 		}
@@ -806,7 +807,7 @@ public class PurchaseOrderView extends
 	@Override
 	protected void initMemoAndReference() {
 
-		if (isEdit) {
+		if (isInViewMode()) {
 
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(salesOrder.getReference());
@@ -1139,34 +1140,34 @@ public class PurchaseOrderView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		statusSelect.setDisabled(isEdit);
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
-		shipToAddress.businessSelect.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		statusSelect.setDisabled(isInViewMode());
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
+		shipToAddress.businessSelect.setDisabled(isInViewMode());
 		// shipToCombo.setDisabled(isEdit);
 		ClientTransactionItem item = new ClientTransactionItem();
 		if (!DecimalUtil.isEquals(item.getInvoiced(), 0)) {
-			vendorCombo.setDisabled(isEdit);
+			vendorCombo.setDisabled(isInViewMode());
 		} else {
 			vendorCombo.setDisabled(true);
 		}
 
 		// billToCombo.setDisabled(isEdit);
-		purchaseOrderText.setDisabled(isEdit);
-		deliveryDateItem.setDisabled(isEdit);
-		payTermsSelect.setDisabled(isEdit);
+		purchaseOrderText.setDisabled(isInViewMode());
+		deliveryDateItem.setDisabled(isInViewMode());
+		payTermsSelect.setDisabled(isInViewMode());
 
-		shippingTermsCombo.setDisabled(isEdit);
-		shippingMethodsCombo.setDisabled(isEdit);
+		shippingTermsCombo.setDisabled(isInViewMode());
+		shippingMethodsCombo.setDisabled(isInViewMode());
 
-		dueDateItem.setDisabled(isEdit);
-		despatchDateItem.setDisabled(isEdit);
+		dueDateItem.setDisabled(isInViewMode());
+		despatchDateItem.setDisabled(isInViewMode());
 
-		vendorTransactionGrid.setDisabled(isEdit);
+		vendorTransactionGrid.setDisabled(isInViewMode());
 		vendorTransactionGrid.setCanEdit(true);
 
-		memoTextAreaItem.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

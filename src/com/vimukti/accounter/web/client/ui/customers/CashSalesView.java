@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -121,7 +122,7 @@ public class CashSalesView extends
 		phoneSelect = new TextItem(customerConstants.phone());
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		phoneSelect.setDisabled(isEdit);
+		phoneSelect.setDisabled(isInViewMode());
 
 		billToTextArea = new TextAreaItem(Accounter.constants().billTo());
 		billToTextArea.setDisabled(true);
@@ -214,7 +215,7 @@ public class CashSalesView extends
 		customerTransactionGrid.isEnable = false;
 		customerTransactionGrid.init();
 		customerTransactionGrid.setCanEdit(true);
-		customerTransactionGrid.setDisabled(isEdit);
+		customerTransactionGrid.setDisabled(isInViewMode());
 		customerTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 
 		final TextItem disabletextbox = new TextItem();
@@ -535,7 +536,7 @@ public class CashSalesView extends
 						transaction.getDeliverydate()));
 
 			if (transaction.getID() != 0) {
-				isEdit = Boolean.TRUE;
+				setMode(EditMode.VIEW);
 			}
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(cashSale.getReference());
@@ -762,23 +763,23 @@ public class CashSalesView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
-		customerCombo.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
+		customerCombo.setDisabled(isInViewMode());
 		if (getPreferences().isSalesPersonEnabled())
-			salesPersonCombo.setDisabled(isEdit);
-		paymentMethodCombo.setDisabled(isEdit);
-		depositInCombo.setDisabled(isEdit);
-		taxCodeSelect.setDisabled(isEdit);
+			salesPersonCombo.setDisabled(isInViewMode());
+		paymentMethodCombo.setDisabled(isInViewMode());
+		depositInCombo.setDisabled(isInViewMode());
+		taxCodeSelect.setDisabled(isInViewMode());
 
-		shippingTermsCombo.setDisabled(isEdit);
-		shippingMethodsCombo.setDisabled(isEdit);
+		shippingTermsCombo.setDisabled(isInViewMode());
+		shippingMethodsCombo.setDisabled(isInViewMode());
 
-		deliveryDate.setDisabled(isEdit);
-		memoTextAreaItem.setDisabled(isEdit);
-		priceLevelSelect.setDisabled(isEdit);
-		customerTransactionGrid.setDisabled(isEdit);
+		deliveryDate.setDisabled(isInViewMode());
+		memoTextAreaItem.setDisabled(isInViewMode());
+		priceLevelSelect.setDisabled(isInViewMode());
+		customerTransactionGrid.setDisabled(isInViewMode());
 		customerTransactionGrid.setCanEdit(true);
 		super.onEdit();
 	}

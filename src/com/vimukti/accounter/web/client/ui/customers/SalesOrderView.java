@@ -41,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -107,7 +108,7 @@ public class SalesOrderView extends
 					}
 				});
 		statusSelect.setRequired(true);
-		statusSelect.setDisabled(isEdit);
+		statusSelect.setDisabled(isInViewMode());
 
 		transactionDateItem = createTransactionDateItem();
 
@@ -148,7 +149,7 @@ public class SalesOrderView extends
 
 		customerCombo.setRequired(true);
 		customerCombo.setHelpInformation(true);
-		customerCombo.setDisabled(isEdit);
+		customerCombo.setDisabled(isInViewMode());
 		// formItems.add(customerCombo);
 
 		customerCombo.setWidth(100);
@@ -157,7 +158,7 @@ public class SalesOrderView extends
 		quoteLabel.setWidth("100%");
 		quoteLabel.addStyleName("falseHyperlink");
 		quoteLabel.setShowTitle(false);
-		quoteLabel.setDisabled(isEdit);
+		quoteLabel.setDisabled(isInViewMode());
 		quoteLabelListener();
 		contactCombo = createContactComboItem();
 		contactCombo.setWidth(100);
@@ -184,12 +185,12 @@ public class SalesOrderView extends
 					shipToAddress.addrArea.setValue("");
 			}
 		});
-		if (isEdit)
+		if (isInViewMode())
 			shipToAddress.businessSelect.setDisabled(true);
 
 		phoneSelect = new TextItem(customerConstants.phone());
 		phoneSelect.setWidth(100);
-		phoneSelect.setDisabled(isEdit);
+		phoneSelect.setDisabled(isInViewMode());
 
 		custForm = UIUtils.form(customerConstants.billingAddress());
 		custForm.setNumCols(3);
@@ -204,7 +205,7 @@ public class SalesOrderView extends
 				.customerOrderNo());
 		customerOrderText.setWidth(50);
 		customerOrderText.setColSpan(1);
-		customerOrderText.setDisabled(isEdit);
+		customerOrderText.setDisabled(isInViewMode());
 
 		salesPersonCombo = createSalesPersonComboItem();
 
@@ -334,7 +335,7 @@ public class SalesOrderView extends
 		customerTransactionGrid.isEnable = false;
 		customerTransactionGrid.init();
 		customerTransactionGrid.setCanEdit(true);
-		customerTransactionGrid.setDisabled(isEdit);
+		customerTransactionGrid.setDisabled(isInViewMode());
 		customerTransactionGrid.setWidth("99.5%");
 		customerTransactionGrid.setHeight("250px");
 		customerTransactionGrid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
@@ -427,7 +428,7 @@ public class SalesOrderView extends
 	}
 
 	private void quoteLabelListener() {
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			quoteLabel.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -559,7 +560,7 @@ public class SalesOrderView extends
 
 			contactSelected(this.contact);
 
-			phoneSelect.setDisabled(isEdit);
+			phoneSelect.setDisabled(isInViewMode());
 			// billToaddressSelected(this.billingAddress);
 			// shipToAddressSelected(shippingAddress);
 
@@ -575,7 +576,7 @@ public class SalesOrderView extends
 					.getDueDate()));
 
 			memoTextAreaItem.setValue(transaction.getMemo());
-			memoTextAreaItem.setDisabled(isEdit);
+			memoTextAreaItem.setDisabled(isInViewMode());
 			// refText.setValue(salesOrderToBeEdited.getReference());
 
 			if (accountType == ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -604,7 +605,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected void initSalesTaxNonEditableItem() {
-		if (isEdit) {
+		if (isInViewMode()) {
 			Double salesTaxAmout = ((ClientSalesOrder) transaction)
 					.getSalesTaxAmount();
 			setSalesTax(salesTaxAmout);
@@ -615,7 +616,7 @@ public class SalesOrderView extends
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (isEdit) {
+		if (isInViewMode()) {
 			Double transactionTotal = ((ClientSalesOrder) transaction)
 					.getTotal();
 			setTransactionTotal(transactionTotal);
@@ -750,7 +751,7 @@ public class SalesOrderView extends
 					salesPerson.getID()));
 
 		}
-		salesPersonCombo.setDisabled(isEdit);
+		salesPersonCombo.setDisabled(isInViewMode());
 
 	}
 
@@ -797,7 +798,7 @@ public class SalesOrderView extends
 		dateItem.setTitle(Accounter.constants().dueDate());
 		dateItem.setColSpan(1);
 
-		dateItem.setDisabled(isEdit);
+		dateItem.setDisabled(isInViewMode());
 
 		// formItems.add(dateItem);
 
@@ -1074,31 +1075,31 @@ public class SalesOrderView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		statusSelect.setDisabled(isEdit);
-		transactionDateItem.setDisabled(isEdit);
-		transactionNumber.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		statusSelect.setDisabled(isInViewMode());
+		transactionDateItem.setDisabled(isInViewMode());
+		transactionNumber.setDisabled(isInViewMode());
 		ClientTransactionItem item = new ClientTransactionItem();
 		if (!DecimalUtil.isEquals(item.getInvoiced(), 0)) {
-			customerCombo.setDisabled(isEdit);
+			customerCombo.setDisabled(isInViewMode());
 		} else {
 			customerCombo.setDisabled(true);
 		}
-		taxCodeSelect.setDisabled(isEdit);
-		customerOrderText.setDisabled(isEdit);
+		taxCodeSelect.setDisabled(isInViewMode());
+		customerOrderText.setDisabled(isInViewMode());
 		customerTransactionGrid.setDisabled(false);
-		quoteLabel.setDisabled(isEdit);
+		quoteLabel.setDisabled(isInViewMode());
 
 		quoteLabelListener();
 		if (getPreferences().isSalesPersonEnabled())
-			salesPersonCombo.setDisabled(isEdit);
-		shippingTermsCombo.setDisabled(isEdit);
-		payTermsSelect.setDisabled(isEdit);
-		shippingMethodsCombo.setDisabled(isEdit);
-		dueDateItem.setDisabled(isEdit);
-		shipToAddress.businessSelect.setDisabled(isEdit);
+			salesPersonCombo.setDisabled(isInViewMode());
+		shippingTermsCombo.setDisabled(isInViewMode());
+		payTermsSelect.setDisabled(isInViewMode());
+		shippingMethodsCombo.setDisabled(isInViewMode());
+		dueDateItem.setDisabled(isInViewMode());
+		shipToAddress.businessSelect.setDisabled(isInViewMode());
 		customerTransactionGrid.setCanEdit(true);
-		memoTextAreaItem.setDisabled(isEdit);
+		memoTextAreaItem.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 

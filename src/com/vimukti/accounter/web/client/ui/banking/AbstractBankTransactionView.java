@@ -108,7 +108,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 				this);
 		// balText.setWidth("*");
 
-		balText.setDisabled(isEdit);
+		balText.setDisabled(isInViewMode());
 		// balText.setShowDisabled(false);
 		return balText;
 
@@ -135,7 +135,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		amtText.setColSpan(1);
 		amtText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 
-		amtText.setDisabled(isEdit);
+		amtText.setDisabled(isInViewMode());
 		// amtText.setShowDisabled(false);
 
 		return amtText;
@@ -187,7 +187,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 					}
 
 				});
-		payFrmSelect.setDisabled(isEdit);
+		payFrmSelect.setDisabled(isInViewMode());
 		// payFrmSelect.setShowDisabled(false);
 		return payFrmSelect;
 	}
@@ -210,7 +210,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 				});
 
-		addressCombo.setDisabled(isEdit);
+		addressCombo.setDisabled(isInViewMode());
 		// addressCombo.setShowDisabled(false);
 		return addressCombo;
 
@@ -235,10 +235,10 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		}
 
 		billToCombo.initCombo(new ArrayList<ClientAddress>(tempSet));
-		billToCombo.setDisabled(isEdit);
+		billToCombo.setDisabled(isInViewMode());
 		// billToCombo.setShowDisabled(false);
 
-		if (isEdit) {
+		if (isInViewMode()) {
 			if (billingAddress != null) {
 				billToCombo.setComboItem(billingAddress);
 				return;

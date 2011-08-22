@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -42,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -174,7 +173,7 @@ public class WriteChequeView extends
 
 		}
 		// getAddreses(add);
-		if (isEdit) {
+		if (isInViewMode()) {
 			if (transaction.getAddress() != null)
 				billToaddressSelected(getAddressById(transaction.getAddress()
 						.getID()));
@@ -243,7 +242,7 @@ public class WriteChequeView extends
 	protected void getAddreses(Set<ClientAddress> allAddress) {
 		ClientAddress toBeShown = null;
 
-		if (isEdit && transaction.getAddress() != null) {
+		if (isInViewMode() && transaction.getAddress() != null) {
 			addressList = payee.getAddress();
 			toBeShown = getAddressById(transaction.getAddress().getID());
 		} else {
@@ -283,7 +282,7 @@ public class WriteChequeView extends
 		payFromAccounts = bankAccSelect.getAccounts();
 
 		bankAccSelect.initCombo(payFromAccounts);
-		if (isEdit) {
+		if (isInViewMode()) {
 
 			selectBankAcc = this.company.getAccount(transaction
 					.getBankAccount());
@@ -301,7 +300,7 @@ public class WriteChequeView extends
 			updateBalance();
 		}
 
-		bankAccSelect.setDisabled(isEdit);
+		bankAccSelect.setDisabled(isInViewMode());
 		// bankAccSelect.setShowDisabled(false);
 
 	}
@@ -312,7 +311,7 @@ public class WriteChequeView extends
 		if (payees != null) {
 
 			paytoSelect.initCombo(payees);
-			if (isEdit) {
+			if (isInViewMode()) {
 				selectedTaxAgency = company.getTaxAgency(transaction
 						.getTaxAgency());
 				if (selectedTaxAgency != null) {
@@ -320,7 +319,7 @@ public class WriteChequeView extends
 					paytoSelect.setComboItem(selectedTaxAgency);
 				}
 
-				paytoSelect.setDisabled(isEdit);
+				paytoSelect.setDisabled(isInViewMode());
 				paytoSelect.setDisabled(false);
 				return;
 			}
@@ -329,7 +328,7 @@ public class WriteChequeView extends
 	}
 
 	protected void newPayToMethod() {
-		if (isEdit) {
+		if (isInViewMode()) {
 			switch (transaction.getPayToType()) {
 			case ClientWriteCheck.TYPE_VENDOR:
 				paytoSelect.setComboItem(getCompany().getVendor(
@@ -350,7 +349,7 @@ public class WriteChequeView extends
 				payee = this.company.getTaxAgency(transaction.getTaxAgency());
 				break;
 			}
-			paytoSelect.setDisabled(isEdit);
+			paytoSelect.setDisabled(isInViewMode());
 			paytoSelect.setDisabled(false);
 			updateAddressAndGrid();
 
@@ -359,7 +358,7 @@ public class WriteChequeView extends
 	}
 
 	private void setDisableFields() {
-		if (isEdit) {
+		if (isInViewMode()) {
 			payForm.setDisabled(true);
 			bankAccForm.setDisabled(true);
 			if (transactionCustomerGrid != null) {
@@ -441,7 +440,7 @@ public class WriteChequeView extends
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
-		if (isEdit) {
+		if (isInViewMode()) {
 			Double transactionTotal = ((ClientWriteCheck) transaction)
 					.getTotal();
 			if (transactionTotal != null) {
@@ -523,7 +522,7 @@ public class WriteChequeView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		if (isEdit) {
+		if (isInViewMode()) {
 			updatePaySalesTax();
 			return;
 		}
@@ -634,7 +633,7 @@ public class WriteChequeView extends
 		Label lab1 = new Label(Accounter.constants().writeCheck() + "("
 				+ getTransactionStatus() + ")");
 		lab1.addStyleName(Accounter.constants().labelTitle());
-		if (isEdit)
+		if (isInViewMode())
 			lab1.setText(Accounter.constants().taxAgentPayment());
 
 		transactionNumber = createTransactionNumberItem();
@@ -642,7 +641,7 @@ public class WriteChequeView extends
 		date = createTransactionDateItem();
 		date.setShowTitle(false);
 		date.setColSpan(2);
-		date.setDisabled(isEdit);
+		date.setDisabled(isInViewMode());
 
 		numForm = new DynamicForm();
 		numForm.setNumCols(4);
@@ -668,7 +667,7 @@ public class WriteChequeView extends
 				.bankAccount());
 		// bankAccSelect.setWidth(100);
 		bankAccSelect.setRequired(true);
-		bankAccSelect.setDisabled(isEdit);
+		bankAccSelect.setDisabled(isInViewMode());
 		bankAccSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					public void selectedComboBoxItem(ClientAccount selectItem) {
@@ -694,7 +693,7 @@ public class WriteChequeView extends
 		paytoSelect = new PayeeCombo(Accounter.constants().payTo());
 		// paytoSelect.setWidth(100);
 		paytoSelect.setRequired(true);
-		paytoSelect.setDisabled(isEdit);
+		paytoSelect.setDisabled(isInViewMode());
 		paytoSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPayee>() {
 					public void selectedComboBoxItem(ClientPayee selectItem) {
@@ -713,7 +712,7 @@ public class WriteChequeView extends
 							}
 						}
 
-						if (isEdit && payee != null) {
+						if (isInViewMode() && payee != null) {
 							if (payee.getType() != selectItem.getType()) {
 								Accounter
 										.showError(Accounter
@@ -741,7 +740,7 @@ public class WriteChequeView extends
 		amtText = new AmountField(Accounter.constants().amount(), this);
 		amtText.setWidth(100);
 		amtText.setAmount(0.00);
-		amtText.setDisabled(isEdit);
+		amtText.setDisabled(isInViewMode());
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
@@ -863,7 +862,7 @@ public class WriteChequeView extends
 		//
 		// }
 		// if{
-		if (isEdit) {
+		if (isInViewMode()) {
 			transactionItems = transaction.getTransactionItems();
 			transaction = (ClientWriteCheck) transaction;
 			transactionNumber.setValue(transaction.getNumber());
@@ -1275,13 +1274,13 @@ public class WriteChequeView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		date.setDisabled(isEdit);
-		paytoSelect.setDisabled(isEdit);
-		billToCombo.setDisabled(isEdit);
-		amtText.setDisabled(isEdit);
-		toprintCheck.setDisabled(isEdit);
-		bankAccSelect.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		date.setDisabled(isInViewMode());
+		paytoSelect.setDisabled(isInViewMode());
+		billToCombo.setDisabled(isInViewMode());
+		amtText.setDisabled(isInViewMode());
+		toprintCheck.setDisabled(isInViewMode());
+		bankAccSelect.setDisabled(isInViewMode());
 		memoTextAreaItem.setDisabled(false);
 		// if (taxAgencyGrid != null) {
 		// taxAgencyGrid.setDisabled(isEdit);

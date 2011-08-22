@@ -153,7 +153,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	private void getFiscalYear() {
 		List<ClientFiscalYear> result = getCompany().getFiscalYears();
-		if (result != null && !isEdit) {
+		if (result != null && !isInViewMode()) {
 			for (ClientFiscalYear fiscalYear : result) {
 				if (fiscalYear != null && fiscalYear.getIsCurrentFiscalYear()) {
 					if (fiscalYear != null
@@ -352,7 +352,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 			@Override
 			public void onDateValueChange(ClientFinanceDate date) {
-				if (!isEdit) {
+				if (!isInViewMode()) {
 					ClientFinanceDate vendSinceDate = vendorSinceDate.getDate();
 					if (date.before(vendSinceDate)) {
 						String msg = Accounter.constants().msg();
@@ -850,7 +850,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		if (currencyCombo.getSelectedValue() != null)
 			data.setCurrency(currencyCombo.getSelectedValue().toString());
 		// Setting Balance
-		if (!isEdit) {
+		if (!isInViewMode()) {
 			double bal = balanceText.getAmount() != null ? balanceText
 					.getAmount().doubleValue() : 0.0;
 			data.setOpeningBalance(bal);
@@ -965,7 +965,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		List<ClientAccount> allAccounts = expenseAccountsSelect.getAccounts();
 		expenseAccountsSelect.initCombo(allAccounts);
 
-		if (isEdit) {
+		if (isInViewMode()) {
 			ClientAccount temp = getCompany().getAccount(
 					data.getExpenseAccount());
 			// Setting Expense Account
@@ -979,7 +979,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		vendorGroupSelect.initCombo(getCompany().getVendorGroups());
 		// Setting Vendor Group
-		if (isEdit) {
+		if (isInViewMode()) {
 			if (data.getVendorGroup() != 0)
 				vendorGroupSelect.setComboItem(company.getVendorGroup(data
 						.getVendorGroup()));
@@ -990,7 +990,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	public void addShippingMethodList() {
 		preferredShippingSelect.initCombo(getCompany().getShippingMethods());
 		// Setting Preferred Shipping Method
-		if (isEdit) {
+		if (isInViewMode()) {
 			if (data.getShippingMethod() != 0)
 				preferredShippingSelect.setComboItem(company
 						.getShippingMethod(data.getShippingMethod()));
@@ -1000,7 +1000,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	public void addPaymentMethodList() {
 		// Setting Preferred Payment Method
-		if (isEdit) {
+		if (isInViewMode()) {
 			if (getData().getPaymentMethod() != null)
 				preferredPaymentSelect
 						.setComboItem(selectPaymentMethodFromDetialsTab);
@@ -1012,7 +1012,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		payTermsSelect.initCombo(getCompany().getPaymentsTerms());
 		// Setting Payment Term
-		if (isEdit) {
+		if (isInViewMode()) {
 			if (getData().getPaymentTermsId() != 0)
 				payTermsSelect.setComboItem(company.getPaymentTerms(getData()
 						.getPaymentTermsId()));
@@ -1165,7 +1165,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	private void addSuplierTaxCode() {
 		vendorTaxCode.initCombo(getCompany().getActiveTaxCodes());
-		if (isEdit) {
+		if (isInViewMode()) {
 			vendorTaxCode.setSelected(vendorTaxCode.getDisplayName(data
 					.getTAXCode() != 0 ? getCompany().getTAXCode(
 					data.getTAXCode()) : null));

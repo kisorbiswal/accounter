@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -123,12 +124,12 @@ public class JournalEntryView extends
 	// }
 
 	public void initListGrid() {
-		grid = new TransactionJournalEntryGrid(isEdit);
+		grid = new TransactionJournalEntryGrid(isInViewMode());
 		grid.setTransactionView(this);
 		grid.setCanEdit(true);
 		grid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 		grid.init();
-		grid.setDisabled(isEdit);
+		grid.setDisabled(isInViewMode());
 		grid.getElement().getStyle().setMarginTop(10, Unit.PX);
 	}
 
@@ -238,7 +239,7 @@ public class JournalEntryView extends
 
 	protected void updateTransaction() {
 		super.updateTransaction();
-		if (isEdit) {
+		if (isInViewMode()) {
 			jourNoText.setDisabled(true);
 			memoText.setDisabled(true);
 			// memoText.setDisabled(true);
@@ -342,7 +343,7 @@ public class JournalEntryView extends
 
 		gridPanel.add(hPanel);
 
-		addButton.setEnabled(!isEdit);
+		addButton.setEnabled(!isInViewMode());
 		dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
 		dateForm.setStyleName("datenumber-panel");
@@ -394,7 +395,7 @@ public class JournalEntryView extends
 
 		// gridPanel.add(labelPanel);
 
-		if (isEdit) {
+		if (isInViewMode()) {
 			jourNoText.setValue(transaction.getNumber());
 			memoText.setValue(transaction.getMemo());
 
@@ -476,13 +477,13 @@ public class JournalEntryView extends
 			setData(new ClientJournalEntry());
 		}
 		initJournalNumber();
-		if (!isEdit)
+		if (!isInViewMode())
 			initVocherNumer();
 
 	}
 
 	private void initJournalNumber() {
-		if (isEdit) {
+		if (isInViewMode()) {
 			jourNoText.setValue(transaction.getNumber());
 			return;
 		} else {
@@ -636,11 +637,11 @@ public class JournalEntryView extends
 	}
 
 	protected void enableFormItems() {
-		isEdit = false;
-		jourNoText.setDisabled(isEdit);
-		grid.setDisabled(isEdit);
+		setMode(EditMode.EDIT);
+		jourNoText.setDisabled(isInViewMode());
+		grid.setDisabled(isInViewMode());
 		grid.setCanEdit(true);
-		addButton.setEnabled(!isEdit);
+		addButton.setEnabled(!isInViewMode());
 
 	}
 
