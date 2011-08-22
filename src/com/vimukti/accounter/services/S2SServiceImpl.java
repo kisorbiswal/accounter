@@ -13,6 +13,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.ServerCompany;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
@@ -101,8 +102,17 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 
 			company.getUsers().add(user);
 			company.setCompanyEmail(user.getEmail());
+
+			// Comment these 4 Lines If you want Company Setup
+			CompanyPreferences preferences = new CompanyPreferences();
+			preferences.setSellProducts(true);
+			preferences.setSellServices(true);
 			company.setConfigured(true);
+
 			companySession.save(company);
+
+			// Comment this Line If You want CompantSetUp
+			company.initialize(null);
 
 			// Create Attachment Directory for company
 			File file = new File(ServerConfiguration.getAttachmentsDir(company
@@ -112,7 +122,6 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 				file.mkdir();
 			}
 
-			company.initialize(null);
 			FinanceTool.createView();
 
 			transaction.commit();
