@@ -6,7 +6,7 @@ public class ClientContact implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	boolean isPrimary;
 	String name = "";
 	String title = "";
@@ -125,4 +125,15 @@ public class ClientContact implements IAccounterCore {
 
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj instanceof ClientContact) {
+			ClientContact clientContact = (ClientContact) obj;
+			return clientContact.getID() == this.getID();
+		}
+		return false;
+	}
 }
