@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
@@ -98,8 +99,15 @@ public class ResetPasswordServlet extends BaseServlet {
 			// client.setActive(true);
 			// make Require Password Reset False
 			client.setRequirePasswordReset(false);
-			// and save Client,
-			saveEntry(client);
+			Transaction transaction = hibernateSession.beginTransaction();
+			try {
+				// and save Client,
+				saveEntry(client);
+				transaction.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				transaction.rollback();
+			}
 
 			// delete activation record
 			hibernateSession.getNamedQuery("delete.activation.by.Id")

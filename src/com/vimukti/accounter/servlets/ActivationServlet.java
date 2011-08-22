@@ -107,6 +107,7 @@ public class ActivationServlet extends BaseServlet {
 					transaction.commit();
 				} catch (Exception e) {
 					e.printStackTrace();
+					transaction.rollback();
 				} finally {
 					if (hbSession != null)
 						hbSession.close();

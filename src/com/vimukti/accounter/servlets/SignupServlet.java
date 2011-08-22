@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ServerCompany;
@@ -63,6 +64,7 @@ public class SignupServlet extends BaseServlet {
 				+ password));
 
 		Session hibernateSession = HibernateUtil.openSession(LOCAL_DATABASE);
+		Transaction transaction = hibernateSession.beginTransaction();
 		try {
 			// Have to check UserExistence
 			if (getClient(emailId) != null) {
@@ -99,9 +101,11 @@ public class SignupServlet extends BaseServlet {
 				sendActivationEmail(token, client);
 				// Send to SignUp Success View
 				redirectExternal(req, resp, ACTIVATION_URL + "?message=108");
+				transaction.commit();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			transaction.rollback();
 		} finally {
 			if (hibernateSession.isOpen())
 				hibernateSession.close();

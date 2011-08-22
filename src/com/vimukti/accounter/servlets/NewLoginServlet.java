@@ -200,12 +200,19 @@ public class NewLoginServlet extends BaseServlet {
 						query.setParameter(EMAIL_ID, emailID);
 						Activation activation = (Activation) query
 								.uniqueResult();
+						Transaction transaction = session.beginTransaction();
 						// reset the activation code and save it
 						activation.setToken(token);
+						try{
 						saveEntry(activation);
 
 						// resend activation mail
 						sendActivationEmail(token, client);
+						transaction.commit();
+						}catch(Exception e){
+							e.printStackTrace();
+							transaction.rollback();
+						}
 
 					}
 				}

@@ -221,13 +221,7 @@ public class BaseServlet extends HttpServlet {
 	protected void saveEntry(IAccounterServerCore object) {
 
 		Session currentSession = HibernateUtil.getCurrentSession();
-		Transaction transaction = currentSession.beginTransaction();
 		currentSession.saveOrUpdate(object);
-		try {
-			transaction.commit();
-		} catch (Exception e) {
-			transaction.rollback();
-		}
 
 	}
 

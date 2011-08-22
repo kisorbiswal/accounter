@@ -70,6 +70,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
+			transaction.rollback();
 		} finally {
 			serverSession.close();
 		}
@@ -90,7 +91,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 
 		session.save(client);
 
-		String link = "https://www.accounterlive.com/activation";
+		String link = "https://www.nextrelease.accounterlive.com/activation";
 
 		UsersMailSendar.sendResetPasswordLinkToUser(link, activationCode,
 				client.getEmailId());
