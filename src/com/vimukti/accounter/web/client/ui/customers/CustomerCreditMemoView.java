@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -114,7 +115,7 @@ public class CustomerCreditMemoView extends
 		custForm.setFields(customerCombo, contactCombo, billToTextArea);
 		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
 		custForm.getCellFormatter().getElement(0, 0)
-				.setAttribute(Accounter.constants().width(), "190px");
+				.setAttribute(Global.get().constants().width(), "190px");
 		custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
@@ -680,13 +681,13 @@ public class CustomerCreditMemoView extends
 
 	@Override
 	public boolean canPrint() {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
 	@Override
 	public boolean canExportToCsv() {
-		// TODO Auto-generated method stub
-		return true;
+
+		return false;
 	}
 }
