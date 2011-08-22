@@ -73,14 +73,16 @@ public abstract class CompanyInitializer {
 	 * purpose of the Cash Basis Journal Entry.
 	 */
 	Account otherCashExpenseAccount;
-	
+
 	/**
-	 * This is the direct references to Cash Discounts Given to track the discounts given.
+	 * This is the direct references to Cash Discounts Given to track the
+	 * discounts given.
 	 */
 	Account cashDiscountsGiven;
-	
+
 	/**
-	 * This is the direct references to Cash Discounts Given to track the discounts taken.
+	 * This is the direct references to Cash Discounts Given to track the
+	 * discounts taken.
 	 */
 	Account cashDiscountsTaken;
 
@@ -181,14 +183,8 @@ public abstract class CompanyInitializer {
 		this.preferences.setUseItemNumbers(false);
 		this.preferences.setCheckForItemQuantityOnHand(true);
 		this.preferences.setUpdateCostAutomatically(false);
-		FinanceDate preventPostingBeforeDate = this.company.getPreferences()
-				.getPreventPostingBeforeDate();
-		if (preventPostingBeforeDate == null) {
-			this.preferences.setStartDate(fiscalYearStartDate);
-			this.preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
-		} else {
-			this.preferences.setStartDate(preventPostingBeforeDate);
-		}
+		this.preferences.setStartDate(fiscalYearStartDate);
+		this.preferences.setPreventPostingBeforeDate(fiscalYearStartDate);
 		this.preferences.setDateFormat(getDateFormat());
 		this.preferences.setSalesOrderEnabled(true);
 		FinanceDate depreciationStartDateCal = new FinanceDate();
@@ -371,9 +367,9 @@ public abstract class CompanyInitializer {
 		session.save(carriage);
 
 		cashDiscountsTaken = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
-				"5210", AccounterServerConstants.CASH_DISCOUNT_TAKEN, true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "29", true,
+				"5210", AccounterServerConstants.CASH_DISCOUNT_TAKEN, true,
+				null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "",
+				0.0, null, true, false, openingBalancesAccount, "29", true,
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(cashDiscountsTaken);
 		company.setCashDiscountsTaken(this.cashDiscountsTaken);
@@ -958,11 +954,11 @@ public abstract class CompanyInitializer {
 				"", 0.0, null, true, false, openingBalancesAccount, "11", true,
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(distributionAndCarriage);
-		
-		cashDiscountsGiven = new Account(Account.TYPE_INCOME,
-				"4120", AccounterServerConstants.CASH_DISCOUNT_GIVEN,
-				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
-				"", 0.0, null, true, false, openingBalancesAccount, "12", true,
+
+		cashDiscountsGiven = new Account(Account.TYPE_INCOME, "4120",
+				AccounterServerConstants.CASH_DISCOUNT_GIVEN, true, null,
+				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
+				null, true, false, openingBalancesAccount, "12", true,
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(cashDiscountsGiven);
 		company.setCashDiscountsGiven(cashDiscountsGiven);
@@ -1314,7 +1310,7 @@ public abstract class CompanyInitializer {
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(accountsPayableAccount);
 		company.setAccountsPayableAccount(accountsPayableAccount);
-		
+
 		Account creditCards = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
 				"2099", AccounterServerConstants.CREDIT_CARDS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
