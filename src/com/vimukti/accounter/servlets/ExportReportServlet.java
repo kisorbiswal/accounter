@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.CSVReportTemplate;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
@@ -90,6 +91,9 @@ public class ExportReportServlet extends BaseServlet {
 			session = HibernateUtil.openSession(Server.COMPANY + companyID);
 
 			FinanceTool financetool = new FinanceTool();
+			Company company = financetool.getCompany();
+			int companyType = company.getAccountingType();
+
 			TemplateBuilder.setCmpName(companyName);
 
 			ClientCompanyPreferences clientCompanyPreferences = financetool
@@ -97,7 +101,7 @@ public class ExportReportServlet extends BaseServlet {
 			CompanyPreferenceThreadLocal.set(clientCompanyPreferences);
 
 			ITemplate template = null;
-			template = getReportTemplate(request, financetool);
+			template = getReportTemplate(request, financetool, companyType);
 
 			return template;
 		} finally {
@@ -107,7 +111,7 @@ public class ExportReportServlet extends BaseServlet {
 	}
 
 	private ITemplate getReportTemplate(HttpServletRequest request,
-			FinanceTool financeTool) throws IOException {
+			FinanceTool financeTool, int companyType) throws IOException {
 
 		long startDate = Long.parseLong(request.getParameter("startDate"));
 		int reportType = Integer.parseInt(request.getParameter("reportType"));
@@ -120,10 +124,12 @@ public class ExportReportServlet extends BaseServlet {
 
 		if (status == null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPECSV);
+					navigatedName, ReportsGenerator.GENERATIONTYPECSV,
+					companyType);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPECSV, status);
+					navigatedName, ReportsGenerator.GENERATIONTYPECSV, status,
+					companyType);
 		}
 
 		String gridTemplate = generator.generate(financeTool,
