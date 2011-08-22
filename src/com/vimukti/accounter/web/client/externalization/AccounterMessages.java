@@ -133,5 +133,7 @@ public interface AccounterMessages extends Messages {
 	public String statementDescription();
 
 	public String trackingtimehead();
+	
+	public SafeHtml setupComplitionDesc();
 
 }

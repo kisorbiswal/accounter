@@ -147,8 +147,8 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 			if (!(w2Employees.getValue() || contractors.getValue())) {
 				Accounter.showError("Please select emlployee type..");
 				return false;
-			} else if (trackEmployeeExpenseYes.getValue()
-					|| trackEmployeeExpenseNo.getValue()) {
+			} else if (!(trackEmployeeExpenseYes.getValue() || trackEmployeeExpenseNo
+					.getValue())) {
 				return false;
 			} else {
 				return true;
