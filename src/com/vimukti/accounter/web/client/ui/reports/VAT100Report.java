@@ -82,7 +82,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 		// this.sectionName = "";
 		Accounter.createReportService().getVAT100Report(vatAgency, startDate,
 				endDate, this);
-		this.vatAgency = vatAgency;
+		this.setVatAgency(vatAgency);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 137, "",
-				"", vatAgency);
+				"", getVatAgency());
 	}
 
 	@Override
@@ -126,7 +126,15 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 137, "",
-				"", vatAgency);
+				"", getVatAgency());
+	}
+
+	public long getVatAgency() {
+		return vatAgency;
+	}
+
+	public void setVatAgency(long vatAgency) {
+		this.vatAgency = vatAgency;
 	}
 
 }

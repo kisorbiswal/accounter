@@ -80,12 +80,12 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 			iniHandler();
 		if (this.row == -1) {
 			this.sectionName = "";
-			addSection("", getConstants()
-					.box5NetVATToPayOrReclaimIfNegative(), new int[] {});
+			addSection("", getConstants().box5NetVATToPayOrReclaimIfNegative(),
+					new int[] {});
 
 			this.sectionName = getConstants().vatDue();
-			addSection(this.sectionName, getConstants()
-					.box3TotalVATDue(), new int[] { 1 });
+			addSection(this.sectionName, getConstants().box3TotalVATDue(),
+					new int[] { 1 });
 			row = 0;
 		} else if (this.row < 4) {
 			row = row + 1;
@@ -123,11 +123,11 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 			@Override
 			public void OnSectionEnd(Section section) {
 
-				if (section.footer.equals("BOX 3 Total VAT Due")) {
+				if (section.footer.equals(getConstants().box3TotalVATDue())) {
 					box3amount = Double.valueOf(section.data[1].toString());
 				}
-				if (section.footer
-						.equals("BOX 5 Net VAT to pay(or reclaim if negative)")) {
+				if (section.footer.equals(getConstants()
+						.box5NetVATToPayOrReclaimIfNegative())) {
 					section.data[1] = box3amount - box4amount;
 					sectionDepth = 1;
 				}
@@ -202,8 +202,8 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 		else
 			return -1;
 	}
-	public AccounterConstants getConstants()
-	{
+
+	public AccounterConstants getConstants() {
 		if (constants == null) {
 			constants = (AccounterConstants) GWT
 					.create(AccounterConstants.class);

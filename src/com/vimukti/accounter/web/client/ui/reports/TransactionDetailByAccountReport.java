@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
 
-
 public class TransactionDetailByAccountReport extends
 		AbstractReportView<TransactionDetailByAccount> {
 	private String currentsectionName = "";
@@ -54,8 +53,6 @@ public class TransactionDetailByAccountReport extends
 		}
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
@@ -63,11 +60,12 @@ public class TransactionDetailByAccountReport extends
 
 	@Override
 	public void print() {
-
+		String accountName = data != null ? ((TrialBalance) data)
+				.getAccountName() : "";
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 115, "",
-				"");
+				"", accountName);
 
 	}
 

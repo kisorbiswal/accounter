@@ -17,6 +17,7 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterReportService;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -1514,7 +1515,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate, toDate);
 
 		try {
-			TAXAgency vatAgency = (TAXAgency) loadObjectById("TAXAgency",
+			TAXAgency vatAgency = (TAXAgency) loadObjectById(
+					AccounterCoreType.TAXAGENCY
+							.getServerClassFullyQualifiedName(),
 					taxAgency);
 			vatSummaryList = getFinanceTool().getVAT100Report(vatAgency,
 					financeDates[0], financeDates[1]);

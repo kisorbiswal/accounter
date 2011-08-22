@@ -8206,7 +8206,9 @@ public class FinanceTool implements IFinanceDAOService {
 			}
 		}
 
-		query = session.getNamedQuery("").setParameter("fromDate", fromDate)
+		query = session
+				.getNamedQuery("getTAXAdjustment.by.taxAgencyidanddates")
+				.setParameter("fromDate", fromDate)
 				.setParameter("toDate", toDate)
 				.setParameter("taxAgency", taxAgency.getID());
 
@@ -8576,7 +8578,7 @@ public class FinanceTool implements IFinanceDAOService {
 			uncategorisedAmounts.add(u);
 		}
 
-		query = session.createQuery(
+		query = session.getNamedQuery(
 				"getTAXAdjustment.checkingby.transactionDate").setParameter(
 				"endDate", toDate);
 
@@ -8636,7 +8638,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		// Entries from VATReturn;
 
-		query = session.createQuery(
+		query = session.getNamedQuery(
 				"getTAXAdjustment.checkingby.VATperiodEndDate").setParameter(
 				"endDate", toDate);
 

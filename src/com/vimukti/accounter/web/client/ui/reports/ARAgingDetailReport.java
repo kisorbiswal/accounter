@@ -63,11 +63,12 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 
 	@Override
 	public void print() {
-
+		String customerName = this.data != null ? ((DummyDebitor) this.data)
+				.getDebitorName() : "";
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 118, "",
-				"");
+				"", customerName);
 	}
 
 	@Override

@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByItemDetailServerReport;
 
-
 public class SalesByItemDetailReport extends
 		AbstractReportView<SalesByCustomerDetail> {
 
@@ -46,8 +45,6 @@ public class SalesByItemDetailReport extends
 		this.bycustomerDetail = byCustomerDetail.getTransactionId();
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
@@ -55,17 +52,12 @@ public class SalesByItemDetailReport extends
 
 	@Override
 	public void print() {
-		if (bycustomerDetail == 0) {
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 124,
-					"", "");
-		} else {
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 124,
-					"", "", bycustomerDetail);
-		}
+		String itemName = this.data != null ? ((SalesByCustomerDetail) this.data)
+				.getItemName() : "";
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 124, "",
+				"", itemName);
 
 	}
 

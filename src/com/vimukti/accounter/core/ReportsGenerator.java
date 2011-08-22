@@ -260,11 +260,19 @@ public class ReportsGenerator {
 			updateReport(transactionDetailByAccountServerReport, finaTool);
 			transactionDetailByAccountServerReport.resetVariables();
 			try {
-				transactionDetailByAccountServerReport
-						.onResultSuccess(reportsSerivce
-								.getTransactionDetailByAccount(
-										startDate.toClientFinanceDate(),
-										endDate.toClientFinanceDate()));
+				if (status == null || status.isEmpty()) {
+					transactionDetailByAccountServerReport
+							.onResultSuccess(reportsSerivce
+									.getTransactionDetailByAccount(
+											startDate.toClientFinanceDate(),
+											endDate.toClientFinanceDate()));
+				} else {
+					transactionDetailByAccountServerReport
+							.onResultSuccess(reportsSerivce
+									.getTransactionDetailByAccount(status,
+											startDate.toClientFinanceDate(),
+											endDate.toClientFinanceDate()));
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -326,8 +334,16 @@ public class ReportsGenerator {
 			updateReport(arAgingDetailServerReport, finaTool);
 			arAgingDetailServerReport.resetVariables();
 			try {
-				arAgingDetailServerReport.onResultSuccess(finaTool
-						.getAgedDebtors(startDate, endDate));
+				if (status == null || status.isEmpty()) {
+					arAgingDetailServerReport.onResultSuccess(reportsSerivce
+							.getAgedDebtors(startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate()));
+				} else {
+					arAgingDetailServerReport.onResultSuccess(reportsSerivce
+							.getAgedDebtors(status,
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate()));
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -408,8 +424,16 @@ public class ReportsGenerator {
 			updateReport(salesByCustomerDetailServerReport, finaTool);
 			salesByCustomerDetailServerReport.resetVariables();
 			try {
-				salesByCustomerDetailServerReport.onResultSuccess(finaTool
-						.getSalesByCustomerDetailReport(startDate, endDate));
+				if (status == null || status.isEmpty()) {
+					salesByCustomerDetailServerReport
+							.onResultSuccess(finaTool
+									.getSalesByCustomerDetailReport(startDate,
+											endDate));
+				} else {
+					salesByCustomerDetailServerReport.onResultSuccess(finaTool
+							.getSalesByCustomerDetailReport(status, startDate,
+									endDate));
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -448,7 +472,7 @@ public class ReportsGenerator {
 			updateReport(salesByItemDetailServerReport, finaTool);
 			salesByItemDetailServerReport.resetVariables();
 			try {
-				if (status == null) {
+				if (status == null || status.isEmpty()) {
 					salesByItemDetailServerReport.onResultSuccess(finaTool
 							.getSalesByItemDetail(startDate, endDate));
 				} else {
@@ -554,7 +578,7 @@ public class ReportsGenerator {
 			updateReport(apAgingDetailServerReport, finaTool);
 			apAgingDetailServerReport.resetVariables();
 			try {
-				if (status == null) {
+				if (status == null || status.isEmpty()) {
 					apAgingDetailServerReport.onResultSuccess(finaTool
 							.getAgedCreditors(startDate, endDate));
 				} else {
@@ -826,7 +850,7 @@ public class ReportsGenerator {
 			vatItemDetailServerReport.resetVariables();
 			try {
 				vatItemDetailServerReport.onResultSuccess(finaTool
-						.getVATItemDetailReport(startDate, endDate));
+						.getVATItemDetailReport(status, startDate, endDate));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

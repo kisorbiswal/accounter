@@ -40,8 +40,8 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			ReportsRPC.openTransactionView(record.getType(), record
-					.getTransactionId());
+			ReportsRPC.openTransactionView(record.getType(),
+					record.getTransactionId());
 	}
 
 	@Override
@@ -51,15 +51,12 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 
 	@Override
 	public void print() {
-		if (byCustomerDetail == 0) {
-			UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-					.getDate())), Integer.parseInt(String.valueOf(endDate
-					.getDate())), 128, "", "");
-		} else {
-			UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-					.getDate())), Integer.parseInt(String.valueOf(endDate
-					.getDate())), 128, "", "", byCustomerDetail);
-		}
+		String name = this.data != null ? ((DummyDebitor) this.data)
+				.getDebitorName() : "";
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 128, "",
+				"", name);
 
 	}
 
@@ -72,8 +69,8 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 		switch (col) {
 
 		case 0:
-			return obj1.getName().toLowerCase().compareTo(
-					obj2.getName().toLowerCase());
+			return obj1.getName().toLowerCase()
+					.compareTo(obj2.getName().toLowerCase());
 		case 1:
 			return UIUtils.compareTo(obj1.getDate(), obj2.getDate());
 		case 2:
@@ -101,13 +98,15 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 
 	public void exportToCsv() {
 		if (byCustomerDetail == 0) {
-			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-					.getDate())), Integer.parseInt(String.valueOf(endDate
-					.getDate())), 128, "", "");
+			UIUtils.exportReport(
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 128,
+					"", "");
 		} else {
-			UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-					.getDate())), Integer.parseInt(String.valueOf(endDate
-					.getDate())), 128, "", "", byCustomerDetail);
+			UIUtils.exportReport(
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 128,
+					"", "", byCustomerDetail);
 		}
 	}
 

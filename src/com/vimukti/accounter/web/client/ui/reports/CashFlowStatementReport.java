@@ -18,7 +18,7 @@ public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		if (record.getID() != 0) {
+		if (record.getAccountId() != 0) {
 			UIUtils.runAction(record,
 					ActionFactory.getTransactionDetailByAccountAction());
 		} else {

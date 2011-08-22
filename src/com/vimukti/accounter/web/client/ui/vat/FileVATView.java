@@ -412,7 +412,7 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 
@@ -456,36 +456,12 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	}
 
 	public void printVATReturn() {
-		DateTimeFormat dateFormatter = DateTimeFormat.getFormat("yyyy-MM-dd");
-		AbstractReportView<VATSummary> report = new VAT100Report() {
-			private boolean isSecondReuqest = false;
-
-			@Override
-			public void onSuccess(ArrayList<VATSummary> result) {
-
-				super.onSuccess(result);
-				print();
-
-			}
-
-			@Override
-			public void makeReportRequest(long vatAgency,
-					ClientFinanceDate startDate, ClientFinanceDate endDate) {
-				if (isSecondReuqest) {
-					this.startDate = startDate;
-					this.endDate = endDate;
-					super.makeReportRequest(vatAgency, startDate, endDate);
-				} else {
-					isSecondReuqest = true;
-				}
-
-			}
-		};
+		VAT100Report report = new VAT100Report();
 		report.setAction(ActionFactory.getVAT100ReportAction());
-		report.init();
-		report.initData();
-		report.makeReportRequest(selectedVatAgency.getID(),
-				fromDate.getEnteredDate(), toDate.getEnteredDate());
+		report.setStartAndEndDates(fromDate.getEnteredDate(),
+				toDate.getEnteredDate());
+		report.setVatAgency(selectedVatAgency.getID());
+		report.print();
 
 	}
 
@@ -500,9 +476,9 @@ public class FileVATView extends BaseView<ClientVATReturn> {
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
-		//check whether vet agency is selected or not
-		//can save file vat or not
-		
+		// check whether vet agency is selected or not
+		// can save file vat or not
+
 		if (this.selectedVatAgency == null && this.isEdit) {
 			result.addError(selectedVatAgency, Accounter.constants()
 					.pleaseSelectValidVATAgency());

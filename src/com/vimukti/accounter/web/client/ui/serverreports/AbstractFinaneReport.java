@@ -123,7 +123,7 @@ public abstract class AbstractFinaneReport<R> extends
 	@Override
 	public void onResultSuccess(ArrayList<R> result) {
 		try {
-			if (result != null && result.size() > 1) {
+			if (result != null && result.size() > 0) {
 				removeAllRows();
 				setFromAndToDate(result);
 				initRecords(result);

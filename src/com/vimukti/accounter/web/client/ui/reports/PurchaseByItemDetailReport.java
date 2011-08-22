@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByItemDetailServerReport;
 
-
 public class PurchaseByItemDetailReport extends
 		AbstractReportView<SalesByCustomerDetail> {
 	public long byCustomerDetail;
@@ -44,8 +43,6 @@ public class PurchaseByItemDetailReport extends
 		this.byCustomerDetail = byCustomerDetail.getTransactionId();
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
@@ -53,18 +50,12 @@ public class PurchaseByItemDetailReport extends
 
 	@Override
 	public void print() {
-		if (byCustomerDetail == 0) {
-
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 133,
-					"", "");
-		} else {
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 133,
-					"", "", byCustomerDetail);
-		}
+		String itemName = this.data != null ? ((SalesByCustomerDetail) this.data)
+				.getItemName() : "";
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 133, "",
+				"", itemName);
 	}
 
 	@Override

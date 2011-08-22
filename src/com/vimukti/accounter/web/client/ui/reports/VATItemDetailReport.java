@@ -53,7 +53,7 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 139, "",
-				"");
+				"", ((VATItemSummary) data).getName());
 
 	}
 
