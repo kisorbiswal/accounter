@@ -81,7 +81,7 @@ public class ActivationServlet extends BaseServlet {
 						.getAttribute(ACTIVATION_TYPE);
 				if (activationType != null
 						&& activationType.equals("resetpassword")) {
-					session.removeAttribute(ACTIVATION_TYPE);
+					//session.removeAttribute(ACTIVATION_TYPE);
 					redirectExternal(req, resp, RESET_PASSWORD_URL);
 					return;
 				}

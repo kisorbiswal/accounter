@@ -120,6 +120,13 @@ public class NewLoginServlet extends BaseServlet {
 		// We check if the session is already there, if it is, we check if user
 		// have to reset his password(by using a flag on the user object)
 		HttpSession httpSession = request.getSession();
+		String activationType = (String) httpSession.getAttribute(ACTIVATION_TYPE);
+		if(activationType != null && activationType.equals("resetpassword")){
+			httpSession.removeAttribute(ACTIVATION_TYPE);
+			httpSession.removeAttribute(EMAIL_ID);
+			redirectExternal(request, response, LOGIN_URL);
+			return;
+		}
 		String emailID = (String) httpSession.getAttribute(EMAIL_ID);
 		if (emailID == null) {
 			// if session is not there then we show the form and user fills it

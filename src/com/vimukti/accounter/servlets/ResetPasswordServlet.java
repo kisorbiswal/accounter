@@ -114,6 +114,10 @@ public class ResetPasswordServlet extends BaseServlet {
 					.setLong("id", activation.getID()).executeUpdate();
 
 			// Send to login page with emailId
+			String activationType = (String) httpsession.getAttribute(ACTIVATION_TYPE);
+			if(activationType != null && activationType.equals("resetpassword")){
+				httpsession.removeAttribute(ACTIVATION_TYPE);
+			}
 			httpsession.setAttribute(EMAIL_ID, activation.getEmailId());
 			redirectExternal(req, resp, LOGIN_URL);
 		} catch (Exception e) {
