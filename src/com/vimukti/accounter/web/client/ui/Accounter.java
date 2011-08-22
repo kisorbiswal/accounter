@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -84,6 +85,7 @@ public class Accounter implements EntryPoint {
 
 	private static ThemeImages themeImages;
 	private static ClientFinanceDate startDate;
+	private static boolean isMacApp;
 
 	public static void loadCompany() {
 		final IAccounterGETServiceAsync getService = (IAccounterGETServiceAsync) GWT
@@ -288,6 +290,7 @@ public class Accounter implements EntryPoint {
 		Global.set(global);
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
+		initializeIsMacApp();
 		loadCompany();
 	}
 
@@ -555,5 +558,20 @@ public class Accounter implements EntryPoint {
 		};
 		Accounter.createCRUDService().updateUser((IAccounterCore) coreObj,
 				transactionCallBack);
+	}
+	
+	private void initializeIsMacApp() {
+		String cookie = Cookies.getCookie("Nativeapp");
+		if(cookie != null) {
+			setMacApp(true);
+		}
+	}
+
+	public static boolean isMacApp() {
+		return isMacApp;
+	}
+
+	public void setMacApp(boolean isMacApp) {
+		this.isMacApp = isMacApp;
 	}
 }

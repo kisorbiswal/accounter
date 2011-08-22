@@ -66,8 +66,12 @@ public class CompaniesServlet extends BaseServlet {
 			if (deleteStatus.equals("Success")) {
 				req.setAttribute("message", DELETE_SUCCESS);
 			} else {
-				req.setAttribute("message", DELETE_FAIL + " "
-						+ httpSession.getAttribute("DeletionFailureMessage"));
+				req.setAttribute(
+						"message",
+						DELETE_FAIL
+								+ " "
+								+ httpSession
+										.getAttribute("DeletionFailureMessage"));
 			}
 			httpSession.removeAttribute("DeletionFailureMessage");
 			httpSession.removeAttribute(COMPANY_DELETION_STATUS);
@@ -77,6 +81,7 @@ public class CompaniesServlet extends BaseServlet {
 
 		if (companyID != null) {
 			addCompanyCookies(resp, Long.parseLong(companyID));
+			addMacAppCookie(req, resp);
 			redirectExternal(req, resp, ACCOUNTER_URL);
 			return;
 		}
@@ -206,11 +211,21 @@ public class CompaniesServlet extends BaseServlet {
 	}
 
 	private void addCompanyCookies(HttpServletResponse resp, long companyID) {
-		Cookie companyCookie = new Cookie(COMPANY_COOKIE, String
-				.valueOf(companyID));
+		Cookie companyCookie = new Cookie(COMPANY_COOKIE,
+				String.valueOf(companyID));
 		companyCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		companyCookie.setPath("/");
 		resp.addCookie(companyCookie);
 	}
 
+	private void addMacAppCookie(HttpServletRequest request,
+			HttpServletResponse response) {
+		String header = request.getHeader("Nativeapp");
+		boolean isNative = (header != null && !header.isEmpty());
+		if (isNative) {
+			Cookie macAppCookie = new Cookie("Nativeapp", "Mac App");
+			macAppCookie.setPath("/");
+			response.addCookie(macAppCookie);
+		}
+	}
 }

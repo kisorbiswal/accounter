@@ -519,7 +519,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			amountsForm.setNumCols(4);
 			amountsForm.addStyleName("tax-form");
 
-			if (getPreferences().isDoYouChargesalesTax()) {
+			if (getPreferences().getDoYouPaySalesTax()) {
 				amountsForm.setFields(taxCodeSelect, salesTaxTextNonEditable,
 						disabletextbox, transactionTotalNonEditableText,
 						disabletextbox, paymentsNonEditableText,
