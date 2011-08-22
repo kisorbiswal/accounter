@@ -85,6 +85,14 @@ public class ClientCompany implements IAccounterCore {
 	private long otherCashExpenseAccount;
 
 	private long pendingItemReceiptsAccount;
+	
+	private long cashDiscountsGiven;
+	
+	private long cashDiscountsTaken;
+	
+	private long taxLiabilityAccount;
+	
+	private long VATFiledLiabilityAccount;
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
@@ -2568,5 +2576,37 @@ public class ClientCompany implements IAccounterCore {
 			}
 		}
 		return null;
+	}
+
+	public long getCashDiscountsGiven() {
+		return cashDiscountsGiven;
+	}
+
+	public void setCashDiscountsGiven(long cashDiscountsGiven) {
+		this.cashDiscountsGiven = cashDiscountsGiven;
+	}
+
+	public long getCashDiscountsTaken() {
+		return cashDiscountsTaken;
+	}
+
+	public void setCashDiscountsTaken(long cashDiscountsTaken) {
+		this.cashDiscountsTaken = cashDiscountsTaken;
+	}
+
+	public long getTaxLiabilityAccount() {
+		return taxLiabilityAccount;
+	}
+
+	public void setTaxLiabilityAccount(long taxLiabilityAccount) {
+		this.taxLiabilityAccount = taxLiabilityAccount;
+	}
+
+	public long getVATFiledLiabilityAccount() {
+		return VATFiledLiabilityAccount;
+	}
+
+	public void setVATFiledLiabilityAccount(long vATFiledLiabilityAccount) {
+		VATFiledLiabilityAccount = vATFiledLiabilityAccount;
 	}
 }

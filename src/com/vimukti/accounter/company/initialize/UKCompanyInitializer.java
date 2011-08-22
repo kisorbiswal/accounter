@@ -364,6 +364,8 @@ public class UKCompanyInitializer extends CompanyInitializer {
 
 		this.VATliabilityAccount = saelsTaxVAT;
 		this.VATFiledLiabilityAccount = salesTaxVATFiled;
+		company.setTaxLiabilityAccount(this.VATliabilityAccount);
+		company.setVATFiledLiabilityAccount(this.VATFiledLiabilityAccount);
 		// this.pendingItemReceiptsAccount = pendingItemReceipts;
 		// this.prepaidVATaccount = prepaidVATaccount;
 		// this.ECAcquisitionVATaccount = ECAcquisitionVAT;

@@ -25,7 +25,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 	/**
 	 * This is the Account created by default for the purpose of US Sales Tax
 	 */
-	Account salesTaxPayableAccount;
+	Account salesTaxPayable;
 	// Account prepaidVATaccount;
 	// Account ECAcquisitionVATaccount;
 
@@ -34,7 +34,7 @@ public class USCompanyInitializer extends CompanyInitializer {
 	 * This is the Account created by default for the purpose of UK when VAT is
 	 * Filed
 	 */
-	Account VATFiledLiabilityAccount;
+	// Account VATFiledLiabilityAccount;
 
 	Set<NominalCodeRange> nominalCodeRange = new HashSet<NominalCodeRange>();
 	/**
@@ -192,8 +192,10 @@ public class USCompanyInitializer extends CompanyInitializer {
 		// this.accountsPayableAccount = accountsPayable;
 		// this.openingBalancesAccount = openingBalancesAccount;
 		// this.retainedEarningsAccount = retainedEarnings;
+		this.salesTaxPayable = salesTaxPayable;
 		this.otherCashIncomeAccount = otherCashIncome;
 		this.otherCashExpenseAccount = otherCashExpense;
+		company.setTaxLiabilityAccount(this.salesTaxPayable);
 		// this.pendingItemReceiptsAccount = pendingItemReceipts;
 
 		createUSDefaultTaxGroup();

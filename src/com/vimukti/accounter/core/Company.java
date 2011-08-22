@@ -195,11 +195,21 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * purpose of the Cash Basis Journal Entry.
 	 */
 	Account otherCashExpenseAccount;
+	
+	/**
+	 * This is the direct references to Cash Discounts Given to track the discounts given.
+	 */
+	private Account cashDiscountsGiven;
+	
+	/**
+	 * This is the direct references to Cash Discounts Given to track the discounts taken.
+	 */
+	private Account cashDiscountsTaken;
 
 	/**
 	 * This is the Account created by default for the purpose of UK VAT
 	 */
-	Account VATliabilityAccount;
+	private Account taxLiabilityAccount;
 	// Account prepaidVATaccount;
 	// Account ECAcquisitionVATaccount;
 
@@ -4516,6 +4526,30 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 */
 	public void addUser(User user) {
 		this.users.add(user);
+	}
+
+	public Account getTaxLiabilityAccount() {
+		return taxLiabilityAccount;
+	}
+
+	public void setTaxLiabilityAccount(Account vATliabilityAccount) {
+		taxLiabilityAccount = vATliabilityAccount;
+	}
+
+	public Account getCashDiscountsGiven() {
+		return cashDiscountsGiven;
+	}
+
+	public void setCashDiscountsGiven(Account cashDiscountsGiven) {
+		this.cashDiscountsGiven = cashDiscountsGiven;
+	}
+
+	public Account getCashDiscountsTaken() {
+		return cashDiscountsTaken;
+	}
+
+	public void setCashDiscountsTaken(Account cashDiscountsTaken) {
+		this.cashDiscountsTaken = cashDiscountsTaken;
 	}
 
 }

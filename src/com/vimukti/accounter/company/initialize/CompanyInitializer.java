@@ -73,6 +73,16 @@ public abstract class CompanyInitializer {
 	 * purpose of the Cash Basis Journal Entry.
 	 */
 	Account otherCashExpenseAccount;
+	
+	/**
+	 * This is the direct references to Cash Discounts Given to track the discounts given.
+	 */
+	Account cashDiscountsGiven;
+	
+	/**
+	 * This is the direct references to Cash Discounts Given to track the discounts taken.
+	 */
+	Account cashDiscountsTaken;
 
 	/**
 	 * Creates new Instance
@@ -360,12 +370,13 @@ public abstract class CompanyInitializer {
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(carriage);
 
-		Account discountsTaken = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
-				"5210", AccounterServerConstants.DISCOUNTS_TAKEN, true, null,
+		cashDiscountsTaken = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
+				"5210", AccounterServerConstants.CASH_DISCOUNT_TAKEN, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
 				null, true, false, openingBalancesAccount, "29", true,
 				this.preferences.getPreventPostingBeforeDate());
-		session.save(discountsTaken);
+		session.save(cashDiscountsTaken);
+		company.setCashDiscountsTaken(this.cashDiscountsTaken);
 
 		Account importDuty = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
 				"5220", AccounterServerConstants.IMPORT_DUTY, true, null,
@@ -947,6 +958,14 @@ public abstract class CompanyInitializer {
 				"", 0.0, null, true, false, openingBalancesAccount, "11", true,
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(distributionAndCarriage);
+		
+		cashDiscountsGiven = new Account(Account.TYPE_INCOME,
+				"4120", AccounterServerConstants.CASH_DISCOUNT_GIVEN,
+				true, null, Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false,
+				"", 0.0, null, true, false, openingBalancesAccount, "12", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(cashDiscountsGiven);
+		company.setCashDiscountsGiven(cashDiscountsGiven);
 
 		Account commissionsReceived = new Account(Account.TYPE_INCOME, "4200",
 				AccounterServerConstants.COMMISSION_RECIEVED, true, null,
@@ -1011,15 +1030,6 @@ public abstract class CompanyInitializer {
 				this.preferences.getPreventPostingBeforeDate());
 		session.save(accountsReceivableAccount);
 		company.setAccountsReceivableAccount(accountsReceivableAccount);
-
-		accountsPayableAccount = new Account(
-				Account.TYPE_OTHER_CURRENT_LIABILITY, "2001",
-				AccounterServerConstants.ACCOUNTS_PAYABLE, true, null,
-				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
-				null, true, false, openingBalancesAccount, "3", true,
-				this.preferences.getPreventPostingBeforeDate());
-		session.save(accountsPayableAccount);
-		company.setAccountsPayableAccount(accountsPayableAccount);
 
 		Account debitors = new Account(Account.TYPE_OTHER_CURRENT_ASSET,
 				"1002", AccounterServerConstants.DEBTORS_ACCOUNTS_RECEIVABLE,
@@ -1296,6 +1306,15 @@ public abstract class CompanyInitializer {
 		// Current Liabilities
 		// TODO Remaining 16
 
+		accountsPayableAccount = new Account(
+				Account.TYPE_OTHER_CURRENT_LIABILITY, "2001",
+				AccounterServerConstants.ACCOUNTS_PAYABLE, true, null,
+				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,
+				null, true, false, openingBalancesAccount, "3", true,
+				this.preferences.getPreventPostingBeforeDate());
+		session.save(accountsPayableAccount);
+		company.setAccountsPayableAccount(accountsPayableAccount);
+		
 		Account creditCards = new Account(Account.TYPE_OTHER_CURRENT_LIABILITY,
 				"2099", AccounterServerConstants.CREDIT_CARDS, true, null,
 				Account.CASH_FLOW_CATEGORY_OPERATING, 0.0, false, "", 0.0,

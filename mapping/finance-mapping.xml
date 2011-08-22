@@ -263,8 +263,14 @@
 		<many-to-one name="otherCashExpenseAccount" class="Account"
 			lazy="false" column="OTHER_CASH_EXPENSE_ID">
 		</many-to-one>
-		<many-to-one name="VATliabilityAccount" class="Account"
-			lazy="false" column="VAT_LIABILITY_ACCOUNT_ID">
+		<many-to-one name="cashDiscountsGiven" class="Account"
+			lazy="false" column="CASH_DISCOUNTS_GIVEN">
+		</many-to-one>
+		<many-to-one name="cashDiscountsTaken" class="Account"
+			lazy="false" column="CASH_DISCOUNTS_TAKEN">
+		</many-to-one>
+		<many-to-one name="taxLiabilityAccount" class="Account"
+			lazy="false" column="TAX_LIABILITY_ACCOUNT_ID">
 		</many-to-one>
 		<many-to-one name="VATFiledLiabilityAccount" class="Account"
 			lazy="false" column="VAT_FILED_LIABILITY_ACCOUNT_ID">
