@@ -6533,6 +6533,9 @@ input[type="text"],textarea {
     padding-right: 25px;
     visibility:visible; 
 }
+.progress_panel_data{
+	padding-top: 15px;
+}
 .progress_panel_hide{
 	border-right: 1px solid gray;
     padding-right: 25px;
@@ -6569,8 +6572,8 @@ input[type="text"],textarea {
 .organisation_comment{
 	color: #808080;
     font-size: 11px;
-    padding: 7px 0 20px 22px;
-}
+ 	padding: 5px 0 15px 22px;
+ }
 .referComment{
 	color: #808080;
     font-size: 11px;
