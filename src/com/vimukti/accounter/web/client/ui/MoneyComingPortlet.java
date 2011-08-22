@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
@@ -121,7 +120,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 				if (result != null && result.size() > 0) {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					overDueAmtLabel.setText(amountAsString(overDueInvoiceAmount));
+					overDueAmtLabel
+							.setText(amountAsString(overDueInvoiceAmount));
 				}
 				if (result != null && result.size() > 0) {
 					draftInvoiceAmount = result.get(result.size() - 1);
@@ -153,17 +153,8 @@ public class MoneyComingPortlet extends DashBoardPortlet {
 	}
 
 	private void updateDebitorsAccount() {
-		List<ClientAccount> accounts = new ArrayList<ClientAccount>();
-		if (Accounter.getCompany() != null) {
-			accounts = Accounter.getCompany().getAccounts(
-					ClientAccount.TYPE_OTHER_CURRENT_ASSET);
-		}
-		for (ClientAccount account : accounts) {
-			if (account.getName().equals("Debtors")) {
-				debitors = account;
-				break;
-			}
-		}
+		debitors = getCompany().getAccount(
+				getCompany().getAccountsReceivableAccountId());
 	}
 
 	Label getLabel(final String title) {

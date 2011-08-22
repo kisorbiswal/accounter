@@ -913,7 +913,7 @@ public class MakeDepositView extends
 		listforms.add(depoForm);
 		listforms.add(memoForm);
 		// listforms.add(totForm);
-		listforms.add(form1);
+		// listforms.add(form1);
 		listforms.add(form2);
 
 	}
@@ -1020,7 +1020,7 @@ public class MakeDepositView extends
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

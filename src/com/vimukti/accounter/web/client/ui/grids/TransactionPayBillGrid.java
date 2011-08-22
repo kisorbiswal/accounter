@@ -9,8 +9,6 @@ import java.util.Stack;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -263,7 +261,7 @@ public class TransactionPayBillGrid extends
 	@Override
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
-		//validates receive payment amount excesses due amount or not
+		// validates receive payment amount excesses due amount or not
 		for (ClientTransactionPayBill transactionPayBill : this
 				.getSelectedRecords()) {
 
@@ -338,18 +336,19 @@ public class TransactionPayBillGrid extends
 
 	public void openCashDiscountDialog() {
 		// if (cashDiscountDialog == null) {
-		ClientAccount discountAccount = null;
-		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			discountAccount = getCompany().getAccountByName(
-					companyConstants.cashDiscountTaken());
-		} else if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-			discountAccount = getCompany().getAccountByName(
-					companyConstants.discounts());
-		}
+		// ClientAccount discountAccount = null;
+		// if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_US) {
+		// discountAccount = getCompany().getAccountByName(
+		// companyConstants.cashDiscountTaken());
+		// } else if (getCompany().getAccountingType() ==
+		// ClientCompany.ACCOUNTING_TYPE_UK) {
+		// discountAccount = getCompany().getAccountByName(
+		// companyConstants.discounts());
+		// }
 		cashDiscountDialog = new CashDiscountDialog(canEdit,
-				selectedObject.getCashDiscount(), canEdit ? discountAccount
-						: getCompany().getAccount(
-								selectedObject.getDiscountAccount()));
+				selectedObject.getCashDiscount(), getCompany().getAccount(
+						selectedObject.getDiscountAccount()));
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -707,12 +706,14 @@ public class TransactionPayBillGrid extends
 	}
 
 	public void updateTotalPayment(ClientTransactionPayBill obj) {
-		ClientTransaction transactionObject = paybillView.getTransactionObject();
-//		paybillView.gettrantransactionTotal = 0.0;
+		ClientTransaction transactionObject = paybillView
+				.getTransactionObject();
+		// paybillView.gettrantransactionTotal = 0.0;
 		transactionObject.setTotal(0.0);
 		for (ClientTransactionPayBill rec : getSelectedRecords()) {
-//			paybillView.transactionTotal += rec.getPayment();
-			transactionObject.setTotal(transactionObject.getTotal()+rec.getPayment());			
+			// paybillView.transactionTotal += rec.getPayment();
+			transactionObject.setTotal(transactionObject.getTotal()
+					+ rec.getPayment());
 			paybillView.totalCashDiscount += rec.getCashDiscount();
 		}
 		/* updating payment(or PaidAmount) */
@@ -728,14 +729,16 @@ public class TransactionPayBillGrid extends
 	 * changed.It updates the footervalues in editmode & in creationmodeF
 	 */
 	public void updateFootervalues(ClientTransactionPayBill obj) {
-		ClientTransaction transactionObject = paybillView.getTransactionObject();
+		ClientTransaction transactionObject = paybillView
+				.getTransactionObject();
 		if (canEdit) {
-//			paybillView.transactionTotal = 0.0;
+			// paybillView.transactionTotal = 0.0;
 			transactionObject.setTotal(0.0);
 			paybillView.totalCashDiscount = 0.0;
 			for (ClientTransactionPayBill rec : getSelectedRecords()) {
-//				paybillView.transactionTotal += rec.getPayment();
-				transactionObject.setTotal(transactionObject.getTotal()+rec.getPayment());
+				// paybillView.transactionTotal += rec.getPayment();
+				transactionObject.setTotal(transactionObject.getTotal()
+						+ rec.getPayment());
 				paybillView.totalCashDiscount += rec.getCashDiscount();
 			}
 			// this.updateFooterValues(DataUtils
@@ -743,14 +746,15 @@ public class TransactionPayBillGrid extends
 			// this.updateFooterValues(DataUtils
 			// .getAmountAsString(paybillView.totalCashDiscount), 5);
 		} else {
-//			paybillView.transactionTotal = 0.0;
+			// paybillView.transactionTotal = 0.0;
 			transactionObject.setTotal(0.0);
 			paybillView.totalCashDiscount = 0.0;
 			paybillView.totalOriginalAmount = 0.0;
 			for (ClientTransactionPayBill rec : getRecords()) {
 				paybillView.totalOriginalAmount += rec.getOriginalAmount();
-//				paybillView.transactionTotal += rec.getPayment();
-				transactionObject.setTotal(transactionObject.getTotal()+rec.getPayment());
+				// paybillView.transactionTotal += rec.getPayment();
+				transactionObject.setTotal(transactionObject.getTotal()
+						+ rec.getPayment());
 				paybillView.totalCashDiscount += rec.getCashDiscount();
 			}
 			/* */
@@ -767,11 +771,13 @@ public class TransactionPayBillGrid extends
 	}
 
 	public void deleteTotalPayment(ClientTransactionPayBill rec) {
-		ClientTransaction transactionObject = paybillView.getTransactionObject();
-		//		paybillView.transactionTotal -= rec.getPayment();
-		transactionObject.setTotal(transactionObject.getTotal() - rec.getPayment());
+		ClientTransaction transactionObject = paybillView
+				.getTransactionObject();
+		// paybillView.transactionTotal -= rec.getPayment();
+		transactionObject.setTotal(transactionObject.getTotal()
+				- rec.getPayment());
 		paybillView.totalCashDiscount -= rec.getCashDiscount();
-		
+
 		/* updating payment column's footer */
 		// this.updateFooterValues(DataUtils
 		// .getAmountAsString(paybillView.transactionTotal), canEdit ? 7

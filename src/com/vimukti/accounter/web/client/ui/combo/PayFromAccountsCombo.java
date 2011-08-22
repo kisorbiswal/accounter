@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -33,15 +32,14 @@ public class PayFromAccountsCombo extends AccountCombo {
 			// ClientAccount.TYPE_CREDIT_CARD,
 			// ClientAccount.TYPE_LONG_TERM_LIABILITY,
 			// ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-					ClientAccount.TYPE_OTHER_CURRENT_ASSET
-			// ClientAccount.TYPE_FIXED_ASSET
-					).contains(account.getType()))
-				if (!account.getName().equalsIgnoreCase(
-						Accounter.constants().pendingItemReceipts())
-						&& !account.getName().equalsIgnoreCase(
-								Accounter.constants().salesTaxPayable())) {
-					payFromAccounts.add(account);
-				}
+					ClientAccount.TYPE_OTHER_CURRENT_ASSET).contains(
+					account.getType()))
+				// if (!account.getName().equalsIgnoreCase(
+				// Accounter.constants().pendingItemReceipts())
+				// && !account.getName().equalsIgnoreCase(
+				// Accounter.constants().salesTaxPayable())) {
+				payFromAccounts.add(account);
+			// }
 		}
 		return payFromAccounts;
 	}
@@ -58,13 +56,13 @@ public class PayFromAccountsCombo extends AccountCombo {
 					ClientAccount.TYPE_OTHER_CURRENT_ASSET
 			// ClientAccount.TYPE_FIXED_ASSET
 					).contains(account.getType()))
-				if (!account.getName().equalsIgnoreCase(
-						Accounter.constants().pendingItemReceipts())
-						&& !account.getName().equalsIgnoreCase(
-								Accounter.constants().salesTaxPayable())) {
+				// if (!account.getName().equalsIgnoreCase(
+				// Accounter.constants().pendingItemReceipts())
+				// && !account.getName().equalsIgnoreCase(
+				// Accounter.constants().salesTaxPayable())) {
 
-					payFromAccounts.add(account);
-				}
+				payFromAccounts.add(account);
+			// }
 		}
 		this.initCombo(payFromAccounts);
 	}

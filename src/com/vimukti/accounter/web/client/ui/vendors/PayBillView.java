@@ -186,11 +186,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					.getAccountsPayableAccount());
 			tpbRecord.setPayBill(transaction);
 
-			ClientAccount cashAcc = getCompany().getAccountByName(
-					gridView.getAttribute(Accounter.constants().cashAccount(),
-							gridView.indexOf(tpbRecord)));
-			if (cashAcc != null)
-				tpbRecord.setDiscountAccount(cashAcc.getID());
+			// ClientAccount cashAcc = getCompany().getAccountByName(
+			// gridView.getAttribute(Accounter.constants().cashAccount(),
+			// gridView.indexOf(tpbRecord)));
+			// if (cashAcc != null)
+			// tpbRecord.setDiscountAccount(cashAcc.getID());
 
 			List<ClientTransactionCreditsAndPayments> trpList = gridView.creditsAndPaymentsDialiog != null ? gridView.creditsAndPaymentsDialiog
 					.getTransactionCredits(tpbRecord)

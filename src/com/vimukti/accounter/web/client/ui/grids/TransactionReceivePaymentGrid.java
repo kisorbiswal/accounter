@@ -8,9 +8,7 @@ import java.util.Stack;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -134,27 +132,27 @@ public class TransactionReceivePaymentGrid extends
 				return receivePayment.getNumber();
 			case 2:
 				return amountAsString(getAmountInForeignCurrency(receivePayment
-								.getInvoiceAmount()));
+						.getInvoiceAmount()));
 			case 3:
 				return amountAsString(getAmountInForeignCurrency(receivePayment
-								.getDummyDue()));
+						.getDummyDue()));
 			case 4:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 5:
 				return amountAsString(getAmountInForeignCurrency(receivePayment
-								.getCashDiscount()));
+						.getCashDiscount()));
 			case 6:
 				return amountAsString(getAmountInForeignCurrency(receivePayment
-								.getWriteOff()));
+						.getWriteOff()));
 			case 7:
 				return amountAsString(getAmountInForeignCurrency(receivePayment
-								.getAppliedCredits()));
+						.getAppliedCredits()));
 
 			case 8:
 
 				return amountAsString(getAmountInForeignCurrency(receivePayment
-								.getPayment()));
+						.getPayment()));
 
 			default:
 				break;
@@ -165,22 +163,22 @@ public class TransactionReceivePaymentGrid extends
 				return receivePayment.getNumber();
 			case 1:
 				return amountAsString(getAmountInForeignCurrency(receivePayment
-								.getInvoiceAmount()));
+						.getInvoiceAmount()));
 			case 2:
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						receivePayment.getDiscountDate()));
 			case 3:
 				return amountAsString(getAmountInForeignCurrency(receivePayment
-								.getCashDiscount()));
+						.getCashDiscount()));
 			case 4:
 				return amountAsString(getAmountInForeignCurrency(receivePayment
-								.getWriteOff()));
+						.getWriteOff()));
 			case 5:
 				return amountAsString(getAmountInForeignCurrency(receivePayment
-								.getAppliedCredits()));
+						.getAppliedCredits()));
 			case 6:
 				return amountAsString(getAmountInForeignCurrency(receivePayment
-								.getPayment()));
+						.getPayment()));
 			default:
 				break;
 			}
@@ -740,29 +738,30 @@ public class TransactionReceivePaymentGrid extends
 
 	}
 
-	private void setAccountDefaultValues(ClientTransactionReceivePayment obj) {
-		ClientAccount cashDiscountAccount, writeOffAccount;
-		int accountType = getCompany().getAccountingType();
-		switch (accountType) {
-		case ClientCompany.ACCOUNTING_TYPE_UK:
-			cashDiscountAccount = getCompany().getAccountByName(
-					AccounterClientConstants.DISCOUNTS);
-
-			writeOffAccount = getCompany().getAccountByName(
-					AccounterClientConstants.DISCOUNTS_TAKEN);
-			obj.setDiscountAccount(cashDiscountAccount.getID());
-			obj.setWriteOffAccount(writeOffAccount.getID());
-			break;
-		case ClientCompany.ACCOUNTING_TYPE_US:
-			cashDiscountAccount = getCompany().getAccountByName(
-					AccounterClientConstants.CASH_DISCOUNT_TAKEN);
-			writeOffAccount = getCompany().getAccountByName(
-					AccounterClientConstants.DISCOUNTS_TAKEN);
-			obj.setDiscountAccount(cashDiscountAccount.getID());
-			obj.setWriteOffAccount(writeOffAccount.getID());
-			break;
-		}
-	}
+	// private void setAccountDefaultValues(ClientTransactionReceivePayment obj)
+	// {
+	// ClientAccount cashDiscountAccount, writeOffAccount;
+	// int accountType = getCompany().getAccountingType();
+	// switch (accountType) {
+	// case ClientCompany.ACCOUNTING_TYPE_UK:
+	// cashDiscountAccount = getCompany().getAccountByName(
+	// AccounterClientConstants.DISCOUNTS);
+	//
+	// writeOffAccount = getCompany().getAccountByName(
+	// AccounterClientConstants.DISCOUNTS_TAKEN);
+	// obj.setDiscountAccount(cashDiscountAccount.getID());
+	// obj.setWriteOffAccount(writeOffAccount.getID());
+	// break;
+	// case ClientCompany.ACCOUNTING_TYPE_US:
+	// cashDiscountAccount = getCompany().getAccountByName(
+	// AccounterClientConstants.CASH_DISCOUNT_TAKEN);
+	// writeOffAccount = getCompany().getAccountByName(
+	// AccounterClientConstants.DISCOUNTS_TAKEN);
+	// obj.setDiscountAccount(cashDiscountAccount.getID());
+	// obj.setWriteOffAccount(writeOffAccount.getID());
+	// break;
+	// }
+	// }
 
 	public void updateTotalPayment(Double payment) {
 		paymentView.transactionTotal += payment;

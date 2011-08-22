@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
@@ -70,8 +69,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		FlexTable fTable = new FlexTable();
 
-		Button addPayableInvoiceBtn = new Button(Accounter
-				.constants().addPayableInvoice());
+		Button addPayableInvoiceBtn = new Button(Accounter.constants()
+				.addPayableInvoice());
 		addPayableInvoiceBtn.addStyleName("addButtonPortlet");
 		addPayableInvoiceBtn.addClickHandler(new ClickHandler() {
 
@@ -117,7 +116,8 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 				if (result != null && result.size() > 0) {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					overDueAmtLabel.setText(amountAsString(overDueInvoiceAmount));
+					overDueAmtLabel
+							.setText(amountAsString(overDueInvoiceAmount));
 				}
 				if (result != null && result.size() > 0) {
 					draftInvoiceAmount = result.get(result.size() - 1);
@@ -153,17 +153,20 @@ public class MoneyGoingPortlet extends DashBoardPortlet {
 	}
 
 	private void updateCreditorsAccount() {
-		List<ClientAccount> accounts = new ArrayList<ClientAccount>();
-		if (Accounter.getCompany() != null) {
-			accounts = Accounter.getCompany().getAccounts(
-					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY);
-		}
-		for (ClientAccount account : accounts) {
-			if (account.getName().equals("Creditors")) {
-				creditors = account;
-				break;
-			}
-		}
+		creditors = getCompany().getAccount(
+				getCompany().getAccountsPayableAccount());
+		// List<ClientAccount> accounts = new ArrayList<ClientAccount>();
+		// if (Accounter.getCompany() != null) {
+		// accounts = Accounter.getCompany().getAccounts(
+		// ClientAccount.TYPE_OTHER_CURRENT_LIABILITY);
+		// }
+		//
+		// for (ClientAccount account : accounts) {
+		// if (account.getName().equals("Creditors")) {
+		// creditors = account;
+		// break;
+		// }
+		// }
 	}
 
 	Label getLabel(final String title) {

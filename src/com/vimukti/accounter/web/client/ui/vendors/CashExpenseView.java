@@ -1,15 +1,12 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -18,13 +15,12 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 
 public class CashExpenseView extends CashPurchaseView {
 
-	private ClientAccount pettycash;
+	// private ClientAccount pettycash;
 	protected List<String> selectedComboList;
-	AccountCombo petycash;
+	// AccountCombo petycash;
 	com.vimukti.accounter.web.client.externalization.AccounterConstants accounterConstants = Accounter
 			.constants();
 
@@ -38,25 +34,23 @@ public class CashExpenseView extends CashPurchaseView {
 		vendorForm.clear();
 		vendorForm.removeFromParent();
 		termsForm.clear();
-		petycash = new AccountCombo(Accounter.constants().cashExpense()) {
-
-			@Override
-			protected List<ClientAccount> getAccounts() {
-				List<ClientAccount> accounts = getCompany().getAccounts();
-				for (ClientAccount acct : accounts) {
-					if (acct.getName().equals(AccounterClientConstants.PETTY_CASH)) {
-						pettycash = acct;
-						return Arrays.asList(acct);
-					}
-
-				}
-				return null;
-			}
-
-		};
-		petycash.setHelpInformation(true);
-		petycash.setComboItem(pettycash);
-		petycash.setRequired(true);
+		// petycash = new AccountCombo(Accounter.constants().cashExpense()) {
+		// @Override
+		// protected List<ClientAccount> getAccounts() {
+		// List<ClientAccount> accounts = getCompany().getAccounts();
+		// for (ClientAccount acct : accounts) {
+		// if (acct.getName().equals(
+		// AccounterClientConstants.PETTY_CASH)) {
+		// pettycash = acct;
+		// return Arrays.asList(acct);
+		// }
+		// }
+		// return null;
+		// }
+		// };
+		// petycash.setHelpInformation(true);
+		// petycash.setComboItem(pettycash);
+		// petycash.setRequired(true);
 		try {
 			String listString[] = new String[] {
 					Accounter.constants().cash(),
@@ -77,7 +71,7 @@ public class CashExpenseView extends CashPurchaseView {
 			System.out.println(e.toString());
 		}
 
-		payFromCombo.setComboItem(pettycash);
+		// payFromCombo.setComboItem(pettycash);
 		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo);
 		VerticalPanel vPanel = (VerticalPanel) termsForm.getParent();
 		termsForm.removeFromParent();
@@ -91,8 +85,8 @@ public class CashExpenseView extends CashPurchaseView {
 
 		if (isInViewMode()) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
-			petycash.setComboItem(cashPurchase.getCashExpenseAccount());
-			petycash.setDisabled(true);
+			// petycash.setComboItem(cashPurchase.getCashExpenseAccount());
+			// petycash.setDisabled(true);
 			deliveryDateItem.setValue(new ClientFinanceDate(cashPurchase
 					.getDeliveryDate()));
 
@@ -105,7 +99,7 @@ public class CashExpenseView extends CashPurchaseView {
 		// Setting Type
 		transaction.setType(ClientTransaction.TYPE_CASH_EXPENSE);
 
-		transaction.setCashExpenseAccount(petycash.getSelectedValue());
+		// transaction.setCashExpenseAccount(petycash.getSelectedValue());
 
 		// Setting Contact
 		if (contact != null)
@@ -150,15 +144,16 @@ public class CashExpenseView extends CashPurchaseView {
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
 
-//		if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
-//			result.addError(transactionDate,
-//					accounterConstants.invalidateTransactionDate());
-//		}
-//
-//		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
-//			result.addError(transactionDate,
-//					accounterConstants.invalidateDate());
-//		}
+		// if (!AccounterValidator.isValidTransactionDate(transactionDate)) {
+		// result.addError(transactionDate,
+		// accounterConstants.invalidateTransactionDate());
+		// }
+		//
+		// if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate))
+		// {
+		// result.addError(transactionDate,
+		// accounterConstants.invalidateDate());
+		// }
 
 		if (!payFromCombo.validate()) {
 			result.addError(payFromCombo, payFromCombo.getTitle());
@@ -209,7 +204,7 @@ public class CashExpenseView extends CashPurchaseView {
 	@Override
 	public void enableFormItems() {
 		super.enableFormItems();
-		petycash.setDisabled(false);
+		// petycash.setDisabled(false);
 	}
 
 	@Override

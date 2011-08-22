@@ -1094,15 +1094,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				.getNumber()) : "");
 		accountNo = data.getNumber() != null ? data.getNumber() : "0";
 
-		if (data.getName().equalsIgnoreCase("Opening Balances"))
+		if (data.getID() == getCompany().getOpeningBalancesAccount())
 			accNoText.setDisabled(true);
 
 		accNameText.setValue(data.getName());
 		accountName = data.getName();
-		if (accountName.equalsIgnoreCase("Opening Balances")
-				|| accountName.equalsIgnoreCase("Un Deposited Funds")
-				|| accountName.equalsIgnoreCase("Accounts Receivable")
-				|| accountName.equalsIgnoreCase("Accounts Payable"))
+		long id = data.getID();
+		if (id == getCompany().getOpeningBalancesAccount()
+				|| id == getCompany().getAccountsReceivableAccountId()
+				|| id == getCompany().getAccountsPayableAccount())
 			accNameText.setDisabled(true);
 		// statusBox.setValue(data.getIsActive() != null ? data
 		// .getIsActive() : Boolean.FALSE);
