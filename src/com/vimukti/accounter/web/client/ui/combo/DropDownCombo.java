@@ -492,7 +492,10 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			selectedObject = comboItems.get(rowIndex
 					- (isAddNewRequire ? 1 : 0));
 		switch (rowIndex) {
-
+		case -1:
+			if (popup.isShowing())
+				popup.hide();
+			break;
 		case 0:
 			if (isAddNewRequire) {
 				if (popup.isShowing())
@@ -675,6 +678,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			if (combos != null && combos.size() > 0)
 				index = comboItems.indexOf(combos.get(0))
 						+ (isAddNewRequire ? 1 : 0);
+		}else{
+			index = -1;
 		}
 		selectedName = value;
 		changeValue(index);
