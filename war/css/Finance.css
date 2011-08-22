@@ -4434,6 +4434,14 @@ td.imagelink-h-hover .imageLink-div {
 	.Empty-text{
 	    padding:4px 10px !important;
 	}
+	.grouped-buttons{
+	    padding:2px 0 !important;
+	    margin-top:2px;
+	}
+	table{
+	   border-collapse: collapse;
+	   border-spacing: 0px;
+	}
 }
 /** Add css rules here for your application. */
 	/** Example rules used by the template application (remove for your app) */
@@ -6681,7 +6689,7 @@ a#fdbk_tab:hover{
     border:1px solid #a0a0a0\0 !important;
     
     background-color: #e4e4e4 !important;
-    padding:10px !important;
+    padding:10px;
 }
 .grouped-buttons td:FIRST-CHILD .Empty-text,.grouped-buttons td:FIRST-CHILD .image-button{
     border-color: #A0A0A0;
@@ -6694,6 +6702,9 @@ a#fdbk_tab:hover{
 	border-radius:0 5px 5px 0;
 	border: 1px solid #A0A0A0 !important;
 	color:black\0 !important;
+}
+.grouped-buttons .Empty-text{
+	border-radius:0 5px 5px 0 !important;
 }
 .grouped-buttons .image-button{
 	margin:0 -2px;
