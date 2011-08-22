@@ -14,6 +14,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	private ButtonBar buttonBar;
 
 	protected int accountType;
+	private EditMode mode;
 	protected boolean isEdit;
 
 	protected SaveAndCloseButton saveAndCloseButton;
@@ -86,15 +87,11 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	public void setData(T data) {
 		super.setData(data);
-		this.isEdit = (data != null && data.getID() != 0);
-	}
-
-	public boolean isEdit() {
-		return isEdit;
-	}
-
-	public void setEdit(boolean isEdit) {
-		this.isEdit = isEdit;
+		if (data == null || data.getID() == 0) {
+			this.setMode(EditMode.CREATE);
+		} else {
+			this.setMode(EditMode.VIEW);
+		}
 	}
 
 	protected void createButtons(ButtonBar buttonBar) {
@@ -108,12 +105,20 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	@Override
 	public boolean canEdit() {
-		return isEdit;
+		return getMode() == EditMode.VIEW;
 	}
 
 	@Override
 	public boolean isDirty() {
 		return isDirty;
+	}
+
+	public EditMode getMode() {
+		return mode;
+	}
+
+	public void setMode(EditMode mode) {
+		this.mode = mode;
 	}
 
 }

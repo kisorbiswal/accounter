@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -904,7 +905,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						@Override
 						public boolean onYesClick() {
 							voidTransaction();
-							setEdit(false);
+							setMode(EditMode.EDIT);
 							getManager().updateButtons();
 							return true;
 						}

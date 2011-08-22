@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class UserRoleGrid extends ListGrid<RolePermissions> {
@@ -25,7 +26,7 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 	protected Object getColumnValue(RolePermissions obj, int index) {
 		switch (index) {
 		case 0:
-			if (view.isEdit()) {
+			if (view.getMode() != EditMode.CREATE) {
 				if (obj.getRoleName().equals(view.getData().getUserRole())) {
 					return true;
 				} else

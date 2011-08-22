@@ -172,7 +172,7 @@ public class ConversionBalancesView extends BaseView {
 		removeZeroBalance.setValue(Accounter.constants().removeZeroBalances());
 		removeZeroBalance.addStyleName("falseHyperlink");
 		removeZeroBalance.setShowTitle(false);
-		removeZeroBalance.setDisabled(isEdit());
+		removeZeroBalance.setDisabled(isEdit);
 		showAllAccounts = new LabelItem();
 		showAllAccounts.setValue(Accounter.constants().showAllAccounts());
 		showAllAccounts.addStyleName("falseHyperlink");
