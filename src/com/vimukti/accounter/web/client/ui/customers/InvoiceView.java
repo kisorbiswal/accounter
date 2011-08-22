@@ -1140,7 +1140,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice> 
 	public void saveAndUpdateView() {
 
 		updateTransaction();
-		saveOrUpdate(getCustomer());
+		// saveOrUpdate(getCustomer());
 		saveOrUpdate(transaction);
 
 	}

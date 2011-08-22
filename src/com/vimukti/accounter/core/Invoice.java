@@ -437,7 +437,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	}
 
 	private void doCreateEffect(Session session) {
-		super.onSave(session);
+		// super.onSave(session);
 		this.balanceDue = this.total;
 		/**
 		 * To update the Status of the Estimate (if any) Involved in this

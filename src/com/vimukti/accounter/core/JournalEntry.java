@@ -985,7 +985,7 @@ public class JournalEntry extends Transaction {
 						String.valueOf(this.debitTotal),
 						String.valueOf(creditTotal));
 
-		return super.onSave(session);
+		return false;
 	}
 
 	@Override

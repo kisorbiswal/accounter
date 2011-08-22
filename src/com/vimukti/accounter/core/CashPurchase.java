@@ -321,7 +321,7 @@ public class CashPurchase extends Transaction {
 				&& this.expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
 
-		super.onSave(session);
+		// super.onSave(session);
 		/**
 		 * update status if payment method is check, it will used to get list of
 		 * cash purchase for issue payment transaction

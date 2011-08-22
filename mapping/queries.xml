@@ -874,7 +874,7 @@
 
 
 	<query name="getTAXAdjustment.by.taxAgencyidanddates">
-		<query-param name="taxAgency" type="int" />
+		<query-param name="taxAgency" type="long" />
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.TAXAdjustment v where

@@ -25,7 +25,7 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 	@Override
 	public void onAddNew() {
 		AddNewContactDialog addNewContactDialog = new AddNewContactDialog(
-				"contact ", " ");
+				"Contact", " ");
 
 		addNewContactDialog.addSuccessCallback(newContactHandler);
 	}

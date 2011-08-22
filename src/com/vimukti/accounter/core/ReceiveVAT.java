@@ -219,7 +219,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 			t.setReceiveVAT(this);
 		}
 		if (this.id == 0) {
-			super.onSave(session);
+			// super.onSave(session);
 
 			if (!(this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
