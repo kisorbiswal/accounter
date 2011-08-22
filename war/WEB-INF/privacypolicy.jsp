@@ -31,8 +31,8 @@
 							<p>4th floor,Above Ushodhaya super market,:</p> 
 							<p>G- Block Colony,Main Road,ECILpost:</p> 
 							<p>HYDERABAD-62:</p> 
-							<p>Support Team: support@vimukti.com</a></p> 
-							<p>Website: www.vimukti.com</a></p>
+							<p>Support Team: <a href="support@vimukti.com" target="_blank">support@vimukti.com</a></p> 
+							<p>Website: <a href="http://www.vimukti.com/" target="_blank">www.vimukti.com</a></p>
 					</div>
 					<br>
 					<div class="">
@@ -50,14 +50,14 @@
 					<li><h2>Security:</h2><br><p>We use the industry based security measures , data collection methods, storage mechanism to store your user name, password and other information which  to avoid any unauthorised access, disclose and modification to the user information. Access to your personal information to the employee of Accounter who need to know to provide you complete Accounter support & service for.</p></li><br>					
 					<li><h2>Service Usage Choice:</h2><br><p>You care required to add your Personal information to register for Accounter. If you choose not to provide the information then you wont be able to get access the features and services of the Accounter. We provide you the option to opting out to receive mails from us, however in that case you wont be receiving any information on future release, updates upcoming events and change to Privacy Policy Statement.</p></li><br>					
 					<li><h2>Editing Personal Information:</h2><br><p>We provide you the option to edit, add or delete any personal information you have added to Accounter. You can do this either by accessing your user account or by contacting the Accounter Customer Support. Such changes will take 48 hrs to affect. We respond to all the queries within 7 working days.</p></li><br>
-					<li><h2>Security Concern:</h2><br><p>We try to keep all your information safe and secure and review periodically to ensure that the Personal Information provided by you is used in conformity with this privacy policy statement. If you have any doubt or you are concerned about the security measure and the way your Personal Information is used you are free to contact us at support@vimukti.com</a> or contact Accounter Team at   support@accounterlive.com</a> We will contact you and provide you the complete information and data.</p></li><br>					
+					<li><h2>Security Concern:</h2><br><p>We try to keep all your information safe and secure and review periodically to ensure that the Personal Information provided by you is used in conformity with this privacy policy statement. If you have any doubt or you are concerned about the security measure and the way your Personal Information is used you are free to contact us at <a href="support@vimukti.com" target="_blank">support@vimukti.com</a> or contact Accounter Team at   <a href="support@accounterlive.com" target="_blank">support@accounterlive.com</a> We will contact you and provide you the complete information and data.</p></li><br>					
 					</ul>
 					</div>
 					<br>
 				
 					<div class="" style="margin-top:25px;">
 					<h3>Change Notification</h3>
-					<p>We will be providing you with the notification in case there is any change in the  Privacy Policy Statements and will be posted to our websites. In cause we find that the  use of information is different from that stated at the time of collecting we will provide you email notifications with the option to apply these condition or opt out of these new uses. You will not be receiving any notification in cause we have done any minor changes in the privacy policy document. And if still you are concerned with the use of your Personal Information , you should visit the link   http://www.accounterlive.com/site/privacypolicy periodically.</a></p>	
+					<p>We will be providing you with the notification in case there is any change in the  Privacy Policy Statements and will be posted to our websites. In cause we find that the  use of information is different from that stated at the time of collecting we will provide you email notifications with the option to apply these condition or opt out of these new uses. You will not be receiving any notification in cause we have done any minor changes in the privacy policy document. And if still you are concerned with the use of your Personal Information , you should visit the link   <a href="http://www.accounterlive.com/site/privacypolicy" target="_blank"> Privacy Policy</a> periodically.</p>	
 				</div>
 				<br>
 				
@@ -69,7 +69,7 @@
 			
 			<h2>THE END</h2>
 			<div class="" style="margin-top:25px;">
-			<p>If you have any questions or concerns regarding this Privacy Policy Statement, please contact us at support@accounterlive.com . We shall respond to all inquiries within  2 -4 days of receipt upon ascertaining your identity.</p>	
+			<p>If you have any questions or concerns regarding this Privacy Policy Statement, please contact us at  <a href="support@accounterlive.com" target="_blank">support@accounterlive.com</a> . We shall respond to all inquiries within  2 -4 days of receipt upon ascertaining your identity.</p>	
 		</div>
 		
 					
