@@ -4779,8 +4779,9 @@
 	<sql-query name="getGraphPointsForDebtors">
 		
 		<query-param name="debtorAccountID" type="long" />
-		<query-param name="previousFifthMonthStartDateCal" type="long" />
-		<query-param name="previousFifthMonthEndDateCal" type="long" />
+		
+		<query-param name="nextMonthStartDateCal" type="long" />
+		<query-param name="nextMonthEndDateCal" type="long" />
 		<query-param name="previousFourthMonthStartDateCal" type="long" />
 		<query-param name="previousFourthMonthEndDateCal" type="long" />
 		<query-param name="previousThirdMonthStartDateCal" type="long" />
@@ -4794,13 +4795,12 @@
 		
 		<return-scalar column="ACCOUNT_TYPE" type="string"/> 
 		<return-scalar column="ACCOUNT_NAME" type="string"/> 
-		<return-scalar column="PREVOIUS_FIFTH_MONTH_AMOUNT" type="double"/>
 		<return-scalar column="PREVOIUS_FOURTH_MONTH_AMOUNT" type="double"/> 
 		<return-scalar column="PREVOIUS_THIRD_MONTH_AMOUNT" type="double"/> 
 		<return-scalar column="PREVOIUS_SECOND_MONTH_AMOUNT" type="double"/> 
 		<return-scalar column="PREVOIUS_FIRST_MONTH_AMOUNT" type="double"/> 
 		<return-scalar column="PRESENT_MONTH_AMOUNT" type="double"/>  
-		
+		<return-scalar column="NEXT_MONTH_AMOUNT" type="double"/>
 		 
 		 SELECT 
 				CASE
@@ -4809,14 +4809,6 @@
 				END AS ACCOUNT_TYPE,
  
 				A.NAME AS ACCOUNT_NAME,
-
-				CASE 
-					WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
-						(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1 ON T1.ID = AT1.TRANSACTION_ID 
-							WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN :previousFifthMonthStartDateCal AND :previousFifthMonthEndDateCal AND T1.IS_VOID = FALSE GROUP BY AT1.ACCOUNT_ID)
-
-				END AS PREVOIUS_FIFTH_MONTH_AMOUNT,
-
 
 
 				CASE 
@@ -4860,8 +4852,16 @@
 						(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1 ON T1.ID = AT1.TRANSACTION_ID 
 							WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN :currentMonthStartDateCal AND :currentMonthEndDateCal AND T1.IS_VOID = FALSE GROUP BY AT1.ACCOUNT_ID)
 
-				END AS PRESENT_MONTH_AMOUNT
+				END AS PRESENT_MONTH_AMOUNT,
+				
+						
+				CASE 
+					WHEN AT.ACCOUNT_ID = :debtorAccountID THEN
+						(SELECT SUM(AT1.AMOUNT) FROM ACCOUNT_TRANSACTION AT1 LEFT JOIN TRANSACTION T1 ON T1.ID = AT1.TRANSACTION_ID 
+							WHERE AT1.ACCOUNT_ID = :debtorAccountID AND T1.T_DATE BETWEEN :nextMonthStartDateCal AND :nextMonthEndDateCal AND T1.IS_VOID = FALSE GROUP BY AT1.ACCOUNT_ID)
 
+				END AS NEXT_MONTH_AMOUNT
+				
 		FROM 
 			ACCOUNT_TRANSACTION AT
 	
