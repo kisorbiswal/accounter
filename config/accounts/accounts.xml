@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<industry type="1" name="Accounts&BookKeeping">
+	<account type="income" name="Consulting Income" default="true" sytemOny="true" cashFlowType="Financing" contries="US,UK,IN,OT"/>
+	<account type="income" name="Consulting Income" default="false" sytemOny="true" contries="US,UK,IN"/>
+</industry>
