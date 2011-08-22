@@ -251,4 +251,76 @@
 		</accounts>
 		<!-- End of Type-5 Industry Accounts list -->
 	</industry>
+	<industry type="6" name="Church Or Religious Oganization">
+		<accounts>
+			<account type="Income" name="Building Fund" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Children's Church offerings" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="General Fund" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Benevolence Offerings" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Mission Offerings" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Pledges" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Seminars -Registrations" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Tithes/offerings" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Youth Group" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Tape/Book sales" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Special Services Income" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Advertising &amp; Promotion" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Automobile Expense" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Bank Service Charges" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Building &amp; property Secutiry" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Business Licenses &amp; Permits" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Charitable Conrtibutions" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Computer &amp; Internet Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Conference &amp; Attendance fees" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Conference Travel" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Teaching Material" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Offerings at conferences" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Conference &amp; Meetings" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Continuing Education" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Depreciation Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Dues &amp; Subscriptions" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Equipment Rental" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Evangelism &amp; Special Events" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="Honararium-Special Meetings" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Travels" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Meals" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Insurance expense" default="true" systemOnly="false" countries=""></account>
+			<account type="Income" name="General Liability Expenses" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Health Insurance" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Life &amp; Disability Insurance" default="false" systemOnly="false" countries=""></account>
+			<account type="Income" name="Workers Compenstation" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Interest Expense" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Janitorial Expenses" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Landscaping Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Ministry Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Adult Educations" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Benevolence Fund" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Books &amp; Teaching Materials" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Local Outreach" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Men's Ministry" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Ministry Operations supplies" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Missions" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Music Ministry" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Women's Ministry" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Youth Ministry" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Leadership &amp; Fellowship" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Miscellaneous Expenses" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Outside Supplies" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Office Supplies" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Postage &amp; delivery" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Printing &amp; reproduction" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Professoinal Fees" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Rent Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Repairs &amp; Maintenance" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Small Tools &amp; Equipments" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Taxes &amp; Property" default="false" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Telephone Expenses" default="true" systemOnly="false" countries=""></account>
+			<account type="Expenses" name="Utilities Expenses " default="true" systemOnly="false" countries=""></account>
+			<account type="Other Income" name="Insurance proceeds recieved" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Income" name="Interest Income" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Income" name="Proceeds from sales of Assests" default="false" systemOnly="false" countries=""></account>
+			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries=""></account>
+		</accounts>
+		<!-- End of Type-6 Industry Accounts list -->
+	</industry>
 </industries>
