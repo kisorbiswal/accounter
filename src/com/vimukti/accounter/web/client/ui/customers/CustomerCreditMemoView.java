@@ -179,7 +179,7 @@ public class CustomerCreditMemoView extends
 			prodAndServiceForm2.addStyleName("invoice-total");
 		} else {
 
-			if (getPreferences().isDoYouChargesalesTax()) {
+			if (getPreferences().getDoYouPaySalesTax()) {
 				prodAndServiceForm2.setFields(taxCodeSelect,
 						salesTaxTextNonEditable, disabletextbox,
 						transactionTotalNonEditableText);

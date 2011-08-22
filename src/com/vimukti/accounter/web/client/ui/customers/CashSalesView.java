@@ -237,7 +237,7 @@ public class CashSalesView extends
 			// prodAndServiceForm2.setFields(taxCodeSelect,
 			// salesTaxTextNonEditable, priceLevelSelect,
 			// transactionTotalNonEditableText);
-			if (getPreferences().isDoYouChargesalesTax()) {
+			if (getPreferences().getDoYouPaySalesTax()) {
 				prodAndServiceForm2.setFields(taxCodeSelect,
 						salesTaxTextNonEditable, disabletextbox,
 						transactionTotalNonEditableText);

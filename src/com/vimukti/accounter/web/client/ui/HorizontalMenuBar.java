@@ -947,7 +947,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyMenuBar.addSeparator();
 		}
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			if (getPreferences().isDoYouChargesalesTax()) {
+			if (getPreferences().getDoYouPaySalesTax()) {
 				companyMenuBar.addItem(Accounter.constants().itemTax(),
 						getSalesTaxSubmenu());
 			}
