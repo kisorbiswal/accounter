@@ -91,7 +91,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 
 		session.save(client);
 
-		String link = "https://www.nextrelease.accounterlive.com/activation";
+		String link = "https://nextrelease.accounterlive.com/activation";
 
 		UsersMailSendar.sendResetPasswordLinkToUser(link, activationCode,
 				client.getEmailId());
