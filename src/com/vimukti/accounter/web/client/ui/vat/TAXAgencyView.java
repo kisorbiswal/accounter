@@ -171,7 +171,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		ClientTAXAgency taxAgenciesByName = getCompany().getTaxAgenciesByName(
 				name);
 
-		if (taxAgenciesByName != null) {
+		if (taxAgenciesByName == null) {
 			if (!((!isInViewMode() && taxAgenciesByName != null || taxAgenciesByName
 					.getID() == this.getData().getID()) ? false : true)
 					|| (!isInViewMode() ? (data.getName().equalsIgnoreCase(name) ? true
