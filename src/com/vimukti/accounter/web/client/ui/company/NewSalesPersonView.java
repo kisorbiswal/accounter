@@ -175,8 +175,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 						.getEnteredDate())) {
 					addError(dateOfBirth, Accounter.constants()
 							.dateofBirthshouldshowmorethan18years());
-				}
-				else {
+				} else {
 					clearError(dateOfBirth);
 				}
 			}
@@ -232,35 +231,37 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 			ClientAddress toBeShown = allAddresses
 					.get(ClientAddress.TYPE_BILL_TO);
+			if (toBeShown != null) {
+				String toToSet = new String();
+				if (toBeShown.getAddress1() != null
+						&& !toBeShown.getAddress1().isEmpty()) {
+					toToSet = toBeShown.getAddress1().toString() + "\n";
+				}
 
-			String toToSet = new String();
-			if (toBeShown.getAddress1() != null
-					&& !toBeShown.getAddress1().isEmpty()) {
-				toToSet = toBeShown.getAddress1().toString() + "\n";
-			}
+				if (toBeShown.getStreet() != null
+						&& !toBeShown.getStreet().isEmpty()) {
+					toToSet += toBeShown.getStreet().toString() + "\n";
+				}
 
-			if (toBeShown.getStreet() != null
-					&& !toBeShown.getStreet().isEmpty()) {
-				toToSet += toBeShown.getStreet().toString() + "\n";
-			}
+				if (toBeShown.getCity() != null
+						&& !toBeShown.getCity().isEmpty()) {
+					toToSet += toBeShown.getCity().toString() + "\n";
+				}
 
-			if (toBeShown.getCity() != null && !toBeShown.getCity().isEmpty()) {
-				toToSet += toBeShown.getCity().toString() + "\n";
+				if (toBeShown.getStateOrProvinence() != null
+						&& !toBeShown.getStateOrProvinence().isEmpty()) {
+					toToSet += toBeShown.getStateOrProvinence() + "\n";
+				}
+				if (toBeShown.getZipOrPostalCode() != null
+						&& !toBeShown.getZipOrPostalCode().isEmpty()) {
+					toToSet += toBeShown.getZipOrPostalCode() + "\n";
+				}
+				if (toBeShown.getCountryOrRegion() != null
+						&& !toBeShown.getCountryOrRegion().isEmpty()) {
+					toToSet += toBeShown.getCountryOrRegion();
+				}
+				addrArea.setValue(toToSet);
 			}
-
-			if (toBeShown.getStateOrProvinence() != null
-					&& !toBeShown.getStateOrProvinence().isEmpty()) {
-				toToSet += toBeShown.getStateOrProvinence() + "\n";
-			}
-			if (toBeShown.getZipOrPostalCode() != null
-					&& !toBeShown.getZipOrPostalCode().isEmpty()) {
-				toToSet += toBeShown.getZipOrPostalCode() + "\n";
-			}
-			if (toBeShown.getCountryOrRegion() != null
-					&& !toBeShown.getCountryOrRegion().isEmpty()) {
-				toToSet += toBeShown.getCountryOrRegion();
-			}
-			addrArea.setValue(toToSet);
 
 			fonFaxForm = new PhoneFaxForm(null, null, this);
 			fonFaxForm.setWidth("90%");
@@ -351,9 +352,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
-		//check whether the sales person is already added or not
-		//valid date of birth?
-		
+		// check whether the sales person is already added or not
+		// valid date of birth?
+
 		String name = employeeNameText.getValue().toString();
 		ClientSalesPerson clientSalesPerson = getCompany()
 				.getSalesPersonByName(name);
@@ -363,7 +364,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 					.alreadyExist());
 			return result;
 		}
-				
+
 		if (dateOfBirth.getValue().getDate() != 0) {
 			long mustdate = new ClientFinanceDate().getDate() - 180000;
 			if (dateOfBirth.getValue().getDateAsObject()
@@ -377,7 +378,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			}
 		}
 		result.add(salesPersonForm.validate());
-		
 
 		long mustdate = new ClientFinanceDate().getDate() - 180000;
 		if (new ClientFinanceDate(mustdate)
@@ -567,7 +567,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// Not required for this class
 
 	}
@@ -615,8 +615,10 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		if (addresses != null) {
 			Iterator it = addresses.iterator();
 			while (it.hasNext()) {
-				ClientAddress add = (ClientAddress) it.next();
-				allAddresses.put(add.getType(), add);
+				ClientAddress addr = (ClientAddress) it.next();
+				if (addr != null) {
+					allAddresses.put(addr.getType(), addr);
+				}
 			}
 		}
 	}

@@ -34,7 +34,7 @@ public class NewSalesperSonAction extends Action<ClientSalesPerson> {
 
 			@Override
 			public void onSuccess() {
-				NewSalesPersonView view = NewSalesPersonView.getInstance();
+				NewSalesPersonView view = new NewSalesPersonView();
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewSalesperSonAction.this);
