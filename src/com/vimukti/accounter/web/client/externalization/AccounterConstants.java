@@ -74,6 +74,8 @@ public interface AccounterConstants extends Constants {
 
 	public String accounts();
 
+	public String accountsList();
+
 	public String accountsPayable();
 
 	public String accountsReceivable();
@@ -459,8 +461,6 @@ public interface AccounterConstants extends Constants {
 	public String bankCreated();
 
 	public String bankDeposite();
-
-	public String bankFinanceCategorynumber();
 
 	public String banking();
 
@@ -1652,12 +1652,6 @@ public interface AccounterConstants extends Constants {
 
 	public String filterByBilldueonorbefore();
 
-	public String financeCategories();
-
-	public String financeCategory();
-
-	public String financeCategoryList();
-
 	public String financeWindow();
 
 	public String financialAccount();
@@ -2457,8 +2451,6 @@ public interface AccounterConstants extends Constants {
 	public String newCustomerGroup();
 
 	public String newCustomerPayment();
-
-	public String newFinanceCategory();
 
 	public String newFiscalYear();
 
@@ -3949,8 +3941,6 @@ public interface AccounterConstants extends Constants {
 	public String transactionDetailByTaxItem();
 
 	public String transactionDetailsByAccount();
-
-	public String transactionDetailsByFinanceCategory();
 
 	public String transactionitemtotalcannotbe0orlessthan0();
 
