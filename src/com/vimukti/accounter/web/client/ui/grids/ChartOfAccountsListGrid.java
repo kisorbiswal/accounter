@@ -116,9 +116,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 		}
 		if (account.getType() == ClientAccount.TYPE_BANK) {
 			ActionFactory.getNewBankAccountAction().run(
-					(ClientBankAccount) account, true);
+					(ClientBankAccount) account, false);
 		} else {
-			ActionFactory.getNewAccountAction().run(account, true);
+			ActionFactory.getNewAccountAction().run(account, false);
 		}
 
 	}
