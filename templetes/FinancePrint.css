@@ -275,8 +275,8 @@ table tr.gridHeaderRow td {
     border-bottom: 1px solid;
     padding-bottom: 15px;
 }
-.invoice_details_table td:first-child,.removeHeadBorder th{
-   background:none repeat scroll 0 0 #F2F2F2;
+.invoice_details_table td:first-child,#items th,.removeHeadBorder th,.removeHeadBorder th p{
+   background-color:#F2F2F2 !important;
    font-weight:bold;
 }
 #permethterms td,#items td,
@@ -285,7 +285,7 @@ table tr.gridHeaderRow td {
    padding:5px;
 }
 #header-part-invoice td{
-   padding:10px 0px;
+   padding:10px 5px;
 }
 .invoice_main_div{
    margin:10px;
@@ -295,4 +295,7 @@ table tr.gridHeaderRow td {
 }
 #permethterms,#vat_sort_bankaccount,#billingAddressTable,.due_date,#footer {
    margin-top:40px;
+}
+#billto td,#shippingAddressTable td{
+  padding:5px;
 }
