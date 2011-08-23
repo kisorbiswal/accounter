@@ -99,9 +99,9 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	protected void onLoad() {
-		if (currenciesList.indexOf(preferences.getBaseCurrency()) != -1)
+		if (currenciesList.indexOf(preferences.getPrimaryCurrency()) != -1)
 			primaryCurrencyListBox.setSelectedIndex(currenciesList
-					.indexOf(preferences.getBaseCurrency()));
+					.indexOf(preferences.getPrimaryCurrency()));
 	}
 
 	@Override
