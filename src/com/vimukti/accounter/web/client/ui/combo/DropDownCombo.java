@@ -667,7 +667,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			List<T> combos = getComboitemsByName(value);
 			for (T t : combos) {
 				String name = getDisplayName(t);
-				if (name.toLowerCase().equals(value.toLowerCase())) {
+				if (name.equalsIgnoreCase(value)) {
 					combos.clear();
 					combos.add(t);
 
@@ -678,7 +678,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			if (combos != null && combos.size() > 0)
 				index = comboItems.indexOf(combos.get(0))
 						+ (isAddNewRequire ? 1 : 0);
-		}else{
+		} else {
 			index = -1;
 		}
 		selectedName = value;
@@ -740,7 +740,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		List<T> autocompleteItems = new ArrayList<T>();
 		for (T t : comboItems) {
 			String displayName = getDisplayName(t);
-			if (displayName.toLowerCase().contains(value)) {
+			if (displayName.equalsIgnoreCase(value)) {
 				autocompleteItems.add(t);
 			}
 		}
