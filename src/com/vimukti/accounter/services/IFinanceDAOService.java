@@ -36,8 +36,10 @@ import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -143,11 +145,13 @@ public interface IFinanceDAOService {
 	public void mergeCustomer(ClientCustomer fromClientCustomer,
 			ClientCustomer toClientCustomer) throws DAOException;
 
-	public void mergeVendor(long fromID, long toID) throws DAOException;
+	public void mergeVendor(ClientVendor from, ClientVendor to)
+			throws DAOException;
 
 	public void mergeAcoount(long fromID, long toID) throws DAOException;
 
-	public void mergeItem(long fromID, long toID) throws DAOException;
+	public void mergeItem(ClientItem fromClientItem, ClientItem toClientItem)
+			throws DAOException;
 
 	/**
 	 * Company Home page widgets Related Dao Methods
