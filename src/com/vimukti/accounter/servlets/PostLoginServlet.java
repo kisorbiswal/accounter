@@ -67,8 +67,9 @@ public class PostLoginServlet extends BaseServlet {
 	private void initComet(HttpSession httpSession, String emailID) {
 		// Stream must be created otherwise user will get data
 		// Continuously and browser will struck
-		CometSession cometSession = CometServlet.getCometSession(httpSession);
-		CometManager.initStream(httpSession.getId(), emailID, cometSession);
+		// CometSession cometSession =
+		// CometServlet.getCometSession(httpSession);
+		// CometManager.initStream(httpSession.getId(), emailID, cometSession);
 	}
 
 }
