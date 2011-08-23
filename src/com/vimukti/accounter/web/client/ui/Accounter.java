@@ -359,7 +359,7 @@ public class Accounter implements EntryPoint {
 			expireDialog.removeFromParent();
 		}
 		expireDialog = new CustomDialog();
-		expireDialog.setText(Accounter.constants().sessionExpired());
+		expireDialog.setText(message);
 		VerticalPanel vPanel = new VerticalPanel();
 		HTML data = new HTML("<p>" + message + "</p");
 		data.getElement().getStyle().setMargin(10, Unit.PX);
