@@ -4857,6 +4857,4 @@ public interface AccounterConstants extends Constants {
 
 	public String exportToCSV();
 
-	public String prepare1099MISCAction();
-
 }

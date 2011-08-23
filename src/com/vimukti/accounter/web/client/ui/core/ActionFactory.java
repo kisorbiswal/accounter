@@ -1282,6 +1282,6 @@ public class ActionFactory {
 
 	public static Prepare1099MISCAction getPrepare1099MISCAction() {
 		return new Prepare1099MISCAction(
-				actionsConstants.prepare1099MISCAction());
+				actionsConstants.prepare1099MiscForms());
 	}
 }
