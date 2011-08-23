@@ -382,7 +382,7 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 
-		exportButton = new ImageButton("exportToCVS",
+		exportButton = new ImageButton(Accounter.constants().exportToCSV(),
 				Accounter.getFinanceImages().exportIcon());
 		exportButton.addClickHandler(new ClickHandler() {
 
