@@ -99,7 +99,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private CustomerCombo createCustomerCombo1() {
-		customerCombo1 = new CustomerCombo("Customer To");
+		customerCombo1 = new CustomerCombo("Customer To", false);
 		customerCombo1.setHelpInformation(true);
 		customerCombo1.setRequired(true);
 		customerCombo1
@@ -118,7 +118,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private CustomerCombo createCustomerCombo() {
-		customerCombo = new CustomerCombo("Customer From");
+		customerCombo = new CustomerCombo("Customer From", false);
 		customerCombo.setHelpInformation(true);
 		customerCombo.setRequired(true);
 		customerCombo
@@ -155,7 +155,8 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 		ValidationResult result = new ValidationResult();
 		if (clientCustomer1.getID() == clientCustomer.getID()) {
-			result.addError(clientCustomer, "Could not move customer because two customers are same.");
+			result.addError(clientCustomer,
+					"Could not move customer because two customers are same.");
 			return result;
 		}
 		result = form.validate();

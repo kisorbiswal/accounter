@@ -136,7 +136,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		} else if (selectItem.getType() == 3) {
 			itemType.setValue("Product");
 		}
-		price.setValue(String.valueOf(selectItem.getPurchasePrice()));
+		price.setValue(String.valueOf(selectItem.getSalesPrice()));
 
 	}
 
@@ -147,7 +147,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		} else if (selectItem.getType() == 3) {
 			itemType1.setValue("Product");
 		}
-		price1.setValue(String.valueOf(selectItem.getPurchasePrice()));
+		price1.setValue(String.valueOf(selectItem.getSalesPrice()));
 	}
 
 	@Override

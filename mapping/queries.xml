@@ -303,7 +303,7 @@
 	<query name="update.mergeItem.oldcost.tonewcost">
 		<query-param name="from" type="long" />
 		<query-param name="price" type="double" />
-		update com.vimukti.accounter.core.Item set purchasePrice=:price
+		update com.vimukti.accounter.core.Item set salesPrice=:price
 		where
 		id=:from
 	</query>

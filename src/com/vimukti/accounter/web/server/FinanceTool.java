@@ -11932,7 +11932,7 @@ public class FinanceTool implements IFinanceDAOService {
 
 		session.getNamedQuery("update.mergeItem.oldcost.tonewcost")
 				.setParameter("from", toClientItem.getID())
-				.setParameter("price", fromClientItem.getPurchasePrice())
+				.setParameter("price", fromClientItem.getSalesPrice())
 				.executeUpdate();
 
 
