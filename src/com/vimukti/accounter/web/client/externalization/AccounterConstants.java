@@ -4235,4 +4235,6 @@ public interface AccounterConstants extends Constants {
 
 	public String Supplier();
 
+	public String account();
+
 }
