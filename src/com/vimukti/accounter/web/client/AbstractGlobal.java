@@ -96,7 +96,7 @@ public abstract class AbstractGlobal implements IGlobal {
 
 	@Override
 	public String vendor() {
-		int referCustomers = preferences().getReferAccounts();
+		int referCustomers = preferences().getReferVendors();
 		switch (referCustomers) {
 		case ClientVendor.SUPPLIER:
 			return constants().supplier();
