@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -76,7 +77,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		grid.deleteRecord((ClientTAXGroup) result);
 		itemsGrid.removeAllRecords();
 	}
@@ -271,13 +272,11 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 				if (taxGroup != null) {
 					editTaxGroup(taxGroup);
-					return true;
 				} else {
 					if (salesTaxGroupDialog.taxGroupText.getValue() != null
 							&& !salesTaxGroupDialog.taxGroupText.getValue()
 									.toString().isEmpty()) {
 						newTaxGroup();
-						return true;
 					}
 
 				}
@@ -345,8 +344,36 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 				.getName());
 		if (itemByName != null || taxGroupByName != null) {
 			Accounter.showError(Accounter.constants().alreadyExist());
-		} else
+		} else {
 			saveOrUpdate(taxGroup);
+		}
+	}
+
+	protected <P extends IAccounterCore> void saveOrUpdate(final P core) {
+		AsyncCallback<Long> callback2 = new AsyncCallback<Long>() {
+
+			@Override
+			public void onSuccess(Long result) {
+				if (core.getID() == 0) {
+					core.setID(result);
+				}
+				getCompany().processUpdateOrCreateObject(core);
+				grid.removeAllRecords();
+				grid.addRecords(getRecords());
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+		};
+		if (core.getID() == 0) {
+			Accounter.createCRUDService().create(core, callback2);
+		} else {
+			Accounter.createCRUDService().update(core, callback2);
+		}
 
 	}
 

@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -30,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid.GridRecordClickHandl
 
 public class SalesTaxGroupDialog extends BaseDialog {
 
-	protected InputDialogHandler addInputDialogHandler;
 	protected DialogGrid availTaxItemsGrid;
 	protected DialogGrid selectTaxItemsGrid;
 	protected Button addButton, removeButton;
