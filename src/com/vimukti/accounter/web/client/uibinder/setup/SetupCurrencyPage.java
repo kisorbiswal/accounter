@@ -60,7 +60,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	@Override
 	protected void createControls() {
 		// currenciesList = UIUtils.getCurrenciesList();
-		headerLabel.setText(accounterConstants.setSupportedCurrencies());
+		headerLabel.setText(accounterConstants.selectCurrency());
 		primaryCurrenyLabel.setText(accounterConstants.primaryCurrency());
 		Accounter.createGETService().getCurrencies(
 				new AsyncCallback<List<ClientCurrency>>() {

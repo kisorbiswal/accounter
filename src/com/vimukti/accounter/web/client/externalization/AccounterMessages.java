@@ -787,4 +787,10 @@ public interface AccounterMessages extends Messages {
 
 	public String timetrackingflowStep1(String customer);
 
+	public String shouldNotbeZero(String amountString);
+
+	public String shouldBePositive(String name);
+
+	public String noTransactionsTo(String paySalesTax);
+
 }
