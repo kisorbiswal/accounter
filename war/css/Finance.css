@@ -6921,6 +6921,6 @@ a#fdbk_tab:hover{
 .progress_panel_data td .gwt-Label{
 	padding:5px 0px;
 }
-.finance-portlet td:FIRST-CHILD table{
+.finance-portlet td:FIRST-CHILD table,.finance-portlet table{
 	width:100% !important;
 }
