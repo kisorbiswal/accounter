@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.Global;
 
 public class ClientCompanyPreferences implements IAccounterCore {
@@ -141,7 +140,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	String VATregistrationNumber;
 	int VATreportingPeriod = VAT_REPORTING_PERIOD_QUARTERLY;
 	int endingPeriodForVATreporting = VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC;
-	private ClientCurrency baseCurrency;
 
 	private String decimalCharacte = ".";
 
@@ -161,7 +159,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	boolean isBeginingorTodaysdate;
 	long trackFinanceDate;
 	private int referCustomers;
-	private int referSuplliers;
+	private int referVendors;
 	private int referAccounts;
 
 	private long preferencesFlag;
@@ -750,22 +748,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		set(ENABLE_MULTI_CURRENCY, value);
 	}
 
-	public ClientCurrency getBaseCurrency() {
-		// return ClientCompanyPreferences.get().getBaseCurrency();
-		ClientCurrency currency = new ClientCurrency();
-		currency.setName("$");
-		return currency;
-
-	}
-
-	public void setBaseCurrency(ClientCurrency baseCurrency) {
-		this.baseCurrency = baseCurrency;
-	}
-
 	public ClientCompanyPreferences clone() {
 		ClientCompanyPreferences preferences = (ClientCompanyPreferences) this
 				.clone();
-		preferences.baseCurrency = this.baseCurrency.clone();
+		preferences.primaryCurrency = this.primaryCurrency.clone();
 		List<ClientCurrency> supportingCurrenciesList = new ArrayList<ClientCurrency>();
 		for (ClientCurrency currency : this.supportingCurrenciesList) {
 			supportingCurrenciesList.add(currency.clone());
@@ -863,12 +849,12 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		this.referCustomers = referCustomers;
 	}
 
-	public int getReferSuplliers() {
-		return referSuplliers;
+	public int getReferVendors() {
+		return referVendors;
 	}
 
-	public void setReferSuplliers(int referSuplliers) {
-		this.referSuplliers = referSuplliers;
+	public void setReferVendors(int referSuplliers) {
+		this.referVendors = referSuplliers;
 	}
 
 	public int getReferAccounts() {
