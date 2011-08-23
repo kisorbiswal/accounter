@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Messages;
 import com.google.gwt.safehtml.shared.SafeHtml;
+import com.vimukti.accounter.web.client.Global;
 
 public interface AccounterMessages extends Messages {
 	public String userName(String loginUserName);
@@ -104,8 +105,6 @@ public interface AccounterMessages extends Messages {
 
 	public String userGuidelinesMessage();
 
-	public String accounterUseYourForms();
-
 	public String industrySelectNote();
 
 	public String journalEntryVendor(String name);
@@ -135,13 +134,17 @@ public interface AccounterMessages extends Messages {
 
 	public String newCustomer(String customerName[]);
 
-	public String addANewCustomer(String customerName[]);
+	public String addANewCustomer(String customerName);
+
+	public String addaNewCustomer(String customerName);
 
 	public String aNewCustomerRefund(String newCustomerRefund[]);
 
-	public String cashBasis(String cashBasis[]);
+	public String addaNewCustomerRefund(String customerString);
 
-	public String custRefund(String customerRefund[]);
+	public String cashBasis(String cashBasis);
+
+	public String custRefund(String customerRefund);
 
 	public String Customer(String customer);
 
@@ -599,7 +602,6 @@ public interface AccounterMessages extends Messages {
 
 	public SafeHtml setupComplitionDesc();
 
-
 	public String vendorAlreadyExistsWithTheName(String vendor);
 
 	public String pleaseEnterVendorNumberItShouldNotBeEmpty(String vendor);
@@ -724,5 +726,65 @@ public interface AccounterMessages extends Messages {
 
 	public String vatIDValidationDesc();
 
+	public String salesByCustomerDetail(String custString);
+
+	public String accounterUseYourForms(String custString, String vendorString);
+
+	public String addaNewSupplier(String vendorString);
+
+	public String Supplier(String vendorString);
+
+	public String toAddSupplierGroup(String vendorString);
+
+	public String howDoYouReferYourSuppliers(String vendorString);
+
+	public String amountDueToVendor(String venString);
+
+	public String vendorsList(String vendorString);
+
+	public String accountNo(String accountNoString);
+
+	public String accountRangeExceededPlsChoose0001and999(String accString);
+
+	public String accountRangeExceededPlsChoose1001and1999(String msgString);
+
+	public String accountRangeExceededPlsChoose2001and2999(String accString);
+
+	public String accountRangeExceededPlsChoose3001and3999(String accString);
+
+	public String accountRangeExceededPlsChoose4001and4999(String accString);
+
+	public String accountRangeExceededPlsChoose5001and5999(String accString);
+
+	public String accountRangeExceededPlsChoose6001and6999(String msgString);
+
+	public String accountRangeExceededPlsChoose7001and7999(String msgString);
+
+	public String accountRangeExceededPlsChoose9001and9500(String accString);
+
+	public String accountRangeExceededPlsChoose9501and9999(String accString);
+
+	public String accountToDebitForSale(String msgString);
+
+	public String accountsList(String string);
+
+	public String createNewAccount(String accString);
+
+	public String defaultAccounts(String defaultAccString);
+
+	public String jobresellAccount(String jobresellAccountString);
+
+	public String billstrackingdescription(String accString);
+
+	public String makeDepositCashBackAccount(String accString);
+
+	public String theFinanceCategoryNoShouldBeBetween1100And1179(
+			String accString);
+
+	public String theFinanceCategoryNoShouldBeBetween(String accountString);
+
+	public String accrualBasis(String accountString);
+
+	public String timetrackingflowStep1(String customer);
 
 }
