@@ -3,6 +3,9 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+import com.vimukti.accounter.web.client.ValueCallBack;
+import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -42,6 +45,8 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		okbtn.setText("Merge");
 		createControls();
 		center();
+		clientCustomer1 = null;
+		clientCustomer = null;
 	}
 
 	private void createControls() {
@@ -147,8 +152,17 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 	@Override
 	protected ValidationResult validate() {
-		ValidationResult result = form.validate();
+
+		ValidationResult result = new ValidationResult();
+		if (clientCustomer1.getID() == clientCustomer.getID()) {
+			result.addError(clientCustomer, "Could not move customer because two customers are same.");
+			return result;
+		}
+		result = form.validate();
 		result = form1.validate();
+		if (clientCustomer1.getID() == clientCustomer.getID()) {
+			result.addError(clientCustomer, "Same");
+		}
 		return result;
 
 	}
@@ -156,8 +170,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	@Override
 	protected boolean onOK() {
 
-		if (clientCustomer1 == null && clientCustomer == null) {
-			Accounter.showError("Select customer");
+		if (clientCustomer1.getID() == clientCustomer.getID()) {
 			return false;
 		}
 		Accounter.createHomeService().mergeCustomer(clientCustomer,
