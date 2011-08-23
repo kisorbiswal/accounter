@@ -17,9 +17,10 @@ body{
    padding:0px !important;
    width:100%;
 }
-.scroll-panel,.abstract_base_view,.financeWindow,.general-setting-invoice,.setting-class-panel,.view_manager{
+.scroll-panel,.abstract_base_view,.financeWindow,.general-setting-invoice,.setting-class-panel{
    width:100% !important;	
 }
-.ibutton-right-image{
-   padding: 2px 1px 7px 2px !important;
+.view_manager{
+	width:97% !important;
+	margin:0 auto !important;
 }
