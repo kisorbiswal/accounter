@@ -34,12 +34,12 @@ public class HistoryList {
 
 	public static class HistoryItem {
 		Action action;
-		HistoryItem(ParentCanvas<?> view,Action action) {
+		HistoryItem(AbstractView<?> view,Action action) {
 			this.view = view;
 			this.action=action;
 		}
 
-		ParentCanvas<?> view;
+		AbstractView<?> view;
 	}
 
 	public HistoryItem getView(String token) {
