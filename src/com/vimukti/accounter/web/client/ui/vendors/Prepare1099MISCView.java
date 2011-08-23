@@ -14,9 +14,9 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
  * @author Amrit Mishra
  * 
  */
-public class PrepareMISCView {
+public class Prepare1099MISCView {
 
-	@Override
+
 	
 
 }
