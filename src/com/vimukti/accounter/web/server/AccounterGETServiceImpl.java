@@ -162,7 +162,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				"SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD",
 				"TWD", "TZS", "UAH", "UGX", "UYU", "UZS", "VEF", "VND", "VUV",
 				"WST", "XAF", "XCD", "XOF", "XPF", "YER", "ZAR", "ZMK", "ZWD" };
-		countryNames = new String[] { "Australian", "Canadian", "British",
+		countryNames = new String[] { "Australian", "Canadian","European", "British",
 				"Japanese", "New Zealand", "United States",
 				"United Arab Emirates", "Afghan", "Albanian", "Armenian",
 				"Netherlands Antillean", "Angolan", "Argentine", "Aruban",
@@ -200,7 +200,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				"West African CFA", "CFP", "Yemeni", "South African",
 				"Zambian", "Zimbabwean" };
 		currencyNames = new String[] { "Dollar", "Dollar", "Euro", "Pound",
-				"Yen", "Dollar", "Dollar", "", "Dirham", "Afghani", "Lek",
+				"Yen", "Dollar", "Dollar",  "Dirham", "Afghani", "Lek",
 				"Dram", "Guilder", "Kwanza", "Peso", "Guilder", "Manat",
 				"Mark", "Dollar", "Taka", "Lev", "Dinar", "Franc", "Dollar",
 				"Dollar", "Boliviano", "Real", "Dollar", "Ngultrum", "Pula",
