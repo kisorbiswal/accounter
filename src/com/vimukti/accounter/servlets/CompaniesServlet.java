@@ -80,6 +80,7 @@ public class CompaniesServlet extends BaseServlet {
 		String companyID = req.getParameter(COMPANY_ID);
 
 		if (companyID != null) {
+			httpSession.setAttribute(COMPANY_ID, companyID);
 			addCompanyCookies(resp, Long.parseLong(companyID));
 			addMacAppCookie(req, resp);
 			redirectExternal(req, resp, ACCOUNTER_URL);
