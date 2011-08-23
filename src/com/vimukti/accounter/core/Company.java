@@ -751,7 +751,7 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		registeredAddress.type = Address.TYPE_COMPANY_REGISTRATION;
 		this.preferences = new CompanyPreferences();
 		if (accountingType == ACCOUNTING_TYPE_UK) {
-			preferences.setReferSuplliers(ClientVendor.SUPPLIER);
+			preferences.setReferVendors(ClientVendor.SUPPLIER);
 		}
 		initPrimaryCurrency();
 	}

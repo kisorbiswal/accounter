@@ -148,7 +148,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	// for tracking employes in setup page
 	private int referCustomers;
-	private int referSuplliers;
+	private int referVendors;
 	private int referAccounts;
 	private int industryType;
 	// for select fiscal year in setup
@@ -814,12 +814,12 @@ public class CompanyPreferences implements IAccounterServerCore {
 		this.referCustomers = referCustomers;
 	}
 
-	public int getReferSuplliers() {
-		return referSuplliers;
+	public int getReferVendors() {
+		return referVendors;
 	}
 
-	public void setReferSuplliers(int referSuplliers) {
-		this.referSuplliers = referSuplliers;
+	public void setReferVendors(int referSuplliers) {
+		this.referVendors = referSuplliers;
 	}
 
 	public int getReferAccounts() {
