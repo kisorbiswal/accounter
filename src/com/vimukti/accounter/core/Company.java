@@ -10,6 +10,7 @@ import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.core.VList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -195,14 +196,16 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 	 * purpose of the Cash Basis Journal Entry.
 	 */
 	Account otherCashExpenseAccount;
-	
+
 	/**
-	 * This is the direct references to Cash Discounts Given to track the discounts given.
+	 * This is the direct references to Cash Discounts Given to track the
+	 * discounts given.
 	 */
 	private Account cashDiscountsGiven;
-	
+
 	/**
-	 * This is the direct references to Cash Discounts Given to track the discounts taken.
+	 * This is the direct references to Cash Discounts Given to track the
+	 * discounts taken.
 	 */
 	private Account cashDiscountsTaken;
 
@@ -746,6 +749,33 @@ public class Company extends CreatableObject implements IAccounterServerCore {
 		tradingAddress.type = Address.TYPE_COMPANY;
 		registeredAddress = new Address();
 		registeredAddress.type = Address.TYPE_COMPANY_REGISTRATION;
+		this.preferences = new CompanyPreferences();
+		if (accountingType == ACCOUNTING_TYPE_UK) {
+			preferences.setReferSuplliers(ClientVendor.SUPPLIER);
+		}
+		initPrimaryCurrency();
+	}
+
+	/**
+	 * 
+	 */
+	private void initPrimaryCurrency() {
+		Currency currency = new Currency();
+		switch (accountingType) {
+		case ACCOUNTING_TYPE_US:
+			currency.setName("USD");
+			break;
+		case ACCOUNTING_TYPE_UK:
+			currency.setName("GBP");
+			break;
+		case ACCOUNTING_TYPE_INDIA:
+			currency.setName("INR");
+			break;
+		default:
+			currency.setName("INR");
+			break;
+		}
+		preferences.setPrimaryCurrency(currency);
 	}
 
 	public void initialize(List<TemplateAccount> accounts) {
