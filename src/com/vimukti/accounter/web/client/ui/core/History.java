@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
  */
 public class History {
 
-	ParentCanvas<?> view;
+	AbstractView<?> view;
 
 	Action action;
 
@@ -22,7 +22,7 @@ public class History {
 
 	}
 
-	public History(ParentCanvas<?> view, IAccounterCore input, Action action,
+	public History(AbstractView<?> view, IAccounterCore input, Action action,
 			boolean dependent) {
 
 		setView(view);
@@ -35,7 +35,7 @@ public class History {
 	 * @return view
 	 */
 
-	public ParentCanvas getView() {
+	public AbstractView getView() {
 		return view;
 	}
 
@@ -46,7 +46,7 @@ public class History {
 	 * 
 	 */
 
-	public void setView(ParentCanvas viewOrData) {
+	public void setView(AbstractView viewOrData) {
 		this.view = viewOrData;
 	}
 
