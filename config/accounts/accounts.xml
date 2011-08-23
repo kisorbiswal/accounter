@@ -886,7 +886,7 @@
 			<account type="Other Income" name="Interest Income" default="false" systemOnly="false" countries=""></account>
 			<account type="Other Income" name="Proceeds from sales of Assests" default="false" systemOnly="false" countries=""></account>
 			<account type="Other Expenses" name="Political Contributions" default="false" systemOnly="false" countries=""></account>
-			<account type="Other Expenses" name="Ask my Accountant" default="true" systemOnly="false" countries=""></account>
+			
 		</accounts>
 	</industry>
 </industries>
