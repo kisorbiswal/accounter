@@ -2120,11 +2120,6 @@ public class ClientCompany implements IAccounterCore {
 
 	}
 
-	public void processRequest(AccounterException e) {
-		// Accounter.showError("Session expired message");
-		Accounter.showMessage(e.getMessage());
-	}
-
 	public ClientFinanceDate getLastandOpenedFiscalYearStartDate() {
 		List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
 		if (!clientFiscalYears.isEmpty())
