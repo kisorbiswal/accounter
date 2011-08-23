@@ -269,7 +269,7 @@ public class MakeDepositTransactionGrid extends
 	private String getTypeAsString(int type) {
 		switch (type) {
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
-			return Accounter.constants().account();
+			return Accounter.messages().account(Global.get().account());
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
 			return UIUtils.getVendorString(Accounter.constants().supplier(),
 					Accounter.constants().vendor());

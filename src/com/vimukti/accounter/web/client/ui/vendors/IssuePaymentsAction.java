@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.IssuePaymentDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -26,7 +27,8 @@ public class IssuePaymentsAction extends Action {
 	@Override
 	public void run() {
 		new IssuePaymentDialog(Accounter.constants().selectPaymentsToIssue(),
-				Accounter.constants().selectPaymentMethod()).show();
+				Accounter.messages()
+						.selectPaymentMethod(Global.get().Account())).show();
 		// MainFinanceWindow.getViewManager().showView(view, data, isDependent,
 		// IssuePaymentsAction.this);
 	}

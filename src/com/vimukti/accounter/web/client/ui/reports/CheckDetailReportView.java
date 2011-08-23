@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.ArrayList;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
@@ -55,7 +56,8 @@ public class CheckDetailReportView extends
 	public String[] getColunms() {
 		return new String[] { "", Accounter.constants().number(),
 				Accounter.constants().date(), Accounter.constants().name(),
-				Accounter.constants().account(), Accounter.constants().amount() };
+				Accounter.messages().account(Global.get().account()),
+				Accounter.constants().amount() };
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -41,7 +42,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 					(Accounter.constants().checkNo() + "."),
 					Accounter.constants().payTo(),
 					Accounter.constants().memo(),
-					Accounter.constants().account(),
+					Accounter.messages().account(Global.get().account()),
 					Accounter.constants().payment(),
 					Accounter.constants().deposit(),
 					Accounter.constants().currentBalance(),
@@ -52,7 +53,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 					Accounter.constants().documentNo(),
 					Accounter.constants().payTo(),
 					Accounter.constants().memo(),
-					Accounter.constants().account(),
+					Accounter.messages().account(Global.get().account()),
 					Accounter.constants().charge(),
 					Accounter.constants().payment(),
 					Accounter.constants().currentBalance(),
@@ -113,9 +114,11 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		double selectedvalue = value;
 		switch (col) {
 		case 6:
-			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? amountAsString(selectedvalue) : amountAsString(0.00);
+			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? amountAsString(selectedvalue)
+					: amountAsString(0.00);
 		case 7:
-			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? amountAsString(selectedvalue) : amountAsString(0.00);
+			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? amountAsString(selectedvalue)
+					: amountAsString(0.00);
 		}
 		return "";
 	}
@@ -130,9 +133,11 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		double selectedvalue = value;
 		switch (col) {
 		case 6:
-			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? amountAsString(selectedvalue) : amountAsString(0.00);
+			return (DecimalUtil.isGreaterThan(selectedvalue, 0.0)) ? amountAsString(selectedvalue)
+					: amountAsString(0.00);
 		case 7:
-			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? amountAsString(selectedvalue) : amountAsString(0.00);
+			return (DecimalUtil.isLessThan(selectedvalue, 0.0)) ? amountAsString(selectedvalue)
+					: amountAsString(0.00);
 		}
 		return "";
 	}

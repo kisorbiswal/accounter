@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -381,11 +382,11 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		
-		//form validation
-		//valid amount?
-		//valid radio value
-		//is valid sell or dispose date?
+
+		// form validation
+		// valid amount?
+		// valid radio value
+		// is valid sell or dispose date?
 		result.add(detailsForm.validate());
 		if (AccounterValidator.validate_ZeroAmount(salepriceText.getAmount())) {
 			result.addError(salepriceText, Accounter.constants().zeroAmount());
@@ -565,7 +566,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	private DebitAccountCombo createDebitAccountCombo() {
 		DebitAccountCombo accountCombo = new DebitAccountCombo(Accounter
-				.constants().accountToDebitForSale());
+				.messages().accountToDebitForSale(Global.get().Account()));
 
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -602,7 +603,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

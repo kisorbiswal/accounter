@@ -537,8 +537,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		Label lab = new Label(UIUtils.getVendorString(Accounter.constants()
 				.supplier(), Accounter.constants().vendor()));
 
-		expenseAccountsSelect = new OtherAccountsCombo(Accounter.constants()
-				.account());
+		expenseAccountsSelect = new OtherAccountsCombo(Accounter.messages()
+				.account(Global.get().account()));
 		expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -586,7 +586,8 @@ public class VendorView extends BaseView<ClientVendor> {
 						selectPaymentTermFromDetailsTab = selectItem;
 					}
 				});
-		accountText = new TextItem(Accounter.constants().accountNo());
+		accountText = new TextItem(Accounter.messages().accountNo(
+				Global.get().Account()));
 		accountText.setHelpInformation(true);
 
 		bankNameText = new TextItem(Accounter.constants().bankName());

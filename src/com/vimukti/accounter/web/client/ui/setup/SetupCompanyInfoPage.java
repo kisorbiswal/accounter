@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -47,7 +48,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
-		HTML label = new HTML(Accounter.constants().accounterUseYourForms());
+		HTML label = new HTML(Accounter.messages().accounterUseYourForms(
+				Global.get().customer(), Global.get().vendor()));
 
 		companynameText = new TextItem(Accounter.constants().companyName());
 		companynameText.setHelpInformation(true);

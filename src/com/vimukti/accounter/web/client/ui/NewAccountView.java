@@ -187,7 +187,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					}
 				});
 
-		accNoText = new IntegerField(this, Accounter.constants().accountNo());
+		accNoText = new IntegerField(this, Accounter.messages().accountNo(
+				Global.get().Account()));
 		accNoText.setHelpInformation(true);
 		accNoText.setRequired(true);
 		accNoText.setWidth(100);
@@ -458,8 +459,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		long financeCategoryNumber = 0;
 
 		if (isNewBankAccount()) {
-			addError(accNoText, Accounter.constants()
-					.theFinanceCategoryNoShouldBeBetween1100And1179());
+			addError(
+					accNoText,
+					Accounter.messages()
+							.theFinanceCategoryNoShouldBeBetween1100And1179(
+									Global.get().Account()));
 			financeCategoryNumber = autoGenerateAccountnumber(
 					BANK_CAT_BEGIN_NO, BANK_CAT_END_NO);
 
@@ -473,13 +477,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					&& accountSubBaseType == ClientAccount.SUBBASETYPE_OTHER_ASSET) {
 				return;
 			}
-			addError(accNoText, Accounter.constants()
-					.theFinanceCategoryNoShouldBeBetween()
-					+ "  "
-					+ nominalCodeRange[0]
-					+ " "
-					+ Accounter.constants().and()
-					+ " " + nominalCodeRange[1]);
+			addError(
+					accNoText,
+					Accounter.messages().theFinanceCategoryNoShouldBeBetween(
+							Global.get().Account())
+							+ "  "
+							+ nominalCodeRange[0]
+							+ " "
+							+ Accounter.constants().and()
+							+ " "
+							+ nominalCodeRange[1]);
 			financeCategoryNumber = autoGenerateAccountnumber(
 					nominalCodeRange[0], nominalCodeRange[1]);
 
@@ -589,7 +596,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					+ Accounter.messages().bankAccount(Global.get().Account()));
 		else
 			lab1.setText(" " + Utility.getAccountTypeString(this.accountType)
-					+ " " + Accounter.constants().account());
+					+ " "
+					+ Accounter.messages().account(Global.get().account()));
 
 	}
 
@@ -777,7 +785,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		else
 
 			lab1.setText(" " + Utility.getAccountTypeString(accountType) + " "
-					+ Accounter.constants().account());
+					+ Accounter.messages().account(Global.get().account()));
 
 	}
 
@@ -1453,6 +1461,6 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.constants().account();
+		return Accounter.messages().account(Global.get().account());
 	}
 }

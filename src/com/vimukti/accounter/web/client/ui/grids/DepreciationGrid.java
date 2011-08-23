@@ -97,7 +97,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				Accounter.constants().account(),
+				Accounter.messages().account(Global.get().account()),
 				Accounter.constants().amounttobeDepreciated(),
 				Accounter.messages().accumulatedDepreciationAccount(
 						Global.get().account()) };

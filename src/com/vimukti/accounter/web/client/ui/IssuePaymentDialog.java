@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterClientConstants;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -231,8 +232,8 @@ public class IssuePaymentDialog extends BaseDialog {
 
 				});
 
-		accountCombo = new PayFromAccountsCombo(
-				Accounter.constants().account(), false);
+		accountCombo = new PayFromAccountsCombo(Accounter.messages().account(
+				Global.get().account()), false);
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 		accountCombo
@@ -306,12 +307,14 @@ public class IssuePaymentDialog extends BaseDialog {
 		ValidationResult result = FormItem.validate(payMethodSelect,
 				accountCombo);
 		if (grid.getRecords().isEmpty()) {
-			result.addError(grid, Accounter.constants().noTransactionIsAvailableToIssuePayments());
-		}else{
-			if(grid.getSelectedRecords().size() == 0)
-				result.addError(grid, Accounter.constants().pleaseSelectAnyOneOfTheTransactions());
+			result.addError(grid, Accounter.constants()
+					.noTransactionIsAvailableToIssuePayments());
+		} else {
+			if (grid.getSelectedRecords().size() == 0)
+				result.addError(grid, Accounter.constants()
+						.pleaseSelectAnyOneOfTheTransactions());
 		}
-		//result.add(grid.validateGrid());
+		// result.add(grid.validateGrid());
 		return result;
 	}
 
@@ -487,8 +490,8 @@ public class IssuePaymentDialog extends BaseDialog {
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(
 					getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
-							.constants().startingCheckNo()
-							: Accounter.constants().startingChequeNo());
+							.constants().startingCheckNo() : Accounter
+							.constants().startingChequeNo());
 			checkNoText.setHelpInformation(true);
 			checkNoText.setWidth(100);
 			// checkNoText.setRequired(true);

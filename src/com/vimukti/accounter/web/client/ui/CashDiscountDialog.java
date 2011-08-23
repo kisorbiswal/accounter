@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -87,8 +88,8 @@ public class CashDiscountDialog extends BaseDialog {
 	private void createControls() {
 
 		mainPanel.setSpacing(5);
-		discAccSelect = new OtherAccountsCombo(Accounter.constants()
-				.discountAccount(), false);
+		discAccSelect = new OtherAccountsCombo(Accounter.messages()
+				.discountAccount(Global.get().Account()), false);
 
 		discAccSelect.setComboItem(selectedDiscountAccount);
 
@@ -145,7 +146,7 @@ public class CashDiscountDialog extends BaseDialog {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 
 	}
 

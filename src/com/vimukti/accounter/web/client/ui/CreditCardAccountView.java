@@ -31,7 +31,8 @@ public class CreditCardAccountView extends AbstractBaseView {
 		accTypeText.setDisabled(true);
 		accTypeText.setValue(Accounter.constants().creditCardOrLineOfCredit());
 
-		TextItem numText = new TextItem(Accounter.constants().accountNo());
+		TextItem numText = new TextItem(Accounter.messages().accountNo(
+				Global.get().Account()));
 		// numText.setWidth("*");
 		TextItem accNameText = new TextItem(Accounter.messages().accountName(
 				Global.get().Account()));

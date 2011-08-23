@@ -52,7 +52,8 @@ public class CustomerRefundListView extends BaseListView<CustomerRefundsList> {
 	@Override
 	protected String getAddNewLabelString() {
 
-		return customerConstants.addaNewCustomerRefund();
+		return Accounter.messages().addaNewCustomerRefund(
+				Global.get().Customer());
 	}
 
 	@Override

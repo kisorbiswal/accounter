@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -89,7 +90,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 				Accounter.constants().documentNo(),
 				Accounter.constants().increase(),
 				Accounter.constants().reduce(),
-				Accounter.constants().account(), Accounter.constants().memo(),
+				Accounter.messages().account(Global.get().account()),
+				Accounter.constants().memo(),
 				Accounter.constants().currentBalance(),
 				Accounter.constants().isVoided() };
 	}

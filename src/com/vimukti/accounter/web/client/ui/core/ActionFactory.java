@@ -808,8 +808,8 @@ public class ActionFactory {
 
 	public static VendorsListAction getVendorListAction() {
 		return new VendorsListAction(UIUtils.getVendorString(Accounter
-				.messages().suppliersList(Global.get().Vendor()),
-				actionsConstants.vendorsList()));
+				.messages().suppliersList(Global.get().Vendor()), Accounter
+				.messages().vendorsList(Global.get().Vendor())));
 	}
 
 	public static BalanceSheetAction getBalanceSheetAction() {
@@ -867,8 +867,8 @@ public class ActionFactory {
 	}
 
 	public static SalesByCustomerDetailAction getSalesByCustomerDetailAction() {
-		return new SalesByCustomerDetailAction(
-				actionsConstants.salesByCustomerDetail());
+		return new SalesByCustomerDetailAction(Accounter.messages()
+				.salesByCustomerDetail(Global.get().Customer()));
 	}
 
 	public static SalesByItemSummaryAction getSalesByItemSummmaryAction() {

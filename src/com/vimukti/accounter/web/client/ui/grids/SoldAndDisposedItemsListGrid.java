@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -182,7 +183,7 @@ public class SoldAndDisposedItemsListGrid extends
 	protected String[] getColumns() {
 		return new String[] { Accounter.constants().item(),
 				Accounter.constants().assetNumber(),
-				Accounter.constants().account(),
+				Accounter.messages().account(Global.get().account()),
 				Accounter.constants().disposalDate(),
 				Accounter.constants().disposalPrice(),
 				Accounter.constants().gainsOrLosses(),

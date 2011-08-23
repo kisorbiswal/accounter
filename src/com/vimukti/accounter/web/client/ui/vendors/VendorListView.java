@@ -57,9 +57,9 @@ public class VendorListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return UIUtils.getVendorString(Accounter.constants()
-					.addaNewSupplier(),
-					Accounter.messages().addANewVendor(Global.get().vendor()));
+			return UIUtils.getVendorString(Accounter.messages()
+					.addaNewSupplier(Global.get().Vendor()), Accounter
+					.messages().addANewVendor(Global.get().vendor()));
 		else
 			return "";
 	}

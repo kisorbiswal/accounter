@@ -217,7 +217,8 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesPriceText.setValidators(floatRangeValidator);
 		// salesPriceText.setValidateOnChange(true);
 
-		accountCombo = new SalesItemCombo(Accounter.constants().incomeAccount());
+		accountCombo = new SalesItemCombo(Accounter.messages().incomeAccount(
+				Global.get().Account()));
 		accountCombo.setHelpInformation(true);
 		// accountCombo.setWidth(100);
 		accountCombo.setPopupWidth("500px");

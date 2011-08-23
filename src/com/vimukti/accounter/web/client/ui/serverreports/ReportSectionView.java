@@ -151,8 +151,8 @@ public class ReportSectionView extends BaseHomeView {
 		});
 
 		LinkItem salesByCustomerDetailLink = new LinkItem();
-		salesByCustomerDetailLink.setLinkTitle(Accounter.constants()
-				.salesByCustomerDetail());
+		salesByCustomerDetailLink.setLinkTitle(Accounter.messages()
+				.salesByCustomerDetail(Global.get().Customer()));
 		salesByCustomerDetailLink.setShowTitle(false);
 		salesByCustomerDetailLink.addClickHandler(new ClickHandler() {
 

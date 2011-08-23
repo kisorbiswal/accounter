@@ -444,7 +444,7 @@ public class TransactionJournalEntryGrid extends
 	private String getTypeAsString(ClientEntry entry, int type) {
 		switch (type) {
 		case ClientEntry.TYPE_FINANCIAL_ACCOUNT:
-			return Accounter.constants().account();
+			return Accounter.messages().account(Global.get().account());
 		case ClientEntry.TYPE_CUSTOMER:
 			return Accounter.constants().customer();
 		case ClientEntry.TYPE_VENDOR:
@@ -490,11 +490,13 @@ public class TransactionJournalEntryGrid extends
 		// companyConstants.debit(), companyConstants.credit(),
 		// "VAT Code", "" };
 		// } else
-		return new String[] { companyConstants.voucherNo(),
+		return new String[] {
+				companyConstants.voucherNo(),
 				companyConstants.date(),
 				// companyConstants.voucherType(),
-				companyConstants.account(), companyConstants.memo(),
-				companyConstants.debit(), companyConstants.credit(), "" };
+				Accounter.messages().account(Global.get().account()),
+				companyConstants.memo(), companyConstants.debit(),
+				companyConstants.credit(), "" };
 	}
 
 	@Override

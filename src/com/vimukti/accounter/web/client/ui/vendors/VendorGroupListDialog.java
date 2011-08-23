@@ -35,9 +35,9 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 						Accounter.messages().manageSupplierGroup(
 								Global.get().Vendor()), Accounter.messages()
 								.manageVendorGroup(Global.get().vendor())),
-				UIUtils.getVendorString(Accounter.constants()
-						.toAddSupplierGroup(), Accounter.messages()
-						.toAddVendorGroup(Global.get().vendor())));
+				UIUtils.getVendorString(Accounter.messages()
+						.toAddSupplierGroup(Global.get().Vendor()), Accounter
+						.messages().toAddVendorGroup(Global.get().vendor())));
 		setWidth("400px");
 		initialise();
 		center();

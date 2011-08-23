@@ -36,8 +36,11 @@ public class CustomerTransactionHistoryServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { getConstants().customer(), getConstants().date(),
-				getConstants().type(), getConstants().noDot(),
+		return new String[] {
+				getConstants().customer(),
+				getConstants().date(),
+				getConstants().type(),
+				getConstants().noDot(),
 				// ".invoicedAmount(),
 				// ".paidAmount(),
 				// ".paymentTerms(),
@@ -45,7 +48,8 @@ public class CustomerTransactionHistoryServerReport extends
 				// ".debit(),
 				// ".credit(),
 				// ".reference(),
-				getConstants().account(), getConstants().amount() };
+				Accounter.messages().account(Global.get().account()),
+				getConstants().amount() };
 
 	}
 
@@ -227,7 +231,8 @@ public class CustomerTransactionHistoryServerReport extends
 
 		return new String[] { getConstants().customer(), getConstants().date(),
 				getConstants().type(), getConstants().noDot(),
-				getConstants().account(), getConstants().amount() };
+				Accounter.messages().account(Global.get().account()),
+				getConstants().amount() };
 
 	}
 

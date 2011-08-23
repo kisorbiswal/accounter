@@ -221,8 +221,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// }
 		// });
 
-		accountCombo = new FixedAssetAccountCombo(Accounter.constants()
-				.account());
+		accountCombo = new FixedAssetAccountCombo(Accounter.messages().account(
+				Global.get().account()));
 		accountCombo.setWidth("323px");
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {

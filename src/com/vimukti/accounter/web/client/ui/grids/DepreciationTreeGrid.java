@@ -43,7 +43,7 @@ public class DepreciationTreeGrid extends
 	@Override
 	protected String[] getColumns() {
 		return new String[] {
-				Accounter.constants().account(),
+				Accounter.messages().account(Global.get().account()),
 				Accounter.constants().amounttobeDepreciated(),
 				Accounter.messages().accumulatedDepreciationAccount(
 						Global.get().Account()) };

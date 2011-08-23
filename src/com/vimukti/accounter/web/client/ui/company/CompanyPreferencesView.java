@@ -491,8 +491,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		// .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
 
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("1", Accounter.constants().accrualBasis());
-		map.put("2", Accounter.constants().cashBasis());
+		map.put("1", Accounter.messages().accrualBasis(Global.get().customer()));
+		map.put("2", Accounter.messages().cashBasis(Global.get().customer()));
 		paysalesTaxgroupItem.setValueMap(map);
 
 		// if(!FinanceApplication.getCompany().getpreferences().getDoYouPaySalesTax())
@@ -1089,8 +1089,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 		pendingItemrecicptsCombo.initCombo(accounts);
 		pendingItemrecicptsCombo.setWidth(150);
 		// pendingItemrecicptsCombo.setWrapTitle(false);
-		jobresellAccountCombo = new OtherAccountsCombo(Accounter.constants()
-				.jobresellAccount());
+		jobresellAccountCombo = new OtherAccountsCombo(Accounter.messages()
+				.jobresellAccount(Global.get().Account()));
 		jobresellAccountCombo.initCombo(accounts);
 
 		jobresellAccountCombo.setWidth(150);
@@ -1098,8 +1098,8 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 				.writeOffAccount(Global.get().account()));
 		writeOffAccountCombo.initCombo(accounts);
 		writeOffAccountCombo.setWidth(150);
-		defaultCashCombo = new OtherAccountsCombo(Accounter.constants()
-				.defaultAccounts());
+		defaultCashCombo = new OtherAccountsCombo(Accounter.messages()
+				.defaultAccounts(Global.get().Account()));
 
 		defaultCashCombo.initCombo(accounts);
 		defaultCashCombo.setWidth(150);

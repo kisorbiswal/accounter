@@ -44,7 +44,7 @@ public class AmountsDueToVendorServerReport extends
 	public String getTitle() {
 		return getVendorString(
 				Accounter.messages().amountDueToSupplier(Global.get().Vendor()),
-				getConstants().amountDueToVendor());
+				Accounter.messages().amountDueToVendor(Global.get().Vendor()));
 	}
 
 	@Override

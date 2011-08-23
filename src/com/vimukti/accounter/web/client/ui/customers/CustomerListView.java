@@ -58,7 +58,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return customerConstants.addaNewCustomer();
+			return Accounter.messages().addaNewCustomer(Global.get().Customer());
 		else
 			return "";
 	}

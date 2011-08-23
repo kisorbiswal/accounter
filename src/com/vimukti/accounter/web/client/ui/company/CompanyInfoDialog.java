@@ -310,8 +310,8 @@ public class CompanyInfoDialog extends BaseDialog {
 		// .getPreferences().getIsAccuralBasis() ? "1" : "2" : "1");
 
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("1", Accounter.constants().accrualBasis());
-		map.put("2", Accounter.constants().cashBasis());
+		map.put("1", Accounter.messages().accrualBasis(Global.get().customer()));
+		map.put("2", Accounter.messages().cashBasis(Global.get().customer()));
 		paysalesTaxgroupItem.setValueMap(map);
 
 		// if(!FinanceApplication.getCompany().getpreferences().getDoYouPaySalesTax())

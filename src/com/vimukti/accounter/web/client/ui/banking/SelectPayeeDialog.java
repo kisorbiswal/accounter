@@ -27,7 +27,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 			.messages().supplierPay(Global.get().Vendor()), Accounter
 			.messages().vendorpay(Global.get().Vendor()));
 
-	private final String CUST_REFUND = Accounter.constants().custRefund();
+	private final String CUST_REFUND = Accounter.messages().custRefund(Global.get().Customer());
 
 	private final String EMP_REIMB = Accounter.constants().empreimb();
 

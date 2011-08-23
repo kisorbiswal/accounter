@@ -1151,7 +1151,7 @@ public class UIUtils {
 	public static String getTransactionTypeName(int type) {
 		switch (type) {
 		case ClientTransactionItem.TYPE_ACCOUNT:
-			return Accounter.constants().account();
+			return Accounter.messages().account(Global.get().account());
 		case ClientTransactionItem.TYPE_ITEM:
 			return Accounter.constants().item();
 		case ClientTransactionItem.TYPE_SALESTAX:

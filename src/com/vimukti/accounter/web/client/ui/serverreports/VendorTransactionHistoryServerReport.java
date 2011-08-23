@@ -45,7 +45,8 @@ public class VendorTransactionHistoryServerReport extends
 						.vendor()), getConstants().date(),
 				getConstants().type(), getConstants().no(),
 				// FinanceApplication.constants().reference(),
-				getConstants().account(), getConstants().amount()
+				Accounter.messages().account(Global.get().account()),
+				getConstants().amount()
 		// FinanceApplication.constants().transactionAmount(),
 		// FinanceApplication.constants().paidAmount(),
 		// FinanceApplication.constants().discount(),
@@ -236,7 +237,8 @@ public class VendorTransactionHistoryServerReport extends
 				getVendorString(getConstants().supplier(), getConstants()
 						.vendor()), getConstants().date(),
 				getConstants().type(), getConstants().no(),
-				getConstants().account(), getConstants().amount() };
+				Accounter.messages().account(Global.get().account()),
+				getConstants().amount() };
 	}
 
 }
