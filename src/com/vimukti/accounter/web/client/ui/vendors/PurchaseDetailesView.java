@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
+import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.customers.ItemsGrid;
 
 /**
@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.customers.ItemsGrid;
  * 
  */
 
-public class PurchaseDetailesView extends ParentCanvas {
+public class PurchaseDetailesView extends AbstractView {
 
 	private FlexTable flexTable;
 	private FlexCellFormatter cellFormatter;
