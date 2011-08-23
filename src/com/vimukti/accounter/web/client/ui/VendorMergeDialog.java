@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
@@ -14,7 +15,8 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class VendorMergeDialog extends BaseDialog<ClientCustomer> {
+public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
+		AsyncCallback<Void> {
 
 	private DynamicForm form;
 	private DynamicForm form1;
@@ -28,6 +30,9 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> {
 	private CheckboxItem status1;
 	private TextItem balanceTextItem1;
 	private TextItem balanceTextItem;
+
+	private ClientVendor fromclientVendor;
+	private ClientVendor toClientVendor;
 
 	public VendorMergeDialog(String title, String descript) {
 		super(title, descript);
@@ -94,6 +99,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> {
 
 					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
+						toClientVendor = selectItem;
 						customerSelected1(selectItem);
 
 					}
@@ -111,6 +117,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> {
 
 					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
+						fromclientVendor = selectItem;
 						customerSelected(selectItem);
 
 					}
@@ -138,6 +145,10 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> {
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
 		result = form1.validate();
+		if (fromclientVendor.getID() == toClientVendor.getID()) {
+			result.addError(fromclientVendor,
+					"Could not move vendor because two vendors are same.");
+		}
 		return result;
 
 	}
@@ -165,6 +176,25 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> {
 	@Override
 	protected boolean onOK() {
 
+		if (fromclientVendor.getID() == toClientVendor.getID()) {
+			return false;
+		}
+		Accounter.createHomeService().mergeVendor(fromclientVendor,
+				toClientVendor, this);
+
 		return true;
+
+	}
+
+	@Override
+	public void onFailure(Throwable caught) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSuccess(Void result) {
+		// TODO Auto-generated method stub
+
 	}
 }

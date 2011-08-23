@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
@@ -9,22 +10,27 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ItemCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class ItemMergeDialog extends BaseDialog {
+public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 
 	private DynamicForm form;
 	private DynamicForm form1;
 	private ValueCallBack<ClientContact> successCallback;
 	private ItemCombo itemCombo;
 	private ItemCombo itemCombo1;
-	private TextItem customerIDTextItem;
-	private TextItem customerIDTextItem1;
-	private TextItem status;
-	private TextItem status1;
-	private TextItem balanceTextItem1;
-	private TextItem balanceTextItem;
+	private CheckboxItem status;
+	private CheckboxItem status1;
+
+	private TextItem itemType;
+	private TextItem itemType1;
+	private TextItem price1;
+	private TextItem price;
+
+	private ClientItem fromClientItem;
+	private ClientItem toClientItem;
 
 	public ItemMergeDialog(String title, String descript) {
 		super(title, descript);
@@ -47,28 +53,31 @@ public class ItemMergeDialog extends BaseDialog {
 		itemCombo = createCustomerCombo();
 		itemCombo1 = createCustomerCombo1();
 
-		customerIDTextItem = new TextItem("CustomerID");
-		customerIDTextItem.setHelpInformation(true);
+		status = new CheckboxItem("Active");
+		status.setValue(false);
 
-		customerIDTextItem1 = new TextItem("CustomerID");
-		customerIDTextItem1.setHelpInformation(true);
-
-		status = new TextItem("Status");
 		status.setHelpInformation(true);
 
-		status1 = new TextItem("Status");
-		status1.setHelpInformation(true);
+		status1 = new CheckboxItem("Active");
+		status1.setValue(false);
 
-		balanceTextItem = new TextItem("Balance");
-		balanceTextItem.setHelpInformation(true);
+		itemType = new TextItem("Item Type");
+		itemType.setHelpInformation(true);
+		itemType.setDisabled(true);
 
-		balanceTextItem1 = new TextItem("Balance");
-		balanceTextItem1.setHelpInformation(true);
+		itemType1 = new TextItem("Item Type");
+		itemType1.setHelpInformation(true);
+		itemType1.setDisabled(true);
+		price = new TextItem("Price");
+		price.setHelpInformation(true);
+		price.setDisabled(true);
 
-		form.setItems(itemCombo, customerIDTextItem, status,
-				balanceTextItem);
-		form1.setItems(itemCombo1, customerIDTextItem1, status1,
-				balanceTextItem1);
+		price1 = new TextItem("Price");
+		price1.setHelpInformation(true);
+		price1.setDisabled(true);
+
+		form.setItems(itemCombo, itemType, status, price);
+		form1.setItems(itemCombo1, itemType1, status1, price1);
 		// form.setItems(getTextItems());
 		layout.add(form);
 		layout1.add(form1);
@@ -78,13 +87,15 @@ public class ItemMergeDialog extends BaseDialog {
 	}
 
 	private ItemCombo createCustomerCombo1() {
-		itemCombo1 = new ItemCombo("ItemTO",1);
+		itemCombo1 = new ItemCombo("Item TO", 2, false);
+		itemCombo1.setRequired(true);
 		itemCombo1.setHelpInformation(true);
 		itemCombo1
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItem>() {
 
 					@Override
 					public void selectedComboBoxItem(ClientItem selectItem) {
+						toClientItem = selectItem;
 						customerSelected1(selectItem);
 
 					}
@@ -95,13 +106,15 @@ public class ItemMergeDialog extends BaseDialog {
 	}
 
 	private ItemCombo createCustomerCombo() {
-		itemCombo = new ItemCombo("ItemFrom",1);
+		itemCombo = new ItemCombo("Item From", 2, false);
 		itemCombo.setHelpInformation(true);
+		itemCombo.setRequired(true);
 		itemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItem>() {
 
 					@Override
 					public void selectedComboBoxItem(ClientItem selectItem) {
+						fromClientItem = selectItem;
 						customerSelected(selectItem);
 
 					}
@@ -113,50 +126,58 @@ public class ItemMergeDialog extends BaseDialog {
 
 	private void customerSelected(ClientItem selectItem) {
 
-		customerIDTextItem.setValue(String.valueOf(selectItem.getID()));
-		//balanceTextItem.setValue(String.valueOf(selectItem.getBalance()));
-		status.setValue("active");
+		status.setValue(selectItem.isActive());
+		if (selectItem.getType() == 1) {
+			itemType.setValue("Service");
+		} else if (selectItem.getType() == 3) {
+			itemType.setValue("Product");
+		}
+		price.setValue(String.valueOf(selectItem.getPurchasePrice()));
 
 	}
 
 	private void customerSelected1(ClientItem selectItem) {
-		customerIDTextItem1.setValue(String.valueOf(selectItem.getID()));
-		//balanceTextItem1.setValue(String.valueOf(selectItem.getBalance()));
-		status1.setValue("active");
+		status1.setValue(selectItem.isActive());
+		if (selectItem.getType() == 1) {
+			itemType1.setValue("Service");
+		} else if (selectItem.getType() == 3) {
+			itemType1.setValue("Product");
+		}
+		price1.setValue(String.valueOf(selectItem.getPurchasePrice()));
 	}
 
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
+		if (fromClientItem.getID() == toClientItem.getID()) {
+			result.addError(fromClientItem, "Same");
+			return result;
+		}
 		result = form1.validate();
+		result = form.validate();
 		return result;
 
-	}
-
-	/**
-	 * @return
-	 */
-	private ClientContact createContact() {
-		ClientContact contact = new ClientContact();
-		// contact.setName(nameItem.getValue());
-		// contact.setTitle(titleItem.getValue());
-		// contact.setBusinessPhone(businessPhoneItem.getValue());
-		// contact.setEmail(emailItem.getValue());
-		return contact;
-	}
-
-	/**
-	 * @param newContactHandler
-	 */
-	public void addSuccessCallback(
-			ValueCallBack<ClientContact> newContactHandler) {
-		this.successCallback = newContactHandler;
 	}
 
 	@Override
 	protected boolean onOK() {
 
+		Accounter.createHomeService().mergeItem(fromClientItem, toClientItem,
+				this);
+
 		return true;
+	}
+
+	@Override
+	public void onFailure(Throwable caught) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSuccess(Void result) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
