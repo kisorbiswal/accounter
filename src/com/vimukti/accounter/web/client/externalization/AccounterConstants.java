@@ -4843,4 +4843,9 @@ public interface AccounterConstants extends Constants {
 
 	public String theFinanceCategoryNoShouldBeBetween();
 
+	public String noTransactionIsAvailableToIssuePayments();
+
+	public String pleaseSelectAnyOneOfTheTransactions();
+
+
 }
