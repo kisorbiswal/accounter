@@ -15,6 +15,11 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
+/**
+ * 
+ * @author Sai Prasad N
+ *
+ */
 public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		AsyncCallback<Void> {
 

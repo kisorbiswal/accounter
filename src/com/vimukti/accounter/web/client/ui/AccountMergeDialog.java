@@ -12,6 +12,11 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
+/**
+ * 
+ * @author Sai Prasad N
+ *
+ */
 public class AccountMergeDialog extends BaseDialog<ClientAccount> {
 
 	private DynamicForm form;
