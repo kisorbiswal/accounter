@@ -73,20 +73,22 @@ public class SetupReferPage extends AbstractSetupPage {
 		customerListBox.addItem(accounterConstants.Member());
 		customerListBox.addItem(accounterConstants.Patitent());
 
-		supplierListBox.addItem(accounterConstants.Supplier());
+		supplierListBox.addItem(Accounter.messages().Supplier(
+				Global.get().Vendor()));
 		supplierListBox.addItem(accounterConstants.Vendor());
 
 		accountListBox.addItem(accounterConstants.Account());
 		accountListBox.addItem(accounterConstants.Ledger());
 
 		customerLabel.setText(accounterConstants.Customer());
-		supplierLabel.setText(accounterConstants.Supplier());
+		supplierLabel.setText(Accounter.messages().Supplier(
+				Global.get().Vendor()));
 		accountLabel.setText(accounterConstants.Account());
 
 		customerCommentLabel.setText(Accounter.messages()
 				.howDoYouReferYourCustoemrs(Global.get().customer()));
-		supplierCommentLabel.setText(accounterConstants
-				.howDoYouReferYourSuppliers());
+		supplierCommentLabel.setText(Accounter.messages()
+				.howDoYouReferYourSuppliers(Global.get().vendor()));
 		accountCommentLabel.setText(Accounter.messages()
 				.howDoYouReferYourAccounts(Global.get().customer()));
 
@@ -160,8 +162,8 @@ public class SetupReferPage extends AbstractSetupPage {
 					.howDoYouReferYourCustoemrs(Global.get().customer()));
 			return false;
 		} else if (supplierListBox.getSelectedIndex() == -1) {
-			Accounter
-					.showError(accounterConstants.howDoYouReferYourSuppliers());
+			Accounter.showError(Accounter.messages()
+					.howDoYouReferYourSuppliers(Global.get().vendor()));
 			return false;
 		} else if (accountListBox.getSelectedIndex() == -1) {
 			Accounter.showError(Accounter.messages().howDoYouReferYourAccounts(
