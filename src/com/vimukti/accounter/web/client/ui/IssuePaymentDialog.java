@@ -305,7 +305,13 @@ public class IssuePaymentDialog extends BaseDialog {
 	protected ValidationResult validate() {
 		ValidationResult result = FormItem.validate(payMethodSelect,
 				accountCombo);
-		result.add(grid.validateGrid());
+		if (grid.getRecords().isEmpty()) {
+			result.addError(grid, Accounter.constants().noTransactionIsAvailableToIssuePayments());
+		}else{
+			if(grid.getSelectedRecords().size() == 0)
+				result.addError(grid, Accounter.constants().pleaseSelectAnyOneOfTheTransactions());
+		}
+		//result.add(grid.validateGrid());
 		return result;
 	}
 
