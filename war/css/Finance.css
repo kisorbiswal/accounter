@@ -6708,11 +6708,7 @@ a#fdbk_tab:hover{
     background-color: #e4e4e4 !important;
     padding:10px;
 }
-<<<<<<< .mine
-.grouped-buttons td:FIRST-CHILD .Empty-text,.grouped-buttons td:FIRST-CHILD .image-button {
-=======
 .grouped-buttons td:FIRST-CHILD .Empty-text,.grouped-buttons td:FIRST-CHILD .image-button{
->>>>>>> .r5597
     border-color: #A0A0A0;
     border-color: #A0A0A0\0 !important;
     border-radius: 5px 0 0 5px !important;
