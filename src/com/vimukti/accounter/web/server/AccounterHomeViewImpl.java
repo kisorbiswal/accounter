@@ -1593,12 +1593,45 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public void mergeCustomer(ClientCustomer fromClientCustomer,ClientCustomer toClientCustomer) throws AccounterException {
+	public void mergeCustomer(ClientCustomer fromClientCustomer,
+			ClientCustomer toClientCustomer) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 
 			try {
 				tool.mergeCustomer(fromClientCustomer, toClientCustomer);
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	@Override
+	public void mergeVendor(ClientVendor fromClientVendor,
+			ClientVendor toClientVendor) throws AccounterException {
+		FinanceTool tool = getFinanceTool();
+		if (tool != null) {
+
+			try {
+				tool.mergeVendor(fromClientVendor, toClientVendor);
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	@Override
+	public void mergeItem(ClientItem froClientItem, ClientItem toClientItem)
+			throws AccounterException {
+		FinanceTool tool = getFinanceTool();
+		if (tool != null) {
+
+			try {
+				tool.mergeItem(froClientItem, toClientItem);
 			} catch (DAOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
