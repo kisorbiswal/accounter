@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class TextAreaItem extends FormItem<String> {
 
 	TextArea textArea;
-
+	boolean isMemo;
 	public TextAreaItem(String title) {
 		setTitle(title);
 		textArea = new TextArea();
@@ -23,6 +23,7 @@ public class TextAreaItem extends FormItem<String> {
 	// textArea.setText(title);
 	// }
 	public void setMemo(boolean isMemo) {
+		this.isMemo=isMemo;
 		if (isMemo) {
 			textArea.removeStyleName("gwt-TextArea");
 			textArea.addStyleName("memoTextArea");
@@ -52,9 +53,13 @@ public class TextAreaItem extends FormItem<String> {
 		if (b) {
 			this.textArea.addStyleName("disable-TextField");
 		} else {
-			this.textArea.setStyleName("gwt-TextBox");
-			textArea.removeStyleName("gwt-TextArea");
-			textArea.addStyleName("memoTextArea");
+//			this.textArea.setStyleName("gwt-TextBox");
+			textArea.setStyleName("gwt-TextArea");
+//			textArea.addStyleName("memoTextArea");
+			if (isMemo) {
+				textArea.removeStyleName("gwt-TextArea");
+				textArea.addStyleName("memoTextArea");
+			}
 		}
 		this.textArea.setEnabled(!b);
 
