@@ -15,13 +15,13 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 	public ItemCombo(String title, int type) {
 		super(title);
 		this.type = type;
-		initCombo(getCompany().getActiveItems());
+		initCombo(getCompany().getItems());
 	}
 
 	public ItemCombo(String title, int type, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 3);
 		this.type = type;
-		initCombo(getCompany().getActiveItems());
+		initCombo(getCompany().getItems());
 	}
 
 	public ItemCombo(String title, int type, boolean isAddNewRequired,
@@ -33,8 +33,7 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 	}
 
 	public void initCombo(boolean isService) {
-		List<ClientItem> items = getCompany()
-				.getActiveItems();
+		List<ClientItem> items = getCompany().getActiveItems();
 		List<ClientItem> serviceitems = new ArrayList<ClientItem>();
 		List<ClientItem> productitems = new ArrayList<ClientItem>();
 		for (ClientItem item : items) {
@@ -64,38 +63,41 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 
 	@Override
 	public void onAddNew() {
-//		Action action;
-//		if (type == 1) {
-//			action = getNewItemAction();
-//		} else {
-//			action = VendorsActionFactory.getNewItemAction();
-//		}
-//		action.setActionSource(this);
-//		HistoryTokenUtils.setPresentToken(action, null);
-//		action.run(null, true);
+		// Action action;
+		// if (type == 1) {
+		// action = getNewItemAction();
+		// } else {
+		// action = VendorsActionFactory.getNewItemAction();
+		// }
+		// action.setActionSource(this);
+		// HistoryTokenUtils.setPresentToken(action, null);
+		// action.run(null, true);
 	}
 
 	@Override
 	protected String getColumnData(ClientItem object, int row, int col) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (col) {
+		case 0:
+			return object.getName();
+		}
+		return "";
 	}
 
-	
-//	@Override
-//	protected String getColumnData(ClientItem object, int row, int col) {
-//		switch (col) {
-//		case 0:
-//			return object.getName();
-//		case 1:
-//			return object.getType() == ClientItem.TYPE_SERVICE ? FinanceApplication.getCustomersMessages().service()
-//					: .getCustomersMessages().PRoduct();
-//		case 2:
-//			return DataUtils.getAmountAsString(object.getSalesPrice());
-//		default:
-//			break;
-//		}
-//		return null;
-//	}
+//	 @Override
+//	 protected String getColumnData(ClientItem object, int row, int col) {
+//	 switch (col) {
+//	 case 0:
+//	 return object.getName();
+//	 case 1:
+//	 return object.getType() == ClientItem.TYPE_SERVICE ?
+//	 FinanceApplication.getCustomersMessages().service()
+//	 : .getCustomersMessages().PRoduct();
+//	 case 2:
+//	 return DataUtils.getAmountAsString(object.getSalesPrice());
+//	 default:
+//	 break;
+//	 }
+//	// return null;
+//	// }
 
 }
