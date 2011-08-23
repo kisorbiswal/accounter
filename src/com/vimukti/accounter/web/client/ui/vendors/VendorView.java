@@ -83,9 +83,10 @@ public class VendorView extends BaseView<ClientVendor> {
 	DynamicForm vendorForm, accInfoForm;
 
 	TextItem vendorNoText;
-	TextItem vendorNameText, fileAsText, accountText, bankNameText,
-			bankBranchText, webText, linksText, expenseAccountsText,
-			federalText, panNumberText, serviceTaxRegisterationNumber;
+	TextItem vendorNameText;
+	TextItem fileAsText, accountText, bankNameText, bankBranchText, webText,
+			linksText, expenseAccountsText, federalText, panNumberText,
+			serviceTaxRegisterationNumber, taxID;
 	TextAreaItem memoArea;
 	DateField balanceDate, vendorSinceDate;
 	EmailField emailText;
@@ -100,6 +101,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	SelectCombo preferredPaymentSelect;
 	CurrencyCombo currencyCombo;
 	CheckboxItem euVATexempVendor;
+	CheckboxItem track1099MISC;
 	TabPanel tabSet;
 
 	LinkedHashMap<String, ClientAddress> allAddresses;
@@ -204,6 +206,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		result.add(vendorForm.validate());
 
 		String name = vendorNameText.getValue();
+
+		String taxNumber = taxID.getValue();
 
 		ClientVendor vendorByName = company.getVendorByName(name);
 
@@ -313,6 +317,10 @@ public class VendorView extends BaseView<ClientVendor> {
 		fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
 
+		taxID = new TextItem("Tax ID");
+		taxID.setHelpInformation(true);
+		taxID.setWidth(100);
+
 		vendorNameText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -343,6 +351,9 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		statusCheck = new CheckboxItem(Accounter.constants().active());
 		statusCheck.setValue(true);
+
+		track1099MISC = new CheckboxItem(Accounter.constants().track1099Form());
+		track1099MISC.setValue(false);
 
 		vendorSinceDate = new DateField(UIUtils.getVendorString(Accounter
 				.messages().supplierSince(Global.get().Vendor()), Accounter
@@ -375,8 +386,13 @@ public class VendorView extends BaseView<ClientVendor> {
 		});
 
 		accInfoForm.setStyleName("vender-form");
-		accInfoForm.setFields(statusCheck, vendorSinceDate, balanceText,
-				balanceDate);
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			accInfoForm.setFields(statusCheck, vendorSinceDate, balanceText,
+					balanceDate, taxID, track1099MISC);
+		} else {
+			accInfoForm.setFields(statusCheck, vendorSinceDate, balanceText,
+					balanceDate);
+		}
 
 		Label l1 = new Label(Accounter.constants().contacts());
 
@@ -855,6 +871,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Active
 		data.setActive((Boolean) statusCheck.getValue());
 
+		// Setting MISC 1099 form value
+		data.setActive((Boolean) track1099MISC.getValue());
+
 		// Setting Vendor Since
 		data.setPayeeSince(vendorSinceDate.getEnteredDate().getDate());
 
@@ -1099,6 +1118,8 @@ public class VendorView extends BaseView<ClientVendor> {
 		emailForm.setWidth("100%");
 		// Setting Status Check
 		statusCheck.setValue(data.isActive());
+
+		track1099MISC.setValue(data.isActive());
 
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate(data
 				.getPayeeSince()));
