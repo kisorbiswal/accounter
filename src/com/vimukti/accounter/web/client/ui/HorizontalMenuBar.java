@@ -875,7 +875,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			@Override
 			public void execute() {
 				CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog(
-						"Merge Customer", "");
+						"Merge Customer",
+						"Select the customer to merge from, then select the customer merge it into.After you have merged the customer,you cannot seperate them.");
 				customerMergeDialog.show();
 			}
 		};
@@ -901,7 +902,8 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			@Override
 			public void execute() {
 				VendorMergeDialog vendorMergeDialog = new VendorMergeDialog(
-						"Merge Vendor", "");
+						"Merge Vendor",
+						"Select the vendor to merge from, then select the vendor merge it into.After you have merged the vendors,you cannot seperate them.");
 				vendorMergeDialog.show();
 			}
 		};
@@ -913,7 +915,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 
 			@Override
 			public void execute() {
-				ItemMergeDialog dialog = new ItemMergeDialog("MergeItem", "");
+				ItemMergeDialog dialog = new ItemMergeDialog(
+						"Merge Item",
+						"Select the item to merge from, then select the item merge it into.The items have the same item type.After you have merged the items,You cannot seperate them.");
 				dialog.show();
 			}
 		};
