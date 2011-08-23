@@ -74,11 +74,11 @@ public abstract class AbstractGlobal implements IGlobal {
 		int referCustomers = preferences().getReferAccounts();
 		switch (referCustomers) {
 		case ClientAccount.ACCOUNT:
-			return Accounter.messages().account(Global.get().account());
+			return Accounter.constants().account();
 		case ClientAccount.LEGAND:
 			return constants().ledger();
 		default:
-			return Accounter.messages().account(Global.get().account());
+			return Accounter.constants().Account();
 		}
 	}
 
