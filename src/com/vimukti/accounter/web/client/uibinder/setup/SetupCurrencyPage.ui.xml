@@ -19,6 +19,6 @@
 				</g:customCell>
 			</g:row>
 		</g:Grid>
-		<g:VerticalPanel ui:field="currencyListGridPanel"/>
+		<!-- <g:VerticalPanel ui:field="currencyListGridPanel"/> -->
 	</g:VerticalPanel>
 </ui:UiBinder> 

@@ -26,7 +26,7 @@ public class TemplateAccount implements Serializable, IsSerializable {
 
 	private boolean isSystemOnly;
 
-	private String[] contries;
+	private String countries;
 
 	private String cashFlowType;
 
@@ -93,16 +93,26 @@ public class TemplateAccount implements Serializable, IsSerializable {
 	/**
 	 * @return the contries
 	 */
-	public String[] getContries() {
-		return contries;
+	public String[] getCountries() {
+		if (countries != null) {
+			return countries.split(",");
+		} else {
+			return null;
+		}
 	}
 
 	/**
 	 * @param contries
 	 *            the contries to set
 	 */
-	public void setContries(String[] contries) {
-		this.contries = contries;
+	public void setCountries(String[] contries) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < contries.length; i++) {
+			if (i != 0)
+				sb.append(",");
+			sb.append(contries[i]);
+		}
+		this.countries = sb.toString();
 	}
 
 	/**

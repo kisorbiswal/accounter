@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.grids.CurrenciesGrid;
 
 /**
@@ -33,7 +32,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	Label primaryCurrenyLabel;
 	@UiField
 	ListBox primaryCurrencyListBox;
-	@UiField
+	// @UiField
 	VerticalPanel currencyListGridPanel;
 	private CurrenciesGrid currenciesGrid;
 	// private Set<ClientCurrency> currencySet;
@@ -60,7 +59,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		currenciesList = UIUtils.getCurrenciesList();
+		// currenciesList = UIUtils.getCurrenciesList();
 		headerLabel.setText(accounterConstants.setSupportedCurrencies());
 		primaryCurrenyLabel.setText(accounterConstants.primaryCurrency());
 		Accounter.createGETService().getCurrencies(
@@ -69,6 +68,19 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 					@Override
 					public void onSuccess(List<ClientCurrency> result) {
 						currenciesList = result;
+						for (ClientCurrency currency : currenciesList) {
+							primaryCurrencyListBox.addItem(currency
+									.getFormalName()
+									+ "\t"
+									+ currency.getCountryName()
+									+ "\t"
+									+ currency.getDisplayName());
+						}
+
+						currenciesGrid = new CurrenciesGrid();
+						currenciesGrid.init();
+						currenciesGrid.setRecords(currenciesList);
+						// currencyListGridPanel.add(currenciesGrid);
 					}
 
 					@Override
@@ -77,19 +89,6 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 
 					}
 				});
-		for (int i = 0; i < currenciesList.size(); i++) {
-			primaryCurrencyListBox.addItem(currenciesList.get(i)
-					.getFormalName()
-					+ "\t"
-					+ currenciesList.get(i).getCountryName()
-					+ "\t"
-					+ currenciesList.get(i).getCountryName());
-		}
-
-		currenciesGrid = new CurrenciesGrid();
-		currenciesGrid.init();
-		currenciesGrid.setRecords(currenciesList);
-		currencyListGridPanel.add(currenciesGrid);
 	}
 
 	@Override

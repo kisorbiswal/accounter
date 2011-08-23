@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
@@ -160,10 +159,11 @@ public class SetupWizard extends VerticalPanel {
 							@Override
 							public void onSuccess(Boolean result) {
 								if (result) {
-									IAccounterCompanyInitializationServiceAsync cIService = Accounter
-											.createCompanyInitializationService();
-									cIService.initalizeCompany(preferences,
-											callback);
+									// IAccounterCompanyInitializationServiceAsync
+									// cIService = Accounter
+									// .createCompanyInitializationService();
+									// cIService.initalizeCompany(preferences,
+									// selectedAccounts, callback);
 								}
 							}
 

@@ -422,4 +422,11 @@ public class ServerConfiguration {
 	public static void setUnderMaintainance(boolean value) {
 		isUnderMaintanance = value;
 	}
+
+	/**
+	 * @return
+	 */
+	public static String getAccountsDir() {
+		return "config/accounts";
+	}
 }

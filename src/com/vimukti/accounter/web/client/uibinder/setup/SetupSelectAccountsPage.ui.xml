@@ -12,20 +12,10 @@
 			<g:HTML wordWrap="true" ui:field="reviewHead" />
 			<g:Label ui:field="expensesInfo" />
 			<g:HTML wordWrap="true" ui:field="recommendedInfo" />
-			<g:Grid>
-				<g:row>
-					<g:customCell>
-						<g:CheckBox ui:field="expensesClick" />
-					</g:customCell>
-					<g:customCell>
-						<g:Label ui:field="accountName" />
-					</g:customCell>
-					<g:customCell>
-						<g:Label ui:field="type" />
-					</g:customCell>
-				</g:row>
-			</g:Grid>
-			<g:Button enabled="false" ui:field="restoreButton" />
+			<g:ScrollPanel  height="500px" styleName="setup_accounts">
+				<g:FlexTable ui:field="accountsTable"/>
+			</g:ScrollPanel>
+			<g:Button enabled="true" ui:field="restoreButton" />
 			<g:HTML wordWrap="true" ui:field="expensesLink" />
 			<g:HTML wordWrap="true" ui:field="expensesNote" />
 		</g:VerticalPanel>

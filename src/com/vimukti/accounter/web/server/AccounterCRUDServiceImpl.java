@@ -11,10 +11,13 @@ import javax.servlet.ServletResponse;
 
 import org.mortbay.util.UrlEncoded;
 
+import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Util;
+import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -159,75 +162,44 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public long inviteUser(IAccounterCore coreObject, IAccounterCore senderCore)
-			throws AccounterException {
-		String urlString = getInviteUserUrlString((ClientUserInfo) coreObject,
-				(ClientUser) senderCore);
-		if (urlString == null) {
-			return -1;
-		}
+	public long inviteUser(IAccounterCore coreObject) throws AccounterException {
+
+		ClientUserInfo invitedser = (ClientUserInfo) coreObject;
+
+		IS2SService s2sSyncProxy = getS2sSyncProxy(ServerConfiguration
+				.getServerDomainName());
+
+		// Creating Clien
 		try {
-			URL url = new URL(urlString.toString());
-			HttpURLConnection connection = null;
-			try {
-				connection = (HttpURLConnection) url.openConnection();
-			} catch (IOException e) {
-				e.printStackTrace();
+			String company = getCookie(BaseServlet.COMPANY_COOKIE);
+			s2sSyncProxy.inviteUser(Integer.parseInt(company), invitedser,
+					getUserEmail());
+		} catch (Exception e) {
+			if (e instanceof AccounterException) {
+				throw (AccounterException) e;
 			}
-			int responseCode = 0;
-			try {
-				responseCode = connection.getResponseCode();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			if (responseCode == 200) {
-				ClientUser coreUser = convertUserInfoToUser(coreObject);
-				String clientClassSimpleName = coreUser.getObjectType()
-						.getClientClassSimpleName();
-				FinanceTool financeTool = new FinanceTool();
-				OperationContext context = new OperationContext(coreUser,
-						getUserEmail(), String.valueOf(coreObject.getID()),
-						clientClassSimpleName);
-				return financeTool.inviteUser(context);
-			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
 		}
-		return -1;
+
+		// Creating Use in Local Company Database
+		ClientUser coreUser = convertUserInfoToUser(invitedser);
+		String clientClassSimpleName = coreUser.getObjectType()
+				.getClientClassSimpleName();
+		FinanceTool financeTool = new FinanceTool();
+		OperationContext context = new OperationContext(coreUser,
+				getUserEmail(), String.valueOf(coreObject.getID()),
+				clientClassSimpleName);
+		return financeTool.inviteUser(context);
 	}
 
-	private String getInviteUserUrlString(ClientUserInfo invitedUser,
-			ClientUser sender) {
-		StringBuffer buffer = new StringBuffer(
-				"http://localhost:8890/inviteUser?");
-		buffer.append("senderEmailId");
-		buffer.append('=');
-		buffer.append(new UrlEncoded(sender.getEmail()).encode());
-		buffer.append('&');
-		buffer.append("invitedUserEmail");
-		buffer.append('=');
-		buffer.append(new UrlEncoded(invitedUser.getEmail()).encode());
-
-		buffer.append('&');
-		buffer.append("invitedUserFirstName");
-		buffer.append('=');
-		buffer.append(new UrlEncoded(invitedUser.getFirstName()).encode());
-
-		buffer.append('&');
-		buffer.append("invitedUserLastName");
-		buffer.append('=');
-		buffer.append(new UrlEncoded(invitedUser.getLastName()).encode());
-
-		buffer.append('&');
-		buffer.append("serverCompanyId");// FIXME
-		buffer.append('=');
-		String serverCompanyId = getCookie(BaseServlet.COMPANY_COOKIE);
-		buffer.append(new UrlEncoded(serverCompanyId).encode());
-		return buffer.toString();
+	private IS2SService getS2sSyncProxy(String domainName) {
+		String url = "http://" + domainName + ":"
+				+ ServerConfiguration.getMainServerPort() + "/stosservice";
+		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
+				"");
 	}
 
-	private ClientUser convertUserInfoToUser(IAccounterCore coreObject) {
-		ClientUserInfo clientUserInfo = (ClientUserInfo) coreObject;
+	private ClientUser convertUserInfoToUser(ClientUserInfo clientUserInfo) {
 		ClientUser clientUser = new ClientUser();
 		clientUser.setCanDoUserManagement(clientUserInfo
 				.isCanDoUserManagement());
@@ -249,7 +221,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public long updateUser(IAccounterCore coreObject) throws AccounterException {
-		ClientUser coreUser = convertUserInfoToUser(coreObject);
+		ClientUser coreUser = convertUserInfoToUser((ClientUserInfo) coreObject);
 		String serverClassSimpleName = coreUser.getObjectType()
 				.getServerClassFullyQualifiedName();
 		FinanceTool financeTool = new FinanceTool();
@@ -282,7 +254,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 				e.printStackTrace();
 			}
 			if (responseCode == 200) {
-				ClientUser coreUser = convertUserInfoToUser(deletableUser);
+				ClientUser coreUser = convertUserInfoToUser((ClientUserInfo) deletableUser);
 				String clientClassSimpleName = coreUser.getObjectType()
 						.getClientClassSimpleName();
 				FinanceTool financeTool = new FinanceTool();

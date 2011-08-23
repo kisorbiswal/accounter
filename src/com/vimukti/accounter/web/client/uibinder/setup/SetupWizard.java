@@ -1,5 +1,11 @@
 package com.vimukti.accounter.web.client.uibinder.setup;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -10,9 +16,13 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
+import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 
@@ -27,6 +37,7 @@ public class SetupWizard extends VerticalPanel {
 	private Label progressHeader;
 	private AsyncCallback<Boolean> callback;
 	public int currentViewIndex = START_PAGE;
+	private List<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
 	private FlexTable progressTable;
 
 	private AbstractSetupPage viewList[] = new AbstractSetupPage[] {
@@ -36,13 +47,13 @@ public class SetupWizard extends VerticalPanel {
 			new SetupTrackEmployeesPage(), new SetupSellTypeAndSalesTaxPage(),
 			new SetupUsingEstimatesAndStatementsPage(),
 			new SetupCurrencyPage(), new SetupTrackBillsAndTimePage(),
-			new SetupSelectFiscalYrDatePage(), new SetupSelectAccountsPage(),
-			new SetupComplitionPage() };
+			new SetupSelectFiscalYrDatePage(),
+			new SetupSelectAccountsPage(this), new SetupComplitionPage() };
 
 	private AbstractSetupPage[] skipViewList = new AbstractSetupPage[] {
 			new SetupStartPage(this), new SetupCompanyInfoPage(),
-			new SetupOrganisationSelectionPage(),
-			new SetupIndustrySelectionPage(), new SetupComplitionPage() };
+			new SetupIndustrySelectionWithAccountsPage(this),
+			new SetupComplitionPage() };
 
 	private Image startProgressImages[] = new Image[viewList.length - 2];
 	private String startProgressLabels[] = new String[] {
@@ -69,6 +80,7 @@ public class SetupWizard extends VerticalPanel {
 	private AbstractSetupPage viewToShow;
 	private int startProgressImagesIndex;
 	private boolean isSkip;
+	private Map<Integer, AccountsTemplate> accountsTemplates = new HashMap<Integer, AccountsTemplate>();
 
 	public SetupWizard(AsyncCallback<Boolean> callback) {
 		preferences = Accounter.getCompany().getPreferences();
@@ -160,7 +172,7 @@ public class SetupWizard extends VerticalPanel {
 										IAccounterCompanyInitializationServiceAsync cIService = Accounter
 												.createCompanyInitializationService();
 										cIService.initalizeCompany(preferences,
-												callback);
+												selectedAccounts, callback);
 									}
 								}
 
@@ -176,7 +188,7 @@ public class SetupWizard extends VerticalPanel {
 
 				@Override
 				public void onClick(ClickEvent arg0) {
-					if (viewList[currentViewIndex].validate()) {
+					if (getViewsList()[currentViewIndex].validate()) {
 						if (currentViewIndex != viewList.length - 1) {
 							currentViewIndex++;
 						}
@@ -189,7 +201,7 @@ public class SetupWizard extends VerticalPanel {
 
 				@Override
 				public void onClick(ClickEvent arg0) {
-					if (viewList[currentViewIndex].validate()) {
+					if (getViewsList()[currentViewIndex].validate()) {
 						if (currentViewIndex != START_PAGE) {
 							currentViewIndex--;
 							showView();
@@ -210,6 +222,29 @@ public class SetupWizard extends VerticalPanel {
 		} catch (Exception e) {
 			System.err.println(e);
 		}
+
+		loadIndustriesDefaultAccounts();
+	}
+
+	/**
+	 * 
+	 */
+	private void loadIndustriesDefaultAccounts() {
+		Accounter.createGETService().getAccountsTemplate(
+				new AccounterAsyncCallback<List<AccountsTemplate>>() {
+
+					@Override
+					public void onException(AccounterException exception) {
+						// TODO
+					}
+
+					@Override
+					public void onResultSuccess(List<AccountsTemplate> result) {
+						setIndustryDefaultAccounts(result);
+					}
+
+				});
+
 	}
 
 	protected void gotoLastPage() {
@@ -365,4 +400,50 @@ public class SetupWizard extends VerticalPanel {
 			return viewList;
 		}
 	}
+
+	/**
+	 * @return
+	 */
+	public List<TemplateAccount> getIndustryDefaultAccounts() {
+		int industryType = preferences.getIndustryType();
+		AccountsTemplate accountsTemplate = this.accountsTemplates
+				.get(industryType);
+		List<TemplateAccount> accounts = accountsTemplate.getAccounts();
+		if (accounts != null) {
+			return accounts;
+		}
+		return Collections.emptyList();
+	}
+
+	public Map<Integer, AccountsTemplate> getAllIndustiesWithAccounts() {
+		return accountsTemplates;
+	}
+
+	/**
+	 * @return
+	 */
+	private void setIndustryDefaultAccounts(
+			List<AccountsTemplate> accountesTemplates) {
+		for (AccountsTemplate accountTemplate : accountesTemplates) {
+			this.accountsTemplates.put(accountTemplate.getType(),
+					accountTemplate);
+		}
+	}
+
+	/**
+	 * @param account
+	 * @param value
+	 */
+	public void setSelectedAccountsList(List<TemplateAccount> selectedAccounts) {
+		this.selectedAccounts = selectedAccounts;
+	}
+
+	/**
+	 * @param account
+	 * @param value
+	 */
+	public List<TemplateAccount> getSelectedAccountsList() {
+		return this.selectedAccounts;
+	}
+
 }

@@ -16,10 +16,17 @@
 			</g:HTML>
 			<g:HTML ui:field="industry" styleName="industry">
 			</g:HTML>
-			<g:Label ui:field="selectIndustry" styleName="select_industry" />
 			<g:HorizontalPanel ui:field="industryAccountsPanel">
-				<g:ListBox ui:field="industryList"/>
-				<g:ListBox ui:field="accountsList" />
+				<g:VerticalPanel>
+					<g:HTML ui:field="selectIndustry" styleName="select_industry" />
+					<g:ListBox ui:field="industryList" styleName="industry_list" />
+				</g:VerticalPanel>
+				<g:VerticalPanel>
+					<g:HTML ui:field="accountsLabel"/>
+					<g:ScrollPanel height="250px" width="250px">
+					<g:VerticalPanel height="300px" ui:field="accountsPanel"/>
+					</g:ScrollPanel> 
+				</g:VerticalPanel>
 			</g:HorizontalPanel>
 			
 		</g:VerticalPanel>

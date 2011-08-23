@@ -3,10 +3,12 @@ package com.vimukti.accounter.web.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -1732,5 +1734,16 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 			statesList.add(states[countriesList.indexOf(country)][i]);
 		}
 		return statesList;
+	}
+
+	@Override
+	public List<AccountsTemplate> getAccountsTemplate()
+			throws AccounterException {
+		AccountsTemplateManager manager = new AccountsTemplateManager();
+		try {
+			return manager.loadAccounts(ServerLocal.get().getLanguage());
+		} catch (Exception e) {
+			throw new AccounterException(e);
+		}
 	}
 }

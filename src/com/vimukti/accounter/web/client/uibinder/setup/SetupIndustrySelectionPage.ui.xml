@@ -19,5 +19,5 @@
 			<g:Label ui:field="selectIndustry" styleName="select_industry" />
 			<g:ListBox ui:field="industryList" styleName="industry_list" />
 		</g:VerticalPanel>
-</g:VerticalPanel>
+	</g:VerticalPanel>
 </ui:UiBinder> 

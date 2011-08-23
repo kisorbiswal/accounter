@@ -33,10 +33,11 @@ public interface IAccounterCRUDServiceAsync {
 
 	void updateCompany(ClientCompany clientCompany, AsyncCallback<Long> callback);
 
-	void inviteUser(IAccounterCore coreObject, IAccounterCore clientUser, AsyncCallback<Long> callback);
+	void inviteUser(IAccounterCore coreObject, AsyncCallback<Long> callback);
 
 	void updateUser(IAccounterCore coreObject, AsyncCallback<Long> callback);
 
-	void deleteUser(IAccounterCore deletableUser,String senderEmail, AsyncCallback<Boolean> callback);
+	void deleteUser(IAccounterCore deletableUser, String senderEmail,
+			AsyncCallback<Boolean> callback);
 
 }

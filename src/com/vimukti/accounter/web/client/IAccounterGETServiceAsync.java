@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
@@ -385,6 +386,8 @@ public interface IAccounterGETServiceAsync {
 	public void getCountries(AsyncCallback<List<String>> callback);
 
 	public void getStates(String country, AsyncCallback<List<String>> callback);
+
+	void getAccountsTemplate(AsyncCallback<List<AccountsTemplate>> callback);
 
 	public void getCurrencies(AsyncCallback<List<ClientCurrency>> callback);
 

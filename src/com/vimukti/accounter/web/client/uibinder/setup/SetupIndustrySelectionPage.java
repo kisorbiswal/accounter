@@ -44,6 +44,8 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	 * <g:**UserClassName**>Hello!</g:**UserClassName> </ui:UiBinder> Note that
 	 * depending on the widget that is used, it may be necessary to implement
 	 * HasHTML instead of HasText.
+	 * 
+	 * @param setupWizard
 	 */
 	public SetupIndustrySelectionPage() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -102,16 +104,24 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	public void onLoad() {
 
 		int industryType = preferences.getIndustryType();
-		if (industryType != 0)
-			industryList.setSelectedIndex(industryType);
+		if (industryType < 0) {
+			return;
+		}
+		industryType--;
+		industryList.setSelectedIndex(industryType);
 	}
 
 	@Override
 	public void onSave() {
 
 		int selectedValue = industryList.getSelectedIndex();
-		if (selectedValue != 0)
+		if (selectedValue < 0) {
+			return;
+		}
+		selectedValue++;
+		if (selectedValue != preferences.getIndustryType()) {
 			preferences.setIndustryType(selectedValue);
+		}
 	}
 
 	@Override

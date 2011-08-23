@@ -3,6 +3,8 @@
  */
 package com.vimukti.accounter.web.server;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -10,6 +12,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.TemplateAccount;
 
 /**
  * @author Prasanna Kumar G
@@ -136,12 +139,13 @@ public class AccounterCompanyInitializationServiceImpl extends
 	// }
 
 	@Override
-	public Boolean initalizeCompany(ClientCompanyPreferences preferences) {
+	public boolean initalizeCompany(ClientCompanyPreferences preferences,
+			List<TemplateAccount> accounts) {
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction beginTransaction = session.beginTransaction();
 		try {
 			Company company = (Company) session.load(Company.class, 1l);
-			company.initialize(null);
+			company.initialize(accounts);
 			company.setConfigured(true);
 			session.saveOrUpdate(company);
 			beginTransaction.commit();

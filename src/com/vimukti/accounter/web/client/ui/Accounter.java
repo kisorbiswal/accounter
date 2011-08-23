@@ -286,7 +286,7 @@ public class Accounter implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		IGlobal global=GWT.create(ClientGlobal.class);
+		IGlobal global = GWT.create(ClientGlobal.class);
 		Global.set(global);
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
@@ -386,7 +386,7 @@ public class Accounter implements EntryPoint {
 
 	public static <D extends IAccounterCore> void inviteUser(
 			final ISaveCallback source, final D coreObj) {
-		final AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
+		final AccounterAsyncCallback<Long> inviteUserCallBack = new AccounterAsyncCallback<Long>() {
 
 			public void onException(AccounterException caught) {
 				source.saveFailed(caught);
@@ -402,10 +402,10 @@ public class Accounter implements EntryPoint {
 		};
 		if (coreObj.getID() == 0) {
 			Accounter.createCRUDService().inviteUser((IAccounterCore) coreObj,
-					Accounter.getUser(), transactionCallBack);
+					inviteUserCallBack);
 		} else {
 			Accounter.createCRUDService().updateUser((IAccounterCore) coreObj,
-					transactionCallBack);
+					inviteUserCallBack);
 		}
 		// } else {
 		// Accounter.createCRUDService().updateUser((IAccounterCore) coreObj,
@@ -559,10 +559,10 @@ public class Accounter implements EntryPoint {
 		Accounter.createCRUDService().updateUser((IAccounterCore) coreObj,
 				transactionCallBack);
 	}
-	
+
 	private void initializeIsMacApp() {
 		String cookie = Cookies.getCookie("Nativeapp");
-		if(cookie != null) {
+		if (cookie != null) {
 			setMacApp(true);
 		}
 	}

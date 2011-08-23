@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -284,11 +285,14 @@ public interface IAccounterGETService extends RemoteService {
 
 	public ClientUser getUser(String userName, String password,
 			boolean isremeber, int offset);
+
 	public List<String> getCountries();
 
 	public List<String> getStates(String country);
 	
 	public List<ClientCurrency> getCurrencies();
 
+	public List<AccountsTemplate> getAccountsTemplate()
+			throws AccounterException;
 
 }
