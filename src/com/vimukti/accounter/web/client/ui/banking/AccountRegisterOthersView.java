@@ -18,11 +18,11 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
+import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.AccountRegisterOtherListGrid;
 
-public class AccountRegisterOthersView extends ParentCanvas<AccountRegister> {
+public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 	AccountRegisterOtherListGrid grid;
 
 	private String selectedDateRange;
