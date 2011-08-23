@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ISorting;
@@ -100,8 +101,7 @@ public abstract class AbstractReportView<R> extends ParentCanvas<List<R>>
 			grid.removeLoadingImage();
 			return;
 		}
-		Accounter
-				.showMessage("Your session expired, Please login again to continue");
+		Accounter.showMessage(Global.get().constants().sessionExpired());
 	}
 
 	/**
