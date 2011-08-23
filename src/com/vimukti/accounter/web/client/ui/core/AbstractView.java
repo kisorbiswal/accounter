@@ -13,6 +13,7 @@ public abstract class AbstractView<T> extends VerticalPanel {
 
 	private Action action;
 
+	
 	/**
 	 * Flag, to Determine, whether in Edit Mode or Create mode.
 	 */
