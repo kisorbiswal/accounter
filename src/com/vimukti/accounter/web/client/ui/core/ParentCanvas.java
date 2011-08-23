@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class ParentCanvas<T> extends VerticalPanel {
 
@@ -14,7 +15,7 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 	 */
 
 	protected T data;
-	
+
 	private ClientCompanyPreferences preferences;
 
 	private ViewManager manager;
@@ -26,13 +27,11 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 	public void setData(T data) {
 		this.data = data;
 	}
-	
 
 	public void cancel() {
 		setData(null);
 		getManager().closeCurrentView();
 	}
-
 
 	public void setAction(Action action) {
 		this.action = action;
@@ -81,14 +80,12 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 	public void onSelectBoxValueChange(int colIndex, Object value) {
 	}
 
-
 	/**
 	 * call this method to set focus in View
 	 */
 	public abstract void setFocus();
 
 	public abstract void fitToSize(int height, int width);
-
 
 	public abstract void onEdit();
 
@@ -101,7 +98,7 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 
 	public void initData() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public ViewManager getManager() {
@@ -113,13 +110,14 @@ public abstract class ParentCanvas<T> extends VerticalPanel {
 	}
 
 	public ClientCompanyPreferences getPreferences() {
-		return preferences;
+		if (preferences != null)
+			return preferences;
+		else
+			return Accounter.getCompany().getPreferences();
 	}
 
 	public void setPreferences(ClientCompanyPreferences preferences) {
 		this.preferences = preferences;
 	}
-	
-	
 
 }
