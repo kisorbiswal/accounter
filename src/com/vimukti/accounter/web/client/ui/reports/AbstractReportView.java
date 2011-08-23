@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
+import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 
 /**
@@ -32,7 +32,7 @@ import com.vimukti.accounter.web.client.ui.core.ReportUtility;
  * @param <R>
  */
 
-public abstract class AbstractReportView<R> extends ParentCanvas<List<R>>
+public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		implements ISorting<R>, IFinanceReport<R>, AsyncCallback<ArrayList<R>>,
 		IPrintableView {
 
