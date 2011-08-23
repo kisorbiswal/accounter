@@ -1144,7 +1144,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	public void saveAndUpdateView() {
 
 		updateTransaction();
-		saveOrUpdate(getCustomer());
+		// No Need to update Customer Object separately It will be automatically
+		// updated.
+		// saveOrUpdate(getCustomer());
 		saveOrUpdate(transaction);
 
 	}
@@ -1344,7 +1346,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (this.rpcUtilService == null)
 			return;
 		if (getCustomer() == null) {
-			Accounter.showError(Accounter.messages().pleaseSelectCustomer(Global.get().customer()));
+			Accounter.showError(Accounter.messages().pleaseSelectCustomer(
+					Global.get().customer()));
 		} else {
 
 			// if (dialog != null && dialog.preCustomer != null
@@ -1652,7 +1655,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected String getViewTitle() {
 		return Accounter.constants().invoice();
 	}
-
 
 	@Override
 	public boolean canPrint() {
