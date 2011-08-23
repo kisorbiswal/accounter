@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -704,16 +705,16 @@ public class VendorTransactionGrid extends
 		if (index == 7)
 			return 60;
 		if (index == 2) {
-			// if(FinanceApplication.isMacApp()){
-			// int var = Window.getClientWidth();
-			// return var-830;
-			// }else{
-			if (UIUtils.isMSIEBrowser()) {
-				return 110;
+			if (Accounter.isMacApp()) {
+				int var = Window.getClientWidth();
+				return var - 830;
 			} else {
-				return 130;
+				if (UIUtils.isMSIEBrowser()) {
+					return 110;
+				} else {
+					return 130;
+				}
 			}
-			// }
 		}
 		if (index == 5)
 			return 100;

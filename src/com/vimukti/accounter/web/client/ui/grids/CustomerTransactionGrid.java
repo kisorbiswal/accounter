@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -286,16 +287,16 @@ public class CustomerTransactionGrid extends
 		else if (index == 9)
 			return 15;
 		else if (index == 2) {
-			// if (FinanceApplication.isMacApp()) {
-			// int var = Window.getClientWidth();
-			// return var - 830;
-			// } else {
-			if (UIUtils.isMSIEBrowser()) {
-				return 110;
+			if (Accounter.isMacApp()) {
+				int var = Window.getClientWidth();
+				return var - 830;
 			} else {
-				return 130;
+				if (UIUtils.isMSIEBrowser()) {
+					return 110;
+				} else {
+					return 130;
+				}
 			}
-			// }
 		}
 		return -1;
 	}
