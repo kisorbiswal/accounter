@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -16,15 +17,17 @@ public class CashExpenseAction extends Action {
 
 	public CashExpenseAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.messages()
+				.supplier(Global.get().Vendor()), Accounter
+				.messages().vendorPrePayment(Global.get().Vendor()));
 	}
 
 	public CashExpenseAction(String text, ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.messages()
+				.supplier(Global.get().Vendor()), Accounter
+				.messages().vendorPrePayment(Global.get().Vendor()));
 	}
 
 	public void run() {
@@ -36,17 +39,14 @@ public class CashExpenseAction extends Action {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
- 
-					view = new CashExpenseView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, CashExpenseAction.this);
-					// UIUtils.setCanvas(view, getViewConfiguration());
 
-				 
+				view = new CashExpenseView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, CashExpenseAction.this);
+				// UIUtils.setCanvas(view, getViewConfiguration());
 
 			}
 
-			 
 		});
 
 	}

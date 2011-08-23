@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -16,15 +17,17 @@ public class CreditCardExpenseAction extends Action {
 
 	public CreditCardExpenseAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.messages().supplier(
+				Global.get().Vendor()), Accounter.messages().vendorPrePayment(
+				Global.get().Vendor()));
 	}
 
 	public CreditCardExpenseAction(String text, ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = UIUtils.getVendorString(Accounter.messages().supplier(
+				Global.get().Vendor()), Accounter.messages().vendorPrePayment(
+				Global.get().Vendor()));
 	}
 
 	public void run() {
@@ -37,12 +40,10 @@ public class CreditCardExpenseAction extends Action {
 
 			public void onCreated() {
 
-					view = new CreditCardExpenseView();
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, CreditCardExpenseAction.this);
-					// UIUtils.setCanvas(view, getViewConfiguration());
-
-				 
+				view = new CreditCardExpenseView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, CreditCardExpenseAction.this);
+				// UIUtils.setCanvas(view, getViewConfiguration());
 
 			}
 

@@ -1232,15 +1232,15 @@ public class ActionFactory {
 	}
 
 	public static CashExpenseAction CashExpenseAction() {
-		return new CashExpenseAction(actionsConstants.cash());
+		return new CashExpenseAction(actionsConstants.cashExpense());
 	}
 
 	public static EmployeeExpenseAction EmployeeExpenseAction() {
-		return new EmployeeExpenseAction(actionsConstants.employee());
+		return new EmployeeExpenseAction(actionsConstants.employeeExpense());
 	}
 
 	public static CreditCardExpenseAction CreditCardExpenseAction() {
-		return new CreditCardExpenseAction(actionsConstants.creditCard());
+		return new CreditCardExpenseAction(actionsConstants.creditCardCharge());
 	}
 
 	public static AwaitingAuthorisationAction getAwaitingAuthorisationAction() {
