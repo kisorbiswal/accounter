@@ -6,6 +6,7 @@ package com.vimukti.accounter.web.client;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Prasanna Kumar G
@@ -73,11 +74,11 @@ public abstract class AbstractGlobal implements IGlobal {
 		int referCustomers = preferences().getReferAccounts();
 		switch (referCustomers) {
 		case ClientAccount.ACCOUNT:
-			return constants().account();
+			return Accounter.messages().account(Global.get().account());
 		case ClientAccount.LEGAND:
 			return constants().ledger();
 		default:
-			return constants().account();
+			return Accounter.messages().account(Global.get().account());
 		}
 	}
 
