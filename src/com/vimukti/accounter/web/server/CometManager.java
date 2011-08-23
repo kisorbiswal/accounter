@@ -27,8 +27,9 @@ public class CometManager {
 	 * @param key
 	 * @return
 	 */
-	static CometSession getQueue(String sessionID, String emailID) {
-		Map<String, CometSession> queues = map.get(emailID);
+	static CometSession getQueue(String sessionID, long companyId,
+			String emailID) {
+		Map<String, CometSession> queues = map.get(emailID + companyId);
 		if (queues != null) {
 			return queues.get(sessionID);
 		}
@@ -47,8 +48,8 @@ public class CometManager {
 	 *            Name of the stream
 	 * @return
 	 */
-	public static CometStream getStream(String emailId, String stream) {
-		Map<String, CometSession> queues = map.get(emailId);
+	public static CometStream getStream(long companyId, String emailId) {
+		Map<String, CometSession> queues = map.get(emailId + companyId);
 		if (queues == null) {
 			return null;
 		}
@@ -57,23 +58,24 @@ public class CometManager {
 		return str;
 	}
 
-	public static void initStream(String sessionID, String emailID,
-			CometSession cometSession) {
-		Map<String, CometSession> queues = map.get(emailID);
+	public static void initStream(String sessionID, long companyId,
+			String emailID, CometSession cometSession) {
+		Map<String, CometSession> queues = map.get(emailID + companyId);
 		if (queues == null) {
 			queues = new HashMap<String, CometSession>();
-			map.put(emailID, queues);
+			map.put(emailID + companyId, queues);
 		}
 		queues.put(sessionID, cometSession);
 	}
 
-	public static void destroyStream(String sessionID, String emailID) {
-		Map<String, CometSession> queues = map.get(emailID);
+	public static void destroyStream(String sessionID, long companyId,
+			String emailID) {
+		Map<String, CometSession> queues = map.get(emailID + companyId);
 		if (queues != null) {
 			queues.remove(sessionID);
 		}
 		if (queues == null || queues.size() == 0) {
-			map.remove(emailID);
+			map.remove(emailID + companyId);
 		}
 	}
 

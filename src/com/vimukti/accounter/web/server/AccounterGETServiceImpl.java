@@ -245,7 +245,13 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ClientUser getUser(String userName, String password,
 			boolean isremeber, int offset) {
-		return login(userName, password, isremeber, offset);
+		try {
+			long id = getCompany().getID();
+			return login(id, userName, password, isremeber, offset);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public List<String> getCountries() {

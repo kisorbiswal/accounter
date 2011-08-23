@@ -738,11 +738,11 @@ public class FinanceTool implements IFinanceDAOService {
 				Session session = null;
 				session = HibernateUtil.getCurrentSession();
 				List<User> users = session.getNamedQuery("getAllUsers").list();
-
+				long id = getCompany().getID();
 				for (User user : users) {
 					try {
-						CometStream stream = CometManager.getStream(
-								user.getEmail(), "accounter");
+						CometStream stream = CometManager.getStream(id,
+								user.getEmail());
 						if (stream == null) {
 							continue;
 						}

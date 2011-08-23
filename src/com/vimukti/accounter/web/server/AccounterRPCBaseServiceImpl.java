@@ -190,8 +190,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		return HibernateUtil.getCurrentSession();
 	}
 
-	public ClientUser login(String string, String password, Boolean rememberMe,
-			int offSet) {
+	public ClientUser login(long companyId, String string, String password,
+			Boolean rememberMe, int offSet) {
 
 		User user = null;
 		if (string != null && password != null) {
@@ -217,7 +217,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			CometSession cometSession = CometServlet
 					.getCometSession(getHttpSession());
 			CometManager.initStream(getThreadLocalRequest().getSession()
-					.getId(), user.getEmail(), cometSession);
+					.getId(),companyId, user.getEmail(), cometSession);
 
 			if (rememberMe) {
 				setCookies(string, password);
