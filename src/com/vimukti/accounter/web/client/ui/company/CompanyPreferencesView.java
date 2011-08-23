@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -1509,7 +1510,7 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 
 	@Override
 	public void onEdit() {
-
+		setMode(EditMode.EDIT);
 	}
 
 	@Override

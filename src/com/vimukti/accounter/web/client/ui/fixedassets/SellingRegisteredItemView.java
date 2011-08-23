@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -641,7 +642,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	public void onEdit() {
-
+		setMode(EditMode.EDIT);
 	}
 
 	@Override

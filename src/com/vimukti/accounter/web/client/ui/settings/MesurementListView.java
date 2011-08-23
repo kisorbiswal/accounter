@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 
 public class MesurementListView extends BaseView {
 
@@ -52,8 +53,7 @@ public class MesurementListView extends BaseView {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
-
+		setMode(EditMode.EDIT);
 	}
 
 	@Override

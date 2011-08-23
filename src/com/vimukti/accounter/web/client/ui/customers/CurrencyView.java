@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -22,6 +23,7 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	private boolean wait;
 	private ClientCompany company = getCompany();
 	AccounterConstants accounterConstants = Accounter.constants();
+
 	public CurrencyView() {
 		super();
 
@@ -93,8 +95,8 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 		ClientCurrency currency = company.getCurrency(currencyNameText
 				.getValue().toString());
 		ValidationResult result = new ValidationResult();
-		
-		//checks whether the currency is already available or not?
+
+		// checks whether the currency is already available or not?
 		if (currency != null) {
 			result.addError(currencyNameText, accounterConstants.alreadyExist());
 		}
@@ -137,7 +139,7 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
 	}
@@ -162,8 +164,7 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
-
+		setMode(EditMode.EDIT);
 	}
 
 	@Override

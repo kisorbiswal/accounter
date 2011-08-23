@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.VatReturnBoxCombo;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -414,7 +415,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	@Override
 	public void onEdit() {
-
+		setMode(EditMode.EDIT);
 	}
 
 	@Override

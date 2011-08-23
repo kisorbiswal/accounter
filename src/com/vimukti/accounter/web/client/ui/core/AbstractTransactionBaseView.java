@@ -862,6 +862,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			vatinclusiveCheck.setDisabled(isInViewMode());
 		if (menuButton != null)
 			menuButton.setEnabled(!isInViewMode());
+		setMode(EditMode.EDIT);
 	}
 
 	public boolean isEdit() {

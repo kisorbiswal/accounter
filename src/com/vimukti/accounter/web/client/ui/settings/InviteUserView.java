@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -137,7 +138,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	public void onEdit() {
-		// TODO Auto-generated method stub
+		setMode(EditMode.EDIT);
 	}
 
 	@Override
