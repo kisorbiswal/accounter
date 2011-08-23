@@ -5120,6 +5120,7 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER { /*background: #C6E2FF;*/
 }
 
 .disable-TextField {
+	background: none repeat scroll 0 0 #E6E0DA;
 	color: #000000 !important;
 }
 
