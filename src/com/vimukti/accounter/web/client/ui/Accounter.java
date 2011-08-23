@@ -572,6 +572,6 @@ public class Accounter implements EntryPoint {
 	}
 
 	public void setMacApp(boolean isMacApp) {
-		this.isMacApp = isMacApp;
+		Accounter.isMacApp = isMacApp;
 	}
 }
