@@ -4848,6 +4848,7 @@ public interface AccounterConstants extends Constants {
 	public String pleaseSelectAnyOneOfTheTransactions();
 
 	public String pleaseEnterPayTerm();
-
+	
+	public String exportToCSV();
 	
 }
