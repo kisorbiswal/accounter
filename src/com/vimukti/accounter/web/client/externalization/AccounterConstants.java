@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.externalization;
 
 import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.safehtml.shared.SafeHtml;
 
 public interface AccounterConstants extends Constants {
 
@@ -127,9 +128,9 @@ public interface AccounterConstants extends Constants {
 
 	public String addaNewTaxItem();
 
-//	public String addANewVendor();
+	// public String addANewVendor();
 
-//	public String addANewVendorPayment();
+	// public String addANewVendorPayment();
 
 	public String addBank();
 
@@ -311,7 +312,7 @@ public interface AccounterConstants extends Constants {
 
 	// public String amountsDueToSuppliers();
 
-//	public String amountsDueToVendor();
+	// public String amountsDueToVendor();
 
 	public String amountShouldNotBeNegative();
 
@@ -1304,7 +1305,7 @@ public interface AccounterConstants extends Constants {
 
 	public String duplicationOfVATItemAreNotAllowed();
 
-//	public String duplicationOfVendorNameAreNotAllowed();
+	// public String duplicationOfVendorNameAreNotAllowed();
 
 	public String duplicationTaxAgencyNamesNotAllowed();
 
@@ -1572,7 +1573,7 @@ public interface AccounterConstants extends Constants {
 
 	public String failedtoloadusersList();
 
-//	public String failedToLoadVendorsHome();
+	// public String failedToLoadVendorsHome();
 
 	public String failedToloadWriteCheck();
 
@@ -2268,7 +2269,7 @@ public interface AccounterConstants extends Constants {
 
 	public String manageVatGroup();
 
-//	public String manageVendorGroup();
+	// public String manageVendorGroup();
 
 	public String manageWordTemplates();
 
@@ -2518,11 +2519,11 @@ public interface AccounterConstants extends Constants {
 
 	public String newVATItemCreated();
 
-//	public String newVendor();
+	// public String newVendor();
 
-//	public String newVendorCreated();
+	// public String newVendorCreated();
 
-//	public String newVendorGroup();
+	// public String newVendorGroup();
 
 	public String newZeland();
 
@@ -2548,7 +2549,7 @@ public interface AccounterConstants extends Constants {
 
 	// public String noCreditsforthiscustomer();
 
-//	public String noCreditsForThisVendor();
+	// public String noCreditsForThisVendor();
 
 	public String noDataToPrint();
 
@@ -2590,11 +2591,11 @@ public interface AccounterConstants extends Constants {
 
 	public String noProductstoshow();
 
-//	public String noPurchaseOrderAndItemReceiptForVendor();
+	// public String noPurchaseOrderAndItemReceiptForVendor();
 
 	// public String noPurchaseOrderForSupplier();
 
-//	public String noPurchaseOrdersForVendor();
+	// public String noPurchaseOrdersForVendor();
 
 	// public String noQuotesAndSalesOrderForCustomer();
 
@@ -2910,7 +2911,7 @@ public interface AccounterConstants extends Constants {
 
 	public String pleaseSelectTaxType();
 
-//	public String pleaseSelectTheVendor();
+	// public String pleaseSelectTheVendor();
 
 	public String pleaseselectvaliddateranges();
 
@@ -2922,7 +2923,7 @@ public interface AccounterConstants extends Constants {
 
 	public String pleaseselectVATIteminTransGrid();
 
-//	public String pleaseSelectVendor();
+	// public String pleaseSelectVendor();
 
 	public String pleaseWaitDataIsLoading();
 
@@ -2954,7 +2955,7 @@ public interface AccounterConstants extends Constants {
 
 	// public String preferredSupplier();
 
-//	public String preferredVendor();
+	// public String preferredVendor();
 
 	public String present();
 
@@ -3040,9 +3041,9 @@ public interface AccounterConstants extends Constants {
 
 	// public String purchaseBySupplierSummary();
 
-//	public String purchaseByVendorDetail();
+	// public String purchaseByVendorDetail();
 
-//	public String purchaseByVendorSummary();
+	// public String purchaseByVendorSummary();
 
 	public String purchaseClosedOrder();
 
@@ -3834,7 +3835,7 @@ public interface AccounterConstants extends Constants {
 
 	public String toAddTaxGroup();
 
-//	public String toAddVendorGroup();
+	// public String toAddVendorGroup();
 
 	public String toBePrinted();
 
@@ -4162,81 +4163,81 @@ public interface AccounterConstants extends Constants {
 
 	public String Vendor();
 
-//	public String vendor1099();
+	// public String vendor1099();
 
-//	public String vendorAddress();
+	// public String vendorAddress();
 
-//	public String vendorBalance();
+	// public String vendorBalance();
 
-//	public String vendorBendor();
+	// public String vendorBendor();
 
-//	public String vendorBill();
+	// public String vendorBill();
 
-//	public String vendorBlah();
+	// public String vendorBlah();
 
-//	public String vendorCredit();
+	// public String vendorCredit();
 
-//	public String vendorCreditMemo();
+	// public String vendorCreditMemo();
 
-//	public String vendorGroup();
+	// public String vendorGroup();
 
-//	public String vendorGroupAlreadyExists();
+	// public String vendorGroupAlreadyExists();
 
-//	public String vendorGroupList();
+	// public String vendorGroupList();
 
-//	public String vendorHome();
+	// public String vendorHome();
 
-//	public String vendorItems();
+	// public String vendorItems();
 
-//	public String vendorList();
+	// public String vendorList();
 
-//	public String vendorLists();
+	// public String vendorLists();
 
-//	public String vendorMemo();
+	// public String vendorMemo();
 
-//	public String vendorName();
+	// public String vendorName();
 
-//	public String vendorOrderNo();
+	// public String vendorOrderNo();
 
-//	public String vendorpay();
+	// public String vendorpay();
 
-//	public String vendorPayment();
+	// public String vendorPayment();
 
-//	public String vendorPaymentIssued();
+	// public String vendorPaymentIssued();
 
-//	public String vendorPaymentMethod();
+	// public String vendorPaymentMethod();
 
-//	public String vendorPayments();
+	// public String vendorPayments();
 
-//	public String vendorPaymentsList();
+	// public String vendorPaymentsList();
 
-//	public String vendorPrePayment();
+	// public String vendorPrePayment();
 
-//	public String vendorPrePayments();
+	// public String vendorPrePayments();
 
-//	public String vendorProductNo();
+	// public String vendorProductNo();
 
-//	public String vendors();
+	// public String vendors();
 
-//	public String vendorsAndPayables();
+	// public String vendorsAndPayables();
 
-//	public String vendorServiceNo();
+	// public String vendorServiceNo();
 
-//	public String vendorServices();
+	// public String vendorServices();
 
-//	public String vendorsHome();
+	// public String vendorsHome();
 
-//	public String vendorSince();
+	// public String vendorSince();
 
 	public String vendorsList();
 
-//	public String vendorTransactionHistory();
+	// public String vendorTransactionHistory();
 
-//	public String vendorUpdatedSuccessfully();
+	// public String vendorUpdatedSuccessfully();
 
-//	public String vendorVatCode();
+	// public String vendorVatCode();
 
-//	public String vendorWhendor();
+	// public String vendorWhendor();
 
 	public String vertical();
 
@@ -4510,7 +4511,7 @@ public interface AccounterConstants extends Constants {
 
 	public String billstrackingdescription();
 
-//	public String billstrackingmanageCashflowStep1();
+	// public String billstrackingmanageCashflowStep1();
 
 	public String billstrackingmanageCashflowStep2();
 
@@ -4546,7 +4547,7 @@ public interface AccounterConstants extends Constants {
 
 	public String gotoAccounter();
 
-	 public String accounterUseYourForms();
+	public String accounterUseYourForms();
 
 	// public String howDoYouReferYourCustoemrs();
 
@@ -4796,7 +4797,7 @@ public interface AccounterConstants extends Constants {
 
 	public String Ledger();
 
-//	public String statementDescription();
+	// public String statementDescription();
 
 	public String statementSomeExample();
 
@@ -4824,16 +4825,15 @@ public interface AccounterConstants extends Constants {
 
 	public String supplier();
 
-
-//	public String vendorAlreadyExistsWithTheName();
-//
-//	public String pleaseEnterVendorNumberItShouldNotBeEmpty();
-//
-//	public String vendorAlreadyExistsWithTheNumber();
-//
-//	public String vendorNumberShouldBeNumber();
-//
-//	public String vendorNumberShouldBePos();
+	// public String vendorAlreadyExistsWithTheName();
+	//
+	// public String pleaseEnterVendorNumberItShouldNotBeEmpty();
+	//
+	// public String vendorAlreadyExistsWithTheNumber();
+	//
+	// public String vendorNumberShouldBeNumber();
+	//
+	// public String vendorNumberShouldBePos();
 
 	public String expenseInformation();
 
@@ -4848,7 +4848,8 @@ public interface AccounterConstants extends Constants {
 	public String pleaseSelectAnyOneOfTheTransactions();
 
 	public String pleaseEnterPayTerm();
-	
+	public String prepare1099MiscForms();
+
 	public String exportToCSV();
 	
 }

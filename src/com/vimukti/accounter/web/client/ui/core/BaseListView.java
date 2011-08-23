@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -75,6 +76,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	public DateItem fromItem;
 	public DateItem toItem;
 	public Button updateButton;
+	public Button prepare1099MiscForms;
 
 	@Override
 	public void init() {
@@ -199,6 +201,17 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 		});
 
+		prepare1099MiscForms = new Button(Accounter.constants()
+				.prepare1099MiscForms());
+		prepare1099MiscForms.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 		DynamicForm form = new DynamicForm();
 
 		if (this instanceof InvoiceListView) {
@@ -211,7 +224,15 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlay.setCellHorizontalAlignment(updateButton,
 					HasHorizontalAlignment.ALIGN_RIGHT);
 
+		} else if (this instanceof VendorListView
+				&& getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
+			form.setFields(viewSelect);
+			hlay.add(prepare1099MiscForms);
+			hlay.add(form);
+			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
+			prepare1099MiscForms.getElement().getParentElement().setAttribute("float", "right");
 		} else {
+
 			if (!(this instanceof JournalEntryListView))
 				form.setFields(viewSelect);
 			hlay.add(form);
@@ -458,7 +479,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		if (getCallback() != null)
 			getCallback().onResultSuccess(result);
 	}

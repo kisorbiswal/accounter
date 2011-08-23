@@ -78,6 +78,9 @@ public class Vendor extends Payee {
 	double lastYear;
 	double lifeTimePurchases;
 
+	String taxId;
+	boolean isTrackPaymentsFor1099;
+
 	/**
 	 * @return the instanceVersion
 	 */
@@ -278,6 +281,22 @@ public class Vendor extends Payee {
 	 */
 	public double getLastYear() {
 		return lastYear;
+	}
+
+	public String getTaxId() {
+		return taxId;
+	}
+
+	public void setTaxId(String taxId) {
+		this.taxId = taxId;
+	}
+
+	public boolean isTrackPaymentsFor1099() {
+		return isTrackPaymentsFor1099;
+	}
+
+	public void setTrackPaymentsFor1099(boolean isTrackPaymentsFor1099) {
+		this.isTrackPaymentsFor1099 = isTrackPaymentsFor1099;
 	}
 
 	/**

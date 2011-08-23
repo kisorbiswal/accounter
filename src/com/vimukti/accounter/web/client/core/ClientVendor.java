@@ -49,9 +49,29 @@ public class ClientVendor extends ClientPayee {
 	double monthToDate;
 	double yearToDate;
 	double lastYear;
+
+	public String getTaxId() {
+		return taxId;
+	}
+
+	public void setTaxId(String taxId) {
+		this.taxId = taxId;
+	}
+
+	public boolean isTrackPaymentsFor1099() {
+		return isTrackPaymentsFor1099;
+	}
+
+	public void setTrackPaymentsFor1099(boolean isTrackPaymentsFor1099) {
+		this.isTrackPaymentsFor1099 = isTrackPaymentsFor1099;
+	}
+
 	double lifeTimePurchases;
 
 	long openingBalanceAccount;
+
+	String taxId;
+	boolean isTrackPaymentsFor1099;
 
 	public ClientVendor() {
 	}

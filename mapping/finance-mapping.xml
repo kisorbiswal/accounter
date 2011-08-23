@@ -233,7 +233,7 @@
 
 			<property name="preferencesFlag" column="CP_FLAGS" not-null="true"></property>
 			<property name="fiscalYearFirstMonth" column="CP_FISCAL_YEAR_FIRST_MONTH"></property>
-			
+
 			<property name="industryType" column="CP_INDUSTRY_TYPE"></property>
 			<property name="organizationType" column="CP_ORGANIZATION_TYPE"></property>
 			<property name="referCustomers" column="CP_REFER_CUSTOMERS"></property>
@@ -717,6 +717,8 @@
 			<property name="vendorNumber" column="ACCOUNT_NUMBER"></property>
 			<property name="balanceAsOf" column="BALANCE_AS_OF"
 				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="taxId" column="TAX_ID"></property>
+			<property name="isTrackPaymentsFor1099" column="IS_TRACKPAYMENTS_FOR_1099"></property>
 			<many-to-one name="expenseAccount" class="Account"
 				column="EXPENSE_ACCOUNT_ID" cascade="save-update" lazy="false">
 			</many-to-one>
