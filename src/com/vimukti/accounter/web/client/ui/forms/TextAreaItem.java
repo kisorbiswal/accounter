@@ -49,8 +49,13 @@ public class TextAreaItem extends FormItem<String> {
 
 	public void setDisabled(boolean b) {
 		// this.getMainWidget().setEnabled(!b);
-		if (b)
+		if (b) {
 			this.textArea.addStyleName("disable-TextField");
+		} else {
+			this.textArea.setStyleName("gwt-TextBox");
+			textArea.removeStyleName("gwt-TextArea");
+			textArea.addStyleName("memoTextArea");
+		}
 		this.textArea.setEnabled(!b);
 
 	}

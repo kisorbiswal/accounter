@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.PaymentTermListDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -161,9 +162,10 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 						.getValue().toString() : "");
 		paymentTerm
 				.setDescription(this.descText.getValue() != null ? this.descText
-						.getValue().toString() : "");
-		paymentTerm
-				.setIfPaidWithIn(UIUtils.toInt(this.discText.getValue() != null ? this.discText
+						.getValue().toString()
+						: "");
+		paymentTerm.setIfPaidWithIn(UIUtils
+				.toInt(this.discText.getValue() != null ? this.discText
 						.getValue().toString() : "0"));
 		paymentTerm.setDiscountPercent(UIUtils.toDbl(this.discDayText
 				.getValue() != null ? this.discDayText.getValue().toString()
@@ -179,18 +181,29 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 						.getValue().toString() : "");
 		paymentTerm
 				.setDescription(this.descText.getValue() != null ? this.descText
-						.getValue().toString() : "");
-		paymentTerm
-				.setIfPaidWithIn(UIUtils.toInt(this.discText.getValue() != null ? this.discText
+						.getValue().toString()
+						: "");
+		paymentTerm.setIfPaidWithIn(UIUtils
+				.toInt(this.discText.getValue() != null ? this.discText
 						.getValue().toString() : "0"));
 		paymentTerm.setDiscountPercent(UIUtils.toDbl(this.discDayText
 				.getValue() != null ? this.discDayText.getValue().toString()
 				: "0"));
-		paymentTerm
-				.setDueDays(UIUtils.toInt(this.dayText.getValue() != null ? this.dayText
+		paymentTerm.setDueDays(UIUtils
+				.toInt(this.dayText.getValue() != null ? this.dayText
 						.getValue().toString() : "0"));
 
 		return paymentTerm;
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (payTermText.getValue().trim() == null
+				|| payTermText.getValue().trim().length() == 0) {
+			result.addError(this, Accounter.constants().pleaseEnterPayTerm());
+		}
+		return result;
 	}
 
 	@Override

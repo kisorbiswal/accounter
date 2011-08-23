@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.web.client.uibinder.setup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -165,9 +166,13 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 						stateListBox.removeItem(i);
 					}
 				}
-
+				int selectedCountry;
+				if (country.getSelectedIndex() != -1)
+					selectedCountry = country.getSelectedIndex();
+				else
+					selectedCountry = 0;
 				Accounter.createGETService().getStates(
-						country.getItemText(country.getSelectedIndex()),
+						country.getItemText(selectedCountry),
 						new AsyncCallback<List<String>>() {
 
 							@Override
@@ -177,14 +182,19 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 							@Override
 							public void onSuccess(List<String> result) {
+								states = new ArrayList<String>();
 								states = result;
-								for (int i = 0; i < result.size(); i++) {
-									stateListBox.addItem(result.get(i));
-								}
+								setStates(states);
 							}
 						});
 			}
 		});
+	}
+
+	private void setStates(List<String> states) {
+		for (int i = 0; i < states.size(); i++) {
+			stateListBox.addItem(states.get(i));
+		}
 	}
 
 	public void onLoad() {
@@ -263,11 +273,10 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	@Override
 	protected boolean validate() {
 		if (companyName.getText().trim() != null
-				|| companyName.getText().trim() != ""
-				|| companyName.getText().trim().length() != 0) {
-			if (companyName.getText().trim() != null
-					|| companyName.getText().trim() != ""
-					|| companyName.getText().trim().length() != 0) {
+				&& companyName.getText().trim() != ""
+				&& companyName.getText().trim().length() != 0) {
+			if (taxId.getText().trim() != null && taxId.getText().trim() != ""
+					&& taxId.getText().trim().length() != 0) {
 				if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
 					if (taxId.getText().length() == 10) {
 						if (taxId.getText().indexOf(2) == '-'
@@ -305,8 +314,6 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 						return false;
 					}
 				} else if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_INDIA) {
-					taxIDLabel.setText(Accounter.messages().panNumber(
-							Global.get().account()));
 					return true;
 				} else {
 					return true;

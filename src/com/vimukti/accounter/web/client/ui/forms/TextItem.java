@@ -143,8 +143,11 @@ public class TextItem extends FormItem<String> {
 
 	@Override
 	public void setDisabled(boolean b) {
-		if (b)
+		if (b){
 			this.textBox.addStyleName("disable-TextField");
+		} else {
+			this.textBox.setStyleName("gwt-TextBox");
+		}
 		this.textBox.setEnabled(!b);
 
 	}

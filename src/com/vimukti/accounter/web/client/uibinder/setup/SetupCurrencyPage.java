@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -58,6 +59,45 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	}
 
 	@Override
+	protected void createControls() {
+		currenciesList = UIUtils.getCurrenciesList();
+		headerLabel.setText(accounterConstants.setSupportedCurrencies());
+		primaryCurrenyLabel.setText(accounterConstants.primaryCurrency());
+		Accounter.createGETService().getCurrencies(
+				new AsyncCallback<List<ClientCurrency>>() {
+
+					@Override
+					public void onSuccess(List<ClientCurrency> result) {
+						currenciesList = result;
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		for (int i = 0; i < currenciesList.size(); i++) {
+			primaryCurrencyListBox.addItem(currenciesList.get(i)
+					.getFormalName()
+					+ "\t"
+					+ currenciesList.get(i).getCountryName()
+					+ "\t"
+					+ currenciesList.get(i).getCountryName());
+		}
+
+		currenciesGrid = new CurrenciesGrid();
+		currenciesGrid.init();
+		currenciesGrid.setRecords(currenciesList);
+		currencyListGridPanel.add(currenciesGrid);
+	}
+
+	@Override
+	public boolean canShow() {
+		return true;
+	}
+
+	@Override
 	protected void onLoad() {
 		if (currenciesList.indexOf(preferences.getBaseCurrency()) != -1)
 			primaryCurrencyListBox.setSelectedIndex(currenciesList
@@ -69,29 +109,6 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 		if (primaryCurrencyListBox.getSelectedIndex() != -1)
 			preferences.setPrimaryCurrency(currenciesList
 					.get(primaryCurrencyListBox.getSelectedIndex()));
-	}
-
-	@Override
-	protected void createControls() {
-		// currencySet = Accounter.getCompany().getCurrencies();
-		currenciesList = UIUtils.getCurrenciesList();
-		headerLabel.setText(accounterConstants.setSupportedCurrencies());
-		primaryCurrenyLabel.setText(accounterConstants.primaryCurrency());
-		// currenciesList.addAll(currencySet);
-
-		for (int i = 0; i < currenciesList.size(); i++) {
-			primaryCurrencyListBox.addItem(currenciesList.get(i).getName());
-		}
-
-		currenciesGrid = new CurrenciesGrid();
-		currenciesGrid.init();
-		currenciesGrid.setRecords(UIUtils.getCurrenciesList());
-		currencyListGridPanel.add(currenciesGrid);
-	}
-
-	@Override
-	public boolean canShow() {
-		return true;
 	}
 
 	@Override

@@ -183,6 +183,11 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 	public void setDisabled(boolean b) {
 		// this.getMainWidget().setEnabled(!b);
 		this.datePicker.setEnabled(!b);
+		if (b) {
+			this.datePicker.addStyleName("disable-TextField");
+		} else {
+			this.datePicker.setStyleName("gwt-TextBox");
+		}
 
 	}
 

@@ -211,7 +211,6 @@ public class CustomComboItem extends FormItem {
 
 	}
 
-	
 	private void setBorder() {
 
 	}
@@ -225,6 +224,8 @@ public class CustomComboItem extends FormItem {
 	public void setDisabled(boolean b) {
 		if (b)
 			this.textBox.addStyleName("disable-TextField");
+		else
+			this.textBox.removeStyleName("disable-TextField");
 		this.textBox.setEnabled(!b);
 		this.downarrowpanel.getElement().getStyle().setOpacity(b ? 0.6 : 1);
 

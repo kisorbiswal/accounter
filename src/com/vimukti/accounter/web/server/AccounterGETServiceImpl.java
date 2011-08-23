@@ -8,6 +8,7 @@ import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
@@ -23,8 +24,9 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		implements IAccounterGETService {
 	private static List<String> countriesList, statesList /* ,citiesList */;
-	private String[] countries;
+	private String[] countries, currencyCodes, countryNames, currencyNames;
 	private String[][] states;
+	private List<ClientCurrency> currencies;
 	/**
 	 * 
 	 */
@@ -137,6 +139,99 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		helpLinks.add(link5);
 
 		return new ArrayList<HelpLink>(helpLinks);
+
+	}
+
+	public List<ClientCurrency> getCurrencies() {
+		currencies = new ArrayList<ClientCurrency>();
+		currencyCodes = new String[] { "AUD", "CAD", "EUR", "GBP", "JPY",
+				"NZD", "USD", "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS",
+				"AWG", "AZN", "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD",
+				"BND", "BOB", "BRL", "BSD", "BTN", "BWP", "BYR", "BZD", "CDF",
+				"CHF", "CLP", "CNY", "COP", "CRC", "CUC", "CVE", "CZK", "DJF",
+				"DKK", "DOP", "DZD", "EEK", "EGP", "ERN", "ETB", "FJD", "FKP",
+				"GEL", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL",
+				"HRK", "HTG", "HUF", "IDR", "ILS", "IQD", "IRR", "ISK", "JMD",
+				"JOD", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD",
+				"KZT", "LAK", "LBP", "LKR", "LRD", "LSL", "LTL", "LVL", "LYD",
+				"MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRO", "MUR",
+				"MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK",
+				"NPR", "OMR", "PAB", "PEN", "PGK", "PHP", "PKR", "PLN", "PYG",
+				"QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG",
+				"SEK", "SGD", "SHP", "SKK", "SLL", "SOS", "SRD", "STD", "SVC",
+				"SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD",
+				"TWD", "TZS", "UAH", "UGX", "UYU", "UZS", "VEF", "VND", "VUV",
+				"WST", "XAF", "XCD", "XOF", "XPF", "YER", "ZAR", "ZMK", "ZWD" };
+		countryNames = new String[] { "Australian", "Canadian", "British",
+				"Japanese", "New Zealand", "United States",
+				"United Arab Emirates", "Afghan", "Albanian", "Armenian",
+				"Netherlands Antillean", "Angolan", "Argentine", "Aruban",
+				"Azerbaijani", "Bosnia and Herzegovina Convertible",
+				"Barbadian", "Bangladeshi", "Bulgarian", "Bahraini",
+				"Burundian", "Bermudian", "Brunei", "Bolivian", "Brazilian",
+				"Bahamian", "Bhutanese", "Botswana", "Belarusian", "Belize ",
+				"Congolese", "Swiss", "Chilean", "Chinese", "Colombian",
+				"Costa Rican", "Cuban Convertible", "Cape Verdean", "Czech",
+				"Djiboutian", "Danish", "Dominican", "Algerian", "Estonian",
+				"Egyptian", "Eritrean", "Ethiopian", "Fijian",
+				"Falkland Island", "Georgian", "Ghanaian", "Gibraltar",
+				"Gambian", "Guinean", "Guatemalan", "Guyanese", "Hong Kong",
+				"Honduran", "Croatian", "Haitian", "Hungarian", "Indonesian",
+				"Israeli", "Iraqi", "Iranian", "Icelandic", "Jamaican",
+				"Jordanian", "Kenyan", "Kyrgyzstani", "Cambodian", "Comorian",
+				"North Korean", "South Korean", "Kuwaiti", "Cayman Islands",
+				"Kazakhstani", "Lao", "Lebanese", "Sri Lankan", "Liberian",
+				"Lesotho", "Lithuanian", "Latvian", "Libyan", "Moroccan",
+				"Moldovan", "Malagasy", "Macedonian", "Myanmar", "Mongolian",
+				"Macanese", "Mauritanian", "Mauritian", "Maldivian",
+				"Malawian", "Mexican", "Malaysian", "Mozambican", "Namibian",
+				"Nigerian", "Nicaraguan", "Norwegian", "Nepalese", "Omani",
+				"Panamanian", "Peruvian Nuevo", "Papua New Guinean",
+				"Philippine", "Pakistani", "Polish", "Paraguayan", "Qatari",
+				"Romanian", "Serbian", "Russian", "Rwandan", "Saudi",
+				"Solomon Islands", "Seychellois", "Sudanese", "Swedish",
+				"Singapore", "Saint Helenian", "Slovak", "Sierra Leonean",
+				"Somali ", "Surinamese", "São Tomé and Príncipe", "Salvadoran",
+				"Syrian", "Swazi", "Thai", "Tajikistani", "Turkmenistani",
+				"Tunisian", "Tongan", "Turkish", "Trinidad and Tobago",
+				"Taiwanese New", "Tanzanian", "Ukrainian", "Ugandan",
+				"Uruguayan", "Uzbekistani", "Venezuelan Bolívar", "Vietnamese",
+				"Vanuatu", "Samoan", "Central African CFA", "East Caribbean",
+				"West African CFA", "CFP", "Yemeni", "South African",
+				"Zambian", "Zimbabwean" };
+		currencyNames = new String[] { "Dollar", "Dollar", "Euro", "Pound",
+				"Yen", "Dollar", "Dollar", "", "Dirham", "Afghani", "Lek",
+				"Dram", "Guilder", "Kwanza", "Peso", "Guilder", "Manat",
+				"Mark", "Dollar", "Taka", "Lev", "Dinar", "Franc", "Dollar",
+				"Dollar", "Boliviano", "Real", "Dollar", "Ngultrum", "Pula",
+				"Ruble", "Dollar", "Franc", "Franc", "Peso", "Yuan", "Peso",
+				"Colón", "Peso", "Escudo", "Koruna", "Franc", "Krone", "Peso",
+				"Dinar", "Kroon", "Pound", "Nakfa", "Birr", "Dollar", "Pound",
+				" Lari", "Cedi", "Pound", "alasi", "Franc", "Quetzal",
+				"Dollar", "Dollar", "Lempira", "Kuna", "Gourde", "Forint",
+				"Rupiah", "New Sheqel", "Dinar", "Rial", "Króna", "Dollar",
+				"Dinar", "Shilling", "Som", "Riel", "Franc", "Won", "Won",
+				"Dinar", "Dollar", "Tenge", "Pound", "Pound", "Rupee",
+				"Dollar", " Loti", "Litas", "Lats", "Dinar", "Dirham", "Leu",
+				"Ariary", "Denar", "Kyat", " Tugrik", " Pataca", "Ouguiya",
+				"Rupee", "Rufiyaa", "Kwacha", "Peso", "Ringgit", "Metical",
+				"Dollar", " Naira", "Córdoba", "Krone", "Rupee", "Rial",
+				"Balboa", "Sol", "Kina", "Peso", "Rupee", "Zloty", "Guaraní",
+				"Riyal", "Leu", "Dinar", "Ruble", "Franc", "Riyal", "Dollar",
+				"Rupee", "Pound", "Krona", "Dollar", "Pound", "Koruna",
+				"Leone", "Shilling", "Dollar", "Dobra", "Colón", "Pound",
+				"Lilangeni", "Baht", "Somoni", "Manat", "Dinar", "Pa?anga",
+				"Lira", "Dollar", "Dollar", "Shilling", "Hryvnia", "Shilling",
+				"Peso", "Som", "Fuertes", "Dong", "Vatu", "Tala", "Franc",
+				"Dollar", "Franc", "Franc", "Rial", "Rand", "Kwacha", "Dollar" };
+		for (int i = 0; i < currencyCodes.length; i++) {
+			ClientCurrency clientCurrency = new ClientCurrency();
+			clientCurrency.setCountryName(countryNames[i]);
+			clientCurrency.setFormalName(currencyCodes[i]);
+			clientCurrency.setName(currencyNames[i]);
+			currencies.add(clientCurrency);
+		}
+		return currencies;
 
 	}
 

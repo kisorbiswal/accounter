@@ -156,8 +156,11 @@ public class PasswordItem extends FormItem<String> {
 
 	@Override
 	public void setDisabled(boolean b) {
-		if (b)
+		if (b) {
 			this.passwordBox.addStyleName("disable-TextField");
+		} else {
+			this.passwordBox.setStyleName("gwt-TextBox");
+		}
 		this.passwordBox.setEnabled(!b);
 
 	}
