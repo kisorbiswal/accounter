@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import com.vimukti.accounter.core.FinanceLogger;
+import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.web.server.CometManager;
 
 public class AccounterSessionListner implements HttpSessionListener
@@ -22,11 +23,14 @@ public class AccounterSessionListner implements HttpSessionListener
 		// This method will be called just before session is to be destroyed
 
 		HttpSession httpSession = sessionEvent.getSession();
+		String companyId = (String) httpSession
+				.getAttribute(BaseServlet.COMPANY_ID);
 		String userID = (String) httpSession.getAttribute("userID");
 		if (userID != null) {
 			// session time out
 			FinanceLogger.log("Session expired : " + userID);
-			CometManager.destroyStream(httpSession.getId(), userID);
+			CometManager.destroyStream(httpSession.getId(),
+					Long.parseLong(companyId), userID);
 		}
 	}
 
