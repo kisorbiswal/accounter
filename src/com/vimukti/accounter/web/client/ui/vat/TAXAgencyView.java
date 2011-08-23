@@ -162,9 +162,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	public ValidationResult validate() {
-
 		ValidationResult result = new ValidationResult();
-
 		// already exists?
 		// form validation
 
@@ -173,17 +171,35 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		ClientTAXAgency taxAgenciesByName = getCompany().getTaxAgenciesByName(
 				name);
 
-		if (taxAgenciesByName == null) {
+		if (taxAgenciesByName != null) {
 			if (!((!isInViewMode() && taxAgenciesByName != null || taxAgenciesByName
 					.getID() == this.getData().getID()) ? false : true)
-					|| (!isInViewMode() ? (data.getName().equalsIgnoreCase(name) ? true
+					|| (!isInViewMode() ? (data.getName()
+							.equalsIgnoreCase(name) ? true
 							: (taxAgenciesByName != null ? false : true))
 							: true)) {
 				result.addError(taxAgencyText, Accounter.constants()
 						.alreadyExist());
 				return result;
+			} else {
+				result.addError(taxAgencyText, Accounter.messages()
+						.pleaseEnter(taxAgenciesByName.getName()));
 			}
+		} else {
+			result.addError(taxAgencyText, Accounter.messages().pleaseEnter(
+					name));
 		}
+
+		if (paymentTermsCombo.getSelectedValue() == null) {
+			result.addError(paymentTermsCombo, Accounter.messages()
+					.pleaseEnter(taxAgencyText.getName()));
+		}
+
+		if (liabilitySalesAccountCombo.getSelectedValue() == null) {
+			result.addError(paymentTermsCombo, Accounter.messages()
+					.pleaseEnter(liabilitySalesAccountCombo.getName()));
+		}
+
 		List<DynamicForm> forms = this.getForms();
 		for (DynamicForm form : forms) {
 			if (form != null) {
@@ -313,8 +329,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		statusCheck = new CheckboxItem(companyConstants.active());
 		statusCheck.setValue(true);
 
-		paymentTermsCombo = new PaymentTermsCombo(
-				companyConstants.paymentTerm());
+		paymentTermsCombo = new PaymentTermsCombo(companyConstants
+				.paymentTerm());
 		paymentTermsCombo.setHelpInformation(true);
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
