@@ -238,7 +238,7 @@ public class CashSalesView extends
 			// prodAndServiceForm2.setFields(taxCodeSelect,
 			// salesTaxTextNonEditable, priceLevelSelect,
 			// transactionTotalNonEditableText);
-			
+
 			if (getPreferences().getDoYouPaySalesTax()) {
 				prodAndServiceForm2.setFields(taxCodeSelect,
 						salesTaxTextNonEditable, disabletextbox,
@@ -742,8 +742,8 @@ public class CashSalesView extends
 			@Override
 			public void onFailure(Throwable caught) {
 				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage("Your session expired, Please login again to continue");
+					Accounter.showMessage(Global.get().constants()
+							.sessionExpired());
 				} else {
 					Accounter.showError(((InvalidOperationException) (caught))
 							.getDetailedMessage());
