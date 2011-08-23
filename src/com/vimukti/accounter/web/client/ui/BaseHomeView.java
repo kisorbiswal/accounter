@@ -2,9 +2,9 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
+import com.vimukti.accounter.web.client.ui.core.AbstractView;
 
-public class BaseHomeView extends ParentCanvas<Object> {
+public class BaseHomeView extends AbstractView<Object> {
 	private VerticalPanel widgetLayout;
 
 	public BaseHomeView() {
