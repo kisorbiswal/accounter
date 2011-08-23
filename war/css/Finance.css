@@ -5183,7 +5183,12 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER { /*background: #C6E2FF;*/
 
 .finance-portlet .decor00 {
 	/*background: url(/images/headerNew-l.png) no-repeat 0px 0px !important;*/
-	background:none repeat scroll 0 0 #29646C;
+	/*background:none repeat scroll 0 0 #29646C;*/
+	
+	background: -moz-linear-gradient(top, #3299A4, #1A5158) !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); 
+    background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important;
+    
 	border-radius: 5px 0 0 0;
 	-webkit-border-radius:5px 0 0 0;
 	-moz-border-radius:5px 0 0 0;
@@ -5305,15 +5310,21 @@ table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER { /*background: #C6E2FF;*/
 
 td.td01,.no-title .biz-decor-panel td.td01 {
 	/*background: transparent url(/images/headerNew-c.png) repeat-x scroll 0 0;*/
-	background:none repeat scroll 0 0 #29646C;
+	/*background:none repeat scroll 0 0 #29646C;*/
+	background: -moz-linear-gradient(top, #3299A4, #1A5158) !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); 
+    background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important;
 	color: #FFFFFF;
 	vertical-align: top;
 }
 
 .decor02,.no-title .biz-decor-panel div.decor02 {
-	/*background: transparent url(/images/headerNew-r.png) no-repeat scroll
-		-8px 0;*/
-	  background:none repeat scroll 0 0 #29646C;
+	 /* background:none repeat scroll 0 0 #29646C;*/
+	 
+	background: -moz-linear-gradient(top, #3299A4, #1A5158) !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4', endColorstr='#1A5158'); 
+    background: -webkit-gradient(linear, left top, left bottom, from(#3299A4), to(#1A5158)) !important;
+    
 	  border-radius: 0 5px 0 0;
 	  -webkit-border-radius:0 5px 0 0;
 	  -moz-border-radius:0 5px 0 0;
@@ -6925,4 +6936,13 @@ a#fdbk_tab:hover{
 }
 .finance-portlet td:FIRST-CHILD table,.finance-portlet table{
 	width:100% !important;
+}
+
+
+/*Help theme need to apply for help*/
+#branding{
+	background-color:#2D8B93 !important;
+}
+#page a{
+    color:#2D8B93 !important;
 }
