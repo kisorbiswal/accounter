@@ -100,6 +100,8 @@ public interface AccounterConstants extends Constants {
 
 	public String active();
 
+	public String track1099Form();
+
 	public String add();
 
 	public String add3dots();
@@ -4847,9 +4849,12 @@ public interface AccounterConstants extends Constants {
 
 	public String pleaseSelectAnyOneOfTheTransactions();
 
+	public String create1099MISC();
+
 	public String pleaseEnterPayTerm();
 	public String prepare1099MiscForms();
 
 	public String exportToCSV();
 	
+
 }
