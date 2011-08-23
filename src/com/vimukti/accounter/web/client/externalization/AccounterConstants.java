@@ -4237,4 +4237,6 @@ public interface AccounterConstants extends Constants {
 
 	public String account();
 
+	public String unableToPerformTryAfterSomeTime();
+
 }
