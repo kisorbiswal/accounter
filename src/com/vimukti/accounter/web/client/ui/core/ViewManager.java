@@ -38,7 +38,7 @@ public class ViewManager extends HorizontalPanel {
 	 * This reference var. holds currently opened view. it is not only
 	 * AbstractBaseView, it is may be AbstractReportView also
 	 */
-	private ParentCanvas<?> existingView;
+	private AbstractView<?> existingView;
 
 	private MainFinanceWindow mainWindow;
 
@@ -146,7 +146,7 @@ public class ViewManager extends HorizontalPanel {
 		}
 	}
 
-	private void showView(final ParentCanvas<?> newview, final Action action,
+	private void showView(final AbstractView<?> newview, final Action action,
 			boolean shouldAskToSave) {
 		if (this.existingView != null) {
 			// We already have some view visible
@@ -208,7 +208,7 @@ public class ViewManager extends HorizontalPanel {
 				});
 	}
 
-	private void showNewView(ParentCanvas newview, Action action) {
+	private void showNewView(AbstractView newview, Action action) {
 		Object input = action.getInput();
 		String token = action.getHistoryToken();
 
@@ -336,7 +336,7 @@ public class ViewManager extends HorizontalPanel {
 		}
 	}
 
-	public void showView(ParentCanvas<?> view, Object data,
+	public void showView(AbstractView<?> view, Object data,
 			Boolean isDependent, Action action) {
 		if (!isDependent) {
 			this.views.clear();
