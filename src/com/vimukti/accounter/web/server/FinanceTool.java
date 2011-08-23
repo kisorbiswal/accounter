@@ -123,6 +123,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
@@ -133,6 +134,7 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.VList;
@@ -11801,39 +11803,118 @@ public class FinanceTool implements IFinanceDAOService {
 			ClientCustomer toClientCustomer) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = session.beginTransaction();
 		double mergeBalance = fromClientCustomer.getBalance()
 				+ toClientCustomer.getBalance();
 
-		SQLQuery sqlQuery = session.createSQLQuery("");
-		sqlQuery.executeUpdate();
-
 		// Updating
-		// session.getNamedQuery("update.merge.Payee.mergeoldbalance.tonewbalance")
-		// .setParameter("id", toClientCustomer.getID())
-		// .setParameter("balance", mergeBalance).executeUpdate();
+		try {
+			session.getNamedQuery(
+					"update.merge.Payee.mergeoldbalance.tonewbalance")
+					.setParameter("id", toClientCustomer.getID())
+					.setParameter("balance", mergeBalance).executeUpdate();
 
-		// session.getNamedQuery(
-		// "update.CashSale.merge.newCustomerId.to.oldCustomerId")
-		// .setParameter("toID", toClientCustomer.getID())
-		// .setParameter("fromID", fromClientCustomer.getID())
-		// .executeUpdate();
-		// session.getNamedQuery(
-		// "update.customer.merge.newCustomerId.to.oldCustomerId")
-		// .setParameter("toID", toClientCustomer.getID())
-		// .setParameter("fromID", fromClientCustomer.getID())
-		// .executeUpdate();
-		//
-		// session.getNamedQuery(
-		// "update.CustomerCreditMemo.merge.newCustomerId.to.oldCustomerId")
-		// .setParameter("toID", toClientCustomer.getID())
-		// .setParameter("fromID", fromClientCustomer.getID())
-		// .executeUpdate();
+			session.getNamedQuery("update.merge.invoice.old.tonew")
+					.setParameter("fromID", fromClientCustomer.getID())
+					.setParameter("toID", toClientCustomer.getID())
+					.executeUpdate();
+
+			session.getNamedQuery("update.merge.cashsale.old.tonew")
+					.setParameter("fromID", fromClientCustomer.getID())
+					.setParameter("toID", toClientCustomer.getID())
+					.executeUpdate();
+			session.getNamedQuery("update.merge.salesOrder.old.tonew")
+					.setParameter("fromID", fromClientCustomer.getID())
+					.setParameter("toID", toClientCustomer.getID())
+					.executeUpdate();
+
+			session.getNamedQuery("update.merge.Entry.old.tonew")
+					.setParameter("fromID", fromClientCustomer.getID())
+					.setParameter("toID", toClientCustomer.getID())
+					.setParameter("memo", toClientCustomer.getName())
+					.executeUpdate();
+
+			session.getNamedQuery("update.merge.CustomerPrePayment.old.tonew")
+					.setParameter("fromID", fromClientCustomer.getID())
+					.setParameter("toID", toClientCustomer.getID())
+					.executeUpdate();
+
+			session.getNamedQuery("update.merge.CustomerRefund.old.tonew")
+					.setParameter("fromID", fromClientCustomer.getID())
+					.setParameter("toID", toClientCustomer.getID())
+
+					.executeUpdate();
+			session.getNamedQuery("update.merge.ReceivePayment.old.tonew")
+					.setParameter("fromID", fromClientCustomer.getID())
+					.setParameter("toID", toClientCustomer.getID())
+
+					.executeUpdate();
+			session.getNamedQuery("update.merge.Estimate.old.tonew")
+					.setParameter("fromID", fromClientCustomer.getID())
+					.setParameter("toID", toClientCustomer.getID())
+
+					.executeUpdate();
+
+			session.getNamedQuery("delete.entry.old")
+					.setParameter("from", fromClientCustomer.getID())
+					.executeUpdate();
+
+			ServerConvertUtil convertUtil = new ServerConvertUtil();
+			Customer customer = new Customer();
+
+			customer = convertUtil.toServerObject(customer, fromClientCustomer,
+					session);
+			session.delete(customer);
+
+			tx.commit();
+		} catch (Exception e) {
+			tx.rollback();
+		}
 
 	}
 
 	@Override
-	public void mergeVendor(long fromID, long toID) throws DAOException {
-		// TODO Auto-generated method stub
+	public void mergeVendor(ClientVendor fromClientVendor,
+			ClientVendor toClientVendor) throws DAOException {
+
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = session.beginTransaction();
+		double mergeBalance = fromClientVendor.getBalance()
+				+ toClientVendor.getBalance();
+
+		session.getNamedQuery(
+				"update.mergeVendor.Payee.mergeoldbalance.tonewbalance")
+				.setParameter("id", toClientVendor.getID())
+				.setParameter("balance", mergeBalance).executeUpdate();
+
+		session.getNamedQuery("update.mergeVendor.PurchaseOrder.old.tonew")
+				.setParameter("fromID", fromClientVendor.getID())
+				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+		session.getNamedQuery("update.mergeVendor.CashPurchase.old.tonew")
+				.setParameter("fromID", fromClientVendor.getID())
+				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+		session.getNamedQuery("update.mergeVendor.CreditCardCharge.old.tonew")
+				.setParameter("fromID", fromClientVendor.getID())
+				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+		session.getNamedQuery("update.mergeVendor.EnterBill.old.tonew")
+				.setParameter("fromID", fromClientVendor.getID())
+				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+		session.getNamedQuery("update.mergeVendor.ItemReceipt.old.tonew")
+				.setParameter("fromID", fromClientVendor.getID())
+				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+		session.getNamedQuery("update.mergeVendor.PayBill.old.tonew")
+				.setParameter("fromID", fromClientVendor.getID())
+				.setParameter("toID", toClientVendor.getID()).executeUpdate();
+
+		session.getNamedQuery("delete.vendorentry.old")
+				.setParameter("from", fromClientVendor.getID()).executeUpdate();
+
+		ServerConvertUtil convertUtil = new ServerConvertUtil();
+		Vendor vendor = new Vendor();
+
+		vendor = convertUtil.toServerObject(vendor, fromClientVendor, session);
+		session.delete(vendor);
+		tx.commit();
 
 	}
 
@@ -11844,8 +11925,23 @@ public class FinanceTool implements IFinanceDAOService {
 	}
 
 	@Override
-	public void mergeItem(long fromID, long toID) throws DAOException {
-		// TODO Auto-generated method stub
+	public void mergeItem(ClientItem fromClientItem, ClientItem toClientItem)
+			throws DAOException {
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = session.beginTransaction();
+
+		session.getNamedQuery("update.mergeItem.oldcost.tonewcost")
+				.setParameter("from", toClientItem.getID())
+				.setParameter("price", fromClientItem.getPurchasePrice())
+				.executeUpdate();
+
+
+		ServerConvertUtil convertUtil = new ServerConvertUtil();
+		Item item = new Item();
+		item = convertUtil.toServerObject(item, fromClientItem, session);
+		session.delete(item);
+
+		tx.commit();
 
 	}
 }
