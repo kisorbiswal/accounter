@@ -100,7 +100,7 @@ public class SetupReferPage extends AbstractSetupPage {
 	public void onLoad() {
 
 		int referCustomers = preferences.getReferCustomers();
-		int referSuplliers = preferences.getReferSuplliers();
+		int referSuplliers = preferences.getReferVendors();
 		int referAccounts = preferences.getReferAccounts();
 
 		if (referCustomers != 0)
@@ -119,7 +119,7 @@ public class SetupReferPage extends AbstractSetupPage {
 		if (customer != 0)
 			preferences.setReferCustomers(customer);
 		if (suplier != 0)
-			preferences.setReferSuplliers(suplier);
+			preferences.setReferVendors(suplier);
 		if (accounts != 0)
 			preferences.setReferAccounts(accounts);
 	}
