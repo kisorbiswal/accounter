@@ -127,7 +127,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 								<tr>
 								   <td></td>
 								   <td>
-								      <ul class="signup-submit-button">
+								      <ul class="signup-submit-button support_send">
 								         <li><span class="signup-submit-left"></span></li>
 								         <li><input id="submitButton"  class="signup-submit-mid" type="submit" value="Send"  tabindex="5"></li>
 								         <li><span class="signup-submit-right"></span></li>
