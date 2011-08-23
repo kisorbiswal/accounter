@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
-import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
+import com.vimukti.accounter.web.client.ui.core.AbstractView;
 
 /**
  * This Class serves as the Base Root Class for all the views, in Accounter GUI,
@@ -37,7 +37,7 @@ import com.vimukti.accounter.web.client.ui.core.ParentCanvas;
  * 
  * @param <T>
  */
-public abstract class AbstractBaseView<T> extends ParentCanvas<T> implements
+public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 		IAccounterWidget, WidgetWithErrors, ISaveCallback, IDeleteCallback {
 
 	@Override
