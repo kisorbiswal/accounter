@@ -79,14 +79,14 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		Label setPerLabel = new Label(Accounter.constants()
 				.setUserpermissions());
 		setPerLabel.addStyleName("inviteUserLabel");
-		initGrid();
+
 		Label manageLabel = new Label(Accounter.constants().manageUsers());
 		manageLabel.addStyleName("inviteUserLabel");
 
 		custForm.setFields(firstNametext, lastNametext, emailField);
 		Element element2 = custForm.getCellFormatter().getElement(0, 0);
 		element2.setAttribute("width", "150px");
-
+		initGrid();
 		vPanel.add(custForm);
 		vPanel.add(setPerLabel);
 		vPanel.add(chooseLabel);
@@ -99,26 +99,25 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	@Override
 	public void initData() {
 		super.initData();
-		if (getData() != null) {
-			firstNametext.setValue(data.getFirstName());
-			lastNametext.setValue(data.getLastName());
-			emailField.setValue(data.getEmail());
-			// userManagementBox.setValue(takenUser.isCanDoUserManagement());
-			grid.setRecords(getRolePermissionsForUser(data));
-			// if (data.isActive()) {
-			// firstNametext.setDisabled(true);
-			// lastNametext.setDisabled(true);
-			// emailField.setDisabled(true);
-			// // if (takenUser.isAdmin()) {
-			// // userManagementBox.setEnabled(false);
-			// // }
-			// }
-			// if(takenUser.isAdmin()) {
-			// grid.setDisabled(true);
-			// }
-		} else {
+		if (getData() == null) {
 			setData(new ClientUserInfo());
 		}
+		firstNametext.setValue(data.getFirstName());
+		lastNametext.setValue(data.getLastName());
+		emailField.setValue(data.getEmail());
+		// userManagementBox.setValue(takenUser.isCanDoUserManagement());
+		grid.setRecords(getRolePermissionsForUser(data));
+		// if (data.isActive()) {
+		// firstNametext.setDisabled(true);
+		// lastNametext.setDisabled(true);
+		// emailField.setDisabled(true);
+		// // if (takenUser.isAdmin()) {
+		// // userManagementBox.setEnabled(false);
+		// // }
+		// }
+		// if(takenUser.isAdmin()) {
+		// grid.setDisabled(true);
+		// }
 	}
 
 	private void initGrid() {
@@ -126,7 +125,6 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		grid.isEnable = false;
 		grid.init();
 		grid.setView(this);
-		grid.setRecords(getDefaultRolesAndPermissions());
 		grid.setSize("100%", "100%");
 	}
 
@@ -157,7 +155,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 	}
 
