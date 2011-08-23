@@ -214,7 +214,7 @@ public class ViewManager extends HorizontalPanel {
 
 		if (newview.getManager() == null) {
 			newview.setManager(this);
-			newview.setPreferences(Accounter.getCompany().getPreferences());
+			// newview.setPreferences(Accounter.getCompany().getPreferences());
 			if (input != null) {
 				newview.setData(input);
 			}

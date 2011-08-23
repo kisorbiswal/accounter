@@ -45,28 +45,24 @@ public interface IOptionsAccordionSections {
 	final String CUSTOMER_FIND_CUSTOMER_REFUNDS = Accounter.messages()
 			.customerRefunds(Global.get().customer());
 
-	final String VENDORS = UIUtils.getVendorString(constants.supplier(),
-			Accounter.messages().vendors(Global.get().Vendor()));
-	final String VENDORS_HOME = UIUtils.getVendorString(Accounter.messages()
-			.supplierHome(Global.get().Vendor()), Accounter.messages()
-			.vendorHome(Global.get().Vendor()));
-	final String VENDORS_NEW_VENDOR = UIUtils.getVendorString(Accounter
-			.messages().newSupplier(Global.get().Vendor()), Accounter
-			.messages().newVendor(Global.get().Vendor()));
+	final String VENDORS = Global.get().messages()
+			.vendors(Global.get().Vendor());
+	final String VENDORS_HOME = Global.get().messages()
+			.supplierHome(Global.get().Vendor());
+	final String VENDORS_NEW_VENDOR = Global.get().messages()
+			.newSupplier(Global.get().Vendor());
 	final String VENDORS_NEW_ITEM = constants.newProduct();
 	final String VENDORS_ENTER_BILLS = constants.enterBills();
 	final String VENDORS_PAY_BILLS = constants.payBills();
 	final String VENDORS_NEW_CASH_PURCHASE = constants.newCashPurchase();
 	final String VENDORS_ISSUE_PAYMENT = constants.issuePayment();
 	final String VENDORS_NEW_CREDIT_MEMO = constants.newCredit();
-	final String VENDORS_FIND_VENDORS = UIUtils.getVendorString(Accounter
-			.messages().suppliers(Global.get().Vendor()), Accounter.messages()
-			.vendors(Global.get().Vendor()));
+	final String VENDORS_FIND_VENDORS = Global.get().messages()
+			.suppliers(Global.get().Vendor());
 	final String VENDORS_FIND_ITEMS = constants.products();
 	final String VENDORS_FIND_BILLS = constants.bills();
-	final String VENDORS_FIND_VENDOR_PAYMENTS = UIUtils.getVendorString(
-			Accounter.messages().supplierPayments(Global.get().Vendor()),
-			Accounter.messages().vendorPayments(Global.get().Vendor()));
+	final String VENDORS_FIND_VENDOR_PAYMENTS = Global.get().messages()
+			.supplierPayments(Global.get().Vendor());
 
 	final String BANKING = constants.banking();
 	final String BANKING_HOME = constants.bankingHome();
@@ -144,9 +140,7 @@ public interface IOptionsAccordionSections {
 
 	final String[] sectionLabels = {
 			Accounter.messages().customers(Global.get().Customer()),
-			UIUtils.getVendorString(
-					Accounter.messages().suppliers(Global.get().Vendor()),
-					Accounter.messages().vendors(Global.get().Vendor())),
+			Global.get().messages().suppliers(Global.get().Vendor()),
 			constants.employees(), constants.sectionhash1(),
 			constants.sectionhash2(), constants.sectionhash3(),
 			constants.sectionhash4() };
@@ -167,15 +161,9 @@ public interface IOptionsAccordionSections {
 
 	// Vendors Section
 	final String[] vendStartLabels = {
-			UIUtils.getVendorString(
-					Accounter.messages().supplierBendor(Global.get().Vendor()),
-					Accounter.messages().vendorBendor(Global.get().Vendor())),
-			UIUtils.getVendorString(
-					Accounter.messages().supplierBlah(Global.get().Vendor()),
-					Accounter.messages().vendorBlah(Global.get().Vendor())),
-			UIUtils.getVendorString(
-					Accounter.messages().supplierWhendor(Global.get().Vendor()),
-					Accounter.messages().vendorWhendor(Global.get().Vendor())) };
+			Global.get().messages().supplierBendor(Global.get().Vendor()),
+			Global.get().messages().supplierBlah(Global.get().Vendor()),
+			Global.get().messages().supplierWhendor(Global.get().Vendor()) };
 
 	final String[] vendFindLabels = { constants.findtis(), constants.findtat(),
 			constants.findbla() };

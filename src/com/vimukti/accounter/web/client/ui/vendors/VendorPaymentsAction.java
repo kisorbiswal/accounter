@@ -1,9 +1,9 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
@@ -16,8 +16,7 @@ public class VendorPaymentsAction extends Action {
 
 	public VendorPaymentsAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = Global.get().Vendor();
 	}
 
 	@Override
@@ -39,10 +38,9 @@ public class VendorPaymentsAction extends Action {
 
 				NewVendorPaymentView view = NewVendorPaymentView.getInstance();
 
-
-					// UIUtils.setCanvas(view, getViewConfiguration());
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, VendorPaymentsAction.this);
+				// UIUtils.setCanvas(view, getViewConfiguration());
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, VendorPaymentsAction.this);
 
 			}
 
@@ -73,8 +71,7 @@ public class VendorPaymentsAction extends Action {
 	@Override
 	public String getHistoryToken() {
 
-		return UIUtils
-				.getVendorString("supplierPrePayment", "vendorPrePayment");
+		return "vendorPrePayment";
 	}
 
 }

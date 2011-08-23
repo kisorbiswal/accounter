@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -41,16 +40,14 @@ public class SalesByCustomerSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] {
-				Accounter.messages().customerName(Global.get().Customer()),
+		return new String[] { messages.customerName(Global.get().Customer()),
 				// FinanceApplication.constants().customerGroup(),
-				getConstants().amount() };
+				constants.amount() };
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().salesByCustomerSummary(
-				Global.get().customer());
+		return messages.salesByCustomerSummary(Global.get().customer());
 	}
 
 	@Override
@@ -70,7 +67,7 @@ public class SalesByCustomerSummaryServerReport extends
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 1 });
+			addSection("", constants.total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -131,10 +128,9 @@ public class SalesByCustomerSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] {
-				Accounter.messages().customerName(Global.get().customer()),
+		return new String[] { messages.customerName(Global.get().customer()),
 				// FinanceApplication.constants().customerGroup(),
-				getConstants().amount() };
+				constants.amount() };
 	}
 
 }

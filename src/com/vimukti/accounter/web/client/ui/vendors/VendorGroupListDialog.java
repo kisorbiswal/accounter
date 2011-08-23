@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialog;
@@ -30,14 +29,9 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	private InputDialog inputDlg;
 
 	public VendorGroupListDialog() {
-		super(UIUtils
-				.getVendorString(
-						Accounter.messages().manageSupplierGroup(
-								Global.get().Vendor()), Accounter.messages()
-								.manageVendorGroup(Global.get().vendor())),
-				UIUtils.getVendorString(Accounter.messages()
-						.toAddSupplierGroup(Global.get().Vendor()), Accounter
-						.messages().toAddVendorGroup(Global.get().vendor())));
+		super(Global.get().messages()
+				.manageSupplierGroup(Global.get().Vendor()), Global.get()
+				.messages().toAddVendorGroup(Global.get().Vendor()));
 		setWidth("400px");
 		initialise();
 		center();
@@ -116,13 +110,9 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	public void showAddEditGroupDialog(ClientVendorGroup rec) {
 		vendorGroup = rec;
-		inputDlg = new InputDialog(this, UIUtils.getVendorString(Accounter
-				.messages().supplierGroup(Global.get().Vendor()), Accounter
-				.messages().vendorCredit(Global.get().Vendor())), "",
-				UIUtils.getVendorString(
-						Accounter.messages().supplierGroup(
-								Global.get().Vendor()), Accounter.messages()
-								.vendorGroup(Global.get().Vendor()))) {
+		inputDlg = new InputDialog(this, messages.supplierGroup(Global.get()
+				.Vendor()), messages.vendorCredit(Global.get().Vendor()), "",
+				messages.supplierGroup(Global.get().Vendor())) {
 		};
 
 		if (vendorGroup != null) {
@@ -174,11 +164,8 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 				}
 			} else {
 				if (vendorByName != null) {
-					result.addError(this, UIUtils.getVendorString(
-							Accounter.messages().supplierGroupAlreadyExists(
-									Global.get().vendor()),
-							Accounter.messages().vendorGroupAlreadyExists(
-									Global.get().Vendor())));
+					result.addError(this, messages
+							.supplierGroupAlreadyExists(Global.get().vendor()));
 				}
 			}
 		}

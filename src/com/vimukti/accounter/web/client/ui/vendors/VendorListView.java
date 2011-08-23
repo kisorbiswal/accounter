@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterWarningType;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -57,9 +56,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return UIUtils.getVendorString(Accounter.messages()
-					.addaNewSupplier(Global.get().Vendor()), Accounter
-					.messages().addANewVendor(Global.get().vendor()));
+			return messages.addANewVendor(Global.get().vendor());
 		else
 			return "";
 	}
@@ -67,9 +64,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return UIUtils.getVendorString(
-				Accounter.messages().supplierList(Global.get().Vendor()),
-				Accounter.messages().vendorList(Global.get().Vendor()));
+		return messages.supplierList(Global.get().Vendor());
 	}
 
 	// protected List<ClientPayee> getRecords() {
@@ -193,8 +188,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(
-				Accounter.messages().suppliers(Global.get().Vendor()),
-				Accounter.messages().vendors(Global.get().Vendor()));
+		return messages.suppliers(Global.get().Vendor());
 	}
 }

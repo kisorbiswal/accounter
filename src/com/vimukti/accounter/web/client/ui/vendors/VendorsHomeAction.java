@@ -1,9 +1,9 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 /**
@@ -17,8 +17,7 @@ public class VendorsHomeAction extends Action {
 
 	public VendorsHomeAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = Global.get().Vendor();
 	}
 
 	// @Override
@@ -34,8 +33,8 @@ public class VendorsHomeAction extends Action {
 			MainFinanceWindow.getViewManager()
 					.showView(view, null, false, this);
 		} catch (Exception e) {
-			Accounter.showError(UIUtils.getVendorString(
-					"failedToLoadSuppliersHome", "failedToLoadVendorsHome"));
+			Accounter.showError(Global.get().messages()
+					.failedToLoadVendorsHome(Global.get().Vendor()));
 		}
 
 	}
@@ -57,6 +56,6 @@ public class VendorsHomeAction extends Action {
 	@Override
 	public String getHistoryToken() {
 
-		return UIUtils.getVendorString("supplierHome", "vendorHome");
+		return "vendorHome";
 	}
 }

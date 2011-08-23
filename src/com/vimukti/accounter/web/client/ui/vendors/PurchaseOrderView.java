@@ -215,8 +215,7 @@ public class PurchaseOrderView extends
 					ALIGN_RIGHT);
 		}
 
-		vendorCombo = new VendorCombo(UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter.constants().vendor()), true);
+		vendorCombo = new VendorCombo(Global.get().Vendor(), true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setHelpInformation(true);
 
@@ -267,8 +266,7 @@ public class PurchaseOrderView extends
 
 		// formItems.add(phoneSelect);
 
-		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor()));
+		vendorForm = UIUtils.form(Global.get().Vendor());
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,
 				billtoAreaItem);
@@ -277,9 +275,8 @@ public class PurchaseOrderView extends
 
 		// formItems.add(billToCombo);
 
-		purchaseOrderText = new TextItem(UIUtils.getVendorString(Accounter
-				.messages().supplierOrderNo(Global.get().Vendor()), Accounter
-				.messages().vendorOrderNo(Global.get().Vendor())));
+		purchaseOrderText = new TextItem(messages.supplierOrderNo(Global.get()
+				.Vendor()));
 		purchaseOrderText.setWidth(50);
 		purchaseOrderText.setColSpan(1);
 		purchaseOrderText.setDisabled(isInViewMode());
@@ -577,9 +574,8 @@ public class PurchaseOrderView extends
 
 	public AddressCombo createVendorAddressComboItem() {
 
-		AddressCombo addressCombo = new AddressCombo(UIUtils.getVendorString(
-				Accounter.messages().supplierAddress(Global.get().Vendor()),
-				Accounter.messages().vendorAddress(Global.get().Vendor())));
+		AddressCombo addressCombo = new AddressCombo(
+				messages.supplierAddress(Global.get().Vendor()));
 
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {

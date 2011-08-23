@@ -816,8 +816,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants().vatAgency(),
-				Accounter.constants().taxAgency());
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			return Accounter.constants().vatAgency();
+		} else {
+			return Accounter.constants().taxAgency();
+		}
 	}
 
 }

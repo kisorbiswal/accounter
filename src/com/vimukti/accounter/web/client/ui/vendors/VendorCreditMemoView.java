@@ -43,6 +43,7 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected void vendorSelected(ClientVendor vendor) {
+
 		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientVendorCreditMemo ent = (ClientVendorCreditMemo) this.transaction;
 
@@ -105,22 +106,16 @@ public class VendorCreditMemoView extends
 	@Override
 	public void createControls() {
 
-		Label lab1 = new Label(UIUtils.getVendorString(Accounter.messages()
-				.supplierCredit(Global.get().Vendor()), Accounter.messages()
-				.vendorCredit(Global.get().Vendor()))
+		Label lab1 = new Label(messages.supplierCredit(Global.get().Vendor())
 				+ "(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		if (transaction == null
 				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-			lab1 = new Label(UIUtils.getVendorString(Accounter.messages()
-					.supplierCredit(Global.get().Vendor()), Accounter
-					.messages().vendorCredit(Global.get().Vendor())));
+			lab1 = new Label(messages.supplierCredit(Global.get().Vendor()));
 
 		else
-			lab1 = new Label(UIUtils.getVendorString(Accounter.messages()
-					.supplierCredit(Global.get().Vendor()), Accounter
-					.messages().vendorCredit(Global.get().Vendor()))
+			lab1 = new Label(messages.supplierCredit(Global.get().Vendor())
 					+ "(" + getTransactionStatus() + ")");
 
 		lab1.setStyleName(Accounter.constants().labelTitle());
@@ -147,9 +142,8 @@ public class VendorCreditMemoView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.messages().supplierName(Global.get().Vendor()), Accounter
-				.messages().vendorName(Global.get().Vendor())));
+		vendorCombo = createVendorComboItem(messages.supplierName(Global.get()
+				.Vendor()));
 
 		contactCombo = createContactComboItem();
 
@@ -538,9 +532,7 @@ public class VendorCreditMemoView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(
-				Accounter.messages().supplierCredit(Global.get().Vendor()),
-				Accounter.messages().vendorCredit(Global.get().Vendor()));
+		return messages.supplierCredit(Global.get().Vendor());
 	}
 
 	@Override

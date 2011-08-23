@@ -148,7 +148,7 @@ public class PurchaseDetailesView extends ParentCanvas {
 		flexTable.setWidget(4, 0, statusLabel);
 		flexTable.setWidget(5, 0, itemsLabel);
 		flexTable.setWidget(7, 0, billingAddress);
-		if (getPreferences().isDoProductShipMents()) {
+		if (Accounter.getCompany().getPreferences().isDoProductShipMents()) {
 			flexTable.setWidget(9, 0, shippingAddress);
 		}
 		flexTable.setWidget(1, 1, orderNumberField);
@@ -186,7 +186,7 @@ public class PurchaseDetailesView extends ParentCanvas {
 	 */
 	public void setObjValues(ClientPurchaseOrder purchaseOrder) {
 
-	          	refreshView();
+		refreshView();
 
 		List<ClientTransactionItem> transactionItems = purchaseOrder
 				.getTransactionItems();

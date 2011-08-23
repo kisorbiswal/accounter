@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -41,20 +40,17 @@ public class PurchaseByVendorSummaryServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] {
-				getVendorString(
-						Accounter.messages()
-								.supplierName(Global.get().Vendor()), Accounter
-								.messages().vendorName(Global.get().Vendor())),
+				getVendorString(messages.supplierName(Global.get().Vendor()),
+						messages.vendorName(Global.get().Vendor())),
 				// getVendorString("Supplier Group", "Vendor Group"),
-				getConstants().amount() };
+				constants.amount() };
 	}
 
 	@Override
 	public String getTitle() {
 		return getVendorString(
-				Accounter.messages().purchaseBySupplierSummary(
-						Global.get().vendor()), Accounter.messages()
-						.purchaseByVendorSummary(Global.get().vendor()));
+				messages.purchaseBySupplierSummary(Global.get().vendor()),
+				messages.purchaseByVendorSummary(Global.get().vendor()));
 	}
 
 	@Override
@@ -72,7 +68,7 @@ public class PurchaseByVendorSummaryServerReport extends
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
 		if (sectionDepth == 0) {
-			addSection("", getConstants().total(), new int[] { 1 });
+			addSection("", constants.total(), new int[] { 1 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -160,12 +156,10 @@ public class PurchaseByVendorSummaryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getVendorString(
-						Accounter.messages()
-								.supplierName(Global.get().vendor()), Accounter
-								.messages().vendorName(Global.get().Vendor())),
+				getVendorString(messages.supplierName(Global.get().vendor()),
+						messages.vendorName(Global.get().Vendor())),
 				// getVendorString("Supplier Group", "Vendor Group"),
-				getConstants().amount() };
+				constants.amount() };
 	}
 
 }

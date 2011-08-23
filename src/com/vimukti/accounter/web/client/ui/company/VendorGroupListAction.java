@@ -4,7 +4,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.vendors.VendorGroupListDialog;
 
@@ -48,6 +47,6 @@ public class VendorGroupListAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return UIUtils.getVendorString("supplierGroupList", "vendorGroupList");
+		return "vendorGroupList";
 	}
 }

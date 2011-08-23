@@ -51,10 +51,12 @@ public class PurchaseByVendorDetailReport extends
 
 	@Override
 	public void print() {
+		String vendorName = this.data != null ? ((SalesByCustomerDetail) this.data)
+				.getName() : "";
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 131, "",
-				"");
+				"", vendorName);
 	}
 
 	@Override

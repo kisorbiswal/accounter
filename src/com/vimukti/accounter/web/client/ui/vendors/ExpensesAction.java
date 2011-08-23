@@ -1,9 +1,9 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
@@ -15,14 +15,12 @@ public class ExpensesAction extends Action {
 
 	public ExpensesAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = Global.get().Vendor();
 	}
 
 	public ExpensesAction(String text, String viewType) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = Global.get().Vendor();
 		this.viewType = viewType;
 	}
 
@@ -54,19 +52,15 @@ public class ExpensesAction extends Action {
 	public void run() {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-		 
-
 			public void onCreated() {
 				if (viewType == null || viewType.equals(""))
 					view = ExpensesListView.getInstance();
 				else
 					view = new ExpensesListView(viewType);
 
-				 
-					// UIUtils.setCanvas(view, getViewConfiguration());
-					MainFinanceWindow.getViewManager().showView(view, null,
-							false, ExpensesAction.this);
- 
+				// UIUtils.setCanvas(view, getViewConfiguration());
+				MainFinanceWindow.getViewManager().showView(view, null, false,
+						ExpensesAction.this);
 
 			}
 

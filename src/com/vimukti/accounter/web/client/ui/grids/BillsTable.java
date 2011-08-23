@@ -208,9 +208,8 @@ public class BillsTable extends BaseTable<BillsList> {
 						.compareTo(o2.getVendorName().toLowerCase());
 			}
 		};
-		this.addColumn(vendor, UIUtils.getVendorString(Accounter.messages()
-				.supplierName(Global.get().Vendor()), Accounter.messages()
-				.vendorName(Global.get().Vendor())));
+		this.addColumn(vendor,
+				Global.get().messages().supplierName(Global.get().Vendor()));
 
 		DecimalTextColumn<BillsList> originalAmount = new DecimalTextColumn<BillsList>() {
 

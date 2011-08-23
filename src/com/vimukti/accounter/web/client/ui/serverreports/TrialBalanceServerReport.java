@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -20,7 +19,7 @@ public class TrialBalanceServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().all();
+		return constants.all();
 	}
 
 	@Override
@@ -68,19 +67,19 @@ public class TrialBalanceServerReport extends
 	public String[] getColunms() {
 		if (getPreferences().getUseAccountNumbers() == true) {
 			return new String[] {
-					Accounter.messages().accountName(Global.get().Account()),
-					Accounter.messages().accountNumber(Global.get().Account()),
-					getConstants().debit(), getConstants().credit() };
+					messages.accountName(Global.get().Account()),
+					messages.accountNumber(Global.get().Account()),
+					constants.debit(), constants.credit() };
 		} else {
 			return new String[] {
-					Accounter.messages().accountName(Global.get().Account()),
-					"", getConstants().debit(), getConstants().credit() };
+					messages.accountName(Global.get().Account()),
+					"", constants.debit(), constants.credit() };
 		}
 	}
 
 	@Override
 	public String getTitle() {
-		return getConstants().trialBalance();
+		return constants.trialBalance();
 	}
 
 	@Override
@@ -100,7 +99,7 @@ public class TrialBalanceServerReport extends
 	public void processRecord(TrialBalance record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "",
-					getConstants().total() }, new int[] { 2, 3 });
+					constants.total() }, new int[] { 2, 3 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -192,13 +191,13 @@ public class TrialBalanceServerReport extends
 	public String[] getDynamicHeaders() {
 		if (getPreferences().getUseAccountNumbers() == true) {
 			return new String[] {
-					Accounter.messages().accountName(Global.get().Account()),
-					Accounter.messages().accountNumber(Global.get().Account()),
-					getConstants().debit(), getConstants().credit() };
+					messages.accountName(Global.get().Account()),
+					messages.accountNumber(Global.get().Account()),
+					constants.debit(), constants.credit() };
 		} else {
 			return new String[] {
-					Accounter.messages().accountName(Global.get().Account()),
-					"", getConstants().debit(), getConstants().credit() };
+					messages.accountName(Global.get().Account()),
+					"", constants.debit(), constants.credit() };
 		}
 	}
 

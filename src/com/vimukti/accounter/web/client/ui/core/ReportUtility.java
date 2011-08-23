@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ReportUtility {
 
@@ -27,17 +26,17 @@ public class ReportUtility {
 			transactionName = constants.creditCardCharge();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
-			transactionName = Accounter.messages().customerCredit(
-					Global.get().Customer());
+			transactionName = Global.get().messages()
+					.customerCredit(Global.get().Customer());
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
-			transactionName = Accounter.messages().customerRefund(
-					Global.get().Customer());
+			transactionName = Global.get().messages()
+					.customerRefund(Global.get().Customer());
 			break;
 		case ClientTransaction.TYPE_ENTER_BILL:
-			transactionName = getVendorString(Accounter.messages()
-					.supplierBill(Global.get().Vendor()), Accounter.messages()
-					.vendorBill(Global.get().Vendor()));
+			transactionName = getVendorString(Global.get().messages()
+					.supplierBill(Global.get().Vendor()), Global.get()
+					.messages().vendorBill(Global.get().Vendor()));
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
 			transactionName = constants.quote();
@@ -52,25 +51,25 @@ public class ReportUtility {
 			transactionName = constants.depositTransferFunds();
 			break;
 		case ClientTransaction.TYPE_PAY_BILL:
-			transactionName = getVendorString(Accounter.messages()
-					.supplierPayment(Global.get().Vendor()), Accounter
+			transactionName = getVendorString(Global.get().messages()
+					.supplierPayment(Global.get().Vendor()), Global.get()
 					.messages().vendorPayment(Global.get().Vendor()));
 			break;
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
-			transactionName = getVendorString(Accounter.messages()
-					.supplierPrePayment(Global.get().Vendor()), Accounter
+			transactionName = getVendorString(Global.get().messages()
+					.supplierPrePayment(Global.get().Vendor()), Global.get()
 					.messages().vendorPrePayment(Global.get().Vendor()));
 			break;
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
-			transactionName = Accounter.messages().customerPayment(
-					Global.get().Customer());
+			transactionName = Global.get().messages()
+					.customerPayment(Global.get().Customer());
 			break;
 		case ClientTransaction.TYPE_TRANSFER_FUND:
 			transactionName = constants.transferFund();
 			break;
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
-			transactionName = getVendorString(Accounter.messages()
-					.supplierCredit(Global.get().Vendor()), Accounter
+			transactionName = getVendorString(Global.get().messages()
+					.supplierCredit(Global.get().Vendor()), Global.get()
 					.messages().vendorCredit(Global.get().Vendor()));
 			break;
 		case ClientTransaction.TYPE_WRITE_CHECK:
@@ -110,8 +109,8 @@ public class ReportUtility {
 			transactionName = constants.payVAT();
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
-			transactionName = Accounter.messages().customerPrePayment(
-					Global.get().Customer());
+			transactionName = Global.get().messages()
+					.customerPrePayment(Global.get().Customer());
 		}
 		return transactionName;
 	}

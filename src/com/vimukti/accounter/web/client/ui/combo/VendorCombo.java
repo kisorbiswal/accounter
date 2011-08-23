@@ -1,8 +1,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
@@ -21,9 +20,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return UIUtils.getVendorString(
-				Accounter.comboConstants().newSupplier(), Accounter
-						.comboConstants().newVendor());
+		return Global.get().messages().newSupplier(Global.get().Vendor());
 
 	}
 

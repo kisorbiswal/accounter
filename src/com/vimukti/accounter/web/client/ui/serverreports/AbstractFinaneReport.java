@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
@@ -31,6 +32,7 @@ public abstract class AbstractFinaneReport<R> extends
 	public boolean isVATSummaryReport;
 
 	public AccounterConstants constants;
+	public AccounterMessages messages;
 	protected List<Integer> columnstoHide = new ArrayList<Integer>();
 
 	ReportGridTemplate<R> grid;
@@ -44,8 +46,8 @@ public abstract class AbstractFinaneReport<R> extends
 	public ClientFinanceDate endDate;
 	public ClientFinanceDate currentFiscalYearStartDate;
 	public ClientFinanceDate currentFiscalYearEndDate;
-	
-	private  final ClientCompanyPreferences preferences;
+
+	private final ClientCompanyPreferences preferences;
 
 	public static final int COLUMN_TYPE_TEXT = 1;
 	public static final int COLUMN_TYPE_AMOUNT = 2;
@@ -65,14 +67,15 @@ public abstract class AbstractFinaneReport<R> extends
 
 	public IFinanceReport<R> reportView;
 	protected String navigateObjectName;
-	
-	private int companyType=0;
+
+	private int companyType = 0;
 
 	public AbstractFinaneReport() {
-		
+
 		this.preferences = Global.get().preferences();
-		this.constants= Global.get().constants();
-		
+		this.constants = Global.get().constants();
+		this.messages = Global.get().messages();
+
 		this.columns = this.getColunms();
 		if (generationType == 1001) {
 			this.grid = new PDFReportGridTemplate<R>(columns, ishowGridFooter);
@@ -83,16 +86,17 @@ public abstract class AbstractFinaneReport<R> extends
 		this.grid.setReportView(this);
 	}
 
-	@SuppressWarnings( { "unchecked" })
-	public AbstractFinaneReport( long startDate, long endDate, int generationType ) {
-		
+	@SuppressWarnings({ "unchecked" })
+	public AbstractFinaneReport(long startDate, long endDate, int generationType) {
+
 		this.preferences = Global.get().preferences();
-		this.constants= Global.get().constants();
-		
+		this.constants = Global.get().constants();
+		this.messages = Global.get().messages();
+
 		this.startDate = new ClientFinanceDate(startDate);
 		this.endDate = new ClientFinanceDate(endDate);
 		this.generationType = generationType;
-	
+
 		this.columns = this.getColunms();
 		if (generationType == 1001) {
 			this.grid = new PDFReportGridTemplate<R>(columns, ishowGridFooter);
@@ -101,7 +105,6 @@ public abstract class AbstractFinaneReport<R> extends
 		}
 		this.grid.setReportView(this);
 	}
-
 
 	void setReportGridTemplate(ReportGridTemplate<R> reportGridTemplate) {
 		this.grid = reportGridTemplate;
@@ -140,8 +143,7 @@ public abstract class AbstractFinaneReport<R> extends
 			System.err.println("EXCEPTION " + e);
 		}
 	}
-	
-	
+
 	public String dateFormat(ClientFinanceDate date) {
 		try {
 			if (date == null)
@@ -269,7 +271,6 @@ public abstract class AbstractFinaneReport<R> extends
 	 * @return all column names in order
 	 */
 	public abstract String[] getColunms();
-	
 
 	/**
 	 * 
@@ -692,16 +693,15 @@ public abstract class AbstractFinaneReport<R> extends
 		return preferences;
 	}
 
-//	public void setPreferences(ClientCompanyPreferences preferences) {
-//		this.preferences = preferences;
-//	}
-	public AccounterConstants getConstants()
-	{
+	// public void setPreferences(ClientCompanyPreferences preferences) {
+	// this.preferences = preferences;
+	// }
+	public AccounterConstants getConstants() {
 		if (constants == null) {
 			constants = (AccounterConstants) GWT
 					.create(AccounterConstants.class);
 		}
 		return constants;
 	}
-	
+
 }

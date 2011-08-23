@@ -503,9 +503,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 				getCustomersAndReceivableMenu());
 
 		reportMenuBar.addItem(Accounter.constants().sales(), getSalesMenu());
-		reportMenuBar.addItem(UIUtils.getVendorString(Accounter.messages()
-				.suppliersAndPayables(Global.get().Vendor()), Accounter
-				.messages().vendorsAndPayables(Global.get().Vendor())),
+		reportMenuBar.addItem(
+				Global.get().messages()
+						.suppliersAndPayables(Global.get().Vendor()),
 				getVendorAndPayablesMenu());
 		reportMenuBar.addItem(Accounter.constants().purchase(),
 				getPurchaseMenu());
@@ -717,9 +717,9 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}
-		vendorMenuBar.addItem(UIUtils.getVendorString(Accounter.messages()
-				.supplierLists(Global.get().Vendor()), Accounter.messages()
-				.vendorLists(Global.get().Vendor())), getVendorListMenu());
+		vendorMenuBar.addItem(
+				Global.get().messages().supplierLists(Global.get().Vendor()),
+				getVendorListMenu());
 		return vendorMenuBar;
 	}
 
@@ -952,7 +952,7 @@ public class HorizontalMenuBar extends HorizontalPanel {
 			companyMenuBar.addSeparator();
 		}
 		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_US) {
-			
+
 			if (getPreferences().getDoYouPaySalesTax()) {
 				companyMenuBar.addItem(Accounter.constants().itemTax(),
 						getSalesTaxSubmenu());

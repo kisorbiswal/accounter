@@ -64,11 +64,9 @@ public class VendorBillListDialog extends BaseDialog {
 
 		grid = new DialogGrid(false);
 		grid.addColumns(Accounter.constants().date(), Accounter.constants()
-				.no(), Accounter.constants().type(), UIUtils.getVendorString(
-				Accounter.messages().supplierName(Global.get().Vendor()),
-				Accounter.messages().vendorName(Global.get().Vendor())),
-				Accounter.constants().total(), Accounter.constants()
-						.remainingTotal());
+				.no(), Accounter.constants().type(), messages
+				.supplierName(Global.get().Vendor()), Accounter.constants()
+				.total(), Accounter.constants().remainingTotal());
 		grid.setCellsWidth(60, 20, 90, -1, 60, 95);
 		grid.setView(this);
 		grid.init();

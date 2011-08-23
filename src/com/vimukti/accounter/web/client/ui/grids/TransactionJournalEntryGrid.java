@@ -279,9 +279,7 @@ public class TransactionJournalEntryGrid extends
 			return new String[] {
 					"",
 					Accounter.messages().financialAccount(
-							Global.get().Account()),
-					UIUtils.getVendorString(Accounter.constants().supplier(),
-							Accounter.constants().vendor()),
+							Global.get().Account()), Global.get().Vendor(),
 					Accounter.constants().customer() };
 		}
 

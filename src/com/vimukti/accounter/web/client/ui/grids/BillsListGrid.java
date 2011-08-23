@@ -67,14 +67,9 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 	@Override
 	protected String[] getColumns() {
 		vendorConstants = Accounter.constants();
-		return new String[] {
-				vendorConstants.type(),
-				vendorConstants.date(),
+		return new String[] { vendorConstants.type(), vendorConstants.date(),
 				vendorConstants.no(),
-				UIUtils.getVendorString(
-						Accounter.messages()
-								.supplierName(Global.get().Vendor()), Accounter
-								.messages().vendorName(Global.get().Vendor())),
+				Global.get().messages().supplierName(Global.get().Vendor()),
 				vendorConstants.originalAmount(), vendorConstants.balance(),
 				vendorConstants.isVoid()
 		// , ""

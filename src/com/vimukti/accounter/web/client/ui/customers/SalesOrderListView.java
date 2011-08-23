@@ -84,7 +84,7 @@ public class SalesOrderListView extends BaseListView<SalesOrdersList> {
 	@Override
 	protected void onAttach() {
 		salesDetailView = new SalesDetailesView();
-		salesDetailView.setPreferences(getPreferences());
+		// salesDetailView.setPreferences(getPreferences());
 		salesDetailView.init();
 		gridLayout.add(salesDetailView);
 		super.onAttach();

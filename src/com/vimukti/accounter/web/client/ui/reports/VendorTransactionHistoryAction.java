@@ -4,7 +4,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
@@ -67,8 +66,7 @@ public class VendorTransactionHistoryAction extends Action {
 	@Override
 	public String getHistoryToken() {
 
-		return UIUtils.getVendorString("supplierTransactionHistory",
-				"vendorTransactionHistory");
+		return "vendorTransactionHistory";
 	}
 
 }

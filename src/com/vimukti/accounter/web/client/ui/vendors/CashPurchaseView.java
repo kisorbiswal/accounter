@@ -110,9 +110,8 @@ public class CashPurchaseView extends
 		// formItems.add(transactionDateItem);
 		// formItems.add(transactionNumber);
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.messages().supplierName(Global.get().Vendor()), Accounter
-				.messages().vendorName(Global.get().Vendor())));
+		vendorCombo = createVendorComboItem(messages.supplierName(Global.get()
+				.Vendor()));
 		vendorCombo.setHelpInformation(true);
 		// vendorCombo.setWidth(100);
 		contactCombo = createContactComboItem();
@@ -128,8 +127,7 @@ public class CashPurchaseView extends
 		if (isInViewMode())
 			phoneSelect.setDisabled(true);
 
-		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor()));
+		vendorForm = UIUtils.form(Global.get().Vendor());
 
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect,

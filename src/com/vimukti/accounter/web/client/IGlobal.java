@@ -2,10 +2,13 @@ package com.vimukti.accounter.web.client;
 
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public interface IGlobal {
 
 	public AccounterConstants constants();
+	
+	public AccounterMessages messages();
 
 	public ClientCompanyPreferences preferences();
 

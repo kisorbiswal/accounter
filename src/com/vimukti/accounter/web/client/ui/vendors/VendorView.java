@@ -301,9 +301,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	private VerticalPanel getGeneralTab() {
-		vendorNameText = new TextItem(UIUtils.getVendorString(Accounter
-				.messages().supplierName(Global.get().Vendor()), Accounter
-				.messages().vendorName(Global.get().Vendor())));
+		vendorNameText = new TextItem(messages.supplierName(Global.get()
+				.Vendor()));
 		vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
@@ -331,8 +330,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		});
 
-		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor()));
+		vendorForm = UIUtils.form(Global.get().Vendor());
 		if (getCompany().getPreferences().getUseVendorId()) {
 			vendorForm.setFields(vendorNameText, vendorNoText);
 		} else {
@@ -346,18 +344,17 @@ public class VendorView extends BaseView<ClientVendor> {
 		accInfoForm = new DynamicForm();
 		accInfoForm.setIsGroup(true);
 		accInfoForm.setWidth("100%");
-		accInfoForm.setGroupTitle(Accounter.messages().accountInformation(
+		accInfoForm.setGroupTitle(messages.accountInformation(
 				Global.get().Account()));
 
-		statusCheck = new CheckboxItem(Accounter.constants().active());
+		statusCheck = new CheckboxItem(constants.active());
 		statusCheck.setValue(true);
 
+		vendorSinceDate = new DateField(messages.supplierSince(Global.get()
+				.Vendor()));
 		track1099MISC = new CheckboxItem(Accounter.constants().track1099Form());
 		track1099MISC.setValue(false);
 
-		vendorSinceDate = new DateField(UIUtils.getVendorString(Accounter
-				.messages().supplierSince(Global.get().Vendor()), Accounter
-				.messages().vendorSince(Global.get().Vendor())));
 		vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
@@ -534,8 +531,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	private VerticalPanel getDetailsTab() {
 
-		Label lab = new Label(UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor()));
+		Label lab = new Label(Global.get().Vendor());
 
 		expenseAccountsSelect = new OtherAccountsCombo(Accounter.messages()
 				.account(Global.get().account()));
@@ -586,7 +582,7 @@ public class VendorView extends BaseView<ClientVendor> {
 						selectPaymentTermFromDetailsTab = selectItem;
 					}
 				});
-		accountText = new TextItem(Accounter.messages().accountNo(
+		accountText = new TextItem(messages.accountNo(
 				Global.get().Account()));
 		accountText.setHelpInformation(true);
 
@@ -612,9 +608,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				preferredShippingSelect, preferredPaymentSelect,
 				payTermsSelect, accountText, bankNameText, bankBranchText);
 
-		vendorGroupSelect = new VendorGroupCombo(UIUtils.getVendorString(
-				Accounter.messages().supplierGroup(Global.get().Vendor()),
-				Accounter.messages().vendorGroup(Global.get().Vendor())));
+		vendorGroupSelect = new VendorGroupCombo(messages.supplierGroup(Global
+				.get().Vendor()));
 		vendorGroupSelect.setHelpInformation(true);
 		// vendorGroupSelect.setWidth(100);
 		vendorGroupSelect
@@ -681,9 +676,8 @@ public class VendorView extends BaseView<ClientVendor> {
 				.vatRegistrationNumber());
 		vatRegistrationNumber.setHelpInformation(true);
 		vatRegistrationNumber.setWidth(100);
-		vendorTaxCode = new TAXCodeCombo(UIUtils.getVendorString(Accounter
-				.messages().supplierVatCode(Global.get().Vendor()), Accounter
-				.messages().vendorVatCode(Global.get().Vendor())), false);
+		vendorTaxCode = new TAXCodeCombo(messages.supplierVatCode(Global.get()
+				.Vendor()), false);
 		vendorTaxCode.setHelpInformation(true);
 		vendorTaxCode.setWidth(100);
 		vendorTaxCode
@@ -1323,8 +1317,6 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(
-				Accounter.messages().newSupplier(Global.get().Vendor()),
-				Accounter.messages().newVendor(Global.get().Vendor()));
+		return messages.newSupplier(Global.get().Vendor());
 	}
 }

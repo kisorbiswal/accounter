@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
@@ -17,17 +16,13 @@ public class CreditCardExpenseAction extends Action {
 
 	public CreditCardExpenseAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.messages().supplier(
-				Global.get().Vendor()), Accounter.messages().vendorPrePayment(
-				Global.get().Vendor()));
+		this.catagory = Global.get().Vendor();
 	}
 
 	public CreditCardExpenseAction(String text, ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.messages().supplier(
-				Global.get().Vendor()), Accounter.messages().vendorPrePayment(
-				Global.get().Vendor()));
+		this.catagory = Global.get().Vendor();
 	}
 
 	public void run() {

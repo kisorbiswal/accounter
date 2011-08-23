@@ -339,9 +339,8 @@ public class VendorBillView extends
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.messages().supplierName(Global.get().Vendor()), Accounter
-				.messages().vendorName(Global.get().Vendor())));
+		vendorCombo = createVendorComboItem(messages.supplierName(Global.get()
+				.Vendor()));
 		// vendorCombo.setWidth(100);
 		// purchaseLabel = new LinkItem();
 		// purchaseLabel.setLinkTitle(FinanceApplication.constants()
@@ -366,8 +365,7 @@ public class VendorBillView extends
 		if (this.isInViewMode())
 			billToCombo.setDisabled(true);
 
-		vendorForm = UIUtils.form(UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor()));
+		vendorForm = UIUtils.form(Global.get().Vendor());
 		vendorForm.setWidth("100%");
 		vendorForm.setNumCols(3);
 		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel

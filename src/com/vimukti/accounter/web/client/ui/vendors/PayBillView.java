@@ -368,9 +368,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		});
 		transactionNumber = createTransactionNumberItem();
 
-		vendorCombo = createVendorComboItem(UIUtils.getVendorString(Accounter
-				.messages().vendorName(Global.get().Vendor()), Accounter
-				.messages().vendorName(Global.get().Vendor())));
+		vendorCombo = createVendorComboItem(messages.vendorName(Global.get()
+				.Vendor()));
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
@@ -1011,8 +1010,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	public VendorCombo createVendorComboItem(String title) {
 
 		VendorCombo vendorCombo = new VendorCombo(title != null ? title
-				: UIUtils.getVendorString(Accounter.constants().supplier(),
-						Accounter.constants().vendor()));
+				: Global.get().Vendor());
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setDisabled(isInViewMode());

@@ -2,10 +2,10 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
@@ -22,15 +22,14 @@ public class NewCashPurchaseAction extends Action {
 
 	public NewCashPurchaseAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = Global.get().Vendor();
 	}
 
 	public NewCashPurchaseAction(String newCashPurchase,
-			ClientCashPurchase cashPurchase, AccounterAsyncCallback<Object> callback) {
+			ClientCashPurchase cashPurchase,
+			AccounterAsyncCallback<Object> callback) {
 		super(newCashPurchase);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = Global.get().Vendor();
 	}
 
 	@Override
@@ -43,16 +42,13 @@ public class NewCashPurchaseAction extends Action {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-
 			public void onCreated() {
 
 				view = CashPurchaseView.getInstance();
 
-
-					// UIUtils.setCanvas(view, getViewConfiguration());
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, NewCashPurchaseAction.this);
-
+				// UIUtils.setCanvas(view, getViewConfiguration());
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewCashPurchaseAction.this);
 
 			}
 

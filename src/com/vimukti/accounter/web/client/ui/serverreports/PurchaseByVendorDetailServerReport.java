@@ -193,7 +193,7 @@ public class PurchaseByVendorDetailServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] {
-				getVendorString(getConstants().supplier(), Accounter.messages()
+				getVendorString(constants.supplier(), messages
 						.supplierName(Global.get().vendor())),
 				getConstants().date(), getConstants().type(),
 				getConstants().noDot(), getConstants().amount() };

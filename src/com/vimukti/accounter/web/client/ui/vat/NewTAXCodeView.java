@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -301,9 +302,9 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
-		//already exists?
+		// already exists?
 		// validate form
-		
+
 		String name = vatCodeTxt.getValue() != null ? vatCodeTxt.getValue()
 				.toString() : "";
 
@@ -315,8 +316,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		}
 		result.add(DynamicForm.validate(this.getForms().toArray(
 				new DynamicForm[getForms().size()])));
-		
-		
+
 		// if (!((!isEdit && taxCodeByName != null))
 		// || (isEdit ? (data.getName().equalsIgnoreCase(name) ? true
 		// : (taxCodeByName != null
@@ -347,7 +347,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result){
+	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
 	}
@@ -412,7 +412,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(Accounter.constants().vatCode(),
-				Accounter.constants().taxCode());
+		if (getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
+			return Accounter.constants().vatCode();
+		} else {
+			return Accounter.constants().taxCode();
+		}
 	}
 }

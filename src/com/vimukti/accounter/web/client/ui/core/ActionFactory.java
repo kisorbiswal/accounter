@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.banking.BankingHomeAction;
 import com.vimukti.accounter.web.client.ui.banking.BuyChecksAndFormsAction;
@@ -447,9 +446,8 @@ public class ActionFactory {
 	}
 
 	public static VendorGroupListAction getVendorGroupListAction() {
-		return new VendorGroupListAction(UIUtils.getVendorString(Accounter
-				.messages().supplierGroupList(Global.get().Vendor()), Accounter
-				.messages().vendorGroupList(Global.get().Vendor())));
+		return new VendorGroupListAction(Global.get().messages()
+				.supplierGroupList(Global.get().Vendor()));
 	}
 
 	public static PaymentTermListAction getPaymentTermListAction() {
@@ -807,9 +805,8 @@ public class ActionFactory {
 	}
 
 	public static VendorsListAction getVendorListAction() {
-		return new VendorsListAction(UIUtils.getVendorString(Accounter
-				.messages().suppliersList(Global.get().Vendor()), Accounter
-				.messages().vendorsList(Global.get().Vendor())));
+		return new VendorsListAction(Global.get().messages()
+				.suppliersList(Global.get().Vendor()));
 	}
 
 	public static BalanceSheetAction getBalanceSheetAction() {
@@ -890,10 +887,8 @@ public class ActionFactory {
 	}
 
 	public static VendorTransactionHistoryAction getVendorTransactionHistoryAction() {
-		return new VendorTransactionHistoryAction(UIUtils.getVendorString(
-				Accounter.messages().supplierTransactionHistory(
-						Global.get().Vendor()), Accounter.messages()
-						.vendorTransactionHistory(Global.get().Vendor())));
+		return new VendorTransactionHistoryAction(Global.get().messages()
+				.supplierTransactionHistory(Global.get().Vendor()));
 	}
 
 	// public static AmountsDueToVendorsAction getAmountsDueToVendorsAction() {
@@ -911,17 +906,13 @@ public class ActionFactory {
 	}
 
 	public static PurchaseByVendorSummaryAction getPurchaseByVendorSummaryAction() {
-		return new PurchaseByVendorSummaryAction(UIUtils.getVendorString(
-				Accounter.messages().purchaseBySupplierSummary(
-						Global.get().vendor()), Accounter.messages()
-						.purchaseByVendorSummary(Global.get().vendor())));
+		return new PurchaseByVendorSummaryAction(Global.get().messages()
+				.purchaseBySupplierSummary(Global.get().vendor()));
 	}
 
 	public static PurchaseByVendorDetailsAction getPurchaseByVendorDetailAction() {
-		return new PurchaseByVendorDetailsAction(UIUtils.getVendorString(
-				Accounter.messages().purchaseBySupplierDetail(
-						Global.get().vendor()), Accounter.messages()
-						.purchaseByVendorDetail(Global.get().vendor())));
+		return new PurchaseByVendorDetailsAction(Global.get().messages()
+				.purchaseBySupplierDetail(Global.get().vendor()));
 	}
 
 	public static PurchaseByItemSummaryAction getPurchaseByItemSummaryAction() {
@@ -1101,28 +1092,24 @@ public class ActionFactory {
 	}
 
 	public static VendorsHomeAction getVendorsHomeAction() {
-		return new VendorsHomeAction(UIUtils.getVendorString(Accounter
-				.messages().supplierhome(Global.get().Vendor()), Accounter
-				.messages().vendorHome(Global.get().Vendor())));
+		return new VendorsHomeAction(Global.get().messages()
+				.supplierhome(Global.get().Vendor()));
 	}
 
 	public static NewVendorAction getNewVendorAction() {
-		return new NewVendorAction(UIUtils.getVendorString(Accounter.messages()
-				.newSupplier(Global.get().Vendor()), Accounter.messages()
-				.newVendor(Global.get().Vendor())));
+		return new NewVendorAction(Global.get().messages()
+				.newSupplier(Global.get().Vendor()));
 	}
 
 	public static NewVendorAction getNewVendorAction(ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
-		return new NewVendorAction(UIUtils.getVendorString(Accounter.messages()
-				.newSupplier(Global.get().Vendor()), Accounter.messages()
-				.newVendor(Global.get().Vendor())), vendor, callback);
+		return new NewVendorAction(Global.get().messages()
+				.newSupplier(Global.get().Vendor()));
 	}
 
 	public static PurchaseItemsAction getPurchaseItemsAction() {
-		return new PurchaseItemsAction(actionsConstants.items(),
-				UIUtils.getVendorString(actionsConstants.supplier(),
-						actionsConstants.vendor()));
+		return new PurchaseItemsAction(actionsConstants.items(), Global.get()
+				.Vendor());
 	}
 
 	// public static NewItemAction getNewItemAction() {
@@ -1148,9 +1135,8 @@ public class ActionFactory {
 	}
 
 	public static NewCreditMemoAction getNewCreditMemoAction() {
-		return new NewCreditMemoAction(UIUtils.getVendorString(Accounter
-				.messages().supplierCredit(Global.get().Vendor()), Accounter
-				.messages().vendorCredit(Global.get().Vendor())));
+		return new NewCreditMemoAction(Global.get().messages()
+				.supplierCredit(Global.get().Vendor()));
 	}
 
 	public static NewCreditMemoAction getNewCreditMemoAction(
@@ -1177,9 +1163,8 @@ public class ActionFactory {
 	}
 
 	public static VendorPaymentsAction getNewVendorPaymentAction() {
-		return new VendorPaymentsAction(UIUtils.getVendorString(Accounter
-				.messages().supplierPrePayment(Global.get().Vendor()),
-				Accounter.messages().vendorPrePayment(Global.get().Vendor())));
+		return new VendorPaymentsAction(Global.get().messages()
+				.supplierPrePayment(Global.get().Vendor()));
 	}
 
 	public static RecordExpensesAction getRecordExpensesAction() {
@@ -1196,9 +1181,8 @@ public class ActionFactory {
 	}
 
 	public static VendorsListAction getVendorsAction() {
-		return new VendorsListAction(UIUtils.getVendorString(Accounter
-				.messages().suppliers(Global.get().Vendor()), Accounter
-				.messages().vendors(Global.get().Vendor())));
+		return new VendorsListAction(Global.get().messages()
+				.suppliers(Global.get().Vendor()));
 	}
 
 	// public static Item getItemAction() {
@@ -1215,9 +1199,8 @@ public class ActionFactory {
 
 	public static VendorPaymentsListAction getVendorPaymentsAction() {
 
-		return new VendorPaymentsListAction(UIUtils.getVendorString(Accounter
-				.messages().supplierPayments(Global.get().Vendor()), Accounter
-				.messages().vendorPayments(Global.get().Vendor())));
+		return new VendorPaymentsListAction(Global.get().messages()
+				.supplierPayments(Global.get().Vendor()));
 	}
 
 	public static PurchaseOrderAction getPurchaseOrderAction() {

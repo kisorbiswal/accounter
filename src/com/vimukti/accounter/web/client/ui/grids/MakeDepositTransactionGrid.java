@@ -161,8 +161,7 @@ public class MakeDepositTransactionGrid extends
 						setText(currentRow, currentCol, selectItem.getName());
 					}
 				});
-		vendorsCombo = new VendorCombo(UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter.constants().vendor()));
+		vendorsCombo = new VendorCombo(Global.get().Vendor());
 		vendorsCombo.setGrid(this);
 		vendorsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -271,8 +270,7 @@ public class MakeDepositTransactionGrid extends
 		case ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT:
 			return Accounter.messages().account(Global.get().account());
 		case ClientTransactionMakeDeposit.TYPE_VENDOR:
-			return UIUtils.getVendorString(Accounter.constants().supplier(),
-					Accounter.constants().vendor());
+			return Global.get().Vendor();
 		case ClientTransactionMakeDeposit.TYPE_CUSTOMER:
 			return Accounter.constants().customer();
 		default:

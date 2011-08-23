@@ -329,9 +329,8 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		expAccCombo.setPopupWidth("500px");
-		prefVendorCombo = new VendorCombo(UIUtils.getVendorString(Accounter
-				.messages().preferredSupplier(Global.get().Vendor()), Accounter
-				.messages().preferredVendor(Global.get().Vendor())));
+		prefVendorCombo = new VendorCombo(messages.preferredSupplier(Global
+				.get().Vendor()));
 		prefVendorCombo.setHelpInformation(true);
 		prefVendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -340,16 +339,9 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		vendItemNumText = new IntegerField(this,
-				this.type != TYPE_SERVICE ? UIUtils.getVendorString(
-						Accounter.messages().supplierProductNo(
-								Global.get().Vendor()),
-						Accounter.messages().vendorProductNo(
-								Global.get().Vendor()))
-						: UIUtils.getVendorString(
-								Accounter.messages().supplierServiceNo(
-										Global.get().Vendor()),
-								Accounter.messages().vendorServiceNo(
-										Global.get().Vendor())));
+				this.type != TYPE_SERVICE ? messages.supplierProductNo(Global
+						.get().Vendor()) : messages.supplierServiceNo(Global
+						.get().Vendor()));
 		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);
 

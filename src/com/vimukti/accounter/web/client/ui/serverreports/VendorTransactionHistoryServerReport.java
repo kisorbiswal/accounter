@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
@@ -45,8 +44,8 @@ public class VendorTransactionHistoryServerReport extends
 						.vendor()), getConstants().date(),
 				getConstants().type(), getConstants().no(),
 				// FinanceApplication.constants().reference(),
-				Accounter.messages().account(Global.get().account()),
-				getConstants().amount()
+				Global.get().account(),
+				constants.amount()
 		// FinanceApplication.constants().transactionAmount(),
 		// FinanceApplication.constants().paidAmount(),
 		// FinanceApplication.constants().discount(),
@@ -67,9 +66,7 @@ public class VendorTransactionHistoryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return UIUtils.getVendorString(Accounter.messages()
-				.supplierTransactionHistory(Global.get().Vendor()), Accounter
-				.messages().vendorTransactionHistory(Global.get().Vendor()));
+		return messages.supplierTransactionHistory(Global.get().Vendor());
 	}
 
 	@Override
@@ -237,8 +234,8 @@ public class VendorTransactionHistoryServerReport extends
 				getVendorString(getConstants().supplier(), getConstants()
 						.vendor()), getConstants().date(),
 				getConstants().type(), getConstants().no(),
-				Accounter.messages().account(Global.get().account()),
-				getConstants().amount() };
+				Global.get().account(),
+				constants.amount() };
 	}
 
 }

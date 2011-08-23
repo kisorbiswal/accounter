@@ -65,7 +65,7 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return getConstants().all();
+		return constants.all();
 	}
 
 	@Override
@@ -77,9 +77,9 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", getConstants().name(), getConstants().date(),
-				" ", getConstants().number(), getConstants().amount(),
-				getConstants().balance() };
+		return new String[] { "", constants.name(), constants.date(),
+				" ", constants.number(), constants.amount(),
+				constants.balance() };
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class TransactionDetailByAccountServerReport extends
 	public void processRecord(TransactionDetailByAccount record) {
 		if (sectionDepth == 0) {
 			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					getConstants().total() }, new int[] { 5 });
+					constants.total() }, new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			this.sectionName = record.getAccountName();
 			addSection(new String[] { sectionName }, new String[] { "" },
@@ -198,9 +198,9 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", getConstants().name(), getConstants().date(),
-				" ", getConstants().number(), getConstants().amount(),
-				getConstants().balance() };
+		return new String[] { "", constants.name(), constants.date(),
+				" ", constants.number(), constants.amount(),
+				constants.balance() };
 	}
 
 }

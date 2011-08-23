@@ -9,10 +9,12 @@ import com.mattbertolini.hermes.Hermes;
 import com.vimukti.accounter.web.client.AbstractGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class ServerGlobal extends AbstractGlobal {
 
 	private Map<Locale, AccounterConstants> constents = new HashMap<Locale, AccounterConstants>();
+	private Map<Locale, AccounterMessages> messages = new HashMap<Locale, AccounterMessages>();
 
 	public ServerGlobal() throws IOException {
 	}
@@ -39,9 +41,31 @@ public class ServerGlobal extends AbstractGlobal {
 		return constants;
 	}
 
+	private AccounterMessages createAccounterMessages(Locale locale)
+			throws IOException {
+		AccounterMessages messages = Hermes.get(AccounterMessages.class,
+				locale.getLanguage());
+		return messages;
+	}
+
 	@Override
 	public ClientCompanyPreferences preferences() {
 		return CompanyPreferenceThreadLocal.get();
+	}
+
+	@Override
+	public AccounterMessages messages() {
+		Locale locale = ServerLocal.get();
+		AccounterMessages accounterMessages = this.messages.get(locale);
+		if (accounterMessages == null) {
+			try {
+				accounterMessages = createAccounterMessages(locale);
+				this.messages.put(locale, accounterMessages);
+			} catch (IOException e) {
+				throw new RuntimeException();
+			}
+		}
+		return accounterMessages;
 	}
 
 }

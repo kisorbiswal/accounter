@@ -426,9 +426,10 @@ public class CompanyPreferencesView extends BaseView<ClientCompanyPreferences> {
 			doupaySalesChecBox.setTitle(Accounter.constants()
 					.areYouRegisteredForVAT());
 		}
-		vatRegNumber = new TextItem(UIUtils.getVendorString(Accounter
-				.constants().vatRegistrationNumber(), Accounter.constants()
-				.taxRegNo()));
+		vatRegNumber = new TextItem(
+				getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK ? Accounter
+						.constants().vatRegistrationNumber() : Accounter
+						.constants().taxRegNo());
 		vatRegNumber.setHelpInformation(true);
 		vatRegNumber.setWidth(100);
 		vatRegNumber.setDisabled(false);

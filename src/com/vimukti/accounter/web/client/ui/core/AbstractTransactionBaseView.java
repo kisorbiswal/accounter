@@ -18,6 +18,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -998,8 +999,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public VendorCombo createVendorComboItem(String title) {
 
 		VendorCombo vendorCombo = new VendorCombo(title != null ? title
-				: UIUtils.getVendorString(Accounter.constants().supplier(),
-						Accounter.constants().vendor()));
+				: Global.get().Vendor());
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setDisabled(isInViewMode());

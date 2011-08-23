@@ -3,9 +3,9 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class NewItemReceiptAction extends Action {
@@ -14,8 +14,7 @@ public class NewItemReceiptAction extends Action {
 
 	public NewItemReceiptAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = Global.get().Vendor();
 	}
 
 	@Override

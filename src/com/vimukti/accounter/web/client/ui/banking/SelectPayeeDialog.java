@@ -3,13 +3,11 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.LinkedHashMap;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -22,15 +20,6 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 
 	RadioGroupItem typeRadio;
 	// private ClientCompany company;
-
-	private final String VENDOR_PAY = UIUtils.getVendorString(Accounter
-			.messages().supplierPay(Global.get().Vendor()), Accounter
-			.messages().vendorpay(Global.get().Vendor()));
-
-	private final String CUST_REFUND = Accounter.messages().custRefund(Global.get().Customer());
-
-	private final String EMP_REIMB = Accounter.constants().empreimb();
-
 	public SelectPayeeDialog() {
 		super(Accounter.constants().selectPayeeType(), Accounter.constants()
 				.selectOneOfFollowingPayee());

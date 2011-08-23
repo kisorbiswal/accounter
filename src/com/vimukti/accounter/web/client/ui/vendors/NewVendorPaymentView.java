@@ -128,11 +128,9 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(UIUtils.getVendorString(Accounter.messages()
-				.supplierPrePayment(Global.get().Vendor()), Accounter
-				.messages().vendorPrePayment(Global.get().Vendor()))
-		// + "(" + getTransactionStatus() + ") "
-		);
+		Label lab1 = new Label(messages.supplierPrePayment(Global.get()
+				.Vendor()));
+
 		lab1.setStyleName(Accounter.constants().labelTitle());
 		// lab1.setHeight("50px");
 		// transaction date and number
@@ -171,9 +169,8 @@ public class NewVendorPaymentView extends
 		endBalText.setWidth(100);
 		endBalText.setDisabled(true);
 
-		vendorBalText = new AmountField(UIUtils.getVendorString(Accounter
-				.messages().supplierBalance(Global.get().Vendor()), Accounter
-				.messages().vendorBalance(Global.get().Vendor())), this);
+		vendorBalText = new AmountField(messages.supplierBalance(Global.get()
+				.Vendor()), this);
 		vendorBalText.setHelpInformation(true);
 		vendorBalText.setDisabled(true);
 		vendorBalText.setWidth(100);
@@ -680,9 +677,7 @@ public class NewVendorPaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return UIUtils.getVendorString(
-				Accounter.messages().supplierPayments(Global.get().Vendor()),
-				Accounter.messages().vendorPayments(Global.get().Vendor()));
+		return messages.supplierPayments(Global.get().Vendor());
 	}
 
 }

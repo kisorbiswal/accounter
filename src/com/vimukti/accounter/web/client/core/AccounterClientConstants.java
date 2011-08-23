@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.core;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.Global;
 
 public class AccounterClientConstants implements IsSerializable, Serializable {
 
@@ -11,7 +11,7 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String SYMBOL_PLUS = "+";
 	public static final String SYMBOL_MINUS = "-";
 
@@ -72,13 +72,13 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	// Constants for Credits and Payments
 
 	public static final String CUSTOMER_CREDIT_MEMO = "Customer Credit";
-	public static final String VENDOR_PAYMENT = UIUtils.getVendorString(
-			"Supplier Payment", "Vendor Payment");
+	public static final String VENDOR_PAYMENT = Global.get().messages()
+			.supplierPayment(Global.get().Vendor());
 	public static final String CUSTOMER_PAYMENT = "Customer Payment";
 
 	public static final String CUSTOMER_PREPAYMENT = "Customer PrePayment";
-	public static final String VENDOR_CREDIT_MEMO = UIUtils.getVendorString(
-			"Supplier Credit", "Vendor Credit");
+	public static final String VENDOR_CREDIT_MEMO = Global.get().messages()
+			.supplierCredit(Global.get().Vendor());
 
 	// constants for Transaction Names
 
@@ -89,18 +89,18 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	public static final String TYPE_CUSTOMER_PREPAYMENT = "Customer PrePayment";
 
 	public static final String TYPE_CUSTOMER_REFUNDS = "Customer Refund";
-	public static final String TYPE_ENTER_BILL = UIUtils.getVendorString(
-			"Supplier Bill", "Vendor Bill");
+	public static final String TYPE_ENTER_BILL = Global.get().messages()
+			.supplierBill(Global.get().Vendor());
 	public static final String TYPE_ESTIMATE = "Quote";
 	public static final String TYPE_INVOICE = "Invoice";
 	public static final String TYPE_ISSUE_PAYMENT = "Issue Payment";
 	public static final String TYPE_MAKE_DEPOSIT = "Deposit/Transfer Funds";
-	public static final String TYPE_PAY_BILL = UIUtils.getVendorString(
-			"Supplier Payment", "Vendor Payment");
+	public static final String TYPE_PAY_BILL = Global.get().messages()
+			.supplierPayment(Global.get().Vendor());
 	public static final String TYPE_RECEIVE_PAYMENT = "Customer Payment";
 	public static final String TYPE_TRANSFER_FUND = "Transfer Fund";
-	public static final String TYPE_VENDOR_CREDIT_MEMO = UIUtils
-			.getVendorString("Supplier Credit", "Vendor Credit");
+	public static final String TYPE_VENDOR_CREDIT_MEMO = Global.get()
+			.messages().supplierCredit(Global.get().Vendor());
 	public static final String TYPE_WRITE_CHECK = "Write Check";
 	public static final String TYPE_JOURNAL_ENTRY = "Journal Entry";
 	public static final String TYPE_PAY_SALES_TAX = "Pay Sales Tax";
@@ -109,20 +109,6 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 	public static final String TYPE_ITEM_RECEIPT = "Item Receipt";
 	public static final String TYPE_RECEIVE_VAT = "Receive VAT ";
 	public static final String TYPE_VAT_RETURN = "VAT Return ";
-
-	// constants for Table Names
-
-	public static final String TABLE_INVOICE = "INVOICE";
-	public static final String TABLE_ENTER_BILL = "ENTER_BILL";
-	public static final String TABLE_CASH_SALES = "CASH_SALES";
-	public static final String TABLE_CASH_PURCHASE = "CASH_PURCHASE";
-	public static final String TABLE_CREDIT_CARD_CHARGES = "CREDIT_CARD_CHARGES";
-	public static final String TABLE_CUSTOMER_CREDIT_MEMO = "CUSTOMER_CREDIT_MEMO";
-	public static final String TABLE_VENDOR_CREDIT_MEMO = UIUtils
-			.getVendorString("SUPPLIER_CREDIT_MEMO", "VENDOR_CREDIT_MEMO");
-	public static final String TABLE_WRITE_CHECKS = "WRITE_CHECKS";
-	public static final String TABLE_TRANSACTION_MAKE_DEPOSIT = "TRANSACTION_MAKE_DEPOSIT";
-	public static final String TABLE_CUSTOMER_REFUND = "CUSTOMER_REFUND";
 
 	// CONSTANTS FOR TRANSACTION STATUS
 	public static final String STATUS_NOT_PAID = "Not Paid";
@@ -322,6 +308,6 @@ public class AccounterClientConstants implements IsSerializable, Serializable {
 
 	public static final String Box1_Description = "Total amount of VAT charged on sales and other supplies";
 	public static final String Box2_Description = "Total amount of VAT charged on acquisitions from other EC member states";
-	public static final String TYPE_VENDOR_PAYMENT = UIUtils.getVendorString(
-			"Supplier Prepayment", "Vendor Prepayment");
+	public static final String TYPE_VENDOR_PAYMENT = Global.get().messages()
+			.supplierPrePayment(Global.get().Vendor());
 }

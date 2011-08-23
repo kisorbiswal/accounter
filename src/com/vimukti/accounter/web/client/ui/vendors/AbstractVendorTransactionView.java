@@ -28,7 +28,6 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -340,8 +339,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	public VendorCombo createVendorComboItem(String title) {
 
 		VendorCombo vendorCombo = new VendorCombo(title != null ? title
-				: UIUtils.getVendorString(Accounter.constants().supplier(),
-						Accounter.constants().vendor()));
+				: Global.get().Vendor());
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
 		vendorCombo.setDisabled(isInViewMode());
@@ -364,9 +362,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	public VendorCombo createVendorComboItem(String title, boolean isRequired) {
 
-		VendorCombo vendorCombo = new VendorCombo(UIUtils.getVendorString(
-				Accounter.constants().supplier(), Accounter.constants()
-						.vendor()));
+		VendorCombo vendorCombo = new VendorCombo(Global.get().Vendor());
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(isRequired);
 		vendorCombo.setDisabled(isInViewMode());

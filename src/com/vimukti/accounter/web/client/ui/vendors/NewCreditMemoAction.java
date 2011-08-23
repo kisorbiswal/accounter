@@ -2,10 +2,10 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
@@ -22,16 +22,14 @@ public class NewCreditMemoAction extends Action {
 
 	public NewCreditMemoAction(String text) {
 		super(text);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = Global.get().Vendor();
 	}
 
 	public NewCreditMemoAction(String newCreditMemo,
 			ClientVendorCreditMemo vendorCreditMemo,
 			AccounterAsyncCallback<Object> callBack) {
 		super(newCreditMemo);
-		this.catagory = UIUtils.getVendorString(Accounter.constants()
-				.supplier(), Accounter.constants().vendor());
+		this.catagory = Global.get().Vendor();
 	}
 
 	@Override
@@ -44,15 +42,13 @@ public class NewCreditMemoAction extends Action {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
-
 			public void onCreated() {
 
 				view = VendorCreditMemoView.getInstance();
 
-					// UIUtils.setCanvas(view, getViewConfiguration());
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, NewCreditMemoAction.this);
-
+				// UIUtils.setCanvas(view, getViewConfiguration());
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, NewCreditMemoAction.this);
 
 			}
 
@@ -80,7 +76,6 @@ public class NewCreditMemoAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return UIUtils.getVendorString("supplierCredit", "vendorCredit");
+		return "vendorCredit";
 	}
-
 }

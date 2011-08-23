@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterConstants;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
@@ -48,13 +49,14 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		implements IAccounterWidget, WidgetWithErrors, ISaveCallback,
 		IDeleteCallback {
 
-	private ClientCompanyPreferences preferences = Global.get().preferences();
+	protected ClientCompanyPreferences preferences = Global.get().preferences();
+	protected AccounterMessages messages = Global.get().messages();
+	protected AccounterConstants constants = Global.get().constants();
 	// private String title;
 	protected HorizontalPanel headerLayout;
 	private String description;
 	protected HorizontalPanel bodyLayout;
 	protected HorizontalPanel footerLayout;
-	protected AccounterConstants constants;
 
 	protected Button cancelBtn;
 	protected Button okbtn;
@@ -104,7 +106,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		} catch (Exception e) {
 
 			// SC.logWarn(e.getMessage());
-			Accounter.showError(Accounter.constants()
+			Accounter.showError(constants
 					.failedToInitializeCompanyConstants());
 
 		}

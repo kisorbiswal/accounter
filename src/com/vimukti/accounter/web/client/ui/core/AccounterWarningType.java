@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class AccounterWarningType {
 
@@ -38,9 +37,6 @@ public class AccounterWarningType {
 	public static final String RECEIVEPAYMENT_EDITING = "Editing this receive payment will void this transaction and create a new receive payment. Do you want to continue?";
 	public static final String PAYBILL_EDITING = "Editing this Pay Bill will void this transaction and create a new paybill. Do you want to continue?";
 	public static final String prior_CustomerSinceDate = "Customer Since date is prior to the company start date. Do you want to continue?";
-	public static final String prior_VendorSinceDate = UIUtils.getVendorString(
-			"Supplier", "Vendor")
-			+ " Since date is prior to the company start date. Do you want to continue?";
 	public static final String PAYSALESTAX_EDITING = "Editing this Pay Sales Tax will void this transaction and create a new Pay Sales Tax. Do you want to continue?";
 	public static final String PAYVAT_EDITING = "Editing this Pay VAT will void this transaction and create a new Pay VAT. Do you want to continue?";
 }

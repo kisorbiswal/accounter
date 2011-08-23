@@ -5,7 +5,6 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PurchaseByVendorDetailsAction extends Action {
@@ -64,8 +63,7 @@ public class PurchaseByVendorDetailsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return UIUtils.getVendorString("purchaseBySupplierDetail",
-				"purchaseByVendorDetail");
+		return "purchaseByVendorDetail";
 	}
 
 }

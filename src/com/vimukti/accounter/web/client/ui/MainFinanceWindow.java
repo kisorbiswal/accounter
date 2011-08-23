@@ -120,9 +120,7 @@ public class MainFinanceWindow extends VerticalPanel {
 				getCustomerMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
-		menuitem = menuBar.addItem(UIUtils.getVendorString(Accounter
-				.constants().supplier(), Accounter.constants().vendor()),
-				getVendorMenu());
+		menuitem = menuBar.addItem(Global.get().Vendor(), getVendorMenu());
 		ThemesUtil.insertImageChildToMenuItem(menuBar, menuitem);
 
 		if (Accounter.getUser().canDoBanking()) {
@@ -272,9 +270,9 @@ public class MainFinanceWindow extends VerticalPanel {
 						Global.get().Customer()),
 				getCustomersAndReceivableMenu());
 		reportMenuBar.addItem(Accounter.constants().sales(), getSalesMenu());
-		reportMenuBar.addItem(UIUtils.getVendorString(Accounter.messages()
-				.suppliersAndPayables(Global.get().Vendor()), Accounter
-				.messages().vendorsAndPayables(Global.get().Vendor())),
+		reportMenuBar.addItem(
+				Global.get().messages()
+						.suppliersAndPayables(Global.get().Vendor()),
 				getVendorAndPayablesMenu());
 		reportMenuBar.addItem(Accounter.constants().purchase(),
 				getPurchaseMenu());
@@ -479,9 +477,9 @@ public class MainFinanceWindow extends VerticalPanel {
 			// vendorMenuBar.addItem(ActionFactory.getItemReceiptAction());
 			vendorMenuBar.addSeparator();
 		}
-		vendorMenuBar.addItem(UIUtils.getVendorString(Accounter.messages()
-				.supplierLists(Global.get().Vendor()), Accounter.messages()
-				.vendorLists(Global.get().Vendor())), getVendorListMenu());
+		vendorMenuBar.addItem(
+				Global.get().messages().supplierLists(Global.get().Vendor()),
+				getVendorListMenu());
 		return vendorMenuBar;
 	}
 

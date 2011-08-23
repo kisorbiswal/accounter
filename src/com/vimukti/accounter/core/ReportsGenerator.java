@@ -651,7 +651,7 @@ public class ReportsGenerator {
 			updateReport(purchaseByVendorDetailServerReport, finaTool);
 			purchaseByVendorDetailServerReport.resetVariables();
 			try {
-				if (status == null) {
+				if (status == null || status.isEmpty()) {
 
 					purchaseByVendorDetailServerReport.onResultSuccess(finaTool
 							.getPurchasesByVendorDetail(startDate, endDate));
@@ -699,7 +699,7 @@ public class ReportsGenerator {
 			updateReport(purchaseByItemDetailServerReport, finaTool);
 			purchaseByItemDetailServerReport.resetVariables();
 			try {
-				if (status == null) {
+				if (status == null || status.isEmpty()) {
 					purchaseByItemDetailServerReport.onResultSuccess(finaTool
 							.getPurchasesByItemDetail(startDate, endDate));
 				} else {
@@ -1220,6 +1220,9 @@ public class ReportsGenerator {
 	}
 
 	public static String getDateByCompanyType(ClientFinanceDate date) {
+		if (date == null) {
+			return "";
+		}
 		if (companyType == Company.ACCOUNTING_TYPE_UK) {
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 			String format = dateFormatter.format(date.getDateAsObject());
